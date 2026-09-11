@@ -1,0 +1,95 @@
+{
+  "query": "machine learning tutorial",
+  "judgedDocuments": [
+    {
+      "hash": "A3q5IzS6MKD4",
+      "address": "https://github.com/topics/python",
+      "title": "python · GitHub Topics · GitHub",
+      "grade": 0
+    },
+    {
+      "hash": "AbNXDYC4jGs5",
+      "address": "https://support.kaspersky.com/ksc_cloudconsole/209754",
+      "title": "How settings are implemented on a managed device",
+      "grade": 0
+    },
+    {
+      "hash": "H6Zz4sS6MKD4",
+      "address": "https://github.com/trending",
+      "title": "Trending repositories on GitHub today · GitHub",
+      "grade": 0
+    },
+    {
+      "hash": "ww-gf8cZd9Fw",
+      "address": "https://hackage.haskell.org/packages/",
+      "title": "packages by category | Hackage",
+      "grade": 0
+    },
+    {
+      "hash": "Arno8JexqsOx",
+      "address": "https://docs.opensearch.org/latest/analyzers/character-filters/pattern-replace-character-filter/",
+      "title": "Pattern replace character filter | OpenSearch Documentation",
+      "grade": 0
+    },
+    {
+      "hash": "GtLjhloUbV15",
+      "address": "https://www.whatfinger.com/",
+      "title": "Whatfinger News® – Unfiltered Truth. America’s News Feed",
+      "grade": 0
+    },
+    {
+      "hash": "s8IBmsqzz5gq",
+      "address": "https://senibudayaislam.id/",
+      "title": "senibudayaislamid",
+      "grade": 0
+    },
+    {
+      "hash": "FIRH00oB9UFw",
+      "address": "https://docs-archive.freebsd.org/44doc/",
+      "title": "4.4BSD Documents",
+      "grade": 0
+    },
+    {
+      "hash": "YA5jls9w8XV5",
+      "address": "https://cloudinary.com/guides/front-end-development/front-end-development-the-complete-guide",
+      "title": "Front-End Development: The Complete Guide",
+      "grade": 0
+    },
+    {
+      "hash": "a9EGGsQ5pC07",
+      "address": "https://eastlewiscountychamber.com/",
+      "title": "eastlewiscountychamber -",
+      "grade": 0
+    },
+    {
+      "hash": "BV6JfZC4jGs5",
+      "address": "https://support.kaspersky.com/kata/8.0/247767?page=help",
+      "title": "Adding a scan exclusion rule",
+      "grade": 0
+    },
+    {
+      "hash": "CrRuNlCGSsm5",
+      "address": "https://www.afewscraps.com/",
+      "title": "A Few Scraps",
+      "grade": 0
+    },
+    {
+      "hash": "pYw3_AHucLY4",
+      "address": "https://adrienalfiste.vip-blog.com/",
+      "title": "adrienalfiste blog : Le blog d'Adri (83)",
+      "grade": 0
+    },
+    {
+      "hash": "SXE97sI0z6T7",
+      "address": "https://towardsdatascience.com/",
+      "title": "Towards Data Science",
+      "grade": 1
+    },
+    {
+      "hash": "D4lABzaS0qdw",
+      "address": "https://planet.debian.org/",
+      "title": "Planet Debian",
+      "grade": 0
+    }
+  ]
+}

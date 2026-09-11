@@ -1,0 +1,85 @@
+{
+  "query": "yacy peer to peer search",
+  "recordedAt": "2026-09-11T13:00:49Z",
+  "itemsInTheOrderOfEachAnswer": [],
+  "itemsInNoOrder": [
+    {
+      "hash": "AeOqws55Qxow",
+      "address": "https://yacy.net/.",
+      "title": "Home - YaCy",
+      "snippet": "",
+      "matchedWords": {
+        "-P5otMTLoZfv": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "AbbiA0S2iDXF": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "BqlDxZ8zo0u1": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "pIBmMGNtuISD": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "AeOqws55Qxow",
+      "address": "https://yacy.net/.",
+      "title": "Home - YaCy",
+      "snippet": "",
+      "matchedWords": {
+        "-P5otMTLoZfv": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "AbbiA0S2iDXF": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "BqlDxZ8zo0u1": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "pIBmMGNtuISD": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "AeOqws55Qxow",
+      "address": "https://yacy.net/.",
+      "title": "Home - YaCy",
+      "snippet": "",
+      "matchedWords": {
+        "-P5otMTLoZfv": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "AbbiA0S2iDXF": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "BqlDxZ8zo0u1": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "pIBmMGNtuISD": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    }
+  ],
+  "documentsHeldPerQueryWord": {
+    "-P5otMTLoZfv": 38100,
+    "AbbiA0S2iDXF": 71833,
+    "BqlDxZ8zo0u1": 1132317,
+    "pIBmMGNtuISD": 7491
+  }
+}

@@ -1,0 +1,89 @@
+{
+  "query": "libreoffice",
+  "judgedDocuments": [
+    {
+      "hash": "ehYdFl-4htmx",
+      "address": "https://www.libreoffice.org/installation-instructions/",
+      "title": "Installation Instructions — LibreOffice",
+      "grade": 2
+    },
+    {
+      "hash": "BI9h2exFffU5",
+      "address": "https://help.nextcloud.com/t/preview-office-document-failed-libreoffice-is-intalled-in-other-server/146493",
+      "title": "Preview office document failed, libreoffice is intalled in other server - ℹ️ Support - Nextcloud community",
+      "grade": 0
+    },
+    {
+      "hash": "g5dE49OwONZ6",
+      "address": "https://www.gamingonlinux.com/2026/09/yes-no-ai-is-now-a-feature-libreoffice-the-document-foundation/page=1/",
+      "title": "\"Yes, no AI is now a feature\" - LibreOffice / The Document Foundation | GamingOnLinux",
+      "grade": 1
+    },
+    {
+      "hash": "DchgXl-4htmx",
+      "address": "https://www.libreoffice.org/download-other/",
+      "title": "Alternative installation methods, SDK and source code — LibreOffice",
+      "grade": 2
+    },
+    {
+      "hash": "a_LYv0hl92eQ",
+      "address": "http://advisories.mageia.org/src_libreoffice.html",
+      "title": "Mageia advisories for package libreoffice",
+      "grade": 1
+    },
+    {
+      "hash": "Cq-xgm0h8sSw",
+      "address": "https://tracker.debian.org/pkg/libreoffice",
+      "title": "libreoffice - Debian Package Tracker",
+      "grade": 1
+    },
+    {
+      "hash": "Uy5MSiMQjAmx",
+      "address": "https://it.libreoffice.org/",
+      "title": "Home | LibreOffice in italiano - La suite libera per l'ufficio",
+      "grade": 2
+    },
+    {
+      "hash": "xe-kDv8UyKhh",
+      "address": "https://www.computerbase.de/news/apps/libreoffice-7-1-office-suite-neue-features.75375/",
+      "title": "LibreOffice 7.1 Community: Die freie Office-Suite wird mächtiger und anpassbarer - ComputerBase",
+      "grade": 1
+    },
+    {
+      "hash": "e3kA0O1f59yx",
+      "address": "https://cs.libreoffice.org/get-help/documentation/",
+      "title": "Dokumentace | LibreOffice - Svobodný kancelářský balík - Smysluplný projekt - Skvělí lidé",
+      "grade": 2
+    },
+    {
+      "hash": "03n6NdwG-02z",
+      "address": "https://blog.documentfoundation.org/blog/2016/12/21/the-document-foundation-announces-the-muffin-a-new-tasty-user-interface-concept-for-libreoffice/",
+      "title": "The Document Foundation announces the MUFFIN, a new tasty user interface concept for LibreOffice - TDF Community Blog",
+      "grade": 1
+    },
+    {
+      "hash": "GJpvniGqOr3g",
+      "address": "https://akit.cyber.ee/term/2023-lbs",
+      "title": "LBS - AKIT",
+      "grade": 0
+    },
+    {
+      "hash": "DU4mtls8l0-4",
+      "address": "https://www.clubic.com/microsoft-office/",
+      "title": "Microsoft Office : Actualités, Avis, Dossiers, Guides et Tutos",
+      "grade": 0
+    },
+    {
+      "hash": "cBBK_NcIC9Gh",
+      "address": "https://www.eduvidual.at/course/view.php?id=215108",
+      "title": "Course: LibreOffice Writer | eduvidual.at",
+      "grade": 1
+    },
+    {
+      "hash": "7WDkQvKqlBA4",
+      "address": "https://www.phoronix.com/news/LibreOffice-262-Drops-Community",
+      "title": "LibreOffice 26.2 Gets Rid Of The \"Community\" Edition Branding - Phoronix",
+      "grade": 1
+    }
+  ]
+}

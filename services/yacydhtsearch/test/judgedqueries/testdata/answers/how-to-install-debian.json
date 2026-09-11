@@ -1,0 +1,520 @@
+{
+  "query": "how to install debian",
+  "recordedAt": "2026-09-11T12:59:51Z",
+  "itemsInTheOrderOfEachAnswer": [
+    [
+      {
+        "hash": "SL3yxl1nrxbw",
+        "address": "https://www.debian.org/blends/",
+        "title": "Debian Pure Blends",
+        "snippet": "",
+        "matchedWords": {
+          "24igJXwiDb_d": {
+            "hits": 0,
+            "textWords": 0
+          },
+          "AbbiA0S2iDXF": {
+            "hits": 0,
+            "textWords": 0
+          },
+          "Ga2JvD48nX72": {
+            "hits": 0,
+            "textWords": 0
+          },
+          "bpVSyb2OYcjy": {
+            "hits": 47,
+            "textWords": 665
+          }
+        }
+      },
+      {
+        "hash": "R5pe_l1nrxbw",
+        "address": "https://www.debian.org/News/",
+        "title": "Debian -- Latest News",
+        "snippet": "",
+        "matchedWords": {
+          "24igJXwiDb_d": {
+            "hits": 0,
+            "textWords": 0
+          },
+          "AbbiA0S2iDXF": {
+            "hits": 0,
+            "textWords": 0
+          },
+          "Ga2JvD48nX72": {
+            "hits": 0,
+            "textWords": 0
+          },
+          "bpVSyb2OYcjy": {
+            "hits": 38,
+            "textWords": 480
+          }
+        }
+      }
+    ]
+  ],
+  "itemsInNoOrder": [
+    {
+      "hash": "SChoGeFEcjUx",
+      "address": "https://docs.confluent.io/platform/current/clients/examples/kotlin.html",
+      "title": "Create a Kafka Client App for Kotlin for Use With Confluent Platform | Confluent Documentation",
+      "snippet": "",
+      "matchedWords": {
+        "24igJXwiDb_d": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "AbbiA0S2iDXF": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "Ga2JvD48nX72": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "bpVSyb2OYcjy": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "TC82-eFEcjUx",
+      "address": "https://docs.confluent.io/platform/current/streams/developer-guide/processor-api.html",
+      "title": "Kafka Streams Processor API for Confluent Platform | Confluent Documentation",
+      "snippet": "",
+      "matchedWords": {
+        "24igJXwiDb_d": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "AbbiA0S2iDXF": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "Ga2JvD48nX72": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "bpVSyb2OYcjy": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "TAes0sKSkkv6",
+      "address": "https://pointieststick.com/",
+      "title": "Adventures in Linux and KDE – Below is a brief look at recent changes in the KDE projects I work on and follow!",
+      "snippet": "",
+      "matchedWords": {
+        "24igJXwiDb_d": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "AbbiA0S2iDXF": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "Ga2JvD48nX72": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "bpVSyb2OYcjy": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "Tw2WTjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Google_Chrome",
+      "title": "Google Chrome - Wikipedia",
+      "snippet": "",
+      "matchedWords": {
+        "24igJXwiDb_d": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "AbbiA0S2iDXF": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "Ga2JvD48nX72": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "bpVSyb2OYcjy": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "Rx8AIs_tHst4",
+      "address": "https://dwheeler.com/oss_fs_why.html",
+      "title": "Why Open Source Software / Free Software (OSS/FS, FOSS, or FLOSS)? Look at the Numbers!",
+      "snippet": "",
+      "matchedWords": {
+        "24igJXwiDb_d": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "AbbiA0S2iDXF": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "Ga2JvD48nX72": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "bpVSyb2OYcjy": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "Sgxh0sySJCJ5",
+      "address": "https://selfhosted.show/",
+      "title": "Self-Hosted",
+      "snippet": "",
+      "matchedWords": {
+        "24igJXwiDb_d": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "AbbiA0S2iDXF": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "Ga2JvD48nX72": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "bpVSyb2OYcjy": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "SChoGeFEcjUx",
+      "address": "https://docs.confluent.io/platform/current/clients/examples/kotlin.html",
+      "title": "Create an Apache Kafka Client App for Kotlin | Confluent Documentation",
+      "snippet": "",
+      "matchedWords": {
+        "24igJXwiDb_d": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "AbbiA0S2iDXF": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "Ga2JvD48nX72": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "bpVSyb2OYcjy": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "TC82-eFEcjUx",
+      "address": "https://docs.confluent.io/platform/current/streams/developer-guide/processor-api.html",
+      "title": "Kafka Streams Processor API for Confluent Platform | Confluent Documentation",
+      "snippet": "",
+      "matchedWords": {
+        "24igJXwiDb_d": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "AbbiA0S2iDXF": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "Ga2JvD48nX72": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "bpVSyb2OYcjy": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "TAes0sKSkkv6",
+      "address": "https://pointieststick.com/",
+      "title": "Adventures in Linux and KDE – Below is a brief look at recent changes in the KDE projects I work on and follow!",
+      "snippet": "",
+      "matchedWords": {
+        "24igJXwiDb_d": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "AbbiA0S2iDXF": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "Ga2JvD48nX72": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "bpVSyb2OYcjy": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "Tw2WTjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Google_Chrome",
+      "title": "Google Chrome - Wikipedia",
+      "snippet": "",
+      "matchedWords": {
+        "24igJXwiDb_d": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "AbbiA0S2iDXF": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "Ga2JvD48nX72": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "bpVSyb2OYcjy": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "Rx8AIs_tHst4",
+      "address": "https://dwheeler.com/oss_fs_why.html",
+      "title": "Why Open Source Software / Free Software (OSS/FS, FOSS, or FLOSS)? Look at the Numbers!",
+      "snippet": "",
+      "matchedWords": {
+        "24igJXwiDb_d": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "AbbiA0S2iDXF": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "Ga2JvD48nX72": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "bpVSyb2OYcjy": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "Sgxh0sySJCJ5",
+      "address": "https://selfhosted.show/",
+      "title": "Self-Hosted",
+      "snippet": "",
+      "matchedWords": {
+        "24igJXwiDb_d": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "AbbiA0S2iDXF": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "Ga2JvD48nX72": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "bpVSyb2OYcjy": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "TC82-eFEcjUx",
+      "address": "https://docs.confluent.io/platform/current/streams/developer-guide/processor-api.html",
+      "title": "Kafka Streams Processor API for Confluent Platform | Confluent Documentation",
+      "snippet": "",
+      "matchedWords": {
+        "24igJXwiDb_d": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "AbbiA0S2iDXF": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "Ga2JvD48nX72": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "bpVSyb2OYcjy": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "TAes0sKSkkv6",
+      "address": "https://pointieststick.com/",
+      "title": "Adventures in Linux and KDE – Below is a brief look at recent changes in the KDE projects I work on and follow!",
+      "snippet": "",
+      "matchedWords": {
+        "24igJXwiDb_d": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "AbbiA0S2iDXF": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "Ga2JvD48nX72": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "bpVSyb2OYcjy": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "Tw2WTjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Google_Chrome",
+      "title": "Google Chrome - Wikipedia",
+      "snippet": "",
+      "matchedWords": {
+        "24igJXwiDb_d": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "AbbiA0S2iDXF": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "Ga2JvD48nX72": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "bpVSyb2OYcjy": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "Sgxh0sySJCJ5",
+      "address": "https://selfhosted.show/",
+      "title": "Self-Hosted",
+      "snippet": "",
+      "matchedWords": {
+        "24igJXwiDb_d": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "AbbiA0S2iDXF": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "Ga2JvD48nX72": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "bpVSyb2OYcjy": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "Rx8AIs_tHst4",
+      "address": "https://dwheeler.com/oss_fs_why.html",
+      "title": "Why Open Source Software / Free Software (OSS/FS, FOSS, or FLOSS)? Look at the Numbers!",
+      "snippet": "",
+      "matchedWords": {
+        "24igJXwiDb_d": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "AbbiA0S2iDXF": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "Ga2JvD48nX72": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "bpVSyb2OYcjy": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "SChoGeFEcjUx",
+      "address": "https://docs.confluent.io/platform/current/clients/examples/kotlin.html",
+      "title": "Create a Kafka Client App for Kotlin for Use With Confluent Platform | Confluent Documentation",
+      "snippet": "",
+      "matchedWords": {
+        "24igJXwiDb_d": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "AbbiA0S2iDXF": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "Ga2JvD48nX72": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "bpVSyb2OYcjy": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "TC82-eFEcjUx",
+      "address": "https://docs.confluent.io/platform/current/streams/developer-guide/processor-api.html",
+      "title": "Kafka Streams Processor API for Confluent Platform | Confluent Documentation",
+      "snippet": "",
+      "matchedWords": {
+        "24igJXwiDb_d": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "AbbiA0S2iDXF": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "Ga2JvD48nX72": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "bpVSyb2OYcjy": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    }
+  ],
+  "documentsHeldPerQueryWord": {
+    "24igJXwiDb_d": 109849,
+    "AbbiA0S2iDXF": 25032,
+    "Ga2JvD48nX72": 24343,
+    "bpVSyb2OYcjy": 17795
+  }
+}

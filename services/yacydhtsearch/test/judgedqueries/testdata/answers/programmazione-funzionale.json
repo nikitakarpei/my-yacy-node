@@ -1,0 +1,128 @@
+{
+  "query": "programmazione funzionale",
+  "recordedAt": "2026-09-11T13:02:29Z",
+  "itemsInTheOrderOfEachAnswer": [
+    [
+      {
+        "hash": "W9B-bFtsxhzg",
+        "address": "https://www.camera.it/leg18/1058?idLegislatura=18\u0026tipologia=audiz1\u0026sottotipologia=\u0026anno=2018\u0026mese=11\u0026giorno=09\u0026idCommissione=05c05\u0026numero=0001\u0026file=indice_stenografico",
+        "title": "XVIII Legislatura - Lavori - Resoconti delle Giunte e Commissioni",
+        "snippet": "",
+        "matchedWords": {
+          "LJfIul09S28e": {
+            "hits": 0,
+            "textWords": 0
+          },
+          "NqMNRJUSyBn1": {
+            "hits": 3,
+            "textWords": 51285
+          }
+        }
+      }
+    ],
+    [
+      {
+        "hash": "ZIJNjOnsHw9g",
+        "address": "https://www.treccani.it/enciclopedia/antropologia/",
+        "title": "Antropologia - Enciclopedia - Treccani",
+        "snippet": "",
+        "matchedWords": {
+          "LJfIul09S28e": {
+            "hits": 2,
+            "textWords": 6581
+          },
+          "NqMNRJUSyBn1": {
+            "hits": 0,
+            "textWords": 0
+          }
+        }
+      },
+      {
+        "hash": "W9B-bFtsxhzg",
+        "address": "https://www.camera.it/leg18/1058?idLegislatura=18\u0026tipologia=audiz1\u0026sottotipologia=\u0026anno=2018\u0026mese=11\u0026giorno=09\u0026idCommissione=05c05\u0026numero=0001\u0026file=indice_stenografico",
+        "title": "XVIII Legislatura - Lavori - Resoconti delle Giunte e Commissioni",
+        "snippet": "",
+        "matchedWords": {
+          "LJfIul09S28e": {
+            "hits": 4,
+            "textWords": 51285
+          },
+          "NqMNRJUSyBn1": {
+            "hits": 0,
+            "textWords": 0
+          }
+        }
+      }
+    ]
+  ],
+  "itemsInNoOrder": [
+    {
+      "hash": "ZImYYwUl8GVi",
+      "address": "https://www.radioradicale.it/scheda/566126/partito-radicale-la-parola-agli-iscritti",
+      "title": "Partito Radicale: la parola agli iscritti (16.02.2019)",
+      "snippet": "",
+      "matchedWords": {
+        "LJfIul09S28e": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "NqMNRJUSyBn1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "STL-FgM-i-mx",
+      "address": "https://it.wikipedia.org/wiki/Unione_europea",
+      "title": "Unione europea - Wikipedia",
+      "snippet": "",
+      "matchedWords": {
+        "LJfIul09S28e": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "NqMNRJUSyBn1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "q5NJjgM-i-mx",
+      "address": "https://it.wikipedia.org/wiki/Trani",
+      "title": "Trani - Wikipedia",
+      "snippet": "",
+      "matchedWords": {
+        "LJfIul09S28e": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "NqMNRJUSyBn1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "ZImYYwUl8GVi",
+      "address": "https://www.radioradicale.it/scheda/566126/partito-radicale-la-parola-agli-iscritti",
+      "title": "Partito Radicale: la parola agli iscritti (16.02.2019)",
+      "snippet": "",
+      "matchedWords": {
+        "LJfIul09S28e": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "NqMNRJUSyBn1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    }
+  ],
+  "documentsHeldPerQueryWord": {
+    "LJfIul09S28e": 128,
+    "NqMNRJUSyBn1": 1656
+  }
+}

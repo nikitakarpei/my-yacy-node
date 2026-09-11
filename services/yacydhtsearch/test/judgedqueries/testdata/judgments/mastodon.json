@@ -1,0 +1,107 @@
+{
+  "query": "mastodon",
+  "judgedDocuments": [
+    {
+      "hash": "dUKRusXT2Q14",
+      "address": "https://mastodon.social/@gutenberg_new",
+      "title": "Project Gutenberg New Books (@gutenberg_new@mastodon.social) - Mastodon",
+      "grade": 1
+    },
+    {
+      "hash": "BH0SPsXT2Q14",
+      "address": "https://mastodon.social/@Sarahp",
+      "title": "Sarah Perez 💙 (@Sarahp@mastodon.social) - Mastodon",
+      "grade": 1
+    },
+    {
+      "hash": "rlS7rcg_vK7w",
+      "address": "https://www.colino.net/wordpress/mastodon-for-apple-ii/",
+      "title": "Mastodon for Apple II (][+, //c, IIe, and IIgs) – colin@colino.net",
+      "grade": 1
+    },
+    {
+      "hash": "pIrg-Fiwa444",
+      "address": "https://apps.apple.com/us/app/odous-for-mastodon/id6446084064",
+      "title": "‎Odous for Mastodon App - App Store",
+      "grade": 1
+    },
+    {
+      "hash": "PQMR4O9nw72x",
+      "address": "https://joinmastodon.org/be/apps",
+      "title": "Спампаваць праграму для Mastodon - Mastodon",
+      "grade": 2
+    },
+    {
+      "hash": "xGxqRJEmwyky",
+      "address": "https://fedi.simonwillison.net/@simon",
+      "title": "Simon Willison (@simon@simonwillison.net) - Mastodon",
+      "grade": 1
+    },
+    {
+      "hash": "fdSdvs1Pjs6w",
+      "address": "https://fediring.net/",
+      "title": "Fediring.net",
+      "grade": 0
+    },
+    {
+      "hash": "cZUXE03kdEV4",
+      "address": "https://buffer.com/resources/mastodon-social/",
+      "title": "A Beginner’s Guide to Mastodon",
+      "grade": 2
+    },
+    {
+      "hash": "AZzL8vZEJIoy",
+      "address": "https://www.home-assistant.io/integrations/mastodon/",
+      "title": "Mastodon - Home Assistant",
+      "grade": 1
+    },
+    {
+      "hash": "LTQR2eMcq6Ew",
+      "address": "https://web.archive.org/web/20210310000428/https:/mastodon.social/@usercount",
+      "title": "User Count Bot (@usercount@mastodon.social) - Mastodon",
+      "grade": 1
+    },
+    {
+      "hash": "HpO6-7WCAo1g",
+      "address": "https://www.dzne.de/forschung/forschungsbereiche/grundlagenforschung/forschungsgruppen/amin/curriculum-vitae/",
+      "title": "DZNE Amin, Hayder Curriculum vitae",
+      "grade": 0
+    },
+    {
+      "hash": "s7qd0CiSEDRx",
+      "address": "https://shop.joinmastodon.org/",
+      "title": "Mastodon Merch Store",
+      "grade": 1
+    },
+    {
+      "hash": "XU_LFU93yFD4",
+      "address": "https://astro.build/blog/demo-day-2021-09/",
+      "title": "Astro Demo Day September Edition | Astro",
+      "grade": 0
+    },
+    {
+      "hash": "jLIPjsY8g9Qg",
+      "address": "https://mastodon.ie/@donncha",
+      "title": "Donncha Ó Caoimh (@donncha@mastodon.ie) - mastodon.ie",
+      "grade": 1
+    },
+    {
+      "hash": "h-5G2scvw7Vx",
+      "address": "https://wordpress.org/playground/",
+      "title": "WordPress Playground",
+      "grade": 0
+    },
+    {
+      "hash": "rO4CGxAry6d4",
+      "address": "https://fhf-mastodon.instatus.com/",
+      "title": "FHF Mastodon Instances - Status",
+      "grade": 1
+    },
+    {
+      "hash": "hIFg9s3n95N4",
+      "address": "https://fapspins.com/",
+      "title": "Fapspins - I'm Feeling Lucky",
+      "grade": 0
+    }
+  ]
+}

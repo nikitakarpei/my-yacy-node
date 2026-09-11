@@ -1,0 +1,95 @@
+{
+  "query": "arch wiki",
+  "judgedDocuments": [
+    {
+      "hash": "oej5lsdsPYlw",
+      "address": "https://archhurd.org/",
+      "title": "Arch Hurd",
+      "grade": 1
+    },
+    {
+      "hash": "fpnvOeSLKN4x",
+      "address": "https://bbs.archlinux.org/viewtopic.php?pid=846630",
+      "title": "Wayland on Arch Linux? / AUR Issues, Discussion \u0026 PKGBUILD Requests / Arch Linux Forums",
+      "grade": 1
+    },
+    {
+      "hash": "1kOALGsyhcfx",
+      "address": "https://archlinux.org/mirrors/cachy-arch.ru/",
+      "title": "Arch Linux - cachy-arch.ru - Mirror Details",
+      "grade": 1
+    },
+    {
+      "hash": "KzvTGDr4UJf4",
+      "address": "https://we-do.wiki/books/csharp/page/net-core-first-steps",
+      "title": ".NET-Core - First steps | we-do.wiki",
+      "grade": 0
+    },
+    {
+      "hash": "8856zsuNWVxw",
+      "address": "https://linuxfr.org/",
+      "title": "Accueil - LinuxFr.org",
+      "grade": 0
+    },
+    {
+      "hash": "Gab0Essyhcfx",
+      "address": "https://archlinux.org/",
+      "title": "Arch Linux",
+      "grade": 1
+    },
+    {
+      "hash": "Mhf6NeSLKN4x",
+      "address": "https://bbs.archlinux.org/viewtopic.php?pid=1924707",
+      "title": "[SOLVED] Is there a way to improve boot times by enabling fastboot? / Kernel \u0026 Hardware / Arch Linux Forums",
+      "grade": 1
+    },
+    {
+      "hash": "M-BgVeSLKN4x",
+      "address": "https://bbs.archlinux.org/viewtopic.php?pid=2231034",
+      "title": "cant set refresh rate above 120hz when using nvidia proprietary driver / Newbie Corner / Arch Linux Forums",
+      "grade": 1
+    },
+    {
+      "hash": "N6apOeSLKN4x",
+      "address": "https://bbs.archlinux.org/viewtopic.php?pid=1409692",
+      "title": "Indicator-powersave \u0026 throttle / System Administration / Arch Linux Forums",
+      "grade": 1
+    },
+    {
+      "hash": "ZgA5leSLKN4x",
+      "address": "https://bbs.archlinux.org/viewtopic.php?pid=2309097",
+      "title": "everything freezes one by one until the entire system hangs / Kernel \u0026 Hardware / Arch Linux Forums",
+      "grade": 1
+    },
+    {
+      "hash": "CcQGBjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Unix",
+      "title": "Unix - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "AonnkjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Perl",
+      "title": "Perl - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "CiJ7TjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Xfce",
+      "title": "Xfce - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "DhV7ZjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Virtualization",
+      "title": "Virtualization - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "CTQ-Yj-JVcyx",
+      "address": "https://en.wikiquote.org/wiki/Mystery_Science_Theater_3000",
+      "title": "Mystery Science Theater 3000 - Wikiquote",
+      "grade": 0
+    }
+  ]
+}

@@ -1,0 +1,89 @@
+{
+  "query": "heise",
+  "judgedDocuments": [
+    {
+      "hash": "sC0kMlDOAHJg",
+      "address": "https://www.heise.de/en",
+      "title": "heise online – IT news, guides and background information | heise online",
+      "grade": 2
+    },
+    {
+      "hash": "_271OvDOAHJg",
+      "address": "https://www.heise.de/news/heise-security-Tour-2026-Das-Programm-steht-jetzt-Fruehbucherpreis-sichern-11242297.html",
+      "title": "heise security Tour 2026: Das Programm steht – jetzt Frühbucherpreis sichern! | heise online",
+      "grade": 1
+    },
+    {
+      "hash": "gro9fvDOAHJg",
+      "address": "https://www.heise.de/news/Ein-Jahr-heise-Danke-fuer-Ihre-Treue-4640158.html",
+      "title": "Ein Jahr heise+: Noch bis zum 5. Februar an Gewinnspiel \u0026 Umfrage teilnehmen | heise online",
+      "grade": 1
+    },
+    {
+      "hash": "qeMWZvDOAHJg",
+      "address": "https://www.heise.de/news/Was-Wi-Fi-7-kann-c-t-uplink-11150363.html",
+      "title": "Was Wi-Fi 7 kann | c’t uplink | heise online",
+      "grade": 1
+    },
+    {
+      "hash": "LPqJNvDOAHJg",
+      "address": "https://www.heise.de/news/Tipps-Tests-Reports-Mac-i-3-2026-jetzt-vorab-als-Heft-und-PDF-erhaeltlich-11302782.html",
+      "title": "Tipps, Tests, Reports: Mac \u0026 i 3/2026 jetzt vorab als Heft und PDF erhältlich | heise online",
+      "grade": 1
+    },
+    {
+      "hash": "fSquuvDOAHJg",
+      "address": "https://www.heise.de/news/Streit-ueber-iPhone-Entsperrung-Bill-Gates-stellt-sich-auf-Seite-des-FBI-3115036.html",
+      "title": "Streit über iPhone-Entsperrung: Bill Gates stellt sich auf Seite des FBI | heise online",
+      "grade": 1
+    },
+    {
+      "hash": "q5B3_vDOAHJg",
+      "address": "https://www.heise.de/news/Open-Data-Frag-den-Staat-gewinnt-gegen-Bundesinnenministerium-2188031.html",
+      "title": "Open Data: \"Frag den Staat“ gewinnt gegen Bundesinnenministerium | heise online",
+      "grade": 1
+    },
+    {
+      "hash": "X6GAZvDOAHJg",
+      "address": "https://www.heise.de/news/NET-User-Groups-Update-Juni-2011-1252882.html",
+      "title": ".NET User Groups Update, Juni 2011 | heise online",
+      "grade": 1
+    },
+    {
+      "hash": "9zP6RNDOAHJg",
+      "address": "https://www.heise.de/thema/Journal",
+      "title": "Journal: News, Ratgeber und Tipps | heise online",
+      "grade": 1
+    },
+    {
+      "hash": "cc3rvNDOAHJg",
+      "address": "https://www.heise.de/thema/Wissenschaft",
+      "title": "Wissenschaft: News, Ratgeber und Tipps | heise online",
+      "grade": 1
+    },
+    {
+      "hash": "FEBtIerrGcCg",
+      "address": "https://preisvergleich.heise.de/merchants/saturn-53109-eb-de",
+      "title": "saturn Bewertungen \u0026 Erfahrungen - heise preisvergleich Deutschland",
+      "grade": 1
+    },
+    {
+      "hash": "50ZNiWAG_SV5",
+      "address": "https://www.metraonline.com/brand/heise",
+      "title": "Heise Universe Lighting Systems Products | Metra Electronic…",
+      "grade": 0
+    },
+    {
+      "hash": "ySJH8lvSGqr4",
+      "address": "https://einarschlereth.blogspot.com/",
+      "title": "einartysken",
+      "grade": 0
+    },
+    {
+      "hash": "gUZM4S5uSLiw",
+      "address": "https://free21.org/wp-content/uploads/2020/11/01-Ensel-Krieg-um-Karabach-DE.pdf",
+      "title": "01-Ensel-Krieg-um-Karabach-DE.pdf",
+      "grade": 0
+    }
+  ]
+}

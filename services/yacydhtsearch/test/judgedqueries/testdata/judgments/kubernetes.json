@@ -1,0 +1,101 @@
+{
+  "query": "kubernetes",
+  "judgedDocuments": [
+    {
+      "hash": "LrlbTLo7vSm6",
+      "address": "https://www.paloaltonetworks.com/cyberpedia/kubernetes-cluster-security?ts=markdown",
+      "title": "Securing Your Kubernetes Cluster: Kubernetes Best Practices and Strategies - Palo Alto Networks",
+      "grade": 1
+    },
+    {
+      "hash": "AsVNaz7OfS44",
+      "address": "https://labs.iximiuz.com/playgrounds?category=kubernetes\u0026filter=all",
+      "title": "Kubernetes Playgrounds 🧪 | iximiuz Labs",
+      "grade": 1
+    },
+    {
+      "hash": "PbrXWGS6MKD4",
+      "address": "https://github.com/kubernetes/kubernetes",
+      "title": "GitHub - kubernetes/kubernetes: Production-Grade Container Scheduling and Management · GitHub",
+      "grade": 2
+    },
+    {
+      "hash": "C2SN3wn-yhj5",
+      "address": "https://www.infoworld.com/article/2266945/what-is-kubernetes-scalable-cloud-native-applications.html",
+      "title": "What is Kubernetes? Scalable cloud-native applications | InfoWorld",
+      "grade": 2
+    },
+    {
+      "hash": "rhegtsjw1Zlx",
+      "address": "https://kubernetes.io/training/",
+      "title": "Training | Kubernetes",
+      "grade": 2
+    },
+    {
+      "hash": "zlEh5a9VKBYx",
+      "address": "https://chronosphere.io/learn/what-is-a-kubernetes-pod/",
+      "title": "What is a Kubernetes pod?",
+      "grade": 1
+    },
+    {
+      "hash": "n3XoxFCmq5v4",
+      "address": "https://www.suse.com/c/rancher_blog/deploy-a-nodejs-app-on-kubernetes-and-rancher/",
+      "title": "Deploy a NodeJS App on Kubernetes and Rancher | SUSE Communities",
+      "grade": 1
+    },
+    {
+      "hash": "hlp8hzS6MKD4",
+      "address": "https://github.com/topics/kubernetes",
+      "title": "kubernetes · GitHub Topics · GitHub",
+      "grade": 1
+    },
+    {
+      "hash": "AIy_nGS6MKD4",
+      "address": "https://github.com/kubernetes/kompose",
+      "title": "GitHub - kubernetes/kompose: Convert Compose to Kubernetes",
+      "grade": 1
+    },
+    {
+      "hash": "A2EmXsBs3ry4",
+      "address": "https://foxutech.com/what-happens-when-kubernetes-pod-cpu-memory-run-high/",
+      "title": "What Happens When Kubernetes Pod CPU \u0026 Memory Run High - FoxuTech",
+      "grade": 1
+    },
+    {
+      "hash": "OBtKCl9V0Pqw",
+      "address": "https://www.stefanux.net/",
+      "title": "start [IT-Administration stefanux.net]",
+      "grade": 0
+    },
+    {
+      "hash": "QptPQSMAuxi4",
+      "address": "https://www.linkedin.com/learning/topics/devops?trk=homepage-basic_learning-cta",
+      "title": "DevOps Online Training Courses | LinkedIn Learning, formerly Lynda.com",
+      "grade": 0
+    },
+    {
+      "hash": "cCOwMUBJaYCh",
+      "address": "https://cloudbear.nl/blog/managed-kubernetes-hosting-schaalbare-infrastructuur-zonder-complexiteit/",
+      "title": "Managed Kubernetes hosting: schaalbare infrastructuur zonder complexiteit - Cloudbear",
+      "grade": 1
+    },
+    {
+      "hash": "QK3R_Xyvgfs5",
+      "address": "https://docs.digitalocean.com/reference/api/scopes/kubernetes/create/",
+      "title": "kubernetes:create | DigitalOcean Documentation",
+      "grade": 1
+    },
+    {
+      "hash": "Nls-ju35ENm5",
+      "address": "https://maltheborch.com/2022/04/automatic-https-on-kubernetes.html",
+      "title": "Automatic HTTPS on Kubernetes",
+      "grade": 1
+    },
+    {
+      "hash": "sIGvK5c9duY5",
+      "address": "https://azure.microsoft.com/en-us/products/kubernetes-service/",
+      "title": "Azure Kubernetes Service (AKS) | Microsoft Azure",
+      "grade": 1
+    }
+  ]
+}

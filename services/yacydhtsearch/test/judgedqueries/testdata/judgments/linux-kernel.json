@@ -1,0 +1,77 @@
+{
+  "query": "linux kernel",
+  "judgedDocuments": [
+    {
+      "hash": "N_bW_5DJH5aw",
+      "address": "https://www.wiki.kernel.org/",
+      "title": "Main Page - Demeter of the Kernel.org",
+      "grade": 2
+    },
+    {
+      "hash": "N7_cIm1dafs6",
+      "address": "https://stackoverflow.com/questions/tagged/kernel",
+      "title": "Newest 'kernel' Questions - Stack Overflow",
+      "grade": 1
+    },
+    {
+      "hash": "7zoiPTrhyvQw",
+      "address": "https://www.man7.org/linux/man-pages/man8/hwclock.8.html",
+      "title": "hwclock(8) - Linux manual page",
+      "grade": 1
+    },
+    {
+      "hash": "F5kb_lj4MAVw",
+      "address": "https://man7.org/linux/man-pages/man7/tcp.7.html",
+      "title": "tcp(7) - Linux manual page",
+      "grade": 1
+    },
+    {
+      "hash": "OBXywlSCNQa4",
+      "address": "https://www.redhat.com/en/topics/linux/fedora-vs-red-hat-enterprise-linux",
+      "title": "What's the difference between Fedora and Red Hat Enterprise Linux",
+      "grade": 0
+    },
+    {
+      "hash": "HSA0HjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/User_interface",
+      "title": "User interface - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "lfLZNsHRh3Y6",
+      "address": "https://texasgirlreads.com/",
+      "title": "texasgirlreadscom",
+      "grade": 0
+    },
+    {
+      "hash": "NNfgL520dH2R",
+      "address": "http://buildroot.org/downloads/manual/manual.html",
+      "title": "The Buildroot user manual",
+      "grade": 1
+    },
+    {
+      "hash": "EDZIWvmJ800w",
+      "address": "https://www.gentoo.org/news/2026/05/19/copy-fail-fragnesia-vulnerabilities.html",
+      "title": "Copy Fail, Dirty Frag, and Fragnesia kernel vulnerabilities – Gentoo Linux",
+      "grade": 1
+    },
+    {
+      "hash": "8SBrdtS6MKD4",
+      "address": "https://github.com/trending/linux-kernel-module?since=daily",
+      "title": "Trending Linux Kernel Module repositories on GitHub today · GitHub",
+      "grade": 1
+    },
+    {
+      "hash": "3VHCVsOEIUyr",
+      "address": "https://simerdupolresbatang.id/",
+      "title": "simerdupolresbatangid",
+      "grade": 0
+    },
+    {
+      "hash": "B6RumAK-xyJ4",
+      "address": "https://go.dev/doc/godebug",
+      "title": "Go, Backwards Compatibility, and GODEBUG - The Go Programming Language",
+      "grade": 0
+    }
+  ]
+}

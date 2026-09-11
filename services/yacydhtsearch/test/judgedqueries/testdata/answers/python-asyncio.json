@@ -1,0 +1,1768 @@
+{
+  "query": "python asyncio",
+  "recordedAt": "2026-09-11T12:58:50Z",
+  "itemsInTheOrderOfEachAnswer": [
+    [
+      {
+        "hash": "kEYSoltD2jQw",
+        "address": "https://docs.python.org/3.14/whatsnew/3.6.html",
+        "title": "What’s New In Python 3.6 — Python 3.14.0a0 documentation",
+        "snippet": "",
+        "matchedWords": {
+          "7mVB5ndw9vcc": {
+            "hits": 0,
+            "textWords": 0
+          },
+          "I-7rQ0e90mv8": {
+            "hits": 138,
+            "textWords": 12249
+          }
+        }
+      }
+    ],
+    [
+      {
+        "hash": "D4lABzaS0qdw",
+        "address": "https://planet.debian.org/",
+        "title": "Planet Debian",
+        "snippet": "",
+        "matchedWords": {
+          "7mVB5ndw9vcc": {
+            "hits": 1,
+            "textWords": 39704
+          },
+          "I-7rQ0e90mv8": {
+            "hits": 0,
+            "textWords": 0
+          }
+        }
+      },
+      {
+        "hash": "2ZqdVzfOEiDw",
+        "address": "https://planet.gnome.org/",
+        "title": "Planet GNOME",
+        "snippet": "",
+        "matchedWords": {
+          "7mVB5ndw9vcc": {
+            "hits": 6,
+            "textWords": 43147
+          },
+          "I-7rQ0e90mv8": {
+            "hits": 0,
+            "textWords": 0
+          }
+        }
+      },
+      {
+        "hash": "SH9s9zTnALtw",
+        "address": "https://planet.gentoo.org/",
+        "title": "Planet Gentoo",
+        "snippet": "",
+        "matchedWords": {
+          "7mVB5ndw9vcc": {
+            "hits": 8,
+            "textWords": 48934
+          },
+          "I-7rQ0e90mv8": {
+            "hits": 0,
+            "textWords": 0
+          }
+        }
+      }
+    ],
+    [
+      {
+        "hash": "HQC7YitD2jQw",
+        "address": "https://docs.python.org/3/library/asyncio-sync.html",
+        "title": "Synchronization Primitives — Python 3.14.7 documentation",
+        "snippet": "",
+        "matchedWords": {
+          "7mVB5ndw9vcc": {
+            "hits": 38,
+            "textWords": 1881
+          },
+          "I-7rQ0e90mv8": {
+            "hits": 0,
+            "textWords": 0
+          }
+        }
+      },
+      {
+        "hash": "GOC_RsS6MKD4",
+        "address": "https://github.com/mvanhorn",
+        "title": "mvanhorn (Matt Van Horn) · GitHub",
+        "snippet": "",
+        "matchedWords": {
+          "7mVB5ndw9vcc": {
+            "hits": 18,
+            "textWords": 47096
+          },
+          "I-7rQ0e90mv8": {
+            "hits": 0,
+            "textWords": 0
+          }
+        }
+      },
+      {
+        "hash": "FLRBMitD2jQw",
+        "address": "https://docs.python.org/3/howto/a-conceptual-overview-of-asyncio.html",
+        "title": "A Conceptual Overview of asyncio — Python 3.14.6 documentation",
+        "snippet": "",
+        "matchedWords": {
+          "7mVB5ndw9vcc": {
+            "hits": 51,
+            "textWords": 3567
+          },
+          "I-7rQ0e90mv8": {
+            "hits": 0,
+            "textWords": 0
+          }
+        }
+      },
+      {
+        "hash": "HYOfTitD2jQw",
+        "address": "https://docs.python.org/3/whatsnew/3.7.html",
+        "title": "What’s New In Python 3.7 — Python 3.13.2 documentation",
+        "snippet": "",
+        "matchedWords": {
+          "7mVB5ndw9vcc": {
+            "hits": 45,
+            "textWords": 13443
+          },
+          "I-7rQ0e90mv8": {
+            "hits": 0,
+            "textWords": 0
+          }
+        }
+      },
+      {
+        "hash": "E2RhIitD2jQw",
+        "address": "https://docs.python.org/3/library/concurrent.futures.html",
+        "title": "concurrent.futures — Launching parallel tasks — Python 3.13.2 documentation",
+        "snippet": "",
+        "matchedWords": {
+          "7mVB5ndw9vcc": {
+            "hits": 3,
+            "textWords": 4134
+          },
+          "I-7rQ0e90mv8": {
+            "hits": 0,
+            "textWords": 0
+          }
+        }
+      },
+      {
+        "hash": "Fu6eTitD2jQw",
+        "address": "https://docs.python.org/3/genindex-I.html",
+        "title": "Index — Python 3.13.2 documentation",
+        "snippet": "",
+        "matchedWords": {
+          "7mVB5ndw9vcc": {
+            "hits": 9,
+            "textWords": 3538
+          },
+          "I-7rQ0e90mv8": {
+            "hits": 0,
+            "textWords": 0
+          }
+        }
+      }
+    ],
+    [
+      {
+        "hash": "RZuwo7S6MKD4",
+        "address": "https://github.com/microsoft/agent-framework",
+        "title": "GitHub - microsoft/agent-framework: A framework for building, orchestrating and deploying AI agents and multi-agent workflows with support for Python and .NET. · GitHub",
+        "snippet": "",
+        "matchedWords": {
+          "7mVB5ndw9vcc": {
+            "hits": 21,
+            "textWords": 2201
+          },
+          "I-7rQ0e90mv8": {
+            "hits": 0,
+            "textWords": 0
+          }
+        }
+      }
+    ],
+    [
+      {
+        "hash": "A5Y2hWr4CjGw",
+        "address": "https://discuss.python.org/c/async-sig/20",
+        "title": "Latest Async-SIG topics - Discussions on Python.org",
+        "snippet": "",
+        "matchedWords": {
+          "7mVB5ndw9vcc": {
+            "hits": 18,
+            "textWords": 1031
+          },
+          "I-7rQ0e90mv8": {
+            "hits": 0,
+            "textWords": 0
+          }
+        }
+      },
+      {
+        "hash": "SH9s9zTnALtw",
+        "address": "https://planet.gentoo.org/",
+        "title": "Planet Gentoo",
+        "snippet": "",
+        "matchedWords": {
+          "7mVB5ndw9vcc": {
+            "hits": 2,
+            "textWords": 28136
+          },
+          "I-7rQ0e90mv8": {
+            "hits": 0,
+            "textWords": 0
+          }
+        }
+      },
+      {
+        "hash": "WEIifshgn1pw",
+        "address": "https://redis.io/agents/",
+        "title": "",
+        "snippet": "",
+        "matchedWords": {
+          "7mVB5ndw9vcc": {
+            "hits": 14,
+            "textWords": 6350
+          },
+          "I-7rQ0e90mv8": {
+            "hits": 0,
+            "textWords": 0
+          }
+        }
+      }
+    ],
+    [
+      {
+        "hash": "q1_0zitD2jQw",
+        "address": "https://docs.python.org/3/library/asyncio.html",
+        "title": "asyncio — Asynchronous I/O — Python 3.7.3 documentation",
+        "snippet": "",
+        "matchedWords": {
+          "7mVB5ndw9vcc": {
+            "hits": 25,
+            "textWords": 680
+          },
+          "I-7rQ0e90mv8": {
+            "hits": 0,
+            "textWords": 0
+          }
+        }
+      },
+      {
+        "hash": "ojdnMD1nrxbw",
+        "address": "https://www.debian.org/devel/wnpp/being_packaged_byage",
+        "title": "Debian -- Packages being worked on, organized by age",
+        "snippet": "",
+        "matchedWords": {
+          "7mVB5ndw9vcc": {
+            "hits": 2,
+            "textWords": 40807
+          },
+          "I-7rQ0e90mv8": {
+            "hits": 0,
+            "textWords": 0
+          }
+        }
+      },
+      {
+        "hash": "raq9iitD2jQw",
+        "address": "https://docs.python.org/3/whatsnew/3.10.html",
+        "title": "What’s New In Python 3.10 — Python 3.12.3 documentation",
+        "snippet": "",
+        "matchedWords": {
+          "7mVB5ndw9vcc": {
+            "hits": 8,
+            "textWords": 11730
+          },
+          "I-7rQ0e90mv8": {
+            "hits": 0,
+            "textWords": 0
+          }
+        }
+      }
+    ]
+  ],
+  "itemsInNoOrder": [
+    {
+      "hash": "C_WsyyAacB5w",
+      "address": "https://docs.aiohttp.org/en/stable/",
+      "title": "Welcome to AIOHTTP — aiohttp 3.13.2 documentation",
+      "snippet": "",
+      "matchedWords": {
+        "7mVB5ndw9vcc": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "I-7rQ0e90mv8": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "AEEDPTCk19rw",
+      "address": "https://peps.python.org/pep-0000/",
+      "title": "PEP 0 – Index of Python Enhancement Proposals (PEPs) | peps.python.org",
+      "snippet": "",
+      "matchedWords": {
+        "7mVB5ndw9vcc": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "I-7rQ0e90mv8": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "CjgsxsIyoLTx",
+      "address": "https://planetpython.org/",
+      "title": "Planet Python",
+      "snippet": "",
+      "matchedWords": {
+        "7mVB5ndw9vcc": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "I-7rQ0e90mv8": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "CZhAeVPrLiu6",
+      "address": "https://palletsprojects.com/projects/jinja/",
+      "title": "Pallets",
+      "snippet": "",
+      "matchedWords": {
+        "7mVB5ndw9vcc": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "I-7rQ0e90mv8": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "AxRdDzS6MKD4",
+      "address": "https://github.com/topics/python-3",
+      "title": "python-3 · GitHub Topics · GitHub",
+      "snippet": "",
+      "matchedWords": {
+        "7mVB5ndw9vcc": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "I-7rQ0e90mv8": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "A3q5IzS6MKD4",
+      "address": "https://github.com/topics/python",
+      "title": "python · GitHub Topics · GitHub",
+      "snippet": "",
+      "matchedWords": {
+        "7mVB5ndw9vcc": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "I-7rQ0e90mv8": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "CnbJMzS6MKD4",
+      "address": "https://github.com/topics/m3u8",
+      "title": "m3u8 · GitHub Topics · GitHub",
+      "snippet": "",
+      "matchedWords": {
+        "7mVB5ndw9vcc": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "I-7rQ0e90mv8": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "CyqQuhdG5jPw",
+      "address": "https://www.python.org/downloads/release/python-3113/",
+      "title": "Python Release Python 3.11.3 | Python.org",
+      "snippet": "",
+      "matchedWords": {
+        "7mVB5ndw9vcc": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "I-7rQ0e90mv8": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "AOqZ6itD2jQw",
+      "address": "https://docs.python.org/3/genindex-R.html",
+      "title": "Index — Python 3.14.2 documentation",
+      "snippet": "",
+      "matchedWords": {
+        "7mVB5ndw9vcc": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "I-7rQ0e90mv8": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "Bu9laitD2jQw",
+      "address": "https://docs.python.org/3/using/cmdline.html",
+      "title": "1. Command line and environment — Python 3.14.6 documentation",
+      "snippet": "",
+      "matchedWords": {
+        "7mVB5ndw9vcc": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "I-7rQ0e90mv8": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "CYduPitD2jQw",
+      "address": "https://docs.python.org/3/genindex-H.html",
+      "title": "Index — Python 3.14.3 documentation",
+      "snippet": "",
+      "matchedWords": {
+        "7mVB5ndw9vcc": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "I-7rQ0e90mv8": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "DiC31itD2jQw",
+      "address": "https://docs.python.org/3/whatsnew/3.11.html",
+      "title": "What’s New In Python 3.11 — Python 3.13.7 documentation",
+      "snippet": "",
+      "matchedWords": {
+        "7mVB5ndw9vcc": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "I-7rQ0e90mv8": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "Doee3itD2jQw",
+      "address": "https://docs.python.org/3/library/socket.html",
+      "title": "socket — Low-level networking interface — Python 3.14.0 documentation",
+      "snippet": "",
+      "matchedWords": {
+        "7mVB5ndw9vcc": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "I-7rQ0e90mv8": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "DuEPzitD2jQw",
+      "address": "https://docs.python.org/3/whatsnew/3.9.html",
+      "title": "What’s New In Python 3.9 — Python 3.11.1 documentation",
+      "snippet": "",
+      "matchedWords": {
+        "7mVB5ndw9vcc": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "I-7rQ0e90mv8": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "G3ZGKoTDwvCw",
+      "address": "https://packages.gentoo.org/useflags/test",
+      "title": "test – USE flags – Gentoo Packages",
+      "snippet": "",
+      "matchedWords": {
+        "7mVB5ndw9vcc": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "I-7rQ0e90mv8": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "AOqZ6itD2jQw",
+      "address": "https://docs.python.org/3/genindex-R.html",
+      "title": "Index — Python 3.14.6 documentation",
+      "snippet": "",
+      "matchedWords": {
+        "7mVB5ndw9vcc": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "I-7rQ0e90mv8": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "Bu9laitD2jQw",
+      "address": "https://docs.python.org/3/using/cmdline.html",
+      "title": "1. Command line and environment — Python 3.14.6 documentation",
+      "snippet": "",
+      "matchedWords": {
+        "7mVB5ndw9vcc": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "I-7rQ0e90mv8": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "CYduPitD2jQw",
+      "address": "https://docs.python.org/3/genindex-H.html",
+      "title": "Index — Python 3.14.6 documentation",
+      "snippet": "",
+      "matchedWords": {
+        "7mVB5ndw9vcc": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "I-7rQ0e90mv8": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "DiC31itD2jQw",
+      "address": "https://docs.python.org/3/whatsnew/3.11.html",
+      "title": "What’s New In Python 3.11 — Python 3.14.6 documentation",
+      "snippet": "",
+      "matchedWords": {
+        "7mVB5ndw9vcc": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "I-7rQ0e90mv8": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "Doee3itD2jQw",
+      "address": "https://docs.python.org/3/library/socket.html",
+      "title": "socket — Low-level networking interface — Python 3.14.0 documentation",
+      "snippet": "",
+      "matchedWords": {
+        "7mVB5ndw9vcc": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "I-7rQ0e90mv8": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "DuEPzitD2jQw",
+      "address": "https://docs.python.org/3/whatsnew/3.9.html",
+      "title": "What’s New In Python 3.9 — Python 3.11.1 documentation",
+      "snippet": "",
+      "matchedWords": {
+        "7mVB5ndw9vcc": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "I-7rQ0e90mv8": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "F2xV5itD2jQw",
+      "address": "https://docs.python.org/3/library/__main__.html",
+      "title": "__main__ — Top-level code environment — Python 3.14.6 documentation",
+      "snippet": "",
+      "matchedWords": {
+        "7mVB5ndw9vcc": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "I-7rQ0e90mv8": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "HGg-SitD2jQw",
+      "address": "https://docs.python.org/3/whatsnew/3.13.html",
+      "title": "What’s New In Python 3.13 — Python 3.14.7 documentation",
+      "snippet": "",
+      "matchedWords": {
+        "7mVB5ndw9vcc": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "I-7rQ0e90mv8": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "RMpSAjZWqvhw",
+      "address": "https://docs.nats.io/concepts/getting-started/",
+      "title": "Getting Started | NATS Documentation",
+      "snippet": "",
+      "matchedWords": {
+        "7mVB5ndw9vcc": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "I-7rQ0e90mv8": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "QsUXRitD2jQw",
+      "address": "https://docs.python.org/3/genindex-M.html",
+      "title": "Index — Python 3.14.6 documentation",
+      "snippet": "",
+      "matchedWords": {
+        "7mVB5ndw9vcc": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "I-7rQ0e90mv8": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "SbPWiitD2jQw",
+      "address": "https://docs.python.org/3/library/asyncio-policy.html",
+      "title": "Policies — Python 3.14.6 documentation",
+      "snippet": "",
+      "matchedWords": {
+        "7mVB5ndw9vcc": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "I-7rQ0e90mv8": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "SxNpQitD2jQw",
+      "address": "https://docs.python.org/3/library/index.html",
+      "title": "The Python Standard Library — Python 3.14.6 documentation",
+      "snippet": "",
+      "matchedWords": {
+        "7mVB5ndw9vcc": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "I-7rQ0e90mv8": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "TMrNYitD2jQw",
+      "address": "https://docs.python.org/3/library/unittest.mock-examples.html",
+      "title": "unittest.mock — getting started — Python 3.14.6 documentation",
+      "snippet": "",
+      "matchedWords": {
+        "7mVB5ndw9vcc": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "I-7rQ0e90mv8": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "TYQnKitD2jQw",
+      "address": "https://docs.python.org/3/deprecations/index.html",
+      "title": "Deprecations — Python 3.14.6 documentation",
+      "snippet": "",
+      "matchedWords": {
+        "7mVB5ndw9vcc": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "I-7rQ0e90mv8": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "TfoQZitD2jQw",
+      "address": "https://docs.python.org/3/genindex-D.html",
+      "title": "Index — Python 3.14.6 documentation",
+      "snippet": "",
+      "matchedWords": {
+        "7mVB5ndw9vcc": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "I-7rQ0e90mv8": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "YWgGNitD2jQw",
+      "address": "https://docs.python.org/3/library/subprocess.html",
+      "title": "subprocess — Subprocess management — Python 3.14.6 documentation",
+      "snippet": "",
+      "matchedWords": {
+        "7mVB5ndw9vcc": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "I-7rQ0e90mv8": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "Y8VnjitD2jQw",
+      "address": "https://docs.python.org/3/howto/index.html",
+      "title": "Python HOWTOs — Python 3.14.6 documentation",
+      "snippet": "",
+      "matchedWords": {
+        "7mVB5ndw9vcc": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "I-7rQ0e90mv8": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "z02vKTCk19rw",
+      "address": "https://peps.python.org/",
+      "title": "PEP 0 – Index of Python Enhancement Proposals (PEPs) | peps.python.org",
+      "snippet": "",
+      "matchedWords": {
+        "7mVB5ndw9vcc": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "I-7rQ0e90mv8": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "CjgsxsIyoLTx",
+      "address": "https://planetpython.org/",
+      "title": "Planet Python",
+      "snippet": "",
+      "matchedWords": {
+        "7mVB5ndw9vcc": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "I-7rQ0e90mv8": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "d3JEshdG5jPw",
+      "address": "https://www.python.org/downloads/release/python-3410/",
+      "title": "Python Release Python 3.4.10 | Python.org",
+      "snippet": "",
+      "matchedWords": {
+        "7mVB5ndw9vcc": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "I-7rQ0e90mv8": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "XLCeGVkQstWx",
+      "address": "https://uwsgi-docs.readthedocs.io/en/latest/",
+      "title": "The uWSGI project — uWSGI 2.0 documentation",
+      "snippet": "",
+      "matchedWords": {
+        "7mVB5ndw9vcc": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "I-7rQ0e90mv8": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "w-d8WitD2jQw",
+      "address": "https://docs.python.org/3/license.html",
+      "title": "History and License — Python 3.14.7 documentation",
+      "snippet": "",
+      "matchedWords": {
+        "7mVB5ndw9vcc": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "I-7rQ0e90mv8": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "CLZHisyy0pUx",
+      "address": "https://salut-a-toi.org/",
+      "title": "Libervia",
+      "snippet": "",
+      "matchedWords": {
+        "7mVB5ndw9vcc": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "I-7rQ0e90mv8": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "A3q5IzS6MKD4",
+      "address": "https://github.com/topics/python",
+      "title": "python · GitHub Topics · GitHub",
+      "snippet": "",
+      "matchedWords": {
+        "7mVB5ndw9vcc": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "I-7rQ0e90mv8": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "FPW6xzS6MKD4",
+      "address": "https://github.com/topics/iot",
+      "title": "iot · GitHub Topics · GitHub",
+      "snippet": "",
+      "matchedWords": {
+        "7mVB5ndw9vcc": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "I-7rQ0e90mv8": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "KsKu2sS6MKD4",
+      "address": "https://github.com/explore",
+      "title": "Explore GitHub · GitHub",
+      "snippet": "",
+      "matchedWords": {
+        "7mVB5ndw9vcc": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "I-7rQ0e90mv8": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "M89BHJS6MKD4",
+      "address": "https://github.com/home-assistant/core",
+      "title": "GitHub - home-assistant/core: :house_with_garden: Open source home automation that puts local control and privacy first. · GitHub",
+      "snippet": "",
+      "matchedWords": {
+        "7mVB5ndw9vcc": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "I-7rQ0e90mv8": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "Sab0gzS6MKD4",
+      "address": "https://github.com/topics/json",
+      "title": "json · GitHub Topics · GitHub",
+      "snippet": "",
+      "matchedWords": {
+        "7mVB5ndw9vcc": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "I-7rQ0e90mv8": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "WbmbAzS6MKD4",
+      "address": "https://github.com/topics/tui",
+      "title": "tui · GitHub Topics · GitHub",
+      "snippet": "",
+      "matchedWords": {
+        "7mVB5ndw9vcc": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "I-7rQ0e90mv8": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "r_u7azS6MKD4",
+      "address": "https://github.com/topics/hacktoberfest",
+      "title": "hacktoberfest · GitHub Topics · GitHub",
+      "snippet": "",
+      "matchedWords": {
+        "7mVB5ndw9vcc": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "I-7rQ0e90mv8": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "zfvlazS6MKD4",
+      "address": "https://github.com/topics/http-server",
+      "title": "http-server · GitHub Topics · GitHub",
+      "snippet": "",
+      "matchedWords": {
+        "7mVB5ndw9vcc": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "I-7rQ0e90mv8": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "g7m-xitD2jQw",
+      "address": "https://docs.python.org/3/library/warnings.html",
+      "title": "warnings — Warning control — Python 3.14.7 documentation",
+      "snippet": "",
+      "matchedWords": {
+        "7mVB5ndw9vcc": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "I-7rQ0e90mv8": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "CjgsxsIyoLTx",
+      "address": "https://planetpython.org/",
+      "title": "Planet Python",
+      "snippet": "",
+      "matchedWords": {
+        "7mVB5ndw9vcc": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "I-7rQ0e90mv8": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "PP9KZa1ajpq5",
+      "address": "https://www.linuxjournal.com/tag/programming",
+      "title": "Programming | Linux Journal",
+      "snippet": "",
+      "matchedWords": {
+        "7mVB5ndw9vcc": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "I-7rQ0e90mv8": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "Pzcmwm1dafs6",
+      "address": "https://stackoverflow.com/questions/tagged/testing",
+      "title": "Newest 'testing' Questions - Stack Overflow",
+      "snippet": "",
+      "matchedWords": {
+        "7mVB5ndw9vcc": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "I-7rQ0e90mv8": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "C_WsyyAacB5w",
+      "address": "https://docs.aiohttp.org/en/stable/",
+      "title": "Welcome to AIOHTTP — aiohttp 3.9.5 documentation",
+      "snippet": "",
+      "matchedWords": {
+        "7mVB5ndw9vcc": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "I-7rQ0e90mv8": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "AEEDPTCk19rw",
+      "address": "https://peps.python.org/pep-0000/",
+      "title": "PEP 0 – Index of Python Enhancement Proposals (PEPs) | peps.python.org",
+      "snippet": "",
+      "matchedWords": {
+        "7mVB5ndw9vcc": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "I-7rQ0e90mv8": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "z02vKTCk19rw",
+      "address": "https://peps.python.org/",
+      "title": "PEP 0 – Index of Python Enhancement Proposals (PEPs) | peps.python.org",
+      "snippet": "",
+      "matchedWords": {
+        "7mVB5ndw9vcc": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "I-7rQ0e90mv8": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "CjgsxsIyoLTx",
+      "address": "https://planetpython.org/",
+      "title": "Planet Python",
+      "snippet": "",
+      "matchedWords": {
+        "7mVB5ndw9vcc": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "I-7rQ0e90mv8": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "PEeMv7JPbCex",
+      "address": "https://iperf2.sourceforge.io/IperfCompare.html",
+      "title": "",
+      "snippet": "",
+      "matchedWords": {
+        "7mVB5ndw9vcc": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "I-7rQ0e90mv8": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "CZhAeVPrLiu6",
+      "address": "https://palletsprojects.com/projects/jinja/",
+      "title": "Pallets",
+      "snippet": "",
+      "matchedWords": {
+        "7mVB5ndw9vcc": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "I-7rQ0e90mv8": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "A3q5IzS6MKD4",
+      "address": "https://github.com/topics/python",
+      "title": "python · GitHub Topics · GitHub",
+      "snippet": "",
+      "matchedWords": {
+        "7mVB5ndw9vcc": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "I-7rQ0e90mv8": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "M89BHJS6MKD4",
+      "address": "https://github.com/home-assistant/core",
+      "title": "GitHub - home-assistant/core: :house_with_garden: Open source home automation that puts local control and privacy first.",
+      "snippet": "",
+      "matchedWords": {
+        "7mVB5ndw9vcc": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "I-7rQ0e90mv8": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "R-CJ2zS6MKD4",
+      "address": "https://github.com/topics/http3",
+      "title": "http3 · GitHub Topics · GitHub",
+      "snippet": "",
+      "matchedWords": {
+        "7mVB5ndw9vcc": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "I-7rQ0e90mv8": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "Sab0gzS6MKD4",
+      "address": "https://github.com/topics/json",
+      "title": "json · GitHub Topics · GitHub",
+      "snippet": "",
+      "matchedWords": {
+        "7mVB5ndw9vcc": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "I-7rQ0e90mv8": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "SsaMrzS6MKD4",
+      "address": "https://github.com/topics/python3",
+      "title": "python3 · GitHub Topics · GitHub",
+      "snippet": "",
+      "matchedWords": {
+        "7mVB5ndw9vcc": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "I-7rQ0e90mv8": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "TpRo8zS6MKD4",
+      "address": "https://github.com/topics/framework",
+      "title": "framework · GitHub Topics · GitHub",
+      "snippet": "",
+      "matchedWords": {
+        "7mVB5ndw9vcc": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "I-7rQ0e90mv8": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "r_u7azS6MKD4",
+      "address": "https://github.com/topics/hacktoberfest",
+      "title": "hacktoberfest · GitHub Topics · GitHub",
+      "snippet": "",
+      "matchedWords": {
+        "7mVB5ndw9vcc": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "I-7rQ0e90mv8": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "zfvlazS6MKD4",
+      "address": "https://github.com/topics/http-server",
+      "title": "http-server · GitHub Topics · GitHub",
+      "snippet": "",
+      "matchedWords": {
+        "7mVB5ndw9vcc": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "I-7rQ0e90mv8": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "G3ZGKoTDwvCw",
+      "address": "https://packages.gentoo.org/useflags/test",
+      "title": "test – USE flags – Gentoo Packages",
+      "snippet": "",
+      "matchedWords": {
+        "7mVB5ndw9vcc": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "I-7rQ0e90mv8": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "CyqQuhdG5jPw",
+      "address": "https://www.python.org/downloads/release/python-3113/",
+      "title": "Python Release Python 3.11.3 | Python.org",
+      "snippet": "",
+      "matchedWords": {
+        "7mVB5ndw9vcc": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "I-7rQ0e90mv8": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "d3JEshdG5jPw",
+      "address": "https://www.python.org/downloads/release/python-3410/",
+      "title": "Python Release Python 3.4.10 | Python.org",
+      "snippet": "",
+      "matchedWords": {
+        "7mVB5ndw9vcc": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "I-7rQ0e90mv8": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "4VNuShdG5jPw",
+      "address": "https://www.python.org/downloads/release/python-347/",
+      "title": "Python Release Python 3.4.7 | Python.org",
+      "snippet": "",
+      "matchedWords": {
+        "7mVB5ndw9vcc": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "I-7rQ0e90mv8": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "XLCeGVkQstWx",
+      "address": "https://uwsgi-docs.readthedocs.io/en/latest/",
+      "title": "The uWSGI project — uWSGI 2.0 documentation",
+      "snippet": "",
+      "matchedWords": {
+        "7mVB5ndw9vcc": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "I-7rQ0e90mv8": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "Bu9laitD2jQw",
+      "address": "https://docs.python.org/3/using/cmdline.html",
+      "title": "1. Command line and environment — Python 3.13.5 documentation",
+      "snippet": "",
+      "matchedWords": {
+        "7mVB5ndw9vcc": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "I-7rQ0e90mv8": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "Doee3itD2jQw",
+      "address": "https://docs.python.org/3/library/socket.html",
+      "title": "socket — Low-level networking interface — Python 3.12.4 documentation",
+      "snippet": "",
+      "matchedWords": {
+        "7mVB5ndw9vcc": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "I-7rQ0e90mv8": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "F2xV5itD2jQw",
+      "address": "https://docs.python.org/3/library/__main__.html",
+      "title": "__main__ — Top-level code environment — Python 3.14.5rc1 documentation",
+      "snippet": "",
+      "matchedWords": {
+        "7mVB5ndw9vcc": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "I-7rQ0e90mv8": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "SxNpQitD2jQw",
+      "address": "https://docs.python.org/3/library/index.html",
+      "title": "The Python Standard Library — Python 3.14.5rc1 documentation",
+      "snippet": "",
+      "matchedWords": {
+        "7mVB5ndw9vcc": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "I-7rQ0e90mv8": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "YWgGNitD2jQw",
+      "address": "https://docs.python.org/3/library/subprocess.html",
+      "title": "subprocess — Subprocess management — Python 3.14.6 documentation",
+      "snippet": "",
+      "matchedWords": {
+        "7mVB5ndw9vcc": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "I-7rQ0e90mv8": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "g7m-xitD2jQw",
+      "address": "https://docs.python.org/3/library/warnings.html",
+      "title": "warnings — Warning control — Python 3.14.5rc1 documentation",
+      "snippet": "",
+      "matchedWords": {
+        "7mVB5ndw9vcc": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "I-7rQ0e90mv8": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "w-d8WitD2jQw",
+      "address": "https://docs.python.org/3/license.html",
+      "title": "History and License — Python 3.14.5rc1 documentation",
+      "snippet": "",
+      "matchedWords": {
+        "7mVB5ndw9vcc": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "I-7rQ0e90mv8": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "xovCfitD2jQw",
+      "address": "https://docs.python.org/3/py-modindex.html",
+      "title": "Python Module Index — Python 3.14.5rc1 documentation",
+      "snippet": "",
+      "matchedWords": {
+        "7mVB5ndw9vcc": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "I-7rQ0e90mv8": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "-xpxEitD2jQw",
+      "address": "https://docs.python.org/3/contents.html",
+      "title": "Python Documentation contents — Python 3.14.5rc1 documentation",
+      "snippet": "",
+      "matchedWords": {
+        "7mVB5ndw9vcc": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "I-7rQ0e90mv8": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "CLZHisyy0pUx",
+      "address": "https://salut-a-toi.org/",
+      "title": "Libervia",
+      "snippet": "",
+      "matchedWords": {
+        "7mVB5ndw9vcc": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "I-7rQ0e90mv8": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "F2xV5itD2jQw",
+      "address": "https://docs.python.org/3/library/__main__.html",
+      "title": "29.4. __main__ — Top-level script environment \u0026mdash; Python 3.5.2 documentation",
+      "snippet": "",
+      "matchedWords": {
+        "7mVB5ndw9vcc": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "I-7rQ0e90mv8": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "SsaMrzS6MKD4",
+      "address": "https://github.com/topics/python3",
+      "title": "python3 · GitHub Topics · GitHub",
+      "snippet": "",
+      "matchedWords": {
+        "7mVB5ndw9vcc": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "I-7rQ0e90mv8": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "RMpSAjZWqvhw",
+      "address": "https://docs.nats.io/concepts/getting-started/",
+      "title": "Getting Started | NATS Documentation",
+      "snippet": "",
+      "matchedWords": {
+        "7mVB5ndw9vcc": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "I-7rQ0e90mv8": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "QsUXRitD2jQw",
+      "address": "https://docs.python.org/3/genindex-M.html",
+      "title": "Index — Python 3.10.7 documentation",
+      "snippet": "",
+      "matchedWords": {
+        "7mVB5ndw9vcc": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "I-7rQ0e90mv8": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "SbPWiitD2jQw",
+      "address": "https://docs.python.org/3/library/asyncio-policy.html",
+      "title": "Policies — Python 3.13.2 documentation",
+      "snippet": "",
+      "matchedWords": {
+        "7mVB5ndw9vcc": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "I-7rQ0e90mv8": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "SxNpQitD2jQw",
+      "address": "https://docs.python.org/3/library/index.html",
+      "title": "The Python Standard Library — Python 3.13.3 documentation",
+      "snippet": "",
+      "matchedWords": {
+        "7mVB5ndw9vcc": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "I-7rQ0e90mv8": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "TMrNYitD2jQw",
+      "address": "https://docs.python.org/3/library/unittest.mock-examples.html",
+      "title": "unittest.mock — getting started — Python 3.13.2 documentation",
+      "snippet": "",
+      "matchedWords": {
+        "7mVB5ndw9vcc": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "I-7rQ0e90mv8": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "TYQnKitD2jQw",
+      "address": "https://docs.python.org/3/deprecations/index.html",
+      "title": "Deprecations — Python 3.12.5 documentation",
+      "snippet": "",
+      "matchedWords": {
+        "7mVB5ndw9vcc": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "I-7rQ0e90mv8": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "TfoQZitD2jQw",
+      "address": "https://docs.python.org/3/genindex-D.html",
+      "title": "Index — Python 3.14.4 documentation",
+      "snippet": "",
+      "matchedWords": {
+        "7mVB5ndw9vcc": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "I-7rQ0e90mv8": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "Y8VnjitD2jQw",
+      "address": "https://docs.python.org/3/howto/index.html",
+      "title": "Python HOWTOs — Python 3.14.6 documentation",
+      "snippet": "",
+      "matchedWords": {
+        "7mVB5ndw9vcc": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "I-7rQ0e90mv8": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "-xpxEitD2jQw",
+      "address": "https://docs.python.org/3/contents.html",
+      "title": "Python Documentation contents — Python 3.14.3 documentation",
+      "snippet": "",
+      "matchedWords": {
+        "7mVB5ndw9vcc": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "I-7rQ0e90mv8": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "zfvlazS6MKD4",
+      "address": "https://github.com/topics/http-server",
+      "title": "http-server · GitHub Topics · GitHub",
+      "snippet": "",
+      "matchedWords": {
+        "7mVB5ndw9vcc": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "I-7rQ0e90mv8": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "omDQhitD2jQw",
+      "address": "https://docs.python.org/3/howto/logging.html",
+      "title": "Logging HOWTO — Python 3.13.3 documentation",
+      "snippet": "",
+      "matchedWords": {
+        "7mVB5ndw9vcc": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "I-7rQ0e90mv8": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    }
+  ],
+  "documentsHeldPerQueryWord": {
+    "7mVB5ndw9vcc": 1360,
+    "I-7rQ0e90mv8": 98304
+  }
+}

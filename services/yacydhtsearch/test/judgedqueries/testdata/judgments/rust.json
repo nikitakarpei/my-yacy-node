@@ -1,0 +1,113 @@
+{
+  "query": "rust",
+  "judgedDocuments": [
+    {
+      "hash": "_4-AysS6MKD4",
+      "address": "https://github.com/rust-lang",
+      "title": "The Rust Programming Language · GitHub",
+      "grade": 2
+    },
+    {
+      "hash": "Q2tdhvDOAHJg",
+      "address": "https://www.heise.de/news/Nvidia-CUDA-Rust-Native-GPU-Kernel-in-Rust-schreiben-11446842.html",
+      "title": "Nvidia CUDA Rust: Native GPU-Kernel in Rust schreiben | heise online",
+      "grade": 1
+    },
+    {
+      "hash": "QLueEgsjOPf5",
+      "address": "https://fuchsia.googlesource.com/third_party/github.com/rust-lang/rust/+/refs/heads/cranelift-rebase",
+      "title": "refs/heads/cranelift-rebase - third_party/github.com/rust-lang/rust - Git at Google",
+      "grade": 1
+    },
+    {
+      "hash": "KT8bUtV9oHh4",
+      "address": "https://rust.utils.com/",
+      "title": "Rust Shell - utils.com",
+      "grade": 0
+    },
+    {
+      "hash": "YyXMZYaFOBeg",
+      "address": "https://www.cmjornal.pt/vidas/ultimas/detalhe/fbi-diz-que-alec-baldwin-disparou-arma-que-matou-colega-durante-gravacao-de-rust-vidas",
+      "title": "FBI diz que Alec Baldwin disparou arma que matou colega durante gravação de 'Rust' - Últimas - Correio da Manhã",
+      "grade": 0
+    },
+    {
+      "hash": "YrvsM44iqb7o",
+      "address": "https://scholarbank.nus.edu.sg/handle/10635/157533",
+      "title": "Rust and Recovery in South Indian Goddess Films",
+      "grade": 0
+    },
+    {
+      "hash": "RkoCFp6LpDbE",
+      "address": "http://www.alice.cnptia.embrapa.br/alice/handle/doc/190615",
+      "title": "Identification of SSR markers linked to rust resistance in andean common bean PI 260418.",
+      "grade": 0
+    },
+    {
+      "hash": "h56pKuoXncf5",
+      "address": "https://android.googlesource.com/kernel/common/+/1e46082d50526018849300b6c704e475af9271ca/drivers/android/binder/rust_binder.h",
+      "title": "drivers/android/binder/rust_binder.h - kernel/common - Git at Google",
+      "grade": 1
+    },
+    {
+      "hash": "uZZMYjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Outline_of_the_Rust_programming_language",
+      "title": "Outline of the Rust programming language - Wikipedia",
+      "grade": 2
+    },
+    {
+      "hash": "_mM5PdLtsUGy",
+      "address": "https://rustfoundation.org/media/rust-foundation-new-member-announcement-trace-machina-veecle/",
+      "title": "Rust Foundation New Member Announcement: Trace Machina \u0026 Veecle - The Rust Foundation",
+      "grade": 1
+    },
+    {
+      "hash": "4LoyN942YLxg",
+      "address": "https://user.iiasa.ac.at/~marek/fbook/04/fields/2051.html",
+      "title": "CIA - The World Factbook -- Field Listing - Administrative divisions",
+      "grade": 0
+    },
+    {
+      "hash": "oZTAP_S6MKD4",
+      "address": "https://github.com/rust-osdev/ieee1275-rs",
+      "title": "GitHub - rust-osdev/ieee1275-rs: Rudimentary ieee1275/OpenFirmware Rust environment similar to uefi-rs. · GitHub",
+      "grade": 1
+    },
+    {
+      "hash": "ZyXsfs-UOu6x",
+      "address": "https://thenewstack.io/rust-in-the-linux-kernel/",
+      "title": "Rust in the Linux Kernel - The New Stack",
+      "grade": 1
+    },
+    {
+      "hash": "XMCiuVZiwg85",
+      "address": "https://www.jetbrains.com/lp/devecosystem-2023/rust/",
+      "title": "Rust Programming - The State of Developer Ecosystem in 2023 Infographic | JetBrains: Developer Tools for Professionals and Teams",
+      "grade": 1
+    },
+    {
+      "hash": "9N2ewUemigYg",
+      "address": "https://www.flixbus.de/busverbindung/fernbus-europa-park-rust-frankfurt-main",
+      "title": "Bus Rust (Europa-Park) nach Frankfurt - Günstig Tickets buchen",
+      "grade": 0
+    },
+    {
+      "hash": "RPQES3B0B7w6",
+      "address": "https://stackoverflow.blog/2020/06/05/why-the-developers-who-use-rust-love-it-so-much/",
+      "title": "Why the developers who use Rust love it so much - Stack Overflow",
+      "grade": 1
+    },
+    {
+      "hash": "pE0bEngko1nx",
+      "address": "https://users.rust-lang.org/u/nasa42",
+      "title": "Profile - nasa42 - The Rust Programming Language Forum",
+      "grade": 1
+    },
+    {
+      "hash": "t4m26nRiTAZ5",
+      "address": "https://securelist.com/convuster-macos-adware-in-rust/101258/",
+      "title": "Convuster: macOS adware now in Rust | Securelist",
+      "grade": 1
+    }
+  ]
+}

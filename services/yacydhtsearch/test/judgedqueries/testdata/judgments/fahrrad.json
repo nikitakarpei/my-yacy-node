@@ -1,0 +1,95 @@
+{
+  "query": "fahrrad",
+  "judgedDocuments": [
+    {
+      "hash": "ueLLVFotHkcg",
+      "address": "https://kaufradar.spiegel.de/auto-fahrrad/",
+      "title": "Auto \u0026 Fahrrad - DER SPIEGEL Kaufradar",
+      "grade": 1
+    },
+    {
+      "hash": "Ol37rmlamVlg",
+      "address": "https://www.pferd.de/threads/fahrrad-fahren-mit-pferd.128584/",
+      "title": "Fahrrad fahren mit Pferd",
+      "grade": 1
+    },
+    {
+      "hash": "8p5gwlkdSSIx",
+      "address": "https://www.vergleich.org/fahrrad/",
+      "title": "Fahrrad kaufen - Test \u0026 Vergleich » Top 10 im Januar 2026",
+      "grade": 1
+    },
+    {
+      "hash": "BpdPXJGyaxOg",
+      "address": "https://www.flixbus.at/service/fahrrad-mitnahme",
+      "title": "Nimm Dein Fahrrad mit im FlixBus",
+      "grade": 1
+    },
+    {
+      "hash": "x-I85Npg7ax4",
+      "address": "https://de.wikipedia.org./wiki/Portal:Fahrrad",
+      "title": "Portal:Fahrrad – Wikipedia",
+      "grade": 2
+    },
+    {
+      "hash": "fx_qtlzZulEg",
+      "address": "https://www.lexbike.de/fahrrad-richtig-reinigen/",
+      "title": "Fahrrad richtig reinigen: Tipps \u0026 Tricks | Lexbike.de – Fahrrad und mehr!",
+      "grade": 1
+    },
+    {
+      "hash": "sm2a9JemigYg",
+      "address": "https://www.flixbus.de/service/fahrrad-mitnahme",
+      "title": "Nimm Dein Fahrrad mit im FlixBus",
+      "grade": 1
+    },
+    {
+      "hash": "BkidfpL47Vlg",
+      "address": "https://bikemarkt.mtb-news.de/kaufvertrag-fahrrad",
+      "title": "Kaufvertrag Fahrrad – Kaufvertrag Vorlage für ein gebrauchtes Fahrrad | Bikemarkt.MTB-News.de",
+      "grade": 1
+    },
+    {
+      "hash": "PZOOWNpg7ax4",
+      "address": "https://de.wikipedia.org./wiki/Aufbruch_Fahrrad",
+      "title": "Aufbruch Fahrrad – Wikipedia",
+      "grade": 1
+    },
+    {
+      "hash": "0tDCmJwm21Ng",
+      "address": "https://www.flixbus.ch/service/fahrrad-mitnahme",
+      "title": "Nimm Dein Fahrrad mit im FlixBus",
+      "grade": 1
+    },
+    {
+      "hash": "qwrWjPemigYg",
+      "address": "https://www.flixbus.de/fernbus/fuscaldo",
+      "title": "Bus nach Fuscaldo - Bus Ticket günstig buchen",
+      "grade": 0
+    },
+    {
+      "hash": "UMCez_KP-5B5",
+      "address": "https://demystifikation.wordpress.com/category/fahrrad/",
+      "title": "Fahrrad | Demystifikation",
+      "grade": 1
+    },
+    {
+      "hash": "hgpLOKaZAz0h",
+      "address": "https://www.tageblatt.de/Nachrichten/Fahrrad-Gruppe-stellt-Insolvenzantrag-761770.html",
+      "title": "Fahrrad-Gruppe stellt Insolvenzantrag",
+      "grade": 1
+    },
+    {
+      "hash": "tUBtaJuEfBxg",
+      "address": "https://www.mdr.de/ratgeber/mobilitaet",
+      "title": "Ratgeber: Mobilität | mdr.de",
+      "grade": 0
+    },
+    {
+      "hash": "XyLvql9yi-Lh",
+      "address": "https://www.cntraveller.de/",
+      "title": "Condé Nast Traveller Germany",
+      "grade": 0
+    }
+  ]
+}

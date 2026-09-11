@@ -1,0 +1,119 @@
+{
+  "query": "photosynthesis",
+  "judgedDocuments": [
+    {
+      "hash": "KD2683ph0Po5",
+      "address": "https://cdmuir.r-universe.dev/articles/photosynthesis/light-response.html",
+      "title": "Fitting light response curves - photosynthesis",
+      "grade": 1
+    },
+    {
+      "hash": "C1lucjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Food",
+      "title": "Food - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "1eBzfJw5aEs5",
+      "address": "https://www.britannica.com/science/photosynthesis",
+      "title": "Photosynthesis | Definition, Formula, Process, Diagram, Reactants, Products, \u0026 Facts | Britannica",
+      "grade": 2
+    },
+    {
+      "hash": "09ke0jYJ75Zx",
+      "address": "https://en.citizendium.org/wiki/Photosynthesis",
+      "title": "Photosynthesis - Citizendium",
+      "grade": 2
+    },
+    {
+      "hash": "JJRHGFyfkZD5",
+      "address": "https://aphalo.r-universe.dev/photobiologyWavebands",
+      "title": "photobiologyWavebands: Waveband Definitions for UV, VIS, and IR Radiation",
+      "grade": 0
+    },
+    {
+      "hash": "8hMAdnWShwPz",
+      "address": "https://education.nationalgeographic.org/resource/photosynthesis/",
+      "title": "Photosynthesis",
+      "grade": 2
+    },
+    {
+      "hash": "ZDTXjz0xT8s5",
+      "address": "https://astrobiology.com/2026/07/16/discovery-oxygenic-photosynthesis-is-possible-with-only-one-photosystem/",
+      "title": "Discovery: Oxygenic Photosynthesis Is Possible With Only One Photosystem - Astrobiology",
+      "grade": 1
+    },
+    {
+      "hash": "bYtFGl6N3OQy",
+      "address": "https://www.quantamagazine.org/an-early-step-on-the-long-strange-road-to-photosynthesis-20260610/",
+      "title": "An Early Step on the Long, Strange Road to Photosynthesis | Quanta Magazine",
+      "grade": 1
+    },
+    {
+      "hash": "S2dKveMcq6Ew",
+      "address": "https://web.archive.org/web/20120209225717/http:/bioenergy.asu.edu/photosyn/study.html",
+      "title": "Why Study Photosynthesis",
+      "grade": 2
+    },
+    {
+      "hash": "ORz0llnFiTD6",
+      "address": "https://www.geoengineering.news/2018-12-07-science-lesson-environmentalists-declare-war-on-photosynthesis.html",
+      "title": "AMAZING science lesson from Adams: Environmentalists declare war on photosynthesis in stupefying effort to exterminate all recognizable life on planet Earth",
+      "grade": 1
+    },
+    {
+      "hash": "B87kb_YJ934w",
+      "address": "https://phys.org/news/2026-06-chloroplast-reveals-link-growth-solar.html",
+      "title": "Chloroplast map reveals 'missing link' in plant growth and solar energy",
+      "grade": 1
+    },
+    {
+      "hash": "H8LvOAkEKg7x",
+      "address": "https://sites.middlebury.edu/summer/2011/09/08/reflections/",
+      "title": "Reflections… | Summer in the Field",
+      "grade": 0
+    },
+    {
+      "hash": "NaYvV51Yh7s4",
+      "address": "https://pawb.social/comment/17998976",
+      "title": "Hue hue hue - Pawb.Social",
+      "grade": 0
+    },
+    {
+      "hash": "THAWw_YJ934w",
+      "address": "https://phys.org/news/2026-01-protein-network-cooperatively-iron.html",
+      "title": "How protein network cooperatively regulates iron balance in plants",
+      "grade": 0
+    },
+    {
+      "hash": "FwnmusffeXJ5",
+      "address": "https://acalustra.com/rss.xml",
+      "title": "",
+      "grade": 0
+    },
+    {
+      "hash": "hDPCBjldhbwx",
+      "address": "https://en.wikibooks.org/wiki/Cell_Biology/Plants/Photosynthesis",
+      "title": "Cell Biology/Plants/Photosynthesis",
+      "grade": 2
+    },
+    {
+      "hash": "84Gca0Q4zxY5",
+      "address": "https://www.metacritic.com/game/pokemon-brilliant-diamond/",
+      "title": "Pokemon Brilliant Diamond Reviews - Metacritic",
+      "grade": 0
+    },
+    {
+      "hash": "orfpwhdufF3h",
+      "address": "https://tu-dresden.de/tu-dresden/exzellenz/news/tobias-erb-zu-gast-im-rahmen-der-frontiers-in-science-lecture-series",
+      "title": "Tobias Erb continues the Frontiers in Science Lecture Series — TU Dresden — TU Dresden",
+      "grade": 0
+    },
+    {
+      "hash": "y8TSo2wcfRow",
+      "address": "https://www.pbs.org/video/fast-forward-teachable-moment-photosynthesis-and-nitrogen-cycle/",
+      "title": "Fast Forward | Teachable Moment: Photosynthesis and Nitrogen Cycle | PBS",
+      "grade": 1
+    }
+  ]
+}

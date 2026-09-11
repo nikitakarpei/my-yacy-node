@@ -1,0 +1,71 @@
+{
+  "query": "open source search engine",
+  "judgedDocuments": [
+    {
+      "hash": "T8ZB7sS6MKD4",
+      "address": "https://github.com/yacy/yacy_search_server",
+      "title": "GitHub - yacy/yacy_search_server: Distributed Peer-to-Peer Web Search Engine and Intranet Search Appliance · GitHub",
+      "grade": 2
+    },
+    {
+      "hash": "MnvOKjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Portal:Free_and_open-source_software",
+      "title": "Portal:Free and open-source software - Wikipedia",
+      "grade": 1
+    },
+    {
+      "hash": "Qw0Oas-RJCSj",
+      "address": "https://wspomozycielka-lodz.pl/?p=747",
+      "title": "OGŁOSZENIA PARAFIALNE (11.06.2023) – Parafia Matki Bożej Wspomożenia Wiernych w Łodzi",
+      "grade": 0
+    },
+    {
+      "hash": "FAoCHL7t2YV4",
+      "address": "https://www.nvidia.com/en-us/data-center/dgx-platform/",
+      "title": "DGX Platform | NVIDIA",
+      "grade": 0
+    },
+    {
+      "hash": "WS3SgL7t2YV4",
+      "address": "https://www.nvidia.com/en-us/ai-data-science/products/nim-microservices/",
+      "title": "NVIDIA NIM Microservices for Accelerated AI Inference | NVIDIA",
+      "grade": 0
+    },
+    {
+      "hash": "sgghmlAUKsO5",
+      "address": "https://www.findarticles.com/news/",
+      "title": "News Articles - FindArticles",
+      "grade": 0
+    },
+    {
+      "hash": "D1Hz8-DUniK4",
+      "address": "https://reason.com/2007/05/30/wikipedia-and-beyond/",
+      "title": "Wikipedia and Beyond",
+      "grade": 0
+    },
+    {
+      "hash": "fE4y5sGA_USx",
+      "address": "https://warracket.net/",
+      "title": "WAR RACKET - MAINSTREAM MEDIA, CORPORATE MEDIA, WARMONGERS, NEOCONS, DEEP STATE, NATO, NATIONAL SECURITY STATE, MILITARY-INDUSTRIAL-SECURITY-COMPLEX, WEAPONS MANUFACTURERS, NATO,",
+      "grade": 0
+    },
+    {
+      "hash": "TKYymjGG7ou5",
+      "address": "https://kingnorth.wordpress.com/",
+      "title": "kingnorth | King North is the 8th King World Government",
+      "grade": 0
+    },
+    {
+      "hash": "A81K-ZIRcMkY",
+      "address": "http://rigorousintuition.blogspot.com/2005/10/top-of-my-head.html",
+      "title": "Rigorous Intuition: The Top of My Head",
+      "grade": 0
+    },
+    {
+      "hash": "QdW-xjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/GNU_General_Public_License",
+      "title": "GNU General Public License - Wikipedia",
+      "grade": 0
+    }
+  ]
+}

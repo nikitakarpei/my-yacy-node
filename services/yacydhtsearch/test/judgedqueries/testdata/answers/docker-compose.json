@@ -1,0 +1,1716 @@
+{
+  "query": "docker compose",
+  "recordedAt": "2026-09-11T12:59:26Z",
+  "itemsInTheOrderOfEachAnswer": [
+    [
+      {
+        "hash": "6PUUbj_MW7i4",
+        "address": "https://www.docker.com/products/developer-tools/",
+        "title": "Developer Tools | Docker",
+        "snippet": "",
+        "matchedWords": {
+          "BbYFPEGiEwr9": {
+            "hits": 60,
+            "textWords": 1083
+          },
+          "E7Pz527QGKEF": {
+            "hits": 0,
+            "textWords": 0
+          }
+        }
+      }
+    ],
+    [
+      {
+        "hash": "eWuR-l_MW7i4",
+        "address": "https://www.docker.com/trainings/",
+        "title": "Skill up with Docker Training | Docker",
+        "snippet": "",
+        "matchedWords": {
+          "BbYFPEGiEwr9": {
+            "hits": 49,
+            "textWords": 858
+          },
+          "E7Pz527QGKEF": {
+            "hits": 0,
+            "textWords": 0
+          }
+        }
+      }
+    ],
+    [
+      {
+        "hash": "FevfV2gYLBO5",
+        "address": "https://caddyserver.com/docs/install",
+        "title": "Install — Caddy Documentation",
+        "snippet": "",
+        "matchedWords": {
+          "BbYFPEGiEwr9": {
+            "hits": 0,
+            "textWords": 0
+          },
+          "E7Pz527QGKEF": {
+            "hits": 1,
+            "textWords": 1113
+          }
+        }
+      },
+      {
+        "hash": "OK3199wNqMp4",
+        "address": "https://findnerd.com/profile/publicprofile/linkbong24hcom/165497",
+        "title": "Luong Son TV",
+        "snippet": "",
+        "matchedWords": {
+          "BbYFPEGiEwr9": {
+            "hits": 0,
+            "textWords": 0
+          },
+          "E7Pz527QGKEF": {
+            "hits": 1,
+            "textWords": 946
+          }
+        }
+      }
+    ],
+    [
+      {
+        "hash": "NHWIWV2Rr_dw",
+        "address": "https://docs.searxng.org/admin/installation-docker.html",
+        "title": "Installation container - SearXNG Documentation (2026.8.4+c63835bd2)",
+        "snippet": "",
+        "matchedWords": {
+          "BbYFPEGiEwr9": {
+            "hits": 0,
+            "textWords": 0
+          },
+          "E7Pz527QGKEF": {
+            "hits": 17,
+            "textWords": 1403
+          }
+        }
+      }
+    ]
+  ],
+  "itemsInNoOrder": [
+    {
+      "hash": "CN-RM49Ojva4",
+      "address": "https://docs.docker.com/build/building/multi-platform/",
+      "title": "Multi-platform | Docker Docs",
+      "snippet": "",
+      "matchedWords": {
+        "BbYFPEGiEwr9": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "E7Pz527QGKEF": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "CjgsxsIyoLTx",
+      "address": "https://planetpython.org/",
+      "title": "Planet Python",
+      "snippet": "",
+      "matchedWords": {
+        "BbYFPEGiEwr9": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "E7Pz527QGKEF": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "A1QAeDS6MKD4",
+      "address": "https://github.com/fastapi/full-stack-fastapi-template",
+      "title": "GitHub - fastapi/full-stack-fastapi-template: Full stack, modern web application template. Using FastAPI, React, SQLModel, PostgreSQL, Docker, GitHub Actions, automatic HTTPS and more.",
+      "snippet": "",
+      "matchedWords": {
+        "BbYFPEGiEwr9": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "E7Pz527QGKEF": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "SU0ZvwS6MKD4",
+      "address": "https://github.com/dani-garcia/vaultwarden",
+      "title": "GitHub - dani-garcia/vaultwarden: Unofficial Bitwarden compatible server written in Rust, formerly known as bitwarden_rs",
+      "snippet": "",
+      "matchedWords": {
+        "BbYFPEGiEwr9": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "E7Pz527QGKEF": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "KXuKCf9Ojva4",
+      "address": "https://docs.docker.com/get-started/docker-concepts/running-containers/sharing-local-files/",
+      "title": "Sharing local files with containers | Docker Docs",
+      "snippet": "",
+      "matchedWords": {
+        "BbYFPEGiEwr9": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "E7Pz527QGKEF": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "FZ5ZijRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/List_of_free_and_open-source_software_packages",
+      "title": "List of free and open-source software packages - Wikipedia",
+      "snippet": "",
+      "matchedWords": {
+        "BbYFPEGiEwr9": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "E7Pz527QGKEF": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "ANdR2LS6MKD4",
+      "address": "https://github.com/TryGhost/Ghost",
+      "title": "GitHub - TryGhost/Ghost: Independent technology for modern publishing, memberships, subscriptions and newsletters.",
+      "snippet": "",
+      "matchedWords": {
+        "BbYFPEGiEwr9": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "E7Pz527QGKEF": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "J5OD4zS6MKD4",
+      "address": "https://github.com/topics/pytest",
+      "title": "pytest · GitHub Topics · GitHub",
+      "snippet": "",
+      "matchedWords": {
+        "BbYFPEGiEwr9": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "E7Pz527QGKEF": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "K513D7S6MKD4",
+      "address": "https://github.com/microsoft/agent-governance-toolkit",
+      "title": "GitHub - microsoft/agent-governance-toolkit: AI Agent Governance Toolkit — Policy enforcement, zero-trust identity, execution sandboxing, and reliability engineering for autonomous AI agents. Covers 10/10 OWASP Agentic Top 10. · GitHub",
+      "snippet": "",
+      "matchedWords": {
+        "BbYFPEGiEwr9": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "E7Pz527QGKEF": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "c8pv3t_MW7i4",
+      "address": "https://www.docker.com/company/newsroom/",
+      "title": "Docker Newsroom | Docker",
+      "snippet": "",
+      "matchedWords": {
+        "BbYFPEGiEwr9": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "E7Pz527QGKEF": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "JXOoAobrsZjx",
+      "address": "https://www.mediawiki.org/wiki/How_to_become_a_MediaWiki_hacker",
+      "title": "How to become a MediaWiki hacker - MediaWiki",
+      "snippet": "",
+      "matchedWords": {
+        "BbYFPEGiEwr9": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "E7Pz527QGKEF": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "PWDhjP957jvx",
+      "address": "https://blog.metabrainz.org/2023/09/",
+      "title": "September 2023 – MetaBrainz Blog",
+      "snippet": "",
+      "matchedWords": {
+        "BbYFPEGiEwr9": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "E7Pz527QGKEF": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "DEKXKM9Ojva4",
+      "address": "https://docs.docker.com/desktop/setup/install/linux/",
+      "title": "Install Docker Desktop on Linux | Docker Docs",
+      "snippet": "",
+      "matchedWords": {
+        "BbYFPEGiEwr9": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "E7Pz527QGKEF": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "KSSoYZ9Ojva4",
+      "address": "https://docs.docker.com/retired/",
+      "title": "Deprecated and retired Docker products and features | Docker Docs",
+      "snippet": "",
+      "matchedWords": {
+        "BbYFPEGiEwr9": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "E7Pz527QGKEF": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "MbQgLE9Ojva4",
+      "address": "https://docs.docker.com/engine/manage-resources/labels/",
+      "title": "Docker object labels | Docker Docs",
+      "snippet": "",
+      "matchedWords": {
+        "BbYFPEGiEwr9": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "E7Pz527QGKEF": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "NRZFDZ9Ojva4",
+      "address": "https://docs.docker.com/docker-hub",
+      "title": "Docker Hub | Docker Docs",
+      "snippet": "",
+      "matchedWords": {
+        "BbYFPEGiEwr9": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "E7Pz527QGKEF": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "VaAJPX9Ojva4",
+      "address": "https://docs.docker.com/reference/dockerfile",
+      "title": "Dockerfile reference | Docker Docs",
+      "snippet": "",
+      "matchedWords": {
+        "BbYFPEGiEwr9": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "E7Pz527QGKEF": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "33nc5Z9Ojva4",
+      "address": "https://docs.docker.com/",
+      "title": "Docker Docs",
+      "snippet": "",
+      "matchedWords": {
+        "BbYFPEGiEwr9": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "E7Pz527QGKEF": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "CjgsxsIyoLTx",
+      "address": "https://planetpython.org/",
+      "title": "Planet Python",
+      "snippet": "",
+      "matchedWords": {
+        "BbYFPEGiEwr9": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "E7Pz527QGKEF": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "M2WI19OKiiF6",
+      "address": "https://www.epsilonsworld.com/2026/03/",
+      "title": "Epsilon's World: March 2026",
+      "snippet": "",
+      "matchedWords": {
+        "BbYFPEGiEwr9": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "E7Pz527QGKEF": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "FZ5ZijRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/List_of_free_and_open-source_software_packages",
+      "title": "List of free and open-source software packages - Wikipedia",
+      "snippet": "",
+      "matchedWords": {
+        "BbYFPEGiEwr9": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "E7Pz527QGKEF": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "PpAMKjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/GNU_Guix_System",
+      "title": "GNU Guix - Wikipedia",
+      "snippet": "",
+      "matchedWords": {
+        "BbYFPEGiEwr9": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "E7Pz527QGKEF": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "ANdR2LS6MKD4",
+      "address": "https://github.com/TryGhost/Ghost",
+      "title": "GitHub - TryGhost/Ghost: Independent technology for modern publishing, memberships, subscriptions and newsletters.",
+      "snippet": "",
+      "matchedWords": {
+        "BbYFPEGiEwr9": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "E7Pz527QGKEF": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "GOC_RsS6MKD4",
+      "address": "https://github.com/mvanhorn",
+      "title": "mvanhorn (Matt Van Horn) · GitHub",
+      "snippet": "",
+      "matchedWords": {
+        "BbYFPEGiEwr9": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "E7Pz527QGKEF": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "JWSlkdS6MKD4",
+      "address": "https://github.com/github/gh-aw-firewall",
+      "title": "GitHub - github/gh-aw-firewall: GitHub Agentic Workflows Firewall · GitHub",
+      "snippet": "",
+      "matchedWords": {
+        "BbYFPEGiEwr9": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "E7Pz527QGKEF": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "J5OD4zS6MKD4",
+      "address": "https://github.com/topics/pytest",
+      "title": "pytest · GitHub Topics · GitHub",
+      "snippet": "",
+      "matchedWords": {
+        "BbYFPEGiEwr9": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "E7Pz527QGKEF": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "NW0FU9S6MKD4",
+      "address": "https://github.com/funmusicplace/mirlo",
+      "title": "GitHub - funmusicplace/mirlo: An open source audio distribution and patronage platform · GitHub",
+      "snippet": "",
+      "matchedWords": {
+        "BbYFPEGiEwr9": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "E7Pz527QGKEF": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "NX1lJPS6MKD4",
+      "address": "https://github.com/rtk-ai/rtk",
+      "title": "GitHub - rtk-ai/rtk: CLI proxy that reduces LLM token consumption by 60-90% on common dev commands. Single Rust binary, zero dependencies · GitHub",
+      "snippet": "",
+      "matchedWords": {
+        "BbYFPEGiEwr9": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "E7Pz527QGKEF": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "NsSDlzS6MKD4",
+      "address": "https://github.com/topics/bitwarden-rs",
+      "title": "bitwarden-rs · GitHub Topics · GitHub",
+      "snippet": "",
+      "matchedWords": {
+        "BbYFPEGiEwr9": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "E7Pz527QGKEF": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "N-XUO0S6MKD4",
+      "address": "https://github.com/netxms/netxms",
+      "title": "GitHub - netxms/netxms: NetXMS - Open Source network and infrastructure monitoring and management",
+      "snippet": "",
+      "matchedWords": {
+        "BbYFPEGiEwr9": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "E7Pz527QGKEF": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "OIjuydS6MKD4",
+      "address": "https://github.com/HKUDS/Vibe-Trading",
+      "title": "GitHub - HKUDS/Vibe-Trading: \"Vibe-Trading: Your Personal Trading Agent\" · GitHub",
+      "snippet": "",
+      "matchedWords": {
+        "BbYFPEGiEwr9": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "E7Pz527QGKEF": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "Ofc55PS6MKD4",
+      "address": "https://github.com/strapi/strapi",
+      "title": "GitHub - strapi/strapi: 🚀 Strapi is the leading open-source headless CMS. It’s 100% JavaScript/TypeScript, fully customizable and developer-first.",
+      "snippet": "",
+      "matchedWords": {
+        "BbYFPEGiEwr9": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "E7Pz527QGKEF": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "OuHQGzS6MKD4",
+      "address": "https://github.com/topics/podman",
+      "title": "podman · GitHub Topics · GitHub",
+      "snippet": "",
+      "matchedWords": {
+        "BbYFPEGiEwr9": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "E7Pz527QGKEF": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "O8wW-IS6MKD4",
+      "address": "https://github.com/openfoodfoundation/openfoodnetwork",
+      "title": "GitHub - openfoodfoundation/openfoodnetwork: Connect suppliers, distributors and consumers to trade local produce.",
+      "snippet": "",
+      "matchedWords": {
+        "BbYFPEGiEwr9": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "E7Pz527QGKEF": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "PStUCzS6MKD4",
+      "address": "https://github.com/topics/chrome",
+      "title": "chrome · GitHub Topics · GitHub",
+      "snippet": "",
+      "matchedWords": {
+        "BbYFPEGiEwr9": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "E7Pz527QGKEF": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "QtceyzS6MKD4",
+      "address": "https://github.com/topics/angular",
+      "title": "angular · GitHub Topics · GitHub",
+      "snippet": "",
+      "matchedWords": {
+        "BbYFPEGiEwr9": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "E7Pz527QGKEF": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "dQXZ9sS6MKD4",
+      "address": "https://github.com/fastapi",
+      "title": "FastAPI · GitHub",
+      "snippet": "",
+      "matchedWords": {
+        "BbYFPEGiEwr9": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "E7Pz527QGKEF": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "0I0OCzS6MKD4",
+      "address": "https://github.com/topics/mobile-app",
+      "title": "mobile-app · GitHub Topics · GitHub",
+      "snippet": "",
+      "matchedWords": {
+        "BbYFPEGiEwr9": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "E7Pz527QGKEF": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "3rKWYzS6MKD4",
+      "address": "https://github.com/topics/swift",
+      "title": "swift · GitHub Topics · GitHub",
+      "snippet": "",
+      "matchedWords": {
+        "BbYFPEGiEwr9": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "E7Pz527QGKEF": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "P60DNWVFEEow",
+      "address": "https://guix.gnu.org/manual/devel/en/guix.html",
+      "title": "GNU Guix Reference Manual",
+      "snippet": "",
+      "matchedWords": {
+        "BbYFPEGiEwr9": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "E7Pz527QGKEF": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "RRNM9k_MW7i4",
+      "address": "https://www.docker.com/community/open-source/",
+      "title": "Docker and Open Source | Docker",
+      "snippet": "",
+      "matchedWords": {
+        "BbYFPEGiEwr9": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "E7Pz527QGKEF": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "S0w-Wl_MW7i4",
+      "address": "https://www.docker.com/products/",
+      "title": "Products | Docker",
+      "snippet": "",
+      "matchedWords": {
+        "BbYFPEGiEwr9": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "E7Pz527QGKEF": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "c8pv3t_MW7i4",
+      "address": "https://www.docker.com/company/newsroom/",
+      "title": "Docker Newsroom | Docker",
+      "snippet": "",
+      "matchedWords": {
+        "BbYFPEGiEwr9": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "E7Pz527QGKEF": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "dUFt5j_MW7i4",
+      "address": "https://www.docker.com/products/docker-desktop/",
+      "title": "Docker Desktop: The #1 Containerization Tool for Developers | Docker",
+      "snippet": "",
+      "matchedWords": {
+        "BbYFPEGiEwr9": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "E7Pz527QGKEF": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "Jym1BQkHhqgx",
+      "address": "https://bugs.ruby-lang.org/issues/17055",
+      "title": "Feature #17055: Allow suppressing uninitialized instance variable and method redefined verbose mode warnings - Ruby - Ruby Issue Tracking System",
+      "snippet": "",
+      "matchedWords": {
+        "BbYFPEGiEwr9": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "E7Pz527QGKEF": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "HYwjgDmDCiww",
+      "address": "https://podman.io/blogs/atom.xml",
+      "title": "",
+      "snippet": "",
+      "matchedWords": {
+        "BbYFPEGiEwr9": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "E7Pz527QGKEF": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "OrSLhqmDCiww",
+      "address": "https://podman.io/release/atom.xml",
+      "title": "",
+      "snippet": "",
+      "matchedWords": {
+        "BbYFPEGiEwr9": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "E7Pz527QGKEF": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "QZrMav8r-I95",
+      "address": "https://riscv-runners.riseproject.dev/docs/faq.html",
+      "title": "FAQ | RISE RISC-V Runners",
+      "snippet": "",
+      "matchedWords": {
+        "BbYFPEGiEwr9": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "E7Pz527QGKEF": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "Qllpsv8r-I95",
+      "address": "https://riscv-runners.riseproject.dev/docs/architecture/images.html",
+      "title": "Container Images | RISE RISC-V Runners",
+      "snippet": "",
+      "matchedWords": {
+        "BbYFPEGiEwr9": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "E7Pz527QGKEF": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "QETWOeFEcjUx",
+      "address": "https://docs.confluent.io/platform/current/streams/microservices-orders.html",
+      "title": "Tutorial: Streaming Application Development Basics on Confluent Platform | Confluent Documentation",
+      "snippet": "",
+      "matchedWords": {
+        "BbYFPEGiEwr9": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "E7Pz527QGKEF": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "CjgsxsIyoLTx",
+      "address": "https://planetpython.org/",
+      "title": "Planet Python",
+      "snippet": "",
+      "matchedWords": {
+        "BbYFPEGiEwr9": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "E7Pz527QGKEF": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "QtceyzS6MKD4",
+      "address": "https://github.com/topics/angular",
+      "title": "angular · GitHub Topics · GitHub",
+      "snippet": "",
+      "matchedWords": {
+        "BbYFPEGiEwr9": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "E7Pz527QGKEF": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "SU0ZvwS6MKD4",
+      "address": "https://github.com/dani-garcia/vaultwarden",
+      "title": "GitHub - dani-garcia/vaultwarden: Unofficial Bitwarden compatible server written in Rust, formerly known as bitwarden_rs",
+      "snippet": "",
+      "matchedWords": {
+        "BbYFPEGiEwr9": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "E7Pz527QGKEF": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "RRNM9k_MW7i4",
+      "address": "https://www.docker.com/community/open-source/",
+      "title": "Docker and Open Source | Docker",
+      "snippet": "",
+      "matchedWords": {
+        "BbYFPEGiEwr9": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "E7Pz527QGKEF": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "S0w-Wl_MW7i4",
+      "address": "https://www.docker.com/products/",
+      "title": "Products | Docker",
+      "snippet": "",
+      "matchedWords": {
+        "BbYFPEGiEwr9": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "E7Pz527QGKEF": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "EhYhXE9Ojva4",
+      "address": "https://docs.docker.com/engine/security/userns-remap/",
+      "title": "Isolate containers with a user namespace | Docker Docs",
+      "snippet": "",
+      "matchedWords": {
+        "BbYFPEGiEwr9": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "E7Pz527QGKEF": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "KXuKCf9Ojva4",
+      "address": "https://docs.docker.com/get-started/docker-concepts/running-containers/sharing-local-files/",
+      "title": "Sharing local files with containers | Docker Docs",
+      "snippet": "",
+      "matchedWords": {
+        "BbYFPEGiEwr9": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "E7Pz527QGKEF": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "VaAJPX9Ojva4",
+      "address": "https://docs.docker.com/reference/dockerfile",
+      "title": "Dockerfile reference | Docker Docs",
+      "snippet": "",
+      "matchedWords": {
+        "BbYFPEGiEwr9": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "E7Pz527QGKEF": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "FZ5ZijRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/List_of_free_and_open-source_software_packages",
+      "title": "List of free and open-source software packages - Wikipedia",
+      "snippet": "",
+      "matchedWords": {
+        "BbYFPEGiEwr9": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "E7Pz527QGKEF": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "HYwjgDmDCiww",
+      "address": "https://podman.io/blogs/atom.xml",
+      "title": "",
+      "snippet": "",
+      "matchedWords": {
+        "BbYFPEGiEwr9": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "E7Pz527QGKEF": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "CsBSKxtQ-zSx",
+      "address": "https://wiki.archlinux.org/title/Docker",
+      "title": "Docker - ArchWiki",
+      "snippet": "",
+      "matchedWords": {
+        "BbYFPEGiEwr9": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "E7Pz527QGKEF": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "PStUCzS6MKD4",
+      "address": "https://github.com/topics/chrome",
+      "title": "chrome · GitHub Topics · GitHub",
+      "snippet": "",
+      "matchedWords": {
+        "BbYFPEGiEwr9": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "E7Pz527QGKEF": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "dQXZ9sS6MKD4",
+      "address": "https://github.com/fastapi",
+      "title": "FastAPI · GitHub",
+      "snippet": "",
+      "matchedWords": {
+        "BbYFPEGiEwr9": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "E7Pz527QGKEF": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "c8pv3t_MW7i4",
+      "address": "https://www.docker.com/company/newsroom/",
+      "title": "Docker Newsroom | Docker",
+      "snippet": "",
+      "matchedWords": {
+        "BbYFPEGiEwr9": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "E7Pz527QGKEF": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "dUFt5j_MW7i4",
+      "address": "https://www.docker.com/products/docker-desktop/",
+      "title": "Docker Desktop: The #1 Containerization Tool for Developers | Docker",
+      "snippet": "",
+      "matchedWords": {
+        "BbYFPEGiEwr9": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "E7Pz527QGKEF": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "VaAJPX9Ojva4",
+      "address": "https://docs.docker.com/reference/dockerfile",
+      "title": "Dockerfile reference | Docker Docs",
+      "snippet": "",
+      "matchedWords": {
+        "BbYFPEGiEwr9": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "E7Pz527QGKEF": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "CjgsxsIyoLTx",
+      "address": "https://planetpython.org/",
+      "title": "Planet Python",
+      "snippet": "",
+      "matchedWords": {
+        "BbYFPEGiEwr9": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "E7Pz527QGKEF": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "PWDhjP957jvx",
+      "address": "https://blog.metabrainz.org/2023/09/",
+      "title": "September 2023 – MetaBrainz Blog",
+      "snippet": "",
+      "matchedWords": {
+        "BbYFPEGiEwr9": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "E7Pz527QGKEF": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "QZrMav8r-I95",
+      "address": "https://riscv-runners.riseproject.dev/docs/faq.html",
+      "title": "FAQ | RISE RISC-V Runners",
+      "snippet": "",
+      "matchedWords": {
+        "BbYFPEGiEwr9": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "E7Pz527QGKEF": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "Qllpsv8r-I95",
+      "address": "https://riscv-runners.riseproject.dev/docs/architecture/images.html",
+      "title": "Container Images | RISE RISC-V Runners",
+      "snippet": "",
+      "matchedWords": {
+        "BbYFPEGiEwr9": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "E7Pz527QGKEF": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "MbQgLE9Ojva4",
+      "address": "https://docs.docker.com/engine/manage-resources/labels/",
+      "title": "Docker object labels | Docker Docs",
+      "snippet": "",
+      "matchedWords": {
+        "BbYFPEGiEwr9": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "E7Pz527QGKEF": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "QETWOeFEcjUx",
+      "address": "https://docs.confluent.io/platform/current/streams/microservices-orders.html",
+      "title": "Tutorial: Streaming Application Development Basics on Confluent Platform | Confluent Documentation",
+      "snippet": "",
+      "matchedWords": {
+        "BbYFPEGiEwr9": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "E7Pz527QGKEF": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "S0w-Wl_MW7i4",
+      "address": "https://www.docker.com/products/",
+      "title": "Products | Docker",
+      "snippet": "",
+      "matchedWords": {
+        "BbYFPEGiEwr9": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "E7Pz527QGKEF": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "Jym1BQkHhqgx",
+      "address": "https://bugs.ruby-lang.org/issues/17055",
+      "title": "Feature #17055: Allow suppressing uninitialized instance variable and method redefined verbose mode warnings - Ruby - Ruby Issue Tracking System",
+      "snippet": "",
+      "matchedWords": {
+        "BbYFPEGiEwr9": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "E7Pz527QGKEF": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "CN-RM49Ojva4",
+      "address": "https://docs.docker.com/build/building/multi-platform/",
+      "title": "Multi-platform builds | Docker Docs",
+      "snippet": "",
+      "matchedWords": {
+        "BbYFPEGiEwr9": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "E7Pz527QGKEF": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "DEKXKM9Ojva4",
+      "address": "https://docs.docker.com/desktop/setup/install/linux/",
+      "title": "Install Docker Desktop on Linux | Docker Docs",
+      "snippet": "",
+      "matchedWords": {
+        "BbYFPEGiEwr9": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "E7Pz527QGKEF": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "EhYhXE9Ojva4",
+      "address": "https://docs.docker.com/engine/security/userns-remap/",
+      "title": "Isolate containers with a user namespace | Docker Docs",
+      "snippet": "",
+      "matchedWords": {
+        "BbYFPEGiEwr9": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "E7Pz527QGKEF": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "KSSoYZ9Ojva4",
+      "address": "https://docs.docker.com/retired/",
+      "title": "Deprecated and retired Docker products and features | Docker Docs",
+      "snippet": "",
+      "matchedWords": {
+        "BbYFPEGiEwr9": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "E7Pz527QGKEF": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "KXuKCf9Ojva4",
+      "address": "https://docs.docker.com/get-started/docker-concepts/running-containers/sharing-local-files/",
+      "title": "Sharing local files with containers | Docker Docs",
+      "snippet": "",
+      "matchedWords": {
+        "BbYFPEGiEwr9": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "E7Pz527QGKEF": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "NRZFDZ9Ojva4",
+      "address": "https://docs.docker.com/docker-hub",
+      "title": "Docker Hub | Docker Docs",
+      "snippet": "",
+      "matchedWords": {
+        "BbYFPEGiEwr9": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "E7Pz527QGKEF": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "VaAJPX9Ojva4",
+      "address": "https://docs.docker.com/reference/dockerfile",
+      "title": "Dockerfile reference | Docker Docs",
+      "snippet": "",
+      "matchedWords": {
+        "BbYFPEGiEwr9": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "E7Pz527QGKEF": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "33nc5Z9Ojva4",
+      "address": "https://docs.docker.com/",
+      "title": "Docker Docs",
+      "snippet": "",
+      "matchedWords": {
+        "BbYFPEGiEwr9": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "E7Pz527QGKEF": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "FZ5ZijRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/List_of_free_and_open-source_software_packages",
+      "title": "List of free and open-source software packages - Wikipedia",
+      "snippet": "",
+      "matchedWords": {
+        "BbYFPEGiEwr9": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "E7Pz527QGKEF": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "PpAMKjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/GNU_Guix_System",
+      "title": "GNU Guix - Wikipedia",
+      "snippet": "",
+      "matchedWords": {
+        "BbYFPEGiEwr9": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "E7Pz527QGKEF": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "P60DNWVFEEow",
+      "address": "https://guix.gnu.org/manual/devel/en/guix.html",
+      "title": "GNU Guix Reference Manual",
+      "snippet": "",
+      "matchedWords": {
+        "BbYFPEGiEwr9": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "E7Pz527QGKEF": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "RRNM9k_MW7i4",
+      "address": "https://www.docker.com/community/open-source/",
+      "title": "Docker and Open Source | Docker",
+      "snippet": "",
+      "matchedWords": {
+        "BbYFPEGiEwr9": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "E7Pz527QGKEF": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "S0w-Wl_MW7i4",
+      "address": "https://www.docker.com/products/",
+      "title": "Products | Docker",
+      "snippet": "",
+      "matchedWords": {
+        "BbYFPEGiEwr9": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "E7Pz527QGKEF": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "c8pv3t_MW7i4",
+      "address": "https://www.docker.com/company/newsroom/",
+      "title": "Docker Newsroom | Docker",
+      "snippet": "",
+      "matchedWords": {
+        "BbYFPEGiEwr9": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "E7Pz527QGKEF": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "dUFt5j_MW7i4",
+      "address": "https://www.docker.com/products/docker-desktop/",
+      "title": "Docker Desktop: The #1 Containerization Tool for Developers | Docker",
+      "snippet": "",
+      "matchedWords": {
+        "BbYFPEGiEwr9": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "E7Pz527QGKEF": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "JXOoAobrsZjx",
+      "address": "https://www.mediawiki.org/wiki/How_to_become_a_MediaWiki_hacker",
+      "title": "How to become a MediaWiki hacker - MediaWiki",
+      "snippet": "",
+      "matchedWords": {
+        "BbYFPEGiEwr9": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "E7Pz527QGKEF": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "HYwjgDmDCiww",
+      "address": "https://podman.io/blogs/atom.xml",
+      "title": "",
+      "snippet": "",
+      "matchedWords": {
+        "BbYFPEGiEwr9": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "E7Pz527QGKEF": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "OrSLhqmDCiww",
+      "address": "https://podman.io/release/atom.xml",
+      "title": "",
+      "snippet": "",
+      "matchedWords": {
+        "BbYFPEGiEwr9": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "E7Pz527QGKEF": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "CsBSKxtQ-zSx",
+      "address": "https://wiki.archlinux.org/title/Docker",
+      "title": "Docker - ArchWiki",
+      "snippet": "",
+      "matchedWords": {
+        "BbYFPEGiEwr9": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "E7Pz527QGKEF": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "M2WI19OKiiF6",
+      "address": "https://www.epsilonsworld.com/2026/03/",
+      "title": "Epsilon's World: March 2026",
+      "snippet": "",
+      "matchedWords": {
+        "BbYFPEGiEwr9": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "E7Pz527QGKEF": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "ANdR2LS6MKD4",
+      "address": "https://github.com/TryGhost/Ghost",
+      "title": "GitHub - TryGhost/Ghost: Independent technology for modern publishing, memberships, subscriptions and newsletters. · GitHub",
+      "snippet": "",
+      "matchedWords": {
+        "BbYFPEGiEwr9": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "E7Pz527QGKEF": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "GJa2wSS6MKD4",
+      "address": "https://github.com/bencherdev/bencher",
+      "title": "GitHub - bencherdev/bencher: 🐰 Bencher - Continuous Benchmarking · GitHub",
+      "snippet": "",
+      "matchedWords": {
+        "BbYFPEGiEwr9": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "E7Pz527QGKEF": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "Ofc55PS6MKD4",
+      "address": "https://github.com/strapi/strapi",
+      "title": "GitHub - strapi/strapi: 🚀 Strapi is the leading open-source headless CMS. It’s 100% JavaScript/TypeScript, fully customizable, and developer-first. · GitHub",
+      "snippet": "",
+      "matchedWords": {
+        "BbYFPEGiEwr9": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "E7Pz527QGKEF": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "OuHQGzS6MKD4",
+      "address": "https://github.com/topics/podman",
+      "title": "podman · GitHub Topics · GitHub",
+      "snippet": "",
+      "matchedWords": {
+        "BbYFPEGiEwr9": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "E7Pz527QGKEF": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "QtceyzS6MKD4",
+      "address": "https://github.com/topics/angular",
+      "title": "angular · GitHub Topics · GitHub",
+      "snippet": "",
+      "matchedWords": {
+        "BbYFPEGiEwr9": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "E7Pz527QGKEF": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "dQXZ9sS6MKD4",
+      "address": "https://github.com/fastapi",
+      "title": "FastAPI · GitHub",
+      "snippet": "",
+      "matchedWords": {
+        "BbYFPEGiEwr9": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "E7Pz527QGKEF": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "3rKWYzS6MKD4",
+      "address": "https://github.com/topics/swift",
+      "title": "swift · GitHub Topics · GitHub",
+      "snippet": "",
+      "matchedWords": {
+        "BbYFPEGiEwr9": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "E7Pz527QGKEF": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    }
+  ],
+  "documentsHeldPerQueryWord": {
+    "BbYFPEGiEwr9": 30323,
+    "E7Pz527QGKEF": 5345
+  }
+}

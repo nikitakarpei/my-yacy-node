@@ -1,0 +1,101 @@
+{
+  "query": "python asyncio",
+  "judgedDocuments": [
+    {
+      "hash": "q1_0zitD2jQw",
+      "address": "https://docs.python.org/3/library/asyncio.html",
+      "title": "asyncio — Asynchronous I/O — Python 3.7.3 documentation",
+      "grade": 2
+    },
+    {
+      "hash": "FLRBMitD2jQw",
+      "address": "https://docs.python.org/3/howto/a-conceptual-overview-of-asyncio.html",
+      "title": "A Conceptual Overview of asyncio — Python 3.14.6 documentation",
+      "grade": 2
+    },
+    {
+      "hash": "HQC7YitD2jQw",
+      "address": "https://docs.python.org/3/library/asyncio-sync.html",
+      "title": "Synchronization Primitives — Python 3.14.7 documentation",
+      "grade": 2
+    },
+    {
+      "hash": "A5Y2hWr4CjGw",
+      "address": "https://discuss.python.org/c/async-sig/20",
+      "title": "Latest Async-SIG topics - Discussions on Python.org",
+      "grade": 1
+    },
+    {
+      "hash": "RZuwo7S6MKD4",
+      "address": "https://github.com/microsoft/agent-framework",
+      "title": "GitHub - microsoft/agent-framework: A framework for building, orchestrating and deploying AI agents and multi-agent workflows with support for Python and .NET. · GitHub",
+      "grade": 0
+    },
+    {
+      "hash": "HYOfTitD2jQw",
+      "address": "https://docs.python.org/3/whatsnew/3.7.html",
+      "title": "What’s New In Python 3.7 — Python 3.13.2 documentation",
+      "grade": 1
+    },
+    {
+      "hash": "Fu6eTitD2jQw",
+      "address": "https://docs.python.org/3/genindex-I.html",
+      "title": "Index — Python 3.13.2 documentation",
+      "grade": 0
+    },
+    {
+      "hash": "WEIifshgn1pw",
+      "address": "https://redis.io/agents/",
+      "title": "",
+      "grade": 0
+    },
+    {
+      "hash": "raq9iitD2jQw",
+      "address": "https://docs.python.org/3/whatsnew/3.10.html",
+      "title": "What’s New In Python 3.10 — Python 3.12.3 documentation",
+      "grade": 1
+    },
+    {
+      "hash": "E2RhIitD2jQw",
+      "address": "https://docs.python.org/3/library/concurrent.futures.html",
+      "title": "concurrent.futures — Launching parallel tasks — Python 3.13.2 documentation",
+      "grade": 1
+    },
+    {
+      "hash": "kEYSoltD2jQw",
+      "address": "https://docs.python.org/3.14/whatsnew/3.6.html",
+      "title": "What’s New In Python 3.6 — Python 3.14.0a0 documentation",
+      "grade": 1
+    },
+    {
+      "hash": "D4lABzaS0qdw",
+      "address": "https://planet.debian.org/",
+      "title": "Planet Debian",
+      "grade": 0
+    },
+    {
+      "hash": "2ZqdVzfOEiDw",
+      "address": "https://planet.gnome.org/",
+      "title": "Planet GNOME",
+      "grade": 0
+    },
+    {
+      "hash": "GOC_RsS6MKD4",
+      "address": "https://github.com/mvanhorn",
+      "title": "mvanhorn (Matt Van Horn) · GitHub",
+      "grade": 0
+    },
+    {
+      "hash": "SH9s9zTnALtw",
+      "address": "https://planet.gentoo.org/",
+      "title": "Planet Gentoo",
+      "grade": 0
+    },
+    {
+      "hash": "ojdnMD1nrxbw",
+      "address": "https://www.debian.org/devel/wnpp/being_packaged_byage",
+      "title": "Debian -- Packages being worked on, organized by age",
+      "grade": 0
+    }
+  ]
+}

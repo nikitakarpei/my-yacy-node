@@ -1,0 +1,1672 @@
+{
+  "query": "raspberry pi",
+  "recordedAt": "2026-09-11T12:59:38Z",
+  "itemsInTheOrderOfEachAnswer": [
+    [
+      {
+        "hash": "7b0gSsUQxb2x",
+        "address": "https://join-lemmy.org/",
+        "title": "Lemmy - A decentralised discussion platform for communities",
+        "snippet": "",
+        "matchedWords": {
+          "cquK9WvdqzOy": {
+            "hits": 0,
+            "textWords": 0
+          },
+          "uJdJUF4US1ZK": {
+            "hits": 1,
+            "textWords": 528
+          }
+        }
+      }
+    ],
+    [
+      {
+        "hash": "MaRThsRMLT-5",
+        "address": "https://canonical.com/",
+        "title": "Trusted open source for enterprises | Canonical",
+        "snippet": "",
+        "matchedWords": {
+          "cquK9WvdqzOy": {
+            "hits": 0,
+            "textWords": 0
+          },
+          "uJdJUF4US1ZK": {
+            "hits": 4,
+            "textWords": 5038
+          }
+        }
+      }
+    ],
+    [
+      {
+        "hash": "MWWnL_nMM_j5",
+        "address": "https://grokipedia.com/page/JavaScript",
+        "title": "JavaScript — Grokipedia",
+        "snippet": "",
+        "matchedWords": {
+          "cquK9WvdqzOy": {
+            "hits": 0,
+            "textWords": 0
+          },
+          "uJdJUF4US1ZK": {
+            "hits": 1,
+            "textWords": 12008
+          }
+        }
+      }
+    ],
+    [
+      {
+        "hash": "ZinRLlDOAHJg",
+        "address": "https://www.heise.de/make",
+        "title": "Make Magazin: Kreativ mit Technik | heise online",
+        "snippet": "",
+        "matchedWords": {
+          "cquK9WvdqzOy": {
+            "hits": 0,
+            "textWords": 0
+          },
+          "uJdJUF4US1ZK": {
+            "hits": 2,
+            "textWords": 1176
+          }
+        }
+      }
+    ],
+    [
+      {
+        "hash": "ryUhvGS6MKD4",
+        "address": "https://github.com/veggiemonk/awesome-docker",
+        "title": "GitHub - veggiemonk/awesome-docker: :whale: A curated list of Docker resources and projects",
+        "snippet": "",
+        "matchedWords": {
+          "cquK9WvdqzOy": {
+            "hits": 0,
+            "textWords": 0
+          },
+          "uJdJUF4US1ZK": {
+            "hits": 3,
+            "textWords": 10421
+          }
+        }
+      },
+      {
+        "hash": "rsWFmIf1Pcd5",
+        "address": "https://store.steampowered.com/mobile",
+        "title": "Steam, The Ultimate Online Game Platform",
+        "snippet": "",
+        "matchedWords": {
+          "cquK9WvdqzOy": {
+            "hits": 0,
+            "textWords": 0
+          },
+          "uJdJUF4US1ZK": {
+            "hits": 1,
+            "textWords": 754
+          }
+        }
+      }
+    ],
+    [
+      {
+        "hash": "uS2bt_nMM_j5",
+        "address": "https://grokipedia.com/page/Node-RED",
+        "title": "Node-RED — Grokipedia",
+        "snippet": "",
+        "matchedWords": {
+          "cquK9WvdqzOy": {
+            "hits": 0,
+            "textWords": 0
+          },
+          "uJdJUF4US1ZK": {
+            "hits": 6,
+            "textWords": 6086
+          }
+        }
+      }
+    ]
+  ],
+  "itemsInNoOrder": [
+    {
+      "hash": "MK5eRjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Linux_distribution",
+      "title": "Linux distribution - Wikipedia",
+      "snippet": "",
+      "matchedWords": {
+        "cquK9WvdqzOy": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "uJdJUF4US1ZK": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "yQQNDjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Embedded_system",
+      "title": "Embedded system - Wikipedia",
+      "snippet": "",
+      "matchedWords": {
+        "cquK9WvdqzOy": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "uJdJUF4US1ZK": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "zPsYJjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Linux",
+      "title": "Linux - Wikipedia",
+      "snippet": "",
+      "matchedWords": {
+        "cquK9WvdqzOy": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "uJdJUF4US1ZK": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "mHyFhKsrSOQw",
+      "address": "https://arxiv.org/list/cs.AI/new",
+      "title": "Artificial Intelligence",
+      "snippet": "",
+      "matchedWords": {
+        "cquK9WvdqzOy": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "uJdJUF4US1ZK": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "cd84qAK-xyJ4",
+      "address": "https://go.dev/doc/go1.8",
+      "title": "Go 1.8 Release Notes - The Go Programming Language",
+      "snippet": "",
+      "matchedWords": {
+        "cquK9WvdqzOy": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "uJdJUF4US1ZK": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "MaHDQsRDFHM6",
+      "address": "https://stackexchange.com/sites",
+      "title": "All Sites - Stack Exchange",
+      "snippet": "",
+      "matchedWords": {
+        "cquK9WvdqzOy": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "uJdJUF4US1ZK": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "0IsrslZZ-o74",
+      "address": "https://www.nccgroup.com/research/",
+      "title": "Cyber Security Research | NCC Group",
+      "snippet": "",
+      "matchedWords": {
+        "cquK9WvdqzOy": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "uJdJUF4US1ZK": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "iEtWflDOAHJg",
+      "address": "https://www.heise.de/thema",
+      "title": "Themenseiten | heise online",
+      "snippet": "",
+      "matchedWords": {
+        "cquK9WvdqzOy": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "uJdJUF4US1ZK": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "4BAFKdFO6r_x",
+      "address": "https://de.wikipedia.org/wiki/PDP-11",
+      "title": "PDP-11 – Wikipedia",
+      "snippet": "",
+      "matchedWords": {
+        "cquK9WvdqzOy": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "uJdJUF4US1ZK": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "cd84qAK-xyJ4",
+      "address": "https://go.dev/doc/go1.8",
+      "title": "Go 1.8 Release Notes - The Go Programming Language",
+      "snippet": "",
+      "matchedWords": {
+        "cquK9WvdqzOy": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "uJdJUF4US1ZK": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "AXN8YjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Bioinformatics",
+      "title": "Bioinformatics - Wikipedia",
+      "snippet": "",
+      "matchedWords": {
+        "cquK9WvdqzOy": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "uJdJUF4US1ZK": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "COUi-jRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Internet_of_things",
+      "title": "Internet of things - Wikipedia",
+      "snippet": "",
+      "matchedWords": {
+        "cquK9WvdqzOy": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "uJdJUF4US1ZK": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "FYAXzjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Mozilla",
+      "title": "Mozilla - Wikipedia",
+      "snippet": "",
+      "matchedWords": {
+        "cquK9WvdqzOy": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "uJdJUF4US1ZK": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "MK5eRjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Linux_distribution",
+      "title": "Linux distribution - Wikipedia",
+      "snippet": "",
+      "matchedWords": {
+        "cquK9WvdqzOy": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "uJdJUF4US1ZK": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "d5oz1jRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Linux_adoption",
+      "title": "Linux adoption - Wikipedia",
+      "snippet": "",
+      "matchedWords": {
+        "cquK9WvdqzOy": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "uJdJUF4US1ZK": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "fFhxWjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Personal_computer",
+      "title": "Personal computer - Wikipedia",
+      "snippet": "",
+      "matchedWords": {
+        "cquK9WvdqzOy": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "uJdJUF4US1ZK": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "zPsYJjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Linux",
+      "title": "Linux - Wikipedia",
+      "snippet": "",
+      "matchedWords": {
+        "cquK9WvdqzOy": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "uJdJUF4US1ZK": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "5DZ6TjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Android_(operating_system)",
+      "title": "Android (operating system) - Wikipedia",
+      "snippet": "",
+      "matchedWords": {
+        "cquK9WvdqzOy": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "uJdJUF4US1ZK": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "9p2eCjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Artificial_intelligence",
+      "title": "Artificial intelligence - Wikipedia",
+      "snippet": "",
+      "matchedWords": {
+        "cquK9WvdqzOy": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "uJdJUF4US1ZK": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "D9zZ37S6MKD4",
+      "address": "https://github.com/sindresorhus/awesome-nodejs",
+      "title": "GitHub - sindresorhus/awesome-nodejs: :zap: Delightful Node.js packages and resources [BECAUSE OF TOO MUCH SPAM AND LOW-QUALITY SUBMISSIONS, SUBMISSIONS ARE PAUSED TEMPORARILY] · GitHub",
+      "snippet": "",
+      "matchedWords": {
+        "cquK9WvdqzOy": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "uJdJUF4US1ZK": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "2Af0RMS6MKD4",
+      "address": "https://github.com/orgs/community/discussions/categories/programming-help",
+      "title": "community Programming Help · Discussions · GitHub",
+      "snippet": "",
+      "matchedWords": {
+        "cquK9WvdqzOy": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "uJdJUF4US1ZK": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "3GHeQzS6MKD4",
+      "address": "https://github.com/topics/lisp-interpreter",
+      "title": "lisp-interpreter · GitHub Topics · GitHub",
+      "snippet": "",
+      "matchedWords": {
+        "cquK9WvdqzOy": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "uJdJUF4US1ZK": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "3NI4azS6MKD4",
+      "address": "https://github.com/topics/javascript-engine",
+      "title": "javascript-engine · GitHub Topics · GitHub",
+      "snippet": "",
+      "matchedWords": {
+        "cquK9WvdqzOy": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "uJdJUF4US1ZK": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "D4lABzaS0qdw",
+      "address": "https://planet.debian.org/",
+      "title": "Planet Debian",
+      "snippet": "",
+      "matchedWords": {
+        "cquK9WvdqzOy": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "uJdJUF4US1ZK": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "Df5JkjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/System_time",
+      "title": "System time - Wikipedia",
+      "snippet": "",
+      "matchedWords": {
+        "cquK9WvdqzOy": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "uJdJUF4US1ZK": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "fFhxWjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Personal_computer",
+      "title": "Personal computer - Wikipedia",
+      "snippet": "",
+      "matchedWords": {
+        "cquK9WvdqzOy": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "uJdJUF4US1ZK": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "yQQNDjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Embedded_system",
+      "title": "Embedded system - Wikipedia",
+      "snippet": "",
+      "matchedWords": {
+        "cquK9WvdqzOy": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "uJdJUF4US1ZK": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "9p2eCjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Artificial_intelligence",
+      "title": "Artificial intelligence - Wikipedia",
+      "snippet": "",
+      "matchedWords": {
+        "cquK9WvdqzOy": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "uJdJUF4US1ZK": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "D4lABzaS0qdw",
+      "address": "https://planet.debian.org/",
+      "title": "Planet Debian",
+      "snippet": "",
+      "matchedWords": {
+        "cquK9WvdqzOy": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "uJdJUF4US1ZK": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "DEKXKM9Ojva4",
+      "address": "https://docs.docker.com/desktop/setup/install/linux/",
+      "title": "Linux | Docker Docs",
+      "snippet": "",
+      "matchedWords": {
+        "cquK9WvdqzOy": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "uJdJUF4US1ZK": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "AXN8YjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Bioinformatics",
+      "title": "Bioinformatics - Wikipedia",
+      "snippet": "",
+      "matchedWords": {
+        "cquK9WvdqzOy": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "uJdJUF4US1ZK": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "Df5JkjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/System_time",
+      "title": "System time - Wikipedia",
+      "snippet": "",
+      "matchedWords": {
+        "cquK9WvdqzOy": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "uJdJUF4US1ZK": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "CcYVa7S6MKD4",
+      "address": "https://github.com/sindresorhus/awesome",
+      "title": "GitHub - sindresorhus/awesome: 😎 Awesome lists about all kinds of interesting topics · GitHub",
+      "snippet": "",
+      "matchedWords": {
+        "cquK9WvdqzOy": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "uJdJUF4US1ZK": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "D9zZ37S6MKD4",
+      "address": "https://github.com/sindresorhus/awesome-nodejs",
+      "title": "GitHub - sindresorhus/awesome-nodejs: :zap: Delightful Node.js packages and resources",
+      "snippet": "",
+      "matchedWords": {
+        "cquK9WvdqzOy": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "uJdJUF4US1ZK": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "mHyFhKsrSOQw",
+      "address": "https://arxiv.org/list/cs.AI/new",
+      "title": "Artificial Intelligence",
+      "snippet": "",
+      "matchedWords": {
+        "cquK9WvdqzOy": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "uJdJUF4US1ZK": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "DlmlistSAQe4",
+      "address": "https://ai.google/societal-impact/",
+      "title": "Applying AI to help solve humanity's biggest challenges — Google AI",
+      "snippet": "",
+      "matchedWords": {
+        "cquK9WvdqzOy": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "uJdJUF4US1ZK": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "DlmlistSAQe4",
+      "address": "https://ai.google/societal-impact/",
+      "title": "Applying AI to help solve humanity's biggest challenges — Google AI",
+      "snippet": "",
+      "matchedWords": {
+        "cquK9WvdqzOy": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "uJdJUF4US1ZK": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "01Efzv6owqx6",
+      "address": "https://www.thailandmedical.news/news/human-defensins-as-a-new-frontier-in-antimicrobial-therapy",
+      "title": "Human Defensins as a New Frontier in Antimicrobial Therapy - Thailand Medical News",
+      "snippet": "",
+      "matchedWords": {
+        "cquK9WvdqzOy": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "uJdJUF4US1ZK": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "3mVvqv6owqx6",
+      "address": "https://www.thailandmedical.news/news/study-reveals-lasting-heart-damage-linked-to-inflammation-in-long-covid-patients",
+      "title": "Study Reveals Lasting Heart Damage Linked to Inflammation in Long COVID Patients - Thailand Medical News",
+      "snippet": "",
+      "matchedWords": {
+        "cquK9WvdqzOy": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "uJdJUF4US1ZK": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "DEKXKM9Ojva4",
+      "address": "https://docs.docker.com/desktop/setup/install/linux/",
+      "title": "Linux | Docker Docs",
+      "snippet": "",
+      "matchedWords": {
+        "cquK9WvdqzOy": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "uJdJUF4US1ZK": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "iEtWflDOAHJg",
+      "address": "https://www.heise.de/thema",
+      "title": "Themenseiten | heise online",
+      "snippet": "",
+      "matchedWords": {
+        "cquK9WvdqzOy": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "uJdJUF4US1ZK": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "P7qK5DF20Rww",
+      "address": "https://ma.tt/category/wordpress/",
+      "title": "WordPress | Matt Mullenweg",
+      "snippet": "",
+      "matchedWords": {
+        "cquK9WvdqzOy": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "uJdJUF4US1ZK": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "AXN8YjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Bioinformatics",
+      "title": "Bioinformatics - Wikipedia",
+      "snippet": "",
+      "matchedWords": {
+        "cquK9WvdqzOy": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "uJdJUF4US1ZK": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "Df5JkjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/System_time",
+      "title": "System time - Wikipedia",
+      "snippet": "",
+      "matchedWords": {
+        "cquK9WvdqzOy": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "uJdJUF4US1ZK": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "D4lABzaS0qdw",
+      "address": "https://planet.debian.org/",
+      "title": "Planet Debian",
+      "snippet": "",
+      "matchedWords": {
+        "cquK9WvdqzOy": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "uJdJUF4US1ZK": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "DlmlistSAQe4",
+      "address": "https://ai.google/societal-impact/",
+      "title": "Applying AI to help solve humanity's biggest challenges — Google AI",
+      "snippet": "",
+      "matchedWords": {
+        "cquK9WvdqzOy": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "uJdJUF4US1ZK": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "FYAXzjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Mozilla",
+      "title": "Mozilla - Wikipedia",
+      "snippet": "",
+      "matchedWords": {
+        "cquK9WvdqzOy": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "uJdJUF4US1ZK": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "0IsrslZZ-o74",
+      "address": "https://www.nccgroup.com/research/",
+      "title": "Cyber Security Research | NCC Group",
+      "snippet": "",
+      "matchedWords": {
+        "cquK9WvdqzOy": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "uJdJUF4US1ZK": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "0IsrslZZ-o74",
+      "address": "https://www.nccgroup.com/research/",
+      "title": "Cyber Security Research | NCC Group",
+      "snippet": "",
+      "matchedWords": {
+        "cquK9WvdqzOy": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "uJdJUF4US1ZK": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "ZR_AYjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Generative_artificial_intelligence",
+      "title": "Generative AI - Wikipedia",
+      "snippet": "",
+      "matchedWords": {
+        "cquK9WvdqzOy": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "uJdJUF4US1ZK": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "0IsrslZZ-o74",
+      "address": "https://www.nccgroup.com/research/",
+      "title": "Cyber Security Research | NCC Group",
+      "snippet": "",
+      "matchedWords": {
+        "cquK9WvdqzOy": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "uJdJUF4US1ZK": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "1z6Lsv6owqx6",
+      "address": "https://www.thailandmedical.news/news/canada-faces-rising-measles-cases-amid-outbreak-in-new-brunswick",
+      "title": "Canada Faces Rising Measles Cases Amid Outbreak in New Brunswick - Thailand Medical News",
+      "snippet": "",
+      "matchedWords": {
+        "cquK9WvdqzOy": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "uJdJUF4US1ZK": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "30-ZAv6owqx6",
+      "address": "https://www.thailandmedical.news/news/pennsylvania-state-university-modelling-predicts-that-u-s-will-face-more-omicron-deaths-in-coming-weeks",
+      "title": "Pennsylvania State University Modelling Predicts That U.S. Will Face More Omicron Deaths In Coming Weeks! - Thailand Medical News",
+      "snippet": "",
+      "matchedWords": {
+        "cquK9WvdqzOy": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "uJdJUF4US1ZK": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "35dDGv6owqx6",
+      "address": "https://www.thailandmedical.news/news/kerala-s-hepatitis-a-outbreak-shatters-records-and-sparks-alarm-as-82-die-and-31536-infected",
+      "title": "Kerala’s Hepatitis A Outbreak Shatters Records and Sparks Alarm as 82 Die and 31,536 Infected - Thailand Medical News",
+      "snippet": "",
+      "matchedWords": {
+        "cquK9WvdqzOy": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "uJdJUF4US1ZK": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "4JAqqv6owqx6",
+      "address": "https://www.thailandmedical.news/news/new-sars-cov-2-variants-debut-fresh-covid-19-surge-in-sri-lanka-with-2-deaths-reported",
+      "title": "New SARS-CoV-2 Variants Debut Fresh COVID-19 Surge in Sri Lanka With 2 Deaths Reported - Thailand Medical News",
+      "snippet": "",
+      "matchedWords": {
+        "cquK9WvdqzOy": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "uJdJUF4US1ZK": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "-leuDv6owqx6",
+      "address": "https://www.thailandmedical.news/news/cytolytic-cd8-t-cell-response-to-sars-cov-2-and-non-sars-cov-2-related-viruses-and-severe-covid-19-manifestations",
+      "title": "Cytolytic CD8+ T Cell Response To SARS-CoV-2 And Non-SARS-CoV-2-Related Viruses And Severe COVID-19 Manifestations - Thailand Medical News",
+      "snippet": "",
+      "matchedWords": {
+        "cquK9WvdqzOy": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "uJdJUF4US1ZK": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "-37Akv6owqx6",
+      "address": "https://www.thailandmedical.news/news/covid-19-news-covid-19-crisis-unveiled-in-poland-as-medical-expert-challenges-official-figures-and-reveals-alarming-50,000-daily-infections",
+      "title": "COVID-19 News: COVID-19 Crisis Unveiled In Poland As Medical Expert Challenges Official Figures And Reveals Alarming 50,000 Daily Infections! - Thailand Medical News",
+      "snippet": "",
+      "matchedWords": {
+        "cquK9WvdqzOy": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "uJdJUF4US1ZK": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "cd84qAK-xyJ4",
+      "address": "https://go.dev/doc/go1.8",
+      "title": "Go 1.8 Release Notes - The Go Programming Language",
+      "snippet": "",
+      "matchedWords": {
+        "cquK9WvdqzOy": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "uJdJUF4US1ZK": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "d5oz1jRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Linux_adoption",
+      "title": "Linux adoption - Wikipedia",
+      "snippet": "",
+      "matchedWords": {
+        "cquK9WvdqzOy": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "uJdJUF4US1ZK": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "4pBONv6owqx6",
+      "address": "https://www.thailandmedical.news/news/breaking-university-of-queensland-study-reveals-that-sars-cov-2-spike-proteins-induces-nlrp3-inflammasome-activation-in-human-microglia",
+      "title": "BREAKING! University Of Queensland Study Reveals That SARS-CoV-2 Spike Proteins Induces NLRP3 Inflammasome Activation In Human Microglia! - Thailand Medical News",
+      "snippet": "",
+      "matchedWords": {
+        "cquK9WvdqzOy": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "uJdJUF4US1ZK": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "P7qK5DF20Rww",
+      "address": "https://ma.tt/category/wordpress/",
+      "title": "WordPress | Matt Mullenweg",
+      "snippet": "",
+      "matchedWords": {
+        "cquK9WvdqzOy": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "uJdJUF4US1ZK": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "4BAFKdFO6r_x",
+      "address": "https://de.wikipedia.org/wiki/PDP-11",
+      "title": "PDP-11 – Wikipedia",
+      "snippet": "",
+      "matchedWords": {
+        "cquK9WvdqzOy": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "uJdJUF4US1ZK": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "COUi-jRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Internet_of_things",
+      "title": "Internet of things - Wikipedia",
+      "snippet": "",
+      "matchedWords": {
+        "cquK9WvdqzOy": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "uJdJUF4US1ZK": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "FYAXzjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Mozilla",
+      "title": "Mozilla - Wikipedia",
+      "snippet": "",
+      "matchedWords": {
+        "cquK9WvdqzOy": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "uJdJUF4US1ZK": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "MK5eRjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Linux_distribution",
+      "title": "Linux distribution - Wikipedia",
+      "snippet": "",
+      "matchedWords": {
+        "cquK9WvdqzOy": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "uJdJUF4US1ZK": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "fFhxWjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Personal_computer",
+      "title": "Personal computer - Wikipedia",
+      "snippet": "",
+      "matchedWords": {
+        "cquK9WvdqzOy": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "uJdJUF4US1ZK": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "v2M7fjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Sony",
+      "title": "Sony - Wikipedia",
+      "snippet": "",
+      "matchedWords": {
+        "cquK9WvdqzOy": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "uJdJUF4US1ZK": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "yQQNDjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Embedded_system",
+      "title": "Embedded system - Wikipedia",
+      "snippet": "",
+      "matchedWords": {
+        "cquK9WvdqzOy": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "uJdJUF4US1ZK": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "zPsYJjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Linux",
+      "title": "Linux - Wikipedia",
+      "snippet": "",
+      "matchedWords": {
+        "cquK9WvdqzOy": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "uJdJUF4US1ZK": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "4eqKNjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Artificial_Intelligence",
+      "title": "Artificial intelligence - Wikipedia",
+      "snippet": "",
+      "matchedWords": {
+        "cquK9WvdqzOy": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "uJdJUF4US1ZK": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "5DZ6TjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Android_(operating_system)",
+      "title": "Android (operating system) - Wikipedia",
+      "snippet": "",
+      "matchedWords": {
+        "cquK9WvdqzOy": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "uJdJUF4US1ZK": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "521wgjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Home_computer",
+      "title": "Home computer - Wikipedia",
+      "snippet": "",
+      "matchedWords": {
+        "cquK9WvdqzOy": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "uJdJUF4US1ZK": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "9p2eCjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Artificial_intelligence",
+      "title": "Artificial intelligence - Wikipedia",
+      "snippet": "",
+      "matchedWords": {
+        "cquK9WvdqzOy": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "uJdJUF4US1ZK": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "CcYVa7S6MKD4",
+      "address": "https://github.com/sindresorhus/awesome",
+      "title": "GitHub - sindresorhus/awesome: 😎 Awesome lists about all kinds of interesting topics [NOTE: Pull requests are temporarily disabled until I have a chance to catch up with the existing ones] · GitHub",
+      "snippet": "",
+      "matchedWords": {
+        "cquK9WvdqzOy": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "uJdJUF4US1ZK": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "D9zZ37S6MKD4",
+      "address": "https://github.com/sindresorhus/awesome-nodejs",
+      "title": "GitHub - sindresorhus/awesome-nodejs: :zap: Delightful Node.js packages and resources [BECAUSE OF TOO MUCH SPAM AND LOW-QUALITY SUBMISSIONS, SUBMISSIONS ARE PAUSED TEMPORARILY] · GitHub",
+      "snippet": "",
+      "matchedWords": {
+        "cquK9WvdqzOy": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "uJdJUF4US1ZK": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "1rwT0fS6MKD4",
+      "address": "https://github.com/sonic-pi-net/sonic-pi",
+      "title": "GitHub - sonic-pi-net/sonic-pi: Code. Music. Live. · GitHub",
+      "snippet": "",
+      "matchedWords": {
+        "cquK9WvdqzOy": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "uJdJUF4US1ZK": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "3GHeQzS6MKD4",
+      "address": "https://github.com/topics/lisp-interpreter",
+      "title": "lisp-interpreter · GitHub Topics · GitHub",
+      "snippet": "",
+      "matchedWords": {
+        "cquK9WvdqzOy": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "uJdJUF4US1ZK": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "0viWDv6owqx6",
+      "address": "https://www.thailandmedical.news/news/breaking-covid-19-news-international-study-finds-that-sars-cov-2-induces-igg4-synthesis-to-evade-the-immune-system",
+      "title": "BREAKING COVID-19 NEWS! International Study Finds That SARS-CoV-2 Induces IgG4 Synthesis To Evade The Immune System! - Thailand Medical News",
+      "snippet": "",
+      "matchedWords": {
+        "cquK9WvdqzOy": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "uJdJUF4US1ZK": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "1t31Av6owqx6",
+      "address": "https://www.thailandmedical.news/news/pharma-news-nirmatrelvir-a-key-component-of-paxlovid-blunts-development-of-antiviral-adaptive-immune-responses-in-sars-cov-2-infected-mice",
+      "title": "Pharma News: Nirmatrelvir (A Key Component Of Paxlovid) Blunts Development Of Antiviral Adaptive Immune Responses In SARS-CoV-2 Infected Mice! - Thailand Medical News",
+      "snippet": "",
+      "matchedWords": {
+        "cquK9WvdqzOy": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "uJdJUF4US1ZK": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "2C2glv6owqx6",
+      "address": "https://www.thailandmedical.news/news/rising-cases-of-sars-cov-2-eg-5-1,-dubbed-eris,-spark-concern-in-france-hospitals-report-26-percent-increase-in-er-admissions",
+      "title": "Rising Cases of SARS-CoV-2 EG.5.1, Dubbed \"Eris,\" Spark Concern in France - Hospitals Report 26% Increase in ER Admissions - Thailand Medical News",
+      "snippet": "",
+      "matchedWords": {
+        "cquK9WvdqzOy": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "uJdJUF4US1ZK": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "2JOTcv6owqx6",
+      "address": "https://www.thailandmedical.news/news/indonesian-physicians-report-case-study-showing-sars-cov-2-infection-escalating-penile-necrosis-in-leprosy-patient",
+      "title": "Indonesian Physicians Report Case Study Showing SARS-CoV-2 Infection Escalating Penile Necrosis In Leprosy Patient! - Thailand Medical News",
+      "snippet": "",
+      "matchedWords": {
+        "cquK9WvdqzOy": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "uJdJUF4US1ZK": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "2qLFQv6owqx6",
+      "address": "https://www.thailandmedical.news/news/covid-19-infection-linked-to-depression-and-anxiety-in-children",
+      "title": "COVID-19 Infection Linked to Depression and Anxiety in Children - Thailand Medical News",
+      "snippet": "",
+      "matchedWords": {
+        "cquK9WvdqzOy": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "uJdJUF4US1ZK": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "3sYqjv6owqx6",
+      "address": "https://www.thailandmedical.news/news/tropisetron-found-to-prevent-pancreatic-cancer-by-blocking-dangerous-inflammation-trigger",
+      "title": "Tropisetron Found to Prevent Pancreatic Cancer by Blocking Dangerous Inflammation Trigger - Thailand Medical News",
+      "snippet": "",
+      "matchedWords": {
+        "cquK9WvdqzOy": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "uJdJUF4US1ZK": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "5XKbXv6owqx6",
+      "address": "https://www.thailandmedical.news/news/thailand-medical-researchers-explore-the-use-of-kratom-to-treat-alzheimer-s-disease",
+      "title": "Thailand Medical Researchers Explore the Use of Kratom to Treat Alzheimer’s Disease - Thailand Medical News",
+      "snippet": "",
+      "matchedWords": {
+        "cquK9WvdqzOy": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "uJdJUF4US1ZK": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "-ptHKv6owqx6",
+      "address": "https://www.thailandmedical.news/news/defibrotide-emerges-as-lifesaving-therapy-for-covid-19-and-blood-cancers",
+      "title": "Defibrotide Emerges as Lifesaving Therapy for COVID-19 and Blood Cancers - Thailand Medical News",
+      "snippet": "",
+      "matchedWords": {
+        "cquK9WvdqzOy": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "uJdJUF4US1ZK": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "-_zmPv6owqx6",
+      "address": "https://www.thailandmedical.news/news/new-insights-into-heart-failure-and-amyloidosis-in-aging-individuals",
+      "title": "New Insights into Heart Failure and Amyloidosis in Aging Individuals - Thailand Medical News",
+      "snippet": "",
+      "matchedWords": {
+        "cquK9WvdqzOy": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "uJdJUF4US1ZK": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "MaHDQsRDFHM6",
+      "address": "https://stackexchange.com/sites",
+      "title": "All Sites - Stack Exchange",
+      "snippet": "",
+      "matchedWords": {
+        "cquK9WvdqzOy": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "uJdJUF4US1ZK": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "ZR_AYjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Generative_artificial_intelligence",
+      "title": "Generative artificial intelligence - Wikipedia",
+      "snippet": "",
+      "matchedWords": {
+        "cquK9WvdqzOy": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "uJdJUF4US1ZK": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "1t5HdjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Wireless_sensor_network",
+      "title": "Wireless sensor network - Wikipedia",
+      "snippet": "",
+      "matchedWords": {
+        "cquK9WvdqzOy": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "uJdJUF4US1ZK": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "521wgjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Home_computer",
+      "title": "Home computer - Wikipedia",
+      "snippet": "",
+      "matchedWords": {
+        "cquK9WvdqzOy": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "uJdJUF4US1ZK": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "0IsrslZZ-o74",
+      "address": "https://www.nccgroup.com/research/",
+      "title": "Cyber Security Research | NCC Group",
+      "snippet": "",
+      "matchedWords": {
+        "cquK9WvdqzOy": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "uJdJUF4US1ZK": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "mHyFhKsrSOQw",
+      "address": "https://arxiv.org/list/cs.AI/new",
+      "title": "Artificial Intelligence",
+      "snippet": "",
+      "matchedWords": {
+        "cquK9WvdqzOy": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "uJdJUF4US1ZK": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "0IsrslZZ-o74",
+      "address": "https://www.nccgroup.com/research/",
+      "title": "Cyber Security Research | NCC Group",
+      "snippet": "",
+      "matchedWords": {
+        "cquK9WvdqzOy": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "uJdJUF4US1ZK": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "v2M7fjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Sony",
+      "title": "Sony - Wikipedia",
+      "snippet": "",
+      "matchedWords": {
+        "cquK9WvdqzOy": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "uJdJUF4US1ZK": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "yQQNDjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Embedded_system",
+      "title": "Embedded system - Wikipedia",
+      "snippet": "",
+      "matchedWords": {
+        "cquK9WvdqzOy": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "uJdJUF4US1ZK": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "mHyFhKsrSOQw",
+      "address": "https://arxiv.org/list/cs.AI/new",
+      "title": "Artificial Intelligence",
+      "snippet": "",
+      "matchedWords": {
+        "cquK9WvdqzOy": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "uJdJUF4US1ZK": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    }
+  ],
+  "documentsHeldPerQueryWord": {
+    "cquK9WvdqzOy": 11478,
+    "uJdJUF4US1ZK": 12720
+  }
+}

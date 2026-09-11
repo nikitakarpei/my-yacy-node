@@ -1,0 +1,53 @@
+{
+  "query": "how to install debian",
+  "judgedDocuments": [
+    {
+      "hash": "R5pe_l1nrxbw",
+      "address": "https://www.debian.org/News/",
+      "title": "Debian -- Latest News",
+      "grade": 1
+    },
+    {
+      "hash": "SL3yxl1nrxbw",
+      "address": "https://www.debian.org/blends/",
+      "title": "Debian Pure Blends",
+      "grade": 1
+    },
+    {
+      "hash": "SChoGeFEcjUx",
+      "address": "https://docs.confluent.io/platform/current/clients/examples/kotlin.html",
+      "title": "Create a Kafka Client App for Kotlin for Use With Confluent Platform | Confluent Documentation",
+      "grade": 0
+    },
+    {
+      "hash": "TC82-eFEcjUx",
+      "address": "https://docs.confluent.io/platform/current/streams/developer-guide/processor-api.html",
+      "title": "Kafka Streams Processor API for Confluent Platform | Confluent Documentation",
+      "grade": 0
+    },
+    {
+      "hash": "TAes0sKSkkv6",
+      "address": "https://pointieststick.com/",
+      "title": "Adventures in Linux and KDE – Below is a brief look at recent changes in the KDE projects I work on and follow!",
+      "grade": 0
+    },
+    {
+      "hash": "Tw2WTjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Google_Chrome",
+      "title": "Google Chrome - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "Rx8AIs_tHst4",
+      "address": "https://dwheeler.com/oss_fs_why.html",
+      "title": "Why Open Source Software / Free Software (OSS/FS, FOSS, or FLOSS)? Look at the Numbers!",
+      "grade": 0
+    },
+    {
+      "hash": "Sgxh0sySJCJ5",
+      "address": "https://selfhosted.show/",
+      "title": "Self-Hosted",
+      "grade": 0
+    }
+  ]
+}

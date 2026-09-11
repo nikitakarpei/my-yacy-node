@@ -1,0 +1,2056 @@
+{
+  "query": "linux kernel",
+  "recordedAt": "2026-09-11T12:58:53Z",
+  "itemsInTheOrderOfEachAnswer": [
+    [
+      {
+        "hash": "N_bW_5DJH5aw",
+        "address": "https://www.wiki.kernel.org/",
+        "title": "Main Page - Demeter of the Kernel.org",
+        "snippet": "",
+        "matchedWords": {
+          "4galTpdpDM5Q": {
+            "hits": 37,
+            "textWords": 310
+          },
+          "UEhMGfGv2vOE": {
+            "hits": 0,
+            "textWords": 0
+          }
+        }
+      }
+    ],
+    [
+      {
+        "hash": "OBXywlSCNQa4",
+        "address": "https://www.redhat.com/en/topics/linux/fedora-vs-red-hat-enterprise-linux",
+        "title": "What's the difference between Fedora and Red Hat Enterprise Linux",
+        "snippet": "",
+        "matchedWords": {
+          "4galTpdpDM5Q": {
+            "hits": 106,
+            "textWords": 2757
+          },
+          "UEhMGfGv2vOE": {
+            "hits": 0,
+            "textWords": 0
+          }
+        }
+      }
+    ],
+    [
+      {
+        "hash": "7zoiPTrhyvQw",
+        "address": "https://www.man7.org/linux/man-pages/man8/hwclock.8.html",
+        "title": "hwclock(8) - Linux manual page",
+        "snippet": "",
+        "matchedWords": {
+          "4galTpdpDM5Q": {
+            "hits": 0,
+            "textWords": 0
+          },
+          "UEhMGfGv2vOE": {
+            "hits": 46,
+            "textWords": 5987
+          }
+        }
+      }
+    ],
+    [
+      {
+        "hash": "HSA0HjRvmBbx",
+        "address": "https://en.wikipedia.org/wiki/User_interface",
+        "title": "User interface - Wikipedia",
+        "snippet": "",
+        "matchedWords": {
+          "4galTpdpDM5Q": {
+            "hits": 0,
+            "textWords": 0
+          },
+          "UEhMGfGv2vOE": {
+            "hits": 4,
+            "textWords": 7049
+          }
+        }
+      },
+      {
+        "hash": "F5kb_lj4MAVw",
+        "address": "https://man7.org/linux/man-pages/man7/tcp.7.html",
+        "title": "tcp(7) - Linux manual page",
+        "snippet": "",
+        "matchedWords": {
+          "4galTpdpDM5Q": {
+            "hits": 0,
+            "textWords": 0
+          },
+          "UEhMGfGv2vOE": {
+            "hits": 118,
+            "textWords": 7084
+          }
+        }
+      }
+    ],
+    [
+      {
+        "hash": "N_bW_5DJH5aw",
+        "address": "https://www.wiki.kernel.org/",
+        "title": "Main Page - Demeter of the Kernel.org",
+        "snippet": "",
+        "matchedWords": {
+          "4galTpdpDM5Q": {
+            "hits": 0,
+            "textWords": 0
+          },
+          "UEhMGfGv2vOE": {
+            "hits": 37,
+            "textWords": 310
+          }
+        }
+      },
+      {
+        "hash": "N7_cIm1dafs6",
+        "address": "https://stackoverflow.com/questions/tagged/kernel",
+        "title": "Newest 'kernel' Questions - Stack Overflow",
+        "snippet": "",
+        "matchedWords": {
+          "4galTpdpDM5Q": {
+            "hits": 0,
+            "textWords": 0
+          },
+          "UEhMGfGv2vOE": {
+            "hits": 118,
+            "textWords": 4227
+          }
+        }
+      },
+      {
+        "hash": "NNfgL520dH2R",
+        "address": "http://buildroot.org/downloads/manual/manual.html",
+        "title": "The Buildroot user manual",
+        "snippet": "",
+        "matchedWords": {
+          "4galTpdpDM5Q": {
+            "hits": 0,
+            "textWords": 0
+          },
+          "UEhMGfGv2vOE": {
+            "hits": 146,
+            "textWords": 58418
+          }
+        }
+      }
+    ],
+    [
+      {
+        "hash": "3VHCVsOEIUyr",
+        "address": "https://simerdupolresbatang.id/",
+        "title": "simerdupolresbatangid",
+        "snippet": "",
+        "matchedWords": {
+          "4galTpdpDM5Q": {
+            "hits": 0,
+            "textWords": 0
+          },
+          "UEhMGfGv2vOE": {
+            "hits": 1,
+            "textWords": 15502
+          }
+        }
+      },
+      {
+        "hash": "lfLZNsHRh3Y6",
+        "address": "https://texasgirlreads.com/",
+        "title": "texasgirlreadscom",
+        "snippet": "",
+        "matchedWords": {
+          "4galTpdpDM5Q": {
+            "hits": 0,
+            "textWords": 0
+          },
+          "UEhMGfGv2vOE": {
+            "hits": 2,
+            "textWords": 4385
+          }
+        }
+      }
+    ]
+  ],
+  "itemsInNoOrder": [
+    {
+      "hash": "B6RumAK-xyJ4",
+      "address": "https://go.dev/doc/godebug",
+      "title": "Go, Backwards Compatibility, and GODEBUG - The Go Programming Language",
+      "snippet": "",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "Bc3dcitD2jQw",
+      "address": "https://docs.python.org/3/library/os.html",
+      "title": "os — Miscellaneous operating system interfaces — Python 3.14.0 documentation",
+      "snippet": "",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "B6RumAK-xyJ4",
+      "address": "https://go.dev/doc/godebug",
+      "title": "Go, Backwards Compatibility, and GODEBUG - The Go Programming Language",
+      "snippet": "",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "H6Zz4sS6MKD4",
+      "address": "https://github.com/trending",
+      "title": "Trending repositories on GitHub today · GitHub",
+      "snippet": "",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "Bc3dcitD2jQw",
+      "address": "https://docs.python.org/3/library/os.html",
+      "title": "os — Miscellaneous operating system interfaces — Python 3.14.6 documentation",
+      "snippet": "",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "H6Zz4sS6MKD4",
+      "address": "https://github.com/trending",
+      "title": "Trending repositories on GitHub today · GitHub",
+      "snippet": "",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "EIkpSjbCa2Ow",
+      "address": "https://man.freebsd.org/cgi/man.cgi",
+      "title": "FreeBSD Manual Pages",
+      "snippet": "",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "DKApesRMLT-5",
+      "address": "https://canonical.com/careers",
+      "title": "Careers | Canonical",
+      "snippet": "",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "MaRThsRMLT-5",
+      "address": "https://canonical.com/",
+      "title": "Trusted open source for enterprises | Canonical",
+      "snippet": "",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "QRS_dsRMLT-5",
+      "address": "https://canonical.com/data",
+      "title": "Open source data platform solutions | Canonical",
+      "snippet": "",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "Is_TdWRfu9ww",
+      "address": "https://datatracker.ietf.org/doc/html/rfc9293",
+      "title": "RFC 9293 - Transmission Control Protocol (TCP)",
+      "snippet": "",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "BbE7ZjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Claude_(AI)",
+      "title": "Claude (AI) - Wikipedia",
+      "snippet": "",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "Xy1HPjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Hang_(computing)",
+      "title": "Hang (computing) - Wikipedia",
+      "snippet": "",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "eLD0SjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/John_von_Neumann",
+      "title": "John von Neumann - Wikipedia",
+      "snippet": "",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "7cn5rjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Finland",
+      "title": "Finland - Wikipedia",
+      "snippet": "",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "-el3vjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Constitutional_AI",
+      "title": "Claude (AI) - Wikipedia",
+      "snippet": "",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "MFVfNtS6MKD4",
+      "address": "https://github.com/trending/vcl?since=daily",
+      "title": "Trending VCL repositories on GitHub today · GitHub",
+      "snippet": "",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "M0Gx6tS6MKD4",
+      "address": "https://github.com/trending/texinfo?since=daily",
+      "title": "Trending Texinfo repositories on GitHub today · GitHub",
+      "snippet": "",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "M4GchtS6MKD4",
+      "address": "https://github.com/trending/vhdl?since=daily",
+      "title": "Trending VHDL repositories on GitHub today · GitHub",
+      "snippet": "",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "NZrn_tS6MKD4",
+      "address": "https://github.com/trending/ti-program?since=daily",
+      "title": "Trending TI Program repositories on GitHub today · GitHub",
+      "snippet": "",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "NsthRtS6MKD4",
+      "address": "https://github.com/trending/hlsl?since=daily",
+      "title": "Trending HLSL repositories on GitHub today · GitHub",
+      "snippet": "",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "ON7-OsS6MKD4",
+      "address": "https://github.com/trending?spoken_language_code=hy",
+      "title": "Trending repositories on GitHub today · GitHub",
+      "snippet": "",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "Opr4ltS6MKD4",
+      "address": "https://github.com/trending/e?since=daily",
+      "title": "Trending E repositories on GitHub today · GitHub",
+      "snippet": "",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "2TKprtS6MKD4",
+      "address": "https://github.com/trending/mirc-script?since=daily",
+      "title": "Trending mIRC Script repositories on GitHub today · GitHub",
+      "snippet": "",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "7cxFetS6MKD4",
+      "address": "https://github.com/trending/sed?since=daily",
+      "title": "Trending sed repositories on GitHub today · GitHub",
+      "snippet": "",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "D4lABzaS0qdw",
+      "address": "https://planet.debian.org/",
+      "title": "Planet Debian",
+      "snippet": "",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "EIkpSjbCa2Ow",
+      "address": "https://man.freebsd.org/cgi/man.cgi",
+      "title": "FreeBSD Manual Pages",
+      "snippet": "",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "EDZIWvmJ800w",
+      "address": "https://www.gentoo.org/news/2026/05/19/copy-fail-fragnesia-vulnerabilities.html",
+      "title": "Copy Fail, Dirty Frag, and Fragnesia kernel vulnerabilities – Gentoo Linux",
+      "snippet": "",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "Wfq3FswvoTD5",
+      "address": "https://r-universe.dev/articles",
+      "title": "R-universe - browse articles",
+      "snippet": "",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "aRUDlswvoTD5",
+      "address": "https://r-universe.dev/organizations",
+      "title": "R-universe - community",
+      "snippet": "",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "SzUDgSxWH45x",
+      "address": "https://vice-emu.sourceforge.io/index.html",
+      "title": "VICE - the Versatile Commodore Emulator",
+      "snippet": "",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "fjsuLOxyFvIw",
+      "address": "https://forums.gentoo.org/index.php",
+      "title": "Gentoo Forums - Index page",
+      "snippet": "",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "QRS_dsRMLT-5",
+      "address": "https://canonical.com/data",
+      "title": "Open source data platform solutions | Canonical",
+      "snippet": "",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "MFVfNtS6MKD4",
+      "address": "https://github.com/trending/vcl?since=daily",
+      "title": "Trending VCL repositories on GitHub today · GitHub",
+      "snippet": "",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "M0Gx6tS6MKD4",
+      "address": "https://github.com/trending/texinfo?since=daily",
+      "title": "Trending Texinfo repositories on GitHub today · GitHub",
+      "snippet": "",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "M4GchtS6MKD4",
+      "address": "https://github.com/trending/vhdl?since=daily",
+      "title": "Trending VHDL repositories on GitHub today · GitHub",
+      "snippet": "",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "NZrn_tS6MKD4",
+      "address": "https://github.com/trending/ti-program?since=daily",
+      "title": "Trending TI Program repositories on GitHub today · GitHub",
+      "snippet": "",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "NsthRtS6MKD4",
+      "address": "https://github.com/trending/hlsl?since=daily",
+      "title": "Trending HLSL repositories on GitHub today · GitHub",
+      "snippet": "",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "ON7-OsS6MKD4",
+      "address": "https://github.com/trending?spoken_language_code=hy",
+      "title": "Trending repositories on GitHub today · GitHub",
+      "snippet": "",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "Opr4ltS6MKD4",
+      "address": "https://github.com/trending/e?since=daily",
+      "title": "Trending E repositories on GitHub today · GitHub",
+      "snippet": "",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "aRUDlswvoTD5",
+      "address": "https://r-universe.dev/organizations",
+      "title": "R-universe - community",
+      "snippet": "",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "SzUDgSxWH45x",
+      "address": "https://vice-emu.sourceforge.io/index.html",
+      "title": "VICE - the Versatile Commodore Emulator",
+      "snippet": "",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "fjsuLOxyFvIw",
+      "address": "https://forums.gentoo.org/index.php",
+      "title": "Gentoo Forums - Index page",
+      "snippet": "",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "MaRThsRMLT-5",
+      "address": "https://canonical.com/",
+      "title": "Trusted open source for enterprises | Canonical",
+      "snippet": "",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "Wfq3FswvoTD5",
+      "address": "https://r-universe.dev/articles",
+      "title": "R-universe - browse articles",
+      "snippet": "",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "fjsuLOxyFvIw",
+      "address": "https://forums.gentoo.org/index.php",
+      "title": "Gentoo Forums - Index page",
+      "snippet": "",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "aRUDlswvoTD5",
+      "address": "https://r-universe.dev/organizations",
+      "title": "R-universe - community",
+      "snippet": "",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "-VdzLVGZ4FKw",
+      "address": "https://www.kernel.org/doc/man-pages/",
+      "title": "The Linux man-pages project",
+      "snippet": "",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "DKApesRMLT-5",
+      "address": "https://canonical.com/careers",
+      "title": "Careers | Canonical",
+      "snippet": "",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "MaRThsRMLT-5",
+      "address": "https://canonical.com/",
+      "title": "Trusted open source for enterprises | Canonical",
+      "snippet": "",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "QRS_dsRMLT-5",
+      "address": "https://canonical.com/data",
+      "title": "Open source data platform solutions | Canonical",
+      "snippet": "",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "Is_TdWRfu9ww",
+      "address": "https://datatracker.ietf.org/doc/html/rfc9293",
+      "title": "RFC 9293 - Transmission Control Protocol (TCP)",
+      "snippet": "",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "BbE7ZjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Claude_(AI)",
+      "title": "Claude (AI) - Wikipedia",
+      "snippet": "",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "eLD0SjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/John_von_Neumann",
+      "title": "John von Neumann - Wikipedia",
+      "snippet": "",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "7cn5rjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Finland",
+      "title": "Finland - Wikipedia",
+      "snippet": "",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "7MMLutS6MKD4",
+      "address": "https://github.com/trending/brightscript?since=daily",
+      "title": "Trending Brightscript repositories on GitHub today · GitHub",
+      "snippet": "",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "7cxFetS6MKD4",
+      "address": "https://github.com/trending/sed?since=daily",
+      "title": "Trending sed repositories on GitHub today · GitHub",
+      "snippet": "",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "-FnQDtS6MKD4",
+      "address": "https://github.com/trending/closure-templates?since=daily",
+      "title": "Trending Closure Templates repositories on GitHub today · GitHub",
+      "snippet": "",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "D4lABzaS0qdw",
+      "address": "https://planet.debian.org/",
+      "title": "Planet Debian",
+      "snippet": "",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "EIkpSjbCa2Ow",
+      "address": "https://man.freebsd.org/cgi/man.cgi",
+      "title": "FreeBSD Manual Pages",
+      "snippet": "",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "Wfq3FswvoTD5",
+      "address": "https://r-universe.dev/articles",
+      "title": "R-universe - browse articles",
+      "snippet": "",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "aRUDlswvoTD5",
+      "address": "https://r-universe.dev/organizations",
+      "title": "R-universe - community",
+      "snippet": "",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "SzUDgSxWH45x",
+      "address": "https://vice-emu.sourceforge.io/index.html",
+      "title": "VICE - the Versatile Commodore Emulator",
+      "snippet": "",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "fjsuLOxyFvIw",
+      "address": "https://forums.gentoo.org/index.php",
+      "title": "Gentoo Forums - Index page",
+      "snippet": "",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "DKApesRMLT-5",
+      "address": "https://canonical.com/careers",
+      "title": "Careers | Canonical",
+      "snippet": "",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "Is_TdWRfu9ww",
+      "address": "https://datatracker.ietf.org/doc/html/rfc9293",
+      "title": "RFC 9293 - Transmission Control Protocol (TCP)",
+      "snippet": "",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "H6Zz4sS6MKD4",
+      "address": "https://github.com/trending",
+      "title": "Trending repositories on GitHub today · GitHub",
+      "snippet": "",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "MFVfNtS6MKD4",
+      "address": "https://github.com/trending/vcl?since=daily",
+      "title": "Trending VCL repositories on GitHub today · GitHub",
+      "snippet": "",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "M4GchtS6MKD4",
+      "address": "https://github.com/trending/vhdl?since=daily",
+      "title": "Trending VHDL repositories on GitHub today · GitHub",
+      "snippet": "",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "NsthRtS6MKD4",
+      "address": "https://github.com/trending/hlsl?since=daily",
+      "title": "Trending HLSL repositories on GitHub today · GitHub",
+      "snippet": "",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "ON7-OsS6MKD4",
+      "address": "https://github.com/trending?spoken_language_code=hy",
+      "title": "Trending repositories on GitHub today · GitHub",
+      "snippet": "",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "Opr4ltS6MKD4",
+      "address": "https://github.com/trending/e?since=daily",
+      "title": "Trending E repositories on GitHub today · GitHub",
+      "snippet": "",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "D4lABzaS0qdw",
+      "address": "https://planet.debian.org/",
+      "title": "Planet Debian",
+      "snippet": "",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "Wfq3FswvoTD5",
+      "address": "https://r-universe.dev/articles",
+      "title": "R-universe - browse articles",
+      "snippet": "",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "SzUDgSxWH45x",
+      "address": "https://vice-emu.sourceforge.io/index.html",
+      "title": "VICE - the Versatile Commodore Emulator",
+      "snippet": "",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "-el3vjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Constitutional_AI",
+      "title": "Claude (AI) - Wikipedia",
+      "snippet": "",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "4Ggj0sR7ciCw",
+      "address": "https://lkml.org/rss.php",
+      "title": "lkml.org",
+      "snippet": "",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "0WxbhtS6MKD4",
+      "address": "https://github.com/trending/applescript?since=daily",
+      "title": "Trending AppleScript repositories on GitHub today · GitHub",
+      "snippet": "",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "7GUvMtS6MKD4",
+      "address": "https://github.com/trending/labview?since=daily",
+      "title": "Trending LabVIEW repositories on GitHub today · GitHub",
+      "snippet": "",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "7MMLutS6MKD4",
+      "address": "https://github.com/trending/brightscript?since=daily",
+      "title": "Trending Brightscript repositories on GitHub today · GitHub",
+      "snippet": "",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "7wvHWtS6MKD4",
+      "address": "https://github.com/trending/dogescript?since=daily",
+      "title": "Trending Dogescript repositories on GitHub today · GitHub",
+      "snippet": "",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "8SBrdtS6MKD4",
+      "address": "https://github.com/trending/linux-kernel-module?since=daily",
+      "title": "Trending Linux Kernel Module repositories on GitHub today · GitHub",
+      "snippet": "",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "-FnQDtS6MKD4",
+      "address": "https://github.com/trending/closure-templates?since=daily",
+      "title": "Trending Closure Templates repositories on GitHub today · GitHub",
+      "snippet": "",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "-__JttS6MKD4",
+      "address": "https://github.com/trending/charity?since=daily",
+      "title": "Trending Charity repositories on GitHub today · GitHub",
+      "snippet": "",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "-GPQIsYlAY74",
+      "address": "https://ubuntu.com/what-is-enterprise-linux",
+      "title": "What is enterprise Linux? | Ubuntu",
+      "snippet": "",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "06p-fssWTYKx",
+      "address": "https://sourceforge.net/directory/?q=gparted",
+      "title": "gparted free download - SourceForge",
+      "snippet": "",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "3xuUlW16jqw6",
+      "address": "https://rossmanngroup.com/services/nas-data-recovery/terramaster",
+      "title": "TerraMaster NAS Data Recovery | Rossmann Group",
+      "snippet": "",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "H6Zz4sS6MKD4",
+      "address": "https://github.com/trending",
+      "title": "Trending repositories on GitHub today · GitHub",
+      "snippet": "",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "B6RumAK-xyJ4",
+      "address": "https://go.dev/doc/godebug",
+      "title": "Go, Backwards Compatibility, and GODEBUG - The Go Programming Language",
+      "snippet": "",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "MaRThsRMLT-5",
+      "address": "https://canonical.com/",
+      "title": "Canonical | Trusted open source for enterprises",
+      "snippet": "",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "BbE7ZjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Claude_(AI)",
+      "title": "Claude (AI) - Wikipedia",
+      "snippet": "",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "Xy1HPjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Hang_(computing)",
+      "title": "Hang (computing) - Wikipedia",
+      "snippet": "",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "eLD0SjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/John_von_Neumann",
+      "title": "John von Neumann - Wikipedia",
+      "snippet": "",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "7cn5rjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Finland",
+      "title": "Finland - Wikipedia",
+      "snippet": "",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "-el3vjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Constitutional_AI",
+      "title": "Claude (AI) - Wikipedia",
+      "snippet": "",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "MFVfNtS6MKD4",
+      "address": "https://github.com/trending/vcl?since=daily",
+      "title": "Trending VCL repositories on GitHub today · GitHub",
+      "snippet": "",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "M0Gx6tS6MKD4",
+      "address": "https://github.com/trending/texinfo?since=daily",
+      "title": "Trending Texinfo repositories on GitHub today · GitHub",
+      "snippet": "",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "M4GchtS6MKD4",
+      "address": "https://github.com/trending/vhdl?since=daily",
+      "title": "Trending VHDL repositories on GitHub today · GitHub",
+      "snippet": "",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "NZrn_tS6MKD4",
+      "address": "https://github.com/trending/ti-program?since=daily",
+      "title": "Trending TI Program repositories on GitHub today · GitHub",
+      "snippet": "",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "NsthRtS6MKD4",
+      "address": "https://github.com/trending/hlsl?since=daily",
+      "title": "Trending HLSL repositories on GitHub today · GitHub",
+      "snippet": "",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "ON7-OsS6MKD4",
+      "address": "https://github.com/trending?spoken_language_code=hy",
+      "title": "Trending repositories on GitHub today · GitHub",
+      "snippet": "",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "Opr4ltS6MKD4",
+      "address": "https://github.com/trending/e?since=daily",
+      "title": "Trending E repositories on GitHub today · GitHub",
+      "snippet": "",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "D4lABzaS0qdw",
+      "address": "https://planet.debian.org/",
+      "title": "Planet Debian",
+      "snippet": "",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "Bc3dcitD2jQw",
+      "address": "https://docs.python.org/3/library/os.html",
+      "title": "os — Miscellaneous operating system interfaces — Python 3.14.7 documentation",
+      "snippet": "",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "Wfq3FswvoTD5",
+      "address": "https://r-universe.dev/articles",
+      "title": "R-universe - browse articles",
+      "snippet": "",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "-VdzLVGZ4FKw",
+      "address": "https://www.kernel.org/doc/man-pages/",
+      "title": "The Linux man-pages project",
+      "snippet": "",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "DKApesRMLT-5",
+      "address": "https://canonical.com/careers",
+      "title": "Careers | Canonical",
+      "snippet": "",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "MaRThsRMLT-5",
+      "address": "https://canonical.com/",
+      "title": "Trusted open source for enterprises | Canonical",
+      "snippet": "",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "QRS_dsRMLT-5",
+      "address": "https://canonical.com/data",
+      "title": "Open source data platform solutions | Canonical",
+      "snippet": "",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "Is_TdWRfu9ww",
+      "address": "https://datatracker.ietf.org/doc/html/rfc9293",
+      "title": "RFC 9293 - Transmission Control Protocol (TCP)",
+      "snippet": "",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "Xy1HPjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Hang_(computing)",
+      "title": "Hang (computing) - Wikipedia",
+      "snippet": "",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "eLD0SjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/John_von_Neumann",
+      "title": "John von Neumann - Wikipedia",
+      "snippet": "",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "NZrn_tS6MKD4",
+      "address": "https://github.com/trending/ti-program?since=daily",
+      "title": "Trending TI Program repositories on GitHub today · GitHub",
+      "snippet": "",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "Wfq3FswvoTD5",
+      "address": "https://r-universe.dev/articles",
+      "title": "R-universe - browse articles",
+      "snippet": "",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "aRUDlswvoTD5",
+      "address": "https://r-universe.dev/organizations",
+      "title": "R-universe - community",
+      "snippet": "",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "SzUDgSxWH45x",
+      "address": "https://vice-emu.sourceforge.io/index.html",
+      "title": "VICE - the Versatile Commodore Emulator",
+      "snippet": "",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "fjsuLOxyFvIw",
+      "address": "https://forums.gentoo.org/index.php",
+      "title": "Gentoo Forums - Index page",
+      "snippet": "",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    }
+  ],
+  "documentsHeldPerQueryWord": {
+    "4galTpdpDM5Q": 24413,
+    "UEhMGfGv2vOE": 11905
+  }
+}

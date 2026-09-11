@@ -1,0 +1,262 @@
+{
+  "query": "apache httpd",
+  "recordedAt": "2026-09-11T13:01:25Z",
+  "itemsInTheOrderOfEachAnswer": [
+    [
+      {
+        "hash": "CymIK8uKjjbw",
+        "address": "https://wiki.gentoo.org/wiki/Project:Apache",
+        "title": "Project:Apache - Gentoo wiki",
+        "snippet": "",
+        "matchedWords": {
+          "UYOsXCzLOk3q": {
+            "hits": 0,
+            "textWords": 0
+          },
+          "tu_WBtEY0PYg": {
+            "hits": 17,
+            "textWords": 350
+          }
+        }
+      }
+    ],
+    [
+      {
+        "hash": "FE6GfV2Rr_dw",
+        "address": "https://docs.searxng.org/admin/installation-apache.html",
+        "title": "Apache — SearXNG Documentation (2024.10.6+5332d3a0b)",
+        "snippet": "",
+        "matchedWords": {
+          "UYOsXCzLOk3q": {
+            "hits": 29,
+            "textWords": 1618
+          },
+          "tu_WBtEY0PYg": {
+            "hits": 0,
+            "textWords": 0
+          }
+        }
+      },
+      {
+        "hash": "ESUH1jRvmBbx",
+        "address": "https://en.wikipedia.org/wiki/HTTP_request",
+        "title": "HTTP - Wikipedia",
+        "snippet": "",
+        "matchedWords": {
+          "UYOsXCzLOk3q": {
+            "hits": 2,
+            "textWords": 9698
+          },
+          "tu_WBtEY0PYg": {
+            "hits": 0,
+            "textWords": 0
+          }
+        }
+      }
+    ],
+    [
+      {
+        "hash": "TQ_Z1jRvmBbx",
+        "address": "https://en.wikipedia.org/wiki/XHTML",
+        "title": "XHTML - Wikipedia",
+        "snippet": "",
+        "matchedWords": {
+          "UYOsXCzLOk3q": {
+            "hits": 1,
+            "textWords": 8265
+          },
+          "tu_WBtEY0PYg": {
+            "hits": 0,
+            "textWords": 0
+          }
+        }
+      }
+    ],
+    [
+      {
+        "hash": "WU-RwjRvmBbx",
+        "address": "https://en.wikipedia.org/wiki/Web_server",
+        "title": "Web server - Wikipedia",
+        "snippet": "",
+        "matchedWords": {
+          "UYOsXCzLOk3q": {
+            "hits": 16,
+            "textWords": 11714
+          },
+          "tu_WBtEY0PYg": {
+            "hits": 0,
+            "textWords": 0
+          }
+        }
+      }
+    ],
+    [
+      {
+        "hash": "eldMzjRvmBbx",
+        "address": "https://en.wikipedia.org/wiki/Brotli",
+        "title": "Brotli - Wikipedia",
+        "snippet": "",
+        "matchedWords": {
+          "UYOsXCzLOk3q": {
+            "hits": 1,
+            "textWords": 2623
+          },
+          "tu_WBtEY0PYg": {
+            "hits": 0,
+            "textWords": 0
+          }
+        }
+      }
+    ]
+  ],
+  "itemsInNoOrder": [
+    {
+      "hash": "r4dI5jRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/OpenBSD",
+      "title": "OpenBSD - Wikipedia",
+      "snippet": "",
+      "matchedWords": {
+        "UYOsXCzLOk3q": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "tu_WBtEY0PYg": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "eBFR8ATGzh04",
+      "address": "https://roy.gbiv.com/",
+      "title": "Roy T. Fielding",
+      "snippet": "",
+      "matchedWords": {
+        "UYOsXCzLOk3q": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "tu_WBtEY0PYg": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "B0_2p79moDe4",
+      "address": "https://www.linux.com/training-tutorials/configuring-apache2-run-python-scripts/",
+      "title": "Configuring Apache2 to run Python Scripts - Linux.com",
+      "snippet": "",
+      "matchedWords": {
+        "UYOsXCzLOk3q": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "tu_WBtEY0PYg": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "D_ywrswDvzb5",
+      "address": "https://distrowatch.com/table.php?distribution=mint",
+      "title": "DistroWatch.com: Linux Mint",
+      "snippet": "",
+      "matchedWords": {
+        "UYOsXCzLOk3q": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "tu_WBtEY0PYg": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "DJNgIXyzSDzw",
+      "address": "https://httpd.apache.org/docs/2.4/ssl/ssl_howto.html",
+      "title": "SSL/TLS Strong Encryption: How-To - Apache HTTP Server Version 2.4",
+      "snippet": "",
+      "matchedWords": {
+        "UYOsXCzLOk3q": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "tu_WBtEY0PYg": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "eBFR8ATGzh04",
+      "address": "https://roy.gbiv.com/",
+      "title": "Roy T. Fielding",
+      "snippet": "",
+      "matchedWords": {
+        "UYOsXCzLOk3q": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "tu_WBtEY0PYg": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "TtoO2dFO6r_x",
+      "address": "https://de.wikipedia.org/wiki/Hostrechner",
+      "title": "Hostrechner – Wikipedia",
+      "snippet": "",
+      "matchedWords": {
+        "UYOsXCzLOk3q": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "tu_WBtEY0PYg": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "5TYifdFO6r_x",
+      "address": "https://de.wikipedia.org/wiki/Webserver",
+      "title": "Webserver – Wikipedia",
+      "snippet": "",
+      "matchedWords": {
+        "UYOsXCzLOk3q": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "tu_WBtEY0PYg": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "r4dI5jRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/OpenBSD",
+      "title": "OpenBSD - Wikipedia",
+      "snippet": "",
+      "matchedWords": {
+        "UYOsXCzLOk3q": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "tu_WBtEY0PYg": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    }
+  ],
+  "documentsHeldPerQueryWord": {
+    "UYOsXCzLOk3q": 697,
+    "tu_WBtEY0PYg": 20942
+  }
+}

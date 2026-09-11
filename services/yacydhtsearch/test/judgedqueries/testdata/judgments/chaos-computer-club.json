@@ -1,0 +1,41 @@
+{
+  "query": "chaos computer club",
+  "judgedDocuments": [
+    {
+      "hash": "GtLjhloUbV15",
+      "address": "https://www.whatfinger.com/",
+      "title": "Whatfinger News® – Unfiltered Truth. America’s News Feed",
+      "grade": 0
+    },
+    {
+      "hash": "RxUPpjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Blog",
+      "title": "Blog - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "pYw3_AHucLY4",
+      "address": "https://adrienalfiste.vip-blog.com/",
+      "title": "adrienalfiste blog : Le blog d'Adri (83)",
+      "grade": 0
+    },
+    {
+      "hash": "VpCOpt6ArEvw",
+      "address": "https://blog.archive.org/",
+      "title": "Internet Archive Blogs | Updates from the Internet Archive",
+      "grade": 0
+    },
+    {
+      "hash": "QzTPhfcqomtg",
+      "address": "https://taz.de/Ueber-die-Wahrheit/!5068762/",
+      "title": "Über die Wahrheit: Die Wahrheit auf taz.de | taz.de",
+      "grade": 0
+    },
+    {
+      "hash": "KEXZBlmC98Ig",
+      "address": "https://www.ccc.de/",
+      "title": "CCC | Startseite",
+      "grade": 2
+    }
+  ]
+}

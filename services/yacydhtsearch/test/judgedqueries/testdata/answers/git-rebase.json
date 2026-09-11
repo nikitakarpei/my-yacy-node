@@ -1,0 +1,110 @@
+{
+  "query": "git rebase",
+  "recordedAt": "2026-09-11T12:59:43Z",
+  "itemsInTheOrderOfEachAnswer": [
+    [
+      {
+        "hash": "X1qxTyXjZ9O4",
+        "address": "https://docs.github.com/en/get-started/writing-on-github/working-with-advanced-formatting/autolinked-references-and-urls",
+        "title": "Autolinked references and URLs - GitHub Docs",
+        "snippet": "",
+        "matchedWords": {
+          "up8R7MNJfZmT": {
+            "hits": 0,
+            "textWords": 0
+          },
+          "wWrW4vQhHIra": {
+            "hits": 3,
+            "textWords": 1166
+          }
+        }
+      }
+    ]
+  ],
+  "itemsInNoOrder": [
+    {
+      "hash": "Tv0cB6S6MKD4",
+      "address": "https://github.com/opencontainers/runc/pull/3905",
+      "title": "[1.1] Backport riscv64 support into 1.1.x by chazapis · Pull Request #3905 · opencontainers/runc · GitHub",
+      "snippet": "",
+      "matchedWords": {
+        "up8R7MNJfZmT": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "wWrW4vQhHIra": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "dneiglzbmVEz",
+      "address": "https://www.conventionalcommits.org/en/v1.0.0/",
+      "title": "Conventional Commits",
+      "snippet": "",
+      "matchedWords": {
+        "up8R7MNJfZmT": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "wWrW4vQhHIra": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "CZQqI29cq-94",
+      "address": "https://git-scm.com/docs/git-worktree/2.42.0",
+      "title": "Git - git-worktree Documentation",
+      "snippet": "",
+      "matchedWords": {
+        "up8R7MNJfZmT": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "wWrW4vQhHIra": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "Tv0cB6S6MKD4",
+      "address": "https://github.com/opencontainers/runc/pull/3905",
+      "title": "[1.1] Backport riscv64 support into 1.1.x by chazapis · Pull Request #3905 · opencontainers/runc · GitHub",
+      "snippet": "",
+      "matchedWords": {
+        "up8R7MNJfZmT": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "wWrW4vQhHIra": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "dneiglzbmVEz",
+      "address": "https://www.conventionalcommits.org/en/v1.0.0/",
+      "title": "Conventional Commits",
+      "snippet": "",
+      "matchedWords": {
+        "up8R7MNJfZmT": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "wWrW4vQhHIra": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    }
+  ],
+  "documentsHeldPerQueryWord": {
+    "up8R7MNJfZmT": 35945,
+    "wWrW4vQhHIra": 319
+  }
+}

@@ -1,0 +1,71 @@
+{
+  "query": "apache httpd",
+  "judgedDocuments": [
+    {
+      "hash": "FE6GfV2Rr_dw",
+      "address": "https://docs.searxng.org/admin/installation-apache.html",
+      "title": "Apache — SearXNG Documentation (2024.10.6+5332d3a0b)",
+      "grade": 1
+    },
+    {
+      "hash": "CymIK8uKjjbw",
+      "address": "https://wiki.gentoo.org/wiki/Project:Apache",
+      "title": "Project:Apache - Gentoo wiki",
+      "grade": 1
+    },
+    {
+      "hash": "WU-RwjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Web_server",
+      "title": "Web server - Wikipedia",
+      "grade": 1
+    },
+    {
+      "hash": "eldMzjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Brotli",
+      "title": "Brotli - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "ESUH1jRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/HTTP_request",
+      "title": "HTTP - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "DJNgIXyzSDzw",
+      "address": "https://httpd.apache.org/docs/2.4/ssl/ssl_howto.html",
+      "title": "SSL/TLS Strong Encryption: How-To - Apache HTTP Server Version 2.4",
+      "grade": 2
+    },
+    {
+      "hash": "TQ_Z1jRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/XHTML",
+      "title": "XHTML - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "r4dI5jRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/OpenBSD",
+      "title": "OpenBSD - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "eBFR8ATGzh04",
+      "address": "https://roy.gbiv.com/",
+      "title": "Roy T. Fielding",
+      "grade": 1
+    },
+    {
+      "hash": "B0_2p79moDe4",
+      "address": "https://www.linux.com/training-tutorials/configuring-apache2-run-python-scripts/",
+      "title": "Configuring Apache2 to run Python Scripts - Linux.com",
+      "grade": 1
+    },
+    {
+      "hash": "D_ywrswDvzb5",
+      "address": "https://distrowatch.com/table.php?distribution=mint",
+      "title": "DistroWatch.com: Linux Mint",
+      "grade": 0
+    }
+  ]
+}

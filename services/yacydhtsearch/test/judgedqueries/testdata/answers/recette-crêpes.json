@@ -1,0 +1,75 @@
+{
+  "query": "recette crêpes",
+  "recordedAt": "2026-09-11T13:02:06Z",
+  "itemsInTheOrderOfEachAnswer": [],
+  "itemsInNoOrder": [
+    {
+      "hash": "l7WpW2KCIhSg",
+      "address": "https://madame.lefigaro.fr/tag/meghan-markle",
+      "title": "Meghan Markle",
+      "snippet": "",
+      "matchedWords": {
+        "5fuQgx56JnNw": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "fTPlth54Kuw3": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "N5_8O2KCIhSg",
+      "address": "https://madame.lefigaro.fr/tag/bande-annonce",
+      "title": "Bande-annonce",
+      "snippet": "",
+      "matchedWords": {
+        "5fuQgx56JnNw": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "fTPlth54Kuw3": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "l7WpW2KCIhSg",
+      "address": "https://madame.lefigaro.fr/tag/meghan-markle",
+      "title": "Meghan Markle",
+      "snippet": "",
+      "matchedWords": {
+        "5fuQgx56JnNw": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "fTPlth54Kuw3": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "N5_8O2KCIhSg",
+      "address": "https://madame.lefigaro.fr/tag/bande-annonce",
+      "title": "Bande-annonce",
+      "snippet": "",
+      "matchedWords": {
+        "5fuQgx56JnNw": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "fTPlth54Kuw3": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    }
+  ],
+  "documentsHeldPerQueryWord": {
+    "5fuQgx56JnNw": 1345,
+    "fTPlth54Kuw3": 1783
+  }
+}

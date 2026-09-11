@@ -1,0 +1,107 @@
+{
+  "query": "debian",
+  "judgedDocuments": [
+    {
+      "hash": "R7L27l1nrxbw",
+      "address": "https://www.debian.org/doc/",
+      "title": "Debian -- Documentation",
+      "grade": 2
+    },
+    {
+      "hash": "It5EdL1nrxbw",
+      "address": "https://www.debian.org/intro/about",
+      "title": "Debian -- About Debian",
+      "grade": 2
+    },
+    {
+      "hash": "VSk6vOvIBS5w",
+      "address": "https://hosted.weblate.org/projects/debian-handbook/-/nb_NO/",
+      "title": "Debian Handbook - Norwegian Bokmål @ Hosted Weblate",
+      "grade": 1
+    },
+    {
+      "hash": "T2EF52bypRQw",
+      "address": "https://forgejo.org/docs/latest/user/packages/debian/",
+      "title": "Debian Package Registry | Forgejo – Beyond coding. We forge.",
+      "grade": 1
+    },
+    {
+      "hash": "LphQq3piq92w",
+      "address": "https://packages.debian.org/squeeze/system-config-lvm",
+      "title": "Debian -- Error",
+      "grade": 1
+    },
+    {
+      "hash": "KZ3knTp4ogvw",
+      "address": "https://qa.debian.org/developer.php?login=capriott%40debian.org",
+      "title": "DDPO: Andrea Capriotti -- Debian Quality Assurance",
+      "grade": 1
+    },
+    {
+      "hash": "I7mxoopg4UCw",
+      "address": "https://www.wikidata.org/wiki/Property:P3442",
+      "title": "Debian stable package - Wikidata",
+      "grade": 1
+    },
+    {
+      "hash": "NNK8wg7Yxvhx",
+      "address": "https://www.postgresql.org/download/linux/debian/",
+      "title": "PostgreSQL: Linux downloads (Debian)",
+      "grade": 1
+    },
+    {
+      "hash": "f2gAZmwYpnl5",
+      "address": "https://protonvpn.com/support/linux-vpn-debian-ubuntu",
+      "title": "How to install Proton VPN on Debian and Ubuntu | Proton VPN",
+      "grade": 1
+    },
+    {
+      "hash": "-32vwSSLTmwg",
+      "address": "https://blog.entek.org.uk/notes/2024/01/12/orchestrating-debian-install-and-automated-post-install-configuration-with-ansible.html",
+      "title": "Orchestrating Debian install and automated post-install configuration with Ansible | Laurence’s Blog",
+      "grade": 1
+    },
+    {
+      "hash": "zviPwZBP-b24",
+      "address": "https://docs.vultr.com/how-to-install-docker-ce-on-debian-11",
+      "title": "How to Install Docker CE on Debian 11 | Vultr Docs",
+      "grade": 1
+    },
+    {
+      "hash": "AdYcbY9QA8lg",
+      "address": "https://debian.lap.hu/",
+      "title": "Debian lap - Megbízható válaszok profiktól",
+      "grade": 1
+    },
+    {
+      "hash": "NyLn4ppiq92w",
+      "address": "https://packages.debian.org/unstable/misc/kernel-package.html",
+      "title": "Debian -- Error",
+      "grade": 1
+    },
+    {
+      "hash": "0wub2ZIOYuRw",
+      "address": "https://chronicles.debian.org/www/News/2008/",
+      "title": "Debian -- News from 2008",
+      "grade": 1
+    },
+    {
+      "hash": "H6Zz4sS6MKD4",
+      "address": "https://github.com/trending",
+      "title": "Trending repositories on GitHub today · GitHub",
+      "grade": 0
+    },
+    {
+      "hash": "zqqUCl1nrxbw",
+      "address": "https://www.debian.org/logos/",
+      "title": "Debian logos",
+      "grade": 1
+    },
+    {
+      "hash": "6Zkk9jRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Debian_GNU/Hurd",
+      "title": "Debian - Wikipedia",
+      "grade": 2
+    }
+  ]
+}

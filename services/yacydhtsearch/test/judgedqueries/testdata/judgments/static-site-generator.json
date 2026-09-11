@@ -1,0 +1,71 @@
+{
+  "query": "static site generator",
+  "judgedDocuments": [
+    {
+      "hash": "NTKSIW8dlWJ4",
+      "address": "https://ics-generator.utils.com/",
+      "title": "ICS File Generator - utils.com",
+      "grade": 0
+    },
+    {
+      "hash": "E3vPOld2TDD4",
+      "address": "https://www.psd-dude.com/glitch-text-generator/",
+      "title": "Glitch Text Generator | ȻꝊꝐɎ \u0026 ꝐȺꞨȾɆ",
+      "grade": 0
+    },
+    {
+      "hash": "wci1EfyCWXM4",
+      "address": "https://name-generator.utils.com/",
+      "title": "Random Name Generator - utils.com",
+      "grade": 0
+    },
+    {
+      "hash": "by8Ivl_0-Tb4",
+      "address": "https://www.11ty.dev/",
+      "title": "Eleventy is a simpler static site generator",
+      "grade": 2
+    },
+    {
+      "hash": "qcSF2cuStRZ4",
+      "address": "https://mock-data.utils.com/",
+      "title": "Mock Data Generator (JSON) - Generate Fake Test Data - utils.com",
+      "grade": 0
+    },
+    {
+      "hash": "W-eXqzF3--Qw",
+      "address": "https://planet.mozilla.org/",
+      "title": "Planet Mozilla",
+      "grade": 0
+    },
+    {
+      "hash": "Ht7EIjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Pathological_science",
+      "title": "Pathological science - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "PxWhyjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Michael_Chabon",
+      "title": "Michael Chabon - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "8IbirxSUv9O4",
+      "address": "https://hangman.utils.com/",
+      "title": "Hangman - Word Guessing Game - utils.com",
+      "grade": 0
+    },
+    {
+      "hash": "90BnaIV5WAV4",
+      "address": "https://kanban-board.utils.com/",
+      "title": "Kanban Board - utils.com",
+      "grade": 0
+    },
+    {
+      "hash": "daW1ZQZchFfZ",
+      "address": "http://www.greenteethmm.com/transgenderr-ladies-first.shtml",
+      "title": "whether-tom-chivers-is-a-science-writer-a-hack-journalist-or-a-cunt-is-a-matter-of-semantics-daily-stirrer-dailystirrer",
+      "grade": 0
+    }
+  ]
+}

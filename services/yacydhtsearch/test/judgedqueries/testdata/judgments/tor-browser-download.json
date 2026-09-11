@@ -1,0 +1,65 @@
+{
+  "query": "tor browser download",
+  "judgedDocuments": [
+    {
+      "hash": "TfmnDlobwjLx",
+      "address": "https://www.torproject.org/",
+      "title": "Tor Project | Anonymity Online",
+      "grade": 2
+    },
+    {
+      "hash": "bdPAIs8BaC94",
+      "address": "https://brave.com/download/",
+      "title": "Brave Browser Download | Brave",
+      "grade": 1
+    },
+    {
+      "hash": "zTCfkxtQ-zSx",
+      "address": "https://wiki.archlinux.org/title/List_of_applications/Internet",
+      "title": "List of applications/Internet - ArchWiki",
+      "grade": 1
+    },
+    {
+      "hash": "zSc6gjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/WhatsApp",
+      "title": "WhatsApp - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "Wfq3FswvoTD5",
+      "address": "https://r-universe.dev/articles",
+      "title": "R-universe - browse articles",
+      "grade": 0
+    },
+    {
+      "hash": "h6qXCsPZ2Wzx",
+      "address": "https://wikileaks.org/-Leaks-.html",
+      "title": "WikiLeaks - Leaks",
+      "grade": 0
+    },
+    {
+      "hash": "U45ThD1nrxbw",
+      "address": "https://www.debian.org/devel/wnpp/being_packaged",
+      "title": "Debian -- Packages being worked on",
+      "grade": 0
+    },
+    {
+      "hash": "W-eXqzF3--Qw",
+      "address": "https://planet.mozilla.org/",
+      "title": "Planet Mozilla",
+      "grade": 0
+    },
+    {
+      "hash": "H6Zz4sS6MKD4",
+      "address": "https://github.com/trending",
+      "title": "Trending repositories on GitHub today · GitHub",
+      "grade": 0
+    },
+    {
+      "hash": "GMKmQscJYL54",
+      "address": "https://gizmodo.com/",
+      "title": "Gizmodo | The Future Is Here",
+      "grade": 0
+    }
+  ]
+}

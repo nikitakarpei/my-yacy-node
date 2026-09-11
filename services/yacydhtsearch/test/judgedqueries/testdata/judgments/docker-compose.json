@@ -1,0 +1,77 @@
+{
+  "query": "docker compose",
+  "judgedDocuments": [
+    {
+      "hash": "NHWIWV2Rr_dw",
+      "address": "https://docs.searxng.org/admin/installation-docker.html",
+      "title": "Installation container - SearXNG Documentation (2026.8.4+c63835bd2)",
+      "grade": 1
+    },
+    {
+      "hash": "eWuR-l_MW7i4",
+      "address": "https://www.docker.com/trainings/",
+      "title": "Skill up with Docker Training | Docker",
+      "grade": 1
+    },
+    {
+      "hash": "6PUUbj_MW7i4",
+      "address": "https://www.docker.com/products/developer-tools/",
+      "title": "Developer Tools | Docker",
+      "grade": 1
+    },
+    {
+      "hash": "OK3199wNqMp4",
+      "address": "https://findnerd.com/profile/publicprofile/linkbong24hcom/165497",
+      "title": "Luong Son TV",
+      "grade": 0
+    },
+    {
+      "hash": "FevfV2gYLBO5",
+      "address": "https://caddyserver.com/docs/install",
+      "title": "Install — Caddy Documentation",
+      "grade": 0
+    },
+    {
+      "hash": "CN-RM49Ojva4",
+      "address": "https://docs.docker.com/build/building/multi-platform/",
+      "title": "Multi-platform | Docker Docs",
+      "grade": 1
+    },
+    {
+      "hash": "A1QAeDS6MKD4",
+      "address": "https://github.com/fastapi/full-stack-fastapi-template",
+      "title": "GitHub - fastapi/full-stack-fastapi-template: Full stack, modern web application template. Using FastAPI, React, SQLModel, PostgreSQL, Docker, GitHub Actions, automatic HTTPS and more.",
+      "grade": 1
+    },
+    {
+      "hash": "KXuKCf9Ojva4",
+      "address": "https://docs.docker.com/get-started/docker-concepts/running-containers/sharing-local-files/",
+      "title": "Sharing local files with containers | Docker Docs",
+      "grade": 1
+    },
+    {
+      "hash": "c8pv3t_MW7i4",
+      "address": "https://www.docker.com/company/newsroom/",
+      "title": "Docker Newsroom | Docker",
+      "grade": 1
+    },
+    {
+      "hash": "DEKXKM9Ojva4",
+      "address": "https://docs.docker.com/desktop/setup/install/linux/",
+      "title": "Install Docker Desktop on Linux | Docker Docs",
+      "grade": 1
+    },
+    {
+      "hash": "CjgsxsIyoLTx",
+      "address": "https://planetpython.org/",
+      "title": "Planet Python",
+      "grade": 0
+    },
+    {
+      "hash": "SU0ZvwS6MKD4",
+      "address": "https://github.com/dani-garcia/vaultwarden",
+      "title": "GitHub - dani-garcia/vaultwarden: Unofficial Bitwarden compatible server written in Rust, formerly known as bitwarden_rs",
+      "grade": 0
+    }
+  ]
+}

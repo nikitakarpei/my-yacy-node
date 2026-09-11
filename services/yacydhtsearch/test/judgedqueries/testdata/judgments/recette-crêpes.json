@@ -1,0 +1,17 @@
+{
+  "query": "recette crêpes",
+  "judgedDocuments": [
+    {
+      "hash": "l7WpW2KCIhSg",
+      "address": "https://madame.lefigaro.fr/tag/meghan-markle",
+      "title": "Meghan Markle",
+      "grade": 0
+    },
+    {
+      "hash": "N5_8O2KCIhSg",
+      "address": "https://madame.lefigaro.fr/tag/bande-annonce",
+      "title": "Bande-annonce",
+      "grade": 0
+    }
+  ]
+}

@@ -1,0 +1,113 @@
+{
+  "query": "wikipedia",
+  "judgedDocuments": [
+    {
+      "hash": "kgXpZsgKzQ9w",
+      "address": "https://indieweb.org/Wikipedia",
+      "title": "Wikipedia - IndieWeb",
+      "grade": 1
+    },
+    {
+      "hash": "eV8_WladqZ_x",
+      "address": "https://www.wikipedia.org/",
+      "title": "Wikipedia",
+      "grade": 2
+    },
+    {
+      "hash": "jr-9W07Yyjex",
+      "address": "https://en.greatfire.org/wikipedia.org/wehufi",
+      "title": "Is http://wikipedia.org/wehufi blocked in mainland China? — GreatFire",
+      "grade": 0
+    },
+    {
+      "hash": "i6_MRjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Wikipedia:Wikipedia_is_an_encyclopedia",
+      "title": "Wikipedia:Wikipedia is an encyclopedia - Wikipedia",
+      "grade": 2
+    },
+    {
+      "hash": "xgze2sqyzXmw",
+      "address": "https://swprs.org/wikipedia-and-propaganda/",
+      "title": "Wikipedia and Propaganda – Swiss Policy Research",
+      "grade": 1
+    },
+    {
+      "hash": "dZ2Y8sqyzXmw",
+      "address": "https://swprs.org/wikipedia-und-propaganda/",
+      "title": "Wikipedia und Propaganda – Swiss Policy Research",
+      "grade": 1
+    },
+    {
+      "hash": "SbIsMjcl0ynx",
+      "address": "https://en.wikiversity.org/wiki/Researching_with_Wikipedia",
+      "title": "Researching with Wikipedia - Wikiversity",
+      "grade": 1
+    },
+    {
+      "hash": "mY0dNHJCW4l4",
+      "address": "https://piefed.europe.pub/c/wikipedia@lemmy.world",
+      "title": "Wikipedia",
+      "grade": 1
+    },
+    {
+      "hash": "t4P03vqPRUWw",
+      "address": "https://wingolog.org/tags/wikipedia",
+      "title": "posts tagged \"wikipedia\"",
+      "grade": 0
+    },
+    {
+      "hash": "YzjYVjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Wikipedia:Five_pillars",
+      "title": "Wikipedia:Five pillars - Wikipedia",
+      "grade": 2
+    },
+    {
+      "hash": "LEWIqjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Wikipedia:Systemic_bias",
+      "title": "Wikipedia:Systemic bias - Wikipedia",
+      "grade": 1
+    },
+    {
+      "hash": "HEl15jRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Wikipedia:Contents",
+      "title": "Wikipedia:Contents - Wikipedia",
+      "grade": 2
+    },
+    {
+      "hash": "h3gCDEBAPQf4",
+      "address": "https://gaybd1.tumblr.com/post/740024179291783168/wikipedia-tell-me-if-this-mans-gay",
+      "title": "free palestine and also luigi — wikipedia Tell me if this man’s gay",
+      "grade": 0
+    },
+    {
+      "hash": "LkxGWjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Wikipedia:5D",
+      "title": "Wikipedia:General disclaimer - Wikipedia",
+      "grade": 1
+    },
+    {
+      "hash": "XsJrXjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Wikipedia:Wikipedia_for_Schools",
+      "title": "Wikipedia:Wikipedia for Schools - Wikipedia",
+      "grade": 1
+    },
+    {
+      "hash": "WAT4kjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Wikipedia:GFDL",
+      "title": "Wikipedia:GFDL - Wikipedia",
+      "grade": 1
+    },
+    {
+      "hash": "cwuhGjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Wikipedia:General_disclaimer",
+      "title": "Wikipedia:General disclaimer - Wikipedia",
+      "grade": 1
+    },
+    {
+      "hash": "3ZEiijRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Wikipedia:About",
+      "title": "Wikipedia:About - Wikipedia",
+      "grade": 2
+    }
+  ]
+}

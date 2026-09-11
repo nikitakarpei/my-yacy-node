@@ -1,0 +1,1764 @@
+{
+  "query": "arch wiki",
+  "recordedAt": "2026-09-11T12:59:01Z",
+  "itemsInTheOrderOfEachAnswer": [
+    [
+      {
+        "hash": "CcQGBjRvmBbx",
+        "address": "https://en.wikipedia.org/wiki/Unix",
+        "title": "Unix - Wikipedia",
+        "snippet": "",
+        "matchedWords": {
+          "1Ut7onVxovAL": {
+            "hits": 0,
+            "textWords": 0
+          },
+          "1hlMaPzH55u1": {
+            "hits": 2,
+            "textWords": 8784
+          }
+        }
+      }
+    ],
+    [
+      {
+        "hash": "KzvTGDr4UJf4",
+        "address": "https://we-do.wiki/books/csharp/page/net-core-first-steps",
+        "title": ".NET-Core - First steps | we-do.wiki",
+        "snippet": "",
+        "matchedWords": {
+          "1Ut7onVxovAL": {
+            "hits": 0,
+            "textWords": 0
+          },
+          "1hlMaPzH55u1": {
+            "hits": 3,
+            "textWords": 818
+          }
+        }
+      }
+    ],
+    [
+      {
+        "hash": "1kOALGsyhcfx",
+        "address": "https://archlinux.org/mirrors/cachy-arch.ru/",
+        "title": "Arch Linux - cachy-arch.ru - Mirror Details",
+        "snippet": "",
+        "matchedWords": {
+          "1Ut7onVxovAL": {
+            "hits": 0,
+            "textWords": 0
+          },
+          "1hlMaPzH55u1": {
+            "hits": 3,
+            "textWords": 281
+          }
+        }
+      },
+      {
+        "hash": "oej5lsdsPYlw",
+        "address": "https://archhurd.org/",
+        "title": "Arch Hurd",
+        "snippet": "",
+        "matchedWords": {
+          "1Ut7onVxovAL": {
+            "hits": 0,
+            "textWords": 0
+          },
+          "1hlMaPzH55u1": {
+            "hits": 17,
+            "textWords": 978
+          }
+        }
+      },
+      {
+        "hash": "fpnvOeSLKN4x",
+        "address": "https://bbs.archlinux.org/viewtopic.php?pid=846630",
+        "title": "Wayland on Arch Linux? / AUR Issues, Discussion \u0026 PKGBUILD Requests / Arch Linux Forums",
+        "snippet": "",
+        "matchedWords": {
+          "1Ut7onVxovAL": {
+            "hits": 0,
+            "textWords": 0
+          },
+          "1hlMaPzH55u1": {
+            "hits": 43,
+            "textWords": 2570
+          }
+        }
+      }
+    ],
+    [
+      {
+        "hash": "8856zsuNWVxw",
+        "address": "https://linuxfr.org/",
+        "title": "Accueil - LinuxFr.org",
+        "snippet": "",
+        "matchedWords": {
+          "1Ut7onVxovAL": {
+            "hits": 0,
+            "textWords": 0
+          },
+          "1hlMaPzH55u1": {
+            "hits": 4,
+            "textWords": 3615
+          }
+        }
+      }
+    ]
+  ],
+  "itemsInNoOrder": [
+    {
+      "hash": "AonnkjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Perl",
+      "title": "Perl - Wikipedia",
+      "snippet": "",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "1hlMaPzH55u1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "CiJ7TjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Xfce",
+      "title": "Xfce - Wikipedia",
+      "snippet": "",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "1hlMaPzH55u1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "DhV7ZjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Virtualization",
+      "title": "Virtualization - Wikipedia",
+      "snippet": "",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "1hlMaPzH55u1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "CTQ-Yj-JVcyx",
+      "address": "https://en.wikiquote.org/wiki/Mystery_Science_Theater_3000",
+      "title": "Mystery Science Theater 3000 - Wikiquote",
+      "snippet": "",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "1hlMaPzH55u1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "KIHq942Rr_dw",
+      "address": "https://docs.searxng.org/user/configured_engines.html",
+      "title": "Configured Engines - SearXNG Documentation (2026.8.4+c63835bd2)",
+      "snippet": "",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "1hlMaPzH55u1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "BaZLYjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/NetBSD",
+      "title": "NetBSD - Wikipedia",
+      "snippet": "",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "1hlMaPzH55u1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "BxsbyjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Apple_Inc.",
+      "title": "Apple Inc. - Wikipedia",
+      "snippet": "",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "1hlMaPzH55u1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "B_3gljRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/BSD",
+      "title": "Berkeley Software Distribution - Wikipedia",
+      "snippet": "",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "1hlMaPzH55u1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "DTPX7jRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Wikipedia:Featured_articles",
+      "title": "Wikipedia:Featured articles - Wikipedia",
+      "snippet": "",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "1hlMaPzH55u1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "DhV7ZjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Virtualization",
+      "title": "Virtualization - Wikipedia",
+      "snippet": "",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "1hlMaPzH55u1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "DqivBjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Free_and_open-source_software",
+      "title": "Free and open-source software - Wikipedia",
+      "snippet": "",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "1hlMaPzH55u1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "FZ5ZijRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/List_of_free_and_open-source_software_packages",
+      "title": "List of free and open-source software packages - Wikipedia",
+      "snippet": "",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "1hlMaPzH55u1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "ID5LWjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Washington,_D.C.",
+      "title": "Washington, D.C. - Wikipedia",
+      "snippet": "",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "1hlMaPzH55u1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "IobUWjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Global_catastrophe_scenarios",
+      "title": "Global catastrophe scenarios - Wikipedia",
+      "snippet": "",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "1hlMaPzH55u1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "IvnKrjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Manila",
+      "title": "Manila - Wikipedia",
+      "snippet": "",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "1hlMaPzH55u1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "LA4EjjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Diacritic",
+      "title": "Diacritic - Wikipedia",
+      "snippet": "",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "1hlMaPzH55u1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "LBf1WjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Byte",
+      "title": "Byte - Wikipedia",
+      "snippet": "",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "1hlMaPzH55u1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "L7vFXjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Thai_typography",
+      "title": "Thai typography - Wikipedia",
+      "snippet": "",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "1hlMaPzH55u1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "VmbnPjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Zilog_Z80",
+      "title": "Zilog Z80 - Wikipedia",
+      "snippet": "",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "1hlMaPzH55u1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "Xu0QIjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Proprietary_software",
+      "title": "Proprietary software - Wikipedia",
+      "snippet": "",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "1hlMaPzH55u1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "X4ZKRjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/President_Trump",
+      "title": "Donald Trump - Wikipedia",
+      "snippet": "",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "1hlMaPzH55u1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "Y_siXjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Indian_Ocean",
+      "title": "Indian Ocean - Wikipedia",
+      "snippet": "",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "1hlMaPzH55u1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "rWczfjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/England",
+      "title": "England - Wikipedia",
+      "snippet": "",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "1hlMaPzH55u1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "CcYVa7S6MKD4",
+      "address": "https://github.com/sindresorhus/awesome",
+      "title": "GitHub - sindresorhus/awesome: 😎 Awesome lists about all kinds of interesting topics",
+      "snippet": "",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "1hlMaPzH55u1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "JEWZurS6MKD4",
+      "address": "https://github.com/rbenv/rbenv",
+      "title": "GitHub - rbenv/rbenv: Manage your app's Ruby environment · GitHub",
+      "snippet": "",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "1hlMaPzH55u1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "CkczXlmJ800w",
+      "address": "https://www.gentoo.org/",
+      "title": "Welcome – Gentoo Linux",
+      "snippet": "",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "1hlMaPzH55u1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "Gab0Essyhcfx",
+      "address": "https://archlinux.org/",
+      "title": "Arch Linux",
+      "snippet": "",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "1hlMaPzH55u1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "K3GIyiGt4Xm4",
+      "address": "https://christadelphianworld.blogspot.com/2014/10/which-man-is-mentioned-most-often-in.html",
+      "title": "Our World: Which man is mentioned most often in the Bible? Jesus, Moses, Abraham or David?",
+      "snippet": "",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "1hlMaPzH55u1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "QriquAK-xyJ4",
+      "address": "https://go.dev/doc/devel/weekly",
+      "title": "Weekly Snapshot History - The Go Programming Language",
+      "snippet": "",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "1hlMaPzH55u1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "5fsApjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Parallel_computing",
+      "title": "Parallel computing - Wikipedia",
+      "snippet": "",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "1hlMaPzH55u1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "52lt4jRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Manhattan",
+      "title": "Manhattan - Wikipedia",
+      "snippet": "",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "1hlMaPzH55u1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "Mhf6NeSLKN4x",
+      "address": "https://bbs.archlinux.org/viewtopic.php?pid=1924707",
+      "title": "[SOLVED] Is there a way to improve boot times by enabling fastboot? / Kernel \u0026 Hardware / Arch Linux Forums",
+      "snippet": "",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "1hlMaPzH55u1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "M-BgVeSLKN4x",
+      "address": "https://bbs.archlinux.org/viewtopic.php?pid=2231034",
+      "title": "cant set refresh rate above 120hz when using nvidia proprietary driver / Newbie Corner / Arch Linux Forums",
+      "snippet": "",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "1hlMaPzH55u1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "N6apOeSLKN4x",
+      "address": "https://bbs.archlinux.org/viewtopic.php?pid=1409692",
+      "title": "Indicator-powersave \u0026 throttle / System Administration / Arch Linux Forums",
+      "snippet": "",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "1hlMaPzH55u1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "ZgA5leSLKN4x",
+      "address": "https://bbs.archlinux.org/viewtopic.php?pid=2309097",
+      "title": "everything freezes one by one until the entire system hangs / Kernel \u0026 Hardware / Arch Linux Forums",
+      "snippet": "",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "1hlMaPzH55u1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "E8JqR7qvfVDx",
+      "address": "https://security.archlinux.org/CVE-2023-0122",
+      "title": "CVE-2023-0122 - linux linux-lts linux-hardened linux-zen - Arch Linux",
+      "snippet": "",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "1hlMaPzH55u1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "OtUjZjtFkY-p",
+      "address": "https://wiki.archlinux.jp/index.php/%E6%99%82%E5%88%BB",
+      "title": "システム時刻 - ArchWiki",
+      "snippet": "",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "1hlMaPzH55u1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "DchgXl-4htmx",
+      "address": "https://www.libreoffice.org/download-other/",
+      "title": "Alternative installation methods, SDK and source code — LibreOffice",
+      "snippet": "",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "1hlMaPzH55u1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "K3GIyiGt4Xm4",
+      "address": "https://christadelphianworld.blogspot.com/2014/10/which-man-is-mentioned-most-often-in.html",
+      "title": "Our World: Which man is mentioned most often in the Bible? Jesus, Moses, Abraham or David?",
+      "snippet": "",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "1hlMaPzH55u1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "PJI79eGt4Xm4",
+      "address": "https://christadelphianworld.blogspot.com/2016/10/in-few-days-time-it-will-be-2020-years.html",
+      "title": "Our World: In a few days time it will be 2020 years ago that the Messiah was born",
+      "snippet": "",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "1hlMaPzH55u1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "8UUF7AIRlUi5",
+      "address": "https://www.10zenmonkeys.com/category/politics/",
+      "title": "Politics, Law \u0026 War – 10 Zen Monkeys",
+      "snippet": "",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "1hlMaPzH55u1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "PJR7gjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Radio_Free_Europe/Radio_Liberty",
+      "title": "Radio Free Europe/Radio Liberty - Wikipedia",
+      "snippet": "",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "1hlMaPzH55u1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "Xu0QIjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Proprietary_software",
+      "title": "Proprietary software - Wikipedia",
+      "snippet": "",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "1hlMaPzH55u1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "YukpDjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Irish_mythology",
+      "title": "Irish mythology - Wikipedia",
+      "snippet": "",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "1hlMaPzH55u1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "fZM8XjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/2026_Iran_war",
+      "title": "2026 Iran war - Wikipedia",
+      "snippet": "",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "1hlMaPzH55u1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "rWczfjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/England",
+      "title": "England - Wikipedia",
+      "snippet": "",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "1hlMaPzH55u1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "VI9YzkSKkctx",
+      "address": "https://softpanorama.org/Social/Toxic_managers/index.shtml",
+      "title": "Toxic Managers",
+      "snippet": "",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "1hlMaPzH55u1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "MeaJD8uKjjbw",
+      "address": "https://wiki.gentoo.org/wiki/Project:Gentoo",
+      "title": "Project:Gentoo - Gentoo wiki",
+      "snippet": "",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "1hlMaPzH55u1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "DOqB2jRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/EMUI",
+      "title": "EMUI - Wikipedia",
+      "snippet": "",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "1hlMaPzH55u1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "UAq9HjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Kennedy_family",
+      "title": "Kennedy family - Wikipedia",
+      "snippet": "",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "1hlMaPzH55u1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "X4ZKRjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/President_Trump",
+      "title": "Donald Trump - Wikipedia",
+      "snippet": "",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "1hlMaPzH55u1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "4rUoSjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/May_25",
+      "title": "May 25 - Wikipedia",
+      "snippet": "",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "1hlMaPzH55u1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "gMANp2bypRQw",
+      "address": "https://forgejo.org/docs/latest/user/packages/conan/",
+      "title": "Conan Package Registry | Forgejo – Beyond coding. We forge.",
+      "snippet": "",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "1hlMaPzH55u1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "g3IwE2bypRQw",
+      "address": "https://forgejo.org/docs/latest/user/packages/nuget/",
+      "title": "NuGet Package Registry | Forgejo – Beyond coding. We forge.",
+      "snippet": "",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "1hlMaPzH55u1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "CTQ-Yj-JVcyx",
+      "address": "https://en.wikiquote.org/wiki/Mystery_Science_Theater_3000",
+      "title": "Mystery Science Theater 3000 - Wikiquote",
+      "snippet": "",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "1hlMaPzH55u1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "PJI79eGt4Xm4",
+      "address": "https://christadelphianworld.blogspot.com/2016/10/in-few-days-time-it-will-be-2020-years.html",
+      "title": "Our World: In a few days time it will be 2020 years ago that the Messiah was born",
+      "snippet": "",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "1hlMaPzH55u1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "8UUF7AIRlUi5",
+      "address": "https://www.10zenmonkeys.com/category/politics/",
+      "title": "Politics, Law \u0026 War – 10 Zen Monkeys",
+      "snippet": "",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "1hlMaPzH55u1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "AonnkjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Perl",
+      "title": "Perl - Wikipedia",
+      "snippet": "",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "1hlMaPzH55u1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "BaZLYjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/NetBSD",
+      "title": "NetBSD - Wikipedia",
+      "snippet": "",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "1hlMaPzH55u1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "BxsbyjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Apple_Inc.",
+      "title": "Apple Inc. - Wikipedia",
+      "snippet": "",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "1hlMaPzH55u1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "B_3gljRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/BSD",
+      "title": "Berkeley Software Distribution - Wikipedia",
+      "snippet": "",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "1hlMaPzH55u1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "CiJ7TjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Xfce",
+      "title": "Xfce - Wikipedia",
+      "snippet": "",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "1hlMaPzH55u1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "DTPX7jRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Wikipedia:Featured_articles",
+      "title": "Wikipedia:Featured articles - Wikipedia",
+      "snippet": "",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "1hlMaPzH55u1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "DhV7ZjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Virtualization",
+      "title": "Virtualization - Wikipedia",
+      "snippet": "",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "1hlMaPzH55u1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "DqivBjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Free_and_open-source_software",
+      "title": "Free and open-source software - Wikipedia",
+      "snippet": "",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "1hlMaPzH55u1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "FZ5ZijRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/List_of_free_and_open-source_software_packages",
+      "title": "List of free and open-source software packages - Wikipedia",
+      "snippet": "",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "1hlMaPzH55u1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "ID5LWjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Washington,_D.C.",
+      "title": "Washington, D.C. - Wikipedia",
+      "snippet": "",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "1hlMaPzH55u1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "IvnKrjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Manila",
+      "title": "Manila - Wikipedia",
+      "snippet": "",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "1hlMaPzH55u1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "LA4EjjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Diacritic",
+      "title": "Diacritic - Wikipedia",
+      "snippet": "",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "1hlMaPzH55u1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "LBf1WjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Byte",
+      "title": "Byte - Wikipedia",
+      "snippet": "",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "1hlMaPzH55u1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "L7vFXjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Thai_typography",
+      "title": "Thai typography - Wikipedia",
+      "snippet": "",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "1hlMaPzH55u1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "QfhzIjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Category:Spoken_articles",
+      "title": "Category:Spoken articles - Wikipedia",
+      "snippet": "",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "1hlMaPzH55u1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "Xu0QIjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Proprietary_software",
+      "title": "Proprietary software - Wikipedia",
+      "snippet": "",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "1hlMaPzH55u1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "fZM8XjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/2026_Iran_war",
+      "title": "2026 Iran war - Wikipedia",
+      "snippet": "",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "1hlMaPzH55u1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "rWczfjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/England",
+      "title": "England - Wikipedia",
+      "snippet": "",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "1hlMaPzH55u1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "4rUoSjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/May_25",
+      "title": "May 25 - Wikipedia",
+      "snippet": "",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "1hlMaPzH55u1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "5fsApjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Parallel_computing",
+      "title": "Parallel computing - Wikipedia",
+      "snippet": "",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "1hlMaPzH55u1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "CcYVa7S6MKD4",
+      "address": "https://github.com/sindresorhus/awesome",
+      "title": "GitHub - sindresorhus/awesome: 😎 Awesome lists about all kinds of interesting topics",
+      "snippet": "",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "1hlMaPzH55u1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "JEWZurS6MKD4",
+      "address": "https://github.com/rbenv/rbenv",
+      "title": "GitHub - rbenv/rbenv: Manage your app's Ruby environment · GitHub",
+      "snippet": "",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "1hlMaPzH55u1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "Mhf6NeSLKN4x",
+      "address": "https://bbs.archlinux.org/viewtopic.php?pid=1924707",
+      "title": "[SOLVED] Is there a way to improve boot times by enabling fastboot? / Kernel \u0026 Hardware / Arch Linux Forums",
+      "snippet": "",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "1hlMaPzH55u1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "M-BgVeSLKN4x",
+      "address": "https://bbs.archlinux.org/viewtopic.php?pid=2231034",
+      "title": "cant set refresh rate above 120hz when using nvidia proprietary driver / Newbie Corner / Arch Linux Forums",
+      "snippet": "",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "1hlMaPzH55u1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "N6apOeSLKN4x",
+      "address": "https://bbs.archlinux.org/viewtopic.php?pid=1409692",
+      "title": "Indicator-powersave \u0026 throttle / System Administration / Arch Linux Forums",
+      "snippet": "",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "1hlMaPzH55u1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "CkczXlmJ800w",
+      "address": "https://www.gentoo.org/",
+      "title": "Welcome – Gentoo Linux",
+      "snippet": "",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "1hlMaPzH55u1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "E8JqR7qvfVDx",
+      "address": "https://security.archlinux.org/CVE-2023-0122",
+      "title": "CVE-2023-0122 - linux linux-lts linux-hardened linux-zen - Arch Linux",
+      "snippet": "",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "1hlMaPzH55u1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "Gab0Essyhcfx",
+      "address": "https://archlinux.org/",
+      "title": "Arch Linux",
+      "snippet": "",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "1hlMaPzH55u1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "OtUjZjtFkY-p",
+      "address": "https://wiki.archlinux.jp/index.php/%E6%99%82%E5%88%BB",
+      "title": "システム時刻 - ArchWiki",
+      "snippet": "",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "1hlMaPzH55u1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "MeaJD8uKjjbw",
+      "address": "https://wiki.gentoo.org/wiki/Project:Gentoo",
+      "title": "Project:Gentoo - Gentoo wiki",
+      "snippet": "",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "1hlMaPzH55u1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "QriquAK-xyJ4",
+      "address": "https://go.dev/doc/devel/weekly",
+      "title": "Weekly Snapshot History - The Go Programming Language",
+      "snippet": "",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "1hlMaPzH55u1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "DOqB2jRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/EMUI",
+      "title": "EMUI - Wikipedia",
+      "snippet": "",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "1hlMaPzH55u1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "PJR7gjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Radio_Free_Europe/Radio_Liberty",
+      "title": "Radio Free Europe/Radio Liberty - Wikipedia",
+      "snippet": "",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "1hlMaPzH55u1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "52lt4jRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Manhattan",
+      "title": "Manhattan - Wikipedia",
+      "snippet": "",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "1hlMaPzH55u1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "ID5LWjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Washington,_D.C.",
+      "title": "Washington, D.C. - Wikipedia",
+      "snippet": "",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "1hlMaPzH55u1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "UAq9HjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Kennedy_family",
+      "title": "Kennedy family - Wikipedia",
+      "snippet": "",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "1hlMaPzH55u1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "ZgA5leSLKN4x",
+      "address": "https://bbs.archlinux.org/viewtopic.php?pid=2309097",
+      "title": "everything freezes one by one until the entire system hangs / Kernel \u0026 Hardware / Arch Linux Forums",
+      "snippet": "",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "1hlMaPzH55u1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "DchgXl-4htmx",
+      "address": "https://www.libreoffice.org/download-other/",
+      "title": "Alternative installation methods, SDK and source code — LibreOffice",
+      "snippet": "",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "1hlMaPzH55u1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "CTQ-Yj-JVcyx",
+      "address": "https://en.wikiquote.org/wiki/Mystery_Science_Theater_3000",
+      "title": "Mystery Science Theater 3000 - Wikiquote",
+      "snippet": "",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "1hlMaPzH55u1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "IobUWjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Global_catastrophe_scenarios",
+      "title": "Global catastrophe scenarios - Wikipedia",
+      "snippet": "",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "1hlMaPzH55u1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "VmbnPjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Zilog_Z80",
+      "title": "Zilog Z80 - Wikipedia",
+      "snippet": "",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "1hlMaPzH55u1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "Y_siXjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Indian_Ocean",
+      "title": "Indian Ocean - Wikipedia",
+      "snippet": "",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "1hlMaPzH55u1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "fZM8XjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/2026_Iran_war",
+      "title": "2026 Iran war - Wikipedia",
+      "snippet": "",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "1hlMaPzH55u1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "VI9YzkSKkctx",
+      "address": "https://softpanorama.org/Social/Toxic_managers/index.shtml",
+      "title": "Toxic Managers",
+      "snippet": "",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "1hlMaPzH55u1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "gMANp2bypRQw",
+      "address": "https://forgejo.org/docs/latest/user/packages/conan/",
+      "title": "Conan Package Registry | Forgejo – Beyond coding. We forge.",
+      "snippet": "",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "1hlMaPzH55u1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "g3IwE2bypRQw",
+      "address": "https://forgejo.org/docs/latest/user/packages/nuget/",
+      "title": "NuGet Package Registry | Forgejo – Beyond coding. We forge.",
+      "snippet": "",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "1hlMaPzH55u1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    }
+  ],
+  "documentsHeldPerQueryWord": {
+    "1Ut7onVxovAL": 51520,
+    "1hlMaPzH55u1": 5594
+  }
+}

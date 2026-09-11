@@ -1,0 +1,43 @@
+{
+  "query": "nextcloud installation",
+  "recordedAt": "2026-09-11T12:59:30Z",
+  "itemsInTheOrderOfEachAnswer": [],
+  "itemsInNoOrder": [
+    {
+      "hash": "DkgJosH3-qPx",
+      "address": "https://cyberduck.io/",
+      "title": "Cyberduck | Libre server and cloud storage browser for Mac and Windows with support for FTP, SFTP, WebDAV, Amazon S3, OpenStack Swift, Backblaze B2, Microsoft Azure \u0026 OneDrive, Google Drive and Dropbox",
+      "snippet": "",
+      "matchedWords": {
+        "6gm7Nk7xv_2I": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "xZz3-jnU7Sza": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "DkgJosH3-qPx",
+      "address": "https://cyberduck.io/",
+      "title": "Cyberduck | Libre server and cloud storage browser for Mac and",
+      "snippet": "",
+      "matchedWords": {
+        "6gm7Nk7xv_2I": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "xZz3-jnU7Sza": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    }
+  ],
+  "documentsHeldPerQueryWord": {
+    "6gm7Nk7xv_2I": 17160,
+    "xZz3-jnU7Sza": 458
+  }
+}

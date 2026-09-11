@@ -1,0 +1,272 @@
+{
+  "query": "golang concurrency",
+  "recordedAt": "2026-09-11T12:58:41Z",
+  "itemsInTheOrderOfEachAnswer": [
+    [
+      {
+        "hash": "D4lABzaS0qdw",
+        "address": "https://planet.debian.org/",
+        "title": "Planet Debian",
+        "snippet": "",
+        "matchedWords": {
+          "FyRSmQlWVTdS": {
+            "hits": 0,
+            "textWords": 0
+          },
+          "IcwoQJcpVl_B": {
+            "hits": 3,
+            "textWords": 58158
+          }
+        }
+      }
+    ],
+    [
+      {
+        "hash": "tucm1jRvmBbx",
+        "address": "https://en.wikipedia.org/wiki/Concurrent_computing",
+        "title": "Concurrent computing - Wikipedia",
+        "snippet": "",
+        "matchedWords": {
+          "FyRSmQlWVTdS": {
+            "hits": 24,
+            "textWords": 4116
+          },
+          "IcwoQJcpVl_B": {
+            "hits": 0,
+            "textWords": 0
+          }
+        }
+      }
+    ]
+  ],
+  "itemsInNoOrder": [
+    {
+      "hash": "CjgsxsIyoLTx",
+      "address": "https://planetpython.org/",
+      "title": "Planet Python",
+      "snippet": "",
+      "matchedWords": {
+        "FyRSmQlWVTdS": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "IcwoQJcpVl_B": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "QriquAK-xyJ4",
+      "address": "https://go.dev/doc/devel/weekly",
+      "title": "Weekly Snapshot History - The Go Programming Language",
+      "snippet": "",
+      "matchedWords": {
+        "FyRSmQlWVTdS": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "IcwoQJcpVl_B": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "QriquAK-xyJ4",
+      "address": "https://go.dev/doc/devel/weekly",
+      "title": "Weekly Snapshot History - The Go Programming Language",
+      "snippet": "",
+      "matchedWords": {
+        "FyRSmQlWVTdS": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "IcwoQJcpVl_B": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "jDc0FAK-xyJ4",
+      "address": "https://go.dev/doc/go1.27",
+      "title": "Go 1.27 Release Notes - The Go Programming Language",
+      "snippet": "",
+      "matchedWords": {
+        "FyRSmQlWVTdS": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "IcwoQJcpVl_B": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "jh2nEAK-xyJ4",
+      "address": "https://go.dev/doc/go1.15",
+      "title": "Go 1.15 Release Notes - The Go Programming Language",
+      "snippet": "",
+      "matchedWords": {
+        "FyRSmQlWVTdS": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "IcwoQJcpVl_B": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "gefeHzS6MKD4",
+      "address": "https://github.com/topics/cross-platform",
+      "title": "cross-platform · GitHub Topics · GitHub",
+      "snippet": "",
+      "matchedWords": {
+        "FyRSmQlWVTdS": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "IcwoQJcpVl_B": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "ioDB87f4Pib5",
+      "address": "https://code.visualstudio.com/?wt.mc_id=DX_841432",
+      "title": "Visual Studio Code - The open source AI code editor | Your home for multi-agent development",
+      "snippet": "",
+      "matchedWords": {
+        "FyRSmQlWVTdS": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "IcwoQJcpVl_B": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "QriquAK-xyJ4",
+      "address": "https://go.dev/doc/devel/weekly",
+      "title": "Weekly Snapshot History - The Go Programming Language",
+      "snippet": "",
+      "matchedWords": {
+        "FyRSmQlWVTdS": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "IcwoQJcpVl_B": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "jDc0FAK-xyJ4",
+      "address": "https://go.dev/doc/go1.27",
+      "title": "Go 1.27 Release Notes - The Go Programming Language",
+      "snippet": "",
+      "matchedWords": {
+        "FyRSmQlWVTdS": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "IcwoQJcpVl_B": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "jh2nEAK-xyJ4",
+      "address": "https://go.dev/doc/go1.15",
+      "title": "Go 1.15 Release Notes - The Go Programming Language",
+      "snippet": "",
+      "matchedWords": {
+        "FyRSmQlWVTdS": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "IcwoQJcpVl_B": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "gefeHzS6MKD4",
+      "address": "https://github.com/topics/cross-platform",
+      "title": "cross-platform · GitHub Topics · GitHub",
+      "snippet": "",
+      "matchedWords": {
+        "FyRSmQlWVTdS": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "IcwoQJcpVl_B": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "ioDB87f4Pib5",
+      "address": "https://code.visualstudio.com/?wt.mc_id=DX_841432",
+      "title": "Visual Studio Code - The open source AI code editor | Your home for multi-agent development",
+      "snippet": "",
+      "matchedWords": {
+        "FyRSmQlWVTdS": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "IcwoQJcpVl_B": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "CjgsxsIyoLTx",
+      "address": "https://planetpython.org/",
+      "title": "Planet Python",
+      "snippet": "",
+      "matchedWords": {
+        "FyRSmQlWVTdS": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "IcwoQJcpVl_B": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "jDc0FAK-xyJ4",
+      "address": "https://go.dev/doc/go1.27",
+      "title": "Go 1.27 Release Notes - The Go Programming Language",
+      "snippet": "",
+      "matchedWords": {
+        "FyRSmQlWVTdS": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "IcwoQJcpVl_B": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    }
+  ],
+  "documentsHeldPerQueryWord": {
+    "FyRSmQlWVTdS": 3588,
+    "IcwoQJcpVl_B": 2649
+  }
+}

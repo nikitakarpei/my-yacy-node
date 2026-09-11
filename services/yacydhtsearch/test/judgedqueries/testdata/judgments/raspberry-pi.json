@@ -1,0 +1,71 @@
+{
+  "query": "raspberry pi",
+  "judgedDocuments": [
+    {
+      "hash": "ZinRLlDOAHJg",
+      "address": "https://www.heise.de/make",
+      "title": "Make Magazin: Kreativ mit Technik | heise online",
+      "grade": 1
+    },
+    {
+      "hash": "7b0gSsUQxb2x",
+      "address": "https://join-lemmy.org/",
+      "title": "Lemmy - A decentralised discussion platform for communities",
+      "grade": 0
+    },
+    {
+      "hash": "rsWFmIf1Pcd5",
+      "address": "https://store.steampowered.com/mobile",
+      "title": "Steam, The Ultimate Online Game Platform",
+      "grade": 0
+    },
+    {
+      "hash": "uS2bt_nMM_j5",
+      "address": "https://grokipedia.com/page/Node-RED",
+      "title": "Node-RED — Grokipedia",
+      "grade": 0
+    },
+    {
+      "hash": "MaRThsRMLT-5",
+      "address": "https://canonical.com/",
+      "title": "Trusted open source for enterprises | Canonical",
+      "grade": 0
+    },
+    {
+      "hash": "ryUhvGS6MKD4",
+      "address": "https://github.com/veggiemonk/awesome-docker",
+      "title": "GitHub - veggiemonk/awesome-docker: :whale: A curated list of Docker resources and projects",
+      "grade": 0
+    },
+    {
+      "hash": "1rwT0fS6MKD4",
+      "address": "https://github.com/sonic-pi-net/sonic-pi",
+      "title": "GitHub - sonic-pi-net/sonic-pi: Code. Music. Live. · GitHub",
+      "grade": 1
+    },
+    {
+      "hash": "MWWnL_nMM_j5",
+      "address": "https://grokipedia.com/page/JavaScript",
+      "title": "JavaScript — Grokipedia",
+      "grade": 0
+    },
+    {
+      "hash": "MK5eRjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Linux_distribution",
+      "title": "Linux distribution - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "yQQNDjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Embedded_system",
+      "title": "Embedded system - Wikipedia",
+      "grade": 1
+    },
+    {
+      "hash": "zPsYJjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Linux",
+      "title": "Linux - Wikipedia",
+      "grade": 0
+    }
+  ]
+}
