@@ -63,7 +63,7 @@ The service reads the page of each candidate result, and reads all these pages a
 | Variable | Default | Meaning |
 |---|---|---|
 | `YACYDHTSEARCH_PAGES_READ_PER_QUERY` | `50` | Pages one query reads, taken from the results it puts first. |
-| `YACYDHTSEARCH_PAGE_READ_BUDGET` | `3s` | Time the pages of one query may take, inside the query budget. |
+| `YACYDHTSEARCH_PAGE_READ_BUDGET` | `3s` | Time the query keeps for its pages. The peer calls get the rest of the query budget. |
 | `YACYDHTSEARCH_PAGE_BYTE_CEILING` | `4194304` | Most bytes read from one page. |
 | `YACYDHTSEARCH_SNIPPET_LENGTH_CEILING` | `300` | Most characters one snippet holds. |
 

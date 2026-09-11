@@ -29,6 +29,7 @@ const (
 	peersHoldingOneWord = 4
 	peerCallsInFlight   = 48
 	queryBudget         = 5 * time.Second
+	pageReadBudget      = 3 * time.Second
 	peerResults         = 10
 	directoryLimit      = 16
 	recordCeiling       = 50
@@ -222,6 +223,7 @@ func networkOrdering(
 		pagesThatNoOneReads{},
 		itemsOrdering,
 		queryBudget,
+		pageReadBudget,
 		pagesReadPerQuery,
 		recordCeiling,
 		networksearch.NetworkSearchObservers{observer},
@@ -541,6 +543,7 @@ func TestTheRankingByRelevanceFollowsTheWordsReadFromThePages(t *testing.T) {
 		pagesHoldingTheWordOfOneDocument{address: common, word: "kelondro", hits: 50},
 		relevance.New(relevance.DefaultScoreWeights()),
 		queryBudget,
+		pageReadBudget,
 		pagesReadPerQuery,
 		recordCeiling,
 		networksearch.NetworkSearchObservers{&recordedQuery{}},
@@ -552,6 +555,117 @@ func TestTheRankingByRelevanceFollowsTheWordsReadFromThePages(t *testing.T) {
 		t.Fatalf(
 			"the ranking reads %+v, want the document whose page holds the rarer word first",
 			ranking.Items,
+		)
+	}
+}
+
+type recordedBudgets struct {
+	spread      time.Duration
+	pageReading time.Duration
+}
+
+type spreadRecordingTheBudgetItGets struct {
+	answers  peeranswers.AnsweredQuery
+	recorded *recordedBudgets
+}
+
+func (s spreadRecordingTheBudgetItGets) SpreadOverPeers(
+	ctx context.Context,
+	_ searchquery.Query,
+	_ []peerdirectory.AskablePeer,
+) peeranswers.AnsweredQuery {
+	s.recorded.spread = budgetLeftIn(ctx)
+
+	return s.answers
+}
+
+type pagesRecordingTheBudgetTheyGet struct {
+	recorded *recordedBudgets
+}
+
+func (p pagesRecordingTheBudgetTheyGet) DocumentTextPerDocument(
+	ctx context.Context,
+	_ []yacymodel.Hash,
+	_ []pagereading.PageToRead,
+) map[yacymodel.URLHash]documenttext.DocumentText {
+	p.recorded.pageReading = budgetLeftIn(ctx)
+
+	return nil
+}
+
+func budgetLeftIn(ctx context.Context) time.Duration {
+	deadline, bounded := ctx.Deadline()
+	if !bounded {
+		return 0
+	}
+
+	return time.Until(deadline)
+}
+
+func networkRecordingItsBudgets(
+	t *testing.T,
+	recorded *recordedBudgets,
+	pageReadBudgetOfTheQuery time.Duration,
+) networksearch.Network {
+	t.Helper()
+
+	return networksearch.New(
+		directoryAnsweringAt(t, peerHolding(t)),
+		spreadRecordingTheBudgetItGets{
+			answers:  answersOfTwoWords(t, "https://a.example/", "https://b.example/").answers,
+			recorded: recorded,
+		},
+		pagesRecordingTheBudgetTheyGet{recorded: recorded},
+		peerorder.Ordering{},
+		queryBudget,
+		pageReadBudgetOfTheQuery,
+		pagesReadPerQuery,
+		recordCeiling,
+		networksearch.NetworkSearchObservers{&recordedQuery{}},
+	)
+}
+
+const budgetReadingTolerance = 500 * time.Millisecond
+
+func TestTheQuerySpreadLeavesThePageReadBudgetToThePages(t *testing.T) {
+	t.Parallel()
+
+	recorded := &recordedBudgets{}
+	network := networkRecordingItsBudgets(t, recorded, pageReadBudget)
+
+	network.Search(t.Context(), searchquery.QueryFrom("berlin kelondro"))
+
+	spreadBudget := queryBudget - pageReadBudget
+	if recorded.spread > spreadBudget ||
+		recorded.spread < spreadBudget-budgetReadingTolerance {
+		t.Fatalf(
+			"the spread got %v, want the query budget less the page read budget of %v",
+			recorded.spread, spreadBudget,
+		)
+	}
+	if recorded.pageReading < pageReadBudget {
+		t.Fatalf(
+			"the pages got %v, want the page read budget of %v",
+			recorded.pageReading, pageReadBudget,
+		)
+	}
+}
+
+func TestAPageReadBudgetOfTheWholeQueryLeavesTheQuerySpreadNothing(t *testing.T) {
+	t.Parallel()
+
+	recorded := &recordedBudgets{}
+	network := networkRecordingItsBudgets(t, recorded, queryBudget)
+
+	network.Search(t.Context(), searchquery.QueryFrom("berlin kelondro"))
+
+	if recorded.spread > 0 {
+		t.Fatalf("the spread got %v, want nothing left for it", recorded.spread)
+	}
+	if recorded.pageReading < queryBudget-budgetReadingTolerance {
+		t.Fatalf(
+			"the pages got %v, want what is left of the query budget of %v",
+			recorded.pageReading, queryBudget,
 		)
 	}
 }

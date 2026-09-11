@@ -109,6 +109,7 @@ func RunService(
 		pageReading,
 		itemsOrderingOfTheService(),
 		cfg.QueryBudget,
+		cfg.PageReadBudget,
 		cfg.PagesReadPerQuery,
 		cfg.RankedItemsCeiling,
 		networksearch.NetworkSearchObservers{

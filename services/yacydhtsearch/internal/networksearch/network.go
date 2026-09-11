@@ -58,6 +58,7 @@ type Network struct {
 	pageReading        PageReading
 	itemsOrdering      ItemsOrdering
 	queryBudget        time.Duration
+	pageReadBudget     time.Duration
 	pagesReadPerQuery  int
 	rankedItemsCeiling int
 	observer           NetworkSearchObserver
@@ -70,6 +71,7 @@ func New(
 	pageReading PageReading,
 	itemsOrdering ItemsOrdering,
 	queryBudget time.Duration,
+	pageReadBudget time.Duration,
 	pagesReadPerQuery int,
 	rankedItemsCeiling int,
 	observer NetworkSearchObserver,
@@ -80,6 +82,7 @@ func New(
 		pageReading:        pageReading,
 		itemsOrdering:      itemsOrdering,
 		queryBudget:        queryBudget,
+		pageReadBudget:     pageReadBudget,
 		pagesReadPerQuery:  pagesReadPerQuery,
 		rankedItemsCeiling: rankedItemsCeiling,
 		observer:           observer,
@@ -103,7 +106,9 @@ func (n Network) Search(
 		return searchresult.Ranking{}, NoPeerToAsk
 	}
 
-	answers := n.querySpread.SpreadOverPeers(ctx, query, askablePeers)
+	spreading, endSpreading := contextOfTheQuerySpread(ctx, n.queryBudget, n.pageReadBudget)
+	defer endSpreading()
+	answers := n.querySpread.SpreadOverPeers(spreading, query, askablePeers)
 	candidates := itemsUpTo(n.itemsOrdering.OrderedItemsOf(answers), n.pagesReadPerQuery)
 	readAnswers := answers.CarryingTheTextOfEachDocument(
 		n.pageReading.DocumentTextPerDocument(
@@ -121,6 +126,18 @@ func (n Network) Search(
 	)
 
 	return rankingOf(rankedItems), PeersAsked
+}
+
+func contextOfTheQuerySpread(
+	ctx context.Context,
+	queryBudget time.Duration,
+	pageReadBudget time.Duration,
+) (context.Context, context.CancelFunc) {
+	return context.WithTimeout(ctx, querySpreadBudgetFrom(queryBudget, pageReadBudget))
+}
+
+func querySpreadBudgetFrom(queryBudget time.Duration, pageReadBudget time.Duration) time.Duration {
+	return max(queryBudget-pageReadBudget, 0)
 }
 
 func itemsUpTo(
