@@ -814,3 +814,43 @@ func TestTheSpreadReportsWhatThePeersAnsweredBesideTheDocumentsTheyHold(t *testi
 		)
 	}
 }
+
+func TestTheNearestPeerOfEveryWordIsAskedBeforeTheNextPeerOfAnyWord(t *testing.T) {
+	t.Parallel()
+
+	network := networkOf(map[string]map[string][]string{})
+
+	spreadChoosing(network, responsiblePeers{peerAddressesPerWord: map[string][]string{
+		firstWord:  {"nearest-of-first", "next-of-first"},
+		secondWord: {"nearest-of-second", "next-of-second"},
+	}}, &recordedSpreads{})
+
+	wanted := []string{
+		firstWord + " nearest-of-first",
+		secondWord + " nearest-of-second",
+		firstWord + " next-of-first",
+		secondWord + " next-of-second",
+	}
+	if got := wordsAndPeersAskedInOrder(network.heldDocumentsAsks); !slices.Equal(got, wanted) {
+		t.Fatalf("the spread asked %v, want a turn of every word before the next peer", got)
+	}
+}
+
+func wordsAndPeersAskedInOrder(asks []peerasks.HeldDocumentsAsk) []string {
+	wordsAndPeers := make([]string, 0, len(asks))
+	for _, ask := range asks {
+		wordsAndPeers = append(wordsAndPeers, spelledWordOf(ask.Word)+" "+ask.Peer.Address)
+	}
+
+	return wordsAndPeers
+}
+
+func spelledWordOf(word yacymodel.Hash) string {
+	for _, spelledWord := range []string{firstWord, secondWord} {
+		if yacymodel.WordHash(spelledWord) == word {
+			return spelledWord
+		}
+	}
+
+	return word.String()
+}

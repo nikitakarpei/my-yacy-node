@@ -3,6 +3,8 @@ package peercallwire_test
 import (
 	"net/http"
 	"net/http/httptest"
+	"slices"
+	"strings"
 	"sync"
 	"testing"
 	"time"
@@ -18,6 +20,7 @@ type peerNetwork struct {
 	mostCallsInFlight       int
 	awaitedCallsInFlight    int
 	awaitedCallsAreInFlight chan struct{}
+	calledHostsInOrder      []string
 }
 
 func (n *peerNetwork) awaitsCallsInFlight(calls int) {
@@ -33,6 +36,13 @@ func (n *peerNetwork) callsSeenInFlightAtOnce() int {
 	defer n.mutex.Unlock()
 
 	return n.mostCallsInFlight
+}
+
+func (n *peerNetwork) hostsSeenCalledInOrder() []string {
+	n.mutex.Lock()
+	defer n.mutex.Unlock()
+
+	return slices.Clone(n.calledHostsInOrder)
 }
 
 func (n *peerNetwork) peerHolding(t *testing.T, addresses ...string) string {
@@ -79,7 +89,7 @@ func (n *peerNetwork) peerAnswering(
 
 	server := httptest.NewServer(http.HandlerFunc(
 		func(writer http.ResponseWriter, peerCall *http.Request) {
-			n.enterCall()
+			n.enterCall(peerCall.Host)
 			defer n.leaveCall()
 
 			if !theAnswerIsDue(peerCall) {
@@ -93,10 +103,11 @@ func (n *peerNetwork) peerAnswering(
 	return server.URL
 }
 
-func (n *peerNetwork) enterCall() {
+func (n *peerNetwork) enterCall(host string) {
 	n.mutex.Lock()
 	defer n.mutex.Unlock()
 
+	n.calledHostsInOrder = append(n.calledHostsInOrder, host)
 	n.callsInFlight++
 	n.mostCallsInFlight = max(n.mostCallsInFlight, n.callsInFlight)
 	if n.awaitedCallsInFlight != 0 && n.callsInFlight == n.awaitedCallsInFlight {
@@ -174,7 +185,7 @@ func TestAPeerThatOutlastsTheCallBudgetIsNoAnswer(t *testing.T) {
 	}
 }
 
-func TestNoMorePeerCallsAreInFlightThanTheWireHolds(t *testing.T) {
+func TestTheWireHoldsItsCallsInFlightAndPutsTheAsksInTheOrderGiven(t *testing.T) {
 	t.Parallel()
 
 	const (
@@ -215,6 +226,25 @@ func TestNoMorePeerCallsAreInFlightThanTheWireHolds(t *testing.T) {
 			callsInFlight,
 		)
 	}
+	firstWave := askIndicesOf(network.hostsSeenCalledInOrder()[:callsInFlight], asks)
+	slices.Sort(firstWave)
+	if !slices.Equal(firstWave, []int{0, 1, 2}) {
+		t.Fatalf("asks %v were put first, want the first %d asks given", firstWave, callsInFlight)
+	}
+}
+
+func askIndicesOf(hosts []string, asks []peerasks.MatchedItemsAsk) []int {
+	indexPerHost := map[string]int{}
+	for index, ask := range asks {
+		indexPerHost[strings.TrimPrefix(ask.Peer.Address, "http://")] = index
+	}
+
+	indices := make([]int, 0, len(hosts))
+	for _, host := range hosts {
+		indices = append(indices, indexPerHost[host])
+	}
+
+	return indices
 }
 
 func TestAskingNoPeerCollectsNoAnswer(t *testing.T) {

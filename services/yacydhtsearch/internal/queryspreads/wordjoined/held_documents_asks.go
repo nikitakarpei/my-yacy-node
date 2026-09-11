@@ -11,10 +11,23 @@ func heldDocumentsAsksFor(
 	chosenPeersPerQueryWord [][]peerdirectory.AskablePeer,
 	itemsCeiling int,
 ) []peerasks.HeldDocumentsAsk {
-	var asks []peerasks.HeldDocumentsAsk
+	return asksInTurnsAcrossTheWordsOf(
+		heldDocumentsAsksPerQueryWordFor(query, chosenPeersPerQueryWord, itemsCeiling),
+	)
+}
+
+func heldDocumentsAsksPerQueryWordFor(
+	query searchquery.Query,
+	chosenPeersPerQueryWord [][]peerdirectory.AskablePeer,
+	itemsCeiling int,
+) [][]peerasks.HeldDocumentsAsk {
+	asksPerQueryWord := make([][]peerasks.HeldDocumentsAsk, 0, len(query.TermHashes()))
 	for index, queryWord := range query.TermHashes() {
+		asksOfQueryWord := make(
+			[]peerasks.HeldDocumentsAsk, 0, len(chosenPeersPerQueryWord[index]),
+		)
 		for _, peer := range chosenPeersPerQueryWord[index] {
-			asks = append(asks, peerasks.HeldDocumentsAsk{
+			asksOfQueryWord = append(asksOfQueryWord, peerasks.HeldDocumentsAsk{
 				Peer:          peer,
 				Word:          queryWord,
 				ExcludedWords: query.ExclusionHashes(),
@@ -22,7 +35,33 @@ func heldDocumentsAsksFor(
 				ItemsCeiling:  itemsCeiling,
 			})
 		}
+		asksPerQueryWord = append(asksPerQueryWord, asksOfQueryWord)
 	}
 
-	return asks
+	return asksPerQueryWord
+}
+
+func asksInTurnsAcrossTheWordsOf(
+	asksPerQueryWord [][]peerasks.HeldDocumentsAsk,
+) []peerasks.HeldDocumentsAsk {
+	var asksInTurns []peerasks.HeldDocumentsAsk
+	for turn := range amountOfTurnsAcrossTheWordsOf(asksPerQueryWord) {
+		for _, asksOfQueryWord := range asksPerQueryWord {
+			if turn >= len(asksOfQueryWord) {
+				continue
+			}
+			asksInTurns = append(asksInTurns, asksOfQueryWord[turn])
+		}
+	}
+
+	return asksInTurns
+}
+
+func amountOfTurnsAcrossTheWordsOf(asksPerQueryWord [][]peerasks.HeldDocumentsAsk) int {
+	turns := 0
+	for _, asksOfQueryWord := range asksPerQueryWord {
+		turns = max(turns, len(asksOfQueryWord))
+	}
+
+	return turns
 }

@@ -1,10 +1,23 @@
 package peercallwire
 
+import "sync"
+
 type peerCallsInFlight chan struct{}
 
-func (inFlight peerCallsInFlight) putOnePeerCall(peerCall func()) {
-	inFlight <- struct{}{}
-	defer func() { <-inFlight }()
+func (inFlight peerCallsInFlight) putEveryPeerCallInTheOrderGiven(
+	amountOfPeerCalls int,
+	putOnePeerCall func(index int),
+) {
+	var peerCalls sync.WaitGroup
+	for index := range amountOfPeerCalls {
+		inFlight <- struct{}{}
+		peerCalls.Add(1)
+		go func() {
+			defer peerCalls.Done()
+			defer func() { <-inFlight }()
 
-	peerCall()
+			putOnePeerCall(index)
+		}()
+	}
+	peerCalls.Wait()
 }

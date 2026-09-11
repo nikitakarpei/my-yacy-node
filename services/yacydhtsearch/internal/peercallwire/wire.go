@@ -6,8 +6,9 @@
 // and leaves every peer the time the peer
 // call has left, less the margin the answer needs to reach this node; a peer
 // call with no deadline leaves the peer a time of its own. It holds the peer
-// calls this node has in flight at the amount it is built for, and an ask that
-// waits for its turn keeps the time its peer call has left. It carries the
+// calls this node has in flight at the amount it is built for, puts the asks in
+// the order they came, and an ask that waits for its turn keeps the time its
+// peer call has left. It carries the
 // facts that hold for every peer call of this node — the network it searches
 // and the partitions of the ring.
 package peercallwire
@@ -18,7 +19,6 @@ import (
 	"net/http"
 	"net/url"
 	"strings"
-	"sync"
 	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peeranswers"
@@ -80,18 +80,10 @@ func putAsksToPeers[Ask any, Answered any](
 ) []Answered {
 	answeredAsks := make([]Answered, len(asks))
 	replied := make([]bool, len(asks))
-	var calls sync.WaitGroup
 
-	for index, ask := range asks {
-		calls.Add(1)
-		go func() {
-			defer calls.Done()
-			callsInFlight.putOnePeerCall(func() {
-				answeredAsks[index], replied[index] = putAsk(ask)
-			})
-		}()
-	}
-	calls.Wait()
+	callsInFlight.putEveryPeerCallInTheOrderGiven(len(asks), func(index int) {
+		answeredAsks[index], replied[index] = putAsk(asks[index])
+	})
 
 	return answeredAsksThatCameBack(answeredAsks, replied)
 }
