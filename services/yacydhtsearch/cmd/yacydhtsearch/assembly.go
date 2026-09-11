@@ -236,7 +236,7 @@ func itemsOrderingFor(cfg ServiceConfig) networksearch.ItemsOrdering {
 		return peerorder.Ordering{}
 	}
 
-	return hostturns.New(relevance.Ordering{})
+	return hostturns.New(relevance.New(relevance.DefaultScoreWeights()))
 }
 
 func rankingCacheFor(

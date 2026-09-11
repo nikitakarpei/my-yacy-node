@@ -9,7 +9,10 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
-const amountOfRunsOfTheSameAnswers = 50
+const (
+	amountOfRunsOfTheSameAnswers = 50
+	weightOfAWeighedAddressScore = 1.0
+)
 
 func metadataOf(t *testing.T, address string, title string) yacymodel.URLMetadata {
 	t.Helper()
@@ -121,7 +124,13 @@ func answersHolding(
 }
 
 func addressesOrderedBy(answers peeranswers.AnsweredQuery) []string {
-	orderedItems := relevance.Ordering{}.OrderedItemsOf(answers)
+	return addressesOrderedByTheScoreWeights(relevance.DefaultScoreWeights(), answers)
+}
+
+func addressesOrderedByTheScoreWeights(
+	scoreWeights relevance.ScoreWeights, answers peeranswers.AnsweredQuery,
+) []string {
+	orderedItems := relevance.New(scoreWeights).OrderedItemsOf(answers)
 
 	addresses := make([]string, 0, len(orderedItems))
 	for _, orderedItem := range orderedItems {
@@ -351,7 +360,7 @@ func TestATitleIsReadPastItsPunctuation(t *testing.T) {
 	}
 }
 
-func TestTheDocumentWhoseHostHoldsTheQueryWordComesFirst(t *testing.T) {
+func TestAWeighedAddressScorePutsTheDocumentWhoseHostHoldsTheQueryWordFirst(t *testing.T) {
 	t.Parallel()
 
 	answers := answersHolding(
@@ -363,9 +372,12 @@ func TestTheDocumentWhoseHostHoldsTheQueryWordComesFirst(t *testing.T) {
 			itemMatchingTheWords(t, "https://berlin.example/city/", "berlin"),
 		},
 	)
+	scoreWeights := relevance.DefaultScoreWeights()
+	scoreWeights.WeightOfTheAddressScore = weightOfAWeighedAddressScore
 
 	want := []string{"https://berlin.example/city/", "https://weather.example/city/"}
-	if got := addressesOrderedBy(answers); !slices.Equal(got, want) {
+	got := addressesOrderedByTheScoreWeights(scoreWeights, answers)
+	if !slices.Equal(got, want) {
 		t.Fatalf("the relevance order reads %v, want %v", got, want)
 	}
 }

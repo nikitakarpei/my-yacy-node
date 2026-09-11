@@ -256,7 +256,7 @@ func pageTextOfTheFirstAnsweredDocuments(
 ) map[yacymodel.URLHash]string {
 	t.Helper()
 
-	candidates := relevance.Ordering{}.OrderedItemsOf(answers)
+	candidates := relevance.New(relevance.DefaultScoreWeights()).OrderedItemsOf(answers)
 
 	return reading.pageTextPerDocument(
 		t.Context(), candidates[:min(pagesReadPerQuery, len(candidates))],

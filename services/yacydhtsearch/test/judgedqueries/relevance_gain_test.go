@@ -12,7 +12,7 @@ import (
 )
 
 const (
-	meanGainFloorOfTheOrderingOfTheService                = 0.74
+	meanGainFloorOfTheOrderingOfTheService                = 0.80
 	leastLiftOfTheOrderingOfTheServiceOverThePeerOrdering = 0.27
 )
 
@@ -26,7 +26,7 @@ func TestTheRelevanceOrderingHoldsItsGainOverTheJudgedQueries(t *testing.T) {
 	judged := judgedQueriesRecorded(t)
 
 	meanGainOfTheOrderingOfTheService := meanNormalizedGainDiscountedPerHostOf(
-		hostturns.New(relevance.Ordering{}), judged,
+		orderingOfTheServiceFrom(relevance.DefaultScoreWeights()), judged,
 	)
 	meanGainOfThePeerOrdering := meanNormalizedGainDiscountedPerHostOf(
 		peerorder.Ordering{}, judged,
@@ -93,6 +93,10 @@ func gradedDocumentsOfTheAnswersFile(t *testing.T, answersFile string) gradedDoc
 	return queryJudgmentsInTheFile(t, judgmentsFile).gradedDocumentsOfTheQuery()
 }
 
+func orderingOfTheServiceFrom(scoreWeights relevance.ScoreWeights) hostturns.Ordering {
+	return hostturns.New(relevance.New(scoreWeights))
+}
+
 func meanNormalizedGainDiscountedPerHostOf(
 	ordering itemsOrdering, judged []judgedQuery,
 ) float64 {
@@ -109,14 +113,15 @@ func meanNormalizedGainDiscountedPerHostOf(
 func reportTheGainOfEachJudgedQuery(t *testing.T, judged []judgedQuery) {
 	t.Helper()
 
+	relevanceOrdering := relevance.New(relevance.DefaultScoreWeights())
 	for _, judgedQuery := range judged {
-		orderedItems := hostturns.New(relevance.Ordering{}).OrderedItemsOf(judgedQuery.answers)
+		orderedItems := hostturns.New(relevanceOrdering).OrderedItemsOf(judgedQuery.answers)
 		t.Logf(
 			"%q: host turns %.4f, relevance %.4f, peer order %.4f, %d ungraded documents dropped",
 			judgedQuery.query,
 			judgedQuery.gradedDocuments.normalizedGainDiscountedPerHostOf(orderedItems),
 			judgedQuery.gradedDocuments.normalizedGainDiscountedPerHostOf(
-				relevance.Ordering{}.OrderedItemsOf(judgedQuery.answers),
+				relevanceOrdering.OrderedItemsOf(judgedQuery.answers),
 			),
 			judgedQuery.gradedDocuments.normalizedGainDiscountedPerHostOf(
 				peerorder.Ordering{}.OrderedItemsOf(judgedQuery.answers),
@@ -127,8 +132,8 @@ func reportTheGainOfEachJudgedQuery(t *testing.T, judged []judgedQuery) {
 	t.Logf(
 		"the mean over %d judged queries: host turns %.4f, relevance %.4f, peer order %.4f",
 		len(judged),
-		meanNormalizedGainDiscountedPerHostOf(hostturns.New(relevance.Ordering{}), judged),
-		meanNormalizedGainDiscountedPerHostOf(relevance.Ordering{}, judged),
+		meanNormalizedGainDiscountedPerHostOf(hostturns.New(relevanceOrdering), judged),
+		meanNormalizedGainDiscountedPerHostOf(relevanceOrdering, judged),
 		meanNormalizedGainDiscountedPerHostOf(peerorder.Ordering{}, judged),
 	)
 }

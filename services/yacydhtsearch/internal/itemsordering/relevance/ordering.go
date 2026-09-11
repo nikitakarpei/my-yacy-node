@@ -13,22 +13,23 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
-const (
-	weightOfThePlaceScore   = 1.0
-	weightOfTheTitleScore   = 0.5
-	weightOfTheTextScore    = 1.0
-	weightOfTheAddressScore = 1.0
-	weightOfThePhraseScore  = 1.0
-)
+type Ordering struct {
+	scoreWeights ScoreWeights
+}
 
-type Ordering struct{}
+func New(scoreWeights ScoreWeights) Ordering {
+	return Ordering{scoreWeights: scoreWeights}
+}
 
-func (Ordering) OrderedItemsOf(
+func (ordering Ordering) OrderedItemsOf(
 	answers peeranswers.AnsweredQuery,
 ) []peeranswers.AnsweredItem {
 	items := answers.ItemOfEachAnsweredDocument()
 	relevancePerDocument := relevancePerDocumentOf(
-		items, answers.ItemsInTheOrderOfEachAnswer, answers.DocumentsHeldPerQueryWord,
+		items,
+		answers.ItemsInTheOrderOfEachAnswer,
+		answers.DocumentsHeldPerQueryWord,
+		ordering.scoreWeights,
 	)
 
 	return itemsOrderedByRelevance(items, relevancePerDocument)
@@ -38,6 +39,7 @@ func relevancePerDocumentOf(
 	items []peeranswers.AnsweredItem,
 	itemsInTheOrderOfEachAnswer [][]peeranswers.AnsweredItem,
 	documentsHeldPerQueryWord map[yacymodel.Hash]int,
+	scoreWeights ScoreWeights,
 ) map[yacymodel.URLHash]float64 {
 	placeScorePerDocument := placeScorePerDocumentOf(itemsInTheOrderOfEachAnswer)
 	rarityPerQueryWord := rarityPerQueryWordOf(documentsHeldPerQueryWord)
@@ -45,7 +47,7 @@ func relevancePerDocumentOf(
 
 	relevancePerDocument := make(map[yacymodel.URLHash]float64, len(items))
 	for _, item := range items {
-		relevancePerDocument[item.Metadata.Hash] = relevanceOf(
+		relevancePerDocument[item.Metadata.Hash] = scoreWeights.relevanceOf(
 			item,
 			placeScorePerDocument[item.Metadata.Hash],
 			rarityPerQueryWord,
@@ -54,19 +56,6 @@ func relevancePerDocumentOf(
 	}
 
 	return relevancePerDocument
-}
-
-func relevanceOf(
-	item peeranswers.AnsweredItem,
-	placeScore float64,
-	rarityPerQueryWord map[yacymodel.Hash]float64,
-	averageDocumentLength float64,
-) float64 {
-	return weightOfThePlaceScore*placeScore +
-		weightOfTheTitleScore*titleScoreOf(item) +
-		weightOfTheTextScore*textScoreOf(item, rarityPerQueryWord, averageDocumentLength) +
-		weightOfTheAddressScore*addressScoreOf(item) +
-		weightOfThePhraseScore*phraseScoreOf(item)
 }
 
 func itemsOrderedByRelevance(
