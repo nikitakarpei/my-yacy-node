@@ -9,6 +9,8 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
+const amountOfRunsOfTheSameAnswers = 50
+
 func metadataOf(t *testing.T, address string, title string) yacymodel.URLMetadata {
 	t.Helper()
 
@@ -30,6 +32,22 @@ func itemCountedForTheWord(
 		MatchedWords: map[yacymodel.Hash]peeranswers.WordCount{
 			yacymodel.WordHash(word): {Hits: hits},
 		},
+	}
+}
+
+func itemCountedForTheWords(
+	t *testing.T, address string, hitsPerWord map[string]int,
+) peeranswers.AnsweredItem {
+	t.Helper()
+
+	matchedWords := make(map[yacymodel.Hash]peeranswers.WordCount, len(hitsPerWord))
+	for word, hits := range hitsPerWord {
+		matchedWords[yacymodel.WordHash(word)] = peeranswers.WordCount{Hits: hits}
+	}
+
+	return peeranswers.AnsweredItem{
+		Metadata:     metadataOf(t, address, ""),
+		MatchedWords: matchedWords,
 	}
 }
 
@@ -311,6 +329,35 @@ func TestAnItemOfNoOrderComesAfterAnEquallyCountedItemAPeerPut(t *testing.T) {
 	want := []string{"https://ordered.example/", "https://unordered.example/"}
 	if got := addressesOrderedBy(answers); !slices.Equal(got, want) {
 		t.Fatalf("the relevance order reads %v, want %v", got, want)
+	}
+}
+
+func TestTheSameAnswersComeBackInTheSameOrderEveryRun(t *testing.T) {
+	t.Parallel()
+
+	answers := answersHolding(
+		map[string]int{"berlin": 100000, "weather": 7000, "kelondro": 13, "freeworld": 421},
+		[]peeranswers.AnsweredItem{
+			itemCountedForTheWords(t, "https://a.example/",
+				map[string]int{"berlin": 3, "weather": 2, "kelondro": 1, "freeworld": 4}),
+			itemCountedForTheWords(t, "https://b.example/",
+				map[string]int{"berlin": 4, "weather": 1, "kelondro": 1, "freeworld": 3}),
+			itemCountedForTheWords(t, "https://c.example/",
+				map[string]int{"berlin": 2, "weather": 3, "kelondro": 2, "freeworld": 1}),
+		},
+		[]peeranswers.AnsweredItem{
+			itemCountedForTheWords(t, "https://d.example/",
+				map[string]int{"berlin": 1, "weather": 4, "kelondro": 1, "freeworld": 2}),
+			itemCountedForTheWords(t, "https://e.example/",
+				map[string]int{"berlin": 3, "weather": 3, "kelondro": 1, "freeworld": 1}),
+		},
+	)
+
+	want := addressesOrderedBy(answers)
+	for run := range amountOfRunsOfTheSameAnswers {
+		if got := addressesOrderedBy(answers); !slices.Equal(got, want) {
+			t.Fatalf("run %d reads the relevance order %v, want %v", run, got, want)
+		}
 	}
 }
 

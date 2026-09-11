@@ -8,15 +8,15 @@ import (
 func titleScoreOf(item peeranswers.AnsweredItem) float64 {
 	wordsOfTheTitle := wordsOfTheTitleOf(item.Metadata.Title)
 
-	titleScore := 0.0
+	amountOfQueryWordsInTheTitle := 0
 	for word := range item.MatchedWords {
 		if _, inTheTitle := wordsOfTheTitle[word]; !inTheTitle {
 			continue
 		}
-		titleScore++
+		amountOfQueryWordsInTheTitle++
 	}
 
-	return titleScore
+	return float64(amountOfQueryWordsInTheTitle)
 }
 
 func wordsOfTheTitleOf(title string) map[yacymodel.Hash]struct{} {
