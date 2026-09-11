@@ -58,16 +58,8 @@ type judgedQuery struct {
 func judgedQueriesRecorded(t *testing.T) []judgedQuery {
 	t.Helper()
 
-	answersFiles, err := filepath.Glob(filepath.Join(recordedAnswersDirectory, "*.json"))
-	if err != nil {
-		t.Fatalf("read %s: %v", recordedAnswersDirectory, err)
-	}
-	if len(answersFiles) == 0 {
-		t.Fatalf("no query is recorded in %s", recordedAnswersDirectory)
-	}
-
 	var judged []judgedQuery
-	for _, answersFile := range answersFiles {
+	for _, answersFile := range recordedAnswersFiles(t) {
 		graded := gradedDocumentsOfTheAnswersFile(t, answersFile)
 		if !graded.holdARelevantDocument() {
 			continue

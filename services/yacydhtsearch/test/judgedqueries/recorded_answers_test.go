@@ -134,6 +134,20 @@ func recordedWordCountsOf(
 	return recordedWordCounts
 }
 
+func recordedAnswersFiles(t *testing.T) []string {
+	t.Helper()
+
+	answersFiles, err := filepath.Glob(filepath.Join(recordedAnswersDirectory, "*.json"))
+	if err != nil {
+		t.Fatalf("read %s: %v", recordedAnswersDirectory, err)
+	}
+	if len(answersFiles) == 0 {
+		t.Fatalf("no query is recorded in %s", recordedAnswersDirectory)
+	}
+
+	return answersFiles
+}
+
 func recordedAnswersInTheFile(t *testing.T, path string) recordedAnswers {
 	t.Helper()
 

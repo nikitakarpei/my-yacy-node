@@ -32,6 +32,18 @@ func (j queryJudgments) gradeOfEachDocument() gradedDocuments {
 	return grades
 }
 
+func (j queryJudgments) amountOfUngradedDocuments() int {
+	amountOfUngradedDocuments := 0
+	for _, judged := range j.JudgedDocuments {
+		if judged.Grade != nil {
+			continue
+		}
+		amountOfUngradedDocuments++
+	}
+
+	return amountOfUngradedDocuments
+}
+
 func (d judgedDocument) gradeWhenJudged() int {
 	if d.Grade == nil {
 		return 0
