@@ -5,6 +5,7 @@ import (
 	"path/filepath"
 	"testing"
 
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/itemsordering/hostturns"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/itemsordering/peerorder"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/itemsordering/relevance"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peeranswers"
@@ -24,8 +25,11 @@ func TestTheRelevanceOrderingHoldsItsGainOverTheJudgedQueries(t *testing.T) {
 
 	judged := judgedQueriesRecorded(t)
 
-	meanGainOfTheRelevanceOrdering := meanNormalizedGainOf(relevance.Ordering{}, judged)
+	meanGainOfTheRelevanceOrdering := meanNormalizedGainOf(
+		hostturns.New(relevance.Ordering{}), judged,
+	)
 	meanGainOfThePeerOrdering := meanNormalizedGainOf(peerorder.Ordering{}, judged)
+	reportTheGainOfEachJudgedQuery(t, judged)
 
 	if meanGainOfTheRelevanceOrdering < meanGainFloorOfTheRelevanceOrdering {
 		t.Errorf(
@@ -51,6 +55,7 @@ func TestTheRelevanceOrderingHoldsItsGainOverTheJudgedQueries(t *testing.T) {
 }
 
 type judgedQuery struct {
+	query           string
 	answers         peeranswers.AnsweredQuery
 	gradedDocuments gradedDocuments
 }
@@ -64,8 +69,10 @@ func judgedQueriesRecorded(t *testing.T) []judgedQuery {
 		if !graded.holdARelevantDocument() {
 			continue
 		}
+		answers := recordedAnswersInTheFile(t, answersFile)
 		judged = append(judged, judgedQuery{
-			answers:         recordedAnswersInTheFile(t, answersFile).answeredQuery(),
+			query:           answers.Query,
+			answers:         answers.answeredQuery(),
 			gradedDocuments: graded,
 		})
 	}
@@ -81,7 +88,7 @@ func gradedDocumentsOfTheAnswersFile(t *testing.T, answersFile string) gradedDoc
 		t.Fatalf("read %s: %v", judgmentsFile, err)
 	}
 
-	return queryJudgmentsInTheFile(t, judgmentsFile).gradeOfEachDocument()
+	return queryJudgmentsInTheFile(t, judgmentsFile).gradeOfEachGradedDocument()
 }
 
 func meanNormalizedGainOf(ordering itemsOrdering, judged []judgedQuery) float64 {
@@ -93,4 +100,24 @@ func meanNormalizedGainOf(ordering itemsOrdering, judged []judgedQuery) float64 
 	}
 
 	return sumOfNormalizedGains / float64(len(judged))
+}
+
+func reportTheGainOfEachJudgedQuery(t *testing.T, judged []judgedQuery) {
+	t.Helper()
+
+	for _, judgedQuery := range judged {
+		orderedItems := hostturns.New(relevance.Ordering{}).OrderedItemsOf(judgedQuery.answers)
+		t.Logf(
+			"%q: host turns %.4f, relevance %.4f, peer order %.4f, %d ungraded documents dropped",
+			judgedQuery.query,
+			judgedQuery.gradedDocuments.normalizedGainOf(orderedItems),
+			judgedQuery.gradedDocuments.normalizedGainOf(
+				relevance.Ordering{}.OrderedItemsOf(judgedQuery.answers),
+			),
+			judgedQuery.gradedDocuments.normalizedGainOf(
+				peerorder.Ordering{}.OrderedItemsOf(judgedQuery.answers),
+			),
+			judgedQuery.gradedDocuments.amountOfUngradedItemsAmong(orderedItems),
+		)
+	}
 }

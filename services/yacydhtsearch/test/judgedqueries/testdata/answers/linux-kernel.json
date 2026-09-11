@@ -1,8 +1,59 @@
 {
   "query": "linux kernel",
-  "recordedAt": "2026-09-11T20:59:41Z",
+  "recordedAt": "2026-09-11T22:14:22Z",
   "itemsInTheOrderOfEachAnswer": [
     [
+      {
+        "hash": "nXiF30WUVeV5",
+        "address": "https://opensource.com/resources/linux",
+        "title": "What is Linux? | Opensource.com",
+        "snippet": "Linux is the best-known and most-used open source operating system. As an operating system, Linux is software that sits underneath all of the other software on a computer, receiving requests from those programs and relaying these requests to the computer’s hardware.\nHow does Linux differ from other",
+        "matchedWords": {
+          "4galTpdpDM5Q": {
+            "hits": 70,
+            "textWords": 1345
+          },
+          "UEhMGfGv2vOE": {
+            "hits": 6,
+            "textWords": 1345
+          }
+        },
+        "queryPhraseHits": 4
+      },
+      {
+        "hash": "hMYfxA24Kkqw",
+        "address": "https://www.ghacks.net/category/linux/",
+        "title": "Linux News: Distributions, Kernel Updates, Open-Source Developments - gHacks",
+        "snippet": "Linux news covers open-source operating systems, kernel updates, distribution releases, desktop environments, package management systems, and community-driven software development. Ghacks reports on new distro versions, performance improvements, security patches, compatibility changes, and",
+        "matchedWords": {
+          "4galTpdpDM5Q": {
+            "hits": 33,
+            "textWords": 482
+          },
+          "UEhMGfGv2vOE": {
+            "hits": 6,
+            "textWords": 482
+          }
+        },
+        "queryPhraseHits": 3
+      },
+      {
+        "hash": "dDOGQDOAID44",
+        "address": "https://linuxiac.com/category/linux-knowledge/general/",
+        "title": "Linux General Archives - Linuxiac",
+        "snippet": "GNU/Linux or Just Linux? Between Purism and Everyday Usage\nOnFebruary 5, 2026\nA critical look at the GNU/Linux naming debate and why everyday usage settled on the shorter, simpler term: Linux.\nLinux Distros I Recommend for Those Switching from Windows\nOnJanuary 21, 2026\nConsidering Linux for the",
+        "matchedWords": {
+          "4galTpdpDM5Q": {
+            "hits": 22,
+            "textWords": 337
+          },
+          "UEhMGfGv2vOE": {
+            "hits": 0,
+            "textWords": 337
+          }
+        },
+        "queryPhraseHits": 0
+      },
       {
         "hash": "OBXywlSCNQa4",
         "address": "https://www.redhat.com/en/topics/linux/fedora-vs-red-hat-enterprise-linux",
@@ -17,91 +68,8 @@
             "hits": 4,
             "textWords": 1026
           }
-        }
-      }
-    ],
-    [
-      {
-        "hash": "Wd9L1l6bFQy6",
-        "address": "https://www.notebookcheck.com/Linux-Kernel-6-11-mit-Unterstuetzung-fuer-Qualcomm-SDX-Wireless-Chips-und-Intel-Battlemage-GPUs-jetzt-als-Release-Candidate-1-verfuegbar.869230.0.html",
-        "title": "Linux Kernel 6.11 mit Unterstützung für Qualcomm SDX Wireless Chips und Intel Battlemage GPUs jetzt als Release Candidate 1 verfügbar - Notebookcheck News",
-        "snippet": "Linux Kernel 6.11 ist als Release Candidate verfügbar und unterstützt neue Hardware. (Bildquelle: Wikimedia Commons)\nDer erste Release Candidate für die nächste Version des Linux-Kernels (Kernel 6.11-rc1) ist jetzt verfügbar. Der Release Candidate 1 enthält Unterstützung für Wireless-Treiber für",
-        "matchedWords": {
-          "4galTpdpDM5Q": {
-            "hits": 10,
-            "textWords": 526
-          },
-          "UEhMGfGv2vOE": {
-            "hits": 9,
-            "textWords": 526
-          }
-        }
-      },
-      {
-        "hash": "HXn7qqyiDYm6",
-        "address": "https://unit42.paloaltonetworks.com/a-look-into-fysbis-sofacys-linux-backdoor/",
-        "title": "A Look Into Fysbis: Sofacy’s Linux Backdoor",
-        "snippet": "Linux, even mobile iOS.\nThe Linux malware Fysbis is a preferred tool of Sofacy, and though it is not particularly sophisticated, Linux security in general is still a maturing area, especially in regards to malware. In short, it is entirely plausible that this tool has contributed to the success of",
-        "matchedWords": {
-          "4galTpdpDM5Q": {
-            "hits": 18,
-            "textWords": 1864
-          },
-          "UEhMGfGv2vOE": {
-            "hits": 5,
-            "textWords": 1864
-          }
-        }
-      },
-      {
-        "hash": "sVT_FJ70mtR4",
-        "address": "https://eoss2023.sched.com/event/1LcNH/status-of-embedded-linux-tim-bird-sony-electronics",
-        "title": "Embedded Open Source Summit 2023: Status of Embedded Linux - Tim Bird, Son...",
-        "snippet": "Linux in the embedded space that have come about in the past year. Tim will discuss recent developments in the Linux kernel that are of interest to embedded developers, covering such topics as filesystems, networking, tracing, and real-time. He will also discuss security, testing, and other",
-        "matchedWords": {
-          "4galTpdpDM5Q": {
-            "hits": 11,
-            "textWords": 218
-          },
-          "UEhMGfGv2vOE": {
-            "hits": 3,
-            "textWords": 218
-          }
-        }
-      },
-      {
-        "hash": "4NHDqlpcc_2y",
-        "address": "https://www.notebookcheck.net/Linux-on-PS5-benchmarked-with-PlayStation-games-impressing-on-Steam-Machine-alternative.1289679.0.html",
-        "title": "Linux on PS5 benchmarked, with PlayStation games impressing on Steam Machine alternative - Notebookcheck News",
-        "snippet": "Linux hack, Digital Foundry evaluated the performance of several PlayStation games. The ports exhibited similar frame rates, but memory limitations led to stuttering in Pragmata.\nSome fans anxious for the Valve Steam Machine release date have built their own alternatives. However, a recent",
-        "matchedWords": {
-          "4galTpdpDM5Q": {
-            "hits": 6,
-            "textWords": 484
-          },
-          "UEhMGfGv2vOE": {
-            "hits": 0,
-            "textWords": 484
-          }
-        }
-      }
-    ],
-    [
-      {
-        "hash": "fT4cXiCRdREw",
-        "address": "https://jvns.ca/categories/linux/",
-        "title": "Linux",
-        "snippet": "linux\nMar 12 2016 How does perf work? (in which we read the Linux kernel source)\nArchives",
-        "matchedWords": {
-          "4galTpdpDM5Q": {
-            "hits": 2,
-            "textWords": 30
-          },
-          "UEhMGfGv2vOE": {
-            "hits": 1,
-            "textWords": 30
-          }
-        }
+        },
+        "queryPhraseHits": 4
       }
     ],
     [
@@ -119,7 +87,398 @@
             "hits": 8,
             "textWords": 144
           }
-        }
+        },
+        "queryPhraseHits": 2
+      },
+      {
+        "hash": "5A3Als-kQ1nw",
+        "address": "https://kernel.org/",
+        "title": "The Linux Kernel Archives",
+        "snippet": "https://www.kernel.org/pub/\nGIT\nhttps://git.kernel.org/\nRSYNC\nrsync://rsync.kernel.org/pub/\nmainline:\n7.3-rc2\n2026-09-06\n[tarball]\n[patch]\n[inc. patch]\n[view diff]\n[browse]\nstable:\n7.2.5\n2026-09-11\n[tarball]\n[pgp]\n[patch]\n[inc. patch]\n[view diff]\n[browse]\n[changelog]\nstable:\n7.1.13 [EOL]\n2026-09-02",
+        "matchedWords": {
+          "4galTpdpDM5Q": {
+            "hits": 1,
+            "textWords": 155
+          },
+          "UEhMGfGv2vOE": {
+            "hits": 3,
+            "textWords": 155
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "OBXywlSCNQa4",
+        "address": "https://www.redhat.com/en/topics/linux/fedora-vs-red-hat-enterprise-linux",
+        "title": "What's the difference between Fedora and Red Hat Enterprise Linux",
+        "snippet": "Linux\nWhat's the difference between Fedora and Red Hat Enterprise Linux?\nPublished January 3, 2023•3-minute read\nOverview\nA Linux® distribution, or distro, is an installable operating system built from the Linux kernel, supporting user programs, and libraries. Each vendor or community's version is",
+        "matchedWords": {
+          "4galTpdpDM5Q": {
+            "hits": 44,
+            "textWords": 1026
+          },
+          "UEhMGfGv2vOE": {
+            "hits": 4,
+            "textWords": 1026
+          }
+        },
+        "queryPhraseHits": 4
+      }
+    ],
+    [
+      {
+        "hash": "5A3Als-kQ1nw",
+        "address": "https://kernel.org/",
+        "title": "The Linux Kernel Archives",
+        "snippet": "https://www.kernel.org/pub/\nGIT\nhttps://git.kernel.org/\nRSYNC\nrsync://rsync.kernel.org/pub/\nmainline:\n7.3-rc2\n2026-09-06\n[tarball]\n[patch]\n[inc. patch]\n[view diff]\n[browse]\nstable:\n7.2.5\n2026-09-11\n[tarball]\n[pgp]\n[patch]\n[inc. patch]\n[view diff]\n[browse]\n[changelog]\nstable:\n7.1.13 [EOL]\n2026-09-02",
+        "matchedWords": {
+          "4galTpdpDM5Q": {
+            "hits": 1,
+            "textWords": 155
+          },
+          "UEhMGfGv2vOE": {
+            "hits": 3,
+            "textWords": 155
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "jmJ6Qs6JlDf5",
+        "address": "https://wallpapers.com/linux",
+        "title": "[200+] Linux Wallpapers | Wallpapers.com",
+        "snippet": "Linux Wallpapers cost?\nThere is no charge. No sign-up is required. Nothing is downgraded to sell you an upgrade.\nWhat is the maximum size for these Linux Wallpapers?\nUp to 7952x5304, at the top end. We build the smaller sizes automatically — pick the one that matches your screen rather than",
+        "matchedWords": {
+          "4galTpdpDM5Q": {
+            "hits": 5,
+            "textWords": 148
+          },
+          "UEhMGfGv2vOE": {
+            "hits": 0,
+            "textWords": 148
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "dDOGQDOAID44",
+        "address": "https://linuxiac.com/category/linux-knowledge/general/",
+        "title": "Linux General Archives - Linuxiac",
+        "snippet": "GNU/Linux or Just Linux? Between Purism and Everyday Usage\nOnFebruary 5, 2026\nA critical look at the GNU/Linux naming debate and why everyday usage settled on the shorter, simpler term: Linux.\nLinux Distros I Recommend for Those Switching from Windows\nOnJanuary 21, 2026\nConsidering Linux for the",
+        "matchedWords": {
+          "4galTpdpDM5Q": {
+            "hits": 22,
+            "textWords": 337
+          },
+          "UEhMGfGv2vOE": {
+            "hits": 0,
+            "textWords": 337
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "nXiF30WUVeV5",
+        "address": "https://opensource.com/resources/linux",
+        "title": "What is Linux? | Opensource.com",
+        "snippet": "Linux is the best-known and most-used open source operating system. As an operating system, Linux is software that sits underneath all of the other software on a computer, receiving requests from those programs and relaying these requests to the computer’s hardware.\nHow does Linux differ from other",
+        "matchedWords": {
+          "4galTpdpDM5Q": {
+            "hits": 70,
+            "textWords": 1345
+          },
+          "UEhMGfGv2vOE": {
+            "hits": 6,
+            "textWords": 1345
+          }
+        },
+        "queryPhraseHits": 4
+      },
+      {
+        "hash": "lWsPplGZ4FKw",
+        "address": "https://www.kernel.org/",
+        "title": "The Linux Kernel Archives",
+        "snippet": "https://www.kernel.org/pub/\nGIT\nhttps://git.kernel.org/\nRSYNC\nrsync://rsync.kernel.org/pub/\nmainline:\n7.3-rc2\n2026-09-06\n[tarball]\n[patch]\n[inc. patch]\n[view diff]\n[browse]\nstable:\n7.2.5\n2026-09-11\n[tarball]\n[pgp]\n[patch]\n[inc. patch]\n[view diff]\n[browse]\n[changelog]\nstable:\n7.1.13 [EOL]\n2026-09-02",
+        "matchedWords": {
+          "4galTpdpDM5Q": {
+            "hits": 1,
+            "textWords": 155
+          },
+          "UEhMGfGv2vOE": {
+            "hits": 3,
+            "textWords": 155
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "0KcjvUckml4g",
+        "address": "https://timur.hu/blog/2025/understanding-your-linux-open-source-drivers",
+        "title": "Understanding your Linux open source drivers | Timur’s blog",
+        "snippet": "Linux graphics stack, what are the important parts and what the key projects are where the development happens, as well as what you need to do to get the best user experience out of it.\nThe open source Linux graphics driver stack\nPlease refer to my previous post for a more detailed general",
+        "matchedWords": {
+          "4galTpdpDM5Q": {
+            "hits": 12,
+            "textWords": 1145
+          },
+          "UEhMGfGv2vOE": {
+            "hits": 7,
+            "textWords": 1145
+          }
+        },
+        "queryPhraseHits": 2
+      }
+    ],
+    [
+      {
+        "hash": "7zoiPTrhyvQw",
+        "address": "https://www.man7.org/linux/man-pages/man8/hwclock.8.html",
+        "title": "hwclock(8) - Linux manual page",
+        "snippet": "kernel’s timezone, NTP timescale, and epoch (Alpha only); and predict future Hardware Clock values based on its drift rate. Since v2.26 important changes were made to the --hctosys function and the --directisa option, and a new option --update-drift was added. See their respective descriptions",
+        "matchedWords": {
+          "4galTpdpDM5Q": {
+            "hits": 38,
+            "textWords": 6062
+          },
+          "UEhMGfGv2vOE": {
+            "hits": 46,
+            "textWords": 6062
+          }
+        },
+        "queryPhraseHits": 7
+      }
+    ],
+    [
+      {
+        "hash": "HSA0HjRvmBbx",
+        "address": "https://en.wikipedia.org/wiki/User_interface",
+        "title": "User interface - Wikipedia",
+        "snippet": "The Xfce desktop environment offers a graphical user interface following the desktop metaphor.\nIn the industrial design field of human–computer interaction, a user interface (UI) is the space where interactions between humans and machines occur. The goal of this interaction is to allow effective",
+        "matchedWords": {
+          "4galTpdpDM5Q": {
+            "hits": 0,
+            "textWords": 4945
+          },
+          "UEhMGfGv2vOE": {
+            "hits": 0,
+            "textWords": 4945
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "F5kb_lj4MAVw",
+        "address": "https://man7.org/linux/man-pages/man7/tcp.7.html",
+        "title": "tcp(7) - Linux manual page",
+        "snippet": "Linux supports RFC 1323 TCP high performance extensions. These include Protection Against Wrapped Sequence Numbers (PAWS), Window Scaling and Timestamps. Window scaling allows the use of large (\u003e 64 kB) TCP windows in order to support links with high latency or bandwidth. To make use of them, the",
+        "matchedWords": {
+          "4galTpdpDM5Q": {
+            "hits": 115,
+            "textWords": 7012
+          },
+          "UEhMGfGv2vOE": {
+            "hits": 21,
+            "textWords": 7012
+          }
+        },
+        "queryPhraseHits": 1
+      }
+    ],
+    [
+      {
+        "hash": "zm1LfOy8O7iw",
+        "address": "https://kernel.opensuse.org/",
+        "title": "Welcome To The openSUSE Kernel Site - openSUSE Kernel",
+        "snippet": "kernel is in the wiki. On this site, you can find basic information about each kernel branch links to git trees and package repositories. Use the links to navigate the site.\nHave a lot of fun…",
+        "matchedWords": {
+          "4galTpdpDM5Q": {
+            "hits": 0,
+            "textWords": 40
+          },
+          "UEhMGfGv2vOE": {
+            "hits": 2,
+            "textWords": 40
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "ed_i7zVlhvo5",
+        "address": "https://sigquit.wordpress.com/tag/kernel/",
+        "title": "kernel | SIGQUIT",
+        "snippet": "kernel yourself. The following steps will cover this last case.\n1. Where to compile the kernel\nNo, do not try to compile the kernel directly in a raw image launched within KVM/QEMU.\nThe easiest way to compile your own kernel is to prepare a loop image and chroot into it (See section “6. Create a",
+        "matchedWords": {
+          "4galTpdpDM5Q": {
+            "hits": 4,
+            "textWords": 663
+          },
+          "UEhMGfGv2vOE": {
+            "hits": 27,
+            "textWords": 663
+          }
+        },
+        "queryPhraseHits": 1
+      },
+      {
+        "hash": "CzKLxslc4Pz6",
+        "address": "https://open-sourceress.com/my-project-at-linux-kernel/",
+        "title": "My Project at Linux Kernel | Open Sourceress",
+        "snippet": "Linux Kernel Community at which I’m interning and the project on which I’m working. So, let’s get started!\nWhat is Linux Kernel?\nA small context: the core of an Operating System (OS) is the Kernel, as this is responsible for the integration of the physical devices (hardware) of the computer with",
+        "matchedWords": {
+          "4galTpdpDM5Q": {
+            "hits": 12,
+            "textWords": 841
+          },
+          "UEhMGfGv2vOE": {
+            "hits": 20,
+            "textWords": 841
+          }
+        },
+        "queryPhraseHits": 11
+      },
+      {
+        "hash": "HJCv1zboYiyg",
+        "address": "https://forums.puri.sm/t/kernel-6-18-available-for-testing/31104",
+        "title": "Kernel 6.18 available for testing - Librem 5 - Purism community",
+        "snippet": "kernel 6.6 to 6.12, which was a great step forward, but it still was quite a few releases behind.\nSince today, linux-image-6.18.0-1-librem5 based on 6.18.44 is available to install from crimson-updates-proposed (and landing too). It’s not being pulled in by default yet - you need to install the",
+        "matchedWords": {
+          "4galTpdpDM5Q": {
+            "hits": 7,
+            "textWords": 1493
+          },
+          "UEhMGfGv2vOE": {
+            "hits": 25,
+            "textWords": 1493
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "3EXd2WlXccYg",
+        "address": "https://nfsec.pl/tag/kernel",
+        "title": "NF.sec – Bezpieczeństwo systemu Linux - Posty tagowane \"kernel\"",
+        "snippet": "Linux nie potrzebuje żadnego zewnętrznego klienta DHCP, menedżera sieciowego ani innego narzędzia do konfiguracji sieci, aby skutecznie przeprowadzić proces konfiguracji jednego interfejsu sieciowego na dowolnym serwerze? Wystarczy tylko jądro i bootloader. W dodatku metoda ta jest kompatybilna",
+        "matchedWords": {
+          "4galTpdpDM5Q": {
+            "hits": 19,
+            "textWords": 2232
+          },
+          "UEhMGfGv2vOE": {
+            "hits": 13,
+            "textWords": 2232
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "mT7GWsTHJ6c4",
+        "address": "https://hackread.com/linux-kernel-vulnerability-copy-fail-full-root-access/",
+        "title": "9-Year-Old Linux Kernel Vulnerability “Copy Fail” Enables Full Root Access",
+        "snippet": "",
+        "matchedWords": {
+          "4galTpdpDM5Q": {
+            "hits": 0,
+            "textWords": 0
+          },
+          "UEhMGfGv2vOE": {
+            "hits": 7,
+            "textWords": 1806
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "LL1PKsOAID44",
+        "address": "https://linuxiac.com/mageia-10-revives-the-mandrake-spirit-with-plasma-6-and-kernel-6-18/",
+        "title": "Mageia 10 Revives the Mandrake Spirit with Plasma 6 and Kernel 6.18 LTS",
+        "snippet": "Linux distribution rooted in the Mandrake/Mandriva family.\nThe road to this release began earlier this year with the first Alpha ISO in January, followed by the Beta release in March, and now Mageia 10 completes that cycle.\nThe release is powered by Linux kernel 6.18 LTS, which brings better",
+        "matchedWords": {
+          "4galTpdpDM5Q": {
+            "hits": 5,
+            "textWords": 412
+          },
+          "UEhMGfGv2vOE": {
+            "hits": 1,
+            "textWords": 412
+          }
+        },
+        "queryPhraseHits": 1
+      },
+      {
+        "hash": "EW5wxOE6Hic4",
+        "address": "https://webflow.sysdig.com/blog/cve-2026-31431-copy-fail-linux-kernel-flaw-lets-local-users-gain-root-in-seconds",
+        "title": "CVE-2026-31431: “Copy Fail” Linux kernel flaw lets local users gain root in seconds | Sysdig",
+        "snippet": "Linux kernel's algif_aead userspace crypto interface. Researchers at Theori demonstrated that an unprivileged local user can corrupt the page cache backing setuid binaries and gain root access within seconds. There are working exploits for Ubuntu 24.04, Amazon Linux 2023, RHEL 10.1, and SUSE 16",
+        "matchedWords": {
+          "4galTpdpDM5Q": {
+            "hits": 5,
+            "textWords": 1109
+          },
+          "UEhMGfGv2vOE": {
+            "hits": 14,
+            "textWords": 1109
+          }
+        },
+        "queryPhraseHits": 3
+      },
+      {
+        "hash": "lzMhkqNKpOCw",
+        "address": "https://linux.slashdot.org/story/26/05/18/0238214/linus-torvalds-ai-detected-bug-reports-make-kernel-security-list-almost-entirely-unmanageable",
+        "title": "Linus Torvalds: AI-Detected Bug Reports Make Kernel Security List 'Almost Entirely Unmanageable' - Slashdot",
+        "snippet": "Linux release candidate on the kernel mailing list. But he also highlighted \"documentation updates\" to address a new problem.\n\"The continued flood of AI reports has basically made the security list almost entirely unmanageable, with enormous duplication due to different people finding the same",
+        "matchedWords": {
+          "4galTpdpDM5Q": {
+            "hits": 2,
+            "textWords": 325
+          },
+          "UEhMGfGv2vOE": {
+            "hits": 2,
+            "textWords": 325
+          }
+        },
+        "queryPhraseHits": 1
+      }
+    ],
+    [
+      {
+        "hash": "N_bW_5DJH5aw",
+        "address": "https://www.wiki.kernel.org/",
+        "title": "Main Page - Demeter of the Kernel.org",
+        "snippet": "Kernel.org\nrt - RTwiki\next4 - Ext4\nbtrfs - btrfs Wiki\nata - ata Wiki\nieee1394 - IEEE 1394 FireWire Wiki\nsecurity - Linux Security Wiki (obsolete)\ni2c - Linux i2c Wiki\nparisc - Linux PARISC Wiki\nreiser4 - Reiser4 FS Wiki\nperf - Perf Wiki\nhail - Hail Cloud Computing Wiki\nsparse - Sparse Wiki\nkgdb -",
+        "matchedWords": {
+          "4galTpdpDM5Q": {
+            "hits": 12,
+            "textWords": 144
+          },
+          "UEhMGfGv2vOE": {
+            "hits": 8,
+            "textWords": 144
+          }
+        },
+        "queryPhraseHits": 2
+      },
+      {
+        "hash": "N7_cIm1dafs6",
+        "address": "https://stackoverflow.com/questions/tagged/kernel",
+        "title": "Newest 'kernel' Questions - Stack Overflow",
+        "snippet": "",
+        "matchedWords": {
+          "4galTpdpDM5Q": {
+            "hits": 0,
+            "textWords": 0
+          },
+          "UEhMGfGv2vOE": {
+            "hits": 118,
+            "textWords": 4227
+          }
+        },
+        "queryPhraseHits": 0
       },
       {
         "hash": "NNfgL520dH2R",
@@ -135,171 +494,8 @@
             "hits": 174,
             "textWords": 57391
           }
-        }
-      }
-    ],
-    [
-      {
-        "hash": "HIiwRVGZ4FKw",
-        "address": "https://www.kernel.org/doc/html/latest/admin-guide/pm/system-wide.html",
-        "title": "System-Wide Power Management — The Linux Kernel documentation",
-        "snippet": "kernel development community. | Powered by Sphinx 5.3.0 \u0026 Alabaster 0.7.16 | Page source",
-        "matchedWords": {
-          "4galTpdpDM5Q": {
-            "hits": 0,
-            "textWords": 11
-          },
-          "UEhMGfGv2vOE": {
-            "hits": 1,
-            "textWords": 11
-          }
-        }
-      },
-      {
-        "hash": "WeAoouoXncf5",
-        "address": "https://android.googlesource.com/kernel/common/+/431907c026fb80a4fc2a482bde3f2d913ef39c37",
-        "title": "431907c026fb80a4fc2a482bde3f2d913ef39c37 - kernel/common - Git at Google",
-        "snippet": "Linux. If appropriate, backport to the stable releases. These patches will be merged automatically in the corresponding common kernels. If the patch is already in upstream Linux, post a backport of the patch that conforms to the patch requirements below.\nDo not send patches upstream that contain",
-        "matchedWords": {
-          "4galTpdpDM5Q": {
-            "hits": 10,
-            "textWords": 1083
-          },
-          "UEhMGfGv2vOE": {
-            "hits": 9,
-            "textWords": 1083
-          }
-        }
-      },
-      {
-        "hash": "Wd9L1l6bFQy6",
-        "address": "https://www.notebookcheck.com/Linux-Kernel-6-11-mit-Unterstuetzung-fuer-Qualcomm-SDX-Wireless-Chips-und-Intel-Battlemage-GPUs-jetzt-als-Release-Candidate-1-verfuegbar.869230.0.html",
-        "title": "Linux Kernel 6.11 mit Unterstützung für Qualcomm SDX Wireless Chips und Intel Battlemage GPUs jetzt als Release Candidate 1 verfügbar - Notebookcheck News",
-        "snippet": "Linux Kernel 6.11 ist als Release Candidate verfügbar und unterstützt neue Hardware. (Bildquelle: Wikimedia Commons)\nDer erste Release Candidate für die nächste Version des Linux-Kernels (Kernel 6.11-rc1) ist jetzt verfügbar. Der Release Candidate 1 enthält Unterstützung für Wireless-Treiber für",
-        "matchedWords": {
-          "4galTpdpDM5Q": {
-            "hits": 10,
-            "textWords": 526
-          },
-          "UEhMGfGv2vOE": {
-            "hits": 9,
-            "textWords": 526
-          }
-        }
-      },
-      {
-        "hash": "WpZ1HHOSpvvg",
-        "address": "https://nluug.nl/evenementen/nluug/voorjaarsconferentie-2025/talks/michael-boelen-application-security-sandboxing-features-of-the-linux-kernel-and-systemd/",
-        "title": "Michael Boelen - Application security: sandboxing features of the Linux kernel and systemd | NLUUG",
-        "snippet": "Linux kernel has some great security features, such as capabilities, namespaces, and seccomp. Unfortunately, most software running on a Linux system does not leverage these features. Time to introduce a tool, that took some time for me to like a little bit better: systemd.\nSystemd version 1 was",
-        "matchedWords": {
-          "4galTpdpDM5Q": {
-            "hits": 11,
-            "textWords": 387
-          },
-          "UEhMGfGv2vOE": {
-            "hits": 5,
-            "textWords": 387
-          }
-        }
-      },
-      {
-        "hash": "V_Sy6HDMrHS4",
-        "address": "https://gist.github.com/ricardoanguiano/18125b7eb3f26cf83724fb60662bdd2c",
-        "title": "linux kernel mainline 4.9 sloccount.txt · GitHub",
-        "snippet": "/scratch/ricardo/checkouts/linux-kernel/linux/./COPYING to top_dir Adding /scratch/ricardo/checkouts/linux-kernel/linux/./CREDITS to top_dir Creating filelist for crypto Adding /scratch/ricardo/checkouts/linux-kernel/linux/./cscope.out to top_dir Creating filelist for Documentation Creating",
-        "matchedWords": {
-          "4galTpdpDM5Q": {
-            "hits": 22,
-            "textWords": 631
-          },
-          "UEhMGfGv2vOE": {
-            "hits": 13,
-            "textWords": 631
-          }
-        }
-      }
-    ],
-    [
-      {
-        "hash": "fT4cXiCRdREw",
-        "address": "https://jvns.ca/categories/linux/",
-        "title": "Linux",
-        "snippet": "linux\nMar 12 2016 How does perf work? (in which we read the Linux kernel source)\nArchives",
-        "matchedWords": {
-          "4galTpdpDM5Q": {
-            "hits": 2,
-            "textWords": 30
-          },
-          "UEhMGfGv2vOE": {
-            "hits": 1,
-            "textWords": 30
-          }
-        }
-      },
-      {
-        "hash": "fq3pBVGZ4FKw",
-        "address": "https://www.kernel.org/doc/html/latest/kbuild/index.html",
-        "title": "Kernel Build System — The Linux Kernel documentation",
-        "snippet": "kernel development community. | Powered by Sphinx 5.3.0 \u0026 Alabaster 0.7.16 | Page source",
-        "matchedWords": {
-          "4galTpdpDM5Q": {
-            "hits": 0,
-            "textWords": 11
-          },
-          "UEhMGfGv2vOE": {
-            "hits": 1,
-            "textWords": 11
-          }
-        }
-      },
-      {
-        "hash": "fK864sueNoX4",
-        "address": "https://itsfoss.com/compile-linux-kernel/",
-        "title": "A Guide to Compiling the Linux Kernel All By Yourself",
-        "snippet": "Linux kernel yourself, for many reasons. It might be, but not limited to, one of the following:\nTrying out a newer kernel than what your Linux distribution provides\nBuilding the kernel with a different set of configuration options and/or drivers\nA learner's curiosity :)\nThis guide will show you how",
-        "matchedWords": {
-          "4galTpdpDM5Q": {
-            "hits": 108,
-            "textWords": 4808
-          },
-          "UEhMGfGv2vOE": {
-            "hits": 105,
-            "textWords": 4808
-          }
-        }
-      },
-      {
-        "hash": "cWZdmz9qXMBw",
-        "address": "https://planet.kernel.org/",
-        "title": "Kernel Planet",
-        "snippet": "https://gitlab.freedesktop.org/nouvelles/kernel/-/commits/nouveau-610-wip-spark\n[2] https://gitlab.freedesktop.org/airlied/mesa/-/commits/nvk-spark-wip\nSeptember 09, 2026 07:56 PM\nMatthew Garrett: SystemIO conflicts are not firmware bugs\nI’m looking at something entirely unrelated, but tripped over",
-        "matchedWords": {
-          "4galTpdpDM5Q": {
-            "hits": 99,
-            "textWords": 36724
-          },
-          "UEhMGfGv2vOE": {
-            "hits": 69,
-            "textWords": 36724
-          }
-        }
-      },
-      {
-        "hash": "eLibbUbF8lD5",
-        "address": "https://pebblebed.com/blog/kernel-bugs",
-        "title": "Kernel bugs hide for 2 years on average. Some hide for 20. - Pebblebed",
-        "snippet": "Linux kernel commits to understand how long bugs really hide.\nThere are bugs in your kernel right now that won't be found for years. I know because I analyzed 125,183 of them, every bug with a traceable Fixes: tag in the Linux kernel's 20-year git history.\nThe average kernel bug lives 2.1 years",
-        "matchedWords": {
-          "4galTpdpDM5Q": {
-            "hits": 6,
-            "textWords": 3321
-          },
-          "UEhMGfGv2vOE": {
-            "hits": 22,
-            "textWords": 3321
-          }
-        }
+        },
+        "queryPhraseHits": 74
       }
     ],
     [
@@ -317,7 +513,8 @@
             "hits": 1,
             "textWords": 15502
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
         "hash": "lfLZNsHRh3Y6",
@@ -333,26 +530,64 @@
             "hits": 2,
             "textWords": 4385
           }
-        }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "O7HXYdFO6r_x",
+        "address": "https://de.wikipedia.org/wiki/Linux-Kernel",
+        "title": "Linux (Kernel) – Wikipedia",
+        "snippet": "Linux\nStartender Systemkern (Version 3.0.0) in Debian\nEntwickler\nLinus Torvalds\nLizenz(en)\nGNU General Public License, Version 2[1][2][3], proprietäre Lizenz[2]\nErstveröff.\n17. September 1991\nAkt. Version\n7.2.5[4] vom 11. September 2026\n(vor 0 Tagen)\nArchitektur(en)\nIA-32 (inkl. x64), Alpha AXP,",
+        "matchedWords": {
+          "4galTpdpDM5Q": {
+            "hits": 220,
+            "textWords": 11603
+          },
+          "UEhMGfGv2vOE": {
+            "hits": 172,
+            "textWords": 11603
+          }
+        },
+        "queryPhraseHits": 38
       }
     ]
   ],
   "itemsInNoOrder": [
     {
-      "hash": "E-Nnbx7Yxvhx",
-      "address": "https://www.postgresql.org/docs/current/runtime-config-resource.html",
-      "title": "PostgreSQL: Documentation: 18: 19.4. Resource Consumption",
-      "snippet": "kernel settings will not support it (as determined during initdb). This setting must be at least 128 kilobytes. However, settings significantly higher than the minimum are usually needed for good performance. If this value is specified without units, it is taken as blocks, that is BLCKSZ bytes,",
+      "hash": "mKjEVzAa-Sqx",
+      "address": "https://planet.freedesktop.org/",
+      "title": "planet.freedesktop.org",
+      "snippet": "Linux distributions over firmware updates to Flatpak and desktops directly. AppStream’s original design however comes from the perspective of Linux distributions in 2011, where you may want to browse the software catalog offline, without delay, and without pinging an external server (which could be",
       "matchedWords": {
         "4galTpdpDM5Q": {
-          "hits": 7,
-          "textWords": 2691
+          "hits": 138,
+          "textWords": 71870
         },
         "UEhMGfGv2vOE": {
-          "hits": 5,
-          "textWords": 2691
+          "hits": 237,
+          "textWords": 71870
         }
-      }
+      },
+      "queryPhraseHits": 20
+    },
+    {
+      "hash": "W-eXqzF3--Qw",
+      "address": "https://planet.mozilla.org/",
+      "title": "Planet Mozilla",
+      "snippet": "Linux system theme” checkbox is being shown on Linux builds for the about:addons theme picker, which will make Firefox’s Nova UI use the colours of the system theme.\nThanks to Simon Rosen for adding a new playback speed control to the PiP player. The feature can be enabled by flipping the pref",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 26,
+          "textWords": 66162
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 6,
+          "textWords": 66162
+        }
+      },
+      "queryPhraseHits": 4
     },
     {
       "hash": "B6RumAK-xyJ4",
@@ -368,23 +603,25 @@
           "hits": 2,
           "textWords": 3803
         }
-      }
+      },
+      "queryPhraseHits": 1
     },
     {
-      "hash": "1Y8-qjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Application_software",
-      "title": "Application software - Wikipedia",
-      "snippet": "GNU/Linux naming controversy is, in part, due to disagreement about the relationship between the Linux kernel and the operating systems built over this kernel. In some types of embedded systems, the application software and the operating system software may be indistinguishable by the user, as in",
+      "hash": "B6RumAK-xyJ4",
+      "address": "https://go.dev/doc/godebug",
+      "title": "Go, Backwards Compatibility, and GODEBUG - The Go Programming Language",
+      "snippet": "Linux. For Go 1.25, it defaults to decoratemappings=1, enabling annotations. Using decoratemappings=0 reverts to the pre-Go 1.25 behavior. This setting is fixed at program startup time, and can’t be modified by changing the GODEBUG environment variable after the program starts.\nGo 1.25 added a new",
       "matchedWords": {
         "4galTpdpDM5Q": {
-          "hits": 2,
-          "textWords": 1815
+          "hits": 6,
+          "textWords": 3803
         },
         "UEhMGfGv2vOE": {
           "hits": 2,
-          "textWords": 1815
+          "textWords": 3803
         }
-      }
+      },
+      "queryPhraseHits": 1
     },
     {
       "hash": "PafpstS6MKD4",
@@ -400,135 +637,110 @@
           "hits": 0,
           "textWords": 268
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
-      "hash": "Bc3dcitD2jQw",
-      "address": "https://docs.python.org/3/library/os.html",
-      "title": "os — Miscellaneous operating system interfaces — Python 3.14.6 documentation",
-      "snippet": "Linux namespace. See the setns(2) and namespaces(7) man pages for more details.\nIf fd refers to a /proc/pid/ns/ link, setns() reassociates the calling thread with the namespace associated with that link, and nstype may be set to one of the CLONE_NEW* constants to impose constraints on the operation",
+      "hash": "mKjEVzAa-Sqx",
+      "address": "https://planet.freedesktop.org/",
+      "title": "planet.freedesktop.org",
+      "snippet": "Linux distributions over firmware updates to Flatpak and desktops directly. AppStream’s original design however comes from the perspective of Linux distributions in 2011, where you may want to browse the software catalog offline, without delay, and without pinging an external server (which could be",
       "matchedWords": {
         "4galTpdpDM5Q": {
-          "hits": 35,
-          "textWords": 26463
+          "hits": 138,
+          "textWords": 71870
         },
         "UEhMGfGv2vOE": {
-          "hits": 15,
-          "textWords": 26463
+          "hits": 237,
+          "textWords": 71870
         }
-      }
+      },
+      "queryPhraseHits": 20
     },
     {
-      "hash": "PafpstS6MKD4",
-      "address": "https://github.com/trending/microsoft-developer-studio-project?since=daily",
-      "title": "Trending Microsoft Developer Studio Project repositories on GitHub today · GitHub",
-      "snippet": "Trending\nSee what the GitHub community is most excited about today.\nRepositories Developers\nSpoken Language: Any\nSelect a spoken language\nAbkhazian Afar Afrikaans Akan Albanian Amharic Arabic Aragonese Armenian Assamese Avaric Avestan Aymara Azerbaijani Bambara Bashkir Basque Belarusian Bengali",
+      "hash": "W-eXqzF3--Qw",
+      "address": "https://planet.mozilla.org/",
+      "title": "Planet Mozilla",
+      "snippet": "Linux system theme” checkbox is being shown on Linux builds for the about:addons theme picker, which will make Firefox’s Nova UI use the colours of the system theme.\nThanks to Simon Rosen for adding a new playback speed control to the PiP player. The feature can be enabled by flipping the pref",
       "matchedWords": {
         "4galTpdpDM5Q": {
-          "hits": 0,
-          "textWords": 268
+          "hits": 26,
+          "textWords": 66162
         },
         "UEhMGfGv2vOE": {
-          "hits": 0,
-          "textWords": 268
+          "hits": 6,
+          "textWords": 66162
         }
-      }
+      },
+      "queryPhraseHits": 4
     },
     {
-      "hash": "dPQEQtS6MKD4",
-      "address": "https://github.com/trending/cooklang?since=daily",
-      "title": "Trending Cooklang repositories on GitHub today · GitHub",
-      "snippet": "Trending\nSee what the GitHub community is most excited about today.\nRepositories Developers\nSpoken Language: Any\nSelect a spoken language\nAbkhazian Afar Afrikaans Akan Albanian Amharic Arabic Aragonese Armenian Assamese Avaric Avestan Aymara Azerbaijani Bambara Bashkir Basque Belarusian Bengali",
+      "hash": "7evxTdFO6r_x",
+      "address": "https://de.wikipedia.org/wiki/Freie_Software",
+      "title": "Freie Software – Wikipedia",
+      "snippet": "Kernel vollständig. Einige Leute erkannten, dass Linux, ein damals proprietärer Kernel für Minix, sich für GNU eignen könnte. Nachdem die Entwickler den Linux-Kernel unter die „GNU GPL“ stellten, konnte zum ersten Mal ein vollständig freies Betriebssystem ausgebaut werden. Mit der darauffolgenden",
       "matchedWords": {
         "4galTpdpDM5Q": {
-          "hits": 0,
-          "textWords": 265
-        },
-        "UEhMGfGv2vOE": {
-          "hits": 0,
-          "textWords": 265
-        }
-      }
-    },
-    {
-      "hash": "9EkIrTrhyvQw",
-      "address": "https://www.man7.org/linux/man-pages/man5/proc_pid_task.5.html",
-      "title": "proc_pid_task(5) - Linux manual page",
-      "snippet": "Linux 2.6.0) This is a directory that contains one subdirectory for each thread in the process. The name of each subdirectory is the numerical thread ID (tid) of the thread (see gettid(2)). Within each of these subdirectories, there is a set of files with the same names and contents as under the",
-      "matchedWords": {
-        "4galTpdpDM5Q": {
-          "hits": 5,
-          "textWords": 544
+          "hits": 13,
+          "textWords": 8514
         },
         "UEhMGfGv2vOE": {
           "hits": 4,
-          "textWords": 544
+          "textWords": 8514
         }
-      }
+      },
+      "queryPhraseHits": 2
     },
     {
-      "hash": "7cn5rjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Finland",
-      "title": "Finland - Wikipedia",
-      "snippet": "kernel Linux.\nIn tertiary education, two mostly separate and non-interoperating sectors are found: the profession-oriented polytechnics and the research-oriented universities. Education is free and living expenses are to a large extent financed by the government through student benefits. There are",
+      "hash": "-VdzLVGZ4FKw",
+      "address": "https://www.kernel.org/doc/man-pages/",
+      "title": "The Linux man-pages project",
+      "snippet": "Linux man-pages: home || git | readme | contributing | conventions | mailing list | archives | releases | book | online pages\nThe Linux man-pages project documents the Linux kernel and C library interfaces that are employed by user-space programs. With respect to the C library, the primary focus is",
       "matchedWords": {
         "4galTpdpDM5Q": {
-          "hits": 1,
-          "textWords": 22747
+          "hits": 4,
+          "textWords": 66
         },
         "UEhMGfGv2vOE": {
           "hits": 1,
-          "textWords": 22747
+          "textWords": 66
         }
-      }
+      },
+      "queryPhraseHits": 1
     },
     {
-      "hash": "SH9s9zTnALtw",
-      "address": "https://planet.gentoo.org/",
-      "title": "Planet Gentoo",
-      "snippet": "Linux. Sure, sometimes I find myself opening a cursed issue on b.g.o, but my system hasn’t ever broken!\nThe work the Gentoo devs put in to make sure everything is stable and everything works well across many different setups is incredible, and the stability that comes with portage sure doesn’t hurt",
-      "matchedWords": {
-        "4galTpdpDM5Q": {
-          "hits": 3,
-          "textWords": 3218
-        },
-        "UEhMGfGv2vOE": {
-          "hits": 1,
-          "textWords": 3218
-        }
-      }
-    },
-    {
-      "hash": "Wfq3FswvoTD5",
-      "address": "https://r-universe.dev/articles",
-      "title": "R-universe - browse articles",
-      "snippet": "",
+      "hash": "BF23V5RMLT-5",
+      "address": "https://canonical.com/careers/commercial-operations",
+      "title": "Commercial Operations | Careers",
+      "snippet": "Commercial Operations\nCanonical is a globally distributed company with customers and employees in almost every country. Excellence in commercial operations helps us scale efficiently – and thrive as we do. We celebrate relentless improvement. Our team members are passionate about tools and",
       "matchedWords": {
         "4galTpdpDM5Q": {
           "hits": 0,
-          "textWords": 0
+          "textWords": 250
         },
         "UEhMGfGv2vOE": {
           "hits": 0,
-          "textWords": 0
+          "textWords": 250
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
-      "hash": "6WnRwsyXfq04",
-      "address": "https://snippet.host/",
-      "title": "snippet.host - minimal text and code snippet hosting",
-      "snippet": "welcome, guest. why not login or register?",
+      "hash": "DKApesRMLT-5",
+      "address": "https://canonical.com/careers",
+      "title": "Careers | Canonical",
+      "snippet": "Careers\nPassionate about open source?\nSo are we. Be where the cutting edge is established.\nStay safe and avoid recruitment fraud.\nRead our FAQ for information on the legitimacy of our process and offers.\nDepartments\nOur Mission\nWe amplify\nthe impact of open source\nWe help people and organisations",
       "matchedWords": {
         "4galTpdpDM5Q": {
           "hits": 0,
-          "textWords": 7
+          "textWords": 101
         },
         "UEhMGfGv2vOE": {
           "hits": 0,
-          "textWords": 7
+          "textWords": 101
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "MaRThsRMLT-5",
@@ -544,327 +756,76 @@
           "hits": 0,
           "textWords": 574
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
-      "hash": "MaRThsRMLT-5",
-      "address": "https://canonical.com/",
-      "title": "Trusted open source for enterprises | Canonical",
-      "snippet": "Linux.\nStart with Ubuntu\nTake control of your infrastructure\nBuild apps at speed and stay secure\nGet an optimized stack for data and AI\nDeploy smart things at the edge\nStart with Ubuntu\nBuild with confidence on the world’s most popular open source OS. Move faster with certified hardware, and",
-      "matchedWords": {
-        "4galTpdpDM5Q": {
-          "hits": 1,
-          "textWords": 574
-        },
-        "UEhMGfGv2vOE": {
-          "hits": 0,
-          "textWords": 574
-        }
-      }
-    },
-    {
-      "hash": "BbE7ZjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Claude_(AI)",
-      "title": "Claude (AI) - Wikipedia",
-      "snippet": "Linux kernel\". The experiment cost nearly $20,000; Carlini noted that even though the compiler is not very efficient, Opus 4.6 is the first model able to write it.[127][128]\nIn December 2025, Claude was used to plan a route for NASA's Mars rover, Perseverance. NASA engineers used Claude Code to",
-      "matchedWords": {
-        "4galTpdpDM5Q": {
-          "hits": 2,
-          "textWords": 6780
-        },
-        "UEhMGfGv2vOE": {
-          "hits": 1,
-          "textWords": 6780
-        }
-      }
-    },
-    {
-      "hash": "eLD0SjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/John_von_Neumann",
-      "title": "John von Neumann - Wikipedia",
-      "snippet": "Kernel Hilbert Spaces Associated with the Fractional and Bi-Fractional Brownian Motions\". Potential Analysis. 28 (2): 163–184. arXiv:0705.2863. doi:10.1007/s11118-007-9070-4. S2CID 15895847.\n↑ Horn \u0026 Johnson 2013, p. 320.\n↑ Horn \u0026 Johnson 2013, p. 458.\n↑ Horn, Roger A.; Johnson, Charles R. (1991).",
+      "hash": "TS-p86RMLT-5",
+      "address": "https://canonical.com/data/mongodb",
+      "title": "An enterprise solution for MongoDB from Canonical",
+      "snippet": "MongoDB® for the enterprise\nHarness the full potential of MongoDB across private and public clouds and shift your focus from maintenance to innovation.\nChoose Charmed MongoDB to secure and automate the deployment, maintenance and upgrades of your MongoDB databases. Direct your energy into building",
       "matchedWords": {
         "4galTpdpDM5Q": {
           "hits": 0,
-          "textWords": 23550
+          "textWords": 905
         },
         "UEhMGfGv2vOE": {
-          "hits": 1,
-          "textWords": 23550
+          "hits": 0,
+          "textWords": 905
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
-      "hash": "7cn5rjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Finland",
-      "title": "Finland - Wikipedia",
-      "snippet": "kernel Linux.\nIn tertiary education, two mostly separate and non-interoperating sectors are found: the profession-oriented polytechnics and the research-oriented universities. Education is free and living expenses are to a large extent financed by the government through student benefits. There are",
-      "matchedWords": {
-        "4galTpdpDM5Q": {
-          "hits": 1,
-          "textWords": 22747
-        },
-        "UEhMGfGv2vOE": {
-          "hits": 1,
-          "textWords": 22747
-        }
-      }
-    },
-    {
-      "hash": "9SqczjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Classic_Mac_OS",
-      "title": "Classic Mac OS - Wikipedia",
-      "snippet": "Kernel type\nMonolithic for 68k, nanokernel for PowerPC\nDefault\nuser interface\nGraphical\nLicense\nCommercial software, proprietary software\nSucceeded by\nMac OS X\nSupport status\nHistorical, unsupported as of February 1, 2002\nMac OS (originally System Software; retronymically Classic Mac OS[a]) is the",
-      "matchedWords": {
-        "4galTpdpDM5Q": {
-          "hits": 2,
-          "textWords": 6976
-        },
-        "UEhMGfGv2vOE": {
-          "hits": 3,
-          "textWords": 6976
-        }
-      }
-    },
-    {
-      "hash": "dPQEQtS6MKD4",
-      "address": "https://github.com/trending/cooklang?since=daily",
-      "title": "Trending Cooklang repositories on GitHub today · GitHub",
-      "snippet": "Trending\nSee what the GitHub community is most excited about today.\nRepositories Developers\nSpoken Language: Any\nSelect a spoken language\nAbkhazian Afar Afrikaans Akan Albanian Amharic Arabic Aragonese Armenian Assamese Avaric Avestan Aymara Azerbaijani Bambara Bashkir Basque Belarusian Bengali",
+      "hash": "dckjqsRMLT-5",
+      "address": "https://canonical.com/observability",
+      "title": "Open source observability for enterprises",
+      "snippet": "Open source observability\nfor enterprises\nMonitoring tools and dashboards, secured and supported\nMetrics, distributed traces, profiles, logs, dashboards, and alerts. Always know how well your applications are running in the Cloud, in containers, on virtual machines, or bare metal. Canonical offers",
       "matchedWords": {
         "4galTpdpDM5Q": {
           "hits": 0,
-          "textWords": 265
+          "textWords": 186
         },
         "UEhMGfGv2vOE": {
           "hits": 0,
-          "textWords": 265
+          "textWords": 186
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
-      "hash": "49Td2tS6MKD4",
-      "address": "https://github.com/trending/wikitext?since=daily",
-      "title": "Trending Wikitext repositories on GitHub today · GitHub",
-      "snippet": "Trending\nSee what the GitHub community is most excited about today.\nRepositories Developers\nSpoken Language: Any\nSelect a spoken language\nAbkhazian Afar Afrikaans Akan Albanian Amharic Arabic Aragonese Armenian Assamese Avaric Avestan Aymara Azerbaijani Bambara Bashkir Basque Belarusian Bengali",
+      "hash": "QdW-xjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/GNU_General_Public_License",
+      "title": "GNU General Public License - Wikipedia",
+      "snippet": "Linux operating system kernel and the GNU Compiler Collection (GCC). David A. Wheeler argues that the copyleft provided by the GPL was crucial to the success of Linux-based systems, giving the contributing programmers some assurance that their work would benefit the world and remain free, rather",
       "matchedWords": {
         "4galTpdpDM5Q": {
-          "hits": 0,
-          "textWords": 265
+          "hits": 48,
+          "textWords": 15807
         },
         "UEhMGfGv2vOE": {
-          "hits": 0,
-          "textWords": 265
+          "hits": 22,
+          "textWords": 15807
         }
-      }
+      },
+      "queryPhraseHits": 13
     },
     {
-      "hash": "6j7V_tS6MKD4",
-      "address": "https://github.com/trending/praat?since=daily",
-      "title": "Trending Praat repositories on GitHub today · GitHub",
-      "snippet": "Trending\nSee what the GitHub community is most excited about today.\nRepositories Developers\nSpoken Language: Any\nSelect a spoken language\nAbkhazian Afar Afrikaans Akan Albanian Amharic Arabic Aragonese Armenian Assamese Avaric Avestan Aymara Azerbaijani Bambara Bashkir Basque Belarusian Bengali",
-      "matchedWords": {
-        "4galTpdpDM5Q": {
-          "hits": 0,
-          "textWords": 265
-        },
-        "UEhMGfGv2vOE": {
-          "hits": 0,
-          "textWords": 265
-        }
-      }
-    },
-    {
-      "hash": "7MMLutS6MKD4",
-      "address": "https://github.com/trending/brightscript?since=daily",
-      "title": "Trending Brightscript repositories on GitHub today · GitHub",
-      "snippet": "Trending\nSee what the GitHub community is most excited about today.\nRepositories Developers\nSpoken Language: Any\nSelect a spoken language\nAbkhazian Afar Afrikaans Akan Albanian Amharic Arabic Aragonese Armenian Assamese Avaric Avestan Aymara Azerbaijani Bambara Bashkir Basque Belarusian Bengali",
-      "matchedWords": {
-        "4galTpdpDM5Q": {
-          "hits": 0,
-          "textWords": 265
-        },
-        "UEhMGfGv2vOE": {
-          "hits": 0,
-          "textWords": 265
-        }
-      }
-    },
-    {
-      "hash": "7cxFetS6MKD4",
-      "address": "https://github.com/trending/sed?since=daily",
-      "title": "Trending sed repositories on GitHub today · GitHub",
-      "snippet": "Trending\nSee what the GitHub community is most excited about today.\nRepositories Developers\nSpoken Language: Any\nSelect a spoken language\nAbkhazian Afar Afrikaans Akan Albanian Amharic Arabic Aragonese Armenian Assamese Avaric Avestan Aymara Azerbaijani Bambara Bashkir Basque Belarusian Bengali",
-      "matchedWords": {
-        "4galTpdpDM5Q": {
-          "hits": 0,
-          "textWords": 265
-        },
-        "UEhMGfGv2vOE": {
-          "hits": 0,
-          "textWords": 265
-        }
-      }
-    },
-    {
-      "hash": "8OWQksS6MKD4",
-      "address": "https://github.com/trending?spoken_language_code=ik",
-      "title": "Trending repositories on GitHub today · GitHub",
-      "snippet": "Trending\nSee what the GitHub community is most excited about today.\nRepositories Developers\nSpoken Language: Inupiaq\nSelect a spoken language\nAbkhazian Afar Afrikaans Akan Albanian Amharic Arabic Aragonese Armenian Assamese Avaric Avestan Aymara Azerbaijani Bambara Bashkir Basque Belarusian Bengali",
-      "matchedWords": {
-        "4galTpdpDM5Q": {
-          "hits": 0,
-          "textWords": 266
-        },
-        "UEhMGfGv2vOE": {
-          "hits": 0,
-          "textWords": 266
-        }
-      }
-    },
-    {
-      "hash": "-FnQDtS6MKD4",
-      "address": "https://github.com/trending/closure-templates?since=daily",
-      "title": "Trending Closure Templates repositories on GitHub today · GitHub",
-      "snippet": "Trending\nSee what the GitHub community is most excited about today.\nRepositories Developers\nSpoken Language: Any\nSelect a spoken language\nAbkhazian Afar Afrikaans Akan Albanian Amharic Arabic Aragonese Armenian Assamese Avaric Avestan Aymara Azerbaijani Bambara Bashkir Basque Belarusian Bengali",
-      "matchedWords": {
-        "4galTpdpDM5Q": {
-          "hits": 0,
-          "textWords": 266
-        },
-        "UEhMGfGv2vOE": {
-          "hits": 0,
-          "textWords": 266
-        }
-      }
-    },
-    {
-      "hash": "SH9s9zTnALtw",
-      "address": "https://planet.gentoo.org/",
-      "title": "Planet Gentoo",
-      "snippet": "Linux. Sure, sometimes I find myself opening a cursed issue on b.g.o, but my system hasn’t ever broken!\nThe work the Gentoo devs put in to make sure everything is stable and everything works well across many different setups is incredible, and the stability that comes with portage sure doesn’t hurt",
+      "hash": "YFkvAjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Denial-of-service_attack",
+      "title": "Denial-of-service attack - Wikipedia",
+      "snippet": "Linux kernel, potentially causing a kernel panic.[104] Jonathan Looney discovered CVE-2019-11477, CVE-2019-11478, CVE-2019-11479 on June 17, 2019.[105]\nThe shrew attack is a denial-of-service attack on the Transmission Control Protocol where the attacker employs man-in-the-middle techniques. It",
       "matchedWords": {
         "4galTpdpDM5Q": {
           "hits": 3,
-          "textWords": 3218
-        },
-        "UEhMGfGv2vOE": {
-          "hits": 1,
-          "textWords": 3218
-        }
-      }
-    },
-    {
-      "hash": "EI3SjsYlAY74",
-      "address": "https://ubuntu.com/",
-      "title": "Enterprise Open Source and Linux | Ubuntu",
-      "snippet": "Linux securely in your enterprise ›\nBuild your AI models on Ubuntu ›\nSecure your open source apps. Patch the full stack, from kernel to library and applications, for CVE compliance. Governments and auditors certify Ubuntu for FedRAMP, FISMA, and HITECH.\nUp to 15 years of security maintenance\nKernel",
-      "matchedWords": {
-        "4galTpdpDM5Q": {
-          "hits": 4,
-          "textWords": 602
-        },
-        "UEhMGfGv2vOE": {
-          "hits": 4,
-          "textWords": 602
-        }
-      }
-    },
-    {
-      "hash": "D4lABzaS0qdw",
-      "address": "https://planet.debian.org/",
-      "title": "Planet Debian",
-      "snippet": "Linux, the perf tool is the best way to access the CPU hardware performance counters. A good starting point for working with perf is the documentation on “Top-down analysis with the perf tool”, which describes the optimization method that Intel established.\nIn my Makefile, I set up two perf",
-      "matchedWords": {
-        "4galTpdpDM5Q": {
-          "hits": 3,
-          "textWords": 8109
+          "textWords": 11897
         },
         "UEhMGfGv2vOE": {
           "hits": 2,
-          "textWords": 8109
+          "textWords": 11897
         }
-      }
-    },
-    {
-      "hash": "EIkpSjbCa2Ow",
-      "address": "https://man.freebsd.org/cgi/man.cgi",
-      "title": "FreeBSD Manual Pages",
-      "snippet": "Skip site navigation (1)Skip section navigation (2)\nHeader And Logo\nPeripheral Links\nDonate to FreeBSD\nSearch\nSite Navigation\nHome\nAbout Introduction\nFeatures\nAdvocacy\nMarketing\nGet FreeBSD Release Information\nRelease Engineering\nDocumentation FAQ\nHandbook\nPorter's Handbook\nDeveloper's Handbook",
-      "matchedWords": {
-        "4galTpdpDM5Q": {
-          "hits": 0,
-          "textWords": 81
-        },
-        "UEhMGfGv2vOE": {
-          "hits": 0,
-          "textWords": 81
-        }
-      }
-    },
-    {
-      "hash": "03keRScVhFQ5",
-      "address": "https://www.anthropic.com/research/mythos-preview",
-      "title": "Assessing Claude Mythos Preview’s cybersecurity capabilities \\ Anthropic",
-      "snippet": "Linux and other operating systems by exploiting subtle race conditions and KASLR-bypasses. And it autonomously wrote a remote code execution exploit on FreeBSD’s NFS server that granted full root access to unauthenticated users by splitting a 20-gadget ROP chain over multiple packets.\nNon-experts",
-      "matchedWords": {
-        "4galTpdpDM5Q": {
-          "hits": 18,
-          "textWords": 13891
-        },
-        "UEhMGfGv2vOE": {
-          "hits": 101,
-          "textWords": 13891
-        }
-      }
-    },
-    {
-      "hash": "Wfq3FswvoTD5",
-      "address": "https://r-universe.dev/articles",
-      "title": "R-universe - browse articles",
-      "snippet": "",
-      "matchedWords": {
-        "4galTpdpDM5Q": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "UEhMGfGv2vOE": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "6WnRwsyXfq04",
-      "address": "https://snippet.host/",
-      "title": "snippet.host - minimal text and code snippet hosting",
-      "snippet": "welcome, guest. why not login or register?",
-      "matchedWords": {
-        "4galTpdpDM5Q": {
-          "hits": 0,
-          "textWords": 7
-        },
-        "UEhMGfGv2vOE": {
-          "hits": 0,
-          "textWords": 7
-        }
-      }
-    },
-    {
-      "hash": "49cfZjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Dm-crypt",
-      "title": "dm-crypt - Wikipedia",
-      "snippet": "Linux kernel versions 2.6 and later and in DragonFly BSD. It is part of the device mapper (dm) infrastructure, and uses cryptographic routines from the kernel's Crypto API. Unlike its predecessor cryptoloop, dm-crypt was designed to support advanced modes of operation, such as XTS, LRW and ESSIV,",
-      "matchedWords": {
-        "4galTpdpDM5Q": {
-          "hits": 13,
-          "textWords": 1166
-        },
-        "UEhMGfGv2vOE": {
-          "hits": 13,
-          "textWords": 1166
-        }
-      }
+      },
+      "queryPhraseHits": 1
     },
     {
       "hash": "5wGJcjRvmBbx",
@@ -880,471 +841,8 @@
           "hits": 2,
           "textWords": 938
         }
-      }
-    },
-    {
-      "hash": "SH9s9zTnALtw",
-      "address": "https://planet.gentoo.org/",
-      "title": "Planet Gentoo",
-      "snippet": "Linux. Sure, sometimes I find myself opening a cursed issue on b.g.o, but my system hasn’t ever broken!\nThe work the Gentoo devs put in to make sure everything is stable and everything works well across many different setups is incredible, and the stability that comes with portage sure doesn’t hurt",
-      "matchedWords": {
-        "4galTpdpDM5Q": {
-          "hits": 3,
-          "textWords": 3218
-        },
-        "UEhMGfGv2vOE": {
-          "hits": 1,
-          "textWords": 3218
-        }
-      }
-    },
-    {
-      "hash": "Wfq3FswvoTD5",
-      "address": "https://r-universe.dev/articles",
-      "title": "R-universe - browse articles",
-      "snippet": "",
-      "matchedWords": {
-        "4galTpdpDM5Q": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "UEhMGfGv2vOE": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "49cfZjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Dm-crypt",
-      "title": "dm-crypt - Wikipedia",
-      "snippet": "Linux kernel versions 2.6 and later and in DragonFly BSD. It is part of the device mapper (dm) infrastructure, and uses cryptographic routines from the kernel's Crypto API. Unlike its predecessor cryptoloop, dm-crypt was designed to support advanced modes of operation, such as XTS, LRW and ESSIV,",
-      "matchedWords": {
-        "4galTpdpDM5Q": {
-          "hits": 13,
-          "textWords": 1166
-        },
-        "UEhMGfGv2vOE": {
-          "hits": 13,
-          "textWords": 1166
-        }
-      }
-    },
-    {
-      "hash": "9SqczjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Classic_Mac_OS",
-      "title": "Classic Mac OS - Wikipedia",
-      "snippet": "Kernel type\nMonolithic for 68k, nanokernel for PowerPC\nDefault\nuser interface\nGraphical\nLicense\nCommercial software, proprietary software\nSucceeded by\nMac OS X\nSupport status\nHistorical, unsupported as of February 1, 2002\nMac OS (originally System Software; retronymically Classic Mac OS[a]) is the",
-      "matchedWords": {
-        "4galTpdpDM5Q": {
-          "hits": 2,
-          "textWords": 6976
-        },
-        "UEhMGfGv2vOE": {
-          "hits": 3,
-          "textWords": 6976
-        }
-      }
-    },
-    {
-      "hash": "-el3vjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Constitutional_AI",
-      "title": "Claude (AI) - Wikipedia",
-      "snippet": "Linux kernel\". The experiment cost nearly $20,000; Carlini noted that even though the compiler is not very efficient, Opus 4.6 is the first model able to write it.[127][128]\nIn December 2025, Claude was used to plan a route for NASA's Mars rover, Perseverance. NASA engineers used Claude Code to",
-      "matchedWords": {
-        "4galTpdpDM5Q": {
-          "hits": 2,
-          "textWords": 6781
-        },
-        "UEhMGfGv2vOE": {
-          "hits": 1,
-          "textWords": 6781
-        }
-      }
-    },
-    {
-      "hash": "4Ggj0sR7ciCw",
-      "address": "https://lkml.org/rss.php",
-      "title": "lkml.org",
-      "snippet": "",
-      "matchedWords": {
-        "4galTpdpDM5Q": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "UEhMGfGv2vOE": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "0WxbhtS6MKD4",
-      "address": "https://github.com/trending/applescript?since=daily",
-      "title": "Trending AppleScript repositories on GitHub today · GitHub",
-      "snippet": "Trending\nSee what the GitHub community is most excited about today.\nRepositories Developers\nSpoken Language: Any\nSelect a spoken language\nAbkhazian Afar Afrikaans Akan Albanian Amharic Arabic Aragonese Armenian Assamese Avaric Avestan Aymara Azerbaijani Bambara Bashkir Basque Belarusian Bengali",
-      "matchedWords": {
-        "4galTpdpDM5Q": {
-          "hits": 0,
-          "textWords": 265
-        },
-        "UEhMGfGv2vOE": {
-          "hits": 0,
-          "textWords": 265
-        }
-      }
-    },
-    {
-      "hash": "1FWVMtS6MKD4",
-      "address": "https://github.com/trending/gleam?since=daily",
-      "title": "Trending Gleam repositories on GitHub today · GitHub",
-      "snippet": "",
-      "matchedWords": {
-        "4galTpdpDM5Q": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "UEhMGfGv2vOE": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "2UmEutS6MKD4",
-      "address": "https://github.com/trending/regular-expression?since=daily",
-      "title": "Trending Regular Expression repositories on GitHub today · GitHub",
-      "snippet": "",
-      "matchedWords": {
-        "4galTpdpDM5Q": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "UEhMGfGv2vOE": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "49Td2tS6MKD4",
-      "address": "https://github.com/trending/wikitext?since=daily",
-      "title": "Trending Wikitext repositories on GitHub today · GitHub",
-      "snippet": "Trending\nSee what the GitHub community is most excited about today.\nRepositories Developers\nSpoken Language: Any\nSelect a spoken language\nAbkhazian Afar Afrikaans Akan Albanian Amharic Arabic Aragonese Armenian Assamese Avaric Avestan Aymara Azerbaijani Bambara Bashkir Basque Belarusian Bengali",
-      "matchedWords": {
-        "4galTpdpDM5Q": {
-          "hits": 0,
-          "textWords": 265
-        },
-        "UEhMGfGv2vOE": {
-          "hits": 0,
-          "textWords": 265
-        }
-      }
-    },
-    {
-      "hash": "7GUvMtS6MKD4",
-      "address": "https://github.com/trending/labview?since=daily",
-      "title": "Trending LabVIEW repositories on GitHub today · GitHub",
-      "snippet": "",
-      "matchedWords": {
-        "4galTpdpDM5Q": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "UEhMGfGv2vOE": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "7MMLutS6MKD4",
-      "address": "https://github.com/trending/brightscript?since=daily",
-      "title": "Trending Brightscript repositories on GitHub today · GitHub",
-      "snippet": "Trending\nSee what the GitHub community is most excited about today.\nRepositories Developers\nSpoken Language: Any\nSelect a spoken language\nAbkhazian Afar Afrikaans Akan Albanian Amharic Arabic Aragonese Armenian Assamese Avaric Avestan Aymara Azerbaijani Bambara Bashkir Basque Belarusian Bengali",
-      "matchedWords": {
-        "4galTpdpDM5Q": {
-          "hits": 0,
-          "textWords": 265
-        },
-        "UEhMGfGv2vOE": {
-          "hits": 0,
-          "textWords": 265
-        }
-      }
-    },
-    {
-      "hash": "8OWQksS6MKD4",
-      "address": "https://github.com/trending?spoken_language_code=ik",
-      "title": "Trending repositories on GitHub today · GitHub",
-      "snippet": "Trending\nSee what the GitHub community is most excited about today.\nRepositories Developers\nSpoken Language: Inupiaq\nSelect a spoken language\nAbkhazian Afar Afrikaans Akan Albanian Amharic Arabic Aragonese Armenian Assamese Avaric Avestan Aymara Azerbaijani Bambara Bashkir Basque Belarusian Bengali",
-      "matchedWords": {
-        "4galTpdpDM5Q": {
-          "hits": 0,
-          "textWords": 266
-        },
-        "UEhMGfGv2vOE": {
-          "hits": 0,
-          "textWords": 266
-        }
-      }
-    },
-    {
-      "hash": "8SBrdtS6MKD4",
-      "address": "https://github.com/trending/linux-kernel-module?since=daily",
-      "title": "Trending Linux Kernel Module repositories on GitHub today · GitHub",
-      "snippet": "Linux Kernel Module.",
-      "matchedWords": {
-        "4galTpdpDM5Q": {
-          "hits": 1,
-          "textWords": 267
-        },
-        "UEhMGfGv2vOE": {
-          "hits": 1,
-          "textWords": 267
-        }
-      }
-    },
-    {
-      "hash": "8mFIHtS6MKD4",
-      "address": "https://github.com/trending/cairo-zero?since=daily",
-      "title": "Trending Cairo Zero repositories on GitHub today · GitHub",
-      "snippet": "",
-      "matchedWords": {
-        "4galTpdpDM5Q": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "UEhMGfGv2vOE": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "8mK7KtS6MKD4",
-      "address": "https://github.com/trending/gradle-kotlin-dsl?since=daily",
-      "title": "Trending Gradle Kotlin DSL repositories on GitHub today · GitHub",
-      "snippet": "",
-      "matchedWords": {
-        "4galTpdpDM5Q": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "UEhMGfGv2vOE": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "8xEhvtS6MKD4",
-      "address": "https://github.com/trending/x-pixmap?since=daily",
-      "title": "Trending X PixMap repositories on GitHub today · GitHub",
-      "snippet": "",
-      "matchedWords": {
-        "4galTpdpDM5Q": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "UEhMGfGv2vOE": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "-FnQDtS6MKD4",
-      "address": "https://github.com/trending/closure-templates?since=daily",
-      "title": "Trending Closure Templates repositories on GitHub today · GitHub",
-      "snippet": "Trending\nSee what the GitHub community is most excited about today.\nRepositories Developers\nSpoken Language: Any\nSelect a spoken language\nAbkhazian Afar Afrikaans Akan Albanian Amharic Arabic Aragonese Armenian Assamese Avaric Avestan Aymara Azerbaijani Bambara Bashkir Basque Belarusian Bengali",
-      "matchedWords": {
-        "4galTpdpDM5Q": {
-          "hits": 0,
-          "textWords": 266
-        },
-        "UEhMGfGv2vOE": {
-          "hits": 0,
-          "textWords": 266
-        }
-      }
-    },
-    {
-      "hash": "-__JttS6MKD4",
-      "address": "https://github.com/trending/charity?since=daily",
-      "title": "Trending Charity repositories on GitHub today · GitHub",
-      "snippet": "",
-      "matchedWords": {
-        "4galTpdpDM5Q": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "UEhMGfGv2vOE": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "-GPQIsYlAY74",
-      "address": "https://ubuntu.com/what-is-enterprise-linux",
-      "title": "What is enterprise Linux? | Ubuntu",
-      "snippet": "Linux is a descriptor used by Linux distributions to highlight that they meet the rigorous needs of large organizations or commercial environments. The common characteristics shared by enterprise Linux distributions are stability, security and compliance, interoperability, and support.\nWith this",
-      "matchedWords": {
-        "4galTpdpDM5Q": {
-          "hits": 27,
-          "textWords": 1111
-        },
-        "UEhMGfGv2vOE": {
-          "hits": 2,
-          "textWords": 1111
-        }
-      }
-    },
-    {
-      "hash": "9EkIrTrhyvQw",
-      "address": "https://www.man7.org/linux/man-pages/man5/proc_pid_task.5.html",
-      "title": "proc_pid_task(5) - Linux manual page",
-      "snippet": "Linux 2.6.0) This is a directory that contains one subdirectory for each thread in the process. The name of each subdirectory is the numerical thread ID (tid) of the thread (see gettid(2)). Within each of these subdirectories, there is a set of files with the same names and contents as under the",
-      "matchedWords": {
-        "4galTpdpDM5Q": {
-          "hits": 5,
-          "textWords": 544
-        },
-        "UEhMGfGv2vOE": {
-          "hits": 4,
-          "textWords": 544
-        }
-      }
-    },
-    {
-      "hash": "06p-fssWTYKx",
-      "address": "https://sourceforge.net/directory/?q=gparted",
-      "title": "gparted free download - SourceForge",
-      "snippet": "",
-      "matchedWords": {
-        "4galTpdpDM5Q": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "UEhMGfGv2vOE": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "3xuUlW16jqw6",
-      "address": "https://rossmanngroup.com/services/nas-data-recovery/terramaster",
-      "title": "TerraMaster NAS Data Recovery | Rossmann Group",
-      "snippet": "",
-      "matchedWords": {
-        "4galTpdpDM5Q": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "UEhMGfGv2vOE": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "EI3SjsYlAY74",
-      "address": "https://ubuntu.com/",
-      "title": "Enterprise Open Source and Linux | Ubuntu",
-      "snippet": "Linux securely in your enterprise ›\nBuild your AI models on Ubuntu ›\nSecure your open source apps. Patch the full stack, from kernel to library and applications, for CVE compliance. Governments and auditors certify Ubuntu for FedRAMP, FISMA, and HITECH.\nUp to 15 years of security maintenance\nKernel",
-      "matchedWords": {
-        "4galTpdpDM5Q": {
-          "hits": 4,
-          "textWords": 602
-        },
-        "UEhMGfGv2vOE": {
-          "hits": 4,
-          "textWords": 602
-        }
-      }
-    },
-    {
-      "hash": "E-Nnbx7Yxvhx",
-      "address": "https://www.postgresql.org/docs/current/runtime-config-resource.html",
-      "title": "PostgreSQL: Documentation: 18: 19.4. Resource Consumption",
-      "snippet": "kernel settings will not support it (as determined during initdb). This setting must be at least 128 kilobytes. However, settings significantly higher than the minimum are usually needed for good performance. If this value is specified without units, it is taken as blocks, that is BLCKSZ bytes,",
-      "matchedWords": {
-        "4galTpdpDM5Q": {
-          "hits": 7,
-          "textWords": 2691
-        },
-        "UEhMGfGv2vOE": {
-          "hits": 5,
-          "textWords": 2691
-        }
-      }
-    },
-    {
-      "hash": "B6RumAK-xyJ4",
-      "address": "https://go.dev/doc/godebug",
-      "title": "Go, Backwards Compatibility, and GODEBUG - The Go Programming Language",
-      "snippet": "Linux. For Go 1.25, it defaults to decoratemappings=1, enabling annotations. Using decoratemappings=0 reverts to the pre-Go 1.25 behavior. This setting is fixed at program startup time, and can’t be modified by changing the GODEBUG environment variable after the program starts.\nGo 1.25 added a new",
-      "matchedWords": {
-        "4galTpdpDM5Q": {
-          "hits": 6,
-          "textWords": 3803
-        },
-        "UEhMGfGv2vOE": {
-          "hits": 2,
-          "textWords": 3803
-        }
-      }
-    },
-    {
-      "hash": "MaRThsRMLT-5",
-      "address": "https://canonical.com/",
-      "title": "Canonical | Trusted open source for enterprises",
-      "snippet": "Linux.\nStart with Ubuntu\nTake control of your infrastructure\nBuild apps at speed and stay secure\nGet an optimized stack for data and AI\nDeploy smart things at the edge\nStart with Ubuntu\nBuild with confidence on the world’s most popular open source OS. Move faster with certified hardware, and",
-      "matchedWords": {
-        "4galTpdpDM5Q": {
-          "hits": 1,
-          "textWords": 574
-        },
-        "UEhMGfGv2vOE": {
-          "hits": 0,
-          "textWords": 574
-        }
-      }
-    },
-    {
-      "hash": "BbE7ZjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Claude_(AI)",
-      "title": "Claude (AI) - Wikipedia",
-      "snippet": "Linux kernel\". The experiment cost nearly $20,000; Carlini noted that even though the compiler is not very efficient, Opus 4.6 is the first model able to write it.[127][128]\nIn December 2025, Claude was used to plan a route for NASA's Mars rover, Perseverance. NASA engineers used Claude Code to",
-      "matchedWords": {
-        "4galTpdpDM5Q": {
-          "hits": 2,
-          "textWords": 6780
-        },
-        "UEhMGfGv2vOE": {
-          "hits": 1,
-          "textWords": 6780
-        }
-      }
-    },
-    {
-      "hash": "eLD0SjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/John_von_Neumann",
-      "title": "John von Neumann - Wikipedia",
-      "snippet": "Kernel Hilbert Spaces Associated with the Fractional and Bi-Fractional Brownian Motions\". Potential Analysis. 28 (2): 163–184. arXiv:0705.2863. doi:10.1007/s11118-007-9070-4. S2CID 15895847.\n↑ Horn \u0026 Johnson 2013, p. 320.\n↑ Horn \u0026 Johnson 2013, p. 458.\n↑ Horn, Roger A.; Johnson, Charles R. (1991).",
-      "matchedWords": {
-        "4galTpdpDM5Q": {
-          "hits": 0,
-          "textWords": 23550
-        },
-        "UEhMGfGv2vOE": {
-          "hits": 1,
-          "textWords": 23550
-        }
-      }
+      },
+      "queryPhraseHits": 1
     },
     {
       "hash": "7cn5rjRvmBbx",
@@ -1360,39 +858,42 @@
           "hits": 1,
           "textWords": 22747
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
-      "hash": "-el3vjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Constitutional_AI",
-      "title": "Claude (AI) - Wikipedia",
-      "snippet": "Linux kernel\". The experiment cost nearly $20,000; Carlini noted that even though the compiler is not very efficient, Opus 4.6 is the first model able to write it.[127][128]\nIn December 2025, Claude was used to plan a route for NASA's Mars rover, Perseverance. NASA engineers used Claude Code to",
+      "hash": "SH9s9zTnALtw",
+      "address": "https://planet.gentoo.org/",
+      "title": "Planet Gentoo",
+      "snippet": "Linux. Sure, sometimes I find myself opening a cursed issue on b.g.o, but my system hasn’t ever broken!\nThe work the Gentoo devs put in to make sure everything is stable and everything works well across many different setups is incredible, and the stability that comes with portage sure doesn’t hurt",
       "matchedWords": {
         "4galTpdpDM5Q": {
-          "hits": 2,
-          "textWords": 6781
+          "hits": 3,
+          "textWords": 3218
         },
         "UEhMGfGv2vOE": {
           "hits": 1,
-          "textWords": 6781
+          "textWords": 3218
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
-      "hash": "PafpstS6MKD4",
-      "address": "https://github.com/trending/microsoft-developer-studio-project?since=daily",
-      "title": "Trending Microsoft Developer Studio Project repositories on GitHub today · GitHub",
-      "snippet": "Trending\nSee what the GitHub community is most excited about today.\nRepositories Developers\nSpoken Language: Any\nSelect a spoken language\nAbkhazian Afar Afrikaans Akan Albanian Amharic Arabic Aragonese Armenian Assamese Avaric Avestan Aymara Azerbaijani Bambara Bashkir Basque Belarusian Bengali",
+      "hash": "4ow_H2YgdA-h",
+      "address": "https://ubuntu-user.de/tech/qemu-kernel-bases-virtual-machine-kvm-auf-linux-x86-hardware/",
+      "title": "QEMU - Kernel Bases Virtual Machine (KVM) auf Linux x86 Hardware",
+      "snippet": "Kernel SamePage Merging\nZusammenfassung\nQEMU ist eine Virtualisierungstechnik, die es ermöglicht, virtuelle Maschinen auf Linux-basierten x86-Hardware-Systemen auszuführen. Diese Technik, auch bekannt als Kernelbasierte Virtual Machine (KVM), wurde im Oktober 2006 der Öffentlichkeit vorgestellt und",
       "matchedWords": {
         "4galTpdpDM5Q": {
-          "hits": 0,
-          "textWords": 268
+          "hits": 38,
+          "textWords": 2398
         },
         "UEhMGfGv2vOE": {
-          "hits": 0,
-          "textWords": 268
+          "hits": 12,
+          "textWords": 2398
         }
-      }
+      },
+      "queryPhraseHits": 3
     },
     {
       "hash": "D4lABzaS0qdw",
@@ -1408,23 +909,450 @@
           "hits": 2,
           "textWords": 8109
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
-      "hash": "Bc3dcitD2jQw",
-      "address": "https://docs.python.org/3/library/os.html",
-      "title": "os — Miscellaneous operating system interfaces — Python 3.14.7 documentation",
-      "snippet": "Linux namespace. See the setns(2) and namespaces(7) man pages for more details.\nIf fd refers to a /proc/pid/ns/ link, setns() reassociates the calling thread with the namespace associated with that link, and nstype may be set to one of the CLONE_NEW* constants to impose constraints on the operation",
+      "hash": "EIkpSjbCa2Ow",
+      "address": "https://man.freebsd.org/cgi/man.cgi",
+      "title": "FreeBSD Manual Pages",
+      "snippet": "Skip site navigation (1)Skip section navigation (2)\nHeader And Logo\nPeripheral Links\nDonate to FreeBSD\nSearch\nSite Navigation\nHome\nAbout Introduction\nFeatures\nAdvocacy\nMarketing\nGet FreeBSD Release Information\nRelease Engineering\nDocumentation FAQ\nHandbook\nPorter's Handbook\nDeveloper's Handbook",
       "matchedWords": {
         "4galTpdpDM5Q": {
-          "hits": 35,
-          "textWords": 26463
+          "hits": 0,
+          "textWords": 81
         },
         "UEhMGfGv2vOE": {
-          "hits": 15,
-          "textWords": 26463
+          "hits": 0,
+          "textWords": 81
         }
-      }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "3BxTglj4MAVw",
+      "address": "https://man7.org/linux/man-pages/man7/pipe.7.html",
+      "title": "pipe(7) - Linux manual page",
+      "snippet": "Linux 2.6.11, the capacity of a pipe was the same as the system page size (e.g., 4096 bytes on i386). Since Linux 2.6.11, the pipe capacity is 16 pages (i.e., 65,536 bytes in a system with a page size of 4096 bytes). Since Linux 2.6.35, the default pipe capacity is 16 pages, but the capacity can be",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 25,
+          "textWords": 1921
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 6,
+          "textWords": 1921
+        }
+      },
+      "queryPhraseHits": 1
+    },
+    {
+      "hash": "mKjEVzAa-Sqx",
+      "address": "https://planet.freedesktop.org/",
+      "title": "planet.freedesktop.org",
+      "snippet": "Linux distributions over firmware updates to Flatpak and desktops directly. AppStream’s original design however comes from the perspective of Linux distributions in 2011, where you may want to browse the software catalog offline, without delay, and without pinging an external server (which could be",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 138,
+          "textWords": 71870
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 237,
+          "textWords": 71870
+        }
+      },
+      "queryPhraseHits": 20
+    },
+    {
+      "hash": "W-eXqzF3--Qw",
+      "address": "https://planet.mozilla.org/",
+      "title": "Planet Mozilla",
+      "snippet": "Linux system theme” checkbox is being shown on Linux builds for the about:addons theme picker, which will make Firefox’s Nova UI use the colours of the system theme.\nThanks to Simon Rosen for adding a new playback speed control to the PiP player. The feature can be enabled by flipping the pref",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 26,
+          "textWords": 66162
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 6,
+          "textWords": 66162
+        }
+      },
+      "queryPhraseHits": 4
+    },
+    {
+      "hash": "BF23V5RMLT-5",
+      "address": "https://canonical.com/careers/commercial-operations",
+      "title": "Commercial operations | Careers | Canonical",
+      "snippet": "Commercial Operations\nCanonical is a globally distributed company with customers and employees in almost every country. Excellence in commercial operations helps us scale efficiently – and thrive as we do. We celebrate relentless improvement. Our team members are passionate about tools and",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 0,
+          "textWords": 250
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 0,
+          "textWords": 250
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "DKApesRMLT-5",
+      "address": "https://canonical.com/careers",
+      "title": "Careers | Canonical",
+      "snippet": "Careers\nPassionate about open source?\nSo are we. Be where the cutting edge is established.\nStay safe and avoid recruitment fraud.\nRead our FAQ for information on the legitimacy of our process and offers.\nDepartments\nOur Mission\nWe amplify\nthe impact of open source\nWe help people and organisations",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 0,
+          "textWords": 101
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 0,
+          "textWords": 101
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "MaRThsRMLT-5",
+      "address": "https://canonical.com/",
+      "title": "Trusted open source for enterprises | Canonical",
+      "snippet": "Linux.\nStart with Ubuntu\nTake control of your infrastructure\nBuild apps at speed and stay secure\nGet an optimized stack for data and AI\nDeploy smart things at the edge\nStart with Ubuntu\nBuild with confidence on the world’s most popular open source OS. Move faster with certified hardware, and",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 1,
+          "textWords": 574
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 0,
+          "textWords": 574
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "QRS_dsRMLT-5",
+      "address": "https://canonical.com/data",
+      "title": "Open source data platform solutions | Canonical",
+      "snippet": "Enterprise-grade solutions\nfor your mission critical data\nData flows better with the right tools. Canonical offers security, compliance, and lifecycle management solutions for the most popular open source databases and big data applications, on any cloud.\nSecurity, support, and automation across",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 0,
+          "textWords": 488
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 0,
+          "textWords": 488
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "Is_TdWRfu9ww",
+      "address": "https://datatracker.ietf.org/doc/html/rfc9293",
+      "title": "RFC 9293 - Transmission Control Protocol (TCP)",
+      "snippet": "Linux Kernel Documentation, \u003chttps://www.kernel.org/doc/html/latest/networking/segmentation-offloads.html\u003e.\n[73]\nRFC Errata, Erratum ID 573, RFC 793, \u003chttps://www.rfc-editor.org/errata/eid573\u003e.\n[74]\nRFC Errata, Erratum ID 574, RFC 793, \u003chttps://www.rfc-editor.org/errata/eid574\u003e.\n[75]\nRFC Errata,",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 1,
+          "textWords": 30602
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 3,
+          "textWords": 30602
+        }
+      },
+      "queryPhraseHits": 1
+    },
+    {
+      "hash": "QdW-xjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/GNU_General_Public_License",
+      "title": "GNU General Public License - Wikipedia",
+      "snippet": "Linux operating system kernel and the GNU Compiler Collection (GCC). David A. Wheeler argues that the copyleft provided by the GPL was crucial to the success of Linux-based systems, giving the contributing programmers some assurance that their work would benefit the world and remain free, rather",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 48,
+          "textWords": 15807
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 22,
+          "textWords": 15807
+        }
+      },
+      "queryPhraseHits": 13
+    },
+    {
+      "hash": "Xy1HPjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Hang_(computing)",
+      "title": "Hang (computing) - Wikipedia",
+      "snippet": "",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "YFkvAjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Denial-of-service_attack",
+      "title": "Denial-of-service attack - Wikipedia",
+      "snippet": "Linux kernel, potentially causing a kernel panic.[104] Jonathan Looney discovered CVE-2019-11477, CVE-2019-11478, CVE-2019-11479 on June 17, 2019.[105]\nThe shrew attack is a denial-of-service attack on the Transmission Control Protocol where the attacker employs man-in-the-middle techniques. It",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 3,
+          "textWords": 11897
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 2,
+          "textWords": 11897
+        }
+      },
+      "queryPhraseHits": 1
+    },
+    {
+      "hash": "eLD0SjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/John_von_Neumann",
+      "title": "John von Neumann - Wikipedia",
+      "snippet": "",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "7cn5rjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Finland",
+      "title": "Finland - Wikipedia",
+      "snippet": "kernel Linux.\nIn tertiary education, two mostly separate and non-interoperating sectors are found: the profession-oriented polytechnics and the research-oriented universities. Education is free and living expenses are to a large extent financed by the government through student benefits. There are",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 1,
+          "textWords": 22747
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 1,
+          "textWords": 22747
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "-el3vjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Constitutional_AI",
+      "title": "Claude (AI) - Wikipedia",
+      "snippet": "",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "MFVfNtS6MKD4",
+      "address": "https://github.com/trending/vcl?since=daily",
+      "title": "Trending VCL repositories on GitHub today · GitHub",
+      "snippet": "",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "M4GchtS6MKD4",
+      "address": "https://github.com/trending/vhdl?since=daily",
+      "title": "Trending VHDL repositories on GitHub today · GitHub",
+      "snippet": "",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "NZrn_tS6MKD4",
+      "address": "https://github.com/trending/ti-program?since=daily",
+      "title": "Trending TI Program repositories on GitHub today · GitHub",
+      "snippet": "",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "NsthRtS6MKD4",
+      "address": "https://github.com/trending/hlsl?since=daily",
+      "title": "Trending HLSL repositories on GitHub today · GitHub",
+      "snippet": "",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "ON7-OsS6MKD4",
+      "address": "https://github.com/trending?spoken_language_code=hy",
+      "title": "Trending repositories on GitHub today · GitHub",
+      "snippet": "",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "Opr4ltS6MKD4",
+      "address": "https://github.com/trending/e?since=daily",
+      "title": "Trending E repositories on GitHub today · GitHub",
+      "snippet": "",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "PafpstS6MKD4",
+      "address": "https://github.com/trending/microsoft-developer-studio-project?since=daily",
+      "title": "Trending Microsoft Developer Studio Project repositories on GitHub today · GitHub",
+      "snippet": "Trending\nSee what the GitHub community is most excited about today.\nRepositories Developers\nSpoken Language: Any\nSelect a spoken language\nAbkhazian Afar Afrikaans Akan Albanian Amharic Arabic Aragonese Armenian Assamese Avaric Avestan Aymara Azerbaijani Bambara Bashkir Basque Belarusian Bengali",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 0,
+          "textWords": 268
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 0,
+          "textWords": 268
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "2TKprtS6MKD4",
+      "address": "https://github.com/trending/mirc-script?since=daily",
+      "title": "Trending mIRC Script repositories on GitHub today · GitHub",
+      "snippet": "",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "7cxFetS6MKD4",
+      "address": "https://github.com/trending/sed?since=daily",
+      "title": "Trending sed repositories on GitHub today · GitHub",
+      "snippet": "",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "D4lABzaS0qdw",
+      "address": "https://planet.debian.org/",
+      "title": "Planet Debian",
+      "snippet": "Linux, the perf tool is the best way to access the CPU hardware performance counters. A good starting point for working with perf is the documentation on “Top-down analysis with the perf tool”, which describes the optimization method that Intel established.\nIn my Makefile, I set up two perf",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 3,
+          "textWords": 8109
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 2,
+          "textWords": 8109
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "EIkpSjbCa2Ow",
+      "address": "https://man.freebsd.org/cgi/man.cgi",
+      "title": "FreeBSD Manual Pages",
+      "snippet": "Skip site navigation (1)Skip section navigation (2)\nHeader And Logo\nPeripheral Links\nDonate to FreeBSD\nSearch\nSite Navigation\nHome\nAbout Introduction\nFeatures\nAdvocacy\nMarketing\nGet FreeBSD Release Information\nRelease Engineering\nDocumentation FAQ\nHandbook\nPorter's Handbook\nDeveloper's Handbook",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 0,
+          "textWords": 81
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 0,
+          "textWords": 81
+        }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "Wfq3FswvoTD5",
@@ -1440,43 +1368,1712 @@
           "hits": 0,
           "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "aRUDlswvoTD5",
+      "address": "https://r-universe.dev/organizations",
+      "title": "R-universe - community",
+      "snippet": "",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "SzUDgSxWH45x",
+      "address": "https://vice-emu.sourceforge.io/index.html",
+      "title": "VICE - the Versatile Commodore Emulator",
+      "snippet": "",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "fjsuLOxyFvIw",
+      "address": "https://forums.gentoo.org/index.php",
+      "title": "Gentoo Forums - Index page",
+      "snippet": "",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "QRS_dsRMLT-5",
+      "address": "https://canonical.com/data",
+      "title": "Open source data platform solutions | Canonical",
+      "snippet": "Enterprise-grade solutions\nfor your mission critical data\nData flows better with the right tools. Canonical offers security, compliance, and lifecycle management solutions for the most popular open source databases and big data applications, on any cloud.\nSecurity, support, and automation across",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 0,
+          "textWords": 488
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 0,
+          "textWords": 488
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "TS-p86RMLT-5",
+      "address": "https://canonical.com/data/mongodb",
+      "title": "An enterprise solution for MongoDB from Canonical",
+      "snippet": "MongoDB® for the enterprise\nHarness the full potential of MongoDB across private and public clouds and shift your focus from maintenance to innovation.\nChoose Charmed MongoDB to secure and automate the deployment, maintenance and upgrades of your MongoDB databases. Direct your energy into building",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 0,
+          "textWords": 905
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 0,
+          "textWords": 905
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "MFVfNtS6MKD4",
+      "address": "https://github.com/trending/vcl?since=daily",
+      "title": "Trending VCL repositories on GitHub today · GitHub",
+      "snippet": "",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "M4GchtS6MKD4",
+      "address": "https://github.com/trending/vhdl?since=daily",
+      "title": "Trending VHDL repositories on GitHub today · GitHub",
+      "snippet": "",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "NZrn_tS6MKD4",
+      "address": "https://github.com/trending/ti-program?since=daily",
+      "title": "Trending TI Program repositories on GitHub today · GitHub",
+      "snippet": "",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "NsthRtS6MKD4",
+      "address": "https://github.com/trending/hlsl?since=daily",
+      "title": "Trending HLSL repositories on GitHub today · GitHub",
+      "snippet": "",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "ON7-OsS6MKD4",
+      "address": "https://github.com/trending?spoken_language_code=hy",
+      "title": "Trending repositories on GitHub today · GitHub",
+      "snippet": "",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "Opr4ltS6MKD4",
+      "address": "https://github.com/trending/e?since=daily",
+      "title": "Trending E repositories on GitHub today · GitHub",
+      "snippet": "",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "PafpstS6MKD4",
+      "address": "https://github.com/trending/microsoft-developer-studio-project?since=daily",
+      "title": "Trending Microsoft Developer Studio Project repositories on GitHub today · GitHub",
+      "snippet": "Trending\nSee what the GitHub community is most excited about today.\nRepositories Developers\nSpoken Language: Any\nSelect a spoken language\nAbkhazian Afar Afrikaans Akan Albanian Amharic Arabic Aragonese Armenian Assamese Avaric Avestan Aymara Azerbaijani Bambara Bashkir Basque Belarusian Bengali",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 0,
+          "textWords": 268
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 0,
+          "textWords": 268
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "aRUDlswvoTD5",
+      "address": "https://r-universe.dev/organizations",
+      "title": "R-universe - community",
+      "snippet": "",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "SzUDgSxWH45x",
+      "address": "https://vice-emu.sourceforge.io/index.html",
+      "title": "VICE - the Versatile Commodore Emulator",
+      "snippet": "",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "fjsuLOxyFvIw",
+      "address": "https://forums.gentoo.org/index.php",
+      "title": "Gentoo Forums - Index page",
+      "snippet": "",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "W-eXqzF3--Qw",
+      "address": "https://planet.mozilla.org/",
+      "title": "Planet Mozilla",
+      "snippet": "Linux system theme” checkbox is being shown on Linux builds for the about:addons theme picker, which will make Firefox’s Nova UI use the colours of the system theme.\nThanks to Simon Rosen for adding a new playback speed control to the PiP player. The feature can be enabled by flipping the pref",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 26,
+          "textWords": 66162
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 6,
+          "textWords": 66162
+        }
+      },
+      "queryPhraseHits": 4
+    },
+    {
+      "hash": "MaRThsRMLT-5",
+      "address": "https://canonical.com/",
+      "title": "Trusted open source for enterprises | Canonical",
+      "snippet": "Linux.\nStart with Ubuntu\nTake control of your infrastructure\nBuild apps at speed and stay secure\nGet an optimized stack for data and AI\nDeploy smart things at the edge\nStart with Ubuntu\nBuild with confidence on the world’s most popular open source OS. Move faster with certified hardware, and",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 1,
+          "textWords": 574
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 0,
+          "textWords": 574
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "Wfq3FswvoTD5",
+      "address": "https://r-universe.dev/articles",
+      "title": "R-universe - browse articles",
+      "snippet": "",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "fjsuLOxyFvIw",
+      "address": "https://forums.gentoo.org/index.php",
+      "title": "Gentoo Forums - Index page",
+      "snippet": "",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "aRUDlswvoTD5",
+      "address": "https://r-universe.dev/organizations",
+      "title": "R-universe - community",
+      "snippet": "",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "-VdzLVGZ4FKw",
+      "address": "https://www.kernel.org/doc/man-pages/",
+      "title": "The Linux man-pages project",
+      "snippet": "Linux man-pages: home || git | readme | contributing | conventions | mailing list | archives | releases | book | online pages\nThe Linux man-pages project documents the Linux kernel and C library interfaces that are employed by user-space programs. With respect to the C library, the primary focus is",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 4,
+          "textWords": 66
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 1,
+          "textWords": 66
+        }
+      },
+      "queryPhraseHits": 1
+    },
+    {
+      "hash": "DKApesRMLT-5",
+      "address": "https://canonical.com/careers",
+      "title": "Careers | Canonical",
+      "snippet": "Careers\nPassionate about open source?\nSo are we. Be where the cutting edge is established.\nStay safe and avoid recruitment fraud.\nRead our FAQ for information on the legitimacy of our process and offers.\nDepartments\nOur Mission\nWe amplify\nthe impact of open source\nWe help people and organisations",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 0,
+          "textWords": 101
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 0,
+          "textWords": 101
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "MaRThsRMLT-5",
+      "address": "https://canonical.com/",
+      "title": "Trusted open source for enterprises | Canonical",
+      "snippet": "Linux.\nStart with Ubuntu\nTake control of your infrastructure\nBuild apps at speed and stay secure\nGet an optimized stack for data and AI\nDeploy smart things at the edge\nStart with Ubuntu\nBuild with confidence on the world’s most popular open source OS. Move faster with certified hardware, and",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 1,
+          "textWords": 574
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 0,
+          "textWords": 574
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "QRS_dsRMLT-5",
+      "address": "https://canonical.com/data",
+      "title": "Open source data platform solutions | Canonical",
+      "snippet": "Enterprise-grade solutions\nfor your mission critical data\nData flows better with the right tools. Canonical offers security, compliance, and lifecycle management solutions for the most popular open source databases and big data applications, on any cloud.\nSecurity, support, and automation across",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 0,
+          "textWords": 488
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 0,
+          "textWords": 488
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "dckjqsRMLT-5",
+      "address": "https://canonical.com/observability",
+      "title": "Observability | Canonical",
+      "snippet": "Open source observability\nfor enterprises\nMonitoring tools and dashboards, secured and supported\nMetrics, distributed traces, profiles, logs, dashboards, and alerts. Always know how well your applications are running in the Cloud, in containers, on virtual machines, or bare metal. Canonical offers",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 0,
+          "textWords": 186
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 0,
+          "textWords": 186
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "Is_TdWRfu9ww",
+      "address": "https://datatracker.ietf.org/doc/html/rfc9293",
+      "title": "RFC 9293 - Transmission Control Protocol (TCP)",
+      "snippet": "Linux Kernel Documentation, \u003chttps://www.kernel.org/doc/html/latest/networking/segmentation-offloads.html\u003e.\n[73]\nRFC Errata, Erratum ID 573, RFC 793, \u003chttps://www.rfc-editor.org/errata/eid573\u003e.\n[74]\nRFC Errata, Erratum ID 574, RFC 793, \u003chttps://www.rfc-editor.org/errata/eid574\u003e.\n[75]\nRFC Errata,",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 1,
+          "textWords": 30602
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 3,
+          "textWords": 30602
+        }
+      },
+      "queryPhraseHits": 1
+    },
+    {
+      "hash": "QdW-xjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/GNU_General_Public_License",
+      "title": "GNU General Public License - Wikipedia",
+      "snippet": "Linux operating system kernel and the GNU Compiler Collection (GCC). David A. Wheeler argues that the copyleft provided by the GPL was crucial to the success of Linux-based systems, giving the contributing programmers some assurance that their work would benefit the world and remain free, rather",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 48,
+          "textWords": 15807
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 22,
+          "textWords": 15807
+        }
+      },
+      "queryPhraseHits": 13
+    },
+    {
+      "hash": "YFkvAjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Denial-of-service_attack",
+      "title": "Denial-of-service attack - Wikipedia",
+      "snippet": "Linux kernel, potentially causing a kernel panic.[104] Jonathan Looney discovered CVE-2019-11477, CVE-2019-11478, CVE-2019-11479 on June 17, 2019.[105]\nThe shrew attack is a denial-of-service attack on the Transmission Control Protocol where the attacker employs man-in-the-middle techniques. It",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 3,
+          "textWords": 11897
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 2,
+          "textWords": 11897
+        }
+      },
+      "queryPhraseHits": 1
     },
     {
       "hash": "eLD0SjRvmBbx",
       "address": "https://en.wikipedia.org/wiki/John_von_Neumann",
       "title": "John von Neumann - Wikipedia",
-      "snippet": "Kernel Hilbert Spaces Associated with the Fractional and Bi-Fractional Brownian Motions\". Potential Analysis. 28 (2): 163–184. arXiv:0705.2863. doi:10.1007/s11118-007-9070-4. S2CID 15895847.\n↑ Horn \u0026 Johnson 2013, p. 320.\n↑ Horn \u0026 Johnson 2013, p. 458.\n↑ Horn, Roger A.; Johnson, Charles R. (1991).",
+      "snippet": "",
       "matchedWords": {
         "4galTpdpDM5Q": {
           "hits": 0,
-          "textWords": 23550
+          "textWords": 0
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "7cn5rjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Finland",
+      "title": "Finland - Wikipedia",
+      "snippet": "kernel Linux.\nIn tertiary education, two mostly separate and non-interoperating sectors are found: the profession-oriented polytechnics and the research-oriented universities. Education is free and living expenses are to a large extent financed by the government through student benefits. There are",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 1,
+          "textWords": 22747
         },
         "UEhMGfGv2vOE": {
           "hits": 1,
-          "textWords": 23550
+          "textWords": 22747
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
-      "hash": "dPQEQtS6MKD4",
-      "address": "https://github.com/trending/cooklang?since=daily",
-      "title": "Trending Cooklang repositories on GitHub today · GitHub",
+      "hash": "7MMLutS6MKD4",
+      "address": "https://github.com/trending/brightscript?since=daily",
+      "title": "Trending Brightscript repositories on GitHub today · GitHub",
+      "snippet": "",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "7cxFetS6MKD4",
+      "address": "https://github.com/trending/sed?since=daily",
+      "title": "Trending sed repositories on GitHub today · GitHub",
+      "snippet": "",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "-FnQDtS6MKD4",
+      "address": "https://github.com/trending/closure-templates?since=daily",
+      "title": "Trending Closure Templates repositories on GitHub today · GitHub",
+      "snippet": "",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "SH9s9zTnALtw",
+      "address": "https://planet.gentoo.org/",
+      "title": "Planet Gentoo",
+      "snippet": "Linux. Sure, sometimes I find myself opening a cursed issue on b.g.o, but my system hasn’t ever broken!\nThe work the Gentoo devs put in to make sure everything is stable and everything works well across many different setups is incredible, and the stability that comes with portage sure doesn’t hurt",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 3,
+          "textWords": 3218
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 1,
+          "textWords": 3218
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "D4lABzaS0qdw",
+      "address": "https://planet.debian.org/",
+      "title": "Planet Debian",
+      "snippet": "Linux, the perf tool is the best way to access the CPU hardware performance counters. A good starting point for working with perf is the documentation on “Top-down analysis with the perf tool”, which describes the optimization method that Intel established.\nIn my Makefile, I set up two perf",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 3,
+          "textWords": 8109
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 2,
+          "textWords": 8109
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "EIkpSjbCa2Ow",
+      "address": "https://man.freebsd.org/cgi/man.cgi",
+      "title": "FreeBSD Manual Pages",
+      "snippet": "Skip site navigation (1)Skip section navigation (2)\nHeader And Logo\nPeripheral Links\nDonate to FreeBSD\nSearch\nSite Navigation\nHome\nAbout Introduction\nFeatures\nAdvocacy\nMarketing\nGet FreeBSD Release Information\nRelease Engineering\nDocumentation FAQ\nHandbook\nPorter's Handbook\nDeveloper's Handbook",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 0,
+          "textWords": 81
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 0,
+          "textWords": 81
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "Wfq3FswvoTD5",
+      "address": "https://r-universe.dev/articles",
+      "title": "R-universe - browse articles",
+      "snippet": "",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "aRUDlswvoTD5",
+      "address": "https://r-universe.dev/organizations",
+      "title": "R-universe - community",
+      "snippet": "",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "SzUDgSxWH45x",
+      "address": "https://vice-emu.sourceforge.io/index.html",
+      "title": "VICE - the Versatile Commodore Emulator",
+      "snippet": "",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "fjsuLOxyFvIw",
+      "address": "https://forums.gentoo.org/index.php",
+      "title": "Gentoo Forums - Index page",
+      "snippet": "",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "BF23V5RMLT-5",
+      "address": "https://canonical.com/careers/commercial-operations",
+      "title": "Commercial operations | Careers | Canonical",
+      "snippet": "Commercial Operations\nCanonical is a globally distributed company with customers and employees in almost every country. Excellence in commercial operations helps us scale efficiently – and thrive as we do. We celebrate relentless improvement. Our team members are passionate about tools and",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 0,
+          "textWords": 250
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 0,
+          "textWords": 250
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "DKApesRMLT-5",
+      "address": "https://canonical.com/careers",
+      "title": "Careers | Canonical",
+      "snippet": "Careers\nPassionate about open source?\nSo are we. Be where the cutting edge is established.\nStay safe and avoid recruitment fraud.\nRead our FAQ for information on the legitimacy of our process and offers.\nDepartments\nOur Mission\nWe amplify\nthe impact of open source\nWe help people and organisations",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 0,
+          "textWords": 101
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 0,
+          "textWords": 101
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "Is_TdWRfu9ww",
+      "address": "https://datatracker.ietf.org/doc/html/rfc9293",
+      "title": "RFC 9293 - Transmission Control Protocol (TCP)",
+      "snippet": "Linux Kernel Documentation, \u003chttps://www.kernel.org/doc/html/latest/networking/segmentation-offloads.html\u003e.\n[73]\nRFC Errata, Erratum ID 573, RFC 793, \u003chttps://www.rfc-editor.org/errata/eid573\u003e.\n[74]\nRFC Errata, Erratum ID 574, RFC 793, \u003chttps://www.rfc-editor.org/errata/eid574\u003e.\n[75]\nRFC Errata,",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 1,
+          "textWords": 30602
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 3,
+          "textWords": 30602
+        }
+      },
+      "queryPhraseHits": 1
+    },
+    {
+      "hash": "QdW-xjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/GNU_General_Public_License",
+      "title": "GNU General Public License - Wikipedia",
+      "snippet": "Linux operating system kernel and the GNU Compiler Collection (GCC). David A. Wheeler argues that the copyleft provided by the GPL was crucial to the success of Linux-based systems, giving the contributing programmers some assurance that their work would benefit the world and remain free, rather",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 48,
+          "textWords": 15807
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 22,
+          "textWords": 15807
+        }
+      },
+      "queryPhraseHits": 13
+    },
+    {
+      "hash": "MFVfNtS6MKD4",
+      "address": "https://github.com/trending/vcl?since=daily",
+      "title": "Trending VCL repositories on GitHub today · GitHub",
+      "snippet": "",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "M4GchtS6MKD4",
+      "address": "https://github.com/trending/vhdl?since=daily",
+      "title": "Trending VHDL repositories on GitHub today · GitHub",
+      "snippet": "",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "NsthRtS6MKD4",
+      "address": "https://github.com/trending/hlsl?since=daily",
+      "title": "Trending HLSL repositories on GitHub today · GitHub",
+      "snippet": "",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "ON7-OsS6MKD4",
+      "address": "https://github.com/trending?spoken_language_code=hy",
+      "title": "Trending repositories on GitHub today · GitHub",
+      "snippet": "",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "Opr4ltS6MKD4",
+      "address": "https://github.com/trending/e?since=daily",
+      "title": "Trending E repositories on GitHub today · GitHub",
+      "snippet": "",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "D4lABzaS0qdw",
+      "address": "https://planet.debian.org/",
+      "title": "Planet Debian",
+      "snippet": "Linux, the perf tool is the best way to access the CPU hardware performance counters. A good starting point for working with perf is the documentation on “Top-down analysis with the perf tool”, which describes the optimization method that Intel established.\nIn my Makefile, I set up two perf",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 3,
+          "textWords": 8109
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 2,
+          "textWords": 8109
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "Wfq3FswvoTD5",
+      "address": "https://r-universe.dev/articles",
+      "title": "R-universe - browse articles",
+      "snippet": "",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "SzUDgSxWH45x",
+      "address": "https://vice-emu.sourceforge.io/index.html",
+      "title": "VICE - the Versatile Commodore Emulator",
+      "snippet": "",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "5wGJcjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/IPFire",
+      "title": "IPFire - Wikipedia",
+      "snippet": "Kernel type\nLinux kernel[2]\nOfficial website\nwww\n.ipfire\n.org\nIPFire is a hardened[3] open source Linux distribution that primarily performs as a router and a firewall; a standalone firewall system with a web-based management console for configuration.\nIPFire originally started as a fork of",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 16,
+          "textWords": 938
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 2,
+          "textWords": 938
+        }
+      },
+      "queryPhraseHits": 1
+    },
+    {
+      "hash": "SH9s9zTnALtw",
+      "address": "https://planet.gentoo.org/",
+      "title": "Planet Gentoo",
+      "snippet": "Linux. Sure, sometimes I find myself opening a cursed issue on b.g.o, but my system hasn’t ever broken!\nThe work the Gentoo devs put in to make sure everything is stable and everything works well across many different setups is incredible, and the stability that comes with portage sure doesn’t hurt",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 3,
+          "textWords": 3218
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 1,
+          "textWords": 3218
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "Wfq3FswvoTD5",
+      "address": "https://r-universe.dev/articles",
+      "title": "R-universe - browse articles",
+      "snippet": "",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "7evxTdFO6r_x",
+      "address": "https://de.wikipedia.org/wiki/Freie_Software",
+      "title": "Freie Software – Wikipedia",
+      "snippet": "Kernel vollständig. Einige Leute erkannten, dass Linux, ein damals proprietärer Kernel für Minix, sich für GNU eignen könnte. Nachdem die Entwickler den Linux-Kernel unter die „GNU GPL“ stellten, konnte zum ersten Mal ein vollständig freies Betriebssystem ausgebaut werden. Mit der darauffolgenden",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 13,
+          "textWords": 8514
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 4,
+          "textWords": 8514
+        }
+      },
+      "queryPhraseHits": 2
+    },
+    {
+      "hash": "-el3vjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Constitutional_AI",
+      "title": "Claude (AI) - Wikipedia",
+      "snippet": "",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "4Ggj0sR7ciCw",
+      "address": "https://lkml.org/rss.php",
+      "title": "lkml.org",
+      "snippet": "",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "0WxbhtS6MKD4",
+      "address": "https://github.com/trending/applescript?since=daily",
+      "title": "Trending AppleScript repositories on GitHub today · GitHub",
+      "snippet": "",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "7GUvMtS6MKD4",
+      "address": "https://github.com/trending/labview?since=daily",
+      "title": "Trending LabVIEW repositories on GitHub today · GitHub",
+      "snippet": "",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "7MMLutS6MKD4",
+      "address": "https://github.com/trending/brightscript?since=daily",
+      "title": "Trending Brightscript repositories on GitHub today · GitHub",
+      "snippet": "",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "7wvHWtS6MKD4",
+      "address": "https://github.com/trending/dogescript?since=daily",
+      "title": "Trending Dogescript repositories on GitHub today · GitHub",
+      "snippet": "",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "8SBrdtS6MKD4",
+      "address": "https://github.com/trending/linux-kernel-module?since=daily",
+      "title": "Trending Linux Kernel Module repositories on GitHub today · GitHub",
+      "snippet": "Linux Kernel Module.",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 1,
+          "textWords": 267
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 1,
+          "textWords": 267
+        }
+      },
+      "queryPhraseHits": 1
+    },
+    {
+      "hash": "-FnQDtS6MKD4",
+      "address": "https://github.com/trending/closure-templates?since=daily",
+      "title": "Trending Closure Templates repositories on GitHub today · GitHub",
+      "snippet": "",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "-__JttS6MKD4",
+      "address": "https://github.com/trending/charity?since=daily",
+      "title": "Trending Charity repositories on GitHub today · GitHub",
+      "snippet": "",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "-GPQIsYlAY74",
+      "address": "https://ubuntu.com/what-is-enterprise-linux",
+      "title": "What is enterprise Linux? | Ubuntu",
+      "snippet": "Linux is a descriptor used by Linux distributions to highlight that they meet the rigorous needs of large organizations or commercial environments. The common characteristics shared by enterprise Linux distributions are stability, security and compliance, interoperability, and support.\nWith this",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 27,
+          "textWords": 1111
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 2,
+          "textWords": 1111
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "06p-fssWTYKx",
+      "address": "https://sourceforge.net/directory/?q=gparted",
+      "title": "gparted free download - SourceForge",
+      "snippet": "",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "3xuUlW16jqw6",
+      "address": "https://rossmanngroup.com/services/nas-data-recovery/terramaster",
+      "title": "TerraMaster NAS Data Recovery | Rossmann Group",
+      "snippet": "",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "mKjEVzAa-Sqx",
+      "address": "https://planet.freedesktop.org/",
+      "title": "planet.freedesktop.org",
+      "snippet": "Linux distributions over firmware updates to Flatpak and desktops directly. AppStream’s original design however comes from the perspective of Linux distributions in 2011, where you may want to browse the software catalog offline, without delay, and without pinging an external server (which could be",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 138,
+          "textWords": 71870
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 237,
+          "textWords": 71870
+        }
+      },
+      "queryPhraseHits": 20
+    },
+    {
+      "hash": "B6RumAK-xyJ4",
+      "address": "https://go.dev/doc/godebug",
+      "title": "Go, Backwards Compatibility, and GODEBUG - The Go Programming Language",
+      "snippet": "Linux. For Go 1.25, it defaults to decoratemappings=1, enabling annotations. Using decoratemappings=0 reverts to the pre-Go 1.25 behavior. This setting is fixed at program startup time, and can’t be modified by changing the GODEBUG environment variable after the program starts.\nGo 1.25 added a new",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 6,
+          "textWords": 3803
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 2,
+          "textWords": 3803
+        }
+      },
+      "queryPhraseHits": 1
+    },
+    {
+      "hash": "MaRThsRMLT-5",
+      "address": "https://canonical.com/",
+      "title": "Canonical | Trusted open source for enterprises",
+      "snippet": "Linux.\nStart with Ubuntu\nTake control of your infrastructure\nBuild apps at speed and stay secure\nGet an optimized stack for data and AI\nDeploy smart things at the edge\nStart with Ubuntu\nBuild with confidence on the world’s most popular open source OS. Move faster with certified hardware, and",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 1,
+          "textWords": 574
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 0,
+          "textWords": 574
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "Xy1HPjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Hang_(computing)",
+      "title": "Hang (computing) - Wikipedia",
+      "snippet": "",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "YFkvAjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Denial-of-service_attack",
+      "title": "Denial-of-service attack - Wikipedia",
+      "snippet": "Linux kernel, potentially causing a kernel panic.[104] Jonathan Looney discovered CVE-2019-11477, CVE-2019-11478, CVE-2019-11479 on June 17, 2019.[105]\nThe shrew attack is a denial-of-service attack on the Transmission Control Protocol where the attacker employs man-in-the-middle techniques. It",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 3,
+          "textWords": 11897
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 2,
+          "textWords": 11897
+        }
+      },
+      "queryPhraseHits": 1
+    },
+    {
+      "hash": "eLD0SjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/John_von_Neumann",
+      "title": "John von Neumann - Wikipedia",
+      "snippet": "",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "7cn5rjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Finland",
+      "title": "Finland - Wikipedia",
+      "snippet": "kernel Linux.\nIn tertiary education, two mostly separate and non-interoperating sectors are found: the profession-oriented polytechnics and the research-oriented universities. Education is free and living expenses are to a large extent financed by the government through student benefits. There are",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 1,
+          "textWords": 22747
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 1,
+          "textWords": 22747
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "-el3vjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Constitutional_AI",
+      "title": "Claude (AI) - Wikipedia",
+      "snippet": "",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "MFVfNtS6MKD4",
+      "address": "https://github.com/trending/vcl?since=daily",
+      "title": "Trending VCL repositories on GitHub today · GitHub",
+      "snippet": "",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "M4GchtS6MKD4",
+      "address": "https://github.com/trending/vhdl?since=daily",
+      "title": "Trending VHDL repositories on GitHub today · GitHub",
+      "snippet": "",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "NZrn_tS6MKD4",
+      "address": "https://github.com/trending/ti-program?since=daily",
+      "title": "Trending TI Program repositories on GitHub today · GitHub",
+      "snippet": "",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "NsthRtS6MKD4",
+      "address": "https://github.com/trending/hlsl?since=daily",
+      "title": "Trending HLSL repositories on GitHub today · GitHub",
+      "snippet": "",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "ON7-OsS6MKD4",
+      "address": "https://github.com/trending?spoken_language_code=hy",
+      "title": "Trending repositories on GitHub today · GitHub",
+      "snippet": "",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "Opr4ltS6MKD4",
+      "address": "https://github.com/trending/e?since=daily",
+      "title": "Trending E repositories on GitHub today · GitHub",
+      "snippet": "",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "PafpstS6MKD4",
+      "address": "https://github.com/trending/microsoft-developer-studio-project?since=daily",
+      "title": "Trending Microsoft Developer Studio Project repositories on GitHub today · GitHub",
       "snippet": "Trending\nSee what the GitHub community is most excited about today.\nRepositories Developers\nSpoken Language: Any\nSelect a spoken language\nAbkhazian Afar Afrikaans Akan Albanian Amharic Arabic Aragonese Armenian Assamese Avaric Avestan Aymara Azerbaijani Bambara Bashkir Basque Belarusian Bengali",
       "matchedWords": {
         "4galTpdpDM5Q": {
           "hits": 0,
-          "textWords": 265
+          "textWords": 268
         },
         "UEhMGfGv2vOE": {
           "hits": 0,
-          "textWords": 265
+          "textWords": 268
         }
-      }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "D4lABzaS0qdw",
+      "address": "https://planet.debian.org/",
+      "title": "Planet Debian",
+      "snippet": "Linux, the perf tool is the best way to access the CPU hardware performance counters. A good starting point for working with perf is the documentation on “Top-down analysis with the perf tool”, which describes the optimization method that Intel established.\nIn my Makefile, I set up two perf",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 3,
+          "textWords": 8109
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 2,
+          "textWords": 8109
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "Wfq3FswvoTD5",
+      "address": "https://r-universe.dev/articles",
+      "title": "R-universe - browse articles",
+      "snippet": "",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "W-eXqzF3--Qw",
+      "address": "https://planet.mozilla.org/",
+      "title": "Planet Mozilla",
+      "snippet": "Linux system theme” checkbox is being shown on Linux builds for the about:addons theme picker, which will make Firefox’s Nova UI use the colours of the system theme.\nThanks to Simon Rosen for adding a new playback speed control to the PiP player. The feature can be enabled by flipping the pref",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 26,
+          "textWords": 66162
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 6,
+          "textWords": 66162
+        }
+      },
+      "queryPhraseHits": 4
+    },
+    {
+      "hash": "-VdzLVGZ4FKw",
+      "address": "https://www.kernel.org/doc/man-pages/",
+      "title": "The Linux man-pages project",
+      "snippet": "Linux man-pages: home || git | readme | contributing | conventions | mailing list | archives | releases | book | online pages\nThe Linux man-pages project documents the Linux kernel and C library interfaces that are employed by user-space programs. With respect to the C library, the primary focus is",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 4,
+          "textWords": 66
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 1,
+          "textWords": 66
+        }
+      },
+      "queryPhraseHits": 1
+    },
+    {
+      "hash": "DKApesRMLT-5",
+      "address": "https://canonical.com/careers",
+      "title": "Careers | Canonical",
+      "snippet": "Careers\nPassionate about open source?\nSo are we. Be where the cutting edge is established.\nStay safe and avoid recruitment fraud.\nRead our FAQ for information on the legitimacy of our process and offers.\nDepartments\nOur Mission\nWe amplify\nthe impact of open source\nWe help people and organisations",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 0,
+          "textWords": 101
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 0,
+          "textWords": 101
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "MaRThsRMLT-5",
+      "address": "https://canonical.com/",
+      "title": "Trusted open source for enterprises | Canonical",
+      "snippet": "Linux.\nStart with Ubuntu\nTake control of your infrastructure\nBuild apps at speed and stay secure\nGet an optimized stack for data and AI\nDeploy smart things at the edge\nStart with Ubuntu\nBuild with confidence on the world’s most popular open source OS. Move faster with certified hardware, and",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 1,
+          "textWords": 574
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 0,
+          "textWords": 574
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "QRS_dsRMLT-5",
+      "address": "https://canonical.com/data",
+      "title": "Open source data platform solutions | Canonical",
+      "snippet": "Enterprise-grade solutions\nfor your mission critical data\nData flows better with the right tools. Canonical offers security, compliance, and lifecycle management solutions for the most popular open source databases and big data applications, on any cloud.\nSecurity, support, and automation across",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 0,
+          "textWords": 488
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 0,
+          "textWords": 488
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "Is_TdWRfu9ww",
+      "address": "https://datatracker.ietf.org/doc/html/rfc9293",
+      "title": "RFC 9293 - Transmission Control Protocol (TCP)",
+      "snippet": "Linux Kernel Documentation, \u003chttps://www.kernel.org/doc/html/latest/networking/segmentation-offloads.html\u003e.\n[73]\nRFC Errata, Erratum ID 573, RFC 793, \u003chttps://www.rfc-editor.org/errata/eid573\u003e.\n[74]\nRFC Errata, Erratum ID 574, RFC 793, \u003chttps://www.rfc-editor.org/errata/eid574\u003e.\n[75]\nRFC Errata,",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 1,
+          "textWords": 30602
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 3,
+          "textWords": 30602
+        }
+      },
+      "queryPhraseHits": 1
+    },
+    {
+      "hash": "Xy1HPjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Hang_(computing)",
+      "title": "Hang (computing) - Wikipedia",
+      "snippet": "",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "eLD0SjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/John_von_Neumann",
+      "title": "John von Neumann - Wikipedia",
+      "snippet": "",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "NZrn_tS6MKD4",
+      "address": "https://github.com/trending/ti-program?since=daily",
+      "title": "Trending TI Program repositories on GitHub today · GitHub",
+      "snippet": "",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "SH9s9zTnALtw",
+      "address": "https://planet.gentoo.org/",
+      "title": "Planet Gentoo",
+      "snippet": "Linux. Sure, sometimes I find myself opening a cursed issue on b.g.o, but my system hasn’t ever broken!\nThe work the Gentoo devs put in to make sure everything is stable and everything works well across many different setups is incredible, and the stability that comes with portage sure doesn’t hurt",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 3,
+          "textWords": 3218
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 1,
+          "textWords": 3218
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "Wfq3FswvoTD5",
+      "address": "https://r-universe.dev/articles",
+      "title": "R-universe - browse articles",
+      "snippet": "",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "aRUDlswvoTD5",
+      "address": "https://r-universe.dev/organizations",
+      "title": "R-universe - community",
+      "snippet": "",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "SzUDgSxWH45x",
+      "address": "https://vice-emu.sourceforge.io/index.html",
+      "title": "VICE - the Versatile Commodore Emulator",
+      "snippet": "",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "fjsuLOxyFvIw",
+      "address": "https://forums.gentoo.org/index.php",
+      "title": "Gentoo Forums - Index page",
+      "snippet": "",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "7evxTdFO6r_x",
+      "address": "https://de.wikipedia.org/wiki/Freie_Software",
+      "title": "Freie Software – Wikipedia",
+      "snippet": "Kernel vollständig. Einige Leute erkannten, dass Linux, ein damals proprietärer Kernel für Minix, sich für GNU eignen könnte. Nachdem die Entwickler den Linux-Kernel unter die „GNU GPL“ stellten, konnte zum ersten Mal ein vollständig freies Betriebssystem ausgebaut werden. Mit der darauffolgenden",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 13,
+          "textWords": 8514
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 4,
+          "textWords": 8514
+        }
+      },
+      "queryPhraseHits": 2
     }
   ],
   "documentsHeldPerQueryWord": {
-    "4galTpdpDM5Q": 14910,
-    "UEhMGfGv2vOE": 10562
+    "4galTpdpDM5Q": 42271,
+    "UEhMGfGv2vOE": 15833
   }
 }

@@ -8,39 +8,21 @@
       "grade": 1
     },
     {
-      "hash": "WTKbYsXT2Q14",
-      "address": "https://mastodon.social/@Catasaur",
-      "title": "Catasaur (@Catasaur@mastodon.social) - Mastodon",
-      "grade": 1
+      "hash": "HpO6-7WCAo1g",
+      "address": "https://www.dzne.de/forschung/forschungsbereiche/grundlagenforschung/forschungsgruppen/amin/curriculum-vitae/",
+      "title": "DZNE Amin, Hayder Curriculum vitae",
+      "grade": 0
     },
     {
-      "hash": "3Bjd3sXT2Q14",
-      "address": "https://mastodon.social/@ennedia",
-      "title": "Nicola D'Agostino (@ennedia@mastodon.social) - Mastodon",
-      "grade": 1
+      "hash": "_WYPmIpL_jd4",
+      "address": "https://mastodon.world/@Thoogah/116676239477210513",
+      "title": "Wonko The Sane: \"#rainbow🌈 #pixel_dailies #pixelart @pixel_dailies…\" - Mastodon",
+      "grade": 0
     },
     {
-      "hash": "96OHNsXT2Q14",
-      "address": "https://mastodon.social/@macrumors",
-      "title": "MacRumors.com (@macrumors@mastodon.social) - Mastodon",
-      "grade": 1
-    },
-    {
-      "hash": "jLIPjsY8g9Qg",
-      "address": "https://mastodon.ie/@donncha",
-      "title": "Donncha Ó Caoimh (@donncha@mastodon.ie) - mastodon.ie",
-      "grade": 1
-    },
-    {
-      "hash": "dUKRusXT2Q14",
-      "address": "https://mastodon.social/@gutenberg_new",
-      "title": "Project Gutenberg New Books (@gutenberg_new@mastodon.social) - Mastodon",
-      "grade": 1
-    },
-    {
-      "hash": "ZE95msXT2Q14",
-      "address": "https://mastodon.social/@pfefferle",
-      "title": "Matthias Pfefferle (@pfefferle@mastodon.social) - Mastodon",
+      "hash": "s7qd0CiSEDRx",
+      "address": "https://shop.joinmastodon.org/",
+      "title": "Mastodon Merch Store",
       "grade": 1
     },
     {
@@ -50,51 +32,21 @@
       "grade": 1
     },
     {
-      "hash": "_pmfd5HK17Lw",
-      "address": "https://mastodon.acm.org/@pldi",
-      "title": "PLDI 2026 (@pldi@mastodon.acm.org) - Mastodon",
-      "grade": 1
-    },
-    {
-      "hash": "0uu67sY8g9Qg",
-      "address": "https://mastodon.ie/@marcas",
-      "title": "Marcus Marcius Marcellus (@marcas@mastodon.ie) - mastodon.ie",
-      "grade": 1
-    },
-    {
-      "hash": "GfWWQnbMGqiy",
-      "address": "https://simonwillison.net/2002/Oct/27/tidakadaRedesign/",
-      "title": "Tidakada redesign",
+      "hash": "GH7bYCu-sg8w",
+      "address": "https://april.org/en/derniers-contenus?page=51\u0026membre=editionsd-booker",
+      "title": "Les derniers contenus publiés | April",
       "grade": 0
     },
     {
-      "hash": "ytosSsXT2Q14",
-      "address": "https://mastodon.social/?ref=jamesfrew.me",
-      "title": "Mastodon",
-      "grade": 2
-    },
-    {
-      "hash": "s7qd0CiSEDRx",
-      "address": "https://shop.joinmastodon.org/",
-      "title": "Mastodon Merch Store",
+      "hash": "jLIPjsY8g9Qg",
+      "address": "https://mastodon.ie/@donncha",
+      "title": "Donncha Ó Caoimh (@donncha@mastodon.ie) - mastodon.ie",
       "grade": 1
     },
     {
-      "hash": "69WGN_XT2Q14",
-      "address": "https://mastodon.social/@pid_eins/115762118507750011",
-      "title": "Lennart Poettering: \"1️⃣7️⃣ Here's the 17th post highlighting key new …\" - Mastodon",
-      "grade": 1
-    },
-    {
-      "hash": "_cKDnCqN1Ufw",
-      "address": "https://flathub.org/en/setup/AlmaLinux",
-      "title": "AlmaLinux Flathub Setup | Flathub",
-      "grade": 0
-    },
-    {
-      "hash": "h-5G2scvw7Vx",
-      "address": "https://wordpress.org/playground/",
-      "title": "WordPress Playground",
+      "hash": "kBEnrscvw7Vx",
+      "address": "https://wordpress.org/download/",
+      "title": "Download – WordPress.org",
       "grade": 0
     },
     {
@@ -108,6 +60,252 @@
       "address": "https://ec.social-network.europa.eu/@EUCommission",
       "title": "European Commission (@EUCommission@ec.social-network.europa.eu) - European Commission on Mastodon",
       "grade": 1
+    },
+    {
+      "hash": "3Bjd3sXT2Q14",
+      "address": "https://mastodon.social/@ennedia",
+      "title": "Nicola D'Agostino (@ennedia@mastodon.social) - Mastodon",
+      "grade": 1
+    },
+    {
+      "hash": "Be6bI56L_tSg",
+      "address": "https://mastodon.org.uk/",
+      "title": "Mastodon.org.uk",
+      "grade": 1
+    },
+    {
+      "hash": "RJNKSsXT2Q14",
+      "address": "https://mastodon.social/@mdn",
+      "title": "MDN Web Docs (@mdn@mastodon.social) - Mastodon",
+      "grade": 0
+    },
+    {
+      "hash": "dUKRusXT2Q14",
+      "address": "https://mastodon.social/@gutenberg_new",
+      "title": "Project Gutenberg New Books (@gutenberg_new@mastodon.social) - Mastodon",
+      "grade": 1
+    },
+    {
+      "hash": "0xYvYWkjxbMg",
+      "address": "https://t3n.de/tag/mastodon/",
+      "title": "Mastodon News, Artikel \u0026 Ratgeber | t3n",
+      "grade": 2
+    },
+    {
+      "hash": "96OHNsXT2Q14",
+      "address": "https://mastodon.social/@macrumors",
+      "title": "MacRumors.com (@macrumors@mastodon.social) - Mastodon",
+      "grade": 1
+    },
+    {
+      "hash": "cZUXE03kdEV4",
+      "address": "https://buffer.com/resources/mastodon-social/",
+      "title": "A Beginner’s Guide to Mastodon",
+      "grade": 2
+    },
+    {
+      "hash": "Cf-y4s9nw72x",
+      "address": "https://joinmastodon.org/hosting",
+      "title": "Managed Mastodon",
+      "grade": 2
+    },
+    {
+      "hash": "0__Qf5IHupF5",
+      "address": "https://mastodon.fediverse.observer/allsoftwares",
+      "title": "Fediverse Observer | Mastodon Sites Status",
+      "grade": 1
+    },
+    {
+      "hash": "ZE95msXT2Q14",
+      "address": "https://mastodon.social/@pfefferle",
+      "title": "Matthias Pfefferle (@pfefferle@mastodon.social) - Mastodon",
+      "grade": 1
+    },
+    {
+      "hash": "oF_-LMS6MKD4",
+      "address": "https://github.com/mastodon/mastodon-android",
+      "title": "GitHub - mastodon/mastodon-android: Official Android app for Mastodon",
+      "grade": 1
+    },
+    {
+      "hash": "0uu67sY8g9Qg",
+      "address": "https://mastodon.ie/@marcas",
+      "title": "Marcus Marcius Marcellus (@marcas@mastodon.ie) - mastodon.ie",
+      "grade": 1
+    },
+    {
+      "hash": "AZzL8vZEJIoy",
+      "address": "https://www.home-assistant.io/integrations/mastodon/",
+      "title": "Mastodon - Home Assistant",
+      "grade": 1
+    },
+    {
+      "hash": "dRs9jc-6M-ox",
+      "address": "https://blog.joinmastodon.org/2018/08/mastodon-quick-start-guide/",
+      "title": "Mastodon quick start guide - Official Mastodon Blog",
+      "grade": 2
+    },
+    {
+      "hash": "kiI309XT2Q14",
+      "address": "https://mastodon.social/auth/sign_in",
+      "title": "Log in - Mastodon",
+      "grade": 1
+    },
+    {
+      "hash": "xGxqRJEmwyky",
+      "address": "https://fedi.simonwillison.net/@simon",
+      "title": "Simon Willison (@simon@simonwillison.net) - Mastodon",
+      "grade": 0
+    },
+    {
+      "hash": "fdSdvs1Pjs6w",
+      "address": "https://fediring.net/",
+      "title": "Fediring.net",
+      "grade": 1
+    },
+    {
+      "hash": "oD0JVs4Eent4",
+      "address": "https://linkage.lol/a-collection-of-mastodon-tools/",
+      "title": "A Collection of Mastodon Tools | Linkage",
+      "grade": 1
+    },
+    {
+      "hash": "cn-UEsYv13m4",
+      "address": "https://mastodon.eus/@Ikusgela",
+      "title": "Ikusgela (@Ikusgela@mastodon.eus) - Mastodon.eus",
+      "grade": 0
+    },
+    {
+      "hash": "Du8sc5B52pXw",
+      "address": "https://mastodon.matrix.org/@matrix",
+      "title": "The Matrix.org Foundation (@matrix@mastodon.matrix.org) - Matrix.org's Mastodon",
+      "grade": 0
+    },
+    {
+      "hash": "PVrle9XT2Q14",
+      "address": "https://mastodon.social/auth/sign_up",
+      "title": "Sign up - Mastodon",
+      "grade": 1
+    },
+    {
+      "hash": "cVY9CsXT2Q14",
+      "address": "https://mastodon.social/@brianhurley",
+      "title": "Brian Hurley (@BrianHurley@mastodon.social) - Mastodon",
+      "grade": 0
+    },
+    {
+      "hash": "DViQBsq2qmtw",
+      "address": "https://mastodon.cc/",
+      "title": "Mastodon.cc",
+      "grade": 1
+    },
+    {
+      "hash": "yV2SGsXT2Q14",
+      "address": "https://mastodon.social/@dpc_ibuildings",
+      "title": "The Dutch PHP Conference (@dpc_ibuildings@mastodon.social) - Mastodon",
+      "grade": 0
+    },
+    {
+      "hash": "r7Mtm5ARgG8g",
+      "address": "https://mastodon.desmu.fr/",
+      "title": "mastodon.desmu.fr",
+      "grade": 1
+    },
+    {
+      "hash": "CcoXaVjri2zx",
+      "address": "https://www.macstories.net/linked/highlighting-journalism-on-mastodon/",
+      "title": "Highlighting Journalism on Mastodon - MacStories",
+      "grade": 1
+    },
+    {
+      "hash": "PQMR4O9nw72x",
+      "address": "https://joinmastodon.org/be/apps",
+      "title": "Спампаваць праграму для Mastodon - Mastodon",
+      "grade": 2
+    },
+    {
+      "hash": "6fa3RsWePEQ6",
+      "address": "https://opencollective.com/mastodon",
+      "title": "Mastodon - Open Collective",
+      "grade": 1
+    },
+    {
+      "hash": "zahydsmeXit4",
+      "address": "https://mastodon.xyz/@nextcloud",
+      "title": "Nextcloud 📱☁️💻 (@nextcloud@mastodon.xyz) - Mastodon",
+      "grade": 0
+    },
+    {
+      "hash": "p1aXE5svrCt4",
+      "address": "https://mastodon.gamedev.place/@itchio",
+      "title": "itchio (@itchio@mastodon.gamedev.place) - Gamedev Mastodon",
+      "grade": 0
+    },
+    {
+      "hash": "rqw6vsXT2Q14",
+      "address": "https://mastodon.social/@eff",
+      "title": "Electronic Frontier Foundation (@eff@mastodon.social) - Mastodon",
+      "grade": 0
+    },
+    {
+      "hash": "z7qHjsXT2Q14",
+      "address": "https://mastodon.social/@statusgator",
+      "title": "StatusGator (@statusgator@mastodon.social) - Mastodon",
+      "grade": 0
+    },
+    {
+      "hash": "42sQF5RuA92w",
+      "address": "https://mastodon.derg.nz/@anthropy",
+      "title": "Anthropy (@anthropy@mastodon.derg.nz) - Mastodon",
+      "grade": 0
+    },
+    {
+      "hash": "pL-nGsXT2Q14",
+      "address": "https://mastodon.social/@creativecommons",
+      "title": "Creative Commons (@creativecommons@mastodon.social) - Mastodon",
+      "grade": 0
+    },
+    {
+      "hash": "DyukPsViDFz4",
+      "address": "https://mastodon.cloud/@siracusa",
+      "title": "John Siracusa (@siracusa@mastodon.cloud) - mastodon.cloud",
+      "grade": 0
+    },
+    {
+      "hash": "ZMzosslxRMg4",
+      "address": "https://mastodon.energy/@EarthOrgUK",
+      "title": "Earth Notes (@EarthOrgUK@mastodon.energy) - mastodon.energy",
+      "grade": 0
+    },
+    {
+      "hash": "mgQdwsXT2Q14",
+      "address": "https://mastodon.social/@benjedwards",
+      "title": "Benj Edwards (@benjedwards@mastodon.social) - Mastodon",
+      "grade": 0
+    },
+    {
+      "hash": "AeMyFspL_jd4",
+      "address": "https://mastodon.world/@lensco",
+      "title": "Lennart Schoors (@lensco@mastodon.world) - Mastodon",
+      "grade": 0
+    },
+    {
+      "hash": "Me7WRsRP9VD4",
+      "address": "https://mastodon.online/@mullvadnet",
+      "title": "Mullvad VPN (@mullvadnet@mastodon.online) - Mastodon",
+      "grade": 0
+    },
+    {
+      "hash": "B4mZ35svrCt4",
+      "address": "https://mastodon.gamedev.place/@akien",
+      "title": "Rémi Verschelde (@akien@mastodon.gamedev.place) - Gamedev Mastodon",
+      "grade": 0
+    },
+    {
+      "hash": "scZ7s57KGDIh",
+      "address": "https://mastodon.opencloud.lu/@gunstick",
+      "title": "gunstick (@gunstick@mastodon.opencloud.lu) - OpenCloud Luxembourg Mastodon instance",
+      "grade": 0
     }
   ]
 }

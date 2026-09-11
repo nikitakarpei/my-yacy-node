@@ -1,80 +1,80 @@
 # Judged queries
 
-The judged query set measures how well the relevance ordering puts the
+The judged query set measures how well the ordering of the service puts the
 documents that answer a query first. It holds 42 queries in six groups: one
 word, two words, three or more words, navigational, other languages, and
 queries that no peer can answer.
 
-For each query the set holds two files in `test/judgedqueries/testdata/`:
+For each query the set holds these files in `test/judgedqueries/testdata/`. The
+words of the query, in lower case and joined by `-`, make each `<query>` name.
 
-- `answers/<query>.json` holds what the peers answered for the query. The
-  words of the query, in lower case and joined by `-`, make the file name.
-- `judgments/<query>.json` holds the graded pool of the query.
+- `answers/<query>.json` holds what the peers answered for the query.
+- `judgments/<query>.json` holds the grade of each judged document.
+- `pagetext/<query>/<document>.txt.gz` holds the text of one page.
 
 ## How to record the answers again
 
-The recorder follows the service: it asks the peers, puts the answers in the
-relevance order, reads the page of each of the first fifty documents, and
-writes the hits, the amount of words and the snippet that the page gives. An
-unreadable page keeps the counts of the peers and gets no snippet.
+The recorder asks the peers, reads the page of each of the first fifty
+documents of the relevance ordering, and stores the text of each page it read.
+From that text it writes the hits, the query phrase hits, the amount of words
+and the snippet of each document. A document whose page the recorder did not
+read keeps the counts of the peers and gets no snippet.
 
 The recorder asks the live freeworld network from this host and reads the pages
-from the web. It needs direct egress for both. The run takes about ten minutes,
-writes every file in `answers/` again, and pools the queries. Run it from
-`services/yacydhtsearch`:
+from the web, and needs direct egress for both. The run takes some
+minutes, writes every file again, and gives how many grades each query waits
+for. Run it from `services/yacydhtsearch`:
 
 ```sh
 YACYDHTSEARCH_RECORD_JUDGED_QUERIES=1 go test \
     -run TestRecordWhatThePeersAnswerForTheJudgedQueries \
-    -timeout 30m -v ./test/judgedqueries/
+    -timeout 40m -v ./test/judgedqueries/
 ```
 
-## How to pool the queries again
+## How to derive the answers again
 
-The relevance ordering decides one half of the pool, so a change of the
-ordering puts ungraded documents in the first ten, and each of them counts as
-0. Pool the queries again after each such change, then grade the new
-documents. The pooling step reads the recorded answers and asks no peer and no
-page. In `judgments/` it keeps each grade that a person gave, adds each newly
-pooled document with the grade `null`, and removes each document that left the
-pool. The recorder pools the same way. Run it from `services/yacydhtsearch`:
+A change of the rule that reads the text of a page needs no new recording. This
+step writes the hits, the query phrase hits, the amount of words and the
+snippet of each answers file again from the stored page text. It asks no peer
+and no page. Run it from `services/yacydhtsearch`:
 
 ```sh
-YACYDHTSEARCH_POOL_JUDGED_QUERIES=1 go test \
-    -run TestPoolTheJudgedQueriesAgain -v ./test/judgedqueries/
+YACYDHTSEARCH_DERIVE_JUDGED_QUERIES=1 go test \
+    -run TestDeriveTheJudgedQueriesFromTheStoredPageText \
+    -v ./test/judgedqueries/
 ```
 
 ## How to grade
 
-The pool of a query is the union of the first ten documents of the relevance
-ordering and of the peer ordering. Give each pooled document one grade:
+The recorder and the derivation write the judgments files. A document is judged
+when its page text is stored, or when the peer ordering puts it in its first
+ten. Both steps keep each grade that a person gave, and give each new document
+the grade `null`. Give each document with the grade `null` one grade:
 
 - `2` — the page answers the query.
 - `1` — the page is about the subject of the query, but does not answer it.
 - `0` — the page has nothing to do with the query.
 
-Grade from the text of the page. Fetch the page from the web at the time of
-the grading and read it. A page that you cannot fetch gets the grade that the
-title and the address support, which is `1` at most. A document that the file
-does not name counts as `0`, and so does the grade `null`.
+Grade from the stored text of the page, the title and the address. A document
+with no stored text gets the grade that the title and the address support,
+which is `1` at most. Never change a grade that a person gave.
 
 ## What the gate asserts
 
 `TestTheRelevanceOrderingHoldsItsGainOverTheJudgedQueries` measures the
-normalized discounted cumulative gain of the first ten documents of the
-relevance ordering and of the peer ordering over every recorded answer, and
-takes the mean of each ordering over the queries. A query whose judgments hold
-no document of grade 1 or more does not count towards the means.
+normalized discounted cumulative gain of the first ten graded documents of the
+ordering of the service and of the peer ordering, and takes the mean of each
+over the queries. The ordering of the service is the relevance ordering where
+the hosts take turns.
 
-The mean of the relevance ordering must stay at or above the floor that the
-test holds, and at least the lift that the test holds above the mean of the
-peer ordering. Each assertion fails with its own message that reports both
-means and the amount of counted queries.
+The gate drops a document with the grade `null` before it measures, so a change
+of the ordering needs no new grading. A query whose judgments hold no document
+of grade 1 or more does not count. The mean of the ordering of the service must
+stay at or above the floor that the test holds, and at least the lift that the
+test holds above the mean of the peer ordering.
 
 ## Limits
 
-The recorded answers are a photograph of the network, so the gain of a live
-search is not the gain this gate measures. The page that the grader fetches is
-the page of today, but the peer indexed the page of an earlier day. The pool
-holds only documents that one of the two orderings put in its first ten, so a
-document that both orderings put lower stays ungraded and counts as 0.
+The recorded answers and the stored page text are a photograph of the network
+and of the web on the day of the recording. The gain of a live search is not
+the gain this gate measures.

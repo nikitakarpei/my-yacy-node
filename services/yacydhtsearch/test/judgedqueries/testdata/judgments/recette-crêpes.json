@@ -2,15 +2,15 @@
   "query": "recette crêpes",
   "judgedDocuments": [
     {
-      "hash": "N5_8O2KCIhSg",
-      "address": "https://madame.lefigaro.fr/tag/bande-annonce",
-      "title": "Bande-annonce",
+      "hash": "Sw5E4jKCIhSg",
+      "address": "https://madame.lefigaro.fr/astro/horoscope/quotidien",
+      "title": "Horoscope gratuit du jour : prévisions quotidiennes par signe",
       "grade": 0
     },
     {
-      "hash": "Zj6fIsKCIhSg",
-      "address": "https://madame.lefigaro.fr/bien-etre/forme-detente/comment-muscler-et-dessiner-ses-bras-sans-poids-ni-halteres-20220426",
-      "title": "Comment muscler et dessiner ses bras sans poids ni haltères",
+      "hash": "16j4fTKCIhSg",
+      "address": "https://madame.lefigaro.fr/style",
+      "title": "Les Tendances de la mode au féminin et défilés",
       "grade": 0
     }
   ]

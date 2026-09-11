@@ -1,6 +1,6 @@
 {
   "query": "git rebase",
-  "recordedAt": "2026-09-11T21:00:57Z",
+  "recordedAt": "2026-09-11T22:14:21Z",
   "itemsInTheOrderOfEachAnswer": [
     [
       {
@@ -17,7 +17,8 @@
             "hits": 1,
             "textWords": 92
           }
-        }
+        },
+        "queryPhraseHits": 0
       }
     ],
     [
@@ -35,7 +36,8 @@
             "hits": 0,
             "textWords": 610
           }
-        }
+        },
+        "queryPhraseHits": 0
       }
     ],
     [
@@ -53,25 +55,27 @@
             "hits": 0,
             "textWords": 30728
           }
-        }
+        },
+        "queryPhraseHits": 0
       }
     ],
     [
       {
-        "hash": "LaeCPeoqRUZ4",
-        "address": "https://git-ref.utils.com/",
-        "title": "Git Command Cheat Sheet - Quick Reference for Git Commands - utils.com",
-        "snippet": "Git commands. Click any command to copy it to your clipboard.\nGit is a distributed version control system that tracks changes in source code during software development. It allows multiple developers to work on a project simultaneously, maintaining a complete history of every change.\nCore Concepts",
+        "hash": "X1qxTyXjZ9O4",
+        "address": "https://docs.github.com/en/get-started/writing-on-github/working-with-advanced-formatting/autolinked-references-and-urls",
+        "title": "Autolinked references and URLs - GitHub Docs",
+        "snippet": "References to URLs, issues, pull requests, and commits are automatically shortened and converted into links.\nWho can use this feature?\nMarkdown can be used in the GitHub web interface.\nURLs\nGitHub automatically creates links from standard URLs.\nVisit https://github.com\nFor more information on",
         "matchedWords": {
           "up8R7MNJfZmT": {
-            "hits": 15,
-            "textWords": 245
+            "hits": 0,
+            "textWords": 527
           },
           "wWrW4vQhHIra": {
-            "hits": 1,
-            "textWords": 245
+            "hits": 0,
+            "textWords": 527
           }
-        }
+        },
+        "queryPhraseHits": 0
       }
     ]
   ],
@@ -90,7 +94,25 @@
           "hits": 1,
           "textWords": 5305
         }
-      }
+      },
+      "queryPhraseHits": 1
+    },
+    {
+      "hash": "Tv0cB6S6MKD4",
+      "address": "https://github.com/opencontainers/runc/pull/3905",
+      "title": "[1.1] Backport riscv64 support into 1.1.x by chazapis · Pull Request #3905 · opencontainers/runc · GitHub",
+      "snippet": "mentioned this pull request\nJun 16, 2023\nClosed\nOpen\nWe do not use all the files from scripts, only seccomp.sh and lib.sh. This prevents unneeded rebuild of the image if e.g. scripts/release_build.sh has changed. Signed-off-by: Kir Kolyshkin \u003ckolyshkin@gmail.com\u003e (cherry picked from commit d542ad6",
+      "matchedWords": {
+        "up8R7MNJfZmT": {
+          "hits": 0,
+          "textWords": 539
+        },
+        "wWrW4vQhHIra": {
+          "hits": 0,
+          "textWords": 539
+        }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "Pq85gxtQ-zSx",
@@ -106,7 +128,8 @@
           "hits": 1,
           "textWords": 1832
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "dneiglzbmVEz",
@@ -122,7 +145,8 @@
           "hits": 1,
           "textWords": 1448
         }
-      }
+      },
+      "queryPhraseHits": 1
     },
     {
       "hash": "CZQqI29cq-94",
@@ -138,7 +162,8 @@
           "hits": 0,
           "textWords": 3098
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "u2SnisCRdREw",
@@ -154,7 +179,8 @@
           "hits": 1,
           "textWords": 5305
         }
-      }
+      },
+      "queryPhraseHits": 1
     },
     {
       "hash": "Pq85gxtQ-zSx",
@@ -170,7 +196,8 @@
           "hits": 1,
           "textWords": 1832
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "dneiglzbmVEz",
@@ -186,7 +213,25 @@
           "hits": 1,
           "textWords": 1448
         }
-      }
+      },
+      "queryPhraseHits": 1
+    },
+    {
+      "hash": "Tv0cB6S6MKD4",
+      "address": "https://github.com/opencontainers/runc/pull/3905",
+      "title": "[1.1] Backport riscv64 support into 1.1.x by chazapis · Pull Request #3905 · opencontainers/runc · GitHub",
+      "snippet": "mentioned this pull request\nJun 16, 2023\nClosed\nOpen\nWe do not use all the files from scripts, only seccomp.sh and lib.sh. This prevents unneeded rebuild of the image if e.g. scripts/release_build.sh has changed. Signed-off-by: Kir Kolyshkin \u003ckolyshkin@gmail.com\u003e (cherry picked from commit d542ad6",
+      "matchedWords": {
+        "up8R7MNJfZmT": {
+          "hits": 0,
+          "textWords": 539
+        },
+        "wWrW4vQhHIra": {
+          "hits": 0,
+          "textWords": 539
+        }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "dneiglzbmVEz",
@@ -202,11 +247,12 @@
           "hits": 1,
           "textWords": 1448
         }
-      }
+      },
+      "queryPhraseHits": 1
     }
   ],
   "documentsHeldPerQueryWord": {
-    "up8R7MNJfZmT": 36526,
-    "wWrW4vQhHIra": 482
+    "up8R7MNJfZmT": 38334,
+    "wWrW4vQhHIra": 507
   }
 }

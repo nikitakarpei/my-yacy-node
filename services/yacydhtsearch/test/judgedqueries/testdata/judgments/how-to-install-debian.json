@@ -1,11 +1,4 @@
 {
   "query": "how to install debian",
-  "judgedDocuments": [
-    {
-      "hash": "TC82-eFEcjUx",
-      "address": "https://docs.confluent.io/platform/current/streams/developer-guide/processor-api.html",
-      "title": "Kafka Streams Processor API for Confluent Platform | Confluent Documentation",
-      "grade": 0
-    }
-  ]
+  "judgedDocuments": []
 }

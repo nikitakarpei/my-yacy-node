@@ -26,11 +26,12 @@ type recordedAnswers struct {
 }
 
 type recordedItem struct {
-	Hash         yacymodel.URLHash                    `json:"hash"`
-	Address      string                               `json:"address"`
-	Title        string                               `json:"title"`
-	Snippet      string                               `json:"snippet"`
-	MatchedWords map[yacymodel.Hash]recordedWordCount `json:"matchedWords"`
+	Hash            yacymodel.URLHash                    `json:"hash"`
+	Address         string                               `json:"address"`
+	Title           string                               `json:"title"`
+	Snippet         string                               `json:"snippet"`
+	MatchedWords    map[yacymodel.Hash]recordedWordCount `json:"matchedWords"`
+	QueryPhraseHits int                                  `json:"queryPhraseHits"`
 }
 
 type recordedWordCount struct {
@@ -65,7 +66,8 @@ func answeredItemsOf(recordedItems []recordedItem) []peeranswers.AnsweredItem {
 				Title:   recorded.Title,
 				Snippet: recorded.Snippet,
 			},
-			MatchedWords: wordCountsOf(recorded.MatchedWords),
+			MatchedWords:    wordCountsOf(recorded.MatchedWords),
+			QueryPhraseHits: recorded.QueryPhraseHits,
 		})
 	}
 
@@ -109,11 +111,12 @@ func recordedItemsOf(answeredItems []peeranswers.AnsweredItem) []recordedItem {
 	recordedItems := make([]recordedItem, 0, len(answeredItems))
 	for _, answeredItem := range answeredItems {
 		recordedItems = append(recordedItems, recordedItem{
-			Hash:         answeredItem.Metadata.Hash,
-			Address:      answeredItem.Metadata.Address,
-			Title:        answeredItem.Metadata.Title,
-			Snippet:      answeredItem.Metadata.Snippet,
-			MatchedWords: recordedWordCountsOf(answeredItem.MatchedWords),
+			Hash:            answeredItem.Metadata.Hash,
+			Address:         answeredItem.Metadata.Address,
+			Title:           answeredItem.Metadata.Title,
+			Snippet:         answeredItem.Metadata.Snippet,
+			MatchedWords:    recordedWordCountsOf(answeredItem.MatchedWords),
+			QueryPhraseHits: answeredItem.QueryPhraseHits,
 		})
 	}
 

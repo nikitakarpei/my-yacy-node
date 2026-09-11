@@ -2,63 +2,15 @@
   "query": "arch wiki",
   "judgedDocuments": [
     {
-      "hash": "fpnvOeSLKN4x",
-      "address": "https://bbs.archlinux.org/viewtopic.php?pid=846630",
-      "title": "Wayland on Arch Linux? / AUR Issues, Discussion & PKGBUILD Requests / Arch Linux Forums",
+      "hash": "vK2-rsqBIpS6",
+      "address": "https://xn--gckvb8fzb.com/a-word-on-omarchy/",
+      "title": "A Word on Omarchy",
       "grade": 0
     },
     {
-      "hash": "oej5lsdsPYlw",
-      "address": "https://archhurd.org/",
-      "title": "Arch Hurd",
-      "grade": 0
-    },
-    {
-      "hash": "ohk1xxtQ-zSx",
-      "address": "https://wiki.archlinux.org/title/Arch_Linux_Archive",
-      "title": "Arch Linux Archive - ArchWiki",
-      "grade": 2
-    },
-    {
-      "hash": "Gab0Essyhcfx",
-      "address": "https://archlinux.org/",
-      "title": "Arch Linux",
-      "grade": 1
-    },
-    {
-      "hash": "xApa7jRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Arch_Hall,_Jr.",
-      "title": "Arch Hall Jr. - Wikipedia",
-      "grade": 0
-    },
-    {
-      "hash": "o8Mxf2bypRQw",
-      "address": "https://forgejo.org/docs/latest/user/packages/arch/",
-      "title": "Arch Package Registry | Forgejo – Beyond coding. We forge.",
-      "grade": 0
-    },
-    {
-      "hash": "Am29seSLKN4x",
-      "address": "https://bbs.archlinux.org/viewtopic.php?pid=1008517",
-      "title": "Proposal: Translate extension for the wiki / Forum & Wiki discussion / Arch Linux Forums",
-      "grade": 1
-    },
-    {
-      "hash": "1kOALGsyhcfx",
-      "address": "https://archlinux.org/mirrors/cachy-arch.ru/",
-      "title": "Arch Linux - cachy-arch.ru - Mirror Details",
-      "grade": 0
-    },
-    {
-      "hash": "fMgRSGsyhcfx",
-      "address": "https://archlinux.org/mirrors/arch.mirror.winslow.cloud/",
-      "title": "Arch Linux - arch.mirror.winslow.cloud - Mirror Details",
-      "grade": 0
-    },
-    {
-      "hash": "Yfz3rQsPPfbx",
-      "address": "https://lij.wikisource.org/wiki/P%C3%A0gina_prin%C3%A7ip%C3%A2",
-      "title": "Wikivivàgna",
+      "hash": "E8JqR7qvfVDx",
+      "address": "https://security.archlinux.org/CVE-2023-0122",
+      "title": "CVE-2023-0122 - linux linux-lts linux-hardened linux-zen - Arch Linux",
       "grade": 0
     },
     {
@@ -68,9 +20,45 @@
       "grade": 0
     },
     {
+      "hash": "Yfz3rQsPPfbx",
+      "address": "https://lij.wikisource.org/wiki/P%C3%A0gina_prin%C3%A7ip%C3%A2",
+      "title": "Wikivivàgna",
+      "grade": 0
+    },
+    {
       "hash": "SUEvdjRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Claudius",
       "title": "Claudius - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "ohk1xxtQ-zSx",
+      "address": "https://wiki.archlinux.org/title/Arch_Linux_Archive",
+      "title": "Arch Linux Archive - ArchWiki",
+      "grade": 2
+    },
+    {
+      "hash": "fMgRSGsyhcfx",
+      "address": "https://archlinux.org/mirrors/arch.mirror.winslow.cloud/",
+      "title": "Arch Linux - arch.mirror.winslow.cloud - Mirror Details",
+      "grade": 0
+    },
+    {
+      "hash": "5ZDOu7NSh3ha",
+      "address": "http://xn--gckvb8fzb.com/a-word-on-omarchy/",
+      "title": "マリウス . A Word on Omarchy",
+      "grade": 0
+    },
+    {
+      "hash": "brrFFh3e0QFx",
+      "address": "https://commons.wikimedia.org/wiki/Category:Holy_Roman_Empire",
+      "title": "Category:Holy Roman Empire - Wikimedia Commons",
+      "grade": 0
+    },
+    {
+      "hash": "xApa7jRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Arch_Hall,_Jr.",
+      "title": "Arch Hall Jr. - Wikipedia",
       "grade": 0
     },
     {
@@ -78,6 +66,234 @@
       "address": "https://bbs.archlinux.org/viewtopic.php?pid=1759847",
       "title": "[solved] /bin/init is in systemd-sysvcompat ? / Installation / Arch Linux Forums",
       "grade": 0
+    },
+    {
+      "hash": "Cq-xgm0h8sSw",
+      "address": "https://tracker.debian.org/pkg/libreoffice",
+      "title": "libreoffice - Debian Package Tracker",
+      "grade": 0
+    },
+    {
+      "hash": "YFWL1h3e0QFx",
+      "address": "https://commons.wikimedia.org/wiki/Category:Stone_arch_bridges",
+      "title": "Category:Stone arch bridges - Wikimedia Commons",
+      "grade": 0
+    },
+    {
+      "hash": "CcQGBjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Unix",
+      "title": "Unix - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "o8Mxf2bypRQw",
+      "address": "https://forgejo.org/docs/latest/user/packages/arch/",
+      "title": "Arch Package Registry | Forgejo – Beyond coding. We forge.",
+      "grade": 0
+    },
+    {
+      "hash": "wbNjbeSLKN4x",
+      "address": "https://bbs.archlinux.org/viewtopic.php?pid=779734",
+      "title": "Downloadable Arch Wiki / Forum \u0026 Wiki discussion / Arch Linux Forums",
+      "grade": 1
+    },
+    {
+      "hash": "AonnkjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Perl",
+      "title": "Perl - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "B0wZMjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Noto_fonts",
+      "title": "Noto fonts - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "CiJ7TjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Xfce",
+      "title": "Xfce - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "DhV7ZjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Virtualization",
+      "title": "Virtualization - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "BvdnDV2Rr_dw",
+      "address": "https://docs.searxng.org/admin/settings/settings_valkey.html",
+      "title": "valkey: — SearXNG Documentation (2025.9.23+3bf702447)",
+      "grade": 0
+    },
+    {
+      "hash": "CzOtWV2Rr_dw",
+      "address": "https://docs.searxng.org/admin/installation.html",
+      "title": "Installation — SearXNG Documentation (2025.9.23+3bf702447)",
+      "grade": 0
+    },
+    {
+      "hash": "BoTwejRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Barcelona",
+      "title": "Barcelona - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "BxsbyjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Apple_Inc.",
+      "title": "Apple Inc. - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "B_3gljRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/BSD",
+      "title": "Berkeley Software Distribution - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "DqivBjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Free_and_open-source_software",
+      "title": "Free and open-source software - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "CcYVa7S6MKD4",
+      "address": "https://github.com/sindresorhus/awesome",
+      "title": "GitHub - sindresorhus/awesome: 😎 Awesome lists about all kinds of interesting topics",
+      "grade": 0
+    },
+    {
+      "hash": "AXJnk2bypRQw",
+      "address": "https://forgejo.org/docs/latest/contributor/dco/",
+      "title": "Developer Certificate of Origin (DCO) | Forgejo – Beyond coding. We forge.",
+      "grade": 0
+    },
+    {
+      "hash": "BJ_i-2bypRQw",
+      "address": "https://forgejo.org/docs/latest/admin/installation/database-preparation/",
+      "title": "Database Preparation | Forgejo – Beyond coding. We forge.",
+      "grade": 0
+    },
+    {
+      "hash": "Bm2lX2bypRQw",
+      "address": "https://forgejo.org/docs/latest/contributor/code-forgejo-org/",
+      "title": "code.forgejo.org | Forgejo – Beyond coding. We forge.",
+      "grade": 0
+    },
+    {
+      "hash": "Bww5H2bypRQw",
+      "address": "https://forgejo.org/docs/latest/user/packages/npm/",
+      "title": "npm Package Registry | Forgejo – Beyond coding. We forge.",
+      "grade": 0
+    },
+    {
+      "hash": "CRMnc2bypRQw",
+      "address": "https://forgejo.org/docs/latest/",
+      "title": "Forgejo v13.0 documentation | Forgejo – Beyond coding. We forge.",
+      "grade": 0
+    },
+    {
+      "hash": "CRdtH2bypRQw",
+      "address": "https://forgejo.org/docs/latest/contributor/governance/",
+      "title": "Governance | Forgejo – Beyond coding. We forge.",
+      "grade": 0
+    },
+    {
+      "hash": "DfjW22bypRQw",
+      "address": "https://forgejo.org/docs/latest/contributor/development-environment/",
+      "title": "Development environment | Forgejo – Beyond coding. We forge.",
+      "grade": 0
+    },
+    {
+      "hash": "DoGu72bypRQw",
+      "address": "https://forgejo.org/docs/latest/user/actions/basic-concepts/",
+      "title": "Forgejo Actions | Basic concepts | Forgejo – Beyond coding. We forge.",
+      "grade": 0
+    },
+    {
+      "hash": "Ad6tHvRWrbY5",
+      "address": "https://memooftheair.wordpress.com/",
+      "title": "Memo Of The Air | Marco McClean's Good Night Radio",
+      "grade": 0
+    },
+    {
+      "hash": "AboGSjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Terabyte",
+      "title": "Byte - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "AxrTZjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Shield_of_the_Americas",
+      "title": "Shield of the Americas - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "BUNQTjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Portal:Current_events/September_2011",
+      "title": "Portal:Current events/September 2011 - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "DMqpejRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Roman_Empire",
+      "title": "Roman Empire - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "DQ7SSjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Milan",
+      "title": "Milan - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "DTPX7jRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Wikipedia:Featured_articles",
+      "title": "Wikipedia:Featured articles - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "FZ0t4jRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Netflix",
+      "title": "Netflix - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "HZJEmjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/IOS",
+      "title": "iOS - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "Xu0QIjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Proprietary_software",
+      "title": "Proprietary software - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "9flRCjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Helvetica",
+      "title": "Helvetica - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "NkWHhwxrQlU5",
+      "address": "https://steppingtoes.wordpress.com/tag/human-traditions/",
+      "title": "Human traditions | Stepping Toes",
+      "grade": 0
+    },
+    {
+      "hash": "UAq9HjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Kennedy_family",
+      "title": "Kennedy family - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "Am29seSLKN4x",
+      "address": "https://bbs.archlinux.org/viewtopic.php?pid=1008517",
+      "title": "Proposal: Translate extension for the wiki / Forum \u0026 Wiki discussion / Arch Linux Forums",
+      "grade": 1
     }
   ]
 }

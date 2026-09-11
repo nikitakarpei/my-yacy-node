@@ -1,6 +1,6 @@
 {
   "query": "raspberry pi",
-  "recordedAt": "2026-09-11T21:00:52Z",
+  "recordedAt": "2026-09-11T22:14:23Z",
   "itemsInTheOrderOfEachAnswer": [
     [
       {
@@ -17,107 +17,27 @@
             "hits": 1,
             "textWords": 365
           }
-        }
+        },
+        "queryPhraseHits": 1
       }
     ],
     [
       {
-        "hash": "uik3ku78zDE5",
-        "address": "https://www.xatakahome.com/trucos-y-bricolaje-smart/probamos-chromium-el-sistema-operativo-de-google-en-la-raspberry-pi-3",
-        "title": "Probamos Chromium, el sistema operativo de Google, en la Raspberry Pi 3",
-        "snippet": "Raspberry Pi 3 para navegar por internet y utilizar las aplicaciones de Google, puede que haya una alternativa mejor. Y ahora también puedes instalar Chromium en la Raspberry Pi 3.\nEn realidad Chromium OS es la base open source del sistema operativo Chrome OS que desde hace tiempo podemos encontrar",
+        "hash": "Bq57jjRvmBbx",
+        "address": "https://en.wikipedia.org/wiki/BASIC",
+        "title": "BASIC - Wikipedia",
+        "snippet": "Raspberry Pi machine.[80] Previously BASIC was made available on consoles as Family BASIC (for the Nintendo Famicom) and PSX Chipmunk Basic (for the original PlayStation), while yabasic was ported to the PlayStation 2 and FreeBASIC to the original Xbox.\nVariants of BASIC are available on graphing",
         "matchedWords": {
           "cquK9WvdqzOy": {
-            "hits": 13,
-            "textWords": 438
+            "hits": 4,
+            "textWords": 8672
           },
           "uJdJUF4US1ZK": {
-            "hits": 14,
-            "textWords": 438
+            "hits": 4,
+            "textWords": 8672
           }
-        }
-      },
-      {
-        "hash": "IU0OTl8bqxA4",
-        "address": "https://www.sparkfun.com/",
-        "title": "SparkFun Electronics - SparkFun Electronics",
-        "snippet": "Our Latest \u0026 Greatest Products\nNew Releases\nBest Sellers\nBuild a Custom Kit\nOur custom kit service may be perfect for virtual or in-person workshops or to support classroom activities/curriculum, our custom kits ensure you have the exact kit you need.\nSpecify the components you require, or we can",
-        "matchedWords": {
-          "cquK9WvdqzOy": {
-            "hits": 0,
-            "textWords": 126
-          },
-          "uJdJUF4US1ZK": {
-            "hits": 0,
-            "textWords": 126
-          }
-        }
-      },
-      {
-        "hash": "gji-djRvmBbx",
-        "address": "https://en.wikipedia.org/wiki/Dexter_Industries",
-        "title": "Dexter Industries - Wikipedia",
-        "snippet": "Raspberry Pi, LEGO Mindstorms, and Arduino.\nWebsite\nwww.dexterindustries.com\nDexter Industries is a company that designs robots for education, research, and personal use. The company makes several products that expand the LEGO Mindstorms, Raspberry Pi, and Arduino prototype systems.\nDexter",
-        "matchedWords": {
-          "cquK9WvdqzOy": {
-            "hits": 25,
-            "textWords": 2985
-          },
-          "uJdJUF4US1ZK": {
-            "hits": 25,
-            "textWords": 2985
-          }
-        }
-      },
-      {
-        "hash": "MaRThsRMLT-5",
-        "address": "https://canonical.com/",
-        "title": "Trusted open source for enterprises | Canonical",
-        "snippet": "Simple, cost-effective, supported – expand the Ubuntu philosophy to every layer of your enterprise stack.\nInnovate on your own terms\nBuild your stack with composable open source solutions, supported by the experts behind the world’s leading Linux.\nStart with Ubuntu\nTake control of your",
-        "matchedWords": {
-          "cquK9WvdqzOy": {
-            "hits": 0,
-            "textWords": 574
-          },
-          "uJdJUF4US1ZK": {
-            "hits": 0,
-            "textWords": 574
-          }
-        }
-      },
-      {
-        "hash": "mt6MjstbkMiw",
-        "address": "https://mesa3d.org/",
-        "title": "Home — The Mesa 3D Graphics Library",
-        "snippet": "Raspberry Pi 4. It's officially supported by Broadcom, and is the official Linux driver for the hardware. More information…\nBroadcom V3DV\nThe V3DV Vulkan driver supports Broadcom's VC5 and later GPUs, similar to the V3D driver. More information…\nBroadcom VC4\nThe VC4 driver supports Broadcom's VC4",
-        "matchedWords": {
-          "cquK9WvdqzOy": {
-            "hits": 1,
-            "textWords": 490
-          },
-          "uJdJUF4US1ZK": {
-            "hits": 2,
-            "textWords": 490
-          }
-        }
-      }
-    ],
-    [
-      {
-        "hash": "dgQz1_nMM_j5",
-        "address": "https://grokipedia.com/page/Edge_computing",
-        "title": "Edge computing — Grokipedia",
-        "snippet": "Raspberry Pi and AI-accelerated modules like the NVIDIA Jetson series, serve as primary endpoints for local computation and sensor integration.[27][28] These devices often incorporate power-efficient processors, including ARM-based System-on-Chips (SoCs), which provide high performance per watt",
-        "matchedWords": {
-          "cquK9WvdqzOy": {
-            "hits": 1,
-            "textWords": 7570
-          },
-          "uJdJUF4US1ZK": {
-            "hits": 1,
-            "textWords": 7570
-          }
-        }
+        },
+        "queryPhraseHits": 4
       }
     ],
     [
@@ -135,7 +55,8 @@
             "hits": 11,
             "textWords": 11902
           }
-        }
+        },
+        "queryPhraseHits": 11
       }
     ],
     [
@@ -153,7 +74,8 @@
             "hits": 4,
             "textWords": 6505
           }
-        }
+        },
+        "queryPhraseHits": 4
       },
       {
         "hash": "rsWFmIf1Pcd5",
@@ -169,7 +91,8 @@
             "hits": 0,
             "textWords": 195
           }
-        }
+        },
+        "queryPhraseHits": 0
       }
     ],
     [
@@ -187,348 +110,45 @@
             "hits": 5,
             "textWords": 5559
           }
-        }
-      }
-    ],
-    [
-      {
-        "hash": "ZupVVT78zDE5",
-        "address": "https://www.xatakahome.com/aplicaciones/retropie-3-no-pierdas-el-tiempo-e-instalalo-ya-en-tu-raspberry-pi",
-        "title": "RetroPie 3: no pierdas el tiempo e instálalo ya en tu Raspberry Pi",
-        "snippet": "Raspberry Pi da mucho juego y nunca mejor dicho. Uno de los usos más populares junto al de reproductor multimedia es el de emulador de juegos. La potencia que ofrece es más que suficiente para disfrutar de títulos de máquinas arcade o consolas como la Super Nintendo o Megadrive por ejemplo.\nSi eres",
-        "matchedWords": {
-          "cquK9WvdqzOy": {
-            "hits": 5,
-            "textWords": 205
-          },
-          "uJdJUF4US1ZK": {
-            "hits": 5,
-            "textWords": 205
-          }
-        }
-      },
-      {
-        "hash": "IU0OTl8bqxA4",
-        "address": "https://www.sparkfun.com/",
-        "title": "SparkFun Electronics - SparkFun Electronics",
-        "snippet": "Our Latest \u0026 Greatest Products\nNew Releases\nBest Sellers\nBuild a Custom Kit\nOur custom kit service may be perfect for virtual or in-person workshops or to support classroom activities/curriculum, our custom kits ensure you have the exact kit you need.\nSpecify the components you require, or we can",
-        "matchedWords": {
-          "cquK9WvdqzOy": {
-            "hits": 0,
-            "textWords": 126
-          },
-          "uJdJUF4US1ZK": {
-            "hits": 0,
-            "textWords": 126
-          }
-        }
+        },
+        "queryPhraseHits": 5
       }
     ]
   ],
   "itemsInNoOrder": [
     {
-      "hash": "2JrHxl-ZoZRw",
-      "address": "https://www.khronos.org/opengles/",
-      "title": "OpenGL ES - The Standard for Embedded 3D Graphics Acceleration",
-      "snippet": "Raspberry Pi Ltd\nSamsung Electronics\nSocionext, Inc.\nSoftware Freedom Conservancy\nSoftware in the Public Interest\nSony Computer Entertainment\nTakumi Corporation\nVerisilicon\nVivante Corporation\nStay Informed\nSubscribe to the Khronos Newsletter\nStay in the loop by subscribing to our newsletter to",
+      "hash": "Tj9g554nScL4",
+      "address": "https://www.wired.com/review/epilogue-sn-operator/",
+      "title": "Epilogue SN Operator Review: Super Nintendo Fun | WIRED",
+      "snippet": "Raspberry Pi are supported) via the included 1-meter braided USB-C to USB-C cord—which also provides power—install Epilogue’s Playback software, slot in your chosen game, and you’re good to go.\nThe SN Operator continues to offer a host of visual options and filters for how games run, with screen",
       "matchedWords": {
         "cquK9WvdqzOy": {
           "hits": 1,
-          "textWords": 709
+          "textWords": 1694
         },
         "uJdJUF4US1ZK": {
           "hits": 1,
-          "textWords": 709
+          "textWords": 1694
         }
-      }
+      },
+      "queryPhraseHits": 1
     },
     {
-      "hash": "0_ddYXCmq5v4",
-      "address": "https://www.suse.com/security/cve/CVE-2019-8980.html",
-      "title": "CVE-2019-8980 Common Vulnerabilities and Exposures | SUSE",
-      "snippet": "Raspberry Pi 12 SP2 kernel-source Not affected SUSE Linux Enterprise Server for SAP Applications 12 kernel-default Not affected SUSE Linux Enterprise Server for SAP Applications 12 kernel-source Not affected SUSE Linux Enterprise Server for SAP Applications 12 SP1 kernel-source Not affected SUSE",
-      "matchedWords": {
-        "cquK9WvdqzOy": {
-          "hits": 1,
-          "textWords": 6407
-        },
-        "uJdJUF4US1ZK": {
-          "hits": 1,
-          "textWords": 6407
-        }
-      }
-    },
-    {
-      "hash": "14W7JXCmq5v4",
-      "address": "https://www.suse.com/security/cve/CVE-2011-0413.html",
-      "title": "CVE-2011-0413 Common Vulnerabilities and Exposures | SUSE",
-      "snippet": "Raspberry Pi 12 SP2 dhcp \u003e= 4.3.3-9.1\ndhcp-client \u003e= 4.3.3-9.1\ndhcp-relay \u003e= 4.3.3-9.1\ndhcp-server \u003e= 4.3.3-9.1\nPatchnames:\nSUSE Linux Enterprise Server for Raspberry Pi 12 SP2 GA dhcp-4.3.3-9.1 (aarch64,ppc64le,s390x,x86_64) SUSE Linux Enterprise Server for SAP Applications 12 SP1\nSUSE Linux",
-      "matchedWords": {
-        "cquK9WvdqzOy": {
-          "hits": 2,
-          "textWords": 1549
-        },
-        "uJdJUF4US1ZK": {
-          "hits": 2,
-          "textWords": 1549
-        }
-      }
-    },
-    {
-      "hash": "3W7MIXCmq5v4",
-      "address": "https://www.suse.com/security/cve/CVE-2024-50132.html",
-      "title": "CVE-2024-50132 Common Vulnerabilities and Exposures | SUSE",
-      "snippet": "Raspberry Pi 12 SP2 kernel-source Not affected SUSE Linux Enterprise Server for SAP Applications 12 SP1 kernel-source Unsupported SUSE Linux Enterprise Server for SAP Applications 12 SP2 kernel-source Not affected SUSE Linux Enterprise Server for SAP Applications 12 SP3 kernel-source Not affected",
-      "matchedWords": {
-        "cquK9WvdqzOy": {
-          "hits": 1,
-          "textWords": 2750
-        },
-        "uJdJUF4US1ZK": {
-          "hits": 1,
-          "textWords": 2750
-        }
-      }
-    },
-    {
-      "hash": "3XeXMXCmq5v4",
-      "address": "https://www.suse.com/security/cve/CVE-2023-26931.html",
-      "title": "CVE-2023-26931 Common Vulnerabilities and Exposures | SUSE",
-      "snippet": "Raspberry Pi 12 SP2 poppler Not affected SUSE Linux Enterprise Server for SAP Applications 11 SP2 poppler Not affected SUSE Linux Enterprise Server for SAP Applications 11 SP3 poppler Not affected SUSE Linux Enterprise Server for SAP Applications 11 SP4 poppler Not affected SUSE Linux Enterprise",
-      "matchedWords": {
-        "cquK9WvdqzOy": {
-          "hits": 1,
-          "textWords": 1687
-        },
-        "uJdJUF4US1ZK": {
-          "hits": 1,
-          "textWords": 1687
-        }
-      }
-    },
-    {
-      "hash": "MK5eRjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Linux_distribution",
-      "title": "Linux distribution - Wikipedia",
-      "snippet": "Raspberry Pi OS targets the Raspberry Pi platform\nDo it yourself, that is distributions manually built from the ground up, such as Linux From Scratch.\nEducation – examples are Edubuntu and Karoshi, server systems based on PCLinuxOS\nDigital audio workstations for music production – for example,",
-      "matchedWords": {
-        "cquK9WvdqzOy": {
-          "hits": 2,
-          "textWords": 5798
-        },
-        "uJdJUF4US1ZK": {
-          "hits": 2,
-          "textWords": 5798
-        }
-      }
-    },
-    {
-      "hash": "Ma72KjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/ChromeOS",
-      "title": "ChromeOS - Wikipedia",
-      "snippet": "This article is about the operating system. For the web browser, see Google Chrome.\nChromeOS\nChromeOS 132 desktop, showing the homepage of Wikipedia\nDeveloper\nGoogle\nWritten in\nC, C++, assembly, JavaScript, HTML5, Python, Rust\nOS family\nUnix-like (Linux)[1]\nWorking state\nPreinstalled on",
+      "hash": "DEKXKM9Ojva4",
+      "address": "https://docs.docker.com/desktop/setup/install/linux/",
+      "title": "Install Docker Desktop on Linux | Docker Docs",
+      "snippet": "This page contains information about general system requirements, supported platforms, and instructions on how to install Docker Desktop for Linux.\nDocker Desktop on Linux runs a Virtual Machine (VM) which creates and uses a custom docker context, desktop-linux, on startup.\nThis means images and",
       "matchedWords": {
         "cquK9WvdqzOy": {
           "hits": 0,
-          "textWords": 11960
+          "textWords": 756
         },
         "uJdJUF4US1ZK": {
           "hits": 0,
-          "textWords": 11960
+          "textWords": 756
         }
-      }
-    },
-    {
-      "hash": "Om4wYjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Booting",
-      "title": "Booting - Wikipedia",
-      "snippet": "This article is about bootstrapping operating systems. For the general concept, see Bootstrapping.\nA flow diagram of an IBM-compatible PC booting\nIn computing, booting is the process of starting a computer as initiated via hardware such as a physical button on the computer or by a software command.",
-      "matchedWords": {
-        "cquK9WvdqzOy": {
-          "hits": 0,
-          "textWords": 11182
-        },
-        "uJdJUF4US1ZK": {
-          "hits": 0,
-          "textWords": 11182
-        }
-      }
-    },
-    {
-      "hash": "yQQNDjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Embedded_system",
-      "title": "Embedded system - Wikipedia",
-      "snippet": "Raspberry Pi.\nA system on a chip (SoC) contains a complete system - consisting of multiple processors, multipliers, caches, even different types of memory and commonly various peripherals like interfaces for wired or wireless communication on a single chip. Often, graphics processing units (GPUs)",
-      "matchedWords": {
-        "cquK9WvdqzOy": {
-          "hits": 1,
-          "textWords": 5151
-        },
-        "uJdJUF4US1ZK": {
-          "hits": 1,
-          "textWords": 5151
-        }
-      }
-    },
-    {
-      "hash": "zPsYJjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Linux",
-      "title": "Linux - Wikipedia",
-      "snippet": "Linux\nTux, the mascot of Linux, created by Larry Ewing[1]\nDeveloper\nLinus Torvalds (BDFL)\nCommunity contributors\nOS family\nUnix-like\nWorking state\nCurrent\nSource model\nOpen source (kernel)\nInitial release\n17 September 1991; 34 years ago (kernel)[2]\nMarketing target\nGeneral-purpose[a]\nAvailable in",
-      "matchedWords": {
-        "cquK9WvdqzOy": {
-          "hits": 0,
-          "textWords": 11216
-        },
-        "uJdJUF4US1ZK": {
-          "hits": 0,
-          "textWords": 11216
-        }
-      }
-    },
-    {
-      "hash": "LX0cieS6MKD4",
-      "address": "https://github.com/bayandin/awesome-awesomeness",
-      "title": "GitHub - bayandin/awesome-awesomeness: A curated list of awesome awesomeness",
-      "snippet": "Raspberry Pi by @blackout314\nby @thibmaek\nReact Native\nREADME\nRegex\nRemote Job\nRemote Work\nREST\nRobotics\nRobotic Tooling\nRNN\nScalability\nScience Fiction\nSearch Engine Optimization (SEO) by @marcobiedermann\nby @sneg55\nby @teles\nSecurity\nSelfhosted\nServerless\nServerless Security\nService Fabric",
-      "matchedWords": {
-        "cquK9WvdqzOy": {
-          "hits": 1,
-          "textWords": 651
-        },
-        "uJdJUF4US1ZK": {
-          "hits": 1,
-          "textWords": 651
-        }
-      }
-    },
-    {
-      "hash": "8ggxLyakFVXw",
-      "address": "https://slashdot.org/poll/3236/is-2023-the-year-of-the-linux-desktop",
-      "title": "Slashdot Poll | Is 2023 the Year of the ...",
-      "snippet": "Raspberry Pi's I unplugged in December as Desktop machines (in which case, they're already Linux.) I have a tablet for portable use. My wife only has a laptop; her Desktop got hauled off to recycling in December.\nI'd imagine that the typical household now has 2 or 3 smartphones that are carried by",
-      "matchedWords": {
-        "cquK9WvdqzOy": {
-          "hits": 1,
-          "textWords": 4741
-        },
-        "uJdJUF4US1ZK": {
-          "hits": 1,
-          "textWords": 4741
-        }
-      }
-    },
-    {
-      "hash": "8VNV2sghd-Kg",
-      "address": "https://geizhals.de/?cat=kb\u0026xf=1041_Verbatim",
-      "title": "Eingabegeräte Tastaturen mit Hersteller: Verbatim Preisvergleich Geizhals Deutschland",
-      "snippet": "",
-      "matchedWords": {
-        "cquK9WvdqzOy": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "uJdJUF4US1ZK": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "9GDPfsghd-Kg",
-      "address": "https://geizhals.de/?cat=kb\u0026xf=1041_LogicKeyboard",
-      "title": "Eingabegeräte Tastaturen mit Hersteller: LogicKeyboard Preisvergleich Geizhals Deutschland",
-      "snippet": "",
-      "matchedWords": {
-        "cquK9WvdqzOy": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "uJdJUF4US1ZK": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "9XLfosghd-Kg",
-      "address": "https://geizhals.de/?cat=kb\u0026xf=7019_Rollen",
-      "title": "Eingabegeräte Tastaturen mit Statusanzeige: Rollen (Bildlaufsperrentaste) Preisvergleich Geizhals Deutschland",
-      "snippet": "",
-      "matchedWords": {
-        "cquK9WvdqzOy": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "uJdJUF4US1ZK": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "CuDVklpcc_2y",
-      "address": "https://www.notebookcheck.net/Newsarchive-2023-05.712071.0.html",
-      "title": "Newsarchive 2023 05 - Notebookcheck News",
-      "snippet": "Archive 2026/09 (613 articles)\nArchive 2026/08 (1984 articles)\nArchive 2026/07 (1763 articles)\nArchive 2026/06 (1495 articles)\nArchive 2026/05 (1633 articles)\nArchive 2026/04 (1703 articles)\nArchive 2026/03 (1671 articles)\nArchive 2026/02 (1533 articles)\nArchive 2026/01 (1731 articles)\nArchive",
-      "matchedWords": {
-        "cquK9WvdqzOy": {
-          "hits": 0,
-          "textWords": 965
-        },
-        "uJdJUF4US1ZK": {
-          "hits": 0,
-          "textWords": 965
-        }
-      }
-    },
-    {
-      "hash": "mHyFhKsrSOQw",
-      "address": "https://arxiv.org/list/cs.AI/new",
-      "title": "Artificial Intelligence",
-      "snippet": "New submissions\nCross-lists\nReplacements\nSee recent articles\nShowing new listings for Friday, 11 September 2026\nTotal of 273 entries\nShowing up to 2000 entries per page: fewer | more | all\nNew submissions (showing 77 of 77 entries)\n[1] arXiv:2609.10584 [pdf, html, other]\n[2] arXiv:2609.10629 [pdf,",
-      "matchedWords": {
-        "cquK9WvdqzOy": {
-          "hits": 0,
-          "textWords": 2520
-        },
-        "uJdJUF4US1ZK": {
-          "hits": 0,
-          "textWords": 2520
-        }
-      }
-    },
-    {
-      "hash": "cd84qAK-xyJ4",
-      "address": "https://go.dev/doc/go1.8",
-      "title": "Go 1.8 Release Notes - The Go Programming Language",
-      "snippet": "Raspberry Pi 1) or later. To identify whether a Linux system is ARMv6K or later, run “go tool dist -check-armv6k” (to facilitate testing, it is also possible to just copy the dist command to the system without installing a full copy of Go 1.8) and if the program terminates with output “ARMv6K",
-      "matchedWords": {
-        "cquK9WvdqzOy": {
-          "hits": 1,
-          "textWords": 4732
-        },
-        "uJdJUF4US1ZK": {
-          "hits": 1,
-          "textWords": 4732
-        }
-      }
-    },
-    {
-      "hash": "vRwADbM7dPow",
-      "address": "https://docs.pytorch.org/tutorials/intermediate/FSDP_tutorial.html",
-      "title": "Getting Started with Fully Sharded Data Parallel (FSDP2) — PyTorch Tutorials 2.14.0+cu130 documentation",
-      "snippet": "Created On: Mar 17, 2022 | Last Updated: Sep 02, 2025 | Last Verified: Nov 05, 2024\nAuthor: Wei Feng, Will Constable, Yifan Mao\nNote\nCheck out the code in this tutorial from pytorch/examples. FSDP1 is deprecated. FSDP1 tutorials are archived in [1] and [2]\nHow FSDP2 works#\nIn",
-      "matchedWords": {
-        "cquK9WvdqzOy": {
-          "hits": 0,
-          "textWords": 2386
-        },
-        "uJdJUF4US1ZK": {
-          "hits": 0,
-          "textWords": 2386
-        }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "MaHDQsRDFHM6",
@@ -544,23 +164,416 @@
           "hits": 3,
           "textWords": 4419
         }
-      }
+      },
+      "queryPhraseHits": 3
     },
     {
-      "hash": "M89BHJS6MKD4",
-      "address": "https://github.com/home-assistant/core",
-      "title": "GitHub - home-assistant/core: :house_with_garden: Open source home automation that puts local control and privacy first. · GitHub",
-      "snippet": "Raspberry Pi or a local server.\nCheck out home-assistant.io for a demo, installation instructions, tutorials and documentation.\nFeatured integrations\nThe system is built using a modular approach so support for other devices or actions can be implemented easily. See also the section on architecture",
+      "hash": "A5ci-TS6MKD4",
+      "address": "https://github.com/cpaczek/skylight",
+      "title": "GitHub - cpaczek/skylight: Project the aircraft passing overhead onto your ceiling in real time, from an RTL-SDR — with a live sky layer (sun, moon, stars, ISS) and where each plane is headed. · GitHub",
+      "snippet": "Raspberry Pi 5 (dual-output: projector + TV dashboard).\nHardware\nPart\nSuggested\nNotes\nReceiver\nRTL-SDR Blog V4 + dipole\nThe included dipole is plenty - planes are nearly overhead. The V3 and V5 work identically (same RTL2832U); if you're buying now, the V4/V5 are the current models.\nCompute",
+      "matchedWords": {
+        "cquK9WvdqzOy": {
+          "hits": 24,
+          "textWords": 2596
+        },
+        "uJdJUF4US1ZK": {
+          "hits": 5,
+          "textWords": 2596
+        }
+      },
+      "queryPhraseHits": 5
+    },
+    {
+      "hash": "CnVD2zS6MKD4",
+      "address": "https://github.com/topics/ms-dos",
+      "title": "ms-dos · GitHub Topics · GitHub",
+      "snippet": "",
+      "matchedWords": {
+        "cquK9WvdqzOy": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "uJdJUF4US1ZK": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "EpPuQzS6MKD4",
+      "address": "https://github.com/topics/tensorflow",
+      "title": "tensorflow · GitHub Topics · GitHub",
+      "snippet": "",
+      "matchedWords": {
+        "cquK9WvdqzOy": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "uJdJUF4US1ZK": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "N57wazS6MKD4",
+      "address": "https://github.com/topics/retrogaming",
+      "title": "retrogaming · GitHub Topics · GitHub",
+      "snippet": "",
+      "matchedWords": {
+        "cquK9WvdqzOy": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "uJdJUF4US1ZK": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "UMlWGzS6MKD4",
+      "address": "https://github.com/topics/learn",
+      "title": "learn · GitHub Topics · GitHub",
+      "snippet": "",
+      "matchedWords": {
+        "cquK9WvdqzOy": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "uJdJUF4US1ZK": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "WDtkxzS6MKD4",
+      "address": "https://github.com/topics/retropie",
+      "title": "retropie · GitHub Topics · GitHub",
+      "snippet": "",
+      "matchedWords": {
+        "cquK9WvdqzOy": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "uJdJUF4US1ZK": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "cV0PLzS6MKD4",
+      "address": "https://github.com/topics/hardware-hacking",
+      "title": "hardware-hacking · GitHub Topics · GitHub",
+      "snippet": "",
+      "matchedWords": {
+        "cquK9WvdqzOy": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "uJdJUF4US1ZK": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "6xuy-zS6MKD4",
+      "address": "https://github.com/topics/neural-networks",
+      "title": "neural-networks · GitHub Topics · GitHub",
+      "snippet": "",
+      "matchedWords": {
+        "cquK9WvdqzOy": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "uJdJUF4US1ZK": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "_4vwbyS6MKD4",
+      "address": "https://github.com/HQarroum/awesome-iot",
+      "title": "GitHub - HQarroum/awesome-iot: 🤖 A curated list of awesome Internet of Things projects and resources. · GitHub",
+      "snippet": "Pi-like 26-pin I/O connector.\nIntel Galileo - The Intel® Galileo Gen 2 board is the first in a family of Arduino*-certified development and prototyping boards based on Intel® architecture and specifically designed for makers, students, educators, and DIY electronics enthusiasts.\nMicroduino -",
+      "matchedWords": {
+        "cquK9WvdqzOy": {
+          "hits": 19,
+          "textWords": 7550
+        },
+        "uJdJUF4US1ZK": {
+          "hits": 20,
+          "textWords": 7550
+        }
+      },
+      "queryPhraseHits": 18
+    },
+    {
+      "hash": "UYTQqvoizps4",
+      "address": "https://www.pcmag.com/news/first-look-video-game-of-the-year-paints-a-vibrant-picture-of-gaming-history",
+      "title": "First Look: ‘Video Game of the Year’ Paints a Vibrant Picture of Gaming History | PCMag",
+      "snippet": "",
+      "matchedWords": {
+        "cquK9WvdqzOy": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "uJdJUF4US1ZK": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "20qcLnydS8Zw",
+      "address": "https://couchdb.apache.org/",
+      "title": "Apache CouchDB",
+      "snippet": "Raspberry Pi to big cloud installations), while PouchDB is built for mobile \u0026 web-browsers.\nThey can seamlessly replicate data with each other.\nReliability\nCouchDB is serious about data reliability.\nIndividual nodes use a crash-resistant append-only data structure. A multi-node CouchDB cluster",
       "matchedWords": {
         "cquK9WvdqzOy": {
           "hits": 1,
-          "textWords": 103
+          "textWords": 427
         },
         "uJdJUF4US1ZK": {
           "hits": 1,
-          "textWords": 103
+          "textWords": 427
         }
-      }
+      },
+      "queryPhraseHits": 1
+    },
+    {
+      "hash": "DEKXKM9Ojva4",
+      "address": "https://docs.docker.com/desktop/setup/install/linux/",
+      "title": "Install Docker Desktop on Linux | Docker Docs",
+      "snippet": "This page contains information about general system requirements, supported platforms, and instructions on how to install Docker Desktop for Linux.\nDocker Desktop on Linux runs a Virtual Machine (VM) which creates and uses a custom docker context, desktop-linux, on startup.\nThis means images and",
+      "matchedWords": {
+        "cquK9WvdqzOy": {
+          "hits": 0,
+          "textWords": 756
+        },
+        "uJdJUF4US1ZK": {
+          "hits": 0,
+          "textWords": 756
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "8mnnr49Ojva4",
+      "address": "https://docs.docker.com/build/building/best-practices/",
+      "title": "Building best practices | Docker Docs",
+      "snippet": "Table of contents\nUse multi-stage builds\nCreate reusable stages\nChoose the right base image\nRebuild your images often\nUse --pull to get fresh base images\nUse --no-cache for clean builds\nExclude with .dockerignore\nCreate ephemeral containers\nDon't install unnecessary packages\nDecouple applications",
+      "matchedWords": {
+        "cquK9WvdqzOy": {
+          "hits": 0,
+          "textWords": 4549
+        },
+        "uJdJUF4US1ZK": {
+          "hits": 0,
+          "textWords": 4549
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "RbPgHI55Qxow",
+      "address": "https://yacy.net/material/Linuxtag_Berlin_2014_digitaleselbstverteidigung_20140510.pdf",
+      "title": "Linuxtag_Berlin_2014_digitaleselbstverteidigung_20140510.pdf",
+      "snippet": "",
+      "matchedWords": {
+        "cquK9WvdqzOy": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "uJdJUF4US1ZK": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "Tl4uXI55Qxow",
+      "address": "https://yacy.net/material/GfWM_Digitale_Subkultur_Teil_2_20130830.pdf",
+      "title": "GfWM_Digitale_Subkultur_Teil_2_20130830.pdf",
+      "snippet": "",
+      "matchedWords": {
+        "cquK9WvdqzOy": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "uJdJUF4US1ZK": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "QrkRzl6LuyIx",
+      "address": "https://www.lazarus-ide.org/",
+      "title": "Lazarus Homepage",
+      "snippet": "Recent Announcements\nGtk3 becomes default widgetset on Linux - July 02, 2026, 06:12:17 pm\nGtk3 is now the default widgetset on Linux in the Lazarus main branch.\nLearn more...\nLazarus Bugfix Release 4.8 - June 11, 2026, 08:02:19 am\nThe Lazarus team is glad to announce the release of Lazarus 4.8.",
+      "matchedWords": {
+        "cquK9WvdqzOy": {
+          "hits": 0,
+          "textWords": 201
+        },
+        "uJdJUF4US1ZK": {
+          "hits": 0,
+          "textWords": 201
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "QZa1dES6MKD4",
+      "address": "https://github.com/terkelg/awesome-creative-coding",
+      "title": "GitHub - terkelg/awesome-creative-coding: Creative Coding: Generative Art, Data visualization, Interaction Design, Resources.",
+      "snippet": "Pi - The live coding music synth for everyone.\nCsound - A sound and music computing system.\nOrca - Live coding environment to quickly create procedural sequencers.\nhandel - A small procedural programming language for writing songs in browser.\nOvertone - An open source audio environment designed to",
+      "matchedWords": {
+        "cquK9WvdqzOy": {
+          "hits": 2,
+          "textWords": 4749
+        },
+        "uJdJUF4US1ZK": {
+          "hits": 1,
+          "textWords": 4749
+        }
+      },
+      "queryPhraseHits": 1
+    },
+    {
+      "hash": "QxKVZMS6MKD4",
+      "address": "https://github.com/ggml-org/whisper.cpp",
+      "title": "GitHub - ggml-org/whisper.cpp: Port of OpenAI's Whisper model in C/C++ · GitHub",
+      "snippet": "Raspberry Pi\nDocker\nThe entire high-level implementation of the model is contained in whisper.h and whisper.cpp. The rest of the code is part of the ggml machine learning library.\nHaving such a lightweight implementation of the model allows to easily integrate it in different platforms and",
+      "matchedWords": {
+        "cquK9WvdqzOy": {
+          "hits": 1,
+          "textWords": 4631
+        },
+        "uJdJUF4US1ZK": {
+          "hits": 1,
+          "textWords": 4631
+        }
+      },
+      "queryPhraseHits": 1
+    },
+    {
+      "hash": "TNnjxzS6MKD4",
+      "address": "https://github.com/topics/privacy",
+      "title": "privacy · GitHub Topics · GitHub",
+      "snippet": "",
+      "matchedWords": {
+        "cquK9WvdqzOy": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "uJdJUF4US1ZK": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "PbKKIUjw1Zlx",
+      "address": "https://kubernetes.io/blog/2019/03/15/kubernetes-setup-using-ansible-and-vagrant/",
+      "title": "Kubernetes Setup Using Ansible and Vagrant | Kubernetes",
+      "snippet": "This article is more than one year old. Older articles may contain outdated content. Check that the information in the page has not become incorrect since its publication.\nObjective\nThis blog post describes the steps required to setup a multi node Kubernetes cluster for development purposes. This",
+      "matchedWords": {
+        "cquK9WvdqzOy": {
+          "hits": 0,
+          "textWords": 1246
+        },
+        "uJdJUF4US1ZK": {
+          "hits": 0,
+          "textWords": 1246
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "QGRE8Ujw1Zlx",
+      "address": "https://kubernetes.io/blog/2023/08/29/gateway-api-v0-8/",
+      "title": "Gateway API v0.8.0: Introducing Service Mesh Support | Kubernetes",
+      "snippet": "This article is more than one year old. Older articles may contain outdated content. Check that the information in the page has not become incorrect since its publication.\nBy Flynn (Buoyant), John Howard (Google), Keith Mattix (Microsoft), Michael Beaumont (Kong), Mike Morris (independent), Rob",
+      "matchedWords": {
+        "cquK9WvdqzOy": {
+          "hits": 0,
+          "textWords": 1141
+        },
+        "uJdJUF4US1ZK": {
+          "hits": 0,
+          "textWords": 1141
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "QdSoHUjw1Zlx",
+      "address": "https://kubernetes.io/blog/2015/12/creating-raspberry-pi-cluster-running/",
+      "title": "Creating a Raspberry Pi cluster running Kubernetes, the installation (Part 2) | Kubernetes",
+      "snippet": "Raspberry Pi cluster we built at Quintor running HypriotOS, Docker and Kubernetes. While we received many compliments on the talk, the most common question was about how to build a Pi cluster themselves! We’ll be doing just that, in two parts. The first part covered the shopping list for the",
+      "matchedWords": {
+        "cquK9WvdqzOy": {
+          "hits": 13,
+          "textWords": 1505
+        },
+        "uJdJUF4US1ZK": {
+          "hits": 3,
+          "textWords": 1505
+        }
+      },
+      "queryPhraseHits": 3
+    },
+    {
+      "hash": "Q3Xj1Ujw1Zlx",
+      "address": "https://kubernetes.io/blog/2016/02/kubernetes-community-meeting-notes/",
+      "title": "Kubernetes Community Meeting Notes - 20160204 | Kubernetes",
+      "snippet": "This article is more than one year old. Older articles may contain outdated content. Check that the information in the page has not become incorrect since its publication.\nFebruary 4th - rkt demo (congratulations on the 1.0, CoreOS!), eBay puts k8s on Openstack and considers Openstack on k8s, SIGs,",
+      "matchedWords": {
+        "cquK9WvdqzOy": {
+          "hits": 0,
+          "textWords": 495
+        },
+        "uJdJUF4US1ZK": {
+          "hits": 0,
+          "textWords": 495
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "RKKmoUjw1Zlx",
+      "address": "https://kubernetes.io/blog/2017/10/request-routing-and-policy-management/",
+      "title": "Request Routing and Policy Management with the Istio Service Mesh | Kubernetes",
+      "snippet": "This article is more than one year old. Older articles may contain outdated content. Check that the information in the page has not become incorrect since its publication.\nEditor's note: Today’s post is the second post in a three-part series on Istio.\nIn a previous article, we looked at a simple",
+      "matchedWords": {
+        "cquK9WvdqzOy": {
+          "hits": 0,
+          "textWords": 1553
+        },
+        "uJdJUF4US1ZK": {
+          "hits": 0,
+          "textWords": 1553
+        }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "WVhIT9S6MKD4",
@@ -576,7 +589,8 @@
           "hits": 1,
           "textWords": 2239
         }
-      }
+      },
+      "queryPhraseHits": 1
     },
     {
       "hash": "X9v9dxS6MKD4",
@@ -592,7 +606,8 @@
           "hits": 1,
           "textWords": 3002
         }
-      }
+      },
+      "queryPhraseHits": 1
     },
     {
       "hash": "UqygLNqRILQr",
@@ -608,55 +623,127 @@
           "hits": 16,
           "textWords": 2743
         }
-      }
+      },
+      "queryPhraseHits": 15
     },
     {
-      "hash": "cd84qAK-xyJ4",
-      "address": "https://go.dev/doc/go1.8",
-      "title": "Go 1.8 Release Notes - The Go Programming Language",
-      "snippet": "Raspberry Pi 1) or later. To identify whether a Linux system is ARMv6K or later, run “go tool dist -check-armv6k” (to facilitate testing, it is also possible to just copy the dist command to the system without installing a full copy of Go 1.8) and if the program terminates with output “ARMv6K",
+      "hash": "Yk0ebs2jvnSw",
+      "address": "https://ffmpeg.org/",
+      "title": "FFmpeg",
+      "snippet": "Raspberry Pi\nIFF ANIM demuxer \u0026 decoder\nDirect Stream Transfer (DST) decoder\nloudnorm filter\nMTAF demuxer and decoder\nMagicYUV decoder\nOpenExr improvements (tile data and B44/B44A support)\nBitJazz SheerVideo decoder\nCUDA CUVID H264/HEVC decoder\n10-bit depth support in native utvideo decoder",
       "matchedWords": {
         "cquK9WvdqzOy": {
           "hits": 1,
-          "textWords": 4732
+          "textWords": 10398
         },
         "uJdJUF4US1ZK": {
           "hits": 1,
-          "textWords": 4732
+          "textWords": 10398
         }
-      }
+      },
+      "queryPhraseHits": 1
     },
     {
-      "hash": "hrGj3xKAn6I5",
-      "address": "https://news.ycombinator.com/item?id=34544745",
-      "title": "SirTunnel, a personal ngrok alternative | Hacker News",
-      "snippet": "Raspberry Pi, and even my car stereo are peers on my Yggdrasil network. The downside is sharing with a 3rd party means they need to install Yggrasil, that is unless you set up a public web server to act as a \"tunnel\" to the web servers in your network.\nBefore someone mentions security, not all of",
+      "hash": "b8vPZsAbx4Yw",
+      "address": "https://sqlite.org/whynotgit.html",
+      "title": "Why SQLite Does Not Use Git",
+      "snippet": "Raspberry Pi, whereas GitLab and similar require beefier hardware.\nLess administration means that programmers spend more time working on the software (SQLite in this case) and less time fussing with the version control system.\n2.6. Git provides a poor user experience\nThe following",
       "matchedWords": {
         "cquK9WvdqzOy": {
           "hits": 1,
-          "textWords": 1383
+          "textWords": 2360
         },
         "uJdJUF4US1ZK": {
           "hits": 1,
-          "textWords": 1383
+          "textWords": 2360
         }
-      }
+      },
+      "queryPhraseHits": 1
+    },
+    {
+      "hash": "B5nOLjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/ARM_architecture_family",
+      "title": "ARM architecture family - Wikipedia",
+      "snippet": "Raspberry Pi, BeagleBoard, BeagleBone, PandaBoard, and other single-board computers, because they are very small, inexpensive, and consume very little power.\n32-bit architecture\n[edit]\nAn ARMv7 was used to power older versions of the popular Raspberry Pi single-board computers like this Raspberry",
+      "matchedWords": {
+        "cquK9WvdqzOy": {
+          "hits": 5,
+          "textWords": 15540
+        },
+        "uJdJUF4US1ZK": {
+          "hits": 5,
+          "textWords": 15540
+        }
+      },
+      "queryPhraseHits": 5
+    },
+    {
+      "hash": "Zn04ZPS6MKD4",
+      "address": "https://github.com/alebcay/awesome-shell",
+      "title": "GitHub - alebcay/awesome-shell: A curated list of awesome command-line frameworks, toolkits, guides and gizmos. Inspired by awesome-php. · GitHub",
+      "snippet": "Pi-hole but local and using your operating system.\nmtr - The functionality of the 'traceroute' and 'ping' programs in a single network diagnostic tool.\nncdu - NCurses Disk Usage\nnmtui - Text User Interface for controlling NetworkManager\npowertop - Battery/Power usage and device stats monitoring",
+      "matchedWords": {
+        "cquK9WvdqzOy": {
+          "hits": 2,
+          "textWords": 3831
+        },
+        "uJdJUF4US1ZK": {
+          "hits": 1,
+          "textWords": 3831
+        }
+      },
+      "queryPhraseHits": 1
+    },
+    {
+      "hash": "b6JleZS6MKD4",
+      "address": "https://github.com/markets/awesome-ruby",
+      "title": "GitHub - markets/awesome-ruby: 💎 A collection of awesome Ruby libraries, tools, frameworks and software · GitHub",
+      "snippet": "Raspberry Pi, WASM, Nintendo Switch, Sony Playstation, and Microsoft Xbox.\nGosu - A 2D game development library for the Ruby and C++ programming languages.\nMittsu - Mittsu makes 3D graphics easier by providing an abstraction over OpenGL, and is based heavily off of THREE.js.\nRuby 2D - Create",
+      "matchedWords": {
+        "cquK9WvdqzOy": {
+          "hits": 3,
+          "textWords": 12646
+        },
+        "uJdJUF4US1ZK": {
+          "hits": 2,
+          "textWords": 12646
+        }
+      },
+      "queryPhraseHits": 2
+    },
+    {
+      "hash": "0IsrslZZ-o74",
+      "address": "https://www.nccgroup.com/research/",
+      "title": "Cyber Security Research | NCC Group",
+      "snippet": "Raspberry Pi Devices to bypass KASLR (InsomniHack 2026)\nRead more\nResearch\nPostcards From Las Vegas – BlackHat USA 2026 and Defcon 34\nRead more\nResearch\nPublic Report: Go x/crypto/ssh Cryptographic Implementation Review\nRead more\nResearch\nAssurance of Co-operative Intelligent Transportation Systems",
+      "matchedWords": {
+        "cquK9WvdqzOy": {
+          "hits": 1,
+          "textWords": 503
+        },
+        "uJdJUF4US1ZK": {
+          "hits": 1,
+          "textWords": 503
+        }
+      },
+      "queryPhraseHits": 1
     },
     {
       "hash": "CtEhczS6MKD4",
       "address": "https://github.com/topics/bash",
       "title": "bash · GitHub Topics · GitHub",
-      "snippet": "Raspberry Pi OS. Includes client config and management scripts.\nUpdated Sep 8, 2026\nShell\nCode\nIssues\nPull requests\nExtendable version manager with support for Ruby, Node.js, Elixir, Erlang \u0026 more\nUpdated Sep 3, 2026\nGo\nCode\nIssues\nPull requests\nIDE-style autocomplete for your existing terminal \u0026",
+      "snippet": "",
       "matchedWords": {
         "cquK9WvdqzOy": {
-          "hits": 1,
-          "textWords": 444
+          "hits": 0,
+          "textWords": 0
         },
         "uJdJUF4US1ZK": {
-          "hits": 1,
-          "textWords": 444
+          "hits": 0,
+          "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "D9zZ37S6MKD4",
@@ -672,23 +759,25 @@
           "hits": 1,
           "textWords": 5502
         }
-      }
+      },
+      "queryPhraseHits": 1
     },
     {
       "hash": "EpPuQzS6MKD4",
       "address": "https://github.com/topics/tensorflow",
       "title": "tensorflow · GitHub Topics · GitHub",
-      "snippet": "Raspberry Pi 4 to high power GPU servers.\nUpdated Jun 19, 2025\nC++\nCode\nIssues\nPull requests\nUpdated May 19, 2026\nJupyter Notebook\nCode\nIssues\nPull requests\nMask R-CNN for object detection and instance segmentation on Keras and TensorFlow\nUpdated Jun 7, 2024\nPython\nCode\nIssues\nPull requests",
+      "snippet": "",
       "matchedWords": {
         "cquK9WvdqzOy": {
-          "hits": 1,
-          "textWords": 438
+          "hits": 0,
+          "textWords": 0
         },
         "uJdJUF4US1ZK": {
-          "hits": 1,
-          "textWords": 438
+          "hits": 0,
+          "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "LcA-MxS6MKD4",
@@ -704,7 +793,8 @@
           "hits": 1,
           "textWords": 115
         }
-      }
+      },
+      "queryPhraseHits": 1
     },
     {
       "hash": "M89BHJS6MKD4",
@@ -720,391 +810,212 @@
           "hits": 1,
           "textWords": 103
         }
-      }
+      },
+      "queryPhraseHits": 1
     },
     {
       "hash": "TNnjxzS6MKD4",
       "address": "https://github.com/topics/privacy",
       "title": "privacy · GitHub Topics · GitHub",
-      "snippet": "Raspberry Pi OS. Includes client config and management scripts.\nUpdated Sep 8, 2026\nShell\nCode\nIssues\nPull requests\nDiscussions\nGoogle Chromium, sans integration with Google\nUpdated Sep 4, 2026\nPython\nCode\nIssues\nPull requests\nDiscussions\nDNS-Blocklists: For a better internet - keep the internet",
+      "snippet": "",
       "matchedWords": {
         "cquK9WvdqzOy": {
-          "hits": 1,
-          "textWords": 594
+          "hits": 0,
+          "textWords": 0
         },
         "uJdJUF4US1ZK": {
-          "hits": 1,
-          "textWords": 594
+          "hits": 0,
+          "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "ZwVdezS6MKD4",
       "address": "https://github.com/topics/play-sounds",
       "title": "play-sounds · GitHub Topics · GitHub",
-      "snippet": "Raspberry, using a distance-probe to generate the sound\nUpdated Mar 12, 2019\nPython\nCode\nIssues\nPull requests\nwin32 microphone echo\nUpdated May 28, 2022\nC++\nCode\nIssues\nPull requests\nA 3DSoundSystem-like library for playing sounds with LWJGL3\nUpdated Apr 11, 2018\nKotlin\nCode\nIssues\nPull requests",
+      "snippet": "",
       "matchedWords": {
         "cquK9WvdqzOy": {
-          "hits": 1,
-          "textWords": 411
+          "hits": 0,
+          "textWords": 0
         },
         "uJdJUF4US1ZK": {
-          "hits": 2,
-          "textWords": 411
+          "hits": 0,
+          "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "chssQzS6MKD4",
       "address": "https://github.com/topics/qt",
       "title": "qt · GitHub Topics · GitHub",
-      "snippet": "Raspberry Pi / AsteroidOS / Ubuntu Touch / JavaScript / WebAssembly\nUpdated Mar 4, 2024\nGo\nCode\nIssues\nPull requests\nDiscussions\nA custom launcher for Minecraft that allows you to easily manage multiple installations of Minecraft at once (Fork of MultiMC)\nUpdated Sep 11, 2026\nC++\nCode\nIssues\nPull",
+      "snippet": "",
+      "matchedWords": {
+        "cquK9WvdqzOy": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "uJdJUF4US1ZK": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "asQ49l8bqxA4",
+      "address": "https://www.sparkfun.com/tall-gpio-header-female-pth-0-1in-2x20-pin.html",
+      "title": "Tall GPIO Header - Female (PTH, 0.1in., 2x20-Pin) - SparkFun Electronics",
+      "snippet": "Pi Boards\nRaspberry Pi HATs\nRaspberry Pi Compute Modules\nRaspberry Pi Kits\nRaspberry Pi Accessories\nmicro:bit\nBeagle\nNVIDIANVIDIA Developer Kits\nNVIDIA Accessories\nIoT \u0026 WirelessBluetooth\nCellularCellular Antennas\nCellular Boards\nLoRa\nMesh Network\nRF\nSatellite Communication\nSDR\nWiFi\nIoT \u0026 Wireless",
+      "matchedWords": {
+        "cquK9WvdqzOy": {
+          "hits": 7,
+          "textWords": 697
+        },
+        "uJdJUF4US1ZK": {
+          "hits": 5,
+          "textWords": 697
+        }
+      },
+      "queryPhraseHits": 5
+    },
+    {
+      "hash": "cYieCl8bqxA4",
+      "address": "https://www.sparkfun.com/myoware-2-0-power-shield.html",
+      "title": "MyoWare 2.0 Power Shield - SparkFun Electronics",
+      "snippet": "Product Overview\nThe MyoWare® 2.0 Power Shield is designed to easily power the MyoWare 2.0 Muscle Sensor for remote applications. The MyoWare Power Shield is equipped with snap connectors on the board so you can easily stack it to the top side of the MyoWare Muscle Sensor. Flip the switch to the ON",
+      "matchedWords": {
+        "cquK9WvdqzOy": {
+          "hits": 0,
+          "textWords": 326
+        },
+        "uJdJUF4US1ZK": {
+          "hits": 0,
+          "textWords": 326
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "C92zoAK-xyJ4",
+      "address": "https://go.dev/doc/go1.12",
+      "title": "Go 1.12 Release Notes - The Go Programming Language",
+      "snippet": "Raspberry Pi 3.\nAIX\nGo now supports AIX 7.2 and later on POWER8 architectures (aix/ppc64). External linking, cgo, pprof and the race detector aren’t yet supported.\nDarwin\nGo 1.12 is the last release that will run on macOS 10.10 Yosemite. Go 1.13 will require macOS 10.11 El Capitan or later.",
       "matchedWords": {
         "cquK9WvdqzOy": {
           "hits": 1,
-          "textWords": 501
+          "textWords": 3465
         },
         "uJdJUF4US1ZK": {
           "hits": 1,
-          "textWords": 501
+          "textWords": 3465
         }
-      }
+      },
+      "queryPhraseHits": 1
     },
     {
-      "hash": "fa7NxzS6MKD4",
-      "address": "https://github.com/topics/encryption",
-      "title": "encryption · GitHub Topics · GitHub",
-      "snippet": "Raspberry Pi OS. Includes client config and management scripts.\nUpdated Sep 8, 2026\nShell\nCode\nIssues\nPull requests\nDiscussions\nSimpleX - the first messaging network operating without user identifiers of any kind - 100% private by design! iOS, Android and desktop apps 📱!\nUpdated Sep 11, 2026",
+      "hash": "UdW7cjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Android_(OS)",
+      "title": "Android (operating system) - Wikipedia",
+      "snippet": "",
+      "matchedWords": {
+        "cquK9WvdqzOy": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "uJdJUF4US1ZK": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "5DZ6TjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Android_(operating_system)",
+      "title": "Android (operating system) - Wikipedia",
+      "snippet": "",
+      "matchedWords": {
+        "cquK9WvdqzOy": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "uJdJUF4US1ZK": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "lWoJOZSjFGiY",
+      "address": "http://bittersweetandprim.blogspot.com/",
+      "title": "BitterSweetAndPrim",
+      "snippet": "",
+      "matchedWords": {
+        "cquK9WvdqzOy": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "uJdJUF4US1ZK": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "2uLc-sm1ohFp",
+      "address": "https://polrestoba.id/",
+      "title": "polrestoba.id",
+      "snippet": "",
+      "matchedWords": {
+        "cquK9WvdqzOy": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "uJdJUF4US1ZK": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "DEKXKM9Ojva4",
+      "address": "https://docs.docker.com/desktop/setup/install/linux/",
+      "title": "Linux | Docker Docs",
+      "snippet": "This page contains information about general system requirements, supported platforms, and instructions on how to install Docker Desktop for Linux.\nDocker Desktop on Linux runs a Virtual Machine (VM) which creates and uses a custom docker context, desktop-linux, on startup.\nThis means images and",
+      "matchedWords": {
+        "cquK9WvdqzOy": {
+          "hits": 0,
+          "textWords": 756
+        },
+        "uJdJUF4US1ZK": {
+          "hits": 0,
+          "textWords": 756
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "C92zoAK-xyJ4",
+      "address": "https://go.dev/doc/go1.12",
+      "title": "Go 1.12 Release Notes - The Go Programming Language",
+      "snippet": "Raspberry Pi 3.\nAIX\nGo now supports AIX 7.2 and later on POWER8 architectures (aix/ppc64). External linking, cgo, pprof and the race detector aren’t yet supported.\nDarwin\nGo 1.12 is the last release that will run on macOS 10.10 Yosemite. Go 1.13 will require macOS 10.11 El Capitan or later.",
       "matchedWords": {
         "cquK9WvdqzOy": {
           "hits": 1,
-          "textWords": 519
+          "textWords": 3465
         },
         "uJdJUF4US1ZK": {
           "hits": 1,
-          "textWords": 519
+          "textWords": 3465
         }
-      }
-    },
-    {
-      "hash": "h5BqzzS6MKD4",
-      "address": "https://github.com/topics/synthesizer",
-      "title": "synthesizer · GitHub Topics · GitHub",
-      "snippet": "Raspberry Pi 3 or later into a Roland MT-32 emulator and SoundFont synthesizer based on Circle, Munt, and FluidSynth.\nUpdated Feb 4, 2025\nC++\nCode\nIssues\nPull requests\nDiscussions\nDexed FM synthesizer similar to 8x DX7 (TX816/TX802) running on a bare metal Raspberry Pi (without a Linux kernel or",
-      "matchedWords": {
-        "cquK9WvdqzOy": {
-          "hits": 2,
-          "textWords": 442
-        },
-        "uJdJUF4US1ZK": {
-          "hits": 2,
-          "textWords": 442
-        }
-      }
-    },
-    {
-      "hash": "iMrbp2S6MKD4",
-      "address": "https://github.com/alda-lang/alda",
-      "title": "GitHub - alda-lang/alda: A music programming language for musicians. :notes: · GitHub",
-      "snippet": "Raspberry Pi support\nInstallation\nSee the official website for instructions to install the latest release of Alda.\nBuilding from source\nAnother option is to build Alda from source. Alda consists of two components: the client (written in Go) and the player (written in Kotlin/Java).\n# Clone the repo",
-      "matchedWords": {
-        "cquK9WvdqzOy": {
-          "hits": 1,
-          "textWords": 444
-        },
-        "uJdJUF4US1ZK": {
-          "hits": 1,
-          "textWords": 444
-        }
-      }
-    },
-    {
-      "hash": "iia0mzS6MKD4",
-      "address": "https://github.com/topics/explorer",
-      "title": "explorer · GitHub Topics · GitHub",
-      "snippet": "Raspberry Pi fullnode distros including Umbrel, Raspiblitz, Start9, and more!\nUpdated Sep 11, 2026\nTypeScript\nCode\nIssues\nPull requests\nEvEx: Everything 拼音搜索, ローマ字検索, wildcard, quick select, Shell extension\nUpdated Aug 2, 2026\nC++\nCode\nIssues\nPull requests\nUpdated Aug 27, 2026\nC++\nCode\nIssues\nPull",
-      "matchedWords": {
-        "cquK9WvdqzOy": {
-          "hits": 1,
-          "textWords": 402
-        },
-        "uJdJUF4US1ZK": {
-          "hits": 1,
-          "textWords": 402
-        }
-      }
-    },
-    {
-      "hash": "qhUqczS6MKD4",
-      "address": "https://github.com/topics/pi",
-      "title": "pi · GitHub Topics · GitHub",
-      "snippet": "Raspberry Pi/Odroid/PC with RetroArch emulator and various cores\nUpdated Sep 8, 2026\nShell\nCode\nIssues\nPull requests\nDiscussions\nFast Desktop Switching Device\nUpdated Sep 11, 2026\nC\nCode\nIssues\nPull requests\nDiscussions\nCollaborative multi-agent AI coding workspace: aggregate sessions from Claude",
-      "matchedWords": {
-        "cquK9WvdqzOy": {
-          "hits": 10,
-          "textWords": 513
-        },
-        "uJdJUF4US1ZK": {
-          "hits": 6,
-          "textWords": 513
-        }
-      }
-    },
-    {
-      "hash": "snPGwzS6MKD4",
-      "address": "https://github.com/topics/instrument",
-      "title": "instrument · GitHub Topics · GitHub",
-      "snippet": "py/pi based video sampler\nUpdated Jan 11, 2022\nPython\nCode\nIssues\nPull requests\n基于NI-VISA/VISA32(Virtual Instrument Software Architecture)的仪器编程（C#），支持RS232、USB、GPIB及LAN通信接口的收发控制\nUpdated Mar 26, 2022\nC#\nCode\nIssues\nPull requests\nPython package for device control and experiment automation\nUpdated May",
-      "matchedWords": {
-        "cquK9WvdqzOy": {
-          "hits": 2,
-          "textWords": 437
-        },
-        "uJdJUF4US1ZK": {
-          "hits": 1,
-          "textWords": 437
-        }
-      }
-    },
-    {
-      "hash": "vLwBRVS6MKD4",
-      "address": "https://github.com/tensorflow/tensorflow",
-      "title": "GitHub - tensorflow/tensorflow: An Open Source Machine Learning Framework for Everyone · GitHub",
-      "snippet": "",
-      "matchedWords": {
-        "cquK9WvdqzOy": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "uJdJUF4US1ZK": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "yfvCSzS6MKD4",
-      "address": "https://github.com/topics/network",
-      "title": "network · GitHub Topics · GitHub",
-      "snippet": "",
-      "matchedWords": {
-        "cquK9WvdqzOy": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "uJdJUF4US1ZK": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "icqWIskYfsM7",
-      "address": "https://amazingtimlocksmith.com/",
-      "title": "amazingtimlocksmith.com",
-      "snippet": "",
-      "matchedWords": {
-        "cquK9WvdqzOy": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "uJdJUF4US1ZK": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "KavSrh3e0QFx",
-      "address": "https://commons.wikimedia.org/wiki/Computer",
-      "title": "Computer - Wikimedia Commons",
-      "snippet": "",
-      "matchedWords": {
-        "cquK9WvdqzOy": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "uJdJUF4US1ZK": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "CjgsxsIyoLTx",
-      "address": "https://planetpython.org/",
-      "title": "Planet Python",
-      "snippet": "",
-      "matchedWords": {
-        "cquK9WvdqzOy": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "uJdJUF4US1ZK": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "AXN8YjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Bioinformatics",
-      "title": "Bioinformatics - Wikipedia",
-      "snippet": "",
-      "matchedWords": {
-        "cquK9WvdqzOy": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "uJdJUF4US1ZK": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "Df5JkjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/System_time",
-      "title": "System time - Wikipedia",
-      "snippet": "",
-      "matchedWords": {
-        "cquK9WvdqzOy": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "uJdJUF4US1ZK": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "fFhxWjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Personal_computer",
-      "title": "Personal computer - Wikipedia",
-      "snippet": "",
-      "matchedWords": {
-        "cquK9WvdqzOy": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "uJdJUF4US1ZK": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "yQQNDjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Embedded_system",
-      "title": "Embedded system - Wikipedia",
-      "snippet": "Raspberry Pi.\nA system on a chip (SoC) contains a complete system - consisting of multiple processors, multipliers, caches, even different types of memory and commonly various peripherals like interfaces for wired or wireless communication on a single chip. Often, graphics processing units (GPUs)",
-      "matchedWords": {
-        "cquK9WvdqzOy": {
-          "hits": 1,
-          "textWords": 5151
-        },
-        "uJdJUF4US1ZK": {
-          "hits": 1,
-          "textWords": 5151
-        }
-      }
-    },
-    {
-      "hash": "9p2eCjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Artificial_intelligence",
-      "title": "Artificial intelligence - Wikipedia",
-      "snippet": "",
-      "matchedWords": {
-        "cquK9WvdqzOy": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "uJdJUF4US1ZK": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "6Y0sVdS6MKD4",
-      "address": "https://github.com/raysan5/raylib",
-      "title": "GitHub - raysan5/raylib: A simple and easy-to-use library to enjoy videogames programming",
-      "snippet": "",
-      "matchedWords": {
-        "cquK9WvdqzOy": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "uJdJUF4US1ZK": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "X50jjalrjgr4",
-      "address": "https://www.techdirt.com/tag/daily-deal/",
-      "title": "Daily deal stories at Techdirt.",
-      "snippet": "",
-      "matchedWords": {
-        "cquK9WvdqzOy": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "uJdJUF4US1ZK": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "_jRa_lmJ800w",
-      "address": "https://www.gentoo.org/downloads/",
-      "title": "Downloads – Gentoo Linux",
-      "snippet": "",
-      "matchedWords": {
-        "cquK9WvdqzOy": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "uJdJUF4US1ZK": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "AXN8YjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Bioinformatics",
-      "title": "Bioinformatics - Wikipedia",
-      "snippet": "",
-      "matchedWords": {
-        "cquK9WvdqzOy": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "uJdJUF4US1ZK": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "Df5JkjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/System_time",
-      "title": "System time - Wikipedia",
-      "snippet": "",
-      "matchedWords": {
-        "cquK9WvdqzOy": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "uJdJUF4US1ZK": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
+      },
+      "queryPhraseHits": 1
     },
     {
       "hash": "D9zZ37S6MKD4",
@@ -1120,55 +1031,144 @@
           "hits": 1,
           "textWords": 5502
         }
-      }
+      },
+      "queryPhraseHits": 1
     },
     {
-      "hash": "mHyFhKsrSOQw",
-      "address": "https://arxiv.org/list/cs.AI/new",
-      "title": "Artificial Intelligence",
-      "snippet": "New submissions\nCross-lists\nReplacements\nSee recent articles\nShowing new listings for Friday, 11 September 2026\nTotal of 273 entries\nShowing up to 2000 entries per page: fewer | more | all\nNew submissions (showing 77 of 77 entries)\n[1] arXiv:2609.10584 [pdf, html, other]\n[2] arXiv:2609.10629 [pdf,",
+      "hash": "cYieCl8bqxA4",
+      "address": "https://www.sparkfun.com/myoware-2-0-power-shield.html",
+      "title": "MyoWare 2.0 Power Shield - SparkFun Electronics",
+      "snippet": "Product Overview\nThe MyoWare® 2.0 Power Shield is designed to easily power the MyoWare 2.0 Muscle Sensor for remote applications. The MyoWare Power Shield is equipped with snap connectors on the board so you can easily stack it to the top side of the MyoWare Muscle Sensor. Flip the switch to the ON",
       "matchedWords": {
         "cquK9WvdqzOy": {
           "hits": 0,
-          "textWords": 2520
+          "textWords": 326
         },
         "uJdJUF4US1ZK": {
           "hits": 0,
-          "textWords": 2520
+          "textWords": 326
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
-      "hash": "Ma72KjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/ChromeOS",
-      "title": "ChromeOS - Wikipedia",
-      "snippet": "This article is about the operating system. For the web browser, see Google Chrome.\nChromeOS\nChromeOS 132 desktop, showing the homepage of Wikipedia\nDeveloper\nGoogle\nWritten in\nC, C++, assembly, JavaScript, HTML5, Python, Rust\nOS family\nUnix-like (Linux)[1]\nWorking state\nPreinstalled on",
+      "hash": "DEKXKM9Ojva4",
+      "address": "https://docs.docker.com/desktop/setup/install/linux/",
+      "title": "Linux | Docker Docs",
+      "snippet": "This page contains information about general system requirements, supported platforms, and instructions on how to install Docker Desktop for Linux.\nDocker Desktop on Linux runs a Virtual Machine (VM) which creates and uses a custom docker context, desktop-linux, on startup.\nThis means images and",
       "matchedWords": {
         "cquK9WvdqzOy": {
           "hits": 0,
-          "textWords": 11960
+          "textWords": 756
         },
         "uJdJUF4US1ZK": {
           "hits": 0,
-          "textWords": 11960
+          "textWords": 756
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
-      "hash": "fa7NxzS6MKD4",
-      "address": "https://github.com/topics/encryption",
-      "title": "encryption · GitHub Topics · GitHub",
-      "snippet": "Raspberry Pi OS. Includes client config and management scripts.\nUpdated Sep 8, 2026\nShell\nCode\nIssues\nPull requests\nDiscussions\nSimpleX - the first messaging network operating without user identifiers of any kind - 100% private by design! iOS, Android and desktop apps 📱!\nUpdated Sep 11, 2026",
+      "hash": "C92zoAK-xyJ4",
+      "address": "https://go.dev/doc/go1.12",
+      "title": "Go 1.12 Release Notes - The Go Programming Language",
+      "snippet": "Raspberry Pi 3.\nAIX\nGo now supports AIX 7.2 and later on POWER8 architectures (aix/ppc64). External linking, cgo, pprof and the race detector aren’t yet supported.\nDarwin\nGo 1.12 is the last release that will run on macOS 10.10 Yosemite. Go 1.13 will require macOS 10.11 El Capitan or later.",
       "matchedWords": {
         "cquK9WvdqzOy": {
           "hits": 1,
-          "textWords": 519
+          "textWords": 3465
         },
         "uJdJUF4US1ZK": {
           "hits": 1,
-          "textWords": 519
+          "textWords": 3465
         }
-      }
+      },
+      "queryPhraseHits": 1
+    },
+    {
+      "hash": "M63KHdS6MKD4",
+      "address": "https://github.com/c2FmZQ/photos",
+      "title": "GitHub - c2FmZQ/photos: Securely encrypt, store, and share files, including but not limited to pictures and videos. · GitHub",
+      "snippet": "",
+      "matchedWords": {
+        "cquK9WvdqzOy": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "uJdJUF4US1ZK": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "lWoJOZSjFGiY",
+      "address": "http://bittersweetandprim.blogspot.com/",
+      "title": "BitterSweetAndPrim",
+      "snippet": "",
+      "matchedWords": {
+        "cquK9WvdqzOy": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "uJdJUF4US1ZK": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "PbKKIUjw1Zlx",
+      "address": "https://kubernetes.io/blog/2019/03/15/kubernetes-setup-using-ansible-and-vagrant/",
+      "title": "Kubernetes Setup Using Ansible and Vagrant | Kubernetes",
+      "snippet": "This article is more than one year old. Older articles may contain outdated content. Check that the information in the page has not become incorrect since its publication.\nObjective\nThis blog post describes the steps required to setup a multi node Kubernetes cluster for development purposes. This",
+      "matchedWords": {
+        "cquK9WvdqzOy": {
+          "hits": 0,
+          "textWords": 1246
+        },
+        "uJdJUF4US1ZK": {
+          "hits": 0,
+          "textWords": 1246
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "Q3Xj1Ujw1Zlx",
+      "address": "https://kubernetes.io/blog/2016/02/kubernetes-community-meeting-notes/",
+      "title": "Kubernetes Community Meeting Notes - 20160204 | Kubernetes",
+      "snippet": "This article is more than one year old. Older articles may contain outdated content. Check that the information in the page has not become incorrect since its publication.\nFebruary 4th - rkt demo (congratulations on the 1.0, CoreOS!), eBay puts k8s on Openstack and considers Openstack on k8s, SIGs,",
+      "matchedWords": {
+        "cquK9WvdqzOy": {
+          "hits": 0,
+          "textWords": 495
+        },
+        "uJdJUF4US1ZK": {
+          "hits": 0,
+          "textWords": 495
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "0IsrslZZ-o74",
+      "address": "https://www.nccgroup.com/research/",
+      "title": "Cyber Security Research | NCC Group",
+      "snippet": "Raspberry Pi Devices to bypass KASLR (InsomniHack 2026)\nRead more\nResearch\nPostcards From Las Vegas – BlackHat USA 2026 and Defcon 34\nRead more\nResearch\nPublic Report: Go x/crypto/ssh Cryptographic Implementation Review\nRead more\nResearch\nAssurance of Co-operative Intelligent Transportation Systems",
+      "matchedWords": {
+        "cquK9WvdqzOy": {
+          "hits": 1,
+          "textWords": 503
+        },
+        "uJdJUF4US1ZK": {
+          "hits": 1,
+          "textWords": 503
+        }
+      },
+      "queryPhraseHits": 1
     },
     {
       "hash": "WVhIT9S6MKD4",
@@ -1184,7 +1184,8 @@
           "hits": 1,
           "textWords": 2239
         }
-      }
+      },
+      "queryPhraseHits": 1
     },
     {
       "hash": "X9v9dxS6MKD4",
@@ -1200,7 +1201,25 @@
           "hits": 1,
           "textWords": 3002
         }
-      }
+      },
+      "queryPhraseHits": 1
+    },
+    {
+      "hash": "0IsrslZZ-o74",
+      "address": "https://www.nccgroup.com/research/",
+      "title": "Cyber Security Research | NCC Group",
+      "snippet": "Raspberry Pi Devices to bypass KASLR (InsomniHack 2026)\nRead more\nResearch\nPostcards From Las Vegas – BlackHat USA 2026 and Defcon 34\nRead more\nResearch\nPublic Report: Go x/crypto/ssh Cryptographic Implementation Review\nRead more\nResearch\nAssurance of Co-operative Intelligent Transportation Systems",
+      "matchedWords": {
+        "cquK9WvdqzOy": {
+          "hits": 1,
+          "textWords": 503
+        },
+        "uJdJUF4US1ZK": {
+          "hits": 1,
+          "textWords": 503
+        }
+      },
+      "queryPhraseHits": 1
     },
     {
       "hash": "UqygLNqRILQr",
@@ -1216,12 +1235,132 @@
           "hits": 16,
           "textWords": 2743
         }
-      }
+      },
+      "queryPhraseHits": 15
     },
     {
-      "hash": "KavSrh3e0QFx",
-      "address": "https://commons.wikimedia.org/wiki/Computer",
-      "title": "Computer - Wikimedia Commons",
+      "hash": "20qcLnydS8Zw",
+      "address": "https://couchdb.apache.org/",
+      "title": "Apache CouchDB",
+      "snippet": "Raspberry Pi to big cloud installations), while PouchDB is built for mobile \u0026 web-browsers.\nThey can seamlessly replicate data with each other.\nReliability\nCouchDB is serious about data reliability.\nIndividual nodes use a crash-resistant append-only data structure. A multi-node CouchDB cluster",
+      "matchedWords": {
+        "cquK9WvdqzOy": {
+          "hits": 1,
+          "textWords": 427
+        },
+        "uJdJUF4US1ZK": {
+          "hits": 1,
+          "textWords": 427
+        }
+      },
+      "queryPhraseHits": 1
+    },
+    {
+      "hash": "QrkRzl6LuyIx",
+      "address": "https://www.lazarus-ide.org/",
+      "title": "Lazarus Homepage",
+      "snippet": "Recent Announcements\nGtk3 becomes default widgetset on Linux - July 02, 2026, 06:12:17 pm\nGtk3 is now the default widgetset on Linux in the Lazarus main branch.\nLearn more...\nLazarus Bugfix Release 4.8 - June 11, 2026, 08:02:19 am\nThe Lazarus team is glad to announce the release of Lazarus 4.8.",
+      "matchedWords": {
+        "cquK9WvdqzOy": {
+          "hits": 0,
+          "textWords": 201
+        },
+        "uJdJUF4US1ZK": {
+          "hits": 0,
+          "textWords": 201
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "8mnnr49Ojva4",
+      "address": "https://docs.docker.com/build/building/best-practices/",
+      "title": "Building best practices | Docker Docs",
+      "snippet": "Table of contents\nUse multi-stage builds\nCreate reusable stages\nChoose the right base image\nRebuild your images often\nUse --pull to get fresh base images\nUse --no-cache for clean builds\nExclude with .dockerignore\nCreate ephemeral containers\nDon't install unnecessary packages\nDecouple applications",
+      "matchedWords": {
+        "cquK9WvdqzOy": {
+          "hits": 0,
+          "textWords": 4549
+        },
+        "uJdJUF4US1ZK": {
+          "hits": 0,
+          "textWords": 4549
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "b8vPZsAbx4Yw",
+      "address": "https://sqlite.org/whynotgit.html",
+      "title": "Why SQLite Does Not Use Git",
+      "snippet": "Raspberry Pi, whereas GitLab and similar require beefier hardware.\nLess administration means that programmers spend more time working on the software (SQLite in this case) and less time fussing with the version control system.\n2.6. Git provides a poor user experience\nThe following",
+      "matchedWords": {
+        "cquK9WvdqzOy": {
+          "hits": 1,
+          "textWords": 2360
+        },
+        "uJdJUF4US1ZK": {
+          "hits": 1,
+          "textWords": 2360
+        }
+      },
+      "queryPhraseHits": 1
+    },
+    {
+      "hash": "0IsrslZZ-o74",
+      "address": "https://www.nccgroup.com/research/",
+      "title": "Cyber Security Research | NCC Group",
+      "snippet": "Raspberry Pi Devices to bypass KASLR (InsomniHack 2026)\nRead more\nResearch\nPostcards From Las Vegas – BlackHat USA 2026 and Defcon 34\nRead more\nResearch\nPublic Report: Go x/crypto/ssh Cryptographic Implementation Review\nRead more\nResearch\nAssurance of Co-operative Intelligent Transportation Systems",
+      "matchedWords": {
+        "cquK9WvdqzOy": {
+          "hits": 1,
+          "textWords": 503
+        },
+        "uJdJUF4US1ZK": {
+          "hits": 1,
+          "textWords": 503
+        }
+      },
+      "queryPhraseHits": 1
+    },
+    {
+      "hash": "Yk0ebs2jvnSw",
+      "address": "https://ffmpeg.org/",
+      "title": "FFmpeg",
+      "snippet": "Raspberry Pi\nIFF ANIM demuxer \u0026 decoder\nDirect Stream Transfer (DST) decoder\nloudnorm filter\nMTAF demuxer and decoder\nMagicYUV decoder\nOpenExr improvements (tile data and B44/B44A support)\nBitJazz SheerVideo decoder\nCUDA CUVID H264/HEVC decoder\n10-bit depth support in native utvideo decoder",
+      "matchedWords": {
+        "cquK9WvdqzOy": {
+          "hits": 1,
+          "textWords": 10398
+        },
+        "uJdJUF4US1ZK": {
+          "hits": 1,
+          "textWords": 10398
+        }
+      },
+      "queryPhraseHits": 1
+    },
+    {
+      "hash": "asQ49l8bqxA4",
+      "address": "https://www.sparkfun.com/tall-gpio-header-female-pth-0-1in-2x20-pin.html",
+      "title": "Tall GPIO Header - Female (PTH, 0.1in., 2x20-Pin) - SparkFun Electronics",
+      "snippet": "Pi Boards\nRaspberry Pi HATs\nRaspberry Pi Compute Modules\nRaspberry Pi Kits\nRaspberry Pi Accessories\nmicro:bit\nBeagle\nNVIDIANVIDIA Developer Kits\nNVIDIA Accessories\nIoT \u0026 WirelessBluetooth\nCellularCellular Antennas\nCellular Boards\nLoRa\nMesh Network\nRF\nSatellite Communication\nSDR\nWiFi\nIoT \u0026 Wireless",
+      "matchedWords": {
+        "cquK9WvdqzOy": {
+          "hits": 7,
+          "textWords": 697
+        },
+        "uJdJUF4US1ZK": {
+          "hits": 5,
+          "textWords": 697
+        }
+      },
+      "queryPhraseHits": 5
+    },
+    {
+      "hash": "dLgzySRMLT-5",
+      "address": "https://canonical.com/microk8s/docs/high-availability",
+      "title": "High Availability (HA) | Canonical",
       "snippet": "",
       "matchedWords": {
         "cquK9WvdqzOy": {
@@ -1232,28 +1371,13 @@
           "hits": 0,
           "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
-      "hash": "cd84qAK-xyJ4",
-      "address": "https://go.dev/doc/go1.8",
-      "title": "Go 1.8 Release Notes - The Go Programming Language",
-      "snippet": "Raspberry Pi 1) or later. To identify whether a Linux system is ARMv6K or later, run “go tool dist -check-armv6k” (to facilitate testing, it is also possible to just copy the dist command to the system without installing a full copy of Go 1.8) and if the program terminates with output “ARMv6K",
-      "matchedWords": {
-        "cquK9WvdqzOy": {
-          "hits": 1,
-          "textWords": 4732
-        },
-        "uJdJUF4US1ZK": {
-          "hits": 1,
-          "textWords": 4732
-        }
-      }
-    },
-    {
-      "hash": "6Y0sVdS6MKD4",
-      "address": "https://github.com/raysan5/raylib",
-      "title": "GitHub - raysan5/raylib: A simple and easy-to-use library to enjoy videogames programming · GitHub",
+      "hash": "2uLc-sm1ohFp",
+      "address": "https://polrestoba.id/",
+      "title": "polrestoba.id",
       "snippet": "",
       "matchedWords": {
         "cquK9WvdqzOy": {
@@ -1264,12 +1388,47 @@
           "hits": 0,
           "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
-      "hash": "X50jjalrjgr4",
-      "address": "https://www.techdirt.com/tag/daily-deal/",
-      "title": "Daily deal stories at Techdirt.",
+      "hash": "Yk0ebs2jvnSw",
+      "address": "https://ffmpeg.org/",
+      "title": "FFmpeg",
+      "snippet": "Raspberry Pi\nIFF ANIM demuxer \u0026 decoder\nDirect Stream Transfer (DST) decoder\nloudnorm filter\nMTAF demuxer and decoder\nMagicYUV decoder\nOpenExr improvements (tile data and B44/B44A support)\nBitJazz SheerVideo decoder\nCUDA CUVID H264/HEVC decoder\n10-bit depth support in native utvideo decoder",
+      "matchedWords": {
+        "cquK9WvdqzOy": {
+          "hits": 1,
+          "textWords": 10398
+        },
+        "uJdJUF4US1ZK": {
+          "hits": 1,
+          "textWords": 10398
+        }
+      },
+      "queryPhraseHits": 1
+    },
+    {
+      "hash": "Tj9g554nScL4",
+      "address": "https://www.wired.com/review/epilogue-sn-operator/",
+      "title": "Epilogue SN Operator Review: Super Nintendo Fun | WIRED",
+      "snippet": "Raspberry Pi are supported) via the included 1-meter braided USB-C to USB-C cord—which also provides power—install Epilogue’s Playback software, slot in your chosen game, and you’re good to go.\nThe SN Operator continues to offer a host of visual options and filters for how games run, with screen",
+      "matchedWords": {
+        "cquK9WvdqzOy": {
+          "hits": 1,
+          "textWords": 1694
+        },
+        "uJdJUF4US1ZK": {
+          "hits": 1,
+          "textWords": 1694
+        }
+      },
+      "queryPhraseHits": 1
+    },
+    {
+      "hash": "RbPgHI55Qxow",
+      "address": "https://yacy.net/material/Linuxtag_Berlin_2014_digitaleselbstverteidigung_20140510.pdf",
+      "title": "Linuxtag_Berlin_2014_digitaleselbstverteidigung_20140510.pdf",
       "snippet": "",
       "matchedWords": {
         "cquK9WvdqzOy": {
@@ -1280,44 +1439,13 @@
           "hits": 0,
           "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
-      "hash": "hrGj3xKAn6I5",
-      "address": "https://news.ycombinator.com/item?id=34544745",
-      "title": "SirTunnel, a personal ngrok alternative | Hacker News",
-      "snippet": "Raspberry Pi, and even my car stereo are peers on my Yggdrasil network. The downside is sharing with a 3rd party means they need to install Yggrasil, that is unless you set up a public web server to act as a \"tunnel\" to the web servers in your network.\nBefore someone mentions security, not all of",
-      "matchedWords": {
-        "cquK9WvdqzOy": {
-          "hits": 1,
-          "textWords": 1383
-        },
-        "uJdJUF4US1ZK": {
-          "hits": 1,
-          "textWords": 1383
-        }
-      }
-    },
-    {
-      "hash": "MK5eRjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Linux_distribution",
-      "title": "Linux distribution - Wikipedia",
-      "snippet": "Raspberry Pi OS targets the Raspberry Pi platform\nDo it yourself, that is distributions manually built from the ground up, such as Linux From Scratch.\nEducation – examples are Edubuntu and Karoshi, server systems based on PCLinuxOS\nDigital audio workstations for music production – for example,",
-      "matchedWords": {
-        "cquK9WvdqzOy": {
-          "hits": 2,
-          "textWords": 5798
-        },
-        "uJdJUF4US1ZK": {
-          "hits": 2,
-          "textWords": 5798
-        }
-      }
-    },
-    {
-      "hash": "fFhxWjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Personal_computer",
-      "title": "Personal computer - Wikipedia",
+      "hash": "Tl4uXI55Qxow",
+      "address": "https://yacy.net/material/GfWM_Digitale_Subkultur_Teil_2_20130830.pdf",
+      "title": "GfWM_Digitale_Subkultur_Teil_2_20130830.pdf",
       "snippet": "",
       "matchedWords": {
         "cquK9WvdqzOy": {
@@ -1328,44 +1456,30 @@
           "hits": 0,
           "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
-      "hash": "yQQNDjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Embedded_system",
-      "title": "Embedded system - Wikipedia",
-      "snippet": "Raspberry Pi.\nA system on a chip (SoC) contains a complete system - consisting of multiple processors, multipliers, caches, even different types of memory and commonly various peripherals like interfaces for wired or wireless communication on a single chip. Often, graphics processing units (GPUs)",
+      "hash": "B5nOLjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/ARM_architecture_family",
+      "title": "ARM architecture family - Wikipedia",
+      "snippet": "Raspberry Pi, BeagleBoard, BeagleBone, PandaBoard, and other single-board computers, because they are very small, inexpensive, and consume very little power.\n32-bit architecture\n[edit]\nAn ARMv7 was used to power older versions of the popular Raspberry Pi single-board computers like this Raspberry",
       "matchedWords": {
         "cquK9WvdqzOy": {
-          "hits": 1,
-          "textWords": 5151
+          "hits": 5,
+          "textWords": 15540
         },
         "uJdJUF4US1ZK": {
-          "hits": 1,
-          "textWords": 5151
+          "hits": 5,
+          "textWords": 15540
         }
-      }
+      },
+      "queryPhraseHits": 5
     },
     {
-      "hash": "zPsYJjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Linux",
-      "title": "Linux - Wikipedia",
-      "snippet": "Linux\nTux, the mascot of Linux, created by Larry Ewing[1]\nDeveloper\nLinus Torvalds (BDFL)\nCommunity contributors\nOS family\nUnix-like\nWorking state\nCurrent\nSource model\nOpen source (kernel)\nInitial release\n17 September 1991; 34 years ago (kernel)[2]\nMarketing target\nGeneral-purpose[a]\nAvailable in",
-      "matchedWords": {
-        "cquK9WvdqzOy": {
-          "hits": 0,
-          "textWords": 11216
-        },
-        "uJdJUF4US1ZK": {
-          "hits": 0,
-          "textWords": 11216
-        }
-      }
-    },
-    {
-      "hash": "9p2eCjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Artificial_intelligence",
-      "title": "Artificial intelligence - Wikipedia",
+      "hash": "UdW7cjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Android_(OS)",
+      "title": "Android (operating system) - Wikipedia",
       "snippet": "",
       "matchedWords": {
         "cquK9WvdqzOy": {
@@ -1376,7 +1490,25 @@
           "hits": 0,
           "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "5DZ6TjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Android_(operating_system)",
+      "title": "Android (operating system) - Wikipedia",
+      "snippet": "",
+      "matchedWords": {
+        "cquK9WvdqzOy": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "uJdJUF4US1ZK": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "D9zZ37S6MKD4",
@@ -1392,39 +1524,25 @@
           "hits": 1,
           "textWords": 5502
         }
-      }
+      },
+      "queryPhraseHits": 1
     },
     {
       "hash": "EpPuQzS6MKD4",
       "address": "https://github.com/topics/tensorflow",
       "title": "tensorflow · GitHub Topics · GitHub",
-      "snippet": "Raspberry Pi 4 to high power GPU servers.\nUpdated Jun 19, 2025\nC++\nCode\nIssues\nPull requests\nUpdated May 19, 2026\nJupyter Notebook\nCode\nIssues\nPull requests\nMask R-CNN for object detection and instance segmentation on Keras and TensorFlow\nUpdated Jun 7, 2024\nPython\nCode\nIssues\nPull requests",
+      "snippet": "",
       "matchedWords": {
         "cquK9WvdqzOy": {
-          "hits": 1,
-          "textWords": 438
+          "hits": 0,
+          "textWords": 0
         },
         "uJdJUF4US1ZK": {
-          "hits": 1,
-          "textWords": 438
+          "hits": 0,
+          "textWords": 0
         }
-      }
-    },
-    {
-      "hash": "LX0cieS6MKD4",
-      "address": "https://github.com/bayandin/awesome-awesomeness",
-      "title": "GitHub - bayandin/awesome-awesomeness: A curated list of awesome awesomeness · GitHub",
-      "snippet": "Raspberry Pi by @blackout314\nby @thibmaek\nReact Native\nREADME\nRegex\nRemote Job\nRemote Work\nREST\nRobotics\nRobotic Tooling\nRNN\nScalability\nScience Fiction\nSearch Engine Optimization (SEO) by @marcobiedermann\nby @sneg55\nby @teles\nSecurity\nSelfhosted\nServerless\nServerless Security\nService Fabric",
-      "matchedWords": {
-        "cquK9WvdqzOy": {
-          "hits": 1,
-          "textWords": 651
-        },
-        "uJdJUF4US1ZK": {
-          "hits": 1,
-          "textWords": 651
-        }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "LcA-MxS6MKD4",
@@ -1440,7 +1558,8 @@
           "hits": 1,
           "textWords": 115
         }
-      }
+      },
+      "queryPhraseHits": 1
     },
     {
       "hash": "M89BHJS6MKD4",
@@ -1456,108 +1575,115 @@
           "hits": 1,
           "textWords": 103
         }
-      }
+      },
+      "queryPhraseHits": 1
+    },
+    {
+      "hash": "QZa1dES6MKD4",
+      "address": "https://github.com/terkelg/awesome-creative-coding",
+      "title": "GitHub - terkelg/awesome-creative-coding: Creative Coding: Generative Art, Data visualization, Interaction Design, Resources. · GitHub",
+      "snippet": "Pi - The live coding music synth for everyone.\nCsound - A sound and music computing system.\nOrca - Live coding environment to quickly create procedural sequencers.\nhandel - A small procedural programming language for writing songs in browser.\nOvertone - An open source audio environment designed to",
+      "matchedWords": {
+        "cquK9WvdqzOy": {
+          "hits": 2,
+          "textWords": 4749
+        },
+        "uJdJUF4US1ZK": {
+          "hits": 1,
+          "textWords": 4749
+        }
+      },
+      "queryPhraseHits": 1
+    },
+    {
+      "hash": "QxKVZMS6MKD4",
+      "address": "https://github.com/ggml-org/whisper.cpp",
+      "title": "GitHub - ggml-org/whisper.cpp: Port of OpenAI's Whisper model in C/C++ · GitHub",
+      "snippet": "Raspberry Pi\nDocker\nThe entire high-level implementation of the model is contained in whisper.h and whisper.cpp. The rest of the code is part of the ggml machine learning library.\nHaving such a lightweight implementation of the model allows to easily integrate it in different platforms and",
+      "matchedWords": {
+        "cquK9WvdqzOy": {
+          "hits": 1,
+          "textWords": 4631
+        },
+        "uJdJUF4US1ZK": {
+          "hits": 1,
+          "textWords": 4631
+        }
+      },
+      "queryPhraseHits": 1
+    },
+    {
+      "hash": "UMlWGzS6MKD4",
+      "address": "https://github.com/topics/learn",
+      "title": "learn · GitHub Topics · GitHub",
+      "snippet": "",
+      "matchedWords": {
+        "cquK9WvdqzOy": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "uJdJUF4US1ZK": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "Zn04ZPS6MKD4",
+      "address": "https://github.com/alebcay/awesome-shell",
+      "title": "GitHub - alebcay/awesome-shell: A curated list of awesome command-line frameworks, toolkits, guides and gizmos. Inspired by awesome-php. · GitHub",
+      "snippet": "Pi-hole but local and using your operating system.\nmtr - The functionality of the 'traceroute' and 'ping' programs in a single network diagnostic tool.\nncdu - NCurses Disk Usage\nnmtui - Text User Interface for controlling NetworkManager\npowertop - Battery/Power usage and device stats monitoring",
+      "matchedWords": {
+        "cquK9WvdqzOy": {
+          "hits": 2,
+          "textWords": 3831
+        },
+        "uJdJUF4US1ZK": {
+          "hits": 1,
+          "textWords": 3831
+        }
+      },
+      "queryPhraseHits": 1
     },
     {
       "hash": "ZwVdezS6MKD4",
       "address": "https://github.com/topics/play-sounds",
       "title": "play-sounds · GitHub Topics · GitHub",
-      "snippet": "Raspberry, using a distance-probe to generate the sound\nUpdated Mar 12, 2019\nPython\nCode\nIssues\nPull requests\nwin32 microphone echo\nUpdated May 28, 2022\nC++\nCode\nIssues\nPull requests\nA 3DSoundSystem-like library for playing sounds with LWJGL3\nUpdated Apr 11, 2018\nKotlin\nCode\nIssues\nPull requests",
+      "snippet": "",
       "matchedWords": {
         "cquK9WvdqzOy": {
-          "hits": 1,
-          "textWords": 411
+          "hits": 0,
+          "textWords": 0
+        },
+        "uJdJUF4US1ZK": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "b6JleZS6MKD4",
+      "address": "https://github.com/markets/awesome-ruby",
+      "title": "GitHub - markets/awesome-ruby: 💎 A collection of awesome Ruby libraries, tools, frameworks and software · GitHub",
+      "snippet": "Raspberry Pi, WASM, Nintendo Switch, Sony Playstation, and Microsoft Xbox.\nGosu - A 2D game development library for the Ruby and C++ programming languages.\nMittsu - Mittsu makes 3D graphics easier by providing an abstraction over OpenGL, and is based heavily off of THREE.js.\nRuby 2D - Create",
+      "matchedWords": {
+        "cquK9WvdqzOy": {
+          "hits": 3,
+          "textWords": 12646
         },
         "uJdJUF4US1ZK": {
           "hits": 2,
-          "textWords": 411
+          "textWords": 12646
         }
-      }
+      },
+      "queryPhraseHits": 2
     },
     {
       "hash": "chssQzS6MKD4",
       "address": "https://github.com/topics/qt",
       "title": "qt · GitHub Topics · GitHub",
-      "snippet": "Raspberry Pi / AsteroidOS / Ubuntu Touch / JavaScript / WebAssembly\nUpdated Mar 4, 2024\nGo\nCode\nIssues\nPull requests\nDiscussions\nA custom launcher for Minecraft that allows you to easily manage multiple installations of Minecraft at once (Fork of MultiMC)\nUpdated Sep 11, 2026\nC++\nCode\nIssues\nPull",
-      "matchedWords": {
-        "cquK9WvdqzOy": {
-          "hits": 1,
-          "textWords": 501
-        },
-        "uJdJUF4US1ZK": {
-          "hits": 1,
-          "textWords": 501
-        }
-      }
-    },
-    {
-      "hash": "h5BqzzS6MKD4",
-      "address": "https://github.com/topics/synthesizer",
-      "title": "synthesizer · GitHub Topics · GitHub",
-      "snippet": "Raspberry Pi 3 or later into a Roland MT-32 emulator and SoundFont synthesizer based on Circle, Munt, and FluidSynth.\nUpdated Feb 4, 2025\nC++\nCode\nIssues\nPull requests\nDiscussions\nDexed FM synthesizer similar to 8x DX7 (TX816/TX802) running on a bare metal Raspberry Pi (without a Linux kernel or",
-      "matchedWords": {
-        "cquK9WvdqzOy": {
-          "hits": 2,
-          "textWords": 442
-        },
-        "uJdJUF4US1ZK": {
-          "hits": 2,
-          "textWords": 442
-        }
-      }
-    },
-    {
-      "hash": "iMrbp2S6MKD4",
-      "address": "https://github.com/alda-lang/alda",
-      "title": "GitHub - alda-lang/alda: A music programming language for musicians. :notes: · GitHub",
-      "snippet": "Raspberry Pi support\nInstallation\nSee the official website for instructions to install the latest release of Alda.\nBuilding from source\nAnother option is to build Alda from source. Alda consists of two components: the client (written in Go) and the player (written in Kotlin/Java).\n# Clone the repo",
-      "matchedWords": {
-        "cquK9WvdqzOy": {
-          "hits": 1,
-          "textWords": 444
-        },
-        "uJdJUF4US1ZK": {
-          "hits": 1,
-          "textWords": 444
-        }
-      }
-    },
-    {
-      "hash": "iia0mzS6MKD4",
-      "address": "https://github.com/topics/explorer",
-      "title": "explorer · GitHub Topics · GitHub",
-      "snippet": "Raspberry Pi fullnode distros including Umbrel, Raspiblitz, Start9, and more!\nUpdated Sep 11, 2026\nTypeScript\nCode\nIssues\nPull requests\nEvEx: Everything 拼音搜索, ローマ字検索, wildcard, quick select, Shell extension\nUpdated Aug 2, 2026\nC++\nCode\nIssues\nPull requests\nUpdated Aug 27, 2026\nC++\nCode\nIssues\nPull",
-      "matchedWords": {
-        "cquK9WvdqzOy": {
-          "hits": 1,
-          "textWords": 402
-        },
-        "uJdJUF4US1ZK": {
-          "hits": 1,
-          "textWords": 402
-        }
-      }
-    },
-    {
-      "hash": "snPGwzS6MKD4",
-      "address": "https://github.com/topics/instrument",
-      "title": "instrument · GitHub Topics · GitHub",
-      "snippet": "py/pi based video sampler\nUpdated Jan 11, 2022\nPython\nCode\nIssues\nPull requests\n基于NI-VISA/VISA32(Virtual Instrument Software Architecture)的仪器编程（C#），支持RS232、USB、GPIB及LAN通信接口的收发控制\nUpdated Mar 26, 2022\nC#\nCode\nIssues\nPull requests\nPython package for device control and experiment automation\nUpdated May",
-      "matchedWords": {
-        "cquK9WvdqzOy": {
-          "hits": 2,
-          "textWords": 437
-        },
-        "uJdJUF4US1ZK": {
-          "hits": 1,
-          "textWords": 437
-        }
-      }
-    },
-    {
-      "hash": "vLwBRVS6MKD4",
-      "address": "https://github.com/tensorflow/tensorflow",
-      "title": "GitHub - tensorflow/tensorflow: An Open Source Machine Learning Framework for Everyone · GitHub",
       "snippet": "",
       "matchedWords": {
         "cquK9WvdqzOy": {
@@ -1568,55 +1694,25 @@
           "hits": 0,
           "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
-      "hash": "yfvCSzS6MKD4",
-      "address": "https://github.com/topics/network",
-      "title": "network · GitHub Topics · GitHub",
-      "snippet": "",
+      "hash": "_4vwbyS6MKD4",
+      "address": "https://github.com/HQarroum/awesome-iot",
+      "title": "GitHub - HQarroum/awesome-iot: 🤖 A curated list of awesome Internet of Things projects and resources. · GitHub",
+      "snippet": "Pi-like 26-pin I/O connector.\nIntel Galileo - The Intel® Galileo Gen 2 board is the first in a family of Arduino*-certified development and prototyping boards based on Intel® architecture and specifically designed for makers, students, educators, and DIY electronics enthusiasts.\nMicroduino -",
       "matchedWords": {
         "cquK9WvdqzOy": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 19,
+          "textWords": 7550
         },
         "uJdJUF4US1ZK": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 20,
+          "textWords": 7550
         }
-      }
-    },
-    {
-      "hash": "icqWIskYfsM7",
-      "address": "https://amazingtimlocksmith.com/",
-      "title": "amazingtimlocksmith.com",
-      "snippet": "",
-      "matchedWords": {
-        "cquK9WvdqzOy": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "uJdJUF4US1ZK": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "CjgsxsIyoLTx",
-      "address": "https://planetpython.org/",
-      "title": "Planet Python",
-      "snippet": "",
-      "matchedWords": {
-        "cquK9WvdqzOy": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "uJdJUF4US1ZK": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
+      },
+      "queryPhraseHits": 18
     },
     {
       "hash": "MaHDQsRDFHM6",
@@ -1632,12 +1728,13 @@
           "hits": 3,
           "textWords": 4419
         }
-      }
+      },
+      "queryPhraseHits": 3
     },
     {
-      "hash": "_jRa_lmJ800w",
-      "address": "https://www.gentoo.org/downloads/",
-      "title": "Downloads – Gentoo Linux",
+      "hash": "lWoJOZSjFGiY",
+      "address": "http://bittersweetandprim.blogspot.com/",
+      "title": "BitterSweetAndPrim",
       "snippet": "",
       "matchedWords": {
         "cquK9WvdqzOy": {
@@ -1648,91 +1745,80 @@
           "hits": 0,
           "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
-      "hash": "mHyFhKsrSOQw",
-      "address": "https://arxiv.org/list/cs.AI/new",
-      "title": "Artificial Intelligence",
-      "snippet": "New submissions\nCross-lists\nReplacements\nSee recent articles\nShowing new listings for Friday, 11 September 2026\nTotal of 273 entries\nShowing up to 2000 entries per page: fewer | more | all\nNew submissions (showing 77 of 77 entries)\n[1] arXiv:2609.10584 [pdf, html, other]\n[2] arXiv:2609.10629 [pdf,",
-      "matchedWords": {
-        "cquK9WvdqzOy": {
-          "hits": 0,
-          "textWords": 2520
-        },
-        "uJdJUF4US1ZK": {
-          "hits": 0,
-          "textWords": 2520
-        }
-      }
-    },
-    {
-      "hash": "vRwADbM7dPow",
-      "address": "https://docs.pytorch.org/tutorials/intermediate/FSDP_tutorial.html",
-      "title": "Getting Started with Fully Sharded Data Parallel (FSDP2) — PyTorch Tutorials 2.14.0+cu130 documentation",
-      "snippet": "Created On: Mar 17, 2022 | Last Updated: Sep 02, 2025 | Last Verified: Nov 05, 2024\nAuthor: Wei Feng, Will Constable, Yifan Mao\nNote\nCheck out the code in this tutorial from pytorch/examples. FSDP1 is deprecated. FSDP1 tutorials are archived in [1] and [2]\nHow FSDP2 works#\nIn",
-      "matchedWords": {
-        "cquK9WvdqzOy": {
-          "hits": 0,
-          "textWords": 2386
-        },
-        "uJdJUF4US1ZK": {
-          "hits": 0,
-          "textWords": 2386
-        }
-      }
-    },
-    {
-      "hash": "Om4wYjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Booting",
-      "title": "Booting - Wikipedia",
-      "snippet": "This article is about bootstrapping operating systems. For the general concept, see Bootstrapping.\nA flow diagram of an IBM-compatible PC booting\nIn computing, booting is the process of starting a computer as initiated via hardware such as a physical button on the computer or by a software command.",
-      "matchedWords": {
-        "cquK9WvdqzOy": {
-          "hits": 0,
-          "textWords": 11182
-        },
-        "uJdJUF4US1ZK": {
-          "hits": 0,
-          "textWords": 11182
-        }
-      }
-    },
-    {
-      "hash": "yQQNDjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Embedded_system",
-      "title": "Embedded system - Wikipedia",
-      "snippet": "Raspberry Pi.\nA system on a chip (SoC) contains a complete system - consisting of multiple processors, multipliers, caches, even different types of memory and commonly various peripherals like interfaces for wired or wireless communication on a single chip. Often, graphics processing units (GPUs)",
+      "hash": "0IsrslZZ-o74",
+      "address": "https://www.nccgroup.com/research/",
+      "title": "Cyber Security Research | NCC Group",
+      "snippet": "Raspberry Pi Devices to bypass KASLR (InsomniHack 2026)\nRead more\nResearch\nPostcards From Las Vegas – BlackHat USA 2026 and Defcon 34\nRead more\nResearch\nPublic Report: Go x/crypto/ssh Cryptographic Implementation Review\nRead more\nResearch\nAssurance of Co-operative Intelligent Transportation Systems",
       "matchedWords": {
         "cquK9WvdqzOy": {
           "hits": 1,
-          "textWords": 5151
+          "textWords": 503
         },
         "uJdJUF4US1ZK": {
           "hits": 1,
-          "textWords": 5151
+          "textWords": 503
         }
-      }
+      },
+      "queryPhraseHits": 1
     },
     {
-      "hash": "mHyFhKsrSOQw",
-      "address": "https://arxiv.org/list/cs.AI/new",
-      "title": "Artificial Intelligence",
-      "snippet": "New submissions\nCross-lists\nReplacements\nSee recent articles\nShowing new listings for Friday, 11 September 2026\nTotal of 273 entries\nShowing up to 2000 entries per page: fewer | more | all\nNew submissions (showing 77 of 77 entries)\n[1] arXiv:2609.10584 [pdf, html, other]\n[2] arXiv:2609.10629 [pdf,",
+      "hash": "UYTQqvoizps4",
+      "address": "https://www.pcmag.com/news/first-look-video-game-of-the-year-paints-a-vibrant-picture-of-gaming-history",
+      "title": "First Look: ‘Video Game of the Year’ Paints a Vibrant Picture of Gaming History | PCMag",
+      "snippet": "",
       "matchedWords": {
         "cquK9WvdqzOy": {
           "hits": 0,
-          "textWords": 2520
+          "textWords": 0
         },
         "uJdJUF4US1ZK": {
           "hits": 0,
-          "textWords": 2520
+          "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "0IsrslZZ-o74",
+      "address": "https://www.nccgroup.com/research/",
+      "title": "Cyber Security Research | NCC Group",
+      "snippet": "Raspberry Pi Devices to bypass KASLR (InsomniHack 2026)\nRead more\nResearch\nPostcards From Las Vegas – BlackHat USA 2026 and Defcon 34\nRead more\nResearch\nPublic Report: Go x/crypto/ssh Cryptographic Implementation Review\nRead more\nResearch\nAssurance of Co-operative Intelligent Transportation Systems",
+      "matchedWords": {
+        "cquK9WvdqzOy": {
+          "hits": 1,
+          "textWords": 503
+        },
+        "uJdJUF4US1ZK": {
+          "hits": 1,
+          "textWords": 503
+        }
+      },
+      "queryPhraseHits": 1
+    },
+    {
+      "hash": "8mnnr49Ojva4",
+      "address": "https://docs.docker.com/build/building/best-practices/",
+      "title": "Building best practices | Docker Docs",
+      "snippet": "Table of contents\nUse multi-stage builds\nCreate reusable stages\nChoose the right base image\nRebuild your images often\nUse --pull to get fresh base images\nUse --no-cache for clean builds\nExclude with .dockerignore\nCreate ephemeral containers\nDon't install unnecessary packages\nDecouple applications",
+      "matchedWords": {
+        "cquK9WvdqzOy": {
+          "hits": 0,
+          "textWords": 4549
+        },
+        "uJdJUF4US1ZK": {
+          "hits": 0,
+          "textWords": 4549
+        }
+      },
+      "queryPhraseHits": 0
     }
   ],
   "documentsHeldPerQueryWord": {
-    "cquK9WvdqzOy": 10550,
-    "uJdJUF4US1ZK": 1511
+    "cquK9WvdqzOy": 11781,
+    "uJdJUF4US1ZK": 6612
   }
 }

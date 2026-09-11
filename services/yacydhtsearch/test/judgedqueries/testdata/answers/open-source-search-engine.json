@@ -1,6 +1,6 @@
 {
   "query": "open source search engine",
-  "recordedAt": "2026-09-11T21:01:38Z",
+  "recordedAt": "2026-09-11T22:14:22Z",
   "itemsInTheOrderOfEachAnswer": [
     [
       {
@@ -25,12 +25,38 @@
             "hits": 2,
             "textWords": 899
           }
-        }
+        },
+        "queryPhraseHits": 3
       }
     ]
   ],
   "itemsInNoOrder": [
     {
+      "hash": "snZ3UTtKr25k",
+      "address": "https://newsqr.com.mx/?p=23964",
+      "title": "Anuncia Mara Lezama inversión de 23 mdp para construir CAM en Cielo Nuevo Cancún",
+      "snippet": "",
+      "matchedWords": {
+        "BqlDxZ8zo0u1": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "Ns049Jua-ggi": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "fO-Kc0hVd3wq": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "rRlDqf1tPX7h": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
       "hash": "Qw0Oas-RJCSj",
       "address": "https://wspomozycielka-lodz.pl/?p=747",
       "title": "OGŁOSZENIA PARAFIALNE (11.06.2023) – Parafia Matki Bożej Wspomożenia Wiernych w Łodzi",
@@ -52,7 +78,8 @@
           "hits": 0,
           "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "Jb4XHs5IzNm6",
@@ -62,93 +89,97 @@
       "matchedWords": {
         "BqlDxZ8zo0u1": {
           "hits": 1,
-          "textWords": 11095
+          "textWords": 11132
         },
         "Ns049Jua-ggi": {
           "hits": 1,
-          "textWords": 11095
+          "textWords": 11132
         },
         "fO-Kc0hVd3wq": {
           "hits": 18,
-          "textWords": 11095
+          "textWords": 11132
         },
         "rRlDqf1tPX7h": {
           "hits": 2,
-          "textWords": 11095
+          "textWords": 11132
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
-      "hash": "WS3SgL7t2YV4",
-      "address": "https://www.nvidia.com/en-us/ai-data-science/products/nim-microservices/",
-      "title": "NVIDIA NIM Microservices for Accelerated AI Inference | NVIDIA",
-      "snippet": "Open Models\nDeploy large language models (LLMs) supported by NVIDIA® TensorRT™-LLM, vLLM, or SGLang for low-latency, high-throughput inferencing on NVIDIA-accelerated infrastructure.\nFeatures\nThe Easy Button for AI Development and Deployment\nDesigned to run anywhere, NIM microservices expose",
+      "hash": "sgghmlAUKsO5",
+      "address": "https://www.findarticles.com/news/",
+      "title": "News Articles - FindArticles",
+      "snippet": "Welcome to the News Articles, your gateway to thousands of insights, reports, and stories published across a wide range of topics. This section serves as the archive and central access point for all articles available on FindArticles.com.\nOur coverage spans multiple areas of interest, ensuring that",
       "matchedWords": {
         "BqlDxZ8zo0u1": {
           "hits": 0,
-          "textWords": 1328
+          "textWords": 159
         },
         "Ns049Jua-ggi": {
           "hits": 0,
-          "textWords": 1328
+          "textWords": 159
         },
         "fO-Kc0hVd3wq": {
-          "hits": 1,
-          "textWords": 1328
+          "hits": 0,
+          "textWords": 159
         },
         "rRlDqf1tPX7h": {
-          "hits": 1,
-          "textWords": 1328
+          "hits": 0,
+          "textWords": 159
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
-      "hash": "dv5_v78cRLz5",
-      "address": "https://www.afterdawn.com/glossary/term.cfm/android",
-      "title": "What means Android? - AfterDawn",
-      "snippet": "Open Handset Alliance, the smartphone OS is open-source, but the Android Open Source Project (AOSP) maintains and develops future wide release updates.\nAndroid's kernel is based on Linux, but middleware, libraries and APIs are written in C. Apps are written in Java-compatible libraries based on",
+      "hash": "D1Hz8-DUniK4",
+      "address": "https://reason.com/2007/05/30/wikipedia-and-beyond/",
+      "title": "Wikipedia and Beyond",
+      "snippet": "search of \"this really great Indian place that's part of a motel,\" and wind up cruising for hours—stopping at Starbucks, hitting the mall, and generally duplicating the average day of millions of suburban teenagers. Wal-Marts and Olive Gardens slip past as Wales, often taciturn and abrupt in public",
       "matchedWords": {
         "BqlDxZ8zo0u1": {
-          "hits": 4,
-          "textWords": 901
+          "hits": 10,
+          "textWords": 6565
         },
         "Ns049Jua-ggi": {
+          "hits": 10,
+          "textWords": 6565
+        },
+        "fO-Kc0hVd3wq": {
+          "hits": 12,
+          "textWords": 6565
+        },
+        "rRlDqf1tPX7h": {
           "hits": 2,
-          "textWords": 901
-        },
-        "fO-Kc0hVd3wq": {
-          "hits": 3,
-          "textWords": 901
-        },
-        "rRlDqf1tPX7h": {
-          "hits": 1,
-          "textWords": 901
+          "textWords": 6565
         }
-      }
+      },
+      "queryPhraseHits": 9
     },
     {
       "hash": "fE4y5sGA_USx",
       "address": "https://warracket.net/",
       "title": "WAR RACKET - MAINSTREAM MEDIA, CORPORATE MEDIA, WARMONGERS, NEOCONS, DEEP STATE, NATO, NATIONAL SECURITY STATE, MILITARY-INDUSTRIAL-SECURITY-COMPLEX, WEAPONS MANUFACTURERS, NATO,",
-      "snippet": "",
+      "snippet": "engine of American foreign policy has been fueled not by a devotion to any kind of morality, but rather by the necessity to serve other imperatives, which can be summarized as follows: making the world safe for American corporations; enhancing the financial statements of defense contractors at home",
       "matchedWords": {
         "BqlDxZ8zo0u1": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 2,
+          "textWords": 63596
         },
         "Ns049Jua-ggi": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 3,
+          "textWords": 63596
         },
         "fO-Kc0hVd3wq": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 5,
+          "textWords": 63596
         },
         "rRlDqf1tPX7h": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 4,
+          "textWords": 63596
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "TKYymjGG7ou5",
@@ -172,7 +203,8 @@
           "hits": 0,
           "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "PSeufkIRcMkY",
@@ -196,7 +228,8 @@
           "hits": 0,
           "textWords": 1484
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "QdW-xjRvmBbx",
@@ -220,7 +253,33 @@
           "hits": 5,
           "textWords": 15807
         }
-      }
+      },
+      "queryPhraseHits": 55
+    },
+    {
+      "hash": "S4tXZjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Wikisource",
+      "title": "Wikisource - Wikipedia",
+      "snippet": "source documents, not vanity products. Verification was initially made offline, or by trusting the reliability of other digital libraries. Now works are supported by online scans via the ProofreadPage extension, which ensures the reliability and accuracy of the project's texts.\nSome individual",
+      "matchedWords": {
+        "BqlDxZ8zo0u1": {
+          "hits": 0,
+          "textWords": 3132
+        },
+        "Ns049Jua-ggi": {
+          "hits": 5,
+          "textWords": 3132
+        },
+        "fO-Kc0hVd3wq": {
+          "hits": 1,
+          "textWords": 3132
+        },
+        "rRlDqf1tPX7h": {
+          "hits": 0,
+          "textWords": 3132
+        }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "QEdRQsS6MKD4",
@@ -244,7 +303,8 @@
           "hits": 0,
           "textWords": 266
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "QYijntS6MKD4",
@@ -268,55 +328,8 @@
           "hits": 0,
           "textWords": 266
         }
-      }
-    },
-    {
-      "hash": "Sse-kmVUrQm6",
-      "address": "https://earthnewspaper.com/mark-r-elsis/one-hundred-years-ago-today-by-mark-r-elsis/",
-      "title": "One Hundred Years Ago Today by Mark R. Elsis – EarthNewspaper.com – All The Honest News Fit To Publish",
-      "snippet": "",
-      "matchedWords": {
-        "BqlDxZ8zo0u1": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "Ns049Jua-ggi": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "fO-Kc0hVd3wq": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "rRlDqf1tPX7h": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "Tm8vbiVUrQm6",
-      "address": "https://earthnewspaper.com/2022-news/24-7-news-october-2022/",
-      "title": "24/7 News October 2022 – EarthNewspaper.com – All The Honest News Fit To Publish",
-      "snippet": "",
-      "matchedWords": {
-        "BqlDxZ8zo0u1": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "Ns049Jua-ggi": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "fO-Kc0hVd3wq": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "rRlDqf1tPX7h": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "SOAt4sWMnAPx",
@@ -340,7 +353,8 @@
           "hits": 2,
           "textWords": 49580
         }
-      }
+      },
+      "queryPhraseHits": 22
     },
     {
       "hash": "AWq9VQXx1HRZ",
@@ -364,7 +378,8 @@
           "hits": 0,
           "textWords": 35334
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "t2h4nQXx1HRZ",
@@ -388,7 +403,8 @@
           "hits": 2,
           "textWords": 32476
         }
-      }
+      },
+      "queryPhraseHits": 2
     },
     {
       "hash": "CyUYvsY-tUi5",
@@ -412,7 +428,8 @@
           "hits": 2,
           "textWords": 49441
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "Qve1qQZchFfZ",
@@ -436,7 +453,8 @@
           "hits": 0,
           "textWords": 13922
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "NbVspsgbSIuz",
@@ -460,7 +478,8 @@
           "hits": 1,
           "textWords": 22704
         }
-      }
+      },
+      "queryPhraseHits": 1
     },
     {
       "hash": "-b3sxspKNBr4",
@@ -484,7 +503,8 @@
           "hits": 24,
           "textWords": 85901
         }
-      }
+      },
+      "queryPhraseHits": 1
     },
     {
       "hash": "XTPIBlptNsG4",
@@ -508,7 +528,8 @@
           "hits": 2,
           "textWords": 405419
         }
-      }
+      },
+      "queryPhraseHits": 1
     },
     {
       "hash": "Wfq3FswvoTD5",
@@ -532,7 +553,8 @@
           "hits": 0,
           "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "QvExj17t2YV4",
@@ -556,7 +578,8 @@
           "hits": 1,
           "textWords": 1173
         }
-      }
+      },
+      "queryPhraseHits": 1
     },
     {
       "hash": "Jb4XHs5IzNm6",
@@ -566,21 +589,47 @@
       "matchedWords": {
         "BqlDxZ8zo0u1": {
           "hits": 1,
-          "textWords": 11095
+          "textWords": 11132
         },
         "Ns049Jua-ggi": {
           "hits": 1,
-          "textWords": 11095
+          "textWords": 11132
         },
         "fO-Kc0hVd3wq": {
           "hits": 18,
-          "textWords": 11095
+          "textWords": 11132
         },
         "rRlDqf1tPX7h": {
           "hits": 2,
-          "textWords": 11095
+          "textWords": 11132
         }
-      }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "RVKYi2DZkUL4",
+      "address": "https://www.cnet.com/deals/best-streaming-service-deals/",
+      "title": "Every Streaming Service You Want Is on Sale Right Now. Here's How to Pay Less for All of Them - CNET",
+      "snippet": "Bundles, student discounts and annual plan savings can let you keep watching without overspending.\nOUR EXPERT\nAaron is a writer for the streaming entertainment team.… Read full bio\nArticle updated on August 31, 2026, 7:59 am EDT\nINSIDE CNET LABS\n25+\nYears of Experience\n23\nProduct Reviewers\n15k",
+      "matchedWords": {
+        "BqlDxZ8zo0u1": {
+          "hits": 0,
+          "textWords": 1293
+        },
+        "Ns049Jua-ggi": {
+          "hits": 0,
+          "textWords": 1293
+        },
+        "fO-Kc0hVd3wq": {
+          "hits": 0,
+          "textWords": 1293
+        },
+        "rRlDqf1tPX7h": {
+          "hits": 0,
+          "textWords": 1293
+        }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "153XgsQ2H1F4",
@@ -604,7 +653,133 @@
           "hits": 0,
           "textWords": 846
         }
-      }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "MnvOKjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Portal:Free_and_open-source_software",
+      "title": "Portal:Free and open-source software - Wikipedia",
+      "snippet": "open-source software (FOSS) is software available under a license that gives users the right to use, share, modify, and distribute the software — modified or not — to everyone and provides the means to exercise those rights using the software's source code. FOSS is an inclusive umbrella term",
+      "matchedWords": {
+        "BqlDxZ8zo0u1": {
+          "hits": 0,
+          "textWords": 2738
+        },
+        "Ns049Jua-ggi": {
+          "hits": 38,
+          "textWords": 2738
+        },
+        "fO-Kc0hVd3wq": {
+          "hits": 35,
+          "textWords": 2738
+        },
+        "rRlDqf1tPX7h": {
+          "hits": 0,
+          "textWords": 2738
+        }
+      },
+      "queryPhraseHits": 32
+    },
+    {
+      "hash": "MuMGwjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Bill_Joy",
+      "title": "Bill Joy - Wikipedia",
+      "snippet": "Open Sources: Voices from the Open Source Revolution. O'Reilly.\n↑ Ashlee Vance,\"Bill Joy's greatest gift to man – the vi editor\" Archived 2014-06-03 at the Wayback Machine, The Register, September 11, 2003.\n↑ \"Eric Schmidt: At Berkeley, Bill Joy written and rewritten the kernel over a weekend. No",
+      "matchedWords": {
+        "BqlDxZ8zo0u1": {
+          "hits": 0,
+          "textWords": 1898
+        },
+        "Ns049Jua-ggi": {
+          "hits": 1,
+          "textWords": 1898
+        },
+        "fO-Kc0hVd3wq": {
+          "hits": 2,
+          "textWords": 1898
+        },
+        "rRlDqf1tPX7h": {
+          "hits": 0,
+          "textWords": 1898
+        }
+      },
+      "queryPhraseHits": 1
+    },
+    {
+      "hash": "Pgy2wjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Help:Multilingual_support_(Indic)",
+      "title": "Help:Multilingual support (Indic) - Wikipedia",
+      "snippet": "(search for \"Writing text in other languages\").\nMac OS 10.4 system software comes with two installable Keyboard input options for Tamil: Murasu Anjal and Tamilnet 99. One needs to do the following steps to activate them:\ni) Open \"international\" located within System Preferences and select",
+      "matchedWords": {
+        "BqlDxZ8zo0u1": {
+          "hits": 1,
+          "textWords": 4709
+        },
+        "Ns049Jua-ggi": {
+          "hits": 2,
+          "textWords": 4709
+        },
+        "fO-Kc0hVd3wq": {
+          "hits": 4,
+          "textWords": 4709
+        },
+        "rRlDqf1tPX7h": {
+          "hits": 1,
+          "textWords": 4709
+        }
+      },
+      "queryPhraseHits": 2
+    },
+    {
+      "hash": "Pi26bjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/List_of_emerging_technologies",
+      "title": "List of emerging technologies - Wikipedia",
+      "snippet": "open data, intelligent environment\nDigital scent technology\nDiffusion\nSmell-O-Vision, iSmell\nDNA digital data storage\nExperiments\nMass data storage\nElectronic nose\nResearch, limited commercialization[22][23]\nDetecting spoiled food, chemical weapons, and cancer\nEmerging memory technologies (T-RAM,",
+      "matchedWords": {
+        "BqlDxZ8zo0u1": {
+          "hits": 2,
+          "textWords": 7342
+        },
+        "Ns049Jua-ggi": {
+          "hits": 2,
+          "textWords": 7342
+        },
+        "fO-Kc0hVd3wq": {
+          "hits": 2,
+          "textWords": 7342
+        },
+        "rRlDqf1tPX7h": {
+          "hits": 3,
+          "textWords": 7342
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "7IIFujRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/United_Kingdom",
+      "title": "United Kingdom - Wikipedia",
+      "snippet": "engine manufacturing: 1.59 million engines were produced in 2024.[284] It was the world's third-largest exporter of engines by value in 2023.[286] The UK motorsport industry has an annual turnover of around £10 billion.[287] Seven of the eleven Formula One teams are based in the UK, with their",
+      "matchedWords": {
+        "BqlDxZ8zo0u1": {
+          "hits": 0,
+          "textWords": 31948
+        },
+        "Ns049Jua-ggi": {
+          "hits": 3,
+          "textWords": 31948
+        },
+        "fO-Kc0hVd3wq": {
+          "hits": 6,
+          "textWords": 31948
+        },
+        "rRlDqf1tPX7h": {
+          "hits": 1,
+          "textWords": 31948
+        }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "AWq9VQXx1HRZ",
@@ -628,7 +803,8 @@
           "hits": 0,
           "textWords": 35334
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "t2h4nQXx1HRZ",
@@ -652,7 +828,8 @@
           "hits": 2,
           "textWords": 32476
         }
-      }
+      },
+      "queryPhraseHits": 2
     },
     {
       "hash": "-b3sxspKNBr4",
@@ -676,7 +853,8 @@
           "hits": 24,
           "textWords": 85901
         }
-      }
+      },
+      "queryPhraseHits": 1
     },
     {
       "hash": "OVvAkg2Rr_dw",
@@ -700,7 +878,8 @@
           "hits": 2,
           "textWords": 69
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "NmKs9lJDjf05",
@@ -724,7 +903,8 @@
           "hits": 1,
           "textWords": 1505
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "Nd6lETPhOXO4",
@@ -748,7 +928,8 @@
           "hits": 2,
           "textWords": 27948
         }
-      }
+      },
+      "queryPhraseHits": 1
     },
     {
       "hash": "MaRThsRMLT-5",
@@ -772,7 +953,8 @@
           "hits": 0,
           "textWords": 574
         }
-      }
+      },
+      "queryPhraseHits": 9
     },
     {
       "hash": "Nq2X9JexqsOx",
@@ -796,7 +978,8 @@
           "hits": 1,
           "textWords": 2356
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "NGPbppv-bf35",
@@ -820,7 +1003,8 @@
           "hits": 1,
           "textWords": 1359
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "NV-ZlZv-bf35",
@@ -844,7 +1028,8 @@
           "hits": 0,
           "textWords": 1991
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "NhbP7Bv-bf35",
@@ -868,7 +1053,8 @@
           "hits": 0,
           "textWords": 173
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "Pzkydzv-bf35",
@@ -892,7 +1078,8 @@
           "hits": 0,
           "textWords": 991
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "P-mMSgv-bf35",
@@ -916,7 +1103,8 @@
           "hits": 0,
           "textWords": 422
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "OVvAkg2Rr_dw",
@@ -940,31 +1128,58 @@
           "hits": 2,
           "textWords": 69
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
-      "hash": "dv5_v78cRLz5",
-      "address": "https://www.afterdawn.com/glossary/term.cfm/android",
-      "title": "What means Android? - AfterDawn",
-      "snippet": "Open Handset Alliance, the smartphone OS is open-source, but the Android Open Source Project (AOSP) maintains and develops future wide release updates.\nAndroid's kernel is based on Linux, but middleware, libraries and APIs are written in C. Apps are written in Java-compatible libraries based on",
+      "hash": "sgghmlAUKsO5",
+      "address": "https://www.findarticles.com/news/",
+      "title": "News Articles - FindArticles",
+      "snippet": "Welcome to the News Articles, your gateway to thousands of insights, reports, and stories published across a wide range of topics. This section serves as the archive and central access point for all articles available on FindArticles.com.\nOur coverage spans multiple areas of interest, ensuring that",
       "matchedWords": {
         "BqlDxZ8zo0u1": {
-          "hits": 4,
-          "textWords": 901
+          "hits": 0,
+          "textWords": 159
         },
         "Ns049Jua-ggi": {
-          "hits": 2,
-          "textWords": 901
+          "hits": 0,
+          "textWords": 159
         },
         "fO-Kc0hVd3wq": {
-          "hits": 3,
-          "textWords": 901
+          "hits": 0,
+          "textWords": 159
         },
         "rRlDqf1tPX7h": {
-          "hits": 1,
-          "textWords": 901
+          "hits": 0,
+          "textWords": 159
         }
-      }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "S4iCtdDZkUL4",
+      "address": "https://www.cnet.com/home/kitchen-and-household/best-dishwasher/",
+      "title": "Best Dishwashers of 2026: Top Models Compared - CNET",
+      "snippet": "auto-open door and a flexible racking system. Auto-open dishwashers improve airflow and the drying experience, plus you’ll always know when the wash cycle is complete. The three racks come with markers to show you which attachments are adjustable. The G 7216 SCU is also very quiet at 42 dBa, though",
+      "matchedWords": {
+        "BqlDxZ8zo0u1": {
+          "hits": 0,
+          "textWords": 6159
+        },
+        "Ns049Jua-ggi": {
+          "hits": 0,
+          "textWords": 6159
+        },
+        "fO-Kc0hVd3wq": {
+          "hits": 2,
+          "textWords": 6159
+        },
+        "rRlDqf1tPX7h": {
+          "hits": 0,
+          "textWords": 6159
+        }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "NmKs9lJDjf05",
@@ -988,7 +1203,8 @@
           "hits": 1,
           "textWords": 1505
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "Nd6lETPhOXO4",
@@ -1012,7 +1228,8 @@
           "hits": 2,
           "textWords": 27948
         }
-      }
+      },
+      "queryPhraseHits": 1
     },
     {
       "hash": "MaRThsRMLT-5",
@@ -1036,7 +1253,8 @@
           "hits": 0,
           "textWords": 574
         }
-      }
+      },
+      "queryPhraseHits": 9
     },
     {
       "hash": "MijQL0S6MKD4",
@@ -1060,55 +1278,8 @@
           "hits": 0,
           "textWords": 169
         }
-      }
-    },
-    {
-      "hash": "S8QXqtS6MKD4",
-      "address": "https://github.com/trending/shellcheck-config?since=daily",
-      "title": "Trending ShellCheck Config repositories on GitHub today · GitHub",
-      "snippet": "Trending\nSee what the GitHub community is most excited about today.\nRepositories Developers\nSpoken Language: Any\nSelect a spoken language\nAbkhazian Afar Afrikaans Akan Albanian Amharic Arabic Aragonese Armenian Assamese Avaric Avestan Aymara Azerbaijani Bambara Bashkir Basque Belarusian Bengali",
-      "matchedWords": {
-        "BqlDxZ8zo0u1": {
-          "hits": 0,
-          "textWords": 266
-        },
-        "Ns049Jua-ggi": {
-          "hits": 0,
-          "textWords": 266
-        },
-        "fO-Kc0hVd3wq": {
-          "hits": 0,
-          "textWords": 266
-        },
-        "rRlDqf1tPX7h": {
-          "hits": 0,
-          "textWords": 266
-        }
-      }
-    },
-    {
-      "hash": "TQ-0mtS6MKD4",
-      "address": "https://github.com/trending/unrealscript?since=daily",
-      "title": "Trending UnrealScript repositories on GitHub today · GitHub",
-      "snippet": "Trending\nSee what the GitHub community is most excited about today.\nRepositories Developers\nSpoken Language: Any\nSelect a spoken language\nAbkhazian Afar Afrikaans Akan Albanian Amharic Arabic Aragonese Armenian Assamese Avaric Avestan Aymara Azerbaijani Bambara Bashkir Basque Belarusian Bengali",
-      "matchedWords": {
-        "BqlDxZ8zo0u1": {
-          "hits": 0,
-          "textWords": 265
-        },
-        "Ns049Jua-ggi": {
-          "hits": 0,
-          "textWords": 265
-        },
-        "fO-Kc0hVd3wq": {
-          "hits": 0,
-          "textWords": 265
-        },
-        "rRlDqf1tPX7h": {
-          "hits": 0,
-          "textWords": 265
-        }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "QzjyllSCNQa4",
@@ -1132,7 +1303,8 @@
           "hits": 0,
           "textWords": 604
         }
-      }
+      },
+      "queryPhraseHits": 5
     },
     {
       "hash": "AWq9VQXx1HRZ",
@@ -1156,31 +1328,8 @@
           "hits": 0,
           "textWords": 35334
         }
-      }
-    },
-    {
-      "hash": "RGcTwQZchFfZ",
-      "address": "http://www.greenteethmm.com/health-saturated-fat.shtml",
-      "title": "saturated-fat-is-healthy-for-us-but-not-for-food-industry-profits",
-      "snippet": "Search Engine Operators, Social Media Networks and online marketplaces. So whatâ€™s the last thing we need corportions like Microsoft, Alphabel and Apple to do? Actually it is the very thing they are doing, which is to make the attacks easier,\nCan Bus Sized Lithium Ion Batteries Power Britain\nThe",
-      "matchedWords": {
-        "BqlDxZ8zo0u1": {
-          "hits": 8,
-          "textWords": 39329
-        },
-        "Ns049Jua-ggi": {
-          "hits": 5,
-          "textWords": 39329
-        },
-        "fO-Kc0hVd3wq": {
-          "hits": 13,
-          "textWords": 39329
-        },
-        "rRlDqf1tPX7h": {
-          "hits": 1,
-          "textWords": 39329
-        }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "Nq2X9JexqsOx",
@@ -1204,7 +1353,8 @@
           "hits": 1,
           "textWords": 2356
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "-b3sxspKNBr4",
@@ -1228,7 +1378,8 @@
           "hits": 24,
           "textWords": 85901
         }
-      }
+      },
+      "queryPhraseHits": 1
     },
     {
       "hash": "snZ3UTtKr25k",
@@ -1252,7 +1403,8 @@
           "hits": 0,
           "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "NGPbppv-bf35",
@@ -1276,7 +1428,8 @@
           "hits": 1,
           "textWords": 1359
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "NV-ZlZv-bf35",
@@ -1300,7 +1453,8 @@
           "hits": 0,
           "textWords": 1991
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "NhbP7Bv-bf35",
@@ -1324,7 +1478,8 @@
           "hits": 0,
           "textWords": 173
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "Pzkydzv-bf35",
@@ -1348,7 +1503,8 @@
           "hits": 0,
           "textWords": 991
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "P-mMSgv-bf35",
@@ -1372,7 +1528,8 @@
           "hits": 0,
           "textWords": 422
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "Ne3wpQZchFfZ",
@@ -1396,7 +1553,8 @@
           "hits": 1,
           "textWords": 28965
         }
-      }
+      },
+      "queryPhraseHits": 1
     },
     {
       "hash": "Jb4XHs5IzNm6",
@@ -1406,21 +1564,22 @@
       "matchedWords": {
         "BqlDxZ8zo0u1": {
           "hits": 1,
-          "textWords": 11095
+          "textWords": 11132
         },
         "Ns049Jua-ggi": {
           "hits": 1,
-          "textWords": 11095
+          "textWords": 11132
         },
         "fO-Kc0hVd3wq": {
           "hits": 18,
-          "textWords": 11095
+          "textWords": 11132
         },
         "rRlDqf1tPX7h": {
           "hits": 2,
-          "textWords": 11095
+          "textWords": 11132
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "QvExj17t2YV4",
@@ -1444,31 +1603,8 @@
           "hits": 1,
           "textWords": 1173
         }
-      }
-    },
-    {
-      "hash": "WS3SgL7t2YV4",
-      "address": "https://www.nvidia.com/en-us/ai-data-science/products/nim-microservices/",
-      "title": "NVIDIA NIM Microservices for Accelerated AI Inference | NVIDIA",
-      "snippet": "Open Models\nDeploy large language models (LLMs) supported by NVIDIA® TensorRT™-LLM, vLLM, or SGLang for low-latency, high-throughput inferencing on NVIDIA-accelerated infrastructure.\nFeatures\nThe Easy Button for AI Development and Deployment\nDesigned to run anywhere, NIM microservices expose",
-      "matchedWords": {
-        "BqlDxZ8zo0u1": {
-          "hits": 0,
-          "textWords": 1328
-        },
-        "Ns049Jua-ggi": {
-          "hits": 0,
-          "textWords": 1328
-        },
-        "fO-Kc0hVd3wq": {
-          "hits": 1,
-          "textWords": 1328
-        },
-        "rRlDqf1tPX7h": {
-          "hits": 1,
-          "textWords": 1328
-        }
-      }
+      },
+      "queryPhraseHits": 1
     },
     {
       "hash": "B1eHQs8BaC94",
@@ -1492,7 +1628,8 @@
           "hits": 4,
           "textWords": 1150
         }
-      }
+      },
+      "queryPhraseHits": 6
     },
     {
       "hash": "QRovkb8CAV45",
@@ -1516,31 +1653,33 @@
           "hits": 1,
           "textWords": 98823
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "fE4y5sGA_USx",
       "address": "https://warracket.net/",
       "title": "WAR RACKET - MAINSTREAM MEDIA, CORPORATE MEDIA, WARMONGERS, NEOCONS, DEEP STATE, NATO, NATIONAL SECURITY STATE, MILITARY-INDUSTRIAL-SECURITY-COMPLEX, WEAPONS MANUFACTURERS, NATO,",
-      "snippet": "",
+      "snippet": "engine of American foreign policy has been fueled not by a devotion to any kind of morality, but rather by the necessity to serve other imperatives, which can be summarized as follows: making the world safe for American corporations; enhancing the financial statements of defense contractors at home",
       "matchedWords": {
         "BqlDxZ8zo0u1": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 2,
+          "textWords": 63596
         },
         "Ns049Jua-ggi": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 3,
+          "textWords": 63596
         },
         "fO-Kc0hVd3wq": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 5,
+          "textWords": 63596
         },
         "rRlDqf1tPX7h": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 4,
+          "textWords": 63596
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "5KkuiGKlvN85",
@@ -1564,31 +1703,83 @@
           "hits": 2,
           "textWords": 4699
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
-      "hash": "SH9s9zTnALtw",
-      "address": "https://planet.gentoo.org/",
-      "title": "Planet Gentoo",
-      "snippet": "source: the flexibility. But a lot of it comes from the wider Gentoo philosophy, the philosophy that brought us all together. The idea that Gentoo is the distribution we’re making for ourselves and people who enjoy Gentoo. So if I were to make a few arguments for Gentoo, I’d focus on that. And this",
+      "hash": "LPB4lvOpC_C5",
+      "address": "https://www.sciencedaily.com/news/matter_energy/quantum_physics/",
+      "title": "Quantum Physics News -- ScienceDaily",
+      "snippet": "search for new physics in the universe much faster, slashing the need for expensive simulations. Yet the approach can backfire when AI relies too ...\nJune 15, 2026  Oxford physicists have created an entirely new type of Schrödinger’s cat-like quantum state using components that are themselves",
       "matchedWords": {
         "BqlDxZ8zo0u1": {
-          "hits": 0,
-          "textWords": 3218
+          "hits": 1,
+          "textWords": 1968
         },
         "Ns049Jua-ggi": {
-          "hits": 9,
-          "textWords": 3218
+          "hits": 1,
+          "textWords": 1968
         },
         "fO-Kc0hVd3wq": {
-          "hits": 0,
-          "textWords": 3218
+          "hits": 1,
+          "textWords": 1968
         },
         "rRlDqf1tPX7h": {
           "hits": 0,
-          "textWords": 3218
+          "textWords": 1968
         }
-      }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "JY72vjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Trusted_Platform_Module",
+      "title": "Trusted Platform Module - Wikipedia",
+      "snippet": "source code is available on GitHub.[46]\nIn 2018, Intel open-sourced its Trusted Platform Module 2.0 (TPM2) software stack with support for Linux and Microsoft Windows.[47] The source code is hosted on GitHub and licensed under BSD License.[48][49]\nInfineon funded the development of an open source",
+      "matchedWords": {
+        "BqlDxZ8zo0u1": {
+          "hits": 0,
+          "textWords": 7442
+        },
+        "Ns049Jua-ggi": {
+          "hits": 13,
+          "textWords": 7442
+        },
+        "fO-Kc0hVd3wq": {
+          "hits": 11,
+          "textWords": 7442
+        },
+        "rRlDqf1tPX7h": {
+          "hits": 2,
+          "textWords": 7442
+        }
+      },
+      "queryPhraseHits": 9
+    },
+    {
+      "hash": "7IIFujRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/United_Kingdom",
+      "title": "United Kingdom - Wikipedia",
+      "snippet": "engine manufacturing: 1.59 million engines were produced in 2024.[284] It was the world's third-largest exporter of engines by value in 2023.[286] The UK motorsport industry has an annual turnover of around £10 billion.[287] Seven of the eleven Formula One teams are based in the UK, with their",
+      "matchedWords": {
+        "BqlDxZ8zo0u1": {
+          "hits": 0,
+          "textWords": 31948
+        },
+        "Ns049Jua-ggi": {
+          "hits": 3,
+          "textWords": 31948
+        },
+        "fO-Kc0hVd3wq": {
+          "hits": 6,
+          "textWords": 31948
+        },
+        "rRlDqf1tPX7h": {
+          "hits": 1,
+          "textWords": 31948
+        }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "t2h4nQXx1HRZ",
@@ -1612,7 +1803,8 @@
           "hits": 2,
           "textWords": 32476
         }
-      }
+      },
+      "queryPhraseHits": 2
     },
     {
       "hash": "CyUYvsY-tUi5",
@@ -1636,7 +1828,8 @@
           "hits": 2,
           "textWords": 49441
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "MW69aQZchFfZ",
@@ -1660,7 +1853,8 @@
           "hits": 2,
           "textWords": 40231
         }
-      }
+      },
+      "queryPhraseHits": 1
     },
     {
       "hash": "Ne3wpQZchFfZ",
@@ -1684,79 +1878,8 @@
           "hits": 1,
           "textWords": 28965
         }
-      }
-    },
-    {
-      "hash": "SMdVHQZchFfZ",
-      "address": "http://www.greenteethmm.com/green-renewable-energy-delusion.shtml",
-      "title": "Debunked:-the-great-renewable-energy-green-delusion",
-      "snippet": "source of domestic heating is to be heat pumps. The Daily Stirrer counters the pseudo-scientific bollocks and reveals this 'new technology has been around for a hundred years.\nGreen dreams of Heat Pumps Continue reading \u003e\u003e\u003e\nWhen Boris Johnson revealed the UK Government plans for achieving 'net",
-      "matchedWords": {
-        "BqlDxZ8zo0u1": {
-          "hits": 1,
-          "textWords": 14104
-        },
-        "Ns049Jua-ggi": {
-          "hits": 4,
-          "textWords": 14104
-        },
-        "fO-Kc0hVd3wq": {
-          "hits": 1,
-          "textWords": 14104
-        },
-        "rRlDqf1tPX7h": {
-          "hits": 0,
-          "textWords": 14104
-        }
-      }
-    },
-    {
-      "hash": "Sc1t9QZchFfZ",
-      "address": "http://www.greenteethmm.com/gmo-corporate-lies.shtml",
-      "title": "daily-stirrer-ebola-virus-outbreak-natural-disaster-or-man-made-catastrophe-news-opinion-controversy",
-      "snippet": "source of domestic heating is to be heat pumps. The Daily Stirrer counters the pseudo-scientific bollocks and reveals this 'new technology has been around for a hundred years.\nGreen dreams of Heat Pumps Continue reading \u003e\u003e\u003e\nWhen Boris Johnson revealed the UK Government plans for achieving 'net",
-      "matchedWords": {
-        "BqlDxZ8zo0u1": {
-          "hits": 6,
-          "textWords": 24528
-        },
-        "Ns049Jua-ggi": {
-          "hits": 4,
-          "textWords": 24528
-        },
-        "fO-Kc0hVd3wq": {
-          "hits": 3,
-          "textWords": 24528
-        },
-        "rRlDqf1tPX7h": {
-          "hits": 0,
-          "textWords": 24528
-        }
-      }
-    },
-    {
-      "hash": "2uLc-sm1ohFp",
-      "address": "https://polrestoba.id/",
-      "title": "polrestoba.id",
-      "snippet": "",
-      "matchedWords": {
-        "BqlDxZ8zo0u1": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "Ns049Jua-ggi": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "fO-Kc0hVd3wq": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "rRlDqf1tPX7h": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
+      },
+      "queryPhraseHits": 1
     },
     {
       "hash": "-b3sxspKNBr4",
@@ -1780,7 +1903,8 @@
           "hits": 24,
           "textWords": 85901
         }
-      }
+      },
+      "queryPhraseHits": 1
     },
     {
       "hash": "XTPIBlptNsG4",
@@ -1804,7 +1928,8 @@
           "hits": 2,
           "textWords": 405419
         }
-      }
+      },
+      "queryPhraseHits": 1
     },
     {
       "hash": "snZ3UTtKr25k",
@@ -1828,7 +1953,8 @@
           "hits": 0,
           "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "Wfq3FswvoTD5",
@@ -1852,7 +1978,8 @@
           "hits": 0,
           "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "TKYymjGG7ou5",
@@ -1876,7 +2003,8 @@
           "hits": 0,
           "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "SOAt4sWMnAPx",
@@ -1900,7 +2028,8 @@
           "hits": 2,
           "textWords": 49580
         }
-      }
+      },
+      "queryPhraseHits": 22
     },
     {
       "hash": "OVvAkg2Rr_dw",
@@ -1924,7 +2053,8 @@
           "hits": 2,
           "textWords": 69
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "Jb4XHs5IzNm6",
@@ -1934,21 +2064,22 @@
       "matchedWords": {
         "BqlDxZ8zo0u1": {
           "hits": 1,
-          "textWords": 11095
+          "textWords": 11132
         },
         "Ns049Jua-ggi": {
           "hits": 1,
-          "textWords": 11095
+          "textWords": 11132
         },
         "fO-Kc0hVd3wq": {
           "hits": 18,
-          "textWords": 11095
+          "textWords": 11132
         },
         "rRlDqf1tPX7h": {
           "hits": 2,
-          "textWords": 11095
+          "textWords": 11132
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "QRovkb8CAV45",
@@ -1972,55 +2103,33 @@
           "hits": 1,
           "textWords": 98823
         }
-      }
-    },
-    {
-      "hash": "dv5_v78cRLz5",
-      "address": "https://www.afterdawn.com/glossary/term.cfm/android",
-      "title": "What means Android? - AfterDawn",
-      "snippet": "Open Handset Alliance, the smartphone OS is open-source, but the Android Open Source Project (AOSP) maintains and develops future wide release updates.\nAndroid's kernel is based on Linux, but middleware, libraries and APIs are written in C. Apps are written in Java-compatible libraries based on",
-      "matchedWords": {
-        "BqlDxZ8zo0u1": {
-          "hits": 4,
-          "textWords": 901
-        },
-        "Ns049Jua-ggi": {
-          "hits": 2,
-          "textWords": 901
-        },
-        "fO-Kc0hVd3wq": {
-          "hits": 3,
-          "textWords": 901
-        },
-        "rRlDqf1tPX7h": {
-          "hits": 1,
-          "textWords": 901
-        }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "fE4y5sGA_USx",
       "address": "https://warracket.net/",
       "title": "WAR RACKET - MAINSTREAM MEDIA, CORPORATE MEDIA, WARMONGERS, NEOCONS, DEEP STATE, NATO, NATIONAL SECURITY STATE, MILITARY-INDUSTRIAL-SECURITY-COMPLEX, WEAPONS MANUFACTURERS, NATO,",
-      "snippet": "",
+      "snippet": "engine of American foreign policy has been fueled not by a devotion to any kind of morality, but rather by the necessity to serve other imperatives, which can be summarized as follows: making the world safe for American corporations; enhancing the financial statements of defense contractors at home",
       "matchedWords": {
         "BqlDxZ8zo0u1": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 2,
+          "textWords": 63596
         },
         "Ns049Jua-ggi": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 3,
+          "textWords": 63596
         },
         "fO-Kc0hVd3wq": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 5,
+          "textWords": 63596
         },
         "rRlDqf1tPX7h": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 4,
+          "textWords": 63596
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "NmKs9lJDjf05",
@@ -2044,7 +2153,8 @@
           "hits": 1,
           "textWords": 1505
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "Nd6lETPhOXO4",
@@ -2068,7 +2178,8 @@
           "hits": 2,
           "textWords": 27948
         }
-      }
+      },
+      "queryPhraseHits": 1
     },
     {
       "hash": "MaRThsRMLT-5",
@@ -2092,7 +2203,8 @@
           "hits": 0,
           "textWords": 574
         }
-      }
+      },
+      "queryPhraseHits": 9
     },
     {
       "hash": "MijQL0S6MKD4",
@@ -2116,7 +2228,8 @@
           "hits": 0,
           "textWords": 169
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "MW69aQZchFfZ",
@@ -2140,7 +2253,8 @@
           "hits": 2,
           "textWords": 40231
         }
-      }
+      },
+      "queryPhraseHits": 1
     },
     {
       "hash": "Ne3wpQZchFfZ",
@@ -2164,7 +2278,8 @@
           "hits": 1,
           "textWords": 28965
         }
-      }
+      },
+      "queryPhraseHits": 1
     },
     {
       "hash": "Nq2X9JexqsOx",
@@ -2188,7 +2303,8 @@
           "hits": 1,
           "textWords": 2356
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "NGPbppv-bf35",
@@ -2212,7 +2328,8 @@
           "hits": 1,
           "textWords": 1359
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "NV-ZlZv-bf35",
@@ -2236,7 +2353,8 @@
           "hits": 0,
           "textWords": 1991
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "NhbP7Bv-bf35",
@@ -2260,7 +2378,8 @@
           "hits": 0,
           "textWords": 173
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "Pzkydzv-bf35",
@@ -2284,7 +2403,8 @@
           "hits": 0,
           "textWords": 991
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "P-mMSgv-bf35",
@@ -2308,7 +2428,8 @@
           "hits": 0,
           "textWords": 422
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "Wfq3FswvoTD5",
@@ -2332,7 +2453,8 @@
           "hits": 0,
           "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "PSeufkIRcMkY",
@@ -2356,31 +2478,133 @@
           "hits": 0,
           "textWords": 1484
         }
-      }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "MnvOKjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Portal:Free_and_open-source_software",
+      "title": "Portal:Free and open-source software - Wikipedia",
+      "snippet": "open-source software (FOSS) is software available under a license that gives users the right to use, share, modify, and distribute the software — modified or not — to everyone and provides the means to exercise those rights using the software's source code. FOSS is an inclusive umbrella term",
+      "matchedWords": {
+        "BqlDxZ8zo0u1": {
+          "hits": 0,
+          "textWords": 2738
+        },
+        "Ns049Jua-ggi": {
+          "hits": 38,
+          "textWords": 2738
+        },
+        "fO-Kc0hVd3wq": {
+          "hits": 35,
+          "textWords": 2738
+        },
+        "rRlDqf1tPX7h": {
+          "hits": 0,
+          "textWords": 2738
+        }
+      },
+      "queryPhraseHits": 32
+    },
+    {
+      "hash": "MuMGwjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Bill_Joy",
+      "title": "Bill Joy - Wikipedia",
+      "snippet": "Open Sources: Voices from the Open Source Revolution. O'Reilly.\n↑ Ashlee Vance,\"Bill Joy's greatest gift to man – the vi editor\" Archived 2014-06-03 at the Wayback Machine, The Register, September 11, 2003.\n↑ \"Eric Schmidt: At Berkeley, Bill Joy written and rewritten the kernel over a weekend. No",
+      "matchedWords": {
+        "BqlDxZ8zo0u1": {
+          "hits": 0,
+          "textWords": 1898
+        },
+        "Ns049Jua-ggi": {
+          "hits": 1,
+          "textWords": 1898
+        },
+        "fO-Kc0hVd3wq": {
+          "hits": 2,
+          "textWords": 1898
+        },
+        "rRlDqf1tPX7h": {
+          "hits": 0,
+          "textWords": 1898
+        }
+      },
+      "queryPhraseHits": 1
+    },
+    {
+      "hash": "Pgy2wjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Help:Multilingual_support_(Indic)",
+      "title": "Help:Multilingual support (Indic) - Wikipedia",
+      "snippet": "(search for \"Writing text in other languages\").\nMac OS 10.4 system software comes with two installable Keyboard input options for Tamil: Murasu Anjal and Tamilnet 99. One needs to do the following steps to activate them:\ni) Open \"international\" located within System Preferences and select",
+      "matchedWords": {
+        "BqlDxZ8zo0u1": {
+          "hits": 1,
+          "textWords": 4709
+        },
+        "Ns049Jua-ggi": {
+          "hits": 2,
+          "textWords": 4709
+        },
+        "fO-Kc0hVd3wq": {
+          "hits": 4,
+          "textWords": 4709
+        },
+        "rRlDqf1tPX7h": {
+          "hits": 1,
+          "textWords": 4709
+        }
+      },
+      "queryPhraseHits": 2
+    },
+    {
+      "hash": "Pi26bjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/List_of_emerging_technologies",
+      "title": "List of emerging technologies - Wikipedia",
+      "snippet": "open data, intelligent environment\nDigital scent technology\nDiffusion\nSmell-O-Vision, iSmell\nDNA digital data storage\nExperiments\nMass data storage\nElectronic nose\nResearch, limited commercialization[22][23]\nDetecting spoiled food, chemical weapons, and cancer\nEmerging memory technologies (T-RAM,",
+      "matchedWords": {
+        "BqlDxZ8zo0u1": {
+          "hits": 2,
+          "textWords": 7342
+        },
+        "Ns049Jua-ggi": {
+          "hits": 2,
+          "textWords": 7342
+        },
+        "fO-Kc0hVd3wq": {
+          "hits": 2,
+          "textWords": 7342
+        },
+        "rRlDqf1tPX7h": {
+          "hits": 3,
+          "textWords": 7342
+        }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "OIG5QtS6MKD4",
       "address": "https://github.com/trending/aspectj?since=daily",
       "title": "Trending AspectJ repositories on GitHub today · GitHub",
-      "snippet": "Trending\nSee what the GitHub community is most excited about today.\nRepositories Developers\nSpoken Language: Any\nSelect a spoken language\nAbkhazian Afar Afrikaans Akan Albanian Amharic Arabic Aragonese Armenian Assamese Avaric Avestan Aymara Azerbaijani Bambara Bashkir Basque Belarusian Bengali",
+      "snippet": "",
       "matchedWords": {
         "BqlDxZ8zo0u1": {
           "hits": 0,
-          "textWords": 265
+          "textWords": 0
         },
         "Ns049Jua-ggi": {
           "hits": 0,
-          "textWords": 265
+          "textWords": 0
         },
         "fO-Kc0hVd3wq": {
           "hits": 0,
-          "textWords": 265
+          "textWords": 0
         },
         "rRlDqf1tPX7h": {
           "hits": 0,
-          "textWords": 265
+          "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "NbVspsgbSIuz",
@@ -2404,7 +2628,8 @@
           "hits": 1,
           "textWords": 22704
         }
-      }
+      },
+      "queryPhraseHits": 1
     },
     {
       "hash": "Qw0Oas-RJCSj",
@@ -2428,7 +2653,8 @@
           "hits": 0,
           "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "Jb4XHs5IzNm6",
@@ -2438,21 +2664,22 @@
       "matchedWords": {
         "BqlDxZ8zo0u1": {
           "hits": 1,
-          "textWords": 11095
+          "textWords": 11132
         },
         "Ns049Jua-ggi": {
           "hits": 1,
-          "textWords": 11095
+          "textWords": 11132
         },
         "fO-Kc0hVd3wq": {
           "hits": 18,
-          "textWords": 11095
+          "textWords": 11132
         },
         "rRlDqf1tPX7h": {
           "hits": 2,
-          "textWords": 11095
+          "textWords": 11132
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "QvExj17t2YV4",
@@ -2476,55 +2703,58 @@
           "hits": 1,
           "textWords": 1173
         }
-      }
+      },
+      "queryPhraseHits": 1
     },
     {
-      "hash": "WS3SgL7t2YV4",
-      "address": "https://www.nvidia.com/en-us/ai-data-science/products/nim-microservices/",
-      "title": "NVIDIA NIM Microservices for Accelerated AI Inference | NVIDIA",
-      "snippet": "Open Models\nDeploy large language models (LLMs) supported by NVIDIA® TensorRT™-LLM, vLLM, or SGLang for low-latency, high-throughput inferencing on NVIDIA-accelerated infrastructure.\nFeatures\nThe Easy Button for AI Development and Deployment\nDesigned to run anywhere, NIM microservices expose",
+      "hash": "D1Hz8-DUniK4",
+      "address": "https://reason.com/2007/05/30/wikipedia-and-beyond/",
+      "title": "Wikipedia and Beyond",
+      "snippet": "search of \"this really great Indian place that's part of a motel,\" and wind up cruising for hours—stopping at Starbucks, hitting the mall, and generally duplicating the average day of millions of suburban teenagers. Wal-Marts and Olive Gardens slip past as Wales, often taciturn and abrupt in public",
       "matchedWords": {
         "BqlDxZ8zo0u1": {
-          "hits": 0,
-          "textWords": 1328
+          "hits": 10,
+          "textWords": 6565
         },
         "Ns049Jua-ggi": {
-          "hits": 0,
-          "textWords": 1328
+          "hits": 10,
+          "textWords": 6565
         },
         "fO-Kc0hVd3wq": {
-          "hits": 1,
-          "textWords": 1328
+          "hits": 12,
+          "textWords": 6565
         },
         "rRlDqf1tPX7h": {
-          "hits": 1,
-          "textWords": 1328
+          "hits": 2,
+          "textWords": 6565
         }
-      }
+      },
+      "queryPhraseHits": 9
     },
     {
       "hash": "fE4y5sGA_USx",
       "address": "https://warracket.net/",
       "title": "WAR RACKET - MAINSTREAM MEDIA, CORPORATE MEDIA, WARMONGERS, NEOCONS, DEEP STATE, NATO, NATIONAL SECURITY STATE, MILITARY-INDUSTRIAL-SECURITY-COMPLEX, WEAPONS MANUFACTURERS, NATO,",
-      "snippet": "",
+      "snippet": "engine of American foreign policy has been fueled not by a devotion to any kind of morality, but rather by the necessity to serve other imperatives, which can be summarized as follows: making the world safe for American corporations; enhancing the financial statements of defense contractors at home",
       "matchedWords": {
         "BqlDxZ8zo0u1": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 2,
+          "textWords": 63596
         },
         "Ns049Jua-ggi": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 3,
+          "textWords": 63596
         },
         "fO-Kc0hVd3wq": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 5,
+          "textWords": 63596
         },
         "rRlDqf1tPX7h": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 4,
+          "textWords": 63596
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "TKYymjGG7ou5",
@@ -2548,7 +2778,8 @@
           "hits": 0,
           "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "PSeufkIRcMkY",
@@ -2572,7 +2803,8 @@
           "hits": 0,
           "textWords": 1484
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "5KkuiGKlvN85",
@@ -2596,7 +2828,33 @@
           "hits": 2,
           "textWords": 4699
         }
-      }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "LPB4lvOpC_C5",
+      "address": "https://www.sciencedaily.com/news/matter_energy/quantum_physics/",
+      "title": "Quantum Physics News -- ScienceDaily",
+      "snippet": "search for new physics in the universe much faster, slashing the need for expensive simulations. Yet the approach can backfire when AI relies too ...\nJune 15, 2026  Oxford physicists have created an entirely new type of Schrödinger’s cat-like quantum state using components that are themselves",
+      "matchedWords": {
+        "BqlDxZ8zo0u1": {
+          "hits": 1,
+          "textWords": 1968
+        },
+        "Ns049Jua-ggi": {
+          "hits": 1,
+          "textWords": 1968
+        },
+        "fO-Kc0hVd3wq": {
+          "hits": 1,
+          "textWords": 1968
+        },
+        "rRlDqf1tPX7h": {
+          "hits": 0,
+          "textWords": 1968
+        }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "153XgsQ2H1F4",
@@ -2620,7 +2878,8 @@
           "hits": 0,
           "textWords": 846
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "MaRThsRMLT-5",
@@ -2644,7 +2903,33 @@
           "hits": 0,
           "textWords": 574
         }
-      }
+      },
+      "queryPhraseHits": 9
+    },
+    {
+      "hash": "JY72vjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Trusted_Platform_Module",
+      "title": "Trusted Platform Module - Wikipedia",
+      "snippet": "source code is available on GitHub.[46]\nIn 2018, Intel open-sourced its Trusted Platform Module 2.0 (TPM2) software stack with support for Linux and Microsoft Windows.[47] The source code is hosted on GitHub and licensed under BSD License.[48][49]\nInfineon funded the development of an open source",
+      "matchedWords": {
+        "BqlDxZ8zo0u1": {
+          "hits": 0,
+          "textWords": 7442
+        },
+        "Ns049Jua-ggi": {
+          "hits": 13,
+          "textWords": 7442
+        },
+        "fO-Kc0hVd3wq": {
+          "hits": 11,
+          "textWords": 7442
+        },
+        "rRlDqf1tPX7h": {
+          "hits": 2,
+          "textWords": 7442
+        }
+      },
+      "queryPhraseHits": 9
     },
     {
       "hash": "QdW-xjRvmBbx",
@@ -2668,7 +2953,8 @@
           "hits": 5,
           "textWords": 15807
         }
-      }
+      },
+      "queryPhraseHits": 55
     },
     {
       "hash": "MijQL0S6MKD4",
@@ -2692,31 +2978,33 @@
           "hits": 0,
           "textWords": 169
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "OIG5QtS6MKD4",
       "address": "https://github.com/trending/aspectj?since=daily",
       "title": "Trending AspectJ repositories on GitHub today · GitHub",
-      "snippet": "Trending\nSee what the GitHub community is most excited about today.\nRepositories Developers\nSpoken Language: Any\nSelect a spoken language\nAbkhazian Afar Afrikaans Akan Albanian Amharic Arabic Aragonese Armenian Assamese Avaric Avestan Aymara Azerbaijani Bambara Bashkir Basque Belarusian Bengali",
+      "snippet": "",
       "matchedWords": {
         "BqlDxZ8zo0u1": {
           "hits": 0,
-          "textWords": 265
+          "textWords": 0
         },
         "Ns049Jua-ggi": {
           "hits": 0,
-          "textWords": 265
+          "textWords": 0
         },
         "fO-Kc0hVd3wq": {
           "hits": 0,
-          "textWords": 265
+          "textWords": 0
         },
         "rRlDqf1tPX7h": {
           "hits": 0,
-          "textWords": 265
+          "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "QEdRQsS6MKD4",
@@ -2740,7 +3028,8 @@
           "hits": 0,
           "textWords": 266
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "QYijntS6MKD4",
@@ -2764,55 +3053,8 @@
           "hits": 0,
           "textWords": 266
         }
-      }
-    },
-    {
-      "hash": "S8QXqtS6MKD4",
-      "address": "https://github.com/trending/shellcheck-config?since=daily",
-      "title": "Trending ShellCheck Config repositories on GitHub today · GitHub",
-      "snippet": "Trending\nSee what the GitHub community is most excited about today.\nRepositories Developers\nSpoken Language: Any\nSelect a spoken language\nAbkhazian Afar Afrikaans Akan Albanian Amharic Arabic Aragonese Armenian Assamese Avaric Avestan Aymara Azerbaijani Bambara Bashkir Basque Belarusian Bengali",
-      "matchedWords": {
-        "BqlDxZ8zo0u1": {
-          "hits": 0,
-          "textWords": 266
-        },
-        "Ns049Jua-ggi": {
-          "hits": 0,
-          "textWords": 266
-        },
-        "fO-Kc0hVd3wq": {
-          "hits": 0,
-          "textWords": 266
-        },
-        "rRlDqf1tPX7h": {
-          "hits": 0,
-          "textWords": 266
-        }
-      }
-    },
-    {
-      "hash": "TQ-0mtS6MKD4",
-      "address": "https://github.com/trending/unrealscript?since=daily",
-      "title": "Trending UnrealScript repositories on GitHub today · GitHub",
-      "snippet": "Trending\nSee what the GitHub community is most excited about today.\nRepositories Developers\nSpoken Language: Any\nSelect a spoken language\nAbkhazian Afar Afrikaans Akan Albanian Amharic Arabic Aragonese Armenian Assamese Avaric Avestan Aymara Azerbaijani Bambara Bashkir Basque Belarusian Bengali",
-      "matchedWords": {
-        "BqlDxZ8zo0u1": {
-          "hits": 0,
-          "textWords": 265
-        },
-        "Ns049Jua-ggi": {
-          "hits": 0,
-          "textWords": 265
-        },
-        "fO-Kc0hVd3wq": {
-          "hits": 0,
-          "textWords": 265
-        },
-        "rRlDqf1tPX7h": {
-          "hits": 0,
-          "textWords": 265
-        }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "QzjyllSCNQa4",
@@ -2836,79 +3078,8 @@
           "hits": 0,
           "textWords": 604
         }
-      }
-    },
-    {
-      "hash": "SH9s9zTnALtw",
-      "address": "https://planet.gentoo.org/",
-      "title": "Planet Gentoo",
-      "snippet": "source: the flexibility. But a lot of it comes from the wider Gentoo philosophy, the philosophy that brought us all together. The idea that Gentoo is the distribution we’re making for ourselves and people who enjoy Gentoo. So if I were to make a few arguments for Gentoo, I’d focus on that. And this",
-      "matchedWords": {
-        "BqlDxZ8zo0u1": {
-          "hits": 0,
-          "textWords": 3218
-        },
-        "Ns049Jua-ggi": {
-          "hits": 9,
-          "textWords": 3218
-        },
-        "fO-Kc0hVd3wq": {
-          "hits": 0,
-          "textWords": 3218
-        },
-        "rRlDqf1tPX7h": {
-          "hits": 0,
-          "textWords": 3218
-        }
-      }
-    },
-    {
-      "hash": "Sse-kmVUrQm6",
-      "address": "https://earthnewspaper.com/mark-r-elsis/one-hundred-years-ago-today-by-mark-r-elsis/",
-      "title": "One Hundred Years Ago Today by Mark R. Elsis – EarthNewspaper.com – All The Honest News Fit To Publish",
-      "snippet": "",
-      "matchedWords": {
-        "BqlDxZ8zo0u1": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "Ns049Jua-ggi": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "fO-Kc0hVd3wq": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "rRlDqf1tPX7h": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "Tm8vbiVUrQm6",
-      "address": "https://earthnewspaper.com/2022-news/24-7-news-october-2022/",
-      "title": "24/7 News October 2022 – EarthNewspaper.com – All The Honest News Fit To Publish",
-      "snippet": "",
-      "matchedWords": {
-        "BqlDxZ8zo0u1": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "Ns049Jua-ggi": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "fO-Kc0hVd3wq": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "rRlDqf1tPX7h": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
+      },
+      "queryPhraseHits": 5
     },
     {
       "hash": "SOAt4sWMnAPx",
@@ -2932,7 +3103,8 @@
           "hits": 2,
           "textWords": 49580
         }
-      }
+      },
+      "queryPhraseHits": 22
     },
     {
       "hash": "t2h4nQXx1HRZ",
@@ -2956,7 +3128,8 @@
           "hits": 2,
           "textWords": 32476
         }
-      }
+      },
+      "queryPhraseHits": 2
     },
     {
       "hash": "CyUYvsY-tUi5",
@@ -2980,7 +3153,8 @@
           "hits": 2,
           "textWords": 49441
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "MW69aQZchFfZ",
@@ -3004,7 +3178,8 @@
           "hits": 2,
           "textWords": 40231
         }
-      }
+      },
+      "queryPhraseHits": 1
     },
     {
       "hash": "Qve1qQZchFfZ",
@@ -3028,79 +3203,8 @@
           "hits": 0,
           "textWords": 13922
         }
-      }
-    },
-    {
-      "hash": "RGcTwQZchFfZ",
-      "address": "http://www.greenteethmm.com/health-saturated-fat.shtml",
-      "title": "saturated-fat-is-healthy-for-us-but-not-for-food-industry-profits",
-      "snippet": "Search Engine Operators, Social Media Networks and online marketplaces. So whatâ€™s the last thing we need corportions like Microsoft, Alphabel and Apple to do? Actually it is the very thing they are doing, which is to make the attacks easier,\nCan Bus Sized Lithium Ion Batteries Power Britain\nThe",
-      "matchedWords": {
-        "BqlDxZ8zo0u1": {
-          "hits": 8,
-          "textWords": 39329
-        },
-        "Ns049Jua-ggi": {
-          "hits": 5,
-          "textWords": 39329
-        },
-        "fO-Kc0hVd3wq": {
-          "hits": 13,
-          "textWords": 39329
-        },
-        "rRlDqf1tPX7h": {
-          "hits": 1,
-          "textWords": 39329
-        }
-      }
-    },
-    {
-      "hash": "SMdVHQZchFfZ",
-      "address": "http://www.greenteethmm.com/green-renewable-energy-delusion.shtml",
-      "title": "Debunked:-the-great-renewable-energy-green-delusion",
-      "snippet": "source of domestic heating is to be heat pumps. The Daily Stirrer counters the pseudo-scientific bollocks and reveals this 'new technology has been around for a hundred years.\nGreen dreams of Heat Pumps Continue reading \u003e\u003e\u003e\nWhen Boris Johnson revealed the UK Government plans for achieving 'net",
-      "matchedWords": {
-        "BqlDxZ8zo0u1": {
-          "hits": 1,
-          "textWords": 14104
-        },
-        "Ns049Jua-ggi": {
-          "hits": 4,
-          "textWords": 14104
-        },
-        "fO-Kc0hVd3wq": {
-          "hits": 1,
-          "textWords": 14104
-        },
-        "rRlDqf1tPX7h": {
-          "hits": 0,
-          "textWords": 14104
-        }
-      }
-    },
-    {
-      "hash": "Sc1t9QZchFfZ",
-      "address": "http://www.greenteethmm.com/gmo-corporate-lies.shtml",
-      "title": "",
-      "snippet": "source of domestic heating is to be heat pumps. The Daily Stirrer counters the pseudo-scientific bollocks and reveals this 'new technology has been around for a hundred years.\nGreen dreams of Heat Pumps Continue reading \u003e\u003e\u003e\nWhen Boris Johnson revealed the UK Government plans for achieving 'net",
-      "matchedWords": {
-        "BqlDxZ8zo0u1": {
-          "hits": 6,
-          "textWords": 24528
-        },
-        "Ns049Jua-ggi": {
-          "hits": 4,
-          "textWords": 24528
-        },
-        "fO-Kc0hVd3wq": {
-          "hits": 3,
-          "textWords": 24528
-        },
-        "rRlDqf1tPX7h": {
-          "hits": 0,
-          "textWords": 24528
-        }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "NbVspsgbSIuz",
@@ -3124,31 +3228,8 @@
           "hits": 1,
           "textWords": 22704
         }
-      }
-    },
-    {
-      "hash": "2uLc-sm1ohFp",
-      "address": "https://polrestoba.id/",
-      "title": "polrestoba.id",
-      "snippet": "",
-      "matchedWords": {
-        "BqlDxZ8zo0u1": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "Ns049Jua-ggi": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "fO-Kc0hVd3wq": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "rRlDqf1tPX7h": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
+      },
+      "queryPhraseHits": 1
     },
     {
       "hash": "snZ3UTtKr25k",
@@ -3172,7 +3253,8 @@
           "hits": 0,
           "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "Wfq3FswvoTD5",
@@ -3196,7 +3278,8 @@
           "hits": 0,
           "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "B1eHQs8BaC94",
@@ -3220,7 +3303,158 @@
           "hits": 4,
           "textWords": 1150
         }
-      }
+      },
+      "queryPhraseHits": 6
+    },
+    {
+      "hash": "sgghmlAUKsO5",
+      "address": "https://www.findarticles.com/news/",
+      "title": "News Articles - FindArticles",
+      "snippet": "Welcome to the News Articles, your gateway to thousands of insights, reports, and stories published across a wide range of topics. This section serves as the archive and central access point for all articles available on FindArticles.com.\nOur coverage spans multiple areas of interest, ensuring that",
+      "matchedWords": {
+        "BqlDxZ8zo0u1": {
+          "hits": 0,
+          "textWords": 159
+        },
+        "Ns049Jua-ggi": {
+          "hits": 0,
+          "textWords": 159
+        },
+        "fO-Kc0hVd3wq": {
+          "hits": 0,
+          "textWords": 159
+        },
+        "rRlDqf1tPX7h": {
+          "hits": 0,
+          "textWords": 159
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "RVKYi2DZkUL4",
+      "address": "https://www.cnet.com/deals/best-streaming-service-deals/",
+      "title": "Every Streaming Service You Want Is on Sale Right Now. Here's How to Pay Less for All of Them - CNET",
+      "snippet": "Bundles, student discounts and annual plan savings can let you keep watching without overspending.\nOUR EXPERT\nAaron is a writer for the streaming entertainment team.… Read full bio\nArticle updated on August 31, 2026, 7:59 am EDT\nINSIDE CNET LABS\n25+\nYears of Experience\n23\nProduct Reviewers\n15k",
+      "matchedWords": {
+        "BqlDxZ8zo0u1": {
+          "hits": 0,
+          "textWords": 1293
+        },
+        "Ns049Jua-ggi": {
+          "hits": 0,
+          "textWords": 1293
+        },
+        "fO-Kc0hVd3wq": {
+          "hits": 0,
+          "textWords": 1293
+        },
+        "rRlDqf1tPX7h": {
+          "hits": 0,
+          "textWords": 1293
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "S4iCtdDZkUL4",
+      "address": "https://www.cnet.com/home/kitchen-and-household/best-dishwasher/",
+      "title": "Best Dishwashers of 2026: Top Models Compared - CNET",
+      "snippet": "auto-open door and a flexible racking system. Auto-open dishwashers improve airflow and the drying experience, plus you’ll always know when the wash cycle is complete. The three racks come with markers to show you which attachments are adjustable. The G 7216 SCU is also very quiet at 42 dBa, though",
+      "matchedWords": {
+        "BqlDxZ8zo0u1": {
+          "hits": 0,
+          "textWords": 6159
+        },
+        "Ns049Jua-ggi": {
+          "hits": 0,
+          "textWords": 6159
+        },
+        "fO-Kc0hVd3wq": {
+          "hits": 2,
+          "textWords": 6159
+        },
+        "rRlDqf1tPX7h": {
+          "hits": 0,
+          "textWords": 6159
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "MnvOKjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Portal:Free_and_open-source_software",
+      "title": "Portal:Free and open-source software - Wikipedia",
+      "snippet": "open-source software (FOSS) is software available under a license that gives users the right to use, share, modify, and distribute the software — modified or not — to everyone and provides the means to exercise those rights using the software's source code. FOSS is an inclusive umbrella term",
+      "matchedWords": {
+        "BqlDxZ8zo0u1": {
+          "hits": 0,
+          "textWords": 2738
+        },
+        "Ns049Jua-ggi": {
+          "hits": 38,
+          "textWords": 2738
+        },
+        "fO-Kc0hVd3wq": {
+          "hits": 35,
+          "textWords": 2738
+        },
+        "rRlDqf1tPX7h": {
+          "hits": 0,
+          "textWords": 2738
+        }
+      },
+      "queryPhraseHits": 32
+    },
+    {
+      "hash": "S4tXZjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Wikisource",
+      "title": "Wikisource - Wikipedia",
+      "snippet": "source documents, not vanity products. Verification was initially made offline, or by trusting the reliability of other digital libraries. Now works are supported by online scans via the ProofreadPage extension, which ensures the reliability and accuracy of the project's texts.\nSome individual",
+      "matchedWords": {
+        "BqlDxZ8zo0u1": {
+          "hits": 0,
+          "textWords": 3132
+        },
+        "Ns049Jua-ggi": {
+          "hits": 5,
+          "textWords": 3132
+        },
+        "fO-Kc0hVd3wq": {
+          "hits": 1,
+          "textWords": 3132
+        },
+        "rRlDqf1tPX7h": {
+          "hits": 0,
+          "textWords": 3132
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "7IIFujRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/United_Kingdom",
+      "title": "United Kingdom - Wikipedia",
+      "snippet": "engine manufacturing: 1.59 million engines were produced in 2024.[284] It was the world's third-largest exporter of engines by value in 2023.[286] The UK motorsport industry has an annual turnover of around £10 billion.[287] Seven of the eleven Formula One teams are based in the UK, with their",
+      "matchedWords": {
+        "BqlDxZ8zo0u1": {
+          "hits": 0,
+          "textWords": 31948
+        },
+        "Ns049Jua-ggi": {
+          "hits": 3,
+          "textWords": 31948
+        },
+        "fO-Kc0hVd3wq": {
+          "hits": 6,
+          "textWords": 31948
+        },
+        "rRlDqf1tPX7h": {
+          "hits": 1,
+          "textWords": 31948
+        }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "AWq9VQXx1HRZ",
@@ -3244,7 +3478,8 @@
           "hits": 0,
           "textWords": 35334
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "-b3sxspKNBr4",
@@ -3268,7 +3503,8 @@
           "hits": 24,
           "textWords": 85901
         }
-      }
+      },
+      "queryPhraseHits": 1
     },
     {
       "hash": "XTPIBlptNsG4",
@@ -3292,7 +3528,8 @@
           "hits": 2,
           "textWords": 405419
         }
-      }
+      },
+      "queryPhraseHits": 1
     },
     {
       "hash": "B1eHQs8BaC94",
@@ -3316,7 +3553,8 @@
           "hits": 4,
           "textWords": 1150
         }
-      }
+      },
+      "queryPhraseHits": 6
     },
     {
       "hash": "5KkuiGKlvN85",
@@ -3340,7 +3578,8 @@
           "hits": 2,
           "textWords": 4699
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "QdW-xjRvmBbx",
@@ -3364,31 +3603,8 @@
           "hits": 5,
           "textWords": 15807
         }
-      }
-    },
-    {
-      "hash": "L0ypptS6MKD4",
-      "address": "https://github.com/trending/llvm?since=daily",
-      "title": "Trending LLVM repositories on GitHub today · GitHub",
-      "snippet": "",
-      "matchedWords": {
-        "BqlDxZ8zo0u1": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "Ns049Jua-ggi": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "fO-Kc0hVd3wq": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "rRlDqf1tPX7h": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
+      },
+      "queryPhraseHits": 55
     },
     {
       "hash": "AWq9VQXx1HRZ",
@@ -3412,7 +3628,8 @@
           "hits": 0,
           "textWords": 35334
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "MW69aQZchFfZ",
@@ -3436,7 +3653,8 @@
           "hits": 2,
           "textWords": 40231
         }
-      }
+      },
+      "queryPhraseHits": 1
     },
     {
       "hash": "-b3sxspKNBr4",
@@ -3460,7 +3678,8 @@
           "hits": 24,
           "textWords": 85901
         }
-      }
+      },
+      "queryPhraseHits": 1
     },
     {
       "hash": "XTPIBlptNsG4",
@@ -3484,7 +3703,8 @@
           "hits": 2,
           "textWords": 405419
         }
-      }
+      },
+      "queryPhraseHits": 1
     },
     {
       "hash": "Wfq3FswvoTD5",
@@ -3508,31 +3728,8 @@
           "hits": 0,
           "textWords": 0
         }
-      }
-    },
-    {
-      "hash": "Jb4XHs5IzNm6",
-      "address": "https://citizenfreepress.com/",
-      "title": "CITIZEN FREE PRESS",
-      "snippet": "Open AI simply made up testimony.\nAOC and Mamdani show zero respect.\nWatch Live | Charlie Kirk show.\nSecret code hidden in Great Pyramids may reveal true purpose.\nLSU will not be punished.\nAI computer virus could (easily) hack one billion user accounts on WeChat.\nGutfeld loses friend to cold",
-      "matchedWords": {
-        "BqlDxZ8zo0u1": {
-          "hits": 1,
-          "textWords": 11095
-        },
-        "Ns049Jua-ggi": {
-          "hits": 1,
-          "textWords": 11095
-        },
-        "fO-Kc0hVd3wq": {
-          "hits": 18,
-          "textWords": 11095
-        },
-        "rRlDqf1tPX7h": {
-          "hits": 2,
-          "textWords": 11095
-        }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "Qw0Oas-RJCSj",
@@ -3556,7 +3753,8 @@
           "hits": 0,
           "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "QRovkb8CAV45",
@@ -3580,7 +3778,58 @@
           "hits": 1,
           "textWords": 98823
         }
-      }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "RVKYi2DZkUL4",
+      "address": "https://www.cnet.com/deals/best-streaming-service-deals/",
+      "title": "Best Streaming Service Deals: Savings on Hulu, Disney Plus and More - CNET",
+      "snippet": "Bundles, student discounts and annual plan savings can let you keep watching without overspending.\nOUR EXPERT\nAaron is a writer for the streaming entertainment team.… Read full bio\nArticle updated on August 31, 2026, 7:59 am EDT\nINSIDE CNET LABS\n25+\nYears of Experience\n23\nProduct Reviewers\n15k",
+      "matchedWords": {
+        "BqlDxZ8zo0u1": {
+          "hits": 0,
+          "textWords": 1293
+        },
+        "Ns049Jua-ggi": {
+          "hits": 0,
+          "textWords": 1293
+        },
+        "fO-Kc0hVd3wq": {
+          "hits": 0,
+          "textWords": 1293
+        },
+        "rRlDqf1tPX7h": {
+          "hits": 0,
+          "textWords": 1293
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "S4iCtdDZkUL4",
+      "address": "https://www.cnet.com/home/kitchen-and-household/best-dishwasher/",
+      "title": "Best Dishwashers of 2025 - CNET",
+      "snippet": "auto-open door and a flexible racking system. Auto-open dishwashers improve airflow and the drying experience, plus you’ll always know when the wash cycle is complete. The three racks come with markers to show you which attachments are adjustable. The G 7216 SCU is also very quiet at 42 dBa, though",
+      "matchedWords": {
+        "BqlDxZ8zo0u1": {
+          "hits": 0,
+          "textWords": 6159
+        },
+        "Ns049Jua-ggi": {
+          "hits": 0,
+          "textWords": 6159
+        },
+        "fO-Kc0hVd3wq": {
+          "hits": 2,
+          "textWords": 6159
+        },
+        "rRlDqf1tPX7h": {
+          "hits": 0,
+          "textWords": 6159
+        }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "TKYymjGG7ou5",
@@ -3604,7 +3853,8 @@
           "hits": 0,
           "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "QdW-xjRvmBbx",
@@ -3628,7 +3878,33 @@
           "hits": 5,
           "textWords": 15807
         }
-      }
+      },
+      "queryPhraseHits": 55
+    },
+    {
+      "hash": "S4tXZjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Wikisource",
+      "title": "Wikisource - Wikipedia",
+      "snippet": "source documents, not vanity products. Verification was initially made offline, or by trusting the reliability of other digital libraries. Now works are supported by online scans via the ProofreadPage extension, which ensures the reliability and accuracy of the project's texts.\nSome individual",
+      "matchedWords": {
+        "BqlDxZ8zo0u1": {
+          "hits": 0,
+          "textWords": 3132
+        },
+        "Ns049Jua-ggi": {
+          "hits": 5,
+          "textWords": 3132
+        },
+        "fO-Kc0hVd3wq": {
+          "hits": 1,
+          "textWords": 3132
+        },
+        "rRlDqf1tPX7h": {
+          "hits": 0,
+          "textWords": 3132
+        }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "QEdRQsS6MKD4",
@@ -3652,7 +3928,8 @@
           "hits": 0,
           "textWords": 266
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "QYijntS6MKD4",
@@ -3676,55 +3953,8 @@
           "hits": 0,
           "textWords": 266
         }
-      }
-    },
-    {
-      "hash": "S8QXqtS6MKD4",
-      "address": "https://github.com/trending/shellcheck-config?since=daily",
-      "title": "Trending ShellCheck Config repositories on GitHub today · GitHub",
-      "snippet": "Trending\nSee what the GitHub community is most excited about today.\nRepositories Developers\nSpoken Language: Any\nSelect a spoken language\nAbkhazian Afar Afrikaans Akan Albanian Amharic Arabic Aragonese Armenian Assamese Avaric Avestan Aymara Azerbaijani Bambara Bashkir Basque Belarusian Bengali",
-      "matchedWords": {
-        "BqlDxZ8zo0u1": {
-          "hits": 0,
-          "textWords": 266
-        },
-        "Ns049Jua-ggi": {
-          "hits": 0,
-          "textWords": 266
-        },
-        "fO-Kc0hVd3wq": {
-          "hits": 0,
-          "textWords": 266
-        },
-        "rRlDqf1tPX7h": {
-          "hits": 0,
-          "textWords": 266
-        }
-      }
-    },
-    {
-      "hash": "TQ-0mtS6MKD4",
-      "address": "https://github.com/trending/unrealscript?since=daily",
-      "title": "Trending UnrealScript repositories on GitHub today · GitHub",
-      "snippet": "Trending\nSee what the GitHub community is most excited about today.\nRepositories Developers\nSpoken Language: Any\nSelect a spoken language\nAbkhazian Afar Afrikaans Akan Albanian Amharic Arabic Aragonese Armenian Assamese Avaric Avestan Aymara Azerbaijani Bambara Bashkir Basque Belarusian Bengali",
-      "matchedWords": {
-        "BqlDxZ8zo0u1": {
-          "hits": 0,
-          "textWords": 265
-        },
-        "Ns049Jua-ggi": {
-          "hits": 0,
-          "textWords": 265
-        },
-        "fO-Kc0hVd3wq": {
-          "hits": 0,
-          "textWords": 265
-        },
-        "rRlDqf1tPX7h": {
-          "hits": 0,
-          "textWords": 265
-        }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "QzjyllSCNQa4",
@@ -3748,79 +3978,8 @@
           "hits": 0,
           "textWords": 604
         }
-      }
-    },
-    {
-      "hash": "SH9s9zTnALtw",
-      "address": "https://planet.gentoo.org/",
-      "title": "Planet Gentoo",
-      "snippet": "source: the flexibility. But a lot of it comes from the wider Gentoo philosophy, the philosophy that brought us all together. The idea that Gentoo is the distribution we’re making for ourselves and people who enjoy Gentoo. So if I were to make a few arguments for Gentoo, I’d focus on that. And this",
-      "matchedWords": {
-        "BqlDxZ8zo0u1": {
-          "hits": 0,
-          "textWords": 3218
-        },
-        "Ns049Jua-ggi": {
-          "hits": 9,
-          "textWords": 3218
-        },
-        "fO-Kc0hVd3wq": {
-          "hits": 0,
-          "textWords": 3218
-        },
-        "rRlDqf1tPX7h": {
-          "hits": 0,
-          "textWords": 3218
-        }
-      }
-    },
-    {
-      "hash": "Sse-kmVUrQm6",
-      "address": "https://earthnewspaper.com/mark-r-elsis/one-hundred-years-ago-today-by-mark-r-elsis/",
-      "title": "One Hundred Years Ago Today by Mark R. Elsis – EarthNewspaper.com – All The Honest News Fit To Publish",
-      "snippet": "",
-      "matchedWords": {
-        "BqlDxZ8zo0u1": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "Ns049Jua-ggi": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "fO-Kc0hVd3wq": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "rRlDqf1tPX7h": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "Tm8vbiVUrQm6",
-      "address": "https://earthnewspaper.com/2022-news/24-7-news-october-2022/",
-      "title": "24/7 News October 2022 – EarthNewspaper.com – All The Honest News Fit To Publish",
-      "snippet": "",
-      "matchedWords": {
-        "BqlDxZ8zo0u1": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "Ns049Jua-ggi": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "fO-Kc0hVd3wq": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "rRlDqf1tPX7h": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
+      },
+      "queryPhraseHits": 5
     },
     {
       "hash": "SOAt4sWMnAPx",
@@ -3844,7 +4003,8 @@
           "hits": 2,
           "textWords": 49580
         }
-      }
+      },
+      "queryPhraseHits": 22
     },
     {
       "hash": "Qve1qQZchFfZ",
@@ -3868,85 +4028,14 @@
           "hits": 0,
           "textWords": 13922
         }
-      }
-    },
-    {
-      "hash": "RGcTwQZchFfZ",
-      "address": "http://www.greenteethmm.com/health-saturated-fat.shtml",
-      "title": "saturated-fat-is-healthy-for-us-but-not-for-food-industry-profits",
-      "snippet": "Search Engine Operators, Social Media Networks and online marketplaces. So whatâ€™s the last thing we need corportions like Microsoft, Alphabel and Apple to do? Actually it is the very thing they are doing, which is to make the attacks easier,\nCan Bus Sized Lithium Ion Batteries Power Britain\nThe",
-      "matchedWords": {
-        "BqlDxZ8zo0u1": {
-          "hits": 8,
-          "textWords": 39329
-        },
-        "Ns049Jua-ggi": {
-          "hits": 5,
-          "textWords": 39329
-        },
-        "fO-Kc0hVd3wq": {
-          "hits": 13,
-          "textWords": 39329
-        },
-        "rRlDqf1tPX7h": {
-          "hits": 1,
-          "textWords": 39329
-        }
-      }
-    },
-    {
-      "hash": "SMdVHQZchFfZ",
-      "address": "http://www.greenteethmm.com/green-renewable-energy-delusion.shtml",
-      "title": "Debunked:-the-great-renewable-energy-green-delusion",
-      "snippet": "source of domestic heating is to be heat pumps. The Daily Stirrer counters the pseudo-scientific bollocks and reveals this 'new technology has been around for a hundred years.\nGreen dreams of Heat Pumps Continue reading \u003e\u003e\u003e\nWhen Boris Johnson revealed the UK Government plans for achieving 'net",
-      "matchedWords": {
-        "BqlDxZ8zo0u1": {
-          "hits": 1,
-          "textWords": 14104
-        },
-        "Ns049Jua-ggi": {
-          "hits": 4,
-          "textWords": 14104
-        },
-        "fO-Kc0hVd3wq": {
-          "hits": 1,
-          "textWords": 14104
-        },
-        "rRlDqf1tPX7h": {
-          "hits": 0,
-          "textWords": 14104
-        }
-      }
-    },
-    {
-      "hash": "Sc1t9QZchFfZ",
-      "address": "http://www.greenteethmm.com/gmo-corporate-lies.shtml",
-      "title": "",
-      "snippet": "source of domestic heating is to be heat pumps. The Daily Stirrer counters the pseudo-scientific bollocks and reveals this 'new technology has been around for a hundred years.\nGreen dreams of Heat Pumps Continue reading \u003e\u003e\u003e\nWhen Boris Johnson revealed the UK Government plans for achieving 'net",
-      "matchedWords": {
-        "BqlDxZ8zo0u1": {
-          "hits": 6,
-          "textWords": 24528
-        },
-        "Ns049Jua-ggi": {
-          "hits": 4,
-          "textWords": 24528
-        },
-        "fO-Kc0hVd3wq": {
-          "hits": 3,
-          "textWords": 24528
-        },
-        "rRlDqf1tPX7h": {
-          "hits": 0,
-          "textWords": 24528
-        }
-      }
+      },
+      "queryPhraseHits": 0
     }
   ],
   "documentsHeldPerQueryWord": {
-    "BqlDxZ8zo0u1": 101605,
-    "Ns049Jua-ggi": 57390,
-    "fO-Kc0hVd3wq": 92194,
-    "rRlDqf1tPX7h": 20403
+    "BqlDxZ8zo0u1": 80475,
+    "Ns049Jua-ggi": 428731,
+    "fO-Kc0hVd3wq": 93614,
+    "rRlDqf1tPX7h": 20991
   }
 }

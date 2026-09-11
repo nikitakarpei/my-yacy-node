@@ -1,49 +1,28 @@
 {
   "query": "static site generator",
-  "recordedAt": "2026-09-11T21:01:51Z",
+  "recordedAt": "2026-09-11T22:14:23Z",
   "itemsInTheOrderOfEachAnswer": [
     [
       {
-        "hash": "xr6iDzS6MKD4",
-        "address": "https://github.com/awesome-selfhosted/awesome-selfhosted",
-        "title": "GitHub - awesome-selfhosted/awesome-selfhosted: A list of Free Software network services and web applications which can be hosted on your own servers",
-        "snippet": "_static\n_static\nLICENSE\nLICENSE\nREADME.md\nREADME.md\nnon-free.md\nnon-free.md\nRepository files navigation\nREADME\nLicense\nLoading\nAbout\nA list of Free Software network services and web applications which can be hosted on your own servers\nawesome-selfhosted.net/\nTopics",
+        "hash": "D4lABzaS0qdw",
+        "address": "https://planet.debian.org/",
+        "title": "Planet Debian",
+        "snippet": "generator code definitely is higher-level than hand-written assembly, it is still too close to assembly for my taste.\nUse a C library via cgo so gcc or clang compiles SIMD code. Debian Code Search used to use the powturbo/TurboPFor C library via cgo for the last 7 years.\nThe C TurboPFor library has",
         "matchedWords": {
           "2sljCuxkKkKM": {
-            "hits": 0,
-            "textWords": 89
+            "hits": 1,
+            "textWords": 8109
           },
           "mN79bucN-x3q": {
             "hits": 0,
-            "textWords": 89
-          },
-          "qBJZzvjpWcYk": {
-            "hits": 2,
-            "textWords": 89
-          }
-        }
-      }
-    ],
-    [
-      {
-        "hash": "WGR29lBxf4j5",
-        "address": "https://www.education.com/",
-        "title": "Education.com | #1 Educational Site for Pre-K to 8th Grade",
-        "snippet": "Did you receive a login code from your child's teacher? Enter it here.\nFall into learning\nExplore 40,000+ teacher-created worksheets, hands-on activities, and learning games that build real skills!\nJoin for free\nOur learning library\nWith thousands of digital and printable resources, find the best",
-        "matchedWords": {
-          "2sljCuxkKkKM": {
-            "hits": 0,
-            "textWords": 374
-          },
-          "mN79bucN-x3q": {
-            "hits": 0,
-            "textWords": 374
+            "textWords": 8109
           },
           "qBJZzvjpWcYk": {
             "hits": 0,
-            "textWords": 374
+            "textWords": 8109
           }
-        }
+        },
+        "queryPhraseHits": 0
       }
     ],
     [
@@ -65,29 +44,8 @@
             "hits": 5,
             "textWords": 1435
           }
-        }
-      }
-    ],
-    [
-      {
-        "hash": "Eno3yUXJd_Y4",
-        "address": "https://number-base.utils.com/",
-        "title": "Number Base Converter - Binary, Octal, Decimal, Hex \u0026 Custom Bases - utils.com",
-        "snippet": "site as a widget. Adding ?embed=1 to the URL loads a compact version with just the tool itself; no header, menu, or documentation. Paste this snippet into your HTML:\nCopy snippet Adjust the height to taste.\nFeedback\nHelp us improve this page by providing feedback, and include your name/email if you",
-        "matchedWords": {
-          "2sljCuxkKkKM": {
-            "hits": 0,
-            "textWords": 338
-          },
-          "mN79bucN-x3q": {
-            "hits": 1,
-            "textWords": 338
-          },
-          "qBJZzvjpWcYk": {
-            "hits": 0,
-            "textWords": 338
-          }
-        }
+        },
+        "queryPhraseHits": 0
       }
     ],
     [
@@ -109,7 +67,8 @@
             "hits": 0,
             "textWords": 115
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
         "hash": "NTKSIW8dlWJ4",
@@ -129,51 +88,35 @@
             "hits": 0,
             "textWords": 331
           }
-        }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "qcSF2cuStRZ4",
+        "address": "https://mock-data.utils.com/",
+        "title": "Mock Data Generator (JSON) - Generate Fake Test Data - utils.com",
+        "snippet": "Generator parses your JSON schema definition and produces realistic fake data entirely in your browser — no data is sent to any server.\nSchema-driven — define your data shape as a JSON object where values are type strings like \"email\", \"integer\", \"boolean\"\nNested structures — supports objects",
+        "matchedWords": {
+          "2sljCuxkKkKM": {
+            "hits": 1,
+            "textWords": 245
+          },
+          "mN79bucN-x3q": {
+            "hits": 1,
+            "textWords": 245
+          },
+          "qBJZzvjpWcYk": {
+            "hits": 0,
+            "textWords": 245
+          }
+        },
+        "queryPhraseHits": 0
       }
     ]
   ],
   "itemsInNoOrder": [
-    {
-      "hash": "55ME6U-HjMJ4",
-      "address": "https://v-tree-fractal.utils.com/",
-      "title": "V-tree Fractal Generator - utils.com",
-      "snippet": "site as a widget. Adding ?embed=1 to the URL loads a compact version with just the tool itself; no header, menu, or documentation. Paste this snippet into your HTML:\nCopy snippet Adjust the height to taste.",
-      "matchedWords": {
-        "2sljCuxkKkKM": {
-          "hits": 0,
-          "textWords": 165
-        },
-        "mN79bucN-x3q": {
-          "hits": 1,
-          "textWords": 165
-        },
-        "qBJZzvjpWcYk": {
-          "hits": 0,
-          "textWords": 165
-        }
-      }
-    },
-    {
-      "hash": "3B2CgF3-2Qa4",
-      "address": "https://www.mlex.com/mlex/data-privacy-security",
-      "title": "Data Privacy and Security | MLex | Specialist news and analysis on legal risk and regulation",
-      "snippet": "Editor's Picks\nUS FTC to propose changes on judicial procedures to speed up antitrust suits\nAntitrust enforcement in the US is too slow, and the US Federal Trade Commission hopes to remedy that by proposing changes to judicial procedures so that monopoliza... (more story)\nUsers knew ads were",
-      "matchedWords": {
-        "2sljCuxkKkKM": {
-          "hits": 0,
-          "textWords": 948
-        },
-        "mN79bucN-x3q": {
-          "hits": 0,
-          "textWords": 948
-        },
-        "qBJZzvjpWcYk": {
-          "hits": 0,
-          "textWords": 948
-        }
-      }
-    },
     {
       "hash": "3W4e5v5tsb14",
       "address": "https://dice.utils.com/",
@@ -192,27 +135,29 @@
           "hits": 0,
           "textWords": 249
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
-      "hash": "9fwXeJ6Fa3B4",
-      "address": "https://word-search.utils.com/",
-      "title": "Word Search Generator - Make Word Search Puzzles - utils.com",
+      "hash": "J5vXHJ6WgPx4",
+      "address": "https://photo-collage.utils.com/",
+      "title": "Photo Collage Maker - utils.com",
       "snippet": "site as a widget. Adding ?embed=1 to the URL loads a compact version with just the tool itself; no header, menu, or documentation. Paste this snippet into your HTML:\nCopy snippet Adjust the height to taste.",
       "matchedWords": {
         "2sljCuxkKkKM": {
           "hits": 0,
-          "textWords": 282
+          "textWords": 99
         },
         "mN79bucN-x3q": {
           "hits": 1,
-          "textWords": 282
+          "textWords": 99
         },
         "qBJZzvjpWcYk": {
           "hits": 0,
-          "textWords": 282
+          "textWords": 99
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "3VSN_c78Gvl4",
@@ -232,7 +177,8 @@
           "hits": 0,
           "textWords": 276
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "1-QsU57a4V54",
@@ -252,47 +198,50 @@
           "hits": 0,
           "textWords": 131
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
-      "hash": "G6J__LC5MPg4",
-      "address": "https://timer.utils.com/",
-      "title": "Timer - Countdown Timer \u0026 Multiple Named Countdowns - utils.com",
-      "snippet": "site as a widget. Adding ?embed=1 to the URL loads a compact version with just the tool itself; no header, menu, or documentation. Paste this snippet into your HTML:\nCopy snippet Adjust the height to taste.\nFeedback\nHelp us improve this page by providing feedback, and include your name/email if you",
+      "hash": "wZ76cwANgP24",
+      "address": "https://graphql.utils.com/",
+      "title": "GraphQL Query Formatter - utils.com",
+      "snippet": "site as a widget. Adding ?embed=1 to the URL loads a compact version with just the tool itself; no header, menu, or documentation. Paste this snippet into your HTML:\nCopy snippet Adjust the height to taste.",
       "matchedWords": {
         "2sljCuxkKkKM": {
           "hits": 0,
-          "textWords": 258
+          "textWords": 129
         },
         "mN79bucN-x3q": {
           "hits": 1,
-          "textWords": 258
+          "textWords": 129
         },
         "qBJZzvjpWcYk": {
           "hits": 0,
-          "textWords": 258
+          "textWords": 129
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
-      "hash": "6wW-NkDjRAD5",
-      "address": "https://globalecologylab.r-universe.dev/poems",
-      "title": "poems: Pattern-Oriented Ensemble Modeling System",
-      "snippet": "site:https://globalecologylab.github.io\nDatasets:\ntasmania_ibra_data - Thylacine vignette Tasmania IBRA data\ntasmania_ibra_raster - Thylacine vignette Tasmania IBRA raster\ntasmania_modifier - Tasmania land-use modifier raster\ntasmania_raster - Thylacine vignette Tasmania raster",
+      "hash": "Pnt3hXDST-C4",
+      "address": "https://name-meaning.utils.com/",
+      "title": "Name Meaning Lookup - Discover Your Name's Origin - utils.com",
+      "snippet": "site as a widget. Adding ?embed=1 to the URL loads a compact version with just the tool itself; no header, menu, or documentation. Paste this snippet into your HTML:\nCopy snippet Adjust the height to taste.",
       "matchedWords": {
         "2sljCuxkKkKM": {
           "hits": 0,
-          "textWords": 440
+          "textWords": 101
         },
         "mN79bucN-x3q": {
           "hits": 1,
-          "textWords": 440
+          "textWords": 101
         },
         "qBJZzvjpWcYk": {
           "hits": 0,
-          "textWords": 440
+          "textWords": 101
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "W-eXqzF3--Qw",
@@ -312,7 +261,8 @@
           "hits": 4,
           "textWords": 66162
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "-TgwyzLgvhd4",
@@ -332,27 +282,8 @@
           "hits": 0,
           "textWords": 207
         }
-      }
-    },
-    {
-      "hash": "6Mv0-jNAXlu4",
-      "address": "https://www.zscaler.com/blogs/security-research/back-black-basta",
-      "title": "Back in Black... Basta | Zscaler",
-      "snippet": "static-based antivirus detection and behavioral-based EDR detection. This blog focuses on these recent changes to BlackBasta. Since the current BlackBasta codebase is quite different from the original, ThreatLabz refers to this new version as BlackBasta 2.0.\nTechnical Analysis\nThe following",
-      "matchedWords": {
-        "2sljCuxkKkKM": {
-          "hits": 1,
-          "textWords": 1514
-        },
-        "mN79bucN-x3q": {
-          "hits": 0,
-          "textWords": 1514
-        },
-        "qBJZzvjpWcYk": {
-          "hits": 2,
-          "textWords": 1514
-        }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "3VHCVsOEIUyr",
@@ -372,7 +303,50 @@
           "hits": 0,
           "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "Ht7EIjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Pathological_science",
+      "title": "Pathological science - Wikipedia",
+      "snippet": "site of Kenneth Steiglitz, Professor of Computer Science, Princeton University. But see also: I. Langmuir, \"Pathological Science\", General Electric, (Distribution Unit, Bldg. 5, Room 345, Research and Development Center, P.O. Box 8, Schenectady, NY 12301), 68-C-035 (1968); I. Langmuir,",
+      "matchedWords": {
+        "2sljCuxkKkKM": {
+          "hits": 1,
+          "textWords": 2029
+        },
+        "mN79bucN-x3q": {
+          "hits": 1,
+          "textWords": 2029
+        },
+        "qBJZzvjpWcYk": {
+          "hits": 0,
+          "textWords": 2029
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "PxWhyjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Michael_Chabon",
+      "title": "Michael Chabon - Wikipedia",
+      "snippet": "generator.\"[59] In a 2017 radio interview, Chabon spoke of Trump: \"Every morning I wake up and in the seconds before I turn my phone on to see what the latest news is, I have this boundless sense of optimism and hope that this is the day that he's going to have a massive stroke, and, you know, be",
+      "matchedWords": {
+        "2sljCuxkKkKM": {
+          "hits": 2,
+          "textWords": 8865
+        },
+        "mN79bucN-x3q": {
+          "hits": 1,
+          "textWords": 8865
+        },
+        "qBJZzvjpWcYk": {
+          "hits": 0,
+          "textWords": 8865
+        }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "1AhYvjRvmBbx",
@@ -392,7 +366,8 @@
           "hits": 1,
           "textWords": 576
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "8IbirxSUv9O4",
@@ -412,47 +387,8 @@
           "hits": 0,
           "textWords": 242
         }
-      }
-    },
-    {
-      "hash": "uaEnGzTwnifx",
-      "address": "https://planet.wordpress.org/",
-      "title": "Planet — WordPress.org",
-      "snippet": "site and whatever begins.\nAnd then about two years ago, actually almost exactly two years ago, I joined the devrel team as a developer advocate, became a senior developer advocate. Now I’m a senior manager, developer relations. So I’m leading the developer relations team. And yeah, really love",
-      "matchedWords": {
-        "2sljCuxkKkKM": {
-          "hits": 0,
-          "textWords": 9047
-        },
-        "mN79bucN-x3q": {
-          "hits": 5,
-          "textWords": 9047
-        },
-        "qBJZzvjpWcYk": {
-          "hits": 0,
-          "textWords": 9047
-        }
-      }
-    },
-    {
-      "hash": "AbHi_QUUuPp4",
-      "address": "https://about.gitlab.com/solutions/visibility-measurement/",
-      "title": "Visibility and measurement for software delivery",
-      "snippet": "static site generator with GitLab.\nWiki\nA built-in wiki in each project makes it easy to share and manage documentation in the same project as your code.\nPortfolio Management\nManage complex initiatives using epics, boards, roadmaps, milestones, and more within the platform where your teams create",
-      "matchedWords": {
-        "2sljCuxkKkKM": {
-          "hits": 1,
-          "textWords": 708
-        },
-        "mN79bucN-x3q": {
-          "hits": 1,
-          "textWords": 708
-        },
-        "qBJZzvjpWcYk": {
-          "hits": 1,
-          "textWords": 708
-        }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "90BnaIV5WAV4",
@@ -472,27 +408,8 @@
           "hits": 0,
           "textWords": 259
         }
-      }
-    },
-    {
-      "hash": "7h6t5iWXAW04",
-      "address": "https://chakra.utils.com/",
-      "title": "Chakra Calculator - utils.com",
-      "snippet": "site as a widget. Adding ?embed=1 to the URL loads a compact version with just the tool itself; no header, menu, or documentation. Paste this snippet into your HTML:\nCopy snippet Adjust the height to taste.",
-      "matchedWords": {
-        "2sljCuxkKkKM": {
-          "hits": 0,
-          "textWords": 276
-        },
-        "mN79bucN-x3q": {
-          "hits": 1,
-          "textWords": 276
-        },
-        "qBJZzvjpWcYk": {
-          "hits": 0,
-          "textWords": 276
-        }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "37rEhlXEa2U7",
@@ -512,27 +429,8 @@
           "hits": 1,
           "textWords": 2589
         }
-      }
-    },
-    {
-      "hash": "7KrNQsZJ0nm5",
-      "address": "https://cashpot-rom.com/",
-      "title": "Cashpot Casino - Bonus de Bun Venit - Joacă Acum",
-      "snippet": "generator de numere aleatorii (RNG) testat independent pentru a garanta integritatea matematică a rezultatelor. Volatilitatea sloturilor variază de la nivel scăzut pentru experiențe de joc prelungite cu câștiguri consistente, până la volatilitate înaltă pentru jucătorii care preferă riscuri",
-      "matchedWords": {
-        "2sljCuxkKkKM": {
-          "hits": 1,
-          "textWords": 861
-        },
-        "mN79bucN-x3q": {
-          "hits": 0,
-          "textWords": 861
-        },
-        "qBJZzvjpWcYk": {
-          "hits": 0,
-          "textWords": 861
-        }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "R8207vZN_n44",
@@ -552,7 +450,8 @@
           "hits": 0,
           "textWords": 297
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "0WNN-QZchFfZ",
@@ -572,27 +471,8 @@
           "hits": 0,
           "textWords": 39329
         }
-      }
-    },
-    {
-      "hash": "8-HcYQZchFfZ",
-      "address": "http://www.greenteethmm.com/economics-academics-confidence.shtml",
-      "title": "things-that-make-you-boggle-like-the-misplaced-confidence-of-economics-academics-daily-stirrer-dailystirrer",
-      "snippet": "site Watts Up With That?\nWhen Governments Play GOD: The TRUTH About GLOBAL GEOENGINEERING\nAfter a personal admission that he 'went soft' on the elitist malfeasance, misinformation and power grabbing which poses a much greater threat to civilisation than any pandemic, climate event or political coup",
-      "matchedWords": {
-        "2sljCuxkKkKM": {
-          "hits": 2,
-          "textWords": 39329
-        },
-        "mN79bucN-x3q": {
-          "hits": 3,
-          "textWords": 39329
-        },
-        "qBJZzvjpWcYk": {
-          "hits": 0,
-          "textWords": 39329
-        }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "2KRnL3_H_FE4",
@@ -612,47 +492,8 @@
           "hits": 0,
           "textWords": 208
         }
-      }
-    },
-    {
-      "hash": "Sc8s9s_tHst4",
-      "address": "https://dwheeler.com/trusting-trust/",
-      "title": "Fully Countering Trusting Trust through Diverse Double-Compiling (DDC) - Countering Trojan Horse attacks on Compilers",
-      "snippet": "generator, as long as you give the user control over the random number generator seed (gcc, for example, has a command line option for setting the seed). For example, on a Unix/Linux system, you should be able to do this:\n$ mycompiler input.c # Compile, store result in \"a.out\". $ mv a.out",
-      "matchedWords": {
-        "2sljCuxkKkKM": {
-          "hits": 3,
-          "textWords": 13349
-        },
-        "mN79bucN-x3q": {
-          "hits": 6,
-          "textWords": 13349
-        },
-        "qBJZzvjpWcYk": {
-          "hits": 3,
-          "textWords": 13349
-        }
-      }
-    },
-    {
-      "hash": "63I6Ls_wtFF6",
-      "address": "https://casinos-madison.com/",
-      "title": "Madison Casino België - Actuele Bonus en Gratis Spins",
-      "snippet": "Generator). Dit garandeert een eerlijk spelverloop bij elke ronde, ongeacht de uitkomst van eerdere rondes.\nLive Dealer Ervaring\nDe live dealer omgeving van Madison Casino brengt de sfeer van een fysiek casino rechtstreeks naar het scherm van de speler. Via een live videoverbinding speelt men tegen",
-      "matchedWords": {
-        "2sljCuxkKkKM": {
-          "hits": 1,
-          "textWords": 2888
-        },
-        "mN79bucN-x3q": {
-          "hits": 0,
-          "textWords": 2888
-        },
-        "qBJZzvjpWcYk": {
-          "hits": 0,
-          "textWords": 2888
-        }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "3pTHoFaJaYn4",
@@ -672,7 +513,8 @@
           "hits": 0,
           "textWords": 313
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "2Ftqi-dt_Eq4",
@@ -692,7 +534,8 @@
           "hits": 0,
           "textWords": 332
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "XOrKy_fC8ci4",
@@ -712,7 +555,8 @@
           "hits": 0,
           "textWords": 354
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "473ZV3j8ty25",
@@ -732,27 +576,8 @@
           "hits": 0,
           "textWords": 268
         }
-      }
-    },
-    {
-      "hash": "GdgOJakzTsY4",
-      "address": "https://seed-starting.utils.com/",
-      "title": "Seed Starting Date Planner - Indoor Sowing \u0026 Transplant Schedule - utils.com",
-      "snippet": "site as a widget. Adding ?embed=1 to the URL loads a compact version with just the tool itself; no header, menu, or documentation. Paste this snippet into your HTML:\nCopy snippet Adjust the height to taste.\nFeedback\nHelp us improve this page by providing feedback, and include your name/email if you",
-      "matchedWords": {
-        "2sljCuxkKkKM": {
-          "hits": 0,
-          "textWords": 458
-        },
-        "mN79bucN-x3q": {
-          "hits": 1,
-          "textWords": 458
-        },
-        "qBJZzvjpWcYk": {
-          "hits": 0,
-          "textWords": 458
-        }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "27YjU-l5W2aw",
@@ -772,27 +597,8 @@
           "hits": 1,
           "textWords": 12842
         }
-      }
-    },
-    {
-      "hash": "s_ZG42mJy1A4",
-      "address": "https://html-beautifier.utils.com/",
-      "title": "HTML Formatter \u0026 Beautifier - utils.com",
-      "snippet": "site as a widget. Adding ?embed=1 to the URL loads a compact version with just the tool itself; no header, menu, or documentation. Paste this snippet into your HTML:\nCopy snippet Adjust the height to taste.",
-      "matchedWords": {
-        "2sljCuxkKkKM": {
-          "hits": 0,
-          "textWords": 123
-        },
-        "mN79bucN-x3q": {
-          "hits": 1,
-          "textWords": 123
-        },
-        "qBJZzvjpWcYk": {
-          "hits": 0,
-          "textWords": 123
-        }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "3psEPsmm7zO4",
@@ -812,7 +618,8 @@
           "hits": 0,
           "textWords": 178
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "1NXJsso37LG5",
@@ -832,27 +639,8 @@
           "hits": 1,
           "textWords": 74143
         }
-      }
-    },
-    {
-      "hash": "6Bl23focrUS4",
-      "address": "https://torque.utils.com/",
-      "title": "Torque Calculator - utils.com",
-      "snippet": "site as a widget. Adding ?embed=1 to the URL loads a compact version with just the tool itself; no header, menu, or documentation. Paste this snippet into your HTML:\nCopy snippet Adjust the height to taste.",
-      "matchedWords": {
-        "2sljCuxkKkKM": {
-          "hits": 0,
-          "textWords": 170
-        },
-        "mN79bucN-x3q": {
-          "hits": 1,
-          "textWords": 170
-        },
-        "qBJZzvjpWcYk": {
-          "hits": 0,
-          "textWords": 170
-        }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "yACttgpAOyN4",
@@ -872,27 +660,8 @@
           "hits": 0,
           "textWords": 394
         }
-      }
-    },
-    {
-      "hash": "YcD6vlqNc9o6",
-      "address": "https://www.dragonflycave.com/free-quiz-scripts/",
-      "title": "Free Quiz Scripts | The Cave of Dragonflies",
-      "snippet": "site, and now I've been working on incorporating more HTML. Eventually I'd love to switch to something like Neocities so I can custom-build everything (and get away from an external corporation I don't like).\nThank you so much for sharing these resources with not just the Pokemon community, but the",
-      "matchedWords": {
-        "2sljCuxkKkKM": {
-          "hits": 0,
-          "textWords": 4775
-        },
-        "mN79bucN-x3q": {
-          "hits": 1,
-          "textWords": 4775
-        },
-        "qBJZzvjpWcYk": {
-          "hits": 0,
-          "textWords": 4775
-        }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "2l6TFFrjxi75",
@@ -912,7 +681,8 @@
           "hits": 0,
           "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "SRhTBGsGtf35",
@@ -932,67 +702,29 @@
           "hits": 0,
           "textWords": 207
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
-      "hash": "7cbWE6slk3J5",
-      "address": "https://mlverse.r-universe.dev/luz",
-      "title": "luz: Higher Level 'API' for 'torch'",
-      "snippet": "A high level interface for 'torch' providing utilities to reduce the the amount of code needed for common tasks, abstract away torch details and make the same code work on both the 'CPU' and 'GPU'. It's flexible enough to support expressing a large range of models. It's heavily inspired by 'fastai'",
+      "hash": "NaTYVmt1TcC4",
+      "address": "https://seating-randomizer.utils.com/",
+      "title": "Seating Randomizer - Random Classroom Seating Chart - utils.com",
+      "snippet": "Enter your student names, add a few constraints such as keep two students apart, keep a pair together, or pin someone to the front row, then generate a randomised classroom seating chart you can print. Everything runs in your browser and nothing is uploaded.\nThe tool lays out a grid of seats — row",
       "matchedWords": {
         "2sljCuxkKkKM": {
           "hits": 0,
-          "textWords": 93
+          "textWords": 210
         },
         "mN79bucN-x3q": {
           "hits": 0,
-          "textWords": 93
+          "textWords": 210
         },
         "qBJZzvjpWcYk": {
           "hits": 0,
-          "textWords": 93
+          "textWords": 210
         }
-      }
-    },
-    {
-      "hash": "USBFisswCB74",
-      "address": "https://video-add-audio.utils.com/",
-      "title": "Add Audio to Video - utils.com",
-      "snippet": "site as a widget. Adding ?embed=1 to the URL loads a compact version with just the tool itself; no header, menu, or documentation. Paste this snippet into your HTML:\nCopy snippet Adjust the height to taste.",
-      "matchedWords": {
-        "2sljCuxkKkKM": {
-          "hits": 0,
-          "textWords": 88
-        },
-        "mN79bucN-x3q": {
-          "hits": 1,
-          "textWords": 88
-        },
-        "qBJZzvjpWcYk": {
-          "hits": 0,
-          "textWords": 88
-        }
-      }
-    },
-    {
-      "hash": "qcSF2cuStRZ4",
-      "address": "https://mock-data.utils.com/",
-      "title": "Mock Data Generator (JSON) - Generate Fake Test Data - utils.com",
-      "snippet": "Generator parses your JSON schema definition and produces realistic fake data entirely in your browser — no data is sent to any server.\nSchema-driven — define your data shape as a JSON object where values are type strings like \"email\", \"integer\", \"boolean\"\nNested structures — supports objects",
-      "matchedWords": {
-        "2sljCuxkKkKM": {
-          "hits": 1,
-          "textWords": 245
-        },
-        "mN79bucN-x3q": {
-          "hits": 1,
-          "textWords": 245
-        },
-        "qBJZzvjpWcYk": {
-          "hits": 0,
-          "textWords": 245
-        }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "SyTY5cwVyE75",
@@ -1012,7 +744,8 @@
           "hits": 0,
           "textWords": 736
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "Wfq3FswvoTD5",
@@ -1032,87 +765,71 @@
           "hits": 0,
           "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "2Cx8oXy0Nnu4",
       "address": "https://text-diff.utils.com/",
       "title": "Text Diff/Compare - utils.com",
-      "snippet": "",
+      "snippet": "site as a widget. Adding ?embed=1 to the URL loads a compact version with just the tool itself; no header, menu, or documentation. Paste this snippet into your HTML:\nCopy snippet Adjust the height to taste.",
       "matchedWords": {
         "2sljCuxkKkKM": {
           "hits": 0,
-          "textWords": 0
+          "textWords": 98
         },
         "mN79bucN-x3q": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 1,
+          "textWords": 98
         },
         "qBJZzvjpWcYk": {
           "hits": 0,
-          "textWords": 0
+          "textWords": 98
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "3MpRl1yWZfW4",
       "address": "https://length.utils.com/",
       "title": "Length Converter - utils.com",
-      "snippet": "",
+      "snippet": "site as a widget. Adding ?embed=1 to the URL loads a compact version with just the tool itself; no header, menu, or documentation. Paste this snippet into your HTML:\nCopy snippet Adjust the height to taste.",
       "matchedWords": {
         "2sljCuxkKkKM": {
           "hits": 0,
-          "textWords": 0
+          "textWords": 229
         },
         "mN79bucN-x3q": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 1,
+          "textWords": 229
         },
         "qBJZzvjpWcYk": {
           "hits": 0,
-          "textWords": 0
+          "textWords": 229
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "4BscpczPKxY5",
       "address": "https://great-northern-diver.r-universe.dev/loon",
       "title": "loon: Interactive Statistical Data Visualization",
-      "snippet": "",
+      "snippet": "generator for creating color palettesloon_paletteCreate a grob glyph from a loon widgetloonGlyphGrobCreate a graph object of class loongraphloongraphCreate a grid grob from a loon widget handleloonGrob loonGrob.l_compound loonGrob.l_layer_graph loonGrob.l_layer_histogram",
       "matchedWords": {
         "2sljCuxkKkKM": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 1,
+          "textWords": 2225
         },
         "mN79bucN-x3q": {
           "hits": 0,
-          "textWords": 0
+          "textWords": 2225
         },
         "qBJZzvjpWcYk": {
           "hits": 0,
-          "textWords": 0
+          "textWords": 2225
         }
-      }
-    },
-    {
-      "hash": "MAC3Gs6GdY-4",
-      "address": "https://danluu.com/web-bloat/",
-      "title": "How web bloat impacts users with slow connections",
-      "snippet": "",
-      "matchedWords": {
-        "2sljCuxkKkKM": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "mN79bucN-x3q": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "qBJZzvjpWcYk": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "R8207vZN_n44",
@@ -1132,407 +849,29 @@
           "hits": 0,
           "textWords": 297
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
-      "hash": "MAC3Gs6GdY-4",
-      "address": "https://danluu.com/web-bloat/",
-      "title": "How web bloat impacts users with slow connections",
-      "snippet": "",
+      "hash": "CYZstjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Go_(programming_language)",
+      "title": "Go (programming language) - Wikipedia",
+      "snippet": "static, strong,[8] structural,[9][10] nominal\nMemory management\nGarbage collection\nImplementation language\nGo, Assembly language (gc); C++ (gofrontend)\nOS\nDragonFly BSD, FreeBSD, Linux, macOS, NetBSD, OpenBSD,[11] Plan 9,[12] Solaris, Windows\nLicense\n3-clause BSD[13] + patent grant[14]\nFilename",
       "matchedWords": {
         "2sljCuxkKkKM": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "mN79bucN-x3q": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "qBJZzvjpWcYk": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "9fwXeJ6Fa3B4",
-      "address": "https://word-search.utils.com/",
-      "title": "Word Search Generator - Make Word Search Puzzles - utils.com",
-      "snippet": "site as a widget. Adding ?embed=1 to the URL loads a compact version with just the tool itself; no header, menu, or documentation. Paste this snippet into your HTML:\nCopy snippet Adjust the height to taste.",
-      "matchedWords": {
-        "2sljCuxkKkKM": {
-          "hits": 0,
-          "textWords": 282
-        },
-        "mN79bucN-x3q": {
           "hits": 1,
-          "textWords": 282
-        },
-        "qBJZzvjpWcYk": {
-          "hits": 0,
-          "textWords": 282
-        }
-      }
-    },
-    {
-      "hash": "G6J__LC5MPg4",
-      "address": "https://timer.utils.com/",
-      "title": "Timer - Countdown Timer \u0026 Multiple Named Countdowns - utils.com",
-      "snippet": "site as a widget. Adding ?embed=1 to the URL loads a compact version with just the tool itself; no header, menu, or documentation. Paste this snippet into your HTML:\nCopy snippet Adjust the height to taste.\nFeedback\nHelp us improve this page by providing feedback, and include your name/email if you",
-      "matchedWords": {
-        "2sljCuxkKkKM": {
-          "hits": 0,
-          "textWords": 258
+          "textWords": 8280
         },
         "mN79bucN-x3q": {
-          "hits": 1,
-          "textWords": 258
-        },
-        "qBJZzvjpWcYk": {
-          "hits": 0,
-          "textWords": 258
-        }
-      }
-    },
-    {
-      "hash": "2Ftqi-dt_Eq4",
-      "address": "https://ens-lookup.utils.com/",
-      "title": "ENS Name Lookup - Resolve ENS Names \u0026 Ethereum Addresses - utils.com",
-      "snippet": "site as a widget. Adding ?embed=1 to the URL loads a compact version with just the tool itself; no header, menu, or documentation. Paste this snippet into your HTML:\nCopy snippet Adjust the height to taste.\nFeedback\nHelp us improve this page by providing feedback, and include your name/email if you",
-      "matchedWords": {
-        "2sljCuxkKkKM": {
-          "hits": 0,
-          "textWords": 332
-        },
-        "mN79bucN-x3q": {
-          "hits": 1,
-          "textWords": 332
-        },
-        "qBJZzvjpWcYk": {
-          "hits": 0,
-          "textWords": 332
-        }
-      }
-    },
-    {
-      "hash": "XOrKy_fC8ci4",
-      "address": "https://address-change.utils.com/",
-      "title": "Address Change Checklist - Who to Notify When You Move - utils.com",
-      "snippet": "site as a widget. Adding ?embed=1 to the URL loads a compact version with just the tool itself; no header, menu, or documentation. Paste this snippet into your HTML:\nCopy snippet Adjust the height to taste.",
-      "matchedWords": {
-        "2sljCuxkKkKM": {
-          "hits": 0,
-          "textWords": 354
-        },
-        "mN79bucN-x3q": {
-          "hits": 1,
-          "textWords": 354
-        },
-        "qBJZzvjpWcYk": {
-          "hits": 0,
-          "textWords": 354
-        }
-      }
-    },
-    {
-      "hash": "GdgOJakzTsY4",
-      "address": "https://seed-starting.utils.com/",
-      "title": "Seed Starting Date Planner - Indoor Sowing \u0026 Transplant Schedule - utils.com",
-      "snippet": "site as a widget. Adding ?embed=1 to the URL loads a compact version with just the tool itself; no header, menu, or documentation. Paste this snippet into your HTML:\nCopy snippet Adjust the height to taste.\nFeedback\nHelp us improve this page by providing feedback, and include your name/email if you",
-      "matchedWords": {
-        "2sljCuxkKkKM": {
-          "hits": 0,
-          "textWords": 458
-        },
-        "mN79bucN-x3q": {
-          "hits": 1,
-          "textWords": 458
-        },
-        "qBJZzvjpWcYk": {
-          "hits": 0,
-          "textWords": 458
-        }
-      }
-    },
-    {
-      "hash": "s_ZG42mJy1A4",
-      "address": "https://html-beautifier.utils.com/",
-      "title": "HTML Formatter \u0026 Beautifier - utils.com",
-      "snippet": "site as a widget. Adding ?embed=1 to the URL loads a compact version with just the tool itself; no header, menu, or documentation. Paste this snippet into your HTML:\nCopy snippet Adjust the height to taste.",
-      "matchedWords": {
-        "2sljCuxkKkKM": {
-          "hits": 0,
-          "textWords": 123
-        },
-        "mN79bucN-x3q": {
-          "hits": 1,
-          "textWords": 123
-        },
-        "qBJZzvjpWcYk": {
-          "hits": 0,
-          "textWords": 123
-        }
-      }
-    },
-    {
-      "hash": "YcD6vlqNc9o6",
-      "address": "https://www.dragonflycave.com/free-quiz-scripts/",
-      "title": "Free Quiz Scripts | The Cave of Dragonflies",
-      "snippet": "site, and now I've been working on incorporating more HTML. Eventually I'd love to switch to something like Neocities so I can custom-build everything (and get away from an external corporation I don't like).\nThank you so much for sharing these resources with not just the Pokemon community, but the",
-      "matchedWords": {
-        "2sljCuxkKkKM": {
-          "hits": 0,
-          "textWords": 4775
-        },
-        "mN79bucN-x3q": {
-          "hits": 1,
-          "textWords": 4775
-        },
-        "qBJZzvjpWcYk": {
-          "hits": 0,
-          "textWords": 4775
-        }
-      }
-    },
-    {
-      "hash": "USBFisswCB74",
-      "address": "https://video-add-audio.utils.com/",
-      "title": "Add Audio to Video - utils.com",
-      "snippet": "site as a widget. Adding ?embed=1 to the URL loads a compact version with just the tool itself; no header, menu, or documentation. Paste this snippet into your HTML:\nCopy snippet Adjust the height to taste.",
-      "matchedWords": {
-        "2sljCuxkKkKM": {
-          "hits": 0,
-          "textWords": 88
-        },
-        "mN79bucN-x3q": {
-          "hits": 1,
-          "textWords": 88
-        },
-        "qBJZzvjpWcYk": {
-          "hits": 0,
-          "textWords": 88
-        }
-      }
-    },
-    {
-      "hash": "3B2CgF3-2Qa4",
-      "address": "https://www.mlex.com/mlex/data-privacy-security",
-      "title": "Data Privacy and Security | MLex | Specialist news and analysis on legal risk and regulation",
-      "snippet": "Editor's Picks\nUS FTC to propose changes on judicial procedures to speed up antitrust suits\nAntitrust enforcement in the US is too slow, and the US Federal Trade Commission hopes to remedy that by proposing changes to judicial procedures so that monopoliza... (more story)\nUsers knew ads were",
-      "matchedWords": {
-        "2sljCuxkKkKM": {
-          "hits": 0,
-          "textWords": 948
-        },
-        "mN79bucN-x3q": {
-          "hits": 0,
-          "textWords": 948
-        },
-        "qBJZzvjpWcYk": {
-          "hits": 0,
-          "textWords": 948
-        }
-      }
-    },
-    {
-      "hash": "W-eXqzF3--Qw",
-      "address": "https://planet.mozilla.org/",
-      "title": "Planet Mozilla",
-      "snippet": "Site” dialog is cut off\n🌟 K: Disable breakpoints shortcut\n🌟 Shawn Zivontsis: Reorder moz_origins composite unique index to UNIQUE(host, prefix)\n🌟 Simon Rosen: Suggestion: Add speed button for Youtube in picture-in-picture(PiP) modals\ntanvi.manku: unnecessary scrollbars in edit dialogs for payments",
-      "matchedWords": {
-        "2sljCuxkKkKM": {
           "hits": 2,
-          "textWords": 66162
-        },
-        "mN79bucN-x3q": {
-          "hits": 26,
-          "textWords": 66162
+          "textWords": 8280
         },
         "qBJZzvjpWcYk": {
-          "hits": 4,
-          "textWords": 66162
+          "hits": 7,
+          "textWords": 8280
         }
-      }
-    },
-    {
-      "hash": "1AhYvjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Software_tool",
-      "title": "Programming tool - Wikipedia",
-      "snippet": "generator\nDebugger – Software for debugging a computer program\nDecompiler – Program translating executable to source code\nDisassembler – Computer program to translate machine language into assembly language\nDocumentation generator – Automation technology for creating software documentation",
-      "matchedWords": {
-        "2sljCuxkKkKM": {
-          "hits": 2,
-          "textWords": 576
-        },
-        "mN79bucN-x3q": {
-          "hits": 0,
-          "textWords": 576
-        },
-        "qBJZzvjpWcYk": {
-          "hits": 1,
-          "textWords": 576
-        }
-      }
-    },
-    {
-      "hash": "uaEnGzTwnifx",
-      "address": "https://planet.wordpress.org/",
-      "title": "Planet \u0026mdash; WordPress.org",
-      "snippet": "site and whatever begins.\nAnd then about two years ago, actually almost exactly two years ago, I joined the devrel team as a developer advocate, became a senior developer advocate. Now I’m a senior manager, developer relations. So I’m leading the developer relations team. And yeah, really love",
-      "matchedWords": {
-        "2sljCuxkKkKM": {
-          "hits": 0,
-          "textWords": 9047
-        },
-        "mN79bucN-x3q": {
-          "hits": 5,
-          "textWords": 9047
-        },
-        "qBJZzvjpWcYk": {
-          "hits": 0,
-          "textWords": 9047
-        }
-      }
-    },
-    {
-      "hash": "AbHi_QUUuPp4",
-      "address": "https://about.gitlab.com/solutions/visibility-measurement/",
-      "title": "Visibility \u0026 measurement",
-      "snippet": "static site generator with GitLab.\nWiki\nA built-in wiki in each project makes it easy to share and manage documentation in the same project as your code.\nPortfolio Management\nManage complex initiatives using epics, boards, roadmaps, milestones, and more within the platform where your teams create",
-      "matchedWords": {
-        "2sljCuxkKkKM": {
-          "hits": 1,
-          "textWords": 708
-        },
-        "mN79bucN-x3q": {
-          "hits": 1,
-          "textWords": 708
-        },
-        "qBJZzvjpWcYk": {
-          "hits": 1,
-          "textWords": 708
-        }
-      }
-    },
-    {
-      "hash": "Sc8s9s_tHst4",
-      "address": "https://dwheeler.com/trusting-trust/",
-      "title": "Fully Countering Trusting Trust through Diverse Double-Compiling (DDC) - Countering Trojan Horse attacks on Compilers",
-      "snippet": "generator, as long as you give the user control over the random number generator seed (gcc, for example, has a command line option for setting the seed). For example, on a Unix/Linux system, you should be able to do this:\n$ mycompiler input.c # Compile, store result in \"a.out\". $ mv a.out",
-      "matchedWords": {
-        "2sljCuxkKkKM": {
-          "hits": 3,
-          "textWords": 13349
-        },
-        "mN79bucN-x3q": {
-          "hits": 6,
-          "textWords": 13349
-        },
-        "qBJZzvjpWcYk": {
-          "hits": 3,
-          "textWords": 13349
-        }
-      }
-    },
-    {
-      "hash": "SyTY5cwVyE75",
-      "address": "https://medicine.careers360.com/exams/neet",
-      "title": "NEET Exam 2024 - Re-exam (June 23), Result (June 30), Cut Off (Out), Counselling",
-      "snippet": "Preparing for the NEET is the first step and this starts in class 11 for most students aspiring to appear for the exam. With the fierce competition and fewer seats, qualifying with a very good NEET score requires the best efforts. Effective preparation tips to crack the NEET exam include some basic",
-      "matchedWords": {
-        "2sljCuxkKkKM": {
-          "hits": 0,
-          "textWords": 736
-        },
-        "mN79bucN-x3q": {
-          "hits": 0,
-          "textWords": 736
-        },
-        "qBJZzvjpWcYk": {
-          "hits": 0,
-          "textWords": 736
-        }
-      }
-    },
-    {
-      "hash": "W-eXqzF3--Qw",
-      "address": "https://planet.mozilla.org/",
-      "title": "Planet Mozilla",
-      "snippet": "Site” dialog is cut off\n🌟 K: Disable breakpoints shortcut\n🌟 Shawn Zivontsis: Reorder moz_origins composite unique index to UNIQUE(host, prefix)\n🌟 Simon Rosen: Suggestion: Add speed button for Youtube in picture-in-picture(PiP) modals\ntanvi.manku: unnecessary scrollbars in edit dialogs for payments",
-      "matchedWords": {
-        "2sljCuxkKkKM": {
-          "hits": 2,
-          "textWords": 66162
-        },
-        "mN79bucN-x3q": {
-          "hits": 26,
-          "textWords": 66162
-        },
-        "qBJZzvjpWcYk": {
-          "hits": 4,
-          "textWords": 66162
-        }
-      }
-    },
-    {
-      "hash": "SRhTBGsGtf35",
-      "address": "https://r-lib.r-universe.dev/R6",
-      "title": "R6: Encapsulated Classes with Reference Semantics",
-      "snippet": "site:https://r6.r-lib.org\nOn CRAN:\nConda:\n15.64 score 425 stars 16k packages 18 scripts 1.9M downloads 8 mentions 3 exports 0 dependencies\nLast updated from:2bced0f135. Checks:9 OK. Indexed: yes.\nTarget\nResult\nTime\nFiles\nSyslog\nlinux-devel\nOK\n127\nsource / vignettes\nOK\n198\nlinux-release\nOK\n124",
-      "matchedWords": {
-        "2sljCuxkKkKM": {
-          "hits": 0,
-          "textWords": 207
-        },
-        "mN79bucN-x3q": {
-          "hits": 1,
-          "textWords": 207
-        },
-        "qBJZzvjpWcYk": {
-          "hits": 0,
-          "textWords": 207
-        }
-      }
-    },
-    {
-      "hash": "Wfq3FswvoTD5",
-      "address": "https://r-universe.dev/articles",
-      "title": "R-universe - browse articles",
-      "snippet": "",
-      "matchedWords": {
-        "2sljCuxkKkKM": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "mN79bucN-x3q": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "qBJZzvjpWcYk": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "W-eXqzF3--Qw",
-      "address": "https://planet.mozilla.org/",
-      "title": "Planet Mozilla",
-      "snippet": "Site” dialog is cut off\n🌟 K: Disable breakpoints shortcut\n🌟 Shawn Zivontsis: Reorder moz_origins composite unique index to UNIQUE(host, prefix)\n🌟 Simon Rosen: Suggestion: Add speed button for Youtube in picture-in-picture(PiP) modals\ntanvi.manku: unnecessary scrollbars in edit dialogs for payments",
-      "matchedWords": {
-        "2sljCuxkKkKM": {
-          "hits": 2,
-          "textWords": 66162
-        },
-        "mN79bucN-x3q": {
-          "hits": 26,
-          "textWords": 66162
-        },
-        "qBJZzvjpWcYk": {
-          "hits": 4,
-          "textWords": 66162
-        }
-      }
+      },
+      "queryPhraseHits": 3
     },
     {
       "hash": "8IbirxSUv9O4",
@@ -1552,7 +891,8 @@
           "hits": 0,
           "textWords": 242
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "90BnaIV5WAV4",
@@ -1572,7 +912,8 @@
           "hits": 0,
           "textWords": 259
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "XOrKy_fC8ci4",
@@ -1592,7 +933,8 @@
           "hits": 0,
           "textWords": 354
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "473ZV3j8ty25",
@@ -1612,7 +954,8 @@
           "hits": 0,
           "textWords": 268
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "yACttgpAOyN4",
@@ -1632,27 +975,155 @@
           "hits": 0,
           "textWords": 394
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
-      "hash": "qcSF2cuStRZ4",
-      "address": "https://mock-data.utils.com/",
-      "title": "Mock Data Generator (JSON) - Generate Fake Test Data - utils.com",
-      "snippet": "Generator parses your JSON schema definition and produces realistic fake data entirely in your browser — no data is sent to any server.\nSchema-driven — define your data shape as a JSON object where values are type strings like \"email\", \"integer\", \"boolean\"\nNested structures — supports objects",
+      "hash": "W-eXqzF3--Qw",
+      "address": "https://planet.mozilla.org/",
+      "title": "Planet Mozilla",
+      "snippet": "Site” dialog is cut off\n🌟 K: Disable breakpoints shortcut\n🌟 Shawn Zivontsis: Reorder moz_origins composite unique index to UNIQUE(host, prefix)\n🌟 Simon Rosen: Suggestion: Add speed button for Youtube in picture-in-picture(PiP) modals\ntanvi.manku: unnecessary scrollbars in edit dialogs for payments",
+      "matchedWords": {
+        "2sljCuxkKkKM": {
+          "hits": 2,
+          "textWords": 66162
+        },
+        "mN79bucN-x3q": {
+          "hits": 26,
+          "textWords": 66162
+        },
+        "qBJZzvjpWcYk": {
+          "hits": 4,
+          "textWords": 66162
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "48Ypy8KDigKy",
+      "address": "https://wiki.openstreetmap.org/wiki/List_of_OSM_based_Services",
+      "title": "List of OSM-based services - OpenStreetMap Wiki",
+      "snippet": "generator that converts selected OpenStreetMap areas into downloadable Minecraft Java Edition worlds and experimental Bedrock Edition .mcworld files.\nNo\nNutiteq 3D SDK for Android [30]\nMobile, 3D\nEnglish\nAndroid SDK supporting 3D buildings and 3D models on top of OSM flat map\nYes\nOSM2World demo",
       "matchedWords": {
         "2sljCuxkKkKM": {
           "hits": 1,
-          "textWords": 245
+          "textWords": 9215
         },
         "mN79bucN-x3q": {
+          "hits": 2,
+          "textWords": 9215
+        },
+        "qBJZzvjpWcYk": {
           "hits": 1,
-          "textWords": 245
+          "textWords": 9215
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "RAz7ZPKXKxA4",
+      "address": "https://cloud.ionos.com/network/application-load-balancer",
+      "title": "Application Load Balancer as Managed Service | IONOS CLOUD",
+      "snippet": "static response is configured. Your pre-configured rules, header entries, and exact data traffic methods render the need for failover scenarios or error handling in your software negligible. The Application Load Balancer also manages errors centrally in the event of unauthorized access attempts.",
+      "matchedWords": {
+        "2sljCuxkKkKM": {
+          "hits": 0,
+          "textWords": 789
+        },
+        "mN79bucN-x3q": {
+          "hits": 0,
+          "textWords": 789
+        },
+        "qBJZzvjpWcYk": {
+          "hits": 1,
+          "textWords": 789
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "HRFwejRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/GitHub",
+      "title": "GitHub - Wikipedia",
+      "snippet": "site was launched in April 2008 by Tom Preston-Werner, Chris Wanstrath, P. J. Hyett, and Scott Chacon after it had been available for a few months as a beta release.[15]\nStructure of the organization\n[edit]\nGitHub was originally a flat organization with no middle managers, instead relying on",
+      "matchedWords": {
+        "2sljCuxkKkKM": {
+          "hits": 1,
+          "textWords": 8321
+        },
+        "mN79bucN-x3q": {
+          "hits": 12,
+          "textWords": 8321
+        },
+        "qBJZzvjpWcYk": {
+          "hits": 2,
+          "textWords": 8321
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "I-LUQjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Fortran",
+      "title": "Fortran - Wikipedia",
+      "snippet": "static, manifest\nFilename extensions\n.f90, .f, .for\nWebsite\nfortran-lang\n.org\nMajor implementations\nAbsoft, Cray, GFortran, G95, IBM XL Fortran, Intel, Hitachi, Lahey/Fujitsu, Numerical Algorithms Group, Open Watcom, PathScale, PGI, Silverfrost, Oracle Solaris Studio, VAX/DEC/VSI, others\nInfluenced",
+      "matchedWords": {
+        "2sljCuxkKkKM": {
+          "hits": 1,
+          "textWords": 12110
+        },
+        "mN79bucN-x3q": {
+          "hits": 2,
+          "textWords": 12110
+        },
+        "qBJZzvjpWcYk": {
+          "hits": 1,
+          "textWords": 12110
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "Zaf27sU3D8gh",
+      "address": "https://weeklyosm.eu/",
+      "title": "weekly – semanario – hebdo – 週刊 – týdeník – Wochennotiz – 주간 – tygodnik – A summary of things happening in the OpenStreetMap world",
+      "snippet": "Loading...\nYou are seeing this because the administrator of this website has set up Anubis to protect the server against the scourge of AI companies aggressively scraping websites. This can and does cause downtime for the websites, which makes their resources inaccessible for everyone.\nAnubis is a",
+      "matchedWords": {
+        "2sljCuxkKkKM": {
+          "hits": 0,
+          "textWords": 168
+        },
+        "mN79bucN-x3q": {
+          "hits": 0,
+          "textWords": 168
         },
         "qBJZzvjpWcYk": {
           "hits": 0,
-          "textWords": 245
+          "textWords": 168
         }
-      }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "by8Ivl_0-Tb4",
+      "address": "https://www.11ty.dev/",
+      "title": "Eleventy is a simpler static site generator",
+      "snippet": "_site output folder. It might look like this:\n[11ty] Writing _site/index.html from ./index.md (liquid) [11ty] Wrote 1 file in 0.03 seconds (v3.1.6) [11ty] Watching… [11ty] Server at http://localhost:8080/\nThe --serve option also starts a local development server. Open up http://localhost:8080/ in",
+      "matchedWords": {
+        "2sljCuxkKkKM": {
+          "hits": 0,
+          "textWords": 320
+        },
+        "mN79bucN-x3q": {
+          "hits": 3,
+          "textWords": 320
+        },
+        "qBJZzvjpWcYk": {
+          "hits": 0,
+          "textWords": 320
+        }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "Wfq3FswvoTD5",
@@ -1672,12 +1143,349 @@
           "hits": 0,
           "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "CTQ-Yj-JVcyx",
+      "address": "https://en.wikiquote.org/wiki/Mystery_Science_Theater_3000",
+      "title": "Mystery Science Theater 3000 - Wikiquote",
+      "snippet": "site!\nCrow: Suzie thinks she doesn't need a seatbelt. Let's watch Suzie go ballistic, through the windshield.\n[In Deep 13, \"Jack Perkins\" introduces the movie, then continues to ramble.]\nJack Perkins: Then, Joyce Carol Oates will be out to read from her wonderous new work of fiction, her… first",
+      "matchedWords": {
+        "2sljCuxkKkKM": {
+          "hits": 1,
+          "textWords": 143064
+        },
+        "mN79bucN-x3q": {
+          "hits": 9,
+          "textWords": 143064
+        },
+        "qBJZzvjpWcYk": {
+          "hits": 2,
+          "textWords": 143064
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "wZ76cwANgP24",
+      "address": "https://graphql.utils.com/",
+      "title": "GraphQL Query Formatter - utils.com",
+      "snippet": "site as a widget. Adding ?embed=1 to the URL loads a compact version with just the tool itself; no header, menu, or documentation. Paste this snippet into your HTML:\nCopy snippet Adjust the height to taste.",
+      "matchedWords": {
+        "2sljCuxkKkKM": {
+          "hits": 0,
+          "textWords": 129
+        },
+        "mN79bucN-x3q": {
+          "hits": 1,
+          "textWords": 129
+        },
+        "qBJZzvjpWcYk": {
+          "hits": 0,
+          "textWords": 129
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "Pnt3hXDST-C4",
+      "address": "https://name-meaning.utils.com/",
+      "title": "Name Meaning Lookup - Discover Your Name's Origin - utils.com",
+      "snippet": "site as a widget. Adding ?embed=1 to the URL loads a compact version with just the tool itself; no header, menu, or documentation. Paste this snippet into your HTML:\nCopy snippet Adjust the height to taste.",
+      "matchedWords": {
+        "2sljCuxkKkKM": {
+          "hits": 0,
+          "textWords": 101
+        },
+        "mN79bucN-x3q": {
+          "hits": 1,
+          "textWords": 101
+        },
+        "qBJZzvjpWcYk": {
+          "hits": 0,
+          "textWords": 101
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "3VHCVsOEIUyr",
+      "address": "https://simerdupolresbatang.id/",
+      "title": "simerdupolresbatangid",
+      "snippet": "",
+      "matchedWords": {
+        "2sljCuxkKkKM": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "mN79bucN-x3q": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "qBJZzvjpWcYk": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "9ygFcssYtAxw",
+      "address": "https://nl.wikinews.org/wiki/2021_Weekberichten_Wikidata",
+      "title": "2021 Weekberichten Wikidata - Wikinieuws",
+      "snippet": "site of\nExternal identifiers: AV Production person ID, Mediafilm ID, Radio.com Podcasts show ID, Libsyn show ID, Mitre ATT\u0026CK ID, SFLI ID, e-GEDSH ID, Viceversa Letteratura author ID, Barnivore product ID, AVN movie ID, Archivo Histórico de diputados de España ID, BG School ID, Muck Rack media",
+      "matchedWords": {
+        "2sljCuxkKkKM": {
+          "hits": 6,
+          "textWords": 149857
+        },
+        "mN79bucN-x3q": {
+          "hits": 34,
+          "textWords": 149857
+        },
+        "qBJZzvjpWcYk": {
+          "hits": 5,
+          "textWords": 149857
+        }
+      },
+      "queryPhraseHits": 2
+    },
+    {
+      "hash": "RAz7ZPKXKxA4",
+      "address": "https://cloud.ionos.com/network/application-load-balancer",
+      "title": "Application Load Balancer as Managed Service | IONOS Cloud",
+      "snippet": "static response is configured. Your pre-configured rules, header entries, and exact data traffic methods render the need for failover scenarios or error handling in your software negligible. The Application Load Balancer also manages errors centrally in the event of unauthorized access attempts.",
+      "matchedWords": {
+        "2sljCuxkKkKM": {
+          "hits": 0,
+          "textWords": 789
+        },
+        "mN79bucN-x3q": {
+          "hits": 0,
+          "textWords": 789
+        },
+        "qBJZzvjpWcYk": {
+          "hits": 1,
+          "textWords": 789
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "S-QHJPKXKxA4",
+      "address": "https://cloud.ionos.com/network/network-loadbalancer",
+      "title": "Managed Network Load Balancer | A Service from the IONOS Cloud",
+      "snippet": "Load balancing for effective multi-layer protection\nIncrease the redundancy of your cloud applications with an additional layer that prevents single points of failure. The IONOS CLOUD Managed Network Load Balancer distributes network traffic across several endpoints, according to the rules you",
+      "matchedWords": {
+        "2sljCuxkKkKM": {
+          "hits": 0,
+          "textWords": 83
+        },
+        "mN79bucN-x3q": {
+          "hits": 0,
+          "textWords": 83
+        },
+        "qBJZzvjpWcYk": {
+          "hits": 0,
+          "textWords": 83
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "SyTY5cwVyE75",
+      "address": "https://medicine.careers360.com/exams/neet",
+      "title": "NEET Exam 2024 - Re-exam (June 23), Result (June 30), Cut Off (Out), Counselling",
+      "snippet": "Preparing for the NEET is the first step and this starts in class 11 for most students aspiring to appear for the exam. With the fierce competition and fewer seats, qualifying with a very good NEET score requires the best efforts. Effective preparation tips to crack the NEET exam include some basic",
+      "matchedWords": {
+        "2sljCuxkKkKM": {
+          "hits": 0,
+          "textWords": 736
+        },
+        "mN79bucN-x3q": {
+          "hits": 0,
+          "textWords": 736
+        },
+        "qBJZzvjpWcYk": {
+          "hits": 0,
+          "textWords": 736
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "NkgclXyzSDzw",
+      "address": "https://httpd.apache.org/docs/current/mod/core.html",
+      "title": "core - Apache HTTP Server Version 2.4",
+      "snippet": "cross-site scripting attacks due to user-provided data being included in the output. Note, however, that a better solution is to just fix (or delete) those scripts, since setting a default charset does not protect users that have enabled the \"auto-detect character encoding\" feature on their",
+      "matchedWords": {
+        "2sljCuxkKkKM": {
+          "hits": 1,
+          "textWords": 22347
+        },
+        "mN79bucN-x3q": {
+          "hits": 2,
+          "textWords": 22347
+        },
+        "qBJZzvjpWcYk": {
+          "hits": 6,
+          "textWords": 22347
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "CTQ-Yj-JVcyx",
+      "address": "https://en.wikiquote.org/wiki/Mystery_Science_Theater_3000",
+      "title": "Mystery Science Theater 3000 - Wikiquote",
+      "snippet": "site!\nCrow: Suzie thinks she doesn't need a seatbelt. Let's watch Suzie go ballistic, through the windshield.\n[In Deep 13, \"Jack Perkins\" introduces the movie, then continues to ramble.]\nJack Perkins: Then, Joyce Carol Oates will be out to read from her wonderous new work of fiction, her… first",
+      "matchedWords": {
+        "2sljCuxkKkKM": {
+          "hits": 1,
+          "textWords": 143064
+        },
+        "mN79bucN-x3q": {
+          "hits": 9,
+          "textWords": 143064
+        },
+        "qBJZzvjpWcYk": {
+          "hits": 2,
+          "textWords": 143064
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "onaY7j-JVcyx",
+      "address": "https://en.wikiquote.org/wiki/Barack_Obama",
+      "title": "Barack Obama - Wikiquote",
+      "snippet": "",
+      "matchedWords": {
+        "2sljCuxkKkKM": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "mN79bucN-x3q": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "qBJZzvjpWcYk": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "W-eXqzF3--Qw",
+      "address": "https://planet.mozilla.org/",
+      "title": "Planet Mozilla",
+      "snippet": "Site” dialog is cut off\n🌟 K: Disable breakpoints shortcut\n🌟 Shawn Zivontsis: Reorder moz_origins composite unique index to UNIQUE(host, prefix)\n🌟 Simon Rosen: Suggestion: Add speed button for Youtube in picture-in-picture(PiP) modals\ntanvi.manku: unnecessary scrollbars in edit dialogs for payments",
+      "matchedWords": {
+        "2sljCuxkKkKM": {
+          "hits": 2,
+          "textWords": 66162
+        },
+        "mN79bucN-x3q": {
+          "hits": 26,
+          "textWords": 66162
+        },
+        "qBJZzvjpWcYk": {
+          "hits": 4,
+          "textWords": 66162
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "odiKIjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Backdoor_(computing)",
+      "title": "Backdoor (computing) - Wikipedia",
+      "snippet": "",
+      "matchedWords": {
+        "2sljCuxkKkKM": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "mN79bucN-x3q": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "qBJZzvjpWcYk": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "12MwejRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Avro_Vulcan",
+      "title": "Avro Vulcan - Wikipedia",
+      "snippet": "",
+      "matchedWords": {
+        "2sljCuxkKkKM": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "mN79bucN-x3q": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "qBJZzvjpWcYk": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "SRhTBGsGtf35",
+      "address": "https://r-lib.r-universe.dev/R6",
+      "title": "R6: Encapsulated Classes with Reference Semantics",
+      "snippet": "site:https://r6.r-lib.org\nOn CRAN:\nConda:\n15.64 score 425 stars 16k packages 18 scripts 1.9M downloads 8 mentions 3 exports 0 dependencies\nLast updated from:2bced0f135. Checks:9 OK. Indexed: yes.\nTarget\nResult\nTime\nFiles\nSyslog\nlinux-devel\nOK\n127\nsource / vignettes\nOK\n198\nlinux-release\nOK\n124",
+      "matchedWords": {
+        "2sljCuxkKkKM": {
+          "hits": 0,
+          "textWords": 207
+        },
+        "mN79bucN-x3q": {
+          "hits": 1,
+          "textWords": 207
+        },
+        "qBJZzvjpWcYk": {
+          "hits": 0,
+          "textWords": 207
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "Wfq3FswvoTD5",
+      "address": "https://r-universe.dev/articles",
+      "title": "R-universe - browse articles",
+      "snippet": "",
+      "matchedWords": {
+        "2sljCuxkKkKM": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "mN79bucN-x3q": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "qBJZzvjpWcYk": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
     }
   ],
   "documentsHeldPerQueryWord": {
-    "2sljCuxkKkKM": 27197,
-    "mN79bucN-x3q": 23677,
-    "qBJZzvjpWcYk": 22154
+    "2sljCuxkKkKM": 7371,
+    "mN79bucN-x3q": 439902,
+    "qBJZzvjpWcYk": 48496
   }
 }

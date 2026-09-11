@@ -1,57 +1,143 @@
 {
   "query": "python asyncio",
-  "recordedAt": "2026-09-11T20:59:36Z",
+  "recordedAt": "2026-09-11T22:14:23Z",
   "itemsInTheOrderOfEachAnswer": [
     [
       {
-        "hash": "Nh8yR1r4CjGw",
-        "address": "https://discuss.python.org/",
-        "title": "Discussions on Python.org",
-        "snippet": "Python Help\nGeneral help/discussion forum for the Python programming language. All welcome.\n11239\nCommitters\nThe “argument clinic” for Python committers (people with the commit bit on https://github.com/python/cpython and related projects). Open for all to view.\n468\nIdeas\nWould you like to change",
+        "hash": "AEEDPTCk19rw",
+        "address": "https://peps.python.org/pep-0000/",
+        "title": "PEP 0 – Index of Python Enhancement Proposals (PEPs) | peps.python.org",
+        "snippet": "Python Enhancement Proposals (PEPs) PEP 0 – Index of Python Enhancement Proposals (PEPs)\nAuthor:\nThe PEP Editors\nStatus:\nActive\nType:\nInformational\nCreated:\n13-Jul-2000\nTable of Contents\nIntroduction\nTopics\nAPI\nNumerical Index\nIndex by Category Process and Meta-PEPs\nOther Informational PEPs",
         "matchedWords": {
           "7mVB5ndw9vcc": {
             "hits": 1,
-            "textWords": 307
+            "textWords": 10361
           },
           "I-7rQ0e90mv8": {
-            "hits": 21,
-            "textWords": 307
+            "hits": 207,
+            "textWords": 10361
           }
-        }
-      }
-    ],
-    [
-      {
-        "hash": "2ZqdVzfOEiDw",
-        "address": "https://planet.gnome.org/",
-        "title": "Planet GNOME",
-        "snippet": "Two weeks ago, I released AppStream 1.2.0. This release contains a lot of great changes, but one of the most important ones concerns how media are being handled, and AppStream’s default image export format.\nAppStream is a Freedesktop metadata standard to describe software components. That can be",
-        "matchedWords": {
-          "7mVB5ndw9vcc": {
-            "hits": 0,
-            "textWords": 2681
-          },
-          "I-7rQ0e90mv8": {
-            "hits": 0,
-            "textWords": 2681
-          }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
-        "hash": "SH9s9zTnALtw",
-        "address": "https://planet.gentoo.org/",
-        "title": "Planet Gentoo",
-        "snippet": "Python, letting you not only to select a specific Python version to use, but to actively install packages for multiple Python versions simultaneously. Given how different Gentoo setups can be, we also find end-user testing very important, and you can trivially enable running the test suites while",
+        "hash": "A3q5IzS6MKD4",
+        "address": "https://github.com/topics/python",
+        "title": "python · GitHub Topics · GitHub",
+        "snippet": "",
+        "matchedWords": {
+          "7mVB5ndw9vcc": {
+            "hits": 46,
+            "textWords": 1373
+          },
+          "I-7rQ0e90mv8": {
+            "hits": 0,
+            "textWords": 0
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "CImyzDHSf0kh",
+        "address": "https://archive.cloudblogger.eu/2023/10/18/semantic-kernel-container-apps-with-react-and-python/",
+        "title": "Semantic Kernel: Container Apps with React and Python — CloudBlogger@2025",
+        "snippet": "Python for VSCode. Also Node.Js for our React implementation and testing.\nDeployment\nLet’s start with a quick Terraform deployment to build our base resources , like a resource group, Azure Container Registry, Application Insights etc. I will provide the main.tf since the rest are quite standard",
+        "matchedWords": {
+          "7mVB5ndw9vcc": {
+            "hits": 3,
+            "textWords": 2070
+          },
+          "I-7rQ0e90mv8": {
+            "hits": 11,
+            "textWords": 2070
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "CjgsxsIyoLTx",
+        "address": "https://planetpython.org/",
+        "title": "Planet Python",
+        "snippet": "Python package that does all of this for me:\nI run newsprint from the command line. It takes all of the starred messages in my toprint folder, and creates a PDF file from them, 4 pages/side.\nAlong the way, it strips out all of the promotional, subscribe/unsubscribe stuff.\nIt removes images, unless",
+        "matchedWords": {
+          "7mVB5ndw9vcc": {
+            "hits": 3,
+            "textWords": 30728
+          },
+          "I-7rQ0e90mv8": {
+            "hits": 139,
+            "textWords": 30728
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "DuEPzitD2jQw",
+        "address": "https://docs.python.org/3/whatsnew/3.9.html",
+        "title": "What’s New In Python 3.9 — Python 3.11.1 documentation",
+        "snippet": "Python 3.9, compared to 3.8. Python 3.9 was released on October 5, 2020. For full details, see the changelog.\nSee also\nPEP 596 - Python 3.9 Release Schedule\nSummary – Release highlights¶\nNew syntax features:\nPEP 584, union operators added to dict;\nPEP 585, type hinting generics in standard",
+        "matchedWords": {
+          "7mVB5ndw9vcc": {
+            "hits": 17,
+            "textWords": 8358
+          },
+          "I-7rQ0e90mv8": {
+            "hits": 101,
+            "textWords": 8358
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "C5xGvTOxbSDx",
+        "address": "https://developer.confluent.io/tutorials/",
+        "title": "Apache Kafka® and Apache Flink® Tutorials | Learn Streaming \u0026 Real-Time Apps | Confluent Developer",
+        "snippet": "Learn stream processing the simple way. Use this cookbook of recipes to easily get started at any level.\nKafka\nFlink\nKafka Streams\nksqlDB\nBe the first to get updates and new content\nWe will only share developer content and updates, including notifications when new content is added. We will never",
         "matchedWords": {
           "7mVB5ndw9vcc": {
             "hits": 0,
-            "textWords": 3218
+            "textWords": 89
           },
           "I-7rQ0e90mv8": {
-            "hits": 4,
-            "textWords": 3218
+            "hits": 0,
+            "textWords": 89
           }
-        }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "DMSF3jRvmBbx",
+        "address": "https://en.wikipedia.org/wiki/Coroutine",
+        "title": "Coroutine - Wikipedia",
+        "snippet": "Python[10] before 2.5) use this or a similar model.\nUsing coroutines for state machines or concurrency is similar to using mutual recursion with tail calls, as in both cases the control changes to a different one of a set of routines. However, coroutines are more flexible and generally more",
+        "matchedWords": {
+          "7mVB5ndw9vcc": {
+            "hits": 5,
+            "textWords": 5297
+          },
+          "I-7rQ0e90mv8": {
+            "hits": 20,
+            "textWords": 5297
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "DlRHStbRfaw4",
+        "address": "https://blog.apify.com/what-are-the-best-python-web-scraping-libraries/",
+        "title": "9 best Python web scraping libraries for 2026",
+        "snippet": "Python web scraping libraries pit these tools against each other as if they are direct competitors. In reality, they often work together as layers of a scraping stack, not substitutes:\nBeautifulSoup is just a parser. It can't fetch a webpage.\nRequests fetch pages, but can't render JavaScript.",
+        "matchedWords": {
+          "7mVB5ndw9vcc": {
+            "hits": 7,
+            "textWords": 4124
+          },
+          "I-7rQ0e90mv8": {
+            "hits": 13,
+            "textWords": 4124
+          }
+        },
+        "queryPhraseHits": 1
       }
     ],
     [
@@ -69,7 +155,8 @@
             "hits": 25,
             "textWords": 2252
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
         "hash": "GOC_RsS6MKD4",
@@ -85,7 +172,8 @@
             "hits": 1,
             "textWords": 28
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
         "hash": "He70YsSSbeN5",
@@ -101,7 +189,25 @@
             "hits": 1,
             "textWords": 6708
           }
-        }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "FUKyxsv-bf35",
+        "address": "https://docs.datadoghq.com/tracing/troubleshooting/tracer_startup_logs/",
+        "title": "Tracer Startup Logs",
+        "snippet": "Python tracer logs configuration information as INFO-level. It logs diagnostics information, if found, as ERROR.\nIf there is no logging configuration, only Diagnostics will be output to Stderr.\nTo see tracer startup logs, either add a logger, or set DD_TRACE_DEBUG=true in your configuration and run",
+        "matchedWords": {
+          "7mVB5ndw9vcc": {
+            "hits": 1,
+            "textWords": 2213
+          },
+          "I-7rQ0e90mv8": {
+            "hits": 3,
+            "textWords": 2213
+          }
+        },
+        "queryPhraseHits": 0
       }
     ],
     [
@@ -119,23 +225,8 @@
             "hits": 7,
             "textWords": 3931
           }
-        }
-      },
-      {
-        "hash": "JFH3pitD2jQw",
-        "address": "https://docs.python.org/3/library/stdtypes.html",
-        "title": "Built-in Types — Python 3.14.7 documentation",
-        "snippet": "Python. They all have the same priority (which is higher than that of the Boolean operations). Comparisons can be chained arbitrarily; for example, x \u003c y \u003c= z is equivalent to x \u003c y and y \u003c= z, except that y is evaluated only once (but in both cases z is not evaluated at all when x \u003c y is found to",
-        "matchedWords": {
-          "7mVB5ndw9vcc": {
-            "hits": 2,
-            "textWords": 25461
-          },
-          "I-7rQ0e90mv8": {
-            "hits": 108,
-            "textWords": 25461
-          }
-        }
+        },
+        "queryPhraseHits": 0
       }
     ],
     [
@@ -153,7 +244,8 @@
             "hits": 0,
             "textWords": 360
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
         "hash": "SH9s9zTnALtw",
@@ -169,25 +261,27 @@
             "hits": 4,
             "textWords": 3218
           }
-        }
+        },
+        "queryPhraseHits": 0
       }
     ],
     [
       {
-        "hash": "Z4rOdhS6MKD4",
-        "address": "https://github.com/oxylabs/how-to-make-web-scraping-faster",
-        "title": "GitHub - oxylabs/how-to-make-web-scraping-faster: How to Make Web Scraping Faster - Python Tutorial · GitHub",
-        "snippet": "Python?\nWeb scraping without optimization\nPreparation\nWriting unoptimized web scraper\nWeb scraping using multiprocessing\nWeb scraping using multithreading\nAsyncio for asynchronous programming\nHow do you speed up web scraping in Python?\nThere are a few possible approaches that can help increase the",
+        "hash": "aQJ1g8bIDBOw",
+        "address": "https://pypi.org/project/asyncari/",
+        "title": "asyncari · PyPI",
+        "snippet": "Python 3\nUploaded using Trusted Publishing? No\nUploaded via: twine/6.1.0 CPython/3.13.3\nFile hashes\nHashes for asyncari-0.20.6-py3-none-any.whl\nAlgorithm\nHash digest\nSHA256\nc9ed27fea3cd297d93640877433f5ba8f30729893664e7f0ea2439bd71346c60\nMD5\n13fd53e1227e50d92e5c659eb89b9288\nBLAKE2b-256",
         "matchedWords": {
           "7mVB5ndw9vcc": {
-            "hits": 11,
-            "textWords": 1243
+            "hits": 0,
+            "textWords": 228
           },
           "I-7rQ0e90mv8": {
-            "hits": 6,
-            "textWords": 1243
+            "hits": 1,
+            "textWords": 228
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
         "hash": "ZOsxdVPrLiu6",
@@ -203,7 +297,8 @@
             "hits": 3,
             "textWords": 169
           }
-        }
+        },
+        "queryPhraseHits": 0
       }
     ],
     [
@@ -221,7 +316,8 @@
             "hits": 3,
             "textWords": 1669
           }
-        }
+        },
+        "queryPhraseHits": 0
       }
     ],
     [
@@ -239,23 +335,25 @@
             "hits": 5,
             "textWords": 279
           }
-        }
+        },
+        "queryPhraseHits": 1
       },
       {
         "hash": "eZgabzS6MKD4",
         "address": "https://github.com/topics/fastapi",
         "title": "fastapi · GitHub Topics · GitHub",
-        "snippet": "Python 3.7+ framework. Its performance is on par with NodeJS and Go (thanks to Starlette and Pydantic). It’s intuitive and standards-based (based on API standards like OpenAPI (previously known as Swagger) and JSON Schema).\nHere are 91,767 public repositories matching this topic...\nCode\nIssues\nPull",
+        "snippet": "",
         "matchedWords": {
           "7mVB5ndw9vcc": {
-            "hits": 1,
-            "textWords": 553
+            "hits": 4,
+            "textWords": 1435
           },
           "I-7rQ0e90mv8": {
-            "hits": 19,
-            "textWords": 553
+            "hits": 0,
+            "textWords": 0
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
         "hash": "ouG-IxyrccKw",
@@ -271,154 +369,45 @@
             "hits": 1,
             "textWords": 337
           }
-        }
+        },
+        "queryPhraseHits": 0
       }
     ]
   ],
   "itemsInNoOrder": [
     {
-      "hash": "C_WsyyAacB5w",
-      "address": "https://docs.aiohttp.org/en/stable/",
-      "title": "Welcome to AIOHTTP — aiohttp 3.13.2 documentation",
-      "snippet": "asyncio and Python.\nCurrent version is 3.14.3.\nKey Features¶\nSupports both Client and HTTP Server.\nSupports both Server WebSockets and Client WebSockets out-of-the-box without the Callback Hell.\nWeb-server has Middlewares, Signals and pluggable routing.\nClient supports middleware for customizing",
-      "matchedWords": {
-        "7mVB5ndw9vcc": {
-          "hits": 4,
-          "textWords": 801
-        },
-        "I-7rQ0e90mv8": {
-          "hits": 4,
-          "textWords": 801
-        }
-      }
-    },
-    {
-      "hash": "AEEDPTCk19rw",
-      "address": "https://peps.python.org/pep-0000/",
-      "title": "PEP 0 – Index of Python Enhancement Proposals (PEPs) | peps.python.org",
-      "snippet": "Python Enhancement Proposals (PEPs) PEP 0 – Index of Python Enhancement Proposals (PEPs)\nAuthor:\nThe PEP Editors\nStatus:\nActive\nType:\nInformational\nCreated:\n13-Jul-2000\nTable of Contents\nIntroduction\nTopics\nAPI\nNumerical Index\nIndex by Category Process and Meta-PEPs\nOther Informational PEPs",
-      "matchedWords": {
-        "7mVB5ndw9vcc": {
-          "hits": 1,
-          "textWords": 10361
-        },
-        "I-7rQ0e90mv8": {
-          "hits": 207,
-          "textWords": 10361
-        }
-      }
-    },
-    {
-      "hash": "CjgsxsIyoLTx",
-      "address": "https://planetpython.org/",
-      "title": "Planet Python",
-      "snippet": "Python package that does all of this for me:\nI run newsprint from the command line. It takes all of the starred messages in my toprint folder, and creates a PDF file from them, 4 pages/side.\nAlong the way, it strips out all of the promotional, subscribe/unsubscribe stuff.\nIt removes images, unless",
-      "matchedWords": {
-        "7mVB5ndw9vcc": {
-          "hits": 3,
-          "textWords": 30728
-        },
-        "I-7rQ0e90mv8": {
-          "hits": 139,
-          "textWords": 30728
-        }
-      }
-    },
-    {
-      "hash": "CZhAeVPrLiu6",
-      "address": "https://palletsprojects.com/projects/jinja/",
-      "title": "Pallets",
-      "snippet": "Python syntax. Then the template is passed data to render the final document.\nIt includes:\nTemplate inheritance and inclusion.\nDefine and import macros within templates.\nHTML templates can use autoescaping to prevent XSS from untrusted user input.\nA sandboxed environment can safely render untrusted",
-      "matchedWords": {
-        "7mVB5ndw9vcc": {
-          "hits": 1,
-          "textWords": 169
-        },
-        "I-7rQ0e90mv8": {
-          "hits": 3,
-          "textWords": 169
-        }
-      }
-    },
-    {
       "hash": "AxRdDzS6MKD4",
       "address": "https://github.com/topics/python-3",
       "title": "python-3 · GitHub Topics · GitHub",
-      "snippet": "Python is a dynamically-typed garbage-collected programming language developed by Guido van Rossum in the late 80s to replace ABC. Much like the programming language Ruby, Python was designed to be easily read by programmers. Because of its large following and many libraries, Python can be",
-      "matchedWords": {
-        "7mVB5ndw9vcc": {
-          "hits": 3,
-          "textWords": 410
-        },
-        "I-7rQ0e90mv8": {
-          "hits": 34,
-          "textWords": 410
-        }
-      }
-    },
-    {
-      "hash": "A3q5IzS6MKD4",
-      "address": "https://github.com/topics/python",
-      "title": "python · GitHub Topics · GitHub",
-      "snippet": "Python is a dynamically-typed garbage-collected programming language developed by Guido van Rossum in the late 80s to replace ABC. Much like the programming language Ruby, Python was designed to be easily read by programmers. Because of its large following and many libraries, Python can be",
+      "snippet": "",
       "matchedWords": {
         "7mVB5ndw9vcc": {
           "hits": 0,
-          "textWords": 503
-        },
-        "I-7rQ0e90mv8": {
-          "hits": 21,
-          "textWords": 503
-        }
-      }
-    },
-    {
-      "hash": "CnbJMzS6MKD4",
-      "address": "https://github.com/topics/m3u8",
-      "title": "m3u8 · GitHub Topics · GitHub",
-      "snippet": "Python\nCode\nIssues\nPull requests\nDiscussions\n[.NET] m3u8 downloader 开源的命令行m3u8/HLS/dash下载器，支持普通AES-128-CBC解密，多线程，自定义请求头等. 支持简体中文,繁体中文和英文. English Supported.\nUpdated Jun 3, 2023\nC#\nCode\nIssues\nPull requests\nDiscussions\nCross-platform internet upload/download manager for HTTP(S), FTP(S), SSH,",
-      "matchedWords": {
-        "7mVB5ndw9vcc": {
-          "hits": 0,
-          "textWords": 527
-        },
-        "I-7rQ0e90mv8": {
-          "hits": 7,
-          "textWords": 527
-        }
-      }
-    },
-    {
-      "hash": "D4lABzaS0qdw",
-      "address": "https://planet.debian.org/",
-      "title": "Planet Debian",
-      "snippet": "This August, I accomplished what I wanted for many years: I deleted the last cgo dependency in Debian Code Search! This was made possible by Go’s recently introduced SIMD support, because now we can implement the TurboPFor integer compression format as efficiently — more efficiently, in fact, by",
-      "matchedWords": {
-        "7mVB5ndw9vcc": {
-          "hits": 0,
-          "textWords": 8109
+          "textWords": 0
         },
         "I-7rQ0e90mv8": {
           "hits": 0,
-          "textWords": 8109
+          "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
-      "hash": "CyqQuhdG5jPw",
-      "address": "https://www.python.org/downloads/release/python-3113/",
-      "title": "Python Release Python 3.11.3 | Python.org",
-      "snippet": "Python 3.11.3 has been superseded by Python 3.11.16.\nRelease date: April 5, 2023\nThis is the third maintenance release of Python 3.11\nPython 3.11.3 is the newest major release of the Python programming language, and it contains many new features and optimizations.\nMajor new features of the 3.11",
+      "hash": "AOqZ6itD2jQw",
+      "address": "https://docs.python.org/3/genindex-R.html",
+      "title": "Index — Python 3.14.2 documentation",
+      "snippet": "(asyncio.StreamReader method) (codecs.StreamReader method)\n(configparser.ConfigParser method)\n(file method)\n(http.client.HTTPResponse method)\n(imaplib.IMAP4 method)\n(in module os)\n(io.BufferedIOBase method)\n(io.BufferedReader method)\n(io.RawIOBase method)\n(io.Reader method)\n(io.TextIOBase method)",
       "matchedWords": {
         "7mVB5ndw9vcc": {
+          "hits": 27,
+          "textWords": 3338
+        },
+        "I-7rQ0e90mv8": {
           "hits": 1,
-          "textWords": 516
-        },
-        "I-7rQ0e90mv8": {
-          "hits": 10,
-          "textWords": 516
+          "textWords": 3338
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "Bu9laitD2jQw",
@@ -434,7 +423,42 @@
           "hits": 126,
           "textWords": 6331
         }
-      }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "CYduPitD2jQw",
+      "address": "https://docs.python.org/3/genindex-H.html",
+      "title": "Index — Python 3.14.3 documentation",
+      "snippet": "asyncio)\nhandle an exception\nhandle() (http.server.BaseHTTPRequestHandler method) (logging.Handler method)\n(logging.handlers.QueueListener method)\n(logging.Logger method)\n(logging.NullHandler method)\n(socketserver.BaseRequestHandler method)\n(wsgiref.simple_server.WSGIRequestHandler method)",
+      "matchedWords": {
+        "7mVB5ndw9vcc": {
+          "hits": 1,
+          "textWords": 1399
+        },
+        "I-7rQ0e90mv8": {
+          "hits": 0,
+          "textWords": 1399
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "DiC31itD2jQw",
+      "address": "https://docs.python.org/3/whatsnew/3.11.html",
+      "title": "What’s New In Python 3.11 — Python 3.13.7 documentation",
+      "snippet": "Python 3.11, compared to 3.10. Python 3.11 was released on October 24, 2022. For full details, see the changelog.\nSummary – Release highlights¶\nPython 3.11 is between 10-60% faster than Python 3.10. On average, we measured a 1.25x speedup on the standard benchmark suite. See Faster CPython for",
+      "matchedWords": {
+        "7mVB5ndw9vcc": {
+          "hits": 9,
+          "textWords": 10855
+        },
+        "I-7rQ0e90mv8": {
+          "hits": 142,
+          "textWords": 10855
+        }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "Doee3itD2jQw",
@@ -450,12 +474,13 @@
           "hits": 8,
           "textWords": 11662
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
-      "hash": "G3ZGKoTDwvCw",
-      "address": "https://packages.gentoo.org/useflags/test",
-      "title": "test – USE flags – Gentoo Packages",
+      "hash": "O1DuMQTDwvCw",
+      "address": "https://packages.gentoo.org/packages/dev-python/dbus-next",
+      "title": "dev-python/dbus-next – Gentoo Packages",
       "snippet": "© 2001–2026 Gentoo Authors\nGentoo is a trademark of the Gentoo Foundation, Inc. and of Förderverein Gentoo e.V. The contents of this document, unless otherwise expressly stated, are licensed under the CC-BY-SA-4.0 license. The Gentoo Name and Logo Usage Guidelines apply.\nContact\nv1.0.3",
       "matchedWords": {
         "7mVB5ndw9vcc": {
@@ -466,1068 +491,30 @@
           "hits": 0,
           "textWords": 43
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
-      "hash": "E2RhIitD2jQw",
-      "address": "https://docs.python.org/3/library/concurrent.futures.html",
-      "title": "concurrent.futures — Launching parallel tasks — Python 3.13.2 documentation",
-      "snippet": "asyncio.Future, which is designed for use with asyncio tasks and coroutines. See the asyncio’s Future documentation for a detailed comparison of the two.\nExecutor Objects¶\nclass concurrent.futures.Executor¶\nAn abstract class that provides methods to execute calls asynchronously. It should not be",
+      "hash": "AOqZ6itD2jQw",
+      "address": "https://docs.python.org/3/genindex-R.html",
+      "title": "Index — Python 3.14.6 documentation",
+      "snippet": "(asyncio.StreamReader method) (codecs.StreamReader method)\n(configparser.ConfigParser method)\n(file method)\n(http.client.HTTPResponse method)\n(imaplib.IMAP4 method)\n(in module os)\n(io.BufferedIOBase method)\n(io.BufferedReader method)\n(io.RawIOBase method)\n(io.Reader method)\n(io.TextIOBase method)",
       "matchedWords": {
         "7mVB5ndw9vcc": {
-          "hits": 3,
-          "textWords": 3710
-        },
-        "I-7rQ0e90mv8": {
-          "hits": 3,
-          "textWords": 3710
-        }
-      }
-    },
-    {
-      "hash": "FLRBMitD2jQw",
-      "address": "https://docs.python.org/3/howto/a-conceptual-overview-of-asyncio.html",
-      "title": "A Conceptual Overview of asyncio — Python 3.14.2 documentation",
-      "snippet": "asyncio fundamentally works, helping you understand the how and why behind the recommended patterns.\nYou might be curious about some key asyncio concepts. By the end of this article, you’ll be able to comfortably answer these questions:\nWhat’s happening behind the scenes when an object is awaited?",
-      "matchedWords": {
-        "7mVB5ndw9vcc": {
-          "hits": 43,
-          "textWords": 3175
-        },
-        "I-7rQ0e90mv8": {
-          "hits": 6,
-          "textWords": 3175
-        }
-      }
-    },
-    {
-      "hash": "Fu6eTitD2jQw",
-      "address": "https://docs.python.org/3/genindex-I.html",
-      "title": "Index — Python 3.13.2 documentation",
-      "snippet": "(asyncio.loop method)\nis_closing() (asyncio.BaseTransport method) (asyncio.StreamWriter method)\nis_comp_cell() (symtable.Symbol method)\nis_comp_iter() (symtable.Symbol method)\nis_dataclass() (in module dataclasses)\nis_declared_global() (symtable.Symbol method)\nis_dir()",
-      "matchedWords": {
-        "7mVB5ndw9vcc": {
-          "hits": 9,
-          "textWords": 3287
+          "hits": 27,
+          "textWords": 3338
         },
         "I-7rQ0e90mv8": {
           "hits": 1,
-          "textWords": 3287
+          "textWords": 3338
         }
-      }
-    },
-    {
-      "hash": "F2xV5itD2jQw",
-      "address": "https://docs.python.org/3/library/__main__.html",
-      "title": "__main__ — Top-level code environment — Python 3.12.6 documentation",
-      "snippet": "Python, the special name __main__ is used for two important constructs:\nthe name of the top-level environment of the program, which can be checked using the __name__ == '__main__' expression; and\nthe __main__.py file in Python packages.\nBoth of these mechanisms are related to Python modules; how",
-      "matchedWords": {
-        "7mVB5ndw9vcc": {
-          "hits": 3,
-          "textWords": 1623
-        },
-        "I-7rQ0e90mv8": {
-          "hits": 35,
-          "textWords": 1623
-        }
-      }
-    },
-    {
-      "hash": "HQC7YitD2jQw",
-      "address": "https://docs.python.org/3/library/asyncio-sync.html",
-      "title": "Synchronization Primitives — Python 3.14.6 documentation",
-      "snippet": "Lib/asyncio/locks.py\nasyncio synchronization primitives are designed to be similar to those of the threading module with two important caveats:\nasyncio primitives are not thread-safe, therefore they should not be used for OS thread synchronization (use threading for that);\nmethods of these",
-      "matchedWords": {
-        "7mVB5ndw9vcc": {
-          "hits": 36,
-          "textWords": 1548
-        },
-        "I-7rQ0e90mv8": {
-          "hits": 0,
-          "textWords": 1548
-        }
-      }
-    },
-    {
-      "hash": "HYOfTitD2jQw",
-      "address": "https://docs.python.org/3/whatsnew/3.7.html",
-      "title": "What’s New In Python 3.7 — Python 3.13.2 documentation",
-      "snippet": "Python 3.7, compared to 3.6. Python 3.7 was released on June 27, 2018. For full details, see the changelog.\nSummary – Release Highlights¶\nNew syntax features:\nPEP 563, postponed evaluation of type annotations.\nBackwards incompatible syntax changes:\nasync and await are now reserved keywords.\nNew",
-      "matchedWords": {
-        "7mVB5ndw9vcc": {
-          "hits": 41,
-          "textWords": 12861
-        },
-        "I-7rQ0e90mv8": {
-          "hits": 112,
-          "textWords": 12861
-        }
-      }
-    },
-    {
-      "hash": "ET8e4lyA5Uix",
-      "address": "https://www.tornadoweb.org/en/stable/ioloop.html",
-      "title": "tornado.ioloop — Main event loop — Tornado 6.4.2 documentation",
-      "snippet": "asyncio event loop, with a slightly different interface. The IOLoop interface is now provided primarily for backwards compatibility; new code should generally use the asyncio event loop interface directly. The IOLoop.current class method provides the IOLoop instance corresponding to the running",
-      "matchedWords": {
-        "7mVB5ndw9vcc": {
-          "hits": 23,
-          "textWords": 2481
-        },
-        "I-7rQ0e90mv8": {
-          "hits": 3,
-          "textWords": 2481
-        }
-      }
-    },
-    {
-      "hash": "KsKu2sS6MKD4",
-      "address": "https://github.com/explore",
-      "title": "Explore GitHub · GitHub",
-      "snippet": "Python\nTrending repository\nCode\nIssues\nPull requests\nA spy satellite simulator in your browser, except the data is real. Live open source spatial intelligence on a photorealistic 3D globe.\nUpdated Sep 11, 2026\nJavaScript\nGitHub Checkout\nCopilot CLI update: chronicle, plugins, and fleet mode\nIn this",
-      "matchedWords": {
-        "7mVB5ndw9vcc": {
-          "hits": 0,
-          "textWords": 699
-        },
-        "I-7rQ0e90mv8": {
-          "hits": 4,
-          "textWords": 699
-        }
-      }
-    },
-    {
-      "hash": "R-CJ2zS6MKD4",
-      "address": "https://github.com/topics/http3",
-      "title": "http3 · GitHub Topics · GitHub",
-      "snippet": "Python\nCode\nIssues\nPull requests\nDiscussions\nSmall, fast, modern HTTP server for Erlang/OTP.\nUpdated Sep 8, 2026\nErlang\nCode\nIssues\nPull requests\nDiscussions\nGO Simple Tunnel - a simple tunnel written in golang\nUpdated Sep 7, 2026\nGo\nCode\nIssues\nPull requests\nDiscussions\nReqable issue track repo",
-      "matchedWords": {
-        "7mVB5ndw9vcc": {
-          "hits": 0,
-          "textWords": 419
-        },
-        "I-7rQ0e90mv8": {
-          "hits": 2,
-          "textWords": 419
-        }
-      }
-    },
-    {
-      "hash": "D4lABzaS0qdw",
-      "address": "https://planet.debian.org/",
-      "title": "Planet Debian",
-      "snippet": "This August, I accomplished what I wanted for many years: I deleted the last cgo dependency in Debian Code Search! This was made possible by Go’s recently introduced SIMD support, because now we can implement the TurboPFor integer compression format as efficiently — more efficiently, in fact, by",
-      "matchedWords": {
-        "7mVB5ndw9vcc": {
-          "hits": 0,
-          "textWords": 8109
-        },
-        "I-7rQ0e90mv8": {
-          "hits": 0,
-          "textWords": 8109
-        }
-      }
-    },
-    {
-      "hash": "GPRW9hdG5jPw",
-      "address": "https://www.python.org/downloads/release/python-3118/",
-      "title": "Python Release Python 3.11.8 | Python.org",
-      "snippet": "Python 3.11.8 has been superseded by Python 3.11.16.\nRelease date: Feb. 6, 2024\nThis is the eighth maintenance release of Python 3.11\nPython 3.11.8 is the newest major release of the Python programming language, and it contains many new features and optimizations.\nMajor new features of the 3.11",
-      "matchedWords": {
-        "7mVB5ndw9vcc": {
-          "hits": 1,
-          "textWords": 470
-        },
-        "I-7rQ0e90mv8": {
-          "hits": 10,
-          "textWords": 470
-        }
-      }
-    },
-    {
-      "hash": "ojdnMD1nrxbw",
-      "address": "https://www.debian.org/devel/wnpp/being_packaged_byage",
-      "title": "Debian -- Packages being worked on, organized by age",
-      "snippet": "Python library for generating toolpaths, 5805 days in preparation, last activity 285 days ago.\nsleepisdeath: a storytelling game for two players, 5700 days in preparation, last activity 285 days ago.\nretroshare: Friend-to-friend network client for secure messaging and file, 5329 days in",
-      "matchedWords": {
-        "7mVB5ndw9vcc": {
-          "hits": 6,
-          "textWords": 43978
-        },
-        "I-7rQ0e90mv8": {
-          "hits": 375,
-          "textWords": 43978
-        }
-      }
-    },
-    {
-      "hash": "A3q5IzS6MKD4",
-      "address": "https://github.com/topics/python",
-      "title": "python · GitHub Topics · GitHub",
-      "snippet": "Python is a dynamically-typed garbage-collected programming language developed by Guido van Rossum in the late 80s to replace ABC. Much like the programming language Ruby, Python was designed to be easily read by programmers. Because of its large following and many libraries, Python can be",
-      "matchedWords": {
-        "7mVB5ndw9vcc": {
-          "hits": 0,
-          "textWords": 503
-        },
-        "I-7rQ0e90mv8": {
-          "hits": 21,
-          "textWords": 503
-        }
-      }
-    },
-    {
-      "hash": "KsKu2sS6MKD4",
-      "address": "https://github.com/explore",
-      "title": "Explore GitHub · GitHub",
-      "snippet": "Python\nTrending repository\nCode\nIssues\nPull requests\nA spy satellite simulator in your browser, except the data is real. Live open source spatial intelligence on a photorealistic 3D globe.\nUpdated Sep 11, 2026\nJavaScript\nGitHub Checkout\nCopilot CLI update: chronicle, plugins, and fleet mode\nIn this",
-      "matchedWords": {
-        "7mVB5ndw9vcc": {
-          "hits": 0,
-          "textWords": 699
-        },
-        "I-7rQ0e90mv8": {
-          "hits": 4,
-          "textWords": 699
-        }
-      }
-    },
-    {
-      "hash": "toJsSzS6MKD4",
-      "address": "https://github.com/topics/api",
-      "title": "api · GitHub Topics · GitHub",
-      "snippet": "Python\nCode\nIssues\nPull requests\nDiscussions\nVim-fork focused on extensibility and usability\nUpdated Sep 11, 2026\nVim Script\nCode\nIssues\nPull requests\nDiscussions\nFastAPI framework, high performance, easy to learn, fast to code, ready for production\nUpdated Sep 1, 2026\nPython\nCode\nIssues\nPull",
-      "matchedWords": {
-        "7mVB5ndw9vcc": {
-          "hits": 0,
-          "textWords": 583
-        },
-        "I-7rQ0e90mv8": {
-          "hits": 5,
-          "textWords": 583
-        }
-      }
-    },
-    {
-      "hash": "D4lABzaS0qdw",
-      "address": "https://planet.debian.org/",
-      "title": "Planet Debian",
-      "snippet": "This August, I accomplished what I wanted for many years: I deleted the last cgo dependency in Debian Code Search! This was made possible by Go’s recently introduced SIMD support, because now we can implement the TurboPFor integer compression format as efficiently — more efficiently, in fact, by",
-      "matchedWords": {
-        "7mVB5ndw9vcc": {
-          "hits": 0,
-          "textWords": 8109
-        },
-        "I-7rQ0e90mv8": {
-          "hits": 0,
-          "textWords": 8109
-        }
-      }
-    },
-    {
-      "hash": "Pfu32hdG5jPw",
-      "address": "https://www.python.org/downloads/release/python-344rc1/",
-      "title": "Python Release Python 3.4.4rc1 | Python.org",
-      "snippet": "Python 3.4.4 reached end-of-life on 2019-03-18. It is no longer supported and does not receive security updates. We recommend upgrading to the latest Python release.\nNote: Python 3.4.4rc1 has been superseded by Python 3.4.10.\nRelease date: Dec. 7, 2015\nPython 3.4 has reached end-of-life. Python",
-      "matchedWords": {
-        "7mVB5ndw9vcc": {
-          "hits": 1,
-          "textWords": 498
-        },
-        "I-7rQ0e90mv8": {
-          "hits": 14,
-          "textWords": 498
-        }
-      }
-    },
-    {
-      "hash": "PNm3yitD2jQw",
-      "address": "https://docs.python.org/3/library/pdb.html",
-      "title": "pdb — The Python Debugger — Python 3.13.7 documentation",
-      "snippet": "Python programs. It supports setting (conditional) breakpoints and single stepping at the source line level, inspection of stack frames, source code listing, and evaluation of arbitrary Python code in the context of any stack frame. It also supports post-mortem debugging and can be called under",
-      "matchedWords": {
-        "7mVB5ndw9vcc": {
-          "hits": 1,
-          "textWords": 3857
-        },
-        "I-7rQ0e90mv8": {
-          "hits": 13,
-          "textWords": 3857
-        }
-      }
-    },
-    {
-      "hash": "SsaMrzS6MKD4",
-      "address": "https://github.com/topics/python3",
-      "title": "python3 · GitHub Topics · GitHub",
-      "snippet": "Python is a dynamically-typed garbage-collected programming language developed by Guido van Rossum in the late 80s to replace ABC. Much like the programming language Ruby, Python was designed to be easily read by programmers. Because of its large following and many libraries, Python can be",
-      "matchedWords": {
-        "7mVB5ndw9vcc": {
-          "hits": 0,
-          "textWords": 576
-        },
-        "I-7rQ0e90mv8": {
-          "hits": 29,
-          "textWords": 576
-        }
-      }
-    },
-    {
-      "hash": "SxNpQitD2jQw",
-      "address": "https://docs.python.org/3/library/index.html",
-      "title": "The Python Standard Library — Python 3.14.6 documentation",
-      "snippet": "Python Language Reference describes the exact syntax and semantics of the Python language, this library reference manual describes the standard library that is distributed with Python. It also describes some of the optional components that are commonly included in Python distributions.\nPython’s",
-      "matchedWords": {
-        "7mVB5ndw9vcc": {
-          "hits": 1,
-          "textWords": 1782
-        },
-        "I-7rQ0e90mv8": {
-          "hits": 41,
-          "textWords": 1782
-        }
-      }
-    },
-    {
-      "hash": "b2QR4zS6MKD4",
-      "address": "https://github.com/topics/exercises",
-      "title": "exercises · GitHub Topics · GitHub",
-      "snippet": "Python\nCode\nIssues\nPull requests\nA self-paced course to learn Rust, one exercise at a time.\nUpdated Jun 28, 2026\nRust\nCode\nIssues\nPull requests\nDiscussions\nPython Cheatsheet - interactive hands-on course by LabEx.\nUpdated Jul 1, 2026\nVue\nCode\nIssues\nPull requests\nLearn the Zig programming language",
-      "matchedWords": {
-        "7mVB5ndw9vcc": {
-          "hits": 0,
-          "textWords": 441
-        },
-        "I-7rQ0e90mv8": {
-          "hits": 7,
-          "textWords": 441
-        }
-      }
-    },
-    {
-      "hash": "N_k4T6AFJcQg",
-      "address": "https://repo.arcanis.me/arcanisrepo/x86_64/index.html",
-      "title": "arcanisrepo",
-      "snippet": "python-bcrypt\npython-filelock\npython-inflection\npython-pyelftools\npython-requests 479.9 KiB 3.6 MiB 2026-08-18 09:25:31 ahriman-triggers 2.22.1-1 any ArcH linux ReposItory MANager, additional extensions https://ahriman.readthedocs.io/ GPL-3.0-or-later ahriman-core 34.2 KiB 201.3 KiB 2026-08-18",
-      "matchedWords": {
-        "7mVB5ndw9vcc": {
-          "hits": 1,
-          "textWords": 8527
-        },
-        "I-7rQ0e90mv8": {
-          "hits": 137,
-          "textWords": 8527
-        }
-      }
-    },
-    {
-      "hash": "z02vKTCk19rw",
-      "address": "https://peps.python.org/",
-      "title": "PEP 0 – Index of Python Enhancement Proposals (PEPs) | peps.python.org",
-      "snippet": "Python Enhancement Proposals (PEPs) PEP 0 – Index of Python Enhancement Proposals (PEPs)\nAuthor:\nThe PEP Editors\nStatus:\nActive\nType:\nInformational\nCreated:\n13-Jul-2000\nTable of Contents\nIntroduction\nTopics\nAPI\nNumerical Index\nIndex by Category Process and Meta-PEPs\nOther Informational PEPs",
-      "matchedWords": {
-        "7mVB5ndw9vcc": {
-          "hits": 1,
-          "textWords": 10361
-        },
-        "I-7rQ0e90mv8": {
-          "hits": 207,
-          "textWords": 10361
-        }
-      }
-    },
-    {
-      "hash": "CjgsxsIyoLTx",
-      "address": "https://planetpython.org/",
-      "title": "Planet Python",
-      "snippet": "Python package that does all of this for me:\nI run newsprint from the command line. It takes all of the starred messages in my toprint folder, and creates a PDF file from them, 4 pages/side.\nAlong the way, it strips out all of the promotional, subscribe/unsubscribe stuff.\nIt removes images, unless",
-      "matchedWords": {
-        "7mVB5ndw9vcc": {
-          "hits": 3,
-          "textWords": 30728
-        },
-        "I-7rQ0e90mv8": {
-          "hits": 139,
-          "textWords": 30728
-        }
-      }
-    },
-    {
-      "hash": "D4lABzaS0qdw",
-      "address": "https://planet.debian.org/",
-      "title": "Planet Debian",
-      "snippet": "This August, I accomplished what I wanted for many years: I deleted the last cgo dependency in Debian Code Search! This was made possible by Go’s recently introduced SIMD support, because now we can implement the TurboPFor integer compression format as efficiently — more efficiently, in fact, by",
-      "matchedWords": {
-        "7mVB5ndw9vcc": {
-          "hits": 0,
-          "textWords": 8109
-        },
-        "I-7rQ0e90mv8": {
-          "hits": 0,
-          "textWords": 8109
-        }
-      }
-    },
-    {
-      "hash": "d3JEshdG5jPw",
-      "address": "https://www.python.org/downloads/release/python-3410/",
-      "title": "Python Release Python 3.4.10 | Python.org",
-      "snippet": "Python 3.4.10 reached end-of-life on 2019-03-18. It is no longer supported and does not receive security updates. We recommend upgrading to the latest Python release.\nRelease date: March 18, 2019\nPython 3.4 has reached end-of-life. Python 3.4.10 is the final release of 3.4.\nPython 3.4.10 was",
-      "matchedWords": {
-        "7mVB5ndw9vcc": {
-          "hits": 1,
-          "textWords": 411
-        },
-        "I-7rQ0e90mv8": {
-          "hits": 19,
-          "textWords": 411
-        }
-      }
-    },
-    {
-      "hash": "WEIifshgn1pw",
-      "address": "https://redis.io/agents/",
-      "title": "",
-      "snippet": "",
-      "matchedWords": {
-        "7mVB5ndw9vcc": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "I-7rQ0e90mv8": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "w-d8WitD2jQw",
-      "address": "https://docs.python.org/3/license.html",
-      "title": "History and License — Python 3.14.7 documentation",
-      "snippet": "Python was created in the early 1990s by Guido van Rossum at Stichting Mathematisch Centrum (CWI, see https://www.cwi.nl) in the Netherlands as a successor of a language called ABC. Guido remains Python’s principal author, although it includes many contributions from others.\nIn 1995, Guido",
-      "matchedWords": {
-        "7mVB5ndw9vcc": {
-          "hits": 2,
-          "textWords": 8080
-        },
-        "I-7rQ0e90mv8": {
-          "hits": 59,
-          "textWords": 8080
-        }
-      }
-    },
-    {
-      "hash": "CLZHisyy0pUx",
-      "address": "https://salut-a-toi.org/",
-      "title": "Libervia",
-      "snippet": "",
-      "matchedWords": {
-        "7mVB5ndw9vcc": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "I-7rQ0e90mv8": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "A3q5IzS6MKD4",
-      "address": "https://github.com/topics/python",
-      "title": "python · GitHub Topics · GitHub",
-      "snippet": "Python is a dynamically-typed garbage-collected programming language developed by Guido van Rossum in the late 80s to replace ABC. Much like the programming language Ruby, Python was designed to be easily read by programmers. Because of its large following and many libraries, Python can be",
-      "matchedWords": {
-        "7mVB5ndw9vcc": {
-          "hits": 0,
-          "textWords": 503
-        },
-        "I-7rQ0e90mv8": {
-          "hits": 21,
-          "textWords": 503
-        }
-      }
-    },
-    {
-      "hash": "FPW6xzS6MKD4",
-      "address": "https://github.com/topics/iot",
-      "title": "iot · GitHub Topics · GitHub",
-      "snippet": "",
-      "matchedWords": {
-        "7mVB5ndw9vcc": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "I-7rQ0e90mv8": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "KsKu2sS6MKD4",
-      "address": "https://github.com/explore",
-      "title": "Explore GitHub · GitHub",
-      "snippet": "Python\nTrending repository\nCode\nIssues\nPull requests\nA spy satellite simulator in your browser, except the data is real. Live open source spatial intelligence on a photorealistic 3D globe.\nUpdated Sep 11, 2026\nJavaScript\nGitHub Checkout\nCopilot CLI update: chronicle, plugins, and fleet mode\nIn this",
-      "matchedWords": {
-        "7mVB5ndw9vcc": {
-          "hits": 0,
-          "textWords": 699
-        },
-        "I-7rQ0e90mv8": {
-          "hits": 4,
-          "textWords": 699
-        }
-      }
-    },
-    {
-      "hash": "M89BHJS6MKD4",
-      "address": "https://github.com/home-assistant/core",
-      "title": "GitHub - home-assistant/core: :house_with_garden: Open source home automation that puts local control and privacy first. · GitHub",
-      "snippet": "",
-      "matchedWords": {
-        "7mVB5ndw9vcc": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "I-7rQ0e90mv8": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "Sab0gzS6MKD4",
-      "address": "https://github.com/topics/json",
-      "title": "json · GitHub Topics · GitHub",
-      "snippet": "",
-      "matchedWords": {
-        "7mVB5ndw9vcc": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "I-7rQ0e90mv8": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "WbmbAzS6MKD4",
-      "address": "https://github.com/topics/tui",
-      "title": "tui · GitHub Topics · GitHub",
-      "snippet": "",
-      "matchedWords": {
-        "7mVB5ndw9vcc": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "I-7rQ0e90mv8": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "YvOKDzS6MKD4",
-      "address": "https://github.com/topics/socket-io",
-      "title": "socket-io · GitHub Topics · GitHub",
-      "snippet": "",
-      "matchedWords": {
-        "7mVB5ndw9vcc": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "I-7rQ0e90mv8": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "r_u7azS6MKD4",
-      "address": "https://github.com/topics/hacktoberfest",
-      "title": "hacktoberfest · GitHub Topics · GitHub",
-      "snippet": "",
-      "matchedWords": {
-        "7mVB5ndw9vcc": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "I-7rQ0e90mv8": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "toJsSzS6MKD4",
-      "address": "https://github.com/topics/api",
-      "title": "api · GitHub Topics · GitHub",
-      "snippet": "Python\nCode\nIssues\nPull requests\nDiscussions\nVim-fork focused on extensibility and usability\nUpdated Sep 11, 2026\nVim Script\nCode\nIssues\nPull requests\nDiscussions\nFastAPI framework, high performance, easy to learn, fast to code, ready for production\nUpdated Sep 1, 2026\nPython\nCode\nIssues\nPull",
-      "matchedWords": {
-        "7mVB5ndw9vcc": {
-          "hits": 0,
-          "textWords": 583
-        },
-        "I-7rQ0e90mv8": {
-          "hits": 5,
-          "textWords": 583
-        }
-      }
-    },
-    {
-      "hash": "zfvlazS6MKD4",
-      "address": "https://github.com/topics/http-server",
-      "title": "http-server · GitHub Topics · GitHub",
-      "snippet": "",
-      "matchedWords": {
-        "7mVB5ndw9vcc": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "I-7rQ0e90mv8": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "CjgsxsIyoLTx",
-      "address": "https://planetpython.org/",
-      "title": "Planet Python",
-      "snippet": "Python package that does all of this for me:\nI run newsprint from the command line. It takes all of the starred messages in my toprint folder, and creates a PDF file from them, 4 pages/side.\nAlong the way, it strips out all of the promotional, subscribe/unsubscribe stuff.\nIt removes images, unless",
-      "matchedWords": {
-        "7mVB5ndw9vcc": {
-          "hits": 3,
-          "textWords": 30728
-        },
-        "I-7rQ0e90mv8": {
-          "hits": 139,
-          "textWords": 30728
-        }
-      }
-    },
-    {
-      "hash": "D4lABzaS0qdw",
-      "address": "https://planet.debian.org/",
-      "title": "Planet Debian",
-      "snippet": "This August, I accomplished what I wanted for many years: I deleted the last cgo dependency in Debian Code Search! This was made possible by Go’s recently introduced SIMD support, because now we can implement the TurboPFor integer compression format as efficiently — more efficiently, in fact, by",
-      "matchedWords": {
-        "7mVB5ndw9vcc": {
-          "hits": 0,
-          "textWords": 8109
-        },
-        "I-7rQ0e90mv8": {
-          "hits": 0,
-          "textWords": 8109
-        }
-      }
-    },
-    {
-      "hash": "PP9KZa1ajpq5",
-      "address": "https://www.linuxjournal.com/tag/programming",
-      "title": "Programming | Linux Journal",
-      "snippet": "",
-      "matchedWords": {
-        "7mVB5ndw9vcc": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "I-7rQ0e90mv8": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "Pzcmwm1dafs6",
-      "address": "https://stackoverflow.com/questions/tagged/testing",
-      "title": "Newest 'testing' Questions - Stack Overflow",
-      "snippet": "",
-      "matchedWords": {
-        "7mVB5ndw9vcc": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "I-7rQ0e90mv8": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "C_WsyyAacB5w",
-      "address": "https://docs.aiohttp.org/en/stable/",
-      "title": "Welcome to AIOHTTP — aiohttp 3.9.5 documentation",
-      "snippet": "asyncio and Python.\nCurrent version is 3.14.3.\nKey Features¶\nSupports both Client and HTTP Server.\nSupports both Server WebSockets and Client WebSockets out-of-the-box without the Callback Hell.\nWeb-server has Middlewares, Signals and pluggable routing.\nClient supports middleware for customizing",
-      "matchedWords": {
-        "7mVB5ndw9vcc": {
-          "hits": 4,
-          "textWords": 801
-        },
-        "I-7rQ0e90mv8": {
-          "hits": 4,
-          "textWords": 801
-        }
-      }
-    },
-    {
-      "hash": "AEEDPTCk19rw",
-      "address": "https://peps.python.org/pep-0000/",
-      "title": "PEP 0 – Index of Python Enhancement Proposals (PEPs) | peps.python.org",
-      "snippet": "Python Enhancement Proposals (PEPs) PEP 0 – Index of Python Enhancement Proposals (PEPs)\nAuthor:\nThe PEP Editors\nStatus:\nActive\nType:\nInformational\nCreated:\n13-Jul-2000\nTable of Contents\nIntroduction\nTopics\nAPI\nNumerical Index\nIndex by Category Process and Meta-PEPs\nOther Informational PEPs",
-      "matchedWords": {
-        "7mVB5ndw9vcc": {
-          "hits": 1,
-          "textWords": 10361
-        },
-        "I-7rQ0e90mv8": {
-          "hits": 207,
-          "textWords": 10361
-        }
-      }
-    },
-    {
-      "hash": "z02vKTCk19rw",
-      "address": "https://peps.python.org/",
-      "title": "PEP 0 – Index of Python Enhancement Proposals (PEPs) | peps.python.org",
-      "snippet": "Python Enhancement Proposals (PEPs) PEP 0 – Index of Python Enhancement Proposals (PEPs)\nAuthor:\nThe PEP Editors\nStatus:\nActive\nType:\nInformational\nCreated:\n13-Jul-2000\nTable of Contents\nIntroduction\nTopics\nAPI\nNumerical Index\nIndex by Category Process and Meta-PEPs\nOther Informational PEPs",
-      "matchedWords": {
-        "7mVB5ndw9vcc": {
-          "hits": 1,
-          "textWords": 10361
-        },
-        "I-7rQ0e90mv8": {
-          "hits": 207,
-          "textWords": 10361
-        }
-      }
-    },
-    {
-      "hash": "CjgsxsIyoLTx",
-      "address": "https://planetpython.org/",
-      "title": "Planet Python",
-      "snippet": "Python package that does all of this for me:\nI run newsprint from the command line. It takes all of the starred messages in my toprint folder, and creates a PDF file from them, 4 pages/side.\nAlong the way, it strips out all of the promotional, subscribe/unsubscribe stuff.\nIt removes images, unless",
-      "matchedWords": {
-        "7mVB5ndw9vcc": {
-          "hits": 3,
-          "textWords": 30728
-        },
-        "I-7rQ0e90mv8": {
-          "hits": 139,
-          "textWords": 30728
-        }
-      }
-    },
-    {
-      "hash": "PEeMv7JPbCex",
-      "address": "https://iperf2.sourceforge.io/IperfCompare.html",
-      "title": "",
-      "snippet": "",
-      "matchedWords": {
-        "7mVB5ndw9vcc": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "I-7rQ0e90mv8": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "CZhAeVPrLiu6",
-      "address": "https://palletsprojects.com/projects/jinja/",
-      "title": "Pallets",
-      "snippet": "Python syntax. Then the template is passed data to render the final document.\nIt includes:\nTemplate inheritance and inclusion.\nDefine and import macros within templates.\nHTML templates can use autoescaping to prevent XSS from untrusted user input.\nA sandboxed environment can safely render untrusted",
-      "matchedWords": {
-        "7mVB5ndw9vcc": {
-          "hits": 1,
-          "textWords": 169
-        },
-        "I-7rQ0e90mv8": {
-          "hits": 3,
-          "textWords": 169
-        }
-      }
-    },
-    {
-      "hash": "A3q5IzS6MKD4",
-      "address": "https://github.com/topics/python",
-      "title": "python · GitHub Topics · GitHub",
-      "snippet": "Python is a dynamically-typed garbage-collected programming language developed by Guido van Rossum in the late 80s to replace ABC. Much like the programming language Ruby, Python was designed to be easily read by programmers. Because of its large following and many libraries, Python can be",
-      "matchedWords": {
-        "7mVB5ndw9vcc": {
-          "hits": 0,
-          "textWords": 503
-        },
-        "I-7rQ0e90mv8": {
-          "hits": 21,
-          "textWords": 503
-        }
-      }
-    },
-    {
-      "hash": "M89BHJS6MKD4",
-      "address": "https://github.com/home-assistant/core",
-      "title": "GitHub - home-assistant/core: :house_with_garden: Open source home automation that puts local control and privacy first.",
-      "snippet": "",
-      "matchedWords": {
-        "7mVB5ndw9vcc": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "I-7rQ0e90mv8": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "R-CJ2zS6MKD4",
-      "address": "https://github.com/topics/http3",
-      "title": "http3 · GitHub Topics · GitHub",
-      "snippet": "Python\nCode\nIssues\nPull requests\nDiscussions\nSmall, fast, modern HTTP server for Erlang/OTP.\nUpdated Sep 8, 2026\nErlang\nCode\nIssues\nPull requests\nDiscussions\nGO Simple Tunnel - a simple tunnel written in golang\nUpdated Sep 7, 2026\nGo\nCode\nIssues\nPull requests\nDiscussions\nReqable issue track repo",
-      "matchedWords": {
-        "7mVB5ndw9vcc": {
-          "hits": 0,
-          "textWords": 419
-        },
-        "I-7rQ0e90mv8": {
-          "hits": 2,
-          "textWords": 419
-        }
-      }
-    },
-    {
-      "hash": "Sab0gzS6MKD4",
-      "address": "https://github.com/topics/json",
-      "title": "json · GitHub Topics · GitHub",
-      "snippet": "",
-      "matchedWords": {
-        "7mVB5ndw9vcc": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "I-7rQ0e90mv8": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "SsaMrzS6MKD4",
-      "address": "https://github.com/topics/python3",
-      "title": "python3 · GitHub Topics · GitHub",
-      "snippet": "Python is a dynamically-typed garbage-collected programming language developed by Guido van Rossum in the late 80s to replace ABC. Much like the programming language Ruby, Python was designed to be easily read by programmers. Because of its large following and many libraries, Python can be",
-      "matchedWords": {
-        "7mVB5ndw9vcc": {
-          "hits": 0,
-          "textWords": 576
-        },
-        "I-7rQ0e90mv8": {
-          "hits": 29,
-          "textWords": 576
-        }
-      }
-    },
-    {
-      "hash": "TpRo8zS6MKD4",
-      "address": "https://github.com/topics/framework",
-      "title": "framework · GitHub Topics · GitHub",
-      "snippet": "",
-      "matchedWords": {
-        "7mVB5ndw9vcc": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "I-7rQ0e90mv8": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "r_u7azS6MKD4",
-      "address": "https://github.com/topics/hacktoberfest",
-      "title": "hacktoberfest · GitHub Topics · GitHub",
-      "snippet": "",
-      "matchedWords": {
-        "7mVB5ndw9vcc": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "I-7rQ0e90mv8": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "toJsSzS6MKD4",
-      "address": "https://github.com/topics/api",
-      "title": "api · GitHub Topics · GitHub",
-      "snippet": "Python\nCode\nIssues\nPull requests\nDiscussions\nVim-fork focused on extensibility and usability\nUpdated Sep 11, 2026\nVim Script\nCode\nIssues\nPull requests\nDiscussions\nFastAPI framework, high performance, easy to learn, fast to code, ready for production\nUpdated Sep 1, 2026\nPython\nCode\nIssues\nPull",
-      "matchedWords": {
-        "7mVB5ndw9vcc": {
-          "hits": 0,
-          "textWords": 583
-        },
-        "I-7rQ0e90mv8": {
-          "hits": 5,
-          "textWords": 583
-        }
-      }
-    },
-    {
-      "hash": "zfvlazS6MKD4",
-      "address": "https://github.com/topics/http-server",
-      "title": "http-server · GitHub Topics · GitHub",
-      "snippet": "",
-      "matchedWords": {
-        "7mVB5ndw9vcc": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "I-7rQ0e90mv8": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "G3ZGKoTDwvCw",
-      "address": "https://packages.gentoo.org/useflags/test",
-      "title": "test – USE flags – Gentoo Packages",
-      "snippet": "© 2001–2026 Gentoo Authors\nGentoo is a trademark of the Gentoo Foundation, Inc. and of Förderverein Gentoo e.V. The contents of this document, unless otherwise expressly stated, are licensed under the CC-BY-SA-4.0 license. The Gentoo Name and Logo Usage Guidelines apply.\nContact\nv1.0.3",
-      "matchedWords": {
-        "7mVB5ndw9vcc": {
-          "hits": 0,
-          "textWords": 43
-        },
-        "I-7rQ0e90mv8": {
-          "hits": 0,
-          "textWords": 43
-        }
-      }
-    },
-    {
-      "hash": "D4lABzaS0qdw",
-      "address": "https://planet.debian.org/",
-      "title": "Planet Debian",
-      "snippet": "This August, I accomplished what I wanted for many years: I deleted the last cgo dependency in Debian Code Search! This was made possible by Go’s recently introduced SIMD support, because now we can implement the TurboPFor integer compression format as efficiently — more efficiently, in fact, by",
-      "matchedWords": {
-        "7mVB5ndw9vcc": {
-          "hits": 0,
-          "textWords": 8109
-        },
-        "I-7rQ0e90mv8": {
-          "hits": 0,
-          "textWords": 8109
-        }
-      }
-    },
-    {
-      "hash": "CyqQuhdG5jPw",
-      "address": "https://www.python.org/downloads/release/python-3113/",
-      "title": "Python Release Python 3.11.3 | Python.org",
-      "snippet": "Python 3.11.3 has been superseded by Python 3.11.16.\nRelease date: April 5, 2023\nThis is the third maintenance release of Python 3.11\nPython 3.11.3 is the newest major release of the Python programming language, and it contains many new features and optimizations.\nMajor new features of the 3.11",
-      "matchedWords": {
-        "7mVB5ndw9vcc": {
-          "hits": 1,
-          "textWords": 516
-        },
-        "I-7rQ0e90mv8": {
-          "hits": 10,
-          "textWords": 516
-        }
-      }
-    },
-    {
-      "hash": "GPRW9hdG5jPw",
-      "address": "https://www.python.org/downloads/release/python-3118/",
-      "title": "Python Release Python 3.11.8 | Python.org",
-      "snippet": "Python 3.11.8 has been superseded by Python 3.11.16.\nRelease date: Feb. 6, 2024\nThis is the eighth maintenance release of Python 3.11\nPython 3.11.8 is the newest major release of the Python programming language, and it contains many new features and optimizations.\nMajor new features of the 3.11",
-      "matchedWords": {
-        "7mVB5ndw9vcc": {
-          "hits": 1,
-          "textWords": 470
-        },
-        "I-7rQ0e90mv8": {
-          "hits": 10,
-          "textWords": 470
-        }
-      }
-    },
-    {
-      "hash": "Pfu32hdG5jPw",
-      "address": "https://www.python.org/downloads/release/python-344rc1/",
-      "title": "Python Release Python 3.4.4rc1 | Python.org",
-      "snippet": "Python 3.4.4 reached end-of-life on 2019-03-18. It is no longer supported and does not receive security updates. We recommend upgrading to the latest Python release.\nNote: Python 3.4.4rc1 has been superseded by Python 3.4.10.\nRelease date: Dec. 7, 2015\nPython 3.4 has reached end-of-life. Python",
-      "matchedWords": {
-        "7mVB5ndw9vcc": {
-          "hits": 1,
-          "textWords": 498
-        },
-        "I-7rQ0e90mv8": {
-          "hits": 14,
-          "textWords": 498
-        }
-      }
-    },
-    {
-      "hash": "d3JEshdG5jPw",
-      "address": "https://www.python.org/downloads/release/python-3410/",
-      "title": "Python Release Python 3.4.10 | Python.org",
-      "snippet": "Python 3.4.10 reached end-of-life on 2019-03-18. It is no longer supported and does not receive security updates. We recommend upgrading to the latest Python release.\nRelease date: March 18, 2019\nPython 3.4 has reached end-of-life. Python 3.4.10 is the final release of 3.4.\nPython 3.4.10 was",
-      "matchedWords": {
-        "7mVB5ndw9vcc": {
-          "hits": 1,
-          "textWords": 411
-        },
-        "I-7rQ0e90mv8": {
-          "hits": 19,
-          "textWords": 411
-        }
-      }
-    },
-    {
-      "hash": "4VNuShdG5jPw",
-      "address": "https://www.python.org/downloads/release/python-347/",
-      "title": "Python Release Python 3.4.7 | Python.org",
-      "snippet": "Python 3.4.7 reached end-of-life on 2019-03-18. It is no longer supported and does not receive security updates. We recommend upgrading to the latest Python release.\nNote: Python 3.4.7 has been superseded by Python 3.4.10.\nRelease date: Aug. 9, 2017\nPython 3.4 has reached end-of-life. Python",
-      "matchedWords": {
-        "7mVB5ndw9vcc": {
-          "hits": 1,
-          "textWords": 355
-        },
-        "I-7rQ0e90mv8": {
-          "hits": 18,
-          "textWords": 355
-        }
-      }
-    },
-    {
-      "hash": "aRuKtysDHqBw",
-      "address": "https://docs.scrapy.org/en/latest/faq.html",
-      "title": "Frequently Asked Questions \u0026mdash; Scrapy 2.13.4 documentation",
-      "snippet": "",
-      "matchedWords": {
-        "7mVB5ndw9vcc": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "I-7rQ0e90mv8": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "Bu9laitD2jQw",
       "address": "https://docs.python.org/3/using/cmdline.html",
-      "title": "1. Command line and environment — Python 3.13.5 documentation",
+      "title": "1. Command line and environment — Python 3.14.6 documentation",
       "snippet": "Python, you may specify any of these options:\npython [-bBdEhiIOPqRsSuvVWx?] [-c command | -m module-name | script | - ] [args]\nThe most common use case is, of course, a simple invocation of a script:\npython myscript.py\n1.1.1. Interface options¶\nThe interpreter interface resembles that of the UNIX",
       "matchedWords": {
         "7mVB5ndw9vcc": {
@@ -1538,12 +525,47 @@
           "hits": 126,
           "textWords": 6331
         }
-      }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "CYduPitD2jQw",
+      "address": "https://docs.python.org/3/genindex-H.html",
+      "title": "Index — Python 3.14.6 documentation",
+      "snippet": "asyncio)\nhandle an exception\nhandle() (http.server.BaseHTTPRequestHandler method) (logging.Handler method)\n(logging.handlers.QueueListener method)\n(logging.Logger method)\n(logging.NullHandler method)\n(socketserver.BaseRequestHandler method)\n(wsgiref.simple_server.WSGIRequestHandler method)",
+      "matchedWords": {
+        "7mVB5ndw9vcc": {
+          "hits": 1,
+          "textWords": 1399
+        },
+        "I-7rQ0e90mv8": {
+          "hits": 0,
+          "textWords": 1399
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "DiC31itD2jQw",
+      "address": "https://docs.python.org/3/whatsnew/3.11.html",
+      "title": "What’s New In Python 3.11 — Python 3.14.6 documentation",
+      "snippet": "Python 3.11, compared to 3.10. Python 3.11 was released on October 24, 2022. For full details, see the changelog.\nSummary – Release highlights¶\nPython 3.11 is between 10-60% faster than Python 3.10. On average, we measured a 1.25x speedup on the standard benchmark suite. See Faster CPython for",
+      "matchedWords": {
+        "7mVB5ndw9vcc": {
+          "hits": 9,
+          "textWords": 10855
+        },
+        "I-7rQ0e90mv8": {
+          "hits": 142,
+          "textWords": 10855
+        }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "Doee3itD2jQw",
       "address": "https://docs.python.org/3/library/socket.html",
-      "title": "socket — Low-level networking interface — Python 3.12.4 documentation",
+      "title": "socket — Low-level networking interface — Python 3.14.0 documentation",
       "snippet": "Python interface is a straightforward transliteration of the Unix system call and library interface for sockets to Python’s object-oriented style: the socket() function returns a socket object whose methods implement the various socket system calls. Parameter types are somewhat higher-level than in",
       "matchedWords": {
         "7mVB5ndw9vcc": {
@@ -1554,108 +576,13 @@
           "hits": 8,
           "textWords": 11662
         }
-      }
-    },
-    {
-      "hash": "F2xV5itD2jQw",
-      "address": "https://docs.python.org/3/library/__main__.html",
-      "title": "__main__ — Top-level code environment — Python 3.14.5rc1 documentation",
-      "snippet": "Python, the special name __main__ is used for two important constructs:\nthe name of the top-level environment of the program, which can be checked using the __name__ == '__main__' expression; and\nthe __main__.py file in Python packages.\nBoth of these mechanisms are related to Python modules; how",
-      "matchedWords": {
-        "7mVB5ndw9vcc": {
-          "hits": 3,
-          "textWords": 1623
-        },
-        "I-7rQ0e90mv8": {
-          "hits": 35,
-          "textWords": 1623
-        }
-      }
-    },
-    {
-      "hash": "PNm3yitD2jQw",
-      "address": "https://docs.python.org/3/library/pdb.html",
-      "title": "pdb — The Python Debugger — Python 3.14.5rc1 documentation",
-      "snippet": "Python programs. It supports setting (conditional) breakpoints and single stepping at the source line level, inspection of stack frames, source code listing, and evaluation of arbitrary Python code in the context of any stack frame. It also supports post-mortem debugging and can be called under",
-      "matchedWords": {
-        "7mVB5ndw9vcc": {
-          "hits": 1,
-          "textWords": 3857
-        },
-        "I-7rQ0e90mv8": {
-          "hits": 13,
-          "textWords": 3857
-        }
-      }
-    },
-    {
-      "hash": "SxNpQitD2jQw",
-      "address": "https://docs.python.org/3/library/index.html",
-      "title": "The Python Standard Library — Python 3.14.5rc1 documentation",
-      "snippet": "Python Language Reference describes the exact syntax and semantics of the Python language, this library reference manual describes the standard library that is distributed with Python. It also describes some of the optional components that are commonly included in Python distributions.\nPython’s",
-      "matchedWords": {
-        "7mVB5ndw9vcc": {
-          "hits": 1,
-          "textWords": 1782
-        },
-        "I-7rQ0e90mv8": {
-          "hits": 41,
-          "textWords": 1782
-        }
-      }
-    },
-    {
-      "hash": "w-d8WitD2jQw",
-      "address": "https://docs.python.org/3/license.html",
-      "title": "History and License — Python 3.14.5rc1 documentation",
-      "snippet": "Python was created in the early 1990s by Guido van Rossum at Stichting Mathematisch Centrum (CWI, see https://www.cwi.nl) in the Netherlands as a successor of a language called ABC. Guido remains Python’s principal author, although it includes many contributions from others.\nIn 1995, Guido",
-      "matchedWords": {
-        "7mVB5ndw9vcc": {
-          "hits": 2,
-          "textWords": 8080
-        },
-        "I-7rQ0e90mv8": {
-          "hits": 59,
-          "textWords": 8080
-        }
-      }
-    },
-    {
-      "hash": "-xpxEitD2jQw",
-      "address": "https://docs.python.org/3/contents.html",
-      "title": "Python Documentation contents — Python 3.14.5rc1 documentation",
-      "snippet": "Python What’s new in Python 3.14 Summary – Release highlights\nNew features PEP 649 \u0026 PEP 749: Deferred evaluation of annotations\nPEP 734: Multiple interpreters in the standard library\nPEP 750: Template string literals\nPEP 768: Safe external debugger interface\nA new type of interpreter\nFree-threaded",
-      "matchedWords": {
-        "7mVB5ndw9vcc": {
-          "hits": 22,
-          "textWords": 15755
-        },
-        "I-7rQ0e90mv8": {
-          "hits": 440,
-          "textWords": 15755
-        }
-      }
-    },
-    {
-      "hash": "CLZHisyy0pUx",
-      "address": "https://salut-a-toi.org/",
-      "title": "Libervia",
-      "snippet": "",
-      "matchedWords": {
-        "7mVB5ndw9vcc": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "I-7rQ0e90mv8": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "E2RhIitD2jQw",
       "address": "https://docs.python.org/3/library/concurrent.futures.html",
-      "title": "concurrent.futures — Launching parallel tasks — Python 3.13.2 documentation",
+      "title": "concurrent.futures — Launching parallel tasks — Python 3.14.6 documentation",
       "snippet": "asyncio.Future, which is designed for use with asyncio tasks and coroutines. See the asyncio’s Future documentation for a detailed comparison of the two.\nExecutor Objects¶\nclass concurrent.futures.Executor¶\nAn abstract class that provides methods to execute calls asynchronously. It should not be",
       "matchedWords": {
         "7mVB5ndw9vcc": {
@@ -1666,7 +593,8 @@
           "hits": 3,
           "textWords": 3710
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "FLRBMitD2jQw",
@@ -1682,12 +610,13 @@
           "hits": 6,
           "textWords": 3175
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "Fu6eTitD2jQw",
       "address": "https://docs.python.org/3/genindex-I.html",
-      "title": "Index — Python 3.13.2 documentation",
+      "title": "Index — Python 3.14.6 documentation",
       "snippet": "(asyncio.loop method)\nis_closing() (asyncio.BaseTransport method) (asyncio.StreamWriter method)\nis_comp_cell() (symtable.Symbol method)\nis_comp_iter() (symtable.Symbol method)\nis_dataclass() (in module dataclasses)\nis_declared_global() (symtable.Symbol method)\nis_dir()",
       "matchedWords": {
         "7mVB5ndw9vcc": {
@@ -1698,12 +627,13 @@
           "hits": 1,
           "textWords": 3287
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "F2xV5itD2jQw",
       "address": "https://docs.python.org/3/library/__main__.html",
-      "title": "29.4. __main__ — Top-level script environment \u0026mdash; Python 3.5.2 documentation",
+      "title": "__main__ — Top-level code environment — Python 3.14.6 documentation",
       "snippet": "Python, the special name __main__ is used for two important constructs:\nthe name of the top-level environment of the program, which can be checked using the __name__ == '__main__' expression; and\nthe __main__.py file in Python packages.\nBoth of these mechanisms are related to Python modules; how",
       "matchedWords": {
         "7mVB5ndw9vcc": {
@@ -1714,12 +644,13 @@
           "hits": 35,
           "textWords": 1623
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "HQC7YitD2jQw",
       "address": "https://docs.python.org/3/library/asyncio-sync.html",
-      "title": "Synchronization Primitives — Python 3.14.7 documentation",
+      "title": "Synchronization Primitives — Python 3.14.6 documentation",
       "snippet": "Lib/asyncio/locks.py\nasyncio synchronization primitives are designed to be similar to those of the threading module with two important caveats:\nasyncio primitives are not thread-safe, therefore they should not be used for OS thread synchronization (use threading for that);\nmethods of these",
       "matchedWords": {
         "7mVB5ndw9vcc": {
@@ -1730,12 +661,13 @@
           "hits": 0,
           "textWords": 1548
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "HYOfTitD2jQw",
       "address": "https://docs.python.org/3/whatsnew/3.7.html",
-      "title": "What’s New In Python 3.7 — Python 3.13.2 documentation",
+      "title": "What’s New In Python 3.7 — Python 3.14.3 documentation",
       "snippet": "Python 3.7, compared to 3.6. Python 3.7 was released on June 27, 2018. For full details, see the changelog.\nSummary – Release Highlights¶\nNew syntax features:\nPEP 563, postponed evaluation of type annotations.\nBackwards incompatible syntax changes:\nasync and await are now reserved keywords.\nNew",
       "matchedWords": {
         "7mVB5ndw9vcc": {
@@ -1746,12 +678,13 @@
           "hits": 112,
           "textWords": 12861
         }
-      }
+      },
+      "queryPhraseHits": 1
     },
     {
       "hash": "ET8e4lyA5Uix",
       "address": "https://www.tornadoweb.org/en/stable/ioloop.html",
-      "title": "tornado.ioloop — Main event loop — Tornado 6.4.2 documentation",
+      "title": "tornado.ioloop — Main event loop — Tornado 6.5.7 documentation",
       "snippet": "asyncio event loop, with a slightly different interface. The IOLoop interface is now provided primarily for backwards compatibility; new code should generally use the asyncio event loop interface directly. The IOLoop.current class method provides the IOLoop instance corresponding to the running",
       "matchedWords": {
         "7mVB5ndw9vcc": {
@@ -1762,103 +695,8 @@
           "hits": 3,
           "textWords": 2481
         }
-      }
-    },
-    {
-      "hash": "zfvlazS6MKD4",
-      "address": "https://github.com/topics/http-server",
-      "title": "http-server · GitHub Topics · GitHub",
-      "snippet": "",
-      "matchedWords": {
-        "7mVB5ndw9vcc": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "I-7rQ0e90mv8": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "WEIifshgn1pw",
-      "address": "https://redis.io/agents/",
-      "title": "",
-      "snippet": "",
-      "matchedWords": {
-        "7mVB5ndw9vcc": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "I-7rQ0e90mv8": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "YT38mzS6MKD4",
-      "address": "https://github.com/topics/raspberry-pi",
-      "title": "raspberry-pi · GitHub Topics · GitHub",
-      "snippet": "",
-      "matchedWords": {
-        "7mVB5ndw9vcc": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "I-7rQ0e90mv8": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "YvOKDzS6MKD4",
-      "address": "https://github.com/topics/socket-io",
-      "title": "socket-io · GitHub Topics · GitHub",
-      "snippet": "",
-      "matchedWords": {
-        "7mVB5ndw9vcc": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "I-7rQ0e90mv8": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "b2QR4zS6MKD4",
-      "address": "https://github.com/topics/exercises",
-      "title": "exercises · GitHub Topics · GitHub",
-      "snippet": "Python\nCode\nIssues\nPull requests\nA self-paced course to learn Rust, one exercise at a time.\nUpdated Jun 28, 2026\nRust\nCode\nIssues\nPull requests\nDiscussions\nPython Cheatsheet - interactive hands-on course by LabEx.\nUpdated Jul 1, 2026\nVue\nCode\nIssues\nPull requests\nLearn the Zig programming language",
-      "matchedWords": {
-        "7mVB5ndw9vcc": {
-          "hits": 0,
-          "textWords": 441
-        },
-        "I-7rQ0e90mv8": {
-          "hits": 7,
-          "textWords": 441
-        }
-      }
-    },
-    {
-      "hash": "aRuKtysDHqBw",
-      "address": "https://docs.scrapy.org/en/latest/faq.html",
-      "title": "Frequently Asked Questions — Scrapy 2.16.0 documentation",
-      "snippet": "",
-      "matchedWords": {
-        "7mVB5ndw9vcc": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "I-7rQ0e90mv8": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "ojdnMD1nrxbw",
@@ -1874,11 +712,658 @@
           "hits": 375,
           "textWords": 43978
         }
-      }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "koqtyhS6MKD4",
+      "address": "https://github.com/oxylabs/oxylabs-sdk-python",
+      "title": "GitHub - oxylabs/oxylabs-sdk-python: Python SDK for the Oxylabs Web Scraper API. · GitHub",
+      "snippet": "Python SDK for the Oxylabs Scraper APIs.\nThis SDK helps integrate with Oxylabs’ all-in-one Web Scraper API. It can help you retrieve data from e-commerce websites, search engines (SERP), real estate platforms, and more.\nThe Python SDK provides you with several benefits over using the raw APIs",
+      "matchedWords": {
+        "7mVB5ndw9vcc": {
+          "hits": 4,
+          "textWords": 1663
+        },
+        "I-7rQ0e90mv8": {
+          "hits": 8,
+          "textWords": 1663
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "mdutUs_rJw_4",
+      "address": "https://gitlab.com/pineiden/gus",
+      "title": "David Pineda / gnsocket · GitLab",
+      "snippet": "asyncio. Can pass messages from any size and has a settings file.",
+      "matchedWords": {
+        "7mVB5ndw9vcc": {
+          "hits": 1,
+          "textWords": 17
+        },
+        "I-7rQ0e90mv8": {
+          "hits": 0,
+          "textWords": 17
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "ZnwkHkTOrrKw",
+      "address": "https://events.gnome.org/event/259/timetable/?view=standard_numbered",
+      "title": "GUADEC 2025 (24-July 29, 2025) · GNOME Events (Indico)",
+      "snippet": "24 Jul 2025, 01:06 → 29 Jul 2025, 18:00 Europe/Rome\nDescription\nWelcome to GUADEC 2025\nGUADEC is the GNOME community’s largest conference, bringing together hundreds of users, contributors, community members, and enthusiastic supporters for a week of talks and workshops.\nTimetable:\nJuly 24-26: Talk",
+      "matchedWords": {
+        "7mVB5ndw9vcc": {
+          "hits": 0,
+          "textWords": 119
+        },
+        "I-7rQ0e90mv8": {
+          "hits": 0,
+          "textWords": 119
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "YJid2dUhjm5w",
+      "address": "https://airflow.apache.org/docs/apache-airflow-providers-google/stable/_api/airflow/providers/google/cloud/triggers/dataproc/index.html",
+      "title": "airflow.providers.google.cloud.triggers.dataproc — apache-airflow-providers-google Documentation",
+      "snippet": "asyncio.CancelledError is called because the trigger itself is stopped. Because in those cases, we should NOT cancel the external job.\nasync run()[source]¶\nRun the trigger in an asynchronous context.\nThe trigger should yield an Event whenever it wants to fire off an event, and return None if it is",
+      "matchedWords": {
+        "7mVB5ndw9vcc": {
+          "hits": 1,
+          "textWords": 1903
+        },
+        "I-7rQ0e90mv8": {
+          "hits": 0,
+          "textWords": 1903
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "N_k4T6AFJcQg",
+      "address": "https://repo.arcanis.me/arcanisrepo/x86_64/index.html",
+      "title": "arcanisrepo",
+      "snippet": "python-bcrypt\npython-filelock\npython-inflection\npython-pyelftools\npython-requests 479.9 KiB 3.6 MiB 2026-08-18 09:25:31 ahriman-triggers 2.22.1-1 any ArcH linux ReposItory MANager, additional extensions https://ahriman.readthedocs.io/ GPL-3.0-or-later ahriman-core 34.2 KiB 201.3 KiB 2026-08-18",
+      "matchedWords": {
+        "7mVB5ndw9vcc": {
+          "hits": 1,
+          "textWords": 8527
+        },
+        "I-7rQ0e90mv8": {
+          "hits": 137,
+          "textWords": 8527
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "WEIifshgn1pw",
+      "address": "https://redis.io/agents/",
+      "title": "",
+      "snippet": "",
+      "matchedWords": {
+        "7mVB5ndw9vcc": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "I-7rQ0e90mv8": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "DiC31itD2jQw",
+      "address": "https://docs.python.org/3/whatsnew/3.11.html",
+      "title": "What’s New In Python 3.11 — Python 3.14.6 documentation",
+      "snippet": "Python 3.11, compared to 3.10. Python 3.11 was released on October 24, 2022. For full details, see the changelog.\nSummary – Release highlights¶\nPython 3.11 is between 10-60% faster than Python 3.10. On average, we measured a 1.25x speedup on the standard benchmark suite. See Faster CPython for",
+      "matchedWords": {
+        "7mVB5ndw9vcc": {
+          "hits": 9,
+          "textWords": 10855
+        },
+        "I-7rQ0e90mv8": {
+          "hits": 142,
+          "textWords": 10855
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "koqtyhS6MKD4",
+      "address": "https://github.com/oxylabs/oxylabs-sdk-python",
+      "title": "GitHub - oxylabs/oxylabs-sdk-python: Python SDK for the Oxylabs Web Scraper API. · GitHub",
+      "snippet": "Python SDK for the Oxylabs Scraper APIs.\nThis SDK helps integrate with Oxylabs’ all-in-one Web Scraper API. It can help you retrieve data from e-commerce websites, search engines (SERP), real estate platforms, and more.\nThe Python SDK provides you with several benefits over using the raw APIs",
+      "matchedWords": {
+        "7mVB5ndw9vcc": {
+          "hits": 4,
+          "textWords": 1663
+        },
+        "I-7rQ0e90mv8": {
+          "hits": 8,
+          "textWords": 1663
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "knfhNitD2jQw",
+      "address": "https://docs.python.org/3/library/unittest.mock.html",
+      "title": "unittest.mock — mock object library — Python 3.14.6 documentation",
+      "snippet": "Python. It allows you to replace parts of your system under test with mock objects and make assertions about how they have been used.\nunittest.mock provides a core Mock class removing the need to create a host of stubs throughout your test suite. After performing an action, you can make assertions",
+      "matchedWords": {
+        "7mVB5ndw9vcc": {
+          "hits": 16,
+          "textWords": 13093
+        },
+        "I-7rQ0e90mv8": {
+          "hits": 7,
+          "textWords": 13093
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "m77lbitD2jQw",
+      "address": "https://docs.python.org/3/genindex-W.html",
+      "title": "Index — Python 3.14.6 documentation",
+      "snippet": "(asyncio.Barrier method) (asyncio.Condition method)\n(asyncio.Event method)\n(asyncio.subprocess.Process method)\n(in module asyncio)\n(in module concurrent.futures)\n(in module multiprocessing.connection)\n(in module os)\n(multiprocessing.pool.AsyncResult method)\n(subprocess.Popen method)",
+      "matchedWords": {
+        "7mVB5ndw9vcc": {
+          "hits": 21,
+          "textWords": 1419
+        },
+        "I-7rQ0e90mv8": {
+          "hits": 0,
+          "textWords": 1419
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "nGjY6itD2jQw",
+      "address": "https://docs.python.org/3/library/concurrency.html",
+      "title": "Concurrent Execution — Python 3.13.2 documentation",
+      "snippet": "Python Software Foundation.\nThis page is licensed under the Python Software Foundation License Version 2.\nExamples, recipes, and other code in the documentation are additionally licensed under the Zero Clause BSD License.\nSee History and License for more information.\nThe Python Software Foundation",
+      "matchedWords": {
+        "7mVB5ndw9vcc": {
+          "hits": 0,
+          "textWords": 64
+        },
+        "I-7rQ0e90mv8": {
+          "hits": 3,
+          "textWords": 64
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "nhmWmitD2jQw",
+      "address": "https://docs.python.org/3/whatsnew/3.4.html",
+      "title": "What’s New In Python 3.4 — Python 3.14.6 documentation",
+      "snippet": "Python 3.4, compared to 3.3. Python 3.4 was released on March 16, 2014. For full details, see the changelog.\nSee also\nPEP 429 – Python 3.4 Release Schedule\nSummary – Release Highlights¶\nNew syntax features:\nNo new syntax features were added in Python 3.4.\nOther new features:\npip should always be",
+      "matchedWords": {
+        "7mVB5ndw9vcc": {
+          "hits": 5,
+          "textWords": 13777
+        },
+        "I-7rQ0e90mv8": {
+          "hits": 105,
+          "textWords": 13777
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "AxRdDzS6MKD4",
+      "address": "https://github.com/topics/python-3",
+      "title": "python-3 · GitHub Topics · GitHub",
+      "snippet": "",
+      "matchedWords": {
+        "7mVB5ndw9vcc": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "I-7rQ0e90mv8": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "AOqZ6itD2jQw",
+      "address": "https://docs.python.org/3/genindex-R.html",
+      "title": "Index — Python 3.14.6 documentation",
+      "snippet": "(asyncio.StreamReader method) (codecs.StreamReader method)\n(configparser.ConfigParser method)\n(file method)\n(http.client.HTTPResponse method)\n(imaplib.IMAP4 method)\n(in module os)\n(io.BufferedIOBase method)\n(io.BufferedReader method)\n(io.RawIOBase method)\n(io.Reader method)\n(io.TextIOBase method)",
+      "matchedWords": {
+        "7mVB5ndw9vcc": {
+          "hits": 27,
+          "textWords": 3338
+        },
+        "I-7rQ0e90mv8": {
+          "hits": 1,
+          "textWords": 3338
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "Bu9laitD2jQw",
+      "address": "https://docs.python.org/3/using/cmdline.html",
+      "title": "1. Command line and environment — Python 3.14.7 documentation",
+      "snippet": "Python, you may specify any of these options:\npython [-bBdEhiIOPqRsSuvVWx?] [-c command | -m module-name | script | - ] [args]\nThe most common use case is, of course, a simple invocation of a script:\npython myscript.py\n1.1.1. Interface options¶\nThe interpreter interface resembles that of the UNIX",
+      "matchedWords": {
+        "7mVB5ndw9vcc": {
+          "hits": 2,
+          "textWords": 6331
+        },
+        "I-7rQ0e90mv8": {
+          "hits": 126,
+          "textWords": 6331
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "CYduPitD2jQw",
+      "address": "https://docs.python.org/3/genindex-H.html",
+      "title": "Index — Python 3.14.6 documentation",
+      "snippet": "asyncio)\nhandle an exception\nhandle() (http.server.BaseHTTPRequestHandler method) (logging.Handler method)\n(logging.handlers.QueueListener method)\n(logging.Logger method)\n(logging.NullHandler method)\n(socketserver.BaseRequestHandler method)\n(wsgiref.simple_server.WSGIRequestHandler method)",
+      "matchedWords": {
+        "7mVB5ndw9vcc": {
+          "hits": 1,
+          "textWords": 1399
+        },
+        "I-7rQ0e90mv8": {
+          "hits": 0,
+          "textWords": 1399
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "DiC31itD2jQw",
+      "address": "https://docs.python.org/3/whatsnew/3.11.html",
+      "title": "What’s New In Python 3.11 — Python 3.14.6 documentation",
+      "snippet": "Python 3.11, compared to 3.10. Python 3.11 was released on October 24, 2022. For full details, see the changelog.\nSummary – Release highlights¶\nPython 3.11 is between 10-60% faster than Python 3.10. On average, we measured a 1.25x speedup on the standard benchmark suite. See Faster CPython for",
+      "matchedWords": {
+        "7mVB5ndw9vcc": {
+          "hits": 9,
+          "textWords": 10855
+        },
+        "I-7rQ0e90mv8": {
+          "hits": 142,
+          "textWords": 10855
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "Doee3itD2jQw",
+      "address": "https://docs.python.org/3/library/socket.html",
+      "title": "socket — Low-level networking interface — Python 3.14.7 documentation",
+      "snippet": "Python interface is a straightforward transliteration of the Unix system call and library interface for sockets to Python’s object-oriented style: the socket() function returns a socket object whose methods implement the various socket system calls. Parameter types are somewhat higher-level than in",
+      "matchedWords": {
+        "7mVB5ndw9vcc": {
+          "hits": 0,
+          "textWords": 11662
+        },
+        "I-7rQ0e90mv8": {
+          "hits": 8,
+          "textWords": 11662
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "E2RhIitD2jQw",
+      "address": "https://docs.python.org/3/library/concurrent.futures.html",
+      "title": "concurrent.futures — Launching parallel tasks — Python 3.13.2 documentation",
+      "snippet": "asyncio.Future, which is designed for use with asyncio tasks and coroutines. See the asyncio’s Future documentation for a detailed comparison of the two.\nExecutor Objects¶\nclass concurrent.futures.Executor¶\nAn abstract class that provides methods to execute calls asynchronously. It should not be",
+      "matchedWords": {
+        "7mVB5ndw9vcc": {
+          "hits": 3,
+          "textWords": 3710
+        },
+        "I-7rQ0e90mv8": {
+          "hits": 3,
+          "textWords": 3710
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "FLRBMitD2jQw",
+      "address": "https://docs.python.org/3/howto/a-conceptual-overview-of-asyncio.html",
+      "title": "A Conceptual Overview of asyncio — Python 3.14.6 documentation",
+      "snippet": "asyncio fundamentally works, helping you understand the how and why behind the recommended patterns.\nYou might be curious about some key asyncio concepts. By the end of this article, you’ll be able to comfortably answer these questions:\nWhat’s happening behind the scenes when an object is awaited?",
+      "matchedWords": {
+        "7mVB5ndw9vcc": {
+          "hits": 43,
+          "textWords": 3175
+        },
+        "I-7rQ0e90mv8": {
+          "hits": 6,
+          "textWords": 3175
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "Fu6eTitD2jQw",
+      "address": "https://docs.python.org/3/genindex-I.html",
+      "title": "Index — Python 3.13.2 documentation",
+      "snippet": "(asyncio.loop method)\nis_closing() (asyncio.BaseTransport method) (asyncio.StreamWriter method)\nis_comp_cell() (symtable.Symbol method)\nis_comp_iter() (symtable.Symbol method)\nis_dataclass() (in module dataclasses)\nis_declared_global() (symtable.Symbol method)\nis_dir()",
+      "matchedWords": {
+        "7mVB5ndw9vcc": {
+          "hits": 9,
+          "textWords": 3287
+        },
+        "I-7rQ0e90mv8": {
+          "hits": 1,
+          "textWords": 3287
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "F2xV5itD2jQw",
+      "address": "https://docs.python.org/3/library/__main__.html",
+      "title": "29.4. __main__ — Top-level script environment \u0026mdash; Python 3.5.2 documentation",
+      "snippet": "Python, the special name __main__ is used for two important constructs:\nthe name of the top-level environment of the program, which can be checked using the __name__ == '__main__' expression; and\nthe __main__.py file in Python packages.\nBoth of these mechanisms are related to Python modules; how",
+      "matchedWords": {
+        "7mVB5ndw9vcc": {
+          "hits": 3,
+          "textWords": 1623
+        },
+        "I-7rQ0e90mv8": {
+          "hits": 35,
+          "textWords": 1623
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "HQC7YitD2jQw",
+      "address": "https://docs.python.org/3/library/asyncio-sync.html",
+      "title": "Synchronization Primitives — Python 3.14.7 documentation",
+      "snippet": "Lib/asyncio/locks.py\nasyncio synchronization primitives are designed to be similar to those of the threading module with two important caveats:\nasyncio primitives are not thread-safe, therefore they should not be used for OS thread synchronization (use threading for that);\nmethods of these",
+      "matchedWords": {
+        "7mVB5ndw9vcc": {
+          "hits": 36,
+          "textWords": 1548
+        },
+        "I-7rQ0e90mv8": {
+          "hits": 0,
+          "textWords": 1548
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "HYOfTitD2jQw",
+      "address": "https://docs.python.org/3/whatsnew/3.7.html",
+      "title": "What’s New In Python 3.7 — Python 3.13.2 documentation",
+      "snippet": "Python 3.7, compared to 3.6. Python 3.7 was released on June 27, 2018. For full details, see the changelog.\nSummary – Release Highlights¶\nNew syntax features:\nPEP 563, postponed evaluation of type annotations.\nBackwards incompatible syntax changes:\nasync and await are now reserved keywords.\nNew",
+      "matchedWords": {
+        "7mVB5ndw9vcc": {
+          "hits": 41,
+          "textWords": 12861
+        },
+        "I-7rQ0e90mv8": {
+          "hits": 112,
+          "textWords": 12861
+        }
+      },
+      "queryPhraseHits": 1
+    },
+    {
+      "hash": "ET8e4lyA5Uix",
+      "address": "https://www.tornadoweb.org/en/stable/ioloop.html",
+      "title": "tornado.ioloop — Main event loop — Tornado 6.4.2 documentation",
+      "snippet": "asyncio event loop, with a slightly different interface. The IOLoop interface is now provided primarily for backwards compatibility; new code should generally use the asyncio event loop interface directly. The IOLoop.current class method provides the IOLoop instance corresponding to the running",
+      "matchedWords": {
+        "7mVB5ndw9vcc": {
+          "hits": 23,
+          "textWords": 2481
+        },
+        "I-7rQ0e90mv8": {
+          "hits": 3,
+          "textWords": 2481
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "zfvlazS6MKD4",
+      "address": "https://github.com/topics/http-server",
+      "title": "http-server · GitHub Topics · GitHub",
+      "snippet": "",
+      "matchedWords": {
+        "7mVB5ndw9vcc": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "I-7rQ0e90mv8": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "WEIifshgn1pw",
+      "address": "https://redis.io/agents/",
+      "title": "",
+      "snippet": "",
+      "matchedWords": {
+        "7mVB5ndw9vcc": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "I-7rQ0e90mv8": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "ZnwkHkTOrrKw",
+      "address": "https://events.gnome.org/event/259/timetable/?view=standard_numbered",
+      "title": "GUADEC 2025 (24-July 29, 2025) · GNOME Events (Indico)",
+      "snippet": "24 Jul 2025, 01:06 → 29 Jul 2025, 18:00 Europe/Rome\nDescription\nWelcome to GUADEC 2025\nGUADEC is the GNOME community’s largest conference, bringing together hundreds of users, contributors, community members, and enthusiastic supporters for a week of talks and workshops.\nTimetable:\nJuly 24-26: Talk",
+      "matchedWords": {
+        "7mVB5ndw9vcc": {
+          "hits": 0,
+          "textWords": 119
+        },
+        "I-7rQ0e90mv8": {
+          "hits": 0,
+          "textWords": 119
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "YJid2dUhjm5w",
+      "address": "https://airflow.apache.org/docs/apache-airflow-providers-google/stable/_api/airflow/providers/google/cloud/triggers/dataproc/index.html",
+      "title": "airflow.providers.google.cloud.triggers.dataproc — apache-airflow-providers-google Documentation",
+      "snippet": "asyncio.CancelledError is called because the trigger itself is stopped. Because in those cases, we should NOT cancel the external job.\nasync run()[source]¶\nRun the trigger in an asynchronous context.\nThe trigger should yield an Event whenever it wants to fire off an event, and return None if it is",
+      "matchedWords": {
+        "7mVB5ndw9vcc": {
+          "hits": 1,
+          "textWords": 1903
+        },
+        "I-7rQ0e90mv8": {
+          "hits": 0,
+          "textWords": 1903
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "koqtyhS6MKD4",
+      "address": "https://github.com/oxylabs/oxylabs-sdk-python",
+      "title": "GitHub - oxylabs/oxylabs-sdk-python: Python SDK for the Oxylabs Web Scraper API. · GitHub",
+      "snippet": "Python SDK for the Oxylabs Scraper APIs.\nThis SDK helps integrate with Oxylabs’ all-in-one Web Scraper API. It can help you retrieve data from e-commerce websites, search engines (SERP), real estate platforms, and more.\nThe Python SDK provides you with several benefits over using the raw APIs",
+      "matchedWords": {
+        "7mVB5ndw9vcc": {
+          "hits": 4,
+          "textWords": 1663
+        },
+        "I-7rQ0e90mv8": {
+          "hits": 8,
+          "textWords": 1663
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "lSo-vWS6MKD4",
+      "address": "https://github.com/quobit/awesome-python-in-education",
+      "title": "GitHub - quobit/awesome-python-in-education: A curated list about Python in Education :mortar_board:",
+      "snippet": "Python in Education\nThere are many ways to contribute to this project. Get started here.\nSparkline (GitHub stars velocity):\nContents\nRoadmaps\nCourses and lessons Interactive environments\nMOOCs\nIntroductions and Tutorials\nData Science\nExercises and Games\nReference and forums Python suitability for",
+      "matchedWords": {
+        "7mVB5ndw9vcc": {
+          "hits": 2,
+          "textWords": 3321
+        },
+        "I-7rQ0e90mv8": {
+          "hits": 312,
+          "textWords": 3321
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "knfhNitD2jQw",
+      "address": "https://docs.python.org/3/library/unittest.mock.html",
+      "title": "26.5. unittest.mock — mock object library — Python 3.6.4 documentation",
+      "snippet": "Python. It allows you to replace parts of your system under test with mock objects and make assertions about how they have been used.\nunittest.mock provides a core Mock class removing the need to create a host of stubs throughout your test suite. After performing an action, you can make assertions",
+      "matchedWords": {
+        "7mVB5ndw9vcc": {
+          "hits": 16,
+          "textWords": 13093
+        },
+        "I-7rQ0e90mv8": {
+          "hits": 7,
+          "textWords": 13093
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "m77lbitD2jQw",
+      "address": "https://docs.python.org/3/genindex-W.html",
+      "title": "Index — Python 3.9.7 documentation",
+      "snippet": "(asyncio.Barrier method) (asyncio.Condition method)\n(asyncio.Event method)\n(asyncio.subprocess.Process method)\n(in module asyncio)\n(in module concurrent.futures)\n(in module multiprocessing.connection)\n(in module os)\n(multiprocessing.pool.AsyncResult method)\n(subprocess.Popen method)",
+      "matchedWords": {
+        "7mVB5ndw9vcc": {
+          "hits": 21,
+          "textWords": 1419
+        },
+        "I-7rQ0e90mv8": {
+          "hits": 0,
+          "textWords": 1419
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "nGjY6itD2jQw",
+      "address": "https://docs.python.org/3/library/concurrency.html",
+      "title": "Concurrent Execution — Python 3.12.0 documentation",
+      "snippet": "Python Software Foundation.\nThis page is licensed under the Python Software Foundation License Version 2.\nExamples, recipes, and other code in the documentation are additionally licensed under the Zero Clause BSD License.\nSee History and License for more information.\nThe Python Software Foundation",
+      "matchedWords": {
+        "7mVB5ndw9vcc": {
+          "hits": 0,
+          "textWords": 64
+        },
+        "I-7rQ0e90mv8": {
+          "hits": 3,
+          "textWords": 64
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "nhmWmitD2jQw",
+      "address": "https://docs.python.org/3/whatsnew/3.4.html",
+      "title": "What’s New In Python 3.4 — Python 3.12.0 documentation",
+      "snippet": "Python 3.4, compared to 3.3. Python 3.4 was released on March 16, 2014. For full details, see the changelog.\nSee also\nPEP 429 – Python 3.4 Release Schedule\nSummary – Release Highlights¶\nNew syntax features:\nNo new syntax features were added in Python 3.4.\nOther new features:\npip should always be",
+      "matchedWords": {
+        "7mVB5ndw9vcc": {
+          "hits": 5,
+          "textWords": 13777
+        },
+        "I-7rQ0e90mv8": {
+          "hits": 105,
+          "textWords": 13777
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "ojdnMD1nrxbw",
+      "address": "https://www.debian.org/devel/wnpp/being_packaged_byage",
+      "title": "Debian -- Packages being worked on, organized by age",
+      "snippet": "Python library for generating toolpaths, 5805 days in preparation, last activity 285 days ago.\nsleepisdeath: a storytelling game for two players, 5700 days in preparation, last activity 285 days ago.\nretroshare: Friend-to-friend network client for secure messaging and file, 5329 days in",
+      "matchedWords": {
+        "7mVB5ndw9vcc": {
+          "hits": 6,
+          "textWords": 43978
+        },
+        "I-7rQ0e90mv8": {
+          "hits": 375,
+          "textWords": 43978
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "omDQhitD2jQw",
+      "address": "https://docs.python.org/3/howto/logging.html",
+      "title": "Logging HOWTO — Python 3.13.3 documentation",
+      "snippet": "Python interpreter, and don’t just continue from the session described above:\nimport logging logger = logging.getLogger(__name__) logging.basicConfig(filename='example.log', encoding='utf-8', level=logging.DEBUG) logger.debug('This message should go to the log file') logger.info('So should this')",
+      "matchedWords": {
+        "7mVB5ndw9vcc": {
+          "hits": 2,
+          "textWords": 6322
+        },
+        "I-7rQ0e90mv8": {
+          "hits": 15,
+          "textWords": 6322
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "raq9iitD2jQw",
+      "address": "https://docs.python.org/3/whatsnew/3.10.html",
+      "title": "What’s New In Python 3.10 — Python 3.12.3 documentation",
+      "snippet": "Python 3.10, compared to 3.9. Python 3.10 was released on October 4, 2021. For full details, see the changelog.\nSummary – Release highlights¶\nNew syntax features:\nPEP 634, Structural Pattern Matching: Specification\nPEP 635, Structural Pattern Matching: Motivation and Rationale\nPEP 636, Structural",
+      "matchedWords": {
+        "7mVB5ndw9vcc": {
+          "hits": 6,
+          "textWords": 10696
+        },
+        "I-7rQ0e90mv8": {
+          "hits": 88,
+          "textWords": 10696
+        }
+      },
+      "queryPhraseHits": 0
     }
   ],
   "documentsHeldPerQueryWord": {
-    "7mVB5ndw9vcc": 540,
-    "I-7rQ0e90mv8": 126004
+    "7mVB5ndw9vcc": 139,
+    "I-7rQ0e90mv8": 110347
   }
 }

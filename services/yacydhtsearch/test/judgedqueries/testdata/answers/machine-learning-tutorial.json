@@ -1,27 +1,28 @@
 {
   "query": "machine learning tutorial",
-  "recordedAt": "2026-09-11T21:02:22Z",
+  "recordedAt": "2026-09-11T22:14:22Z",
   "itemsInTheOrderOfEachAnswer": [
     [
       {
         "hash": "A3q5IzS6MKD4",
         "address": "https://github.com/topics/python",
         "title": "python · GitHub Topics · GitHub",
-        "snippet": "Machine Learning Framework for Everyone\nUpdated Sep 11, 2026\nC++\nCode\nIssues\nPull requests\nA feature-rich command-line audio/video downloader\nUpdated Aug 30, 2026\nPython\nCode\nIssues\nPull requests\nAutoGPT is the vision of accessible AI for everyone, to use and to build on. Our mission is to provide",
+        "snippet": "",
         "matchedWords": {
           "BXXI1ZL7ewiC": {
-            "hits": 0,
-            "textWords": 503
+            "hits": 47,
+            "textWords": 1460
           },
           "FHVPE-UoDF1J": {
-            "hits": 2,
-            "textWords": 503
+            "hits": 0,
+            "textWords": 0
           },
           "JamsQGrOtHoM": {
-            "hits": 2,
-            "textWords": 503
+            "hits": 0,
+            "textWords": 0
           }
-        }
+        },
+        "queryPhraseHits": 0
       }
     ],
     [
@@ -43,130 +44,95 @@
             "hits": 0,
             "textWords": 30
           }
-        }
+        },
+        "queryPhraseHits": 0
       }
     ]
   ],
   "itemsInNoOrder": [
     {
-      "hash": "CrRuNlCGSsm5",
-      "address": "https://www.afewscraps.com/",
-      "title": "A Few Scraps",
-      "snippet": "learning from videos, I put some of those same \"aha!\" lessons in my new online class, Finding your Flow.\nI recorded this class for Quiltcon Together and it got great reviews. I love the work my students have sent me after taking this class. Your feedback makes my day!\nOn the horizon I am working on",
-      "matchedWords": {
-        "BXXI1ZL7ewiC": {
-          "hits": 6,
-          "textWords": 1931
-        },
-        "FHVPE-UoDF1J": {
-          "hits": 1,
-          "textWords": 1931
-        },
-        "JamsQGrOtHoM": {
-          "hits": 1,
-          "textWords": 1931
-        }
-      }
-    },
-    {
-      "hash": "Fl-YxlDOAHJg",
-      "address": "https://www.heise.de/",
-      "title": "heise online - IT-News, Nachrichten und Hintergründe | heise online",
-      "snippet": "Anzeige\nAnzeige\nEigenwerbung\nMicrosoft 365 Copilot im Unternehmen\nLive-Classroom · 26.10. - 23.11.26\nEigene Copilot Agents bauen und produktiv einsetzen\nCopilot Studio und Microsoft Foundry praxisnah nutzen\nSecurity, Governance und Skalierung sicher steuern\nClassroom entdecken\nAnzeige\nAnzeige",
+      "hash": "BLqv9HRMLT-5",
+      "address": "https://canonical.com/legal/data-privacy",
+      "title": "Data privacy | Ubuntu and Canonical Legal",
+      "snippet": "Canonical collects personal information from you in a number of different ways. For example, when you download one of our products, receive services from us or use one of our websites (including www.canonical.com and www.ubuntu.com).\nFull list of websites ›\nAt Canonical, we consider your privacy to",
       "matchedWords": {
         "BXXI1ZL7ewiC": {
           "hits": 0,
-          "textWords": 986
+          "textWords": 3720
         },
         "FHVPE-UoDF1J": {
           "hits": 0,
-          "textWords": 986
+          "textWords": 3720
         },
         "JamsQGrOtHoM": {
           "hits": 0,
-          "textWords": 986
+          "textWords": 3720
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
-      "hash": "pYw3_AHucLY4",
-      "address": "https://adrienalfiste.vip-blog.com/",
-      "title": "adrienalfiste blog : Le blog d'Adri (83)",
-      "snippet": "",
+      "hash": "DKApesRMLT-5",
+      "address": "https://canonical.com/careers",
+      "title": "Canonical Careers",
+      "snippet": "Careers\nPassionate about open source?\nSo are we. Be where the cutting edge is established.\nStay safe and avoid recruitment fraud.\nRead our FAQ for information on the legitimacy of our process and offers.\nDepartments\nOur Mission\nWe amplify\nthe impact of open source\nWe help people and organisations",
       "matchedWords": {
         "BXXI1ZL7ewiC": {
           "hits": 0,
-          "textWords": 0
+          "textWords": 101
         },
         "FHVPE-UoDF1J": {
           "hits": 0,
-          "textWords": 0
+          "textWords": 101
         },
         "JamsQGrOtHoM": {
           "hits": 0,
-          "textWords": 0
+          "textWords": 101
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
-      "hash": "SXE97sI0z6T7",
-      "address": "https://towardsdatascience.com/",
-      "title": "Towards Data Science",
-      "snippet": "learning, and what it means for weight averaging and model merging\nHow we split a tightly coupled Python pipeline into independently deployable services\nEditor's Picks\nWhy AI coding makes software design more important\nFrequentist confidence intervals and Bayesian credible intervals answer",
+      "hash": "Bq57jjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/BASIC",
+      "title": "BASIC - Wikipedia",
+      "snippet": "machine's firmware or sometimes on a ROM cartridge.\nBASIC declined in popularity in the 1990s, as more powerful microcomputers came to market and programming languages with advanced features (such as Pascal and C) became tenable on such computers. By then, most nontechnical personal computer users",
       "matchedWords": {
         "BXXI1ZL7ewiC": {
-          "hits": 0,
-          "textWords": 311
+          "hits": 2,
+          "textWords": 8672
         },
         "FHVPE-UoDF1J": {
-          "hits": 0,
-          "textWords": 311
-        },
-        "JamsQGrOtHoM": {
-          "hits": 3,
-          "textWords": 311
-        }
-      }
-    },
-    {
-      "hash": "iLQO1sN0ip-w",
-      "address": "https://m-reform.net/",
-      "title": "replica football shirts",
-      "snippet": "machine in 1963, to the tune of 133 yards per game. The defense completed with the fewest yards allowed per game. The bullying and torment continues when Gordon steals Jimmy’s boots and launches them into a passing bin truck in an attempt to forestall him taking part in for the workforce, however",
-      "matchedWords": {
-        "BXXI1ZL7ewiC": {
-          "hits": 1,
-          "textWords": 230924
-        },
-        "FHVPE-UoDF1J": {
-          "hits": 24,
-          "textWords": 230924
+          "hits": 14,
+          "textWords": 8672
         },
         "JamsQGrOtHoM": {
           "hits": 4,
-          "textWords": 230924
+          "textWords": 8672
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
-      "hash": "H6Zz4sS6MKD4",
-      "address": "https://github.com/trending",
-      "title": "Trending repositories on GitHub today · GitHub",
-      "snippet": "machine-to-machine payments. Self-hosted. Built on Claude.\nnashsu / llm_wiki\nLLM Wiki is a cross-platform desktop application that turns your documents into an organized, interlinked knowledge base — automatically. Instead of traditional RAG (retrieve-and-answer from scratch every time), the LLM",
+      "hash": "Ce2W90S6MKD4",
+      "address": "https://github.com/resources/articles/what-is-vibe-coding",
+      "title": "What Is Vibe Coding? · GitHub",
+      "snippet": "learning the fundamentals of coding, but doing so will affect their ability to effectively review output.\nLack of clarity. AI can’t explain its choices, which makes it harder to trace decisions or spot edge cases.\nRemember, vibe coding is a creative, collaborative process. You bring the ideas, the",
       "matchedWords": {
         "BXXI1ZL7ewiC": {
-          "hits": 0,
-          "textWords": 324
+          "hits": 1,
+          "textWords": 4002
         },
         "FHVPE-UoDF1J": {
-          "hits": 2,
-          "textWords": 324
+          "hits": 1,
+          "textWords": 4002
         },
         "JamsQGrOtHoM": {
-          "hits": 0,
-          "textWords": 324
+          "hits": 5,
+          "textWords": 4002
         }
-      }
+      },
+      "queryPhraseHits": 1
     },
     {
       "hash": "D4lABzaS0qdw",
@@ -186,27 +152,176 @@
           "hits": 0,
           "textWords": 8109
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
-      "hash": "G2Nk1si1vot6",
-      "address": "https://missclaireshay.com/",
-      "title": "missclaireshay -",
-      "snippet": "machine-style games or modern video slots with immersive themes and bonus features, there is a demo slot out there to suit every taste.\nBy delving into the realm of demo slot games, players can familiarize themselves with various gameplay mechanics, payout structures, and special symbols without",
+      "hash": "AonnkjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Perl",
+      "title": "Perl - Wikipedia",
+      "snippet": "machine. The goal was to ensure the future of the millions of lines of Perl 5 code at thousands of companies around the world.[52] The PONIE project ended in 2006 and is no longer being actively developed. Some of the improvements made to the Perl 5 interpreter as part of PONIE were folded into",
       "matchedWords": {
         "BXXI1ZL7ewiC": {
-          "hits": 3,
-          "textWords": 397030
+          "hits": 2,
+          "textWords": 11521
         },
         "FHVPE-UoDF1J": {
-          "hits": 168,
-          "textWords": 397030
+          "hits": 33,
+          "textWords": 11521
         },
         "JamsQGrOtHoM": {
-          "hits": 22,
-          "textWords": 397030
+          "hits": 6,
+          "textWords": 11521
         }
-      }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "CcQGBjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Unix",
+      "title": "Unix - Wikipedia",
+      "snippet": "machine families than any other operating system.\nThe Unix operating system consists of many libraries and utilities along with the master control program, the kernel. The kernel provides services to start and stop programs, handles the file system and other common \"low-level\" tasks that most",
+      "matchedWords": {
+        "BXXI1ZL7ewiC": {
+          "hits": 1,
+          "textWords": 6188
+        },
+        "FHVPE-UoDF1J": {
+          "hits": 6,
+          "textWords": 6188
+        },
+        "JamsQGrOtHoM": {
+          "hits": 2,
+          "textWords": 6188
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "Fl-YxlDOAHJg",
+      "address": "https://www.heise.de/",
+      "title": "heise online - IT-News, Nachrichten und Hintergründe | heise online",
+      "snippet": "Anzeige\nAnzeige\nEigenwerbung\nCyber Resilience Act in der Praxis\nLive-Classroom · 21.10. - 11.11.26\nCRA-Anforderungen verstehen und einordnen\nRisikoanalyse und Dokumentation aufbauen\nKonformitätsbewertung sicher planen\nClassroom entdecken\nAnzeige\nAnzeige\nmeistgelesen\nbeliebt bei Abonnenten",
+      "matchedWords": {
+        "BXXI1ZL7ewiC": {
+          "hits": 0,
+          "textWords": 967
+        },
+        "FHVPE-UoDF1J": {
+          "hits": 0,
+          "textWords": 967
+        },
+        "JamsQGrOtHoM": {
+          "hits": 0,
+          "textWords": 967
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "pYw3_AHucLY4",
+      "address": "https://adrienalfiste.vip-blog.com/",
+      "title": "adrienalfiste blog : Le blog d'Adri (83)",
+      "snippet": "",
+      "matchedWords": {
+        "BXXI1ZL7ewiC": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "FHVPE-UoDF1J": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "JamsQGrOtHoM": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "SXE97sI0z6T7",
+      "address": "https://towardsdatascience.com/",
+      "title": "Towards Data Science",
+      "snippet": "learning, and what it means for weight averaging and model merging\nHow we split a tightly coupled Python pipeline into independently deployable services\nEditor's Picks\nWhy AI coding makes software design more important\nFrequentist confidence intervals and Bayesian credible intervals answer",
+      "matchedWords": {
+        "BXXI1ZL7ewiC": {
+          "hits": 0,
+          "textWords": 311
+        },
+        "FHVPE-UoDF1J": {
+          "hits": 0,
+          "textWords": 311
+        },
+        "JamsQGrOtHoM": {
+          "hits": 3,
+          "textWords": 311
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "iLQO1sN0ip-w",
+      "address": "https://m-reform.net/",
+      "title": "replica football shirts",
+      "snippet": "",
+      "matchedWords": {
+        "BXXI1ZL7ewiC": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "FHVPE-UoDF1J": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "JamsQGrOtHoM": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "H6Zz4sS6MKD4",
+      "address": "https://github.com/trending",
+      "title": "Trending repositories on GitHub today · GitHub",
+      "snippet": "machine-to-machine payments. Self-hosted. Built on Claude.\nnashsu / llm_wiki\nLLM Wiki is a cross-platform desktop application that turns your documents into an organized, interlinked knowledge base — automatically. Instead of traditional RAG (retrieve-and-answer from scratch every time), the LLM",
+      "matchedWords": {
+        "BXXI1ZL7ewiC": {
+          "hits": 0,
+          "textWords": 324
+        },
+        "FHVPE-UoDF1J": {
+          "hits": 2,
+          "textWords": 324
+        },
+        "JamsQGrOtHoM": {
+          "hits": 0,
+          "textWords": 324
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "D4lABzaS0qdw",
+      "address": "https://planet.debian.org/",
+      "title": "Planet Debian",
+      "snippet": "machine.\nGenerics for bit width specialization\nIn general, we want to make it easy for the compiler to understand as much as possible about our algorithm. Consider this bitpack implementation:\nfunc bitpack(dest []byte, vals []uint32, bitWidth int) []byte { mask := uint32(1\u003c\u003cbitWidth - 1) var acc",
+      "matchedWords": {
+        "BXXI1ZL7ewiC": {
+          "hits": 0,
+          "textWords": 8109
+        },
+        "FHVPE-UoDF1J": {
+          "hits": 3,
+          "textWords": 8109
+        },
+        "JamsQGrOtHoM": {
+          "hits": 0,
+          "textWords": 8109
+        }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "EyjETIl7OZJE",
@@ -226,7 +341,8 @@
           "hits": 0,
           "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "GtLjhloUbV15",
@@ -246,7 +362,8 @@
           "hits": 0,
           "textWords": 157
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "s8IBmsqzz5gq",
@@ -266,7 +383,8 @@
           "hits": 0,
           "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "Fu_x-jRvmBbx",
@@ -286,27 +404,8 @@
           "hits": 2,
           "textWords": 1160
         }
-      }
-    },
-    {
-      "hash": "G6z28jRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Compiler",
-      "title": "Compiler - Wikipedia",
-      "snippet": "machine code) to create an executable program.[1][2]: p1 [3]\nThere are many different types of compilers which produce output in different useful forms. A cross-compiler produces code for a different central processing unit (CPU) or operating system than the one on which the cross-compiler itself",
-      "matchedWords": {
-        "BXXI1ZL7ewiC": {
-          "hits": 1,
-          "textWords": 7794
-        },
-        "FHVPE-UoDF1J": {
-          "hits": 33,
-          "textWords": 7794
-        },
-        "JamsQGrOtHoM": {
-          "hits": 0,
-          "textWords": 7794
-        }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "EYCuSddTeyA4",
@@ -326,7 +425,8 @@
           "hits": 0,
           "textWords": 81
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "FIRH00oB9UFw",
@@ -346,7 +446,8 @@
           "hits": 1,
           "textWords": 2429
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "JPvmes1_lPN6",
@@ -366,192 +467,55 @@
           "hits": 10,
           "textWords": 79379
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
-      "hash": "sQpjxX5JBiu4",
-      "address": "https://developer.ibm.com/technologies/linux/",
-      "title": "Linux Development - IBM Developer",
-      "snippet": "Machine Learning\nObservability\nSecurity\nEventsEvents\nIBM Hackathons\nIBM Community Events\nTechXchange Conference\nResourcesExternal Resources\nIBM Documentation\nIBM Support\nIBM Developer Videos\nIBM Technology Videos\nOpen Source @ IBM\nTechXchange\nHome\nEvents\nIBM Hackathons\nIBM Community Events",
+      "hash": "ao4Jts5jvZx6",
+      "address": "https://badlydrawntoy.com/",
+      "title": "badlydrawntoy -",
+      "snippet": "Tutorial Menonton Acara Undian Secara Live\nBagi para pecinta taruhan, melihat undian dengan cara langsung merupakan sebuah momen yang paling paling dinantikan. Khususnya untuk undian Sydney, banyak yang ingin mengetahui hasilnya secara real-time untuk mendapatkan informasi terbaik. Pada artikel",
       "matchedWords": {
         "BXXI1ZL7ewiC": {
-          "hits": 0,
-          "textWords": 83
+          "hits": 5,
+          "textWords": 86075
         },
         "FHVPE-UoDF1J": {
-          "hits": 1,
-          "textWords": 83
-        },
-        "JamsQGrOtHoM": {
-          "hits": 1,
-          "textWords": 83
-        }
-      }
-    },
-    {
-      "hash": "CrRuNlCGSsm5",
-      "address": "https://www.afewscraps.com/",
-      "title": "A Few Scraps",
-      "snippet": "learning from videos, I put some of those same \"aha!\" lessons in my new online class, Finding your Flow.\nI recorded this class for Quiltcon Together and it got great reviews. I love the work my students have sent me after taking this class. Your feedback makes my day!\nOn the horizon I am working on",
-      "matchedWords": {
-        "BXXI1ZL7ewiC": {
-          "hits": 6,
-          "textWords": 1931
-        },
-        "FHVPE-UoDF1J": {
-          "hits": 1,
-          "textWords": 1931
-        },
-        "JamsQGrOtHoM": {
-          "hits": 1,
-          "textWords": 1931
-        }
-      }
-    },
-    {
-      "hash": "Fl-YxlDOAHJg",
-      "address": "https://www.heise.de/",
-      "title": "heise online - IT-News, Nachrichten und Hintergründe | heise online",
-      "snippet": "Anzeige\nAnzeige\nEigenwerbung\nMicrosoft 365 Copilot im Unternehmen\nLive-Classroom · 26.10. - 23.11.26\nEigene Copilot Agents bauen und produktiv einsetzen\nCopilot Studio und Microsoft Foundry praxisnah nutzen\nSecurity, Governance und Skalierung sicher steuern\nClassroom entdecken\nAnzeige\nAnzeige",
-      "matchedWords": {
-        "BXXI1ZL7ewiC": {
-          "hits": 0,
-          "textWords": 986
-        },
-        "FHVPE-UoDF1J": {
-          "hits": 0,
-          "textWords": 986
-        },
-        "JamsQGrOtHoM": {
-          "hits": 0,
-          "textWords": 986
-        }
-      }
-    },
-    {
-      "hash": "pYw3_AHucLY4",
-      "address": "https://adrienalfiste.vip-blog.com/",
-      "title": "adrienalfiste blog : Le blog d'Adri (83)",
-      "snippet": "",
-      "matchedWords": {
-        "BXXI1ZL7ewiC": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "FHVPE-UoDF1J": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "JamsQGrOtHoM": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "iLQO1sN0ip-w",
-      "address": "https://m-reform.net/",
-      "title": "replica football shirts",
-      "snippet": "machine in 1963, to the tune of 133 yards per game. The defense completed with the fewest yards allowed per game. The bullying and torment continues when Gordon steals Jimmy’s boots and launches them into a passing bin truck in an attempt to forestall him taking part in for the workforce, however",
-      "matchedWords": {
-        "BXXI1ZL7ewiC": {
-          "hits": 1,
-          "textWords": 230924
-        },
-        "FHVPE-UoDF1J": {
-          "hits": 24,
-          "textWords": 230924
-        },
-        "JamsQGrOtHoM": {
-          "hits": 4,
-          "textWords": 230924
-        }
-      }
-    },
-    {
-      "hash": "OWhR8sO3GKf7",
-      "address": "https://sloclassicalacademy.com/",
-      "title": "sloclassicalacademy -",
-      "snippet": "Tutorial Deposit Permainan Pulsa Indosat\nUntuk melaksanakan penyetoran di slot pulsa Indosat, tahap pertama yang perlu perlu Anda lakukan adalah menyemak bahwasanya Anda mempunyai total pulsa yang. Cek Anda melakukan pengecekan pada jumalah pulsa Anda sebelum Anda berusaha menjalankan deposit,",
-      "matchedWords": {
-        "BXXI1ZL7ewiC": {
-          "hits": 1,
-          "textWords": 81504
-        },
-        "FHVPE-UoDF1J": {
-          "hits": 94,
-          "textWords": 81504
-        },
-        "JamsQGrOtHoM": {
-          "hits": 16,
-          "textWords": 81504
-        }
-      }
-    },
-    {
-      "hash": "a9EGGsQ5pC07",
-      "address": "https://eastlewiscountychamber.com/",
-      "title": "eastlewiscountychamber -",
-      "snippet": "tutorial bermain hingga proses untuk bergabung. Selain itu, Ipar4D juga mempersiapkan berbagai penawaran menarik yang bisa digunakan oleh anggota baru atau para sudah terdaftar.\nIpar4D secara konsisten berkomitmen memberikan layanan terbaik kepada penggunanya. Dengan dukungan layanan pelanggan yang",
-      "matchedWords": {
-        "BXXI1ZL7ewiC": {
-          "hits": 1,
-          "textWords": 88293
-        },
-        "FHVPE-UoDF1J": {
-          "hits": 59,
-          "textWords": 88293
-        },
-        "JamsQGrOtHoM": {
-          "hits": 9,
-          "textWords": 88293
-        }
-      }
-    },
-    {
-      "hash": "LVF9csQMPJQ7",
-      "address": "https://revistanuevagrecia.com/",
-      "title": "revistanuevagrecia.com -",
-      "snippet": "Tutorial Lengkap Langsung Hong Kong: Menonton Draw Lotere Secara Langsung\nBagi para penggemar lotto, menyaksikan undian secara langsung adalah salah satu momen paling mendebarkan. Live draw HK jadi fokus utama bagi banyaknya penjudi togel, terutama yang mengikuti togel Hongkong. Di acara ini, para",
-      "matchedWords": {
-        "BXXI1ZL7ewiC": {
-          "hits": 1,
-          "textWords": 82875
-        },
-        "FHVPE-UoDF1J": {
-          "hits": 91,
-          "textWords": 82875
+          "hits": 67,
+          "textWords": 86075
         },
         "JamsQGrOtHoM": {
           "hits": 8,
-          "textWords": 82875
+          "textWords": 86075
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
-      "hash": "G6z28jRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Compiler",
-      "title": "Compiler - Wikipedia",
-      "snippet": "machine code) to create an executable program.[1][2]: p1 [3]\nThere are many different types of compilers which produce output in different useful forms. A cross-compiler produces code for a different central processing unit (CPU) or operating system than the one on which the cross-compiler itself",
+      "hash": "YA5jls9w8XV5",
+      "address": "https://cloudinary.com/guides/front-end-development/front-end-development-the-complete-guide",
+      "title": "Front-End Development: The Complete Guide",
+      "snippet": "Machine learning-based algorithms: Metadata tagging, background removal, content-aware cropping, video previews, and other media-management features.\nReal-time image enhancements: Creation of banners on the fly from the same image along with overlays of logos, text, badges, or watermarks, as",
       "matchedWords": {
         "BXXI1ZL7ewiC": {
-          "hits": 1,
-          "textWords": 7794
+          "hits": 0,
+          "textWords": 6733
         },
         "FHVPE-UoDF1J": {
-          "hits": 33,
-          "textWords": 7794
+          "hits": 1,
+          "textWords": 6733
         },
         "JamsQGrOtHoM": {
-          "hits": 0,
-          "textWords": 7794
+          "hits": 1,
+          "textWords": 6733
         }
-      }
+      },
+      "queryPhraseHits": 1
     },
     {
-      "hash": "PbwP7jRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Wikipedia:Village_pump_(WMF)",
-      "title": "Wikipedia:Village pump (WMF) - Wikipedia",
+      "hash": "PNCRYsEU1fB5",
+      "address": "https://acemgmtgroup.com/",
+      "title": "acemgmtgroup.com",
       "snippet": "",
       "matchedWords": {
         "BXXI1ZL7ewiC": {
@@ -566,547 +530,8 @@
           "hits": 0,
           "textWords": 0
         }
-      }
-    },
-    {
-      "hash": "TA880jRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Generative_adversarial_network",
-      "title": "Generative adversarial network - Wikipedia",
-      "snippet": "machine learning frameworks and a prominent framework for approaching generative AI. The concept was initially developed by Ian Goodfellow and his colleagues in June 2014.[1] In a GAN, two neural networks compete with each other in the form of a zero-sum game, where one agent's gain is another",
-      "matchedWords": {
-        "BXXI1ZL7ewiC": {
-          "hits": 1,
-          "textWords": 9303
-        },
-        "FHVPE-UoDF1J": {
-          "hits": 20,
-          "textWords": 9303
-        },
-        "JamsQGrOtHoM": {
-          "hits": 48,
-          "textWords": 9303
-        }
-      }
-    },
-    {
-      "hash": "1mbZwjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/NASA",
-      "title": "NASA - Wikipedia",
-      "snippet": "Learning, with the objective of teaching school students aged 11–18 to design and build scientific experiments to be launched into space on a NASA rocket or balloon. On June 21, 2017, the world's smallest satellite, KalamSAT, was launched.[268]\nUse of the metric system\nUS law requires the",
-      "matchedWords": {
-        "BXXI1ZL7ewiC": {
-          "hits": 1,
-          "textWords": 21696
-        },
-        "FHVPE-UoDF1J": {
-          "hits": 5,
-          "textWords": 21696
-        },
-        "JamsQGrOtHoM": {
-          "hits": 2,
-          "textWords": 21696
-        }
-      }
-    },
-    {
-      "hash": "Ce2W90S6MKD4",
-      "address": "https://github.com/resources/articles/what-is-vibe-coding",
-      "title": "What Is Vibe Coding? · GitHub",
-      "snippet": "learning the fundamentals of coding, but doing so will affect their ability to effectively review output.\nLack of clarity. AI can’t explain its choices, which makes it harder to trace decisions or spot edge cases.\nRemember, vibe coding is a creative, collaborative process. You bring the ideas, the",
-      "matchedWords": {
-        "BXXI1ZL7ewiC": {
-          "hits": 1,
-          "textWords": 4002
-        },
-        "FHVPE-UoDF1J": {
-          "hits": 1,
-          "textWords": 4002
-        },
-        "JamsQGrOtHoM": {
-          "hits": 5,
-          "textWords": 4002
-        }
-      }
-    },
-    {
-      "hash": "H6Zz4sS6MKD4",
-      "address": "https://github.com/trending",
-      "title": "Trending repositories on GitHub today · GitHub",
-      "snippet": "machine-to-machine payments. Self-hosted. Built on Claude.\nnashsu / llm_wiki\nLLM Wiki is a cross-platform desktop application that turns your documents into an organized, interlinked knowledge base — automatically. Instead of traditional RAG (retrieve-and-answer from scratch every time), the LLM",
-      "matchedWords": {
-        "BXXI1ZL7ewiC": {
-          "hits": 0,
-          "textWords": 324
-        },
-        "FHVPE-UoDF1J": {
-          "hits": 2,
-          "textWords": 324
-        },
-        "JamsQGrOtHoM": {
-          "hits": 0,
-          "textWords": 324
-        }
-      }
-    },
-    {
-      "hash": "LZAo7bS6MKD4",
-      "address": "https://github.com/pytorch/pytorch",
-      "title": "GitHub - pytorch/pytorch: Tensors and Dynamic neural networks in Python with strong GPU acceleration · GitHub",
-      "snippet": "learning research platform that provides maximum flexibility and speed.\nElaborating Further:\nA GPU-Ready Tensor Library\nIf you use NumPy, then you have used Tensors (a.k.a. ndarray).\nPyTorch provides Tensors that can live either on the CPU or the GPU and accelerates the computation by a huge",
-      "matchedWords": {
-        "BXXI1ZL7ewiC": {
-          "hits": 1,
-          "textWords": 3360
-        },
-        "FHVPE-UoDF1J": {
-          "hits": 1,
-          "textWords": 3360
-        },
-        "JamsQGrOtHoM": {
-          "hits": 5,
-          "textWords": 3360
-        }
-      }
-    },
-    {
-      "hash": "Mb7ip0SWekJ4",
-      "address": "https://thangs.com/resources/blog",
-      "title": "Blog",
-      "snippet": "learning and celebrate your own path in life. I will always support you. For many people who work boring 9–5s, being a designer on Thangs is a huge accomplishment and you should feel proud of how far you’ve come :party: This video is created for informational purposes 🙂\nIn summary:\nThe truth is",
-      "matchedWords": {
-        "BXXI1ZL7ewiC": {
-          "hits": 8,
-          "textWords": 50875
-        },
-        "FHVPE-UoDF1J": {
-          "hits": 9,
-          "textWords": 50875
-        },
-        "JamsQGrOtHoM": {
-          "hits": 6,
-          "textWords": 50875
-        }
-      }
-    },
-    {
-      "hash": "btqgslTg2KM4",
-      "address": "https://www.wikihow.com/Experts",
-      "title": "wikiHow Experts",
-      "snippet": "learning how to play Pokémon games.\nAngel Eyedealism is an Astrologer and Performance Artist based in the Lower East Side of Manhattan. With nearly three decades of astrology experience, Angel specializes in relocation astrology and astrocartography. Eyedealism has been featured in numerous media",
-      "matchedWords": {
-        "BXXI1ZL7ewiC": {
-          "hits": 0,
-          "textWords": 42393
-        },
-        "FHVPE-UoDF1J": {
-          "hits": 3,
-          "textWords": 42393
-        },
-        "JamsQGrOtHoM": {
-          "hits": 15,
-          "textWords": 42393
-        }
-      }
-    },
-    {
-      "hash": "JAt9GsWNGjx6",
-      "address": "https://acfurnituregiant.com/",
-      "title": "acfurnituregiant -",
-      "snippet": "machine for you. There are a lot of different choices, so it is important to read the rules and understand how each game works before you start playing. Most sites will have the Return to Player (RTP) and variance for each slot listed on their website, so you can compare them before making a",
-      "matchedWords": {
-        "BXXI1ZL7ewiC": {
-          "hits": 4,
-          "textWords": 367033
-        },
-        "FHVPE-UoDF1J": {
-          "hits": 158,
-          "textWords": 367033
-        },
-        "JamsQGrOtHoM": {
-          "hits": 19,
-          "textWords": 367033
-        }
-      }
-    },
-    {
-      "hash": "D4lABzaS0qdw",
-      "address": "https://planet.debian.org/",
-      "title": "Planet Debian",
-      "snippet": "machine.\nGenerics for bit width specialization\nIn general, we want to make it easy for the compiler to understand as much as possible about our algorithm. Consider this bitpack implementation:\nfunc bitpack(dest []byte, vals []uint32, bitWidth int) []byte { mask := uint32(1\u003c\u003cbitWidth - 1) var acc",
-      "matchedWords": {
-        "BXXI1ZL7ewiC": {
-          "hits": 0,
-          "textWords": 8109
-        },
-        "FHVPE-UoDF1J": {
-          "hits": 3,
-          "textWords": 8109
-        },
-        "JamsQGrOtHoM": {
-          "hits": 0,
-          "textWords": 8109
-        }
-      }
-    },
-    {
-      "hash": "EYCuSddTeyA4",
-      "address": "https://github.blog/developer-skills/github/",
-      "title": "Improve how you use GitHub at work - The GitHub Blog",
-      "snippet": "Featured\nLatest\nThe world's largest developer platform\nDocs\nEverything you need to master GitHub, all in one place.\nGo to Docs\nGitHub\nBuild what’s next on GitHub, the place for anyone from anywhere to build anything.\nStart building\nCustomer stories\nMeet the companies and engineering teams that",
-      "matchedWords": {
-        "BXXI1ZL7ewiC": {
-          "hits": 0,
-          "textWords": 81
-        },
-        "FHVPE-UoDF1J": {
-          "hits": 0,
-          "textWords": 81
-        },
-        "JamsQGrOtHoM": {
-          "hits": 0,
-          "textWords": 81
-        }
-      }
-    },
-    {
-      "hash": "G2Nk1si1vot6",
-      "address": "https://missclaireshay.com/",
-      "title": "missclaireshay -",
-      "snippet": "machine-style games or modern video slots with immersive themes and bonus features, there is a demo slot out there to suit every taste.\nBy delving into the realm of demo slot games, players can familiarize themselves with various gameplay mechanics, payout structures, and special symbols without",
-      "matchedWords": {
-        "BXXI1ZL7ewiC": {
-          "hits": 3,
-          "textWords": 397030
-        },
-        "FHVPE-UoDF1J": {
-          "hits": 168,
-          "textWords": 397030
-        },
-        "JamsQGrOtHoM": {
-          "hits": 22,
-          "textWords": 397030
-        }
-      }
-    },
-    {
-      "hash": "EyjETIl7OZJE",
-      "address": "http://www.kursaal.com.ar/web/post-without-sidebar/",
-      "title": "Post Without Sidebar",
-      "snippet": "",
-      "matchedWords": {
-        "BXXI1ZL7ewiC": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "FHVPE-UoDF1J": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "JamsQGrOtHoM": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "GtLjhloUbV15",
-      "address": "https://www.whatfinger.com/",
-      "title": "Whatfinger News® – Unfiltered Truth. America’s News Feed",
-      "snippet": "Whatfinger – 🛑 Features, Red-pill blasts, takedowns, hits, deep state reveals, and savage roasts that’ll make you say ‘DAMN!’ No safe spaces. (use arrows) – Sgt Pat, Beth, Ben, Sgt K\n🛑Headline Hurricane: 40 Top Stories Across All Beats (use arrows) – Sgt Pat, Ben, Luke\n🤣 Daily Dose of Based Humor,",
-      "matchedWords": {
-        "BXXI1ZL7ewiC": {
-          "hits": 0,
-          "textWords": 157
-        },
-        "FHVPE-UoDF1J": {
-          "hits": 0,
-          "textWords": 157
-        },
-        "JamsQGrOtHoM": {
-          "hits": 0,
-          "textWords": 157
-        }
-      }
-    },
-    {
-      "hash": "NSGq8lptNsG4",
-      "address": "https://www.akdart.com/warming.html",
-      "title": "Global Warming",
-      "snippet": "learning about climatology before coming across a marvelous sound bite: \"Climate is what you expect, weather is what you get.\" The catch is it's not clear how to measure what you expect. We're a lot better at measuring weather. The whole topic of measuring expectations deserves its own web page, as",
-      "matchedWords": {
-        "BXXI1ZL7ewiC": {
-          "hits": 2,
-          "textWords": 148757
-        },
-        "FHVPE-UoDF1J": {
-          "hits": 6,
-          "textWords": 148757
-        },
-        "JamsQGrOtHoM": {
-          "hits": 5,
-          "textWords": 148757
-        }
-      }
-    },
-    {
-      "hash": "s8IBmsqzz5gq",
-      "address": "https://senibudayaislam.id/",
-      "title": "senibudayaislamid",
-      "snippet": "",
-      "matchedWords": {
-        "BXXI1ZL7ewiC": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "FHVPE-UoDF1J": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "JamsQGrOtHoM": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "CMlI0PsrSOQw",
-      "address": "https://arxiv.org/abs/2506.02070",
-      "title": "[2506.02070] An Introduction to Flow Matching and Diffusion Models",
-      "snippet": "tutorial provides a self-contained introduction to diffusion and flow-based generative models from first principles. We systematically develop the necessary mathematical background in ordinary and stochastic differential equations and derive the core algorithms of flow matching and denoising",
-      "matchedWords": {
-        "BXXI1ZL7ewiC": {
-          "hits": 1,
-          "textWords": 159
-        },
-        "FHVPE-UoDF1J": {
-          "hits": 1,
-          "textWords": 159
-        },
-        "JamsQGrOtHoM": {
-          "hits": 1,
-          "textWords": 159
-        }
-      }
-    },
-    {
-      "hash": "KJsVns7-8f-6",
-      "address": "https://gratefulgluttons.com/",
-      "title": "gratefulgluttons.com -",
-      "snippet": "machine, it is important to set your bankroll before you start spinning the reels. This is because the games can be highly volatile and deplete your money quickly. It’s essential to know how long your bankroll can last so you can keep playing and not lose it all. You can find this information on",
-      "matchedWords": {
-        "BXXI1ZL7ewiC": {
-          "hits": 0,
-          "textWords": 60554
-        },
-        "FHVPE-UoDF1J": {
-          "hits": 25,
-          "textWords": 60554
-        },
-        "JamsQGrOtHoM": {
-          "hits": 7,
-          "textWords": 60554
-        }
-      }
-    },
-    {
-      "hash": "Wfq3FswvoTD5",
-      "address": "https://r-universe.dev/articles",
-      "title": "R-universe - browse articles",
-      "snippet": "",
-      "matchedWords": {
-        "BXXI1ZL7ewiC": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "FHVPE-UoDF1J": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "JamsQGrOtHoM": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "BLqv9HRMLT-5",
-      "address": "https://canonical.com/legal/data-privacy",
-      "title": "Data privacy | Ubuntu and Canonical Legal | Canonical",
-      "snippet": "Canonical collects personal information from you in a number of different ways. For example, when you download one of our products, receive services from us or use one of our websites (including www.canonical.com and www.ubuntu.com).\nFull list of websites ›\nAt Canonical, we consider your privacy to",
-      "matchedWords": {
-        "BXXI1ZL7ewiC": {
-          "hits": 0,
-          "textWords": 3720
-        },
-        "FHVPE-UoDF1J": {
-          "hits": 0,
-          "textWords": 3720
-        },
-        "JamsQGrOtHoM": {
-          "hits": 0,
-          "textWords": 3720
-        }
-      }
-    },
-    {
-      "hash": "AX7xBjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Wikipedia:Help_desk",
-      "title": "Wikipedia:Help desk - Wikipedia",
-      "snippet": "learning by doing :) JeanetteBredsten (talk) 11:54, 8 September 2026 (UTC)Reply One more thing I will advise you is that \"wanting to get her work worldwide\" is a promotional purpose; our only interest is in summarizing what published independent reliable sources have chosen on their own to say",
-      "matchedWords": {
-        "BXXI1ZL7ewiC": {
-          "hits": 0,
-          "textWords": 14081
-        },
-        "FHVPE-UoDF1J": {
-          "hits": 2,
-          "textWords": 14081
-        },
-        "JamsQGrOtHoM": {
-          "hits": 1,
-          "textWords": 14081
-        }
-      }
-    },
-    {
-      "hash": "N6mmtla5eoug",
-      "address": "https://www.wikihow.it/Esperti?name=meghankim",
-      "title": "Esperti wikiHow",
-      "snippet": "tutorial su Cricut, consigli e trucchi e idee per progetti. Megan è anche autrice di The Maker's Guide to Cricut (2022) e ha collaborato con marchi tra cui Cricut, HSN e Michaels Arts \u0026 Crafts.\nJennifer Barone è una specialista di giochi da tavolo con sede a Middletown, CT. Con oltre 2,5 anni di",
-      "matchedWords": {
-        "BXXI1ZL7ewiC": {
-          "hits": 8,
-          "textWords": 43271
-        },
-        "FHVPE-UoDF1J": {
-          "hits": 1,
-          "textWords": 43271
-        },
-        "JamsQGrOtHoM": {
-          "hits": 2,
-          "textWords": 43271
-        }
-      }
-    },
-    {
-      "hash": "cQB3Ysg-H2eq",
-      "address": "https://ragambudayajatim.id/",
-      "title": "ragambudayajatimid",
-      "snippet": "",
-      "matchedWords": {
-        "BXXI1ZL7ewiC": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "FHVPE-UoDF1J": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "JamsQGrOtHoM": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "JPvmes1_lPN6",
-      "address": "https://dasilvaboards.com/",
-      "title": "dasilvaboards -",
-      "snippet": "machine yang 4D yang menarik.\nCara Login QQAlfa138\nUntuk melakukan login pada akun QQAlfa138, tahap pertama yang perlu perlu lakukan ialah mengakses website resmi QQAlfa138. Pastikanlah Anda memakai perangkat yang aman aman serta jaringan internet yang stabil. Setelah anda berada di beranda utama,",
-      "matchedWords": {
-        "BXXI1ZL7ewiC": {
-          "hits": 0,
-          "textWords": 79379
-        },
-        "FHVPE-UoDF1J": {
-          "hits": 92,
-          "textWords": 79379
-        },
-        "JamsQGrOtHoM": {
-          "hits": 10,
-          "textWords": 79379
-        }
-      }
-    },
-    {
-      "hash": "KJsVns7-8f-6",
-      "address": "https://gratefulgluttons.com/",
-      "title": "gratefulgluttons.com -",
-      "snippet": "machine, it is important to set your bankroll before you start spinning the reels. This is because the games can be highly volatile and deplete your money quickly. It’s essential to know how long your bankroll can last so you can keep playing and not lose it all. You can find this information on",
-      "matchedWords": {
-        "BXXI1ZL7ewiC": {
-          "hits": 0,
-          "textWords": 60554
-        },
-        "FHVPE-UoDF1J": {
-          "hits": 25,
-          "textWords": 60554
-        },
-        "JamsQGrOtHoM": {
-          "hits": 7,
-          "textWords": 60554
-        }
-      }
-    },
-    {
-      "hash": "OWhR8sO3GKf7",
-      "address": "https://sloclassicalacademy.com/",
-      "title": "sloclassicalacademy -",
-      "snippet": "Tutorial Deposit Permainan Pulsa Indosat\nUntuk melaksanakan penyetoran di slot pulsa Indosat, tahap pertama yang perlu perlu Anda lakukan adalah menyemak bahwasanya Anda mempunyai total pulsa yang. Cek Anda melakukan pengecekan pada jumalah pulsa Anda sebelum Anda berusaha menjalankan deposit,",
-      "matchedWords": {
-        "BXXI1ZL7ewiC": {
-          "hits": 1,
-          "textWords": 81504
-        },
-        "FHVPE-UoDF1J": {
-          "hits": 94,
-          "textWords": 81504
-        },
-        "JamsQGrOtHoM": {
-          "hits": 16,
-          "textWords": 81504
-        }
-      }
-    },
-    {
-      "hash": "a9EGGsQ5pC07",
-      "address": "https://eastlewiscountychamber.com/",
-      "title": "eastlewiscountychamber -",
-      "snippet": "tutorial bermain hingga proses untuk bergabung. Selain itu, Ipar4D juga mempersiapkan berbagai penawaran menarik yang bisa digunakan oleh anggota baru atau para sudah terdaftar.\nIpar4D secara konsisten berkomitmen memberikan layanan terbaik kepada penggunanya. Dengan dukungan layanan pelanggan yang",
-      "matchedWords": {
-        "BXXI1ZL7ewiC": {
-          "hits": 1,
-          "textWords": 88293
-        },
-        "FHVPE-UoDF1J": {
-          "hits": 59,
-          "textWords": 88293
-        },
-        "JamsQGrOtHoM": {
-          "hits": 9,
-          "textWords": 88293
-        }
-      }
-    },
-    {
-      "hash": "LVF9csQMPJQ7",
-      "address": "https://revistanuevagrecia.com/",
-      "title": "revistanuevagrecia.com -",
-      "snippet": "Tutorial Lengkap Langsung Hong Kong: Menonton Draw Lotere Secara Langsung\nBagi para penggemar lotto, menyaksikan undian secara langsung adalah salah satu momen paling mendebarkan. Live draw HK jadi fokus utama bagi banyaknya penjudi togel, terutama yang mengikuti togel Hongkong. Di acara ini, para",
-      "matchedWords": {
-        "BXXI1ZL7ewiC": {
-          "hits": 1,
-          "textWords": 82875
-        },
-        "FHVPE-UoDF1J": {
-          "hits": 91,
-          "textWords": 82875
-        },
-        "JamsQGrOtHoM": {
-          "hits": 8,
-          "textWords": 82875
-        }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "MaRThsRMLT-5",
@@ -1126,27 +551,8 @@
           "hits": 0,
           "textWords": 574
         }
-      }
-    },
-    {
-      "hash": "1mbZwjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/NASA",
-      "title": "NASA - Wikipedia",
-      "snippet": "Learning, with the objective of teaching school students aged 11–18 to design and build scientific experiments to be launched into space on a NASA rocket or balloon. On June 21, 2017, the world's smallest satellite, KalamSAT, was launched.[268]\nUse of the metric system\nUS law requires the",
-      "matchedWords": {
-        "BXXI1ZL7ewiC": {
-          "hits": 1,
-          "textWords": 21696
-        },
-        "FHVPE-UoDF1J": {
-          "hits": 5,
-          "textWords": 21696
-        },
-        "JamsQGrOtHoM": {
-          "hits": 2,
-          "textWords": 21696
-        }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "Ce2W90S6MKD4",
@@ -1166,7 +572,8 @@
           "hits": 5,
           "textWords": 4002
         }
-      }
+      },
+      "queryPhraseHits": 1
     },
     {
       "hash": "H6Zz4sS6MKD4",
@@ -1186,7 +593,8 @@
           "hits": 0,
           "textWords": 324
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "TY6SLbS6MKD4",
@@ -1206,7 +614,8 @@
           "hits": 41,
           "textWords": 8414
         }
-      }
+      },
+      "queryPhraseHits": 2
     },
     {
       "hash": "Mb7ip0SWekJ4",
@@ -1226,7 +635,8 @@
           "hits": 6,
           "textWords": 50875
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "btqgslTg2KM4",
@@ -1246,7 +656,8 @@
           "hits": 15,
           "textWords": 42393
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "RWqiYzW61vZ4",
@@ -1266,27 +677,29 @@
           "hits": 3,
           "textWords": 10968
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
-      "hash": "N6mmtla5eoug",
-      "address": "https://www.wikihow.it/Esperti?name=meghankim",
-      "title": "Esperti wikiHow",
-      "snippet": "tutorial su Cricut, consigli e trucchi e idee per progetti. Megan è anche autrice di The Maker's Guide to Cricut (2022) e ha collaborato con marchi tra cui Cricut, HSN e Michaels Arts \u0026 Crafts.\nJennifer Barone è una specialista di giochi da tavolo con sede a Middletown, CT. Con oltre 2,5 anni di",
+      "hash": "OlbnP1X4hh0w",
+      "address": "https://n8n.io/integrations/set/",
+      "title": "Edit Fields (Set) integrations | Workflow automation with n8n",
+      "snippet": "",
       "matchedWords": {
         "BXXI1ZL7ewiC": {
-          "hits": 8,
-          "textWords": 43271
+          "hits": 0,
+          "textWords": 0
         },
         "FHVPE-UoDF1J": {
-          "hits": 1,
-          "textWords": 43271
+          "hits": 0,
+          "textWords": 0
         },
         "JamsQGrOtHoM": {
-          "hits": 2,
-          "textWords": 43271
+          "hits": 0,
+          "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "EYCuSddTeyA4",
@@ -1306,7 +719,8 @@
           "hits": 0,
           "textWords": 81
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "cQB3Ysg-H2eq",
@@ -1326,27 +740,8 @@
           "hits": 0,
           "textWords": 0
         }
-      }
-    },
-    {
-      "hash": "G2Nk1si1vot6",
-      "address": "https://missclaireshay.com/",
-      "title": "missclaireshay -",
-      "snippet": "machine-style games or modern video slots with immersive themes and bonus features, there is a demo slot out there to suit every taste.\nBy delving into the realm of demo slot games, players can familiarize themselves with various gameplay mechanics, payout structures, and special symbols without",
-      "matchedWords": {
-        "BXXI1ZL7ewiC": {
-          "hits": 3,
-          "textWords": 397030
-        },
-        "FHVPE-UoDF1J": {
-          "hits": 168,
-          "textWords": 397030
-        },
-        "JamsQGrOtHoM": {
-          "hits": 22,
-          "textWords": 397030
-        }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "EyjETIl7OZJE",
@@ -1366,7 +761,8 @@
           "hits": 0,
           "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "HYwjgDmDCiww",
@@ -1386,7 +782,8 @@
           "hits": 0,
           "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "GtLjhloUbV15",
@@ -1406,87 +803,29 @@
           "hits": 0,
           "textWords": 157
         }
-      }
-    },
-    {
-      "hash": "NSGq8lptNsG4",
-      "address": "https://www.akdart.com/warming.html",
-      "title": "Global Warming",
-      "snippet": "learning about climatology before coming across a marvelous sound bite: \"Climate is what you expect, weather is what you get.\" The catch is it's not clear how to measure what you expect. We're a lot better at measuring weather. The whole topic of measuring expectations deserves its own web page, as",
-      "matchedWords": {
-        "BXXI1ZL7ewiC": {
-          "hits": 2,
-          "textWords": 148757
-        },
-        "FHVPE-UoDF1J": {
-          "hits": 6,
-          "textWords": 148757
-        },
-        "JamsQGrOtHoM": {
-          "hits": 5,
-          "textWords": 148757
-        }
-      }
-    },
-    {
-      "hash": "sQpjxX5JBiu4",
-      "address": "https://developer.ibm.com/technologies/linux/",
-      "title": "Linux - IBM Developer",
-      "snippet": "Machine Learning\nObservability\nSecurity\nEventsEvents\nIBM Hackathons\nIBM Community Events\nTechXchange Conference\nResourcesExternal Resources\nIBM Documentation\nIBM Support\nIBM Developer Videos\nIBM Technology Videos\nOpen Source @ IBM\nTechXchange\nHome\nEvents\nIBM Hackathons\nIBM Community Events",
-      "matchedWords": {
-        "BXXI1ZL7ewiC": {
-          "hits": 0,
-          "textWords": 83
-        },
-        "FHVPE-UoDF1J": {
-          "hits": 1,
-          "textWords": 83
-        },
-        "JamsQGrOtHoM": {
-          "hits": 1,
-          "textWords": 83
-        }
-      }
-    },
-    {
-      "hash": "CrRuNlCGSsm5",
-      "address": "https://www.afewscraps.com/",
-      "title": "A Few Scraps",
-      "snippet": "learning from videos, I put some of those same \"aha!\" lessons in my new online class, Finding your Flow.\nI recorded this class for Quiltcon Together and it got great reviews. I love the work my students have sent me after taking this class. Your feedback makes my day!\nOn the horizon I am working on",
-      "matchedWords": {
-        "BXXI1ZL7ewiC": {
-          "hits": 6,
-          "textWords": 1931
-        },
-        "FHVPE-UoDF1J": {
-          "hits": 1,
-          "textWords": 1931
-        },
-        "JamsQGrOtHoM": {
-          "hits": 1,
-          "textWords": 1931
-        }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "Fl-YxlDOAHJg",
       "address": "https://www.heise.de/",
       "title": "heise online - IT-News, Nachrichten und Hintergründe | heise online",
-      "snippet": "Anzeige\nAnzeige\nEigenwerbung\nMicrosoft 365 Copilot im Unternehmen\nLive-Classroom · 26.10. - 23.11.26\nEigene Copilot Agents bauen und produktiv einsetzen\nCopilot Studio und Microsoft Foundry praxisnah nutzen\nSecurity, Governance und Skalierung sicher steuern\nClassroom entdecken\nAnzeige\nAnzeige",
+      "snippet": "Anzeige\nAnzeige\nEigenwerbung\nCyber Resilience Act in der Praxis\nLive-Classroom · 21.10. - 11.11.26\nCRA-Anforderungen verstehen und einordnen\nRisikoanalyse und Dokumentation aufbauen\nKonformitätsbewertung sicher planen\nClassroom entdecken\nAnzeige\nAnzeige\nmeistgelesen\nbeliebt bei Abonnenten",
       "matchedWords": {
         "BXXI1ZL7ewiC": {
           "hits": 0,
-          "textWords": 986
+          "textWords": 967
         },
         "FHVPE-UoDF1J": {
           "hits": 0,
-          "textWords": 986
+          "textWords": 967
         },
         "JamsQGrOtHoM": {
           "hits": 0,
-          "textWords": 986
+          "textWords": 967
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "SXE97sI0z6T7",
@@ -1506,7 +845,29 @@
           "hits": 3,
           "textWords": 311
         }
-      }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "CjgsxsIyoLTx",
+      "address": "https://planetpython.org/",
+      "title": "Planet Python",
+      "snippet": "machine can now do almost flawlessly? Six reasons out of an interview with him.\n1. Syntax is the disposable half; problem-solving is the durable one\nPiech splits learning to program into two parts: the syntax (how you tell a computer to do things) and the problem-solving (how you break a big",
+      "matchedWords": {
+        "BXXI1ZL7ewiC": {
+          "hits": 5,
+          "textWords": 30728
+        },
+        "FHVPE-UoDF1J": {
+          "hits": 7,
+          "textWords": 30728
+        },
+        "JamsQGrOtHoM": {
+          "hits": 1,
+          "textWords": 30728
+        }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "SVkhqsMAuxi4",
@@ -1526,7 +887,8 @@
           "hits": 0,
           "textWords": 2817
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "BF23V5RMLT-5",
@@ -1546,7 +908,8 @@
           "hits": 0,
           "textWords": 250
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "BLqv9HRMLT-5",
@@ -1566,7 +929,8 @@
           "hits": 0,
           "textWords": 3720
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "AX7xBjRvmBbx",
@@ -1576,17 +940,18 @@
       "matchedWords": {
         "BXXI1ZL7ewiC": {
           "hits": 0,
-          "textWords": 14081
+          "textWords": 14216
         },
         "FHVPE-UoDF1J": {
           "hits": 2,
-          "textWords": 14081
+          "textWords": 14216
         },
         "JamsQGrOtHoM": {
           "hits": 1,
-          "textWords": 14081
+          "textWords": 14216
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "AonnkjRvmBbx",
@@ -1606,7 +971,29 @@
           "hits": 6,
           "textWords": 11521
         }
-      }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "Bq57jjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/BASIC",
+      "title": "BASIC - Wikipedia",
+      "snippet": "machine's firmware or sometimes on a ROM cartridge.\nBASIC declined in popularity in the 1990s, as more powerful microcomputers came to market and programming languages with advanced features (such as Pascal and C) became tenable on such computers. By then, most nontechnical personal computer users",
+      "matchedWords": {
+        "BXXI1ZL7ewiC": {
+          "hits": 2,
+          "textWords": 8672
+        },
+        "FHVPE-UoDF1J": {
+          "hits": 14,
+          "textWords": 8672
+        },
+        "JamsQGrOtHoM": {
+          "hits": 4,
+          "textWords": 8672
+        }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "CcQGBjRvmBbx",
@@ -1626,7 +1013,8 @@
           "hits": 2,
           "textWords": 6188
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "Fu_x-jRvmBbx",
@@ -1646,47 +1034,8 @@
           "hits": 2,
           "textWords": 1160
         }
-      }
-    },
-    {
-      "hash": "G6z28jRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Compiler",
-      "title": "Compiler - Wikipedia",
-      "snippet": "machine code) to create an executable program.[1][2]: p1 [3]\nThere are many different types of compilers which produce output in different useful forms. A cross-compiler produces code for a different central processing unit (CPU) or operating system than the one on which the cross-compiler itself",
-      "matchedWords": {
-        "BXXI1ZL7ewiC": {
-          "hits": 1,
-          "textWords": 7794
-        },
-        "FHVPE-UoDF1J": {
-          "hits": 33,
-          "textWords": 7794
-        },
-        "JamsQGrOtHoM": {
-          "hits": 0,
-          "textWords": 7794
-        }
-      }
-    },
-    {
-      "hash": "PbwP7jRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Wikipedia:Village_pump_(WMF)",
-      "title": "Wikipedia:Village pump (WMF) - Wikipedia",
-      "snippet": "",
-      "matchedWords": {
-        "BXXI1ZL7ewiC": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "FHVPE-UoDF1J": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "JamsQGrOtHoM": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "RE-m0jRvmBbx",
@@ -1706,7 +1055,29 @@
           "hits": 0,
           "textWords": 6794
         }
-      }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "ZTANnjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Lua",
+      "title": "Lua - Wikipedia",
+      "snippet": "machine (VM). The compiling process is typically invisible to the user and is performed during run-time, especially when a just-in-time compilation (JIT) compiler is used, but it can be done offline to increase loading performance or reduce the memory footprint of the host environment by leaving",
+      "matchedWords": {
+        "BXXI1ZL7ewiC": {
+          "hits": 1,
+          "textWords": 4884
+        },
+        "FHVPE-UoDF1J": {
+          "hits": 4,
+          "textWords": 4884
+        },
+        "JamsQGrOtHoM": {
+          "hits": 1,
+          "textWords": 4884
+        }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "SjIAEzW61vZ4",
@@ -1726,7 +1097,8 @@
           "hits": 0,
           "textWords": 539
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "TDl0hzW61vZ4",
@@ -1746,7 +1118,29 @@
           "hits": 0,
           "textWords": 541
         }
-      }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "Tq0vozW61vZ4",
+      "address": "https://handbook.gitlab.com/handbook/engineering/development/sec/software-supply-chain-security/oncall/",
+      "title": "Software Supply Chain Security Tier 2 On Call | The GitLab Handbook",
+      "snippet": "",
+      "matchedWords": {
+        "BXXI1ZL7ewiC": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "FHVPE-UoDF1J": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "JamsQGrOtHoM": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "Rx8AIs_tHst4",
@@ -1766,7 +1160,8 @@
           "hits": 7,
           "textWords": 92275
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "D4lABzaS0qdw",
@@ -1786,7 +1181,29 @@
           "hits": 0,
           "textWords": 8109
         }
-      }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "3hsDOlluK2rw",
+      "address": "https://www.qt.io/blog",
+      "title": "Qt Blog",
+      "snippet": "Apr 28, 2026\nIntroducing Qt Agentic Development Skills\nRead Article\nSep 11, 2026\nSecurity advisory: CVE-2026-19248: Unbounded recursion vulnerability in the QDomNode destructor of Qt XML impacts Qt\nRead Article\nSep 10, 2026\nSecurity advisory: CVE-2026-13326 Out-of-bounds read and integer underflow",
+      "matchedWords": {
+        "BXXI1ZL7ewiC": {
+          "hits": 0,
+          "textWords": 247
+        },
+        "FHVPE-UoDF1J": {
+          "hits": 0,
+          "textWords": 247
+        },
+        "JamsQGrOtHoM": {
+          "hits": 0,
+          "textWords": 247
+        }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "FIRH00oB9UFw",
@@ -1806,27 +1223,8 @@
           "hits": 1,
           "textWords": 2429
         }
-      }
-    },
-    {
-      "hash": "LZAo7bS6MKD4",
-      "address": "https://github.com/pytorch/pytorch",
-      "title": "GitHub - pytorch/pytorch: Tensors and Dynamic neural networks in Python with strong GPU acceleration",
-      "snippet": "learning research platform that provides maximum flexibility and speed.\nElaborating Further:\nA GPU-Ready Tensor Library\nIf you use NumPy, then you have used Tensors (a.k.a. ndarray).\nPyTorch provides Tensors that can live either on the CPU or the GPU and accelerates the computation by a huge",
-      "matchedWords": {
-        "BXXI1ZL7ewiC": {
-          "hits": 1,
-          "textWords": 3360
-        },
-        "FHVPE-UoDF1J": {
-          "hits": 1,
-          "textWords": 3360
-        },
-        "JamsQGrOtHoM": {
-          "hits": 5,
-          "textWords": 3360
-        }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "uaEnGzTwnifx",
@@ -1846,52 +1244,13 @@
           "hits": 2,
           "textWords": 9047
         }
-      }
+      },
+      "queryPhraseHits": 1
     },
     {
-      "hash": "KJsVns7-8f-6",
-      "address": "https://gratefulgluttons.com/",
-      "title": "gratefulgluttons.com -",
-      "snippet": "machine, it is important to set your bankroll before you start spinning the reels. This is because the games can be highly volatile and deplete your money quickly. It’s essential to know how long your bankroll can last so you can keep playing and not lose it all. You can find this information on",
-      "matchedWords": {
-        "BXXI1ZL7ewiC": {
-          "hits": 0,
-          "textWords": 60554
-        },
-        "FHVPE-UoDF1J": {
-          "hits": 25,
-          "textWords": 60554
-        },
-        "JamsQGrOtHoM": {
-          "hits": 7,
-          "textWords": 60554
-        }
-      }
-    },
-    {
-      "hash": "CrRuNlCGSsm5",
-      "address": "https://www.afewscraps.com/",
-      "title": "A Few Scraps",
-      "snippet": "learning from videos, I put some of those same \"aha!\" lessons in my new online class, Finding your Flow.\nI recorded this class for Quiltcon Together and it got great reviews. I love the work my students have sent me after taking this class. Your feedback makes my day!\nOn the horizon I am working on",
-      "matchedWords": {
-        "BXXI1ZL7ewiC": {
-          "hits": 6,
-          "textWords": 1931
-        },
-        "FHVPE-UoDF1J": {
-          "hits": 1,
-          "textWords": 1931
-        },
-        "JamsQGrOtHoM": {
-          "hits": 1,
-          "textWords": 1931
-        }
-      }
-    },
-    {
-      "hash": "PbwP7jRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Wikipedia:Village_pump_(WMF)",
-      "title": "Wikipedia:Village pump (WMF) - Wikipedia",
+      "hash": "T5bTTsD6g8e4",
+      "address": "https://pbcvoice.com/",
+      "title": "pbcvoice.com",
       "snippet": "",
       "matchedWords": {
         "BXXI1ZL7ewiC": {
@@ -1906,7 +1265,8 @@
           "hits": 0,
           "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "TA880jRvmBbx",
@@ -1926,7 +1286,92 @@
           "hits": 48,
           "textWords": 9303
         }
-      }
+      },
+      "queryPhraseHits": 16
+    },
+    {
+      "hash": "SUM-Tsa5-DC6",
+      "address": "https://williemcginest.com/",
+      "title": "williemcginest.com",
+      "snippet": "",
+      "matchedWords": {
+        "BXXI1ZL7ewiC": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "FHVPE-UoDF1J": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "JamsQGrOtHoM": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "Hp25lWawk-F5",
+      "address": "https://theintactone.com/tag/titles/",
+      "title": "Read MBA, BBA, B.COM Notes",
+      "snippet": "17 ledarskapsteorier – Hederstedt Advisory - Behavioral Leadership Theories\n[…] Ohio State University, University of MichiganÅrtal: 1950-1960-talLäs mer: https://theintactone.com/2024/12/06/behavioral-theories-ohio-and-michigan-studies/Antal citeringar: Varierar beroende på […]",
+      "matchedWords": {
+        "BXXI1ZL7ewiC": {
+          "hits": 0,
+          "textWords": 34
+        },
+        "FHVPE-UoDF1J": {
+          "hits": 0,
+          "textWords": 34
+        },
+        "JamsQGrOtHoM": {
+          "hits": 0,
+          "textWords": 34
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "Qy5lgspN1dF5",
+      "address": "https://cirosantilli.com/china-dictatorship/",
+      "title": "China Dictatorship 中国独裁统治",
+      "snippet": "duty-machine GitHub account (责任机器GitHub用户) 4.4.1. duty-machine porn attack (责任机器色情攻击)\n4.5. Zhao Heming (召赫名) 4.5.1. 21世纪新政宣言由赫连禾 (New System Declaration for the 21st Century by He Lianhe, 2020)\n4.5.2. GitHub search pollution reports (GitHub 搜索污染报告)\n4.6. Bot + issue mention attack\n4.7. Wumao GitHub",
+      "matchedWords": {
+        "BXXI1ZL7ewiC": {
+          "hits": 4,
+          "textWords": 149170
+        },
+        "FHVPE-UoDF1J": {
+          "hits": 37,
+          "textWords": 149170
+        },
+        "JamsQGrOtHoM": {
+          "hits": 12,
+          "textWords": 149170
+        }
+      },
+      "queryPhraseHits": 1
+    },
+    {
+      "hash": "SjQgUsvkuLK5",
+      "address": "https://healthywife.com/",
+      "title": "healthywife.com",
+      "snippet": "",
+      "matchedWords": {
+        "BXXI1ZL7ewiC": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "FHVPE-UoDF1J": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "JamsQGrOtHoM": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "Wfq3FswvoTD5",
@@ -1946,7 +1391,29 @@
           "hits": 0,
           "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "PNCRYsEU1fB5",
+      "address": "https://acemgmtgroup.com/",
+      "title": "acemgmtgroup.com",
+      "snippet": "",
+      "matchedWords": {
+        "BXXI1ZL7ewiC": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "FHVPE-UoDF1J": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "JamsQGrOtHoM": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "pYw3_AHucLY4",
@@ -1966,7 +1433,8 @@
           "hits": 0,
           "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "SXE97sI0z6T7",
@@ -1986,7 +1454,8 @@
           "hits": 3,
           "textWords": 311
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "SVkhqsMAuxi4",
@@ -2006,27 +1475,29 @@
           "hits": 0,
           "textWords": 2817
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "iLQO1sN0ip-w",
       "address": "https://m-reform.net/",
       "title": "replica football shirts",
-      "snippet": "machine in 1963, to the tune of 133 yards per game. The defense completed with the fewest yards allowed per game. The bullying and torment continues when Gordon steals Jimmy’s boots and launches them into a passing bin truck in an attempt to forestall him taking part in for the workforce, however",
+      "snippet": "",
       "matchedWords": {
         "BXXI1ZL7ewiC": {
-          "hits": 1,
-          "textWords": 230924
+          "hits": 0,
+          "textWords": 0
         },
         "FHVPE-UoDF1J": {
-          "hits": 24,
-          "textWords": 230924
+          "hits": 0,
+          "textWords": 0
         },
         "JamsQGrOtHoM": {
-          "hits": 4,
-          "textWords": 230924
+          "hits": 0,
+          "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "RE-m0jRvmBbx",
@@ -2046,7 +1517,8 @@
           "hits": 0,
           "textWords": 6794
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "TY6SLbS6MKD4",
@@ -2066,7 +1538,8 @@
           "hits": 41,
           "textWords": 8414
         }
-      }
+      },
+      "queryPhraseHits": 2
     },
     {
       "hash": "RWqiYzW61vZ4",
@@ -2086,7 +1559,8 @@
           "hits": 3,
           "textWords": 10968
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "SjIAEzW61vZ4",
@@ -2106,7 +1580,8 @@
           "hits": 0,
           "textWords": 539
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "TDl0hzW61vZ4",
@@ -2126,7 +1601,29 @@
           "hits": 0,
           "textWords": 541
         }
-      }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "Tq0vozW61vZ4",
+      "address": "https://handbook.gitlab.com/handbook/engineering/development/sec/software-supply-chain-security/oncall/",
+      "title": "Software Supply Chain Security Tier 2 On Call | The GitLab Handbook",
+      "snippet": "",
+      "matchedWords": {
+        "BXXI1ZL7ewiC": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "FHVPE-UoDF1J": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "JamsQGrOtHoM": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "Rx8AIs_tHst4",
@@ -2146,7 +1643,8 @@
           "hits": 7,
           "textWords": 92275
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "cQB3Ysg-H2eq",
@@ -2166,7 +1664,8 @@
           "hits": 0,
           "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "EyjETIl7OZJE",
@@ -2186,7 +1685,8 @@
           "hits": 0,
           "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "s8IBmsqzz5gq",
@@ -2206,67 +1706,71 @@
           "hits": 0,
           "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "ao4Jts5jvZx6",
+      "address": "https://badlydrawntoy.com/",
+      "title": "badlydrawntoy -",
+      "snippet": "Tutorial Menonton Acara Undian Secara Live\nBagi para pecinta taruhan, melihat undian dengan cara langsung merupakan sebuah momen yang paling paling dinantikan. Khususnya untuk undian Sydney, banyak yang ingin mengetahui hasilnya secara real-time untuk mendapatkan informasi terbaik. Pada artikel",
+      "matchedWords": {
+        "BXXI1ZL7ewiC": {
+          "hits": 5,
+          "textWords": 86075
+        },
+        "FHVPE-UoDF1J": {
+          "hits": 67,
+          "textWords": 86075
+        },
+        "JamsQGrOtHoM": {
+          "hits": 8,
+          "textWords": 86075
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "YA5jls9w8XV5",
+      "address": "https://cloudinary.com/guides/front-end-development/front-end-development-the-complete-guide",
+      "title": "Front-End Development: The Complete Guide",
+      "snippet": "Machine learning-based algorithms: Metadata tagging, background removal, content-aware cropping, video previews, and other media-management features.\nReal-time image enhancements: Creation of banners on the fly from the same image along with overlays of logos, text, badges, or watermarks, as",
+      "matchedWords": {
+        "BXXI1ZL7ewiC": {
+          "hits": 0,
+          "textWords": 6733
+        },
+        "FHVPE-UoDF1J": {
+          "hits": 1,
+          "textWords": 6733
+        },
+        "JamsQGrOtHoM": {
+          "hits": 1,
+          "textWords": 6733
+        }
+      },
+      "queryPhraseHits": 1
     },
     {
       "hash": "iLQO1sN0ip-w",
       "address": "https://m-reform.net/",
       "title": "replica football shirts",
-      "snippet": "machine in 1963, to the tune of 133 yards per game. The defense completed with the fewest yards allowed per game. The bullying and torment continues when Gordon steals Jimmy’s boots and launches them into a passing bin truck in an attempt to forestall him taking part in for the workforce, however",
+      "snippet": "",
       "matchedWords": {
         "BXXI1ZL7ewiC": {
-          "hits": 1,
-          "textWords": 230924
+          "hits": 0,
+          "textWords": 0
         },
         "FHVPE-UoDF1J": {
-          "hits": 24,
-          "textWords": 230924
+          "hits": 0,
+          "textWords": 0
         },
         "JamsQGrOtHoM": {
-          "hits": 4,
-          "textWords": 230924
+          "hits": 0,
+          "textWords": 0
         }
-      }
-    },
-    {
-      "hash": "a9EGGsQ5pC07",
-      "address": "https://eastlewiscountychamber.com/",
-      "title": "eastlewiscountychamber -",
-      "snippet": "tutorial bermain hingga proses untuk bergabung. Selain itu, Ipar4D juga mempersiapkan berbagai penawaran menarik yang bisa digunakan oleh anggota baru atau para sudah terdaftar.\nIpar4D secara konsisten berkomitmen memberikan layanan terbaik kepada penggunanya. Dengan dukungan layanan pelanggan yang",
-      "matchedWords": {
-        "BXXI1ZL7ewiC": {
-          "hits": 1,
-          "textWords": 88293
-        },
-        "FHVPE-UoDF1J": {
-          "hits": 59,
-          "textWords": 88293
-        },
-        "JamsQGrOtHoM": {
-          "hits": 9,
-          "textWords": 88293
-        }
-      }
-    },
-    {
-      "hash": "1mbZwjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/NASA",
-      "title": "NASA - Wikipedia",
-      "snippet": "Learning, with the objective of teaching school students aged 11–18 to design and build scientific experiments to be launched into space on a NASA rocket or balloon. On June 21, 2017, the world's smallest satellite, KalamSAT, was launched.[268]\nUse of the metric system\nUS law requires the",
-      "matchedWords": {
-        "BXXI1ZL7ewiC": {
-          "hits": 1,
-          "textWords": 21696
-        },
-        "FHVPE-UoDF1J": {
-          "hits": 5,
-          "textWords": 21696
-        },
-        "JamsQGrOtHoM": {
-          "hits": 2,
-          "textWords": 21696
-        }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "btqgslTg2KM4",
@@ -2286,7 +1790,8 @@
           "hits": 15,
           "textWords": 42393
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "uaEnGzTwnifx",
@@ -2306,27 +1811,8 @@
           "hits": 2,
           "textWords": 9047
         }
-      }
-    },
-    {
-      "hash": "JAt9GsWNGjx6",
-      "address": "https://acfurnituregiant.com/",
-      "title": "acfurnituregiant -",
-      "snippet": "machine for you. There are a lot of different choices, so it is important to read the rules and understand how each game works before you start playing. Most sites will have the Return to Player (RTP) and variance for each slot listed on their website, so you can compare them before making a",
-      "matchedWords": {
-        "BXXI1ZL7ewiC": {
-          "hits": 4,
-          "textWords": 367033
-        },
-        "FHVPE-UoDF1J": {
-          "hits": 158,
-          "textWords": 367033
-        },
-        "JamsQGrOtHoM": {
-          "hits": 19,
-          "textWords": 367033
-        }
-      }
+      },
+      "queryPhraseHits": 1
     },
     {
       "hash": "GtLjhloUbV15",
@@ -2346,7 +1832,8 @@
           "hits": 0,
           "textWords": 157
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "Wfq3FswvoTD5",
@@ -2366,7 +1853,8 @@
           "hits": 0,
           "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "MaRThsRMLT-5",
@@ -2386,27 +1874,71 @@
           "hits": 0,
           "textWords": 574
         }
-      }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "ZTANnjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Lua",
+      "title": "Lua - Wikipedia",
+      "snippet": "machine (VM). The compiling process is typically invisible to the user and is performed during run-time, especially when a just-in-time compilation (JIT) compiler is used, but it can be done offline to increase loading performance or reduce the memory footprint of the host environment by leaving",
+      "matchedWords": {
+        "BXXI1ZL7ewiC": {
+          "hits": 1,
+          "textWords": 4884
+        },
+        "FHVPE-UoDF1J": {
+          "hits": 4,
+          "textWords": 4884
+        },
+        "JamsQGrOtHoM": {
+          "hits": 1,
+          "textWords": 4884
+        }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "Fl-YxlDOAHJg",
       "address": "https://www.heise.de/",
       "title": "heise online - IT-News, Nachrichten und Hintergründe | heise online",
-      "snippet": "Anzeige\nAnzeige\nEigenwerbung\nMicrosoft 365 Copilot im Unternehmen\nLive-Classroom · 26.10. - 23.11.26\nEigene Copilot Agents bauen und produktiv einsetzen\nCopilot Studio und Microsoft Foundry praxisnah nutzen\nSecurity, Governance und Skalierung sicher steuern\nClassroom entdecken\nAnzeige\nAnzeige",
+      "snippet": "Anzeige\nAnzeige\nEigenwerbung\nCyber Resilience Act in der Praxis\nLive-Classroom · 21.10. - 11.11.26\nCRA-Anforderungen verstehen und einordnen\nRisikoanalyse und Dokumentation aufbauen\nKonformitätsbewertung sicher planen\nClassroom entdecken\nAnzeige\nAnzeige\nmeistgelesen\nbeliebt bei Abonnenten",
       "matchedWords": {
         "BXXI1ZL7ewiC": {
           "hits": 0,
-          "textWords": 986
+          "textWords": 967
         },
         "FHVPE-UoDF1J": {
           "hits": 0,
-          "textWords": 986
+          "textWords": 967
         },
         "JamsQGrOtHoM": {
           "hits": 0,
-          "textWords": 986
+          "textWords": 967
         }
-      }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "CjgsxsIyoLTx",
+      "address": "https://planetpython.org/",
+      "title": "Planet Python",
+      "snippet": "machine can now do almost flawlessly? Six reasons out of an interview with him.\n1. Syntax is the disposable half; problem-solving is the durable one\nPiech splits learning to program into two parts: the syntax (how you tell a computer to do things) and the problem-solving (how you break a big",
+      "matchedWords": {
+        "BXXI1ZL7ewiC": {
+          "hits": 5,
+          "textWords": 30728
+        },
+        "FHVPE-UoDF1J": {
+          "hits": 7,
+          "textWords": 30728
+        },
+        "JamsQGrOtHoM": {
+          "hits": 1,
+          "textWords": 30728
+        }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "SVkhqsMAuxi4",
@@ -2426,7 +1958,8 @@
           "hits": 0,
           "textWords": 2817
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "BF23V5RMLT-5",
@@ -2446,7 +1979,8 @@
           "hits": 0,
           "textWords": 250
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "BLqv9HRMLT-5",
@@ -2466,7 +2000,29 @@
           "hits": 0,
           "textWords": 3720
         }
-      }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "DKApesRMLT-5",
+      "address": "https://canonical.com/careers",
+      "title": "Careers | Canonical",
+      "snippet": "Careers\nPassionate about open source?\nSo are we. Be where the cutting edge is established.\nStay safe and avoid recruitment fraud.\nRead our FAQ for information on the legitimacy of our process and offers.\nDepartments\nOur Mission\nWe amplify\nthe impact of open source\nWe help people and organisations",
+      "matchedWords": {
+        "BXXI1ZL7ewiC": {
+          "hits": 0,
+          "textWords": 101
+        },
+        "FHVPE-UoDF1J": {
+          "hits": 0,
+          "textWords": 101
+        },
+        "JamsQGrOtHoM": {
+          "hits": 0,
+          "textWords": 101
+        }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "MaRThsRMLT-5",
@@ -2486,7 +2042,8 @@
           "hits": 0,
           "textWords": 574
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "SuN61sRMLT-5",
@@ -2506,7 +2063,8 @@
           "hits": 0,
           "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "AX7xBjRvmBbx",
@@ -2516,17 +2074,18 @@
       "matchedWords": {
         "BXXI1ZL7ewiC": {
           "hits": 0,
-          "textWords": 14081
+          "textWords": 14216
         },
         "FHVPE-UoDF1J": {
           "hits": 2,
-          "textWords": 14081
+          "textWords": 14216
         },
         "JamsQGrOtHoM": {
           "hits": 1,
-          "textWords": 14081
+          "textWords": 14216
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "AonnkjRvmBbx",
@@ -2546,7 +2105,29 @@
           "hits": 6,
           "textWords": 11521
         }
-      }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "Bq57jjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/BASIC",
+      "title": "BASIC - Wikipedia",
+      "snippet": "machine's firmware or sometimes on a ROM cartridge.\nBASIC declined in popularity in the 1990s, as more powerful microcomputers came to market and programming languages with advanced features (such as Pascal and C) became tenable on such computers. By then, most nontechnical personal computer users",
+      "matchedWords": {
+        "BXXI1ZL7ewiC": {
+          "hits": 2,
+          "textWords": 8672
+        },
+        "FHVPE-UoDF1J": {
+          "hits": 14,
+          "textWords": 8672
+        },
+        "JamsQGrOtHoM": {
+          "hits": 4,
+          "textWords": 8672
+        }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "CcQGBjRvmBbx",
@@ -2566,7 +2147,8 @@
           "hits": 2,
           "textWords": 6188
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "Fu_x-jRvmBbx",
@@ -2586,7 +2168,8 @@
           "hits": 2,
           "textWords": 1160
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "RE-m0jRvmBbx",
@@ -2606,7 +2189,29 @@
           "hits": 0,
           "textWords": 6794
         }
-      }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "ZTANnjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Lua",
+      "title": "Lua - Wikipedia",
+      "snippet": "machine (VM). The compiling process is typically invisible to the user and is performed during run-time, especially when a just-in-time compilation (JIT) compiler is used, but it can be done offline to increase loading performance or reduce the memory footprint of the host environment by leaving",
+      "matchedWords": {
+        "BXXI1ZL7ewiC": {
+          "hits": 1,
+          "textWords": 4884
+        },
+        "FHVPE-UoDF1J": {
+          "hits": 4,
+          "textWords": 4884
+        },
+        "JamsQGrOtHoM": {
+          "hits": 1,
+          "textWords": 4884
+        }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "RWqiYzW61vZ4",
@@ -2626,7 +2231,8 @@
           "hits": 3,
           "textWords": 10968
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "SjIAEzW61vZ4",
@@ -2646,7 +2252,8 @@
           "hits": 0,
           "textWords": 539
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "TDl0hzW61vZ4",
@@ -2666,7 +2273,29 @@
           "hits": 0,
           "textWords": 541
         }
-      }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "Tq0vozW61vZ4",
+      "address": "https://handbook.gitlab.com/handbook/engineering/development/sec/software-supply-chain-security/oncall/",
+      "title": "Software Supply Chain Security Tier 2 On Call | The GitLab Handbook",
+      "snippet": "",
+      "matchedWords": {
+        "BXXI1ZL7ewiC": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "FHVPE-UoDF1J": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "JamsQGrOtHoM": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "Rx8AIs_tHst4",
@@ -2686,7 +2315,8 @@
           "hits": 7,
           "textWords": 92275
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "D4lABzaS0qdw",
@@ -2706,7 +2336,8 @@
           "hits": 0,
           "textWords": 8109
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "cQB3Ysg-H2eq",
@@ -2726,7 +2357,29 @@
           "hits": 0,
           "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "3hsDOlluK2rw",
+      "address": "https://www.qt.io/blog",
+      "title": "Qt Blog",
+      "snippet": "Apr 28, 2026\nIntroducing Qt Agentic Development Skills\nRead Article\nSep 11, 2026\nSecurity advisory: CVE-2026-19248: Unbounded recursion vulnerability in the QDomNode destructor of Qt XML impacts Qt\nRead Article\nSep 10, 2026\nSecurity advisory: CVE-2026-13326 Out-of-bounds read and integer underflow",
+      "matchedWords": {
+        "BXXI1ZL7ewiC": {
+          "hits": 0,
+          "textWords": 247
+        },
+        "FHVPE-UoDF1J": {
+          "hits": 0,
+          "textWords": 247
+        },
+        "JamsQGrOtHoM": {
+          "hits": 0,
+          "textWords": 247
+        }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "HYwjgDmDCiww",
@@ -2746,7 +2399,8 @@
           "hits": 0,
           "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "FIRH00oB9UFw",
@@ -2766,7 +2420,8 @@
           "hits": 1,
           "textWords": 2429
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "Wfq3FswvoTD5",
@@ -2786,107 +2441,50 @@
           "hits": 0,
           "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
-      "hash": "AonnkjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Perl",
-      "title": "Perl - Wikipedia",
-      "snippet": "machine. The goal was to ensure the future of the millions of lines of Perl 5 code at thousands of companies around the world.[52] The PONIE project ended in 2006 and is no longer being actively developed. Some of the improvements made to the Perl 5 interpreter as part of PONIE were folded into",
-      "matchedWords": {
-        "BXXI1ZL7ewiC": {
-          "hits": 2,
-          "textWords": 11521
-        },
-        "FHVPE-UoDF1J": {
-          "hits": 33,
-          "textWords": 11521
-        },
-        "JamsQGrOtHoM": {
-          "hits": 6,
-          "textWords": 11521
-        }
-      }
-    },
-    {
-      "hash": "CcQGBjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Unix",
-      "title": "Unix - Wikipedia",
-      "snippet": "machine families than any other operating system.\nThe Unix operating system consists of many libraries and utilities along with the master control program, the kernel. The kernel provides services to start and stop programs, handles the file system and other common \"low-level\" tasks that most",
-      "matchedWords": {
-        "BXXI1ZL7ewiC": {
-          "hits": 1,
-          "textWords": 6188
-        },
-        "FHVPE-UoDF1J": {
-          "hits": 6,
-          "textWords": 6188
-        },
-        "JamsQGrOtHoM": {
-          "hits": 2,
-          "textWords": 6188
-        }
-      }
-    },
-    {
-      "hash": "D4lABzaS0qdw",
-      "address": "https://planet.debian.org/",
-      "title": "Planet Debian",
-      "snippet": "machine.\nGenerics for bit width specialization\nIn general, we want to make it easy for the compiler to understand as much as possible about our algorithm. Consider this bitpack implementation:\nfunc bitpack(dest []byte, vals []uint32, bitWidth int) []byte { mask := uint32(1\u003c\u003cbitWidth - 1) var acc",
+      "hash": "T5bTTsD6g8e4",
+      "address": "https://pbcvoice.com/",
+      "title": "pbcvoice.com",
+      "snippet": "",
       "matchedWords": {
         "BXXI1ZL7ewiC": {
           "hits": 0,
-          "textWords": 8109
+          "textWords": 0
         },
         "FHVPE-UoDF1J": {
-          "hits": 3,
-          "textWords": 8109
+          "hits": 0,
+          "textWords": 0
         },
         "JamsQGrOtHoM": {
           "hits": 0,
-          "textWords": 8109
+          "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
-      "hash": "JPvmes1_lPN6",
-      "address": "https://dasilvaboards.com/",
-      "title": "dasilvaboards -",
-      "snippet": "machine yang 4D yang menarik.\nCara Login QQAlfa138\nUntuk melakukan login pada akun QQAlfa138, tahap pertama yang perlu perlu lakukan ialah mengakses website resmi QQAlfa138. Pastikanlah Anda memakai perangkat yang aman aman serta jaringan internet yang stabil. Setelah anda berada di beranda utama,",
+      "hash": "PNCRYsEU1fB5",
+      "address": "https://acemgmtgroup.com/",
+      "title": "acemgmtgroup.com",
+      "snippet": "",
       "matchedWords": {
         "BXXI1ZL7ewiC": {
           "hits": 0,
-          "textWords": 79379
+          "textWords": 0
         },
         "FHVPE-UoDF1J": {
-          "hits": 92,
-          "textWords": 79379
-        },
-        "JamsQGrOtHoM": {
-          "hits": 10,
-          "textWords": 79379
-        }
-      }
-    },
-    {
-      "hash": "sQpjxX5JBiu4",
-      "address": "https://developer.ibm.com/technologies/linux/",
-      "title": "Linux Development - IBM Developer",
-      "snippet": "Machine Learning\nObservability\nSecurity\nEventsEvents\nIBM Hackathons\nIBM Community Events\nTechXchange Conference\nResourcesExternal Resources\nIBM Documentation\nIBM Support\nIBM Developer Videos\nIBM Technology Videos\nOpen Source @ IBM\nTechXchange\nHome\nEvents\nIBM Hackathons\nIBM Community Events",
-      "matchedWords": {
-        "BXXI1ZL7ewiC": {
           "hits": 0,
-          "textWords": 83
-        },
-        "FHVPE-UoDF1J": {
-          "hits": 1,
-          "textWords": 83
+          "textWords": 0
         },
         "JamsQGrOtHoM": {
-          "hits": 1,
-          "textWords": 83
+          "hits": 0,
+          "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "pYw3_AHucLY4",
@@ -2906,52 +2504,34 @@
           "hits": 0,
           "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
-      "hash": "SVkhqsMAuxi4",
-      "address": "https://www.linkedin.com/top-content/technology/",
-      "title": "Top Technology Content from LinkedIn Members",
-      "snippet": "Explore top LinkedIn content from expert professionals.\nBrand partnership • 🔔linas.substack.com🔔 Daily Intelligence on Finance \u0026 AI | Scouting FinTech \u0026 AI Startups 🦄\n692,134 followers 3w\nRevolut has one of the simplest anti-scam features I’ve seen in a banking app. And it shows why fighting fraud",
+      "hash": "CjgsxsIyoLTx",
+      "address": "https://planetpython.org/",
+      "title": "Planet Python",
+      "snippet": "machine can now do almost flawlessly? Six reasons out of an interview with him.\n1. Syntax is the disposable half; problem-solving is the durable one\nPiech splits learning to program into two parts: the syntax (how you tell a computer to do things) and the problem-solving (how you break a big",
       "matchedWords": {
         "BXXI1ZL7ewiC": {
-          "hits": 0,
-          "textWords": 2817
+          "hits": 5,
+          "textWords": 30728
         },
         "FHVPE-UoDF1J": {
-          "hits": 0,
-          "textWords": 2817
+          "hits": 7,
+          "textWords": 30728
         },
         "JamsQGrOtHoM": {
-          "hits": 0,
-          "textWords": 2817
+          "hits": 1,
+          "textWords": 30728
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "iLQO1sN0ip-w",
       "address": "https://m-reform.net/",
       "title": "replica football shirts",
-      "snippet": "machine in 1963, to the tune of 133 yards per game. The defense completed with the fewest yards allowed per game. The bullying and torment continues when Gordon steals Jimmy’s boots and launches them into a passing bin truck in an attempt to forestall him taking part in for the workforce, however",
-      "matchedWords": {
-        "BXXI1ZL7ewiC": {
-          "hits": 1,
-          "textWords": 230924
-        },
-        "FHVPE-UoDF1J": {
-          "hits": 24,
-          "textWords": 230924
-        },
-        "JamsQGrOtHoM": {
-          "hits": 4,
-          "textWords": 230924
-        }
-      }
-    },
-    {
-      "hash": "SuN61sRMLT-5",
-      "address": "https://canonical.com/multipass",
-      "title": "Multipass | Canonical",
       "snippet": "",
       "matchedWords": {
         "BXXI1ZL7ewiC": {
@@ -2966,7 +2546,71 @@
           "hits": 0,
           "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "DKApesRMLT-5",
+      "address": "https://canonical.com/careers",
+      "title": "Careers | Canonical",
+      "snippet": "Careers\nPassionate about open source?\nSo are we. Be where the cutting edge is established.\nStay safe and avoid recruitment fraud.\nRead our FAQ for information on the legitimacy of our process and offers.\nDepartments\nOur Mission\nWe amplify\nthe impact of open source\nWe help people and organisations",
+      "matchedWords": {
+        "BXXI1ZL7ewiC": {
+          "hits": 0,
+          "textWords": 101
+        },
+        "FHVPE-UoDF1J": {
+          "hits": 0,
+          "textWords": 101
+        },
+        "JamsQGrOtHoM": {
+          "hits": 0,
+          "textWords": 101
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "AX7xBjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Wikipedia:Help_desk",
+      "title": "Wikipedia:Help desk - Wikipedia",
+      "snippet": "learning by doing :) JeanetteBredsten (talk) 11:54, 8 September 2026 (UTC)Reply One more thing I will advise you is that \"wanting to get her work worldwide\" is a promotional purpose; our only interest is in summarizing what published independent reliable sources have chosen on their own to say",
+      "matchedWords": {
+        "BXXI1ZL7ewiC": {
+          "hits": 0,
+          "textWords": 14216
+        },
+        "FHVPE-UoDF1J": {
+          "hits": 2,
+          "textWords": 14216
+        },
+        "JamsQGrOtHoM": {
+          "hits": 1,
+          "textWords": 14216
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "CcQGBjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Unix",
+      "title": "Unix - Wikipedia",
+      "snippet": "machine families than any other operating system.\nThe Unix operating system consists of many libraries and utilities along with the master control program, the kernel. The kernel provides services to start and stop programs, handles the file system and other common \"low-level\" tasks that most",
+      "matchedWords": {
+        "BXXI1ZL7ewiC": {
+          "hits": 1,
+          "textWords": 6188
+        },
+        "FHVPE-UoDF1J": {
+          "hits": 6,
+          "textWords": 6188
+        },
+        "JamsQGrOtHoM": {
+          "hits": 2,
+          "textWords": 6188
+        }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "TA880jRvmBbx",
@@ -2986,487 +2630,8 @@
           "hits": 48,
           "textWords": 9303
         }
-      }
-    },
-    {
-      "hash": "TY6SLbS6MKD4",
-      "address": "https://github.com/rohitg00/ai-engineering-from-scratch",
-      "title": "GitHub - rohitg00/ai-engineering-from-scratch: Learn it. Build it. Ship it for others. · GitHub",
-      "snippet": "machine-translated on the translations branch. See docs/i18n.md.\n░░░▒▒▒░░░▒▒▒░░░▒▒▒░░░▒▒▒░░░▒▒▒░░░▒▒▒░░░▒▒▒░░░▒▒▒░░░▒▒▒░░░▒▒▒░░░▒▒▒░░░▒▒▒░░░▒▒▒░░░▒▒▒░░░▒▒▒\n84% of students already use AI tools. Only 18% feel prepared to use them professionally. This curriculum closes that gap.\n523 lessons. 20",
-      "matchedWords": {
-        "BXXI1ZL7ewiC": {
-          "hits": 0,
-          "textWords": 8414
-        },
-        "FHVPE-UoDF1J": {
-          "hits": 5,
-          "textWords": 8414
-        },
-        "JamsQGrOtHoM": {
-          "hits": 41,
-          "textWords": 8414
-        }
-      }
-    },
-    {
-      "hash": "Mb7ip0SWekJ4",
-      "address": "https://thangs.com/resources/blog",
-      "title": "Blog",
-      "snippet": "learning and celebrate your own path in life. I will always support you. For many people who work boring 9–5s, being a designer on Thangs is a huge accomplishment and you should feel proud of how far you’ve come :party: This video is created for informational purposes 🙂\nIn summary:\nThe truth is",
-      "matchedWords": {
-        "BXXI1ZL7ewiC": {
-          "hits": 8,
-          "textWords": 50875
-        },
-        "FHVPE-UoDF1J": {
-          "hits": 9,
-          "textWords": 50875
-        },
-        "JamsQGrOtHoM": {
-          "hits": 6,
-          "textWords": 50875
-        }
-      }
-    },
-    {
-      "hash": "btqgslTg2KM4",
-      "address": "https://www.wikihow.com/Experts",
-      "title": "wikiHow Experts",
-      "snippet": "learning how to play Pokémon games.\nAngel Eyedealism is an Astrologer and Performance Artist based in the Lower East Side of Manhattan. With nearly three decades of astrology experience, Angel specializes in relocation astrology and astrocartography. Eyedealism has been featured in numerous media",
-      "matchedWords": {
-        "BXXI1ZL7ewiC": {
-          "hits": 0,
-          "textWords": 42393
-        },
-        "FHVPE-UoDF1J": {
-          "hits": 3,
-          "textWords": 42393
-        },
-        "JamsQGrOtHoM": {
-          "hits": 15,
-          "textWords": 42393
-        }
-      }
-    },
-    {
-      "hash": "uaEnGzTwnifx",
-      "address": "https://planet.wordpress.org/",
-      "title": "Planet — WordPress.org",
-      "snippet": "machine learning or something, some robot just like spitting garbage into Twitter, that just made no sense at all. And was, it’s, hilarious. And you also remember, in the not terribly distant past, when we would get like, weird phishing emails, but it would have different tone changes in voice.",
-      "matchedWords": {
-        "BXXI1ZL7ewiC": {
-          "hits": 0,
-          "textWords": 9047
-        },
-        "FHVPE-UoDF1J": {
-          "hits": 1,
-          "textWords": 9047
-        },
-        "JamsQGrOtHoM": {
-          "hits": 2,
-          "textWords": 9047
-        }
-      }
-    },
-    {
-      "hash": "JAt9GsWNGjx6",
-      "address": "https://acfurnituregiant.com/",
-      "title": "acfurnituregiant -",
-      "snippet": "machine for you. There are a lot of different choices, so it is important to read the rules and understand how each game works before you start playing. Most sites will have the Return to Player (RTP) and variance for each slot listed on their website, so you can compare them before making a",
-      "matchedWords": {
-        "BXXI1ZL7ewiC": {
-          "hits": 4,
-          "textWords": 367033
-        },
-        "FHVPE-UoDF1J": {
-          "hits": 158,
-          "textWords": 367033
-        },
-        "JamsQGrOtHoM": {
-          "hits": 19,
-          "textWords": 367033
-        }
-      }
-    },
-    {
-      "hash": "Rx8AIs_tHst4",
-      "address": "https://dwheeler.com/oss_fs_why.html",
-      "title": "Why Open Source Software / Free Software (OSS/FS, FOSS, or FLOSS)? Look at the Numbers!",
-      "snippet": "machine), according to a study by Netcraft surveying March and June 2001. Some of Netcraft’s surveys have also included data on OSes; two 2001 surveys (their June 2001 and September 2001 surveys) found that GNU/Linux is the #2 OS for web servers when counting physical machines (and has been",
-      "matchedWords": {
-        "BXXI1ZL7ewiC": {
-          "hits": 2,
-          "textWords": 92275
-        },
-        "FHVPE-UoDF1J": {
-          "hits": 11,
-          "textWords": 92275
-        },
-        "JamsQGrOtHoM": {
-          "hits": 7,
-          "textWords": 92275
-        }
-      }
-    },
-    {
-      "hash": "D4lABzaS0qdw",
-      "address": "https://planet.debian.org/",
-      "title": "Planet Debian",
-      "snippet": "machine.\nGenerics for bit width specialization\nIn general, we want to make it easy for the compiler to understand as much as possible about our algorithm. Consider this bitpack implementation:\nfunc bitpack(dest []byte, vals []uint32, bitWidth int) []byte { mask := uint32(1\u003c\u003cbitWidth - 1) var acc",
-      "matchedWords": {
-        "BXXI1ZL7ewiC": {
-          "hits": 0,
-          "textWords": 8109
-        },
-        "FHVPE-UoDF1J": {
-          "hits": 3,
-          "textWords": 8109
-        },
-        "JamsQGrOtHoM": {
-          "hits": 0,
-          "textWords": 8109
-        }
-      }
-    },
-    {
-      "hash": "cQB3Ysg-H2eq",
-      "address": "https://ragambudayajatim.id/",
-      "title": "ragambudayajatimid",
-      "snippet": "",
-      "matchedWords": {
-        "BXXI1ZL7ewiC": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "FHVPE-UoDF1J": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "JamsQGrOtHoM": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "EyjETIl7OZJE",
-      "address": "http://www.kursaal.com.ar/web/post-without-sidebar/",
-      "title": "Post Without Sidebar",
-      "snippet": "",
-      "matchedWords": {
-        "BXXI1ZL7ewiC": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "FHVPE-UoDF1J": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "JamsQGrOtHoM": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "GtLjhloUbV15",
-      "address": "https://www.whatfinger.com/",
-      "title": "Whatfinger News® – Unfiltered Truth. America’s News Feed",
-      "snippet": "Whatfinger – 🛑 Features, Red-pill blasts, takedowns, hits, deep state reveals, and savage roasts that’ll make you say ‘DAMN!’ No safe spaces. (use arrows) – Sgt Pat, Beth, Ben, Sgt K\n🛑Headline Hurricane: 40 Top Stories Across All Beats (use arrows) – Sgt Pat, Ben, Luke\n🤣 Daily Dose of Based Humor,",
-      "matchedWords": {
-        "BXXI1ZL7ewiC": {
-          "hits": 0,
-          "textWords": 157
-        },
-        "FHVPE-UoDF1J": {
-          "hits": 0,
-          "textWords": 157
-        },
-        "JamsQGrOtHoM": {
-          "hits": 0,
-          "textWords": 157
-        }
-      }
-    },
-    {
-      "hash": "s8IBmsqzz5gq",
-      "address": "https://senibudayaislam.id/",
-      "title": "senibudayaislamid",
-      "snippet": "",
-      "matchedWords": {
-        "BXXI1ZL7ewiC": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "FHVPE-UoDF1J": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "JamsQGrOtHoM": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "Wfq3FswvoTD5",
-      "address": "https://r-universe.dev/articles",
-      "title": "R-universe - browse articles",
-      "snippet": "",
-      "matchedWords": {
-        "BXXI1ZL7ewiC": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "FHVPE-UoDF1J": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "JamsQGrOtHoM": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "Wfq3FswvoTD5",
-      "address": "https://r-universe.dev/articles",
-      "title": "R-universe - browse articles",
-      "snippet": "",
-      "matchedWords": {
-        "BXXI1ZL7ewiC": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "FHVPE-UoDF1J": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "JamsQGrOtHoM": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "Fl-YxlDOAHJg",
-      "address": "https://www.heise.de/",
-      "title": "heise online - IT-News, Nachrichten und Hintergründe | heise online",
-      "snippet": "Anzeige\nAnzeige\nEigenwerbung\nMicrosoft 365 Copilot im Unternehmen\nLive-Classroom · 26.10. - 23.11.26\nEigene Copilot Agents bauen und produktiv einsetzen\nCopilot Studio und Microsoft Foundry praxisnah nutzen\nSecurity, Governance und Skalierung sicher steuern\nClassroom entdecken\nAnzeige\nAnzeige",
-      "matchedWords": {
-        "BXXI1ZL7ewiC": {
-          "hits": 0,
-          "textWords": 986
-        },
-        "FHVPE-UoDF1J": {
-          "hits": 0,
-          "textWords": 986
-        },
-        "JamsQGrOtHoM": {
-          "hits": 0,
-          "textWords": 986
-        }
-      }
-    },
-    {
-      "hash": "G6z28jRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Compiler",
-      "title": "Compiler - Wikipedia",
-      "snippet": "machine code) to create an executable program.[1][2]: p1 [3]\nThere are many different types of compilers which produce output in different useful forms. A cross-compiler produces code for a different central processing unit (CPU) or operating system than the one on which the cross-compiler itself",
-      "matchedWords": {
-        "BXXI1ZL7ewiC": {
-          "hits": 1,
-          "textWords": 7794
-        },
-        "FHVPE-UoDF1J": {
-          "hits": 33,
-          "textWords": 7794
-        },
-        "JamsQGrOtHoM": {
-          "hits": 0,
-          "textWords": 7794
-        }
-      }
-    },
-    {
-      "hash": "EYCuSddTeyA4",
-      "address": "https://github.blog/developer-skills/github/",
-      "title": "Improve how you use GitHub at work - The GitHub Blog",
-      "snippet": "Featured\nLatest\nThe world's largest developer platform\nDocs\nEverything you need to master GitHub, all in one place.\nGo to Docs\nGitHub\nBuild what’s next on GitHub, the place for anyone from anywhere to build anything.\nStart building\nCustomer stories\nMeet the companies and engineering teams that",
-      "matchedWords": {
-        "BXXI1ZL7ewiC": {
-          "hits": 0,
-          "textWords": 81
-        },
-        "FHVPE-UoDF1J": {
-          "hits": 0,
-          "textWords": 81
-        },
-        "JamsQGrOtHoM": {
-          "hits": 0,
-          "textWords": 81
-        }
-      }
-    },
-    {
-      "hash": "HYwjgDmDCiww",
-      "address": "https://podman.io/blogs/atom.xml",
-      "title": "",
-      "snippet": "",
-      "matchedWords": {
-        "BXXI1ZL7ewiC": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "FHVPE-UoDF1J": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "JamsQGrOtHoM": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "sQpjxX5JBiu4",
-      "address": "https://developer.ibm.com/technologies/linux/",
-      "title": "Linux Development - IBM Developer",
-      "snippet": "Machine Learning\nObservability\nSecurity\nEventsEvents\nIBM Hackathons\nIBM Community Events\nTechXchange Conference\nResourcesExternal Resources\nIBM Documentation\nIBM Support\nIBM Developer Videos\nIBM Technology Videos\nOpen Source @ IBM\nTechXchange\nHome\nEvents\nIBM Hackathons\nIBM Community Events",
-      "matchedWords": {
-        "BXXI1ZL7ewiC": {
-          "hits": 0,
-          "textWords": 83
-        },
-        "FHVPE-UoDF1J": {
-          "hits": 1,
-          "textWords": 83
-        },
-        "JamsQGrOtHoM": {
-          "hits": 1,
-          "textWords": 83
-        }
-      }
-    },
-    {
-      "hash": "iLQO1sN0ip-w",
-      "address": "https://m-reform.net/",
-      "title": "replica football shirts",
-      "snippet": "machine in 1963, to the tune of 133 yards per game. The defense completed with the fewest yards allowed per game. The bullying and torment continues when Gordon steals Jimmy’s boots and launches them into a passing bin truck in an attempt to forestall him taking part in for the workforce, however",
-      "matchedWords": {
-        "BXXI1ZL7ewiC": {
-          "hits": 1,
-          "textWords": 230924
-        },
-        "FHVPE-UoDF1J": {
-          "hits": 24,
-          "textWords": 230924
-        },
-        "JamsQGrOtHoM": {
-          "hits": 4,
-          "textWords": 230924
-        }
-      }
-    },
-    {
-      "hash": "OWhR8sO3GKf7",
-      "address": "https://sloclassicalacademy.com/",
-      "title": "sloclassicalacademy -",
-      "snippet": "Tutorial Deposit Permainan Pulsa Indosat\nUntuk melaksanakan penyetoran di slot pulsa Indosat, tahap pertama yang perlu perlu Anda lakukan adalah menyemak bahwasanya Anda mempunyai total pulsa yang. Cek Anda melakukan pengecekan pada jumalah pulsa Anda sebelum Anda berusaha menjalankan deposit,",
-      "matchedWords": {
-        "BXXI1ZL7ewiC": {
-          "hits": 1,
-          "textWords": 81504
-        },
-        "FHVPE-UoDF1J": {
-          "hits": 94,
-          "textWords": 81504
-        },
-        "JamsQGrOtHoM": {
-          "hits": 16,
-          "textWords": 81504
-        }
-      }
-    },
-    {
-      "hash": "a9EGGsQ5pC07",
-      "address": "https://eastlewiscountychamber.com/",
-      "title": "eastlewiscountychamber -",
-      "snippet": "tutorial bermain hingga proses untuk bergabung. Selain itu, Ipar4D juga mempersiapkan berbagai penawaran menarik yang bisa digunakan oleh anggota baru atau para sudah terdaftar.\nIpar4D secara konsisten berkomitmen memberikan layanan terbaik kepada penggunanya. Dengan dukungan layanan pelanggan yang",
-      "matchedWords": {
-        "BXXI1ZL7ewiC": {
-          "hits": 1,
-          "textWords": 88293
-        },
-        "FHVPE-UoDF1J": {
-          "hits": 59,
-          "textWords": 88293
-        },
-        "JamsQGrOtHoM": {
-          "hits": 9,
-          "textWords": 88293
-        }
-      }
-    },
-    {
-      "hash": "LVF9csQMPJQ7",
-      "address": "https://revistanuevagrecia.com/",
-      "title": "revistanuevagrecia.com -",
-      "snippet": "Tutorial Lengkap Langsung Hong Kong: Menonton Draw Lotere Secara Langsung\nBagi para penggemar lotto, menyaksikan undian secara langsung adalah salah satu momen paling mendebarkan. Live draw HK jadi fokus utama bagi banyaknya penjudi togel, terutama yang mengikuti togel Hongkong. Di acara ini, para",
-      "matchedWords": {
-        "BXXI1ZL7ewiC": {
-          "hits": 1,
-          "textWords": 82875
-        },
-        "FHVPE-UoDF1J": {
-          "hits": 91,
-          "textWords": 82875
-        },
-        "JamsQGrOtHoM": {
-          "hits": 8,
-          "textWords": 82875
-        }
-      }
-    },
-    {
-      "hash": "BLqv9HRMLT-5",
-      "address": "https://canonical.com/legal/data-privacy",
-      "title": "Data privacy | Ubuntu and Canonical Legal | Canonical",
-      "snippet": "Canonical collects personal information from you in a number of different ways. For example, when you download one of our products, receive services from us or use one of our websites (including www.canonical.com and www.ubuntu.com).\nFull list of websites ›\nAt Canonical, we consider your privacy to",
-      "matchedWords": {
-        "BXXI1ZL7ewiC": {
-          "hits": 0,
-          "textWords": 3720
-        },
-        "FHVPE-UoDF1J": {
-          "hits": 0,
-          "textWords": 3720
-        },
-        "JamsQGrOtHoM": {
-          "hits": 0,
-          "textWords": 3720
-        }
-      }
-    },
-    {
-      "hash": "AX7xBjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Wikipedia:Help_desk",
-      "title": "Wikipedia:Help desk - Wikipedia",
-      "snippet": "learning by doing :) JeanetteBredsten (talk) 11:54, 8 September 2026 (UTC)Reply One more thing I will advise you is that \"wanting to get her work worldwide\" is a promotional purpose; our only interest is in summarizing what published independent reliable sources have chosen on their own to say",
-      "matchedWords": {
-        "BXXI1ZL7ewiC": {
-          "hits": 0,
-          "textWords": 14081
-        },
-        "FHVPE-UoDF1J": {
-          "hits": 2,
-          "textWords": 14081
-        },
-        "JamsQGrOtHoM": {
-          "hits": 1,
-          "textWords": 14081
-        }
-      }
+      },
+      "queryPhraseHits": 16
     },
     {
       "hash": "Ce2W90S6MKD4",
@@ -3486,7 +2651,29 @@
           "hits": 5,
           "textWords": 4002
         }
-      }
+      },
+      "queryPhraseHits": 1
+    },
+    {
+      "hash": "H6Zz4sS6MKD4",
+      "address": "https://github.com/trending",
+      "title": "Trending repositories on GitHub today · GitHub",
+      "snippet": "machine-to-machine payments. Self-hosted. Built on Claude.\nnashsu / llm_wiki\nLLM Wiki is a cross-platform desktop application that turns your documents into an organized, interlinked knowledge base — automatically. Instead of traditional RAG (retrieve-and-answer from scratch every time), the LLM",
+      "matchedWords": {
+        "BXXI1ZL7ewiC": {
+          "hits": 0,
+          "textWords": 324
+        },
+        "FHVPE-UoDF1J": {
+          "hits": 2,
+          "textWords": 324
+        },
+        "JamsQGrOtHoM": {
+          "hits": 0,
+          "textWords": 324
+        }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "Mb7ip0SWekJ4",
@@ -3506,7 +2693,8 @@
           "hits": 6,
           "textWords": 50875
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "btqgslTg2KM4",
@@ -3526,27 +2714,71 @@
           "hits": 15,
           "textWords": 42393
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
-      "hash": "N6mmtla5eoug",
-      "address": "https://www.wikihow.it/Esperti?name=meghankim",
-      "title": "Esperti wikiHow",
-      "snippet": "tutorial su Cricut, consigli e trucchi e idee per progetti. Megan è anche autrice di The Maker's Guide to Cricut (2022) e ha collaborato con marchi tra cui Cricut, HSN e Michaels Arts \u0026 Crafts.\nJennifer Barone è una specialista di giochi da tavolo con sede a Middletown, CT. Con oltre 2,5 anni di",
+      "hash": "OlbnP1X4hh0w",
+      "address": "https://n8n.io/integrations/set/",
+      "title": "Edit Fields (Set) integrations | Workflow automation with n8n",
+      "snippet": "",
       "matchedWords": {
         "BXXI1ZL7ewiC": {
-          "hits": 8,
-          "textWords": 43271
+          "hits": 0,
+          "textWords": 0
         },
         "FHVPE-UoDF1J": {
-          "hits": 1,
-          "textWords": 43271
+          "hits": 0,
+          "textWords": 0
         },
         "JamsQGrOtHoM": {
-          "hits": 2,
-          "textWords": 43271
+          "hits": 0,
+          "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "Rx8AIs_tHst4",
+      "address": "https://dwheeler.com/oss_fs_why.html",
+      "title": "Why Open Source Software / Free Software (OSS/FS, FOSS, or FLOSS)? Look at the Numbers!",
+      "snippet": "machine), according to a study by Netcraft surveying March and June 2001. Some of Netcraft’s surveys have also included data on OSes; two 2001 surveys (their June 2001 and September 2001 surveys) found that GNU/Linux is the #2 OS for web servers when counting physical machines (and has been",
+      "matchedWords": {
+        "BXXI1ZL7ewiC": {
+          "hits": 2,
+          "textWords": 92275
+        },
+        "FHVPE-UoDF1J": {
+          "hits": 11,
+          "textWords": 92275
+        },
+        "JamsQGrOtHoM": {
+          "hits": 7,
+          "textWords": 92275
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "SUM-Tsa5-DC6",
+      "address": "https://williemcginest.com/",
+      "title": "williemcginest.com",
+      "snippet": "",
+      "matchedWords": {
+        "BXXI1ZL7ewiC": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "FHVPE-UoDF1J": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "JamsQGrOtHoM": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "D4lABzaS0qdw",
@@ -3566,7 +2798,92 @@
           "hits": 0,
           "textWords": 8109
         }
-      }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "Hp25lWawk-F5",
+      "address": "https://theintactone.com/tag/titles/",
+      "title": "Read MBA, BBA, B.COM Notes",
+      "snippet": "17 ledarskapsteorier – Hederstedt Advisory - Behavioral Leadership Theories\n[…] Ohio State University, University of MichiganÅrtal: 1950-1960-talLäs mer: https://theintactone.com/2024/12/06/behavioral-theories-ohio-and-michigan-studies/Antal citeringar: Varierar beroende på […]",
+      "matchedWords": {
+        "BXXI1ZL7ewiC": {
+          "hits": 0,
+          "textWords": 34
+        },
+        "FHVPE-UoDF1J": {
+          "hits": 0,
+          "textWords": 34
+        },
+        "JamsQGrOtHoM": {
+          "hits": 0,
+          "textWords": 34
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "cQB3Ysg-H2eq",
+      "address": "https://ragambudayajatim.id/",
+      "title": "ragambudayajatimid",
+      "snippet": "",
+      "matchedWords": {
+        "BXXI1ZL7ewiC": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "FHVPE-UoDF1J": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "JamsQGrOtHoM": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "EyjETIl7OZJE",
+      "address": "http://www.kursaal.com.ar/web/post-without-sidebar/",
+      "title": "Post Without Sidebar",
+      "snippet": "",
+      "matchedWords": {
+        "BXXI1ZL7ewiC": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "FHVPE-UoDF1J": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "JamsQGrOtHoM": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "3hsDOlluK2rw",
+      "address": "https://www.qt.io/blog",
+      "title": "Qt Blog",
+      "snippet": "Apr 28, 2026\nIntroducing Qt Agentic Development Skills\nRead Article\nSep 11, 2026\nSecurity advisory: CVE-2026-19248: Unbounded recursion vulnerability in the QDomNode destructor of Qt XML impacts Qt\nRead Article\nSep 10, 2026\nSecurity advisory: CVE-2026-13326 Out-of-bounds read and integer underflow",
+      "matchedWords": {
+        "BXXI1ZL7ewiC": {
+          "hits": 0,
+          "textWords": 247
+        },
+        "FHVPE-UoDF1J": {
+          "hits": 0,
+          "textWords": 247
+        },
+        "JamsQGrOtHoM": {
+          "hits": 0,
+          "textWords": 247
+        }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "GtLjhloUbV15",
@@ -3586,27 +2903,71 @@
           "hits": 0,
           "textWords": 157
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
-      "hash": "NSGq8lptNsG4",
-      "address": "https://www.akdart.com/warming.html",
-      "title": "Global Warming",
-      "snippet": "learning about climatology before coming across a marvelous sound bite: \"Climate is what you expect, weather is what you get.\" The catch is it's not clear how to measure what you expect. We're a lot better at measuring weather. The whole topic of measuring expectations deserves its own web page, as",
+      "hash": "Qy5lgspN1dF5",
+      "address": "https://cirosantilli.com/china-dictatorship/",
+      "title": "China Dictatorship 中国独裁统治",
+      "snippet": "duty-machine GitHub account (责任机器GitHub用户) 4.4.1. duty-machine porn attack (责任机器色情攻击)\n4.5. Zhao Heming (召赫名) 4.5.1. 21世纪新政宣言由赫连禾 (New System Declaration for the 21st Century by He Lianhe, 2020)\n4.5.2. GitHub search pollution reports (GitHub 搜索污染报告)\n4.6. Bot + issue mention attack\n4.7. Wumao GitHub",
       "matchedWords": {
         "BXXI1ZL7ewiC": {
-          "hits": 2,
-          "textWords": 148757
+          "hits": 4,
+          "textWords": 149170
         },
         "FHVPE-UoDF1J": {
-          "hits": 6,
-          "textWords": 148757
+          "hits": 37,
+          "textWords": 149170
         },
         "JamsQGrOtHoM": {
-          "hits": 5,
-          "textWords": 148757
+          "hits": 12,
+          "textWords": 149170
         }
-      }
+      },
+      "queryPhraseHits": 1
+    },
+    {
+      "hash": "s8IBmsqzz5gq",
+      "address": "https://senibudayaislam.id/",
+      "title": "senibudayaislamid",
+      "snippet": "",
+      "matchedWords": {
+        "BXXI1ZL7ewiC": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "FHVPE-UoDF1J": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "JamsQGrOtHoM": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "SjQgUsvkuLK5",
+      "address": "https://healthywife.com/",
+      "title": "healthywife.com",
+      "snippet": "",
+      "matchedWords": {
+        "BXXI1ZL7ewiC": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "FHVPE-UoDF1J": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "JamsQGrOtHoM": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "Wfq3FswvoTD5",
@@ -3626,27 +2987,113 @@
           "hits": 0,
           "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
-      "hash": "BLqv9HRMLT-5",
-      "address": "https://canonical.com/legal/data-privacy",
-      "title": "Data privacy | Ubuntu and Canonical Legal | Canonical",
-      "snippet": "Canonical collects personal information from you in a number of different ways. For example, when you download one of our products, receive services from us or use one of our websites (including www.canonical.com and www.ubuntu.com).\nFull list of websites ›\nAt Canonical, we consider your privacy to",
+      "hash": "JPvmes1_lPN6",
+      "address": "https://dasilvaboards.com/",
+      "title": "dasilvaboards -",
+      "snippet": "machine yang 4D yang menarik.\nCara Login QQAlfa138\nUntuk melakukan login pada akun QQAlfa138, tahap pertama yang perlu perlu lakukan ialah mengakses website resmi QQAlfa138. Pastikanlah Anda memakai perangkat yang aman aman serta jaringan internet yang stabil. Setelah anda berada di beranda utama,",
       "matchedWords": {
         "BXXI1ZL7ewiC": {
           "hits": 0,
-          "textWords": 3720
+          "textWords": 79379
+        },
+        "FHVPE-UoDF1J": {
+          "hits": 92,
+          "textWords": 79379
+        },
+        "JamsQGrOtHoM": {
+          "hits": 10,
+          "textWords": 79379
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "T5bTTsD6g8e4",
+      "address": "https://pbcvoice.com/",
+      "title": "pbcvoice.com",
+      "snippet": "",
+      "matchedWords": {
+        "BXXI1ZL7ewiC": {
+          "hits": 0,
+          "textWords": 0
         },
         "FHVPE-UoDF1J": {
           "hits": 0,
-          "textWords": 3720
+          "textWords": 0
         },
         "JamsQGrOtHoM": {
           "hits": 0,
-          "textWords": 3720
+          "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "pYw3_AHucLY4",
+      "address": "https://adrienalfiste.vip-blog.com/",
+      "title": "adrienalfiste blog : Le blog d'Adri (83)",
+      "snippet": "",
+      "matchedWords": {
+        "BXXI1ZL7ewiC": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "FHVPE-UoDF1J": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "JamsQGrOtHoM": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "SVkhqsMAuxi4",
+      "address": "https://www.linkedin.com/top-content/technology/",
+      "title": "Top Technology Content from LinkedIn Members",
+      "snippet": "Explore top LinkedIn content from expert professionals.\nBrand partnership • 🔔linas.substack.com🔔 Daily Intelligence on Finance \u0026 AI | Scouting FinTech \u0026 AI Startups 🦄\n692,134 followers 3w\nRevolut has one of the simplest anti-scam features I’ve seen in a banking app. And it shows why fighting fraud",
+      "matchedWords": {
+        "BXXI1ZL7ewiC": {
+          "hits": 0,
+          "textWords": 2817
+        },
+        "FHVPE-UoDF1J": {
+          "hits": 0,
+          "textWords": 2817
+        },
+        "JamsQGrOtHoM": {
+          "hits": 0,
+          "textWords": 2817
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "iLQO1sN0ip-w",
+      "address": "https://m-reform.net/",
+      "title": "replica football shirts",
+      "snippet": "",
+      "matchedWords": {
+        "BXXI1ZL7ewiC": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "FHVPE-UoDF1J": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "JamsQGrOtHoM": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "SuN61sRMLT-5",
@@ -3666,12 +3113,748 @@
           "hits": 0,
           "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "TA880jRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Generative_adversarial_network",
+      "title": "Generative adversarial network - Wikipedia",
+      "snippet": "machine learning frameworks and a prominent framework for approaching generative AI. The concept was initially developed by Ian Goodfellow and his colleagues in June 2014.[1] In a GAN, two neural networks compete with each other in the form of a zero-sum game, where one agent's gain is another",
+      "matchedWords": {
+        "BXXI1ZL7ewiC": {
+          "hits": 1,
+          "textWords": 9303
+        },
+        "FHVPE-UoDF1J": {
+          "hits": 20,
+          "textWords": 9303
+        },
+        "JamsQGrOtHoM": {
+          "hits": 48,
+          "textWords": 9303
+        }
+      },
+      "queryPhraseHits": 16
+    },
+    {
+      "hash": "TY6SLbS6MKD4",
+      "address": "https://github.com/rohitg00/ai-engineering-from-scratch",
+      "title": "GitHub - rohitg00/ai-engineering-from-scratch: Learn it. Build it. Ship it for others. · GitHub",
+      "snippet": "machine-translated on the translations branch. See docs/i18n.md.\n░░░▒▒▒░░░▒▒▒░░░▒▒▒░░░▒▒▒░░░▒▒▒░░░▒▒▒░░░▒▒▒░░░▒▒▒░░░▒▒▒░░░▒▒▒░░░▒▒▒░░░▒▒▒░░░▒▒▒░░░▒▒▒░░░▒▒▒\n84% of students already use AI tools. Only 18% feel prepared to use them professionally. This curriculum closes that gap.\n523 lessons. 20",
+      "matchedWords": {
+        "BXXI1ZL7ewiC": {
+          "hits": 0,
+          "textWords": 8414
+        },
+        "FHVPE-UoDF1J": {
+          "hits": 5,
+          "textWords": 8414
+        },
+        "JamsQGrOtHoM": {
+          "hits": 41,
+          "textWords": 8414
+        }
+      },
+      "queryPhraseHits": 2
+    },
+    {
+      "hash": "Mb7ip0SWekJ4",
+      "address": "https://thangs.com/resources/blog",
+      "title": "Blog",
+      "snippet": "learning and celebrate your own path in life. I will always support you. For many people who work boring 9–5s, being a designer on Thangs is a huge accomplishment and you should feel proud of how far you’ve come :party: This video is created for informational purposes 🙂\nIn summary:\nThe truth is",
+      "matchedWords": {
+        "BXXI1ZL7ewiC": {
+          "hits": 8,
+          "textWords": 50875
+        },
+        "FHVPE-UoDF1J": {
+          "hits": 9,
+          "textWords": 50875
+        },
+        "JamsQGrOtHoM": {
+          "hits": 6,
+          "textWords": 50875
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "btqgslTg2KM4",
+      "address": "https://www.wikihow.com/Experts",
+      "title": "wikiHow Experts",
+      "snippet": "learning how to play Pokémon games.\nAngel Eyedealism is an Astrologer and Performance Artist based in the Lower East Side of Manhattan. With nearly three decades of astrology experience, Angel specializes in relocation astrology and astrocartography. Eyedealism has been featured in numerous media",
+      "matchedWords": {
+        "BXXI1ZL7ewiC": {
+          "hits": 0,
+          "textWords": 42393
+        },
+        "FHVPE-UoDF1J": {
+          "hits": 3,
+          "textWords": 42393
+        },
+        "JamsQGrOtHoM": {
+          "hits": 15,
+          "textWords": 42393
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "uaEnGzTwnifx",
+      "address": "https://planet.wordpress.org/",
+      "title": "Planet — WordPress.org",
+      "snippet": "machine learning or something, some robot just like spitting garbage into Twitter, that just made no sense at all. And was, it’s, hilarious. And you also remember, in the not terribly distant past, when we would get like, weird phishing emails, but it would have different tone changes in voice.",
+      "matchedWords": {
+        "BXXI1ZL7ewiC": {
+          "hits": 0,
+          "textWords": 9047
+        },
+        "FHVPE-UoDF1J": {
+          "hits": 1,
+          "textWords": 9047
+        },
+        "JamsQGrOtHoM": {
+          "hits": 2,
+          "textWords": 9047
+        }
+      },
+      "queryPhraseHits": 1
+    },
+    {
+      "hash": "Rx8AIs_tHst4",
+      "address": "https://dwheeler.com/oss_fs_why.html",
+      "title": "Why Open Source Software / Free Software (OSS/FS, FOSS, or FLOSS)? Look at the Numbers!",
+      "snippet": "machine), according to a study by Netcraft surveying March and June 2001. Some of Netcraft’s surveys have also included data on OSes; two 2001 surveys (their June 2001 and September 2001 surveys) found that GNU/Linux is the #2 OS for web servers when counting physical machines (and has been",
+      "matchedWords": {
+        "BXXI1ZL7ewiC": {
+          "hits": 2,
+          "textWords": 92275
+        },
+        "FHVPE-UoDF1J": {
+          "hits": 11,
+          "textWords": 92275
+        },
+        "JamsQGrOtHoM": {
+          "hits": 7,
+          "textWords": 92275
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "SUM-Tsa5-DC6",
+      "address": "https://williemcginest.com/",
+      "title": "williemcginest.com",
+      "snippet": "",
+      "matchedWords": {
+        "BXXI1ZL7ewiC": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "FHVPE-UoDF1J": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "JamsQGrOtHoM": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "D4lABzaS0qdw",
+      "address": "https://planet.debian.org/",
+      "title": "Planet Debian",
+      "snippet": "machine.\nGenerics for bit width specialization\nIn general, we want to make it easy for the compiler to understand as much as possible about our algorithm. Consider this bitpack implementation:\nfunc bitpack(dest []byte, vals []uint32, bitWidth int) []byte { mask := uint32(1\u003c\u003cbitWidth - 1) var acc",
+      "matchedWords": {
+        "BXXI1ZL7ewiC": {
+          "hits": 0,
+          "textWords": 8109
+        },
+        "FHVPE-UoDF1J": {
+          "hits": 3,
+          "textWords": 8109
+        },
+        "JamsQGrOtHoM": {
+          "hits": 0,
+          "textWords": 8109
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "Hp25lWawk-F5",
+      "address": "https://theintactone.com/tag/titles/",
+      "title": "Read MBA, BBA, B.COM Notes",
+      "snippet": "17 ledarskapsteorier – Hederstedt Advisory - Behavioral Leadership Theories\n[…] Ohio State University, University of MichiganÅrtal: 1950-1960-talLäs mer: https://theintactone.com/2024/12/06/behavioral-theories-ohio-and-michigan-studies/Antal citeringar: Varierar beroende på […]",
+      "matchedWords": {
+        "BXXI1ZL7ewiC": {
+          "hits": 0,
+          "textWords": 34
+        },
+        "FHVPE-UoDF1J": {
+          "hits": 0,
+          "textWords": 34
+        },
+        "JamsQGrOtHoM": {
+          "hits": 0,
+          "textWords": 34
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "cQB3Ysg-H2eq",
+      "address": "https://ragambudayajatim.id/",
+      "title": "ragambudayajatimid",
+      "snippet": "",
+      "matchedWords": {
+        "BXXI1ZL7ewiC": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "FHVPE-UoDF1J": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "JamsQGrOtHoM": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "EyjETIl7OZJE",
+      "address": "http://www.kursaal.com.ar/web/post-without-sidebar/",
+      "title": "Post Without Sidebar",
+      "snippet": "",
+      "matchedWords": {
+        "BXXI1ZL7ewiC": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "FHVPE-UoDF1J": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "JamsQGrOtHoM": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "GtLjhloUbV15",
+      "address": "https://www.whatfinger.com/",
+      "title": "Whatfinger News® – Unfiltered Truth. America’s News Feed",
+      "snippet": "Whatfinger – 🛑 Features, Red-pill blasts, takedowns, hits, deep state reveals, and savage roasts that’ll make you say ‘DAMN!’ No safe spaces. (use arrows) – Sgt Pat, Beth, Ben, Sgt K\n🛑Headline Hurricane: 40 Top Stories Across All Beats (use arrows) – Sgt Pat, Ben, Luke\n🤣 Daily Dose of Based Humor,",
+      "matchedWords": {
+        "BXXI1ZL7ewiC": {
+          "hits": 0,
+          "textWords": 157
+        },
+        "FHVPE-UoDF1J": {
+          "hits": 0,
+          "textWords": 157
+        },
+        "JamsQGrOtHoM": {
+          "hits": 0,
+          "textWords": 157
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "Qy5lgspN1dF5",
+      "address": "https://cirosantilli.com/china-dictatorship/",
+      "title": "China Dictatorship 中国独裁统治",
+      "snippet": "duty-machine GitHub account (责任机器GitHub用户) 4.4.1. duty-machine porn attack (责任机器色情攻击)\n4.5. Zhao Heming (召赫名) 4.5.1. 21世纪新政宣言由赫连禾 (New System Declaration for the 21st Century by He Lianhe, 2020)\n4.5.2. GitHub search pollution reports (GitHub 搜索污染报告)\n4.6. Bot + issue mention attack\n4.7. Wumao GitHub",
+      "matchedWords": {
+        "BXXI1ZL7ewiC": {
+          "hits": 4,
+          "textWords": 149170
+        },
+        "FHVPE-UoDF1J": {
+          "hits": 37,
+          "textWords": 149170
+        },
+        "JamsQGrOtHoM": {
+          "hits": 12,
+          "textWords": 149170
+        }
+      },
+      "queryPhraseHits": 1
+    },
+    {
+      "hash": "s8IBmsqzz5gq",
+      "address": "https://senibudayaislam.id/",
+      "title": "senibudayaislamid",
+      "snippet": "",
+      "matchedWords": {
+        "BXXI1ZL7ewiC": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "FHVPE-UoDF1J": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "JamsQGrOtHoM": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "SjQgUsvkuLK5",
+      "address": "https://healthywife.com/",
+      "title": "healthywife.com",
+      "snippet": "",
+      "matchedWords": {
+        "BXXI1ZL7ewiC": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "FHVPE-UoDF1J": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "JamsQGrOtHoM": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "Wfq3FswvoTD5",
+      "address": "https://r-universe.dev/articles",
+      "title": "R-universe - browse articles",
+      "snippet": "",
+      "matchedWords": {
+        "BXXI1ZL7ewiC": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "FHVPE-UoDF1J": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "JamsQGrOtHoM": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "Wfq3FswvoTD5",
+      "address": "https://r-universe.dev/articles",
+      "title": "R-universe - browse articles",
+      "snippet": "",
+      "matchedWords": {
+        "BXXI1ZL7ewiC": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "FHVPE-UoDF1J": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "JamsQGrOtHoM": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "Fl-YxlDOAHJg",
+      "address": "https://www.heise.de/",
+      "title": "heise online - IT-News, Nachrichten und Hintergründe | heise online",
+      "snippet": "Anzeige\nAnzeige\nEigenwerbung\nCyber Resilience Act in der Praxis\nLive-Classroom · 21.10. - 11.11.26\nCRA-Anforderungen verstehen und einordnen\nRisikoanalyse und Dokumentation aufbauen\nKonformitätsbewertung sicher planen\nClassroom entdecken\nAnzeige\nAnzeige\nmeistgelesen\nbeliebt bei Abonnenten",
+      "matchedWords": {
+        "BXXI1ZL7ewiC": {
+          "hits": 0,
+          "textWords": 967
+        },
+        "FHVPE-UoDF1J": {
+          "hits": 0,
+          "textWords": 967
+        },
+        "JamsQGrOtHoM": {
+          "hits": 0,
+          "textWords": 967
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "EYCuSddTeyA4",
+      "address": "https://github.blog/developer-skills/github/",
+      "title": "Improve how you use GitHub at work - The GitHub Blog",
+      "snippet": "Featured\nLatest\nThe world's largest developer platform\nDocs\nEverything you need to master GitHub, all in one place.\nGo to Docs\nGitHub\nBuild what’s next on GitHub, the place for anyone from anywhere to build anything.\nStart building\nCustomer stories\nMeet the companies and engineering teams that",
+      "matchedWords": {
+        "BXXI1ZL7ewiC": {
+          "hits": 0,
+          "textWords": 81
+        },
+        "FHVPE-UoDF1J": {
+          "hits": 0,
+          "textWords": 81
+        },
+        "JamsQGrOtHoM": {
+          "hits": 0,
+          "textWords": 81
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "HYwjgDmDCiww",
+      "address": "https://podman.io/blogs/atom.xml",
+      "title": "",
+      "snippet": "",
+      "matchedWords": {
+        "BXXI1ZL7ewiC": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "FHVPE-UoDF1J": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "JamsQGrOtHoM": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "ao4Jts5jvZx6",
+      "address": "https://badlydrawntoy.com/",
+      "title": "badlydrawntoy -",
+      "snippet": "Tutorial Menonton Acara Undian Secara Live\nBagi para pecinta taruhan, melihat undian dengan cara langsung merupakan sebuah momen yang paling paling dinantikan. Khususnya untuk undian Sydney, banyak yang ingin mengetahui hasilnya secara real-time untuk mendapatkan informasi terbaik. Pada artikel",
+      "matchedWords": {
+        "BXXI1ZL7ewiC": {
+          "hits": 5,
+          "textWords": 86075
+        },
+        "FHVPE-UoDF1J": {
+          "hits": 67,
+          "textWords": 86075
+        },
+        "JamsQGrOtHoM": {
+          "hits": 8,
+          "textWords": 86075
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "YA5jls9w8XV5",
+      "address": "https://cloudinary.com/guides/front-end-development/front-end-development-the-complete-guide",
+      "title": "Front-End Development: The Complete Guide",
+      "snippet": "Machine learning-based algorithms: Metadata tagging, background removal, content-aware cropping, video previews, and other media-management features.\nReal-time image enhancements: Creation of banners on the fly from the same image along with overlays of logos, text, badges, or watermarks, as",
+      "matchedWords": {
+        "BXXI1ZL7ewiC": {
+          "hits": 0,
+          "textWords": 6733
+        },
+        "FHVPE-UoDF1J": {
+          "hits": 1,
+          "textWords": 6733
+        },
+        "JamsQGrOtHoM": {
+          "hits": 1,
+          "textWords": 6733
+        }
+      },
+      "queryPhraseHits": 1
+    },
+    {
+      "hash": "iLQO1sN0ip-w",
+      "address": "https://m-reform.net/",
+      "title": "replica football shirts",
+      "snippet": "",
+      "matchedWords": {
+        "BXXI1ZL7ewiC": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "FHVPE-UoDF1J": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "JamsQGrOtHoM": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "BLqv9HRMLT-5",
+      "address": "https://canonical.com/legal/data-privacy",
+      "title": "Data privacy | Ubuntu and Canonical Legal | Canonical",
+      "snippet": "Canonical collects personal information from you in a number of different ways. For example, when you download one of our products, receive services from us or use one of our websites (including www.canonical.com and www.ubuntu.com).\nFull list of websites ›\nAt Canonical, we consider your privacy to",
+      "matchedWords": {
+        "BXXI1ZL7ewiC": {
+          "hits": 0,
+          "textWords": 3720
+        },
+        "FHVPE-UoDF1J": {
+          "hits": 0,
+          "textWords": 3720
+        },
+        "JamsQGrOtHoM": {
+          "hits": 0,
+          "textWords": 3720
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "AX7xBjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Wikipedia:Help_desk",
+      "title": "Wikipedia:Help desk - Wikipedia",
+      "snippet": "learning by doing :) JeanetteBredsten (talk) 11:54, 8 September 2026 (UTC)Reply One more thing I will advise you is that \"wanting to get her work worldwide\" is a promotional purpose; our only interest is in summarizing what published independent reliable sources have chosen on their own to say",
+      "matchedWords": {
+        "BXXI1ZL7ewiC": {
+          "hits": 0,
+          "textWords": 14216
+        },
+        "FHVPE-UoDF1J": {
+          "hits": 2,
+          "textWords": 14216
+        },
+        "JamsQGrOtHoM": {
+          "hits": 1,
+          "textWords": 14216
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "Ce2W90S6MKD4",
+      "address": "https://github.com/resources/articles/what-is-vibe-coding",
+      "title": "What Is Vibe Coding? · GitHub",
+      "snippet": "learning the fundamentals of coding, but doing so will affect their ability to effectively review output.\nLack of clarity. AI can’t explain its choices, which makes it harder to trace decisions or spot edge cases.\nRemember, vibe coding is a creative, collaborative process. You bring the ideas, the",
+      "matchedWords": {
+        "BXXI1ZL7ewiC": {
+          "hits": 1,
+          "textWords": 4002
+        },
+        "FHVPE-UoDF1J": {
+          "hits": 1,
+          "textWords": 4002
+        },
+        "JamsQGrOtHoM": {
+          "hits": 5,
+          "textWords": 4002
+        }
+      },
+      "queryPhraseHits": 1
+    },
+    {
+      "hash": "Mb7ip0SWekJ4",
+      "address": "https://thangs.com/resources/blog",
+      "title": "Blog",
+      "snippet": "learning and celebrate your own path in life. I will always support you. For many people who work boring 9–5s, being a designer on Thangs is a huge accomplishment and you should feel proud of how far you’ve come :party: This video is created for informational purposes 🙂\nIn summary:\nThe truth is",
+      "matchedWords": {
+        "BXXI1ZL7ewiC": {
+          "hits": 8,
+          "textWords": 50875
+        },
+        "FHVPE-UoDF1J": {
+          "hits": 9,
+          "textWords": 50875
+        },
+        "JamsQGrOtHoM": {
+          "hits": 6,
+          "textWords": 50875
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "btqgslTg2KM4",
+      "address": "https://www.wikihow.com/Experts",
+      "title": "wikiHow Experts",
+      "snippet": "learning how to play Pokémon games.\nAngel Eyedealism is an Astrologer and Performance Artist based in the Lower East Side of Manhattan. With nearly three decades of astrology experience, Angel specializes in relocation astrology and astrocartography. Eyedealism has been featured in numerous media",
+      "matchedWords": {
+        "BXXI1ZL7ewiC": {
+          "hits": 0,
+          "textWords": 42393
+        },
+        "FHVPE-UoDF1J": {
+          "hits": 3,
+          "textWords": 42393
+        },
+        "JamsQGrOtHoM": {
+          "hits": 15,
+          "textWords": 42393
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "OlbnP1X4hh0w",
+      "address": "https://n8n.io/integrations/set/",
+      "title": "Edit Fields (Set) integrations | Workflow automation with n8n",
+      "snippet": "",
+      "matchedWords": {
+        "BXXI1ZL7ewiC": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "FHVPE-UoDF1J": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "JamsQGrOtHoM": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "D4lABzaS0qdw",
+      "address": "https://planet.debian.org/",
+      "title": "Planet Debian",
+      "snippet": "machine.\nGenerics for bit width specialization\nIn general, we want to make it easy for the compiler to understand as much as possible about our algorithm. Consider this bitpack implementation:\nfunc bitpack(dest []byte, vals []uint32, bitWidth int) []byte { mask := uint32(1\u003c\u003cbitWidth - 1) var acc",
+      "matchedWords": {
+        "BXXI1ZL7ewiC": {
+          "hits": 0,
+          "textWords": 8109
+        },
+        "FHVPE-UoDF1J": {
+          "hits": 3,
+          "textWords": 8109
+        },
+        "JamsQGrOtHoM": {
+          "hits": 0,
+          "textWords": 8109
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "GtLjhloUbV15",
+      "address": "https://www.whatfinger.com/",
+      "title": "Whatfinger News® – Unfiltered Truth. America’s News Feed",
+      "snippet": "Whatfinger – 🛑 Features, Red-pill blasts, takedowns, hits, deep state reveals, and savage roasts that’ll make you say ‘DAMN!’ No safe spaces. (use arrows) – Sgt Pat, Beth, Ben, Sgt K\n🛑Headline Hurricane: 40 Top Stories Across All Beats (use arrows) – Sgt Pat, Ben, Luke\n🤣 Daily Dose of Based Humor,",
+      "matchedWords": {
+        "BXXI1ZL7ewiC": {
+          "hits": 0,
+          "textWords": 157
+        },
+        "FHVPE-UoDF1J": {
+          "hits": 0,
+          "textWords": 157
+        },
+        "JamsQGrOtHoM": {
+          "hits": 0,
+          "textWords": 157
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "Wfq3FswvoTD5",
+      "address": "https://r-universe.dev/articles",
+      "title": "R-universe - browse articles",
+      "snippet": "",
+      "matchedWords": {
+        "BXXI1ZL7ewiC": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "FHVPE-UoDF1J": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "JamsQGrOtHoM": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "BLqv9HRMLT-5",
+      "address": "https://canonical.com/legal/data-privacy",
+      "title": "Data privacy | Ubuntu and Canonical Legal | Canonical",
+      "snippet": "Canonical collects personal information from you in a number of different ways. For example, when you download one of our products, receive services from us or use one of our websites (including www.canonical.com and www.ubuntu.com).\nFull list of websites ›\nAt Canonical, we consider your privacy to",
+      "matchedWords": {
+        "BXXI1ZL7ewiC": {
+          "hits": 0,
+          "textWords": 3720
+        },
+        "FHVPE-UoDF1J": {
+          "hits": 0,
+          "textWords": 3720
+        },
+        "JamsQGrOtHoM": {
+          "hits": 0,
+          "textWords": 3720
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "SuN61sRMLT-5",
+      "address": "https://canonical.com/multipass",
+      "title": "Multipass | Canonical",
+      "snippet": "",
+      "matchedWords": {
+        "BXXI1ZL7ewiC": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "FHVPE-UoDF1J": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "JamsQGrOtHoM": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "JPvmes1_lPN6",
+      "address": "https://dasilvaboards.com/",
+      "title": "dasilvaboards -",
+      "snippet": "machine yang 4D yang menarik.\nCara Login QQAlfa138\nUntuk melakukan login pada akun QQAlfa138, tahap pertama yang perlu perlu lakukan ialah mengakses website resmi QQAlfa138. Pastikanlah Anda memakai perangkat yang aman aman serta jaringan internet yang stabil. Setelah anda berada di beranda utama,",
+      "matchedWords": {
+        "BXXI1ZL7ewiC": {
+          "hits": 0,
+          "textWords": 79379
+        },
+        "FHVPE-UoDF1J": {
+          "hits": 92,
+          "textWords": 79379
+        },
+        "JamsQGrOtHoM": {
+          "hits": 10,
+          "textWords": 79379
+        }
+      },
+      "queryPhraseHits": 0
     }
   ],
   "documentsHeldPerQueryWord": {
-    "BXXI1ZL7ewiC": 34844,
-    "FHVPE-UoDF1J": 99174,
-    "JamsQGrOtHoM": 129418
+    "BXXI1ZL7ewiC": 43600,
+    "FHVPE-UoDF1J": 102896,
+    "JamsQGrOtHoM": 130852
   }
 }

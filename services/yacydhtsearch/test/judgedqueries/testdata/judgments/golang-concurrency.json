@@ -2,21 +2,9 @@
   "query": "golang concurrency",
   "judgedDocuments": [
     {
-      "hash": "DB7viAK-xyJ4",
-      "address": "https://go.dev/doc/faq",
-      "title": "Frequently Asked Questions (FAQ) - The Go Programming Language",
-      "grade": 1
-    },
-    {
-      "hash": "eR_fN7f4Pib5",
-      "address": "https://code.visualstudio.com/",
-      "title": "Visual Studio Code - The open source AI code editor | Your home for multi-agent development",
-      "grade": 0
-    },
-    {
-      "hash": "A_45Olcc31ei",
-      "address": "https://www.gophercon-russia.ru/en",
-      "title": "GopherCon Russia 2021",
+      "hash": "D4lABzaS0qdw",
+      "address": "https://planet.debian.org/",
+      "title": "Planet Debian",
       "grade": 0
     },
     {
@@ -26,58 +14,52 @@
       "grade": 1
     },
     {
-      "hash": "QriquAK-xyJ4",
-      "address": "https://go.dev/doc/devel/weekly",
-      "title": "Weekly Snapshot History - The Go Programming Language",
-      "grade": 1
-    },
-    {
-      "hash": "CDe2DjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Race_condition",
-      "title": "Race condition - Wikipedia",
-      "grade": 1
-    },
-    {
-      "hash": "NPoTiMvuh6k5",
-      "address": "https://muharem.wordpress.com/",
-      "title": "Muharem Hrnjadovic | Cool ideas revolving around computers and programming",
-      "grade": 0
-    },
-    {
-      "hash": "D4lABzaS0qdw",
-      "address": "https://planet.debian.org/",
-      "title": "Planet Debian",
-      "grade": 0
-    },
-    {
-      "hash": "8gsjosK-xyJ4",
-      "address": "https://go.dev/",
-      "title": "The Go Programming Language",
-      "grade": 1
-    },
-    {
-      "hash": "r_C2TAK-xyJ4",
-      "address": "https://go.dev/doc/go1.26",
-      "title": "Go 1.26 Release Notes - The Go Programming Language",
-      "grade": 1
-    },
-    {
       "hash": "CjgsxsIyoLTx",
       "address": "https://planetpython.org/",
       "title": "Planet Python",
       "grade": 0
     },
     {
-      "hash": "84vzxd14cltk",
-      "address": "https://planet.python.org.br/",
-      "title": "Planeta PythonBrasil",
+      "hash": "mHFlJdUhjm5w",
+      "address": "https://airflow.apache.org/docs/apache-airflow/2.11.2/release_notes.html",
+      "title": "Release Notes — Airflow 2.11.2 Documentation",
       "grade": 0
     },
     {
-      "hash": "pKhEcsxbIFag",
-      "address": "https://jmason.ie/",
-      "title": "Justin's Linklog – (Things I found interesting recently.)",
+      "hash": "QriquAK-xyJ4",
+      "address": "https://go.dev/doc/devel/weekly",
+      "title": "Weekly Snapshot History - The Go Programming Language",
+      "grade": 1
+    },
+    {
+      "hash": "jDc0FAK-xyJ4",
+      "address": "https://go.dev/doc/go1.27",
+      "title": "Go 1.27 Release Notes - The Go Programming Language",
+      "grade": 1
+    },
+    {
+      "hash": "jh2nEAK-xyJ4",
+      "address": "https://go.dev/doc/go1.15",
+      "title": "Go 1.15 Release Notes - The Go Programming Language",
+      "grade": 1
+    },
+    {
+      "hash": "gefeHzS6MKD4",
+      "address": "https://github.com/topics/cross-platform",
+      "title": "cross-platform · GitHub Topics · GitHub",
       "grade": 0
+    },
+    {
+      "hash": "ioDB87f4Pib5",
+      "address": "https://code.visualstudio.com/?wt.mc_id=DX_841432",
+      "title": "Visual Studio Code - The open source AI code editor | Your home for multi-agent development",
+      "grade": 0
+    },
+    {
+      "hash": "r_C2TAK-xyJ4",
+      "address": "https://go.dev/doc/go1.26",
+      "title": "Go 1.26 Release Notes - The Go Programming Language",
+      "grade": 1
     }
   ]
 }

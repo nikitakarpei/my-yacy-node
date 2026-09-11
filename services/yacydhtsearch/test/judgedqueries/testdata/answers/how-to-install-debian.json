@@ -1,85 +1,12 @@
 {
   "query": "how to install debian",
-  "recordedAt": "2026-09-11T21:01:00Z",
+  "recordedAt": "2026-09-11T22:14:22Z",
   "itemsInTheOrderOfEachAnswer": [],
-  "itemsInNoOrder": [
-    {
-      "hash": "TC82-eFEcjUx",
-      "address": "https://docs.confluent.io/platform/current/streams/developer-guide/processor-api.html",
-      "title": "Kafka Streams Processor API for Confluent Platform | Confluent Documentation",
-      "snippet": "to define and connect custom processors and to interact with state stores. With the Processor API, you can define arbitrary stream processors that process one received record at a time, and connect these processors with their associated state stores to compose the processor topology that represents",
-      "matchedWords": {
-        "24igJXwiDb_d": {
-          "hits": 4,
-          "textWords": 4569
-        },
-        "AbbiA0S2iDXF": {
-          "hits": 113,
-          "textWords": 4569
-        },
-        "Ga2JvD48nX72": {
-          "hits": 0,
-          "textWords": 4569
-        },
-        "bpVSyb2OYcjy": {
-          "hits": 0,
-          "textWords": 4569
-        }
-      }
-    },
-    {
-      "hash": "TC82-eFEcjUx",
-      "address": "https://docs.confluent.io/platform/current/streams/developer-guide/processor-api.html",
-      "title": "Kafka Streams Processor API for Confluent Platform | Confluent Documentation",
-      "snippet": "to define and connect custom processors and to interact with state stores. With the Processor API, you can define arbitrary stream processors that process one received record at a time, and connect these processors with their associated state stores to compose the processor topology that represents",
-      "matchedWords": {
-        "24igJXwiDb_d": {
-          "hits": 4,
-          "textWords": 4569
-        },
-        "AbbiA0S2iDXF": {
-          "hits": 113,
-          "textWords": 4569
-        },
-        "Ga2JvD48nX72": {
-          "hits": 0,
-          "textWords": 4569
-        },
-        "bpVSyb2OYcjy": {
-          "hits": 0,
-          "textWords": 4569
-        }
-      }
-    },
-    {
-      "hash": "TC82-eFEcjUx",
-      "address": "https://docs.confluent.io/platform/current/streams/developer-guide/processor-api.html",
-      "title": "Kafka Streams Processor API for Confluent Platform | Confluent Documentation",
-      "snippet": "to define and connect custom processors and to interact with state stores. With the Processor API, you can define arbitrary stream processors that process one received record at a time, and connect these processors with their associated state stores to compose the processor topology that represents",
-      "matchedWords": {
-        "24igJXwiDb_d": {
-          "hits": 4,
-          "textWords": 4569
-        },
-        "AbbiA0S2iDXF": {
-          "hits": 113,
-          "textWords": 4569
-        },
-        "Ga2JvD48nX72": {
-          "hits": 0,
-          "textWords": 4569
-        },
-        "bpVSyb2OYcjy": {
-          "hits": 0,
-          "textWords": 4569
-        }
-      }
-    }
-  ],
+  "itemsInNoOrder": [],
   "documentsHeldPerQueryWord": {
-    "24igJXwiDb_d": 84864,
-    "AbbiA0S2iDXF": 40339,
-    "Ga2JvD48nX72": 5424,
-    "bpVSyb2OYcjy": 15215
+    "24igJXwiDb_d": 112324,
+    "AbbiA0S2iDXF": 30103,
+    "Ga2JvD48nX72": 24543,
+    "bpVSyb2OYcjy": 1682
   }
 }

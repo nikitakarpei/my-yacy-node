@@ -6,6 +6,8 @@ import (
 	"os"
 	"testing"
 
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/itemsordering/peerorder"
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peeranswers"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
@@ -23,10 +25,13 @@ type judgedDocument struct {
 	Grade   *int              `json:"grade"`
 }
 
-func (j queryJudgments) gradeOfEachDocument() gradedDocuments {
+func (j queryJudgments) gradeOfEachGradedDocument() gradedDocuments {
 	grades := make(gradedDocuments, len(j.JudgedDocuments))
 	for _, judged := range j.JudgedDocuments {
-		grades[judged.Hash] = judged.gradeWhenJudged()
+		if judged.Grade == nil {
+			continue
+		}
+		grades[judged.Hash] = *judged.Grade
 	}
 
 	return grades
@@ -44,28 +49,60 @@ func (j queryJudgments) amountOfUngradedDocuments() int {
 	return amountOfUngradedDocuments
 }
 
-func (d judgedDocument) gradeWhenJudged() int {
-	if d.Grade == nil {
-		return 0
-	}
-
-	return *d.Grade
-}
-
-func queryJudgmentsOfThePool(
+func queryJudgmentsOfTheDocumentsToJudge(
 	query string,
-	pooledDocuments []judgedDocument,
+	answers peeranswers.AnsweredQuery,
+	pageTextPerDocument map[yacymodel.URLHash]string,
 	judgedAlready queryJudgments,
 ) queryJudgments {
 	gradePerDocument := judgedAlready.gradePerJudgedDocument()
 
-	judgedDocuments := make([]judgedDocument, 0, len(pooledDocuments))
-	for _, pooled := range pooledDocuments {
-		pooled.Grade = gradePerDocument[pooled.Hash]
-		judgedDocuments = append(judgedDocuments, pooled)
+	documentsToJudge := documentsToJudgeOf(answers, pageTextPerDocument)
+	judgedDocuments := make([]judgedDocument, 0, len(documentsToJudge))
+	for _, documentToJudge := range documentsToJudge {
+		documentToJudge.Grade = gradePerDocument[documentToJudge.Hash]
+		judgedDocuments = append(judgedDocuments, documentToJudge)
 	}
 
 	return queryJudgments{Query: query, JudgedDocuments: judgedDocuments}
+}
+
+func documentsToJudgeOf(
+	answers peeranswers.AnsweredQuery,
+	pageTextPerDocument map[yacymodel.URLHash]string,
+) []judgedDocument {
+	toJudge := documentsThePeersPutFirst(answers)
+	for document := range pageTextPerDocument {
+		toJudge[document] = struct{}{}
+	}
+
+	answeredItems := answers.ItemOfEachAnsweredDocument()
+	documentsToJudge := make([]judgedDocument, 0, len(toJudge))
+	for _, answeredItem := range answeredItems {
+		if _, judged := toJudge[answeredItem.Metadata.Hash]; !judged {
+			continue
+		}
+		documentsToJudge = append(documentsToJudge, judgedDocument{
+			Hash:    answeredItem.Metadata.Hash,
+			Address: answeredItem.Metadata.Address,
+			Title:   answeredItem.Metadata.Title,
+		})
+	}
+
+	return documentsToJudge
+}
+
+func documentsThePeersPutFirst(
+	answers peeranswers.AnsweredQuery,
+) map[yacymodel.URLHash]struct{} {
+	orderedItems := peerorder.Ordering{}.OrderedItemsOf(answers)
+
+	documentsPutFirst := make(map[yacymodel.URLHash]struct{}, judgedItemsCeiling)
+	for _, orderedItem := range orderedItems[:min(judgedItemsCeiling, len(orderedItems))] {
+		documentsPutFirst[orderedItem.Metadata.Hash] = struct{}{}
+	}
+
+	return documentsPutFirst
 }
 
 func (j queryJudgments) gradePerJudgedDocument() map[yacymodel.URLHash]*int {

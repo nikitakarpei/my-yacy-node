@@ -2,33 +2,45 @@
   "query": "programación funcional",
   "judgedDocuments": [
     {
-      "hash": "9wGSm5ETZZex",
-      "address": "https://pdba.georgetown.edu/Constitutions/Honduras/hond82.html",
-      "title": "Honduras: Constitución de 1982",
+      "hash": "wj21NCSt_F9g",
+      "address": "https://www.abc.es/motor/novedades/",
+      "title": "Novedades en motor - ABC.es",
       "grade": 0
     },
     {
-      "hash": "x4f8sznCqoag",
-      "address": "https://www.boe.es/buscar/doc.php?lang=fr&id=BOE-A-1980-16523",
-      "title": "BOE-A-1980-16523 Real Decreto 1601/1980, de 18 de julio, por el que se aprueban las normas orgánicas del Ministerio de Cultura.",
+      "hash": "REIgDh4KILng",
+      "address": "https://csirc.ugr.es/informacion/servicios/plataformas-web",
+      "title": "Servicios | Centro de Servicios Informáticos y Redes de Comunicación",
       "grade": 0
     },
     {
-      "hash": "aKYONl2UtE1g",
-      "address": "https://labra.weso.es/",
-      "title": "Labra's home page",
+      "hash": "QACewIgEMcog",
+      "address": "https://www.larazon.es/economia/cajeros-reponedores-tendran-que-limpiar-banos-supermercados-asi-establece-supremo_202609076a9efbb13bfe5d1eff47001f.html",
+      "title": "Los cajeros y reponedores ya no tendrán que limpiar los baños de los supermercados: así lo establece el Supremo",
       "grade": 0
     },
     {
-      "hash": "cw1kIznCqoag",
-      "address": "https://www.boe.es/buscar/act.php?id=BOE-A-2006-13087",
-      "title": "BOE-A-2006-13087 Ley Orgánica 6/2006, de 19 de julio, de reforma del Estatuto de Autonomía de Cataluña.",
+      "hash": "WbWN3OgEMcog",
+      "address": "https://www.larazon.es/espana/achaca-practicas-esquirolaje-metro-sevilla-utilizar-trenes-dobles-huelga_2026031269b2a586e1ff634075e5a8c9.html",
+      "title": "El TC achaca prácticas de \"esquirolaje\" a Metro de Sevilla por utilizar trenes dobles durante una huelga",
       "grade": 0
     },
     {
-      "hash": "tQ27Vlh0gGlj",
-      "address": "https://www.espressotranslations.es/",
-      "title": "Servicios de Traducción – Agencia de Traducción | Espresso Translations",
+      "hash": "nGkx8OgEMcog",
+      "address": "https://www.larazon.es/espana/13-anos-despues-accidente-angrois-caso-sigue-abierto-indulto-maquinista-recursos-constitucional_202607186a5b5cf00500ab412c9cc5df.html",
+      "title": "13 años después del accidente de Angrois: el caso sigue abierto con el indulto al maquinista y recursos al Constitucional",
+      "grade": 0
+    },
+    {
+      "hash": "EbuDACjMl7g4",
+      "address": "https://www.elcorreo.com/de-tiendas/estilo-de-vida/mucho-simple-cabecero-pierdas-estos-modelos-soluciones-almacenaje-20260820094701-ntrc.html",
+      "title": "¡Mucho más que un simple cabecero! No te pierdas estos modelos con soluciones de almacenaje | El Correo",
+      "grade": 0
+    },
+    {
+      "hash": "AhT55znCqoag",
+      "address": "https://www.boe.es/buscar/act.php?id=BOE-A-1992-28740",
+      "title": "BOE-A-1992-28740 Ley 37/1992, de 28 de diciembre, del Impuesto sobre el Valor Añadido.",
       "grade": 0
     },
     {
@@ -38,69 +50,135 @@
       "grade": 0
     },
     {
-      "hash": "wj21NCSt_F9g",
-      "address": "https://www.abc.es/motor/novedades/",
-      "title": "Novedades en motor - ABC.es",
+      "hash": "C3u1AznCqoag",
+      "address": "https://www.boe.es/buscar/act.php?id=BOE-A-2008-20744\u0026tn=1\u0026p=20090331",
+      "title": "BOE-A-2008-20744 Ley 2/2008, de 23 de diciembre, de Presupuestos Generales del Estado para el año 2009.",
+      "grade": 0
+    },
+    {
+      "hash": "Ey9a_znCqoag",
+      "address": "https://www.boe.es/buscar/act.php?id=BOE-A-2018-16673\u0026tn=1\u0026p=20230509",
+      "title": "BOE-A-2018-16673 Ley Orgánica 3/2018, de 5 de diciembre, de Protección de Datos Personales y garantía de los derechos digitales.",
       "grade": 0
     },
     {
       "hash": "V41FQznCqoag",
-      "address": "https://www.boe.es/buscar/act.php?id=BOE-A-2015-11430&p=20220908&tn=0",
+      "address": "https://www.boe.es/buscar/act.php?id=BOE-A-2015-11430\u0026p=20220908\u0026tn=0",
       "title": "BOE-A-2015-11430 Real Decreto Legislativo 2/2015, de 23 de octubre, por el que se aprueba el texto refundido de la Ley del Estatuto de los Trabajadores.",
       "grade": 0
     },
     {
       "hash": "pY_MRznCqoag",
-      "address": "https://www.boe.es/buscar/act.php?lang=ca&id=BOE-A-2015-11430&tn=1&p=20220908",
+      "address": "https://www.boe.es/buscar/act.php?lang=ca\u0026id=BOE-A-2015-11430\u0026tn=1\u0026p=20220908",
       "title": "BOE-A-2015-11430 Real Decreto Legislativo 2/2015, de 23 de octubre, por el que se aprueba el texto refundido de la Ley del Estatuto de los Trabajadores.",
+      "grade": 0
+    },
+    {
+      "hash": "puVJ1znCqoag",
+      "address": "https://www.boe.es/buscar/doc.php?id=BOE-A-2021-21788",
+      "title": "BOE-A-2021-21788 Real Decreto-ley 32/2021, de 28 de diciembre, de medidas urgentes para la reforma laboral, la garantía de la estabilidad en el empleo y la transformación del",
       "grade": 0
     },
     {
       "hash": "qHhk9znCqoag",
-      "address": "https://www.boe.es/buscar/act.php?lang=eu&id=BOE-A-2015-11430&tn=1&p=20220908",
+      "address": "https://www.boe.es/buscar/act.php?lang=eu\u0026id=BOE-A-2015-11430\u0026tn=1\u0026p=20220908",
       "title": "BOE-A-2015-11430 Real Decreto Legislativo 2/2015, de 23 de octubre, por el que se aprueba el texto refundido de la Ley del Estatuto de los Trabajadores.",
       "grade": 0
     },
     {
-      "hash": "Q0aY8CjMl7g4",
-      "address": "https://www.elcorreo.com/motor/novedades/",
-      "title": "Novedades del Motor | El Correo",
+      "hash": "x4f8sznCqoag",
+      "address": "https://www.boe.es/buscar/doc.php?lang=fr\u0026id=BOE-A-1980-16523",
+      "title": "BOE-A-1980-16523 Real Decreto 1601/1980, de 18 de julio, por el que se aprueban las normas orgánicas del Ministerio de Cultura.",
       "grade": 0
     },
     {
-      "hash": "ILDDMs2mPfs5",
-      "address": "https://infofuturo.com/",
-      "title": "Desarrollo web y Marketing Digital | Infofuturo - Asturias",
+      "hash": "0jIrBznCqoag",
+      "address": "https://www.boe.es/buscar/act.php?id=BOE-A-1996-1069",
+      "title": "BOE-A-1996-1069 Ley Orgánica 1/1996, de 15 de enero, de Protección Jurídica del Menor, de modificación parcial del Código Civil y de la Ley de Enjuiciamiento Civil.",
       "grade": 0
     },
     {
-      "hash": "EzJNil5N-Oqk",
-      "address": "https://www.radiohc.cu/",
-      "title": "Radio Habana Cuba EN VIVO - Noticias y Música Cubana 24/7",
+      "hash": "-tL_9znCqoag",
+      "address": "https://www.boe.es/buscar/act.php?id=BOE-A-2012-8745",
+      "title": "BOE-A-2012-8745 Ley 2/2012, de 29 de junio, de Presupuestos Generales del Estado para el año 2012.",
       "grade": 0
     },
     {
-      "hash": "a2SYvh7CQepw",
-      "address": "https://www.ifla.org/wp-content/uploads/2019/05/assets/hq/publications/archive/the-public-library-service/pg01-s.pdf",
-      "title": "Directrices IFLA/UNESCO para el desarrollo del servicio de bibliotecas públicas; 2001",
+      "hash": "_e-KkSHKIdig",
+      "address": "https://www.eeas.europa.eu/delegations/nicaragua/nicaragua-vive-europa-en-el-cine_es",
+      "title": "Nicaragua ¡Vive Europa en el Cine! | EEAS",
       "grade": 0
     },
     {
-      "hash": "GTWryN92mGZY",
-      "address": "http://lacinefilianoespatriota.blogspot.com/",
-      "title": "LA CINEFILIA NO ES PATRIOTA",
+      "hash": "OGxqvsOrtPy6",
+      "address": "https://mutuamadridopen.com/entradas/",
+      "title": "Entradas 2026 - Mutua Madrid Open",
       "grade": 0
     },
     {
-      "hash": "OJX8mlAZ2Nxi",
-      "address": "https://www.eldiadecordoba.es/cordoba/",
-      "title": "Córdoba capital: noticias y última hora",
+      "hash": "i4cmUrSt_F9g",
+      "address": "https://www.abc.es/recreo/prueba-comida-sirve-geo-policia-nacional-opina-cada-plato-20250409153748-nt.html",
+      "title": "Prueba la comida que se sirve a los GEO de la Policía Nacional y opina sin filtro sobre cada plato: «Sabe demasiado a...»",
       "grade": 0
     },
     {
-      "hash": "53uEvSBNKy9k",
-      "address": "https://inehrm.gob.mx/work/models/inehrm/Resource/440/1/images/La-legislacion-del-Segundo-Imperio.pdf",
-      "title": "La-legislacion-del-Segundo-Imperio.pdf",
+      "hash": "DPpovznCqoag",
+      "address": "https://www.boe.es/buscar/doc.php?id=BOE-A-1994-22958",
+      "title": "BOE-A-1994-22958 Real Decreto 2045/1994, de 14 de octubre, por el que se establece la estructura orgánica básica del Ministerio de Cultura.",
+      "grade": 0
+    },
+    {
+      "hash": "GQGe0znCqoag",
+      "address": "https://www.boe.es/buscar/act.php?id=BOE-A-2018-16673\u0026tn=1\u0026p=20190625",
+      "title": "BOE-A-2018-16673 Ley Orgánica 3/2018, de 5 de diciembre, de Protección de Datos Personales y garantía de los derechos digitales.",
+      "grade": 0
+    },
+    {
+      "hash": "PC4W8znCqoag",
+      "address": "https://www.boe.es/buscar/act.php?id=BOE-A-2015-11430\u0026p=20211230\u0026tn=0",
+      "title": "BOE-A-2015-11430 Real Decreto Legislativo 2/2015, de 23 de octubre, por el que se aprueba el texto refundido de la Ley del Estatuto de los Trabajadores.",
+      "grade": 0
+    },
+    {
+      "hash": "23ADzznCqoag",
+      "address": "https://www.boe.es/buscar/doc.php?lang=gl\u0026id=BOE-A-2012-9364",
+      "title": "BOE-A-2012-9364 Real Decreto-ley 20/2012, de 13 de julio, de medidas para garantizar la estabilidad presupuestaria y de fomento de la competitividad.",
+      "grade": 0
+    },
+    {
+      "hash": "28RE1znCqoag",
+      "address": "https://www.boe.es/buscar/act.php?id=BOE-A-2018-16673\u0026p=20251227\u0026tn=0",
+      "title": "BOE-A-2018-16673 Ley Orgánica 3/2018, de 5 de diciembre, de Protección de Datos Personales y garantía de los derechos digitales.",
+      "grade": 0
+    },
+    {
+      "hash": "4w7waznCqoag",
+      "address": "https://www.boe.es/buscar/doc.php?id=BOE-A-2010-9542",
+      "title": "BOE-A-2010-9542 Real Decreto-ley 10/2010, de 16 de junio, de medidas urgentes para la reforma del mercado de trabajo.",
+      "grade": 0
+    },
+    {
+      "hash": "7v42xznCqoag",
+      "address": "https://www.boe.es/buscar/act.php?lang=en\u0026id=BOE-A-2015-11430\u0026tn=1\u0026p=20250402",
+      "title": "BOE-A-2015-11430 Real Decreto Legislativo 2/2015, de 23 de octubre, por el que se aprueba el texto refundido de la Ley del Estatuto de los Trabajadores.",
+      "grade": 0
+    },
+    {
+      "hash": "78VBcznCqoag",
+      "address": "https://www.boe.es/buscar/act.php?id=BOE-A-2015-11430\u0026tn=0\u0026p=20241224",
+      "title": "BOE-A-2015-11430 Real Decreto Legislativo 2/2015, de 23 de octubre, por el que se aprueba el texto refundido de la Ley del Estatuto de los Trabajadores.",
+      "grade": 0
+    },
+    {
+      "hash": "Cp4lg97T12qg",
+      "address": "https://dialnet.unirioja.es/servlet/autor?codigo=89066",
+      "title": "Tomás Escudero Escorza - Dialnet",
+      "grade": 0
+    },
+    {
+      "hash": "F6BougJPjR4x",
+      "address": "https://es.wikipedia.org/wiki/Netflix",
+      "title": "Netflix - Wikipedia, la enciclopedia libre",
       "grade": 0
     }
   ]

@@ -51,10 +51,28 @@ func (documents gradedDocuments) gradesInTheOrderOf(
 ) []int {
 	grades := make([]int, 0, len(orderedItems))
 	for _, orderedItem := range orderedItems {
-		grades = append(grades, documents[orderedItem.Metadata.Hash])
+		grade, graded := documents[orderedItem.Metadata.Hash]
+		if !graded {
+			continue
+		}
+		grades = append(grades, grade)
 	}
 
 	return grades
+}
+
+func (documents gradedDocuments) amountOfUngradedItemsAmong(
+	orderedItems []peeranswers.AnsweredItem,
+) int {
+	amountOfUngradedItems := 0
+	for _, orderedItem := range orderedItems {
+		if _, graded := documents[orderedItem.Metadata.Hash]; graded {
+			continue
+		}
+		amountOfUngradedItems++
+	}
+
+	return amountOfUngradedItems
 }
 
 func discountedGainOf(grades []int) float64 {

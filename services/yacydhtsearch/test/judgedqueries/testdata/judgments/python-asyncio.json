@@ -2,69 +2,9 @@
   "query": "python asyncio",
   "judgedDocuments": [
     {
-      "hash": "q1_0zitD2jQw",
-      "address": "https://docs.python.org/3/library/asyncio.html",
-      "title": "asyncio — Asynchronous I/O — Python 3.7.3 documentation",
-      "grade": 2
-    },
-    {
-      "hash": "FLRBMitD2jQw",
-      "address": "https://docs.python.org/3/howto/a-conceptual-overview-of-asyncio.html",
-      "title": "A Conceptual Overview of asyncio — Python 3.14.2 documentation",
-      "grade": 2
-    },
-    {
-      "hash": "Z4rOdhS6MKD4",
-      "address": "https://github.com/oxylabs/how-to-make-web-scraping-faster",
-      "title": "GitHub - oxylabs/how-to-make-web-scraping-faster: How to Make Web Scraping Faster - Python Tutorial · GitHub",
-      "grade": 1
-    },
-    {
-      "hash": "A5Y2hWr4CjGw",
-      "address": "https://discuss.python.org/c/async-sig/20",
-      "title": "Latest Async-SIG topics - Discussions on Python.org",
-      "grade": 1
-    },
-    {
-      "hash": "HYOfTitD2jQw",
-      "address": "https://docs.python.org/3/whatsnew/3.7.html",
-      "title": "What’s New In Python 3.7 — Python 3.13.2 documentation",
-      "grade": 1
-    },
-    {
-      "hash": "-xpxEitD2jQw",
-      "address": "https://docs.python.org/3/contents.html",
-      "title": "Python Documentation contents — Python 3.14.5rc1 documentation",
-      "grade": 1
-    },
-    {
-      "hash": "HQC7YitD2jQw",
-      "address": "https://docs.python.org/3/library/asyncio-sync.html",
-      "title": "Synchronization Primitives — Python 3.14.6 documentation",
-      "grade": 2
-    },
-    {
-      "hash": "Fu6eTitD2jQw",
-      "address": "https://docs.python.org/3/genindex-I.html",
-      "title": "Index — Python 3.13.2 documentation",
-      "grade": 0
-    },
-    {
-      "hash": "F2xV5itD2jQw",
-      "address": "https://docs.python.org/3/library/__main__.html",
-      "title": "__main__ — Top-level code environment — Python 3.12.6 documentation",
-      "grade": 0
-    },
-    {
-      "hash": "Nh8yR1r4CjGw",
-      "address": "https://discuss.python.org/",
-      "title": "Discussions on Python.org",
-      "grade": 0
-    },
-    {
-      "hash": "2ZqdVzfOEiDw",
-      "address": "https://planet.gnome.org/",
-      "title": "Planet GNOME",
+      "hash": "AEEDPTCk19rw",
+      "address": "https://peps.python.org/pep-0000/",
+      "title": "PEP 0 – Index of Python Enhancement Proposals (PEPs) | peps.python.org",
       "grade": 0
     },
     {
@@ -80,9 +20,39 @@
       "grade": 0
     },
     {
+      "hash": "A5Y2hWr4CjGw",
+      "address": "https://discuss.python.org/c/async-sig/20",
+      "title": "Latest Async-SIG topics - Discussions on Python.org",
+      "grade": 1
+    },
+    {
+      "hash": "aQJ1g8bIDBOw",
+      "address": "https://pypi.org/project/asyncari/",
+      "title": "asyncari · PyPI",
+      "grade": 0
+    },
+    {
       "hash": "epEeW03rjROw",
       "address": "https://oxylabs.io/resources/integrations/langgraph",
       "title": "Web Scraping With LangGraph Tutorial",
+      "grade": 0
+    },
+    {
+      "hash": "q1_0zitD2jQw",
+      "address": "https://docs.python.org/3/library/asyncio.html",
+      "title": "asyncio — Asynchronous I/O — Python 3.7.3 documentation",
+      "grade": 2
+    },
+    {
+      "hash": "A3q5IzS6MKD4",
+      "address": "https://github.com/topics/python",
+      "title": "python · GitHub Topics · GitHub",
+      "grade": 0
+    },
+    {
+      "hash": "GOC_RsS6MKD4",
+      "address": "https://github.com/mvanhorn",
+      "title": "mvanhorn (Matt Van Horn) · GitHub",
       "grade": 0
     },
     {
@@ -92,9 +62,219 @@
       "grade": 0
     },
     {
-      "hash": "GOC_RsS6MKD4",
-      "address": "https://github.com/mvanhorn",
-      "title": "mvanhorn (Matt Van Horn) · GitHub",
+      "hash": "ZOsxdVPrLiu6",
+      "address": "https://palletsprojects.com/projects/jinja",
+      "title": "Pallets",
+      "grade": 0
+    },
+    {
+      "hash": "CImyzDHSf0kh",
+      "address": "https://archive.cloudblogger.eu/2023/10/18/semantic-kernel-container-apps-with-react-and-python/",
+      "title": "Semantic Kernel: Container Apps with React and Python — CloudBlogger@2025",
+      "grade": 0
+    },
+    {
+      "hash": "He70YsSSbeN5",
+      "address": "https://antigravity.google/changelog",
+      "title": "Google Antigravity - Changelog",
+      "grade": 0
+    },
+    {
+      "hash": "ouG-IxyrccKw",
+      "address": "https://glide.valkey.io/overview/",
+      "title": "Welcome to Valkey GLIDE | Valkey Glide",
+      "grade": 0
+    },
+    {
+      "hash": "CjgsxsIyoLTx",
+      "address": "https://planetpython.org/",
+      "title": "Planet Python",
+      "grade": 0
+    },
+    {
+      "hash": "FUKyxsv-bf35",
+      "address": "https://docs.datadoghq.com/tracing/troubleshooting/tracer_startup_logs/",
+      "title": "Tracer Startup Logs",
+      "grade": 0
+    },
+    {
+      "hash": "DuEPzitD2jQw",
+      "address": "https://docs.python.org/3/whatsnew/3.9.html",
+      "title": "What’s New In Python 3.9 — Python 3.11.1 documentation",
+      "grade": 0
+    },
+    {
+      "hash": "C5xGvTOxbSDx",
+      "address": "https://developer.confluent.io/tutorials/",
+      "title": "Apache Kafka® and Apache Flink® Tutorials | Learn Streaming \u0026 Real-Time Apps | Confluent Developer",
+      "grade": 0
+    },
+    {
+      "hash": "DMSF3jRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Coroutine",
+      "title": "Coroutine - Wikipedia",
+      "grade": 1
+    },
+    {
+      "hash": "DlRHStbRfaw4",
+      "address": "https://blog.apify.com/what-are-the-best-python-web-scraping-libraries/",
+      "title": "9 best Python web scraping libraries for 2026",
+      "grade": 0
+    },
+    {
+      "hash": "AOqZ6itD2jQw",
+      "address": "https://docs.python.org/3/genindex-R.html",
+      "title": "Index — Python 3.14.2 documentation",
+      "grade": 0
+    },
+    {
+      "hash": "Bu9laitD2jQw",
+      "address": "https://docs.python.org/3/using/cmdline.html",
+      "title": "1. Command line and environment — Python 3.14.6 documentation",
+      "grade": 0
+    },
+    {
+      "hash": "CYduPitD2jQw",
+      "address": "https://docs.python.org/3/genindex-H.html",
+      "title": "Index — Python 3.14.3 documentation",
+      "grade": 0
+    },
+    {
+      "hash": "DiC31itD2jQw",
+      "address": "https://docs.python.org/3/whatsnew/3.11.html",
+      "title": "What’s New In Python 3.11 — Python 3.13.7 documentation",
+      "grade": 0
+    },
+    {
+      "hash": "Doee3itD2jQw",
+      "address": "https://docs.python.org/3/library/socket.html",
+      "title": "socket — Low-level networking interface — Python 3.14.0 documentation",
+      "grade": 0
+    },
+    {
+      "hash": "O1DuMQTDwvCw",
+      "address": "https://packages.gentoo.org/packages/dev-python/dbus-next",
+      "title": "dev-python/dbus-next – Gentoo Packages",
+      "grade": 0
+    },
+    {
+      "hash": "E2RhIitD2jQw",
+      "address": "https://docs.python.org/3/library/concurrent.futures.html",
+      "title": "concurrent.futures — Launching parallel tasks — Python 3.14.6 documentation",
+      "grade": 1
+    },
+    {
+      "hash": "FLRBMitD2jQw",
+      "address": "https://docs.python.org/3/howto/a-conceptual-overview-of-asyncio.html",
+      "title": "A Conceptual Overview of asyncio — Python 3.14.6 documentation",
+      "grade": 2
+    },
+    {
+      "hash": "Fu6eTitD2jQw",
+      "address": "https://docs.python.org/3/genindex-I.html",
+      "title": "Index — Python 3.14.6 documentation",
+      "grade": 0
+    },
+    {
+      "hash": "F2xV5itD2jQw",
+      "address": "https://docs.python.org/3/library/__main__.html",
+      "title": "__main__ — Top-level code environment — Python 3.14.6 documentation",
+      "grade": 0
+    },
+    {
+      "hash": "HQC7YitD2jQw",
+      "address": "https://docs.python.org/3/library/asyncio-sync.html",
+      "title": "Synchronization Primitives — Python 3.14.6 documentation",
+      "grade": 2
+    },
+    {
+      "hash": "HYOfTitD2jQw",
+      "address": "https://docs.python.org/3/whatsnew/3.7.html",
+      "title": "What’s New In Python 3.7 — Python 3.14.3 documentation",
+      "grade": 1
+    },
+    {
+      "hash": "ET8e4lyA5Uix",
+      "address": "https://www.tornadoweb.org/en/stable/ioloop.html",
+      "title": "tornado.ioloop — Main event loop — Tornado 6.5.7 documentation",
+      "grade": 1
+    },
+    {
+      "hash": "ojdnMD1nrxbw",
+      "address": "https://www.debian.org/devel/wnpp/being_packaged_byage",
+      "title": "Debian -- Packages being worked on, organized by age",
+      "grade": 0
+    },
+    {
+      "hash": "koqtyhS6MKD4",
+      "address": "https://github.com/oxylabs/oxylabs-sdk-python",
+      "title": "GitHub - oxylabs/oxylabs-sdk-python: Python SDK for the Oxylabs Web Scraper API. · GitHub",
+      "grade": 0
+    },
+    {
+      "hash": "mdutUs_rJw_4",
+      "address": "https://gitlab.com/pineiden/gus",
+      "title": "David Pineda / gnsocket · GitLab",
+      "grade": 1
+    },
+    {
+      "hash": "ZnwkHkTOrrKw",
+      "address": "https://events.gnome.org/event/259/timetable/?view=standard_numbered",
+      "title": "GUADEC 2025 (24-July 29, 2025) · GNOME Events (Indico)",
+      "grade": 0
+    },
+    {
+      "hash": "YJid2dUhjm5w",
+      "address": "https://airflow.apache.org/docs/apache-airflow-providers-google/stable/_api/airflow/providers/google/cloud/triggers/dataproc/index.html",
+      "title": "airflow.providers.google.cloud.triggers.dataproc — apache-airflow-providers-google Documentation",
+      "grade": 0
+    },
+    {
+      "hash": "N_k4T6AFJcQg",
+      "address": "https://repo.arcanis.me/arcanisrepo/x86_64/index.html",
+      "title": "arcanisrepo",
+      "grade": 0
+    },
+    {
+      "hash": "knfhNitD2jQw",
+      "address": "https://docs.python.org/3/library/unittest.mock.html",
+      "title": "unittest.mock — mock object library — Python 3.14.6 documentation",
+      "grade": 0
+    },
+    {
+      "hash": "m77lbitD2jQw",
+      "address": "https://docs.python.org/3/genindex-W.html",
+      "title": "Index — Python 3.14.6 documentation",
+      "grade": 1
+    },
+    {
+      "hash": "nGjY6itD2jQw",
+      "address": "https://docs.python.org/3/library/concurrency.html",
+      "title": "Concurrent Execution — Python 3.13.2 documentation",
+      "grade": 1
+    },
+    {
+      "hash": "nhmWmitD2jQw",
+      "address": "https://docs.python.org/3/whatsnew/3.4.html",
+      "title": "What’s New In Python 3.4 — Python 3.14.6 documentation",
+      "grade": 1
+    },
+    {
+      "hash": "lSo-vWS6MKD4",
+      "address": "https://github.com/quobit/awesome-python-in-education",
+      "title": "GitHub - quobit/awesome-python-in-education: A curated list about Python in Education :mortar_board:",
+      "grade": 0
+    },
+    {
+      "hash": "omDQhitD2jQw",
+      "address": "https://docs.python.org/3/howto/logging.html",
+      "title": "Logging HOWTO — Python 3.13.3 documentation",
+      "grade": 0
+    },
+    {
+      "hash": "raq9iitD2jQw",
+      "address": "https://docs.python.org/3/whatsnew/3.10.html",
+      "title": "What’s New In Python 3.10 — Python 3.12.3 documentation",
       "grade": 0
     }
   ]

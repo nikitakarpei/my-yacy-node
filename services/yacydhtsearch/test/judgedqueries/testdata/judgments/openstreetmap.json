@@ -2,56 +2,170 @@
   "query": "openstreetmap",
   "judgedDocuments": [
     {
+      "hash": "D1UyW8ybg-vy",
+      "address": "https://www.openstreetmap.org/way/313187245",
+      "title": "Way: ‪ТП-3865‬ (‪313187245‬) | OpenStreetMap",
+      "grade": 1
+    },
+    {
+      "hash": "cBfGylybg-vy",
+      "address": "https://www.openstreetmap.org/?mlat=22.8\u0026mlon=83\u0026zoom=6",
+      "title": "OpenStreetMap",
+      "grade": 2
+    },
+    {
+      "hash": "BhWqmlybg-vy",
+      "address": "https://www.openstreetmap.org/?mlat=43.233333333333\u0026mlon=-3.2833333333333\u0026zoom=5",
+      "title": "OpenStreetMap",
+      "grade": 2
+    },
+    {
+      "hash": "zI04Alybg-vy",
+      "address": "https://www.openstreetmap.org/?mlat=16.083333\u0026mlon=121\u0026zoom=12",
+      "title": "OpenStreetMap",
+      "grade": 2
+    },
+    {
       "hash": "1mo1Mlybg-vy",
       "address": "https://www.openstreetmap.org/",
       "title": "OpenStreetMap",
       "grade": 2
     },
     {
-      "hash": "Q92cXlybg-vy",
-      "address": "https://www.openstreetmap.org/communities",
+      "hash": "Qv8CFlybg-vy",
+      "address": "https://www.openstreetmap.org/?mlat=42\u0026mlon=51\u0026zoom=7",
+      "title": "OpenStreetMap",
+      "grade": 2
+    },
+    {
+      "hash": "cEdArvDOAHJg",
+      "address": "https://www.heise.de/news/OpenStreetMaps-sorgt-sich-Tausende-KI-Bots-erfassen-Daten-11156876.html?wt_mc=rss.red.ho.ho.atom.beitrag.beitrag",
+      "title": "OpenStreetMap sorgt sich: Tausende KI-Bots erfassen Daten | heise online",
+      "grade": 1
+    },
+    {
+      "hash": "lYm9vlybg-vy",
+      "address": "https://www.openstreetmap.org/?mlat=35.728026\u0026mlon=139.809705\u0026zoom=15",
+      "title": "OpenStreetMap",
+      "grade": 2
+    },
+    {
+      "hash": "_sIKSlybg-vy",
+      "address": "https://www.openstreetmap.org/directions?to=32.328931,-90.252271",
+      "title": "OpenStreetMap",
+      "grade": 2
+    },
+    {
+      "hash": "o763AjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Algeria",
+      "title": "Algeria - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "zqFqUlybg-vy",
+      "address": "https://www.openstreetmap.org/directions?to=29.3,30.833333",
+      "title": "OpenStreetMap",
+      "grade": 2
+    },
+    {
+      "hash": "8CRmwlybg-vy",
+      "address": "https://www.openstreetmap.org/?mlat=51.3811469078064\u0026mlon=-0.2515697479248047",
       "title": "OpenStreetMap",
       "grade": 2
     },
     {
       "hash": "bE2T7lybg-vy",
-      "address": "https://www.openstreetmap.org/?mlat=47&mlon=2&zoom=6",
+      "address": "https://www.openstreetmap.org/?mlat=47\u0026mlon=2\u0026zoom=6",
       "title": "OpenStreetMap",
       "grade": 2
     },
     {
-      "hash": "ZECBX7qJpRgC",
-      "address": "http://openstreetmap.by/?lon=116.8&lat=5.5&zoom=11",
-      "title": "OpenStreetMap.by - Беларусь",
+      "hash": "WmYuElybg-vy",
+      "address": "https://www.openstreetmap.org/?mlat=1.3\u0026mlon=103.8\u0026zoom=6",
+      "title": "OpenStreetMap",
+      "grade": 2
+    },
+    {
+      "hash": "MEC8btgcGDHy",
+      "address": "https://blog.openstreetmap.org/",
+      "title": "OpenStreetMap Blog | Supporting the OpenStreetMap project",
       "grade": 1
     },
     {
-      "hash": "o4iVflybg-vy",
-      "address": "https://www.openstreetmap.org/edit?editor=remote",
+      "hash": "b7l9Clybg-vy",
+      "address": "https://www.openstreetmap.org/?mlat=47.366667\u0026mlon=8.55\u0026zoom=7",
       "title": "OpenStreetMap",
       "grade": 2
     },
     {
-      "hash": "F7qAclybg-vy",
-      "address": "https://www.openstreetmap.org/directions",
+      "hash": "ywbjalybg-vy",
+      "address": "https://www.openstreetmap.org/?mlat=31.231667\u0026mlon=121.47\u0026zoom=15",
       "title": "OpenStreetMap",
       "grade": 2
     },
     {
-      "hash": "ePCLCl-n3pGi",
-      "address": "https://www.openstreetmap.de/",
-      "title": "Die freie Weltkarte — OpenStreetMap Deutschland",
+      "hash": "STrh8lybg-vy",
+      "address": "https://www.openstreetmap.org/?mlat=35.9\u0026mlon=14.4\u0026zoom=6",
+      "title": "OpenStreetMap",
       "grade": 2
     },
     {
-      "hash": "dkfYoF9eh9Zy",
-      "address": "https://welcome.openstreetmap.org/",
-      "title": "Welcome Mat | OpenStreetMap - Welcome to OpenStreetMap",
+      "hash": "oj0eTlybg-vy",
+      "address": "https://www.openstreetmap.org/?mlat=40.18333\u0026mlon=29.06667\u0026zoom=12",
+      "title": "OpenStreetMap",
       "grade": 2
     },
     {
-      "hash": "ZCH4qlybg-vy",
-      "address": "https://www.openstreetmap.org/about/",
+      "hash": "P95urlybg-vy",
+      "address": "https://www.openstreetmap.org/?mlat=53\u0026mlon=-8\u0026zoom=5",
+      "title": "OpenStreetMap",
+      "grade": 2
+    },
+    {
+      "hash": "Xu8nplybg-vy",
+      "address": "https://www.openstreetmap.org/?mlat=36\u0026mlon=128\u0026zoom=6",
+      "title": "OpenStreetMap",
+      "grade": 2
+    },
+    {
+      "hash": "5PfdIlybg-vy",
+      "address": "https://www.openstreetmap.org/?mlat=42\u0026mlon=51\u0026zoom=4",
+      "title": "OpenStreetMap",
+      "grade": 2
+    },
+    {
+      "hash": "4zq5rlybg-vy",
+      "address": "https://www.openstreetmap.org/?mlat=16.86336\u0026mlon=-99.8901\u0026zoom=14",
+      "title": "OpenStreetMap",
+      "grade": 2
+    },
+    {
+      "hash": "yH9mzlybg-vy",
+      "address": "https://www.openstreetmap.org/?mlat=51.506666666667\u0026mlon=-0.12833333333333\u0026zoom=6",
+      "title": "OpenStreetMap",
+      "grade": 2
+    },
+    {
+      "hash": "7aZumlybg-vy",
+      "address": "https://www.openstreetmap.org/help",
+      "title": "OpenStreetMap",
+      "grade": 2
+    },
+    {
+      "hash": "-WsaPlybg-vy",
+      "address": "https://www.openstreetmap.org/?mlat=51.66593313217163\u0026mlon=-0.09443521499633789",
+      "title": "OpenStreetMap",
+      "grade": 2
+    },
+    {
+      "hash": "4TEPDlybg-vy",
+      "address": "https://www.openstreetmap.org/?mlat=59.9149778\u0026mlon=10.7465444\u0026zoom=14",
+      "title": "OpenStreetMap",
+      "grade": 2
+    },
+    {
+      "hash": "N-nlYlybg-vy",
+      "address": "https://www.openstreetmap.org/?mlat=39.90500\u0026mlon=116.39139\u0026zoom=12",
       "title": "OpenStreetMap",
       "grade": 2
     },
@@ -62,46 +176,136 @@
       "grade": 1
     },
     {
-      "hash": "D1UyW8ybg-vy",
-      "address": "https://www.openstreetmap.org/way/313187245",
-      "title": "Way: ‪ТП-3865‬ (‪313187245‬) | OpenStreetMap",
-      "grade": 1
-    },
-    {
-      "hash": "FW4Ehsxlxh74",
-      "address": "https://domain.glass/2604:b000:c100:749:4ae6:1f9e:43f9:4141",
-      "title": "2604:b000:c100:749:4ae6:1f9e:43f9:4141 IPv6 Formats, Reverse DNS, ASN, Location & TLS · domain.glass",
-      "grade": 0
-    },
-    {
-      "hash": "cjiPJlybg-vy",
-      "address": "https://www.openstreetmap.org/?mlat=-27.5&mlon=130&zoom=5",
+      "hash": "NNqA1lybg-vy",
+      "address": "https://www.openstreetmap.org/?mlat=21.000\u0026mlon=57.000\u0026zoom=14",
       "title": "OpenStreetMap",
       "grade": 2
     },
     {
-      "hash": "7sbfBsxlxh74",
-      "address": "https://domain.glass/5.75.231.55",
-      "title": "5.75.231.55 IPv4 Formats, Reverse DNS, ASN, Location & TLS · domain.glass",
-      "grade": 0
+      "hash": "v--Bnlybg-vy",
+      "address": "https://www.openstreetmap.org/?mlat=53.18021828\u0026mlon=7.22737312\u0026zoom=14",
+      "title": "OpenStreetMap",
+      "grade": 2
     },
     {
-      "hash": "3FWf8ldA5r_4",
-      "address": "https://www.apple.com/business/",
-      "title": "Apple at Work - Apple",
-      "grade": 0
+      "hash": "jft0alybg-vy",
+      "address": "https://www.openstreetmap.org/?mlat=17.351\u0026mlon=78.475",
+      "title": "OpenStreetMap",
+      "grade": 2
     },
     {
-      "hash": "2Q34jlHS80Jh",
-      "address": "https://www.mba-studium.de/datenschutzerklaerung/",
-      "title": "Datenschutzerklärung | MBA-Studium.de",
-      "grade": 0
+      "hash": "haIiGlybg-vy",
+      "address": "https://www.openstreetmap.org/?mlat=72\u0026mlon=-40\u0026zoom=14",
+      "title": "OpenStreetMap",
+      "grade": 2
     },
     {
-      "hash": "oKnZg8UYpAnx",
-      "address": "https://www.electromaker.io/project/view/gps-tracker-using-heltec-wifi-lora-32-v4-and-reyax-rys352a-g",
-      "title": "Gps Tracker Using Heltec Wifi Lora 32 V4 And Reyax Rys352a G",
-      "grade": 0
+      "hash": "QpMnKlybg-vy",
+      "address": "https://www.openstreetmap.org/?mlat=57\u0026mlon=-5\u0026zoom=14",
+      "title": "OpenStreetMap",
+      "grade": 2
+    },
+    {
+      "hash": "8tsX6lybg-vy",
+      "address": "https://www.openstreetmap.org/directions?to=33.833907,-117.917424",
+      "title": "OpenStreetMap",
+      "grade": 2
+    },
+    {
+      "hash": "7H-jGlybg-vy",
+      "address": "https://www.openstreetmap.org/?mlat=51.47343635559082\u0026mlon=-0.010943412780761719",
+      "title": "OpenStreetMap",
+      "grade": 2
+    },
+    {
+      "hash": "D1AaPlybg-vy",
+      "address": "https://www.openstreetmap.org/?mlat=31.7704\u0026mlon=35.2281\u0026zoom=11",
+      "title": "OpenStreetMap",
+      "grade": 2
+    },
+    {
+      "hash": "-Frwjlybg-vy",
+      "address": "https://www.openstreetmap.org/?mlat=35.1816\u0026mlon=33.3634\u0026zoom=14",
+      "title": "OpenStreetMap",
+      "grade": 2
+    },
+    {
+      "hash": "YNjaUlybg-vy",
+      "address": "https://www.openstreetmap.org/directions?to=29.844667,31.250916",
+      "title": "OpenStreetMap",
+      "grade": 2
+    },
+    {
+      "hash": "AUbsTlybg-vy",
+      "address": "https://www.openstreetmap.org/?mlat=45.07555556\u0026mlon=5.77305556\u0026zoom=17",
+      "title": "OpenStreetMap",
+      "grade": 2
+    },
+    {
+      "hash": "5M_8Ulybg-vy",
+      "address": "https://www.openstreetmap.org/?mlat=37.967\u0026mlon=23.717\u0026zoom=12",
+      "title": "OpenStreetMap",
+      "grade": 2
+    },
+    {
+      "hash": "_YFc7lybg-vy",
+      "address": "https://www.openstreetmap.org/directions?to=33.805495,-117.919011",
+      "title": "OpenStreetMap",
+      "grade": 2
+    },
+    {
+      "hash": "R0Tdylybg-vy",
+      "address": "https://www.openstreetmap.org/?mlat=28.65000\u0026mlon=52.15000\u0026zoom=11",
+      "title": "OpenStreetMap",
+      "grade": 2
+    },
+    {
+      "hash": "BmUiflybg-vy",
+      "address": "https://www.openstreetmap.org/?mlat=22\u0026mlon=-79.5\u0026zoom=6",
+      "title": "OpenStreetMap",
+      "grade": 2
+    },
+    {
+      "hash": "-GkOVlybg-vy",
+      "address": "https://www.openstreetmap.org/directions?to=44.892222,-110.239722",
+      "title": "OpenStreetMap",
+      "grade": 2
+    },
+    {
+      "hash": "N_k_Glybg-vy",
+      "address": "https://www.openstreetmap.org/?mlat=40.72833\u0026mlon=-73.99417\u0026zoom=14",
+      "title": "OpenStreetMap",
+      "grade": 2
+    },
+    {
+      "hash": "cjiPJlybg-vy",
+      "address": "https://www.openstreetmap.org/?mlat=-27.5\u0026mlon=130\u0026zoom=5",
+      "title": "OpenStreetMap",
+      "grade": 2
+    },
+    {
+      "hash": "GWb4blybg-vy",
+      "address": "https://www.openstreetmap.org/?mlat=52.383333333333\u0026mlon=4.6333333333333\u0026zoom=7",
+      "title": "OpenStreetMap",
+      "grade": 2
+    },
+    {
+      "hash": "FKHCglybg-vy",
+      "address": "https://www.openstreetmap.org/?mlat=43.3\u0026mlon=45.866666666667\u0026zoom=14",
+      "title": "OpenStreetMap",
+      "grade": 2
+    },
+    {
+      "hash": "xkAYalybg-vy",
+      "address": "https://www.openstreetmap.org/?mlat=48.286666666667\u0026mlon=14.106666666667\u0026zoom=6",
+      "title": "OpenStreetMap",
+      "grade": 2
+    },
+    {
+      "hash": "qXktE8KDigKy",
+      "address": "https://wiki.openstreetmap.org/wiki/Zh-hans:FAQ",
+      "title": "Zh-hans:FAQ - OpenStreetMap Wiki",
+      "grade": 2
     }
   ]
 }

@@ -1,6 +1,6 @@
 {
   "query": "libreoffice",
-  "recordedAt": "2026-09-11T21:03:29Z",
+  "recordedAt": "2026-09-11T22:14:22Z",
   "itemsInTheOrderOfEachAnswer": [
     [
       {
@@ -13,7 +13,8 @@
             "hits": 7,
             "textWords": 126
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
         "hash": "Cq-xgm0h8sSw",
@@ -25,7 +26,8 @@
             "hits": 9,
             "textWords": 873
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
         "hash": "BTx7LufE2QD4",
@@ -37,7 +39,8 @@
             "hits": 1,
             "textWords": 320
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
         "hash": "DtE5qexFffU5",
@@ -49,7 +52,8 @@
             "hits": 1,
             "textWords": 218
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
         "hash": "zkuDW7NSh3ha",
@@ -61,7 +65,8 @@
             "hits": 1,
             "textWords": 5689
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
         "hash": "3_9GhsqBIpS6",
@@ -73,7 +78,8 @@
             "hits": 1,
             "textWords": 5689
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
         "hash": "BIhJRjRvmBbx",
@@ -85,7 +91,8 @@
             "hits": 2,
             "textWords": 7380
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
         "hash": "Bx5NPwYlAY74",
@@ -97,7 +104,8 @@
             "hits": 1,
             "textWords": 1832
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
         "hash": "CSywVwa_7uS5",
@@ -109,7 +117,8 @@
             "hits": 1,
             "textWords": 4779
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
         "hash": "C8Dqq0SMo4M4",
@@ -121,253 +130,143 @@
             "hits": 13,
             "textWords": 3477
           }
-        }
+        },
+        "queryPhraseHits": 0
       }
     ],
     [
       {
-        "hash": "Uy5MSiMQjAmx",
-        "address": "https://it.libreoffice.org/",
-        "title": "Home | LibreOffice in italiano - La suite libera per l'ufficio",
-        "snippet": "LibreOffice?\nCosa dicono di noi\n“Valido quanto Microsoft Office e in più gratuito” - ZDNET\n“Veramente eccezionale” - TechRadar",
+        "hash": "QaEPlQxXGmlz",
+        "address": "https://wiki.documentfoundation.org/LibreOffice_Localization_Guide",
+        "title": "LibreOffice Localization Guide - The Document Foundation Wiki",
+        "snippet": "LibreOffice or with the world of Open Source in general. It is based on Localization of OpenOffice.org 2.0 tutorial by Javier Solá.\nPlanning and Preparation\nWhat you need to know\nLocalizing LibreOffice does not require highly specialized knowledge of programming or of the Open Source world. It does",
         "matchedWords": {
           "Rhm4_S1aJLcZ": {
-            "hits": 1,
-            "textWords": 122
+            "hits": 39,
+            "textWords": 2548
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
-        "hash": "5y_i0yz8AoWx",
-        "address": "https://de.libreoffice.org/",
-        "title": "Willkommen | LibreOffice - Freie Office Suite – Nachfolger von OpenOffice",
-        "snippet": "LibreOffice Conference 2026 begins\n2026-09-11\nWell, that’s a photo from last night’s community dinner, but now the second day talks are beginning! As with yesterday, we will be live-streaming most sessions on the schedule (in track rooms 1 and 2) and making recordings of all. Find out more by",
-        "matchedWords": {
-          "Rhm4_S1aJLcZ": {
-            "hits": 6,
-            "textWords": 248
-          }
-        }
-      },
-      {
-        "hash": "A8BLfu9heOmx",
-        "address": "https://fr.libreoffice.org/",
-        "title": "Home | Communauté LibreOffice francophone",
-        "snippet": "LibreOffice ?\nCe que les gens disent\n“Every bit as good as Microsoft Office and free to boot” - ZDNET\n“Truly exceptional” - TechRadar",
-        "matchedWords": {
-          "Rhm4_S1aJLcZ": {
-            "hits": 1,
-            "textWords": 144
-          }
-        }
-      },
-      {
-        "hash": "2nzERsM66BSx",
-        "address": "https://fosstodon.org/@libreoffice",
-        "title": "LibreOffice (@libreoffice@fosstodon.org) - Fosstodon",
-        "snippet": "",
+        "hash": "WGRJbZZ5FD3x",
+        "address": "https://bugs.launchpad.net/ubuntu/+source/libreoffice/+bug/991556",
+        "title": "Bug #991556 “package python-uno 1:3.4.4-0ubuntu1 failed to insta...” : Bugs : libreoffice package : Ubuntu",
+        "snippet": "libreoffice (Ubuntu)\nNew\nUndecided\nUnassigned\nBug Description\nupgrade to Ubuntu 12 issue\nProblemType: Package\nDistroRelease: Ubuntu 12.04\nPackage: python-uno\nProcVersionSign\nature: Ubuntu 3.2.0-24.37-generic 3.2.14\nUname: Linux 3.2.0-24-generic i686\nNonfreeKernelMo\ndules: wl\nApportVersion:",
         "matchedWords": {
           "Rhm4_S1aJLcZ": {
             "hits": 2,
-            "textWords": 75
+            "textWords": 135
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
-        "hash": "FjwwUk-4htmx",
-        "address": "https://www.libreoffice.org/community/nlc",
-        "title": "Native-Lang Projects | LibreOffice - Free and private office suite - Based on OpenOffice - Compatible with Microsoft",
-        "snippet": "",
+        "hash": "MpRMNls8l0-4",
+        "address": "https://www.clubic.com/telecharger-fiche366452-libreoffice.html?file=33508\u0026launched=true",
+        "title": "Télécharger LibreOffice (gratuit) Windows, Mac, Linux - Clubic",
+        "snippet": "LibreOffice\nLibreOffice est une suite bureautique de référence dans l'univers du logiciel libre, et elle est disponible en français. Avec ses mises à jour constantes et son développement accéléré sous la houlette de The Document Foundation, cette suite couvre une large gamme de besoins. Des outils",
         "matchedWords": {
           "Rhm4_S1aJLcZ": {
-            "hits": 71,
-            "textWords": 756
+            "hits": 28,
+            "textWords": 1216
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
-        "hash": "21XYOwp2j53x",
-        "address": "https://documentation.libreoffice.org/en/english-documentation/",
-        "title": "English documentation | LibreOffice Documentation - LibreOffice User Guides",
-        "snippet": "LibreOffice, which is licensed under the Mozilla Public License v2.0. “LibreOffice” and “The Document Foundation” are registered trademarks of their corresponding registered owners or are in actual use as trademarks in one or more countries. Their respective logos and icons are also subject to",
+        "hash": "MIW-s0hl92eQ",
+        "address": "http://advisories.mageia.org/MGASA-2016-0246.html",
+        "title": "Mageia Advisory: MGASA-2016-0246 - Updated libreoffice packages fix security vulnerability",
+        "snippet": "libreoffice packages fix security vulnerability: Parsing the Rich Text Format character style index was insufficiently checked for validity. Documents can be constructed which dereference an iterator to the first entry of an empty STL container (CVE-2016-4324).\nReferences",
         "matchedWords": {
           "Rhm4_S1aJLcZ": {
             "hits": 3,
-            "textWords": 106
+            "textWords": 110
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
-        "hash": "MewNztxeGHlx",
-        "address": "https://es.libreoffice.org/",
-        "title": "Inicio | LibreOffice en español - suite ofimática libre, basada en OpenOffice, compatible con Microsoft",
-        "snippet": "LibreOffice?\nLo que dice la gente\n«Exactamente igual de bueno que Microsoft Office, y encima es gratis» ― ZDNET\n«Verdaderamente excepcional» ― TechRadar",
-        "matchedWords": {
-          "Rhm4_S1aJLcZ": {
-            "hits": 1,
-            "textWords": 131
-          }
-        }
-      },
-      {
-        "hash": "LOxPFdwG-02z",
-        "address": "https://blog.documentfoundation.org/blog/2024/08/07/registration-is-open-for-the-libreoffice-conference-2024/",
-        "title": "Registration is open for the LibreOffice Conference 2024! - The Document Foundation Blog",
-        "snippet": "LibreOffice 26.2.6 is available for download\nBerlin, 4 September 2026 – The Document Foundation today announced the release of LibreOffice 26.2.6, the sixth maintenance update to…\nLibreOffice 26.8 brings professional typography, deeper support for the world’s writing systems, and no artificial",
-        "matchedWords": {
-          "Rhm4_S1aJLcZ": {
-            "hits": 8,
-            "textWords": 184
-          }
-        }
-      },
-      {
-        "hash": "7TXARQxXGmlz",
-        "address": "https://wiki.documentfoundation.org/Feature_Comparison:_LibreOffice_-_Microsoft_Office",
-        "title": "Feature Comparison: LibreOffice - Microsoft Office - The Document Foundation Wiki",
-        "snippet": "LibreOffice and Microsoft Office in several form factors. The comparisons separate major and minor feature differences and also includes notes on LibreOffice extensions. The comparison highlights differences and therefore does not display any features which are present in both office suites.\nThere",
-        "matchedWords": {
-          "Rhm4_S1aJLcZ": {
-            "hits": 127,
-            "textWords": 11427
-          }
-        }
-      },
-      {
-        "hash": "0Cj1PMLQStix",
-        "address": "https://zh-cn.libreoffice.org/",
-        "title": "主页 | LibreOffice 简体中文官方网站 - 自由免费的办公套件",
-        "snippet": "LibreOffice 是一款功能强大的办公软件，默认使用开放文档格式 (OpenDocument Format , ODF), 并支持 *.docx, *.xlsx, *.pptx 等其他格式。\n它包含了 Writer, Calc, Impress, Draw, Base 以及 Math 等组件，可用于处理文本文档、电子表格、演示文稿、绘图以及公式编辑。\n它可以运行于 Windows, GNU/Linux 以及 macOS 等操作系统上，并具有一致的用户体验。\n国际化的开源项目\nLibreOffice 是国际化的开源项目， 由来自全球的社区成员参与开发。\n获得帮助\n您也可以成为团队的一员！",
-        "matchedWords": {
-          "Rhm4_S1aJLcZ": {
-            "hits": 8,
-            "textWords": 210
-          }
-        }
-      }
-    ],
-    [
-      {
-        "hash": "ehYdFl-4htmx",
-        "address": "https://www.libreoffice.org/installation-instructions/",
-        "title": "Installation Instructions — LibreOffice",
-        "snippet": "LibreOffice is easy to install.\nBelow are step-by-step instructions for macOS, Linux and Windows. See Other Versions for information on various other installation methods and platforms.\nmacOS\nFirst check the system requirements before installing LibreOffice on macOS. Important: on the Download",
-        "matchedWords": {
-          "Rhm4_S1aJLcZ": {
-            "hits": 18,
-            "textWords": 696
-          }
-        }
-      },
-      {
-        "hash": "LRp8OlS6MKD4",
-        "address": "https://github.com/arawa/libreoffice-online-repo",
-        "title": "GitHub - arawa/libreoffice-online-repo: LibreOffice Online module for Alfresco repository · GitHub",
-        "snippet": "",
-        "matchedWords": {
-          "Rhm4_S1aJLcZ": {
-            "hits": 4,
-            "textWords": 964
-          }
-        }
-      },
-      {
-        "hash": "g5dE49OwONZ6",
-        "address": "https://www.gamingonlinux.com/2026/09/yes-no-ai-is-now-a-feature-libreoffice-the-document-foundation/page=1/",
-        "title": "\"Yes, no AI is now a feature\" - LibreOffice / The Document Foundation | GamingOnLinux",
-        "snippet": "LibreOffice / The Document Foundation on no AI being a feature.\nWhat is LibreOffice? It's a completely free and open source office suite. Think like Microsoft Office / Microsoft 365 - but entirely free and open. It includes apps for document writing, spreadsheets, presentations and more.\nRecently,",
-        "matchedWords": {
-          "Rhm4_S1aJLcZ": {
-            "hits": 6,
-            "textWords": 494
-          }
-        }
-      },
-      {
-        "hash": "u1soks7QrTO4",
-        "address": "https://fridrich.blogspot.com/2013/05/libreoffice-google-summer-of-code-2013.html",
-        "title": "Trained Monkey Hacking Experience: LibreOffice Google Summer of Code 2013 - selected projects",
-        "snippet": "LibreOffice project, we have got 13 slots this year. We love you, Google! We really do!\nNonetheless, we had much more good applications then the slots and we had to do hard choices based on a variety of parameters. And the final line-up that came out is:\nProject\nStudent\nAdding alterating row",
-        "matchedWords": {
-          "Rhm4_S1aJLcZ": {
-            "hits": 4,
-            "textWords": 258
-          }
-        }
-      },
-      {
-        "hash": "BLzeBEX3xSfx",
-        "address": "https://ask.libreoffice.org/t/surface-charts-in-calc/8095",
-        "title": "Surface charts in Calc - English - Ask LibreOffice",
-        "snippet": "April 14, 2014, 3:20pm\n#1\nI understand that there is no direct way of producing surface charts in LO Calc. There are surface chart workaround.ods like this. The existing functions for changing perspective, apperance and illumination are really neat. However, this is not the real thing as features",
+        "hash": "GnyIOOxyFvIw",
+        "address": "https://forums.gentoo.org/viewtopic-t-1172463-postdays-0-postorder-asc-start-0.html",
+        "title": "manual roll back to an old version of libreoffice? - Gentoo Forums",
+        "snippet": "Register\nIn order to login you must be registered. Registering takes only a few moments but gives you increased capabilities. The board administrator may also grant additional permissions to registered users. Before you register please ensure you are familiar with our terms of use and related",
         "matchedWords": {
           "Rhm4_S1aJLcZ": {
             "hits": 0,
-            "textWords": 217
+            "textWords": 65
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
-        "hash": "-NssBDiaMkRw",
-        "address": "https://archive.fosdem.org/2022/schedule/event/lotech_advantagesoflotech/",
-        "title": "FOSDEM 2022 - Advantages of LibreOffice Technology",
-        "snippet": "LibreOffice Technology platform is based on the same software engine for all modules, based on a clean and refactored source code, with a focus on code quality and consistency, and supported by easy and extensive APIs. LibreOffice consistency represents a strong advantage over the \"siloed\" approach",
+        "hash": "_klPchPuWAGA",
+        "address": "http://roland65.free.fr/texmaths/index.html",
+        "title": "TexMaths Homepage",
+        "snippet": "",
         "matchedWords": {
           "Rhm4_S1aJLcZ": {
-            "hits": 3,
-            "textWords": 96
+            "hits": 17,
+            "textWords": 990
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
-        "hash": "S625QrPx95Gx",
-        "address": "https://aur.archlinux.org/packages/libreoffice-dev-bin",
-        "title": "AUR (en) - libreoffice-dev-bin",
-        "snippet": "libreoffice-dev-bin 26.8.0.3-1\nGit Clone URL:\nhttps://aur.archlinux.org/libreoffice-dev-bin.git (read-only, click to copy)\nPackage Base:\nlibreoffice-dev-bin\nDescription:\nA free and powerful office suite - development branch\nUpstream URL:\nhttps://www.libreoffice.org/\nLicenses:\nMPL-2.0,",
+        "hash": "NOF6FqrfwOMw",
+        "address": "https://rubygems.org/gems/roo/versions/2.8.3",
+        "title": "roo | RubyGems.org | your community gem host",
+        "snippet": "",
         "matchedWords": {
           "Rhm4_S1aJLcZ": {
-            "hits": 6,
-            "textWords": 101
+            "hits": 1,
+            "textWords": 294
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
-        "hash": "-KQyliGqOr3g",
-        "address": "https://akit.cyber.ee/term/13353-linker",
-        "title": "linker - AKIT",
+        "hash": "E-bUoQZIiGkw",
+        "address": "https://inkscape.org/~doctormo/%E2%98%85state-of-projects-2014",
+        "title": "State Of Projects 2014 - Inkspace the Inkscape Gallery | Inkscape",
+        "snippet": "",
+        "matchedWords": {
+          "Rhm4_S1aJLcZ": {
+            "hits": 1,
+            "textWords": 246
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "FE9HFiGqOr3g",
+        "address": "https://akit.cyber.ee/term/1698-lasint",
+        "title": "LASINT - AKIT",
         "snippet": "",
         "matchedWords": {
           "Rhm4_S1aJLcZ": {
             "hits": 1,
             "textWords": 1843
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
-        "hash": "Lf-pxlf4UL4w",
-        "address": "https://www.freewear.org/Vim",
-        "title": "Vim merchandise | FreeWear.org",
+        "hash": "E3lKgwX-NDdg",
+        "address": "https://www.pcwelt.de/article/2945534/neues-notebook-diese-10-schritte-sollten-sie-sofort-erledigen.html",
+        "title": "Neues Notebook? Diese 10 Schritte sollten Sie sofort erledigen",
         "snippet": "",
         "matchedWords": {
           "Rhm4_S1aJLcZ": {
             "hits": 1,
-            "textWords": 864
+            "textWords": 3320
           }
-        }
-      },
-      {
-        "hash": "YvwOhJO2J9s6",
-        "address": "https://www.collaboraonline.com/blog/vnc-to-integrate-collabora-online-in-vnclagoon/",
-        "title": "VNC to integrate Collabora Online in VNClagoon - Collabora Online and Collabora Office",
-        "snippet": "",
-        "matchedWords": {
-          "Rhm4_S1aJLcZ": {
-            "hits": 5,
-            "textWords": 1455
-          }
-        }
+        },
+        "queryPhraseHits": 0
       }
     ],
+    [],
     [
       {
         "hash": "bb55mls8l0-4",
@@ -379,7 +278,8 @@
             "hits": 6,
             "textWords": 361
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
         "hash": "RYLi9iGqOr3g",
@@ -391,7 +291,8 @@
             "hits": 1,
             "textWords": 1870
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
         "hash": "wePSvshBfD4g",
@@ -403,7 +304,8 @@
             "hits": 4,
             "textWords": 1239
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
         "hash": "L6vfyjRvmBbx",
@@ -415,7 +317,8 @@
             "hits": 1,
             "textWords": 5902
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
         "hash": "z3iJnsatC3dw",
@@ -427,7 +330,8 @@
             "hits": 1,
             "textWords": 888
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
         "hash": "T_1-q31nrxbw",
@@ -439,7 +343,8 @@
             "hits": 2,
             "textWords": 1539
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
         "hash": "gRcBOlbyNWI6",
@@ -451,7 +356,8 @@
             "hits": 2,
             "textWords": 20551
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
         "hash": "EEnnz1XLmBBY",
@@ -463,7 +369,8 @@
             "hits": 1,
             "textWords": 4733
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
         "hash": "HAtLmlSmquRw",
@@ -475,7 +382,8 @@
             "hits": 2,
             "textWords": 3065
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
         "hash": "lDbbG6c9LAOx",
@@ -487,7 +395,8 @@
             "hits": 1,
             "textWords": 1485
           }
-        }
+        },
+        "queryPhraseHits": 0
       }
     ],
     [
@@ -501,7 +410,8 @@
             "hits": 1,
             "textWords": 1843
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
         "hash": "SZGNJ9g9bjtw",
@@ -513,7 +423,8 @@
             "hits": 2,
             "textWords": 1066
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
         "hash": "Psb5H3a6Vv8g",
@@ -525,31 +436,21 @@
             "hits": 1,
             "textWords": 227
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
-        "hash": "4XdT4pO2J9s6",
-        "address": "https://www.collaboraonline.com/partners/the-good-cloud/",
-        "title": "The Good Cloud - Collabora Online and Collabora Office",
+        "hash": "6IiKOjRvmBbx",
+        "address": "https://en.wikipedia.org/wiki/Wikipedia:Tools/Editing_tools",
+        "title": "Wikipedia:Tools/Editing tools - Wikipedia",
         "snippet": "",
         "matchedWords": {
           "Rhm4_S1aJLcZ": {
-            "hits": 1,
-            "textWords": 933
+            "hits": 3,
+            "textWords": 4498
           }
-        }
-      },
-      {
-        "hash": "8PYfLLOwONZ6",
-        "address": "https://www.gamingonlinux.com/profiles/16538/",
-        "title": "Linux Gamer User Profile - Zakaria_Shalih | GamingOnLinux",
-        "snippet": "",
-        "matchedWords": {
-          "Rhm4_S1aJLcZ": {
-            "hits": 1,
-            "textWords": 1069
-          }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
         "hash": "dCkYulxHVdph",
@@ -561,19 +462,8 @@
             "hits": 4,
             "textWords": 2763
           }
-        }
-      },
-      {
-        "hash": "0Ie24jRvmBbx",
-        "address": "https://en.wikipedia.org/wiki/Canonical_(company)",
-        "title": "Canonical (company) - Wikipedia",
-        "snippet": "",
-        "matchedWords": {
-          "Rhm4_S1aJLcZ": {
-            "hits": 2,
-            "textWords": 3131
-          }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
         "hash": "gHhqVILvzMhw",
@@ -585,7 +475,34 @@
             "hits": 3,
             "textWords": 1182
           }
-        }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "CFpmveSLKN4x",
+        "address": "https://bbs.archlinux.org/viewforum.php?id=20",
+        "title": "GNU/Linux Discussion / Arch Linux Forums",
+        "snippet": "",
+        "matchedWords": {
+          "Rhm4_S1aJLcZ": {
+            "hits": 1,
+            "textWords": 668
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "DGFGih3e0QFx",
+        "address": "https://commons.wikimedia.org/wiki/Commons:Software",
+        "title": "Commons:Software - Wikimedia Commons",
+        "snippet": "",
+        "matchedWords": {
+          "Rhm4_S1aJLcZ": {
+            "hits": 1,
+            "textWords": 2556
+          }
+        },
+        "queryPhraseHits": 0
       },
       {
         "hash": "8F8QRVZ5FD3x",
@@ -597,19 +514,21 @@
             "hits": 2,
             "textWords": 16727
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
-        "hash": "wLLMzltwxXMi",
-        "address": "https://www.notebookcheck.pl/Archiwum-2013-07.96568.0.html",
-        "title": "Archiwum 2013 07 - Notebookcheck.pl",
+        "hash": "4XdT4pO2J9s6",
+        "address": "https://www.collaboraonline.com/partners/the-good-cloud/",
+        "title": "The Good Cloud - Collabora Online and Collabora Office",
         "snippet": "",
         "matchedWords": {
           "Rhm4_S1aJLcZ": {
             "hits": 1,
-            "textWords": 1429
+            "textWords": 933
           }
-        }
+        },
+        "queryPhraseHits": 0
       }
     ],
     [
@@ -623,22 +542,11 @@
             "hits": 2,
             "textWords": 3633
           }
-        }
+        },
+        "queryPhraseHits": 0
       }
     ],
     [
-      {
-        "hash": "ehYdFl-4htmx",
-        "address": "https://www.libreoffice.org/installation-instructions/",
-        "title": "Installation Instructions — LibreOffice",
-        "snippet": "LibreOffice is easy to install.\nBelow are step-by-step instructions for macOS, Linux and Windows. See Other Versions for information on various other installation methods and platforms.\nmacOS\nFirst check the system requirements before installing LibreOffice on macOS. Important: on the Download",
-        "matchedWords": {
-          "Rhm4_S1aJLcZ": {
-            "hits": 18,
-            "textWords": 696
-          }
-        }
-      },
       {
         "hash": "a_LYv0hl92eQ",
         "address": "http://advisories.mageia.org/src_libreoffice.html",
@@ -649,7 +557,21 @@
             "hits": 41,
             "textWords": 560
           }
-        }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "ehYdFl-4htmx",
+        "address": "https://www.libreoffice.org/installation-instructions/",
+        "title": "Installation Instructions — LibreOffice",
+        "snippet": "LibreOffice is easy to install.\nBelow are step-by-step instructions for macOS, Linux and Windows. See Other Versions for information on various other installation methods and platforms.\nmacOS\nFirst check the system requirements before installing LibreOffice on macOS. Important: on the Download",
+        "matchedWords": {
+          "Rhm4_S1aJLcZ": {
+            "hits": 18,
+            "textWords": 696
+          }
+        },
+        "queryPhraseHits": 0
       },
       {
         "hash": "HTF6isLafmQx",
@@ -661,19 +583,8 @@
             "hits": 3,
             "textWords": 29
           }
-        }
-      },
-      {
-        "hash": "zi4G7ZZ5FD3x",
-        "address": "https://bugs.launchpad.net/ubuntu/+source/libreoffice/+bug/990803",
-        "title": "Bug #990803 “package libreoffice-draw 1:3.5.2-2ubuntu1 failed to...” : Bugs : libreoffice package : Ubuntu",
-        "snippet": "libreoffice-draw 1:3.5.2-2ubuntu1 failed to install/upgrade: ErrorMessage: dependency problems - leaving unconfigured\nBug #990803 reported by knorosow on 2012-04-28\nThis bug affects 1 person\nAffects\nStatus\nImportance\nAssigned to\nMilestone\nlibreoffice (Ubuntu)\nNew\nUndecided\nUnassigned\nBug",
-        "matchedWords": {
-          "Rhm4_S1aJLcZ": {
-            "hits": 6,
-            "textWords": 174
-          }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
         "hash": "X0gS6jRvmBbx",
@@ -685,7 +596,21 @@
             "hits": 187,
             "textWords": 7409
           }
-        }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "zi4G7ZZ5FD3x",
+        "address": "https://bugs.launchpad.net/ubuntu/+source/libreoffice/+bug/990803",
+        "title": "Bug #990803 “package libreoffice-draw 1:3.5.2-2ubuntu1 failed to...” : Bugs : libreoffice package : Ubuntu",
+        "snippet": "",
+        "matchedWords": {
+          "Rhm4_S1aJLcZ": {
+            "hits": 5,
+            "textWords": 800
+          }
+        },
+        "queryPhraseHits": 0
       },
       {
         "hash": "bpvwLdwG-02z",
@@ -697,7 +622,8 @@
             "hits": 8,
             "textWords": 184
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
         "hash": "DO8fgqNKpOCw",
@@ -709,7 +635,8 @@
             "hits": 19,
             "textWords": 8856
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
         "hash": "b21sNh8UyKhh",
@@ -721,7 +648,8 @@
             "hits": 7,
             "textWords": 835
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
         "hash": "g5dE49OwONZ6",
@@ -733,7 +661,8 @@
             "hits": 6,
             "textWords": 494
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
         "hash": "3Oel_DiaMkRw",
@@ -745,7 +674,8 @@
             "hits": 0,
             "textWords": 56
           }
-        }
+        },
+        "queryPhraseHits": 0
       }
     ],
     [
@@ -759,7 +689,8 @@
             "hits": 1,
             "textWords": 5
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
         "hash": "ecx3wsmoS4ng",
@@ -771,201 +702,244 @@
             "hits": 7,
             "textWords": 7122
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
-        "hash": "6HorLs_XwdU5",
-        "address": "https://endoflife.date/caddy",
-        "title": "Caddy added",
+        "hash": "ZOVe3v_XwdU5",
+        "address": "https://endoflife.date/tags/server-app",
+        "title": "Server Applications | endoflife.date",
         "snippet": "",
         "matchedWords": {
           "Rhm4_S1aJLcZ": {
             "hits": 1,
-            "textWords": 1190
+            "textWords": 7701
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
-        "hash": "hKPP9s_XwdU5",
-        "address": "https://endoflife.date/tags/",
-        "title": "All tags | endoflife.date",
+        "hash": "iTy5is_XwdU5",
+        "address": "https://endoflife.date/rust",
+        "title": "Rust | endoflife.date",
         "snippet": "",
         "matchedWords": {
           "Rhm4_S1aJLcZ": {
             "hits": 1,
-            "textWords": 1044
+            "textWords": 2522
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
-        "hash": "jxgdVs_XwdU5",
-        "address": "https://endoflife.date/quasar",
-        "title": "Quasar | endoflife.date",
+        "hash": "Bx5NPwYlAY74",
+        "address": "https://ubuntu.com/desktop/developers",
+        "title": "Desktop for developers | Ubuntu",
         "snippet": "",
         "matchedWords": {
           "Rhm4_S1aJLcZ": {
             "hits": 1,
-            "textWords": 1168
+            "textWords": 1903
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
-        "hash": "O56Ens_XwdU5",
-        "address": "https://endoflife.date/liquibase",
-        "title": "Liquibase | endoflife.date",
+        "hash": "DGft0v_XwdU5",
+        "address": "https://endoflife.date/tags/app",
+        "title": "Applications | endoflife.date",
+        "snippet": "",
+        "matchedWords": {
+          "Rhm4_S1aJLcZ": {
+            "hits": 3,
+            "textWords": 3851
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "MPLEss_XwdU5",
+        "address": "https://endoflife.date/nexus",
+        "title": "Nexus Repository | endoflife.date",
         "snippet": "",
         "matchedWords": {
           "Rhm4_S1aJLcZ": {
             "hits": 1,
-            "textWords": 1164
+            "textWords": 2886
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
-        "hash": "igEE9s_XwdU5",
-        "address": "https://endoflife.date/memcached",
-        "title": "Memcached | endoflife.date",
+        "hash": "EHim-s_XwdU5",
+        "address": "https://endoflife.date/nokia",
+        "title": "Nokia Mobile | endoflife.date",
         "snippet": "",
         "matchedWords": {
           "Rhm4_S1aJLcZ": {
             "hits": 1,
-            "textWords": 1224
+            "textWords": 2144
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
-        "hash": "JLnwas_XwdU5",
-        "address": "https://endoflife.date/openwrt",
-        "title": "OpenWrt | endoflife.date",
+        "hash": "Yvyhss_XwdU5",
+        "address": "https://endoflife.date/firefox",
+        "title": "Firefox | endoflife.date",
         "snippet": "",
         "matchedWords": {
           "Rhm4_S1aJLcZ": {
             "hits": 1,
-            "textWords": 1340
+            "textWords": 2472
           }
-        }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "CwTLov_XwdU5",
+        "address": "https://endoflife.date/tags/os",
+        "title": "Operating Systems | endoflife.date",
+        "snippet": "",
+        "matchedWords": {
+          "Rhm4_S1aJLcZ": {
+            "hits": 1,
+            "textWords": 4054
+          }
+        },
+        "queryPhraseHits": 0
       }
     ],
     [
       {
-        "hash": "QKtcwtZoJuAw",
-        "address": "https://anwalt.us/im/LaDanzaDeLaCorrupci%C3%B3n18NOV2025.pdf",
-        "title": "LaDanzaDeLaCorrupción18NOV2025.pdf",
+        "hash": "cBBK_NcIC9Gh",
+        "address": "https://www.eduvidual.at/course/view.php?id=215108",
+        "title": "Course: LibreOffice Writer | eduvidual.at",
         "snippet": "",
         "matchedWords": {
           "Rhm4_S1aJLcZ": {
-            "hits": 1,
-            "textWords": 203
+            "hits": 7,
+            "textWords": 705
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
-        "hash": "MCy2co2UitBg",
-        "address": "https://www.wu.ac.at/institut-fuer-nonprofit-management-und-governance/lehre/ai-und-software-policy-1",
-        "title": "AI- und Software Policy - Lehre - Institut für Nonprofit Management und Governance",
+        "hash": "t3bD40hl92eQ",
+        "address": "http://advisories.mageia.org/src_libgltf.html",
+        "title": "Mageia advisories for package libgltf",
         "snippet": "",
         "matchedWords": {
           "Rhm4_S1aJLcZ": {
             "hits": 1,
-            "textWords": 3596
+            "textWords": 100
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
-        "hash": "hUXGtnFOa6vw",
-        "address": "https://www.anwalt.us/im/Resumen2025Anwalt.us.pdf",
-        "title": "Resumen2025Anwalt.us.pdf",
+        "hash": "BgeFLsLafmQx",
+        "address": "https://launchpad.net/~documentfoundation",
+        "title": "The Document Foundation in Launchpad",
         "snippet": "",
         "matchedWords": {
           "Rhm4_S1aJLcZ": {
             "hits": 1,
-            "textWords": 339
+            "textWords": 325
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
-        "hash": "2D2uHawBVung",
-        "address": "https://www.gtai.de/resource/blob/1039042/b1606ae45219f08305c24e27d0166279/TOP%2025%20Exportmessen%202024%20Prognose.pdf",
-        "title": "TOP 25 Exportmessen 2024 Prognose.pdf",
+        "hash": "zQut-xZ5FD3x",
+        "address": "https://bugs.launchpad.net/wine/+bug/1",
+        "title": "Bug #1 (liberation) “Microsoft has a majority market share” : Bugs : Wine",
         "snippet": "",
         "matchedWords": {
           "Rhm4_S1aJLcZ": {
-            "hits": 1,
-            "textWords": 435
+            "hits": 2,
+            "textWords": 16727
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
-        "hash": "wLkISg5Xvd-i",
-        "address": "https://www.arbeitsagentur.de/datei/dok_ba037300.pdf",
-        "title": "Sozialgesetzbuch (SGB) Drittes Buch (III)",
+        "hash": "xSAjTlELgQGx",
+        "address": "https://www.liberafolio.org/",
+        "title": "Libera Folio – sendependa movada bulteno",
         "snippet": "",
         "matchedWords": {
           "Rhm4_S1aJLcZ": {
-            "hits": 1,
-            "textWords": 19736
+            "hits": 3,
+            "textWords": 967
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
-        "hash": "4oI5Llg9Qb_g",
-        "address": "https://elsa.org.pl/images/Konferencje/poznan-okn.pdf",
-        "title": "poznan-okn.pdf",
+        "hash": "S4tXZjRvmBbx",
+        "address": "https://en.wikipedia.org/wiki/Wikisource",
+        "title": "Wikisource - Wikipedia",
         "snippet": "",
         "matchedWords": {
           "Rhm4_S1aJLcZ": {
             "hits": 1,
-            "textWords": 12
+            "textWords": 4582
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
-        "hash": "IofDQafVl8Eg",
-        "address": "https://www.115.de/fileadmin/user_upload/downloads/115_-_Antrag_zur_Integration_in_den_115_Verbund_-_Informationsbereitsteller.pdf",
-        "title": "Antrag Beitritt als Informationsbereitsteller",
+        "hash": "F__YwYUfxD0g",
+        "address": "https://www.omgubuntu.co.uk/",
+        "title": "OMG! Ubuntu - Ubuntu News, Apps, Tips \u0026 More",
         "snippet": "",
         "matchedWords": {
           "Rhm4_S1aJLcZ": {
             "hits": 1,
+            "textWords": 636
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "JPqyMChhB9pg",
+        "address": "https://shop.heise.de/222-anleitungen-fur-den-raspberry-pi-4",
+        "title": "222 Anleitungen für den Raspberry Pi 4",
+        "snippet": "",
+        "matchedWords": {
+          "Rhm4_S1aJLcZ": {
+            "hits": 1,
+            "textWords": 681
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "hblMll7vWuUh",
+        "address": "https://www.winsoftware.de/netcost,29,2343.htm",
+        "title": "NetCost kostenlos - Download - Winsoftware.de",
+        "snippet": "",
+        "matchedWords": {
+          "Rhm4_S1aJLcZ": {
+            "hits": 2,
             "textWords": 576
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
-        "hash": "ck0QDtZoJuAw",
-        "address": "https://anwalt.us/im/empulgueraDEAL.pdf",
-        "title": "empulgueraDEAL.pdf",
+        "hash": "9RmFuY0vRBRx",
+        "address": "https://answers.launchpad.net/ubuntu/+question/261227",
+        "title": "Question #261227 “ You may want to run apt-get update to correct...” : Questions : Ubuntu",
         "snippet": "",
         "matchedWords": {
           "Rhm4_S1aJLcZ": {
-            "hits": 1,
-            "textWords": 390
+            "hits": 7,
+            "textWords": 3113
           }
-        }
-      },
-      {
-        "hash": "jgzIQtZoJuAw",
-        "address": "https://anwalt.us/im/Cr%C3%ADticosPerseguidos.pdf",
-        "title": "CríticosPerseguidos.pdf",
-        "snippet": "",
-        "matchedWords": {
-          "Rhm4_S1aJLcZ": {
-            "hits": 1,
-            "textWords": 255
-          }
-        }
-      },
-      {
-        "hash": "sir9FtZoJuAw",
-        "address": "https://anwalt.us/im/overreach2026.pdf",
-        "title": "overreach2026.pdf",
-        "snippet": "",
-        "matchedWords": {
-          "Rhm4_S1aJLcZ": {
-            "hits": 1,
-            "textWords": 372
-          }
-        }
+        },
+        "queryPhraseHits": 0
       }
     ],
     [],
@@ -980,7 +954,8 @@
             "hits": 6,
             "textWords": 494
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
         "hash": "fwet6lrM6ey6",
@@ -992,7 +967,8 @@
             "hits": 1,
             "textWords": 122
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
         "hash": "q0iYLvY3c3Fg",
@@ -1004,7 +980,8 @@
             "hits": 6,
             "textWords": 1234
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
         "hash": "KsQz8jWyogzh",
@@ -1016,7 +993,8 @@
             "hits": 2,
             "textWords": 1098
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
         "hash": "yDyV3oTDwvCw",
@@ -1028,7 +1006,8 @@
             "hits": 2,
             "textWords": 279
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
         "hash": "qvMYpeDOAHJg",
@@ -1040,7 +1019,8 @@
             "hits": 7,
             "textWords": 1275
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
         "hash": "rNYv7h8UyKhh",
@@ -1052,7 +1032,21 @@
             "hits": 5,
             "textWords": 958
           }
-        }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "8sMa3pO2J9s6",
+        "address": "https://www.collaboraonline.com/partners/arawa/",
+        "title": "Arawa - Collabora Online and Collabora Office",
+        "snippet": "",
+        "matchedWords": {
+          "Rhm4_S1aJLcZ": {
+            "hits": 1,
+            "textWords": 1026
+          }
+        },
+        "queryPhraseHits": 0
       },
       {
         "hash": "JQM4J7CygWqQ",
@@ -1064,31 +1058,21 @@
             "hits": 1,
             "textWords": 4148
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
-        "hash": "zBqU2RZ5FD3x",
-        "address": "https://bugs.launchpad.net/jl/+bug/1",
-        "title": "Bug #1 (liberation) “Microsoft has a majority market share” : Bugs : JAK LINUX",
+        "hash": "WYiFYEZ5FD3x",
+        "address": "https://bugs.launchpad.net/tilix/+bug/1",
+        "title": "Bug #1 (liberation) “Microsoft has a majority market share” : Bugs : Tilix",
         "snippet": "",
         "matchedWords": {
           "Rhm4_S1aJLcZ": {
             "hits": 2,
-            "textWords": 16730
+            "textWords": 16726
           }
-        }
-      },
-      {
-        "hash": "87707lSmquRw",
-        "address": "https://bugs.gentoo.org/show_bug.cgi?id=725924",
-        "title": "725924 – app-shells/powerline-2.7-r2 - .../powerline/bindings/i3/powerline-i3.py has \"#!/usr/bin/env python\" shebang",
-        "snippet": "",
-        "matchedWords": {
-          "Rhm4_S1aJLcZ": {
-            "hits": 3,
-            "textWords": 1499
-          }
-        }
+        },
+        "queryPhraseHits": 0
       }
     ],
     [
@@ -1102,7 +1086,8 @@
             "hits": 6,
             "textWords": 494
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
         "hash": "Q1ThalrM6ey6",
@@ -1114,7 +1099,8 @@
             "hits": 1,
             "textWords": 535
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
         "hash": "vVbf1vY3c3Fg",
@@ -1126,19 +1112,8 @@
             "hits": 5,
             "textWords": 1292
           }
-        }
-      },
-      {
-        "hash": "4Gac-6cGSq2Y",
-        "address": "http://nagappanal.blogspot.com/",
-        "title": "Nagappan's weblog",
-        "snippet": "",
-        "matchedWords": {
-          "Rhm4_S1aJLcZ": {
-            "hits": 5,
-            "textWords": 2442
-          }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
         "hash": "JLCCI-xXGmlz",
@@ -1150,7 +1125,34 @@
             "hits": 12,
             "textWords": 843
           }
-        }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "4Gac-6cGSq2Y",
+        "address": "http://nagappanal.blogspot.com/",
+        "title": "Nagappan's weblog",
+        "snippet": "",
+        "matchedWords": {
+          "Rhm4_S1aJLcZ": {
+            "hits": 5,
+            "textWords": 2442
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "70pDMiGqOr3g",
+        "address": "https://akit.cyber.ee/term/904-level-of-risk",
+        "title": "level of risk - AKIT",
+        "snippet": "",
+        "matchedWords": {
+          "Rhm4_S1aJLcZ": {
+            "hits": 1,
+            "textWords": 1398
+          }
+        },
+        "queryPhraseHits": 0
       },
       {
         "hash": "uKelE9TEUnog",
@@ -1162,7 +1164,8 @@
             "hits": 3,
             "textWords": 1154
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
         "hash": "rKlb8tzytyBg",
@@ -1174,31 +1177,8 @@
             "hits": 3,
             "textWords": 1206
           }
-        }
-      },
-      {
-        "hash": "upcFEh8UyKhh",
-        "address": "https://www.computerbase.de/forum/threads/pc-selbst-bauen-und-einrichten.1164417/",
-        "title": "PC - selbst bauen und einrichten | ComputerBase Forum",
-        "snippet": "",
-        "matchedWords": {
-          "Rhm4_S1aJLcZ": {
-            "hits": 8,
-            "textWords": 8163
-          }
-        }
-      },
-      {
-        "hash": "LUJzHgS6MKD4",
-        "address": "https://github.com/alam00000/bentopdf",
-        "title": "GitHub - alam00000/bentopdf: The Privacy First PDF Toolkit · GitHub",
-        "snippet": "",
-        "matchedWords": {
-          "Rhm4_S1aJLcZ": {
-            "hits": 2,
-            "textWords": 7980
-          }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
         "hash": "Oon_KsSyCqEw",
@@ -1210,7 +1190,21 @@
             "hits": 2,
             "textWords": 490
           }
-        }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "sA5x5NDOAHJg",
+        "address": "https://www.heise.de/thema/Apps",
+        "title": "Apps | heise online",
+        "snippet": "",
+        "matchedWords": {
+          "Rhm4_S1aJLcZ": {
+            "hits": 2,
+            "textWords": 1222
+          }
+        },
+        "queryPhraseHits": 0
       }
     ],
     [
@@ -1224,7 +1218,8 @@
             "hits": 21,
             "textWords": 738
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
         "hash": "y2O5ovY3c3Fg",
@@ -1236,7 +1231,8 @@
             "hits": 12,
             "textWords": 1044
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
         "hash": "03n6NdwG-02z",
@@ -1248,7 +1244,8 @@
             "hits": 11,
             "textWords": 274
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
         "hash": "DRJ3LFS6MKD4",
@@ -1260,7 +1257,8 @@
             "hits": 42,
             "textWords": 1177
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
         "hash": "ztziL7WVJLyY",
@@ -1272,7 +1270,8 @@
             "hits": 2,
             "textWords": 225
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
         "hash": "W6fGNiGqOr3g",
@@ -1284,7 +1283,8 @@
             "hits": 1,
             "textWords": 1849
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
         "hash": "wVTHiJO2J9s6",
@@ -1296,7 +1296,8 @@
             "hits": 11,
             "textWords": 1714
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
         "hash": "7iFC2fOwONZ6",
@@ -1308,7 +1309,8 @@
             "hits": 1,
             "textWords": 721
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
         "hash": "ZFnksjRvmBbx",
@@ -1320,7 +1322,8 @@
             "hits": 2,
             "textWords": 6299
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
         "hash": "ZXlAmoTDwvCw",
@@ -1332,129 +1335,140 @@
             "hits": 12,
             "textWords": 19476
           }
-        }
+        },
+        "queryPhraseHits": 0
       }
     ],
     [
       {
-        "hash": "DchgXl-4htmx",
-        "address": "https://www.libreoffice.org/download-other/",
-        "title": "Alternative installation methods, SDK and source code — LibreOffice",
-        "snippet": "LibreOffice Impress Remote\nLibreOffice for Android and iOS\nLibreOffice Portable\nLibreOffice via Chocolatey\nLibreOffice in Flatpak format\nLibreOffice as Snap\nLibreOffice as AppImage\nLibreOffice Online\nApp Stores\nYou can download LibreOffice for free directly from our website, for Windows, macOS and",
-        "matchedWords": {
-          "Rhm4_S1aJLcZ": {
-            "hits": 100,
-            "textWords": 2273
-          }
-        }
-      },
-      {
-        "hash": "e3kA0O1f59yx",
-        "address": "https://cs.libreoffice.org/get-help/documentation/",
-        "title": "Dokumentace | LibreOffice - Svobodný kancelářský balík - Smysluplný projekt - Skvělí lidé",
-        "snippet": "LibreOffice. Klikněte na odkaz a stáhněte si zdarma dokumentaci ve formátu PDF nebo ODT. Jednotlivé kapitoly všech knih, včetně návodů na starší verze LibreOffice jsou ke stažení na této wiki stránce. České příručky jsou dostupné také na Google Play. Online verze příruček najdete v knihovně. O",
-        "matchedWords": {
-          "Rhm4_S1aJLcZ": {
-            "hits": 8,
-            "textWords": 229
-          }
-        }
-      },
-      {
-        "hash": "3K9BvvDOAHJg",
-        "address": "https://www.heise.de/news/LibreOffice-Manipulierte-Dokumente-koennen-in-Windows-Befehle-einschleusen-10296915.html?wt_mc=rss.red.ho.ho.atom.beitrag.beitrag",
-        "title": "LibreOffice: Manipulierte Dokumente können in Windows Befehle einschleusen | heise online",
-        "snippet": "LibreOffice klafft eine Sicherheitslücke, die Angreifer mit manipulierten Links in Dokumenten missbrauchen können. Sie können dadurch unter Windows ausführbare Dateien aufrufen und damit möglicherweise Schaden anrichten. Eine aktualisierte Version der Bürosoftware-Suite steht zum Download bereit,",
-        "matchedWords": {
-          "Rhm4_S1aJLcZ": {
-            "hits": 8,
-            "textWords": 263
-          }
-        }
-      },
-      {
-        "hash": "2DhRj0TYIVRx",
-        "address": "https://blog.thebehrens.net/2017/07/28/openpgp-signature-support-in-libreoffice/",
-        "title": "OpenPGP signature support in LibreOffice | Thorsten's Weblog",
-        "snippet": "LibreOffice\nTagged crypto, gnupg, libreoffice\nWith the release of LibreOffice 5.4.0 today, I’m most happy to announce support for OpenPGP / GnuPG keys when signing ODF documents in LibreOffice under Linux. This is great if you already use GPG/PGP for email with your peers, as it ensures",
-        "matchedWords": {
-          "Rhm4_S1aJLcZ": {
-            "hits": 9,
-            "textWords": 281
-          }
-        }
-      },
-      {
-        "hash": "DZsHK1uNWVxw",
-        "address": "https://linuxfr.org/users/ysabeau/liens/libreoffice-a-14-ans",
-        "title": "LibreOffice a 14 ans ! - LinuxFr.org",
+        "hash": "GJX4jj5Hl25w",
+        "address": "https://www.plctalk.net/forums/threads/libreoffice-dde-rslinx.139579/",
+        "title": "LibreOffice DDE RSLinx | PLCtalk - Interactive Q \u0026 A",
         "snippet": "",
         "matchedWords": {
           "Rhm4_S1aJLcZ": {
-            "hits": 3,
-            "textWords": 307
+            "hits": 5,
+            "textWords": 724
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
-        "hash": "IJzMIl-4htmx",
-        "address": "https://www.libreoffice.org/",
-        "title": "LibreOffice",
-        "snippet": "LibreOffice?\nJoin Our Community\nSome of our community members on the map.\nWhat People Are Saying\n“Every bit as good as Microsoft Office and free to boot” - ZDNET\n“Truly exceptional” - TechRadar\nMeet Our Community\nJoin us at our yearly conferences - and other events - for discussions, workshops and",
+        "hash": "1BxXK4kDB2-5",
+        "address": "https://go.theregister.com/feed/www.theregister.com/2026/03/02/libreoffice_online_deatticized/",
+        "title": "LibreOffice Online dragged out of the attic, dusted off for another go",
+        "snippet": "",
         "matchedWords": {
           "Rhm4_S1aJLcZ": {
-            "hits": 2,
-            "textWords": 147
+            "hits": 1,
+            "textWords": 23
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
-        "hash": "_FFm7-NJp7jR",
-        "address": "http://techrights.org/n/2026/09/03/Growing_Thirst_for_Free_Software_the_LibreOffice_Edition.shtml",
-        "title": "Techrights — Growing Thirst for Free Software, the LibreOffice Edition",
+        "hash": "2xk3is9r_z8g",
+        "address": "https://gnulinux.ch/serie-ralf-regt-sich-auf-ueber-libreoffice-calc",
+        "title": "Serie: Ralf regt sich auf über LibreOffice-Calc",
+        "snippet": "",
+        "matchedWords": {
+          "Rhm4_S1aJLcZ": {
+            "hits": 1,
+            "textWords": 32
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "3-w--Ko4ceWh",
+        "address": "https://fragdenstaat.de/artikel/exklusiv/2026/03/milliardars-lobby-droht-bussgeld/",
+        "title": "Nach FragDenStaat-Bericht: Milliardärs-Lobby droht Bußgeld",
+        "snippet": "",
+        "matchedWords": {
+          "Rhm4_S1aJLcZ": {
+            "hits": 1,
+            "textWords": 2134
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "3rZm71foUDz4",
+        "address": "https://da.abcdef.wiki/wiki/Linux",
+        "title": "Linux - Linux - abcdef.wiki",
+        "snippet": "",
+        "matchedWords": {
+          "Rhm4_S1aJLcZ": {
+            "hits": 1,
+            "textWords": 6050
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "2i-3pFooK82w",
+        "address": "https://hlabrande.itch.io/tristam-island",
+        "title": "Tristam Island by Hugo Labrande",
+        "snippet": "",
+        "matchedWords": {
+          "Rhm4_S1aJLcZ": {
+            "hits": 1,
+            "textWords": 4026
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "5-izOzz_Tp65",
+        "address": "https://elektrotanya.com/sites/default/files/forum/2026/01/lengo_membran_0.pdf",
+        "title": "lengo_membran_0.pdf",
+        "snippet": "",
+        "matchedWords": {
+          "Rhm4_S1aJLcZ": {
+            "hits": 1,
+            "textWords": 19
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "2aPX4l6ySxkx",
+        "address": "https://fi.wikipedia.org/wiki/Sovellusohjelma",
+        "title": "Sovellusohjelma – Wikipedia",
+        "snippet": "",
+        "matchedWords": {
+          "Rhm4_S1aJLcZ": {
+            "hits": 1,
+            "textWords": 707
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "2I2DJ5MxNTHw",
+        "address": "https://cgit.freebsd.org/ports/commit/?id=247c7db7513f1264922428278678da641c5a3f52",
+        "title": "ports - FreeBSD ports tree",
         "snippet": "",
         "matchedWords": {
           "Rhm4_S1aJLcZ": {
             "hits": 6,
-            "textWords": 1637
+            "textWords": 38450
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
-        "hash": "1eMxmexFffU5",
-        "address": "https://help.nextcloud.com/t/updating-app-edit-files-with-libreoffice-to-2-0-0-results-in-nextcloud-office-not-used-as-default-opening-anymore/202117",
-        "title": "Updating App \"Edit files with Libreoffice\" to 2.0.0 results in Nextcloud Office not used as default opening anymore - ℹ️ Support - Nextcloud community",
-        "snippet": "Libreoffice’ to 2.0.0 (released yesterday) and now if I click on any file in the browser, they don’t get openend in Nextcloud Office anymore but instead want to be opened by my computers local LibreOffice installation.\nNextcloud version: 29.0.5\nOperating system and version: Linux 6.10.6-arch1-1",
+        "hash": "3Et7eCb8J8gx",
+        "address": "https://be.wikipedia.org/wiki/Linux_Mint",
+        "title": "Linux Mint — Вікіпедыя",
+        "snippet": "",
         "matchedWords": {
           "Rhm4_S1aJLcZ": {
-            "hits": 2,
-            "textWords": 119
+            "hits": 1,
+            "textWords": 830
           }
-        }
-      },
-      {
-        "hash": "kykrkFajlH16",
-        "address": "https://www.lesnumeriques.com/appli-logiciel/toujours-garantie-sans-ia-la-suite-bureautique-libreoffice-26-8-fait-le-plein-d-ameliorations-n260996.html",
-        "title": "Toujours garantie sans IA, la suite bureautique LibreOffice 26.8 fait le plein d'améliorations - Les Numériques",
-        "snippet": "LibreOffice est disponible et promet bien des améliorations et correctifs dans trois principaux domaines : la qualité typographique des documents générés, la diversité des systèmes d'écriture qu'elle prend correctement en charge, ainsi que la fidélité avec laquelle les documents conservent leur",
-        "matchedWords": {
-          "Rhm4_S1aJLcZ": {
-            "hits": 8,
-            "textWords": 531
-          }
-        }
-      },
-      {
-        "hash": "0CEr9Spiq92w",
-        "address": "https://packages.debian.org/sid/libreoffice-impress",
-        "title": "Debian -- Details of package libreoffice-impress in sid",
-        "snippet": "libreoffice-impress (4:26.8.0.3-2 and others)\noffice productivity suite -- presentation\nLibreOffice is a full-featured office productivity suite that provides a near drop-in replacement for Microsoft(R) Office.\nThis package contains the presentation component for LibreOffice.\nOther Packages Related",
-        "matchedWords": {
-          "Rhm4_S1aJLcZ": {
-            "hits": 38,
-            "textWords": 736
-          }
-        }
+        },
+        "queryPhraseHits": 0
       }
     ],
     [
@@ -1468,7 +1482,8 @@
             "hits": 2,
             "textWords": 1548
           }
-        }
+        },
+        "queryPhraseHits": 0
       }
     ],
     [
@@ -1482,7 +1497,8 @@
             "hits": 2,
             "textWords": 7566
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
         "hash": "7cWPov7lJNdj",
@@ -1494,7 +1510,8 @@
             "hits": 1,
             "textWords": 148
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
         "hash": "_2eSms6GdY-4",
@@ -1506,7 +1523,8 @@
             "hits": 1,
             "textWords": 1349
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
         "hash": "O49TiZCsDuag",
@@ -1518,7 +1536,8 @@
             "hits": 1,
             "textWords": 121
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
         "hash": "y8YuIkQEolng",
@@ -1530,7 +1549,8 @@
             "hits": 1,
             "textWords": 2727
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
         "hash": "6HdcFnA8Y7d4",
@@ -1542,7 +1562,8 @@
             "hits": 1,
             "textWords": 11064
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
         "hash": "gKbWClbyNWI6",
@@ -1554,7 +1575,8 @@
             "hits": 2,
             "textWords": 24972
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
         "hash": "iyI6elv1st34",
@@ -1566,7 +1588,8 @@
             "hits": 1,
             "textWords": 11512
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
         "hash": "F9BCWjs8l0-4",
@@ -1578,7 +1601,8 @@
             "hits": 1,
             "textWords": 2654
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
         "hash": "-us5HsAbx4Yw",
@@ -1590,132 +1614,406 @@
             "hits": 1,
             "textWords": 10726
           }
-        }
+        },
+        "queryPhraseHits": 0
       }
     ],
     [
       {
-        "hash": "K4IdlXCmq5v4",
-        "address": "https://www.suse.com/security/cve/CVE-2011-2685.html",
-        "title": "CVE-2011-2685 Common Vulnerabilities and Exposures | SUSE",
-        "snippet": "",
-        "matchedWords": {
-          "Rhm4_S1aJLcZ": {
-            "hits": 13,
-            "textWords": 1076
-          }
-        }
-      },
-      {
-        "hash": "S4tXZjRvmBbx",
-        "address": "https://en.wikipedia.org/wiki/Wikisource",
-        "title": "Wikisource - Wikipedia",
-        "snippet": "",
-        "matchedWords": {
-          "Rhm4_S1aJLcZ": {
-            "hits": 1,
-            "textWords": 4582
-          }
-        }
-      },
-      {
-        "hash": "Gy_K5esrSOQw",
-        "address": "https://arxiv.org/pdf/2606.28480",
-        "title": "TUA-Bench: A Benchmark for General-Purpose Terminal-Use Agents",
-        "snippet": "",
-        "matchedWords": {
-          "Rhm4_S1aJLcZ": {
-            "hits": 37,
-            "textWords": 18758
-          }
-        }
-      },
-      {
-        "hash": "RwGwE9g9bjtw",
-        "address": "https://news.opensuse.org/category/conference",
-        "title": "Conference - openSUSE News",
+        "hash": "--4sQvQCzJQg",
+        "address": "https://www.chip.de/news/software/kostenlose-office-alternative-ueberrascht-libreoffice-wird-microsoft-aehnlicher_ceb16c17-7f92-4537-9138-8b889df6074e.html",
+        "title": "Kostenlose Office-Alternative überrascht: LibreOffice wird Microsoft ähnlicher - CHIP",
         "snippet": "",
         "matchedWords": {
           "Rhm4_S1aJLcZ": {
             "hits": 21,
-            "textWords": 9748
+            "textWords": 1905
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
-        "hash": "UZCBplT5BdB4",
-        "address": "https://www.wps.com/",
-        "title": "Free Office Suite for Word, Excel, PDF \u0026 PPT | Kingsoft WPS Office",
+        "hash": "bDjTLIbLrFTi",
+        "address": "https://www.wer-weiss-was.de/t/installation-von-libreoffice/9531643",
+        "title": "Installation von LibreOffice - wer-weiss-was.de",
+        "snippet": "LibreOffice wird ständig abgebrochen mit der untenstehenden Meldung, was muss ich unternehmen damit sich das Programm das ich in CD Version gekauft habe installieren lässt, bitte um ihre Hilfe\nFreundliche Grüsse\nBeat Zulauf\nBernd54 9. Mai 2026 um 06:10\n2\nHallo,\nwarum das denn?\nHast du kein",
+        "matchedWords": {
+          "Rhm4_S1aJLcZ": {
+            "hits": 3,
+            "textWords": 184
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "ym4zSwSMo4M4",
+        "address": "https://www.zdnet.com/article/whats-new-in-libreoffice-and-how-do-you-install-it-on-macos/",
+        "title": "What's new in LibreOffice and how do you install it on MacOS? | ZDNET",
+        "snippet": "LibreOffice on MacOS is as simple as dragging an icon.\nImage: Jack Wallen\nThe office suite has been one of the most important tools for businesses and consumers for some time. Over the years, however, the traditional client-based app has been replaced by more cloud-centric options (such as Google",
+        "matchedWords": {
+          "Rhm4_S1aJLcZ": {
+            "hits": 29,
+            "textWords": 837
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "vPrcjvDOAHJg",
+        "address": "https://www.heise.de/news/Download-Rekord-fuer-LibreOffice-wegen-Verzicht-auf-KI-11446528.html",
+        "title": "Download-Rekord für LibreOffice – wegen Verzicht auf KI? | heise online",
+        "snippet": "LibreOffice 26.8 ist in der ersten Woche mehr als eine Million Mal von der offiziellen Download-Seite geladen worden. Die Document Foundation (TDF) zählt 1.031.162 Downloads und spricht vom höchsten Wert, den eine LibreOffice-Veröffentlichung in ihrer ersten Woche erreicht hat.\nDie TDF hatte",
+        "matchedWords": {
+          "Rhm4_S1aJLcZ": {
+            "hits": 9,
+            "textWords": 283
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "Fq-1FwX-NDdg",
+        "address": "https://www.pcwelt.de/article/1140010/office-paket-libreoffice-windows.html",
+        "title": "LibreOffice",
+        "snippet": "LibreOffice versorgt Anwender mit zahlreichen Office-Anwendungen zur Textbearbeitung, Tabellenkalkulation und Co.\nWenn Sie über Links in unseren Artikeln einkaufen, die mit dem 🛒-Symbol gekennzeichnet sind, erhalten wir eine kleine Provision. Das hat weder Einfluss auf unsere redaktionelle",
+        "matchedWords": {
+          "Rhm4_S1aJLcZ": {
+            "hits": 11,
+            "textWords": 444
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "ycOLhp35M-ki",
+        "address": "https://www.kreis-anzeiger.de/panorama/libreoffice-calc-euro-und-alte-waehrungen-umrechnen-zr-94269762.html",
+        "title": "LibreOffice Calc: Euro und alte Währungen umrechnen",
+        "snippet": "",
+        "matchedWords": {
+          "Rhm4_S1aJLcZ": {
+            "hits": 12,
+            "textWords": 771
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "T0CN_3bQpWqg",
+        "address": "https://www.hna.de/verbraucher/libreoffice-schriftrolle-fuer-einladungen-und-urkunden-zr-94484044.html",
+        "title": "LibreOffice: Schriftrolle für Einladungen und Urkunden",
+        "snippet": "LibreOffice Writer können Sie Ihren Text in einen Rahmen setzen, der oben und unten wie gerolltes Papier aussieht. Das eignet sich zum Beispiel für Einladungen, Urkunden, Glückwunschkarten oder andere Dokumente, die etwas edler wirken sollen.\nDie passende Form finden Sie in den Zeichenfunktionen",
+        "matchedWords": {
+          "Rhm4_S1aJLcZ": {
+            "hits": 8,
+            "textWords": 725
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "BI9h2exFffU5",
+        "address": "https://help.nextcloud.com/t/preview-office-document-failed-libreoffice-is-intalled-in-other-server/146493",
+        "title": "Preview office document failed, libreoffice is intalled in other server - ℹ️ Support - Nextcloud community",
+        "snippet": "/usr/bin/libreoffice: not found\nfor sure, i didn’t install libreoffice in. because i’ve installed in the other machine in the same local network. as the evidence, i could open\u0026edit in nextcloud like this:\nsince in nextcloud libreoffice app setting, i set as like this:\ni tried two configuration in",
+        "matchedWords": {
+          "Rhm4_S1aJLcZ": {
+            "hits": 7,
+            "textWords": 126
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "djyggkWtUC6w",
+        "address": "https://tweakers.net/nieuws/245158/libreoffice-gaat-toch-weer-werken-aan-online-versie.html",
+        "title": "LibreOffice gaat toch weer werken aan online versie - Tweakers",
         "snippet": "",
         "matchedWords": {
           "Rhm4_S1aJLcZ": {
             "hits": 1,
-            "textWords": 2009
+            "textWords": 59
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
-        "hash": "EfLlJlSmquRw",
-        "address": "https://bugs.gentoo.org/show_bug.cgi?id=679548",
-        "title": "679548 – net-misc/memcached-1.5.12: testapp: testapp.c:941: validate_response_header: Assertion `response-\u003emessage.header.response.status == status' failed.",
+        "hash": "QqSKZhQCzJQg",
+        "address": "https://www.chip.de/downloads/LibreOffice-64-Bit_85128558.html",
+        "title": "LibreOffice (64 Bit) - Download - CHIP",
         "snippet": "",
         "matchedWords": {
           "Rhm4_S1aJLcZ": {
-            "hits": 2,
-            "textWords": 1010
+            "hits": 30,
+            "textWords": 1381
           }
-        }
-      },
-      {
-        "hash": "5JonKlPN-Az4",
-        "address": "https://www.hellotux.com/linux_mint",
-        "title": "Linux Mint T-Shirts, Polo Shirts and sweatshirts - HELLOTUX",
-        "snippet": "",
-        "matchedWords": {
-          "Rhm4_S1aJLcZ": {
-            "hits": 1,
-            "textWords": 2097
-          }
-        }
-      },
-      {
-        "hash": "zknE3h3e0QFx",
-        "address": "https://commons.wikimedia.org/wiki/Commons:Requests_for_comment/MP4_Video",
-        "title": "Commons:Requests for comment/MP4 Video - Wikimedia Commons",
-        "snippet": "",
-        "matchedWords": {
-          "Rhm4_S1aJLcZ": {
-            "hits": 2,
-            "textWords": 1990
-          }
-        }
-      },
-      {
-        "hash": "ygPLQCuhQ8C4",
-        "address": "https://trisquel.info/en/taxonomy/term/700/0",
-        "title": "Release announcements | Trisquel GNU/Linux - Run free!",
-        "snippet": "",
-        "matchedWords": {
-          "Rhm4_S1aJLcZ": {
-            "hits": 2,
-            "textWords": 1459
-          }
-        }
-      },
-      {
-        "hash": "dHT8PlbyNWI6",
-        "address": "https://www.notebookcheck-ru.com/Obzor-noutbuka-Lenovo-IdeaPad-3-15ITL05.598813.0.html",
-        "title": "Обзор ноутбука Lenovo IdeaPad 3 15ITL05 - notebookcheck-ru.com Обзоры",
-        "snippet": "",
-        "matchedWords": {
-          "Rhm4_S1aJLcZ": {
-            "hits": 2,
-            "textWords": 13933
-          }
-        }
+        },
+        "queryPhraseHits": 0
       }
     ],
-    [],
+    [
+      {
+        "hash": "Uy5MSiMQjAmx",
+        "address": "https://it.libreoffice.org/",
+        "title": "Home | LibreOffice in italiano - La suite libera per l'ufficio",
+        "snippet": "LibreOffice?\nCosa dicono di noi\n“Valido quanto Microsoft Office e in più gratuito” - ZDNET\n“Veramente eccezionale” - TechRadar",
+        "matchedWords": {
+          "Rhm4_S1aJLcZ": {
+            "hits": 1,
+            "textWords": 122
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "5y_i0yz8AoWx",
+        "address": "https://de.libreoffice.org/",
+        "title": "Willkommen | LibreOffice - Freie Office Suite – Nachfolger von OpenOffice",
+        "snippet": "LibreOffice Conference 2026 begins\n2026-09-11\nWell, that’s a photo from last night’s community dinner, but now the second day talks are beginning! As with yesterday, we will be live-streaming most sessions on the schedule (in track rooms 1 and 2) and making recordings of all. Find out more by",
+        "matchedWords": {
+          "Rhm4_S1aJLcZ": {
+            "hits": 6,
+            "textWords": 248
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "A8BLfu9heOmx",
+        "address": "https://fr.libreoffice.org/",
+        "title": "Home | Communauté LibreOffice francophone",
+        "snippet": "LibreOffice ?\nCe que les gens disent\n“Every bit as good as Microsoft Office and free to boot” - ZDNET\n“Truly exceptional” - TechRadar",
+        "matchedWords": {
+          "Rhm4_S1aJLcZ": {
+            "hits": 1,
+            "textWords": 144
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "2nzERsM66BSx",
+        "address": "https://fosstodon.org/@libreoffice",
+        "title": "LibreOffice (@libreoffice@fosstodon.org) - Fosstodon",
+        "snippet": "",
+        "matchedWords": {
+          "Rhm4_S1aJLcZ": {
+            "hits": 2,
+            "textWords": 75
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "FjwwUk-4htmx",
+        "address": "https://www.libreoffice.org/community/nlc",
+        "title": "Native-Lang Projects | LibreOffice - Free and private office suite - Based on OpenOffice - Compatible with Microsoft",
+        "snippet": "",
+        "matchedWords": {
+          "Rhm4_S1aJLcZ": {
+            "hits": 71,
+            "textWords": 756
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "21XYOwp2j53x",
+        "address": "https://documentation.libreoffice.org/en/english-documentation/",
+        "title": "English documentation | LibreOffice Documentation - LibreOffice User Guides",
+        "snippet": "LibreOffice, which is licensed under the Mozilla Public License v2.0. “LibreOffice” and “The Document Foundation” are registered trademarks of their corresponding registered owners or are in actual use as trademarks in one or more countries. Their respective logos and icons are also subject to",
+        "matchedWords": {
+          "Rhm4_S1aJLcZ": {
+            "hits": 3,
+            "textWords": 106
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "MewNztxeGHlx",
+        "address": "https://es.libreoffice.org/",
+        "title": "Inicio | LibreOffice en español - suite ofimática libre, basada en OpenOffice, compatible con Microsoft",
+        "snippet": "LibreOffice?\nLo que dice la gente\n«Exactamente igual de bueno que Microsoft Office, y encima es gratis» ― ZDNET\n«Verdaderamente excepcional» ― TechRadar",
+        "matchedWords": {
+          "Rhm4_S1aJLcZ": {
+            "hits": 1,
+            "textWords": 131
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "LOxPFdwG-02z",
+        "address": "https://blog.documentfoundation.org/blog/2024/08/07/registration-is-open-for-the-libreoffice-conference-2024/",
+        "title": "Registration is open for the LibreOffice Conference 2024! - The Document Foundation Blog",
+        "snippet": "LibreOffice 26.2.6 is available for download\nBerlin, 4 September 2026 – The Document Foundation today announced the release of LibreOffice 26.2.6, the sixth maintenance update to…\nLibreOffice 26.8 brings professional typography, deeper support for the world’s writing systems, and no artificial",
+        "matchedWords": {
+          "Rhm4_S1aJLcZ": {
+            "hits": 8,
+            "textWords": 184
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "7TXARQxXGmlz",
+        "address": "https://wiki.documentfoundation.org/Feature_Comparison:_LibreOffice_-_Microsoft_Office",
+        "title": "Feature Comparison: LibreOffice - Microsoft Office - The Document Foundation Wiki",
+        "snippet": "LibreOffice and Microsoft Office in several form factors. The comparisons separate major and minor feature differences and also includes notes on LibreOffice extensions. The comparison highlights differences and therefore does not display any features which are present in both office suites.\nThere",
+        "matchedWords": {
+          "Rhm4_S1aJLcZ": {
+            "hits": 127,
+            "textWords": 11427
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "0Cj1PMLQStix",
+        "address": "https://zh-cn.libreoffice.org/",
+        "title": "主页 | LibreOffice 简体中文官方网站 - 自由免费的办公套件",
+        "snippet": "LibreOffice 是一款功能强大的办公软件，默认使用开放文档格式 (OpenDocument Format , ODF), 并支持 *.docx, *.xlsx, *.pptx 等其他格式。\n它包含了 Writer, Calc, Impress, Draw, Base 以及 Math 等组件，可用于处理文本文档、电子表格、演示文稿、绘图以及公式编辑。\n它可以运行于 Windows, GNU/Linux 以及 macOS 等操作系统上，并具有一致的用户体验。\n国际化的开源项目\nLibreOffice 是国际化的开源项目， 由来自全球的社区成员参与开发。\n获得帮助\n您也可以成为团队的一员！",
+        "matchedWords": {
+          "Rhm4_S1aJLcZ": {
+            "hits": 8,
+            "textWords": 210
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "ru2aRqxXGmlz",
+        "address": "https://wiki.documentfoundation.org/Website/Web_Sites_services",
+        "title": "Website/Web Sites services - The Document Foundation Wiki",
+        "snippet": "",
+        "matchedWords": {
+          "Rhm4_S1aJLcZ": {
+            "hits": 3,
+            "textWords": 3063
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "I8gFOv7lJNdj",
+        "address": "https://www.verbraucherzentrale.de/media/32862/download",
+        "title": "download",
+        "snippet": "",
+        "matchedWords": {
+          "Rhm4_S1aJLcZ": {
+            "hits": 1,
+            "textWords": 170
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "s8BziUld1924",
+        "address": "https://zapier.com/blog/best-spreadsheet-excel-alternative/",
+        "title": "The 9 Best Excel Alternatives and Spreadsheet Software in 2026",
+        "snippet": "",
+        "matchedWords": {
+          "Rhm4_S1aJLcZ": {
+            "hits": 14,
+            "textWords": 7210
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "fGSfmjRvmBbx",
+        "address": "https://en.wikipedia.org/wiki/Modulo_operation",
+        "title": "Modulo - Wikipedia",
+        "snippet": "",
+        "matchedWords": {
+          "Rhm4_S1aJLcZ": {
+            "hits": 2,
+            "textWords": 6277
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "0BpwxY9RhyLw",
+        "address": "https://typetype.org/fonts/indie/",
+        "title": "Indie Fonts | TypeType®",
+        "snippet": "",
+        "matchedWords": {
+          "Rhm4_S1aJLcZ": {
+            "hits": 1,
+            "textWords": 1151
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "iXpJRscN7h5w",
+        "address": "https://srobb.net/jpninpt.html",
+        "title": "Inputting Japanese in Linux and some BSDs",
+        "snippet": "",
+        "matchedWords": {
+          "Rhm4_S1aJLcZ": {
+            "hits": 8,
+            "textWords": 10319
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "wdTXElbyNWI6",
+        "address": "https://www.notebookcheck-ru.com/Obzor-noutbuka-HP-Victus-16.755636.0.html",
+        "title": "Обзор ноутбука HP Victus 16 - notebookcheck-ru.com Обзоры",
+        "snippet": "",
+        "matchedWords": {
+          "Rhm4_S1aJLcZ": {
+            "hits": 2,
+            "textWords": 22601
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "_vB8WVI8elA4",
+        "address": "https://www.genbeta.com/autor/jose-alberto-lizana",
+        "title": "José Alberto Lizana - Genbeta",
+        "snippet": "",
+        "matchedWords": {
+          "Rhm4_S1aJLcZ": {
+            "hits": 1,
+            "textWords": 5121
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "0N3OqfD38qYw",
+        "address": "https://scripts.sil.org/cms/scripts/page.php?id=encodingresources\u0026site_id=nrsi",
+        "title": "Resources",
+        "snippet": "",
+        "matchedWords": {
+          "Rhm4_S1aJLcZ": {
+            "hits": 2,
+            "textWords": 409
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "9MvNF0yb4Z0h",
+        "address": "https://forum.planet3dnow.de/index.php?watched/resource-categories=",
+        "title": "Planet 3DNow! Forum",
+        "snippet": "",
+        "matchedWords": {
+          "Rhm4_S1aJLcZ": {
+            "hits": 2,
+            "textWords": 2516
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
     [
       {
         "hash": "PCpNBzxXGmlz",
@@ -1727,7 +2025,8 @@
             "hits": 32,
             "textWords": 4438
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
         "hash": "qsA-QdS4EQhw",
@@ -1739,7 +2038,8 @@
             "hits": 1,
             "textWords": 554
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
         "hash": "BCAT30hl92eQ",
@@ -1751,7 +2051,8 @@
             "hits": 11,
             "textWords": 34106
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
         "hash": "JyhzviGqOr3g",
@@ -1763,7 +2064,8 @@
             "hits": 1,
             "textWords": 1846
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
         "hash": "PKqQGoTDwvCw",
@@ -1775,7 +2077,8 @@
             "hits": 1,
             "textWords": 611
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
         "hash": "nSPDHjRvmBbx",
@@ -1787,7 +2090,8 @@
             "hits": 3,
             "textWords": 2550
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
         "hash": "Pje8_v7lJNdj",
@@ -1799,7 +2103,8 @@
             "hits": 1,
             "textWords": 177
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
         "hash": "NEqPY7CTiQ0B",
@@ -1811,7 +2116,8 @@
             "hits": 1,
             "textWords": 1977
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
         "hash": "zczYNlbyNWI6",
@@ -1823,7 +2129,8 @@
             "hits": 2,
             "textWords": 17948
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
         "hash": "YpjHBJkoInG5",
@@ -1835,22 +2142,11 @@
             "hits": 1,
             "textWords": 2449
           }
-        }
+        },
+        "queryPhraseHits": 0
       }
     ],
     [
-      {
-        "hash": "q2qleDNyZ6ty",
-        "address": "https://libre-software.net/category/linux-server/",
-        "title": "Linux Server Archives - libre-software.net – Linux, Firefox, LibreOffice",
-        "snippet": "How to remove TLSv1.0 / 1.1 and enable TLS 1.3 in Nginx …\nPhoto: libre-software.net. License: CC BY-SA 4.0 … on Ubuntu 20.04, 22.04 or 24.04 Last updated on January 29, 2026 In this tutorial, we will: Disable TLSv1.0 and TLSv1.1 and enable TLSv1.3, Enable HTTP/2 if it still isn’t, Improve Nginx",
-        "matchedWords": {
-          "Rhm4_S1aJLcZ": {
-            "hits": 0,
-            "textWords": 344
-          }
-        }
-      },
       {
         "hash": "na9TiOxyFvIw",
         "address": "https://forums.gentoo.org/viewtopic.php?p=8892736",
@@ -1861,79 +2157,47 @@
             "hits": 1,
             "textWords": 13
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
-        "hash": "qiqBCDNyZ6ty",
-        "address": "https://libre-software.net/category/image/",
-        "title": "Image Archives - libre-software.net – Linux, Firefox, LibreOffice",
-        "snippet": "",
-        "matchedWords": {
-          "Rhm4_S1aJLcZ": {
-            "hits": 5,
-            "textWords": 1497
-          }
-        }
-      },
-      {
-        "hash": "em49RsIapY-w",
-        "address": "https://pandoc.org/",
-        "title": "Pandoc - index",
-        "snippet": "",
-        "matchedWords": {
-          "Rhm4_S1aJLcZ": {
-            "hits": 1,
-            "textWords": 577
-          }
-        }
-      },
-      {
-        "hash": "U7g7Plnq0Jgj",
-        "address": "https://www.software-megastore.de/office-suiten/",
-        "title": "Office Suiten Software \u0026 Programme hier online kaufen",
-        "snippet": "",
-        "matchedWords": {
-          "Rhm4_S1aJLcZ": {
-            "hits": 14,
-            "textWords": 3379
-          }
-        }
-      },
-      {
-        "hash": "2d5Fyl1CI2O5",
-        "address": "https://www.debugpoint.com/kde-plasma-6/",
-        "title": "KDE Plasma 6: Greatest New Features",
-        "snippet": "",
-        "matchedWords": {
-          "Rhm4_S1aJLcZ": {
-            "hits": 8,
-            "textWords": 2794
-          }
-        }
-      },
-      {
-        "hash": "-PfE-DOAID44",
-        "address": "https://linuxiac.com/category/news/weekly-wrap-up/",
-        "title": "Weekly Wrap-Up Archives - Linuxiac",
+        "hash": "SOAt4sWMnAPx",
+        "address": "https://fedoraplanet.org/",
+        "title": "Fedora People",
         "snippet": "",
         "matchedWords": {
           "Rhm4_S1aJLcZ": {
             "hits": 2,
-            "textWords": 1212
+            "textWords": 54105
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
-        "hash": "1W8-_LsWTYKx",
-        "address": "https://sourceforge.net/software/productivity/chromebook/",
-        "title": "Best Productivity Software for Chromebook of 2026 - Reviews \u0026 Comparison",
+        "hash": "I5-lKMcJYL54",
+        "address": "https://gizmodo.com/download/zotero",
+        "title": "Download Zotero (free) for Windows, macOS, Android, iOS and Linux | Gizmodo",
         "snippet": "",
         "matchedWords": {
           "Rhm4_S1aJLcZ": {
-            "hits": 8,
-            "textWords": 5281
+            "hits": 1,
+            "textWords": 1584
           }
-        }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "CpcHrspZc-F4",
+        "address": "https://webo.hosting/collabora-online/",
+        "title": "Collabora Online - Webo.Hosting",
+        "snippet": "",
+        "matchedWords": {
+          "Rhm4_S1aJLcZ": {
+            "hits": 2,
+            "textWords": 1427
+          }
+        },
+        "queryPhraseHits": 0
       },
       {
         "hash": "1z3daly3qwH4",
@@ -1945,19 +2209,73 @@
             "hits": 1,
             "textWords": 763
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
-        "hash": "1jf7clNyZ6ty",
-        "address": "https://libre-software.net/linux/install-geekbench-linux/",
-        "title": "How to install Geekbench 4, 5 and 6 on Linux - libre-software.net – Linux, Firefox, LibreOffice",
+        "hash": "WCw78VsWTYKx",
+        "address": "https://sourceforge.net/projects/clonezilla/",
+        "title": "Clonezilla download | SourceForge.net",
         "snippet": "",
         "matchedWords": {
           "Rhm4_S1aJLcZ": {
-            "hits": 6,
-            "textWords": 1936
+            "hits": 1,
+            "textWords": 2220
           }
-        }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "RMx7dhV30hHh",
+        "address": "https://www.nlnetlabs.nl/downloads/presentations/ICANN50-DNS.pdf",
+        "title": "ICANN50-DNS.pdf",
+        "snippet": "",
+        "matchedWords": {
+          "Rhm4_S1aJLcZ": {
+            "hits": 1,
+            "textWords": 375
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "fz8ldwMA19g4",
+        "address": "https://www.pcworld.com/article/461556/three-linux-distros-get-key-updates-plus-one-fades-away.html",
+        "title": "Three Linux distros get key updates, plus one fades away | PCWorld",
+        "snippet": "",
+        "matchedWords": {
+          "Rhm4_S1aJLcZ": {
+            "hits": 1,
+            "textWords": 880
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "reAmYm3v2c76",
+        "address": "https://www.esotericarchives.com/solomon/scrying_aerial_kings_ghent_1021A_108v.pdf?page=5",
+        "title": "scrying_aerial_kings_ghent_1021A_108v.pdf",
+        "snippet": "",
+        "matchedWords": {
+          "Rhm4_S1aJLcZ": {
+            "hits": 1,
+            "textWords": 2010
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "Qso3v3qVrTTg",
+        "address": "https://repository.uwl.ac.uk/id/eprint/9847/1/EGU23-9672-print.pdf",
+        "title": "EGU23-9672-print.pdf",
+        "snippet": "",
+        "matchedWords": {
+          "Rhm4_S1aJLcZ": {
+            "hits": 1,
+            "textWords": 789
+          }
+        },
+        "queryPhraseHits": 0
       }
     ],
     [
@@ -1971,7 +2289,8 @@
             "hits": 8,
             "textWords": 161
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
         "hash": "qZrTal-4htmx",
@@ -1983,7 +2302,8 @@
             "hits": 3,
             "textWords": 275
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
         "hash": "U3jbhlf4UL4w",
@@ -1995,7 +2315,8 @@
             "hits": 16,
             "textWords": 248
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
         "hash": "W7nisvkPMhTg",
@@ -2007,7 +2328,8 @@
             "hits": 0,
             "textWords": 27
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
         "hash": "Wkqnc1yo0Dhx",
@@ -2019,7 +2341,8 @@
             "hits": 4,
             "textWords": 137
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
         "hash": "aiqLkZZ5FD3x",
@@ -2031,7 +2354,21 @@
             "hits": 8,
             "textWords": 129
           }
-        }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "3dnZiZZ5FD3x",
+        "address": "https://bugs.launchpad.net/ubuntu/+source/libreoffice/+bug/974286",
+        "title": "Bug #974286 “package python-uno 1:3.4.5-0ubuntu1 failed to insta...” : Bugs : libreoffice package : Ubuntu",
+        "snippet": "",
+        "matchedWords": {
+          "Rhm4_S1aJLcZ": {
+            "hits": 5,
+            "textWords": 805
+          }
+        },
+        "queryPhraseHits": 0
       },
       {
         "hash": "XIY3hYj86aPx",
@@ -2043,7 +2380,8 @@
             "hits": 7,
             "textWords": 110
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
         "hash": "WQgYHAQlXHyY",
@@ -2055,31 +2393,21 @@
             "hits": 1,
             "textWords": 17
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
-        "hash": "XLrSzF3X_rqw",
-        "address": "https://lists.gnu.org/archive/html/help-guix/2020-03/msg00162.html",
-        "title": "Re: OS Guix. Libreoffice does not have dictionaries for spell check",
-        "snippet": "Date: Sun, 29 Mar 2020 11:14:03 +0200",
+        "hash": "VoX7RF3X_rqw",
+        "address": "https://lists.gnu.org/archive/html/help-guix/2024-01/msg00088.html",
+        "title": "Re: libreoffice crashes when starting",
+        "snippet": "libreoffice crashes when starting\nDate:\nSun, 14 Jan 2024 16:54:07 -0700\nOn Sat, 13 Jan 2024 15:48:58 +0100 Wojtek Kosior via \u003chelp-guix@gnu.org\u003e wrote: \u003e Hi there! \u003e \u003e This very problem seems to have been encountered before[1]. \u003e \u003e If information in that thread is correct, the fix would be to make",
         "matchedWords": {
           "Rhm4_S1aJLcZ": {
-            "hits": 0,
-            "textWords": 9
+            "hits": 19,
+            "textWords": 596
           }
-        }
-      },
-      {
-        "hash": "UX5VdeaVRyih",
-        "address": "https://www.archlinux.de/packages/extra/x86_64/libreoffice-still-ss",
-        "title": "www.archlinux.de",
-        "snippet": "",
-        "matchedWords": {
-          "Rhm4_S1aJLcZ": {
-            "hits": 1,
-            "textWords": 24
-          }
-        }
+        },
+        "queryPhraseHits": 0
       }
     ],
     [],
@@ -2094,7 +2422,8 @@
             "hits": 1,
             "textWords": 1111
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
         "hash": "1wn7clSmquRw",
@@ -2106,7 +2435,8 @@
             "hits": 2,
             "textWords": 1741
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
         "hash": "nnfsZiGqOr3g",
@@ -2118,7 +2448,8 @@
             "hits": 1,
             "textWords": 1369
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
         "hash": "KpInBl6IiJh6",
@@ -2130,7 +2461,8 @@
             "hits": 2,
             "textWords": 17054
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
         "hash": "bvbuFlcSzM3i",
@@ -2142,7 +2474,8 @@
             "hits": 2,
             "textWords": 17047
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
         "hash": "gOE8elbyNWI6",
@@ -2154,7 +2487,8 @@
             "hits": 2,
             "textWords": 12765
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
         "hash": "gTq3OsuRgmwg",
@@ -2166,7 +2500,8 @@
             "hits": 3,
             "textWords": 2895
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
         "hash": "3-Qp2l6bFQy6",
@@ -2178,7 +2513,8 @@
             "hits": 2,
             "textWords": 13663
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
         "hash": "6wH2ilpcc_2y",
@@ -2190,7 +2526,8 @@
             "hits": 2,
             "textWords": 55348
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
         "hash": "Us4QDDiaMkRw",
@@ -2202,7 +2539,8 @@
             "hits": 2,
             "textWords": 209
           }
-        }
+        },
+        "queryPhraseHits": 0
       }
     ]
   ],

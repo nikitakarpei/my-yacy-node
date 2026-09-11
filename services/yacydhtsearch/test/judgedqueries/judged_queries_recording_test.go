@@ -9,11 +9,7 @@ import (
 	"testing"
 	"time"
 
-	pagefetchershttp "github.com/nikitakarpei/yacy-rwi-node/pagefetch/pagefetchers/http"
-	"github.com/nikitakarpei/yacy-rwi-node/pageformats"
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/itemsordering/peerorder"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/itemsordering/relevance"
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/pagereading"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peeranswers"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peercallwire"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerchoice"
@@ -121,7 +117,7 @@ func TestRecordWhatThePeersAnswerForTheJudgedQueries(t *testing.T) {
 
 	directory := directoryOfTheNetwork(t)
 	spread := querySpreadOverThePeers(t, directory)
-	reading := pageReadingOverTheWeb(t)
+	reading := pageTextReadingOverTheWeb(t)
 	t.Logf(
 		"the directory knows %d peers and can ask %d",
 		len(directory.KnownPeers(t.Context())),
@@ -204,50 +200,37 @@ func ringPartitions(t *testing.T) yacymodel.DHTRingPartitions {
 	return partitions
 }
 
-func pageReadingOverTheWeb(t *testing.T) pagereading.Reading {
-	t.Helper()
-
-	formatDerivations, err := pageformats.New()
-	if err != nil {
-		t.Fatalf("page format derivations: %v", err)
-	}
-
-	return pagereading.New(
-		pagefetchershttp.New(
-			nil,
-			pagefetchershttp.ProxyDialTunnel,
-			pageFetchUserAgent,
-			pageByteCeiling,
-			pageReadBudget,
-		),
-		formatDerivations,
-		pageReadBudget,
-		snippetLengthCeiling,
-		silentPageReadingObserver{},
-	)
-}
-
 func recordOneJudgedQuery(
 	t *testing.T,
 	spread querySpread,
-	reading pagereading.Reading,
+	reading pageTextReading,
 	directory *peerdirectory.Directory,
 	query string,
 ) {
 	t.Helper()
 
-	answers := answersCarryingThePageTextOfEachDocument(
-		t, reading, query, answersOfOneQuery(t, spread, directory, query),
+	answers := answersOfOneQuery(t, spread, directory, query)
+	pageTextPerDocument := pageTextOfTheFirstAnsweredDocuments(t, reading, answers)
+	storePageTextOfTheQuery(t, query, pageTextPerDocument)
+	answersCarryingThePageText := answersCarryingThePageTextOfEachDocument(
+		query, answers, pageTextPerDocument,
 	)
-	writeFixtureFile(t, recordedAnswersFileOf(query), recordedAnswersOf(query, answers))
-	pooledDocuments := pooledDocumentsOf(answers)
-	writeFixtureFile(t, queryJudgmentsFileOf(query), queryJudgmentsOfThePool(
+	writeFixtureFile(
+		t, recordedAnswersFileOf(query), recordedAnswersOf(query, answersCarryingThePageText),
+	)
+	judgments := queryJudgmentsOfTheDocumentsToJudge(
 		query,
-		pooledDocuments,
+		answersCarryingThePageText,
+		pageTextPerDocument,
 		queryJudgmentsInTheFile(t, queryJudgmentsFileOf(query)),
-	))
-	t.Logf("%q answered %d documents, %d of them pooled",
-		query, len(answers.ItemOfEachAnsweredDocument()), len(pooledDocuments))
+	)
+	writeFixtureFile(t, queryJudgmentsFileOf(query), judgments)
+	t.Logf("%q read the page of %d documents, judges %d, and waits for %d grades",
+		query,
+		len(pageTextPerDocument),
+		len(judgments.JudgedDocuments),
+		judgments.amountOfUngradedDocuments(),
+	)
 }
 
 func answersOfOneQuery(
@@ -266,86 +249,28 @@ func answersOfOneQuery(
 	)
 }
 
-func answersCarryingThePageTextOfEachDocument(
+func pageTextOfTheFirstAnsweredDocuments(
 	t *testing.T,
-	reading pagereading.Reading,
-	query string,
+	reading pageTextReading,
 	answers peeranswers.AnsweredQuery,
-) peeranswers.AnsweredQuery {
+) map[yacymodel.URLHash]string {
 	t.Helper()
 
 	candidates := relevance.Ordering{}.OrderedItemsOf(answers)
-	pageTextPerDocument := reading.PageTextPerDocument(
-		t.Context(),
-		searchquery.QueryFrom(query).TermHashes(),
-		pagesToReadOf(candidates[:min(pagesReadPerQuery, len(candidates))]),
+
+	return reading.pageTextPerDocument(
+		t.Context(), candidates[:min(pagesReadPerQuery, len(candidates))],
 	)
-
-	return answers.CarryingTheTextOfEachDocument(
-		documentTextPerDocumentOf(pageTextPerDocument),
-	)
-}
-
-func pagesToReadOf(candidates []peeranswers.AnsweredItem) []pagereading.PageToRead {
-	pagesToRead := make([]pagereading.PageToRead, 0, len(candidates))
-	for _, candidate := range candidates {
-		pagesToRead = append(pagesToRead, pagereading.PageToRead{
-			Document: candidate.Metadata.Hash,
-			Address:  candidate.Metadata.Address,
-		})
-	}
-
-	return pagesToRead
-}
-
-func documentTextPerDocumentOf(
-	pageTextPerDocument map[yacymodel.URLHash]pagereading.PageText,
-) map[yacymodel.URLHash]peeranswers.DocumentText {
-	documentTextPerDocument := make(
-		map[yacymodel.URLHash]peeranswers.DocumentText, len(pageTextPerDocument),
-	)
-	for document, pageText := range pageTextPerDocument {
-		documentTextPerDocument[document] = peeranswers.DocumentText{
-			HitsPerQueryWord: pageText.HitsPerQueryWord,
-			AmountOfWords:    pageText.AmountOfWords,
-			Snippet:          pageText.Snippet,
-		}
-	}
-
-	return documentTextPerDocument
-}
-
-func pooledDocumentsOf(answers peeranswers.AnsweredQuery) []judgedDocument {
-	var pooledDocuments []judgedDocument
-	pooled := map[yacymodel.URLHash]struct{}{}
-	for _, orderedItems := range [][]peeranswers.AnsweredItem{
-		relevance.Ordering{}.OrderedItemsOf(answers),
-		peerorder.Ordering{}.OrderedItemsOf(answers),
-	} {
-		for _, item := range orderedItems[:min(judgedItemsCeiling, len(orderedItems))] {
-			if _, alreadyPooled := pooled[item.Metadata.Hash]; alreadyPooled {
-				continue
-			}
-			pooled[item.Metadata.Hash] = struct{}{}
-			pooledDocuments = append(pooledDocuments, judgedDocument{
-				Hash:    item.Metadata.Hash,
-				Address: item.Metadata.Address,
-				Title:   item.Metadata.Title,
-			})
-		}
-	}
-
-	return pooledDocuments
 }
 
 func recordedAnswersFileOf(query string) string {
-	return filepath.Join(recordedAnswersDirectory, fileNameOf(query))
+	return filepath.Join(recordedAnswersDirectory, queryInFileNames(query)+".json")
 }
 
 func queryJudgmentsFileOf(query string) string {
-	return filepath.Join(queryJudgmentsDirectory, fileNameOf(query))
+	return filepath.Join(queryJudgmentsDirectory, queryInFileNames(query)+".json")
 }
 
-func fileNameOf(query string) string {
-	return strings.Join(strings.Fields(strings.ToLower(query)), "-") + ".json"
+func queryInFileNames(query string) string {
+	return strings.Join(strings.Fields(strings.ToLower(query)), "-")
 }

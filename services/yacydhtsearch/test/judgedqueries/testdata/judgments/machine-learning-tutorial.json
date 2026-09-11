@@ -2,66 +2,6 @@
   "query": "machine learning tutorial",
   "judgedDocuments": [
     {
-      "hash": "AonnkjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Perl",
-      "title": "Perl - Wikipedia",
-      "grade": 0
-    },
-    {
-      "hash": "Mb7ip0SWekJ4",
-      "address": "https://thangs.com/resources/blog",
-      "title": "Blog",
-      "grade": 0
-    },
-    {
-      "hash": "FIRH00oB9UFw",
-      "address": "https://docs-archive.freebsd.org/44doc/",
-      "title": "4.4BSD Documents",
-      "grade": 0
-    },
-    {
-      "hash": "CrRuNlCGSsm5",
-      "address": "https://www.afewscraps.com/",
-      "title": "A Few Scraps",
-      "grade": 0
-    },
-    {
-      "hash": "TA880jRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Generative_adversarial_network",
-      "title": "Generative adversarial network - Wikipedia",
-      "grade": 1
-    },
-    {
-      "hash": "Fu_x-jRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Outline_of_the_JavaScript_programming_language",
-      "title": "Outline of the JavaScript programming language - Wikipedia",
-      "grade": 0
-    },
-    {
-      "hash": "CcQGBjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Unix",
-      "title": "Unix - Wikipedia",
-      "grade": 0
-    },
-    {
-      "hash": "LZAo7bS6MKD4",
-      "address": "https://github.com/pytorch/pytorch",
-      "title": "GitHub - pytorch/pytorch: Tensors and Dynamic neural networks in Python with strong GPU acceleration · GitHub",
-      "grade": 1
-    },
-    {
-      "hash": "Ce2W90S6MKD4",
-      "address": "https://github.com/resources/articles/what-is-vibe-coding",
-      "title": "What Is Vibe Coding? · GitHub",
-      "grade": 0
-    },
-    {
-      "hash": "CMlI0PsrSOQw",
-      "address": "https://arxiv.org/abs/2506.02070",
-      "title": "[2506.02070] An Introduction to Flow Matching and Diffusion Models",
-      "grade": 2
-    },
-    {
       "hash": "A3q5IzS6MKD4",
       "address": "https://github.com/topics/python",
       "title": "python · GitHub Topics · GitHub",
@@ -74,33 +14,27 @@
       "grade": 0
     },
     {
-      "hash": "Fl-YxlDOAHJg",
-      "address": "https://www.heise.de/",
-      "title": "heise online - IT-News, Nachrichten und Hintergründe | heise online",
+      "hash": "BLqv9HRMLT-5",
+      "address": "https://canonical.com/legal/data-privacy",
+      "title": "Data privacy | Ubuntu and Canonical Legal",
       "grade": 0
     },
     {
-      "hash": "pYw3_AHucLY4",
-      "address": "https://adrienalfiste.vip-blog.com/",
-      "title": "adrienalfiste blog : Le blog d'Adri (83)",
+      "hash": "DKApesRMLT-5",
+      "address": "https://canonical.com/careers",
+      "title": "Canonical Careers",
       "grade": 0
     },
     {
-      "hash": "SXE97sI0z6T7",
-      "address": "https://towardsdatascience.com/",
-      "title": "Towards Data Science",
-      "grade": 1
-    },
-    {
-      "hash": "iLQO1sN0ip-w",
-      "address": "https://m-reform.net/",
-      "title": "replica football shirts",
+      "hash": "Bq57jjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/BASIC",
+      "title": "BASIC - Wikipedia",
       "grade": 0
     },
     {
-      "hash": "H6Zz4sS6MKD4",
-      "address": "https://github.com/trending",
-      "title": "Trending repositories on GitHub today · GitHub",
+      "hash": "Ce2W90S6MKD4",
+      "address": "https://github.com/resources/articles/what-is-vibe-coding",
+      "title": "What Is Vibe Coding? · GitHub",
       "grade": 0
     },
     {
@@ -110,9 +44,189 @@
       "grade": 0
     },
     {
-      "hash": "G2Nk1si1vot6",
-      "address": "https://missclaireshay.com/",
-      "title": "missclaireshay -",
+      "hash": "AonnkjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Perl",
+      "title": "Perl - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "CcQGBjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Unix",
+      "title": "Unix - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "Fl-YxlDOAHJg",
+      "address": "https://www.heise.de/",
+      "title": "heise online - IT-News, Nachrichten und Hintergründe | heise online",
+      "grade": 0
+    },
+    {
+      "hash": "SXE97sI0z6T7",
+      "address": "https://towardsdatascience.com/",
+      "title": "Towards Data Science",
+      "grade": 1
+    },
+    {
+      "hash": "H6Zz4sS6MKD4",
+      "address": "https://github.com/trending",
+      "title": "Trending repositories on GitHub today · GitHub",
+      "grade": 0
+    },
+    {
+      "hash": "GtLjhloUbV15",
+      "address": "https://www.whatfinger.com/",
+      "title": "Whatfinger News® – Unfiltered Truth. America’s News Feed",
+      "grade": 0
+    },
+    {
+      "hash": "Fu_x-jRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Outline_of_the_JavaScript_programming_language",
+      "title": "Outline of the JavaScript programming language - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "EYCuSddTeyA4",
+      "address": "https://github.blog/developer-skills/github/",
+      "title": "Improve how you use GitHub at work - The GitHub Blog",
+      "grade": 0
+    },
+    {
+      "hash": "FIRH00oB9UFw",
+      "address": "https://docs-archive.freebsd.org/44doc/",
+      "title": "4.4BSD Documents",
+      "grade": 0
+    },
+    {
+      "hash": "JPvmes1_lPN6",
+      "address": "https://dasilvaboards.com/",
+      "title": "dasilvaboards -",
+      "grade": 0
+    },
+    {
+      "hash": "ao4Jts5jvZx6",
+      "address": "https://badlydrawntoy.com/",
+      "title": "badlydrawntoy -",
+      "grade": 0
+    },
+    {
+      "hash": "YA5jls9w8XV5",
+      "address": "https://cloudinary.com/guides/front-end-development/front-end-development-the-complete-guide",
+      "title": "Front-End Development: The Complete Guide",
+      "grade": 0
+    },
+    {
+      "hash": "MaRThsRMLT-5",
+      "address": "https://canonical.com/",
+      "title": "Trusted open source for enterprises | Canonical",
+      "grade": 0
+    },
+    {
+      "hash": "TY6SLbS6MKD4",
+      "address": "https://github.com/rohitg00/ai-engineering-from-scratch",
+      "title": "GitHub - rohitg00/ai-engineering-from-scratch: Learn it. Build it. Ship it for others. · GitHub",
+      "grade": 2
+    },
+    {
+      "hash": "Mb7ip0SWekJ4",
+      "address": "https://thangs.com/resources/blog",
+      "title": "Blog",
+      "grade": 0
+    },
+    {
+      "hash": "btqgslTg2KM4",
+      "address": "https://www.wikihow.com/Experts",
+      "title": "wikiHow Experts",
+      "grade": 0
+    },
+    {
+      "hash": "RWqiYzW61vZ4",
+      "address": "https://handbook.gitlab.com/handbook/product/product-principles/",
+      "title": "Product Principles | The GitLab Handbook",
+      "grade": 0
+    },
+    {
+      "hash": "CjgsxsIyoLTx",
+      "address": "https://planetpython.org/",
+      "title": "Planet Python",
+      "grade": 0
+    },
+    {
+      "hash": "SVkhqsMAuxi4",
+      "address": "https://www.linkedin.com/top-content/technology/",
+      "title": "Top Technology Content from LinkedIn Members",
+      "grade": 0
+    },
+    {
+      "hash": "BF23V5RMLT-5",
+      "address": "https://canonical.com/careers/commercial-operations",
+      "title": "Commercial Operations | Careers",
+      "grade": 0
+    },
+    {
+      "hash": "AX7xBjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Wikipedia:Help_desk",
+      "title": "Wikipedia:Help desk - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "RE-m0jRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Java_(programming_language)",
+      "title": "Java (programming language) - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "ZTANnjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Lua",
+      "title": "Lua - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "SjIAEzW61vZ4",
+      "address": "https://handbook.gitlab.com/handbook/security/security-shadow-security-assurance/",
+      "title": "Security Shadow: Security Assurance | The GitLab Handbook",
+      "grade": 0
+    },
+    {
+      "hash": "TDl0hzW61vZ4",
+      "address": "https://handbook.gitlab.com/handbook/company/working-groups/simplify-groups-and-projects/",
+      "title": "Simplify Groups \u0026 Projects Working Group | The GitLab Handbook",
+      "grade": 0
+    },
+    {
+      "hash": "Rx8AIs_tHst4",
+      "address": "https://dwheeler.com/oss_fs_why.html",
+      "title": "Why Open Source Software / Free Software (OSS/FS, FOSS, or FLOSS)? Look at the Numbers!",
+      "grade": 0
+    },
+    {
+      "hash": "3hsDOlluK2rw",
+      "address": "https://www.qt.io/blog",
+      "title": "Qt Blog",
+      "grade": 0
+    },
+    {
+      "hash": "uaEnGzTwnifx",
+      "address": "https://planet.wordpress.org/",
+      "title": "Planet — WordPress.org",
+      "grade": 0
+    },
+    {
+      "hash": "TA880jRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Generative_adversarial_network",
+      "title": "Generative adversarial network - Wikipedia",
+      "grade": 1
+    },
+    {
+      "hash": "Hp25lWawk-F5",
+      "address": "https://theintactone.com/tag/titles/",
+      "title": "Read MBA, BBA, B.COM Notes",
+      "grade": 0
+    },
+    {
+      "hash": "Qy5lgspN1dF5",
+      "address": "https://cirosantilli.com/china-dictatorship/",
+      "title": "China Dictatorship 中国独裁统治",
       "grade": 0
     }
   ]

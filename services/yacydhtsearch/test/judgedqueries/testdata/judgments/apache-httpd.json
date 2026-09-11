@@ -2,21 +2,69 @@
   "query": "apache httpd",
   "judgedDocuments": [
     {
-      "hash": "D6ZmTayzSDzw",
-      "address": "https://httpd.apache.org/modules/",
-      "title": "Apache httpd Modules - The Apache HTTP Server Project",
-      "grade": 2
-    },
-    {
       "hash": "P2FWiayzSDzw",
       "address": "https://httpd.apache.org/docs/",
       "title": "Documentation: Apache HTTP Server - The Apache HTTP Server Project",
       "grade": 2
     },
     {
-      "hash": "U69luayzSDzw",
-      "address": "https://httpd.apache.org/",
-      "title": "Welcome! - The Apache HTTP Server Project",
+      "hash": "D6ZmTayzSDzw",
+      "address": "https://httpd.apache.org/modules/",
+      "title": "Apache httpd Modules - The Apache HTTP Server Project",
+      "grade": 2
+    },
+    {
+      "hash": "CymIK8uKjjbw",
+      "address": "https://wiki.gentoo.org/wiki/Project:Apache",
+      "title": "Project:Apache - Gentoo wiki",
+      "grade": 1
+    },
+    {
+      "hash": "ESUH1jRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/HTTP_request",
+      "title": "HTTP - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "TQ_Z1jRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/XHTML",
+      "title": "XHTML - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "WU-RwjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Web_server",
+      "title": "Web server - Wikipedia",
+      "grade": 1
+    },
+    {
+      "hash": "I5PqvobrsZjx",
+      "address": "https://www.mediawiki.org/wiki/Extension:FlaggedRevs",
+      "title": "Extension:FlaggedRevs - MediaWiki",
+      "grade": 0
+    },
+    {
+      "hash": "CeKDz29cq-94",
+      "address": "https://git-scm.com/docs/git-config",
+      "title": "Git - git-config Documentation",
+      "grade": 0
+    },
+    {
+      "hash": "N7wUjwH9JDL6",
+      "address": "https://flask.palletsprojects.com/en/stable/deploying/",
+      "title": "Deploying to Production — Flask Documentation (3.1.x)",
+      "grade": 0
+    },
+    {
+      "hash": "OlDnjayzSDzw",
+      "address": "https://httpd.apache.org/docs-project/",
+      "title": "Documentation Project - The Apache HTTP Server Project",
+      "grade": 1
+    },
+    {
+      "hash": "OtQmQXyzSDzw",
+      "address": "https://httpd.apache.org/docs/2.4/",
+      "title": "Apache HTTP Server Version 2.4 Documentation - Apache HTTP Server Version 2.4",
       "grade": 2
     },
     {
@@ -26,16 +74,28 @@
       "grade": 1
     },
     {
-      "hash": "OlDnjayzSDzw",
-      "address": "https://httpd.apache.org/docs-project/",
-      "title": "Documentation Project - The Apache HTTP Server Project",
-      "grade": 1
+      "hash": "VE5O8I55Qxow",
+      "address": "https://yacy.net/operation/yacy_conf/",
+      "title": "YaCy config settings - YaCy",
+      "grade": 0
     },
     {
-      "hash": "CymIK8uKjjbw",
-      "address": "https://wiki.gentoo.org/wiki/Project:Apache",
-      "title": "Project:Apache - Gentoo wiki",
-      "grade": 1
+      "hash": "U69luayzSDzw",
+      "address": "https://httpd.apache.org/",
+      "title": "Welcome! - The Apache HTTP Server Project",
+      "grade": 2
+    },
+    {
+      "hash": "r4dI5jRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/OpenBSD",
+      "title": "OpenBSD - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "h5b7DXyzSDzw",
+      "address": "https://httpd.apache.org/docs/current/howto/reverse_proxy.html",
+      "title": "Reverse Proxy Guide - Apache HTTP Server Version 2.4",
+      "grade": 2
     },
     {
       "hash": "s2BSFayzSDzw",
@@ -50,34 +110,70 @@
       "grade": 1
     },
     {
-      "hash": "N7wUjwH9JDL6",
-      "address": "https://flask.palletsprojects.com/en/stable/deploying/",
-      "title": "Deploying to Production — Flask Documentation (3.1.x)",
+      "hash": "B0_2p79moDe4",
+      "address": "https://www.linux.com/training-tutorials/configuring-apache2-run-python-scripts/",
+      "title": "Configuring Apache2 to run Python Scripts - Linux.com",
+      "grade": 1
+    },
+    {
+      "hash": "D_ywrswDvzb5",
+      "address": "https://distrowatch.com/table.php?distribution=mint",
+      "title": "DistroWatch.com: Linux Mint",
       "grade": 0
     },
     {
-      "hash": "VE5O8I55Qxow",
-      "address": "https://yacy.net/operation/yacy_conf/",
-      "title": "YaCy config settings - YaCy",
-      "grade": 0
-    },
-    {
-      "hash": "ESUH1jRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/HTTP_request",
-      "title": "HTTP - Wikipedia",
-      "grade": 0
-    },
-    {
-      "hash": "CeKDz29cq-94",
-      "address": "https://git-scm.com/docs/git-config",
-      "title": "Git - git-config Documentation",
-      "grade": 0
-    },
-    {
-      "hash": "OtQmQXyzSDzw",
-      "address": "https://httpd.apache.org/docs/2.4/",
-      "title": "Apache HTTP Server Version 2.4 Documentation - Apache HTTP Server Version 2.4",
+      "hash": "DJNgIXyzSDzw",
+      "address": "https://httpd.apache.org/docs/2.4/ssl/ssl_howto.html",
+      "title": "SSL/TLS Strong Encryption: How-To - Apache HTTP Server Version 2.4",
       "grade": 2
+    },
+    {
+      "hash": "JnOPVjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Common_Gateway_Interface",
+      "title": "Common Gateway Interface - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "YJ11QjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Server_Name_Indication",
+      "title": "Server Name Indication - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "Rx8AIs_tHst4",
+      "address": "https://dwheeler.com/oss_fs_why.html",
+      "title": "Why Open Source Software / Free Software (OSS/FS, FOSS, or FLOSS)? Look at the Numbers!",
+      "grade": 0
+    },
+    {
+      "hash": "9N5z4MaQF27w",
+      "address": "https://www.apache.org/foundation/members",
+      "title": "ASF Members | Apache Software Foundation",
+      "grade": 1
+    },
+    {
+      "hash": "rMsoyobrsZjx",
+      "address": "https://www.mediawiki.org/wiki/Manual:Installation_guide",
+      "title": "Manual:Installing MediaWiki - MediaWiki",
+      "grade": 0
+    },
+    {
+      "hash": "jZqlPXyzSDzw",
+      "address": "https://httpd.apache.org/docs/2.4/mod/mod_userdir.html",
+      "title": "mod_userdir - Apache HTTP Server Version 2.4",
+      "grade": 2
+    },
+    {
+      "hash": "TtoO2dFO6r_x",
+      "address": "https://de.wikipedia.org/wiki/Hostrechner",
+      "title": "Hostrechner – Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "5TYifdFO6r_x",
+      "address": "https://de.wikipedia.org/wiki/Webserver",
+      "title": "Webserver – Wikipedia",
+      "grade": 1
     }
   ]
 }

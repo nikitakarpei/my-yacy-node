@@ -1,7 +1,128 @@
 {
   "query": "postgresql documentation",
-  "recordedAt": "2026-09-11T21:03:12Z",
+  "recordedAt": "2026-09-11T22:14:22Z",
   "itemsInTheOrderOfEachAnswer": [
+    [
+      {
+        "hash": "XccPH7NSh3ha",
+        "address": "http://xn--gckvb8fzb.com/xbsapi-an-alternative-xbrowsersync-api-that-supports-sqlite-postgresql-and-mysql/",
+        "title": "マリウス . xbsapi: An Alternative xBrowserSync API that supports SQLite, PostgreSQL and MySQL",
+        "snippet": "PostgreSQL and MySQL and can easily be deployed as a single binary on Linux, OpenBSD, FreeBSD, DragonFly, NetBSD, Windows and even as a Google Cloud Function and AWS Lambda Function!\nWhile I keep most of my bookmarks publicly available on this site, so that I can look them up anywhere, anytime, I",
+        "matchedWords": {
+          "5HKPREskg54_": {
+            "hits": 2,
+            "textWords": 450
+          },
+          "VYdiKIU6v2Mt": {
+            "hits": 1,
+            "textWords": 450
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "wFsBysqBIpS6",
+        "address": "https://xn--gckvb8fzb.com/xbsapi-an-alternative-xbrowsersync-api-that-supports-sqlite-postgresql-and-mysql/",
+        "title": "マリウス . xbsapi: An Alternative xBrowserSync API that supports SQLite, PostgreSQL and MySQL",
+        "snippet": "PostgreSQL and MySQL and can easily be deployed as a single binary on Linux, OpenBSD, FreeBSD, DragonFly, NetBSD, Windows and even as a Google Cloud Function and AWS Lambda Function!\nWhile I keep most of my bookmarks publicly available on this site, so that I can look them up anywhere, anytime, I",
+        "matchedWords": {
+          "5HKPREskg54_": {
+            "hits": 2,
+            "textWords": 450
+          },
+          "VYdiKIU6v2Mt": {
+            "hits": 1,
+            "textWords": 450
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "BJ_i-2bypRQw",
+        "address": "https://forgejo.org/docs/latest/admin/installation/database-preparation/",
+        "title": "Database Preparation | Forgejo – Beyond coding. We forge.",
+        "snippet": "PostgreSQL (\u003e=14)\nSQLite\nFor a recommendation on which database to use and fits your needs, read the recommendation page.\nThe remainder of this page will be a guide how to prepare each database type. Also take a look at the database section of the config cheat sheet for a detailed list of options",
+        "matchedWords": {
+          "5HKPREskg54_": {
+            "hits": 35,
+            "textWords": 2040
+          },
+          "VYdiKIU6v2Mt": {
+            "hits": 2,
+            "textWords": 2040
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "ANPjMSS6MKD4",
+        "address": "https://github.com/A75G/docker-templates",
+        "title": "GitHub - A75G/docker-templates: Unraid Docker Templates",
+        "snippet": "PostgreSQL DB Required (Not Included)\n^back to top^\nCrypto-exchanges-gateway\nApplication Name: Crypto-exchanges-gateway\nApplication Site: https://github.com/aloysius-pgast/crypto-exchanges-gateway\nDocker Hub: https://hub.docker.com/r/apendergast/crypto-exchanges-gateway/\nGithub:",
+        "matchedWords": {
+          "5HKPREskg54_": {
+            "hits": 3,
+            "textWords": 3391
+          },
+          "VYdiKIU6v2Mt": {
+            "hits": 0,
+            "textWords": 3391
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "Cq-xgm0h8sSw",
+        "address": "https://tracker.debian.org/pkg/libreoffice",
+        "title": "libreoffice - Debian Package Tracker",
+        "snippet": "8 security issues in bullseye high\nThere are 8 open security issues in bullseye.\n8 important issues:\nCVE-2026-4430: Out-of-bounds write vulnerability in The Document Foundation LibreOffice via crafted OOXML documents with mismatched encryption salt parameters. This issue affects LibreOffice: from",
+        "matchedWords": {
+          "5HKPREskg54_": {
+            "hits": 0,
+            "textWords": 873
+          },
+          "VYdiKIU6v2Mt": {
+            "hits": 0,
+            "textWords": 873
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "CEN9_hHcFo8w",
+        "address": "https://doc.sonews.org/2.1/intro.html",
+        "title": "Introduction — sonews 2.1-dev documentation",
+        "snippet": "",
+        "matchedWords": {
+          "5HKPREskg54_": {
+            "hits": 1,
+            "textWords": 255
+          },
+          "VYdiKIU6v2Mt": {
+            "hits": 0,
+            "textWords": 0
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "BLqv9HRMLT-5",
+        "address": "https://canonical.com/legal/data-privacy",
+        "title": "Data privacy | Ubuntu and Canonical Legal",
+        "snippet": "Canonical collects personal information from you in a number of different ways. For example, when you download one of our products, receive services from us or use one of our websites (including www.canonical.com and www.ubuntu.com).\nFull list of websites ›\nAt Canonical, we consider your privacy to",
+        "matchedWords": {
+          "5HKPREskg54_": {
+            "hits": 0,
+            "textWords": 3720
+          },
+          "VYdiKIU6v2Mt": {
+            "hits": 0,
+            "textWords": 3720
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
     [
       {
         "hash": "Hb2lZx7Yxvhx",
@@ -17,23 +138,8 @@
             "hits": 0,
             "textWords": 230
           }
-        }
-      },
-      {
-        "hash": "XuGKRe4N0vbw",
-        "address": "https://www.nuget.org/packages/Serilog.Sinks.PeriodicBatching/3.1.0",
-        "title": "NuGet Gallery | Serilog.Sinks.PeriodicBatching 3.1.0",
-        "snippet": "﻿\nREADME\nFrameworks\nDependencies\nUsed By\nVersions\nBuffer batches of log events to be flushed asynchronously.\nProduct\nCompatible and additional computed target framework versions.\n.NET\nnet5.0 was computed. net5.0-windows was computed. net6.0 was computed. net6.0-android was computed. net6.0-ios was",
-        "matchedWords": {
-          "5HKPREskg54_": {
-            "hits": 0,
-            "textWords": 451
-          },
-          "VYdiKIU6v2Mt": {
-            "hits": 0,
-            "textWords": 451
-          }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
         "hash": "RC3FQXCmq5v4",
@@ -49,71 +155,42 @@
             "hits": 0,
             "textWords": 5741
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
-        "hash": "xcDdG08pAYk5",
-        "address": "https://www.huaweicloud.com/intl/en-us/",
-        "title": "Huawei Cloud - The AI Pioneer in Industries | Huawei Cloud",
-        "snippet": "Documentation\nConsole\nMy Account\nBilling \u0026 Costs\nService Tickets\nUnread Messages\nConsole\nPartner Center\nSign In Sign Up\nSign In\nSign Up\nMy Account Complete Sign Up\nBilling \u0026 Costs\nService Tickets\nUnread Messages\nConsole\nPartner Center\nLog Out\nCancel\nHuawei Cloud CodeArts Agent\nMulti-Agent",
+        "hash": "H3k5-x7Yxvhx",
+        "address": "https://www.postgresql.org/docs/current/tutorial-advanced.html",
+        "title": "PostgreSQL: Documentation: 18: Chapter 3. Advanced Features",
+        "snippet": "documentation that is not correct, does not match your experience with the particular feature or requires further clarification, please use this form to report a documentation issue.",
         "matchedWords": {
           "5HKPREskg54_": {
+            "hits": 0,
+            "textWords": 34
+          },
+          "VYdiKIU6v2Mt": {
             "hits": 2,
-            "textWords": 2863
-          },
-          "VYdiKIU6v2Mt": {
-            "hits": 3,
-            "textWords": 2863
+            "textWords": 34
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
-        "hash": "Cw10n_nMM_j5",
-        "address": "https://grokipedia.com/page/MySQL",
-        "title": "MySQL — Grokipedia",
-        "snippet": "",
-        "matchedWords": {
-          "5HKPREskg54_": {
-            "hits": 16,
-            "textWords": 15545
-          },
-          "VYdiKIU6v2Mt": {
-            "hits": 0,
-            "textWords": 0
-          }
-        }
-      },
-      {
-        "hash": "tKAL933wopR4",
-        "address": "https://www.zabbix.com/documentation/6.2/en/manual/config/notifications/action",
-        "title": "2 Actions",
-        "snippet": "2 Actions Overview\nConfiguring an action\nOverview\nIf you want some operations taking place as a result of events (for example, notifications sent), you need to configure actions.\nActions can be defined in response to events of all supported types:\nTrigger actions - for events when trigger status",
+        "hash": "kVgkU33wopR4",
+        "address": "https://www.zabbix.com/documentation/6.2/en/manual/api/reference/sla",
+        "title": "SLA",
+        "snippet": "Zabbix Manual\n19. API\nMethod reference\nSLA\nThis class is designed to work with SLA (Service Level Agreement) objects used to estimate the performance of IT infrastructure and business services.\nObject references:\nSLA\nSLA schedule\nSLA excluded downtime\nSLA service tag\nAvailable methods:\nsla.create -",
         "matchedWords": {
           "5HKPREskg54_": {
             "hits": 0,
-            "textWords": 273
+            "textWords": 70
           },
           "VYdiKIU6v2Mt": {
             "hits": 0,
-            "textWords": 273
+            "textWords": 70
           }
-        }
-      },
-      {
-        "hash": "-EoqwOv-bf35",
-        "address": "https://docs.datadoghq.com/byoc-logs/ingest/api/",
-        "title": "Send logs to BYOC Logs with REST API",
-        "snippet": "documentation, links, and articles:",
-        "matchedWords": {
-          "5HKPREskg54_": {
-            "hits": 0,
-            "textWords": 105
-          },
-          "VYdiKIU6v2Mt": {
-            "hits": 1,
-            "textWords": 105
-          }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
         "hash": "6Nn5OQ3MeyZ4",
@@ -129,137 +206,59 @@
             "hits": 0,
             "textWords": 751
           }
-        }
-      }
-    ],
-    [
-      {
-        "hash": "-PElUl7Yxvhx",
-        "address": "https://www.postgresql.org/community/",
-        "title": "PostgreSQL: Community",
-        "snippet": "PostgreSQL is well-supported by its active community. There are more than a dozen mailing lists available, categorized into topics like:\nAnnouncements\nPostgreSQL development\nGeneral PostgreSQL Support\nJobs\nand more. We also have many local PostgreSQL User Groups all over the world, and there is",
-        "matchedWords": {
-          "5HKPREskg54_": {
-            "hits": 10,
-            "textWords": 101
-          },
-          "VYdiKIU6v2Mt": {
-            "hits": 0,
-            "textWords": 101
-          }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
-        "hash": "n8OZP81iNM2x",
-        "address": "https://wiki.postgresql.org/wiki/Foreign_data_wrappers",
-        "title": "Foreign data wrappers - PostgreSQL wiki",
-        "snippet": "PostgreSQL 9.1 was released with read-only support of this standard, and in 2013 write support was added with PostgreSQL 9.3.\nThere are now a variety of Foreign Data Wrappers (FDW) available which enable PostgreSQL Server to different remote data stores, ranging from other SQL databases through to",
+        "hash": "Cw10n_nMM_j5",
+        "address": "https://grokipedia.com/page/MySQL",
+        "title": "MySQL — Grokipedia",
+        "snippet": "documentation and use tools like MySQL Shell's Upgrade Checker Utility for preparation.[33] [34] [35] This dual-track approach balances reliability for production environments against agility for emerging needs, reflecting MySQL's adaptation to cloud-native and high-availability demands.[31]",
         "matchedWords": {
           "5HKPREskg54_": {
-            "hits": 73,
-            "textWords": 1836
+            "hits": 11,
+            "textWords": 13764
           },
           "VYdiKIU6v2Mt": {
-            "hits": 19,
-            "textWords": 1836
+            "hits": 5,
+            "textWords": 13764
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
-        "hash": "ZzAS6sc7-h7y",
-        "address": "https://cloudnative-pg.io/",
-        "title": "CloudNativePG - PostgreSQL Operator for Kubernetes",
-        "snippet": "PostgreSQL database cluster with a primary/standby architecture, using native streaming replication.\nAutopilot\nIt automates the steps that a human operator would do to deploy and to manage a Postgres database inside Kubernetes, including automated failover.\nData persistence\nIt doesn’t rely on",
-        "matchedWords": {
-          "5HKPREskg54_": {
-            "hits": 6,
-            "textWords": 455
-          },
-          "VYdiKIU6v2Mt": {
-            "hits": 0,
-            "textWords": 455
-          }
-        }
-      },
-      {
-        "hash": "vEq3uuYh1Df5",
-        "address": "https://niphr.r-universe.dev/articles/csdb/backends.html",
-        "title": "PostgreSQL and SQLite side by side - csdb",
-        "snippet": "Authored by:Richard Aubrey White incsdb 2026.8.21.\nSource:backends.Rmd, Vignette:backends.html. Last updated:2026-08-06.\nLoading article...",
-        "matchedWords": {
-          "5HKPREskg54_": {
-            "hits": 0,
-            "textWords": 21
-          },
-          "VYdiKIU6v2Mt": {
-            "hits": 0,
-            "textWords": 21
-          }
-        }
-      },
-      {
-        "hash": "Yrpb1lBbCobw",
-        "address": "https://www.php.net/pg-connect-poll",
-        "title": "PHP: pg_connect_poll - Manual",
-        "snippet": "PostgreSQL connection attempt\nChangelog\nVersion\nDescription\n8.1.0\nThe connection parameter expects an PgSql\\Connection instance now; previously, a resource was expected.\n5\nVLroyrenn ¶\n7 years ago\nSo the documentation on this function is pretty barebones (as is the case for a lot of thin PHP",
+        "hash": "BJhprx7Yxvhx",
+        "address": "https://www.postgresql.org/docs/current/plpython-python23.html",
+        "title": "PostgreSQL: Documentation: 18: 44.10. Python 2 vs. Python 3",
+        "snippet": "PostgreSQL supported Python 2, using the plpythonu and plpython2u language names.",
         "matchedWords": {
           "5HKPREskg54_": {
             "hits": 1,
-            "textWords": 326
+            "textWords": 34
           },
           "VYdiKIU6v2Mt": {
+            "hits": 0,
+            "textWords": 34
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "CpKsWx7Yxvhx",
+        "address": "https://www.postgresql.org/docs/current/xfunc-pl.html",
+        "title": "PostgreSQL: Documentation: 18: 36.8. Procedural Language Functions",
+        "snippet": "PostgreSQL allows user-defined functions to be written in other languages besides SQL and C. These other languages are generically called procedural languages (PL\ns). Procedural languages aren't built into the PostgreSQL server; they are offered by loadable modules. See Chapter 40 and following",
+        "matchedWords": {
+          "5HKPREskg54_": {
             "hits": 2,
-            "textWords": 326
-          }
-        }
-      },
-      {
-        "hash": "5HlikmrUFFH5",
-        "address": "https://betterstack.com/dashboards/gcp-cloud-sql",
-        "title": "GCP Cloud SQL dashboard template | Better Stack",
-        "snippet": "documentation on how to do it.\nAre you already using another log forwarder that you’re used to? See the documentation for Fluent Bit, Logstash, Fluentd, Filebeat, Syslog, and others.\nHave any questions?\nPlease feel free to message us at hello@betterstack.com.\nWe'll get back to you as soon as we",
-        "matchedWords": {
-          "5HKPREskg54_": {
-            "hits": 0,
-            "textWords": 532
-          },
-          "VYdiKIU6v2Mt": {
-            "hits": 2,
-            "textWords": 532
-          }
-        }
-      },
-      {
-        "hash": "thL-d0M7hElw",
-        "address": "https://wiki.php.net/_export/raw/rfc/pecl_http",
-        "title": "Pecl Http",
-        "snippet": "",
-        "matchedWords": {
-          "5HKPREskg54_": {
-            "hits": 1,
-            "textWords": 6392
+            "textWords": 58
           },
           "VYdiKIU6v2Mt": {
             "hits": 0,
-            "textWords": 0
+            "textWords": 58
           }
-        }
-      },
-      {
-        "hash": "TxAWXlIi-vW5",
-        "address": "https://www.alibabacloud.com/en/product/data-transmission-service?_p_lc=1",
-        "title": "Data Transmission Service: Data Migration and Synchronization - Alibaba Cloud",
-        "snippet": "1. Does Data Transmission Service support data migration between RDS instances under two different Alibaba Cloud accounts?\nYes. When migrating data between RDS instances under different Alibaba Cloud accounts, you need to login Data Transmission Service console with the account of the target RDS",
-        "matchedWords": {
-          "5HKPREskg54_": {
-            "hits": 0,
-            "textWords": 1343
-          },
-          "VYdiKIU6v2Mt": {
-            "hits": 0,
-            "textWords": 1343
-          }
-        }
+        },
+        "queryPhraseHits": 0
       }
     ],
     [
@@ -277,57 +276,61 @@
             "hits": 0,
             "textWords": 1521
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
-        "hash": "yRevkYe7r2M5",
-        "address": "https://www.appsignal.com/python/postgresql-monitoring",
-        "title": "Psycopg2 PostgreSQL monitoring for Python | AppSignal",
-        "snippet": "PostgreSQL database with AppSignal. Use AppSignal's PostgreSQL error and performance monitoring to gain instant insights into high-impact metrics.\nKey PostgreSQL monitoring features\nError Tracking\nQuickly spot and solve PostgreSQL errors with AppSignal. Learn more\nPerformance Monitoring\nMake",
+        "hash": "MXqsU1e7r2M5",
+        "address": "https://www.appsignal.com/nodejs/postgresql-monitoring",
+        "title": "PostgreSQL Monitoring with AppSignal for Node.js | AppSignal",
+        "snippet": "PostgreSQL requests in AppSignal to optimize your database. Find and fix N+1 queries and gain deep insights into PostgreSQL.\nKey PostgreSQL monitoring features\nError Tracking\nFind and fix PostgreSQL errors. Learn more\nPerformance Monitoring\nNegate N+1 queries and optimize PostgreSQL query",
         "matchedWords": {
           "5HKPREskg54_": {
-            "hits": 15,
-            "textWords": 313
+            "hits": 19,
+            "textWords": 353
           },
           "VYdiKIU6v2Mt": {
             "hits": 2,
-            "textWords": 313
+            "textWords": 353
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
-        "hash": "flWuAx8XNsex",
-        "address": "https://edgeguides.rubyonrails.org/active_record_postgresql.html",
-        "title": "Active Record and PostgreSQL — Ruby on Rails Guides",
-        "snippet": "PostgreSQL adapter you need to have at least version 10.0 installed. Older versions are not supported.\nTo get started with PostgreSQL have a look at the configuring Rails guide. It describes how to properly set up Active Record for PostgreSQL.\n1. Datatypes\nPostgreSQL offers a number of specific",
+        "hash": "c701ExFYRqW5",
+        "address": "https://www.meilisearch.com/docs/resources/migration/postgresql_migration",
+        "title": "Migrating from PostgreSQL full-text search to Meilisearch - Meilisearch Documentation",
+        "snippet": "PostgreSQL users who rely on built-in full-text search (tsvector/tsquery) and/or the pgvector extension move their search workload to Meilisearch. For a high-level comparison of the two, see Meilisearch vs PostgreSQL.\nOverview\nMeilisearch is not a database replacement. It is a dedicated search",
         "matchedWords": {
           "5HKPREskg54_": {
-            "hits": 16,
-            "textWords": 2750
+            "hits": 42,
+            "textWords": 2504
           },
           "VYdiKIU6v2Mt": {
-            "hits": 1,
-            "textWords": 2750
+            "hits": 0,
+            "textWords": 2504
           }
-        }
+        },
+        "queryPhraseHits": 0
       }
     ],
     [
       {
-        "hash": "Qz_7APS6MKD4",
-        "address": "https://github.com/discourse/discourse",
-        "title": "GitHub - discourse/discourse: A platform for community discussion. Free, open, simple. · GitHub",
-        "snippet": "PostgreSQL 15, Redis 7.\nFor more information, check out the Developer Documentation.\nSetting up Discourse\nIf you want to set up a Discourse forum for production use, see our Discourse Install Guide.\nIf you're looking for official hosting, see discourse.org/pricing.\nRequirements\nDiscourse supports",
+        "hash": "S1Yp5x7Yxvhx",
+        "address": "https://www.postgresql.org/docs/current/spi-spi-freeplan.html",
+        "title": "PostgreSQL: Documentation: 18: SPI_freeplan",
+        "snippet": "documentation that is not correct, does not match your experience with the particular feature or requires further clarification, please use this form to report a documentation issue.",
         "matchedWords": {
           "5HKPREskg54_": {
-            "hits": 2,
-            "textWords": 774
+            "hits": 0,
+            "textWords": 87
           },
           "VYdiKIU6v2Mt": {
-            "hits": 1,
-            "textWords": 774
+            "hits": 2,
+            "textWords": 87
           }
-        }
+        },
+        "queryPhraseHits": 0
       }
     ],
     [
@@ -345,7 +348,8 @@
             "hits": 1,
             "textWords": 695
           }
-        }
+        },
+        "queryPhraseHits": 0
       }
     ],
     [
@@ -363,7 +367,8 @@
             "hits": 0,
             "textWords": 1393
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
         "hash": "qgwjkx7Yxvhx",
@@ -379,7 +384,8 @@
             "hits": 0,
             "textWords": 161
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
         "hash": "1yTpG0S6MKD4",
@@ -395,7 +401,8 @@
             "hits": 0,
             "textWords": 795
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
         "hash": "zqF_T_JJheBx",
@@ -411,39 +418,25 @@
             "hits": 0,
             "textWords": 0
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
         "hash": "a7Urh_nMM_j5",
         "address": "https://grokipedia.com/page/PostgreSQL",
         "title": "PostgreSQL — Grokipedia",
-        "snippet": "",
+        "snippet": "PostgreSQL is a powerful, open source object-relational database management system (ORDBMS) that uses and extends the SQL language combined with many features that safely store and scale complex data workloads.[1] It originated in 1986 as the POSTGRES project at the University of California,",
         "matchedWords": {
           "5HKPREskg54_": {
-            "hits": 180,
-            "textWords": 19872
+            "hits": 260,
+            "textWords": 18311
           },
           "VYdiKIU6v2Mt": {
-            "hits": 0,
-            "textWords": 0
+            "hits": 4,
+            "textWords": 18311
           }
-        }
-      },
-      {
-        "hash": "eEBndXCmq5v4",
-        "address": "https://www.suse.com/security/cve/CVE-2026-14664.html",
-        "title": "CVE-2026-14664 Common Vulnerabilities and Exposures | SUSE",
-        "snippet": "PostgreSQL regexp allows the query author to execute arbitrary code as the operating system user running the database, via text that would not pass encoding validation. This shares heritage with CVE-2026-2006, but this case involved unanticipated data growth when round-tripped through pg_wchar.",
-        "matchedWords": {
-          "5HKPREskg54_": {
-            "hits": 138,
-            "textWords": 10229
-          },
-          "VYdiKIU6v2Mt": {
-            "hits": 0,
-            "textWords": 10229
-          }
-        }
+        },
+        "queryPhraseHits": 4
       }
     ],
     [
@@ -461,7 +454,8 @@
             "hits": 1,
             "textWords": 695
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
         "hash": "eLguDfs7j0L4",
@@ -477,25 +471,44 @@
             "hits": 1,
             "textWords": 404
           }
-        }
+        },
+        "queryPhraseHits": 0
       }
     ],
     [
       {
-        "hash": "Lj9Sl2c9duY5",
-        "address": "https://azure.microsoft.com/en-us",
-        "title": "Cloud Computing Services | Microsoft Azure",
-        "snippet": "PostgreSQL cloud database service.\nBack to tabs\nOptimize your infrastructure with popular Azure solutions and services.\nBack to tabs\nFortune Brands Innovations unifies their brands under one portal with Microsoft Power Pages\nFortune Brands Innovations created a more streamlined customer experience",
+        "hash": "JYR-dtS6MKD4",
+        "address": "https://github.com/trending/plpgsql?since=daily",
+        "title": "Trending PLpgSQL repositories on GitHub today · GitHub",
+        "snippet": "PostgreSQL\nPLpgSQL\n2,821\n316 Built by\n0 stars today\nStar\nguchengwuyue / yshop-drink\nyshop意象点餐(扫码点餐)系统，在线点餐(外卖与自取)小程序模式，支持多门店模式，支持saas多租户模式，基础技术Java17+sprringboot3+vue3+uniapp(vue3)（支持H5、微信小程序） 采用当前流行技术组合的前后端分离点餐系统： SpringBoot3、Spring Security",
         "matchedWords": {
           "5HKPREskg54_": {
             "hits": 1,
-            "textWords": 423
+            "textWords": 78
           },
           "VYdiKIU6v2Mt": {
             "hits": 0,
-            "textWords": 423
+            "textWords": 78
           }
-        }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "oy52Gsv-bf35",
+        "address": "https://docs.datadoghq.com/tracing/trace_collection/dd_libraries/ruby/",
+        "title": "Tracing Ruby Applications",
+        "snippet": "documentation is for datadog gem v2.x. If you are looking for ddtrace gem v1.x documentation, see the legacy Tracing Ruby Applications documentation.\ndatadog is Datadog’s client library for Ruby. It includes a suite of tools which provide visibility into the performance and security of Ruby",
+        "matchedWords": {
+          "5HKPREskg54_": {
+            "hits": 0,
+            "textWords": 17922
+          },
+          "VYdiKIU6v2Mt": {
+            "hits": 13,
+            "textWords": 17922
+          }
+        },
+        "queryPhraseHits": 0
       }
     ],
     [
@@ -513,42 +526,28 @@
             "hits": 0,
             "textWords": 244
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
         "hash": "-HnftobrsZjx",
         "address": "https://www.mediawiki.org/wiki/MediaWiki_1.21/wmf2",
         "title": "MediaWiki 1.21/wmf2 - MediaWiki",
-        "snippet": "documentation update for DifferenceEngine\ngit #4904d4b - More concise and precise wording for 'upload-disallowed-here'\ngit #fa259fc - Fix for SiteListTest failing on 32bit machines\ngit #366a358 - Fix incorrect message in CologneBlue full text button.\ngit #0771d64 - Rename $wgPurgeHttp11 to",
+        "snippet": "",
         "matchedWords": {
           "5HKPREskg54_": {
             "hits": 1,
-            "textWords": 8173
+            "textWords": 9717
           },
           "VYdiKIU6v2Mt": {
-            "hits": 17,
-            "textWords": 8173
+            "hits": 0,
+            "textWords": 0
           }
-        }
+        },
+        "queryPhraseHits": 0
       }
     ],
     [
-      {
-        "hash": "lYsgT81iNM2x",
-        "address": "https://wiki.postgresql.org/wiki/Category:Documentation",
-        "title": "Category:Documentation - PostgreSQL wiki",
-        "snippet": "PostgreSQL wiki\nJump to navigationJump to search\nDocumentations\nSubcategories\nThis category has the following 7 subcategories, out of 7 total.\nE\nExtensions‎ (14 P)\nF\nForeign-data wrapper‎ (4 P)\nL\nLanguages‎ (8 C, 6 P)\nP\nPostgreSQL Version‎ (12 C, 2 P)\nS\nSELinux‎ (19 P)\nSoftware Ports‎ (15 P)\nSVG‎",
-        "matchedWords": {
-          "5HKPREskg54_": {
-            "hits": 3,
-            "textWords": 96
-          },
-          "VYdiKIU6v2Mt": {
-            "hits": 4,
-            "textWords": 96
-          }
-        }
-      },
       {
         "hash": "k5-pcx7Yxvhx",
         "address": "https://www.postgresql.org/docs/release/18.6/",
@@ -563,7 +562,8 @@
             "hits": 3,
             "textWords": 6350
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
         "hash": "2SrIwzakb0b6",
@@ -579,7 +579,8 @@
             "hits": 2,
             "textWords": 978
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
         "hash": "BUC8H33wopR4",
@@ -595,7 +596,8 @@
             "hits": 0,
             "textWords": 575
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
         "hash": "kBN5XnhMeBWw",
@@ -611,7 +613,8 @@
             "hits": 23,
             "textWords": 17617
           }
-        }
+        },
+        "queryPhraseHits": 2
       },
       {
         "hash": "kzwdvqrfwOMw",
@@ -627,23 +630,25 @@
             "hits": 0,
             "textWords": 87
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
-        "hash": "kqnjeH7JARt4",
-        "address": "https://www.infoq.com/articles/multiple-databases/",
-        "title": "Using Entity Framework to Successfully Target Multiple Databases - InfoQ",
-        "snippet": "PostgreSQL or SQLite rather than Microsoft SQL Server. I hope this will be useful both for users who create an EF-application for these databases for the first time as well as for those who create an application that must support interaction with multiple databases, i.e., SQL Server and Oracle. As",
+        "hash": "hStMhlBbCobw",
+        "address": "https://www.php.net/pg-close",
+        "title": "PHP: pg_close - Manual",
+        "snippet": "PostgreSQL connection\nDescription\nNote:\nUsing pg_close() is not usually necessary, as non-persistent open connections are automatically closed at the end of the script.\nIf there is open PgSql\\Lob instance on the connection, do not close the connection before closing all PgSql\\Lob instances.",
         "matchedWords": {
           "5HKPREskg54_": {
-            "hits": 9,
-            "textWords": 3399
+            "hits": 1,
+            "textWords": 254
           },
           "VYdiKIU6v2Mt": {
-            "hits": 2,
-            "textWords": 3399
+            "hits": 0,
+            "textWords": 254
           }
-        }
+        },
+        "queryPhraseHits": 0
       }
     ],
     [
@@ -651,20 +656,55 @@
         "hash": "v4aP-zS6MKD4",
         "address": "https://github.com/topics/low-code",
         "title": "low-code · GitHub Topics · GitHub",
-        "snippet": "Low code is a software development approach that uses graphical development environments to simplify the process of building applications. Low-code development platforms or low-code platforms are a category of software development platforms that are designed to enable rapid application development.",
+        "snippet": "",
         "matchedWords": {
           "5HKPREskg54_": {
-            "hits": 0,
-            "textWords": 642
+            "hits": 3,
+            "textWords": 1374
           },
           "VYdiKIU6v2Mt": {
             "hits": 0,
-            "textWords": 642
+            "textWords": 0
           }
-        }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "sVgx2x7Yxvhx",
+        "address": "https://www.postgresql.org/docs/current/ecpg-oracle-compat.html",
+        "title": "PostgreSQL: Documentation: 18: 34.16. Oracle Compatibility Mode",
+        "snippet": "34.16. Oracle Compatibility Mode\nPrev\nUp\nChapter 34. ECPG — Embedded SQL\nin C\nHome\nNext\necpg can be run in a so-called Oracle compatibility mode. If this mode is active, it tries to behave as if it were Oracle Pro*C.\nSpecifically, this mode changes ecpg in three ways:\nPad character arrays receiving",
+        "matchedWords": {
+          "5HKPREskg54_": {
+            "hits": 0,
+            "textWords": 89
+          },
+          "VYdiKIU6v2Mt": {
+            "hits": 0,
+            "textWords": 89
+          }
+        },
+        "queryPhraseHits": 0
       }
     ],
     [
+      {
+        "hash": "oBb9X0E95tq5",
+        "address": "https://blog.appsignal.com/2017/01/27/documentation-updates.html",
+        "title": "Documentation updates | AppSignal Blog",
+        "snippet": "documentation up-to-date is always a challenge, and we were running behind. The new Elixir integration didn't really fit in and some screenshots were outdated, to name a few issues. Recently we've been hard at work improving the documentation by restructuring its content, improving its navigation",
+        "matchedWords": {
+          "5HKPREskg54_": {
+            "hits": 0,
+            "textWords": 543
+          },
+          "VYdiKIU6v2Mt": {
+            "hits": 8,
+            "textWords": 543
+          }
+        },
+        "queryPhraseHits": 0
+      },
       {
         "hash": "kC75-zW61vZ4",
         "address": "https://handbook.gitlab.com/handbook/sales/field-operations/sales-systems/gtm-technical-documentation/",
@@ -679,7 +719,8 @@
             "hits": 10,
             "textWords": 9943
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
         "hash": "MJBREyRO6Xx4",
@@ -695,7 +736,8 @@
             "hits": 1,
             "textWords": 2586
           }
-        }
+        },
+        "queryPhraseHits": 0
       }
     ],
     [
@@ -713,7 +755,8 @@
             "hits": 0,
             "textWords": 244
           }
-        }
+        },
+        "queryPhraseHits": 0
       }
     ],
     [
@@ -731,203 +774,12 @@
             "hits": 4,
             "textWords": 96
           }
-        }
+        },
+        "queryPhraseHits": 0
       }
     ]
   ],
   "itemsInNoOrder": [
-    {
-      "hash": "HVgp6MhTaKi5",
-      "address": "https://www.datadoghq.com/product/database-monitoring/",
-      "title": "Database Monitoring | Datadog",
-      "snippet": "",
-      "matchedWords": {
-        "5HKPREskg54_": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "VYdiKIU6v2Mt": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "BJ_i-2bypRQw",
-      "address": "https://forgejo.org/docs/latest/admin/installation/database-preparation/",
-      "title": "Database Preparation | Forgejo – Beyond coding. We forge.",
-      "snippet": "",
-      "matchedWords": {
-        "5HKPREskg54_": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "VYdiKIU6v2Mt": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "1OPeZs3tZYNx",
-      "address": "https://quassel-irc.org/",
-      "title": "Blogs | Quassel IRC",
-      "snippet": "",
-      "matchedWords": {
-        "5HKPREskg54_": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "VYdiKIU6v2Mt": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "nrHrKl4eGBC5",
-      "address": "https://www.digitalocean.com/",
-      "title": "AI-Native Cloud | DigitalOcean",
-      "snippet": "",
-      "matchedWords": {
-        "5HKPREskg54_": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "VYdiKIU6v2Mt": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "-AI0-jC_VmZ4",
-      "address": "https://www.sonatype.com/products/sonatype-nexus-pro/trial?hsCtaAttrib=217560263719",
-      "title": "Try Sonatype Nexus Repository Manager Free | Sonatype",
-      "snippet": "",
-      "matchedWords": {
-        "5HKPREskg54_": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "VYdiKIU6v2Mt": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "FZ5ZijRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/List_of_free_and_open-source_software_packages",
-      "title": "List of free and open-source software packages - Wikipedia",
-      "snippet": "",
-      "matchedWords": {
-        "5HKPREskg54_": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "VYdiKIU6v2Mt": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "KgBwHjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Regular_expression",
-      "title": "Regular expression - Wikipedia",
-      "snippet": "",
-      "matchedWords": {
-        "5HKPREskg54_": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "VYdiKIU6v2Mt": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "PeRz22YlAY74",
-      "address": "https://ubuntu.com/docs/launchpad/",
-      "title": "Launchpad manual",
-      "snippet": "",
-      "matchedWords": {
-        "5HKPREskg54_": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "VYdiKIU6v2Mt": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "BJ_i-2bypRQw",
-      "address": "https://forgejo.org/docs/latest/admin/installation/database-preparation/",
-      "title": "Database Preparation | Forgejo – Beyond coding. We forge.",
-      "snippet": "",
-      "matchedWords": {
-        "5HKPREskg54_": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "VYdiKIU6v2Mt": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "LCf8MvhTaKi5",
-      "address": "https://www.datadoghq.com/solutions/aws/",
-      "title": "AWS Monitoring | Datadog",
-      "snippet": "",
-      "matchedWords": {
-        "5HKPREskg54_": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "VYdiKIU6v2Mt": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "KUpkllpUQKyx",
-      "address": "https://www.discourse.org/open-source",
-      "title": "Open Source | Discourse - Civilized Discussion",
-      "snippet": "",
-      "matchedWords": {
-        "5HKPREskg54_": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "VYdiKIU6v2Mt": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "ClUafl76eml4",
-      "address": "https://www.mongodb.com/",
-      "title": "MongoDB: The World’s Leading Modern Data Platform | MongoDB",
-      "snippet": "",
-      "matchedWords": {
-        "5HKPREskg54_": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "VYdiKIU6v2Mt": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
     {
       "hash": "CjgsxsIyoLTx",
       "address": "https://planetpython.org/",
@@ -942,7 +794,25 @@
           "hits": 0,
           "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "HVgp6MhTaKi5",
+      "address": "https://www.datadoghq.com/product/database-monitoring/",
+      "title": "Database Monitoring | Datadog",
+      "snippet": "",
+      "matchedWords": {
+        "5HKPREskg54_": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "VYdiKIU6v2Mt": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "OHvVIX2Yfep5",
@@ -958,23 +828,8 @@
           "hits": 0,
           "textWords": 0
         }
-      }
-    },
-    {
-      "hash": "ClUafl76eml4",
-      "address": "https://www.mongodb.com/",
-      "title": "MongoDB: The World’s Leading Modern Database | MongoDB",
-      "snippet": "",
-      "matchedWords": {
-        "5HKPREskg54_": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "VYdiKIU6v2Mt": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "Rhc3Rx7Yxvhx",
@@ -990,23 +845,42 @@
           "hits": 0,
           "textWords": 468
         }
-      }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "TmZA3x7Yxvhx",
+      "address": "https://www.postgresql.org/docs/current/datatype-json.html",
+      "title": "PostgreSQL: Documentation: 18: 8.14. JSON Types",
+      "snippet": "PostgreSQL offers two types for storing JSON data: json and jsonb. To implement efficient query mechanisms for these data types, PostgreSQL also provides the jsonpath data type described in Section 8.14.7.\nThe json and jsonb data types accept almost identical sets of values as input. The major",
+      "matchedWords": {
+        "5HKPREskg54_": {
+          "hits": 14,
+          "textWords": 4330
+        },
+        "VYdiKIU6v2Mt": {
+          "hits": 0,
+          "textWords": 4330
+        }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "mJj6Cl7Yxvhx",
       "address": "https://www.postgresql.org/",
       "title": "PostgreSQL: The world's most advanced open source database",
-      "snippet": "PostgreSQL 19 Beta 3, 18.6, 17.11, 16.15, 15.19 and 14.24 Released!\nThe PostgreSQL Global Development Group has released an update to all supported versions of PostgreSQL, including 19 Beta 3, 18.6, 17.11, 16.15, 15.19 and 14.24. This release fixes 28 security vulnerabilities and many bugs reported",
+      "snippet": "",
       "matchedWords": {
         "5HKPREskg54_": {
-          "hits": 7,
-          "textWords": 150
+          "hits": 0,
+          "textWords": 0
         },
         "VYdiKIU6v2Mt": {
           "hits": 0,
-          "textWords": 150
+          "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "MaRThsRMLT-5",
@@ -1022,39 +896,8 @@
           "hits": 0,
           "textWords": 0
         }
-      }
-    },
-    {
-      "hash": "FZ5ZijRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/List_of_free_and_open-source_software_packages",
-      "title": "List of free and open-source software packages - Wikipedia",
-      "snippet": "",
-      "matchedWords": {
-        "5HKPREskg54_": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "VYdiKIU6v2Mt": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "KgBwHjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Regular_expression",
-      "title": "Regular expression - Wikipedia",
-      "snippet": "",
-      "matchedWords": {
-        "5HKPREskg54_": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "VYdiKIU6v2Mt": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "81srSjRvmBbx",
@@ -1070,7 +913,25 @@
           "hits": 0,
           "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "S76RtsS6MKD4",
+      "address": "https://github.com/topics",
+      "title": "Topics on GitHub · GitHub",
+      "snippet": "",
+      "matchedWords": {
+        "5HKPREskg54_": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "VYdiKIU6v2Mt": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "NJRSwlXKYy14",
@@ -1086,7 +947,8 @@
           "hits": 0,
           "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "6nZV-gYlAY74",
@@ -1102,7 +964,8 @@
           "hits": 0,
           "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "O56Ens_XwdU5",
@@ -1118,7 +981,8 @@
           "hits": 0,
           "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "Rx8AIs_tHst4",
@@ -1134,7 +998,8 @@
           "hits": 0,
           "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "2tE_2sbENtew",
@@ -1150,7 +1015,25 @@
           "hits": 0,
           "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "Lj9Sl2c9duY5",
+      "address": "https://azure.microsoft.com/en-us",
+      "title": "Cloud Computing Services | Microsoft Azure",
+      "snippet": "",
+      "matchedWords": {
+        "5HKPREskg54_": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "VYdiKIU6v2Mt": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "HVgp6MhTaKi5",
@@ -1166,39 +1049,8 @@
           "hits": 0,
           "textWords": 0
         }
-      }
-    },
-    {
-      "hash": "LCf8MvhTaKi5",
-      "address": "https://www.datadoghq.com/solutions/aws/",
-      "title": "AWS Monitoring | Datadog",
-      "snippet": "",
-      "matchedWords": {
-        "5HKPREskg54_": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "VYdiKIU6v2Mt": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "KUpkllpUQKyx",
-      "address": "https://www.discourse.org/open-source",
-      "title": "Open Source | Discourse - Civilized Discussion",
-      "snippet": "",
-      "matchedWords": {
-        "5HKPREskg54_": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "VYdiKIU6v2Mt": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "8NEnslqYg_k4",
@@ -1214,7 +1066,8 @@
           "hits": 0,
           "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "M7Rip9wdAEQg",
@@ -1230,23 +1083,8 @@
           "hits": 0,
           "textWords": 0
         }
-      }
-    },
-    {
-      "hash": "nrHrKl4eGBC5",
-      "address": "https://www.digitalocean.com/",
-      "title": "AI-Native Cloud | DigitalOcean",
-      "snippet": "",
-      "matchedWords": {
-        "5HKPREskg54_": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "VYdiKIU6v2Mt": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "6ZZDYl4eGBC5",
@@ -1262,39 +1100,42 @@
           "hits": 0,
           "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "BPM2Xl7Yxvhx",
       "address": "https://www.postgresql.org/developer/",
       "title": "PostgreSQL: Developers",
-      "snippet": "PostgreSQL database developer is someone who is actually working on the project, not someone using it to develop an application or a website. We don't hire programmers, we reach across the Internet, drawing the best database developers in the world to PostgreSQL. Read about the people behind",
+      "snippet": "",
       "matchedWords": {
         "5HKPREskg54_": {
-          "hits": 13,
-          "textWords": 335
+          "hits": 0,
+          "textWords": 0
         },
         "VYdiKIU6v2Mt": {
           "hits": 0,
-          "textWords": 335
+          "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "PIqj4q7Yxvhx",
       "address": "https://www.postgresql.org/support/versioning/",
       "title": "PostgreSQL: Versioning Policy",
-      "snippet": "PostgreSQL Global Development Group releases a new major version containing new features about once a year. Each major version receives bug fixes and, if need be, security fixes that are released at least once every three months in what we call a \"minor release.\" For more information on the minor",
+      "snippet": "",
       "matchedWords": {
         "5HKPREskg54_": {
-          "hits": 5,
-          "textWords": 601
+          "hits": 0,
+          "textWords": 0
         },
         "VYdiKIU6v2Mt": {
           "hits": 0,
-          "textWords": 601
+          "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "PWHO3s7Yxvhx",
@@ -1310,7 +1151,8 @@
           "hits": 0,
           "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "CjgsxsIyoLTx",
@@ -1326,7 +1168,8 @@
           "hits": 0,
           "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "P3sNzUKXKxA4",
@@ -1342,7 +1185,8 @@
           "hits": 0,
           "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "NJC84WRMLT-5",
@@ -1358,7 +1202,8 @@
           "hits": 0,
           "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "OnNZCERMLT-5",
@@ -1374,7 +1219,8 @@
           "hits": 0,
           "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "PeRz22YlAY74",
@@ -1390,39 +1236,8 @@
           "hits": 0,
           "textWords": 0
         }
-      }
-    },
-    {
-      "hash": "BJ_i-2bypRQw",
-      "address": "https://forgejo.org/docs/latest/admin/installation/database-preparation/",
-      "title": "Database Preparation | Forgejo – Beyond coding. We forge.",
-      "snippet": "",
-      "matchedWords": {
-        "5HKPREskg54_": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "VYdiKIU6v2Mt": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "OXYnF5c9duY5",
-      "address": "https://azure.microsoft.com/en-us/resources/customer-stories",
-      "title": "Customer and Partner Success Stories | Microsoft Azure",
-      "snippet": "",
-      "matchedWords": {
-        "5HKPREskg54_": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "VYdiKIU6v2Mt": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "NdgIKnozk0_4",
@@ -1438,23 +1253,8 @@
           "hits": 0,
           "textWords": 0
         }
-      }
-    },
-    {
-      "hash": "DZnJZFv-bf35",
-      "address": "https://docs.datadoghq.com/logs/explorer/analytics/",
-      "title": "Log Analytics",
-      "snippet": "",
-      "matchedWords": {
-        "5HKPREskg54_": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "VYdiKIU6v2Mt": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "6d6gqsv0FDc4",
@@ -1470,7 +1270,8 @@
           "hits": 0,
           "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "QKy_sx7Yxvhx",
@@ -1486,7 +1287,8 @@
           "hits": 0,
           "textWords": 2773
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "Q7KzEx7Yxvhx",
@@ -1502,7 +1304,8 @@
           "hits": 0,
           "textWords": 219
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "RC623x7Yxvhx",
@@ -1518,7 +1321,8 @@
           "hits": 0,
           "textWords": 116
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "RQ9RBx7Yxvhx",
@@ -1534,7 +1338,8 @@
           "hits": 0,
           "textWords": 2137
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "Rhc3Rx7Yxvhx",
@@ -1550,7 +1355,8 @@
           "hits": 0,
           "textWords": 468
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "RuGRax7Yxvhx",
@@ -1566,23 +1372,161 @@
           "hits": 0,
           "textWords": 143
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
-      "hash": "S1Yp5x7Yxvhx",
-      "address": "https://www.postgresql.org/docs/current/spi-spi-freeplan.html",
-      "title": "PostgreSQL: Documentation: 18: SPI_freeplan",
-      "snippet": "documentation that is not correct, does not match your experience with the particular feature or requires further clarification, please use this form to report a documentation issue.",
+      "hash": "SAoS0x7Yxvhx",
+      "address": "https://www.postgresql.org/docs/current/ddl-depend.html",
+      "title": "PostgreSQL: Documentation: 18: 5.15. Dependency Tracking",
+      "snippet": "PostgreSQL makes sure that you cannot drop objects that other objects still depend on. For example, attempting to drop the products table we considered in Section 5.5.5, with the orders table depending on it, would result in an error message like this:\nDROP TABLE products; ERROR: cannot drop table",
+      "matchedWords": {
+        "5HKPREskg54_": {
+          "hits": 5,
+          "textWords": 621
+        },
+        "VYdiKIU6v2Mt": {
+          "hits": 0,
+          "textWords": 621
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "SGwdJx7Yxvhx",
+      "address": "https://www.postgresql.org/docs/current/catalog-pg-index.html",
+      "title": "PostgreSQL: Documentation: 18: 52.26. pg_index",
+      "snippet": "PostgreSQL behavior). If it is true, it will consider null values to be equal (so the index can only contain one null value in a column).\nindisprimary bool\nIf true, this index represents the primary key of the table (indisunique should always be true when this is true)\nindisexclusion bool\nIf true,",
+      "matchedWords": {
+        "5HKPREskg54_": {
+          "hits": 1,
+          "textWords": 586
+        },
+        "VYdiKIU6v2Mt": {
+          "hits": 0,
+          "textWords": 586
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "SnAumx7Yxvhx",
+      "address": "https://www.postgresql.org/docs/current/sql-createfunction.html",
+      "title": "PostgreSQL: Documentation: 17: CREATE FUNCTION",
+      "snippet": "documentation, so far as the function itself is concerned; but you can use input argument names when calling a function to improve readability (see Section 4.3). In any case, the name of an output argument is significant, because it defines the column name in the result row type. (If you omit the",
+      "matchedWords": {
+        "5HKPREskg54_": {
+          "hits": 6,
+          "textWords": 3654
+        },
+        "VYdiKIU6v2Mt": {
+          "hits": 1,
+          "textWords": 3654
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "Szstfx7Yxvhx",
+      "address": "https://www.postgresql.org/docs/current/app-createdb.html",
+      "title": "PostgreSQL: Documentation: 18: createdb",
+      "snippet": "",
       "matchedWords": {
         "5HKPREskg54_": {
           "hits": 0,
-          "textWords": 87
+          "textWords": 0
         },
         "VYdiKIU6v2Mt": {
-          "hits": 2,
-          "textWords": 87
+          "hits": 0,
+          "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "TPKYFx7Yxvhx",
+      "address": "https://www.postgresql.org/docs/current/trigger-definition.html",
+      "title": "PostgreSQL: Documentation: 18: 37.1. Overview of Trigger Behavior",
+      "snippet": "",
+      "matchedWords": {
+        "5HKPREskg54_": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "VYdiKIU6v2Mt": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "TmZA3x7Yxvhx",
+      "address": "https://www.postgresql.org/docs/current/datatype-json.html",
+      "title": "PostgreSQL: Documentation: 18: 8.14. JSON Types",
+      "snippet": "PostgreSQL offers two types for storing JSON data: json and jsonb. To implement efficient query mechanisms for these data types, PostgreSQL also provides the jsonpath data type described in Section 8.14.7.\nThe json and jsonb data types accept almost identical sets of values as input. The major",
+      "matchedWords": {
+        "5HKPREskg54_": {
+          "hits": 14,
+          "textWords": 4330
+        },
+        "VYdiKIU6v2Mt": {
+          "hits": 0,
+          "textWords": 4330
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "TuYLDx7Yxvhx",
+      "address": "https://www.postgresql.org/docs/current/plperl-trusted.html",
+      "title": "PostgreSQL: Documentation: 18: 43.5. Trusted and Untrusted PL/Perl",
+      "snippet": "",
+      "matchedWords": {
+        "5HKPREskg54_": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "VYdiKIU6v2Mt": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "Tu3G6x7Yxvhx",
+      "address": "https://www.postgresql.org/docs/current/runtime-config-replication.html",
+      "title": "PostgreSQL: Documentation: 18: 19.6. Replication",
+      "snippet": "",
+      "matchedWords": {
+        "5HKPREskg54_": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "VYdiKIU6v2Mt": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "Tw1yQx7Yxvhx",
+      "address": "https://www.postgresql.org/docs/current/datatype-numeric.html",
+      "title": "PostgreSQL: Documentation: 18: 8.1. Numeric Types",
+      "snippet": "",
+      "matchedWords": {
+        "5HKPREskg54_": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "VYdiKIU6v2Mt": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "2EFEJs_XwdU5",
@@ -1598,12 +1542,13 @@
           "hits": 0,
           "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
-      "hash": "nrHrKl4eGBC5",
-      "address": "https://www.digitalocean.com/",
-      "title": "AI-Native Cloud | DigitalOcean",
+      "hash": "SUOb2itD2jQw",
+      "address": "https://docs.python.org/3/whatsnew/2.5.html",
+      "title": "What’s New in Python 2.5 — Python 3.14.6 documentation",
       "snippet": "",
       "matchedWords": {
         "5HKPREskg54_": {
@@ -1614,7 +1559,8 @@
           "hits": 0,
           "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "6ZZDYl4eGBC5",
@@ -1630,12 +1576,13 @@
           "hits": 0,
           "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
-      "hash": "ClUafl76eml4",
-      "address": "https://www.mongodb.com/",
-      "title": "MongoDB: The World’s Leading Modern Data Platform | MongoDB",
+      "hash": "BPM2Xl7Yxvhx",
+      "address": "https://www.postgresql.org/developer/",
+      "title": "PostgreSQL: Developers",
       "snippet": "",
       "matchedWords": {
         "5HKPREskg54_": {
@@ -1646,23 +1593,8 @@
           "hits": 0,
           "textWords": 0
         }
-      }
-    },
-    {
-      "hash": "BPM2Xl7Yxvhx",
-      "address": "https://www.postgresql.org/developer/",
-      "title": "PostgreSQL: Developers",
-      "snippet": "PostgreSQL database developer is someone who is actually working on the project, not someone using it to develop an application or a website. We don't hire programmers, we reach across the Internet, drawing the best database developers in the world to PostgreSQL. Read about the people behind",
-      "matchedWords": {
-        "5HKPREskg54_": {
-          "hits": 13,
-          "textWords": 335
-        },
-        "VYdiKIU6v2Mt": {
-          "hits": 0,
-          "textWords": 335
-        }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "CBQBEl7Yxvhx",
@@ -1678,23 +1610,25 @@
           "hits": 0,
           "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "PIqj4q7Yxvhx",
       "address": "https://www.postgresql.org/support/versioning/",
       "title": "PostgreSQL: Versioning Policy",
-      "snippet": "PostgreSQL Global Development Group releases a new major version containing new features about once a year. Each major version receives bug fixes and, if need be, security fixes that are released at least once every three months in what we call a \"minor release.\" For more information on the minor",
+      "snippet": "",
       "matchedWords": {
         "5HKPREskg54_": {
-          "hits": 5,
-          "textWords": 601
+          "hits": 0,
+          "textWords": 0
         },
         "VYdiKIU6v2Mt": {
           "hits": 0,
-          "textWords": 601
+          "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "PWHO3s7Yxvhx",
@@ -1710,7 +1644,8 @@
           "hits": 0,
           "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "RQ9RBx7Yxvhx",
@@ -1726,23 +1661,93 @@
           "hits": 0,
           "textWords": 2137
         }
-      }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "SAoS0x7Yxvhx",
+      "address": "https://www.postgresql.org/docs/current/ddl-depend.html",
+      "title": "PostgreSQL: Documentation: 18: 5.15. Dependency Tracking",
+      "snippet": "PostgreSQL makes sure that you cannot drop objects that other objects still depend on. For example, attempting to drop the products table we considered in Section 5.5.5, with the orders table depending on it, would result in an error message like this:\nDROP TABLE products; ERROR: cannot drop table",
+      "matchedWords": {
+        "5HKPREskg54_": {
+          "hits": 5,
+          "textWords": 621
+        },
+        "VYdiKIU6v2Mt": {
+          "hits": 0,
+          "textWords": 621
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "Szstfx7Yxvhx",
+      "address": "https://www.postgresql.org/docs/current/app-createdb.html",
+      "title": "PostgreSQL: Documentation: 18: createdb",
+      "snippet": "",
+      "matchedWords": {
+        "5HKPREskg54_": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "VYdiKIU6v2Mt": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "TmZA3x7Yxvhx",
+      "address": "https://www.postgresql.org/docs/current/datatype-json.html",
+      "title": "PostgreSQL: Documentation: 18: 8.14. JSON Types",
+      "snippet": "PostgreSQL offers two types for storing JSON data: json and jsonb. To implement efficient query mechanisms for these data types, PostgreSQL also provides the jsonpath data type described in Section 8.14.7.\nThe json and jsonb data types accept almost identical sets of values as input. The major",
+      "matchedWords": {
+        "5HKPREskg54_": {
+          "hits": 14,
+          "textWords": 4330
+        },
+        "VYdiKIU6v2Mt": {
+          "hits": 0,
+          "textWords": 4330
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "Tu3G6x7Yxvhx",
+      "address": "https://www.postgresql.org/docs/current/runtime-config-replication.html",
+      "title": "PostgreSQL: Documentation: 18: 19.6. Replication",
+      "snippet": "",
+      "matchedWords": {
+        "5HKPREskg54_": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "VYdiKIU6v2Mt": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "mJj6Cl7Yxvhx",
       "address": "https://www.postgresql.org/",
       "title": "PostgreSQL: The world's most advanced open source database",
-      "snippet": "PostgreSQL 19 Beta 3, 18.6, 17.11, 16.15, 15.19 and 14.24 Released!\nThe PostgreSQL Global Development Group has released an update to all supported versions of PostgreSQL, including 19 Beta 3, 18.6, 17.11, 16.15, 15.19 and 14.24. This release fixes 28 security vulnerabilities and many bugs reported",
+      "snippet": "",
       "matchedWords": {
         "5HKPREskg54_": {
-          "hits": 7,
-          "textWords": 150
+          "hits": 0,
+          "textWords": 0
         },
         "VYdiKIU6v2Mt": {
           "hits": 0,
-          "textWords": 150
+          "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "CjgsxsIyoLTx",
@@ -1758,39 +1763,8 @@
           "hits": 0,
           "textWords": 0
         }
-      }
-    },
-    {
-      "hash": "BLqv9HRMLT-5",
-      "address": "https://canonical.com/legal/data-privacy",
-      "title": "Data privacy | Ubuntu and Canonical Legal | Canonical",
-      "snippet": "",
-      "matchedWords": {
-        "5HKPREskg54_": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "VYdiKIU6v2Mt": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "DLJ3u6RMLT-5",
-      "address": "https://canonical.com/data/mysql",
-      "title": "MySQL | Canonical",
-      "snippet": "",
-      "matchedWords": {
-        "5HKPREskg54_": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "VYdiKIU6v2Mt": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "KBC6t5RMLT-5",
@@ -1806,7 +1780,8 @@
           "hits": 0,
           "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "MaRThsRMLT-5",
@@ -1822,7 +1797,8 @@
           "hits": 0,
           "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "NJC84WRMLT-5",
@@ -1838,7 +1814,8 @@
           "hits": 0,
           "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "OnNZCERMLT-5",
@@ -1854,7 +1831,25 @@
           "hits": 0,
           "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "SuN61sRMLT-5",
+      "address": "https://canonical.com/multipass",
+      "title": "Multipass | Canonical",
+      "snippet": "",
+      "matchedWords": {
+        "5HKPREskg54_": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "VYdiKIU6v2Mt": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "01UzZsRMLT-5",
@@ -1870,7 +1865,8 @@
           "hits": 0,
           "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "9CUPDsRMLT-5",
@@ -1886,7 +1882,8 @@
           "hits": 0,
           "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "LEo8MjRvmBbx",
@@ -1902,7 +1899,8 @@
           "hits": 0,
           "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "NJRSwlXKYy14",
@@ -1918,7 +1916,25 @@
           "hits": 0,
           "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "UBNlzsYlAY74",
+      "address": "https://ubuntu.com/navigation",
+      "title": "Navigation | Ubuntu",
+      "snippet": "",
+      "matchedWords": {
+        "5HKPREskg54_": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "VYdiKIU6v2Mt": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "6nZV-gYlAY74",
@@ -1934,7 +1950,8 @@
           "hits": 0,
           "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "O56Ens_XwdU5",
@@ -1950,7 +1967,8 @@
           "hits": 0,
           "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "2EFEJs_XwdU5",
@@ -1966,7 +1984,8 @@
           "hits": 0,
           "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "2tE_2sbENtew",
@@ -1982,12 +2001,13 @@
           "hits": 0,
           "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
-      "hash": "Hhi2u5c9duY5",
-      "address": "https://azure.microsoft.com/en-us/products/ai-foundry/tools",
-      "title": "Foundry Tools | Microsoft Azure",
+      "hash": "Lj9Sl2c9duY5",
+      "address": "https://azure.microsoft.com/en-us",
+      "title": "Cloud Computing Services | Microsoft Azure",
       "snippet": "",
       "matchedWords": {
         "5HKPREskg54_": {
@@ -1998,23 +2018,8 @@
           "hits": 0,
           "textWords": 0
         }
-      }
-    },
-    {
-      "hash": "OXYnF5c9duY5",
-      "address": "https://azure.microsoft.com/en-us/resources/customer-stories",
-      "title": "Customer and Partner Success Stories | Microsoft Azure",
-      "snippet": "",
-      "matchedWords": {
-        "5HKPREskg54_": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "VYdiKIU6v2Mt": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "HVgp6MhTaKi5",
@@ -2030,7 +2035,8 @@
           "hits": 0,
           "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "NdgIKnozk0_4",
@@ -2046,23 +2052,8 @@
           "hits": 0,
           "textWords": 0
         }
-      }
-    },
-    {
-      "hash": "KUpkllpUQKyx",
-      "address": "https://www.discourse.org/open-source",
-      "title": "Open Source | Discourse - Civilized Discussion",
-      "snippet": "",
-      "matchedWords": {
-        "5HKPREskg54_": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "VYdiKIU6v2Mt": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "8NEnslqYg_k4",
@@ -2078,12 +2069,13 @@
           "hits": 0,
           "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
-      "hash": "DZnJZFv-bf35",
-      "address": "https://docs.datadoghq.com/logs/explorer/analytics/",
-      "title": "Log Analytics",
+      "hash": "SUOb2itD2jQw",
+      "address": "https://docs.python.org/3/whatsnew/2.5.html",
+      "title": "What’s New in Python 2.5 — Python 3.14.6 documentation",
       "snippet": "",
       "matchedWords": {
         "5HKPREskg54_": {
@@ -2094,7 +2086,8 @@
           "hits": 0,
           "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "6d6gqsv0FDc4",
@@ -2110,7 +2103,8 @@
           "hits": 0,
           "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "QKy_sx7Yxvhx",
@@ -2126,7 +2120,8 @@
           "hits": 0,
           "textWords": 2773
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "Q7KzEx7Yxvhx",
@@ -2142,7 +2137,8 @@
           "hits": 0,
           "textWords": 219
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "RC623x7Yxvhx",
@@ -2158,7 +2154,8 @@
           "hits": 0,
           "textWords": 116
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "RuGRax7Yxvhx",
@@ -2174,23 +2171,93 @@
           "hits": 0,
           "textWords": 143
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
-      "hash": "S1Yp5x7Yxvhx",
-      "address": "https://www.postgresql.org/docs/current/spi-spi-freeplan.html",
-      "title": "PostgreSQL: Documentation: 18: SPI_freeplan",
-      "snippet": "documentation that is not correct, does not match your experience with the particular feature or requires further clarification, please use this form to report a documentation issue.",
+      "hash": "SGwdJx7Yxvhx",
+      "address": "https://www.postgresql.org/docs/current/catalog-pg-index.html",
+      "title": "PostgreSQL: Documentation: 18: 52.26. pg_index",
+      "snippet": "PostgreSQL behavior). If it is true, it will consider null values to be equal (so the index can only contain one null value in a column).\nindisprimary bool\nIf true, this index represents the primary key of the table (indisunique should always be true when this is true)\nindisexclusion bool\nIf true,",
+      "matchedWords": {
+        "5HKPREskg54_": {
+          "hits": 1,
+          "textWords": 586
+        },
+        "VYdiKIU6v2Mt": {
+          "hits": 0,
+          "textWords": 586
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "SnAumx7Yxvhx",
+      "address": "https://www.postgresql.org/docs/current/sql-createfunction.html",
+      "title": "PostgreSQL: Documentation: 17: CREATE FUNCTION",
+      "snippet": "documentation, so far as the function itself is concerned; but you can use input argument names when calling a function to improve readability (see Section 4.3). In any case, the name of an output argument is significant, because it defines the column name in the result row type. (If you omit the",
+      "matchedWords": {
+        "5HKPREskg54_": {
+          "hits": 6,
+          "textWords": 3654
+        },
+        "VYdiKIU6v2Mt": {
+          "hits": 1,
+          "textWords": 3654
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "TPKYFx7Yxvhx",
+      "address": "https://www.postgresql.org/docs/current/trigger-definition.html",
+      "title": "PostgreSQL: Documentation: 18: 37.1. Overview of Trigger Behavior",
+      "snippet": "",
       "matchedWords": {
         "5HKPREskg54_": {
           "hits": 0,
-          "textWords": 87
+          "textWords": 0
         },
         "VYdiKIU6v2Mt": {
-          "hits": 2,
-          "textWords": 87
+          "hits": 0,
+          "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "TuYLDx7Yxvhx",
+      "address": "https://www.postgresql.org/docs/current/plperl-trusted.html",
+      "title": "PostgreSQL: Documentation: 18: 43.5. Trusted and Untrusted PL/Perl",
+      "snippet": "",
+      "matchedWords": {
+        "5HKPREskg54_": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "VYdiKIU6v2Mt": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "Tw1yQx7Yxvhx",
+      "address": "https://www.postgresql.org/docs/current/datatype-numeric.html",
+      "title": "PostgreSQL: Documentation: 18: 8.1. Numeric Types",
+      "snippet": "",
+      "matchedWords": {
+        "5HKPREskg54_": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "VYdiKIU6v2Mt": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "MaRThsRMLT-5",
@@ -2206,7 +2273,8 @@
           "hits": 0,
           "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "LEo8MjRvmBbx",
@@ -2222,7 +2290,8 @@
           "hits": 0,
           "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "PeRz22YlAY74",
@@ -2238,7 +2307,25 @@
           "hits": 0,
           "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "Lj9Sl2c9duY5",
+      "address": "https://azure.microsoft.com/en-us",
+      "title": "Cloud Computing Services | Microsoft Azure",
+      "snippet": "",
+      "matchedWords": {
+        "5HKPREskg54_": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "VYdiKIU6v2Mt": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "OHvVIX2Yfep5",
@@ -2254,55 +2341,25 @@
           "hits": 0,
           "textWords": 0
         }
-      }
-    },
-    {
-      "hash": "1OPeZs3tZYNx",
-      "address": "https://quassel-irc.org/",
-      "title": "Blogs | Quassel IRC",
-      "snippet": "",
-      "matchedWords": {
-        "5HKPREskg54_": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "VYdiKIU6v2Mt": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "nrHrKl4eGBC5",
-      "address": "https://www.digitalocean.com/",
-      "title": "AI-Native Cloud | DigitalOcean",
-      "snippet": "",
-      "matchedWords": {
-        "5HKPREskg54_": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "VYdiKIU6v2Mt": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "BPM2Xl7Yxvhx",
       "address": "https://www.postgresql.org/developer/",
       "title": "PostgreSQL: Developers",
-      "snippet": "PostgreSQL database developer is someone who is actually working on the project, not someone using it to develop an application or a website. We don't hire programmers, we reach across the Internet, drawing the best database developers in the world to PostgreSQL. Read about the people behind",
+      "snippet": "",
       "matchedWords": {
         "5HKPREskg54_": {
-          "hits": 13,
-          "textWords": 335
+          "hits": 0,
+          "textWords": 0
         },
         "VYdiKIU6v2Mt": {
           "hits": 0,
-          "textWords": 335
+          "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "CBQBEl7Yxvhx",
@@ -2318,23 +2375,25 @@
           "hits": 0,
           "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "PIqj4q7Yxvhx",
       "address": "https://www.postgresql.org/support/versioning/",
       "title": "PostgreSQL: Versioning Policy",
-      "snippet": "PostgreSQL Global Development Group releases a new major version containing new features about once a year. Each major version receives bug fixes and, if need be, security fixes that are released at least once every three months in what we call a \"minor release.\" For more information on the minor",
+      "snippet": "",
       "matchedWords": {
         "5HKPREskg54_": {
-          "hits": 5,
-          "textWords": 601
+          "hits": 0,
+          "textWords": 0
         },
         "VYdiKIU6v2Mt": {
           "hits": 0,
-          "textWords": 601
+          "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "PWHO3s7Yxvhx",
@@ -2350,23 +2409,25 @@
           "hits": 0,
           "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "mJj6Cl7Yxvhx",
       "address": "https://www.postgresql.org/",
       "title": "PostgreSQL: The world's most advanced open source database",
-      "snippet": "PostgreSQL 19 Beta 3, 18.6, 17.11, 16.15, 15.19 and 14.24 Released!\nThe PostgreSQL Global Development Group has released an update to all supported versions of PostgreSQL, including 19 Beta 3, 18.6, 17.11, 16.15, 15.19 and 14.24. This release fixes 28 security vulnerabilities and many bugs reported",
+      "snippet": "",
       "matchedWords": {
         "5HKPREskg54_": {
-          "hits": 7,
-          "textWords": 150
+          "hits": 0,
+          "textWords": 0
         },
         "VYdiKIU6v2Mt": {
           "hits": 0,
-          "textWords": 150
+          "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "CjgsxsIyoLTx",
@@ -2382,39 +2443,8 @@
           "hits": 0,
           "textWords": 0
         }
-      }
-    },
-    {
-      "hash": "BLqv9HRMLT-5",
-      "address": "https://canonical.com/legal/data-privacy",
-      "title": "Data privacy | Ubuntu and Canonical Legal | Canonical",
-      "snippet": "",
-      "matchedWords": {
-        "5HKPREskg54_": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "VYdiKIU6v2Mt": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "DLJ3u6RMLT-5",
-      "address": "https://canonical.com/data/mysql",
-      "title": "MySQL | Canonical",
-      "snippet": "",
-      "matchedWords": {
-        "5HKPREskg54_": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "VYdiKIU6v2Mt": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "KBC6t5RMLT-5",
@@ -2430,7 +2460,8 @@
           "hits": 0,
           "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "MaRThsRMLT-5",
@@ -2446,7 +2477,8 @@
           "hits": 0,
           "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "NJC84WRMLT-5",
@@ -2462,7 +2494,8 @@
           "hits": 0,
           "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "OnNZCERMLT-5",
@@ -2478,7 +2511,25 @@
           "hits": 0,
           "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "SuN61sRMLT-5",
+      "address": "https://canonical.com/multipass",
+      "title": "Multipass | Canonical",
+      "snippet": "",
+      "matchedWords": {
+        "5HKPREskg54_": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "VYdiKIU6v2Mt": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "01UzZsRMLT-5",
@@ -2494,7 +2545,8 @@
           "hits": 0,
           "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "9CUPDsRMLT-5",
@@ -2510,39 +2562,8 @@
           "hits": 0,
           "textWords": 0
         }
-      }
-    },
-    {
-      "hash": "FZ5ZijRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/List_of_free_and_open-source_software_packages",
-      "title": "List of free and open-source software packages - Wikipedia",
-      "snippet": "",
-      "matchedWords": {
-        "5HKPREskg54_": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "VYdiKIU6v2Mt": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "KgBwHjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Regular_expression",
-      "title": "Regular expression - Wikipedia",
-      "snippet": "",
-      "matchedWords": {
-        "5HKPREskg54_": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "VYdiKIU6v2Mt": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "LEo8MjRvmBbx",
@@ -2558,7 +2579,8 @@
           "hits": 0,
           "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "81srSjRvmBbx",
@@ -2574,7 +2596,8 @@
           "hits": 0,
           "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "NJRSwlXKYy14",
@@ -2590,7 +2613,8 @@
           "hits": 0,
           "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "PeRz22YlAY74",
@@ -2606,7 +2630,25 @@
           "hits": 0,
           "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "UBNlzsYlAY74",
+      "address": "https://ubuntu.com/navigation",
+      "title": "Navigation | Ubuntu",
+      "snippet": "",
+      "matchedWords": {
+        "5HKPREskg54_": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "VYdiKIU6v2Mt": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "6nZV-gYlAY74",
@@ -2622,7 +2664,8 @@
           "hits": 0,
           "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "Rx8AIs_tHst4",
@@ -2638,7 +2681,8 @@
           "hits": 0,
           "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "2tE_2sbENtew",
@@ -2654,7 +2698,8 @@
           "hits": 0,
           "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "8NEnslqYg_k4",
@@ -2670,7 +2715,8 @@
           "hits": 0,
           "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "M7Rip9wdAEQg",
@@ -2686,7 +2732,8 @@
           "hits": 0,
           "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "-AI0-jC_VmZ4",
@@ -2702,7 +2749,8 @@
           "hits": 0,
           "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "2tE_2sbENtew",
@@ -2718,7 +2766,8 @@
           "hits": 0,
           "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "QKy_sx7Yxvhx",
@@ -2734,7 +2783,8 @@
           "hits": 0,
           "textWords": 2773
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "Q7KzEx7Yxvhx",
@@ -2750,7 +2800,8 @@
           "hits": 0,
           "textWords": 219
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "RC623x7Yxvhx",
@@ -2766,7 +2817,8 @@
           "hits": 0,
           "textWords": 116
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "RQ9RBx7Yxvhx",
@@ -2782,7 +2834,8 @@
           "hits": 0,
           "textWords": 2137
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "Rhc3Rx7Yxvhx",
@@ -2798,7 +2851,8 @@
           "hits": 0,
           "textWords": 468
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "RuGRax7Yxvhx",
@@ -2814,28 +2868,64 @@
           "hits": 0,
           "textWords": 143
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
-      "hash": "S1Yp5x7Yxvhx",
-      "address": "https://www.postgresql.org/docs/current/spi-spi-freeplan.html",
-      "title": "PostgreSQL: Documentation: 18: SPI_freeplan",
-      "snippet": "documentation that is not correct, does not match your experience with the particular feature or requires further clarification, please use this form to report a documentation issue.",
+      "hash": "SAoS0x7Yxvhx",
+      "address": "https://www.postgresql.org/docs/current/ddl-depend.html",
+      "title": "PostgreSQL: Documentation: 18: 5.15. Dependency Tracking",
+      "snippet": "PostgreSQL makes sure that you cannot drop objects that other objects still depend on. For example, attempting to drop the products table we considered in Section 5.5.5, with the orders table depending on it, would result in an error message like this:\nDROP TABLE products; ERROR: cannot drop table",
       "matchedWords": {
         "5HKPREskg54_": {
-          "hits": 0,
-          "textWords": 87
+          "hits": 5,
+          "textWords": 621
         },
         "VYdiKIU6v2Mt": {
-          "hits": 2,
-          "textWords": 87
+          "hits": 0,
+          "textWords": 621
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
-      "hash": "Hhi2u5c9duY5",
-      "address": "https://azure.microsoft.com/en-us/products/ai-foundry/tools",
-      "title": "Foundry Tools | Microsoft Azure",
+      "hash": "SGwdJx7Yxvhx",
+      "address": "https://www.postgresql.org/docs/current/catalog-pg-index.html",
+      "title": "PostgreSQL: Documentation: 18: 52.26. pg_index",
+      "snippet": "PostgreSQL behavior). If it is true, it will consider null values to be equal (so the index can only contain one null value in a column).\nindisprimary bool\nIf true, this index represents the primary key of the table (indisunique should always be true when this is true)\nindisexclusion bool\nIf true,",
+      "matchedWords": {
+        "5HKPREskg54_": {
+          "hits": 1,
+          "textWords": 586
+        },
+        "VYdiKIU6v2Mt": {
+          "hits": 0,
+          "textWords": 586
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "SnAumx7Yxvhx",
+      "address": "https://www.postgresql.org/docs/current/sql-createfunction.html",
+      "title": "PostgreSQL: Documentation: 17: CREATE FUNCTION",
+      "snippet": "documentation, so far as the function itself is concerned; but you can use input argument names when calling a function to improve readability (see Section 4.3). In any case, the name of an output argument is significant, because it defines the column name in the result row type. (If you omit the",
+      "matchedWords": {
+        "5HKPREskg54_": {
+          "hits": 6,
+          "textWords": 3654
+        },
+        "VYdiKIU6v2Mt": {
+          "hits": 1,
+          "textWords": 3654
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "Szstfx7Yxvhx",
+      "address": "https://www.postgresql.org/docs/current/app-createdb.html",
+      "title": "PostgreSQL: Documentation: 18: createdb",
       "snippet": "",
       "matchedWords": {
         "5HKPREskg54_": {
@@ -2846,7 +2936,93 @@
           "hits": 0,
           "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "TPKYFx7Yxvhx",
+      "address": "https://www.postgresql.org/docs/current/trigger-definition.html",
+      "title": "PostgreSQL: Documentation: 18: 37.1. Overview of Trigger Behavior",
+      "snippet": "",
+      "matchedWords": {
+        "5HKPREskg54_": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "VYdiKIU6v2Mt": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "TuYLDx7Yxvhx",
+      "address": "https://www.postgresql.org/docs/current/plperl-trusted.html",
+      "title": "PostgreSQL: Documentation: 18: 43.5. Trusted and Untrusted PL/Perl",
+      "snippet": "",
+      "matchedWords": {
+        "5HKPREskg54_": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "VYdiKIU6v2Mt": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "Tu3G6x7Yxvhx",
+      "address": "https://www.postgresql.org/docs/current/runtime-config-replication.html",
+      "title": "PostgreSQL: Documentation: 11: 19.6. Replication",
+      "snippet": "",
+      "matchedWords": {
+        "5HKPREskg54_": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "VYdiKIU6v2Mt": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "S76RtsS6MKD4",
+      "address": "https://github.com/topics",
+      "title": "Topics on GitHub · GitHub",
+      "snippet": "",
+      "matchedWords": {
+        "5HKPREskg54_": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "VYdiKIU6v2Mt": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "SUOb2itD2jQw",
+      "address": "https://docs.python.org/3/whatsnew/2.5.html",
+      "title": "What’s New in Python 2.5 — Python 3.14.0 documentation",
+      "snippet": "",
+      "matchedWords": {
+        "5HKPREskg54_": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "VYdiKIU6v2Mt": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "6ZZDYl4eGBC5",
@@ -2862,7 +3038,8 @@
           "hits": 0,
           "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "P3sNzUKXKxA4",
@@ -2878,12 +3055,13 @@
           "hits": 0,
           "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
-      "hash": "BLqv9HRMLT-5",
-      "address": "https://canonical.com/legal/data-privacy",
-      "title": "Data privacy | Ubuntu and Canonical Legal | Canonical",
+      "hash": "SuN61sRMLT-5",
+      "address": "https://canonical.com/multipass",
+      "title": "Multipass | Canonical",
       "snippet": "",
       "matchedWords": {
         "5HKPREskg54_": {
@@ -2894,7 +3072,8 @@
           "hits": 0,
           "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "01UzZsRMLT-5",
@@ -2910,7 +3089,42 @@
           "hits": 0,
           "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "S76RtsS6MKD4",
+      "address": "https://github.com/topics",
+      "title": "Topics on GitHub · GitHub",
+      "snippet": "",
+      "matchedWords": {
+        "5HKPREskg54_": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "VYdiKIU6v2Mt": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "UBNlzsYlAY74",
+      "address": "https://ubuntu.com/navigation",
+      "title": "Navigation | Ubuntu",
+      "snippet": "",
+      "matchedWords": {
+        "5HKPREskg54_": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "VYdiKIU6v2Mt": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "O56Ens_XwdU5",
@@ -2926,7 +3140,8 @@
           "hits": 0,
           "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "2EFEJs_XwdU5",
@@ -2942,7 +3157,8 @@
           "hits": 0,
           "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "NdgIKnozk0_4",
@@ -2958,7 +3174,8 @@
           "hits": 0,
           "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "-AI0-jC_VmZ4",
@@ -2974,7 +3191,42 @@
           "hits": 0,
           "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "Lj9Sl2c9duY5",
+      "address": "https://azure.microsoft.com/en-us",
+      "title": "Cloud Computing Services | Microsoft Azure",
+      "snippet": "",
+      "matchedWords": {
+        "5HKPREskg54_": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "VYdiKIU6v2Mt": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "-AI0-jC_VmZ4",
+      "address": "https://www.sonatype.com/products/sonatype-nexus-pro/trial?hsCtaAttrib=217560263719",
+      "title": "Try Sonatype Nexus Repository Manager Free | Sonatype",
+      "snippet": "",
+      "matchedWords": {
+        "5HKPREskg54_": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "VYdiKIU6v2Mt": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "MaRThsRMLT-5",
@@ -2990,7 +3242,8 @@
           "hits": 0,
           "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "9CUPDsRMLT-5",
@@ -3006,7 +3259,8 @@
           "hits": 0,
           "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "6d6gqsv0FDc4",
@@ -3022,11 +3276,12 @@
           "hits": 0,
           "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
     }
   ],
   "documentsHeldPerQueryWord": {
-    "5HKPREskg54_": 72314,
-    "VYdiKIU6v2Mt": 194744
+    "5HKPREskg54_": 71826,
+    "VYdiKIU6v2Mt": 186321
   }
 }

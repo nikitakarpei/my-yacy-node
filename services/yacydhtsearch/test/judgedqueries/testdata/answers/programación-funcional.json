@@ -1,6 +1,6 @@
 {
   "query": "programación funcional",
-  "recordedAt": "2026-09-11T21:03:55Z",
+  "recordedAt": "2026-09-11T22:14:23Z",
   "itemsInTheOrderOfEachAnswer": [
     [
       {
@@ -17,349 +17,12 @@
             "hits": 1,
             "textWords": 740
           }
-        }
-      }
-    ],
-    [
-      {
-        "hash": "Q0aY8CjMl7g4",
-        "address": "https://www.elcorreo.com/motor/novedades/",
-        "title": "Novedades del Motor | El Correo",
-        "snippet": "OFRECIDO POR CITROËN\nCitroën C3 Aircross: un SUV compacto que en realidad es mediano\nEs el modelo más grande y capaz de su clase. Aporta la amplitud necesaria para cumplir con soltura como familiar, y suma un diseño y confort de referencia. Mide 4,39 metros de largo, está disponible con cinco y",
-        "matchedWords": {
-          "Eh1HfZrHSRjZ": {
-            "hits": 0,
-            "textWords": 121
-          },
-          "UTS1UnoLaEo1": {
-            "hits": 0,
-            "textWords": 121
-          }
-        }
-      },
-      {
-        "hash": "9wGSm5ETZZex",
-        "address": "https://pdba.georgetown.edu/Constitutions/Honduras/hond82.html",
-        "title": "Honduras: Constitución de 1982",
-        "snippet": "programación general de la educación nacional se integre en un sistema coherente, a fin de que los educandos respondan adecuadamente a los requerimientos de la educación superior.\nARTICULO 160.- La Universidad Nacional Autónoma de Honduras es una Institución Autónoma del Estado, con personalidad",
-        "matchedWords": {
-          "Eh1HfZrHSRjZ": {
-            "hits": 1,
-            "textWords": 20865
-          },
-          "UTS1UnoLaEo1": {
-            "hits": 3,
-            "textWords": 20865
-          }
-        }
+        },
+        "queryPhraseHits": 0
       }
     ]
   ],
   "itemsInNoOrder": [
-    {
-      "hash": "aKYONl2UtE1g",
-      "address": "https://labra.weso.es/",
-      "title": "Labra's home page",
-      "snippet": "Programación Lógica y Funcional , Jose Emilio Labra Gayo, IX Jornadas de Enseñanza Universitaria de Informática (Jenui 2003), Cádiz, Spain - 2004 Details PDF\n¿Hay Lógica en la situación actual de las titulaciones informáticas? , Jose Emilio Labra Gayo, X Jornadas de Enseñanza Universitaria de",
-      "matchedWords": {
-        "Eh1HfZrHSRjZ": {
-          "hits": 5,
-          "textWords": 5683
-        },
-        "UTS1UnoLaEo1": {
-          "hits": 2,
-          "textWords": 5683
-        }
-      }
-    },
-    {
-      "hash": "ILDDMs2mPfs5",
-      "address": "https://infofuturo.com/",
-      "title": "Desarrollo web y Marketing Digital | Infofuturo - Asturias",
-      "snippet": "PROGRAMACIÓN A MEDIDA\nMARKETING DIGITAL\nDISEÑO GRÁFICO\nPROGRAMACIÓN A MEDIDA\nDESARROLLOS A MEDIDA\nEn Infofuturo materializamos tu proyecto. Diseñamos y programamos el tipo de sitio web que mejor se adapte a las necesidades de su empresa o negocio. Podrá ofrecer a sus visitantes un acceso efectivo,",
-      "matchedWords": {
-        "Eh1HfZrHSRjZ": {
-          "hits": 2,
-          "textWords": 493
-        },
-        "UTS1UnoLaEo1": {
-          "hits": 0,
-          "textWords": 493
-        }
-      }
-    },
-    {
-      "hash": "EzJNil5N-Oqk",
-      "address": "https://www.radiohc.cu/",
-      "title": "Radio Habana Cuba EN VIVO - Noticias y Música Cubana 24/7",
-      "snippet": "El presidente de Rusia, Vladimir Putin, llegó a India, en cuya capital, Nueva Delhi, se celebrará la …\nArmando Rodríguez Batista, titular del Ministerio de Ciencia, Tecnología y Medio Ambiente de Cuba (Citma), resaltó la …\nMiguel Díaz-Canel condecoró con la Medalla de la Amistad a destacados",
-      "matchedWords": {
-        "Eh1HfZrHSRjZ": {
-          "hits": 0,
-          "textWords": 99
-        },
-        "UTS1UnoLaEo1": {
-          "hits": 0,
-          "textWords": 99
-        }
-      }
-    },
-    {
-      "hash": "a2SYvh7CQepw",
-      "address": "https://www.ifla.org/wp-content/uploads/2019/05/assets/hq/publications/archive/the-public-library-service/pg01-s.pdf",
-      "title": "Directrices IFLA/UNESCO para el desarrollo del servicio de bibliotecas públicas; 2001",
-      "snippet": "",
-      "matchedWords": {
-        "Eh1HfZrHSRjZ": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "UTS1UnoLaEo1": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "GTWryN92mGZY",
-      "address": "http://lacinefilianoespatriota.blogspot.com/",
-      "title": "LA CINEFILIA NO ES PATRIOTA",
-      "snippet": "programación, cada año, cada edición.\nOjalá aparezcan más iniciativas semejantes. Ojalá que las existentes confluyan hacia un movimiento fuerte y coordinado, entre ellas y las instituciones culturales del país.\n*\nPoesía y urgencia\nEstas son las películas que, a nivel personal, se convirtieron en",
-      "matchedWords": {
-        "Eh1HfZrHSRjZ": {
-          "hits": 1,
-          "textWords": 2299
-        },
-        "UTS1UnoLaEo1": {
-          "hits": 0,
-          "textWords": 2299
-        }
-      }
-    },
-    {
-      "hash": "OJX8mlAZ2Nxi",
-      "address": "https://www.eldiadecordoba.es/cordoba/",
-      "title": "Córdoba capital: noticias y última hora",
-      "snippet": "© Joly Digital | Rioja 13, Entreplanta. 41001 Sevilla\nJOLY DIGITAL, S.L. realiza una reserva expresa de las reproducciones y usos de las obras y otras prestaciones accesibles desde este sitio web a medios de lectura mecánica u otros medios que resulten adecuados a tal fin de conformidad con el",
-      "matchedWords": {
-        "Eh1HfZrHSRjZ": {
-          "hits": 0,
-          "textWords": 53
-        },
-        "UTS1UnoLaEo1": {
-          "hits": 0,
-          "textWords": 53
-        }
-      }
-    },
-    {
-      "hash": "53uEvSBNKy9k",
-      "address": "https://inehrm.gob.mx/work/models/inehrm/Resource/440/1/images/La-legislacion-del-Segundo-Imperio.pdf",
-      "title": "La-legislacion-del-Segundo-Imperio.pdf",
-      "snippet": "",
-      "matchedWords": {
-        "Eh1HfZrHSRjZ": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "UTS1UnoLaEo1": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "KBSx98CJrPJw",
-      "address": "https://version.chamilo.org/community.php",
-      "title": "Chamilo portals around the world",
-      "snippet": "",
-      "matchedWords": {
-        "Eh1HfZrHSRjZ": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "UTS1UnoLaEo1": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "Q9ZGalD5B4Sj",
-      "address": "https://www.elnortedecastilla.es/",
-      "title": "El Norte de Castilla - Noticias de Castilla y León desde 1854",
-      "snippet": "Programación\nFórmate en Python y accede a un sector en constante crecimiento\nCurso bonificable a través de Fundae.\n100% Online\nAuxiliar Técnico Veterinario\nTrabaja en centros veterinarios con esta formación especializada\nIncluye talleres prácticos presenciales\nTelepresencial\nServicios\nTelefonía,",
-      "matchedWords": {
-        "Eh1HfZrHSRjZ": {
-          "hits": 1,
-          "textWords": 4020
-        },
-        "UTS1UnoLaEo1": {
-          "hits": 0,
-          "textWords": 4020
-        }
-      }
-    },
-    {
-      "hash": "w0NcO7MJtAJA",
-      "address": "http://sivainvi.es/",
-      "title": "20 Minutos En El Futuro – Una recopilación aperiódica sobre el ahora y el mañana cercano, por Luis Roig.",
-      "snippet": "funcional a la puesta en pie de un nuevo régimen de acumulación capitalista (el “capitalismo crudo”) la están promoviendo las nuevas derechas radicales o la extrema derecha en general. Estas corrientes, además, han encontrado en el trumpismo y su asalto al Capitolio el 6 de enero de 2021 la palanca",
-      "matchedWords": {
-        "Eh1HfZrHSRjZ": {
-          "hits": 0,
-          "textWords": 8897
-        },
-        "UTS1UnoLaEo1": {
-          "hits": 1,
-          "textWords": 8897
-        }
-      }
-    },
-    {
-      "hash": "bli7kl_6fu85",
-      "address": "https://www.microsiervos.com/archivo/internet/",
-      "title": "Archivo por categorías | Internet",
-      "snippet": "funcional. Utiliza el estilo Material Design minimalista y...\nPor @Alvy - 16 JUN 2016\n38 datos de trivia sobre Internet\nUna recopilación de Mental Floss con imágenes y explicaciones para pasar el rato con datos curiosos sobre internet. ¿El dominio más antiguo? ¿La contraseña más popular? ¿Facebook",
-      "matchedWords": {
-        "Eh1HfZrHSRjZ": {
-          "hits": 4,
-          "textWords": 112646
-        },
-        "UTS1UnoLaEo1": {
-          "hits": 2,
-          "textWords": 112646
-        }
-      }
-    },
-    {
-      "hash": "A_B4Tlc3IjA6",
-      "address": "https://www.lacarceldepapel.com/",
-      "title": "La Cárcel de Papel | Diario de un lector de tebeos",
-      "snippet": "funcional\nApareciÃ³ entonces un software abierto, llamado b2, que permitÃ­a automatizar bastante el sistema, aunque obligaba a aprender PHP, SQL y varias cosas mÃ¡s. Pero como era joven, ahÃ­ que me metÃ­, y no parÃ© hasta dejar mÃ¡s o menos apaÃ±ado un sistema que permitÃ­a crear un blog.",
-      "matchedWords": {
-        "Eh1HfZrHSRjZ": {
-          "hits": 0,
-          "textWords": 67115
-        },
-        "UTS1UnoLaEo1": {
-          "hits": 1,
-          "textWords": 67115
-        }
-      }
-    },
-    {
-      "hash": "tQ27Vlh0gGlj",
-      "address": "https://www.espressotranslations.es/",
-      "title": "Servicios de Traducción – Agencia de Traducción | Espresso Translations",
-      "snippet": "programación prioritaria proporciona a los clientes una entrega confiable sin comprometer la precisión ni los estándares de formato.\nTipos de Documentos\nSe traducen diversos documentos, incluyendo contratos, escritos judiciales, patentes, acuerdos corporativos, documentos regulatorios, manuales",
-      "matchedWords": {
-        "Eh1HfZrHSRjZ": {
-          "hits": 4,
-          "textWords": 7933
-        },
-        "UTS1UnoLaEo1": {
-          "hits": 1,
-          "textWords": 7933
-        }
-      }
-    },
-    {
-      "hash": "8CWY67i0M2z4",
-      "address": "https://www.marriott.com/es/default.mi",
-      "title": "Hoteles Marriott Bonvoy | Reserva directamente y obtén tarifas exclusivas",
-      "snippet": "Destino\nFechas\nInscríbete en Marriott Bonvoy\nConsigue tarifas exclusivas, acumula puntos para noches gratis y mucho más.\nOBTÉN NOCHES GRATIS\nTARIFAS PARA SOCIOS\nWiFi gratis\nCHECK-IN MÓVIL\nLogotipo de la aplicación Bonvoy Descubre experiencias extraordinarias con la aplicación de Marriott Bonvoy™.",
-      "matchedWords": {
-        "Eh1HfZrHSRjZ": {
-          "hits": 0,
-          "textWords": 70
-        },
-        "UTS1UnoLaEo1": {
-          "hits": 0,
-          "textWords": 70
-        }
-      }
-    },
-    {
-      "hash": "WbOLu7kUu61g",
-      "address": "https://www.csic.es/es/actualidad-del-csic/la-mayor-base-de-datos-genetica-de-los-pueblos-indigenas-de-america-revela-mas-de-un-millon-de-variantes-ineditas",
-      "title": "La mayor base de datos genética de los pueblos indígenas de América revela más de un millón de variantes inéditas | Consejo Superior de Investigaciones Científicas",
-      "snippet": "Por primera vez, un estudio internacional liderado por el Instituto de Biología Evolutiva (IBE), un centro mixto del Consejo Superior de Investigaciones Científicas (CSIC) y la Universidad Pompeu Fabra (UPF), junto con la Universidad de São Paulo, ha descifrado el genoma de poblaciones indígenas",
-      "matchedWords": {
-        "Eh1HfZrHSRjZ": {
-          "hits": 0,
-          "textWords": 948
-        },
-        "UTS1UnoLaEo1": {
-          "hits": 0,
-          "textWords": 948
-        }
-      }
-    },
-    {
-      "hash": "StIUFOk_hDHh",
-      "address": "https://computerhoy.20minutos.es/",
-      "title": "Computer Hoy: Todo sobre tecnología, gadgets y novedades",
-      "snippet": "Funciones de iOS 27 para iPhone que no podrás utilizar en España por el bloqueo de la Unión Europea\nJuan Manuel Delgado\nLa Fórmula 1 mueve hasta 650 TB de datos en un solo Gran Premio: así funciona su impresionante tecnología\nAna Muñoz de Frutos\n¿Merece la pena el Apple Watch Series 12 si ya tienes",
-      "matchedWords": {
-        "Eh1HfZrHSRjZ": {
-          "hits": 0,
-          "textWords": 2161
-        },
-        "UTS1UnoLaEo1": {
-          "hits": 0,
-          "textWords": 2161
-        }
-      }
-    },
-    {
-      "hash": "gRMUp-rXlkSY",
-      "address": "http://misrecetasyyo.blogspot.com/",
-      "title": "MIS RECETAS Y YO",
-      "snippet": "torrijas\nTorrijas\nIngredientes\nPan del día anterior cortado en rodajas transversales\n1 litro de leche\nAzúcar\nPiel de limón\ncanela en polvo\ncanela en rama\nharina\nhuevo batido\nElaboración\nCortamos el pan el día anterior y lo dejamos en una bolsa.\nAl día siguiente ponemos la leche en un cazo, le",
-      "matchedWords": {
-        "Eh1HfZrHSRjZ": {
-          "hits": 0,
-          "textWords": 1449
-        },
-        "UTS1UnoLaEo1": {
-          "hits": 0,
-          "textWords": 1449
-        }
-      }
-    },
-    {
-      "hash": "kd0ALQtUBkGa",
-      "address": "http://www.lacarceldepapel.com/",
-      "title": "La Cárcel de Papel | Diario de un lector de tebeos",
-      "snippet": "funcional\nApareciÃ³ entonces un software abierto, llamado b2, que permitÃ­a automatizar bastante el sistema, aunque obligaba a aprender PHP, SQL y varias cosas mÃ¡s. Pero como era joven, ahÃ­ que me metÃ­, y no parÃ© hasta dejar mÃ¡s o menos apaÃ±ado un sistema que permitÃ­a crear un blog.",
-      "matchedWords": {
-        "Eh1HfZrHSRjZ": {
-          "hits": 0,
-          "textWords": 67115
-        },
-        "UTS1UnoLaEo1": {
-          "hits": 1,
-          "textWords": 67115
-        }
-      }
-    },
-    {
-      "hash": "nQYonmzpcBj5",
-      "address": "https://ataquealpoder.wordpress.com/",
-      "title": "Ataque al poder | Todo lo que debes saber de los bancos y el dinero y no te explican.",
-      "snippet": "",
-      "matchedWords": {
-        "Eh1HfZrHSRjZ": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "UTS1UnoLaEo1": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
     {
       "hash": "REIgDh4KILng",
       "address": "https://csirc.ugr.es/informacion/servicios/plataformas-web",
@@ -374,23 +37,8 @@
           "hits": 0,
           "textWords": 329
         }
-      }
-    },
-    {
-      "hash": "Q9ZGalD5B4Sj",
-      "address": "https://www.elnortedecastilla.es/",
-      "title": "El Norte de Castilla - Noticias de Castilla y León desde 1854",
-      "snippet": "Programación\nFórmate en Python y accede a un sector en constante crecimiento\nCurso bonificable a través de Fundae.\n100% Online\nAuxiliar Técnico Veterinario\nTrabaja en centros veterinarios con esta formación especializada\nIncluye talleres prácticos presenciales\nTelepresencial\nServicios\nTelefonía,",
-      "matchedWords": {
-        "Eh1HfZrHSRjZ": {
-          "hits": 1,
-          "textWords": 4020
-        },
-        "UTS1UnoLaEo1": {
-          "hits": 0,
-          "textWords": 4020
-        }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "QACewIgEMcog",
@@ -406,7 +54,8 @@
           "hits": 2,
           "textWords": 480
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "WbWN3OgEMcog",
@@ -422,7 +71,8 @@
           "hits": 1,
           "textWords": 724
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "nGkx8OgEMcog",
@@ -438,7 +88,8 @@
           "hits": 1,
           "textWords": 583
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "EbuDACjMl7g4",
@@ -454,7 +105,8 @@
           "hits": 1,
           "textWords": 590
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "AhT55znCqoag",
@@ -470,7 +122,8 @@
           "hits": 2,
           "textWords": 106329
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "C2m1MznCqoag",
@@ -486,23 +139,25 @@
           "hits": 1,
           "textWords": 2298
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "C3u1AznCqoag",
       "address": "https://www.boe.es/buscar/act.php?id=BOE-A-2008-20744\u0026tn=1\u0026p=20090331",
       "title": "BOE-A-2008-20744 Ley 2/2008, de 23 de diciembre, de Presupuestos Generales del Estado para el año 2009.",
-      "snippet": "funcional respecto de la Administración General del Estado.\nDicha transformación se ajustará a los siguientes requisitos:\na) El régimen jurídico del personal de las Entidades Públicas Empresariales que se transformen en Agencia podrá seguir siendo laboral cuando su Ley de creación le hubiera",
+      "snippet": "",
       "matchedWords": {
         "Eh1HfZrHSRjZ": {
-          "hits": 3,
-          "textWords": 108569
+          "hits": 0,
+          "textWords": 0
         },
         "UTS1UnoLaEo1": {
-          "hits": 1,
-          "textWords": 108569
+          "hits": 0,
+          "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "Ey9a_znCqoag",
@@ -518,7 +173,8 @@
           "hits": 1,
           "textWords": 35079
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "V41FQznCqoag",
@@ -534,23 +190,25 @@
           "hits": 17,
           "textWords": 50607
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "cw1kIznCqoag",
       "address": "https://www.boe.es/buscar/act.php?id=BOE-A-2006-13087",
       "title": "BOE-A-2006-13087 Ley Orgánica 6/2006, de 19 de julio, de reforma del Estatuto de Autonomía de Cataluña.",
-      "snippet": "funcional y las distintas formas de personificación pública y privada que puede adoptar la Administración de la Generalitat.\nb) Las formas de organización y de gestión de los servicios públicos.\nc) La actuación de la Administración de la Generalitat bajo el régimen de derecho privado, así como la",
+      "snippet": "",
       "matchedWords": {
         "Eh1HfZrHSRjZ": {
-          "hits": 8,
-          "textWords": 38790
+          "hits": 0,
+          "textWords": 0
         },
         "UTS1UnoLaEo1": {
-          "hits": 5,
-          "textWords": 38790
+          "hits": 0,
+          "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "pY_MRznCqoag",
@@ -566,7 +224,8 @@
           "hits": 17,
           "textWords": 53597
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "puVJ1znCqoag",
@@ -582,7 +241,8 @@
           "hits": 1,
           "textWords": 28524
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "qHhk9znCqoag",
@@ -598,7 +258,8 @@
           "hits": 17,
           "textWords": 53597
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "x4f8sznCqoag",
@@ -614,7 +275,8 @@
           "hits": 5,
           "textWords": 2466
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "0jIrBznCqoag",
@@ -630,23 +292,25 @@
           "hits": 2,
           "textWords": 25141
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "5pV6VznCqoag",
       "address": "https://www.boe.es/buscar/act.php?id=BOE-A-2012-9364\u0026tn=1\u0026p=20151024",
       "title": "BOE-A-2012-9364 Real Decreto-ley 20/2012, de 13 de julio, de medidas para garantizar la estabilidad presupuestaria y de fomento de la competitividad.",
-      "snippet": "funcional con el libro, periódico o revista, perfeccionando o completando su contenido y que se vendan con ellos, con las siguientes excepciones:\na) Los discos y cintas magnetofónicas que contengan exclusivamente obras musicales y cuyo valor de mercado sea superior al del libro, periódico o revista",
+      "snippet": "",
       "matchedWords": {
         "Eh1HfZrHSRjZ": {
-          "hits": 1,
-          "textWords": 46321
+          "hits": 0,
+          "textWords": 0
         },
         "UTS1UnoLaEo1": {
-          "hits": 1,
-          "textWords": 46321
+          "hits": 0,
+          "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "-tL_9znCqoag",
@@ -662,27 +326,301 @@
           "hits": 1,
           "textWords": 119054
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
-      "hash": "Q9ZGalD5B4Sj",
-      "address": "https://www.elnortedecastilla.es/",
-      "title": "El Norte de Castilla - Noticias de Castilla y León desde 1854",
-      "snippet": "Programación\nFórmate en Python y accede a un sector en constante crecimiento\nCurso bonificable a través de Fundae.\n100% Online\nAuxiliar Técnico Veterinario\nTrabaja en centros veterinarios con esta formación especializada\nIncluye talleres prácticos presenciales\nTelepresencial\nServicios\nTelefonía,",
+      "hash": "_e-KkSHKIdig",
+      "address": "https://www.eeas.europa.eu/delegations/nicaragua/nicaragua-vive-europa-en-el-cine_es",
+      "title": "Nicaragua ¡Vive Europa en el Cine! | EEAS",
+      "snippet": "programación de este año incluye cinco obras del cine clásico europeo, en un homenaje a producciones que han trascendido su época. La MCE se presentará del 13 al 26 de agosto en Cinemas Galerías Santo Domingo.\nOrganizada por la Delegación de la Unión Europea (UE) y las Embajadas de Alemania,",
       "matchedWords": {
         "Eh1HfZrHSRjZ": {
+          "hits": 2,
+          "textWords": 2865
+        },
+        "UTS1UnoLaEo1": {
           "hits": 1,
-          "textWords": 4020
+          "textWords": 2865
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "OGxqvsOrtPy6",
+      "address": "https://mutuamadridopen.com/entradas/",
+      "title": "Entradas 2026 - Mutua Madrid Open",
+      "snippet": "Los Platinum Seats son un espacio exclusivo que combina el ocio, el deporte y el networking con la idea de satisfacer las necesidades de los aficionados más exigentes. Por eso, más de 380 asistentes diarios podrán disfrutar de este nuevo espacio a lo largo de 19 sesiones.",
+      "matchedWords": {
+        "Eh1HfZrHSRjZ": {
+          "hits": 0,
+          "textWords": 45
         },
         "UTS1UnoLaEo1": {
           "hits": 0,
-          "textWords": 4020
+          "textWords": 45
         }
-      }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "i4cmUrSt_F9g",
+      "address": "https://www.abc.es/recreo/prueba-comida-sirve-geo-policia-nacional-opina-cada-plato-20250409153748-nt.html",
+      "title": "Prueba la comida que se sirve a los GEO de la Policía Nacional y opina sin filtro sobre cada plato: «Sabe demasiado a...»",
+      "snippet": "funcional, capaz de aportarles energía durante 24 horas sin necesidad de una cocina convencional. En este contexto, las raciones de campaña se convierten en un elemento clave y son muchos los creadores de contenido que se animan a probarlas frente a sus audiencias. Como 'Aruncinante', un influencer",
+      "matchedWords": {
+        "Eh1HfZrHSRjZ": {
+          "hits": 0,
+          "textWords": 690
+        },
+        "UTS1UnoLaEo1": {
+          "hits": 1,
+          "textWords": 690
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "DPpovznCqoag",
+      "address": "https://www.boe.es/buscar/doc.php?id=BOE-A-1994-22958",
+      "title": "BOE-A-1994-22958 Real Decreto 2045/1994, de 14 de octubre, por el que se establece la estructura orgánica básica del Ministerio de Cultura.",
+      "snippet": "programación, dirección y coordinación de estudios sectoriales, informes y análisis en el ámbito de las políticas culturales, con el fin de detectar las necesidades y demandas sociales y permitir la propuesta y formulación de los objetivos y planes de actuación departamentales.\n2. La determinación",
+      "matchedWords": {
+        "Eh1HfZrHSRjZ": {
+          "hits": 3,
+          "textWords": 3449
+        },
+        "UTS1UnoLaEo1": {
+          "hits": 1,
+          "textWords": 3449
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "GQGe0znCqoag",
+      "address": "https://www.boe.es/buscar/act.php?id=BOE-A-2018-16673\u0026tn=1\u0026p=20190625",
+      "title": "BOE-A-2018-16673 Ley Orgánica 3/2018, de 5 de diciembre, de Protección de Datos Personales y garantía de los derechos digitales.",
+      "snippet": "programación estadística legalmente previstos.\nDe conformidad con lo dispuesto en el artículo 11.2 de la Ley 12/1989, de 9 de mayo, de la Función Estadística Pública, serán de aportación estrictamente voluntaria y, en consecuencia, solo podrán recogerse previo consentimiento expreso de los",
+      "matchedWords": {
+        "Eh1HfZrHSRjZ": {
+          "hits": 1,
+          "textWords": 34201
+        },
+        "UTS1UnoLaEo1": {
+          "hits": 1,
+          "textWords": 34201
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "PC4W8znCqoag",
+      "address": "https://www.boe.es/buscar/act.php?id=BOE-A-2015-11430\u0026p=20211230\u0026tn=0",
+      "title": "BOE-A-2015-11430 Real Decreto Legislativo 2/2015, de 23 de octubre, por el que se aprueba el texto refundido de la Ley del Estatuto de los Trabajadores.",
+      "snippet": "funcional o la realización de funciones propias de más de un grupo, la equiparación se realizará en virtud de las funciones que se desempeñen durante mayor tiempo.\nArtículo 23. Promoción y formación profesional en el trabajo.\n1. El trabajador tendrá derecho:\na) Al disfrute de los permisos",
+      "matchedWords": {
+        "Eh1HfZrHSRjZ": {
+          "hits": 1,
+          "textWords": 50483
+        },
+        "UTS1UnoLaEo1": {
+          "hits": 17,
+          "textWords": 50483
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "fwa5gznCqoag",
+      "address": "https://www.boe.es/buscar/act.php?id=BOE-A-2015-11430\u0026p=20240802\u0026tn=0",
+      "title": "BOE-A-2015-11430 Real Decreto Legislativo 2/2015, de 23 de octubre, por el que se aprueba el texto refundido de la Ley del Estatuto de los Trabajadores.",
+      "snippet": "",
+      "matchedWords": {
+        "Eh1HfZrHSRjZ": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "UTS1UnoLaEo1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "jaCNWznCqoag",
+      "address": "https://www.boe.es/buscar/act.php?id=BOE-A-2009-9481",
+      "title": "BOE-A-2009-9481 Real Decreto 818/2009, de 8 de mayo, por el que se aprueba el Reglamento General de Conductores.",
+      "snippet": "",
+      "matchedWords": {
+        "Eh1HfZrHSRjZ": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "UTS1UnoLaEo1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "wE3s0znCqoag",
+      "address": "https://www.boe.es/buscar/doc.php?lang=va\u0026id=BOE-A-2012-9364",
+      "title": "BOE-A-2012-9364 Real Decreto-ley 20/2012, de 13 de julio, de medidas para garantizar la estabilidad presupuestaria y de fomento de la competitividad.",
+      "snippet": "",
+      "matchedWords": {
+        "Eh1HfZrHSRjZ": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "UTS1UnoLaEo1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "23ADzznCqoag",
+      "address": "https://www.boe.es/buscar/doc.php?lang=gl\u0026id=BOE-A-2012-9364",
+      "title": "BOE-A-2012-9364 Real Decreto-ley 20/2012, de 13 de julio, de medidas para garantizar la estabilidad presupuestaria y de fomento de la competitividad.",
+      "snippet": "funcional con el libro, periódico o revista, perfeccionando o completando su contenido y que se vendan con ellos, con las siguientes excepciones:\na) Los discos y cintas magnetofónicas que contengan exclusivamente obras musicales y cuyo valor de mercado sea superior al del libro, periódico o revista",
+      "matchedWords": {
+        "Eh1HfZrHSRjZ": {
+          "hits": 1,
+          "textWords": 45008
+        },
+        "UTS1UnoLaEo1": {
+          "hits": 1,
+          "textWords": 45008
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "28RE1znCqoag",
+      "address": "https://www.boe.es/buscar/act.php?id=BOE-A-2018-16673\u0026p=20251227\u0026tn=0",
+      "title": "BOE-A-2018-16673 Ley Orgánica 3/2018, de 5 de diciembre, de Protección de Datos Personales y garantía de los derechos digitales.",
+      "snippet": "programación estadística legalmente previstos.\nDe conformidad con lo dispuesto en el artículo 11.2 de la Ley 12/1989, de 9 de mayo, de la Función Estadística Pública, serán de aportación estrictamente voluntaria y, en consecuencia, solo podrán recogerse previo consentimiento expreso de los",
+      "matchedWords": {
+        "Eh1HfZrHSRjZ": {
+          "hits": 1,
+          "textWords": 34720
+        },
+        "UTS1UnoLaEo1": {
+          "hits": 1,
+          "textWords": 34720
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "4w7waznCqoag",
+      "address": "https://www.boe.es/buscar/doc.php?id=BOE-A-2010-9542",
+      "title": "BOE-A-2010-9542 Real Decreto-ley 10/2010, de 16 de junio, de medidas urgentes para la reforma del mercado de trabajo.",
+      "snippet": "funcional prevé el artículo 39 de esta Ley.\nSe entenderá que concurren las causas a que se refiere este artículo cuando la adopción de las medidas propuestas contribuya a mejorar la situación de la empresa a través de una más adecuada organización de sus recursos, que favorezca su posición",
+      "matchedWords": {
+        "Eh1HfZrHSRjZ": {
+          "hits": 1,
+          "textWords": 20026
+        },
+        "UTS1UnoLaEo1": {
+          "hits": 2,
+          "textWords": 20026
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "7v42xznCqoag",
+      "address": "https://www.boe.es/buscar/act.php?lang=en\u0026id=BOE-A-2015-11430\u0026tn=1\u0026p=20250402",
+      "title": "BOE-A-2015-11430 Real Decreto Legislativo 2/2015, de 23 de octubre, por el que se aprueba el texto refundido de la Ley del Estatuto de los Trabajadores.",
+      "snippet": "funcional o la realización de funciones propias de más de un grupo, la equiparación se realizará en virtud de las funciones que se desempeñen durante mayor tiempo.\nSe modifica el apartado 3 por el art. 2.6 del Real Decreto-ley 6/2019, de 1 de marzo. Ref. BOE-A-2019-3244\nSubir\n[Bloque 39: #a23]",
+      "matchedWords": {
+        "Eh1HfZrHSRjZ": {
+          "hits": 1,
+          "textWords": 56828
+        },
+        "UTS1UnoLaEo1": {
+          "hits": 17,
+          "textWords": 56828
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "77BOOznCqoag",
+      "address": "https://www.boe.es/buscar/act.php?id=BOE-A-2007-5825",
+      "title": "BOE-A-2007-5825 Ley Orgánica 2/2007, de 19 de marzo, de reforma del Estatuto de Autonomía para Andalucía.",
+      "snippet": "",
+      "matchedWords": {
+        "Eh1HfZrHSRjZ": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "UTS1UnoLaEo1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "78VBcznCqoag",
+      "address": "https://www.boe.es/buscar/act.php?id=BOE-A-2015-11430\u0026tn=0\u0026p=20241224",
+      "title": "BOE-A-2015-11430 Real Decreto Legislativo 2/2015, de 23 de octubre, por el que se aprueba el texto refundido de la Ley del Estatuto de los Trabajadores.",
+      "snippet": "funcional o la realización de funciones propias de más de un grupo, la equiparación se realizará en virtud de las funciones que se desempeñen durante mayor tiempo.\nArtículo 23. Promoción y formación profesional en el trabajo.\n1. El trabajador tendrá derecho:\na) Al disfrute de los permisos",
+      "matchedWords": {
+        "Eh1HfZrHSRjZ": {
+          "hits": 1,
+          "textWords": 52292
+        },
+        "UTS1UnoLaEo1": {
+          "hits": 17,
+          "textWords": 52292
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "Cp4lg97T12qg",
+      "address": "https://dialnet.unirioja.es/servlet/autor?codigo=89066",
+      "title": "Tomás Escudero Escorza - Dialnet",
+      "snippet": "programación didáctica\nTomás Escudero Escorza\nUniversidad de Zaragoza, 1978. ISBN\n84-600-1183-6\nTesis\nTesis dirigidas\nCoordinación\nObras Colectivas\nEl ICE de Zaragoza: una historia de 25 años\ncoord. por Tomás Escudero Escorza, Ramón Garcés Campos, Emilio Palacián Gil\nUniversidad de Zaragoza,",
+      "matchedWords": {
+        "Eh1HfZrHSRjZ": {
+          "hits": 1,
+          "textWords": 1308
+        },
+        "UTS1UnoLaEo1": {
+          "hits": 0,
+          "textWords": 1308
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "F6BougJPjR4x",
+      "address": "https://es.wikipedia.org/wiki/Netflix",
+      "title": "Netflix - Wikipedia, la enciclopedia libre",
+      "snippet": "funcional en todo momento, que permitiera el visionado de una gran cantidad de personas al mismo tiempo, sin poner en riesgo la calidad de la imagen. Es así que la empresa se alía con los servicios informáticos de Amazon.[21]\nEl nuevo servicio de streaming pronto ganó popularidad por el acceso",
+      "matchedWords": {
+        "Eh1HfZrHSRjZ": {
+          "hits": 4,
+          "textWords": 17572
+        },
+        "UTS1UnoLaEo1": {
+          "hits": 1,
+          "textWords": 17572
+        }
+      },
+      "queryPhraseHits": 0
     }
   ],
   "documentsHeldPerQueryWord": {
-    "Eh1HfZrHSRjZ": 2745,
-    "UTS1UnoLaEo1": 1496
+    "Eh1HfZrHSRjZ": 10022,
+    "UTS1UnoLaEo1": 488
   }
 }

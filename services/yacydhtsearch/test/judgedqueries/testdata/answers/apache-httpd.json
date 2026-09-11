@@ -1,6 +1,6 @@
 {
   "query": "apache httpd",
-  "recordedAt": "2026-09-11T21:03:05Z",
+  "recordedAt": "2026-09-11T22:14:20Z",
   "itemsInTheOrderOfEachAnswer": [
     [
       {
@@ -17,7 +17,8 @@
             "hits": 1,
             "textWords": 70
           }
-        }
+        },
+        "queryPhraseHits": 1
       }
     ],
     [
@@ -35,7 +36,8 @@
             "hits": 17,
             "textWords": 657
           }
-        }
+        },
+        "queryPhraseHits": 2
       }
     ],
     [
@@ -53,7 +55,8 @@
             "hits": 17,
             "textWords": 163
           }
-        }
+        },
+        "queryPhraseHits": 2
       }
     ],
     [
@@ -71,7 +74,8 @@
             "hits": 17,
             "textWords": 163
           }
-        }
+        },
+        "queryPhraseHits": 2
       }
     ],
     [
@@ -89,7 +93,8 @@
             "hits": 5,
             "textWords": 7912
           }
-        }
+        },
+        "queryPhraseHits": 0
       }
     ],
     [
@@ -107,7 +112,63 @@
             "hits": 17,
             "textWords": 657
           }
-        }
+        },
+        "queryPhraseHits": 2
+      }
+    ],
+    [
+      {
+        "hash": "TQ_Z1jRvmBbx",
+        "address": "https://en.wikipedia.org/wiki/XHTML",
+        "title": "XHTML - Wikipedia",
+        "snippet": "Apache (via URL rewriting).\nMozilla Web Author FAQ: How is the treatment of application/xhtml+xml documents different from the treatment of text/html documents? – summarizes one web browser's XHTML processing mode\nEmpty elements in SGML, HTML, XML, and XHTML\nHeptagrama's Basic XHTML 1.0 Strict",
+        "matchedWords": {
+          "UYOsXCzLOk3q": {
+            "hits": 0,
+            "textWords": 6871
+          },
+          "tu_WBtEY0PYg": {
+            "hits": 1,
+            "textWords": 6871
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "I5PqvobrsZjx",
+        "address": "https://www.mediawiki.org/wiki/Extension:FlaggedRevs",
+        "title": "Extension:FlaggedRevs - MediaWiki",
+        "snippet": "Apache 2.3.12 or later, you should set AllowEncodedSlashes to \"NoDecode\". Add the following line to your ‎\u003cVirtualHost\u003e or, if you don't have one, at the end of your httpd.conf file:\nAllowEncodedSlashes NoDecode\nAfter you edited httpd.conf, Apache needs to be restarted.\nAlter your .htaccess (if",
+        "matchedWords": {
+          "UYOsXCzLOk3q": {
+            "hits": 2,
+            "textWords": 3241
+          },
+          "tu_WBtEY0PYg": {
+            "hits": 2,
+            "textWords": 3241
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "WU-RwjRvmBbx",
+        "address": "https://en.wikipedia.org/wiki/Web_server",
+        "title": "Web server - Wikipedia",
+        "snippet": "httpd.\nThose early browsers retrieved web pages written in a simple early form of HTML from web servers using a new basic communication protocol that was named HTTP 0.9.\nIn August 1991 Tim Berners-Lee announced the birth of WWW technology and encouraged scientists to adopt and develop it.[13] Soon",
+        "matchedWords": {
+          "UYOsXCzLOk3q": {
+            "hits": 16,
+            "textWords": 9955
+          },
+          "tu_WBtEY0PYg": {
+            "hits": 26,
+            "textWords": 9955
+          }
+        },
+        "queryPhraseHits": 10
       }
     ],
     [
@@ -125,7 +186,8 @@
             "hits": 1,
             "textWords": 70
           }
-        }
+        },
+        "queryPhraseHits": 1
       }
     ]
   ],
@@ -144,7 +206,8 @@
           "hits": 1,
           "textWords": 47685
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "N7wUjwH9JDL6",
@@ -160,7 +223,8 @@
           "hits": 1,
           "textWords": 404
         }
-      }
+      },
+      "queryPhraseHits": 1
     },
     {
       "hash": "OlDnjayzSDzw",
@@ -176,7 +240,8 @@
           "hits": 5,
           "textWords": 247
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "OtQmQXyzSDzw",
@@ -192,7 +257,8 @@
           "hits": 2,
           "textWords": 19
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "QJO3EayzSDzw",
@@ -208,7 +274,8 @@
           "hits": 5,
           "textWords": 200
         }
-      }
+      },
+      "queryPhraseHits": 4
     },
     {
       "hash": "VE5O8I55Qxow",
@@ -224,7 +291,8 @@
           "hits": 2,
           "textWords": 9186
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "QJO3EayzSDzw",
@@ -240,7 +308,8 @@
           "hits": 5,
           "textWords": 200
         }
-      }
+      },
+      "queryPhraseHits": 4
     },
     {
       "hash": "U69luayzSDzw",
@@ -256,7 +325,8 @@
           "hits": 12,
           "textWords": 230
         }
-      }
+      },
+      "queryPhraseHits": 4
     },
     {
       "hash": "r4dI5jRvmBbx",
@@ -272,7 +342,25 @@
           "hits": 2,
           "textWords": 11005
         }
-      }
+      },
+      "queryPhraseHits": 1
+    },
+    {
+      "hash": "h5b7DXyzSDzw",
+      "address": "https://httpd.apache.org/docs/current/howto/reverse_proxy.html",
+      "title": "Reverse Proxy Guide - Apache HTTP Server Version 2.4",
+      "snippet": "Apache httpd can act as a reverse proxy server (sometimes called a gateway).\nIn this mode, httpd does not generate the content itself. Instead, it forwards each client request to one or more backend servers that have no direct connection to the external network. The backend processes the request",
+      "matchedWords": {
+        "UYOsXCzLOk3q": {
+          "hits": 8,
+          "textWords": 1106
+        },
+        "tu_WBtEY0PYg": {
+          "hits": 3,
+          "textWords": 1106
+        }
+      },
+      "queryPhraseHits": 3
     },
     {
       "hash": "s2BSFayzSDzw",
@@ -288,7 +376,8 @@
           "hits": 13,
           "textWords": 285
         }
-      }
+      },
+      "queryPhraseHits": 1
     },
     {
       "hash": "uFJMaayzSDzw",
@@ -304,7 +393,59 @@
           "hits": 21,
           "textWords": 2453
         }
-      }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "B0_2p79moDe4",
+      "address": "https://www.linux.com/training-tutorials/configuring-apache2-run-python-scripts/",
+      "title": "Configuring Apache2 to run Python Scripts - Linux.com",
+      "snippet": "apache.org has mountains of documentation (http://httpd.apache.org/docs/2.2/howto/cgi.html) relating to running CGIs. What I didn’t find was a simple guide on how to set it up. I’m a developer, not a sys-admin, and while I like knowing how to configure Apache and tune my linux boxes, sometimes I",
+      "matchedWords": {
+        "UYOsXCzLOk3q": {
+          "hits": 1,
+          "textWords": 727
+        },
+        "tu_WBtEY0PYg": {
+          "hits": 6,
+          "textWords": 727
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "D_ywrswDvzb5",
+      "address": "https://distrowatch.com/table.php?distribution=mint",
+      "title": "DistroWatch.com: Linux Mint",
+      "snippet": "Journaled File Systems Btrfs, ext4, XFS Btrfs, ext4, XFS Btrfs, ext4, JFS, ReiserFS, XFS Btrfs, ext4, JFS, ReiserFS, XFS Btrfs, ext4, JFS, ReiserFS, XFS Btrfs, ext4, JFS, ReiserFS, XFS Btrfs, ext4, JFS, ReiserFS, XFS Btrfs, ext4, JFS, ReiserFS, XFS Btrfs, ext4, JFS, ReiserFS, XFS Btrfs, ext4, JFS,",
+      "matchedWords": {
+        "UYOsXCzLOk3q": {
+          "hits": 0,
+          "textWords": 131
+        },
+        "tu_WBtEY0PYg": {
+          "hits": 0,
+          "textWords": 131
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "DJNgIXyzSDzw",
+      "address": "https://httpd.apache.org/docs/2.4/ssl/ssl_howto.html",
+      "title": "SSL/TLS Strong Encryption: How-To - Apache HTTP Server Version 2.4",
+      "snippet": "httpd and mod_ssl, maintains current OCSP responses for its certificates and sends them to clients which communicate with the server. Most certificates contain the address of an OCSP responder maintained by the issuing Certificate Authority, and mod_ssl can communicate with that responder to obtain",
+      "matchedWords": {
+        "UYOsXCzLOk3q": {
+          "hits": 7,
+          "textWords": 2008
+        },
+        "tu_WBtEY0PYg": {
+          "hits": 0,
+          "textWords": 2008
+        }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "VE5O8I55Qxow",
@@ -320,7 +461,8 @@
           "hits": 2,
           "textWords": 9186
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "CeKDz29cq-94",
@@ -336,7 +478,93 @@
           "hits": 1,
           "textWords": 47685
         }
-      }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "JnOPVjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Common_Gateway_Interface",
+      "title": "Common Gateway Interface - Wikipedia",
+      "snippet": "HTTPd Web server)\nJohn Franks (author of the GN Web server)\nAri Luotonen (the developer of the CERN httpd Web server)\nTony Sanders (author of the Plexus Web server)\nGeorge Phillips (Web server maintainer at the University of British Columbia)\nHistorically CGI programs were often written using the C",
+      "matchedWords": {
+        "UYOsXCzLOk3q": {
+          "hits": 2,
+          "textWords": 2269
+        },
+        "tu_WBtEY0PYg": {
+          "hits": 8,
+          "textWords": 2269
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "YJ11QjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Server_Name_Indication",
+      "title": "Server Name Indication - Wikipedia",
+      "snippet": "(Apache HTTP Server in 2009, Microsoft IIS in 2012).\nFor an application program to implement SNI, the TLS library it uses must implement it and the application must pass the hostname to the TLS library. Further complicating matters, the TLS library may either be included in the application program",
+      "matchedWords": {
+        "UYOsXCzLOk3q": {
+          "hits": 1,
+          "textWords": 3338
+        },
+        "tu_WBtEY0PYg": {
+          "hits": 4,
+          "textWords": 3338
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "Rx8AIs_tHst4",
+      "address": "https://dwheeler.com/oss_fs_why.html",
+      "title": "Why Open Source Software / Free Software (OSS/FS, FOSS, or FLOSS)? Look at the Numbers!",
+      "snippet": "Apache web server, the Mozilla Firefox web browser, and the OpenOffice.org office suite, since these are some of the most visible FLOSS projects. I’ll also primarily compare FLOSS software to Microsoft’s products (such as Windows and IIS), since Microsoft Windows is widely used and Microsoft is one",
+      "matchedWords": {
+        "UYOsXCzLOk3q": {
+          "hits": 1,
+          "textWords": 92275
+        },
+        "tu_WBtEY0PYg": {
+          "hits": 109,
+          "textWords": 92275
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "9N5z4MaQF27w",
+      "address": "https://www.apache.org/foundation/members",
+      "title": "ASF Members | Apache Software Foundation",
+      "snippet": "Apache Software Foundation is a privilege and is by invitation only. The Governance page provides details on Membership and the nomination process.\nGo to Member List\nThis table shows current members who have manually added themselves to it – it is NOT a complete listing. If you are a member and",
+      "matchedWords": {
+        "UYOsXCzLOk3q": {
+          "hits": 40,
+          "textWords": 3476
+        },
+        "tu_WBtEY0PYg": {
+          "hits": 3,
+          "textWords": 3476
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "rMsoyobrsZjx",
+      "address": "https://www.mediawiki.org/wiki/Manual:Installation_guide",
+      "title": "Manual:Installing MediaWiki - MediaWiki",
+      "snippet": "Apache, PHP, and MySQL/MariaDB will make the process easier. For any questions regarding MediaWiki installations, ask the Project: Support desk or refer to other places listed at Communication.\nThe Appendices section below offers alternatives to manual installation, along with specific installation",
+      "matchedWords": {
+        "UYOsXCzLOk3q": {
+          "hits": 5,
+          "textWords": 1478
+        },
+        "tu_WBtEY0PYg": {
+          "hits": 5,
+          "textWords": 1478
+        }
+      },
+      "queryPhraseHits": 1
     },
     {
       "hash": "OlDnjayzSDzw",
@@ -352,7 +580,8 @@
           "hits": 5,
           "textWords": 247
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "OtQmQXyzSDzw",
@@ -368,7 +597,8 @@
           "hits": 2,
           "textWords": 19
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "QJO3EayzSDzw",
@@ -384,7 +614,8 @@
           "hits": 5,
           "textWords": 200
         }
-      }
+      },
+      "queryPhraseHits": 4
     },
     {
       "hash": "U69luayzSDzw",
@@ -400,7 +631,42 @@
           "hits": 12,
           "textWords": 230
         }
-      }
+      },
+      "queryPhraseHits": 4
+    },
+    {
+      "hash": "h5b7DXyzSDzw",
+      "address": "https://httpd.apache.org/docs/current/howto/reverse_proxy.html",
+      "title": "Reverse Proxy Guide - Apache HTTP Server Version 2.4",
+      "snippet": "Apache httpd can act as a reverse proxy server (sometimes called a gateway).\nIn this mode, httpd does not generate the content itself. Instead, it forwards each client request to one or more backend servers that have no direct connection to the external network. The backend processes the request",
+      "matchedWords": {
+        "UYOsXCzLOk3q": {
+          "hits": 8,
+          "textWords": 1106
+        },
+        "tu_WBtEY0PYg": {
+          "hits": 3,
+          "textWords": 1106
+        }
+      },
+      "queryPhraseHits": 3
+    },
+    {
+      "hash": "jZqlPXyzSDzw",
+      "address": "https://httpd.apache.org/docs/2.4/mod/mod_userdir.html",
+      "title": "mod_userdir - Apache HTTP Server Version 2.4",
+      "snippet": "Apache Module mod_userdir\nAvailable Languages: en | fr | ja | ko | tr\nDescription:\nUser-specific directories\nStatus:\nBase\nModule Identifier:\nuserdir_module\nSource File:\nmod_userdir.c\nSummary\nBy using this module you are allowing multiple users to host content within the same origin. The same origin",
+      "matchedWords": {
+        "UYOsXCzLOk3q": {
+          "hits": 1,
+          "textWords": 650
+        },
+        "tu_WBtEY0PYg": {
+          "hits": 2,
+          "textWords": 650
+        }
+      },
+      "queryPhraseHits": 1
     },
     {
       "hash": "s2BSFayzSDzw",
@@ -416,7 +682,8 @@
           "hits": 13,
           "textWords": 285
         }
-      }
+      },
+      "queryPhraseHits": 1
     },
     {
       "hash": "uFJMaayzSDzw",
@@ -432,7 +699,8 @@
           "hits": 21,
           "textWords": 2453
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "N7wUjwH9JDL6",
@@ -448,7 +716,42 @@
           "hits": 1,
           "textWords": 404
         }
-      }
+      },
+      "queryPhraseHits": 1
+    },
+    {
+      "hash": "TtoO2dFO6r_x",
+      "address": "https://de.wikipedia.org/wiki/Hostrechner",
+      "title": "Hostrechner – Wikipedia",
+      "snippet": "Apache-HTTP-Servern enthält eine VirtualHosts-Direktive,[7] die mehrere getrennte Websites auf einem einzigen Host ermöglicht.\nZwei Formen sind zu unterscheiden:\nIP-basierte virtuelle Hosts erfordern, dass der Netzwerkschnittstelle des Hosts mehrere IP-Adressen zugewiesen werden. Um auf eine",
+      "matchedWords": {
+        "UYOsXCzLOk3q": {
+          "hits": 0,
+          "textWords": 1654
+        },
+        "tu_WBtEY0PYg": {
+          "hits": 3,
+          "textWords": 1654
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "5TYifdFO6r_x",
+      "address": "https://de.wikipedia.org/wiki/Webserver",
+      "title": "Webserver – Wikipedia",
+      "snippet": "httpd und den ersten Webbrowser WorldWideWeb, beide unter NeXTStep. Der CERN httpd wurde auf Unix und VMS portiert und bis 1996 weiterentwickelt.[2]\n1994 entschied sich Tim Berners-Lee, das World Wide Web Consortium zu gründen, um die weitere Entwicklung der verwendeten Technologien (Protokolle,",
+      "matchedWords": {
+        "UYOsXCzLOk3q": {
+          "hits": 4,
+          "textWords": 1418
+        },
+        "tu_WBtEY0PYg": {
+          "hits": 5,
+          "textWords": 1418
+        }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "r4dI5jRvmBbx",
@@ -464,11 +767,12 @@
           "hits": 2,
           "textWords": 11005
         }
-      }
+      },
+      "queryPhraseHits": 1
     }
   ],
   "documentsHeldPerQueryWord": {
-    "UYOsXCzLOk3q": 885,
-    "tu_WBtEY0PYg": 8577
+    "UYOsXCzLOk3q": 909,
+    "tu_WBtEY0PYg": 23575
   }
 }

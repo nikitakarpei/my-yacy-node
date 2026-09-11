@@ -1,29 +1,7 @@
 {
   "query": "chaos computer club",
-  "recordedAt": "2026-09-11T21:02:55Z",
+  "recordedAt": "2026-09-11T22:14:21Z",
   "itemsInTheOrderOfEachAnswer": [
-    [
-      {
-        "hash": "pYw3_AHucLY4",
-        "address": "https://adrienalfiste.vip-blog.com/",
-        "title": "adrienalfiste blog : Le blog d'Adri (83)",
-        "snippet": "",
-        "matchedWords": {
-          "31PKJoJAynZn": {
-            "hits": 0,
-            "textWords": 0
-          },
-          "6SKJg0Ll-TIS": {
-            "hits": 3,
-            "textWords": 15701
-          },
-          "lcxrSsWr3q3H": {
-            "hits": 0,
-            "textWords": 0
-          }
-        }
-      }
-    ],
     [
       {
         "hash": "pYw3_AHucLY4",
@@ -43,7 +21,8 @@
             "hits": 0,
             "textWords": 0
           }
-        }
+        },
+        "queryPhraseHits": 0
       }
     ]
   ],
@@ -66,7 +45,197 @@
           "hits": 0,
           "textWords": 157
         }
-      }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "uaEnGzTwnifx",
+      "address": "https://planet.wordpress.org/",
+      "title": "Planet — WordPress.org",
+      "snippet": "chaos, or secrets, into your code base.\nThe conversation focused not only on technical solutions, but also got into bigger questions about trust, how much oversight AI really needs, and the evolving role of developers.\nChris emphasised that while these AI tools can accelerate and democratise",
+      "matchedWords": {
+        "31PKJoJAynZn": {
+          "hits": 2,
+          "textWords": 9047
+        },
+        "6SKJg0Ll-TIS": {
+          "hits": 6,
+          "textWords": 9047
+        },
+        "lcxrSsWr3q3H": {
+          "hits": 0,
+          "textWords": 9047
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "VpCOpt6ArEvw",
+      "address": "https://blog.archive.org/",
+      "title": "Internet Archive Blogs | Updates from the Internet Archive",
+      "snippet": "computer hobbyists went to great lengths to learn about their new technology. Many of these learning opportunities were inherently social: computer classes, software store hangouts, electronic bulletin board systems, and user groups.\nA user group or computer club was a wonderful way to get to know",
+      "matchedWords": {
+        "31PKJoJAynZn": {
+          "hits": 16,
+          "textWords": 5347
+        },
+        "6SKJg0Ll-TIS": {
+          "hits": 0,
+          "textWords": 5347
+        },
+        "lcxrSsWr3q3H": {
+          "hits": 6,
+          "textWords": 5347
+        }
+      },
+      "queryPhraseHits": 3
+    },
+    {
+      "hash": "B1-6vlAU28d6",
+      "address": "https://www.thenationalnews.com/",
+      "title": "The National - Latest world news, sport \u0026 opinion",
+      "snippet": "Pictures of the Day\nPalestinian children watch a film at a makeshift open-air cinema amid the ruins of buildings in Gaza city's Sheikh Radwan neighbourhood. EPA\nShow caption: Palestinian children watch a film at a makeshift open-air ci…\nPalestinian children watch a film at a makeshift open-air",
+      "matchedWords": {
+        "31PKJoJAynZn": {
+          "hits": 0,
+          "textWords": 632
+        },
+        "6SKJg0Ll-TIS": {
+          "hits": 0,
+          "textWords": 632
+        },
+        "lcxrSsWr3q3H": {
+          "hits": 0,
+          "textWords": 632
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "AusdxlCSjNEw",
+      "address": "https://www.peta.org/",
+      "title": "People for the Ethical Treatment of Animals (PETA)",
+      "snippet": "‘Cage-Free’ Means Nothing to Hens Like Her\n‘Cage-Free’ Means Nothing to Hens Like Her\nShe and the 10,000 others trapped in this shed just want to be free. Watch PETA’s latest video and find out how to help birds like her now!\nThis Is What Animal Testing Looks Like From the Sky\nThis Is What Animal",
+      "matchedWords": {
+        "31PKJoJAynZn": {
+          "hits": 0,
+          "textWords": 650
+        },
+        "6SKJg0Ll-TIS": {
+          "hits": 0,
+          "textWords": 650
+        },
+        "lcxrSsWr3q3H": {
+          "hits": 0,
+          "textWords": 650
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "_f5CEjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Security_hacker",
+      "title": "Security hacker - Wikipedia",
+      "snippet": "computer system or network.[1] Hackers may be motivated by a multitude of reasons, such as profit, protest, sabotage, information gathering,[2] challenge, recreation,[3] or evaluation of a system weaknesses to assist in formulating defenses against potential hackers.[citation needed]\nHistory\nBirth",
+      "matchedWords": {
+        "31PKJoJAynZn": {
+          "hits": 67,
+          "textWords": 4578
+        },
+        "6SKJg0Ll-TIS": {
+          "hits": 1,
+          "textWords": 4578
+        },
+        "lcxrSsWr3q3H": {
+          "hits": 0,
+          "textWords": 4578
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "uaEnGzTwnifx",
+      "address": "https://planet.wordpress.org/",
+      "title": "Planet — WordPress.org",
+      "snippet": "chaos, or secrets, into your code base.\nThe conversation focused not only on technical solutions, but also got into bigger questions about trust, how much oversight AI really needs, and the evolving role of developers.\nChris emphasised that while these AI tools can accelerate and democratise",
+      "matchedWords": {
+        "31PKJoJAynZn": {
+          "hits": 2,
+          "textWords": 9047
+        },
+        "6SKJg0Ll-TIS": {
+          "hits": 6,
+          "textWords": 9047
+        },
+        "lcxrSsWr3q3H": {
+          "hits": 0,
+          "textWords": 9047
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "-p2w3taoSn1x",
+      "address": "https://en.planet.wikimedia.org/",
+      "title": "en.planet.wikimedia.org",
+      "snippet": "This July, the City of Light welcomed Wikimedians from all over the world. Some 1,250 attendees joined in person in Paris, while nearly 2000 joined Wikimania 2026 online. In total, more than 3200 of us came together to participate in conference sessions, discuss collaboration around “Freedom,",
+      "matchedWords": {
+        "31PKJoJAynZn": {
+          "hits": 0,
+          "textWords": 16720
+        },
+        "6SKJg0Ll-TIS": {
+          "hits": 0,
+          "textWords": 16720
+        },
+        "lcxrSsWr3q3H": {
+          "hits": 0,
+          "textWords": 16720
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "Qj6oCHl9zMFY",
+      "address": "http://antigreen.blogspot.com/",
+      "title": "GREENIE WATCH",
+      "snippet": "Molten Salt Reactor at ACU Receives Historic NRC Construction Permit\nMolten salt is very hard to control. Expect disasters\nABILENE, Texas – September 16th: The U.S. Nuclear Regulatory Commission (NRC) has issued a construction permit (CP) for the deployment of the Natura Resources’ MSR-1 system at",
+      "matchedWords": {
+        "31PKJoJAynZn": {
+          "hits": 0,
+          "textWords": 4718
+        },
+        "6SKJg0Ll-TIS": {
+          "hits": 0,
+          "textWords": 4718
+        },
+        "lcxrSsWr3q3H": {
+          "hits": 0,
+          "textWords": 4718
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "pZOf2ym_mTBS",
+      "address": "http://www.concatenation.org/stuff/best-science-fiction-of-the-year.html",
+      "title": "Best Science Fiction of the Year",
+      "snippet": "Chaos Kind of Awards 2022 in its 'Science Fiction' category. A Psalm for the Wild-Built and Project Hail Mary were both short-listed for a Hugo Award with A Psalm for the Wild-Built winning in the 'Best Novella' category. A Psalm for the Wild-Built won the inaugural Utopia Award for Best Novella.",
+      "matchedWords": {
+        "31PKJoJAynZn": {
+          "hits": 5,
+          "textWords": 17657
+        },
+        "6SKJg0Ll-TIS": {
+          "hits": 1,
+          "textWords": 17657
+        },
+        "lcxrSsWr3q3H": {
+          "hits": 4,
+          "textWords": 17657
+        }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "GtLjhloUbV15",
@@ -86,7 +255,50 @@
           "hits": 0,
           "textWords": 157
         }
-      }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "VpCOpt6ArEvw",
+      "address": "https://blog.archive.org/",
+      "title": "Internet Archive Blogs | Updates from the Internet Archive",
+      "snippet": "computer hobbyists went to great lengths to learn about their new technology. Many of these learning opportunities were inherently social: computer classes, software store hangouts, electronic bulletin board systems, and user groups.\nA user group or computer club was a wonderful way to get to know",
+      "matchedWords": {
+        "31PKJoJAynZn": {
+          "hits": 16,
+          "textWords": 5347
+        },
+        "6SKJg0Ll-TIS": {
+          "hits": 0,
+          "textWords": 5347
+        },
+        "lcxrSsWr3q3H": {
+          "hits": 6,
+          "textWords": 5347
+        }
+      },
+      "queryPhraseHits": 3
+    },
+    {
+      "hash": "uaEnGzTwnifx",
+      "address": "https://planet.wordpress.org/",
+      "title": "Planet — WordPress.org",
+      "snippet": "chaos, or secrets, into your code base.\nThe conversation focused not only on technical solutions, but also got into bigger questions about trust, how much oversight AI really needs, and the evolving role of developers.\nChris emphasised that while these AI tools can accelerate and democratise",
+      "matchedWords": {
+        "31PKJoJAynZn": {
+          "hits": 2,
+          "textWords": 9047
+        },
+        "6SKJg0Ll-TIS": {
+          "hits": 6,
+          "textWords": 9047
+        },
+        "lcxrSsWr3q3H": {
+          "hits": 0,
+          "textWords": 9047
+        }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "GtLjhloUbV15",
@@ -106,7 +318,71 @@
           "hits": 0,
           "textWords": 157
         }
-      }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "VpCOpt6ArEvw",
+      "address": "https://blog.archive.org/",
+      "title": "Internet Archive Blogs | Updates from the Internet Archive",
+      "snippet": "computer hobbyists went to great lengths to learn about their new technology. Many of these learning opportunities were inherently social: computer classes, software store hangouts, electronic bulletin board systems, and user groups.\nA user group or computer club was a wonderful way to get to know",
+      "matchedWords": {
+        "31PKJoJAynZn": {
+          "hits": 16,
+          "textWords": 5347
+        },
+        "6SKJg0Ll-TIS": {
+          "hits": 0,
+          "textWords": 5347
+        },
+        "lcxrSsWr3q3H": {
+          "hits": 6,
+          "textWords": 5347
+        }
+      },
+      "queryPhraseHits": 3
+    },
+    {
+      "hash": "_f5CEjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Security_hacker",
+      "title": "Security hacker - Wikipedia",
+      "snippet": "computer system or network.[1] Hackers may be motivated by a multitude of reasons, such as profit, protest, sabotage, information gathering,[2] challenge, recreation,[3] or evaluation of a system weaknesses to assist in formulating defenses against potential hackers.[citation needed]\nHistory\nBirth",
+      "matchedWords": {
+        "31PKJoJAynZn": {
+          "hits": 67,
+          "textWords": 4578
+        },
+        "6SKJg0Ll-TIS": {
+          "hits": 1,
+          "textWords": 4578
+        },
+        "lcxrSsWr3q3H": {
+          "hits": 0,
+          "textWords": 4578
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "-p2w3taoSn1x",
+      "address": "https://en.planet.wikimedia.org/",
+      "title": "en.planet.wikimedia.org",
+      "snippet": "This July, the City of Light welcomed Wikimedians from all over the world. Some 1,250 attendees joined in person in Paris, while nearly 2000 joined Wikimania 2026 online. In total, more than 3200 of us came together to participate in conference sessions, discuss collaboration around “Freedom,",
+      "matchedWords": {
+        "31PKJoJAynZn": {
+          "hits": 0,
+          "textWords": 16720
+        },
+        "6SKJg0Ll-TIS": {
+          "hits": 0,
+          "textWords": 16720
+        },
+        "lcxrSsWr3q3H": {
+          "hits": 0,
+          "textWords": 16720
+        }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "GtLjhloUbV15",
@@ -126,7 +402,71 @@
           "hits": 0,
           "textWords": 157
         }
-      }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "B1-6vlAU28d6",
+      "address": "https://www.thenationalnews.com/",
+      "title": "The National - Latest world news, sport \u0026 opinion",
+      "snippet": "Pictures of the Day\nPalestinian children watch a film at a makeshift open-air cinema amid the ruins of buildings in Gaza city's Sheikh Radwan neighbourhood. EPA\nShow caption: Palestinian children watch a film at a makeshift open-air ci…\nPalestinian children watch a film at a makeshift open-air",
+      "matchedWords": {
+        "31PKJoJAynZn": {
+          "hits": 0,
+          "textWords": 632
+        },
+        "6SKJg0Ll-TIS": {
+          "hits": 0,
+          "textWords": 632
+        },
+        "lcxrSsWr3q3H": {
+          "hits": 0,
+          "textWords": 632
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "-p2w3taoSn1x",
+      "address": "https://en.planet.wikimedia.org/",
+      "title": "en.planet.wikimedia.org",
+      "snippet": "This July, the City of Light welcomed Wikimedians from all over the world. Some 1,250 attendees joined in person in Paris, while nearly 2000 joined Wikimania 2026 online. In total, more than 3200 of us came together to participate in conference sessions, discuss collaboration around “Freedom,",
+      "matchedWords": {
+        "31PKJoJAynZn": {
+          "hits": 0,
+          "textWords": 16720
+        },
+        "6SKJg0Ll-TIS": {
+          "hits": 0,
+          "textWords": 16720
+        },
+        "lcxrSsWr3q3H": {
+          "hits": 0,
+          "textWords": 16720
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "pZOf2ym_mTBS",
+      "address": "http://www.concatenation.org/stuff/best-science-fiction-of-the-year.html",
+      "title": "Best Science Fiction of the Year",
+      "snippet": "Chaos Kind of Awards 2022 in its 'Science Fiction' category. A Psalm for the Wild-Built and Project Hail Mary were both short-listed for a Hugo Award with A Psalm for the Wild-Built winning in the 'Best Novella' category. A Psalm for the Wild-Built won the inaugural Utopia Award for Best Novella.",
+      "matchedWords": {
+        "31PKJoJAynZn": {
+          "hits": 5,
+          "textWords": 17657
+        },
+        "6SKJg0Ll-TIS": {
+          "hits": 1,
+          "textWords": 17657
+        },
+        "lcxrSsWr3q3H": {
+          "hits": 4,
+          "textWords": 17657
+        }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "GtLjhloUbV15",
@@ -146,7 +486,50 @@
           "hits": 0,
           "textWords": 157
         }
-      }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "-p2w3taoSn1x",
+      "address": "https://en.planet.wikimedia.org/",
+      "title": "en.planet.wikimedia.org",
+      "snippet": "This July, the City of Light welcomed Wikimedians from all over the world. Some 1,250 attendees joined in person in Paris, while nearly 2000 joined Wikimania 2026 online. In total, more than 3200 of us came together to participate in conference sessions, discuss collaboration around “Freedom,",
+      "matchedWords": {
+        "31PKJoJAynZn": {
+          "hits": 0,
+          "textWords": 16720
+        },
+        "6SKJg0Ll-TIS": {
+          "hits": 0,
+          "textWords": 16720
+        },
+        "lcxrSsWr3q3H": {
+          "hits": 0,
+          "textWords": 16720
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "pZOf2ym_mTBS",
+      "address": "http://www.concatenation.org/stuff/best-science-fiction-of-the-year.html",
+      "title": "Best Science Fiction of the Year",
+      "snippet": "Chaos Kind of Awards 2022 in its 'Science Fiction' category. A Psalm for the Wild-Built and Project Hail Mary were both short-listed for a Hugo Award with A Psalm for the Wild-Built winning in the 'Best Novella' category. A Psalm for the Wild-Built won the inaugural Utopia Award for Best Novella.",
+      "matchedWords": {
+        "31PKJoJAynZn": {
+          "hits": 5,
+          "textWords": 17657
+        },
+        "6SKJg0Ll-TIS": {
+          "hits": 1,
+          "textWords": 17657
+        },
+        "lcxrSsWr3q3H": {
+          "hits": 4,
+          "textWords": 17657
+        }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "GtLjhloUbV15",
@@ -166,12 +549,34 @@
           "hits": 0,
           "textWords": 157
         }
-      }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "AusdxlCSjNEw",
+      "address": "https://www.peta.org/",
+      "title": "People for the Ethical Treatment of Animals (PETA)",
+      "snippet": "‘Cage-Free’ Means Nothing to Hens Like Her\n‘Cage-Free’ Means Nothing to Hens Like Her\nShe and the 10,000 others trapped in this shed just want to be free. Watch PETA’s latest video and find out how to help birds like her now!\nThis Is What Animal Testing Looks Like From the Sky\nThis Is What Animal",
+      "matchedWords": {
+        "31PKJoJAynZn": {
+          "hits": 0,
+          "textWords": 650
+        },
+        "6SKJg0Ll-TIS": {
+          "hits": 0,
+          "textWords": 650
+        },
+        "lcxrSsWr3q3H": {
+          "hits": 0,
+          "textWords": 650
+        }
+      },
+      "queryPhraseHits": 0
     }
   ],
   "documentsHeldPerQueryWord": {
-    "31PKJoJAynZn": 58224,
-    "6SKJg0Ll-TIS": 1332,
-    "lcxrSsWr3q3H": 55018
+    "31PKJoJAynZn": 60458,
+    "6SKJg0Ll-TIS": 51824,
+    "lcxrSsWr3q3H": 56193
   }
 }

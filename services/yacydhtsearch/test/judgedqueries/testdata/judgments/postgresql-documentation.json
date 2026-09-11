@@ -2,28 +2,10 @@
   "query": "postgresql documentation",
   "judgedDocuments": [
     {
-      "hash": "lYsgT81iNM2x",
-      "address": "https://wiki.postgresql.org/wiki/Category:Documentation",
-      "title": "Category:Documentation - PostgreSQL wiki",
-      "grade": 2
-    },
-    {
-      "hash": "n8OZP81iNM2x",
-      "address": "https://wiki.postgresql.org/wiki/Foreign_data_wrappers",
-      "title": "Foreign data wrappers - PostgreSQL wiki",
+      "hash": "XccPH7NSh3ha",
+      "address": "http://xn--gckvb8fzb.com/xbsapi-an-alternative-xbrowsersync-api-that-supports-sqlite-postgresql-and-mysql/",
+      "title": "マリウス . xbsapi: An Alternative xBrowserSync API that supports SQLite, PostgreSQL and MySQL",
       "grade": 1
-    },
-    {
-      "hash": "BR1Be6RMLT-5",
-      "address": "https://canonical.com/data/postgresql",
-      "title": "PostgreSQL | Canonical",
-      "grade": 0
-    },
-    {
-      "hash": "k5-pcx7Yxvhx",
-      "address": "https://www.postgresql.org/docs/release/18.6/",
-      "title": "PostgreSQL: Release Notes",
-      "grade": 2
     },
     {
       "hash": "Hb2lZx7Yxvhx",
@@ -32,45 +14,21 @@
       "grade": 2
     },
     {
-      "hash": "yRevkYe7r2M5",
-      "address": "https://www.appsignal.com/python/postgresql-monitoring",
-      "title": "Psycopg2 PostgreSQL monitoring for Python | AppSignal",
-      "grade": 0
-    },
-    {
-      "hash": "qgwjkx7Yxvhx",
-      "address": "https://www.postgresql.org/docs/current/libpq.html",
-      "title": "PostgreSQL: Documentation: 18: Chapter 32. libpq — C Library",
-      "grade": 2
-    },
-    {
-      "hash": "2SrIwzakb0b6",
-      "address": "https://thehackernews.com/2026/09/postgresql-fixes-12-year-old-logical.html?m=1",
-      "title": "PostgreSQL Fixes 12-Year-Old Logical Decoding Flaw Enabling Replication-Role Code Execution",
-      "grade": 0
-    },
-    {
-      "hash": "eLguDfs7j0L4",
-      "address": "https://dietpi.com/forum/t/boot-dietpi-func-dietpi-logclear-1-boot-dietpi-func-dietpi-logclear-line-126-var-log-postgresql-postgresql-15-main-log-permission-denied/17426/11",
-      "title": "/boot/dietpi/func/dietpi-logclear 1 => /boot/dietpi/func/dietpi-logclear: line 126: /var/log/postgresql/postgresql-15-main.log: Permission denied",
-      "grade": 0
-    },
-    {
-      "hash": "-PElUl7Yxvhx",
-      "address": "https://www.postgresql.org/community/",
-      "title": "PostgreSQL: Community",
-      "grade": 1
-    },
-    {
       "hash": "qBsAylqYg_k4",
       "address": "https://www.heroku.com/what-is-postgresql/",
       "title": "What is PostgreSQL? | Heroku",
       "grade": 1
     },
     {
-      "hash": "Qz_7APS6MKD4",
-      "address": "https://github.com/discourse/discourse",
-      "title": "GitHub - discourse/discourse: A platform for community discussion. Free, open, simple. · GitHub",
+      "hash": "S1Yp5x7Yxvhx",
+      "address": "https://www.postgresql.org/docs/current/spi-spi-freeplan.html",
+      "title": "PostgreSQL: Documentation: 18: SPI_freeplan",
+      "grade": 2
+    },
+    {
+      "hash": "BR1Be6RMLT-5",
+      "address": "https://canonical.com/data/postgresql",
+      "title": "PostgreSQL | Canonical",
       "grade": 0
     },
     {
@@ -80,10 +38,10 @@
       "grade": 0
     },
     {
-      "hash": "Lj9Sl2c9duY5",
-      "address": "https://azure.microsoft.com/en-us",
-      "title": "Cloud Computing Services | Microsoft Azure",
-      "grade": 0
+      "hash": "JYR-dtS6MKD4",
+      "address": "https://github.com/trending/plpgsql?since=daily",
+      "title": "Trending PLpgSQL repositories on GitHub today · GitHub",
+      "grade": 1
     },
     {
       "hash": "OFFidA07xaXx",
@@ -92,10 +50,250 @@
       "grade": 0
     },
     {
+      "hash": "k5-pcx7Yxvhx",
+      "address": "https://www.postgresql.org/docs/release/18.6/",
+      "title": "PostgreSQL: Release Notes",
+      "grade": 2
+    },
+    {
       "hash": "v4aP-zS6MKD4",
       "address": "https://github.com/topics/low-code",
       "title": "low-code · GitHub Topics · GitHub",
       "grade": 0
+    },
+    {
+      "hash": "oBb9X0E95tq5",
+      "address": "https://blog.appsignal.com/2017/01/27/documentation-updates.html",
+      "title": "Documentation updates | AppSignal Blog",
+      "grade": 0
+    },
+    {
+      "hash": "lYsgT81iNM2x",
+      "address": "https://wiki.postgresql.org/wiki/Category:Documentation",
+      "title": "Category:Documentation - PostgreSQL wiki",
+      "grade": 2
+    },
+    {
+      "hash": "wFsBysqBIpS6",
+      "address": "https://xn--gckvb8fzb.com/xbsapi-an-alternative-xbrowsersync-api-that-supports-sqlite-postgresql-and-mysql/",
+      "title": "マリウス . xbsapi: An Alternative xBrowserSync API that supports SQLite, PostgreSQL and MySQL",
+      "grade": 1
+    },
+    {
+      "hash": "RC3FQXCmq5v4",
+      "address": "https://www.suse.com/security/cve/CVE-2026-14676.html",
+      "title": "CVE-2026-14676 Common Vulnerabilities and Exposures | SUSE",
+      "grade": 1
+    },
+    {
+      "hash": "MXqsU1e7r2M5",
+      "address": "https://www.appsignal.com/nodejs/postgresql-monitoring",
+      "title": "PostgreSQL Monitoring with AppSignal for Node.js | AppSignal",
+      "grade": 1
+    },
+    {
+      "hash": "qgwjkx7Yxvhx",
+      "address": "https://www.postgresql.org/docs/current/libpq.html",
+      "title": "PostgreSQL: Documentation: 18: Chapter 32. libpq — C Library",
+      "grade": 2
+    },
+    {
+      "hash": "eLguDfs7j0L4",
+      "address": "https://dietpi.com/forum/t/boot-dietpi-func-dietpi-logclear-1-boot-dietpi-func-dietpi-logclear-line-126-var-log-postgresql-postgresql-15-main-log-permission-denied/17426/11",
+      "title": "/boot/dietpi/func/dietpi-logclear 1 =\u003e /boot/dietpi/func/dietpi-logclear: line 126: /var/log/postgresql/postgresql-15-main.log: Permission denied",
+      "grade": 0
+    },
+    {
+      "hash": "oy52Gsv-bf35",
+      "address": "https://docs.datadoghq.com/tracing/trace_collection/dd_libraries/ruby/",
+      "title": "Tracing Ruby Applications",
+      "grade": 0
+    },
+    {
+      "hash": "2SrIwzakb0b6",
+      "address": "https://thehackernews.com/2026/09/postgresql-fixes-12-year-old-logical.html?m=1",
+      "title": "PostgreSQL Fixes 12-Year-Old Logical Decoding Flaw Enabling Replication-Role Code Execution",
+      "grade": 0
+    },
+    {
+      "hash": "sVgx2x7Yxvhx",
+      "address": "https://www.postgresql.org/docs/current/ecpg-oracle-compat.html",
+      "title": "PostgreSQL: Documentation: 18: 34.16. Oracle Compatibility Mode",
+      "grade": 2
+    },
+    {
+      "hash": "kC75-zW61vZ4",
+      "address": "https://handbook.gitlab.com/handbook/sales/field-operations/sales-systems/gtm-technical-documentation/",
+      "title": "Go-To-Market Technical Documentation | The GitLab Handbook",
+      "grade": 0
+    },
+    {
+      "hash": "BJ_i-2bypRQw",
+      "address": "https://forgejo.org/docs/latest/admin/installation/database-preparation/",
+      "title": "Database Preparation | Forgejo – Beyond coding. We forge.",
+      "grade": 1
+    },
+    {
+      "hash": "H3k5-x7Yxvhx",
+      "address": "https://www.postgresql.org/docs/current/tutorial-advanced.html",
+      "title": "PostgreSQL: Documentation: 18: Chapter 3. Advanced Features",
+      "grade": 2
+    },
+    {
+      "hash": "c701ExFYRqW5",
+      "address": "https://www.meilisearch.com/docs/resources/migration/postgresql_migration",
+      "title": "Migrating from PostgreSQL full-text search to Meilisearch - Meilisearch Documentation",
+      "grade": 1
+    },
+    {
+      "hash": "1yTpG0S6MKD4",
+      "address": "https://github.com/Vonng/pgtpc",
+      "title": "GitHub - Vonng/pgtpc: TPC B/C/H Benchmark for PostgreSQL · GitHub",
+      "grade": 1
+    },
+    {
+      "hash": "BUC8H33wopR4",
+      "address": "https://www.zabbix.com/documentation/7.4/lv/manual/best_practices/security/access_control/postgresql",
+      "title": "2 PostgreSQL/TimescaleDB drošības nodrošināšana",
+      "grade": 1
+    },
+    {
+      "hash": "MJBREyRO6Xx4",
+      "address": "https://docs.redhat.com/en/documentation/red_hat_ansible_automation_platform/2.7",
+      "title": "Red Hat Ansible Automation Platform | 2.7 | Red Hat Documentation",
+      "grade": 0
+    },
+    {
+      "hash": "ANPjMSS6MKD4",
+      "address": "https://github.com/A75G/docker-templates",
+      "title": "GitHub - A75G/docker-templates: Unraid Docker Templates",
+      "grade": 0
+    },
+    {
+      "hash": "kVgkU33wopR4",
+      "address": "https://www.zabbix.com/documentation/6.2/en/manual/api/reference/sla",
+      "title": "SLA",
+      "grade": 0
+    },
+    {
+      "hash": "kBN5XnhMeBWw",
+      "address": "https://metacpan.org/pod/DBD::Pg",
+      "title": "DBD::Pg - PostgreSQL database driver for the DBI module - metacpan.org",
+      "grade": 1
+    },
+    {
+      "hash": "Cq-xgm0h8sSw",
+      "address": "https://tracker.debian.org/pkg/libreoffice",
+      "title": "libreoffice - Debian Package Tracker",
+      "grade": 0
+    },
+    {
+      "hash": "6Nn5OQ3MeyZ4",
+      "address": "https://www0.assets.heroku.com/",
+      "title": "Heroku | The Cloud Application Platform For Developers",
+      "grade": 0
+    },
+    {
+      "hash": "a7Urh_nMM_j5",
+      "address": "https://grokipedia.com/page/PostgreSQL",
+      "title": "PostgreSQL — Grokipedia",
+      "grade": 1
+    },
+    {
+      "hash": "kzwdvqrfwOMw",
+      "address": "https://rubygems.org/gems/surus",
+      "title": "surus | RubyGems.org | your community gem host",
+      "grade": 1
+    },
+    {
+      "hash": "Cw10n_nMM_j5",
+      "address": "https://grokipedia.com/page/MySQL",
+      "title": "MySQL — Grokipedia",
+      "grade": 0
+    },
+    {
+      "hash": "hStMhlBbCobw",
+      "address": "https://www.php.net/pg-close",
+      "title": "PHP: pg_close - Manual",
+      "grade": 1
+    },
+    {
+      "hash": "BLqv9HRMLT-5",
+      "address": "https://canonical.com/legal/data-privacy",
+      "title": "Data privacy | Ubuntu and Canonical Legal",
+      "grade": 0
+    },
+    {
+      "hash": "BJhprx7Yxvhx",
+      "address": "https://www.postgresql.org/docs/current/plpython-python23.html",
+      "title": "PostgreSQL: Documentation: 18: 44.10. Python 2 vs. Python 3",
+      "grade": 2
+    },
+    {
+      "hash": "CpKsWx7Yxvhx",
+      "address": "https://www.postgresql.org/docs/current/xfunc-pl.html",
+      "title": "PostgreSQL: Documentation: 18: 36.8. Procedural Language Functions",
+      "grade": 2
+    },
+    {
+      "hash": "Rhc3Rx7Yxvhx",
+      "address": "https://www.postgresql.org/docs/current/sql-set-constraints.html",
+      "title": "PostgreSQL: Documentation: 18: SET CONSTRAINTS",
+      "grade": 2
+    },
+    {
+      "hash": "TmZA3x7Yxvhx",
+      "address": "https://www.postgresql.org/docs/current/datatype-json.html",
+      "title": "PostgreSQL: Documentation: 18: 8.14. JSON Types",
+      "grade": 2
+    },
+    {
+      "hash": "QKy_sx7Yxvhx",
+      "address": "https://www.postgresql.org/docs/current/functions-aggregate.html",
+      "title": "PostgreSQL: Documentation: 18: 9.21. Aggregate Functions",
+      "grade": 2
+    },
+    {
+      "hash": "Q7KzEx7Yxvhx",
+      "address": "https://www.postgresql.org/docs/current/sql-call.html",
+      "title": "PostgreSQL: Documentation: 18: CALL",
+      "grade": 2
+    },
+    {
+      "hash": "RC623x7Yxvhx",
+      "address": "https://www.postgresql.org/docs/current/spi-spi-rollback.html",
+      "title": "PostgreSQL: Documentation: 18: SPI_rollback",
+      "grade": 2
+    },
+    {
+      "hash": "RQ9RBx7Yxvhx",
+      "address": "https://www.postgresql.org/docs/current/sql-createsubscription.html",
+      "title": "PostgreSQL: Documentation: 18: CREATE SUBSCRIPTION",
+      "grade": 2
+    },
+    {
+      "hash": "RuGRax7Yxvhx",
+      "address": "https://www.postgresql.org/docs/current/sql-altereventtrigger.html",
+      "title": "PostgreSQL: Documentation: 18: ALTER EVENT TRIGGER",
+      "grade": 2
+    },
+    {
+      "hash": "SAoS0x7Yxvhx",
+      "address": "https://www.postgresql.org/docs/current/ddl-depend.html",
+      "title": "PostgreSQL: Documentation: 18: 5.15. Dependency Tracking",
+      "grade": 2
+    },
+    {
+      "hash": "SGwdJx7Yxvhx",
+      "address": "https://www.postgresql.org/docs/current/catalog-pg-index.html",
+      "title": "PostgreSQL: Documentation: 18: 52.26. pg_index",
+      "grade": 2
+    },
+    {
+      "hash": "SnAumx7Yxvhx",
+      "address": "https://www.postgresql.org/docs/current/sql-createfunction.html",
+      "title": "PostgreSQL: Documentation: 17: CREATE FUNCTION",
+      "grade": 2
     }
   ]
 }

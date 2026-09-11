@@ -1,6 +1,6 @@
 {
   "query": "wolfgang amadeus mozart",
-  "recordedAt": "2026-09-11T21:02:04Z",
+  "recordedAt": "2026-09-11T22:14:23Z",
   "itemsInTheOrderOfEachAnswer": [
     [
       {
@@ -21,7 +21,8 @@
             "hits": 1,
             "textWords": 48
           }
-        }
+        },
+        "queryPhraseHits": 2
       },
       {
         "hash": "wBabKs5D-QSg",
@@ -41,27 +42,8 @@
             "hits": 14,
             "textWords": 2049
           }
-        }
-      },
-      {
-        "hash": "Jgz8BjRvmBbx",
-        "address": "https://en.wikipedia.org/wiki/Wolfgang_Amadeus_Mozart",
-        "title": "Wolfgang Amadeus Mozart - Wikipedia",
-        "snippet": "Wolfgang Amadeus Mozart\nDetail from Portrait of the Mozart Family, c. 1781\nBorn\n27 January 1756Salzburg, Archbishopric of Salzburg\nDied\n5 December 1791 (aged 35)Vienna, Archduchy of Austria\nWorks\nList of compositions\nSpouse\nConstanze Weber\nParents\nLeopold Mozart\nAnna Maria Mozart\nFamily\nMozart",
-        "matchedWords": {
-          "6EJ5Wygik_1h": {
-            "hits": 385,
-            "textWords": 12194
-          },
-          "FqmRT36qFgho": {
-            "hits": 25,
-            "textWords": 12194
-          },
-          "NyD1TpGbIszj": {
-            "hits": 43,
-            "textWords": 12194
-          }
-        }
+        },
+        "queryPhraseHits": 14
       },
       {
         "hash": "0PraV-ZPxIKi",
@@ -81,7 +63,29 @@
             "hits": 1,
             "textWords": 924
           }
-        }
+        },
+        "queryPhraseHits": 1
+      },
+      {
+        "hash": "Jgz8BjRvmBbx",
+        "address": "https://en.wikipedia.org/wiki/Wolfgang_Amadeus_Mozart",
+        "title": "Wolfgang Amadeus Mozart - Wikipedia",
+        "snippet": "Wolfgang Amadeus Mozart\nDetail from Portrait of the Mozart Family, c. 1781\nBorn\n27 January 1756Salzburg, Archbishopric of Salzburg\nDied\n5 December 1791 (aged 35)Vienna, Archduchy of Austria\nWorks\nList of compositions\nSpouse\nConstanze Weber\nParents\nLeopold Mozart\nAnna Maria Mozart\nFamily\nMozart",
+        "matchedWords": {
+          "6EJ5Wygik_1h": {
+            "hits": 385,
+            "textWords": 12194
+          },
+          "FqmRT36qFgho": {
+            "hits": 25,
+            "textWords": 12194
+          },
+          "NyD1TpGbIszj": {
+            "hits": 43,
+            "textWords": 12194
+          }
+        },
+        "queryPhraseHits": 49
       },
       {
         "hash": "TR2jOlLSmY1j",
@@ -101,27 +105,29 @@
             "hits": 15,
             "textWords": 7468
           }
-        }
+        },
+        "queryPhraseHits": 3
       },
       {
-        "hash": "i37h9p5WQO5o",
-        "address": "https://ci.nii.ac.jp/ncid/BA44131098",
-        "title": "CiNii 図書 - Così fan tutte",
-        "snippet": "Mozart, Wolfgang Amadeus\nDa Ponte, Lorenzo\nMargiono, Charlotte\nSteiger, Anna\nZiegler, Delores\nWalt, Deon van der\nCachemaille, Gilles\nHampson, Thomas\nNederlands Operakoor\nConcertgebouworkest\nHarnoncourt, Nikolaus\n著者\nMozart, Wolfgang Amadeus\nDa Ponte, Lorenzo\nMargiono, Charlotte\nSteiger, Anna",
+        "hash": "fEh2xp5WQO5o",
+        "address": "https://ci.nii.ac.jp/ncid/BA43950785",
+        "title": "CiNii 図書 - Le nozze di Figaro",
+        "snippet": "Mozart, Wolfgang Amadeus\nDa Ponte, Lorenzo\nJanowitz, Gundula\nMathis, Edith\nTroyanos, Tatiana\nJohnson, Patricia\nVantin, Martin\nFischer-Dieskau, Dietrich\nPrey, Hermann\nTaussig, Walter\nDeutsche Oper Berlin. Chor\nDeutsche Oper Berlin. Orchester\nBöhm, Karl\n著者\nMozart, Wolfgang Amadeus\nDa Ponte, Lorenzo",
         "matchedWords": {
           "6EJ5Wygik_1h": {
             "hits": 3,
-            "textWords": 162
+            "textWords": 223
           },
           "FqmRT36qFgho": {
             "hits": 3,
-            "textWords": 162
+            "textWords": 223
           },
           "NyD1TpGbIszj": {
             "hits": 3,
-            "textWords": 162
+            "textWords": 223
           }
-        }
+        },
+        "queryPhraseHits": 4
       },
       {
         "hash": "zuAhdcoc6Io4",
@@ -141,7 +147,180 @@
             "hits": 8,
             "textWords": 66429
           }
-        }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "Xk7LPaJwAZyx",
+        "address": "https://pcd.wikipedia.org/wiki/Accueul",
+        "title": "Wikipedia",
+        "snippet": "Cha vient éd Wikipedia\nMoaîte-page — Atcheuil\nMaîte-page — Acuel\npurger el pache\nBienvnue dins Wikipédia\nEl libe inciclopédie\nInnui, ch'est ch'Verdi 11 ed Sétimbe 2026.\nBienvnue sur ech Wikipédia in lingue picarte\nCh'est unne bèle ouvrache copérative por foaire unne libe inciclopédie in picard,",
+        "matchedWords": {
+          "6EJ5Wygik_1h": {
+            "hits": 0,
+            "textWords": 610
+          },
+          "FqmRT36qFgho": {
+            "hits": 0,
+            "textWords": 610
+          },
+          "NyD1TpGbIszj": {
+            "hits": 0,
+            "textWords": 610
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "qrkNlDALMeMh",
+        "address": "https://www.smsticket.cz/vstupenky/6774-moc-art-aneb-amadeus-v-brne-strasna-mela-",
+        "title": "Moc art aneb Amadeus v Brně (strašná mela) – Divadlo Husa na provázku – Brno – tickets",
+        "snippet": "Wolfgang Amadeus Mozart - Martin Donutil\nFranz Hofdemel, muž Magdaleny Pokorné a vědoucí smutek - Dalibor Buš\nMagdalena Pokorná, dcera regenschoriho na Petrově - Tereza Marečková\nSalieri - Gabriela Vermelho\nTereza, jeho žena - Monika Matoušková\nMalý Mozart - František Vémola nebo Vilém Všetečka",
+        "matchedWords": {
+          "6EJ5Wygik_1h": {
+            "hits": 2,
+            "textWords": 199
+          },
+          "FqmRT36qFgho": {
+            "hits": 1,
+            "textWords": 199
+          },
+          "NyD1TpGbIszj": {
+            "hits": 1,
+            "textWords": 199
+          }
+        },
+        "queryPhraseHits": 2
+      },
+      {
+        "hash": "qo2IOhkSiA1g",
+        "address": "https://www.gramophone.co.uk/content/features/was-wolfgang-amadeus-mozart-the-greatest-composer-of-all",
+        "title": "Was Wolfgang Amadeus Mozart the greatest composer of all?",
+        "snippet": "",
+        "matchedWords": {
+          "6EJ5Wygik_1h": {
+            "hits": 0,
+            "textWords": 0
+          },
+          "FqmRT36qFgho": {
+            "hits": 10,
+            "textWords": 3347
+          },
+          "NyD1TpGbIszj": {
+            "hits": 0,
+            "textWords": 0
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "E6xpB5JMJtfQ",
+        "address": "http://www.zeno.org/Musik/M/Mozart,+Wolfgang+Amadeus",
+        "title": "Mozart, Wolfgang Amadeus - Zeno.org",
+        "snippet": "Wolfgang Amadeus Mozart\n(1756–1791)\nBiographien\n• Friedrich Schlichtegroll: Johannes Chrysostomus Wolfgang Gottlieb Mozart\nErstdruck 1793.\n• Franz Xaver Niemetschek: Leben des K.K. Kapellmeisters Wolfgang Gottlieb Mozart nach Originalquellen beschrieben\nErstdruck: Prag 1798.\n• Ignaz Ferdinand",
+        "matchedWords": {
+          "6EJ5Wygik_1h": {
+            "hits": 31,
+            "textWords": 572
+          },
+          "FqmRT36qFgho": {
+            "hits": 7,
+            "textWords": 572
+          },
+          "NyD1TpGbIszj": {
+            "hits": 11,
+            "textWords": 572
+          }
+        },
+        "queryPhraseHits": 14
+      },
+      {
+        "hash": "cKaIjQ8moajg",
+        "address": "https://www.welt.de/kultur/article693ff49151bc29ca6d7a3961/serie-amadeus-der-allzu-sedierte-mozart.html",
+        "title": "Serie „Amadeus“: Der allzu sedierte Mozart - WELT",
+        "snippet": "„Amadeus“\nDer allzu sedierte Mozart\nVeröffentlicht am 29.12.2025Lesedauer: 7 Minuten\nDurchtherapiertes Wunderkind: „Amadeus“ (Will Sharpe)\nQuelle: Adrienn Szabo/Sky Studios/Sky UK Ltd\nGerade ist „Mozart/Mozart“ angelaufen, der ARD-Mehrteiler über Mozart und seine Schwester. Die bestgehasste Serie",
+        "matchedWords": {
+          "6EJ5Wygik_1h": {
+            "hits": 18,
+            "textWords": 1378
+          },
+          "FqmRT36qFgho": {
+            "hits": 19,
+            "textWords": 1378
+          },
+          "NyD1TpGbIszj": {
+            "hits": 2,
+            "textWords": 1378
+          }
+        },
+        "queryPhraseHits": 2
+      },
+      {
+        "hash": "-Jibrh3e0QFx",
+        "address": "https://commons.wikimedia.org/wiki/Wolfgang_Amadeus_Mozart?uselang=fr",
+        "title": "Wolfgang Amadeus Mozart — Wikimedia Commons",
+        "snippet": "Amadeus Motsart (Wolfgang Amadeus Mozart) (27 yanvar 1756, Salzburq - 5 dekabr 1791, Vyana) - dahi Avstriya bəstəkarı, Avropa klassik musiqisinin ən nüfuzlu nümayəndələrindən biri.\nEsperanto: Volfgango Amdeo Mozarto (naskiĝis la 27-an de januaro 1756, en Salzburg, kaj mortis la 5-an de decembro",
+        "matchedWords": {
+          "6EJ5Wygik_1h": {
+            "hits": 24,
+            "textWords": 543
+          },
+          "FqmRT36qFgho": {
+            "hits": 13,
+            "textWords": 543
+          },
+          "NyD1TpGbIszj": {
+            "hits": 12,
+            "textWords": 543
+          }
+        },
+        "queryPhraseHits": 24
+      },
+      {
+        "hash": "8cIYpx9HRjox",
+        "address": "https://pdc.wikipedia.org/wiki/Wolfgang_Amadeus_Mozart",
+        "title": "Wolfgang Amadeus Mozart – Wikipedia",
+        "snippet": "Wolfgang Amadeus Mozart\nDer Wolfgang Amadeus Mozart (gebore am 27 Yenner 1756 in Solzburg, Heiliges Römisches Reich Deutscher Nationen - gschtaerewe am 5 Disember, 1791 in Wien, Heiliges Römisches Reich Deutscher Nationen) iss enner vun die meescht important Komponistn der Gschicht. Er waar en",
+        "matchedWords": {
+          "6EJ5Wygik_1h": {
+            "hits": 3,
+            "textWords": 66
+          },
+          "FqmRT36qFgho": {
+            "hits": 3,
+            "textWords": 66
+          },
+          "NyD1TpGbIszj": {
+            "hits": 3,
+            "textWords": 66
+          }
+        },
+        "queryPhraseHits": 5
+      },
+      {
+        "hash": "yszhehTC-rDx",
+        "address": "https://et.wikipedia.org/wiki/Wolfgang_Amadeus_Mozart",
+        "title": "Wolfgang Amadeus Mozart – Vikipeedia",
+        "snippet": "Mozart!\nWolfgang Amadeus Mozart\nSünninimi\nJoannes Chrysostomus Wolfgangus Theophilus Mozart\nSündinud\n27. jaanuar 1756\nSalzburg\nSurnud\n5. detsember 1791 (35-aastaselt)\nViin\nElukutse\nhelilooja, pianist\nWolfgang Amadeus Mozart [m'ootsart] (ristinimi Joannes Chrysostomus Wolfgangus Theophilus Mozart;",
+        "matchedWords": {
+          "6EJ5Wygik_1h": {
+            "hits": 20,
+            "textWords": 901
+          },
+          "FqmRT36qFgho": {
+            "hits": 11,
+            "textWords": 901
+          },
+          "NyD1TpGbIszj": {
+            "hits": 13,
+            "textWords": 901
+          }
+        },
+        "queryPhraseHits": 11
       }
     ],
     [
@@ -163,7 +342,8 @@
             "hits": 1,
             "textWords": 48
           }
-        }
+        },
+        "queryPhraseHits": 2
       },
       {
         "hash": "wBabKs5D-QSg",
@@ -183,27 +363,8 @@
             "hits": 14,
             "textWords": 2049
           }
-        }
-      },
-      {
-        "hash": "Jgz8BjRvmBbx",
-        "address": "https://en.wikipedia.org/wiki/Wolfgang_Amadeus_Mozart",
-        "title": "Wolfgang Amadeus Mozart - Wikipedia",
-        "snippet": "Wolfgang Amadeus Mozart\nDetail from Portrait of the Mozart Family, c. 1781\nBorn\n27 January 1756Salzburg, Archbishopric of Salzburg\nDied\n5 December 1791 (aged 35)Vienna, Archduchy of Austria\nWorks\nList of compositions\nSpouse\nConstanze Weber\nParents\nLeopold Mozart\nAnna Maria Mozart\nFamily\nMozart",
-        "matchedWords": {
-          "6EJ5Wygik_1h": {
-            "hits": 385,
-            "textWords": 12194
-          },
-          "FqmRT36qFgho": {
-            "hits": 25,
-            "textWords": 12194
-          },
-          "NyD1TpGbIszj": {
-            "hits": 43,
-            "textWords": 12194
-          }
-        }
+        },
+        "queryPhraseHits": 14
       },
       {
         "hash": "0PraV-ZPxIKi",
@@ -223,7 +384,29 @@
             "hits": 1,
             "textWords": 924
           }
-        }
+        },
+        "queryPhraseHits": 1
+      },
+      {
+        "hash": "Jgz8BjRvmBbx",
+        "address": "https://en.wikipedia.org/wiki/Wolfgang_Amadeus_Mozart",
+        "title": "Wolfgang Amadeus Mozart - Wikipedia",
+        "snippet": "Wolfgang Amadeus Mozart\nDetail from Portrait of the Mozart Family, c. 1781\nBorn\n27 January 1756Salzburg, Archbishopric of Salzburg\nDied\n5 December 1791 (aged 35)Vienna, Archduchy of Austria\nWorks\nList of compositions\nSpouse\nConstanze Weber\nParents\nLeopold Mozart\nAnna Maria Mozart\nFamily\nMozart",
+        "matchedWords": {
+          "6EJ5Wygik_1h": {
+            "hits": 385,
+            "textWords": 12194
+          },
+          "FqmRT36qFgho": {
+            "hits": 25,
+            "textWords": 12194
+          },
+          "NyD1TpGbIszj": {
+            "hits": 43,
+            "textWords": 12194
+          }
+        },
+        "queryPhraseHits": 49
       },
       {
         "hash": "TR2jOlLSmY1j",
@@ -243,27 +426,29 @@
             "hits": 15,
             "textWords": 7468
           }
-        }
+        },
+        "queryPhraseHits": 3
       },
       {
-        "hash": "i37h9p5WQO5o",
-        "address": "https://ci.nii.ac.jp/ncid/BA44131098",
-        "title": "CiNii 図書 - Così fan tutte",
-        "snippet": "Mozart, Wolfgang Amadeus\nDa Ponte, Lorenzo\nMargiono, Charlotte\nSteiger, Anna\nZiegler, Delores\nWalt, Deon van der\nCachemaille, Gilles\nHampson, Thomas\nNederlands Operakoor\nConcertgebouworkest\nHarnoncourt, Nikolaus\n著者\nMozart, Wolfgang Amadeus\nDa Ponte, Lorenzo\nMargiono, Charlotte\nSteiger, Anna",
+        "hash": "fEh2xp5WQO5o",
+        "address": "https://ci.nii.ac.jp/ncid/BA43950785",
+        "title": "CiNii 図書 - Le nozze di Figaro",
+        "snippet": "Mozart, Wolfgang Amadeus\nDa Ponte, Lorenzo\nJanowitz, Gundula\nMathis, Edith\nTroyanos, Tatiana\nJohnson, Patricia\nVantin, Martin\nFischer-Dieskau, Dietrich\nPrey, Hermann\nTaussig, Walter\nDeutsche Oper Berlin. Chor\nDeutsche Oper Berlin. Orchester\nBöhm, Karl\n著者\nMozart, Wolfgang Amadeus\nDa Ponte, Lorenzo",
         "matchedWords": {
           "6EJ5Wygik_1h": {
             "hits": 3,
-            "textWords": 162
+            "textWords": 223
           },
           "FqmRT36qFgho": {
             "hits": 3,
-            "textWords": 162
+            "textWords": 223
           },
           "NyD1TpGbIszj": {
             "hits": 3,
-            "textWords": 162
+            "textWords": 223
           }
-        }
+        },
+        "queryPhraseHits": 4
       },
       {
         "hash": "190GJocHOkWx",
@@ -283,10 +468,97 @@
             "hits": 6,
             "textWords": 115094
           }
-        }
+        },
+        "queryPhraseHits": 5
       }
     ],
     [
+      {
+        "hash": "6R0qplU0FcHg",
+        "address": "https://www.gravsted.dk/person.php?navn=constanzemozart",
+        "title": "Constanze Mozart",
+        "snippet": "Wolfgang Amadeus Mozart sig i Mannheim og boede her hos familien Weber. Mozart forelskede sig i datteren Aloisia, som var smuk og havde en ualmindelig god sangstemme, men hans far modsatte sig denne forbindelse. I 1781 boede Mozart igen hos familien Weber, som i mellemtiden var flyttet til Wien. Nu",
+        "matchedWords": {
+          "6EJ5Wygik_1h": {
+            "hits": 3,
+            "textWords": 273
+          },
+          "FqmRT36qFgho": {
+            "hits": 1,
+            "textWords": 273
+          },
+          "NyD1TpGbIszj": {
+            "hits": 1,
+            "textWords": 273
+          }
+        },
+        "queryPhraseHits": 2
+      }
+    ],
+    [
+      {
+        "hash": "RueziJZAFfux",
+        "address": "https://no.wikipedia.org/wiki/Forside",
+        "title": "Wikipedia, den frie encyklopedi",
+        "snippet": "Fra Wikipedia, den frie encyklopedi\nUkens artikkel (uke 37)\nEttermæle utkom i 1932.\nEttermæle er en roman fra 1932 av den norske forfatteren Olav Duun.\nBoka omtales ofte som en kriminalroman, men professor Hans H. Skei mener at det er en misforståelse. Skei har skrevet at «teksten er opptatt av",
+        "matchedWords": {
+          "6EJ5Wygik_1h": {
+            "hits": 0,
+            "textWords": 576
+          },
+          "FqmRT36qFgho": {
+            "hits": 0,
+            "textWords": 576
+          },
+          "NyD1TpGbIszj": {
+            "hits": 0,
+            "textWords": 576
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "_JJX7gJPjR4x",
+        "address": "https://es.wikipedia.org/wiki/Wikipedia:Portada",
+        "title": "Wikipedia, la enciclopedia libre",
+        "snippet": "Artículo destacado\nGravity Falls\nLogo de Gravity Falls.\nGravity Falls (conocida en Hispanoamérica como Gravity Falls: un verano de misterios) es una serie de televisión animada estadounidense de comedia y misterio, creada por Alex Hirsch y producida por Disney Television Animation para Disney",
+        "matchedWords": {
+          "6EJ5Wygik_1h": {
+            "hits": 0,
+            "textWords": 528
+          },
+          "FqmRT36qFgho": {
+            "hits": 0,
+            "textWords": 528
+          },
+          "NyD1TpGbIszj": {
+            "hits": 0,
+            "textWords": 528
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "QembcgM-i-mx",
+        "address": "https://it.wikipedia.org/wiki/Pagina_principale",
+        "title": "Wikipedia, l'enciclopedia libera",
+        "snippet": "Da Wikipedia, l'enciclopedia libera.\nWikipedia\nCosa posso fare?\nVuoi partecipare? Leggi le regole fondamentali e le altre linee guida, e rispetta la wikiquette; la registrazione è consigliata ma non obbligatoria.\nServe aiuto? Consulta le istruzioni e le domande frequenti (FAQ) o leggi dove fare una",
+        "matchedWords": {
+          "6EJ5Wygik_1h": {
+            "hits": 0,
+            "textWords": 1297
+          },
+          "FqmRT36qFgho": {
+            "hits": 0,
+            "textWords": 1297
+          },
+          "NyD1TpGbIszj": {
+            "hits": 0,
+            "textWords": 1297
+          }
+        },
+        "queryPhraseHits": 0
+      },
       {
         "hash": "Wfq3FswvoTD5",
         "address": "https://r-universe.dev/articles",
@@ -305,7 +577,178 @@
             "hits": 0,
             "textWords": 0
           }
-        }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "62zG5Q8moajg",
+        "address": "https://www.welt.de/kultur/kino/article69315d0e76c2ae9f577fb060/ard-serie-mozart-mozart-ein-mozart-zum-fremdschaemen.html",
+        "title": "ARD-Serie „Mozart/Mozart“: Ein Mozart zum Fremdschämen - WELT",
+        "snippet": "„Mozart/Mozart“\nEin Mozart zum Fremdschämen\nVeröffentlicht am 29.12.2025Lesedauer: 4 Minuten\nHavana Joy und Eren M. Güvercin sind Nannerl und Amadeus\nQuelle: Armands Virbulis/WDR Story House Pictures GmbH/dpa\nSex mit Marie-Antoinette und eine höchstbegabte Schwester: Der ARD-Mehrteiler",
+        "matchedWords": {
+          "6EJ5Wygik_1h": {
+            "hits": 27,
+            "textWords": 855
+          },
+          "FqmRT36qFgho": {
+            "hits": 7,
+            "textWords": 855
+          },
+          "NyD1TpGbIszj": {
+            "hits": 1,
+            "textWords": 855
+          }
+        },
+        "queryPhraseHits": 1
+      },
+      {
+        "hash": "qo2IOhkSiA1g",
+        "address": "https://www.gramophone.co.uk/content/features/was-wolfgang-amadeus-mozart-the-greatest-composer-of-all",
+        "title": "Was Wolfgang Amadeus Mozart the greatest composer of all?",
+        "snippet": "",
+        "matchedWords": {
+          "6EJ5Wygik_1h": {
+            "hits": 74,
+            "textWords": 3347
+          },
+          "FqmRT36qFgho": {
+            "hits": 0,
+            "textWords": 0
+          },
+          "NyD1TpGbIszj": {
+            "hits": 0,
+            "textWords": 0
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "nDUd4Q5ARWyg",
+        "address": "https://www.spiegel.de/kultur/musik/wolfgang-amadeus-mozart-unbekanntes-manuskript-in-paris-aufgetaucht-a-37de93d5-e336-4797-8462-7fefb56fba8a",
+        "title": "Wolfgang Amadeus Mozart: Unbekanntes Manuskript in Paris aufgetaucht - DER SPIEGEL",
+        "snippet": "Mozart-Manuskript entdeckt. Laut dem Direktor der Bibliothek, Gilles Pécout, bewerten Fachleute den Fund als eine der bedeutendsten Entdeckungen der vergangenen Jahrzehnte.\nDer auf anonyme Manuskripte spezialisierte Musikwissenschaftler François-Pierre Goy hatte die in marmoriertes Papier",
+        "matchedWords": {
+          "6EJ5Wygik_1h": {
+            "hits": 7,
+            "textWords": 438
+          },
+          "FqmRT36qFgho": {
+            "hits": 1,
+            "textWords": 438
+          },
+          "NyD1TpGbIszj": {
+            "hits": 1,
+            "textWords": 438
+          }
+        },
+        "queryPhraseHits": 2
+      },
+      {
+        "hash": "YaMZzhq8WcQ5",
+        "address": "https://infernemland.blog/2014/04/03/julia-lezhneva-canta-vivaldi-handel-porpora-mozart-rossini-i-schubert/",
+        "title": "JULIA LEZHNEVA CANTA Vivaldi, Handel. Porpora, Mozart Rossini i Schubert | IN FERNEM LAND",
+        "snippet": "Mozart i el belcanto italià, representats en aquesta ocasió per Bellini i Rossini. També a la tanda dels bisos va fer un incursió una mica més “exòtica” all romanticisme alemany, cantant l’encisador lied de Schubert, “Nacht und Traüme.\nTota una demostració del talent vocal i interpretatiu de la",
+        "matchedWords": {
+          "6EJ5Wygik_1h": {
+            "hits": 2,
+            "textWords": 409
+          },
+          "FqmRT36qFgho": {
+            "hits": 1,
+            "textWords": 409
+          },
+          "NyD1TpGbIszj": {
+            "hits": 1,
+            "textWords": 409
+          }
+        },
+        "queryPhraseHits": 2
+      },
+      {
+        "hash": "_aJejh3e0QFx",
+        "address": "https://commons.wikimedia.org/wiki/Category:Compositions_by_Wolfgang_Amadeus_Mozart",
+        "title": "Category:Compositions by Wolfgang Amadeus Mozart - Wikimedia Commons",
+        "snippet": "Wolfgang Amadeus Mozart\"\nThe following 16 files are in this category, out of 16 total.",
+        "matchedWords": {
+          "6EJ5Wygik_1h": {
+            "hits": 1,
+            "textWords": 48
+          },
+          "FqmRT36qFgho": {
+            "hits": 1,
+            "textWords": 48
+          },
+          "NyD1TpGbIszj": {
+            "hits": 1,
+            "textWords": 48
+          }
+        },
+        "queryPhraseHits": 2
+      },
+      {
+        "hash": "0XoFCsqiBbnx",
+        "address": "https://stq.wikipedia.org/wiki/Wolfgang_Amadeus_Mozart",
+        "title": "Wolfgang Amadeus Mozart – Wikipedia",
+        "snippet": "Mozart uut 1780\nWolfgang Amadeus Mozart - hie sälwen naamde sik maasttieds Wolfgang Amadé Mozart, fulstoundich in't Säärkebouk iendrain as Joannes Chrysostomus Wolfgangus Theophilus Mozart (* 27. Januoar 1756 in Salzburg, Fürsterzbistum Salzburg, HRR; † 5. Dezember 1791 in Wien, Erzherzogdum",
+        "matchedWords": {
+          "6EJ5Wygik_1h": {
+            "hits": 7,
+            "textWords": 159
+          },
+          "FqmRT36qFgho": {
+            "hits": 2,
+            "textWords": 159
+          },
+          "NyD1TpGbIszj": {
+            "hits": 3,
+            "textWords": 159
+          }
+        },
+        "queryPhraseHits": 4
+      },
+      {
+        "hash": "_vzCuCbQpWqg",
+        "address": "https://www.hna.de/leute/kurioses-operndebuet-auf-3sat-buelent-ceylan-spielt-mozart-zr-94404899.html",
+        "title": "Kurioses Operndebüt auf 3sat: Bülent Ceylan spielt Mozart",
+        "snippet": "",
+        "matchedWords": {
+          "6EJ5Wygik_1h": {
+            "hits": 3,
+            "textWords": 573
+          },
+          "FqmRT36qFgho": {
+            "hits": 0,
+            "textWords": 0
+          },
+          "NyD1TpGbIszj": {
+            "hits": 0,
+            "textWords": 0
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "2LwXx4XlMkDx",
+        "address": "https://scn.wikipedia.org/wiki/Wolfgang_Amadeus_Mozart",
+        "title": "Wolfgang Amadeus Mozart - Wikipedia",
+        "snippet": "Wolfgang Amadeus Mozart\nWolfgang Amadeus Mozart (Salisburgu 27 di jinnaru, 1756 — Vienna 5 di dicèmmiru, 1791), musicista austriacu. Lu sò nomu di battesimu era Joannes Chrysostomus Wolfgangus Theophilus Mozart. Educatu ggià di picciriddu â mùsica di sò patri Leopold, sviluppau sùbbutu doti",
+        "matchedWords": {
+          "6EJ5Wygik_1h": {
+            "hits": 9,
+            "textWords": 250
+          },
+          "FqmRT36qFgho": {
+            "hits": 2,
+            "textWords": 250
+          },
+          "NyD1TpGbIszj": {
+            "hits": 2,
+            "textWords": 250
+          }
+        },
+        "queryPhraseHits": 4
       }
     ],
     [
@@ -327,7 +770,8 @@
             "hits": 1,
             "textWords": 48
           }
-        }
+        },
+        "queryPhraseHits": 2
       },
       {
         "hash": "wBabKs5D-QSg",
@@ -347,7 +791,8 @@
             "hits": 14,
             "textWords": 2049
           }
-        }
+        },
+        "queryPhraseHits": 14
       },
       {
         "hash": "Jgz8BjRvmBbx",
@@ -367,7 +812,8 @@
             "hits": 43,
             "textWords": 12194
           }
-        }
+        },
+        "queryPhraseHits": 49
       },
       {
         "hash": "0PraV-ZPxIKi",
@@ -387,7 +833,29 @@
             "hits": 1,
             "textWords": 924
           }
-        }
+        },
+        "queryPhraseHits": 1
+      },
+      {
+        "hash": "fEh2xp5WQO5o",
+        "address": "https://ci.nii.ac.jp/ncid/BA43950785",
+        "title": "CiNii 図書 - Le nozze di Figaro",
+        "snippet": "Mozart, Wolfgang Amadeus\nDa Ponte, Lorenzo\nJanowitz, Gundula\nMathis, Edith\nTroyanos, Tatiana\nJohnson, Patricia\nVantin, Martin\nFischer-Dieskau, Dietrich\nPrey, Hermann\nTaussig, Walter\nDeutsche Oper Berlin. Chor\nDeutsche Oper Berlin. Orchester\nBöhm, Karl\n著者\nMozart, Wolfgang Amadeus\nDa Ponte, Lorenzo",
+        "matchedWords": {
+          "6EJ5Wygik_1h": {
+            "hits": 3,
+            "textWords": 223
+          },
+          "FqmRT36qFgho": {
+            "hits": 3,
+            "textWords": 223
+          },
+          "NyD1TpGbIszj": {
+            "hits": 3,
+            "textWords": 223
+          }
+        },
+        "queryPhraseHits": 4
       },
       {
         "hash": "TR2jOlLSmY1j",
@@ -407,30 +875,32 @@
             "hits": 15,
             "textWords": 7468
           }
-        }
-      },
-      {
-        "hash": "i37h9p5WQO5o",
-        "address": "https://ci.nii.ac.jp/ncid/BA44131098",
-        "title": "CiNii 図書 - Così fan tutte",
-        "snippet": "Mozart, Wolfgang Amadeus\nDa Ponte, Lorenzo\nMargiono, Charlotte\nSteiger, Anna\nZiegler, Delores\nWalt, Deon van der\nCachemaille, Gilles\nHampson, Thomas\nNederlands Operakoor\nConcertgebouworkest\nHarnoncourt, Nikolaus\n著者\nMozart, Wolfgang Amadeus\nDa Ponte, Lorenzo\nMargiono, Charlotte\nSteiger, Anna",
-        "matchedWords": {
-          "6EJ5Wygik_1h": {
-            "hits": 3,
-            "textWords": 162
-          },
-          "FqmRT36qFgho": {
-            "hits": 3,
-            "textWords": 162
-          },
-          "NyD1TpGbIszj": {
-            "hits": 3,
-            "textWords": 162
-          }
-        }
+        },
+        "queryPhraseHits": 3
       }
     ],
     [
+      {
+        "hash": "WE4YBjRvmBbx",
+        "address": "https://en.wikipedia.org/wiki/Isis",
+        "title": "Isis - Wikipedia",
+        "snippet": "Wolfgang Amadeus Mozart's 1791 opera The Magic Flute.[284]\nFrom the Renaissance on, the veiled statue of Isis that Plutarch and Proclus mentioned was interpreted as a personification of nature, based on a passage in the works of Macrobius in the fifth century CE that equated Isis with",
+        "matchedWords": {
+          "6EJ5Wygik_1h": {
+            "hits": 1,
+            "textWords": 16635
+          },
+          "FqmRT36qFgho": {
+            "hits": 1,
+            "textWords": 16635
+          },
+          "NyD1TpGbIszj": {
+            "hits": 2,
+            "textWords": 16635
+          }
+        },
+        "queryPhraseHits": 2
+      },
       {
         "hash": "Wfq3FswvoTD5",
         "address": "https://r-universe.dev/articles",
@@ -449,7 +919,8 @@
             "hits": 0,
             "textWords": 0
           }
-        }
+        },
+        "queryPhraseHits": 0
       }
     ],
     [
@@ -471,92 +942,13 @@
             "hits": 0,
             "textWords": 111
           }
-        }
+        },
+        "queryPhraseHits": 0
       }
     ]
   ],
   "itemsInNoOrder": [
     {
-      "hash": "2omiE_5WQO5o",
-      "address": "https://ci.nii.ac.jp/author/DA04993139",
-      "title": "CiNii Books 著者 - Porter, Andrew",
-      "snippet": "Wolfgang Amadeus Mozart ; libretto by Emanuel Schikaneder ; English translation by Andrew Porter\nFaber Music , G. Schirmer 1980\n所蔵館1館\n15\nThe ring of the Nibelung\nRichard Wagner ; German text with English translation by Andrew Porter\nFaber Music in association with Faver \u0026 Faver 1977\n: paperback",
-      "matchedWords": {
-        "6EJ5Wygik_1h": {
-          "hits": 1,
-          "textWords": 480
-        },
-        "FqmRT36qFgho": {
-          "hits": 1,
-          "textWords": 480
-        },
-        "NyD1TpGbIszj": {
-          "hits": 1,
-          "textWords": 480
-        }
-      }
-    },
-    {
-      "hash": "gIqX6WMt_GI5",
-      "address": "https://www.infoescola.com/artes/opera/",
-      "title": "Ópera - InfoEscola",
-      "snippet": "Wolfgang Amadeus Mozart (1756-1791) com As Bodas de Fígaro e A Flauta Mágica, Richard Wagner (1813-1883) com O Navio Fantasma e Tristão e Isolda, e Richard Strauss (1864-1949) com Salomé e Electra. Hoje a ópera apresenta-se em diferentes tipos ou formas específicos como, a Ópera-balada, Ópera",
-      "matchedWords": {
-        "6EJ5Wygik_1h": {
-          "hits": 1,
-          "textWords": 888
-        },
-        "FqmRT36qFgho": {
-          "hits": 1,
-          "textWords": 888
-        },
-        "NyD1TpGbIszj": {
-          "hits": 1,
-          "textWords": 888
-        }
-      }
-    },
-    {
-      "hash": "JRQtGaQeSaC6",
-      "address": "https://www.smithsonianmag.com/tag/art-crimes/",
-      "title": "Articles tagged as Art Crimes | Smithsonian Magazine",
-      "snippet": "Mozart Statuettes Stolen From Salzburg Months After Famed Composer’s 270th Birthday\nThe Austrian public art installation heist is not the first time miniature statues of composers have been stolen\nAugust 13, 2026\nA ‘Scallywag’ Schoolboy Swiped an Abbot’s Kneecap 70 Years Ago. His Widow Just",
-      "matchedWords": {
-        "6EJ5Wygik_1h": {
-          "hits": 1,
-          "textWords": 765
-        },
-        "FqmRT36qFgho": {
-          "hits": 0,
-          "textWords": 765
-        },
-        "NyD1TpGbIszj": {
-          "hits": 0,
-          "textWords": 765
-        }
-      }
-    },
-    {
-      "hash": "Jfu68Avw0u35",
-      "address": "https://www.classicfm.com/composers/bruckner/",
-      "title": "Bruckner - Composers - Classic FM",
-      "snippet": "Anton Bruckner (1824–1896) was an Austrian composer known for his symphonies, masses, and motets.\nLife and Music\nBruckner's father was the local church organist and his mother a singer in the choir. However, he didn't begin his formal music training until he was 11, when he spent five years as a",
-      "matchedWords": {
-        "6EJ5Wygik_1h": {
-          "hits": 0,
-          "textWords": 303
-        },
-        "FqmRT36qFgho": {
-          "hits": 0,
-          "textWords": 303
-        },
-        "NyD1TpGbIszj": {
-          "hits": 0,
-          "textWords": 303
-        }
-      }
-    },
-    {
       "hash": "REDKRAvw0u35",
       "address": "https://www.classicfm.com/composers/bartok/",
       "title": "Bartók - Composers - Classic FM",
@@ -574,87 +966,8 @@
           "hits": 0,
           "textWords": 273
         }
-      }
-    },
-    {
-      "hash": "XLKV0Avw0u35",
-      "address": "https://www.classicfm.com/composers/delius/",
-      "title": "Delius - Composers - Classic FM",
-      "snippet": "Frederick Delius (1862-1934) was an English composer. Delius’ life was a battle - he fought his parents to be a musician, struggled with syphilis, and was neglected in his adoptive France - but against all the odds, he became one of England's greatest composers.\nLife and Music\nDelius enjoyed",
-      "matchedWords": {
-        "6EJ5Wygik_1h": {
-          "hits": 0,
-          "textWords": 344
-        },
-        "FqmRT36qFgho": {
-          "hits": 0,
-          "textWords": 344
-        },
-        "NyD1TpGbIszj": {
-          "hits": 0,
-          "textWords": 344
-        }
-      }
-    },
-    {
-      "hash": "bUxHuivw0u35",
-      "address": "https://www.classicfm.com/discover-music/periods-genres/national-anthems/us-national-anthem-star-spangled-banner-lyrics/",
-      "title": "What are the lyrics to the US National Anthem, The Star-Spangled Banner? - Classic FM",
-      "snippet": "7 February 2025, 12:18\nRenée Fleming- Super Bowl 2014 National Anthem\nBy Maddy Shaw Roberts\nThe Star-Spangled Banner is the national anthem of the United States. But where do the lyrics come from, and what’s the history of the anthem?\n‘Oh, say can you see...’, goes ‘The Star-Spangled Banner’. But",
-      "matchedWords": {
-        "6EJ5Wygik_1h": {
-          "hits": 0,
-          "textWords": 723
-        },
-        "FqmRT36qFgho": {
-          "hits": 0,
-          "textWords": 723
-        },
-        "NyD1TpGbIszj": {
-          "hits": 0,
-          "textWords": 723
-        }
-      }
-    },
-    {
-      "hash": "fkILJwvw0u35",
-      "address": "https://www.classicfm.com/music-news/free-musical-instrument-scheme-school/",
-      "title": "The transformative free musical instrument scheme that Andrew Lloyd Webber wants... - Classic FM",
-      "snippet": "11 August 2023, 17:54 | Updated: 15 August 2023, 13:25\nAndrew Lloyd Webber celebrated the 10th anniversary of the Music in Secondary Schools Trust (MiSST) in April 2023. Picture: Getty images\nThe Music in Secondary Schools Trust (MiSST) has helped 29 schools in the UK offer free instruments and",
-      "matchedWords": {
-        "6EJ5Wygik_1h": {
-          "hits": 0,
-          "textWords": 668
-        },
-        "FqmRT36qFgho": {
-          "hits": 0,
-          "textWords": 668
-        },
-        "NyD1TpGbIszj": {
-          "hits": 0,
-          "textWords": 668
-        }
-      }
-    },
-    {
-      "hash": "mFLsmAvw0u35",
-      "address": "https://www.classicfm.com/composers/williams/jaws-theme-spielberg-joke/",
-      "title": "Steven Spielberg told John Williams ‘you can’t be serious!’ when he first heard... - Classic FM",
-      "snippet": "Mozart, Beethoven, any of the great colossal geniuses that developed the music that in our Western sphere, that we hold so dear to our hearts as one of the foundations of our culture.”\nListen again to ‘John Williams at 90: A Classic FM Exclusive’ on Global Player – and watch our interview feature",
-      "matchedWords": {
-        "6EJ5Wygik_1h": {
-          "hits": 1,
-          "textWords": 643
-        },
-        "FqmRT36qFgho": {
-          "hits": 0,
-          "textWords": 643
-        },
-        "NyD1TpGbIszj": {
-          "hits": 0,
-          "textWords": 643
-        }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "tUVzUivw0u35",
@@ -674,67 +987,134 @@
           "hits": 0,
           "textWords": 1084
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
-      "hash": "xsVlXAvw0u35",
-      "address": "https://www.classicfm.com/composers/monteverdi/",
-      "title": "Claudio Monteverdi (1567–1643) | Composer | Biography, music and facts",
-      "snippet": "Claudio Monteverdi (1567–1643) was an Italian composer, musician and singer, who stood at the crossroads of one of the most crucial periods in musical history.\nLife and Music\nBorn the son of a Cremonese barber-surgeon, Monteverdi began composing at a very early age and had his first book of",
+      "hash": "SWV0kjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Vienna",
+      "title": "Vienna - Wikipedia",
+      "snippet": "Wolfgang Amadeus Mozart, Arnold Schoenberg, Franz Schubert, Johann Strauss I, and Johann Strauss II.[17] It played a pivotal role as a leading European music centre, from the age of Viennese Classicism through the early part of the 20th century. The city was home to the world's first psychoanalyst,",
       "matchedWords": {
         "6EJ5Wygik_1h": {
-          "hits": 0,
-          "textWords": 343
+          "hits": 10,
+          "textWords": 16867
         },
         "FqmRT36qFgho": {
-          "hits": 0,
-          "textWords": 343
+          "hits": 6,
+          "textWords": 16867
         },
         "NyD1TpGbIszj": {
-          "hits": 0,
-          "textWords": 343
+          "hits": 7,
+          "textWords": 16867
         }
-      }
+      },
+      "queryPhraseHits": 8
     },
     {
-      "hash": "zgO97ivw0u35",
-      "address": "https://www.classicfm.com/discover-music/latest/quotes-classical-musicians/martha-argerich/",
-      "title": "Martha Argerich - 20 amazing quotes from classical musicians - Classic FM",
-      "snippet": "Promoted by HX Expeditions",
+      "hash": "_ddgCjjEZfvx",
+      "address": "https://en.wiktionary.org/wiki/Wiktionary:Word_of_the_day/Nominations",
+      "title": "Wiktionary:Word of the day/Nominations - Wiktionary, the free dictionary",
+      "snippet": "Wolfgang Amadeus Mozart; International Holocaust Remembrance Day):\n29 (Thomas Paine birthday; Anton Chekhov birthday): common sense (Check: R, G, H, W, Y) Zbutie3.14 (talk) 23:46, 17 November 2025 (UTC)reply\nFebruary\n2 (Candlemas; Groundhog day):\n4 (World Cancer Day):\n6 (Waitangi Day):\n7 (National",
       "matchedWords": {
         "6EJ5Wygik_1h": {
-          "hits": 0,
-          "textWords": 4
-        },
-        "FqmRT36qFgho": {
-          "hits": 0,
-          "textWords": 4
-        },
-        "NyD1TpGbIszj": {
-          "hits": 0,
-          "textWords": 4
-        }
-      }
-    },
-    {
-      "hash": "-ayy5ivw0u35",
-      "address": "https://www.classicfm.com/discover-music/instruments/piano/best-pianists-all-time/",
-      "title": "The 25 best pianists of all time - Classic FM",
-      "snippet": "Mozart's Piano Concerto No.20\nMartha Argerich (1941-)\nThe world woke up to the phenomenal talent of Argentinian pianist Martha Argerich in 1964 when she won the International Piano Competition at the age of 24. 60 years on from that historic global debut, Argerich is arguably the greatest living",
-      "matchedWords": {
-        "6EJ5Wygik_1h": {
-          "hits": 11,
-          "textWords": 2594
+          "hits": 1,
+          "textWords": 15592
         },
         "FqmRT36qFgho": {
           "hits": 1,
-          "textWords": 2594
+          "textWords": 15592
         },
         "NyD1TpGbIszj": {
           "hits": 1,
-          "textWords": 2594
+          "textWords": 15592
         }
-      }
+      },
+      "queryPhraseHits": 2
+    },
+    {
+      "hash": "UHO9fjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Age_of_Enlightenment",
+      "title": "Age of Enlightenment - Wikipedia",
+      "snippet": "Wolfgang von Goethe\nDavid Hume\nAdam Smith\nDenis Diderot\nBenjamin Franklin\nRoger Williams\nKey events\nAmerican Revolution (1765–1783)\nFrench Revolution (1789–1799)\nThe Age of Enlightenment, also known as the Age of Reason or simply the Enlightenment,[b] was a period of intellectual and cultural",
+      "matchedWords": {
+        "6EJ5Wygik_1h": {
+          "hits": 7,
+          "textWords": 24781
+        },
+        "FqmRT36qFgho": {
+          "hits": 2,
+          "textWords": 24781
+        },
+        "NyD1TpGbIszj": {
+          "hits": 4,
+          "textWords": 24781
+        }
+      },
+      "queryPhraseHits": 4
+    },
+    {
+      "hash": "UHPX7jRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Venice",
+      "title": "Venice - Wikipedia",
+      "snippet": "Wolfgang Amadeus Mozart.\nDomenico Dragonetti (1763–1846), double bass virtuoso and composer[218]\nErmanno Wolf-Ferrari (1876–1948), Italian composer, mostly of comic opera\nVirgilio Ranzato (1883–1937), Italian composer and violinist\nBruno Maderna (1920–1973), Italian-German orchestra director and",
+      "matchedWords": {
+        "6EJ5Wygik_1h": {
+          "hits": 1,
+          "textWords": 20077
+        },
+        "FqmRT36qFgho": {
+          "hits": 1,
+          "textWords": 20077
+        },
+        "NyD1TpGbIszj": {
+          "hits": 2,
+          "textWords": 20077
+        }
+      },
+      "queryPhraseHits": 2
+    },
+    {
+      "hash": "Wv5DEjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Germans",
+      "title": "Germans - Wikipedia",
+      "snippet": "Wolfgang von Goethe, Friedrich Schiller, Johann Gottfried Herder, Friedrich Hölderlin, E. T. A. Hoffmann, Heinrich Heine, Novalis and the Brothers Grimm, the philosopher Immanuel Kant, the architect Karl Friedrich Schinkel, the painter Caspar David Friedrich, and the composers Johann Sebastian",
+      "matchedWords": {
+        "6EJ5Wygik_1h": {
+          "hits": 1,
+          "textWords": 5153
+        },
+        "FqmRT36qFgho": {
+          "hits": 1,
+          "textWords": 5153
+        },
+        "NyD1TpGbIszj": {
+          "hits": 2,
+          "textWords": 5153
+        }
+      },
+      "queryPhraseHits": 2
+    },
+    {
+      "hash": "xKMdljRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Austria-Hungary",
+      "title": "Austria-Hungary - Wikipedia",
+      "snippet": "Wolfgang Amadeus Mozart and Ludwig van Beethoven, continued to occupy a leading position both in academic music (represented by composers such as Anton Bruckner and Gustav Mahler) and in light and popular music (including the Viennese waltzes of the Strauss dynasty and operetta, as exemplified by",
+      "matchedWords": {
+        "6EJ5Wygik_1h": {
+          "hits": 1,
+          "textWords": 22025
+        },
+        "FqmRT36qFgho": {
+          "hits": 1,
+          "textWords": 22025
+        },
+        "NyD1TpGbIszj": {
+          "hits": 2,
+          "textWords": 22025
+        }
+      },
+      "queryPhraseHits": 2
     },
     {
       "hash": "tUVzUivw0u35",
@@ -754,7 +1134,302 @@
           "hits": 0,
           "textWords": 1084
         }
-      }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "KeXAMjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Musical_instrument",
+      "title": "Musical instrument - Wikipedia",
+      "snippet": "Wolfgang Amadeus Mozart plays the keyboard while his father, Leopold Mozart, plays violin.\nDuring the Classical and Romantic periods of music, lasting from roughly 1750 to 1900, many musical instruments capable of producing new timbres and higher volume were developed and introduced into popular",
+      "matchedWords": {
+        "6EJ5Wygik_1h": {
+          "hits": 2,
+          "textWords": 8554
+        },
+        "FqmRT36qFgho": {
+          "hits": 1,
+          "textWords": 8554
+        },
+        "NyD1TpGbIszj": {
+          "hits": 1,
+          "textWords": 8554
+        }
+      },
+      "queryPhraseHits": 2
+    },
+    {
+      "hash": "b9rfSjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/St._Stephen%27s_Cathedral,_Vienna",
+      "title": "St. Stephen's Cathedral, Vienna - Wikipedia",
+      "snippet": "Wolfgang Amadeus Mozart's relationship with the cathedral, including the fact that he had been appointed an adjunct music director here shortly before his death. This was his parish church when he lived at the \"Figaro House\" and he was married here, two of his children were baptised here, and his",
+      "matchedWords": {
+        "6EJ5Wygik_1h": {
+          "hits": 7,
+          "textWords": 7846
+        },
+        "FqmRT36qFgho": {
+          "hits": 2,
+          "textWords": 7846
+        },
+        "NyD1TpGbIszj": {
+          "hits": 2,
+          "textWords": 7846
+        }
+      },
+      "queryPhraseHits": 4
+    },
+    {
+      "hash": "d9r-KocHOkWx",
+      "address": "https://www.gutenberg.org/browse/authors/p",
+      "title": "Browse By Author: P | Project Gutenberg",
+      "snippet": "Wolfgang Amadeus Mozart (English) (as Author)\nPeyton, A. Conway\nThe Adventures of Diggeldy Dan (English) (as Illustrator)\nPeyton, Green, 1907-1968\nWertenbaker, Green Peyton\nThe Chamber of Life (English) (as Author)\nThe Coming of the Ice (English) (as Author)\nPeyton, J. Lewis (John Lewis), 1824-1896",
+      "matchedWords": {
+        "6EJ5Wygik_1h": {
+          "hits": 2,
+          "textWords": 67010
+        },
+        "FqmRT36qFgho": {
+          "hits": 1,
+          "textWords": 67010
+        },
+        "NyD1TpGbIszj": {
+          "hits": 1,
+          "textWords": 67010
+        }
+      },
+      "queryPhraseHits": 2
+    },
+    {
+      "hash": "Ptf586djm6dw",
+      "address": "https://imslp.org/wiki/Breitkopf_und_H%C3%A4rtel",
+      "title": "Breitkopf und Härtel - IMSLP",
+      "snippet": "",
+      "matchedWords": {
+        "6EJ5Wygik_1h": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "FqmRT36qFgho": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "NyD1TpGbIszj": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "3JZLOo1ILRNx",
+      "address": "https://tum.wikipedia.org/wiki/Jani_likulu",
+      "title": "Wikipedia",
+      "snippet": "Nkhani ya mwahuno\nChilombo cha kucheta cha 1518 chikamba ku Strasbourg mu Julayi 1518 apo mwanakazi wakwamba kucheta mwankhongono kwambura kumanya chifukwa. Mu mazuŵa ghachoko, ŵanthu ŵanyake ŵakamba kumulondezga, ndipo chiŵereŵere ichi chikakura kufika pa ŵanthu pafupifupi 50 mpaka 400. Ŵanyake",
+      "matchedWords": {
+        "6EJ5Wygik_1h": {
+          "hits": 0,
+          "textWords": 680
+        },
+        "FqmRT36qFgho": {
+          "hits": 0,
+          "textWords": 680
+        },
+        "NyD1TpGbIszj": {
+          "hits": 0,
+          "textWords": 680
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "NvD21vEndn4x",
+      "address": "https://cs.wikipedia.org/wiki/Klav%C3%ADr",
+      "title": "Klavír – Wikipedie",
+      "snippet": "Wolfgang Amadeus Mozart, si však uvědomovali možnosti, které dává mohutnější zvuk a schopnost dynamických změn. Vzniká rozsáhlá literatura a to spolu s rozšířením nástroje i do měšťanských domácností na počátku 19. století klavichord a cembalo prakticky vytlačilo.\nK renesanci cembala došlo až ve",
+      "matchedWords": {
+        "6EJ5Wygik_1h": {
+          "hits": 1,
+          "textWords": 3214
+        },
+        "FqmRT36qFgho": {
+          "hits": 1,
+          "textWords": 3214
+        },
+        "NyD1TpGbIszj": {
+          "hits": 1,
+          "textWords": 3214
+        }
+      },
+      "queryPhraseHits": 2
+    },
+    {
+      "hash": "LusGWdFO6r_x",
+      "address": "https://de.wikipedia.org/wiki/Queen_(Band)",
+      "title": "Queen (Band) – Wikipedia",
+      "snippet": "Wolfgang Amadeus Mozart. Die Thematik des Stückes bezieht sich auf Aids sowie den frühen Tod von Freddie Mercury und Jorge Donn, dem ersten Tänzer der Compagnie. Le Presbytère erschien unter dem Titel Ballet for Life als Video; die Live-Fassung von The Show Must Go On ist auch auf der",
+      "matchedWords": {
+        "6EJ5Wygik_1h": {
+          "hits": 1,
+          "textWords": 12300
+        },
+        "FqmRT36qFgho": {
+          "hits": 1,
+          "textWords": 12300
+        },
+        "NyD1TpGbIszj": {
+          "hits": 1,
+          "textWords": 12300
+        }
+      },
+      "queryPhraseHits": 2
+    },
+    {
+      "hash": "iBMkcdFO6r_x",
+      "address": "https://de.wikipedia.org/wiki/Klavier",
+      "title": "Klavier – Wikipedia",
+      "snippet": "Wolfgang Amadeus Mozart und Ludwig van Beethoven und andere komponierten Musik, die in der zweiten Hälfte des 18. Jahrhunderts zu Teilen bereits solistisch für das Klavier geschrieben war.\nIn der ersten Hälfte des 19. Jahrhunderts war es insbesondere Frédéric Chopin, welcher vornehmlich für das",
+      "matchedWords": {
+        "6EJ5Wygik_1h": {
+          "hits": 3,
+          "textWords": 10855
+        },
+        "FqmRT36qFgho": {
+          "hits": 1,
+          "textWords": 10855
+        },
+        "NyD1TpGbIszj": {
+          "hits": 1,
+          "textWords": 10855
+        }
+      },
+      "queryPhraseHits": 2
+    },
+    {
+      "hash": "zB1TmjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Grand_piano",
+      "title": "Piano - Wikipedia",
+      "snippet": "Wolfgang Amadeus Mozart composed his concertos and sonatas, and replicas of them are built in the 21st century for use in authentic-instrument performance of his music. The pianos of Mozart's day had a softer tone than modern pianos (those from the late 19th century or later) or English pianos,",
+      "matchedWords": {
+        "6EJ5Wygik_1h": {
+          "hits": 7,
+          "textWords": 11533
+        },
+        "FqmRT36qFgho": {
+          "hits": 1,
+          "textWords": 11533
+        },
+        "NyD1TpGbIszj": {
+          "hits": 1,
+          "textWords": 11533
+        }
+      },
+      "queryPhraseHits": 2
+    },
+    {
+      "hash": "8t9z8jRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Benjamin_Franklin",
+      "title": "Benjamin Franklin - Wikipedia",
+      "snippet": "Wolfgang Amadeus Mozart composed for Franklin's glass harmonica,[294] as did Ludwig van Beethoven.[295][296] Gaetano Donizetti used the instrument in the accompaniment to Amelia's aria \"Par che mi dica ancora\" in the tragic opera Il castello di Kenilworth (1821),[297] as did Camille Saint-Saëns in",
+      "matchedWords": {
+        "6EJ5Wygik_1h": {
+          "hits": 2,
+          "textWords": 23350
+        },
+        "FqmRT36qFgho": {
+          "hits": 2,
+          "textWords": 23350
+        },
+        "NyD1TpGbIszj": {
+          "hits": 1,
+          "textWords": 23350
+        }
+      },
+      "queryPhraseHits": 2
+    },
+    {
+      "hash": "E7eSYiVDQ15x",
+      "address": "https://eo.wikipedia.org/wiki/Piano",
+      "title": "Piano - Vikipedio",
+      "snippet": "Wolfgang Amadeus Mozart kaj sia lernanto Johann Nepomuk Hummel. Ankaŭ la unuaj prapianoj kun puŝmekaniko postulis kaj ebligis nenian korpoagadon; modele ludis Ludwig van Beethoven kaj sia lernanto Carl Czerny. Tutmondan kaj daŭre efikan influon havis la pianisto, komponisto, eldonisto kaj",
+      "matchedWords": {
+        "6EJ5Wygik_1h": {
+          "hits": 5,
+          "textWords": 3858
+        },
+        "FqmRT36qFgho": {
+          "hits": 3,
+          "textWords": 3858
+        },
+        "NyD1TpGbIszj": {
+          "hits": 3,
+          "textWords": 3858
+        }
+      },
+      "queryPhraseHits": 6
+    },
+    {
+      "hash": "tmMWtEmve8Sx",
+      "address": "https://hr.wikipedia.org/wiki/Benjamin_Franklin",
+      "title": "Benjamin Franklin – Wikipedija",
+      "snippet": "Benjamin Franklin\nRođenje\n17. siječnja 1706.\nBoston, Massachusetts, SAD\nSmrt\n17. travnja 1790. (84 god.)\nPhiladelphia, Pennsylvania, SAD\nDržavljanstvo\nAmerikanac\nPoznat(a) po\nGromobran\nDokaz da munje sadrže elektricitet\nElektrični kondenzator\nPolje\nFizika, politika\nInstitucija\nČlan Kongresa SAD-a",
+      "matchedWords": {
+        "6EJ5Wygik_1h": {
+          "hits": 0,
+          "textWords": 1081
+        },
+        "FqmRT36qFgho": {
+          "hits": 0,
+          "textWords": 1081
+        },
+        "NyD1TpGbIszj": {
+          "hits": 0,
+          "textWords": 1081
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "UHO9fjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Age_of_Enlightenment",
+      "title": "Age of Enlightenment - Wikipedia",
+      "snippet": "Wolfgang von Goethe\nDavid Hume\nAdam Smith\nDenis Diderot\nBenjamin Franklin\nRoger Williams\nKey events\nAmerican Revolution (1765–1783)\nFrench Revolution (1789–1799)\nThe Age of Enlightenment, also known as the Age of Reason or simply the Enlightenment,[b] was a period of intellectual and cultural",
+      "matchedWords": {
+        "6EJ5Wygik_1h": {
+          "hits": 7,
+          "textWords": 24781
+        },
+        "FqmRT36qFgho": {
+          "hits": 2,
+          "textWords": 24781
+        },
+        "NyD1TpGbIszj": {
+          "hits": 4,
+          "textWords": 24781
+        }
+      },
+      "queryPhraseHits": 4
+    },
+    {
+      "hash": "eon5Kh3e0QFx",
+      "address": "https://commons.wikimedia.org/wiki/New_York_City",
+      "title": "New York City - Wikimedia Commons",
+      "snippet": "From Wikimedia Commons, the free media repository\nNew York City\nmost populous city in the United States\nTimes Square is the hub of the Broadway theater district and a media center\nRockefeller Center is home to NBC Studios\nUpload media\nWikipedia\nWikiquote\nWikisource\nWikinews\nWikivoyage\nAbstract",
+      "matchedWords": {
+        "6EJ5Wygik_1h": {
+          "hits": 0,
+          "textWords": 924
+        },
+        "FqmRT36qFgho": {
+          "hits": 0,
+          "textWords": 924
+        },
+        "NyD1TpGbIszj": {
+          "hits": 0,
+          "textWords": 924
+        }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "REDKRAvw0u35",
@@ -774,12 +1449,13 @@
           "hits": 0,
           "textWords": 273
         }
-      }
+      },
+      "queryPhraseHits": 0
     }
   ],
   "documentsHeldPerQueryWord": {
-    "6EJ5Wygik_1h": 353,
-    "FqmRT36qFgho": 1017,
-    "NyD1TpGbIszj": 3696
+    "6EJ5Wygik_1h": 29150,
+    "FqmRT36qFgho": 34195,
+    "NyD1TpGbIszj": 77044
   }
 }

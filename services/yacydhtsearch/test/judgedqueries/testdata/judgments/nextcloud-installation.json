@@ -2,15 +2,33 @@
   "query": "nextcloud installation",
   "judgedDocuments": [
     {
-      "hash": "DkgJosH3-qPx",
-      "address": "https://cyberduck.io/",
-      "title": "Cyberduck | Libre server and cloud storage browser for Mac and Windows with support for FTP, SFTP, WebDAV, Amazon S3, OpenStack Swift, Backblaze B2, Microsoft Azure & OneDrive, Google Drive and Dropbox",
+      "hash": "9M9MAls8l0-4",
+      "address": "https://www.clubic.com/bons-plans-604852-o2switch-cloud-a-1-86-mois-l-hebergement-francais-qui-remplace-aussi-votre-abonnement-cloud-payant.html",
+      "title": "o2switch Cloud à 1,86€/mois : l’hébergement français qui remplace aussi votre abonnement cloud payant",
+      "grade": 1
+    },
+    {
+      "hash": "lE0EBsqW6DOy",
+      "address": "https://keepandroidopen.org/",
+      "title": "Keep Android Open",
       "grade": 0
     },
     {
-      "hash": "xIkDby3WSkX4",
-      "address": "https://docs.ovhcloud.com/en/guides/web-cloud/domains/overview",
-      "title": "Domains - OVHcloud Documentation",
+      "hash": "9TInzls8l0-4",
+      "address": "https://www.clubic.com/bons-plans-613453-joueurs-pc-et-ps5-le-lexar-nm790-4-to-est-a-son-prix-le-plus-bas.html",
+      "title": "Joueurs PC et PS5 : le Lexar NM790 4 To est à son prix le plus bas 💥",
+      "grade": 0
+    },
+    {
+      "hash": "DkgJosH3-qPx",
+      "address": "https://cyberduck.io/",
+      "title": "Cyberduck | Libre server and cloud storage browser for Mac and Windows with support for FTP, SFTP, WebDAV, Amazon S3, OpenStack Swift, Backblaze B2, Microsoft Azure \u0026 OneDrive, Google Drive and Dropbox",
+      "grade": 0
+    },
+    {
+      "hash": "tptsBjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Lumen_Technologies",
+      "title": "Lumen Technologies - Wikipedia",
       "grade": 0
     }
   ]

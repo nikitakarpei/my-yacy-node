@@ -2,9 +2,15 @@
   "query": "self hosted email server",
   "judgedDocuments": [
     {
-      "hash": "XTPIBlptNsG4",
-      "address": "https://www.akdart.com/hijrah.html",
-      "title": "Islamic invasion disguised as the displacement and acceptance of refugees",
+      "hash": "Fl-YxlDOAHJg",
+      "address": "https://www.heise.de/",
+      "title": "heise online - IT-News, Nachrichten und Hintergründe | heise online",
+      "grade": 0
+    },
+    {
+      "hash": "D4lABzaS0qdw",
+      "address": "https://planet.debian.org/",
+      "title": "Planet Debian",
       "grade": 0
     }
   ]

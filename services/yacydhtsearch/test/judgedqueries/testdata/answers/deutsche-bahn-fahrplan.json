@@ -1,11 +1,75 @@
 {
   "query": "deutsche bahn fahrplan",
-  "recordedAt": "2026-09-11T21:01:40Z",
+  "recordedAt": "2026-09-11T22:14:21Z",
   "itemsInTheOrderOfEachAnswer": [],
-  "itemsInNoOrder": [],
+  "itemsInNoOrder": [
+    {
+      "hash": "NbA0slHjdLqg",
+      "address": "https://www.focus.de/",
+      "title": "FOCUS online - Aktuelle Nachrichten",
+      "snippet": "",
+      "matchedWords": {
+        "0tW-J_MdAY_e": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "Ke38EJ9aZo5A": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "u0VTueRa_hwL": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "NbA0slHjdLqg",
+      "address": "https://www.focus.de/",
+      "title": "FOCUS online - Aktuelle Nachrichten",
+      "snippet": "",
+      "matchedWords": {
+        "0tW-J_MdAY_e": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "Ke38EJ9aZo5A": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "u0VTueRa_hwL": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "NbA0slHjdLqg",
+      "address": "https://www.focus.de/",
+      "title": "FOCUS online - Aktuelle Nachrichten",
+      "snippet": "",
+      "matchedWords": {
+        "0tW-J_MdAY_e": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "Ke38EJ9aZo5A": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "u0VTueRa_hwL": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    }
+  ],
   "documentsHeldPerQueryWord": {
-    "0tW-J_MdAY_e": 4277,
-    "Ke38EJ9aZo5A": 18265,
-    "u0VTueRa_hwL": 181
+    "0tW-J_MdAY_e": 4166,
+    "Ke38EJ9aZo5A": 26482,
+    "u0VTueRa_hwL": 185
   }
 }

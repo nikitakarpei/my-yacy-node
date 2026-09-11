@@ -2,81 +2,21 @@
   "query": "free software foundation",
   "judgedDocuments": [
     {
-      "hash": "dSQ7JMaQF27w",
-      "address": "https://www.apache.org/foundation/sponsorship.html",
-      "title": "ASF Sponsorship | Apache Software Foundation",
-      "grade": 0
-    },
-    {
-      "hash": "HnrGHy1nrxbw",
-      "address": "https://www.debian.org/legal/licenses/",
-      "title": "Debian -- License information",
-      "grade": 0
-    },
-    {
-      "hash": "BFjbOyfAodxw",
-      "address": "https://docs.freebsd.org/en/articles/bsdl-gpl/",
-      "title": "Why you should use a BSD style license for your Open Source Project | FreeBSD Documentation Portal",
-      "grade": 0
-    },
-    {
-      "hash": "8q_7kd8zMi84",
-      "address": "https://docs.cloud.google.com/release-notes",
-      "title": "Google Cloud release notes | Google Cloud Documentation",
-      "grade": 0
-    },
-    {
-      "hash": "0BZyCsY-tUi5",
-      "address": "https://moralparty.com/ai/",
-      "title": "AI – MoralParty.com",
-      "grade": 0
-    },
-    {
-      "hash": "BxsbyjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Apple_Inc.",
-      "title": "Apple Inc. - Wikipedia",
-      "grade": 0
-    },
-    {
-      "hash": "3BIWPQyqhLoR",
-      "address": "http://www.openoffice.org/",
-      "title": "Apache OpenOffice - Official Site - The Free and Open Productivity Suite",
-      "grade": 0
-    },
-    {
-      "hash": "LYB_9j-JVcyx",
-      "address": "https://en.wikiquote.org/wiki/Wikiquote:Community_Portal",
-      "title": "Wikiquote:Community Portal - Wikiquote",
-      "grade": 0
-    },
-    {
-      "hash": "VpCOpt6ArEvw",
-      "address": "https://blog.archive.org/",
-      "title": "Internet Archive Blogs | Updates from the Internet Archive",
-      "grade": 0
-    },
-    {
-      "hash": "iLQO1sN0ip-w",
-      "address": "https://m-reform.net/",
-      "title": "replica football shirts",
-      "grade": 0
-    },
-    {
-      "hash": "THPLFiVUrQm6",
-      "address": "https://earthnewspaper.com/2022-news/24-7-news-november-2022/",
-      "title": "24/7 News November 2022 – EarthNewspaper.com – All The Honest News Fit To Publish",
+      "hash": "ko6iFUb8iyg4",
+      "address": "https://cloud.google.com/free",
+      "title": "Free Trial and Free Tier Services and Products | Google Cloud",
       "grade": 0
     },
     {
       "hash": "WdJ2qlDmGrO5",
-      "address": "https://www.yatesgear.com/index.php?route=journal3/blog/post&journal_blog_post_id=10",
+      "address": "https://www.yatesgear.com/index.php?route=journal3/blog/post\u0026journal_blog_post_id=10",
       "title": "Another Blog Post",
       "grade": 0
     },
     {
-      "hash": "1U9VNkPMN02h",
-      "address": "https://www.mardi4nfdi.de/community/newsletter",
-      "title": "Newsletter - MaRDI",
+      "hash": "jKQKJldG5jPw",
+      "address": "https://www.python.org/psf-landing/",
+      "title": "Python Software Foundation",
       "grade": 0
     },
     {
@@ -86,9 +26,15 @@
       "grade": 0
     },
     {
-      "hash": "-b3sxspKNBr4",
-      "address": "https://rense.com/",
-      "title": "rense.com",
+      "hash": "aJD3bsakFVXw",
+      "address": "https://slashdot.org/",
+      "title": "Slashdot: News for nerds, stuff that matters",
+      "grade": 0
+    },
+    {
+      "hash": "8q_7kd8zMi84",
+      "address": "https://docs.cloud.google.com/release-notes",
+      "title": "Google Cloud release notes | Google Cloud Documentation",
       "grade": 0
     },
     {
@@ -98,15 +44,213 @@
       "grade": 0
     },
     {
+      "hash": "h-LMlkV-s05k",
+      "address": "https://alumni32.com.br/ato-no-02-2020-regimento-eleitoral/",
+      "title": "Ato Nº 02/2020 - Regimento Eleitoral - Alumni '32",
+      "grade": 0
+    },
+    {
+      "hash": "CTQ-Yj-JVcyx",
+      "address": "https://en.wikiquote.org/wiki/Mystery_Science_Theater_3000",
+      "title": "Mystery Science Theater 3000 - Wikiquote",
+      "grade": 0
+    },
+    {
+      "hash": "eaT0Hj-JVcyx",
+      "address": "https://en.wikiquote.org/wiki/Main_Page",
+      "title": "Wikiquote",
+      "grade": 0
+    },
+    {
+      "hash": "hNrcdJ-bwreQ",
+      "address": "http://ace.mu.nu/",
+      "title": "Ace of Spades HQ",
+      "grade": 0
+    },
+    {
       "hash": "AHhJbh3e0QFx",
       "address": "https://commons.wikimedia.org/wiki/Main_Page",
       "title": "Wikimedia Commons",
       "grade": 0
     },
     {
-      "hash": "8UUF7AIRlUi5",
-      "address": "https://www.10zenmonkeys.com/category/politics/",
-      "title": "Politics, Law & War – 10 Zen Monkeys",
+      "hash": "UQwEcs7YLxR5",
+      "address": "https://thedailymessenger.wordpress.com/category/ibm/",
+      "title": "IBM | The Daily Messenger (mirror)",
+      "grade": 0
+    },
+    {
+      "hash": "CJGTwFMXd2kx",
+      "address": "https://simple.wikipedia.org/wiki/Main_Page",
+      "title": "Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "iLQO1sN0ip-w",
+      "address": "https://m-reform.net/",
+      "title": "replica football shirts",
+      "grade": 0
+    },
+    {
+      "hash": "rIs7VjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Main_Page",
+      "title": "Wikipedia, the free encyclopedia",
+      "grade": 0
+    },
+    {
+      "hash": "Tm8vbiVUrQm6",
+      "address": "https://earthnewspaper.com/2022-news/24-7-news-october-2022/",
+      "title": "24/7 News October 2022 – EarthNewspaper.com – All The Honest News Fit To Publish",
+      "grade": 0
+    },
+    {
+      "hash": "D4lABzaS0qdw",
+      "address": "https://planet.debian.org/",
+      "title": "Planet Debian",
+      "grade": 0
+    },
+    {
+      "hash": "1yd_7zbpbGvx",
+      "address": "https://species.wikimedia.org/wiki/Main_Page",
+      "title": "Wikispecies, free species directory",
+      "grade": 0
+    },
+    {
+      "hash": "I7b5hjcl0ynx",
+      "address": "https://en.wikiversity.org/wiki/Wikiversity:Main_Page",
+      "title": "Wikiversity",
+      "grade": 0
+    },
+    {
+      "hash": "Y8JVkjjEZfvx",
+      "address": "https://en.wiktionary.org/wiki/Wiktionary:Main_Page",
+      "title": "Wiktionary, the free dictionary",
+      "grade": 0
+    },
+    {
+      "hash": "djzHwjjEZfvx",
+      "address": "https://en.wiktionary.org/wiki/Main_Page",
+      "title": "Wiktionary, the free dictionary",
+      "grade": 0
+    },
+    {
+      "hash": "-b3sxspKNBr4",
+      "address": "https://rense.com/",
+      "title": "rense.com",
+      "grade": 0
+    },
+    {
+      "hash": "XTPIBlptNsG4",
+      "address": "https://www.akdart.com/hijrah.html",
+      "title": "Islamic invasion disguised as the displacement and acceptance of refugees",
+      "grade": 0
+    },
+    {
+      "hash": "nA0ugsw4UVk6",
+      "address": "https://paydayloansforus.com/",
+      "title": "Paydayloansforus -",
+      "grade": 0
+    },
+    {
+      "hash": "BxsbyjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Apple_Inc.",
+      "title": "Apple Inc. - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "PLFGnjAL9Tgx",
+      "address": "https://en.wikisource.org/wiki/Main_Page",
+      "title": "Wikisource, the free library",
+      "grade": 0
+    },
+    {
+      "hash": "Cpc5fjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Wikipedia",
+      "title": "Wikipedia - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "CBV5zLkCAQb4",
+      "address": "https://tysknews.com/News/news.html",
+      "title": "TYSK — NEWS \u0026 EDITORIALS",
+      "grade": 0
+    },
+    {
+      "hash": "BaG6oKsrSOQw",
+      "address": "https://arxiv.org/list/stat/new",
+      "title": "Statistics",
+      "grade": 0
+    },
+    {
+      "hash": "URs94luI8hnw",
+      "address": "https://www.eff.org/updates?type=press_release",
+      "title": "Our Work | Electronic Frontier Foundation",
+      "grade": 0
+    },
+    {
+      "hash": "chi-9y65czi5",
+      "address": "https://www.atlassian.com/legal/privacy-policy",
+      "title": "Privacy Policy | Atlassian",
+      "grade": 0
+    },
+    {
+      "hash": "TQFp0AAUFAfQ",
+      "address": "http://www.iana.org/domains/root/db",
+      "title": "Root Zone Database",
+      "grade": 0
+    },
+    {
+      "hash": "SOAt4sWMnAPx",
+      "address": "https://fedoraplanet.org/",
+      "title": "Fedora People",
+      "grade": 0
+    },
+    {
+      "hash": "ThQTtsaDVLT7",
+      "address": "https://hotsalsainteractive.com/",
+      "title": "hotsalsainteractive -",
+      "grade": 0
+    },
+    {
+      "hash": "eV8_WladqZ_x",
+      "address": "https://www.wikipedia.org/",
+      "title": "Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "-p2w3taoSn1x",
+      "address": "https://en.planet.wikimedia.org/",
+      "title": "en.planet.wikimedia.org",
+      "grade": 0
+    },
+    {
+      "hash": "q2TQsobrsZjx",
+      "address": "https://www.mediawiki.org/wiki/MediaWiki",
+      "title": "MediaWiki",
+      "grade": 0
+    },
+    {
+      "hash": "Fn4lKjc4UIAx",
+      "address": "https://en.wikivoyage.org/wiki/Main_Page",
+      "title": "Wikivoyage – The free worldwide travel guide that you can edit",
+      "grade": 0
+    },
+    {
+      "hash": "LZjtbjc4UIAx",
+      "address": "https://en.wikivoyage.org/wiki/Wikivoyage:Help",
+      "title": "Wikivoyage:Help – Travel guide at Wikivoyage",
+      "grade": 0
+    },
+    {
+      "hash": "R3n97SxWH45x",
+      "address": "https://vice-emu.sourceforge.io/",
+      "title": "VICE - the Versatile Commodore Emulator",
+      "grade": 0
+    },
+    {
+      "hash": "arAWlz1OWdFw",
+      "address": "https://www.mozilla.org/en-US/about/governance/policies/participation/",
+      "title": "Community Participation Guidelines — Mozilla",
       "grade": 0
     }
   ]

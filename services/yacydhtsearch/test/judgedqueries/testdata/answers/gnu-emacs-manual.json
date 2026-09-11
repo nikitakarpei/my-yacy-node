@@ -1,11 +1,334 @@
 {
   "query": "gnu emacs manual",
-  "recordedAt": "2026-09-11T21:02:47Z",
-  "itemsInTheOrderOfEachAnswer": [],
-  "itemsInNoOrder": [],
+  "recordedAt": "2026-09-11T22:14:21Z",
+  "itemsInTheOrderOfEachAnswer": [
+    [
+      {
+        "hash": "1ymSjjRvmBbx",
+        "address": "https://en.wikipedia.org/wiki/Bash_(shell)",
+        "title": "Bash (Unix shell) - Wikipedia",
+        "snippet": "GNU\nAvailable in\nMultilingual (gettext)\nType\nShell (computing), Unix shell, command language\nLicense\nv.4.0+: GPL-3.0-or-later[a]\nv.1.11 – v.3.2: GPL-2.0-or-later[3]\nv.0.99 – v.1.05: GPL-1.0-or-later[4]\nWebsite\nwww\n.gnu\n.org\n/software\n/bash\n/\nRepository\ngit\n.savannah\n.gnu\n.org\n/cgit\n/bash\n.git\nBash",
+        "matchedWords": {
+          "PHizVQKyaT_v": {
+            "hits": 27,
+            "textWords": 13544
+          },
+          "di0Zq1WG3Awc": {
+            "hits": 1,
+            "textWords": 13544
+          },
+          "juD3tm0asFcU": {
+            "hits": 71,
+            "textWords": 13544
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "xsKvr-fhXesw",
+        "address": "https://issues.guix.gnu.org/issue/76503",
+        "title": "[GCD] Migrating repositories, issues, and patches to Codeberg",
+        "snippet": "guix-patches@gnu.org)\nMessage-ID:\n87wmdgznzx.fsf@inria.fr\nHello Guix!\nThis is the formal submission of “Migrating repositories, issues, and\npatches to Codeberg” (GCD 002), a preliminary draft of which I posted\nbefore the Guix Days⁰.\nIn accordance with the GCD Process, discussion will end on April",
+        "matchedWords": {
+          "PHizVQKyaT_v": {
+            "hits": 37,
+            "textWords": 78520
+          },
+          "di0Zq1WG3Awc": {
+            "hits": 52,
+            "textWords": 78520
+          },
+          "juD3tm0asFcU": {
+            "hits": 851,
+            "textWords": 78520
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "QriquAK-xyJ4",
+        "address": "https://go.dev/doc/devel/weekly",
+        "title": "Weekly Snapshot History - The Go Programming Language",
+        "snippet": "misc/emacs: fix indentation bug. * misc/goplay: fix error on IE8 (thanks Yasuhiro Matsumoto). * net: ignore ECONNABORTED from syscall.Accept (thanks Devon H. O'Dell). * os: add missing byte to FileMode buffer (thanks Stefan Nilsson). * path/filepath: convert drive letter to upper case in windows",
+        "matchedWords": {
+          "PHizVQKyaT_v": {
+            "hits": 2,
+            "textWords": 43354
+          },
+          "di0Zq1WG3Awc": {
+            "hits": 13,
+            "textWords": 43354
+          },
+          "juD3tm0asFcU": {
+            "hits": 3,
+            "textWords": 43354
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ]
+  ],
+  "itemsInNoOrder": [
+    {
+      "hash": "D34VsF3X_rqw",
+      "address": "https://lists.gnu.org/archive/html/guix-devel/2015-01/msg00443.html",
+      "title": "GNU Guix 0.8.1 released",
+      "snippet": "GNU Guix 0.8.1 released\nDate:\nThu, 29 Jan 2015 10:17:37 +0100\nUser-agent:\nGnus/5.13 (Gnus v5.13) Emacs/24.4 (gnu/linux)\nWe are pleased to announce the release of GNU Guix version 0.8.1, representing 804 commits by 21 people over 2.5 months. • About GNU Guix is a functional package manager for the",
+      "matchedWords": {
+        "PHizVQKyaT_v": {
+          "hits": 13,
+          "textWords": 2192
+        },
+        "di0Zq1WG3Awc": {
+          "hits": 6,
+          "textWords": 2192
+        },
+        "juD3tm0asFcU": {
+          "hits": 53,
+          "textWords": 2192
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "N8dpuF3X_rqw",
+      "address": "https://lists.gnu.org/archive/html/guix-devel/2017-12/msg00100.html",
+      "title": "GNU Guix \u0026 GuixSD 0.14.0 released",
+      "snippet": "GNU Guix \u0026 GuixSD 0.14.0 released\nDate:\nThu, 07 Dec 2017 13:45:11 +0100\nUser-agent:\nGnus/5.13 (Gnus v5.13) Emacs/25.3 (gnu/linux)\nWe are pleased to announce the release of GNU Guix \u0026 GuixSD 0.14.0, representing 5,192 commits by 88 people over 6 months. • About GNU Guix is a transactional package",
+      "matchedWords": {
+        "PHizVQKyaT_v": {
+          "hits": 2,
+          "textWords": 7255
+        },
+        "di0Zq1WG3Awc": {
+          "hits": 61,
+          "textWords": 7255
+        },
+        "juD3tm0asFcU": {
+          "hits": 59,
+          "textWords": 7255
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "nzIZ8jRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Lexical_scope",
+      "title": "Scope (computer programming) - Wikipedia",
+      "snippet": "GNU C as ({ int x = f(); x * x; }).\nIn Python, auxiliary variables in generator expressions and list comprehensions (in Python 3) have expression scope.\nIn C, variable names in a function prototype have expression scope, known in this context as function protocol scope. As the variable names in the",
+      "matchedWords": {
+        "PHizVQKyaT_v": {
+          "hits": 3,
+          "textWords": 9995
+        },
+        "di0Zq1WG3Awc": {
+          "hits": 5,
+          "textWords": 9995
+        },
+        "juD3tm0asFcU": {
+          "hits": 2,
+          "textWords": 9995
+        }
+      },
+      "queryPhraseHits": 1
+    },
+    {
+      "hash": "yk9R7jRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Troff",
+      "title": "troff - Wikipedia",
+      "snippet": "GNU groff.\nIn 1983, troff was one of several UNIX tools available for Charles River Data Systems' UNOS operating system under Bell Laboratories license.[5]\nThe troff collection of tools (including pre- and post-processors) was eventually called Documenter's WorkBench (DWB), and was under continuous",
+      "matchedWords": {
+        "PHizVQKyaT_v": {
+          "hits": 17,
+          "textWords": 2403
+        },
+        "di0Zq1WG3Awc": {
+          "hits": 1,
+          "textWords": 2403
+        },
+        "juD3tm0asFcU": {
+          "hits": 3,
+          "textWords": 2403
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "2RX5-jRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Gratis_versus_libre",
+      "title": "Free software - Wikipedia",
+      "snippet": "GNU Guix. An example of a GNU FSDG complying free-software operating system running some representative applications. Shown are the GNOME desktop environment, the GNU Emacs text editor, the GIMP image editor, some GNOME Core Applications, and the VLC media player.\nFree software or libre",
+      "matchedWords": {
+        "PHizVQKyaT_v": {
+          "hits": 0,
+          "textWords": 5693
+        },
+        "di0Zq1WG3Awc": {
+          "hits": 3,
+          "textWords": 5693
+        },
+        "juD3tm0asFcU": {
+          "hits": 41,
+          "textWords": 5693
+        }
+      },
+      "queryPhraseHits": 1
+    },
+    {
+      "hash": "6BTXNjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Pwd",
+      "title": "pwd - Wikipedia",
+      "snippet": "GNU Core Utilities was written by Jim Meyering.[15]\nThe command is available in other shells and operating systems including SpartaDOS X,[16] PANOS,[17] and KolibriOS.[18] PowerShell provides pwd as an alias for the cmdlet Get-Location. An equivalent command in COMMAND.COM and Command Prompt is the",
+      "matchedWords": {
+        "PHizVQKyaT_v": {
+          "hits": 11,
+          "textWords": 784
+        },
+        "di0Zq1WG3Awc": {
+          "hits": 0,
+          "textWords": 784
+        },
+        "juD3tm0asFcU": {
+          "hits": 4,
+          "textWords": 784
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "8UmlFjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Swaret",
+      "title": "Slackware - Wikipedia",
+      "snippet": "GNU\nDefault\nuser interface\nCLI\nLicense\nGNU General Public License\nOfficial website\nwww\n.slackware\n.com\nSlackware is a Linux distribution created by Patrick Volkerding in 1993. Originally based on Softlanding Linux System (SLS),[5] Slackware has been the basis for many other Linux distributions,",
+      "matchedWords": {
+        "PHizVQKyaT_v": {
+          "hits": 2,
+          "textWords": 8486
+        },
+        "di0Zq1WG3Awc": {
+          "hits": 1,
+          "textWords": 8486
+        },
+        "juD3tm0asFcU": {
+          "hits": 4,
+          "textWords": 8486
+        }
+      },
+      "queryPhraseHits": 1
+    },
+    {
+      "hash": "TPZ22WVFEEow",
+      "address": "https://guix.gnu.org/manual/1.5.0/en/html_node/Debbugs-User-Interfaces.html",
+      "title": "Debbugs User Interfaces (GNU Guix Reference Manual)",
+      "snippet": "https://issues.guix.gnu.org provides a pleasant interface powered by mumi49 to browse bug reports and patches, and to participate in discussions; mumi also has a command-line interface as we will see below;\nhttps://bugs.gnu.org/guix lists bug reports;\nhttps://bugs.gnu.org/guix-patches lists patch",
+      "matchedWords": {
+        "PHizVQKyaT_v": {
+          "hits": 0,
+          "textWords": 761
+        },
+        "di0Zq1WG3Awc": {
+          "hits": 6,
+          "textWords": 761
+        },
+        "juD3tm0asFcU": {
+          "hits": 11,
+          "textWords": 761
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "72qrVWVFEEow",
+      "address": "https://guix.gnu.org/manual/1.5.0/en/html_node/Substitute-Server-Authorization.html",
+      "title": "Substitute Server Authorization (GNU Guix Reference Manual)",
+      "snippet": "bordeaux.guix.gnu.org, ci.guix.gnu.org or a mirror, you must add the relevant public key to the access control list (ACL) of archive imports, using the guix archive command (see Invoking guix archive). Doing so implies that you trust the substitute server to not be compromised and to serve genuine",
+      "matchedWords": {
+        "PHizVQKyaT_v": {
+          "hits": 0,
+          "textWords": 337
+        },
+        "di0Zq1WG3Awc": {
+          "hits": 4,
+          "textWords": 337
+        },
+        "juD3tm0asFcU": {
+          "hits": 14,
+          "textWords": 337
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "zP5CXYfqRo-4",
+      "address": "https://ximalas.info/2015/03/10/when-does-the-64-bit-unix-time_t-really-end/",
+      "title": "When does the 64-bit Unix time_t really end? – Trond's place",
+      "snippet": "Inspired by Numberphile‘s YouTube video on the end of (Unix) time, I began crunching some numbers, pondering the end of 64-bit time_t. Numberphile arrived at December 4th, in the year 292,277,026,596, and I wanted to know how they got that result.\nHere’s my train of thought.\nA 64-bit signed integer",
+      "matchedWords": {
+        "PHizVQKyaT_v": {
+          "hits": 0,
+          "textWords": 726
+        },
+        "di0Zq1WG3Awc": {
+          "hits": 0,
+          "textWords": 726
+        },
+        "juD3tm0asFcU": {
+          "hits": 0,
+          "textWords": 726
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "S5sCOcpiq92w",
+      "address": "https://packages.debian.org/experimental/allpackages",
+      "title": "Debian -- Software Packages in \"experimental\"",
+      "snippet": "",
+      "matchedWords": {
+        "PHizVQKyaT_v": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "di0Zq1WG3Awc": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "juD3tm0asFcU": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "qgphAesrSOQw",
+      "address": "https://arxiv.org/pdf/2402.07530",
+      "title": "2402.07530",
+      "snippet": "",
+      "matchedWords": {
+        "PHizVQKyaT_v": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "di0Zq1WG3Awc": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "juD3tm0asFcU": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    }
+  ],
   "documentsHeldPerQueryWord": {
-    "PHizVQKyaT_v": 27463,
-    "di0Zq1WG3Awc": 1189,
-    "juD3tm0asFcU": 158
+    "PHizVQKyaT_v": 50285,
+    "di0Zq1WG3Awc": 1997,
+    "juD3tm0asFcU": 1377
   }
 }

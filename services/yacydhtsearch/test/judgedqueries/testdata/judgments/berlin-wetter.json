@@ -2,57 +2,9 @@
   "query": "berlin wetter",
   "judgedDocuments": [
     {
-      "hash": "5Y0vTPSEx1zg",
-      "address": "https://wetter.welt.de/",
-      "title": "Das aktuelle Wetter und 5-Tage Wettervorhersage für Deutschland",
-      "grade": 1
-    },
-    {
-      "hash": "qym5qmXXOSAg",
-      "address": "https://www.rbb24.de/sport/eishockey/",
-      "title": "Eisbären Berlin - Aktuelle Nachrichten",
-      "grade": 0
-    },
-    {
-      "hash": "1bgQY0yX5Qug",
-      "address": "https://www.t-online.de/nachrichten/panorama/",
-      "title": "Panorama: News zu Menschen & Schicksale, Prozessen und Katastrophen",
-      "grade": 0
-    },
-    {
-      "hash": "O1sJdW8moajg",
-      "address": "https://www.welt.de/reise/Kreuzfahrt/",
-      "title": "Kreuzfahrt: News zu Schriffen und Kreuzfahrten",
-      "grade": 0
-    },
-    {
-      "hash": "5sW7idZ0OyRh",
-      "address": "https://www.rbb-online.de/fernsehen/frequenzen/",
-      "title": "FS-Empfang | rbb",
-      "grade": 0
-    },
-    {
-      "hash": "0bQU8jRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Europe",
-      "title": "Europe - Wikipedia",
-      "grade": 0
-    },
-    {
-      "hash": "BVcim0yX5Qug",
-      "address": "https://www.t-online.de/nachrichten/deutschland/",
-      "title": "Aktuelle News, Hintergründe und Videos aus Deutschland",
-      "grade": 0
-    },
-    {
-      "hash": "K07tolZ0OyRh",
-      "address": "https://www.rbb-online.de/fernsehen/",
-      "title": "rbb Fernsehen | rbb",
-      "grade": 0
-    },
-    {
-      "hash": "GeX42sX5sgqx",
-      "address": "https://netzpolitik.org/",
-      "title": "netzpolitik.org",
+      "hash": "xK_P97yX5Qug",
+      "address": "https://www.t-online.de/themen/abgeordnetenhauswahl-berlin/",
+      "title": "Abgeordnetenhauswahl Berlin 2026: Aktuelle News \u0026 Infos",
       "grade": 0
     },
     {
@@ -86,21 +38,237 @@
       "grade": 0
     },
     {
+      "hash": "hW_eDAHjdLqg",
+      "address": "https://www.focus.de/reisen/reise-inspiration/",
+      "title": "Reise-Inspiration",
+      "grade": 0
+    },
+    {
+      "hash": "SH2v_lfjI1Dh",
+      "address": "https://www.tagesschau.de/ausland",
+      "title": "Internationale Nachrichten aus aller Welt | tagesschau.de",
+      "grade": 0
+    },
+    {
       "hash": "FHhKwln76Wxw",
       "address": "https://www.gmx.net/",
-      "title": "GMX - kostenlose E-Mail, Cloud, Nachrichten & Freemail",
+      "title": "GMX - kostenlose E-Mail, Cloud, Nachrichten \u0026 Freemail",
       "grade": 0
     },
     {
       "hash": "BKlEylyX5Qug",
       "address": "https://www.t-online.de/",
-      "title": "News & E-Mail bei t-online | Politik, Sport, Unterhaltung & Ratgeber",
+      "title": "News \u0026 E-Mail bei t-online | Politik, Sport, Unterhaltung \u0026 Ratgeber",
       "grade": 0
     },
     {
       "hash": "Fl-YxlDOAHJg",
       "address": "https://www.heise.de/",
       "title": "heise online - IT-News, Nachrichten und Hintergründe | heise online",
+      "grade": 0
+    },
+    {
+      "hash": "GeX42sX5sgqx",
+      "address": "https://netzpolitik.org/",
+      "title": "netzpolitik.org",
+      "grade": 0
+    },
+    {
+      "hash": "zc0K1jRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Montreal",
+      "title": "Montreal - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "-eJKllXXOSAg",
+      "address": "https://www.rbb24.de/thema/",
+      "title": "Themen von A - Z",
+      "grade": 0
+    },
+    {
+      "hash": "K0nzzjc4UIAx",
+      "address": "https://en.wikivoyage.org/wiki/Europe",
+      "title": "Europe – Travel guide at Wikivoyage",
+      "grade": 0
+    },
+    {
+      "hash": "NSGq8lptNsG4",
+      "address": "https://www.akdart.com/warming.html",
+      "title": "Global Warming",
+      "grade": 0
+    },
+    {
+      "hash": "RGSGlC8moajg",
+      "address": "https://www.welt.de/regionales/hamburg/article174493626/Merkel-muss-weg-Proteste-gegen-rechte-Kundgebung-in-Hamburg.html",
+      "title": "„Merkel muss weg“: Proteste gegen rechte Kundgebung in Hamburg - WELT",
+      "grade": 0
+    },
+    {
+      "hash": "WLeSrl5ARWyg",
+      "address": "https://www.spiegel.de/",
+      "title": "DER SPIEGEL | Online-Nachrichten",
+      "grade": 0
+    },
+    {
+      "hash": "FcrOSdR5Djcw",
+      "address": "https://de.wikinews.org/wiki/Hauptseite",
+      "title": "Wikinews, die freie Nachrichtenquelle",
+      "grade": 0
+    },
+    {
+      "hash": "0bQU8jRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Europe",
+      "title": "Europe - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "bthkIlgw84xh",
+      "address": "https://www.sueddeutsche.de/",
+      "title": "Aktuelle Nachrichten und Kommentare - SZ.de",
+      "grade": 0
+    },
+    {
+      "hash": "4fj-VPu7iuKx",
+      "address": "https://ru.wikisource.org/wiki/%D0%93%D0%B5%D0%BD%D1%80%D0%B8%D1%85_%D0%93%D0%B5%D0%B9%D0%BD%D0%B5",
+      "title": "Автор:Генрих Гейне — Викитека",
+      "grade": 0
+    },
+    {
+      "hash": "rtQ-JluG0-bg",
+      "address": "https://www.fr.de/",
+      "title": "FR.de | News aus Politik, Wirtschaft, Sport, Frankfurt, Hessen und der Welt",
+      "grade": 0
+    },
+    {
+      "hash": "2RTWrl8moajg",
+      "address": "https://www.welt.de/",
+      "title": "WELT - Aktuelle Nachrichten, News, Hintergründe \u0026 Videos",
+      "grade": 0
+    },
+    {
+      "hash": "c7dKXX8moajg",
+      "address": "https://www.welt.de/politik/deutschland/article208035007/BfV-Extremisten-nutzen-Corona-Proteste-wie-in-Fluechtlingskrise.html",
+      "title": "BfV: Extremisten nutzen Corona-Proteste wie in Flüchtlingskrise - WELT",
+      "grade": 0
+    },
+    {
+      "hash": "qym5qmXXOSAg",
+      "address": "https://www.rbb24.de/sport/eishockey/",
+      "title": "Eisbären Berlin - Aktuelle Nachrichten",
+      "grade": 0
+    },
+    {
+      "hash": "JXWIlLfjI1Dh",
+      "address": "https://www.tagesschau.de/inland/innenpolitik",
+      "title": "Innenpolitik - aktuelle Nachrichten | tagesschau.de",
+      "grade": 0
+    },
+    {
+      "hash": "K3X4pstNzuRy",
+      "address": "https://magazinredaktion.tk/",
+      "title": "magazin",
+      "grade": 0
+    },
+    {
+      "hash": "C-V-iTyX5Qug",
+      "address": "https://www.t-online.de/klima/handbuch/",
+      "title": "Klima \u0026 Nachhaltigkeit im Handbauch: Bedeutung, Strategien \u0026 Co.",
+      "grade": 0
+    },
+    {
+      "hash": "MqvP_XyX5Qug",
+      "address": "https://www.t-online.de/leben/liebe/",
+      "title": "Liebe und Partnerschaft",
+      "grade": 0
+    },
+    {
+      "hash": "Qr-JZhyX5Qug",
+      "address": "https://www.t-online.de/finanzen/ratgeber/banking/",
+      "title": "News \u0026 E-Mail bei t-online.de | Politik, Sport, Unterhaltung \u0026 Ratgeber",
+      "grade": 0
+    },
+    {
+      "hash": "Ff9n2l8moajg",
+      "address": "https://www.welt.de/sport/",
+      "title": "Sport - Aktuelle News \u0026 Sport-Nachrichten - WELT",
+      "grade": 0
+    },
+    {
+      "hash": "JY4FoX8moajg",
+      "address": "https://www.welt.de/politik/deutschland/",
+      "title": "Politik - Aktuelle Nachrichten \u0026 News - Deutschland - WELT",
+      "grade": 0
+    },
+    {
+      "hash": "Mbn1eZ8moajg",
+      "address": "https://www.welt.de/wirtschaft/karriere/",
+      "title": "Karriere - News \u0026 Tipps zu Beruf, Bewerbung \u0026 Uni - WELT",
+      "grade": 0
+    },
+    {
+      "hash": "OoovQl8moajg",
+      "address": "https://www.welt.de/reise/",
+      "title": "Reise - Aktuelle Informationen rund um Reise und Urlaub - WELT",
+      "grade": 0
+    },
+    {
+      "hash": "O1sJdW8moajg",
+      "address": "https://www.welt.de/reise/Kreuzfahrt/",
+      "title": "Kreuzfahrt: News zu Schriffen und Kreuzfahrten",
+      "grade": 0
+    },
+    {
+      "hash": "SrWob48moajg",
+      "address": "https://www.welt.de/weltplus/backstage/",
+      "title": "Backstage",
+      "grade": 0
+    },
+    {
+      "hash": "01XG7hyX5Qug",
+      "address": "https://www.t-online.de/finanzen/ihr-weg-an-die-boerse/",
+      "title": "News \u0026 E-Mail bei t-online.de | Politik, Sport, Unterhaltung \u0026 Ratgeber",
+      "grade": 0
+    },
+    {
+      "hash": "1bgQY0yX5Qug",
+      "address": "https://www.t-online.de/nachrichten/panorama/",
+      "title": "Panorama: News zu Menschen \u0026 Schicksale, Prozessen und Katastrophen",
+      "grade": 0
+    },
+    {
+      "hash": "E0-FzQ8moajg",
+      "address": "https://www.welt.de/kultur/theater/",
+      "title": "Theater – Nachrichten und aktuelle Kritiken - WELT",
+      "grade": 0
+    },
+    {
+      "hash": "E8-qFl8moajg",
+      "address": "https://www.welt.de/apps/",
+      "title": "Apps",
+      "grade": 0
+    },
+    {
+      "hash": "KjI3Ul8moajg",
+      "address": "https://www.welt.de/politik/",
+      "title": "Politik - Aktuelle Nachrichten \u0026 News - WELT",
+      "grade": 0
+    },
+    {
+      "hash": "5xyqlL8moajg",
+      "address": "https://www.welt.de/mediathek/dokumentation/",
+      "title": "Dokumentation - WELT",
+      "grade": 0
+    },
+    {
+      "hash": "8UBl4l8moajg",
+      "address": "https://www.welt.de/boerse/",
+      "title": "Börse - Aktuelle Infos - WELT",
+      "grade": 0
+    },
+    {
+      "hash": "9y76_X8moajg",
+      "address": "https://www.welt.de/sonderthemen/weinland-frankreich/",
+      "title": "Weinland Frankreich",
       "grade": 0
     }
   ]

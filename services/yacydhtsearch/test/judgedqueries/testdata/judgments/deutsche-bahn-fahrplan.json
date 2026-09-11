@@ -1,4 +1,11 @@
 {
   "query": "deutsche bahn fahrplan",
-  "judgedDocuments": []
+  "judgedDocuments": [
+    {
+      "hash": "NbA0slHjdLqg",
+      "address": "https://www.focus.de/",
+      "title": "FOCUS online - Aktuelle Nachrichten",
+      "grade": 0
+    }
+  ]
 }

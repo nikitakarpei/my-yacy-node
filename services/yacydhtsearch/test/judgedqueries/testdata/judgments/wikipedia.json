@@ -2,10 +2,10 @@
   "query": "wikipedia",
   "judgedDocuments": [
     {
-      "hash": "eV8_WladqZ_x",
-      "address": "https://www.wikipedia.org/",
-      "title": "Wikipedia",
-      "grade": 2
+      "hash": "LEWIqjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Wikipedia:Systemic_bias",
+      "title": "Wikipedia:Systemic bias - Wikipedia",
+      "grade": 1
     },
     {
       "hash": "Fct7Cj-JVcyx",
@@ -14,15 +14,27 @@
       "grade": 1
     },
     {
-      "hash": "i6_MRjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Wikipedia:Wikipedia_is_an_encyclopedia",
-      "title": "Wikipedia:Wikipedia is an encyclopedia - Wikipedia",
+      "hash": "-4NMwhdtagq4",
+      "address": "https://slate.com/technology/2023/10/wikipedia-elon-musk-gaza-hamas-israel-x-twitter-dispute.html",
+      "title": "Wikipedia is covering the war in Israel and Gaza better than X.",
+      "grade": 1
+    },
+    {
+      "hash": "LkxGWjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Wikipedia:5D",
+      "title": "Wikipedia:General disclaimer - Wikipedia",
+      "grade": 1
+    },
+    {
+      "hash": "3PTlTjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Help:Introduction",
+      "title": "Help:Introduction - Wikipedia",
       "grade": 2
     },
     {
-      "hash": "xgze2sqyzXmw",
-      "address": "https://swprs.org/wikipedia-and-propaganda/",
-      "title": "Wikipedia and Propaganda – Swiss Policy Research",
+      "hash": "WAT4kjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Wikipedia:GFDL",
+      "title": "Wikipedia:GFDL - Wikipedia",
       "grade": 1
     },
     {
@@ -38,60 +50,6 @@
       "grade": 1
     },
     {
-      "hash": "dZ2Y8sqyzXmw",
-      "address": "https://swprs.org/wikipedia-und-propaganda/",
-      "title": "Wikipedia und Propaganda – Swiss Policy Research",
-      "grade": 1
-    },
-    {
-      "hash": "3PTlTjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Help:Introduction",
-      "title": "Help:Introduction - Wikipedia",
-      "grade": 2
-    },
-    {
-      "hash": "SbIsMjcl0ynx",
-      "address": "https://en.wikiversity.org/wiki/Researching_with_Wikipedia",
-      "title": "Researching with Wikipedia - Wikiversity",
-      "grade": 1
-    },
-    {
-      "hash": "kgXpZsgKzQ9w",
-      "address": "https://indieweb.org/Wikipedia",
-      "title": "Wikipedia - IndieWeb",
-      "grade": 1
-    },
-    {
-      "hash": "CiItojRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Wikipedia:Sister_projects",
-      "title": "Wikipedia:Wikimedia sister projects - Wikipedia",
-      "grade": 1
-    },
-    {
-      "hash": "HEl15jRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Wikipedia:Contents",
-      "title": "Wikipedia:Contents - Wikipedia",
-      "grade": 1
-    },
-    {
-      "hash": "h3gCDEBAPQf4",
-      "address": "https://gaybd1.tumblr.com/post/740024179291783168/wikipedia-tell-me-if-this-mans-gay",
-      "title": "free palestine and also luigi — wikipedia Tell me if this man’s gay",
-      "grade": 0
-    },
-    {
-      "hash": "GAYQ-jRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Strychnine",
-      "title": "Strychnine - Wikipedia",
-      "grade": 1
-    },
-    {
-      "hash": "cwuhGjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Wikipedia:General_disclaimer",
-      "title": "Wikipedia:General disclaimer - Wikipedia",
-      "grade": 1
-    },
-    {
       "hash": "jr-9W07Yyjex",
       "address": "https://en.greatfire.org/wikipedia.org/wehufi",
       "title": "Is http://wikipedia.org/wehufi blocked in mainland China? — GreatFire",
@@ -104,9 +62,213 @@
       "grade": 2
     },
     {
-      "hash": "q1CE6n7Yyjex",
-      "address": "https://en.greatfire.org/ja.wikipedia.org",
-      "title": "Is http://ja.wikipedia.org blocked in mainland China? — GreatFire",
+      "hash": "tljzSjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Wikipedia:Content_translation_tool",
+      "title": "Wikipedia:Content translation tool - Wikipedia",
+      "grade": 1
+    },
+    {
+      "hash": "5rIs1jRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/MediaWiki:Citethispage-content",
+      "title": "MediaWiki:Citethispage-content - Wikipedia",
+      "grade": 1
+    },
+    {
+      "hash": "i6_MRjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Wikipedia:Wikipedia_is_an_encyclopedia",
+      "title": "Wikipedia:Wikipedia is an encyclopedia - Wikipedia",
+      "grade": 2
+    },
+    {
+      "hash": "HEl15jRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Wikipedia:Contents",
+      "title": "Wikipedia:Contents - Wikipedia",
+      "grade": 1
+    },
+    {
+      "hash": "MIaemAyZbNhw",
+      "address": "https://gwern.net/doc/wikipedia/index",
+      "title": "‘Wikipedia’ directory · Gwern.net",
+      "grade": 1
+    },
+    {
+      "hash": "dZ2Y8sqyzXmw",
+      "address": "https://swprs.org/wikipedia-und-propaganda/",
+      "title": "Wikipedia und Propaganda – Swiss Policy Research",
+      "grade": 1
+    },
+    {
+      "hash": "iH4v_jRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Ideological_bias_on_Wikipedia",
+      "title": "Ideological bias on Wikipedia - Wikipedia",
+      "grade": 1
+    },
+    {
+      "hash": "xgze2sqyzXmw",
+      "address": "https://swprs.org/wikipedia-and-propaganda/",
+      "title": "Wikipedia and Propaganda – Swiss Policy Research",
+      "grade": 1
+    },
+    {
+      "hash": "eV8_WladqZ_x",
+      "address": "https://www.wikipedia.org/",
+      "title": "Wikipedia",
+      "grade": 2
+    },
+    {
+      "hash": "Z98dBs3Ko1Rg",
+      "address": "https://telegram.im/ingush_wikipedia",
+      "title": "@ingush_wikipedia - view channel telegram @ingush_wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "XsJrXjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Wikipedia:Wikipedia_for_Schools",
+      "title": "Wikipedia:Wikipedia for Schools - Wikipedia",
+      "grade": 1
+    },
+    {
+      "hash": "SbIsMjcl0ynx",
+      "address": "https://en.wikiversity.org/wiki/Researching_with_Wikipedia",
+      "title": "Researching with Wikipedia - Wikiversity",
+      "grade": 1
+    },
+    {
+      "hash": "G2qROjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Wikipedia:Wikipedia_tipster",
+      "title": "Wikipedia:Wikipedia tipster - Wikipedia",
+      "grade": 1
+    },
+    {
+      "hash": "mgmYajAL9Tgx",
+      "address": "https://en.wikisource.org/wiki/Category:Wikipedia",
+      "title": "Category:Wikipedia - Wikisource, the free online library",
+      "grade": 1
+    },
+    {
+      "hash": "kgXpZsgKzQ9w",
+      "address": "https://indieweb.org/Wikipedia",
+      "title": "Wikipedia - IndieWeb",
+      "grade": 1
+    },
+    {
+      "hash": "ybCZmjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Wikipedia:Multilingual_coordination",
+      "title": "Wikipedia:Multilingual coordination - Wikipedia",
+      "grade": 1
+    },
+    {
+      "hash": "QHWXejRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Wikipedia:Attack_page",
+      "title": "Wikipedia:Attack page - Wikipedia",
+      "grade": 1
+    },
+    {
+      "hash": "S7SfSjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Wikipedia:How_to_copy-edit",
+      "title": "Wikipedia:Basic copyediting - Wikipedia",
+      "grade": 1
+    },
+    {
+      "hash": "cwuhGjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Wikipedia:General_disclaimer",
+      "title": "Wikipedia:General disclaimer - Wikipedia",
+      "grade": 1
+    },
+    {
+      "hash": "wiS6cjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Help:WP_search_protocol",
+      "title": "Help:WP search protocol - Wikipedia",
+      "grade": 1
+    },
+    {
+      "hash": "S7erAdFO6r_x",
+      "address": "https://de.wikipedia.org/wiki/Wikipedia:%C3%9Cber_Wikipedia",
+      "title": "Wikipedia:Über Wikipedia – Wikipedia",
+      "grade": 2
+    },
+    {
+      "hash": "XIDc9jRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Wikipedia:Wikipedia_is_a_work_in_progress",
+      "title": "Wikipedia:Wikipedia is a work in progress - Wikipedia",
+      "grade": 1
+    },
+    {
+      "hash": "tfgVqjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Wikipedia:Citation_needed",
+      "title": "Wikipedia:Citation needed - Wikipedia",
+      "grade": 1
+    },
+    {
+      "hash": "8SL9jsd660dx",
+      "address": "https://nl.wikipedia.org/wiki/Wikipedia",
+      "title": "Wikipedia - Wikipedia",
+      "grade": 2
+    },
+    {
+      "hash": "U8owRjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Wikipedia:Be_bold",
+      "title": "Wikipedia:Be bold - Wikipedia",
+      "grade": 1
+    },
+    {
+      "hash": "wVal3jRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Wikipedia:Embassy",
+      "title": "Wikipedia:Local Embassy - Wikipedia",
+      "grade": 1
+    },
+    {
+      "hash": "KJMQsjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Wikipedia:Purpose",
+      "title": "Wikipedia:Purpose - Wikipedia",
+      "grade": 1
+    },
+    {
+      "hash": "s2BfEjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Wikipedia:Pave_the_path",
+      "title": "Wikipedia:Pave the path - Wikipedia",
+      "grade": 1
+    },
+    {
+      "hash": "CMjFUZiEKjLx",
+      "address": "https://lb.wikipedia.org/wiki/Wikipedia:W%C3%ABllkomm",
+      "title": "Wikipedia:Wëllkomm – Wikipedia",
+      "grade": 1
+    },
+    {
+      "hash": "IDUqxjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Wikipedia:Request_directory",
+      "title": "Wikipedia:Request directory - Wikipedia",
+      "grade": 1
+    },
+    {
+      "hash": "CiItojRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Wikipedia:Sister_projects",
+      "title": "Wikipedia:Wikimedia sister projects - Wikipedia",
+      "grade": 1
+    },
+    {
+      "hash": "JeplmJ_rb6v5",
+      "address": "https://wikipedia-un-mythe.over-blog.com/",
+      "title": "wikipedia ou le mythe de la neutralité - observatoire de wikipedia qui se prétend une encyclopédie, sans spécialistes ni vérification d'experts, chacun peut écrire ce qu'il veut sous anonymat : une pseudo-encyclopédie où prospèrent la propagande et l'irrationnel. Blog de réflexion sur la culture",
+      "grade": 1
+    },
+    {
+      "hash": "_dtkMjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Help:Your_first_article",
+      "title": "Help:Your first article - Wikipedia",
+      "grade": 1
+    },
+    {
+      "hash": "sQw_9jRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Wikipedia:Don't_cry_COI",
+      "title": "Wikipedia:Don't cry COI - Wikipedia",
+      "grade": 1
+    },
+    {
+      "hash": "50OzPjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Wikipedia:The_Wikipedia_Library/Newsletter/April-May2014",
+      "title": "Wikipedia:The Wikipedia Library/Newsletter/April-May2014 - Wikipedia",
       "grade": 1
     }
   ]

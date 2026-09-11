@@ -1,12 +1,113 @@
 {
   "query": "yacy peer to peer search",
-  "recordedAt": "2026-09-11T21:02:29Z",
+  "recordedAt": "2026-09-11T22:14:23Z",
   "itemsInTheOrderOfEachAnswer": [],
-  "itemsInNoOrder": [],
+  "itemsInNoOrder": [
+    {
+      "hash": "AeOqws55Qxow",
+      "address": "https://yacy.net/.",
+      "title": "Home - YaCy",
+      "snippet": "YaCy is free software for your own search engine.\nYaCy is free search engine software for local search, organization-wide search portals, and a decentralized peer-to-peer web index.\nChoose how you want to use YaCy\nRun YaCy locally, build a search portal for your organization, or join the",
+      "matchedWords": {
+        "-P5otMTLoZfv": {
+          "hits": 6,
+          "textWords": 154
+        },
+        "AbbiA0S2iDXF": {
+          "hits": 5,
+          "textWords": 154
+        },
+        "BqlDxZ8zo0u1": {
+          "hits": 13,
+          "textWords": 154
+        },
+        "pIBmMGNtuISD": {
+          "hits": 7,
+          "textWords": 154
+        }
+      },
+      "queryPhraseHits": 3
+    },
+    {
+      "hash": "AeOqws55Qxow",
+      "address": "https://yacy.net/.",
+      "title": "Home - YaCy",
+      "snippet": "YaCy is free software for your own search engine.\nYaCy is free search engine software for local search, organization-wide search portals, and a decentralized peer-to-peer web index.\nChoose how you want to use YaCy\nRun YaCy locally, build a search portal for your organization, or join the",
+      "matchedWords": {
+        "-P5otMTLoZfv": {
+          "hits": 6,
+          "textWords": 154
+        },
+        "AbbiA0S2iDXF": {
+          "hits": 5,
+          "textWords": 154
+        },
+        "BqlDxZ8zo0u1": {
+          "hits": 13,
+          "textWords": 154
+        },
+        "pIBmMGNtuISD": {
+          "hits": 7,
+          "textWords": 154
+        }
+      },
+      "queryPhraseHits": 3
+    },
+    {
+      "hash": "AeOqws55Qxow",
+      "address": "https://yacy.net/.",
+      "title": "Home - YaCy",
+      "snippet": "YaCy is free software for your own search engine.\nYaCy is free search engine software for local search, organization-wide search portals, and a decentralized peer-to-peer web index.\nChoose how you want to use YaCy\nRun YaCy locally, build a search portal for your organization, or join the",
+      "matchedWords": {
+        "-P5otMTLoZfv": {
+          "hits": 6,
+          "textWords": 154
+        },
+        "AbbiA0S2iDXF": {
+          "hits": 5,
+          "textWords": 154
+        },
+        "BqlDxZ8zo0u1": {
+          "hits": 13,
+          "textWords": 154
+        },
+        "pIBmMGNtuISD": {
+          "hits": 7,
+          "textWords": 154
+        }
+      },
+      "queryPhraseHits": 3
+    },
+    {
+      "hash": "AeOqws55Qxow",
+      "address": "https://yacy.net/.",
+      "title": "Home - YaCy",
+      "snippet": "YaCy is free software for your own search engine.\nYaCy is free search engine software for local search, organization-wide search portals, and a decentralized peer-to-peer web index.\nChoose how you want to use YaCy\nRun YaCy locally, build a search portal for your organization, or join the",
+      "matchedWords": {
+        "-P5otMTLoZfv": {
+          "hits": 6,
+          "textWords": 154
+        },
+        "AbbiA0S2iDXF": {
+          "hits": 5,
+          "textWords": 154
+        },
+        "BqlDxZ8zo0u1": {
+          "hits": 13,
+          "textWords": 154
+        },
+        "pIBmMGNtuISD": {
+          "hits": 7,
+          "textWords": 154
+        }
+      },
+      "queryPhraseHits": 3
+    }
+  ],
   "documentsHeldPerQueryWord": {
-    "-P5otMTLoZfv": 1920,
-    "AbbiA0S2iDXF": 67945,
-    "BqlDxZ8zo0u1": 101605,
-    "pIBmMGNtuISD": 9807
+    "-P5otMTLoZfv": 38226,
+    "AbbiA0S2iDXF": 69016,
+    "BqlDxZ8zo0u1": 1174738,
+    "pIBmMGNtuISD": 9672
   }
 }

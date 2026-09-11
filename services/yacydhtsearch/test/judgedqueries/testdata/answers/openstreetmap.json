@@ -1,6 +1,6 @@
 {
   "query": "openstreetmap",
-  "recordedAt": "2026-09-11T20:58:57Z",
+  "recordedAt": "2026-09-11T22:14:22Z",
   "itemsInTheOrderOfEachAnswer": [
     [
       {
@@ -13,7 +13,8 @@
             "hits": 3,
             "textWords": 56
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
         "hash": "BY-GSXqO2Dlg",
@@ -25,19 +26,21 @@
             "hits": 4,
             "textWords": 622
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
         "hash": "AqsQcJDOAHJg",
         "address": "https://www.heise.de/ratgeber/OpenStreetMap-Wie-Sie-Orte-mit-natuerlicher-Sprache-finden-11091390.html?wt_mc=rss.red.ho.ho.atom.beitrag_plus.beitrag_plus",
         "title": "OpenStreetMap: Wie Sie Orte mit natürlicher Sprache finden | heise online",
-        "snippet": "OpenStreetMap anhand eines Prompts. So lassen sich Fotos verifizieren oder auch Cafés in der Nähe finden. Wir haben SPOT angetestet.\n02.12.2025, 08:00 Uhr\nLesezeit: 11 Min.\nOpenStreetMap: Wie Sie Orte mit natürlicher Sprache finden Suchen per Prompt, am besten auf Englisch\nFotos lokalisieren: Wir",
+        "snippet": "",
         "matchedWords": {
           "8KEZ0dWKkHmU": {
-            "hits": 4,
-            "textWords": 151
+            "hits": 12,
+            "textWords": 1691
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
         "hash": "Asm2dcPeAUvg",
@@ -49,19 +52,21 @@
             "hits": 9,
             "textWords": 1750
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
-        "hash": "AWewB8KDigKy",
-        "address": "https://wiki.openstreetmap.org/wiki/Lb:Main_Page",
-        "title": "Lb:Main Page - OpenStreetMap Wiki",
-        "snippet": "OpenStreetMap, la carte à la carte !\nNantes, Pays de la Loire, France\n23 September\nStammtisch\nHanover, Lower Saxony, Germany\n23 September\nLondon pub meet-up\nCity of Westminster, England, United Kingdom\n23 September\nWürzburger OSM-Treffen\nWürzburg, Bavaria, Germany\n24 September\nPravidelný Missing",
+        "hash": "D_V_f8KDigKy",
+        "address": "https://wiki.openstreetmap.org/wiki/User:Ika-chan!/Fantasy_maps_with_OSM_software",
+        "title": "User:Ika-chan!/Fantasy maps with OSM software - OpenStreetMap Wiki",
+        "snippet": "",
         "matchedWords": {
           "8KEZ0dWKkHmU": {
-            "hits": 15,
-            "textWords": 1262
+            "hits": 28,
+            "textWords": 4665
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
         "hash": "CGNLtxgcGDHy",
@@ -73,7 +78,8 @@
             "hits": 15,
             "textWords": 1293
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
         "hash": "B3WY3SPCpqc4",
@@ -85,7 +91,8 @@
             "hits": 1,
             "textWords": 81
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
         "hash": "DK-bEYwz4Liw",
@@ -97,7 +104,8 @@
             "hits": 4,
             "textWords": 62
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
         "hash": "C0_Z-Sofqllg",
@@ -109,7 +117,8 @@
             "hits": 6,
             "textWords": 2845
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
         "hash": "CaGN77AG7JRY",
@@ -121,185 +130,147 @@
             "hits": 1,
             "textWords": 238
           }
-        }
+        },
+        "queryPhraseHits": 0
       }
     ],
     [
       {
-        "hash": "FW4Ehsxlxh74",
-        "address": "https://domain.glass/2604:b000:c100:749:4ae6:1f9e:43f9:4141",
-        "title": "2604:b000:c100:749:4ae6:1f9e:43f9:4141 IPv6 Formats, Reverse DNS, ASN, Location \u0026 TLS · domain.glass",
+        "hash": "cBfGylybg-vy",
+        "address": "https://www.openstreetmap.org/?mlat=22.8\u0026mlon=83\u0026zoom=6",
+        "title": "OpenStreetMap",
+        "snippet": "OpenStreetMap!\nOpenStreetMap is a map of the world, created by people like you and free to use under an open license.\nHosting is supported by Fastly, OSMF corporate members, and other partners.\nBy using this website or other infrastructure provided by the OpenStreetMap Foundation, you agree to the",
+        "matchedWords": {
+          "8KEZ0dWKkHmU": {
+            "hits": 3,
+            "textWords": 56
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "WmYuElybg-vy",
+        "address": "https://www.openstreetmap.org/?mlat=1.3\u0026mlon=103.8\u0026zoom=6",
+        "title": "OpenStreetMap",
+        "snippet": "OpenStreetMap!\nOpenStreetMap is a map of the world, created by people like you and free to use under an open license.\nHosting is supported by Fastly, OSMF corporate members, and other partners.\nBy using this website or other infrastructure provided by the OpenStreetMap Foundation, you agree to the",
+        "matchedWords": {
+          "8KEZ0dWKkHmU": {
+            "hits": 3,
+            "textWords": 56
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "EYFsP7qJpRgC",
+        "address": "http://openstreetmap.by/?lon=-73.995356\u0026lat=40.730085\u0026zoom=13",
+        "title": "OpenStreetMap.by - Беларусь",
         "snippet": "",
         "matchedWords": {
           "8KEZ0dWKkHmU": {
             "hits": 2,
-            "textWords": 1028
+            "textWords": 89
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
-        "hash": "EhmEZh3e0QFx",
-        "address": "https://commons.wikimedia.org/wiki/Category:Bloomington,_Indiana",
-        "title": "Category:Bloomington, Indiana - Wikimedia Commons",
+        "hash": "9BCDApN2pAny",
+        "address": "https://help.openstreetmap.org/questions/102/i-have-made-edits-but-they-dont-show-up-on-the-map/",
+        "title": "OpenStreetMap Help",
         "snippet": "",
         "matchedWords": {
           "8KEZ0dWKkHmU": {
-            "hits": 2,
-            "textWords": 6972
+            "hits": 11,
+            "textWords": 1024
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
-        "hash": "E37V1UwUSuo5",
-        "address": "https://nextcloud.com/blog/webinar/nextcloud-files-vs-sharepoint-onedrive/",
-        "title": "[On-demand webinar] Beyond OneDrive and SharePoint: Comparing Nextcloud Files, the sovereign alternative",
+        "hash": "EVoYIPc_rKzh",
+        "address": "https://www.telepolis.de/features/Kostenlose-Wanderkarten-Die-besten-OpenStreetMap-Apps-im-Test-10313937.html?wt_mc=rss.red.tp.tp.atom.beitrag.beitrag",
+        "title": "Kostenlose Wanderkarten: Die besten OpenStreetMap-Apps im Test | Telepolis",
         "snippet": "",
         "matchedWords": {
           "8KEZ0dWKkHmU": {
-            "hits": 2,
-            "textWords": 728
+            "hits": 10,
+            "textWords": 1638
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
-        "hash": "HC1H7jRvmBbx",
-        "address": "https://en.wikipedia.org/wiki/Arctic_Ocean",
-        "title": "Arctic Ocean - Wikipedia",
+        "hash": "DrVYp59_tWB0",
+        "address": "https://aerial.openstreetmap.org.za/?lon=-122.283789\u0026lat=37.832639\u0026zoom=11",
+        "title": "OpenStreetMap - NGI - Aerial Imagery",
         "snippet": "",
         "matchedWords": {
           "8KEZ0dWKkHmU": {
             "hits": 1,
-            "textWords": 11863
+            "textWords": 20
           }
-        }
-      }
-    ],
-    [
-      {
-        "hash": "dkfYoF9eh9Zy",
-        "address": "https://welcome.openstreetmap.org/",
-        "title": "Welcome Mat | OpenStreetMap - Welcome to OpenStreetMap",
-        "snippet": "OpenStreetMap?\nA brief introduction to OpenStreetMap\nWho is OpenStreetMap?\nThe people and communities of OSM\nWhy use OpenStreetMap?\nWhat makes OpenStreetMap special?\nHow to give back?\nHow can you or your organization contribute to OSM?\nAbout the OSM Community\nGetting in touch, history, joining and",
-        "matchedWords": {
-          "8KEZ0dWKkHmU": {
-            "hits": 6,
-            "textWords": 58
-          }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
-        "hash": "Q92cXlybg-vy",
-        "address": "https://www.openstreetmap.org/communities",
-        "title": "OpenStreetMap",
-        "snippet": "OpenStreetMap. While many participate as individuals, others have formed communities. These groups come in a range of sizes and represent geographies from small towns to large multi-country regions. They can also be formal or informal.\nLocal Chapters\nLocal Chapters are country-level or region-level",
-        "matchedWords": {
-          "8KEZ0dWKkHmU": {
-            "hits": 17,
-            "textWords": 204
-          }
-        }
-      },
-      {
-        "hash": "ePCLCl-n3pGi",
-        "address": "https://www.openstreetmap.de/",
-        "title": "Die freie Weltkarte — OpenStreetMap Deutschland",
-        "snippet": "OpenStreetMap Deutschland. Hier wollen wir OpenStreetMap und seine Community vorstellen und Hilfestellung bei der Nutzung und beim Mitmachen geben.\nIhre Firma oder Organisation nutzt OSM?\nHelfen Sie OpenStreetMap als öffentliches Gut auf Dauer zu erhalten und zu verbessern.\nWerden Sie Förderer von",
-        "matchedWords": {
-          "8KEZ0dWKkHmU": {
-            "hits": 12,
-            "textWords": 183
-          }
-        }
-      },
-      {
-        "hash": "xfqHhnGj0lu4",
-        "address": "https://en.osm.town/@openstreetmap",
-        "title": "OpenStreetMap (@openstreetmap@en.osm.town) - OSM Town | Mapstodon for OpenStreetMap",
+        "hash": "UO2VMV7h-FJy",
+        "address": "https://agri.openstreetmap.org/?zoom=11\u0026lat=37.832639\u0026lon=-122.283789",
+        "title": "OpenStreetMap - The Australian Geographic Reference Image",
         "snippet": "",
         "matchedWords": {
           "8KEZ0dWKkHmU": {
-            "hits": 3,
-            "textWords": 88
+            "hits": 1,
+            "textWords": 23
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
-        "hash": "1mo1Mlybg-vy",
-        "address": "https://www.openstreetmap.org/",
-        "title": "OpenStreetMap",
-        "snippet": "OpenStreetMap!\nOpenStreetMap is a map of the world, created by people like you and free to use under an open license.\nHosting is supported by Fastly, OSMF corporate members, and other partners.\nBy using this website or other infrastructure provided by the OpenStreetMap Foundation, you agree to the",
+        "hash": "lW9zO8KDigKy",
+        "address": "https://wiki.openstreetmap.org/wiki/Key:addr:state?uselang=en",
+        "title": "Key:addr:state - OpenStreetMap Wiki",
+        "snippet": "",
         "matchedWords": {
           "8KEZ0dWKkHmU": {
-            "hits": 3,
-            "textWords": 56
+            "hits": 4,
+            "textWords": 899
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
-        "hash": "l8cKBlybg-vy",
-        "address": "https://www.openstreetmap.org/history",
-        "title": "Changesets | OpenStreetMap",
-        "snippet": "OpenStreetMap!\nOpenStreetMap is a map of the world, created by people like you and free to use under an open license.\nHosting is supported by Fastly, OSMF corporate members, and other partners.\nBy using this website or other infrastructure provided by the OpenStreetMap Foundation, you agree to the",
+        "hash": "H6k737z-a27Y",
+        "address": "http://sautter.com/map/?lat=33.7325\u0026lon=-117.3933\u0026zoom=12",
+        "title": "transparent map comparison openstreetmap google bing yahoo",
+        "snippet": "",
         "matchedWords": {
           "8KEZ0dWKkHmU": {
-            "hits": 3,
-            "textWords": 56
+            "hits": 1,
+            "textWords": 34
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
-        "hash": "o4iVflybg-vy",
-        "address": "https://www.openstreetmap.org/edit?editor=remote",
-        "title": "OpenStreetMap",
-        "snippet": "OpenStreetMap!\nOpenStreetMap is a map of the world, created by people like you and free to use under an open license.\nHosting is supported by Fastly, OSMF corporate members, and other partners.\nBy using this website or other infrastructure provided by the OpenStreetMap Foundation, you agree to the",
+        "hash": "3zYRZf3BkWcy",
+        "address": "https://htonl.dev.openstreetmap.org/ngi-tiles/",
+        "title": "South Africa Topographic Map",
+        "snippet": "",
         "matchedWords": {
           "8KEZ0dWKkHmU": {
-            "hits": 3,
-            "textWords": 56
+            "hits": 1,
+            "textWords": 24
           }
-        }
-      },
-      {
-        "hash": "r1cnklybg-vy",
-        "address": "https://www.openstreetmap.org/export",
-        "title": "Export | OpenStreetMap",
-        "snippet": "OpenStreetMap!\nOpenStreetMap is a map of the world, created by people like you and free to use under an open license.\nHosting is supported by Fastly, OSMF corporate members, and other partners.\nBy using this website or other infrastructure provided by the OpenStreetMap Foundation, you agree to the",
-        "matchedWords": {
-          "8KEZ0dWKkHmU": {
-            "hits": 3,
-            "textWords": 56
-          }
-        }
-      },
-      {
-        "hash": "zA3s9lybg-vy",
-        "address": "https://www.openstreetmap.org/about",
-        "title": "OpenStreetMap",
-        "snippet": "©OpenStreetMap\ncontributors\nOpenStreetMap provides map data for thousands of websites, mobile apps, and hardware devices\nOpenStreetMap is built by a community of mappers that contribute and maintain data about roads, trails, cafés, railway stations, and much more, all over the world.\nLocal",
-        "matchedWords": {
-          "8KEZ0dWKkHmU": {
-            "hits": 14,
-            "textWords": 321
-          }
-        }
-      },
-      {
-        "hash": "F7qAclybg-vy",
-        "address": "https://www.openstreetmap.org/directions",
-        "title": "OpenStreetMap",
-        "snippet": "OpenStreetMap!\nOpenStreetMap is a map of the world, created by people like you and free to use under an open license.\nHosting is supported by Fastly, OSMF corporate members, and other partners.\nBy using this website or other infrastructure provided by the OpenStreetMap Foundation, you agree to the",
-        "matchedWords": {
-          "8KEZ0dWKkHmU": {
-            "hits": 3,
-            "textWords": 56
-          }
-        }
+        },
+        "queryPhraseHits": 0
       }
     ],
+    [],
     [
       {
-        "hash": "1mo1Mlybg-vy",
-        "address": "https://www.openstreetmap.org/",
+        "hash": "BhWqmlybg-vy",
+        "address": "https://www.openstreetmap.org/?mlat=43.233333333333\u0026mlon=-3.2833333333333\u0026zoom=5",
         "title": "OpenStreetMap",
         "snippet": "OpenStreetMap!\nOpenStreetMap is a map of the world, created by people like you and free to use under an open license.\nHosting is supported by Fastly, OSMF corporate members, and other partners.\nBy using this website or other infrastructure provided by the OpenStreetMap Foundation, you agree to the",
         "matchedWords": {
@@ -307,7 +278,8 @@
             "hits": 3,
             "textWords": 56
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
         "hash": "MEC8btgcGDHy",
@@ -319,23 +291,25 @@
             "hits": 18,
             "textWords": 1633
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
         "hash": "K9GZh8KDigKy",
         "address": "https://wiki.openstreetmap.org/wiki/MapCSS",
         "title": "MapCSS - OpenStreetMap Wiki",
-        "snippet": "mapcss@openstreetmap.org.\nWeb archive of the MapCSS website (the website is no longer online)\nshort /Examples\n/Common mistakes\nRenderers\nAlaCarte (C++11/cairo based renderer)\nCeyx (python/cairo based renderer)\nGLMap (C++14/OpenGL based framework for mobile apps)\nHalcyon (flash-based renderer)",
+        "snippet": "",
         "matchedWords": {
           "8KEZ0dWKkHmU": {
-            "hits": 1,
-            "textWords": 241
+            "hits": 5,
+            "textWords": 564
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
-        "hash": "t-ICOlybg-vy",
-        "address": "https://www.openstreetmap.org/directions?to=33.2244,35.6922",
+        "hash": "YNjaUlybg-vy",
+        "address": "https://www.openstreetmap.org/directions?to=29.844667,31.250916",
         "title": "OpenStreetMap",
         "snippet": "OpenStreetMap!\nOpenStreetMap is a map of the world, created by people like you and free to use under an open license.\nHosting is supported by Fastly, OSMF corporate members, and other partners.\nBy using this website or other infrastructure provided by the OpenStreetMap Foundation, you agree to the",
         "matchedWords": {
@@ -343,7 +317,8 @@
             "hits": 3,
             "textWords": 56
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
         "hash": "0nhagopg4UCw",
@@ -355,7 +330,8 @@
             "hits": 35,
             "textWords": 1254
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
         "hash": "3dYkqDDVBWj5",
@@ -367,19 +343,21 @@
             "hits": 4,
             "textWords": 928
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
-        "hash": "Tx92G9D55d7i",
-        "address": "https://josm.openstreetmap.de/wiki/Help/Preferences/TaggingPresetPreference?format=txt",
-        "title": "TaggingPresetPreference",
+        "hash": "WQ8LM9D55d7i",
+        "address": "https://josm.openstreetmap.de/wiki/Help/Preferences/Toolbar",
+        "title": "Help/Preferences/Toolbar – JOSM",
         "snippet": "",
         "matchedWords": {
           "8KEZ0dWKkHmU": {
-            "hits": 1,
-            "textWords": 735
+            "hits": 6,
+            "textWords": 992
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
         "hash": "dniwEsyYLOb5",
@@ -391,19 +369,8 @@
             "hits": 1,
             "textWords": 39
           }
-        }
-      },
-      {
-        "hash": "Mw4n7lmEOlwi",
-        "address": "https://www.xn--pnvkarte-m4a.de/?lat=14.8\u0026lon=120.285\u0026zoom=11",
-        "title": "ÖPNVKarte",
-        "snippet": "",
-        "matchedWords": {
-          "8KEZ0dWKkHmU": {
-            "hits": 10,
-            "textWords": 742
-          }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
         "hash": "z13XNlYpy6E4",
@@ -415,1137 +382,24 @@
             "hits": 1,
             "textWords": 566
           }
-        }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "Mw4n7lmEOlwi",
+        "address": "https://www.xn--pnvkarte-m4a.de/?lat=14.8\u0026lon=120.285\u0026zoom=11",
+        "title": "ÖPNVKarte",
+        "snippet": "",
+        "matchedWords": {
+          "8KEZ0dWKkHmU": {
+            "hits": 10,
+            "textWords": 742
+          }
+        },
+        "queryPhraseHits": 0
       }
     ],
     [
-      {
-        "hash": "1mo1Mlybg-vy",
-        "address": "https://www.openstreetmap.org/",
-        "title": "OpenStreetMap",
-        "snippet": "OpenStreetMap!\nOpenStreetMap is a map of the world, created by people like you and free to use under an open license.\nHosting is supported by Fastly, OSMF corporate members, and other partners.\nBy using this website or other infrastructure provided by the OpenStreetMap Foundation, you agree to the",
-        "matchedWords": {
-          "8KEZ0dWKkHmU": {
-            "hits": 3,
-            "textWords": 56
-          }
-        }
-      },
-      {
-        "hash": "WG83BJDOAHJg",
-        "address": "https://www.heise.de/ratgeber/Tschuess-Google-Maps-Navigations-Apps-mit-OpenStreetMap-im-Vergleich-11268273.html?wt_mc=rss.red.ho.ho.atom.beitrag_plus.beitrag_plus",
-        "title": "Tschüss Google Maps: Navigations-Apps mit OpenStreetMap im Vergleich | heise online",
-        "snippet": "",
-        "matchedWords": {
-          "8KEZ0dWKkHmU": {
-            "hits": 16,
-            "textWords": 1647
-          }
-        }
-      },
-      {
-        "hash": "PRaJF59_tWB0",
-        "address": "https://aerial.openstreetmap.org.za/?lon=9.34\u0026lat=61.41\u0026zoom=11",
-        "title": "OpenStreetMap - NGI - Aerial Imagery",
-        "snippet": "",
-        "matchedWords": {
-          "8KEZ0dWKkHmU": {
-            "hits": 1,
-            "textWords": 19
-          }
-        }
-      },
-      {
-        "hash": "bgtJCsvFJx_w",
-        "address": "https://heigit.org/datasets/",
-        "title": "Datasets – HeiGIT",
-        "snippet": "",
-        "matchedWords": {
-          "8KEZ0dWKkHmU": {
-            "hits": 4,
-            "textWords": 1240
-          }
-        }
-      },
-      {
-        "hash": "JCtDVRJEWVs4",
-        "address": "https://map-distance.utils.com/",
-        "title": "Distance Calculator (Map) - utils.com",
-        "snippet": "",
-        "matchedWords": {
-          "8KEZ0dWKkHmU": {
-            "hits": 1,
-            "textWords": 2822
-          }
-        }
-      },
-      {
-        "hash": "uuFjE7RbRZCC",
-        "address": "http://overpass-turbo.eu/",
-        "title": "overpass turbo",
-        "snippet": "",
-        "matchedWords": {
-          "8KEZ0dWKkHmU": {
-            "hits": 1,
-            "textWords": 236
-          }
-        }
-      },
-      {
-        "hash": "e_P4noYpy6E4",
-        "address": "https://www.wikitree.com/wiki/Category:Saratoga_County%2C_New_York",
-        "title": "Category: Saratoga County, New York",
-        "snippet": "",
-        "matchedWords": {
-          "8KEZ0dWKkHmU": {
-            "hits": 1,
-            "textWords": 603
-          }
-        }
-      },
-      {
-        "hash": "Ql58ropg4UCw",
-        "address": "https://www.wikidata.org/wiki/Q12193?uselang=mdf",
-        "title": "Брэст — Wikidata",
-        "snippet": "",
-        "matchedWords": {
-          "8KEZ0dWKkHmU": {
-            "hits": 1,
-            "textWords": 6046
-          }
-        }
-      },
-      {
-        "hash": "7cn5rjRvmBbx",
-        "address": "https://en.wikipedia.org/wiki/Finland",
-        "title": "Finland - Wikipedia",
-        "snippet": "",
-        "matchedWords": {
-          "8KEZ0dWKkHmU": {
-            "hits": 1,
-            "textWords": 29221
-          }
-        }
-      },
-      {
-        "hash": "PyRhKh3e0QFx",
-        "address": "https://commons.wikimedia.org/wiki/Harvard_University",
-        "title": "Harvard University - Wikimedia Commons",
-        "snippet": "",
-        "matchedWords": {
-          "8KEZ0dWKkHmU": {
-            "hits": 2,
-            "textWords": 3868
-          }
-        }
-      }
-    ],
-    [
-      {
-        "hash": "bE2T7lybg-vy",
-        "address": "https://www.openstreetmap.org/?mlat=47\u0026mlon=2\u0026zoom=6",
-        "title": "OpenStreetMap",
-        "snippet": "OpenStreetMap!\nOpenStreetMap is a map of the world, created by people like you and free to use under an open license.\nHosting is supported by Fastly, OSMF corporate members, and other partners.\nBy using this website or other infrastructure provided by the OpenStreetMap Foundation, you agree to the",
-        "matchedWords": {
-          "8KEZ0dWKkHmU": {
-            "hits": 3,
-            "textWords": 56
-          }
-        }
-      },
-      {
-        "hash": "ZECBX7qJpRgC",
-        "address": "http://openstreetmap.by/?lon=116.8\u0026lat=5.5\u0026zoom=11",
-        "title": "OpenStreetMap.by - Беларусь",
-        "snippet": "",
-        "matchedWords": {
-          "8KEZ0dWKkHmU": {
-            "hits": 2,
-            "textWords": 86
-          }
-        }
-      },
-      {
-        "hash": "wIBvd8KDigKy",
-        "address": "https://wiki.openstreetmap.org/wiki/Bratislava",
-        "title": "Bratislava - OpenStreetMap Wiki",
-        "snippet": "",
-        "matchedWords": {
-          "8KEZ0dWKkHmU": {
-            "hits": 5,
-            "textWords": 2268
-          }
-        }
-      },
-      {
-        "hash": "0otqd8KDigKy",
-        "address": "https://wiki.openstreetmap.org/wiki/DE:Tag:sport%3Dathletics",
-        "title": "DE:Tag:sport=athletics - OpenStreetMap Wiki",
-        "snippet": "OpenStreetMap Wiki\nJump to navigation Jump to search\nv · d · e\nsport = athletics\nBeschreibung\nSportarten, die verschiedene athletische Wettkämpfe auf der Grundlage von Laufen, Springen und Werfen umfassen.\nGruppe: Sport\nFür diese Elemente\nErfordert\nleisure=track\nleisure=pitch\nleisure=practice_pitch",
-        "matchedWords": {
-          "8KEZ0dWKkHmU": {
-            "hits": 1,
-            "textWords": 455
-          }
-        }
-      },
-      {
-        "hash": "2rjLg8KDigKy",
-        "address": "https://wiki.openstreetmap.org/wiki/Ucayali",
-        "title": "Ucayali - OpenStreetMap Wiki",
-        "snippet": "OpenStreetMap Perú\nv · d\nUcayali, Perú\nlatitud : -9.3615, longitud : -73.22009\nExaminar el mapa de Ucayali 9°21′41.40″ S, 73°13′12.32″ W\nEditar mapa\nUsuarios en Ucayali\nTrazas GPS\nGeohack para OSM con más mapas\nEnlaces externos : Notas\nControles de calidad con Osmose\nKeep Right!\nOSM Inspector",
-        "matchedWords": {
-          "8KEZ0dWKkHmU": {
-            "hits": 2,
-            "textWords": 329
-          }
-        }
-      },
-      {
-        "hash": "1fncH8KDigKy",
-        "address": "https://wiki.openstreetmap.org/wiki/Landkreis_Nordvorpommern",
-        "title": "Landkreis Nordvorpommern - OpenStreetMap Wiki",
-        "snippet": "",
-        "matchedWords": {
-          "8KEZ0dWKkHmU": {
-            "hits": 6,
-            "textWords": 2567
-          }
-        }
-      },
-      {
-        "hash": "uDiRI6tx_hvy",
-        "address": "https://osmfoundation.org/wiki/Finances",
-        "title": "Finances - OpenStreetMap Foundation",
-        "snippet": "",
-        "matchedWords": {
-          "8KEZ0dWKkHmU": {
-            "hits": 5,
-            "textWords": 1244
-          }
-        }
-      },
-      {
-        "hash": "Zrsh-Cu-sg8w",
-        "address": "https://april.org/en/derniers-contenus?page=47\u0026membre=fapolis",
-        "title": "Les derniers contenus publiés | April",
-        "snippet": "",
-        "matchedWords": {
-          "8KEZ0dWKkHmU": {
-            "hits": 2,
-            "textWords": 3148
-          }
-        }
-      },
-      {
-        "hash": "qw-XMs8J2apw",
-        "address": "https://mhanys.org/",
-        "title": "Mental Health Association in New York State - Mental Health Association in NYS, Inc.",
-        "snippet": "",
-        "matchedWords": {
-          "8KEZ0dWKkHmU": {
-            "hits": 1,
-            "textWords": 1821
-          }
-        }
-      },
-      {
-        "hash": "-BA_Kopg4UCw",
-        "address": "https://www.wikidata.org/wiki/Q2660564",
-        "title": "Jeuk - Wikidata",
-        "snippet": "",
-        "matchedWords": {
-          "8KEZ0dWKkHmU": {
-            "hits": 1,
-            "textWords": 514
-          }
-        }
-      }
-    ],
-    [
-      {
-        "hash": "cjiPJlybg-vy",
-        "address": "https://www.openstreetmap.org/?mlat=-27.5\u0026mlon=130\u0026zoom=5",
-        "title": "OpenStreetMap",
-        "snippet": "OpenStreetMap!\nOpenStreetMap is a map of the world, created by people like you and free to use under an open license.\nHosting is supported by Fastly, OSMF corporate members, and other partners.\nBy using this website or other infrastructure provided by the OpenStreetMap Foundation, you agree to the",
-        "matchedWords": {
-          "8KEZ0dWKkHmU": {
-            "hits": 3,
-            "textWords": 56
-          }
-        }
-      },
-      {
-        "hash": "cQJUfV7h-FJy",
-        "address": "https://agri.openstreetmap.org/?zoom=12\u0026lat=-34.6\u0026lon=-58.383333",
-        "title": "OpenStreetMap - The Australian Geographic Reference Image",
-        "snippet": "",
-        "matchedWords": {
-          "8KEZ0dWKkHmU": {
-            "hits": 1,
-            "textWords": 22
-          }
-        }
-      },
-      {
-        "hash": "cgYrWQLxMQIR",
-        "address": "http://www.opencyclemap.org/?lat=37.009722\u0026lon=-117.450278\u0026zoom=15",
-        "title": "OpenCycleMap.org - the OpenStreetMap Cycle Map",
-        "snippet": "",
-        "matchedWords": {
-          "8KEZ0dWKkHmU": {
-            "hits": 3,
-            "textWords": 60
-          }
-        }
-      },
-      {
-        "hash": "dnyHd7z-a27Y",
-        "address": "http://sautter.com/map/?lat=42.883056\u0026lon=-1.935556\u0026zoom=11",
-        "title": "transparent map comparison openstreetmap google bing yahoo",
-        "snippet": "",
-        "matchedWords": {
-          "8KEZ0dWKkHmU": {
-            "hits": 1,
-            "textWords": 33
-          }
-        }
-      },
-      {
-        "hash": "c-uUG8vE7kYi",
-        "address": "https://osmose.openstreetmap.fr/en/map/?zoom=12\u0026lat=33.7325\u0026lon=-117.3933\u0026layers=BFF00FFFFFFFFFFFFT\u0026item=",
-        "title": "Osmose",
-        "snippet": "",
-        "matchedWords": {
-          "8KEZ0dWKkHmU": {
-            "hits": 1,
-            "textWords": 22
-          }
-        }
-      },
-      {
-        "hash": "eMVlYkYkmYew",
-        "address": "https://mesonet.agron.iastate.edu/lsr/",
-        "title": "IEM LSR App",
-        "snippet": "",
-        "matchedWords": {
-          "8KEZ0dWKkHmU": {
-            "hits": 1,
-            "textWords": 505
-          }
-        }
-      },
-      {
-        "hash": "fj6TSlQLSW3g",
-        "address": "https://www.freemap.sk/?map=11/33.02/-116.77\u0026layers=TI\u0026info-point=33.02/-116.77",
-        "title": "Freemap Slovakia, digital map",
-        "snippet": "",
-        "matchedWords": {
-          "8KEZ0dWKkHmU": {
-            "hits": 1,
-            "textWords": 341
-          }
-        }
-      },
-      {
-        "hash": "c3UGXopg4UCw",
-        "address": "https://www.wikidata.org/wiki/Q816845",
-        "title": "Irapuato - Wikidata",
-        "snippet": "",
-        "matchedWords": {
-          "8KEZ0dWKkHmU": {
-            "hits": 1,
-            "textWords": 1339
-          }
-        }
-      },
-      {
-        "hash": "eW2kUjRvmBbx",
-        "address": "https://en.wikipedia.org/wiki/Hong_Kong",
-        "title": "Hong Kong - Wikipedia",
-        "snippet": "",
-        "matchedWords": {
-          "8KEZ0dWKkHmU": {
-            "hits": 1,
-            "textWords": 30530
-          }
-        }
-      },
-      {
-        "hash": "dNe39s-3yIUg",
-        "address": "https://schmacke.de/",
-        "title": "Startseite - Mühlenbäckerei Schmacke",
-        "snippet": "",
-        "matchedWords": {
-          "8KEZ0dWKkHmU": {
-            "hits": 1,
-            "textWords": 1776
-          }
-        }
-      }
-    ],
-    [
-      {
-        "hash": "7sbfBsxlxh74",
-        "address": "https://domain.glass/5.75.231.55",
-        "title": "5.75.231.55 IPv4 Formats, Reverse DNS, ASN, Location \u0026 TLS · domain.glass",
-        "snippet": "",
-        "matchedWords": {
-          "8KEZ0dWKkHmU": {
-            "hits": 2,
-            "textWords": 883
-          }
-        }
-      },
-      {
-        "hash": "7dKkRsxlxh74",
-        "address": "https://domain.glass/86.19.1.166",
-        "title": "86.19.1.166 IPv4 Formats, Reverse DNS, ASN, Location \u0026 TLS · domain.glass",
-        "snippet": "",
-        "matchedWords": {
-          "8KEZ0dWKkHmU": {
-            "hits": 2,
-            "textWords": 883
-          }
-        }
-      },
-      {
-        "hash": "7TpSqsxlxh74",
-        "address": "https://domain.glass/79.137.67.37",
-        "title": "79.137.67.37 IPv4 Formats, Reverse DNS, ASN, Location \u0026 TLS · domain.glass",
-        "snippet": "",
-        "matchedWords": {
-          "8KEZ0dWKkHmU": {
-            "hits": 2,
-            "textWords": 884
-          }
-        }
-      },
-      {
-        "hash": "7R7mTsxlxh74",
-        "address": "https://domain.glass/145.239.69.34",
-        "title": "145.239.69.34 IPv4 Formats, Reverse DNS, ASN, Location \u0026 TLS · domain.glass",
-        "snippet": "",
-        "matchedWords": {
-          "8KEZ0dWKkHmU": {
-            "hits": 2,
-            "textWords": 884
-          }
-        }
-      },
-      {
-        "hash": "7GRnzsxlxh74",
-        "address": "https://domain.glass/181.118.35.228",
-        "title": "181.118.35.228 IPv4 Formats, Reverse DNS, ASN, Location \u0026 TLS · domain.glass",
-        "snippet": "",
-        "matchedWords": {
-          "8KEZ0dWKkHmU": {
-            "hits": 2,
-            "textWords": 884
-          }
-        }
-      },
-      {
-        "hash": "6yzqfsxlxh74",
-        "address": "https://domain.glass/216.158.73.248",
-        "title": "216.158.73.248 IPv4 Formats, Reverse DNS, ASN, Location \u0026 TLS · domain.glass",
-        "snippet": "",
-        "matchedWords": {
-          "8KEZ0dWKkHmU": {
-            "hits": 2,
-            "textWords": 885
-          }
-        }
-      },
-      {
-        "hash": "7bpmdsxlxh74",
-        "address": "https://domain.glass/157.245.217.151",
-        "title": "157.245.217.151 IPv4 Formats, Reverse DNS, ASN, Location \u0026 TLS · domain.glass",
-        "snippet": "",
-        "matchedWords": {
-          "8KEZ0dWKkHmU": {
-            "hits": 2,
-            "textWords": 885
-          }
-        }
-      },
-      {
-        "hash": "7Ge4wsxlxh74",
-        "address": "https://domain.glass/2604:2dc0:200:1a0d::",
-        "title": "2604:2dc0:200:1a0d:: IPv6 Formats, Reverse DNS, ASN, Location \u0026 TLS · domain.glass",
-        "snippet": "",
-        "matchedWords": {
-          "8KEZ0dWKkHmU": {
-            "hits": 2,
-            "textWords": 942
-          }
-        }
-      },
-      {
-        "hash": "7buTnsxlxh74",
-        "address": "https://domain.glass/2001:41d0:700:2564::1",
-        "title": "2001:41d0:700:2564::1 IPv6 Formats, Reverse DNS, ASN, Location \u0026 TLS · domain.glass",
-        "snippet": "",
-        "matchedWords": {
-          "8KEZ0dWKkHmU": {
-            "hits": 2,
-            "textWords": 955
-          }
-        }
-      },
-      {
-        "hash": "7UVPosxlxh74",
-        "address": "https://domain.glass/2001:41d0:303:ae0::1",
-        "title": "2001:41d0:303:ae0::1 IPv6 Formats, Reverse DNS, ASN, Location \u0026 TLS · domain.glass",
-        "snippet": "",
-        "matchedWords": {
-          "8KEZ0dWKkHmU": {
-            "hits": 2,
-            "textWords": 959
-          }
-        }
-      }
-    ],
-    [
-      {
-        "hash": "3FWf8ldA5r_4",
-        "address": "https://www.apple.com/business/",
-        "title": "Apple at Work - Apple",
-        "snippet": "",
-        "matchedWords": {
-          "8KEZ0dWKkHmU": {
-            "hits": 1,
-            "textWords": 4828
-          }
-        }
-      }
-    ],
-    [],
-    [],
-    [
-      {
-        "hash": "1mo1Mlybg-vy",
-        "address": "https://www.openstreetmap.org/",
-        "title": "OpenStreetMap",
-        "snippet": "OpenStreetMap!\nOpenStreetMap is a map of the world, created by people like you and free to use under an open license.\nHosting is supported by Fastly, OSMF corporate members, and other partners.\nBy using this website or other infrastructure provided by the OpenStreetMap Foundation, you agree to the",
-        "matchedWords": {
-          "8KEZ0dWKkHmU": {
-            "hits": 3,
-            "textWords": 56
-          }
-        }
-      },
-      {
-        "hash": "2jfeC7qJpRgC",
-        "address": "http://openstreetmap.by/?lon=-1.935556\u0026lat=42.883056\u0026zoom=15",
-        "title": "OpenStreetMap.by - Беларусь",
-        "snippet": "",
-        "matchedWords": {
-          "8KEZ0dWKkHmU": {
-            "hits": 2,
-            "textWords": 88
-          }
-        }
-      },
-      {
-        "hash": "0ne8hlKC9bQy",
-        "address": "https://hiking.waymarkedtrails.org/?lat=45.079167\u0026lon=7.676111\u0026zoom=16",
-        "title": "Waymarked Trails - Hiking",
-        "snippet": "",
-        "matchedWords": {
-          "8KEZ0dWKkHmU": {
-            "hits": 1,
-            "textWords": 21
-          }
-        }
-      },
-      {
-        "hash": "0HXR-EIpBPXy",
-        "address": "https://slopes.waymarkedtrails.org/?lat=46\u0026lon=9.266667\u0026zoom=16",
-        "title": "Waymarked Trails - Winter Sports",
-        "snippet": "",
-        "matchedWords": {
-          "8KEZ0dWKkHmU": {
-            "hits": 1,
-            "textWords": 22
-          }
-        }
-      },
-      {
-        "hash": "MdwnFZoh7b85",
-        "address": "https://galleria.emotionflow.com/188577/profile.html",
-        "title": "linkgood88contac(ID:188577) | About | 創作SNS GALLERIA[ギャレリア]",
-        "snippet": "",
-        "matchedWords": {
-          "8KEZ0dWKkHmU": {
-            "hits": 1,
-            "textWords": 1875
-          }
-        }
-      },
-      {
-        "hash": "UMce3TDVBWj5",
-        "address": "https://ropensci.r-universe.dev/articles/osmdata/osm-sf-translation.html",
-        "title": "Translation of OSM to Simple Features - osmdata",
-        "snippet": "",
-        "matchedWords": {
-          "8KEZ0dWKkHmU": {
-            "hits": 1,
-            "textWords": 176
-          }
-        }
-      },
-      {
-        "hash": "1xfQDlybg-vy",
-        "address": "https://www.openstreetmap.org/?mlat=37.8327\u0026mlon=-122.2838\u0026zoom=15",
-        "title": "OpenStreetMap",
-        "snippet": "OpenStreetMap!\nOpenStreetMap is a map of the world, created by people like you and free to use under an open license.\nHosting is supported by Fastly, OSMF corporate members, and other partners.\nBy using this website or other infrastructure provided by the OpenStreetMap Foundation, you agree to the",
-        "matchedWords": {
-          "8KEZ0dWKkHmU": {
-            "hits": 3,
-            "textWords": 56
-          }
-        }
-      },
-      {
-        "hash": "__xvksxlxh74",
-        "address": "https://domain.glass/174.94.88.138",
-        "title": "174.94.88.138 IPv4 Formats, Reverse DNS, ASN, Location \u0026 TLS · domain.glass",
-        "snippet": "",
-        "matchedWords": {
-          "8KEZ0dWKkHmU": {
-            "hits": 2,
-            "textWords": 884
-          }
-        }
-      },
-      {
-        "hash": "RbwT1jRvmBbx",
-        "address": "https://en.wikipedia.org/wiki/TomTom",
-        "title": "TomTom - Wikipedia",
-        "snippet": "",
-        "matchedWords": {
-          "8KEZ0dWKkHmU": {
-            "hits": 14,
-            "textWords": 8817
-          }
-        }
-      },
-      {
-        "hash": "Fth-9s99Ow1x",
-        "address": "https://pastelink.net/oa4ggqt2",
-        "title": "Good88 - Link Vào Nhà Cái Good88.com Chính Thức - Pastelink.net",
-        "snippet": "",
-        "matchedWords": {
-          "8KEZ0dWKkHmU": {
-            "hits": 1,
-            "textWords": 1329
-          }
-        }
-      }
-    ],
-    [
-      {
-        "hash": "2Q34jlHS80Jh",
-        "address": "https://www.mba-studium.de/datenschutzerklaerung/",
-        "title": "Datenschutzerklärung | MBA-Studium.de",
-        "snippet": "",
-        "matchedWords": {
-          "8KEZ0dWKkHmU": {
-            "hits": 8,
-            "textWords": 11374
-          }
-        }
-      },
-      {
-        "hash": "5K58rrOYFhaj",
-        "address": "https://www.schleswig-holstein.de/DE/landesportal/servicemeta/datenschutz/Datenschutzerklaerung/datenschutzerklaerung_SH?nn=7c727916-b639-4b04-9be0-3207734861dc",
-        "title": "schleswig-holstein.de - Legal Notice - Datenschutzerklärung",
-        "snippet": "",
-        "matchedWords": {
-          "8KEZ0dWKkHmU": {
-            "hits": 6,
-            "textWords": 3475
-          }
-        }
-      },
-      {
-        "hash": "sUYugCmvEcxh",
-        "address": "https://idw-online.de/en/attachmentdata122527.pdf",
-        "title": "WS Berlin_Entwurf1",
-        "snippet": "",
-        "matchedWords": {
-          "8KEZ0dWKkHmU": {
-            "hits": 1,
-            "textWords": 392
-          }
-        }
-      },
-      {
-        "hash": "w8cAUlods5-7",
-        "address": "https://www.wirtschaftsrecht-studieren.com/datenschutzerklaerung/",
-        "title": "Datenschutzerklärung | wirtschaftsrecht-studieren.com",
-        "snippet": "",
-        "matchedWords": {
-          "8KEZ0dWKkHmU": {
-            "hits": 8,
-            "textWords": 11243
-          }
-        }
-      },
-      {
-        "hash": "0s0D-vr4x6Og",
-        "address": "https://www.haufe.de/media/regionaler-preisindex-iw-deutschlandkarte_665446.html",
-        "title": "Regionaler Preisindex IW Deutschlandkarte",
-        "snippet": "",
-        "matchedWords": {
-          "8KEZ0dWKkHmU": {
-            "hits": 1,
-            "textWords": 387
-          }
-        }
-      },
-      {
-        "hash": "6Uy4zrOYFhaj",
-        "address": "https://www.schleswig-holstein.de/DE/landesportal/servicemeta/datenschutz/Datenschutzerklaerung/datenschutzerklaerung_SH?nn=f9a4b80d-3fdf-42bf-9039-d2e15d57c520",
-        "title": "schleswig-holstein.de - Rundgang durch die Landesvertretung - Datenschutzerklärung",
-        "snippet": "",
-        "matchedWords": {
-          "8KEZ0dWKkHmU": {
-            "hits": 6,
-            "textWords": 4132
-          }
-        }
-      },
-      {
-        "hash": "8O4llrOYFhaj",
-        "address": "https://www.schleswig-holstein.de/DE/landesportal/servicemeta/datenschutz/Datenschutzerklaerung/datenschutzerklaerung_SH?nn=b4654959-ccc6-4ea5-99a5-9f480790f31c",
-        "title": "schleswig-holstein.de - Ministry of General Education and Vocational Training, Science, Research and Culture - Datenschutzerklärung",
-        "snippet": "",
-        "matchedWords": {
-          "8KEZ0dWKkHmU": {
-            "hits": 6,
-            "textWords": 3505
-          }
-        }
-      },
-      {
-        "hash": "wcqMCrOYFhaj",
-        "address": "https://www.schleswig-holstein.de/DE/landesportal/servicemeta/datenschutz/Datenschutzerklaerung/datenschutzerklaerung_SH?nn=af915424-0549-4b0e-b94e-16d416b93e7c",
-        "title": "schleswig-holstein.de - Ministry for Energy Transition, Climate Protection, Environment and Nature - Datenschutzerklärung",
-        "snippet": "",
-        "matchedWords": {
-          "8KEZ0dWKkHmU": {
-            "hits": 6,
-            "textWords": 3500
-          }
-        }
-      },
-      {
-        "hash": "94cIwrOYFhaj",
-        "address": "https://www.schleswig-holstein.de/DE/landesportal/servicemeta/datenschutz/Datenschutzerklaerung/datenschutzerklaerung_SH?nn=d33e26e2-ee16-4db0-9ae2-406899ba54e3",
-        "title": "schleswig-holstein.de - Weiterbildung - Datenschutzerklärung",
-        "snippet": "",
-        "matchedWords": {
-          "8KEZ0dWKkHmU": {
-            "hits": 6,
-            "textWords": 4118
-          }
-        }
-      },
-      {
-        "hash": "4iHNclo9hA96",
-        "address": "https://www.bwl-studieren.com/datenschutzerklaerung/",
-        "title": "Datenschutzerklärung | BWL-studieren.com",
-        "snippet": "",
-        "matchedWords": {
-          "8KEZ0dWKkHmU": {
-            "hits": 8,
-            "textWords": 11365
-          }
-        }
-      }
-    ],
-    [],
-    [
-      {
-        "hash": "1mo1Mlybg-vy",
-        "address": "https://www.openstreetmap.org/",
-        "title": "OpenStreetMap",
-        "snippet": "OpenStreetMap!\nOpenStreetMap is a map of the world, created by people like you and free to use under an open license.\nHosting is supported by Fastly, OSMF corporate members, and other partners.\nBy using this website or other infrastructure provided by the OpenStreetMap Foundation, you agree to the",
-        "matchedWords": {
-          "8KEZ0dWKkHmU": {
-            "hits": 3,
-            "textWords": 56
-          }
-        }
-      },
-      {
-        "hash": "jft0alybg-vy",
-        "address": "https://www.openstreetmap.org/?mlat=17.351\u0026mlon=78.475",
-        "title": "OpenStreetMap",
-        "snippet": "OpenStreetMap!\nOpenStreetMap is a map of the world, created by people like you and free to use under an open license.\nHosting is supported by Fastly, OSMF corporate members, and other partners.\nBy using this website or other infrastructure provided by the OpenStreetMap Foundation, you agree to the",
-        "matchedWords": {
-          "8KEZ0dWKkHmU": {
-            "hits": 3,
-            "textWords": 56
-          }
-        }
-      },
-      {
-        "hash": "R0Tdylybg-vy",
-        "address": "https://www.openstreetmap.org/?mlat=28.65000\u0026mlon=52.15000\u0026zoom=11",
-        "title": "OpenStreetMap",
-        "snippet": "OpenStreetMap!\nOpenStreetMap is a map of the world, created by people like you and free to use under an open license.\nHosting is supported by Fastly, OSMF corporate members, and other partners.\nBy using this website or other infrastructure provided by the OpenStreetMap Foundation, you agree to the",
-        "matchedWords": {
-          "8KEZ0dWKkHmU": {
-            "hits": 3,
-            "textWords": 56
-          }
-        }
-      },
-      {
-        "hash": "FKHCglybg-vy",
-        "address": "https://www.openstreetmap.org/?mlat=43.3\u0026mlon=45.866666666667\u0026zoom=14",
-        "title": "OpenStreetMap",
-        "snippet": "OpenStreetMap!\nOpenStreetMap is a map of the world, created by people like you and free to use under an open license.\nHosting is supported by Fastly, OSMF corporate members, and other partners.\nBy using this website or other infrastructure provided by the OpenStreetMap Foundation, you agree to the",
-        "matchedWords": {
-          "8KEZ0dWKkHmU": {
-            "hits": 3,
-            "textWords": 56
-          }
-        }
-      },
-      {
-        "hash": "AqsQcJDOAHJg",
-        "address": "https://www.heise.de/ratgeber/OpenStreetMap-Wie-Sie-Orte-mit-natuerlicher-Sprache-finden-11091390.html?wt_mc=rss.red.ho.ho.atom.beitrag_plus.beitrag_plus",
-        "title": "OpenStreetMap: Wie Sie Orte mit natürlicher Sprache finden | heise online",
-        "snippet": "OpenStreetMap anhand eines Prompts. So lassen sich Fotos verifizieren oder auch Cafés in der Nähe finden. Wir haben SPOT angetestet.\n02.12.2025, 08:00 Uhr\nLesezeit: 11 Min.\nOpenStreetMap: Wie Sie Orte mit natürlicher Sprache finden Suchen per Prompt, am besten auf Englisch\nFotos lokalisieren: Wir",
-        "matchedWords": {
-          "8KEZ0dWKkHmU": {
-            "hits": 4,
-            "textWords": 151
-          }
-        }
-      },
-      {
-        "hash": "Ei9lMV7h-FJy",
-        "address": "https://agri.openstreetmap.org/?zoom=15\u0026lat=37.009722\u0026lon=-117.450278",
-        "title": "OpenStreetMap - The Australian Geographic Reference Image",
-        "snippet": "",
-        "matchedWords": {
-          "8KEZ0dWKkHmU": {
-            "hits": 1,
-            "textWords": 23
-          }
-        }
-      },
-      {
-        "hash": "668HX8KDigKy",
-        "address": "https://wiki.openstreetmap.org/wiki/Key:sport?uselang=en",
-        "title": "Key:sport - OpenStreetMap Wiki",
-        "snippet": "",
-        "matchedWords": {
-          "8KEZ0dWKkHmU": {
-            "hits": 9,
-            "textWords": 14727
-          }
-        }
-      },
-      {
-        "hash": "9CepJopg4UCw",
-        "address": "https://www.wikidata.org/wiki/Q100320716",
-        "title": "OpenStreetMap relation - Wikidata",
-        "snippet": "",
-        "matchedWords": {
-          "8KEZ0dWKkHmU": {
-            "hits": 13,
-            "textWords": 482
-          }
-        }
-      },
-      {
-        "hash": "C0_Z-Sofqllg",
-        "address": "https://blog.rasc.ch/2026/04/graphhopper.html",
-        "title": "GraphHopper, routing engine for OpenStreetMap data",
-        "snippet": "",
-        "matchedWords": {
-          "8KEZ0dWKkHmU": {
-            "hits": 6,
-            "textWords": 2845
-          }
-        }
-      },
-      {
-        "hash": "r_QLSsyYLOb5",
-        "address": "https://graphhopper.com/maps/?point=41.01815,28.92037",
-        "title": "GraphHopper Maps | Route Planner",
-        "snippet": "",
-        "matchedWords": {
-          "8KEZ0dWKkHmU": {
-            "hits": 1,
-            "textWords": 41
-          }
-        }
-      }
-    ],
-    [
-      {
-        "hash": "oKnZg8UYpAnx",
-        "address": "https://www.electromaker.io/project/view/gps-tracker-using-heltec-wifi-lora-32-v4-and-reyax-rys352a-g",
-        "title": "Gps Tracker Using Heltec Wifi Lora 32 V4 And Reyax Rys352a G",
-        "snippet": "",
-        "matchedWords": {
-          "8KEZ0dWKkHmU": {
-            "hits": 5,
-            "textWords": 1930
-          }
-        }
-      },
-      {
-        "hash": "Ql8-WQmlm3uh",
-        "address": "https://www.berrybase.ch/product-datasheet/019f6b717fc7727a9fb19de7c70b10bc/create",
-        "title": "Datenblatt zu Seeed Loko Air GPS Tracker, LoRa P2P LoRaWAN, GPS GLONASS GALILEO, USB-C, 210mAh, 15km Reichweite",
-        "snippet": "",
-        "matchedWords": {
-          "8KEZ0dWKkHmU": {
-            "hits": 3,
-            "textWords": 745
-          }
-        }
-      },
-      {
-        "hash": "BsAg1fC6nCRj",
-        "address": "https://forum-raspberrypi.de/forum/thread/36840-offline-gps-map/",
-        "title": "Offline GPS-Map - Allgemeine Software - Deutsches Raspberry Pi Forum",
-        "snippet": "",
-        "matchedWords": {
-          "8KEZ0dWKkHmU": {
-            "hits": 6,
-            "textWords": 2133
-          }
-        }
-      },
-      {
-        "hash": "Fm-Ts8UYpAnx",
-        "address": "https://www.electromaker.io/project/view/-45",
-        "title": "Wifi Geolocation On The M5stack Core2",
-        "snippet": "",
-        "matchedWords": {
-          "8KEZ0dWKkHmU": {
-            "hits": 3,
-            "textWords": 5266
-          }
-        }
-      },
-      {
-        "hash": "Rw_xllUYpAnx",
-        "address": "https://www.electromaker.io/projects",
-        "title": "Projects",
-        "snippet": "",
-        "matchedWords": {
-          "8KEZ0dWKkHmU": {
-            "hits": 1,
-            "textWords": 2354
-          }
-        }
-      },
-      {
-        "hash": "gJjh1iUYpAnx",
-        "address": "https://www.electromaker.io/profile/play-with-circuit",
-        "title": "play-with-circuit : User profile - Electromaker.io",
-        "snippet": "",
-        "matchedWords": {
-          "8KEZ0dWKkHmU": {
-            "hits": 1,
-            "textWords": 1072
-          }
-        }
-      },
-      {
-        "hash": "Z8ZHlfC6nCRj",
-        "address": "https://forum-raspberrypi.de/forum/user-post-list/50575-blackjack/",
-        "title": "Posts by __blackjack__ - Deutsches Raspberry Pi Forum",
-        "snippet": "",
-        "matchedWords": {
-          "8KEZ0dWKkHmU": {
-            "hits": 3,
-            "textWords": 1420
-          }
-        }
-      },
-      {
-        "hash": "EDDobfC6nCRj",
-        "address": "https://forum-raspberrypi.de/forum/thread/36840-offline-gps-map/?postID=307222",
-        "title": "Offline GPS-Map - Allgemeine Software - Deutsches Raspberry Pi Forum",
-        "snippet": "",
-        "matchedWords": {
-          "8KEZ0dWKkHmU": {
-            "hits": 6,
-            "textWords": 2137
-          }
-        }
-      },
-      {
-        "hash": "35zvUlUYpAnx",
-        "address": "https://www.electromaker.io/projects?category=displays",
-        "title": "Displays projects",
-        "snippet": "",
-        "matchedWords": {
-          "8KEZ0dWKkHmU": {
-            "hits": 1,
-            "textWords": 2170
-          }
-        }
-      },
-      {
-        "hash": "RoRcflUYpAnx",
-        "address": "https://www.electromaker.io/projects?platform=arduino",
-        "title": "Arduino projects",
-        "snippet": "",
-        "matchedWords": {
-          "8KEZ0dWKkHmU": {
-            "hits": 1,
-            "textWords": 2318
-          }
-        }
-      }
-    ],
-    [
-      {
-        "hash": "pcmfBlybg-vy",
-        "address": "https://www.openstreetmap.org/?mlat=23\u0026mlon=46\u0026zoom=14",
-        "title": "OpenStreetMap",
-        "snippet": "OpenStreetMap!\nOpenStreetMap is a map of the world, created by people like you and free to use under an open license.\nHosting is supported by Fastly, OSMF corporate members, and other partners.\nBy using this website or other infrastructure provided by the OpenStreetMap Foundation, you agree to the",
-        "matchedWords": {
-          "8KEZ0dWKkHmU": {
-            "hits": 3,
-            "textWords": 56
-          }
-        }
-      },
-      {
-        "hash": "d65fOlybg-vy",
-        "address": "https://www.openstreetmap.org/?mlat=39.915\u0026mlon=116.39\u0026zoom=6",
-        "title": "OpenStreetMap",
-        "snippet": "OpenStreetMap!\nOpenStreetMap is a map of the world, created by people like you and free to use under an open license.\nHosting is supported by Fastly, OSMF corporate members, and other partners.\nBy using this website or other infrastructure provided by the OpenStreetMap Foundation, you agree to the",
-        "matchedWords": {
-          "8KEZ0dWKkHmU": {
-            "hits": 3,
-            "textWords": 56
-          }
-        }
-      },
-      {
-        "hash": "RpKhulybg-vy",
-        "address": "https://www.openstreetmap.org/?mlat=57.81667\u0026mlon=28.33333\u0026zoom=12",
-        "title": "OpenStreetMap",
-        "snippet": "OpenStreetMap!\nOpenStreetMap is a map of the world, created by people like you and free to use under an open license.\nHosting is supported by Fastly, OSMF corporate members, and other partners.\nBy using this website or other infrastructure provided by the OpenStreetMap Foundation, you agree to the",
-        "matchedWords": {
-          "8KEZ0dWKkHmU": {
-            "hits": 3,
-            "textWords": 56
-          }
-        }
-      },
-      {
-        "hash": "ZCH4qlybg-vy",
-        "address": "https://www.openstreetmap.org/about/",
-        "title": "OpenStreetMap",
-        "snippet": "©OpenStreetMap\ncontributors\nOpenStreetMap provides map data for thousands of websites, mobile apps, and hardware devices\nOpenStreetMap is built by a community of mappers that contribute and maintain data about roads, trails, cafés, railway stations, and much more, all over the world.\nLocal",
-        "matchedWords": {
-          "8KEZ0dWKkHmU": {
-            "hits": 14,
-            "textWords": 321
-          }
-        }
-      },
-      {
-        "hash": "I6QrVlybg-vy",
-        "address": "https://www.openstreetmap.org/?mlat=58.01389\u0026mlon=56.24889\u0026zoom=12",
-        "title": "OpenStreetMap",
-        "snippet": "OpenStreetMap!\nOpenStreetMap is a map of the world, created by people like you and free to use under an open license.\nHosting is supported by Fastly, OSMF corporate members, and other partners.\nBy using this website or other infrastructure provided by the OpenStreetMap Foundation, you agree to the",
-        "matchedWords": {
-          "8KEZ0dWKkHmU": {
-            "hits": 3,
-            "textWords": 56
-          }
-        }
-      },
-      {
-        "hash": "hES4Mlybg-vy",
-        "address": "https://www.openstreetmap.org/?mlat=41.00858\u0026mlon=28.980171\u0026zoom=16",
-        "title": "OpenStreetMap",
-        "snippet": "OpenStreetMap!\nOpenStreetMap is a map of the world, created by people like you and free to use under an open license.\nHosting is supported by Fastly, OSMF corporate members, and other partners.\nBy using this website or other infrastructure provided by the OpenStreetMap Foundation, you agree to the",
-        "matchedWords": {
-          "8KEZ0dWKkHmU": {
-            "hits": 3,
-            "textWords": 56
-          }
-        }
-      },
-      {
-        "hash": "ubz0Klybg-vy",
-        "address": "https://www.openstreetmap.org/?mlat=50.97188\u0026mlon=11.32970",
-        "title": "OpenStreetMap",
-        "snippet": "OpenStreetMap!\nOpenStreetMap is a map of the world, created by people like you and free to use under an open license.\nHosting is supported by Fastly, OSMF corporate members, and other partners.\nBy using this website or other infrastructure provided by the OpenStreetMap Foundation, you agree to the",
-        "matchedWords": {
-          "8KEZ0dWKkHmU": {
-            "hits": 3,
-            "textWords": 56
-          }
-        }
-      },
-      {
-        "hash": "HIaiUlybg-vy",
-        "address": "https://www.openstreetmap.org/?mlat=42.50000\u0026mlon=1.16667\u0026zoom=12",
-        "title": "OpenStreetMap",
-        "snippet": "OpenStreetMap!\nOpenStreetMap is a map of the world, created by people like you and free to use under an open license.\nHosting is supported by Fastly, OSMF corporate members, and other partners.\nBy using this website or other infrastructure provided by the OpenStreetMap Foundation, you agree to the",
-        "matchedWords": {
-          "8KEZ0dWKkHmU": {
-            "hits": 3,
-            "textWords": 56
-          }
-        }
-      },
-      {
-        "hash": "H6hO77qJpRgC",
-        "address": "http://openstreetmap.by/?lon=-83.006111\u0026lat=39.969283\u0026zoom=18",
-        "title": "OpenStreetMap.by - Беларусь",
-        "snippet": "",
-        "matchedWords": {
-          "8KEZ0dWKkHmU": {
-            "hits": 2,
-            "textWords": 89
-          }
-        }
-      },
-      {
-        "hash": "Vpp948KDigKy",
-        "address": "https://wiki.openstreetmap.org/wiki/Key:start%20date?uselang=en",
-        "title": "Key:start_date - OpenStreetMap Wiki",
-        "snippet": "",
-        "matchedWords": {
-          "8KEZ0dWKkHmU": {
-            "hits": 5,
-            "textWords": 2412
-          }
-        }
-      }
-    ],
-    [
-      {
-        "hash": "1mo1Mlybg-vy",
-        "address": "https://www.openstreetmap.org/",
-        "title": "OpenStreetMap",
-        "snippet": "OpenStreetMap!\nOpenStreetMap is a map of the world, created by people like you and free to use under an open license.\nHosting is supported by Fastly, OSMF corporate members, and other partners.\nBy using this website or other infrastructure provided by the OpenStreetMap Foundation, you agree to the",
-        "matchedWords": {
-          "8KEZ0dWKkHmU": {
-            "hits": 3,
-            "textWords": 56
-          }
-        }
-      },
       {
         "hash": "zI04Alybg-vy",
         "address": "https://www.openstreetmap.org/?mlat=16.083333\u0026mlon=121\u0026zoom=12",
@@ -1556,7 +410,8 @@
             "hits": 3,
             "textWords": 56
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
         "hash": "b7l9Clybg-vy",
@@ -1568,11 +423,12 @@
             "hits": 3,
             "textWords": 56
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
-        "hash": "qkJpHlybg-vy",
-        "address": "https://www.openstreetmap.org/?mlat=51.533376\u0026mlon=7.41402\u0026zoom=16",
+        "hash": "N-nlYlybg-vy",
+        "address": "https://www.openstreetmap.org/?mlat=39.90500\u0026mlon=116.39139\u0026zoom=12",
         "title": "OpenStreetMap",
         "snippet": "OpenStreetMap!\nOpenStreetMap is a map of the world, created by people like you and free to use under an open license.\nHosting is supported by Fastly, OSMF corporate members, and other partners.\nBy using this website or other infrastructure provided by the OpenStreetMap Foundation, you agree to the",
         "matchedWords": {
@@ -1580,129 +436,8 @@
             "hits": 3,
             "textWords": 56
           }
-        }
-      },
-      {
-        "hash": "gOA_slybg-vy",
-        "address": "https://www.openstreetmap.org/?mlat=13.75\u0026mlon=100.483333\u0026zoom=12",
-        "title": "OpenStreetMap",
-        "snippet": "OpenStreetMap!\nOpenStreetMap is a map of the world, created by people like you and free to use under an open license.\nHosting is supported by Fastly, OSMF corporate members, and other partners.\nBy using this website or other infrastructure provided by the OpenStreetMap Foundation, you agree to the",
-        "matchedWords": {
-          "8KEZ0dWKkHmU": {
-            "hits": 3,
-            "textWords": 56
-          }
-        }
-      },
-      {
-        "hash": "qouJVvS6MKD4",
-        "address": "https://github.com/osm-by/OpenStreetMap.by",
-        "title": "GitHub - osm-by/OpenStreetMap.by: bugtracker for http://openstreetmap.by · GitHub",
-        "snippet": "",
-        "matchedWords": {
-          "8KEZ0dWKkHmU": {
-            "hits": 11,
-            "textWords": 1122
-          }
-        }
-      },
-      {
-        "hash": "YaW7m7qJpRgC",
-        "address": "http://openstreetmap.by/?lon=139.7438\u0026lat=35.6725\u0026zoom=11",
-        "title": "OpenStreetMap.by - Беларусь",
-        "snippet": "",
-        "matchedWords": {
-          "8KEZ0dWKkHmU": {
-            "hits": 2,
-            "textWords": 89
-          }
-        }
-      },
-      {
-        "hash": "E7iHKPgcGDHy",
-        "address": "https://blog.openstreetmap.org/2023/10/25/microsoft-compromete-150-000-dolares-para-apoiar-a-openstreetmap/?lang=gl",
-        "title": "Microsoft compromete 150.000 dólares para apoiar a OpenStreetMap | OpenStreetMap Blog",
-        "snippet": "OpenStreetMap ten o pracer de anunciar a doazón de 150.000 dólares de Microsoft para beneficiar o proxecto e a comunidade OpenStreetMap. Este apoio substantivo irá directamente á mellora das operacións e infraestruturas de OSM, así como ao financiamento de actividades comunitarias de OSM como",
-        "matchedWords": {
-          "8KEZ0dWKkHmU": {
-            "hits": 12,
-            "textWords": 459
-          }
-        }
-      },
-      {
-        "hash": "YgW_0lVv_Vw0",
-        "address": "https://topo.openstreetmap.org.za/?lon=66\u0026lat=36.75\u0026zoom=11",
-        "title": "OpenStreetMap - NGI - Topographic Series",
-        "snippet": "",
-        "matchedWords": {
-          "8KEZ0dWKkHmU": {
-            "hits": 1,
-            "textWords": 19
-          }
-        }
-      },
-      {
-        "hash": "mgDpFV7h-FJy",
-        "address": "https://agri.openstreetmap.org/?zoom=5\u0026lat=-46.585833\u0026lon=67.981667",
-        "title": "OpenStreetMap - The Australian Geographic Reference Image",
-        "snippet": "",
-        "matchedWords": {
-          "8KEZ0dWKkHmU": {
-            "hits": 1,
-            "textWords": 22
-          }
-        }
-      }
-    ],
-    [
-      {
-        "hash": "-qCJDNybg-vy",
-        "address": "https://www.openstreetmap.org/node/2586280847",
-        "title": "Node: 2586280847 | OpenStreetMap",
-        "snippet": "OpenStreetMap!\nOpenStreetMap is a map of the world, created by people like you and free to use under an open license.\nHosting is supported by Fastly, OSMF corporate members, and other partners.\nBy using this website or other infrastructure provided by the OpenStreetMap Foundation, you agree to the",
-        "matchedWords": {
-          "8KEZ0dWKkHmU": {
-            "hits": 3,
-            "textWords": 56
-          }
-        }
-      },
-      {
-        "hash": "6yE9aNybg-vy",
-        "address": "https://www.openstreetmap.org/node/4308336680",
-        "title": "Node: 4308336680 | OpenStreetMap",
-        "snippet": "OpenStreetMap!\nOpenStreetMap is a map of the world, created by people like you and free to use under an open license.\nHosting is supported by Fastly, OSMF corporate members, and other partners.\nBy using this website or other infrastructure provided by the OpenStreetMap Foundation, you agree to the",
-        "matchedWords": {
-          "8KEZ0dWKkHmU": {
-            "hits": 3,
-            "textWords": 56
-          }
-        }
-      },
-      {
-        "hash": "_5OuKlybg-vy",
-        "address": "https://www.openstreetmap.org/?mlat=51.50658845901489\u0026mlon=-0.14436721801757812",
-        "title": "OpenStreetMap",
-        "snippet": "OpenStreetMap!\nOpenStreetMap is a map of the world, created by people like you and free to use under an open license.\nHosting is supported by Fastly, OSMF corporate members, and other partners.\nBy using this website or other infrastructure provided by the OpenStreetMap Foundation, you agree to the",
-        "matchedWords": {
-          "8KEZ0dWKkHmU": {
-            "hits": 3,
-            "textWords": 56
-          }
-        }
-      },
-      {
-        "hash": "Q92cXlybg-vy",
-        "address": "https://www.openstreetmap.org/communities",
-        "title": "OpenStreetMap",
-        "snippet": "OpenStreetMap. While many participate as individuals, others have formed communities. These groups come in a range of sizes and represent geographies from small towns to large multi-country regions. They can also be formal or informal.\nLocal Chapters\nLocal Chapters are country-level or region-level",
-        "matchedWords": {
-          "8KEZ0dWKkHmU": {
-            "hits": 17,
-            "textWords": 204
-          }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
         "hash": "1mo1Mlybg-vy",
@@ -1714,35 +449,12 @@
             "hits": 3,
             "textWords": 56
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
-        "hash": "_eTOKNybg-vy",
-        "address": "https://www.openstreetmap.org/node/3793720180",
-        "title": "Node: 3793720180 | OpenStreetMap",
-        "snippet": "OpenStreetMap!\nOpenStreetMap is a map of the world, created by people like you and free to use under an open license.\nHosting is supported by Fastly, OSMF corporate members, and other partners.\nBy using this website or other infrastructure provided by the OpenStreetMap Foundation, you agree to the",
-        "matchedWords": {
-          "8KEZ0dWKkHmU": {
-            "hits": 3,
-            "textWords": 56
-          }
-        }
-      },
-      {
-        "hash": "_9rvtNybg-vy",
-        "address": "https://www.openstreetmap.org/node/11002623203",
-        "title": "Node: 11002623203 | OpenStreetMap",
-        "snippet": "OpenStreetMap!\nOpenStreetMap is a map of the world, created by people like you and free to use under an open license.\nHosting is supported by Fastly, OSMF corporate members, and other partners.\nBy using this website or other infrastructure provided by the OpenStreetMap Foundation, you agree to the",
-        "matchedWords": {
-          "8KEZ0dWKkHmU": {
-            "hits": 3,
-            "textWords": 56
-          }
-        }
-      },
-      {
-        "hash": "F7qAclybg-vy",
-        "address": "https://www.openstreetmap.org/directions",
+        "hash": "GWb4blybg-vy",
+        "address": "https://www.openstreetmap.org/?mlat=52.383333333333\u0026mlon=4.6333333333333\u0026zoom=7",
         "title": "OpenStreetMap",
         "snippet": "OpenStreetMap!\nOpenStreetMap is a map of the world, created by people like you and free to use under an open license.\nHosting is supported by Fastly, OSMF corporate members, and other partners.\nBy using this website or other infrastructure provided by the OpenStreetMap Foundation, you agree to the",
         "matchedWords": {
@@ -1750,34 +462,221 @@
             "hits": 3,
             "textWords": 56
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
-        "hash": "o4iVflybg-vy",
-        "address": "https://www.openstreetmap.org/edit?editor=remote",
-        "title": "OpenStreetMap",
-        "snippet": "OpenStreetMap!\nOpenStreetMap is a map of the world, created by people like you and free to use under an open license.\nHosting is supported by Fastly, OSMF corporate members, and other partners.\nBy using this website or other infrastructure provided by the OpenStreetMap Foundation, you agree to the",
+        "hash": "qouJVvS6MKD4",
+        "address": "https://github.com/osm-by/OpenStreetMap.by",
+        "title": "GitHub - osm-by/OpenStreetMap.by: bugtracker for http://openstreetmap.by · GitHub",
+        "snippet": "",
         "matchedWords": {
           "8KEZ0dWKkHmU": {
-            "hits": 3,
-            "textWords": 56
+            "hits": 11,
+            "textWords": 1122
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
-        "hash": "eh6b3lybg-vy",
-        "address": "https://www.openstreetmap.org/search?query=Falafel%20Sahyoun",
-        "title": "Falafel Sahyoun | OpenStreetMap",
-        "snippet": "OpenStreetMap!\nOpenStreetMap is a map of the world, created by people like you and free to use under an open license.\nHosting is supported by Fastly, OSMF corporate members, and other partners.\nBy using this website or other infrastructure provided by the OpenStreetMap Foundation, you agree to the",
+        "hash": "cjoTF7qJpRgC",
+        "address": "http://openstreetmap.by/?lon=57.6801\u0026lat=-47.62\u0026zoom=5",
+        "title": "OpenStreetMap.by - Беларусь",
+        "snippet": "",
         "matchedWords": {
           "8KEZ0dWKkHmU": {
-            "hits": 3,
-            "textWords": 56
+            "hits": 2,
+            "textWords": 88
           }
-        }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "E7iHKPgcGDHy",
+        "address": "https://blog.openstreetmap.org/2023/10/25/microsoft-compromete-150-000-dolares-para-apoiar-a-openstreetmap/?lang=gl",
+        "title": "Microsoft compromete 150.000 dólares para apoiar a OpenStreetMap | OpenStreetMap Blog",
+        "snippet": "",
+        "matchedWords": {
+          "8KEZ0dWKkHmU": {
+            "hits": 18,
+            "textWords": 907
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "91uAm8KDigKy",
+        "address": "https://wiki.openstreetmap.org/wiki/Key:name:lez?uselang=en",
+        "title": "Key:name:lez - OpenStreetMap Wiki",
+        "snippet": "",
+        "matchedWords": {
+          "8KEZ0dWKkHmU": {
+            "hits": 5,
+            "textWords": 792
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "YgW_0lVv_Vw0",
+        "address": "https://topo.openstreetmap.org.za/?lon=66\u0026lat=36.75\u0026zoom=11",
+        "title": "OpenStreetMap - NGI - Topographic Series",
+        "snippet": "",
+        "matchedWords": {
+          "8KEZ0dWKkHmU": {
+            "hits": 1,
+            "textWords": 19
+          }
+        },
+        "queryPhraseHits": 0
       }
     ],
     [
+      {
+        "hash": "1mo1Mlybg-vy",
+        "address": "https://www.openstreetmap.org/",
+        "title": "OpenStreetMap",
+        "snippet": "OpenStreetMap!\nOpenStreetMap is a map of the world, created by people like you and free to use under an open license.\nHosting is supported by Fastly, OSMF corporate members, and other partners.\nBy using this website or other infrastructure provided by the OpenStreetMap Foundation, you agree to the",
+        "matchedWords": {
+          "8KEZ0dWKkHmU": {
+            "hits": 3,
+            "textWords": 56
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "ywbjalybg-vy",
+        "address": "https://www.openstreetmap.org/?mlat=31.231667\u0026mlon=121.47\u0026zoom=15",
+        "title": "OpenStreetMap",
+        "snippet": "OpenStreetMap!\nOpenStreetMap is a map of the world, created by people like you and free to use under an open license.\nHosting is supported by Fastly, OSMF corporate members, and other partners.\nBy using this website or other infrastructure provided by the OpenStreetMap Foundation, you agree to the",
+        "matchedWords": {
+          "8KEZ0dWKkHmU": {
+            "hits": 3,
+            "textWords": 56
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "WG83BJDOAHJg",
+        "address": "https://www.heise.de/ratgeber/Tschuess-Google-Maps-Navigations-Apps-mit-OpenStreetMap-im-Vergleich-11268273.html?wt_mc=rss.red.ho.ho.atom.beitrag_plus.beitrag_plus",
+        "title": "Tschüss Google Maps: Navigations-Apps mit OpenStreetMap im Vergleich | heise online",
+        "snippet": "",
+        "matchedWords": {
+          "8KEZ0dWKkHmU": {
+            "hits": 16,
+            "textWords": 1647
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "PRaJF59_tWB0",
+        "address": "https://aerial.openstreetmap.org.za/?lon=9.34\u0026lat=61.41\u0026zoom=11",
+        "title": "OpenStreetMap - NGI - Aerial Imagery",
+        "snippet": "",
+        "matchedWords": {
+          "8KEZ0dWKkHmU": {
+            "hits": 1,
+            "textWords": 19
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "bgtJCsvFJx_w",
+        "address": "https://heigit.org/datasets/",
+        "title": "Datasets – HeiGIT",
+        "snippet": "",
+        "matchedWords": {
+          "8KEZ0dWKkHmU": {
+            "hits": 4,
+            "textWords": 1240
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "JCtDVRJEWVs4",
+        "address": "https://map-distance.utils.com/",
+        "title": "Distance Calculator (Map) - utils.com",
+        "snippet": "",
+        "matchedWords": {
+          "8KEZ0dWKkHmU": {
+            "hits": 1,
+            "textWords": 2822
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "oo6_WPYG6fAg",
+        "address": "https://maps.nls.uk/geo/explore/",
+        "title": "Georeferenced Maps viewer - Map images - National Library of Scotland",
+        "snippet": "",
+        "matchedWords": {
+          "8KEZ0dWKkHmU": {
+            "hits": 1,
+            "textWords": 461
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "uuFjE7RbRZCC",
+        "address": "http://overpass-turbo.eu/",
+        "title": "overpass turbo",
+        "snippet": "",
+        "matchedWords": {
+          "8KEZ0dWKkHmU": {
+            "hits": 1,
+            "textWords": 236
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "e_P4noYpy6E4",
+        "address": "https://www.wikitree.com/wiki/Category:Saratoga_County%2C_New_York",
+        "title": "Category: Saratoga County, New York",
+        "snippet": "",
+        "matchedWords": {
+          "8KEZ0dWKkHmU": {
+            "hits": 1,
+            "textWords": 603
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "ske58h3e0QFx",
+        "address": "https://commons.wikimedia.org/wiki/Royal_Abbey_of_Our_Lady_of_Fontevraud",
+        "title": "Royal Abbey of Our Lady of Fontevraud - Wikimedia Commons",
+        "snippet": "",
+        "matchedWords": {
+          "8KEZ0dWKkHmU": {
+            "hits": 2,
+            "textWords": 2749
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "Qv8CFlybg-vy",
+        "address": "https://www.openstreetmap.org/?mlat=42\u0026mlon=51\u0026zoom=7",
+        "title": "OpenStreetMap",
+        "snippet": "OpenStreetMap!\nOpenStreetMap is a map of the world, created by people like you and free to use under an open license.\nHosting is supported by Fastly, OSMF corporate members, and other partners.\nBy using this website or other infrastructure provided by the OpenStreetMap Foundation, you agree to the",
+        "matchedWords": {
+          "8KEZ0dWKkHmU": {
+            "hits": 3,
+            "textWords": 56
+          }
+        },
+        "queryPhraseHits": 0
+      },
       {
         "hash": "bE2T7lybg-vy",
         "address": "https://www.openstreetmap.org/?mlat=47\u0026mlon=2\u0026zoom=6",
@@ -1788,19 +687,8 @@
             "hits": 3,
             "textWords": 56
           }
-        }
-      },
-      {
-        "hash": "jv3iflybg-vy",
-        "address": "https://www.openstreetmap.org/?mlat=33.00000\u0026mlon=131.00000\u0026zoom=12",
-        "title": "OpenStreetMap",
-        "snippet": "OpenStreetMap!\nOpenStreetMap is a map of the world, created by people like you and free to use under an open license.\nHosting is supported by Fastly, OSMF corporate members, and other partners.\nBy using this website or other infrastructure provided by the OpenStreetMap Foundation, you agree to the",
-        "matchedWords": {
-          "8KEZ0dWKkHmU": {
-            "hits": 3,
-            "textWords": 56
-          }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
         "hash": "5T_ov8KDigKy",
@@ -1812,7 +700,8 @@
             "hits": 19,
             "textWords": 1249
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
         "hash": "ZECBX7qJpRgC",
@@ -1824,19 +713,8 @@
             "hits": 2,
             "textWords": 86
           }
-        }
-      },
-      {
-        "hash": "PSOo359_tWB0",
-        "address": "https://aerial.openstreetmap.org.za/?lon=32.65\u0026lat=25.7\u0026zoom=12",
-        "title": "OpenStreetMap - NGI - Aerial Imagery",
-        "snippet": "",
-        "matchedWords": {
-          "8KEZ0dWKkHmU": {
-            "hits": 1,
-            "textWords": 19
-          }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
         "hash": "OoIcnlVv_Vw0",
@@ -1848,43 +726,60 @@
             "hits": 1,
             "textWords": 19
           }
-        }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "PSOo359_tWB0",
+        "address": "https://aerial.openstreetmap.org.za/?lon=32.65\u0026lat=25.7\u0026zoom=12",
+        "title": "OpenStreetMap - NGI - Aerial Imagery",
+        "snippet": "",
+        "matchedWords": {
+          "8KEZ0dWKkHmU": {
+            "hits": 1,
+            "textWords": 19
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "G9AjMlybg-vy",
+        "address": "https://www.openstreetmap.org/?mlat=15.183\u0026mlon=145.750\u0026zoom=12",
+        "title": "OpenStreetMap",
+        "snippet": "",
+        "matchedWords": {
+          "8KEZ0dWKkHmU": {
+            "hits": 9,
+            "textWords": 217
+          }
+        },
+        "queryPhraseHits": 0
       },
       {
         "hash": "LXGI8lybg-vy",
         "address": "https://www.openstreetmap.org/?mlat=48.00000\u0026mlon=68.00000\u0026zoom=12",
         "title": "OpenStreetMap",
-        "snippet": "OpenStreetMap!\nOpenStreetMap is a map of the world, created by people like you and free to use under an open license.\nHosting is supported by Fastly, OSMF corporate members, and other partners.\nBy using this website or other infrastructure provided by the OpenStreetMap Foundation, you agree to the",
+        "snippet": "",
         "matchedWords": {
           "8KEZ0dWKkHmU": {
-            "hits": 3,
-            "textWords": 56
+            "hits": 9,
+            "textWords": 216
           }
-        }
-      },
-      {
-        "hash": "qEwEKlybg-vy",
-        "address": "https://www.openstreetmap.org/?mlat=52.4793\u0026mlon=-1.9029\u0026zoom=12",
-        "title": "OpenStreetMap",
-        "snippet": "OpenStreetMap!\nOpenStreetMap is a map of the world, created by people like you and free to use under an open license.\nHosting is supported by Fastly, OSMF corporate members, and other partners.\nBy using this website or other infrastructure provided by the OpenStreetMap Foundation, you agree to the",
-        "matchedWords": {
-          "8KEZ0dWKkHmU": {
-            "hits": 3,
-            "textWords": 56
-          }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
         "hash": "SDfWDlybg-vy",
         "address": "https://www.openstreetmap.org/?mlat=33.04\u0026mlon=-115.35\u0026zoom=12",
         "title": "OpenStreetMap",
-        "snippet": "OpenStreetMap!\nOpenStreetMap is a map of the world, created by people like you and free to use under an open license.\nHosting is supported by Fastly, OSMF corporate members, and other partners.\nBy using this website or other infrastructure provided by the OpenStreetMap Foundation, you agree to the",
+        "snippet": "",
         "matchedWords": {
           "8KEZ0dWKkHmU": {
-            "hits": 3,
-            "textWords": 56
+            "hits": 9,
+            "textWords": 217
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
         "hash": "ZTGfOvDOAHJg",
@@ -1896,7 +791,8 @@
             "hits": 8,
             "textWords": 2706
           }
-        }
+        },
+        "queryPhraseHits": 0
       }
     ],
     [
@@ -1910,7 +806,8 @@
             "hits": 8,
             "textWords": 1406
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
         "hash": "dPwQ-5nwsmp4",
@@ -1922,7 +819,8 @@
             "hits": 4,
             "textWords": 1697
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
         "hash": "eeAs9h3e0QFx",
@@ -1934,7 +832,8 @@
             "hits": 3,
             "textWords": 19985
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
         "hash": "eW2kUjRvmBbx",
@@ -1946,7 +845,8 @@
             "hits": 1,
             "textWords": 30530
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
         "hash": "fru6Wjc4UIAx",
@@ -1958,7 +858,8 @@
             "hits": 1,
             "textWords": 2886
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
         "hash": "dNe39s-3yIUg",
@@ -1970,7 +871,21 @@
             "hits": 1,
             "textWords": 1776
           }
-        }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "fLAuAsxlxh74",
+        "address": "https://domain.glass/70.76.19.63",
+        "title": "70.76.19.63 IPv4 Formats, Reverse DNS, ASN, Location \u0026 TLS · domain.glass",
+        "snippet": "",
+        "matchedWords": {
+          "8KEZ0dWKkHmU": {
+            "hits": 2,
+            "textWords": 884
+          }
+        },
+        "queryPhraseHits": 0
       },
       {
         "hash": "d9HZcopg4UCw",
@@ -1982,7 +897,8 @@
             "hits": 2,
             "textWords": 1972
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
         "hash": "c8LMJs99ieF5",
@@ -1994,7 +910,8 @@
             "hits": 1,
             "textWords": 2397
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
         "hash": "dzXDybTOHGpx",
@@ -2006,19 +923,1857 @@
             "hits": 1,
             "textWords": 14771
           }
-        }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "lYm9vlybg-vy",
+        "address": "https://www.openstreetmap.org/?mlat=35.728026\u0026mlon=139.809705\u0026zoom=15",
+        "title": "OpenStreetMap",
+        "snippet": "OpenStreetMap!\nOpenStreetMap is a map of the world, created by people like you and free to use under an open license.\nHosting is supported by Fastly, OSMF corporate members, and other partners.\nBy using this website or other infrastructure provided by the OpenStreetMap Foundation, you agree to the",
+        "matchedWords": {
+          "8KEZ0dWKkHmU": {
+            "hits": 3,
+            "textWords": 56
+          }
+        },
+        "queryPhraseHits": 0
       },
       {
-        "hash": "c2Il1s5uSLiw",
-        "address": "https://free21.org/venezuela-wer-profitiert-wer-plant-wer-zahlt/",
-        "title": "Venezuela: Wer profitiert, wer plant, wer zahlt? - Free21.org",
+        "hash": "iO2tN7qJpRgC",
+        "address": "http://openstreetmap.by/?lon=-70.746111\u0026lat=-34.381667\u0026zoom=5",
+        "title": "OpenStreetMap.by - Беларусь",
+        "snippet": "",
+        "matchedWords": {
+          "8KEZ0dWKkHmU": {
+            "hits": 2,
+            "textWords": 88
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "1zvXl8KDigKy",
+        "address": "https://wiki.openstreetmap.org/wiki/Item:Q7006",
+        "title": "shop=ice_cream - OpenStreetMap Wiki",
+        "snippet": "",
+        "matchedWords": {
+          "8KEZ0dWKkHmU": {
+            "hits": 5,
+            "textWords": 384
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "aqOgbtS6MKD4",
+        "address": "https://github.com/osmlab/awesome-openstreetmap",
+        "title": "GitHub - osmlab/awesome-openstreetmap: 😎 Curated list of awesome OpenSteetMap-projects · GitHub",
+        "snippet": "",
+        "matchedWords": {
+          "8KEZ0dWKkHmU": {
+            "hits": 54,
+            "textWords": 2897
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "i3-6f8vE7kYi",
+        "address": "https://osmose.openstreetmap.fr/en/map/?zoom=15\u0026lat=34.381944\u0026lon=109.253333\u0026layers=BFF00FFFFFFFFFFFFT\u0026item=",
+        "title": "Osmose",
         "snippet": "",
         "matchedWords": {
           "8KEZ0dWKkHmU": {
             "hits": 1,
-            "textWords": 7705
+            "textWords": 22
           }
-        }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "iQ9rDlQLSW3g",
+        "address": "https://www.freemap.sk/?map=15/50/-2\u0026layers=TI\u0026info-point=50/-2",
+        "title": "Freemap Slovakia, digital map",
+        "snippet": "",
+        "matchedWords": {
+          "8KEZ0dWKkHmU": {
+            "hits": 1,
+            "textWords": 338
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "4liMzgJPjR4x",
+        "address": "https://es.wikipedia.org/wiki/Nagoya",
+        "title": "Nagoya - Wikipedia, la enciclopedia libre",
+        "snippet": "",
+        "matchedWords": {
+          "8KEZ0dWKkHmU": {
+            "hits": 1,
+            "textWords": 3896
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "sqQYA_qoHJ8x",
+        "address": "https://gl.wikipedia.org/wiki/M%C3%A9xico",
+        "title": "México - Wikipedia, a enciclopedia libre",
+        "snippet": "",
+        "matchedWords": {
+          "8KEZ0dWKkHmU": {
+            "hits": 2,
+            "textWords": 7059
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "jNEVesgJoQyx",
+        "address": "https://grapheneos.org/releases",
+        "title": "2026050400",
+        "snippet": "",
+        "matchedWords": {
+          "8KEZ0dWKkHmU": {
+            "hits": 1,
+            "textWords": 34633
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "jQ97isxlxh74",
+        "address": "https://domain.glass/141.98.154.239",
+        "title": "141.98.154.239 IPv4 Formats, Reverse DNS, ASN, Location \u0026 TLS · domain.glass",
+        "snippet": "",
+        "matchedWords": {
+          "8KEZ0dWKkHmU": {
+            "hits": 2,
+            "textWords": 885
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [],
+    [
+      {
+        "hash": "_sIKSlybg-vy",
+        "address": "https://www.openstreetmap.org/directions?to=32.328931,-90.252271",
+        "title": "OpenStreetMap",
+        "snippet": "OpenStreetMap!\nOpenStreetMap is a map of the world, created by people like you and free to use under an open license.\nHosting is supported by Fastly, OSMF corporate members, and other partners.\nBy using this website or other infrastructure provided by the OpenStreetMap Foundation, you agree to the",
+        "matchedWords": {
+          "8KEZ0dWKkHmU": {
+            "hits": 3,
+            "textWords": 56
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "STrh8lybg-vy",
+        "address": "https://www.openstreetmap.org/?mlat=35.9\u0026mlon=14.4\u0026zoom=6",
+        "title": "OpenStreetMap",
+        "snippet": "OpenStreetMap!\nOpenStreetMap is a map of the world, created by people like you and free to use under an open license.\nHosting is supported by Fastly, OSMF corporate members, and other partners.\nBy using this website or other infrastructure provided by the OpenStreetMap Foundation, you agree to the",
+        "matchedWords": {
+          "8KEZ0dWKkHmU": {
+            "hits": 3,
+            "textWords": 56
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "NNqA1lybg-vy",
+        "address": "https://www.openstreetmap.org/?mlat=21.000\u0026mlon=57.000\u0026zoom=14",
+        "title": "OpenStreetMap",
+        "snippet": "OpenStreetMap!\nOpenStreetMap is a map of the world, created by people like you and free to use under an open license.\nHosting is supported by Fastly, OSMF corporate members, and other partners.\nBy using this website or other infrastructure provided by the OpenStreetMap Foundation, you agree to the",
+        "matchedWords": {
+          "8KEZ0dWKkHmU": {
+            "hits": 3,
+            "textWords": 56
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "AUbsTlybg-vy",
+        "address": "https://www.openstreetmap.org/?mlat=45.07555556\u0026mlon=5.77305556\u0026zoom=17",
+        "title": "OpenStreetMap",
+        "snippet": "OpenStreetMap!\nOpenStreetMap is a map of the world, created by people like you and free to use under an open license.\nHosting is supported by Fastly, OSMF corporate members, and other partners.\nBy using this website or other infrastructure provided by the OpenStreetMap Foundation, you agree to the",
+        "matchedWords": {
+          "8KEZ0dWKkHmU": {
+            "hits": 3,
+            "textWords": 56
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "uWqqylVv_Vw0",
+        "address": "https://topo.openstreetmap.org.za/?lon=100.9242\u0026lat=-43.0781\u0026zoom=5",
+        "title": "OpenStreetMap - NGI - Topographic Series",
+        "snippet": "",
+        "matchedWords": {
+          "8KEZ0dWKkHmU": {
+            "hits": 1,
+            "textWords": 19
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "krqRr8KDigKy",
+        "address": "https://wiki.openstreetmap.org/wiki/Key:name:hu?uselang=en",
+        "title": "Key:name:hu - OpenStreetMap Wiki",
+        "snippet": "",
+        "matchedWords": {
+          "8KEZ0dWKkHmU": {
+            "hits": 5,
+            "textWords": 807
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "l-4-v7Dm2iTR",
+        "address": "http://hikebikemap.org/?lat=35.6725\u0026lon=139.7438\u0026zoom=11",
+        "title": "OpenStreetMap Hike \u0026 Bike Map",
+        "snippet": "",
+        "matchedWords": {
+          "8KEZ0dWKkHmU": {
+            "hits": 1,
+            "textWords": 74
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "Xwl6o7z-a27Y",
+        "address": "http://sautter.com/map/?lat=43.0799\u0026lon=-79.0747\u0026zoom=13",
+        "title": "transparent map comparison openstreetmap google bing yahoo",
+        "snippet": "",
+        "matchedWords": {
+          "8KEZ0dWKkHmU": {
+            "hits": 1,
+            "textWords": 34
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "BfmnL0p8xq85",
+        "address": "https://dieghernan.r-universe.dev/nominatimlite",
+        "title": "nominatimlite: Interface to the 'Nominatim' API",
+        "snippet": "",
+        "matchedWords": {
+          "8KEZ0dWKkHmU": {
+            "hits": 9,
+            "textWords": 789
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "3XttIsyYLOb5",
+        "address": "https://graphhopper.com/maps/?point=33.7325%2C-117.393333\u0026point=33.7325%2C-117.393333",
+        "title": "GraphHopper Maps | Route Planner",
+        "snippet": "",
+        "matchedWords": {
+          "8KEZ0dWKkHmU": {
+            "hits": 1,
+            "textWords": 41
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "o763AjRvmBbx",
+        "address": "https://en.wikipedia.org/wiki/Algeria",
+        "title": "Algeria - Wikipedia",
+        "snippet": "",
+        "matchedWords": {
+          "8KEZ0dWKkHmU": {
+            "hits": 1,
+            "textWords": 26980
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "yt7Ash3e0QFx",
+        "address": "https://commons.wikimedia.org/wiki/Sverige",
+        "title": "Sverige - Wikimedia Commons",
+        "snippet": "",
+        "matchedWords": {
+          "8KEZ0dWKkHmU": {
+            "hits": 3,
+            "textWords": 19008
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "7dKkRsxlxh74",
+        "address": "https://domain.glass/86.19.1.166",
+        "title": "86.19.1.166 IPv4 Formats, Reverse DNS, ASN, Location \u0026 TLS · domain.glass",
+        "snippet": "",
+        "matchedWords": {
+          "8KEZ0dWKkHmU": {
+            "hits": 2,
+            "textWords": 883
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "m3pRKjRvmBbx",
+        "address": "https://en.wikipedia.org/wiki/Iran",
+        "title": "Iran - Wikipedia",
+        "snippet": "",
+        "matchedWords": {
+          "8KEZ0dWKkHmU": {
+            "hits": 1,
+            "textWords": 39739
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "wMQd-H3o18r4",
+        "address": "https://riowang.blogspot.com/",
+        "title": "Poemas del río Wang",
+        "snippet": "",
+        "matchedWords": {
+          "8KEZ0dWKkHmU": {
+            "hits": 1,
+            "textWords": 6941
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "xlzbfzV4U0Fx",
+        "address": "https://ilo.wikipedia.org/wiki/Ukrania",
+        "title": "Ukrania - Wikipedia, ti nawaya nga ensiklopedia",
+        "snippet": "",
+        "matchedWords": {
+          "8KEZ0dWKkHmU": {
+            "hits": 1,
+            "textWords": 2747
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "6k3GKjRvmBbx",
+        "address": "https://en.wikipedia.org/wiki/Nigeria",
+        "title": "Nigeria - Wikipedia",
+        "snippet": "",
+        "matchedWords": {
+          "8KEZ0dWKkHmU": {
+            "hits": 1,
+            "textWords": 32111
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "8FgCajRvmBbx",
+        "address": "https://en.wikipedia.org/wiki/Austria",
+        "title": "Austria - Wikipedia",
+        "snippet": "",
+        "matchedWords": {
+          "8KEZ0dWKkHmU": {
+            "hits": 1,
+            "textWords": 21948
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "zTl-4NDOAHJg",
+        "address": "https://www.heise.de/hintergrund/Mit-Quantenphysik-Nachrichten-in-die-Vergangenheit-schicken-11263879.html?wt_mc=rss.red.ho.ho.atom.beitrag_plus.beitrag_plus",
+        "title": "Mit Quantenphysik Nachrichten in die Vergangenheit schicken | heise online",
+        "snippet": "",
+        "matchedWords": {
+          "8KEZ0dWKkHmU": {
+            "hits": 2,
+            "textWords": 1619
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "wLYSbs5uSLiw",
+        "address": "https://free21.org/israel-hat-greta-thunberg-gefoltert-und-sexuell-erniedrigt/",
+        "title": "Israel hat Greta Thunberg gefoltert und sexuell erniedrigt - Free21.org",
+        "snippet": "",
+        "matchedWords": {
+          "8KEZ0dWKkHmU": {
+            "hits": 1,
+            "textWords": 2147
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "1mo1Mlybg-vy",
+        "address": "https://www.openstreetmap.org/",
+        "title": "OpenStreetMap",
+        "snippet": "OpenStreetMap!\nOpenStreetMap is a map of the world, created by people like you and free to use under an open license.\nHosting is supported by Fastly, OSMF corporate members, and other partners.\nBy using this website or other infrastructure provided by the OpenStreetMap Foundation, you agree to the",
+        "matchedWords": {
+          "8KEZ0dWKkHmU": {
+            "hits": 3,
+            "textWords": 56
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "oj0eTlybg-vy",
+        "address": "https://www.openstreetmap.org/?mlat=40.18333\u0026mlon=29.06667\u0026zoom=12",
+        "title": "OpenStreetMap",
+        "snippet": "OpenStreetMap!\nOpenStreetMap is a map of the world, created by people like you and free to use under an open license.\nHosting is supported by Fastly, OSMF corporate members, and other partners.\nBy using this website or other infrastructure provided by the OpenStreetMap Foundation, you agree to the",
+        "matchedWords": {
+          "8KEZ0dWKkHmU": {
+            "hits": 3,
+            "textWords": 56
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "2jfeC7qJpRgC",
+        "address": "http://openstreetmap.by/?lon=-1.935556\u0026lat=42.883056\u0026zoom=15",
+        "title": "OpenStreetMap.by - Беларусь",
+        "snippet": "",
+        "matchedWords": {
+          "8KEZ0dWKkHmU": {
+            "hits": 2,
+            "textWords": 88
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "5M_8Ulybg-vy",
+        "address": "https://www.openstreetmap.org/?mlat=37.967\u0026mlon=23.717\u0026zoom=12",
+        "title": "OpenStreetMap",
+        "snippet": "OpenStreetMap!\nOpenStreetMap is a map of the world, created by people like you and free to use under an open license.\nHosting is supported by Fastly, OSMF corporate members, and other partners.\nBy using this website or other infrastructure provided by the OpenStreetMap Foundation, you agree to the",
+        "matchedWords": {
+          "8KEZ0dWKkHmU": {
+            "hits": 3,
+            "textWords": 56
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "0ne8hlKC9bQy",
+        "address": "https://hiking.waymarkedtrails.org/?lat=45.079167\u0026lon=7.676111\u0026zoom=16",
+        "title": "Waymarked Trails - Hiking",
+        "snippet": "",
+        "matchedWords": {
+          "8KEZ0dWKkHmU": {
+            "hits": 1,
+            "textWords": 21
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "0HXR-EIpBPXy",
+        "address": "https://slopes.waymarkedtrails.org/?lat=46\u0026lon=9.266667\u0026zoom=16",
+        "title": "Waymarked Trails - Winter Sports",
+        "snippet": "",
+        "matchedWords": {
+          "8KEZ0dWKkHmU": {
+            "hits": 1,
+            "textWords": 22
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "MdwnFZoh7b85",
+        "address": "https://galleria.emotionflow.com/188577/profile.html",
+        "title": "linkgood88contac(ID:188577) | About | 創作SNS GALLERIA[ギャレリア]",
+        "snippet": "",
+        "matchedWords": {
+          "8KEZ0dWKkHmU": {
+            "hits": 1,
+            "textWords": 1875
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "UMce3TDVBWj5",
+        "address": "https://ropensci.r-universe.dev/articles/osmdata/osm-sf-translation.html",
+        "title": "Translation of OSM to Simple Features - osmdata",
+        "snippet": "",
+        "matchedWords": {
+          "8KEZ0dWKkHmU": {
+            "hits": 1,
+            "textWords": 176
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "YXxatlybg-vy",
+        "address": "https://www.openstreetmap.org/?mlat=43.55\u0026mlon=18.98\u0026zoom=14",
+        "title": "OpenStreetMap",
+        "snippet": "",
+        "matchedWords": {
+          "8KEZ0dWKkHmU": {
+            "hits": 9,
+            "textWords": 217
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "uanxilybg-vy",
+        "address": "https://www.openstreetmap.org/?mlat=26.0675\u0026mlon=50.551111\u0026zoom=6",
+        "title": "OpenStreetMap",
+        "snippet": "",
+        "matchedWords": {
+          "8KEZ0dWKkHmU": {
+            "hits": 9,
+            "textWords": 216
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "sUYugCmvEcxh",
+        "address": "https://idw-online.de/en/attachmentdata122527.pdf",
+        "title": "WS Berlin_Entwurf1",
+        "snippet": "",
+        "matchedWords": {
+          "8KEZ0dWKkHmU": {
+            "hits": 1,
+            "textWords": 392
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "0s0D-vr4x6Og",
+        "address": "https://www.haufe.de/media/regionaler-preisindex-iw-deutschlandkarte_665446.html",
+        "title": "Regionaler Preisindex IW Deutschlandkarte",
+        "snippet": "",
+        "matchedWords": {
+          "8KEZ0dWKkHmU": {
+            "hits": 1,
+            "textWords": 387
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "2Q34jlHS80Jh",
+        "address": "https://www.mba-studium.de/datenschutzerklaerung/",
+        "title": "Datenschutzerklärung | MBA-Studium.de",
+        "snippet": "",
+        "matchedWords": {
+          "8KEZ0dWKkHmU": {
+            "hits": 8,
+            "textWords": 11374
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "4iHNclo9hA96",
+        "address": "https://www.bwl-studieren.com/datenschutzerklaerung/",
+        "title": "Datenschutzerklärung | BWL-studieren.com",
+        "snippet": "",
+        "matchedWords": {
+          "8KEZ0dWKkHmU": {
+            "hits": 8,
+            "textWords": 11365
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "6rAZurOYFhaj",
+        "address": "https://www.schleswig-holstein.de/DE/landesportal/servicemeta/datenschutz/Datenschutzerklaerung/datenschutzerklaerung_SH?nn=d98be3e6-5683-4483-a5bb-389e3a256a94",
+        "title": "schleswig-holstein.de - Woche der Beruflichen Bildung - Datenschutzerklärung",
+        "snippet": "",
+        "matchedWords": {
+          "8KEZ0dWKkHmU": {
+            "hits": 6,
+            "textWords": 4189
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "v1QGQcOYFhaj",
+        "address": "https://www.schleswig-holstein.de/steuerverwaltung/servicemeta/datenschutz",
+        "title": "schleswig-holstein.de - Datenschutz - Steuerverwaltung Schleswig-Holstein",
+        "snippet": "",
+        "matchedWords": {
+          "8KEZ0dWKkHmU": {
+            "hits": 6,
+            "textWords": 2981
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "w8cAUlods5-7",
+        "address": "https://www.wirtschaftsrecht-studieren.com/datenschutzerklaerung/",
+        "title": "Datenschutzerklärung | wirtschaftsrecht-studieren.com",
+        "snippet": "",
+        "matchedWords": {
+          "8KEZ0dWKkHmU": {
+            "hits": 8,
+            "textWords": 11243
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "6Uy4zrOYFhaj",
+        "address": "https://www.schleswig-holstein.de/DE/landesportal/servicemeta/datenschutz/Datenschutzerklaerung/datenschutzerklaerung_SH?nn=f9a4b80d-3fdf-42bf-9039-d2e15d57c520",
+        "title": "schleswig-holstein.de - Rundgang durch die Landesvertretung - Datenschutzerklärung",
+        "snippet": "",
+        "matchedWords": {
+          "8KEZ0dWKkHmU": {
+            "hits": 6,
+            "textWords": 4132
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "7bsH9rOYFhaj",
+        "address": "https://www.schleswig-holstein.de/DE/landesportal/servicemeta/datenschutz/Datenschutzerklaerung/datenschutzerklaerung_SH?nn=9d942fec-16e9-42f4-b777-37a9e6b32890",
+        "title": "schleswig-holstein.de - Netzausbau - Datenschutzerklärung",
+        "snippet": "",
+        "matchedWords": {
+          "8KEZ0dWKkHmU": {
+            "hits": 6,
+            "textWords": 4110
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "94cIwrOYFhaj",
+        "address": "https://www.schleswig-holstein.de/DE/landesportal/servicemeta/datenschutz/Datenschutzerklaerung/datenschutzerklaerung_SH?nn=d33e26e2-ee16-4db0-9ae2-406899ba54e3",
+        "title": "schleswig-holstein.de - Weiterbildung - Datenschutzerklärung",
+        "snippet": "",
+        "matchedWords": {
+          "8KEZ0dWKkHmU": {
+            "hits": 6,
+            "textWords": 4118
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "1mo1Mlybg-vy",
+        "address": "https://www.openstreetmap.org/",
+        "title": "OpenStreetMap",
+        "snippet": "OpenStreetMap!\nOpenStreetMap is a map of the world, created by people like you and free to use under an open license.\nHosting is supported by Fastly, OSMF corporate members, and other partners.\nBy using this website or other infrastructure provided by the OpenStreetMap Foundation, you agree to the",
+        "matchedWords": {
+          "8KEZ0dWKkHmU": {
+            "hits": 3,
+            "textWords": 56
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "P95urlybg-vy",
+        "address": "https://www.openstreetmap.org/?mlat=53\u0026mlon=-8\u0026zoom=5",
+        "title": "OpenStreetMap",
+        "snippet": "OpenStreetMap!\nOpenStreetMap is a map of the world, created by people like you and free to use under an open license.\nHosting is supported by Fastly, OSMF corporate members, and other partners.\nBy using this website or other infrastructure provided by the OpenStreetMap Foundation, you agree to the",
+        "matchedWords": {
+          "8KEZ0dWKkHmU": {
+            "hits": 3,
+            "textWords": 56
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "v--Bnlybg-vy",
+        "address": "https://www.openstreetmap.org/?mlat=53.18021828\u0026mlon=7.22737312\u0026zoom=14",
+        "title": "OpenStreetMap",
+        "snippet": "OpenStreetMap!\nOpenStreetMap is a map of the world, created by people like you and free to use under an open license.\nHosting is supported by Fastly, OSMF corporate members, and other partners.\nBy using this website or other infrastructure provided by the OpenStreetMap Foundation, you agree to the",
+        "matchedWords": {
+          "8KEZ0dWKkHmU": {
+            "hits": 3,
+            "textWords": 56
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "_YFc7lybg-vy",
+        "address": "https://www.openstreetmap.org/directions?to=33.805495,-117.919011",
+        "title": "OpenStreetMap",
+        "snippet": "OpenStreetMap!\nOpenStreetMap is a map of the world, created by people like you and free to use under an open license.\nHosting is supported by Fastly, OSMF corporate members, and other partners.\nBy using this website or other infrastructure provided by the OpenStreetMap Foundation, you agree to the",
+        "matchedWords": {
+          "8KEZ0dWKkHmU": {
+            "hits": 3,
+            "textWords": 56
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "__CAhPc_rKzh",
+        "address": "https://www.telepolis.de/features/OpenStreetMap-Apps-fuer-Outdoor-Profis-Mehr-als-nur-Wanderkarten-10317933.html?wt_mc=rss.red.tp.tp.atom.beitrag.beitrag",
+        "title": "OpenStreetMap Apps für Outdoor-Profis: Mehr als nur Wanderkarten | Telepolis",
+        "snippet": "",
+        "matchedWords": {
+          "8KEZ0dWKkHmU": {
+            "hits": 12,
+            "textWords": 1833
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "fMeX959_tWB0",
+        "address": "https://aerial.openstreetmap.org.za/?lon=-114.331944\u0026lat=-31.618889\u0026zoom=5",
+        "title": "OpenStreetMap - NGI - Aerial Imagery",
+        "snippet": "",
+        "matchedWords": {
+          "8KEZ0dWKkHmU": {
+            "hits": 1,
+            "textWords": 19
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "il3s-lVv_Vw0",
+        "address": "https://topo.openstreetmap.org.za/?lon=62.606667\u0026lat=-33.7325\u0026zoom=5",
+        "title": "OpenStreetMap - NGI - Topographic Series",
+        "snippet": "",
+        "matchedWords": {
+          "8KEZ0dWKkHmU": {
+            "hits": 1,
+            "textWords": 19
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "aR6ID8KDigKy",
+        "address": "https://wiki.openstreetmap.org/wiki/Key:ref?uselang=en",
+        "title": "Key:ref - OpenStreetMap Wiki",
+        "snippet": "",
+        "matchedWords": {
+          "8KEZ0dWKkHmU": {
+            "hits": 6,
+            "textWords": 4926
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "SPvCV7Dm2iTR",
+        "address": "http://hikebikemap.org/?lat=32.890833\u0026lon=-80.047222\u0026zoom=12",
+        "title": "OpenStreetMap Hike \u0026 Bike Map",
+        "snippet": "",
+        "matchedWords": {
+          "8KEZ0dWKkHmU": {
+            "hits": 1,
+            "textWords": 74
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "PZsdomirGLsy",
+        "address": "https://grant.dev.openstreetmap.org/coct-historical-aerial/?lat=13.4671\u0026lon=144.6907\u0026zoom=5",
+        "title": "Cape Town Historic Aerial Viewer",
+        "snippet": "",
+        "matchedWords": {
+          "8KEZ0dWKkHmU": {
+            "hits": 1,
+            "textWords": 58
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "1mo1Mlybg-vy",
+        "address": "https://www.openstreetmap.org/",
+        "title": "OpenStreetMap",
+        "snippet": "OpenStreetMap!\nOpenStreetMap is a map of the world, created by people like you and free to use under an open license.\nHosting is supported by Fastly, OSMF corporate members, and other partners.\nBy using this website or other infrastructure provided by the OpenStreetMap Foundation, you agree to the",
+        "matchedWords": {
+          "8KEZ0dWKkHmU": {
+            "hits": 3,
+            "textWords": 56
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "Xu8nplybg-vy",
+        "address": "https://www.openstreetmap.org/?mlat=36\u0026mlon=128\u0026zoom=6",
+        "title": "OpenStreetMap",
+        "snippet": "OpenStreetMap!\nOpenStreetMap is a map of the world, created by people like you and free to use under an open license.\nHosting is supported by Fastly, OSMF corporate members, and other partners.\nBy using this website or other infrastructure provided by the OpenStreetMap Foundation, you agree to the",
+        "matchedWords": {
+          "8KEZ0dWKkHmU": {
+            "hits": 3,
+            "textWords": 56
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "jft0alybg-vy",
+        "address": "https://www.openstreetmap.org/?mlat=17.351\u0026mlon=78.475",
+        "title": "OpenStreetMap",
+        "snippet": "OpenStreetMap!\nOpenStreetMap is a map of the world, created by people like you and free to use under an open license.\nHosting is supported by Fastly, OSMF corporate members, and other partners.\nBy using this website or other infrastructure provided by the OpenStreetMap Foundation, you agree to the",
+        "matchedWords": {
+          "8KEZ0dWKkHmU": {
+            "hits": 3,
+            "textWords": 56
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "R0Tdylybg-vy",
+        "address": "https://www.openstreetmap.org/?mlat=28.65000\u0026mlon=52.15000\u0026zoom=11",
+        "title": "OpenStreetMap",
+        "snippet": "OpenStreetMap!\nOpenStreetMap is a map of the world, created by people like you and free to use under an open license.\nHosting is supported by Fastly, OSMF corporate members, and other partners.\nBy using this website or other infrastructure provided by the OpenStreetMap Foundation, you agree to the",
+        "matchedWords": {
+          "8KEZ0dWKkHmU": {
+            "hits": 3,
+            "textWords": 56
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "FKHCglybg-vy",
+        "address": "https://www.openstreetmap.org/?mlat=43.3\u0026mlon=45.866666666667\u0026zoom=14",
+        "title": "OpenStreetMap",
+        "snippet": "OpenStreetMap!\nOpenStreetMap is a map of the world, created by people like you and free to use under an open license.\nHosting is supported by Fastly, OSMF corporate members, and other partners.\nBy using this website or other infrastructure provided by the OpenStreetMap Foundation, you agree to the",
+        "matchedWords": {
+          "8KEZ0dWKkHmU": {
+            "hits": 3,
+            "textWords": 56
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "P-Hsflybg-vy",
+        "address": "https://www.openstreetmap.org/?mlat=53.52861\u0026mlon=8.55611\u0026zoom=14",
+        "title": "OpenStreetMap",
+        "snippet": "",
+        "matchedWords": {
+          "8KEZ0dWKkHmU": {
+            "hits": 9,
+            "textWords": 216
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "AqsQcJDOAHJg",
+        "address": "https://www.heise.de/ratgeber/OpenStreetMap-Wie-Sie-Orte-mit-natuerlicher-Sprache-finden-11091390.html?wt_mc=rss.red.ho.ho.atom.beitrag_plus.beitrag_plus",
+        "title": "OpenStreetMap: Wie Sie Orte mit natürlicher Sprache finden | heise online",
+        "snippet": "",
+        "matchedWords": {
+          "8KEZ0dWKkHmU": {
+            "hits": 12,
+            "textWords": 1691
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "Ei9lMV7h-FJy",
+        "address": "https://agri.openstreetmap.org/?zoom=15\u0026lat=37.009722\u0026lon=-117.450278",
+        "title": "OpenStreetMap - The Australian Geographic Reference Image",
+        "snippet": "",
+        "matchedWords": {
+          "8KEZ0dWKkHmU": {
+            "hits": 1,
+            "textWords": 23
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "668HX8KDigKy",
+        "address": "https://wiki.openstreetmap.org/wiki/Key:sport?uselang=en",
+        "title": "Key:sport - OpenStreetMap Wiki",
+        "snippet": "",
+        "matchedWords": {
+          "8KEZ0dWKkHmU": {
+            "hits": 9,
+            "textWords": 14727
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "9CepJopg4UCw",
+        "address": "https://www.wikidata.org/wiki/Q100320716",
+        "title": "OpenStreetMap relation - Wikidata",
+        "snippet": "",
+        "matchedWords": {
+          "8KEZ0dWKkHmU": {
+            "hits": 13,
+            "textWords": 482
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "1mo1Mlybg-vy",
+        "address": "https://www.openstreetmap.org/",
+        "title": "OpenStreetMap",
+        "snippet": "OpenStreetMap!\nOpenStreetMap is a map of the world, created by people like you and free to use under an open license.\nHosting is supported by Fastly, OSMF corporate members, and other partners.\nBy using this website or other infrastructure provided by the OpenStreetMap Foundation, you agree to the",
+        "matchedWords": {
+          "8KEZ0dWKkHmU": {
+            "hits": 3,
+            "textWords": 56
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "5PfdIlybg-vy",
+        "address": "https://www.openstreetmap.org/?mlat=42\u0026mlon=51\u0026zoom=4",
+        "title": "OpenStreetMap",
+        "snippet": "OpenStreetMap!\nOpenStreetMap is a map of the world, created by people like you and free to use under an open license.\nHosting is supported by Fastly, OSMF corporate members, and other partners.\nBy using this website or other infrastructure provided by the OpenStreetMap Foundation, you agree to the",
+        "matchedWords": {
+          "8KEZ0dWKkHmU": {
+            "hits": 3,
+            "textWords": 56
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "haIiGlybg-vy",
+        "address": "https://www.openstreetmap.org/?mlat=72\u0026mlon=-40\u0026zoom=14",
+        "title": "OpenStreetMap",
+        "snippet": "OpenStreetMap!\nOpenStreetMap is a map of the world, created by people like you and free to use under an open license.\nHosting is supported by Fastly, OSMF corporate members, and other partners.\nBy using this website or other infrastructure provided by the OpenStreetMap Foundation, you agree to the",
+        "matchedWords": {
+          "8KEZ0dWKkHmU": {
+            "hits": 3,
+            "textWords": 56
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "BmUiflybg-vy",
+        "address": "https://www.openstreetmap.org/?mlat=22\u0026mlon=-79.5\u0026zoom=6",
+        "title": "OpenStreetMap",
+        "snippet": "OpenStreetMap!\nOpenStreetMap is a map of the world, created by people like you and free to use under an open license.\nHosting is supported by Fastly, OSMF corporate members, and other partners.\nBy using this website or other infrastructure provided by the OpenStreetMap Foundation, you agree to the",
+        "matchedWords": {
+          "8KEZ0dWKkHmU": {
+            "hits": 3,
+            "textWords": 56
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "nu75Nlybg-vy",
+        "address": "https://www.openstreetmap.org/?mlat=38.00000\u0026mlon=23.71667\u0026zoom=14",
+        "title": "OpenStreetMap",
+        "snippet": "",
+        "matchedWords": {
+          "8KEZ0dWKkHmU": {
+            "hits": 9,
+            "textWords": 217
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "suVvg7qJpRgC",
+        "address": "http://openstreetmap.by/?lang=en",
+        "title": "OpenStreetMap.by - Беларусь",
+        "snippet": "",
+        "matchedWords": {
+          "8KEZ0dWKkHmU": {
+            "hits": 2,
+            "textWords": 84
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "EVoYIPc_rKzh",
+        "address": "https://www.telepolis.de/features/Kostenlose-Wanderkarten-Die-besten-OpenStreetMap-Apps-im-Test-10313937.html?wt_mc=rss.red.tp.tp.atom.beitrag.beitrag",
+        "title": "Kostenlose Wanderkarten: Die besten OpenStreetMap-Apps im Test | Telepolis",
+        "snippet": "",
+        "matchedWords": {
+          "8KEZ0dWKkHmU": {
+            "hits": 10,
+            "textWords": 1638
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "pv2mi8KDigKy",
+        "address": "https://wiki.openstreetmap.org/wiki/Key:name:mi?uselang=en",
+        "title": "Key:name:mi - OpenStreetMap Wiki",
+        "snippet": "",
+        "matchedWords": {
+          "8KEZ0dWKkHmU": {
+            "hits": 5,
+            "textWords": 833
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "IiD_tQralQdC",
+        "address": "http://www.openstreetmap.ch/?lon=57.45\u0026lat=-37.75\u0026zoom=5",
+        "title": "OpenStreetMap - The Free Wiki World Map",
+        "snippet": "",
+        "matchedWords": {
+          "8KEZ0dWKkHmU": {
+            "hits": 2,
+            "textWords": 38
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "l7WUqvXHmKFw",
+        "address": "https://www.fsf.org/news/openstreetmap-and-deborah-nicholson-win-2018-fsf-awards",
+        "title": "OpenStreetMap and Deborah Nicholson win 2018 FSF Awards — Free Software Foundation — Working together for free software",
+        "snippet": "",
+        "matchedWords": {
+          "8KEZ0dWKkHmU": {
+            "hits": 13,
+            "textWords": 1568
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "1mo1Mlybg-vy",
+        "address": "https://www.openstreetmap.org/",
+        "title": "OpenStreetMap",
+        "snippet": "OpenStreetMap!\nOpenStreetMap is a map of the world, created by people like you and free to use under an open license.\nHosting is supported by Fastly, OSMF corporate members, and other partners.\nBy using this website or other infrastructure provided by the OpenStreetMap Foundation, you agree to the",
+        "matchedWords": {
+          "8KEZ0dWKkHmU": {
+            "hits": 3,
+            "textWords": 56
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "4zq5rlybg-vy",
+        "address": "https://www.openstreetmap.org/?mlat=16.86336\u0026mlon=-99.8901\u0026zoom=14",
+        "title": "OpenStreetMap",
+        "snippet": "OpenStreetMap!\nOpenStreetMap is a map of the world, created by people like you and free to use under an open license.\nHosting is supported by Fastly, OSMF corporate members, and other partners.\nBy using this website or other infrastructure provided by the OpenStreetMap Foundation, you agree to the",
+        "matchedWords": {
+          "8KEZ0dWKkHmU": {
+            "hits": 3,
+            "textWords": 56
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "QpMnKlybg-vy",
+        "address": "https://www.openstreetmap.org/?mlat=57\u0026mlon=-5\u0026zoom=14",
+        "title": "OpenStreetMap",
+        "snippet": "OpenStreetMap!\nOpenStreetMap is a map of the world, created by people like you and free to use under an open license.\nHosting is supported by Fastly, OSMF corporate members, and other partners.\nBy using this website or other infrastructure provided by the OpenStreetMap Foundation, you agree to the",
+        "matchedWords": {
+          "8KEZ0dWKkHmU": {
+            "hits": 3,
+            "textWords": 56
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "KjAO6XDOAHJg",
+        "address": "https://www.heise.de/tests/OpenStreetMap-spielerisch-verbessern-mit-StreetComplete-10682794.html?wt_mc=rss.red.ho.ho.atom.beitrag_plus.beitrag_plus",
+        "title": "OpenStreetMap spielerisch verbessern mit StreetComplete | heise online",
+        "snippet": "",
+        "matchedWords": {
+          "8KEZ0dWKkHmU": {
+            "hits": 9,
+            "textWords": 1516
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "A4IrZV7h-FJy",
+        "address": "https://agri.openstreetmap.org/?zoom=5\u0026lat=13.4671\u0026lon=144.6907",
+        "title": "OpenStreetMap - The Australian Geographic Reference Image",
+        "snippet": "",
+        "matchedWords": {
+          "8KEZ0dWKkHmU": {
+            "hits": 1,
+            "textWords": 22
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "GIZH18KDigKy",
+        "address": "https://wiki.openstreetmap.org/wiki/Key:name:ug?uselang=en",
+        "title": "Key:name:ug - OpenStreetMap Wiki",
+        "snippet": "",
+        "matchedWords": {
+          "8KEZ0dWKkHmU": {
+            "hits": 5,
+            "textWords": 796
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "QzWU8QLxMQIR",
+        "address": "http://www.opencyclemap.org/?lat=42.883056\u0026lon=-1.935556\u0026zoom=11",
+        "title": "OpenCycleMap.org - the OpenStreetMap Cycle Map",
+        "snippet": "",
+        "matchedWords": {
+          "8KEZ0dWKkHmU": {
+            "hits": 3,
+            "textWords": 59
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "LY0bM7z-a27Y",
+        "address": "http://sautter.com/map/?lat=5.5\u0026lon=116.8\u0026zoom=11",
+        "title": "transparent map comparison openstreetmap google bing yahoo",
+        "snippet": "",
+        "matchedWords": {
+          "8KEZ0dWKkHmU": {
+            "hits": 1,
+            "textWords": 31
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "SLa4u6tx_hvy",
+        "address": "https://osmfoundation.org/wiki/Terms_of_Use",
+        "title": "Terms of Use - OpenStreetMap Foundation",
+        "snippet": "",
+        "matchedWords": {
+          "8KEZ0dWKkHmU": {
+            "hits": 16,
+            "textWords": 3223
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "KuQW0syYLOb5",
+        "address": "https://graphhopper.com/maps/?point=46.585833%2C-112.018333\u0026point=46.585833%2C-112.018333",
+        "title": "GraphHopper Maps | Route Planner",
+        "snippet": "",
+        "matchedWords": {
+          "8KEZ0dWKkHmU": {
+            "hits": 1,
+            "textWords": 41
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "zqFqUlybg-vy",
+        "address": "https://www.openstreetmap.org/directions?to=29.3,30.833333",
+        "title": "OpenStreetMap",
+        "snippet": "OpenStreetMap!\nOpenStreetMap is a map of the world, created by people like you and free to use under an open license.\nHosting is supported by Fastly, OSMF corporate members, and other partners.\nBy using this website or other infrastructure provided by the OpenStreetMap Foundation, you agree to the",
+        "matchedWords": {
+          "8KEZ0dWKkHmU": {
+            "hits": 3,
+            "textWords": 56
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "yH9mzlybg-vy",
+        "address": "https://www.openstreetmap.org/?mlat=51.506666666667\u0026mlon=-0.12833333333333\u0026zoom=6",
+        "title": "OpenStreetMap",
+        "snippet": "OpenStreetMap!\nOpenStreetMap is a map of the world, created by people like you and free to use under an open license.\nHosting is supported by Fastly, OSMF corporate members, and other partners.\nBy using this website or other infrastructure provided by the OpenStreetMap Foundation, you agree to the",
+        "matchedWords": {
+          "8KEZ0dWKkHmU": {
+            "hits": 3,
+            "textWords": 56
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "8tsX6lybg-vy",
+        "address": "https://www.openstreetmap.org/directions?to=33.833907,-117.917424",
+        "title": "OpenStreetMap",
+        "snippet": "OpenStreetMap!\nOpenStreetMap is a map of the world, created by people like you and free to use under an open license.\nHosting is supported by Fastly, OSMF corporate members, and other partners.\nBy using this website or other infrastructure provided by the OpenStreetMap Foundation, you agree to the",
+        "matchedWords": {
+          "8KEZ0dWKkHmU": {
+            "hits": 3,
+            "textWords": 56
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "-GkOVlybg-vy",
+        "address": "https://www.openstreetmap.org/directions?to=44.892222,-110.239722",
+        "title": "OpenStreetMap",
+        "snippet": "OpenStreetMap!\nOpenStreetMap is a map of the world, created by people like you and free to use under an open license.\nHosting is supported by Fastly, OSMF corporate members, and other partners.\nBy using this website or other infrastructure provided by the OpenStreetMap Foundation, you agree to the",
+        "matchedWords": {
+          "8KEZ0dWKkHmU": {
+            "hits": 3,
+            "textWords": 56
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "xEAwElybg-vy",
+        "address": "https://www.openstreetmap.org/directions?to=40.77891,-73.96367",
+        "title": "OpenStreetMap",
+        "snippet": "",
+        "matchedWords": {
+          "8KEZ0dWKkHmU": {
+            "hits": 9,
+            "textWords": 240
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "Au7lc59_tWB0",
+        "address": "https://aerial.openstreetmap.org.za/?lon=42.5\u0026lat=36.5\u0026zoom=15",
+        "title": "OpenStreetMap - NGI - Aerial Imagery",
+        "snippet": "",
+        "matchedWords": {
+          "8KEZ0dWKkHmU": {
+            "hits": 1,
+            "textWords": 18
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "m0w_elVv_Vw0",
+        "address": "https://topo.openstreetmap.org.za/?lon=-79.4229\u0026lat=43.6494\u0026zoom=12",
+        "title": "OpenStreetMap - NGI - Topographic Series",
+        "snippet": "",
+        "matchedWords": {
+          "8KEZ0dWKkHmU": {
+            "hits": 1,
+            "textWords": 20
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "mkOTGV7h-FJy",
+        "address": "https://agri.openstreetmap.org/?zoom=11\u0026lat=46.8625\u0026lon=-114.0117",
+        "title": "OpenStreetMap - The Australian Geographic Reference Image",
+        "snippet": "",
+        "matchedWords": {
+          "8KEZ0dWKkHmU": {
+            "hits": 1,
+            "textWords": 23
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "VgIcT8KDigKy",
+        "address": "https://wiki.openstreetmap.org/wiki/Tag:addr:state=CA?uselang=en",
+        "title": "Tag:addr:state=CA - OpenStreetMap Wiki",
+        "snippet": "",
+        "matchedWords": {
+          "8KEZ0dWKkHmU": {
+            "hits": 4,
+            "textWords": 725
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "3lOrk6tx_hvy",
+        "address": "https://osmfoundation.org/wiki/Membership/Active_contributor_membership",
+        "title": "Membership/Active contributor membership - OpenStreetMap Foundation",
+        "snippet": "",
+        "matchedWords": {
+          "8KEZ0dWKkHmU": {
+            "hits": 8,
+            "textWords": 1172
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "1mo1Mlybg-vy",
+        "address": "https://www.openstreetmap.org/",
+        "title": "OpenStreetMap",
+        "snippet": "OpenStreetMap!\nOpenStreetMap is a map of the world, created by people like you and free to use under an open license.\nHosting is supported by Fastly, OSMF corporate members, and other partners.\nBy using this website or other infrastructure provided by the OpenStreetMap Foundation, you agree to the",
+        "matchedWords": {
+          "8KEZ0dWKkHmU": {
+            "hits": 3,
+            "textWords": 56
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "7aZumlybg-vy",
+        "address": "https://www.openstreetmap.org/help",
+        "title": "OpenStreetMap",
+        "snippet": "OpenStreetMap has several resources for learning about the project, asking and answering questions, and collaboratively discussing and documenting mapping topics.\nCommunity maintained guide for beginners.\nAsk a question or discuss interesting matters on a wide range of topical or regional mailing",
+        "matchedWords": {
+          "8KEZ0dWKkHmU": {
+            "hits": 4,
+            "textWords": 88
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "uRRSUeWRy054",
+        "address": "https://developer.mescius.com/blogs/how-to-connect-winforms-maps-to-openstreetmap-tiles",
+        "title": "How to Connect WinForms Maps to OpenStreetMap Tiles",
+        "snippet": "",
+        "matchedWords": {
+          "8KEZ0dWKkHmU": {
+            "hits": 1,
+            "textWords": 44
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "YcSZFjRvmBbx",
+        "address": "https://en.wikipedia.org/wiki/OpenStreetMap",
+        "title": "OpenStreetMap - Wikipedia",
+        "snippet": "",
+        "matchedWords": {
+          "8KEZ0dWKkHmU": {
+            "hits": 158,
+            "textWords": 12908
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "RfrPilVv_Vw0",
+        "address": "https://topo.openstreetmap.org.za/?lon=62.549722\u0026lat=-37.009722\u0026zoom=5",
+        "title": "OpenStreetMap - NGI - Topographic Series",
+        "snippet": "",
+        "matchedWords": {
+          "8KEZ0dWKkHmU": {
+            "hits": 1,
+            "textWords": 19
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "B-GAi59_tWB0",
+        "address": "https://aerial.openstreetmap.org.za/?lon=-114.008818\u0026lat=46.86865\u0026zoom=12",
+        "title": "OpenStreetMap - NGI - Aerial Imagery",
+        "snippet": "",
+        "matchedWords": {
+          "8KEZ0dWKkHmU": {
+            "hits": 1,
+            "textWords": 20
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "-3t778KDigKy",
+        "address": "https://wiki.openstreetmap.org/wiki/FAQ",
+        "title": "FAQ - OpenStreetMap Wiki",
+        "snippet": "",
+        "matchedWords": {
+          "8KEZ0dWKkHmU": {
+            "hits": 60,
+            "textWords": 5895
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "Ozmv_V7h-FJy",
+        "address": "https://agri.openstreetmap.org/?zoom=12\u0026lat=41.0125\u0026lon=28.98",
+        "title": "OpenStreetMap - The Australian Geographic Reference Image",
+        "snippet": "",
+        "matchedWords": {
+          "8KEZ0dWKkHmU": {
+            "hits": 1,
+            "textWords": 23
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "fs9kClybg-vy",
+        "address": "https://www.openstreetmap.org/?mlat=48.830278\u0026mlon=9.316944\u0026zoom=12",
+        "title": "OpenStreetMap",
+        "snippet": "",
+        "matchedWords": {
+          "8KEZ0dWKkHmU": {
+            "hits": 9,
+            "textWords": 216
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "09dEClybg-vy",
+        "address": "https://www.openstreetmap.org/?mlat=40.717\u0026mlon=-74.000\u0026zoom=12",
+        "title": "OpenStreetMap",
+        "snippet": "",
+        "matchedWords": {
+          "8KEZ0dWKkHmU": {
+            "hits": 9,
+            "textWords": 217
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "8CRmwlybg-vy",
+        "address": "https://www.openstreetmap.org/?mlat=51.3811469078064\u0026mlon=-0.2515697479248047",
+        "title": "OpenStreetMap",
+        "snippet": "OpenStreetMap!\nOpenStreetMap is a map of the world, created by people like you and free to use under an open license.\nHosting is supported by Fastly, OSMF corporate members, and other partners.\nBy using this website or other infrastructure provided by the OpenStreetMap Foundation, you agree to the",
+        "matchedWords": {
+          "8KEZ0dWKkHmU": {
+            "hits": 3,
+            "textWords": 56
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "-WsaPlybg-vy",
+        "address": "https://www.openstreetmap.org/?mlat=51.66593313217163\u0026mlon=-0.09443521499633789",
+        "title": "OpenStreetMap",
+        "snippet": "OpenStreetMap!\nOpenStreetMap is a map of the world, created by people like you and free to use under an open license.\nHosting is supported by Fastly, OSMF corporate members, and other partners.\nBy using this website or other infrastructure provided by the OpenStreetMap Foundation, you agree to the",
+        "matchedWords": {
+          "8KEZ0dWKkHmU": {
+            "hits": 3,
+            "textWords": 56
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "7H-jGlybg-vy",
+        "address": "https://www.openstreetmap.org/?mlat=51.47343635559082\u0026mlon=-0.010943412780761719",
+        "title": "OpenStreetMap",
+        "snippet": "OpenStreetMap!\nOpenStreetMap is a map of the world, created by people like you and free to use under an open license.\nHosting is supported by Fastly, OSMF corporate members, and other partners.\nBy using this website or other infrastructure provided by the OpenStreetMap Foundation, you agree to the",
+        "matchedWords": {
+          "8KEZ0dWKkHmU": {
+            "hits": 3,
+            "textWords": 56
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "7aZumlybg-vy",
+        "address": "https://www.openstreetmap.org/help",
+        "title": "OpenStreetMap",
+        "snippet": "OpenStreetMap has several resources for learning about the project, asking and answering questions, and collaboratively discussing and documenting mapping topics.\nCommunity maintained guide for beginners.\nAsk a question or discuss interesting matters on a wide range of topical or regional mailing",
+        "matchedWords": {
+          "8KEZ0dWKkHmU": {
+            "hits": 4,
+            "textWords": 88
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "-qCJDNybg-vy",
+        "address": "https://www.openstreetmap.org/node/2586280847",
+        "title": "Node: 2586280847 | OpenStreetMap",
+        "snippet": "",
+        "matchedWords": {
+          "8KEZ0dWKkHmU": {
+            "hits": 8,
+            "textWords": 196
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "-tj36Nybg-vy",
+        "address": "https://www.openstreetmap.org/node/4405344756",
+        "title": "Node: 4405344756 | OpenStreetMap",
+        "snippet": "",
+        "matchedWords": {
+          "8KEZ0dWKkHmU": {
+            "hits": 8,
+            "textWords": 197
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "-Zq6DNybg-vy",
+        "address": "https://www.openstreetmap.org/node/4096487787",
+        "title": "Node: 4096487787 | OpenStreetMap",
+        "snippet": "",
+        "matchedWords": {
+          "8KEZ0dWKkHmU": {
+            "hits": 8,
+            "textWords": 201
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "6AGyRNybg-vy",
+        "address": "https://www.openstreetmap.org/node/2613104593",
+        "title": "Node: 2613104593 | OpenStreetMap",
+        "snippet": "",
+        "matchedWords": {
+          "8KEZ0dWKkHmU": {
+            "hits": 8,
+            "textWords": 187
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "8ASKeNybg-vy",
+        "address": "https://www.openstreetmap.org/node/2613104589",
+        "title": "Node: 2613104589 | OpenStreetMap",
+        "snippet": "",
+        "matchedWords": {
+          "8KEZ0dWKkHmU": {
+            "hits": 8,
+            "textWords": 187
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "9Chb9Nybg-vy",
+        "address": "https://www.openstreetmap.org/node/5347907514",
+        "title": "Node: 5347907514 | OpenStreetMap",
+        "snippet": "",
+        "matchedWords": {
+          "8KEZ0dWKkHmU": {
+            "hits": 8,
+            "textWords": 192
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "bE2T7lybg-vy",
+        "address": "https://www.openstreetmap.org/?mlat=47\u0026mlon=2\u0026zoom=6",
+        "title": "OpenStreetMap",
+        "snippet": "OpenStreetMap!\nOpenStreetMap is a map of the world, created by people like you and free to use under an open license.\nHosting is supported by Fastly, OSMF corporate members, and other partners.\nBy using this website or other infrastructure provided by the OpenStreetMap Foundation, you agree to the",
+        "matchedWords": {
+          "8KEZ0dWKkHmU": {
+            "hits": 3,
+            "textWords": 56
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "1mo1Mlybg-vy",
+        "address": "https://www.openstreetmap.org/",
+        "title": "OpenStreetMap",
+        "snippet": "OpenStreetMap!\nOpenStreetMap is a map of the world, created by people like you and free to use under an open license.\nHosting is supported by Fastly, OSMF corporate members, and other partners.\nBy using this website or other infrastructure provided by the OpenStreetMap Foundation, you agree to the",
+        "matchedWords": {
+          "8KEZ0dWKkHmU": {
+            "hits": 3,
+            "textWords": 56
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "D1AaPlybg-vy",
+        "address": "https://www.openstreetmap.org/?mlat=31.7704\u0026mlon=35.2281\u0026zoom=11",
+        "title": "OpenStreetMap",
+        "snippet": "OpenStreetMap!\nOpenStreetMap is a map of the world, created by people like you and free to use under an open license.\nHosting is supported by Fastly, OSMF corporate members, and other partners.\nBy using this website or other infrastructure provided by the OpenStreetMap Foundation, you agree to the",
+        "matchedWords": {
+          "8KEZ0dWKkHmU": {
+            "hits": 3,
+            "textWords": 56
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "N_k_Glybg-vy",
+        "address": "https://www.openstreetmap.org/?mlat=40.72833\u0026mlon=-73.99417\u0026zoom=14",
+        "title": "OpenStreetMap",
+        "snippet": "OpenStreetMap!\nOpenStreetMap is a map of the world, created by people like you and free to use under an open license.\nHosting is supported by Fastly, OSMF corporate members, and other partners.\nBy using this website or other infrastructure provided by the OpenStreetMap Foundation, you agree to the",
+        "matchedWords": {
+          "8KEZ0dWKkHmU": {
+            "hits": 3,
+            "textWords": 56
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "ZECBX7qJpRgC",
+        "address": "http://openstreetmap.by/?lon=116.8\u0026lat=5.5\u0026zoom=11",
+        "title": "OpenStreetMap.by - Беларусь",
+        "snippet": "",
+        "matchedWords": {
+          "8KEZ0dWKkHmU": {
+            "hits": 2,
+            "textWords": 86
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "qXktE8KDigKy",
+        "address": "https://wiki.openstreetmap.org/wiki/Zh-hans:FAQ",
+        "title": "Zh-hans:FAQ - OpenStreetMap Wiki",
+        "snippet": "OpenStreetMap 还是 Open Street Maps？\n正确的拼写是 OpenStreetMap。一个单词，三个大写字母，一张地图。OpenStreetMap 也是一个商标。\n为什么选择 OpenStreetMap？\n为什么要创建 OpenStreetMap？\n在世界许多地方，地理数据（geo",
+        "matchedWords": {
+          "8KEZ0dWKkHmU": {
+            "hits": 46,
+            "textWords": 1266
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "PvL5ilVv_Vw0",
+        "address": "https://topo.openstreetmap.org.za/?lon=-59.715\u0026lat=-14.8\u0026zoom=5",
+        "title": "OpenStreetMap - NGI - Topographic Series",
+        "snippet": "",
+        "matchedWords": {
+          "8KEZ0dWKkHmU": {
+            "hits": 1,
+            "textWords": 18
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "iKYpQlybg-vy",
+        "address": "https://www.openstreetmap.org/?mlat=53.46633589\u0026mlon=6.74727917\u0026zoom=14",
+        "title": "OpenStreetMap",
+        "snippet": "",
+        "matchedWords": {
+          "8KEZ0dWKkHmU": {
+            "hits": 9,
+            "textWords": 216
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "w7CKPV7h-FJy",
+        "address": "https://agri.openstreetmap.org/?zoom=11\u0026lat=36.75\u0026lon=66",
+        "title": "OpenStreetMap - The Australian Geographic Reference Image",
+        "snippet": "",
+        "matchedWords": {
+          "8KEZ0dWKkHmU": {
+            "hits": 1,
+            "textWords": 22
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "FVwW2lybg-vy",
+        "address": "https://www.openstreetmap.org/?mlat=-34.197222\u0026mlon=61.651111\u0026zoom=5",
+        "title": "OpenStreetMap",
+        "snippet": "",
+        "matchedWords": {
+          "8KEZ0dWKkHmU": {
+            "hits": 9,
+            "textWords": 216
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "1mo1Mlybg-vy",
+        "address": "https://www.openstreetmap.org/",
+        "title": "OpenStreetMap",
+        "snippet": "OpenStreetMap!\nOpenStreetMap is a map of the world, created by people like you and free to use under an open license.\nHosting is supported by Fastly, OSMF corporate members, and other partners.\nBy using this website or other infrastructure provided by the OpenStreetMap Foundation, you agree to the",
+        "matchedWords": {
+          "8KEZ0dWKkHmU": {
+            "hits": 3,
+            "textWords": 56
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "4TEPDlybg-vy",
+        "address": "https://www.openstreetmap.org/?mlat=59.9149778\u0026mlon=10.7465444\u0026zoom=14",
+        "title": "OpenStreetMap",
+        "snippet": "OpenStreetMap!\nOpenStreetMap is a map of the world, created by people like you and free to use under an open license.\nHosting is supported by Fastly, OSMF corporate members, and other partners.\nBy using this website or other infrastructure provided by the OpenStreetMap Foundation, you agree to the",
+        "matchedWords": {
+          "8KEZ0dWKkHmU": {
+            "hits": 3,
+            "textWords": 56
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "-Frwjlybg-vy",
+        "address": "https://www.openstreetmap.org/?mlat=35.1816\u0026mlon=33.3634\u0026zoom=14",
+        "title": "OpenStreetMap",
+        "snippet": "OpenStreetMap!\nOpenStreetMap is a map of the world, created by people like you and free to use under an open license.\nHosting is supported by Fastly, OSMF corporate members, and other partners.\nBy using this website or other infrastructure provided by the OpenStreetMap Foundation, you agree to the",
+        "matchedWords": {
+          "8KEZ0dWKkHmU": {
+            "hits": 3,
+            "textWords": 56
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "cjiPJlybg-vy",
+        "address": "https://www.openstreetmap.org/?mlat=-27.5\u0026mlon=130\u0026zoom=5",
+        "title": "OpenStreetMap",
+        "snippet": "OpenStreetMap!\nOpenStreetMap is a map of the world, created by people like you and free to use under an open license.\nHosting is supported by Fastly, OSMF corporate members, and other partners.\nBy using this website or other infrastructure provided by the OpenStreetMap Foundation, you agree to the",
+        "matchedWords": {
+          "8KEZ0dWKkHmU": {
+            "hits": 3,
+            "textWords": 56
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "xkAYalybg-vy",
+        "address": "https://www.openstreetmap.org/?mlat=48.286666666667\u0026mlon=14.106666666667\u0026zoom=6",
+        "title": "OpenStreetMap",
+        "snippet": "OpenStreetMap!\nOpenStreetMap is a map of the world, created by people like you and free to use under an open license.\nHosting is supported by Fastly, OSMF corporate members, and other partners.\nBy using this website or other infrastructure provided by the OpenStreetMap Foundation, you agree to the",
+        "matchedWords": {
+          "8KEZ0dWKkHmU": {
+            "hits": 3,
+            "textWords": 56
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "BEBdlsSc-IEy",
+        "address": "https://openstreetmap.us/",
+        "title": "OpenStreetMap US",
+        "snippet": "",
+        "matchedWords": {
+          "8KEZ0dWKkHmU": {
+            "hits": 11,
+            "textWords": 523
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "IxAQySgcGDHy",
+        "address": "https://blog.openstreetmap.org/2026/08/20/a-recap-of-the-march-local-chapters-communities-congress/",
+        "title": "A Recap of the March Local Chapters \u0026 Communities Congress | OpenStreetMap Blog",
+        "snippet": "",
+        "matchedWords": {
+          "8KEZ0dWKkHmU": {
+            "hits": 5,
+            "textWords": 1822
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "dtYvcV7h-FJy",
+        "address": "https://agri.openstreetmap.org/?zoom=15\u0026lat=34.197222\u0026lon=-118.348889",
+        "title": "OpenStreetMap - The Australian Geographic Reference Image",
+        "snippet": "",
+        "matchedWords": {
+          "8KEZ0dWKkHmU": {
+            "hits": 1,
+            "textWords": 23
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "JpIT78KDigKy",
+        "address": "https://wiki.openstreetmap.org/wiki/Key:is%20in:country?uselang=en",
+        "title": "Key:is_in:country - OpenStreetMap Wiki",
+        "snippet": "",
+        "matchedWords": {
+          "8KEZ0dWKkHmU": {
+            "hits": 5,
+            "textWords": 719
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "cgYrWQLxMQIR",
+        "address": "http://www.opencyclemap.org/?lat=37.009722\u0026lon=-117.450278\u0026zoom=15",
+        "title": "OpenCycleMap.org - the OpenStreetMap Cycle Map",
+        "snippet": "",
+        "matchedWords": {
+          "8KEZ0dWKkHmU": {
+            "hits": 3,
+            "textWords": 60
+          }
+        },
+        "queryPhraseHits": 0
       }
     ]
   ],

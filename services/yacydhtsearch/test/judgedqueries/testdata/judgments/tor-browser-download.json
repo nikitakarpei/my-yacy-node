@@ -2,9 +2,63 @@
   "query": "tor browser download",
   "judgedDocuments": [
     {
-      "hash": "U45ThD1nrxbw",
-      "address": "https://www.debian.org/devel/wnpp/being_packaged",
-      "title": "Debian -- Packages being worked on",
+      "hash": "sJZNEgvNEOe4",
+      "address": "https://progressivekw.weebly.com/blog/tor-7zip-download",
+      "title": "Tor 7zip download - progressivekw",
+      "grade": 2
+    },
+    {
+      "hash": "ub2Kg2RWDb2b",
+      "address": "http://formulasherbolarias.com/notepad/8-quick-ways-to-use-your-browser-as-a-notepad-54/",
+      "title": "8 Quick Ways to Use Your Browser as a Notepad – Formulas Herbolarias Magistrales",
+      "grade": 0
+    },
+    {
+      "hash": "jxzum7ABZSEQ",
+      "address": "http://torlinks.net/",
+      "title": "Tor Links Hidden",
+      "grade": 1
+    },
+    {
+      "hash": "1B49sv4zh206",
+      "address": "https://lsprintingpress.com/product/2024-new-session-school-admission-open-posters-coral-draw-design-download-100-fully-editable-printable-all-font-included-zip-file/",
+      "title": "2024 New Session School Admission Open Posters Coral Draw Design Download 100% Fully Editable \u0026 Printable All Font Included Zip File - L S PRINTING PRESS",
+      "grade": 0
+    },
+    {
+      "hash": "VIas57Sq7P5Z",
+      "address": "http://onionurls.com/",
+      "title": ".Onion Tor Urls",
+      "grade": 2
+    },
+    {
+      "hash": "nIE0R7T64v7Y",
+      "address": "http://oniondir.biz/",
+      "title": "Deep Web Links Tor",
+      "grade": 1
+    },
+    {
+      "hash": "cfM-rjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/JavaScript",
+      "title": "JavaScript - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "9NeGhj0li_S4",
+      "address": "https://layer7it.com/portfolio/spros2go-com/",
+      "title": "Spros2go.com – Layer7IT",
+      "grade": 0
+    },
+    {
+      "hash": "1RXb3tMVbV5i",
+      "address": "https://profine-energia.es/research/reduce-costs-with-renewable-energy/",
+      "title": "Reduce Costs With Renewable Energy – Profine Energía",
+      "grade": 0
+    },
+    {
+      "hash": "73gJc7QEwROS",
+      "address": "http://spectrumcarpet.ca/this-is-a-link-post/",
+      "title": "This Is A Link Post – Spectrum Carpet Dyeing \u0026 Cleaning",
       "grade": 0
     },
     {
@@ -12,6 +66,12 @@
       "address": "https://brave.com/",
       "title": "The browser that puts you first | Brave",
       "grade": 1
+    },
+    {
+      "hash": "U45ThD1nrxbw",
+      "address": "https://www.debian.org/devel/wnpp/being_packaged",
+      "title": "Debian -- Packages being worked on",
+      "grade": 0
     },
     {
       "hash": "H6Zz4sS6MKD4",
@@ -23,12 +83,6 @@
       "hash": "WSJiqtS6MKD4",
       "address": "https://github.com/trending/vue?since=daily",
       "title": "Trending Vue repositories on GitHub today · GitHub",
-      "grade": 0
-    },
-    {
-      "hash": "Wfq3FswvoTD5",
-      "address": "https://r-universe.dev/articles",
-      "title": "R-universe - browse articles",
       "grade": 0
     }
   ]

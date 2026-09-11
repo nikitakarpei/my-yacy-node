@@ -1,7 +1,61 @@
 {
   "query": "nextcloud installation",
-  "recordedAt": "2026-09-11T21:00:42Z",
-  "itemsInTheOrderOfEachAnswer": [],
+  "recordedAt": "2026-09-11T22:14:22Z",
+  "itemsInTheOrderOfEachAnswer": [
+    [
+      {
+        "hash": "9M9MAls8l0-4",
+        "address": "https://www.clubic.com/bons-plans-604852-o2switch-cloud-a-1-86-mois-l-hebergement-francais-qui-remplace-aussi-votre-abonnement-cloud-payant.html",
+        "title": "o2switch Cloud à 1,86€/mois : l’hébergement français qui remplace aussi votre abonnement cloud payant",
+        "snippet": "Nextcloud Premium 250 Go inclus, soit moins de 2 € par mois pour une infrastructure web complète et souveraine.\n© clubic\nL’hébergement web n’est plus seulement l’affaire des développeurs. O2switch l’a bien compris en proposant son offre Cloud. à 22,32€ HT pour douze mois, contre 192€ HT au tarif",
+        "matchedWords": {
+          "6gm7Nk7xv_2I": {
+            "hits": 0,
+            "textWords": 770
+          },
+          "xZz3-jnU7Sza": {
+            "hits": 4,
+            "textWords": 770
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "lE0EBsqW6DOy",
+        "address": "https://keepandroidopen.org/",
+        "title": "Keep Android Open",
+        "snippet": "Nextcloud Blog\n\"Android wasn't supposed to be 'safe.' It was supposed to be free.\"\nfireborn, mataroa.blog\n\"Android does not just warn anymore. It enforces.\"\nYoussef Mabrouk, Ostorlab\n\"Sideloading, a longstanding pillar of Android's openness, is now being marginalized, placing the Android platform",
+        "matchedWords": {
+          "6gm7Nk7xv_2I": {
+            "hits": 0,
+            "textWords": 9627
+          },
+          "xZz3-jnU7Sza": {
+            "hits": 4,
+            "textWords": 9627
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "9TInzls8l0-4",
+        "address": "https://www.clubic.com/bons-plans-613453-joueurs-pc-et-ps5-le-lexar-nm790-4-to-est-a-son-prix-le-plus-bas.html",
+        "title": "Joueurs PC et PS5 : le Lexar NM790 4 To est à son prix le plus bas 💥",
+        "snippet": "Le Lexar NM790 4 To à 399,99 € est une offre solide pour les profils qui ont besoin de volume et de vitesse sans franchir la barre des 400 €. Joueurs PC avec de grosses bibliothèques Steam, créateurs vidéo qui gèrent des rushes 4K au quotidien, possesseurs de PS5 en manque d'espace : ce SSD répond",
+        "matchedWords": {
+          "6gm7Nk7xv_2I": {
+            "hits": 0,
+            "textWords": 129
+          },
+          "xZz3-jnU7Sza": {
+            "hits": 0,
+            "textWords": 129
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ]
+  ],
   "itemsInNoOrder": [
     {
       "hash": "DkgJosH3-qPx",
@@ -17,39 +71,8 @@
           "hits": 0,
           "textWords": 578
         }
-      }
-    },
-    {
-      "hash": "xIkDby3WSkX4",
-      "address": "https://docs.ovhcloud.com/en/guides/web-cloud/domains/overview",
-      "title": "Domains - OVHcloud Documentation",
-      "snippet": "Documentation\nAPI Reference\nProduct changelog\nE-Learning \u0026 certifications\nMigration\nBare Metal Cloud\nDedicated Servers\nOverview\nKey Concepts\nGetting Started\nConfiguration\nSystem\nStorage\nNetwork\nvRack\nDeployments\nMigration\nTutorials\nSecurity\nHardening\nBackup\nNetwork\nTroubleshooting\nVirtual Private",
-      "matchedWords": {
-        "6gm7Nk7xv_2I": {
-          "hits": 0,
-          "textWords": 1111
-        },
-        "xZz3-jnU7Sza": {
-          "hits": 0,
-          "textWords": 1111
-        }
-      }
-    },
-    {
-      "hash": "xIkDby3WSkX4",
-      "address": "https://docs.ovhcloud.com/en/guides/web-cloud/domains/overview",
-      "title": "Domains - OVHcloud Documentation",
-      "snippet": "Documentation\nAPI Reference\nProduct changelog\nE-Learning \u0026 certifications\nMigration\nBare Metal Cloud\nDedicated Servers\nOverview\nKey Concepts\nGetting Started\nConfiguration\nSystem\nStorage\nNetwork\nvRack\nDeployments\nMigration\nTutorials\nSecurity\nHardening\nBackup\nNetwork\nTroubleshooting\nVirtual Private",
-      "matchedWords": {
-        "6gm7Nk7xv_2I": {
-          "hits": 0,
-          "textWords": 1111
-        },
-        "xZz3-jnU7Sza": {
-          "hits": 0,
-          "textWords": 1111
-        }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "DkgJosH3-qPx",
@@ -65,11 +88,29 @@
           "hits": 0,
           "textWords": 578
         }
-      }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "tptsBjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Lumen_Technologies",
+      "title": "Lumen Technologies - Wikipedia",
+      "snippet": "installation\". South Dakota Searchlight. Retrieved August 22, 2024.\n↑ NOTICE OF APPARENT LIABILITY FOR FORFEITURE (PDF) (Report). Federal Communications Commission. October 12, 2023.\n↑ \"FCC PROPOSES $867,000 FINE AGAINST LUMEN FOR APPARENTLY VIOLATING 911 RULES\" (PDF). fcc.gov. Retrieved August 22,",
+      "matchedWords": {
+        "6gm7Nk7xv_2I": {
+          "hits": 1,
+          "textWords": 6303
+        },
+        "xZz3-jnU7Sza": {
+          "hits": 0,
+          "textWords": 6303
+        }
+      },
+      "queryPhraseHits": 0
     }
   ],
   "documentsHeldPerQueryWord": {
-    "6gm7Nk7xv_2I": 57050,
-    "xZz3-jnU7Sza": 820
+    "6gm7Nk7xv_2I": 57985,
+    "xZz3-jnU7Sza": 1104
   }
 }

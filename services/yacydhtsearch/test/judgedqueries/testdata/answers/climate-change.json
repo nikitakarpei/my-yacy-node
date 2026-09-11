@@ -1,24 +1,146 @@
 {
   "query": "climate change",
-  "recordedAt": "2026-09-11T21:00:29Z",
+  "recordedAt": "2026-09-11T22:14:21Z",
   "itemsInTheOrderOfEachAnswer": [
     [
       {
-        "hash": "-GTAl-vKPktw",
-        "address": "https://www.c2es.org/press-release/leading-companies-back-369b-climate-investments/",
-        "title": "Leading Companies Back $369B Climate Investments - Center for Climate and Energy SolutionsCenter for Climate and Energy Solutions",
-        "snippet": "Climate Investments\nBusiness Leaders Voice Support for IRA Climate Provisions\nWASHINGTON—Leading U.S. companies are stepping forward to voice their support for the enactment of $369 billion in climate and clean energy investments included in the Inflation Reduction Act of 2022 announced last week",
+        "hash": "kE_iGywwXb8x",
+        "address": "https://esd.copernicus.org/articles/15/41/2024/",
+        "title": "ESD - Climate tipping point interactions and cascades: a review",
+        "snippet": "climate model, Clim. Dynam., 53, 2485–2500, 2019. a\nArmstrong McKay, D. I., Staal, A., Abrams, J. F., Winkelmann, R., Sakschewski, B., Loriani, S., Fetzer, I., Cornell, S. E., Rockström, J., and Lenton, T. M.: Exceeding 1.5 C global warming could trigger multiple climate tipping points, Science,",
         "matchedWords": {
           "6zmbyspob4YJ": {
-            "hits": 5,
-            "textWords": 1437
+            "hits": 57,
+            "textWords": 8915
           },
           "C4U1RGaZEs7W": {
-            "hits": 32,
-            "textWords": 1437
+            "hits": 115,
+            "textWords": 8915
           }
-        }
+        },
+        "queryPhraseHits": 22
       },
+      {
+        "hash": "d4uDNlEli_yw",
+        "address": "https://www.nrdc.org/?cmd=display\u0026page=UserAction\u0026id=2819",
+        "title": "Be a Force for the Future | NRDC",
+        "snippet": "Climate protections. All on the line. You can help by making a gift today. Your support will be 3X MATCHED up to $50,000.\nNRDC\nNRDC\nOur Mission\nHistory \u0026 Victories\nLeadership \u0026 Board of Trustees\nHow We Work\nWhere We Work\nFinancials\nSustainability at NRDC\nNRDC Action Fund\nMeet Our Experts\nExpert",
+        "matchedWords": {
+          "6zmbyspob4YJ": {
+            "hits": 1,
+            "textWords": 391
+          },
+          "C4U1RGaZEs7W": {
+            "hits": 3,
+            "textWords": 391
+          }
+        },
+        "queryPhraseHits": 1
+      },
+      {
+        "hash": "RU0iR21734Gg",
+        "address": "https://cordis.europa.eu/en",
+        "title": "CORDIS | European Commission",
+        "snippet": "Climate Change and Environment\nDigital Economy\nEnergy\nFood and Natural Resources\nFundamental Research\nHealth\nIndustrial Technologies\nSecurity\nSociety\nSpace\nTransport and Mobility",
+        "matchedWords": {
+          "6zmbyspob4YJ": {
+            "hits": 1,
+            "textWords": 376
+          },
+          "C4U1RGaZEs7W": {
+            "hits": 1,
+            "textWords": 376
+          }
+        },
+        "queryPhraseHits": 1
+      },
+      {
+        "hash": "KT5m8bUKlLQw",
+        "address": "https://biotech.law.lsu.edu/cphl/history/articles/pasteur.htm",
+        "title": "Pasteur's Papers on the Germ Theory",
+        "snippet": "",
+        "matchedWords": {
+          "6zmbyspob4YJ": {
+            "hits": 0,
+            "textWords": 0
+          },
+          "C4U1RGaZEs7W": {
+            "hits": 2,
+            "textWords": 42734
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "814EDlGT2Drw",
+        "address": "https://www.lcv.org/",
+        "title": "Home - League of Conservation Voters - Our Earth is Worth Fighting For",
+        "snippet": "climate crisis, confront environmental injustices, and build an equitable democracy.\nBuilding Grassroots Power\nFrom the work of our state affiliates to our Chispa program’s deep community organizing to large field campaigns, we build a more powerful and racially inclusive movement.\nCongressional",
+        "matchedWords": {
+          "6zmbyspob4YJ": {
+            "hits": 0,
+            "textWords": 358
+          },
+          "C4U1RGaZEs7W": {
+            "hits": 3,
+            "textWords": 358
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "mZUlmlRdrJ76",
+        "address": "https://www.conferenceseries.com/environmental-sciences-meetings",
+        "title": "Environmental Sciences Conferences | Global Warming Meetings 2024",
+        "snippet": "Climate Change Conferences | Pollution Control Conferences | Geology Conferences | Chemical Engineering Conferences\nEnvironmental Sciences provides an integrated, quantitative and interdisciplinary approach to study the environmental systems and find solutions to resolve the problems associated",
+        "matchedWords": {
+          "6zmbyspob4YJ": {
+            "hits": 2,
+            "textWords": 160
+          },
+          "C4U1RGaZEs7W": {
+            "hits": 2,
+            "textWords": 160
+          }
+        },
+        "queryPhraseHits": 2
+      },
+      {
+        "hash": "bUuQsopg4UCw",
+        "address": "https://www.wikidata.org/wiki/Q183481",
+        "title": "desertification - Wikidata",
+        "snippet": "",
+        "matchedWords": {
+          "6zmbyspob4YJ": {
+            "hits": 0,
+            "textWords": 0
+          },
+          "C4U1RGaZEs7W": {
+            "hits": 4,
+            "textWords": 1603
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "VKIXhQZchFfZ",
+        "address": "http://www.greenteethmm.com/pc-oxford-sausage.shtml",
+        "title": "oxford-university-bans-all-things-pig-related-in-support-of-free-speech-greenteeth-humor-satire",
+        "snippet": "climate change zealot, in charge of environmental policy\nAuthoritarians Escalate The War On Free Speech\nFor around thre decades now, in quite ubtle ways, and more latantly over the past five years, American, British, Canadian, Australian, French, German and Brazilian governments have unleashed a",
+        "matchedWords": {
+          "6zmbyspob4YJ": {
+            "hits": 46,
+            "textWords": 39329
+          },
+          "C4U1RGaZEs7W": {
+            "hits": 90,
+            "textWords": 39329
+          }
+        },
+        "queryPhraseHits": 35
+      }
+    ],
+    [
       {
         "hash": "DRPMLYKyg81x",
         "address": "https://www.carbonbrief.org/topics/climate-sensitivity",
@@ -33,23 +155,42 @@
             "hits": 9,
             "textWords": 188
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
-        "hash": "5CGlk2lbxFxx",
-        "address": "https://www.navigation.org/grants/climate-change",
-        "title": "Climate Change | The Navigation Fund",
-        "snippet": "Climate Change\nI decided to work on climate change because of a talk by marine biologist Ayana Elizabeth Johnson. She explained how climate change wasn’t just warming the planet; through ocean acidification, caused by the ocean absorbing excess atmospheric carbon dioxide, it was already triggering",
+        "hash": "AX4MssOLCOH6",
+        "address": "https://wattsupwiththat.com/climate-sensitivity/",
+        "title": "Climate Sensitivity - Watts Up With That?",
+        "snippet": "Climate Sensitivity is High Enough to Be Dangerous\nFrom The Climate Brief\nThe sensitivity of the Earth’s climate to increases in atmospheric CO2 concentration is a question that sits at the heart of climate science.\nEssentially, it dictates how much global temperatures will rise in response to",
         "matchedWords": {
           "6zmbyspob4YJ": {
-            "hits": 8,
-            "textWords": 1050
+            "hits": 2,
+            "textWords": 1774
           },
           "C4U1RGaZEs7W": {
-            "hits": 24,
-            "textWords": 1050
+            "hits": 69,
+            "textWords": 1774
           }
-        }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "-GTAl-vKPktw",
+        "address": "https://www.c2es.org/press-release/leading-companies-back-369b-climate-investments/",
+        "title": "Leading Companies Back $369B Climate Investments - Center for Climate and Energy SolutionsCenter for Climate and Energy Solutions",
+        "snippet": "Climate Investments\nBusiness Leaders Voice Support for IRA Climate Provisions\nWASHINGTON—Leading U.S. companies are stepping forward to voice their support for the enactment of $369 billion in climate and clean energy investments included in the Inflation Reduction Act of 2022 announced last week",
+        "matchedWords": {
+          "6zmbyspob4YJ": {
+            "hits": 5,
+            "textWords": 1437
+          },
+          "C4U1RGaZEs7W": {
+            "hits": 32,
+            "textWords": 1437
+          }
+        },
+        "queryPhraseHits": 5
       },
       {
         "hash": "-EI30UT7ERug",
@@ -65,25 +206,27 @@
             "hits": 9,
             "textWords": 305
           }
-        }
+        },
+        "queryPhraseHits": 7
       }
     ],
     [
       {
-        "hash": "99ttcqXKfw-g",
-        "address": "https://www.cmcc.it/lectures_conferences/beyond-the-two-week-forecast-decoding-climate-variability-through-nonequilibrium-thermodynamics",
-        "title": "Beyond the two-week forecast: Decoding climate variability through nonequilibrium thermodynamics - CMCC",
-        "snippet": "climate oscillations affect both long-range forecasting and our ability to understand how they may evolve under climate change.\nJoin the Lecture with Jeffrey Weiss, CMCC Bassi Fellow and Professor at the University of Colorado Boulder, to discover how new developments coming from nonequilibrium",
+        "hash": "wGfAewXKfw-g",
+        "address": "https://www.cmcc.it/article/forging-the-causal-chain-a-workshop-exploring-the-interplay-between-climate-science-and-legal-responsibility",
+        "title": "Forging the causal chain: A workshop exploring the interplay between climate science and legal responsibility - CMCC",
+        "snippet": "climate impacts and legal corporate responsibility is one of the most complex and challenging issues in the contemporary climate governance landscape. From 27 to 29 April 2026, a closed workshop held at Villa Vigoni on Lake Como in Italy brought together leading experts to address the hurdle of",
         "matchedWords": {
           "6zmbyspob4YJ": {
-            "hits": 2,
-            "textWords": 497
+            "hits": 7,
+            "textWords": 855
           },
           "C4U1RGaZEs7W": {
-            "hits": 16,
-            "textWords": 497
+            "hits": 24,
+            "textWords": 855
           }
-        }
+        },
+        "queryPhraseHits": 6
       },
       {
         "hash": "Glu_e5GPlOdg",
@@ -99,7 +242,25 @@
             "hits": 65,
             "textWords": 1257
           }
-        }
+        },
+        "queryPhraseHits": 52
+      },
+      {
+        "hash": "xvfX-lKyg81x",
+        "address": "https://www.carbonbrief.org/qa-how-trump-is-threatening-climate-science-in-earths-polar-regions",
+        "title": "Q\u0026A: How Trump is threatening climate science in Earth’s polar regions - Carbon Brief",
+        "snippet": "climate change at Earth’s poles, including by disrupting fieldwork, preventing data collection and even forcing researchers to leave the US.\nOne climate scientist tells Carbon Brief that the administration’s decision to terminate the only US icebreaker used in Antarctica forced her to cancel her",
+        "matchedWords": {
+          "6zmbyspob4YJ": {
+            "hits": 6,
+            "textWords": 2535
+          },
+          "C4U1RGaZEs7W": {
+            "hits": 20,
+            "textWords": 2535
+          }
+        },
+        "queryPhraseHits": 6
       },
       {
         "hash": "QU4s6s_wyst4",
@@ -115,23 +276,8 @@
             "hits": 2,
             "textWords": 139
           }
-        }
-      },
-      {
-        "hash": "Zji9clKyg81x",
-        "address": "https://www.carbonbrief.org/guest-post-investigating-how-volcanic-eruptions-can-affect-climate-projections",
-        "title": "Guest post: Investigating how volcanic eruptions can affect climate projections - Carbon Brief",
-        "snippet": "climate models.\nIt is well known that explosive eruptions can cause sudden cooling at the Earth’s surface and that multiple eruptions shape climate variability over decades and centuries.\nWhen sulphur dioxide is injected into the stratosphere during an eruption, it forms aerosols that block",
-        "matchedWords": {
-          "6zmbyspob4YJ": {
-            "hits": 4,
-            "textWords": 1429
-          },
-          "C4U1RGaZEs7W": {
-            "hits": 36,
-            "textWords": 1429
-          }
-        }
+        },
+        "queryPhraseHits": 1
       },
       {
         "hash": "p14nqj8B3Aeg",
@@ -147,7 +293,8 @@
             "hits": 10,
             "textWords": 270
           }
-        }
+        },
+        "queryPhraseHits": 1
       },
       {
         "hash": "EoDBU9DvCWFg",
@@ -163,7 +310,8 @@
             "hits": 3,
             "textWords": 199
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
         "hash": "jFH1V7rrBtSg",
@@ -179,74 +327,11 @@
             "hits": 27,
             "textWords": 761
           }
-        }
+        },
+        "queryPhraseHits": 7
       }
     ],
     [
-      {
-        "hash": "IcAc5IL0Fk7w",
-        "address": "https://climate.uchicago.edu/",
-        "title": "The Institute for Climate and Sustainable Growth",
-        "snippet": "climate change and design the policies and market structures needed to balance the goals of decarbonization and economic growth.\nEPIC\nThrough ETI, a partnership between the Institute and the Pritzker School of Molecular Engineering, we're developing new energy technologies that can replace fossil",
-        "matchedWords": {
-          "6zmbyspob4YJ": {
-            "hits": 3,
-            "textWords": 506
-          },
-          "C4U1RGaZEs7W": {
-            "hits": 9,
-            "textWords": 506
-          }
-        }
-      },
-      {
-        "hash": "cG30FEN6vgFx",
-        "address": "https://heartland.org/podcasts/big-climate-strikes-back-the-climate-realism-show-172/",
-        "title": "Big Climate Strikes Back — The Climate Realism Show #172 - The Heartland Institute",
-        "snippet": "Climate Realism Show\nEpisode Synopsis\nWhen five independent scientists dared to produce the first U.S. government report to reject the climate alarmist narrative, Big Climate vowed to strike back. And it has. This week, a group of 85 scientists released a rebuttal to the Department of Energy’s",
-        "matchedWords": {
-          "6zmbyspob4YJ": {
-            "hits": 1,
-            "textWords": 230
-          },
-          "C4U1RGaZEs7W": {
-            "hits": 12,
-            "textWords": 230
-          }
-        }
-      },
-      {
-        "hash": "QMyYg8EfDEd4",
-        "address": "https://www.iheart.com/podcast/256-the-climate-realism-show-31001689/",
-        "title": "The Climate Realism Show | iHeart",
-        "snippet": "",
-        "matchedWords": {
-          "6zmbyspob4YJ": {
-            "hits": 0,
-            "textWords": 0
-          },
-          "C4U1RGaZEs7W": {
-            "hits": 89,
-            "textWords": 3143
-          }
-        }
-      },
-      {
-        "hash": "7woeyA7dmKb4",
-        "address": "https://heatmap.news/politics/climate-change-voting-elections",
-        "title": "Are Pollsters Getting Climate Change Wrong? - Heatmap News",
-        "snippet": "Climate Change Wrong? - Heatmap News\nHome\nHomepage\nEnergy\nClimate Tech\nPolitics\nDaily Briefing\nAM Briefing\nCarbon Removal\nAdaptation\nClimate\nElectric Vehicles\nIdeas\nPodcast\nSparks\nEconomy\nSustainability\nCulture\nGuides\nStatic Pages\nDecarbonize Your Life\nTechnology\nLifestyle\nClimate 101\nThe Aftermath",
-        "matchedWords": {
-          "6zmbyspob4YJ": {
-            "hits": 26,
-            "textWords": 2586
-          },
-          "C4U1RGaZEs7W": {
-            "hits": 52,
-            "textWords": 2586
-          }
-        }
-      },
       {
         "hash": "Vue0tWt3OzH5",
         "address": "https://depositsmag.com/tag/climate-change/",
@@ -261,23 +346,8 @@
             "hits": 10,
             "textWords": 1509
           }
-        }
-      },
-      {
-        "hash": "75qEQsjE1go7",
-        "address": "https://healthpolicy-watch.news/the-price-of-climate-change-is-being-paid-by-our-lungs/",
-        "title": "Longer Pollen Seasons, Extreme Heat And Wildfires - The Climate Change Cost To Lung Health - Health Policy Watch",
-        "snippet": "climate-related exposures like air pollution and heat waves.\nThe growing impact of climate change on respiratory health, including through longer pollen seasons, wildfires and more exterme heat, was the focus of an high-level event on the margins of the 79th World Health Assembly (WHA) in Geneva,",
-        "matchedWords": {
-          "6zmbyspob4YJ": {
-            "hits": 23,
-            "textWords": 1914
-          },
-          "C4U1RGaZEs7W": {
-            "hits": 46,
-            "textWords": 1914
-          }
-        }
+        },
+        "queryPhraseHits": 4
       },
       {
         "hash": "uQJ5Mfm7MhAy",
@@ -293,7 +363,93 @@
             "hits": 6,
             "textWords": 156
           }
-        }
+        },
+        "queryPhraseHits": 4
+      },
+      {
+        "hash": "7woeyA7dmKb4",
+        "address": "https://heatmap.news/politics/climate-change-voting-elections",
+        "title": "Are Pollsters Getting Climate Change Wrong? - Heatmap News",
+        "snippet": "Climate Change Wrong? - Heatmap News\nHome\nHomepage\nEnergy\nClimate Tech\nPolitics\nDaily Briefing\nAM Briefing\nCarbon Removal\nAdaptation\nClimate\nElectric Vehicles\nIdeas\nPodcast\nSparks\nEconomy\nSustainability\nCulture\nGuides\nStatic Pages\nDecarbonize Your Life\nTechnology\nLifestyle\nClimate 101\nThe Aftermath",
+        "matchedWords": {
+          "6zmbyspob4YJ": {
+            "hits": 26,
+            "textWords": 2586
+          },
+          "C4U1RGaZEs7W": {
+            "hits": 52,
+            "textWords": 2586
+          }
+        },
+        "queryPhraseHits": 24
+      },
+      {
+        "hash": "IcAc5IL0Fk7w",
+        "address": "https://climate.uchicago.edu/",
+        "title": "The Institute for Climate and Sustainable Growth",
+        "snippet": "climate change and design the policies and market structures needed to balance the goals of decarbonization and economic growth.\nEPIC\nThrough ETI, a partnership between the Institute and the Pritzker School of Molecular Engineering, we're developing new energy technologies that can replace fossil",
+        "matchedWords": {
+          "6zmbyspob4YJ": {
+            "hits": 3,
+            "textWords": 506
+          },
+          "C4U1RGaZEs7W": {
+            "hits": 9,
+            "textWords": 506
+          }
+        },
+        "queryPhraseHits": 3
+      },
+      {
+        "hash": "75qEQsjE1go7",
+        "address": "https://healthpolicy-watch.news/the-price-of-climate-change-is-being-paid-by-our-lungs/",
+        "title": "Longer Pollen Seasons, Extreme Heat And Wildfires - The Climate Change Cost To Lung Health - Health Policy Watch",
+        "snippet": "climate-related exposures like air pollution and heat waves.\nThe growing impact of climate change on respiratory health, including through longer pollen seasons, wildfires and more exterme heat, was the focus of an high-level event on the margins of the 79th World Health Assembly (WHA) in Geneva,",
+        "matchedWords": {
+          "6zmbyspob4YJ": {
+            "hits": 23,
+            "textWords": 1914
+          },
+          "C4U1RGaZEs7W": {
+            "hits": 46,
+            "textWords": 1914
+          }
+        },
+        "queryPhraseHits": 22
+      },
+      {
+        "hash": "QMyYg8EfDEd4",
+        "address": "https://www.iheart.com/podcast/256-the-climate-realism-show-31001689/",
+        "title": "The Climate Realism Show | iHeart",
+        "snippet": "Climate Regulations Driving Up Costs Across America - #212\nAugust 16, 2026\n•\nPlayed\nCalifornia may be only one state, but are its climate regulations effectively becoming national policy?In Episode #212 of The Climate Realism Show, host Andy Singer is joined by Linnea Lueken, Anthony Watts, and H.",
+        "matchedWords": {
+          "6zmbyspob4YJ": {
+            "hits": 1,
+            "textWords": 385
+          },
+          "C4U1RGaZEs7W": {
+            "hits": 12,
+            "textWords": 385
+          }
+        },
+        "queryPhraseHits": 1
+      },
+      {
+        "hash": "co5CXEN6vgFx",
+        "address": "https://heartland.org/podcasts/good-news-climate-cult-in-decline-the-climate-realism-show-184-2/",
+        "title": "Good News: Climate Cult In Decline — The Climate Realism Show #184 - The Heartland Institute",
+        "snippet": "Climate News\nClimate Change\nThe signs are all around us. The climate cult is losing its grip on our politics and culture. The UN’s climate conference, COP30 in Brazil, was a flop that even the alarmist cheerleaders in the legacy media could not ignore. A major paper justifying radical climate",
+        "matchedWords": {
+          "6zmbyspob4YJ": {
+            "hits": 1,
+            "textWords": 247
+          },
+          "C4U1RGaZEs7W": {
+            "hits": 13,
+            "textWords": 247
+          }
+        },
+        "queryPhraseHits": 1
       },
       {
         "hash": "G385kl28kNww",
@@ -309,23 +465,25 @@
             "hits": 4,
             "textWords": 39
           }
-        }
+        },
+        "queryPhraseHits": 3
       },
       {
-        "hash": "Bcaho7CzXwx6",
-        "address": "https://thenewamerican.com/us/environment/in-paris-scientists-debunk-un-climate-hysteria/",
-        "title": "In Paris, Scientists Debunk UN “Climate” Hysteria",
-        "snippet": "“climate regime” at the COP21 global-warming summit, an international team of scientists and experts from various fields debunked the hysteria at a separate conference in Paris for realists. Essentially, the prestigious scientists said, there is no man-made global-warming crisis. The UN’s “climate”",
+        "hash": "ygm9qsiT0yX5",
+        "address": "https://scitechdaily.com/climate-change-surprise-trees-remove-methane-from-the-air/",
+        "title": "Climate Change Surprise: Trees Remove Methane From the Air",
+        "snippet": "climate benefit by 10% and identifying them as vital methane sinks, alongside soil.\nNew research reveals that tree bark microbes absorb significant amounts of methane, increasing the climate benefit of trees by about 10%. This finding underscores the importance of trees in mitigating climate change",
         "matchedWords": {
           "6zmbyspob4YJ": {
-            "hits": 5,
-            "textWords": 1636
+            "hits": 2,
+            "textWords": 762
           },
           "C4U1RGaZEs7W": {
-            "hits": 39,
-            "textWords": 1636
+            "hits": 9,
+            "textWords": 762
           }
-        }
+        },
+        "queryPhraseHits": 2
       }
     ],
     [
@@ -343,7 +501,8 @@
             "hits": 0,
             "textWords": 488
           }
-        }
+        },
+        "queryPhraseHits": 0
       }
     ],
     [
@@ -361,7 +520,8 @@
             "hits": 75,
             "textWords": 1318
           }
-        }
+        },
+        "queryPhraseHits": 22
       },
       {
         "hash": "tIoKvLpdc6bg",
@@ -377,7 +537,8 @@
             "hits": 18,
             "textWords": 414
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
         "hash": "4OHUAnI5edIg",
@@ -393,7 +554,8 @@
             "hits": 15,
             "textWords": 464
           }
-        }
+        },
+        "queryPhraseHits": 7
       },
       {
         "hash": "UToSHQZchFfZ",
@@ -409,7 +571,8 @@
             "hits": 318,
             "textWords": 41513
           }
-        }
+        },
+        "queryPhraseHits": 177
       },
       {
         "hash": "HcOR_gOIMQQg",
@@ -425,7 +588,8 @@
             "hits": 9,
             "textWords": 155
           }
-        }
+        },
+        "queryPhraseHits": 5
       }
     ],
     [
@@ -443,7 +607,8 @@
             "hits": 16,
             "textWords": 791
           }
-        }
+        },
+        "queryPhraseHits": 2
       },
       {
         "hash": "nc4sWmUGDmy5",
@@ -459,7 +624,8 @@
             "hits": 2,
             "textWords": 3147
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
         "hash": "AWq9VQXx1HRZ",
@@ -475,7 +641,8 @@
             "hits": 44,
             "textWords": 35334
           }
-        }
+        },
+        "queryPhraseHits": 19
       },
       {
         "hash": "TX6B6sAQv-v6",
@@ -491,7 +658,8 @@
             "hits": 10,
             "textWords": 7859
           }
-        }
+        },
+        "queryPhraseHits": 2
       },
       {
         "hash": "SMdVHQZchFfZ",
@@ -507,7 +675,8 @@
             "hits": 40,
             "textWords": 14104
           }
-        }
+        },
+        "queryPhraseHits": 15
       }
     ],
     [
@@ -525,7 +694,8 @@
             "hits": 1,
             "textWords": 7534
           }
-        }
+        },
+        "queryPhraseHits": 1
       },
       {
         "hash": "cXbKpjRvmBbx",
@@ -541,7 +711,8 @@
             "hits": 1,
             "textWords": 4586
           }
-        }
+        },
+        "queryPhraseHits": 0
       }
     ],
     [
@@ -559,23 +730,25 @@
             "hits": 29,
             "textWords": 505
           }
-        }
+        },
+        "queryPhraseHits": 6
       },
       {
-        "hash": "nmqHbjrKlibw",
-        "address": "https://www.wri.org/index%2Ephp/research/adapting-to-climate-related-health-risks",
-        "title": "Adapting to Climate-Related Health Risks: The Economic Case for Climate Services for Health | World Resources Institute",
-        "snippet": "climate change takes a growing toll on health, this new WRI research addresses the fact that many countries are unprepared. Few governments and health agencies have analyzed the climate, environmental, and health pathways to understand how climate change will impact their populations.\nThe",
+        "hash": "lyLCVPnI6JIw",
+        "address": "https://climate.law.columbia.edu/content/directions-sabin-center",
+        "title": "Directions to the Sabin Center | Sabin Center for Climate Change Law",
+        "snippet": "The main entrance to Jerome Greene Hall is at 435 West 116th Street (near the corner of Amsterdam Avenue), across the campus from the 116th Street stop on the #1 subway line. If you are coming via the B or C subway lines, be prepared to walk up the dozens of stairs in Morningside Park.\nIf you are",
         "matchedWords": {
           "6zmbyspob4YJ": {
-            "hits": 3,
-            "textWords": 421
+            "hits": 0,
+            "textWords": 105
           },
           "C4U1RGaZEs7W": {
-            "hits": 11,
-            "textWords": 421
+            "hits": 0,
+            "textWords": 105
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
         "hash": "nCSLyrISdjFg",
@@ -591,7 +764,8 @@
             "hits": 1,
             "textWords": 1036
           }
-        }
+        },
+        "queryPhraseHits": 1
       },
       {
         "hash": "nexTyzOLCOH6",
@@ -607,7 +781,25 @@
             "hits": 27,
             "textWords": 924
           }
-        }
+        },
+        "queryPhraseHits": 15
+      },
+      {
+        "hash": "n04p4i3PEIOw",
+        "address": "https://science.feedback.org/human-driven-climate-change-largely-responsible-last-50-years-worsening-fire-weather-western-north-america-new-study-shows/",
+        "title": "Human-driven climate change largely responsible for last 50 years of worsening fire weather in Western North America, new study shows - Science Feedback",
+        "snippet": "Climate\nHuman-driven climate change largely responsible for last 50 years of worsening fire weather in Western North America, new study shows\nPosted on: 2025-05-28\nEach year, wildfires reduce people’s homes to smoldering rubble and leave our natural environments charred and barren. It’s no surprise",
+        "matchedWords": {
+          "6zmbyspob4YJ": {
+            "hits": 75,
+            "textWords": 5260
+          },
+          "C4U1RGaZEs7W": {
+            "hits": 104,
+            "textWords": 5260
+          }
+        },
+        "queryPhraseHits": 69
       }
     ],
     [
@@ -625,71 +817,8 @@
             "hits": 5,
             "textWords": 78
           }
-        }
-      },
-      {
-        "hash": "2c52TjrKlibw",
-        "address": "https://www.wri.org/index%2Ephp/insights/ukraine-food-security-climate-change",
-        "title": "7 Ways to Support Food Security \u0026 the Climate in Ukraine | World Resources Institute",
-        "snippet": "climate change.\nUkrainian refugees escape to the border town of Medyka, Poland. Millions of Ukrainian residents have fled their homes in recent weeks, due to the Russian invasion. Photo by Damian Pankowiec/Shutterstock\nEmerging Food Implications of the Ukraine Crisis\nThe Black Sea region is a",
-        "matchedWords": {
-          "6zmbyspob4YJ": {
-            "hits": 3,
-            "textWords": 1701
-          },
-          "C4U1RGaZEs7W": {
-            "hits": 9,
-            "textWords": 1701
-          }
-        }
-      },
-      {
-        "hash": "0_2DQLmMQij4",
-        "address": "https://www.who.int/activities/awareness-raising-to-protect-human-health-from-climate-change",
-        "title": "Advocacy and Partnerships to protect human health from climate change",
-        "snippet": "",
-        "matchedWords": {
-          "6zmbyspob4YJ": {
-            "hits": 0,
-            "textWords": 0
-          },
-          "C4U1RGaZEs7W": {
-            "hits": 25,
-            "textWords": 1116
-          }
-        }
-      },
-      {
-        "hash": "7_Z00sZQFrI6",
-        "address": "https://dedicatedissues.com/32-in-33-voters-dont-care-about-climate-change/",
-        "title": "32 in 33 voters don’t care about “climate change” – Dedicated Issues of Whatfinger News",
-        "snippet": "climate change, voters, simply put, don’t care.\nClimate ranks 14th on list of top issue for the midterm vote (at 3%).\nThose who say it’s a very big problem is the same as in 2016 (~40%).\nNot even a majority agree humans cause any climate change. pic.twitter.com/IQYG9xPYmc\n— (((Harry Enten)))",
-        "matchedWords": {
-          "6zmbyspob4YJ": {
-            "hits": 2,
-            "textWords": 58
-          },
-          "C4U1RGaZEs7W": {
-            "hits": 3,
-            "textWords": 58
-          }
-        }
-      },
-      {
-        "hash": "6cqQzqj-21e4",
-        "address": "https://aiforgood.itu.int/ai-for-climate-action-ahyas-vision-for-net-zero-in-the-menap-region/?topic=422",
-        "title": "AI for climate action: Ahya’s vision for net-zero in the MENAP region - AI for Good",
-        "snippet": "climate action. That challenge was a central focus of the AI for Climate Action Innovation Factory 2025. The live pitching session, part of the AI for Good Innovation Factory, brought together innovators working at the intersection of AI, sustainability, and climate resilience. Their shared goal:",
-        "matchedWords": {
-          "6zmbyspob4YJ": {
-            "hits": 3,
-            "textWords": 563
-          },
-          "C4U1RGaZEs7W": {
-            "hits": 10,
-            "textWords": 563
-          }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
         "hash": "2ADbTD5jvdsw",
@@ -705,73 +834,131 @@
             "hits": 19,
             "textWords": 791
           }
-        }
+        },
+        "queryPhraseHits": 16
       },
       {
-        "hash": "3jqqLl6ahC7x",
-        "address": "https://www.greenfacts.org/en/climate-change-ar6-impacts/index.htm",
-        "title": "IPCC Climate Change technical report 2022: Impacts, Adaptation and Vulnerability",
-        "snippet": "climate risks;\n5. the main climate changes impacts observed since the former IPCC report;\n6. the now expected evolutions of global temperatures;\n7. the specific impacts of climate changes on biodiversity;\n8. the damages caused to terrestrial and freshwater marine ecosystems;\n9. the impacts on the",
+        "hash": "7_Z00sZQFrI6",
+        "address": "https://dedicatedissues.com/32-in-33-voters-dont-care-about-climate-change/",
+        "title": "32 in 33 voters don’t care about “climate change” – Dedicated Issues of Whatfinger News",
+        "snippet": "climate change, voters, simply put, don’t care.\nClimate ranks 14th on list of top issue for the midterm vote (at 3%).\nThose who say it’s a very big problem is the same as in 2016 (~40%).\nNot even a majority agree humans cause any climate change. pic.twitter.com/IQYG9xPYmc\n— (((Harry Enten)))",
         "matchedWords": {
           "6zmbyspob4YJ": {
-            "hits": 52,
-            "textWords": 5533
+            "hits": 2,
+            "textWords": 58
           },
           "C4U1RGaZEs7W": {
-            "hits": 117,
-            "textWords": 5533
+            "hits": 3,
+            "textWords": 58
           }
-        }
+        },
+        "queryPhraseHits": 2
+      },
+      {
+        "hash": "6cqQzqj-21e4",
+        "address": "https://aiforgood.itu.int/ai-for-climate-action-ahyas-vision-for-net-zero-in-the-menap-region/?topic=422",
+        "title": "AI for climate action: Ahya’s vision for net-zero in the MENAP region - AI for Good",
+        "snippet": "climate action. That challenge was a central focus of the AI for Climate Action Innovation Factory 2025. The live pitching session, part of the AI for Good Innovation Factory, brought together innovators working at the intersection of AI, sustainability, and climate resilience. Their shared goal:",
+        "matchedWords": {
+          "6zmbyspob4YJ": {
+            "hits": 3,
+            "textWords": 563
+          },
+          "C4U1RGaZEs7W": {
+            "hits": 10,
+            "textWords": 563
+          }
+        },
+        "queryPhraseHits": 3
+      },
+      {
+        "hash": "xEK7-Rcx0Umg",
+        "address": "https://climate-adapt.eea.europa.eu/en/metadata/adaptation-options/adaptation-options-for-electricity-transmission-and-distribution-networks-and-infrastructure",
+        "title": "Climate resilient electricity transmission, distribution networks and services | Adaptation options | Discover the key services, thematic features and tools of Climate-ADAPT",
+        "snippet": "Climate resilient technologies and efficiency measures can reduce failures in electricity transmission and ensure a reliable supply.\nElectricity transmission is affected by several extreme weather events that may become more frequent and severe due to climate change. Underground cabling offers a",
+        "matchedWords": {
+          "6zmbyspob4YJ": {
+            "hits": 3,
+            "textWords": 2466
+          },
+          "C4U1RGaZEs7W": {
+            "hits": 12,
+            "textWords": 2466
+          }
+        },
+        "queryPhraseHits": 3
+      },
+      {
+        "hash": "-KUrfNAU28d6",
+        "address": "https://www.thenationalnews.com/climate/2025/07/07/brazilian-president-urges-brics-nations-to-lead-on-climate-fight-ahead-of-cop30/",
+        "title": "Brazilian President urges Brics nations to lead on climate fight ahead of Cop30 | The National",
+        "snippet": "climate action\nBrazil's President Luiz Inacio Lula da Silva has called on fellow Brics nations to usher in a new era of climate and health justice ahead of Cop30, which his country will host in Belem in November.\nIn a speech on the final day of the Brics Summit in Rio de Janeiro, Lula highlighted",
+        "matchedWords": {
+          "6zmbyspob4YJ": {
+            "hits": 3,
+            "textWords": 437
+          },
+          "C4U1RGaZEs7W": {
+            "hits": 6,
+            "textWords": 437
+          }
+        },
+        "queryPhraseHits": 3
       }
     ],
     [
       {
-        "hash": "O7hcoa-i-k-g",
-        "address": "https://www.lse.ac.uk/lse-player/the-hidden-health-crisis-behind-climate-change-lse-future-proof",
-        "title": "The hidden health crisis behind climate change | LSE Future Proof - LSE",
-        "snippet": "climate change? What are the health effects of climate change? And why are poor communities most affected by climate change?\nClimate change is often framed as an environmental problem, but human health impacts are already being felt around the world. From heatwaves, drought and air pollution to",
+        "hash": "RU0iR21734Gg",
+        "address": "https://cordis.europa.eu/en",
+        "title": "CORDIS | European Commission",
+        "snippet": "Climate Change and Environment\nDigital Economy\nEnergy\nFood and Natural Resources\nFundamental Research\nHealth\nIndustrial Technologies\nSecurity\nSociety\nSpace\nTransport and Mobility",
         "matchedWords": {
           "6zmbyspob4YJ": {
-            "hits": 7,
-            "textWords": 107
+            "hits": 1,
+            "textWords": 376
           },
           "C4U1RGaZEs7W": {
-            "hits": 7,
-            "textWords": 107
+            "hits": 1,
+            "textWords": 376
           }
-        }
-      },
+        },
+        "queryPhraseHits": 1
+      }
+    ],
+    [
       {
-        "hash": "1HKmQlKyg81x",
-        "address": "https://www.carbonbrief.org/explainer-dealing-with-the-loss-and-damage-caused-by-climate-change",
-        "title": "Explainer: Dealing with the 'loss and damage' caused by climate change - Carbon Brief",
-        "snippet": "climate change can only take us so far. Some negative impacts and damages are now unavoidable. The inevitable consequences of human-caused climate change have collectively come to be known as “loss and damage”.\nFirst emerging decades ago as a relatively obscure plea by small island states, loss and",
-        "matchedWords": {
-          "6zmbyspob4YJ": {
-            "hits": 35,
-            "textWords": 2877
-          },
-          "C4U1RGaZEs7W": {
-            "hits": 45,
-            "textWords": 2877
-          }
-        }
-      },
-      {
-        "hash": "UPulwzbISfC5",
-        "address": "https://www.teenvogue.com/story/hurricane-helene-is-tied-to-climate-change-powerful-dont-care",
-        "title": "Young People Know Hurricane Helene Is Tied to Climate Change. The Powerful Don't Care. | Teen Vogue",
+        "hash": "XzojnlKyg81x",
+        "address": "https://www.carbonbrief.org/analysis-nine-key-moments-that-changed-chinas-mind-about-climate-change",
+        "title": "Analysis: Nine key moments that changed China’s mind about climate change - Carbon Brief",
         "snippet": "",
         "matchedWords": {
           "6zmbyspob4YJ": {
-            "hits": 5,
-            "textWords": 3010
+            "hits": 58,
+            "textWords": 14261
           },
           "C4U1RGaZEs7W": {
             "hits": 0,
             "textWords": 0
           }
-        }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "O7hcoa-i-k-g",
+        "address": "https://www.lse.ac.uk/lse-player/the-hidden-health-crisis-behind-climate-change-lse-future-proof",
+        "title": "The hidden health crisis behind climate change | LSE Future Proof - LSE",
+        "snippet": "",
+        "matchedWords": {
+          "6zmbyspob4YJ": {
+            "hits": 12,
+            "textWords": 1408
+          },
+          "C4U1RGaZEs7W": {
+            "hits": 0,
+            "textWords": 0
+          }
+        },
+        "queryPhraseHits": 0
       },
       {
         "hash": "cIFrCb3Ieh7g",
@@ -787,23 +974,42 @@
             "hits": 0,
             "textWords": 0
           }
-        }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "5CGlk2lbxFxx",
+        "address": "https://www.navigation.org/grants/climate-change",
+        "title": "Climate Change | The Navigation Fund",
+        "snippet": "",
+        "matchedWords": {
+          "6zmbyspob4YJ": {
+            "hits": 14,
+            "textWords": 1482
+          },
+          "C4U1RGaZEs7W": {
+            "hits": 0,
+            "textWords": 0
+          }
+        },
+        "queryPhraseHits": 0
       },
       {
         "hash": "r2doDsOLCOH6",
         "address": "https://wattsupwiththat.com/climate-change-is-increasing-the-strength-and-frequency-of-hurricanes/",
         "title": "Climate Change is Increasing the Strength and Frequency of Hurricanes - Watts Up With That?",
-        "snippet": "climate change is making these storms more intense and destructive.\nThe analysis, of satellite images dating to 1979, shows that warming has increased the likelihood of a hurricane developing into a major one of Category 3 or higher, with sustained winds greater than 110 miles an hour, by about 8",
+        "snippet": "",
         "matchedWords": {
           "6zmbyspob4YJ": {
-            "hits": 4,
-            "textWords": 1237
+            "hits": 20,
+            "textWords": 2177
           },
           "C4U1RGaZEs7W": {
-            "hits": 6,
-            "textWords": 1237
+            "hits": 0,
+            "textWords": 0
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
         "hash": "LqPrpbVBAEt4",
@@ -819,7 +1025,8 @@
             "hits": 0,
             "textWords": 0
           }
-        }
+        },
+        "queryPhraseHits": 0
       }
     ],
     [
@@ -837,7 +1044,8 @@
             "hits": 65,
             "textWords": 1257
           }
-        }
+        },
+        "queryPhraseHits": 52
       },
       {
         "hash": "QU4s6s_wyst4",
@@ -853,7 +1061,8 @@
             "hits": 2,
             "textWords": 139
           }
-        }
+        },
+        "queryPhraseHits": 1
       },
       {
         "hash": "Z4H69lkx8IKw",
@@ -869,7 +1078,25 @@
             "hits": 0,
             "textWords": 0
           }
-        }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "jFH1V7rrBtSg",
+        "address": "https://research-and-innovation.ec.europa.eu/funding/funding-opportunities/funding-programmes-and-open-calls/horizon-europe/eu-missions-horizon-europe/adaptation-climate-change_en",
+        "title": "EU Mission: Adaptation to Climate Change",
+        "snippet": "Climate Change aims to support at least 150 European regions and communities towards climate resilience by 2030. It focuses on helping these regions and local authorities to\nUnderstand climate risks: Identify current and future climate-related challenges specific to their areas\nDevelop adaptation",
+        "matchedWords": {
+          "6zmbyspob4YJ": {
+            "hits": 7,
+            "textWords": 761
+          },
+          "C4U1RGaZEs7W": {
+            "hits": 27,
+            "textWords": 761
+          }
+        },
+        "queryPhraseHits": 7
       }
     ],
     [
@@ -877,35 +1104,54 @@
         "hash": "ncY549TRvWp5",
         "address": "https://hecubus.wordpress.com/category/global-climate-change/",
         "title": "global climate change | We Have Seen Better Days",
-        "snippet": "Climate Change (IPCC), who expect us to believe their predictions that the earth is warming due primarily to anthropogenic interference.\nThese are the same people who concocted the hockey stick graph, deceitfully eradicating the medieval era warming period in order to convince politicians and the",
+        "snippet": "",
         "matchedWords": {
           "6zmbyspob4YJ": {
-            "hits": 18,
-            "textWords": 6325
+            "hits": 46,
+            "textWords": 17129
           },
           "C4U1RGaZEs7W": {
-            "hits": 46,
-            "textWords": 6325
+            "hits": 0,
+            "textWords": 0
           }
-        }
+        },
+        "queryPhraseHits": 0
       }
     ],
     [
       {
-        "hash": "CvYIMh5-F5dg",
-        "address": "https://www.bgs.ac.uk/discovering-geology/climate-change/",
-        "title": "Discovering Geology: climate change - British Geological Survey",
-        "snippet": "climate?\n‘Weather’ describes the combination of wind, rain, temperature and other natural atmospheric conditions we experience at a particular time and place. ‘Climate’ is the pattern of weather of an area averaged over many years.\nIf we have extremes in weather conditions, such as a long summer",
+        "hash": "wwDOS9j078-4",
+        "address": "https://www.statnews.com/2026/08/12/climate-change-chronic-disease-heat-smoke-arthritis-lupus-pots/",
+        "title": "Climate change is deadly for people with chronic diseases | STAT",
+        "snippet": "",
         "matchedWords": {
           "6zmbyspob4YJ": {
-            "hits": 6,
-            "textWords": 351
+            "hits": 5,
+            "textWords": 1914
           },
           "C4U1RGaZEs7W": {
-            "hits": 10,
-            "textWords": 351
+            "hits": 0,
+            "textWords": 0
           }
-        }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "zPce29IcbLAw",
+        "address": "https://www.change.org/local/dallas--tx--us?source_location=location-sitemap-most-visited-section",
+        "title": "Petitions in Dallas - Support Local Causes \u0026 Make a Difference | Dallas, Texas · Change.org",
+        "snippet": "change.\nHome\nLocation\nDallas\nHome\nLocation\nDallas",
+        "matchedWords": {
+          "6zmbyspob4YJ": {
+            "hits": 1,
+            "textWords": 83
+          },
+          "C4U1RGaZEs7W": {
+            "hits": 0,
+            "textWords": 83
+          }
+        },
+        "queryPhraseHits": 0
       },
       {
         "hash": "X-bsolINTRD4",
@@ -921,23 +1167,42 @@
             "hits": 0,
             "textWords": 0
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
-        "hash": "wwDOS9j078-4",
-        "address": "https://www.statnews.com/2026/08/12/climate-change-chronic-disease-heat-smoke-arthritis-lupus-pots/",
-        "title": "Climate change is deadly for people with chronic diseases | STAT",
+        "hash": "54Qky2kwQsLw",
+        "address": "https://droughtmonitor.unl.edu/Maps/ChangeMaps.aspx",
+        "title": "Change Maps | U.S. Drought Monitor",
         "snippet": "",
         "matchedWords": {
           "6zmbyspob4YJ": {
-            "hits": 5,
-            "textWords": 1914
+            "hits": 3,
+            "textWords": 785
           },
           "C4U1RGaZEs7W": {
             "hits": 0,
             "textWords": 0
           }
-        }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "CvYIMh5-F5dg",
+        "address": "https://www.bgs.ac.uk/discovering-geology/climate-change/",
+        "title": "Discovering Geology: climate change - British Geological Survey",
+        "snippet": "",
+        "matchedWords": {
+          "6zmbyspob4YJ": {
+            "hits": 21,
+            "textWords": 1566
+          },
+          "C4U1RGaZEs7W": {
+            "hits": 0,
+            "textWords": 0
+          }
+        },
+        "queryPhraseHits": 0
       }
     ],
     [
@@ -955,7 +1220,8 @@
             "hits": 1,
             "textWords": 7534
           }
-        }
+        },
+        "queryPhraseHits": 1
       }
     ],
     [
@@ -973,42 +1239,11 @@
             "hits": 0,
             "textWords": 0
           }
-        }
+        },
+        "queryPhraseHits": 0
       }
     ],
     [
-      {
-        "hash": "8qifDNmMQij4",
-        "address": "https://www.who.int/europe/health-topics/climate-change",
-        "title": "Climate change EURO",
-        "snippet": "Climate and Health’s recommendations.\nExtreme heat is an urgent and growing public health threat, driven by climate change and exacerbated by urbanization and population ageing. It increases...\nAs Ukraine approaches the summer of 2026, the health sector is operating under the dual pressure of",
-        "matchedWords": {
-          "6zmbyspob4YJ": {
-            "hits": 1,
-            "textWords": 77
-          },
-          "C4U1RGaZEs7W": {
-            "hits": 4,
-            "textWords": 77
-          }
-        }
-      },
-      {
-        "hash": "nCSLyrISdjFg",
-        "address": "https://www.gov.uk/guidance/river-basin-management-plans-updated-2022",
-        "title": "River basin management plans: updated 2022 - GOV.UK",
-        "snippet": "climate change. Left unchecked we will see a 6% decrease in the percentage of rivers at good ecological status by 2027 unless current interventions are maintained and new interventions introduced to halt further decline. All of society from individuals to organisations and sectors (interactions",
-        "matchedWords": {
-          "6zmbyspob4YJ": {
-            "hits": 1,
-            "textWords": 1036
-          },
-          "C4U1RGaZEs7W": {
-            "hits": 1,
-            "textWords": 1036
-          }
-        }
-      },
       {
         "hash": "eSKGo9JF2J06",
         "address": "https://store.legal.thomsonreuters.com/en-us/legal/environmental-law/climate-change",
@@ -1023,7 +1258,8 @@
             "hits": 0,
             "textWords": 0
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
         "hash": "TTdgPlS5WTn4",
@@ -1039,7 +1275,8 @@
             "hits": 0,
             "textWords": 488
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
         "hash": "waQr5tIIL7ew",
@@ -1055,92 +1292,98 @@
             "hits": 0,
             "textWords": 0
           }
-        }
-      }
-    ],
-    [
+        },
+        "queryPhraseHits": 0
+      },
       {
-        "hash": "rkE9tQZchFfZ",
-        "address": "http://www.greenteethmm.com/latestposts.shtml",
-        "title": "reality-on-employment-prospects-for-graduates",
+        "hash": "TBtrwmVUrQm6",
+        "address": "https://earthnewspaper.com/mark-r-elsis/the-ominous-change-at-the-federal-reserve-by-mark-r-elsis/",
+        "title": "The Ominous Change At The Federal Reserve by Mark R. Elsis – EarthNewspaper.com – All The Honest News Fit To Publish",
         "snippet": "",
         "matchedWords": {
           "6zmbyspob4YJ": {
-            "hits": 101,
-            "textWords": 13204
+            "hits": 10,
+            "textWords": 25041
           },
           "C4U1RGaZEs7W": {
             "hits": 0,
             "textWords": 0
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
-        "hash": "r5LmqFDuT774",
-        "address": "https://edbutt.blogspot.com/",
-        "title": "Boggart Abroad",
+        "hash": "8qifDNmMQij4",
+        "address": "https://www.who.int/europe/health-topics/climate-change",
+        "title": "Climate change EURO",
         "snippet": "",
         "matchedWords": {
           "6zmbyspob4YJ": {
-            "hits": 12,
-            "textWords": 19156
+            "hits": 10,
+            "textWords": 1726
           },
           "C4U1RGaZEs7W": {
             "hits": 0,
             "textWords": 0
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
-        "hash": "rRhPnxm2zBz4",
-        "address": "https://elderofziyon.blogspot.com/search/label/Hasby%202016",
-        "title": "Elder Of Ziyon - Israel News: Hasby 2016",
+        "hash": "AJzS5jAg8xXw",
+        "address": "https://en.wikinews.org/wiki/Category:2012_United_Nations_Climate_Change_Conference",
+        "title": "Category:2012 United Nations Climate Change Conference - Wikinews, the free news source",
         "snippet": "",
         "matchedWords": {
           "6zmbyspob4YJ": {
             "hits": 6,
-            "textWords": 15884
+            "textWords": 748
           },
           "C4U1RGaZEs7W": {
             "hits": 0,
             "textWords": 0
           }
-        }
+        },
+        "queryPhraseHits": 0
       }
     ],
     [
       {
-        "hash": "3jqqLl6ahC7x",
-        "address": "https://www.greenfacts.org/en/climate-change-ar6-impacts/index.htm",
-        "title": "IPCC Climate Change technical report 2022: Impacts, Adaptation and Vulnerability",
-        "snippet": "climate risks;\n5. the main climate changes impacts observed since the former IPCC report;\n6. the now expected evolutions of global temperatures;\n7. the specific impacts of climate changes on biodiversity;\n8. the damages caused to terrestrial and freshwater marine ecosystems;\n9. the impacts on the",
+        "hash": "rXX3fQZchFfZ",
+        "address": "http://www.greenteethmm.com/euro-crisis-cyprus.shtml",
+        "title": "cyprus-was-a-prosperous-happy-successful-island-nation-then-they-joined-the-european-single-currency-system-and-were-forced-into-debt-slavery",
+        "snippet": "",
         "matchedWords": {
           "6zmbyspob4YJ": {
-            "hits": 52,
-            "textWords": 5533
+            "hits": 30,
+            "textWords": 22207
           },
           "C4U1RGaZEs7W": {
-            "hits": 117,
-            "textWords": 5533
+            "hits": 0,
+            "textWords": 0
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
-        "hash": "8jowcwBRidT5",
-        "address": "https://www.newscientist.com/article/1920007-ocean-heat-store-makes-climate-change-inevitable/",
-        "title": "Ocean heat store makes climate change inevitable | New Scientist",
-        "snippet": "climate change is inevitable, warn two new studies which take into account the oceans’ slow response to warming.\nEven if greenhouse gases never rise beyond their present level, temperatures and sea levels will continue rising for another century or more because of a time lag in the oceans’ response",
+        "hash": "oN0wjQXx1HRZ",
+        "address": "http://www.dailystirrer.com/index.shtml",
+        "title": "dailystirrer-the-daily-stirrer-news-opinion-outspoke-controversial-comment",
+        "snippet": "",
         "matchedWords": {
           "6zmbyspob4YJ": {
-            "hits": 5,
-            "textWords": 488
+            "hits": 25,
+            "textWords": 20715
           },
           "C4U1RGaZEs7W": {
-            "hits": 6,
-            "textWords": 488
+            "hits": 0,
+            "textWords": 0
           }
-        }
-      },
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
       {
         "hash": "oz8tMTetCYjx",
         "address": "https://www.orfonline.org/programme/inclusive-growth-and-sdgs/climate-change-and-sustainable-development",
@@ -1155,7 +1398,8 @@
             "hits": 0,
             "textWords": 0
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
         "hash": "YuoYkoOkg38g",
@@ -1171,39 +1415,8 @@
             "hits": 26,
             "textWords": 2796
           }
-        }
-      },
-      {
-        "hash": "Tm8vbiVUrQm6",
-        "address": "https://earthnewspaper.com/2022-news/24-7-news-october-2022/",
-        "title": "24/7 News October 2022 – EarthNewspaper.com – All The Honest News Fit To Publish",
-        "snippet": "",
-        "matchedWords": {
-          "6zmbyspob4YJ": {
-            "hits": 0,
-            "textWords": 65427
-          },
-          "C4U1RGaZEs7W": {
-            "hits": 0,
-            "textWords": 0
-          }
-        }
-      },
-      {
-        "hash": "waQr5tIIL7ew",
-        "address": "https://stallman.org/archives/2022-jan-apr.html",
-        "title": "2022: January - April Political Notes",
-        "snippet": "",
-        "matchedWords": {
-          "6zmbyspob4YJ": {
-            "hits": 147,
-            "textWords": 52435
-          },
-          "C4U1RGaZEs7W": {
-            "hits": 0,
-            "textWords": 0
-          }
-        }
+        },
+        "queryPhraseHits": 19
       },
       {
         "hash": "alH4nmCCIsDg",
@@ -1219,7 +1432,25 @@
             "hits": 0,
             "textWords": 0
           }
-        }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "Tm8vbiVUrQm6",
+        "address": "https://earthnewspaper.com/2022-news/24-7-news-october-2022/",
+        "title": "24/7 News October 2022 – EarthNewspaper.com – All The Honest News Fit To Publish",
+        "snippet": "",
+        "matchedWords": {
+          "6zmbyspob4YJ": {
+            "hits": 0,
+            "textWords": 65427
+          },
+          "C4U1RGaZEs7W": {
+            "hits": 0,
+            "textWords": 0
+          }
+        },
+        "queryPhraseHits": 0
       },
       {
         "hash": "X-oflT_jZEx4",
@@ -1235,331 +1466,46 @@
             "hits": 0,
             "textWords": 0
           }
-        }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "BqNWB6rKlibw",
+        "address": "https://www.wri.org/index%2ephp/insights/2023-ipcc-ar6-synthesis-report-climate-change-findings",
+        "title": "Top Findings from the IPCC Climate Change Report 2023 | World Resources Institute",
+        "snippet": "",
+        "matchedWords": {
+          "6zmbyspob4YJ": {
+            "hits": 29,
+            "textWords": 5176
+          },
+          "C4U1RGaZEs7W": {
+            "hits": 0,
+            "textWords": 0
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "SL430doUQNjx",
+        "address": "https://www.commondreams.org/organization/oil-change-us",
+        "title": "Oil Change U.S. | Organization | Common Dreams",
+        "snippet": "",
+        "matchedWords": {
+          "6zmbyspob4YJ": {
+            "hits": 20,
+            "textWords": 1798
+          },
+          "C4U1RGaZEs7W": {
+            "hits": 0,
+            "textWords": 0
+          }
+        },
+        "queryPhraseHits": 0
       }
     ]
   ],
   "itemsInNoOrder": [
-    {
-      "hash": "Q4SEOs3rpWVz",
-      "address": "https://inconvenienttruths.net/",
-      "title": "INCONVENIEINCONVENIENT TRUTHS - DEEP STATE, JFK, GLOBAL FINANCIAL ELITE, POWER ELITE, PLUTOCRACY, MEDICAL MAFIA, VACCINES, FALSE FLAGS, GLOBALISM, CORPORATOCRACY, ZIONISM, MOSSAD",
-      "snippet": "",
-      "matchedWords": {
-        "6zmbyspob4YJ": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "C4U1RGaZEs7W": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "Asb1d06dFogw",
-      "address": "https://www.hrw.org/middle-east/n-africa/kuwait",
-      "title": "Kuwait | Country Page | World | Human Rights Watch",
-      "snippet": "",
-      "matchedWords": {
-        "6zmbyspob4YJ": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "C4U1RGaZEs7W": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "-p2w3taoSn1x",
-      "address": "https://en.planet.wikimedia.org/",
-      "title": "en.planet.wikimedia.org",
-      "snippet": "",
-      "matchedWords": {
-        "6zmbyspob4YJ": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "C4U1RGaZEs7W": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "GaHMqEb-Tly5",
-      "address": "https://greenteeth.wordpress.com/",
-      "title": "Greenteeth Bites | Hard hitting comments on the madness of the world",
-      "snippet": "",
-      "matchedWords": {
-        "6zmbyspob4YJ": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "C4U1RGaZEs7W": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "KQPbYjc4UIAx",
-      "address": "https://en.wikivoyage.org/wiki/Wikivoyage:Requested_articles",
-      "title": "Wikivoyage:Requested articles – Travel guide at Wikivoyage",
-      "snippet": "",
-      "matchedWords": {
-        "6zmbyspob4YJ": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "C4U1RGaZEs7W": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "GMKmQscJYL54",
-      "address": "https://gizmodo.com/",
-      "title": "Gizmodo | The Future Is Here",
-      "snippet": "",
-      "matchedWords": {
-        "6zmbyspob4YJ": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "C4U1RGaZEs7W": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "L6KQc5nvH1e5",
-      "address": "https://abadguide.wordpress.com/",
-      "title": "A Bad Guide",
-      "snippet": "",
-      "matchedWords": {
-        "6zmbyspob4YJ": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "C4U1RGaZEs7W": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "GtLjhloUbV15",
-      "address": "https://www.whatfinger.com/",
-      "title": "Whatfinger News® – Unfiltered Truth. America’s News Feed",
-      "snippet": "",
-      "matchedWords": {
-        "6zmbyspob4YJ": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "C4U1RGaZEs7W": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "knpjjlu3ATW4",
-      "address": "https://www.scotsman.com/news",
-      "title": "News | The Scotsman",
-      "snippet": "",
-      "matchedWords": {
-        "6zmbyspob4YJ": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "C4U1RGaZEs7W": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "FYE0sQVn-2KY",
-      "address": "http://www.jpost.com/israel-news",
-      "title": "Israel News: Updates on Israeli Politics, Security \u0026 Diplomacy | The Jerusalem Post",
-      "snippet": "",
-      "matchedWords": {
-        "6zmbyspob4YJ": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "C4U1RGaZEs7W": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "1F8B2rcHOkWx",
-      "address": "https://www.gutenberg.org/dirs/GUTINDEX.ALL",
-      "title": "",
-      "snippet": "",
-      "matchedWords": {
-        "6zmbyspob4YJ": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "C4U1RGaZEs7W": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "7GLTa2cHOkWx",
-      "address": "https://www.gutenberg.org/files/12342/12342-h/12342-h.htm",
-      "title": "The Project Gutenberg eBook of The Nuttall Encyclopædia, edited by the Rev. James Wood",
-      "snippet": "",
-      "matchedWords": {
-        "6zmbyspob4YJ": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "C4U1RGaZEs7W": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "Q4SEOs3rpWVz",
-      "address": "https://inconvenienttruths.net/",
-      "title": "INCONVENIEINCONVENIENT TRUTHS - DEEP STATE, JFK, GLOBAL FINANCIAL ELITE, POWER ELITE, PLUTOCRACY, MEDICAL MAFIA, VACCINES, FALSE FLAGS, GLOBALISM, CORPORATOCRACY, ZIONISM, MOSSAD",
-      "snippet": "",
-      "matchedWords": {
-        "6zmbyspob4YJ": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "C4U1RGaZEs7W": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "Jb4XHs5IzNm6",
-      "address": "https://citizenfreepress.com/",
-      "title": "CITIZEN FREE PRESS",
-      "snippet": "",
-      "matchedWords": {
-        "6zmbyspob4YJ": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "C4U1RGaZEs7W": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "Z9gE_oM72em4",
-      "address": "https://directorblue.blogspot.com/2013/12/fab50-announcing-2013-fabulous-50-blog.html",
-      "title": "Doug Ross @ Journal: #Fab50: Announcing the 2013 Fabulous 50 Blog Award Winners",
-      "snippet": "",
-      "matchedWords": {
-        "6zmbyspob4YJ": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "C4U1RGaZEs7W": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "uFRXijRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Barack_Obama",
-      "title": "Barack Obama - Wikipedia",
-      "snippet": "",
-      "matchedWords": {
-        "6zmbyspob4YJ": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "C4U1RGaZEs7W": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "7IIFujRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/United_Kingdom",
-      "title": "United Kingdom - Wikipedia",
-      "snippet": "",
-      "matchedWords": {
-        "6zmbyspob4YJ": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "C4U1RGaZEs7W": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "a-z2eQZchFfZ",
-      "address": "http://www.greenteethmm.com/climate-scam-real-agenda.shtml",
-      "title": "un-official-reveals-real-reason-behind-warming-scare-news-opinion-comment-daily-stirrer",
-      "snippet": "",
-      "matchedWords": {
-        "6zmbyspob4YJ": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "C4U1RGaZEs7W": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "KQPbYjc4UIAx",
-      "address": "https://en.wikivoyage.org/wiki/Wikivoyage:Requested_articles",
-      "title": "Wikivoyage:Requested articles – Travel guide at Wikivoyage",
-      "snippet": "",
-      "matchedWords": {
-        "6zmbyspob4YJ": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "C4U1RGaZEs7W": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "GMKmQscJYL54",
-      "address": "https://gizmodo.com/",
-      "title": "Gizmodo | The Future Is Here",
-      "snippet": "",
-      "matchedWords": {
-        "6zmbyspob4YJ": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "C4U1RGaZEs7W": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
     {
       "hash": "W5uqHs-D33u5",
       "address": "https://instapundit.com/",
@@ -1574,12 +1520,13 @@
           "hits": 0,
           "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
-      "hash": "phB_Oj-JVcyx",
-      "address": "https://en.wikiquote.org/wiki/Love",
-      "title": "Love - Wikiquote",
+      "hash": "jMjhCjD3AMxY",
+      "address": "http://commonsensewonder.blogspot.com/",
+      "title": "Commonsense \u0026 Wonder",
       "snippet": "",
       "matchedWords": {
         "6zmbyspob4YJ": {
@@ -1590,12 +1537,13 @@
           "hits": 0,
           "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
-      "hash": "hbVAdlWIljx5",
-      "address": "https://www.breitbart.com/",
-      "title": "Breitbart News Network",
+      "hash": "gK0yJsjsdFw4",
+      "address": "https://akdart.com/med21.html",
+      "title": "News Media Sensationalism and Dishonesty",
       "snippet": "",
       "matchedWords": {
         "6zmbyspob4YJ": {
@@ -1606,12 +1554,13 @@
           "hits": 0,
           "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
-      "hash": "J6LFIsYyzH0z",
-      "address": "https://awesome-selfhosted.net/",
-      "title": "awesome-selfhosted",
+      "hash": "oOVv2jRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Wikipedia:Featured_article_candidates",
+      "title": "Wikipedia:Featured article candidates - Wikipedia",
       "snippet": "",
       "matchedWords": {
         "6zmbyspob4YJ": {
@@ -1622,87 +1571,8 @@
           "hits": 0,
           "textWords": 0
         }
-      }
-    },
-    {
-      "hash": "D4lABzaS0qdw",
-      "address": "https://planet.debian.org/",
-      "title": "Planet Debian",
-      "snippet": "",
-      "matchedWords": {
-        "6zmbyspob4YJ": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "C4U1RGaZEs7W": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "190N3snp_33z",
-      "address": "https://globalkleptocracy.net/",
-      "title": "GLOBAL KLEPTOCRACY - GLOBAL ELITE, RULING ELITE, GLOBAL OLIGARCHY, DEEP STATE, GLOBALISM, DYNASTIC ELITE, MONOPOLY CAPITALISM, CORPORATOCRACY, PLUTOCRACY, MONEY LAUNDERING, DRUG TRAFFICKING",
-      "snippet": "",
-      "matchedWords": {
-        "6zmbyspob4YJ": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "C4U1RGaZEs7W": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "L6KQc5nvH1e5",
-      "address": "https://abadguide.wordpress.com/",
-      "title": "A Bad Guide",
-      "snippet": "",
-      "matchedWords": {
-        "6zmbyspob4YJ": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "C4U1RGaZEs7W": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "52E3_srpnHl6",
-      "address": "https://filmfreedonia.com/",
-      "title": "film freedonia | Film essays and commentary by Roderick Heath",
-      "snippet": "",
-      "matchedWords": {
-        "6zmbyspob4YJ": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "C4U1RGaZEs7W": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "jgWYRlV1C_95",
-      "address": "https://www.ferdyonfilms.com/",
-      "title": "Ferdy on Films",
-      "snippet": "",
-      "matchedWords": {
-        "6zmbyspob4YJ": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "C4U1RGaZEs7W": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "CyUYvsY-tUi5",
@@ -1718,12 +1588,13 @@
           "hits": 0,
           "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
-      "hash": "D4lABzaS0qdw",
-      "address": "https://planet.debian.org/",
-      "title": "Planet Debian",
+      "hash": "daW1ZQZchFfZ",
+      "address": "http://www.greenteethmm.com/transgenderr-ladies-first.shtml",
+      "title": "whether-tom-chivers-is-a-science-writer-a-hack-journalist-or-a-cunt-is-a-matter-of-semantics-daily-stirrer-dailystirrer",
       "snippet": "",
       "matchedWords": {
         "6zmbyspob4YJ": {
@@ -1734,12 +1605,13 @@
           "hits": 0,
           "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
-      "hash": "GaHMqEb-Tly5",
-      "address": "https://greenteeth.wordpress.com/",
-      "title": "Greenteeth Bites | Hard hitting comments on the madness of the world",
+      "hash": "ro-__QZchFfZ",
+      "address": "http://www.greenteethmm.com/",
+      "title": "dailystirrer-the-daily-stirrer-news-opinion-outspoke-controversial-comment",
       "snippet": "",
       "matchedWords": {
         "6zmbyspob4YJ": {
@@ -1750,12 +1622,13 @@
           "hits": 0,
           "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
-      "hash": "D_FUmsbQMMCy",
-      "address": "https://realworldorder.net/",
-      "title": "ROTHSCHILD WORLD ORDER - ROTHSCHILD, FINANCIAL OLIGARCHY, MONEY POWER, RULING ELITE, GLOBAL ELITE, DYNASTIC OLIGARCHY, POWER ELITE, DEEP STATE, ROCKEFELLER, GLOBALISM, NEW WORLD",
+      "hash": "KQPbYjc4UIAx",
+      "address": "https://en.wikivoyage.org/wiki/Wikivoyage:Requested_articles",
+      "title": "Wikivoyage:Requested articles – Travel guide at Wikivoyage",
       "snippet": "",
       "matchedWords": {
         "6zmbyspob4YJ": {
@@ -1766,12 +1639,13 @@
           "hits": 0,
           "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
-      "hash": "190N3snp_33z",
-      "address": "https://globalkleptocracy.net/",
-      "title": "GLOBAL KLEPTOCRACY - GLOBAL ELITE, RULING ELITE, GLOBAL OLIGARCHY, DEEP STATE, GLOBALISM, DYNASTIC ELITE, MONOPOLY CAPITALISM, CORPORATOCRACY, PLUTOCRACY, MONEY LAUNDERING, DRUG TRAFFICKING",
+      "hash": "-b3sxspKNBr4",
+      "address": "https://rense.com/",
+      "title": "rense.com",
       "snippet": "",
       "matchedWords": {
         "6zmbyspob4YJ": {
@@ -1782,12 +1656,13 @@
           "hits": 0,
           "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
-      "hash": "Wfq3FswvoTD5",
-      "address": "https://r-universe.dev/articles",
-      "title": "R-universe - browse articles",
+      "hash": "gpW7dYwXSYd5",
+      "address": "https://www.pricelisto.com/industry-reports/casual-dining-restaurant-industry",
+      "title": "Casual Dining Restaurant Report, Analysis of US Restaurant Industry - PriceListo",
       "snippet": "",
       "matchedWords": {
         "6zmbyspob4YJ": {
@@ -1798,55 +1673,8 @@
           "hits": 0,
           "textWords": 0
         }
-      }
-    },
-    {
-      "hash": "phB_Oj-JVcyx",
-      "address": "https://en.wikiquote.org/wiki/Love",
-      "title": "Love - Wikiquote",
-      "snippet": "",
-      "matchedWords": {
-        "6zmbyspob4YJ": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "C4U1RGaZEs7W": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "3Qslys-pamAy",
-      "address": "https://publicintegrity.org/",
-      "title": "Home – Center for Public Integrity",
-      "snippet": "",
-      "matchedWords": {
-        "6zmbyspob4YJ": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "C4U1RGaZEs7W": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "Na9tTl05rw04",
-      "address": "https://www.unz.com/",
-      "title": "The Unz Review • An Alternative Media Selection - The Unz Review",
-      "snippet": "",
-      "matchedWords": {
-        "6zmbyspob4YJ": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "C4U1RGaZEs7W": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "Q4SEOs3rpWVz",
@@ -1862,12 +1690,13 @@
           "hits": 0,
           "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
-      "hash": "4s2IKl9kY4-7",
-      "address": "https://www.whatreallyhappened.com/NEW/",
-      "title": "stories-main | What Really Happened",
+      "hash": "Asb1d06dFogw",
+      "address": "https://www.hrw.org/middle-east/n-africa/kuwait",
+      "title": "Kuwait | Country Page | World | Human Rights Watch",
       "snippet": "",
       "matchedWords": {
         "6zmbyspob4YJ": {
@@ -1878,12 +1707,13 @@
           "hits": 0,
           "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
-      "hash": "SMD0WiDuT774",
-      "address": "https://edbutt.blogspot.com/2015/11/german-scientist-confims-climate-change.html",
-      "title": "Boggart Abroad: German Scientist Confims Climate Change Ia A Politically Motivated Scam",
+      "hash": "oOVv2jRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Wikipedia:Featured_article_candidates",
+      "title": "Wikipedia:Featured article candidates - Wikipedia",
       "snippet": "",
       "matchedWords": {
         "6zmbyspob4YJ": {
@@ -1894,12 +1724,13 @@
           "hits": 0,
           "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
-      "hash": "Z9gE_oM72em4",
-      "address": "https://directorblue.blogspot.com/2013/12/fab50-announcing-2013-fabulous-50-blog.html",
-      "title": "Doug Ross @ Journal: #Fab50: Announcing the 2013 Fabulous 50 Blog Award Winners",
+      "hash": "ro-__QZchFfZ",
+      "address": "http://www.greenteethmm.com/",
+      "title": "dailystirrer-the-daily-stirrer-news-opinion-outspoke-controversial-comment",
       "snippet": "",
       "matchedWords": {
         "6zmbyspob4YJ": {
@@ -1910,103 +1741,8 @@
           "hits": 0,
           "textWords": 0
         }
-      }
-    },
-    {
-      "hash": "2PvgGsPdRrcw",
-      "address": "https://thegwpf.org/",
-      "title": "Home - The Global Warming Policy Foundation",
-      "snippet": "",
-      "matchedWords": {
-        "6zmbyspob4YJ": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "C4U1RGaZEs7W": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "pLvr3lS5WTn4",
-      "address": "https://www.jpost.com/",
-      "title": "The Jerusalem Post - All News from the Middle East, Israel, and the Jewish World",
-      "snippet": "",
-      "matchedWords": {
-        "6zmbyspob4YJ": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "C4U1RGaZEs7W": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "FYE0sQVn-2KY",
-      "address": "http://www.jpost.com/israel-news",
-      "title": "Israel News: Updates on Israeli Politics, Security \u0026 Diplomacy | The Jerusalem Post",
-      "snippet": "",
-      "matchedWords": {
-        "6zmbyspob4YJ": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "C4U1RGaZEs7W": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "t3rNSQVn-2KY",
-      "address": "http://www.jpost.com/",
-      "title": "The Jerusalem Post - All News from the Middle East, Israel, and the Jewish World",
-      "snippet": "",
-      "matchedWords": {
-        "6zmbyspob4YJ": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "C4U1RGaZEs7W": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "hbVAdlWIljx5",
-      "address": "https://www.breitbart.com/",
-      "title": "Breitbart News Network",
-      "snippet": "",
-      "matchedWords": {
-        "6zmbyspob4YJ": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "C4U1RGaZEs7W": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "TVHXbQXx1HRZ",
-      "address": "http://www.dailystirrer.com/2012-april.shtml",
-      "title": "the_daily_stirrer-2012-april-opinion-comment-controversy-news-events-politics",
-      "snippet": "",
-      "matchedWords": {
-        "6zmbyspob4YJ": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "C4U1RGaZEs7W": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "-p2w3taoSn1x",
@@ -2022,7 +1758,756 @@
           "hits": 0,
           "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "GaHMqEb-Tly5",
+      "address": "https://greenteeth.wordpress.com/",
+      "title": "Greenteeth Bites | Hard hitting comments on the madness of the world",
+      "snippet": "",
+      "matchedWords": {
+        "6zmbyspob4YJ": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "C4U1RGaZEs7W": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "KQPbYjc4UIAx",
+      "address": "https://en.wikivoyage.org/wiki/Wikivoyage:Requested_articles",
+      "title": "Wikivoyage:Requested articles – Travel guide at Wikivoyage",
+      "snippet": "",
+      "matchedWords": {
+        "6zmbyspob4YJ": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "C4U1RGaZEs7W": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "GMKmQscJYL54",
+      "address": "https://gizmodo.com/",
+      "title": "Gizmodo | The Future Is Here",
+      "snippet": "",
+      "matchedWords": {
+        "6zmbyspob4YJ": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "C4U1RGaZEs7W": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "L6KQc5nvH1e5",
+      "address": "https://abadguide.wordpress.com/",
+      "title": "A Bad Guide",
+      "snippet": "",
+      "matchedWords": {
+        "6zmbyspob4YJ": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "C4U1RGaZEs7W": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "GtLjhloUbV15",
+      "address": "https://www.whatfinger.com/",
+      "title": "Whatfinger News® – Unfiltered Truth. America’s News Feed",
+      "snippet": "",
+      "matchedWords": {
+        "6zmbyspob4YJ": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "C4U1RGaZEs7W": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "knpjjlu3ATW4",
+      "address": "https://www.scotsman.com/news",
+      "title": "News | The Scotsman",
+      "snippet": "",
+      "matchedWords": {
+        "6zmbyspob4YJ": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "C4U1RGaZEs7W": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "FYE0sQVn-2KY",
+      "address": "http://www.jpost.com/israel-news",
+      "title": "Israel News: Updates on Israeli Politics, Security \u0026 Diplomacy | The Jerusalem Post",
+      "snippet": "",
+      "matchedWords": {
+        "6zmbyspob4YJ": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "C4U1RGaZEs7W": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "1F8B2rcHOkWx",
+      "address": "https://www.gutenberg.org/dirs/GUTINDEX.ALL",
+      "title": "",
+      "snippet": "",
+      "matchedWords": {
+        "6zmbyspob4YJ": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "C4U1RGaZEs7W": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "7GLTa2cHOkWx",
+      "address": "https://www.gutenberg.org/files/12342/12342-h/12342-h.htm",
+      "title": "The Project Gutenberg eBook of The Nuttall Encyclopædia, edited by the Rev. James Wood",
+      "snippet": "",
+      "matchedWords": {
+        "6zmbyspob4YJ": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "C4U1RGaZEs7W": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "Q4SEOs3rpWVz",
+      "address": "https://inconvenienttruths.net/",
+      "title": "INCONVENIEINCONVENIENT TRUTHS - DEEP STATE, JFK, GLOBAL FINANCIAL ELITE, POWER ELITE, PLUTOCRACY, MEDICAL MAFIA, VACCINES, FALSE FLAGS, GLOBALISM, CORPORATOCRACY, ZIONISM, MOSSAD",
+      "snippet": "",
+      "matchedWords": {
+        "6zmbyspob4YJ": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "C4U1RGaZEs7W": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "Jb4XHs5IzNm6",
+      "address": "https://citizenfreepress.com/",
+      "title": "CITIZEN FREE PRESS",
+      "snippet": "",
+      "matchedWords": {
+        "6zmbyspob4YJ": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "C4U1RGaZEs7W": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "Z9gE_oM72em4",
+      "address": "https://directorblue.blogspot.com/2013/12/fab50-announcing-2013-fabulous-50-blog.html",
+      "title": "Doug Ross @ Journal: #Fab50: Announcing the 2013 Fabulous 50 Blog Award Winners",
+      "snippet": "",
+      "matchedWords": {
+        "6zmbyspob4YJ": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "C4U1RGaZEs7W": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "uFRXijRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Barack_Obama",
+      "title": "Barack Obama - Wikipedia",
+      "snippet": "",
+      "matchedWords": {
+        "6zmbyspob4YJ": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "C4U1RGaZEs7W": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "7IIFujRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/United_Kingdom",
+      "title": "United Kingdom - Wikipedia",
+      "snippet": "",
+      "matchedWords": {
+        "6zmbyspob4YJ": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "C4U1RGaZEs7W": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "a-z2eQZchFfZ",
+      "address": "http://www.greenteethmm.com/climate-scam-real-agenda.shtml",
+      "title": "un-official-reveals-real-reason-behind-warming-scare-news-opinion-comment-daily-stirrer",
+      "snippet": "",
+      "matchedWords": {
+        "6zmbyspob4YJ": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "C4U1RGaZEs7W": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "KQPbYjc4UIAx",
+      "address": "https://en.wikivoyage.org/wiki/Wikivoyage:Requested_articles",
+      "title": "Wikivoyage:Requested articles – Travel guide at Wikivoyage",
+      "snippet": "",
+      "matchedWords": {
+        "6zmbyspob4YJ": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "C4U1RGaZEs7W": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "GMKmQscJYL54",
+      "address": "https://gizmodo.com/",
+      "title": "Gizmodo | The Future Is Here",
+      "snippet": "",
+      "matchedWords": {
+        "6zmbyspob4YJ": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "C4U1RGaZEs7W": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "W5uqHs-D33u5",
+      "address": "https://instapundit.com/",
+      "title": "Instapundit",
+      "snippet": "",
+      "matchedWords": {
+        "6zmbyspob4YJ": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "C4U1RGaZEs7W": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "phB_Oj-JVcyx",
+      "address": "https://en.wikiquote.org/wiki/Love",
+      "title": "Love - Wikiquote",
+      "snippet": "",
+      "matchedWords": {
+        "6zmbyspob4YJ": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "C4U1RGaZEs7W": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "hbVAdlWIljx5",
+      "address": "https://www.breitbart.com/",
+      "title": "Breitbart News Network",
+      "snippet": "",
+      "matchedWords": {
+        "6zmbyspob4YJ": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "C4U1RGaZEs7W": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "J6LFIsYyzH0z",
+      "address": "https://awesome-selfhosted.net/",
+      "title": "awesome-selfhosted",
+      "snippet": "",
+      "matchedWords": {
+        "6zmbyspob4YJ": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "C4U1RGaZEs7W": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "D4lABzaS0qdw",
+      "address": "https://planet.debian.org/",
+      "title": "Planet Debian",
+      "snippet": "",
+      "matchedWords": {
+        "6zmbyspob4YJ": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "C4U1RGaZEs7W": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "190N3snp_33z",
+      "address": "https://globalkleptocracy.net/",
+      "title": "GLOBAL KLEPTOCRACY - GLOBAL ELITE, RULING ELITE, GLOBAL OLIGARCHY, DEEP STATE, GLOBALISM, DYNASTIC ELITE, MONOPOLY CAPITALISM, CORPORATOCRACY, PLUTOCRACY, MONEY LAUNDERING, DRUG TRAFFICKING",
+      "snippet": "",
+      "matchedWords": {
+        "6zmbyspob4YJ": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "C4U1RGaZEs7W": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "L6KQc5nvH1e5",
+      "address": "https://abadguide.wordpress.com/",
+      "title": "A Bad Guide",
+      "snippet": "",
+      "matchedWords": {
+        "6zmbyspob4YJ": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "C4U1RGaZEs7W": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "jgWYRlV1C_95",
+      "address": "https://www.ferdyonfilms.com/",
+      "title": "Ferdy on Films",
+      "snippet": "",
+      "matchedWords": {
+        "6zmbyspob4YJ": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "C4U1RGaZEs7W": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "CyUYvsY-tUi5",
+      "address": "https://moralparty.com/Warnings/",
+      "title": "Warnings – MoralParty.com",
+      "snippet": "",
+      "matchedWords": {
+        "6zmbyspob4YJ": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "C4U1RGaZEs7W": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "D4lABzaS0qdw",
+      "address": "https://planet.debian.org/",
+      "title": "Planet Debian",
+      "snippet": "",
+      "matchedWords": {
+        "6zmbyspob4YJ": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "C4U1RGaZEs7W": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "GaHMqEb-Tly5",
+      "address": "https://greenteeth.wordpress.com/",
+      "title": "Greenteeth Bites | Hard hitting comments on the madness of the world",
+      "snippet": "",
+      "matchedWords": {
+        "6zmbyspob4YJ": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "C4U1RGaZEs7W": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "D_FUmsbQMMCy",
+      "address": "https://realworldorder.net/",
+      "title": "ROTHSCHILD WORLD ORDER - ROTHSCHILD, FINANCIAL OLIGARCHY, MONEY POWER, RULING ELITE, GLOBAL ELITE, DYNASTIC OLIGARCHY, POWER ELITE, DEEP STATE, ROCKEFELLER, GLOBALISM, NEW WORLD",
+      "snippet": "",
+      "matchedWords": {
+        "6zmbyspob4YJ": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "C4U1RGaZEs7W": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "190N3snp_33z",
+      "address": "https://globalkleptocracy.net/",
+      "title": "GLOBAL KLEPTOCRACY - GLOBAL ELITE, RULING ELITE, GLOBAL OLIGARCHY, DEEP STATE, GLOBALISM, DYNASTIC ELITE, MONOPOLY CAPITALISM, CORPORATOCRACY, PLUTOCRACY, MONEY LAUNDERING, DRUG TRAFFICKING",
+      "snippet": "",
+      "matchedWords": {
+        "6zmbyspob4YJ": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "C4U1RGaZEs7W": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "Wfq3FswvoTD5",
+      "address": "https://r-universe.dev/articles",
+      "title": "R-universe - browse articles",
+      "snippet": "",
+      "matchedWords": {
+        "6zmbyspob4YJ": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "C4U1RGaZEs7W": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "phB_Oj-JVcyx",
+      "address": "https://en.wikiquote.org/wiki/Love",
+      "title": "Love - Wikiquote",
+      "snippet": "",
+      "matchedWords": {
+        "6zmbyspob4YJ": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "C4U1RGaZEs7W": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "Na9tTl05rw04",
+      "address": "https://www.unz.com/",
+      "title": "The Unz Review • An Alternative Media Selection - The Unz Review",
+      "snippet": "",
+      "matchedWords": {
+        "6zmbyspob4YJ": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "C4U1RGaZEs7W": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "Q4SEOs3rpWVz",
+      "address": "https://inconvenienttruths.net/",
+      "title": "INCONVENIEINCONVENIENT TRUTHS - DEEP STATE, JFK, GLOBAL FINANCIAL ELITE, POWER ELITE, PLUTOCRACY, MEDICAL MAFIA, VACCINES, FALSE FLAGS, GLOBALISM, CORPORATOCRACY, ZIONISM, MOSSAD",
+      "snippet": "",
+      "matchedWords": {
+        "6zmbyspob4YJ": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "C4U1RGaZEs7W": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "4s2IKl9kY4-7",
+      "address": "https://www.whatreallyhappened.com/NEW/",
+      "title": "stories-main | What Really Happened",
+      "snippet": "",
+      "matchedWords": {
+        "6zmbyspob4YJ": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "C4U1RGaZEs7W": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "jMjhCjD3AMxY",
+      "address": "http://commonsensewonder.blogspot.com/",
+      "title": "Commonsense \u0026 Wonder",
+      "snippet": "",
+      "matchedWords": {
+        "6zmbyspob4YJ": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "C4U1RGaZEs7W": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "SMD0WiDuT774",
+      "address": "https://edbutt.blogspot.com/2015/11/german-scientist-confims-climate-change.html",
+      "title": "Boggart Abroad: German Scientist Confims Climate Change Ia A Politically Motivated Scam",
+      "snippet": "",
+      "matchedWords": {
+        "6zmbyspob4YJ": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "C4U1RGaZEs7W": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "Z9gE_oM72em4",
+      "address": "https://directorblue.blogspot.com/2013/12/fab50-announcing-2013-fabulous-50-blog.html",
+      "title": "Doug Ross @ Journal: #Fab50: Announcing the 2013 Fabulous 50 Blog Award Winners",
+      "snippet": "",
+      "matchedWords": {
+        "6zmbyspob4YJ": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "C4U1RGaZEs7W": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "pLvr3lS5WTn4",
+      "address": "https://www.jpost.com/",
+      "title": "The Jerusalem Post - All News from the Middle East, Israel, and the Jewish World",
+      "snippet": "",
+      "matchedWords": {
+        "6zmbyspob4YJ": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "C4U1RGaZEs7W": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "FYE0sQVn-2KY",
+      "address": "http://www.jpost.com/israel-news",
+      "title": "Israel News: Updates on Israeli Politics, Security \u0026 Diplomacy | The Jerusalem Post",
+      "snippet": "",
+      "matchedWords": {
+        "6zmbyspob4YJ": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "C4U1RGaZEs7W": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "t3rNSQVn-2KY",
+      "address": "http://www.jpost.com/",
+      "title": "The Jerusalem Post - All News from the Middle East, Israel, and the Jewish World",
+      "snippet": "",
+      "matchedWords": {
+        "6zmbyspob4YJ": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "C4U1RGaZEs7W": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "hbVAdlWIljx5",
+      "address": "https://www.breitbart.com/",
+      "title": "Breitbart News Network",
+      "snippet": "",
+      "matchedWords": {
+        "6zmbyspob4YJ": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "C4U1RGaZEs7W": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "TVHXbQXx1HRZ",
+      "address": "http://www.dailystirrer.com/2012-april.shtml",
+      "title": "the_daily_stirrer-2012-april-opinion-comment-controversy-news-events-politics",
+      "snippet": "",
+      "matchedWords": {
+        "6zmbyspob4YJ": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "C4U1RGaZEs7W": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "-p2w3taoSn1x",
+      "address": "https://en.planet.wikimedia.org/",
+      "title": "en.planet.wikimedia.org",
+      "snippet": "",
+      "matchedWords": {
+        "6zmbyspob4YJ": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "C4U1RGaZEs7W": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "W28OusbDNaF4",
@@ -2038,7 +2523,8 @@
           "hits": 0,
           "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "KQPbYjc4UIAx",
@@ -2054,7 +2540,8 @@
           "hits": 0,
           "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "GMKmQscJYL54",
@@ -2070,7 +2557,8 @@
           "hits": 0,
           "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "GtLjhloUbV15",
@@ -2086,7 +2574,8 @@
           "hits": 0,
           "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "W5uqHs-D33u5",
@@ -2102,7 +2591,8 @@
           "hits": 0,
           "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "Na9tTl05rw04",
@@ -2118,7 +2608,8 @@
           "hits": 0,
           "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "Q4SEOs3rpWVz",
@@ -2134,7 +2625,8 @@
           "hits": 0,
           "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "Jb4XHs5IzNm6",
@@ -2150,7 +2642,8 @@
           "hits": 0,
           "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "1ifBxb8CAV45",
@@ -2166,7 +2659,8 @@
           "hits": 0,
           "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "4s2IKl9kY4-7",
@@ -2182,7 +2676,8 @@
           "hits": 0,
           "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "SMD0WiDuT774",
@@ -2198,23 +2693,8 @@
           "hits": 0,
           "textWords": 0
         }
-      }
-    },
-    {
-      "hash": "4wL_jlEdhU-5",
-      "address": "https://www.naturalnews.com/047786_GMOs_herbicide_resistance_farmer_suicides.html",
-      "title": "Failed GMO promises have caused nearly 300,000 suicides in India alone - NaturalNews.com",
-      "snippet": "",
-      "matchedWords": {
-        "6zmbyspob4YJ": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "C4U1RGaZEs7W": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "Z9gE_oM72em4",
@@ -2230,7 +2710,8 @@
           "hits": 0,
           "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "1CyO9sQ3pQ46",
@@ -2246,7 +2727,8 @@
           "hits": 0,
           "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "7IIFujRvmBbx",
@@ -2262,7 +2744,8 @@
           "hits": 0,
           "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "pLvr3lS5WTn4",
@@ -2278,7 +2761,8 @@
           "hits": 0,
           "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "-hqIvsV0Vh5w",
@@ -2294,7 +2778,8 @@
           "hits": 0,
           "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "jgWYRlV1C_95",
@@ -2310,7 +2795,8 @@
           "hits": 0,
           "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "FYE0sQVn-2KY",
@@ -2326,7 +2812,8 @@
           "hits": 0,
           "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "t3rNSQVn-2KY",
@@ -2342,7 +2829,8 @@
           "hits": 0,
           "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "hbVAdlWIljx5",
@@ -2358,23 +2846,8 @@
           "hits": 0,
           "textWords": 0
         }
-      }
-    },
-    {
-      "hash": "3Ax04qWOMPlw",
-      "address": "https://www.theage.com.au/",
-      "title": "Latest \u0026 Breaking News Melbourne, Victoria | The Age",
-      "snippet": "",
-      "matchedWords": {
-        "6zmbyspob4YJ": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "C4U1RGaZEs7W": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "TVHXbQXx1HRZ",
@@ -2390,7 +2863,8 @@
           "hits": 0,
           "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "CyUYvsY-tUi5",
@@ -2406,7 +2880,8 @@
           "hits": 0,
           "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "J6LFIsYyzH0z",
@@ -2422,7 +2897,8 @@
           "hits": 0,
           "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "bb-C0QZchFfZ",
@@ -2438,7 +2914,25 @@
           "hits": 0,
           "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "daW1ZQZchFfZ",
+      "address": "http://www.greenteethmm.com/transgenderr-ladies-first.shtml",
+      "title": "whether-tom-chivers-is-a-science-writer-a-hack-journalist-or-a-cunt-is-a-matter-of-semantics-daily-stirrer-dailystirrer",
+      "snippet": "",
+      "matchedWords": {
+        "6zmbyspob4YJ": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "C4U1RGaZEs7W": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "D4lABzaS0qdw",
@@ -2454,7 +2948,8 @@
           "hits": 0,
           "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "0kg9LsaTsUao",
@@ -2470,7 +2965,8 @@
           "hits": 0,
           "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "GaHMqEb-Tly5",
@@ -2486,7 +2982,8 @@
           "hits": 0,
           "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "D_FUmsbQMMCy",
@@ -2502,7 +2999,8 @@
           "hits": 0,
           "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "7GLTa2cHOkWx",
@@ -2518,7 +3016,8 @@
           "hits": 0,
           "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "GMKmQscJYL54",
@@ -2534,7 +3033,8 @@
           "hits": 0,
           "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "L6KQc5nvH1e5",
@@ -2550,7 +3050,8 @@
           "hits": 0,
           "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "-b3sxspKNBr4",
@@ -2566,7 +3067,8 @@
           "hits": 0,
           "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "XTPIBlptNsG4",
@@ -2582,7 +3084,25 @@
           "hits": 0,
           "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "gpW7dYwXSYd5",
+      "address": "https://www.pricelisto.com/industry-reports/casual-dining-restaurant-industry",
+      "title": "Casual Dining Restaurant Report, Analysis of US Restaurant Industry - PriceListo",
+      "snippet": "",
+      "matchedWords": {
+        "6zmbyspob4YJ": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "C4U1RGaZEs7W": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "Wfq3FswvoTD5",
@@ -2598,23 +3118,8 @@
           "hits": 0,
           "textWords": 0
         }
-      }
-    },
-    {
-      "hash": "1lGoBsyuNlT5",
-      "address": "https://alt-webring.com/",
-      "title": "alt-webring | The (former) alternative webring system",
-      "snippet": "",
-      "matchedWords": {
-        "6zmbyspob4YJ": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "C4U1RGaZEs7W": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "UxXtHsFfdPSy",
@@ -2630,7 +3135,8 @@
           "hits": 0,
           "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "WOeEmiVUrQm6",
@@ -2646,7 +3152,8 @@
           "hits": 0,
           "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "jI-jjsjsdFw4",
@@ -2662,7 +3169,8 @@
           "hits": 0,
           "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "Jb4XHs5IzNm6",
@@ -2678,7 +3186,25 @@
           "hits": 0,
           "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "daW1ZQZchFfZ",
+      "address": "http://www.greenteethmm.com/transgenderr-ladies-first.shtml",
+      "title": "whether-tom-chivers-is-a-science-writer-a-hack-journalist-or-a-cunt-is-a-matter-of-semantics-daily-stirrer-dailystirrer",
+      "snippet": "",
+      "matchedWords": {
+        "6zmbyspob4YJ": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "C4U1RGaZEs7W": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "KQPbYjc4UIAx",
@@ -2694,7 +3220,8 @@
           "hits": 0,
           "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "190N3snp_33z",
@@ -2710,7 +3237,8 @@
           "hits": 0,
           "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "GtLjhloUbV15",
@@ -2726,7 +3254,8 @@
           "hits": 0,
           "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "-b3sxspKNBr4",
@@ -2742,7 +3271,8 @@
           "hits": 0,
           "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "XTPIBlptNsG4",
@@ -2758,12 +3288,13 @@
           "hits": 0,
           "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
-      "hash": "52E3_srpnHl6",
-      "address": "https://filmfreedonia.com/",
-      "title": "film freedonia | Film essays and commentary by Roderick Heath",
+      "hash": "gpW7dYwXSYd5",
+      "address": "https://www.pricelisto.com/industry-reports/casual-dining-restaurant-industry",
+      "title": "Casual Dining Restaurant Report, Analysis of US Restaurant Industry - PriceListo",
       "snippet": "",
       "matchedWords": {
         "6zmbyspob4YJ": {
@@ -2774,7 +3305,8 @@
           "hits": 0,
           "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "Wfq3FswvoTD5",
@@ -2790,7 +3322,8 @@
           "hits": 0,
           "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "1ifBxb8CAV45",
@@ -2806,7 +3339,8 @@
           "hits": 0,
           "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "uFRXijRvmBbx",
@@ -2822,7 +3356,8 @@
           "hits": 0,
           "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "WOeEmiVUrQm6",
@@ -2838,7 +3373,8 @@
           "hits": 0,
           "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "a-z2eQZchFfZ",
@@ -2854,7 +3390,8 @@
           "hits": 0,
           "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "bb-C0QZchFfZ",
@@ -2870,7 +3407,8 @@
           "hits": 0,
           "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "D4lABzaS0qdw",
@@ -2886,7 +3424,8 @@
           "hits": 0,
           "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "phB_Oj-JVcyx",
@@ -2902,7 +3441,25 @@
           "hits": 0,
           "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "jMjhCjD3AMxY",
+      "address": "http://commonsensewonder.blogspot.com/",
+      "title": "Commonsense \u0026 Wonder",
+      "snippet": "",
+      "matchedWords": {
+        "6zmbyspob4YJ": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "C4U1RGaZEs7W": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "UxXtHsFfdPSy",
@@ -2918,7 +3475,8 @@
           "hits": 0,
           "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "jgWYRlV1C_95",
@@ -2934,7 +3492,8 @@
           "hits": 0,
           "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "hbVAdlWIljx5",
@@ -2950,7 +3509,8 @@
           "hits": 0,
           "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "J6LFIsYyzH0z",
@@ -2966,7 +3526,8 @@
           "hits": 0,
           "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "1F8B2rcHOkWx",
@@ -2982,7 +3543,8 @@
           "hits": 0,
           "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "jI-jjsjsdFw4",
@@ -2998,7 +3560,25 @@
           "hits": 0,
           "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "gK0yJsjsdFw4",
+      "address": "https://akdart.com/med21.html",
+      "title": "News Media Sensationalism and Dishonesty",
+      "snippet": "",
+      "matchedWords": {
+        "6zmbyspob4YJ": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "C4U1RGaZEs7W": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "phB_Oj-JVcyx",
@@ -3014,7 +3594,8 @@
           "hits": 0,
           "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "Jb4XHs5IzNm6",
@@ -3030,7 +3611,8 @@
           "hits": 0,
           "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "Asb1d06dFogw",
@@ -3046,7 +3628,8 @@
           "hits": 0,
           "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "4s2IKl9kY4-7",
@@ -3062,23 +3645,8 @@
           "hits": 0,
           "textWords": 0
         }
-      }
-    },
-    {
-      "hash": "4wL_jlEdhU-5",
-      "address": "https://www.naturalnews.com/047786_GMOs_herbicide_resistance_farmer_suicides.html",
-      "title": "Failed GMO promises have caused nearly 300,000 suicides in India alone - NaturalNews.com",
-      "snippet": "",
-      "matchedWords": {
-        "6zmbyspob4YJ": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "C4U1RGaZEs7W": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "Z9gE_oM72em4",
@@ -3094,23 +3662,8 @@
           "hits": 0,
           "textWords": 0
         }
-      }
-    },
-    {
-      "hash": "2PvgGsPdRrcw",
-      "address": "https://thegwpf.org/",
-      "title": "Home - The Global Warming Policy Foundation",
-      "snippet": "",
-      "matchedWords": {
-        "6zmbyspob4YJ": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "C4U1RGaZEs7W": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "1CyO9sQ3pQ46",
@@ -3126,7 +3679,25 @@
           "hits": 0,
           "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "oOVv2jRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Wikipedia:Featured_article_candidates",
+      "title": "Wikipedia:Featured article candidates - Wikipedia",
+      "snippet": "",
+      "matchedWords": {
+        "6zmbyspob4YJ": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "C4U1RGaZEs7W": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "7IIFujRvmBbx",
@@ -3142,7 +3713,8 @@
           "hits": 0,
           "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "-hqIvsV0Vh5w",
@@ -3158,7 +3730,8 @@
           "hits": 0,
           "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "FYE0sQVn-2KY",
@@ -3174,7 +3747,8 @@
           "hits": 0,
           "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "t3rNSQVn-2KY",
@@ -3190,7 +3764,8 @@
           "hits": 0,
           "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "TVHXbQXx1HRZ",
@@ -3206,7 +3781,8 @@
           "hits": 0,
           "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "J6LFIsYyzH0z",
@@ -3222,7 +3798,8 @@
           "hits": 0,
           "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "a-z2eQZchFfZ",
@@ -3238,7 +3815,8 @@
           "hits": 0,
           "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "bb-C0QZchFfZ",
@@ -3254,7 +3832,8 @@
           "hits": 0,
           "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "0kg9LsaTsUao",
@@ -3270,7 +3849,8 @@
           "hits": 0,
           "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "GaHMqEb-Tly5",
@@ -3286,7 +3866,8 @@
           "hits": 0,
           "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "D_FUmsbQMMCy",
@@ -3302,7 +3883,8 @@
           "hits": 0,
           "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "1F8B2rcHOkWx",
@@ -3318,7 +3900,8 @@
           "hits": 0,
           "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "7GLTa2cHOkWx",
@@ -3334,7 +3917,8 @@
           "hits": 0,
           "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "GMKmQscJYL54",
@@ -3350,7 +3934,25 @@
           "hits": 0,
           "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "gK0yJsjsdFw4",
+      "address": "https://akdart.com/med21.html",
+      "title": "News Media Sensationalism and Dishonesty",
+      "snippet": "",
+      "matchedWords": {
+        "6zmbyspob4YJ": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "C4U1RGaZEs7W": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "jI-jjsjsdFw4",
@@ -3366,7 +3968,8 @@
           "hits": 0,
           "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "L6KQc5nvH1e5",
@@ -3382,7 +3985,8 @@
           "hits": 0,
           "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "-b3sxspKNBr4",
@@ -3398,7 +4002,8 @@
           "hits": 0,
           "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "XTPIBlptNsG4",
@@ -3414,7 +4019,8 @@
           "hits": 0,
           "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "knpjjlu3ATW4",
@@ -3430,7 +4036,25 @@
           "hits": 0,
           "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "gpW7dYwXSYd5",
+      "address": "https://www.pricelisto.com/industry-reports/casual-dining-restaurant-industry",
+      "title": "Casual Dining Restaurant Report, Analysis of US Restaurant Industry - PriceListo",
+      "snippet": "",
+      "matchedWords": {
+        "6zmbyspob4YJ": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "C4U1RGaZEs7W": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "Wfq3FswvoTD5",
@@ -3446,7 +4070,8 @@
           "hits": 0,
           "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "W5uqHs-D33u5",
@@ -3462,7 +4087,8 @@
           "hits": 0,
           "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "Na9tTl05rw04",
@@ -3478,7 +4104,8 @@
           "hits": 0,
           "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "1ifBxb8CAV45",
@@ -3494,7 +4121,8 @@
           "hits": 0,
           "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "SMD0WiDuT774",
@@ -3510,7 +4138,8 @@
           "hits": 0,
           "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "uFRXijRvmBbx",
@@ -3526,7 +4155,8 @@
           "hits": 0,
           "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "pLvr3lS5WTn4",
@@ -3542,7 +4172,8 @@
           "hits": 0,
           "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "WOeEmiVUrQm6",
@@ -3558,23 +4189,8 @@
           "hits": 0,
           "textWords": 0
         }
-      }
-    },
-    {
-      "hash": "3Ax04qWOMPlw",
-      "address": "https://www.theage.com.au/",
-      "title": "Latest \u0026 Breaking News Melbourne, Victoria | The Age",
-      "snippet": "",
-      "matchedWords": {
-        "6zmbyspob4YJ": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "C4U1RGaZEs7W": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "CyUYvsY-tUi5",
@@ -3590,7 +4206,8 @@
           "hits": 0,
           "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "D4lABzaS0qdw",
@@ -3606,7 +4223,8 @@
           "hits": 0,
           "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "190N3snp_33z",
@@ -3622,7 +4240,8 @@
           "hits": 0,
           "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "GtLjhloUbV15",
@@ -3638,23 +4257,8 @@
           "hits": 0,
           "textWords": 0
         }
-      }
-    },
-    {
-      "hash": "1lGoBsyuNlT5",
-      "address": "https://alt-webring.com/",
-      "title": "alt-webring | The (former) alternative webring system",
-      "snippet": "",
-      "matchedWords": {
-        "6zmbyspob4YJ": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "C4U1RGaZEs7W": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "phB_Oj-JVcyx",
@@ -3670,7 +4274,8 @@
           "hits": 0,
           "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "UxXtHsFfdPSy",
@@ -3686,23 +4291,8 @@
           "hits": 0,
           "textWords": 0
         }
-      }
-    },
-    {
-      "hash": "2PvgGsPdRrcw",
-      "address": "https://thegwpf.org/",
-      "title": "Home - The Global Warming Policy Foundation",
-      "snippet": "",
-      "matchedWords": {
-        "6zmbyspob4YJ": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "C4U1RGaZEs7W": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "1CyO9sQ3pQ46",
@@ -3718,7 +4308,42 @@
           "hits": 0,
           "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "oOVv2jRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Wikipedia:Featured_article_candidates",
+      "title": "Wikipedia:Featured article candidates - Wikipedia",
+      "snippet": "",
+      "matchedWords": {
+        "6zmbyspob4YJ": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "C4U1RGaZEs7W": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "ro-__QZchFfZ",
+      "address": "http://www.greenteethmm.com/",
+      "title": "dailystirrer-the-daily-stirrer-news-opinion-outspoke-controversial-comment",
+      "snippet": "",
+      "matchedWords": {
+        "6zmbyspob4YJ": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "C4U1RGaZEs7W": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "-p2w3taoSn1x",
@@ -3734,7 +4359,8 @@
           "hits": 0,
           "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "GMKmQscJYL54",
@@ -3750,7 +4376,8 @@
           "hits": 0,
           "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "GtLjhloUbV15",
@@ -3766,7 +4393,8 @@
           "hits": 0,
           "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "knpjjlu3ATW4",
@@ -3782,7 +4410,8 @@
           "hits": 0,
           "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "pLvr3lS5WTn4",
@@ -3798,7 +4427,8 @@
           "hits": 0,
           "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "phB_Oj-JVcyx",
@@ -3814,23 +4444,8 @@
           "hits": 0,
           "textWords": 0
         }
-      }
-    },
-    {
-      "hash": "3Qslys-pamAy",
-      "address": "https://publicintegrity.org/",
-      "title": "Home – Center for Public Integrity",
-      "snippet": "",
-      "matchedWords": {
-        "6zmbyspob4YJ": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "C4U1RGaZEs7W": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "Na9tTl05rw04",
@@ -3846,7 +4461,8 @@
           "hits": 0,
           "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "Jb4XHs5IzNm6",
@@ -3862,7 +4478,8 @@
           "hits": 0,
           "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "Asb1d06dFogw",
@@ -3878,7 +4495,8 @@
           "hits": 0,
           "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "4s2IKl9kY4-7",
@@ -3894,7 +4512,25 @@
           "hits": 0,
           "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "jMjhCjD3AMxY",
+      "address": "http://commonsensewonder.blogspot.com/",
+      "title": "Commonsense \u0026 Wonder",
+      "snippet": "",
+      "matchedWords": {
+        "6zmbyspob4YJ": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "C4U1RGaZEs7W": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "SMD0WiDuT774",
@@ -3910,23 +4546,8 @@
           "hits": 0,
           "textWords": 0
         }
-      }
-    },
-    {
-      "hash": "4wL_jlEdhU-5",
-      "address": "https://www.naturalnews.com/047786_GMOs_herbicide_resistance_farmer_suicides.html",
-      "title": "Failed GMO promises have caused nearly 300,000 suicides in India alone - NaturalNews.com",
-      "snippet": "",
-      "matchedWords": {
-        "6zmbyspob4YJ": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "C4U1RGaZEs7W": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "UxXtHsFfdPSy",
@@ -3942,7 +4563,8 @@
           "hits": 0,
           "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "1CyO9sQ3pQ46",
@@ -3958,7 +4580,8 @@
           "hits": 0,
           "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "uFRXijRvmBbx",
@@ -3974,7 +4597,8 @@
           "hits": 0,
           "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "7IIFujRvmBbx",
@@ -3990,7 +4614,8 @@
           "hits": 0,
           "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "jgWYRlV1C_95",
@@ -4006,7 +4631,8 @@
           "hits": 0,
           "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "WOeEmiVUrQm6",
@@ -4022,7 +4648,8 @@
           "hits": 0,
           "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "t3rNSQVn-2KY",
@@ -4038,23 +4665,8 @@
           "hits": 0,
           "textWords": 0
         }
-      }
-    },
-    {
-      "hash": "3Ax04qWOMPlw",
-      "address": "https://www.theage.com.au/",
-      "title": "Latest \u0026 Breaking News Melbourne, Victoria | The Age",
-      "snippet": "",
-      "matchedWords": {
-        "6zmbyspob4YJ": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "C4U1RGaZEs7W": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "TVHXbQXx1HRZ",
@@ -4070,7 +4682,8 @@
           "hits": 0,
           "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "CyUYvsY-tUi5",
@@ -4086,7 +4699,8 @@
           "hits": 0,
           "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "a-z2eQZchFfZ",
@@ -4102,7 +4716,8 @@
           "hits": 0,
           "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "bb-C0QZchFfZ",
@@ -4118,7 +4733,42 @@
           "hits": 0,
           "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "daW1ZQZchFfZ",
+      "address": "http://www.greenteethmm.com/transgenderr-ladies-first.shtml",
+      "title": "whether-tom-chivers-is-a-science-writer-a-hack-journalist-or-a-cunt-is-a-matter-of-semantics-daily-stirrer-dailystirrer",
+      "snippet": "",
+      "matchedWords": {
+        "6zmbyspob4YJ": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "C4U1RGaZEs7W": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "ro-__QZchFfZ",
+      "address": "http://www.greenteethmm.com/",
+      "title": "dailystirrer-the-daily-stirrer-news-opinion-outspoke-controversial-comment",
+      "snippet": "",
+      "matchedWords": {
+        "6zmbyspob4YJ": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "C4U1RGaZEs7W": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "D4lABzaS0qdw",
@@ -4134,7 +4784,8 @@
           "hits": 0,
           "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "0kg9LsaTsUao",
@@ -4150,7 +4801,8 @@
           "hits": 0,
           "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "GaHMqEb-Tly5",
@@ -4166,7 +4818,8 @@
           "hits": 0,
           "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "D_FUmsbQMMCy",
@@ -4182,7 +4835,8 @@
           "hits": 0,
           "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "1F8B2rcHOkWx",
@@ -4198,7 +4852,25 @@
           "hits": 0,
           "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "gK0yJsjsdFw4",
+      "address": "https://akdart.com/med21.html",
+      "title": "News Media Sensationalism and Dishonesty",
+      "snippet": "",
+      "matchedWords": {
+        "6zmbyspob4YJ": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "C4U1RGaZEs7W": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "jI-jjsjsdFw4",
@@ -4214,7 +4886,8 @@
           "hits": 0,
           "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "190N3snp_33z",
@@ -4230,7 +4903,8 @@
           "hits": 0,
           "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "GtLjhloUbV15",
@@ -4246,7 +4920,8 @@
           "hits": 0,
           "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "-b3sxspKNBr4",
@@ -4262,7 +4937,8 @@
           "hits": 0,
           "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "XTPIBlptNsG4",
@@ -4278,23 +4954,8 @@
           "hits": 0,
           "textWords": 0
         }
-      }
-    },
-    {
-      "hash": "52E3_srpnHl6",
-      "address": "https://filmfreedonia.com/",
-      "title": "film freedonia | Film essays and commentary by Roderick Heath",
-      "snippet": "",
-      "matchedWords": {
-        "6zmbyspob4YJ": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "C4U1RGaZEs7W": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "knpjjlu3ATW4",
@@ -4310,7 +4971,8 @@
           "hits": 0,
           "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "Wfq3FswvoTD5",
@@ -4326,23 +4988,8 @@
           "hits": 0,
           "textWords": 0
         }
-      }
-    },
-    {
-      "hash": "1lGoBsyuNlT5",
-      "address": "https://alt-webring.com/",
-      "title": "alt-webring | The (former) alternative webring system",
-      "snippet": "",
-      "matchedWords": {
-        "6zmbyspob4YJ": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "C4U1RGaZEs7W": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "W5uqHs-D33u5",
@@ -4358,7 +5005,8 @@
           "hits": 0,
           "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "7GLTa2cHOkWx",
@@ -4374,11 +5022,12 @@
           "hits": 0,
           "textWords": 0
         }
-      }
+      },
+      "queryPhraseHits": 0
     }
   ],
   "documentsHeldPerQueryWord": {
-    "6zmbyspob4YJ": 279262,
-    "C4U1RGaZEs7W": 111256
+    "6zmbyspob4YJ": 280740,
+    "C4U1RGaZEs7W": 111517
   }
 }

@@ -2,39 +2,15 @@
   "query": "raspberry pi",
   "judgedDocuments": [
     {
-      "hash": "uik3ku78zDE5",
-      "address": "https://www.xatakahome.com/trucos-y-bricolaje-smart/probamos-chromium-el-sistema-operativo-de-google-en-la-raspberry-pi-3",
-      "title": "Probamos Chromium, el sistema operativo de Google, en la Raspberry Pi 3",
-      "grade": 1
-    },
-    {
-      "hash": "ZupVVT78zDE5",
-      "address": "https://www.xatakahome.com/aplicaciones/retropie-3-no-pierdas-el-tiempo-e-instalalo-ya-en-tu-raspberry-pi",
-      "title": "RetroPie 3: no pierdas el tiempo e instálalo ya en tu Raspberry Pi",
-      "grade": 1
-    },
-    {
-      "hash": "gji-djRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Dexter_Industries",
-      "title": "Dexter Industries - Wikipedia",
-      "grade": 1
-    },
-    {
-      "hash": "qhUqczS6MKD4",
-      "address": "https://github.com/topics/pi",
-      "title": "pi · GitHub Topics · GitHub",
+      "hash": "7b0gSsUQxb2x",
+      "address": "https://join-lemmy.org/",
+      "title": "Lemmy - A decentralised discussion platform for communities",
       "grade": 0
     },
     {
-      "hash": "mt6MjstbkMiw",
-      "address": "https://mesa3d.org/",
-      "title": "Home — The Mesa 3D Graphics Library",
-      "grade": 0
-    },
-    {
-      "hash": "UqygLNqRILQr",
-      "address": "https://www.qtreetechnologies.in/course/iot-training-in-coimbatore.php",
-      "title": "The Best IOT Training Course in Coimbatore | Qtree Technologies",
+      "hash": "Bq57jjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/BASIC",
+      "title": "BASIC - Wikipedia",
       "grade": 0
     },
     {
@@ -44,45 +20,201 @@
       "grade": 0
     },
     {
-      "hash": "uS2bt_nMM_j5",
-      "address": "https://grokipedia.com/page/Node-RED",
-      "title": "Node-RED — Grokipedia",
-      "grade": 0
-    },
-    {
-      "hash": "7b0gSsUQxb2x",
-      "address": "https://join-lemmy.org/",
-      "title": "Lemmy - A decentralised discussion platform for communities",
-      "grade": 0
-    },
-    {
-      "hash": "h5BqzzS6MKD4",
-      "address": "https://github.com/topics/synthesizer",
-      "title": "synthesizer · GitHub Topics · GitHub",
-      "grade": 0
-    },
-    {
-      "hash": "dgQz1_nMM_j5",
-      "address": "https://grokipedia.com/page/Edge_computing",
-      "title": "Edge computing — Grokipedia",
-      "grade": 0
-    },
-    {
       "hash": "ryUhvGS6MKD4",
       "address": "https://github.com/veggiemonk/awesome-docker",
       "title": "GitHub - veggiemonk/awesome-docker: :whale: A curated list of Docker resources and projects",
       "grade": 0
     },
     {
-      "hash": "IU0OTl8bqxA4",
-      "address": "https://www.sparkfun.com/",
-      "title": "SparkFun Electronics - SparkFun Electronics",
+      "hash": "uS2bt_nMM_j5",
+      "address": "https://grokipedia.com/page/Node-RED",
+      "title": "Node-RED — Grokipedia",
       "grade": 0
     },
     {
       "hash": "rsWFmIf1Pcd5",
       "address": "https://store.steampowered.com/mobile",
       "title": "Steam, The Ultimate Online Game Platform",
+      "grade": 0
+    },
+    {
+      "hash": "Tj9g554nScL4",
+      "address": "https://www.wired.com/review/epilogue-sn-operator/",
+      "title": "Epilogue SN Operator Review: Super Nintendo Fun | WIRED",
+      "grade": 0
+    },
+    {
+      "hash": "DEKXKM9Ojva4",
+      "address": "https://docs.docker.com/desktop/setup/install/linux/",
+      "title": "Install Docker Desktop on Linux | Docker Docs",
+      "grade": 0
+    },
+    {
+      "hash": "MaHDQsRDFHM6",
+      "address": "https://stackexchange.com/sites",
+      "title": "All Sites - Stack Exchange",
+      "grade": 0
+    },
+    {
+      "hash": "A5ci-TS6MKD4",
+      "address": "https://github.com/cpaczek/skylight",
+      "title": "GitHub - cpaczek/skylight: Project the aircraft passing overhead onto your ceiling in real time, from an RTL-SDR — with a live sky layer (sun, moon, stars, ISS) and where each plane is headed. · GitHub",
+      "grade": 0
+    },
+    {
+      "hash": "_4vwbyS6MKD4",
+      "address": "https://github.com/HQarroum/awesome-iot",
+      "title": "GitHub - HQarroum/awesome-iot: 🤖 A curated list of awesome Internet of Things projects and resources. · GitHub",
+      "grade": 0
+    },
+    {
+      "hash": "20qcLnydS8Zw",
+      "address": "https://couchdb.apache.org/",
+      "title": "Apache CouchDB",
+      "grade": 0
+    },
+    {
+      "hash": "8mnnr49Ojva4",
+      "address": "https://docs.docker.com/build/building/best-practices/",
+      "title": "Building best practices | Docker Docs",
+      "grade": 0
+    },
+    {
+      "hash": "QrkRzl6LuyIx",
+      "address": "https://www.lazarus-ide.org/",
+      "title": "Lazarus Homepage",
+      "grade": 0
+    },
+    {
+      "hash": "QZa1dES6MKD4",
+      "address": "https://github.com/terkelg/awesome-creative-coding",
+      "title": "GitHub - terkelg/awesome-creative-coding: Creative Coding: Generative Art, Data visualization, Interaction Design, Resources.",
+      "grade": 0
+    },
+    {
+      "hash": "QxKVZMS6MKD4",
+      "address": "https://github.com/ggml-org/whisper.cpp",
+      "title": "GitHub - ggml-org/whisper.cpp: Port of OpenAI's Whisper model in C/C++ · GitHub",
+      "grade": 0
+    },
+    {
+      "hash": "PbKKIUjw1Zlx",
+      "address": "https://kubernetes.io/blog/2019/03/15/kubernetes-setup-using-ansible-and-vagrant/",
+      "title": "Kubernetes Setup Using Ansible and Vagrant | Kubernetes",
+      "grade": 0
+    },
+    {
+      "hash": "QGRE8Ujw1Zlx",
+      "address": "https://kubernetes.io/blog/2023/08/29/gateway-api-v0-8/",
+      "title": "Gateway API v0.8.0: Introducing Service Mesh Support | Kubernetes",
+      "grade": 0
+    },
+    {
+      "hash": "QdSoHUjw1Zlx",
+      "address": "https://kubernetes.io/blog/2015/12/creating-raspberry-pi-cluster-running/",
+      "title": "Creating a Raspberry Pi cluster running Kubernetes, the installation (Part 2) | Kubernetes",
+      "grade": 1
+    },
+    {
+      "hash": "Q3Xj1Ujw1Zlx",
+      "address": "https://kubernetes.io/blog/2016/02/kubernetes-community-meeting-notes/",
+      "title": "Kubernetes Community Meeting Notes - 20160204 | Kubernetes",
+      "grade": 0
+    },
+    {
+      "hash": "RKKmoUjw1Zlx",
+      "address": "https://kubernetes.io/blog/2017/10/request-routing-and-policy-management/",
+      "title": "Request Routing and Policy Management with the Istio Service Mesh | Kubernetes",
+      "grade": 0
+    },
+    {
+      "hash": "WVhIT9S6MKD4",
+      "address": "https://github.com/bytedeco/javacpp-presets",
+      "title": "GitHub - bytedeco/javacpp-presets: The missing Java distribution of native C++ libraries",
+      "grade": 0
+    },
+    {
+      "hash": "X9v9dxS6MKD4",
+      "address": "https://github.com/boppreh/keyboard",
+      "title": "GitHub - boppreh/keyboard: Hook and simulate global keyboard events on Windows and Linux.",
+      "grade": 0
+    },
+    {
+      "hash": "UqygLNqRILQr",
+      "address": "https://www.qtreetechnologies.in/course/iot-training-in-coimbatore.php",
+      "title": "The Best IOT Training Course in Coimbatore | Qtree Technologies",
+      "grade": 0
+    },
+    {
+      "hash": "Yk0ebs2jvnSw",
+      "address": "https://ffmpeg.org/",
+      "title": "FFmpeg",
+      "grade": 0
+    },
+    {
+      "hash": "b8vPZsAbx4Yw",
+      "address": "https://sqlite.org/whynotgit.html",
+      "title": "Why SQLite Does Not Use Git",
+      "grade": 0
+    },
+    {
+      "hash": "B5nOLjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/ARM_architecture_family",
+      "title": "ARM architecture family - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "Zn04ZPS6MKD4",
+      "address": "https://github.com/alebcay/awesome-shell",
+      "title": "GitHub - alebcay/awesome-shell: A curated list of awesome command-line frameworks, toolkits, guides and gizmos. Inspired by awesome-php. · GitHub",
+      "grade": 0
+    },
+    {
+      "hash": "b6JleZS6MKD4",
+      "address": "https://github.com/markets/awesome-ruby",
+      "title": "GitHub - markets/awesome-ruby: 💎 A collection of awesome Ruby libraries, tools, frameworks and software · GitHub",
+      "grade": 0
+    },
+    {
+      "hash": "0IsrslZZ-o74",
+      "address": "https://www.nccgroup.com/research/",
+      "title": "Cyber Security Research | NCC Group",
+      "grade": 0
+    },
+    {
+      "hash": "D9zZ37S6MKD4",
+      "address": "https://github.com/sindresorhus/awesome-nodejs",
+      "title": "GitHub - sindresorhus/awesome-nodejs: :zap: Delightful Node.js packages and resources [BECAUSE OF TOO MUCH SPAM AND LOW-QUALITY SUBMISSIONS, SUBMISSIONS ARE PAUSED UNTIL JULY] · GitHub",
+      "grade": 0
+    },
+    {
+      "hash": "LcA-MxS6MKD4",
+      "address": "https://github.com/mopidy/mopidy",
+      "title": "GitHub - mopidy/mopidy: Mopidy is an extensible music server written in Python · GitHub",
+      "grade": 0
+    },
+    {
+      "hash": "M89BHJS6MKD4",
+      "address": "https://github.com/home-assistant/core",
+      "title": "GitHub - home-assistant/core: :house_with_garden: Open source home automation that puts local control and privacy first. · GitHub",
+      "grade": 0
+    },
+    {
+      "hash": "asQ49l8bqxA4",
+      "address": "https://www.sparkfun.com/tall-gpio-header-female-pth-0-1in-2x20-pin.html",
+      "title": "Tall GPIO Header - Female (PTH, 0.1in., 2x20-Pin) - SparkFun Electronics",
+      "grade": 0
+    },
+    {
+      "hash": "cYieCl8bqxA4",
+      "address": "https://www.sparkfun.com/myoware-2-0-power-shield.html",
+      "title": "MyoWare 2.0 Power Shield - SparkFun Electronics",
+      "grade": 0
+    },
+    {
+      "hash": "C92zoAK-xyJ4",
+      "address": "https://go.dev/doc/go1.12",
+      "title": "Go 1.12 Release Notes - The Go Programming Language",
       "grade": 0
     }
   ]

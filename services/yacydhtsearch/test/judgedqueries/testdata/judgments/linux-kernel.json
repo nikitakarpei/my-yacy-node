@@ -2,9 +2,9 @@
   "query": "linux kernel",
   "judgedDocuments": [
     {
-      "hash": "Wd9L1l6bFQy6",
-      "address": "https://www.notebookcheck.com/Linux-Kernel-6-11-mit-Unterstuetzung-fuer-Qualcomm-SDX-Wireless-Chips-und-Intel-Battlemage-GPUs-jetzt-als-Release-Candidate-1-verfuegbar.869230.0.html",
-      "title": "Linux Kernel 6.11 mit Unterstützung für Qualcomm SDX Wireless Chips und Intel Battlemage GPUs jetzt als Release Candidate 1 verfügbar - Notebookcheck News",
+      "hash": "nXiF30WUVeV5",
+      "address": "https://opensource.com/resources/linux",
+      "title": "What is Linux? | Opensource.com",
       "grade": 1
     },
     {
@@ -14,58 +14,40 @@
       "grade": 2
     },
     {
-      "hash": "cWZdmz9qXMBw",
-      "address": "https://planet.kernel.org/",
-      "title": "Kernel Planet",
-      "grade": 1
-    },
-    {
-      "hash": "fK864sueNoX4",
-      "address": "https://itsfoss.com/compile-linux-kernel/",
-      "title": "A Guide to Compiling the Linux Kernel All By Yourself",
-      "grade": 2
-    },
-    {
-      "hash": "V_Sy6HDMrHS4",
-      "address": "https://gist.github.com/ricardoanguiano/18125b7eb3f26cf83724fb60662bdd2c",
-      "title": "linux kernel mainline 4.9 sloccount.txt · GitHub",
-      "grade": 1
-    },
-    {
-      "hash": "fT4cXiCRdREw",
-      "address": "https://jvns.ca/categories/linux/",
-      "title": "Linux",
-      "grade": 1
-    },
-    {
-      "hash": "WpZ1HHOSpvvg",
-      "address": "https://nluug.nl/evenementen/nluug/voorjaarsconferentie-2025/talks/michael-boelen-application-security-sandboxing-features-of-the-linux-kernel-and-systemd/",
-      "title": "Michael Boelen - Application security: sandboxing features of the Linux kernel and systemd | NLUUG",
-      "grade": 1
-    },
-    {
-      "hash": "WeAoouoXncf5",
-      "address": "https://android.googlesource.com/kernel/common/+/431907c026fb80a4fc2a482bde3f2d913ef39c37",
-      "title": "431907c026fb80a4fc2a482bde3f2d913ef39c37 - kernel/common - Git at Google",
-      "grade": 1
-    },
-    {
       "hash": "OBXywlSCNQa4",
       "address": "https://www.redhat.com/en/topics/linux/fedora-vs-red-hat-enterprise-linux",
       "title": "What's the difference between Fedora and Red Hat Enterprise Linux",
       "grade": 0
     },
     {
-      "hash": "sVT_FJ70mtR4",
-      "address": "https://eoss2023.sched.com/event/1LcNH/status-of-embedded-linux-tim-bird-sony-electronics",
-      "title": "Embedded Open Source Summit 2023: Status of Embedded Linux - Tim Bird, Son...",
+      "hash": "5A3Als-kQ1nw",
+      "address": "https://kernel.org/",
+      "title": "The Linux Kernel Archives",
+      "grade": 2
+    },
+    {
+      "hash": "0KcjvUckml4g",
+      "address": "https://timur.hu/blog/2025/understanding-your-linux-open-source-drivers",
+      "title": "Understanding your Linux open source drivers | Timur’s blog",
       "grade": 1
     },
     {
-      "hash": "HIiwRVGZ4FKw",
-      "address": "https://www.kernel.org/doc/html/latest/admin-guide/pm/system-wide.html",
-      "title": "System-Wide Power Management — The Linux Kernel documentation",
-      "grade": 2
+      "hash": "7zoiPTrhyvQw",
+      "address": "https://www.man7.org/linux/man-pages/man8/hwclock.8.html",
+      "title": "hwclock(8) - Linux manual page",
+      "grade": 1
+    },
+    {
+      "hash": "HSA0HjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/User_interface",
+      "title": "User interface - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "zm1LfOy8O7iw",
+      "address": "https://kernel.opensuse.org/",
+      "title": "Welcome To The openSUSE Kernel Site - openSUSE Kernel",
+      "grade": 1
     },
     {
       "hash": "3VHCVsOEIUyr",
@@ -74,10 +56,52 @@
       "grade": 0
     },
     {
-      "hash": "HXn7qqyiDYm6",
-      "address": "https://unit42.paloaltonetworks.com/a-look-into-fysbis-sofacys-linux-backdoor/",
-      "title": "A Look Into Fysbis: Sofacy’s Linux Backdoor",
+      "hash": "O7HXYdFO6r_x",
+      "address": "https://de.wikipedia.org/wiki/Linux-Kernel",
+      "title": "Linux (Kernel) – Wikipedia",
+      "grade": 2
+    },
+    {
+      "hash": "hMYfxA24Kkqw",
+      "address": "https://www.ghacks.net/category/linux/",
+      "title": "Linux News: Distributions, Kernel Updates, Open-Source Developments - gHacks",
+      "grade": 1
+    },
+    {
+      "hash": "jmJ6Qs6JlDf5",
+      "address": "https://wallpapers.com/linux",
+      "title": "[200+] Linux Wallpapers | Wallpapers.com",
       "grade": 0
+    },
+    {
+      "hash": "lWsPplGZ4FKw",
+      "address": "https://www.kernel.org/",
+      "title": "The Linux Kernel Archives",
+      "grade": 2
+    },
+    {
+      "hash": "F5kb_lj4MAVw",
+      "address": "https://man7.org/linux/man-pages/man7/tcp.7.html",
+      "title": "tcp(7) - Linux manual page",
+      "grade": 1
+    },
+    {
+      "hash": "ed_i7zVlhvo5",
+      "address": "https://sigquit.wordpress.com/tag/kernel/",
+      "title": "kernel | SIGQUIT",
+      "grade": 1
+    },
+    {
+      "hash": "dDOGQDOAID44",
+      "address": "https://linuxiac.com/category/linux-knowledge/general/",
+      "title": "Linux General Archives - Linuxiac",
+      "grade": 1
+    },
+    {
+      "hash": "CzKLxslc4Pz6",
+      "address": "https://open-sourceress.com/my-project-at-linux-kernel/",
+      "title": "My Project at Linux Kernel | Open Sourceress",
+      "grade": 1
     },
     {
       "hash": "NNfgL520dH2R",
@@ -86,10 +110,178 @@
       "grade": 1
     },
     {
-      "hash": "fq3pBVGZ4FKw",
-      "address": "https://www.kernel.org/doc/html/latest/kbuild/index.html",
-      "title": "Kernel Build System — The Linux Kernel documentation",
+      "hash": "HJCv1zboYiyg",
+      "address": "https://forums.puri.sm/t/kernel-6-18-available-for-testing/31104",
+      "title": "Kernel 6.18 available for testing - Librem 5 - Purism community",
+      "grade": 1
+    },
+    {
+      "hash": "3EXd2WlXccYg",
+      "address": "https://nfsec.pl/tag/kernel",
+      "title": "NF.sec – Bezpieczeństwo systemu Linux - Posty tagowane \"kernel\"",
+      "grade": 1
+    },
+    {
+      "hash": "LL1PKsOAID44",
+      "address": "https://linuxiac.com/mageia-10-revives-the-mandrake-spirit-with-plasma-6-and-kernel-6-18/",
+      "title": "Mageia 10 Revives the Mandrake Spirit with Plasma 6 and Kernel 6.18 LTS",
+      "grade": 1
+    },
+    {
+      "hash": "EW5wxOE6Hic4",
+      "address": "https://webflow.sysdig.com/blog/cve-2026-31431-copy-fail-linux-kernel-flaw-lets-local-users-gain-root-in-seconds",
+      "title": "CVE-2026-31431: “Copy Fail” Linux kernel flaw lets local users gain root in seconds | Sysdig",
+      "grade": 1
+    },
+    {
+      "hash": "lzMhkqNKpOCw",
+      "address": "https://linux.slashdot.org/story/26/05/18/0238214/linus-torvalds-ai-detected-bug-reports-make-kernel-security-list-almost-entirely-unmanageable",
+      "title": "Linus Torvalds: AI-Detected Bug Reports Make Kernel Security List 'Almost Entirely Unmanageable' - Slashdot",
+      "grade": 1
+    },
+    {
+      "hash": "mKjEVzAa-Sqx",
+      "address": "https://planet.freedesktop.org/",
+      "title": "planet.freedesktop.org",
+      "grade": 0
+    },
+    {
+      "hash": "W-eXqzF3--Qw",
+      "address": "https://planet.mozilla.org/",
+      "title": "Planet Mozilla",
+      "grade": 0
+    },
+    {
+      "hash": "B6RumAK-xyJ4",
+      "address": "https://go.dev/doc/godebug",
+      "title": "Go, Backwards Compatibility, and GODEBUG - The Go Programming Language",
+      "grade": 0
+    },
+    {
+      "hash": "PafpstS6MKD4",
+      "address": "https://github.com/trending/microsoft-developer-studio-project?since=daily",
+      "title": "Trending Microsoft Developer Studio Project repositories on GitHub today · GitHub",
+      "grade": 0
+    },
+    {
+      "hash": "7evxTdFO6r_x",
+      "address": "https://de.wikipedia.org/wiki/Freie_Software",
+      "title": "Freie Software – Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "-VdzLVGZ4FKw",
+      "address": "https://www.kernel.org/doc/man-pages/",
+      "title": "The Linux man-pages project",
       "grade": 2
+    },
+    {
+      "hash": "BF23V5RMLT-5",
+      "address": "https://canonical.com/careers/commercial-operations",
+      "title": "Commercial Operations | Careers",
+      "grade": 0
+    },
+    {
+      "hash": "DKApesRMLT-5",
+      "address": "https://canonical.com/careers",
+      "title": "Careers | Canonical",
+      "grade": 0
+    },
+    {
+      "hash": "MaRThsRMLT-5",
+      "address": "https://canonical.com/",
+      "title": "Trusted open source for enterprises | Canonical",
+      "grade": 0
+    },
+    {
+      "hash": "TS-p86RMLT-5",
+      "address": "https://canonical.com/data/mongodb",
+      "title": "An enterprise solution for MongoDB from Canonical",
+      "grade": 0
+    },
+    {
+      "hash": "dckjqsRMLT-5",
+      "address": "https://canonical.com/observability",
+      "title": "Open source observability for enterprises",
+      "grade": 0
+    },
+    {
+      "hash": "QdW-xjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/GNU_General_Public_License",
+      "title": "GNU General Public License - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "YFkvAjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Denial-of-service_attack",
+      "title": "Denial-of-service attack - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "5wGJcjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/IPFire",
+      "title": "IPFire - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "7cn5rjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Finland",
+      "title": "Finland - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "SH9s9zTnALtw",
+      "address": "https://planet.gentoo.org/",
+      "title": "Planet Gentoo",
+      "grade": 0
+    },
+    {
+      "hash": "4ow_H2YgdA-h",
+      "address": "https://ubuntu-user.de/tech/qemu-kernel-bases-virtual-machine-kvm-auf-linux-x86-hardware/",
+      "title": "QEMU - Kernel Bases Virtual Machine (KVM) auf Linux x86 Hardware",
+      "grade": 1
+    },
+    {
+      "hash": "D4lABzaS0qdw",
+      "address": "https://planet.debian.org/",
+      "title": "Planet Debian",
+      "grade": 0
+    },
+    {
+      "hash": "EIkpSjbCa2Ow",
+      "address": "https://man.freebsd.org/cgi/man.cgi",
+      "title": "FreeBSD Manual Pages",
+      "grade": 0
+    },
+    {
+      "hash": "3BxTglj4MAVw",
+      "address": "https://man7.org/linux/man-pages/man7/pipe.7.html",
+      "title": "pipe(7) - Linux manual page",
+      "grade": 1
+    },
+    {
+      "hash": "QRS_dsRMLT-5",
+      "address": "https://canonical.com/data",
+      "title": "Open source data platform solutions | Canonical",
+      "grade": 0
+    },
+    {
+      "hash": "Is_TdWRfu9ww",
+      "address": "https://datatracker.ietf.org/doc/html/rfc9293",
+      "title": "RFC 9293 - Transmission Control Protocol (TCP)",
+      "grade": 0
+    },
+    {
+      "hash": "8SBrdtS6MKD4",
+      "address": "https://github.com/trending/linux-kernel-module?since=daily",
+      "title": "Trending Linux Kernel Module repositories on GitHub today · GitHub",
+      "grade": 0
+    },
+    {
+      "hash": "-GPQIsYlAY74",
+      "address": "https://ubuntu.com/what-is-enterprise-linux",
+      "title": "What is enterprise Linux? | Ubuntu",
+      "grade": 0
     }
   ]
 }

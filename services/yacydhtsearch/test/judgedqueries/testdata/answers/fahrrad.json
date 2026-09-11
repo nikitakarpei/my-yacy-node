@@ -1,7 +1,139 @@
 {
   "query": "fahrrad",
-  "recordedAt": "2026-09-11T20:59:23Z",
+  "recordedAt": "2026-09-11T22:14:21Z",
   "itemsInTheOrderOfEachAnswer": [
+    [
+      {
+        "hash": "Ao-x4AwFKWzg",
+        "address": "https://streaming-guide.spiegel.de/streamingdienste/paramount-plus/",
+        "title": "Top Filme und Serien auf Paramount+ - Ihr ultimativer Streaming-Guide | Streaming Guide",
+        "snippet": "",
+        "matchedWords": {
+          "9KPnrl-iyiDc": {
+            "hits": 2,
+            "textWords": 1823
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "C0gtHFotHkcg",
+        "address": "https://kaufradar.spiegel.de/finanzen-versicherungen/",
+        "title": "Finanzen \u0026 Versicherungen - DER SPIEGEL Kaufradar",
+        "snippet": "",
+        "matchedWords": {
+          "9KPnrl-iyiDc": {
+            "hits": 4,
+            "textWords": 1749
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "AMV3kl5ARWyg",
+        "address": "https://www.spiegel.de/kontakt?betreff=Were+Americans+As+Bad+as+the+Soviets%3F\u0026channel=International\u0026id=051d06cd-0001-0001-0000-000001021298\u0026reason=Technische+Fragen+und+Probleme",
+        "title": "Kontakt - DER SPIEGEL",
+        "snippet": "",
+        "matchedWords": {
+          "9KPnrl-iyiDc": {
+            "hits": 1,
+            "textWords": 1104
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "D_w9rdFO6r_x",
+        "address": "https://de.wikipedia.org/wiki/Portal:Wikipedia_nach_Themen",
+        "title": "Portal:Wikipedia nach Themen – Wikipedia",
+        "snippet": "",
+        "matchedWords": {
+          "9KPnrl-iyiDc": {
+            "hits": 1,
+            "textWords": 1428
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "A-cG3lyeZGNi",
+        "address": "https://www.report-medizin.de/",
+        "title": "Report Medizin,Neues aus der Medizin,Medizin News,Info-Netzwerk MEDIZIN 2000,Medizin 2000",
+        "snippet": "",
+        "matchedWords": {
+          "9KPnrl-iyiDc": {
+            "hits": 2,
+            "textWords": 31500
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "D2jvwQHjdLqg",
+        "address": "https://www.focus.de/kultur/kino-tv/buergergeld-empfaengerin-goennt-sich-luxus-limousine-trotz-geldnot_133182ed-ce3d-4284-b42d-b104b12b6076.html",
+        "title": "Bürgergeld-Empfängerin gönnt sich Luxus-Limousine trotz Geldnot - FOCUS online",
+        "snippet": "",
+        "matchedWords": {
+          "9KPnrl-iyiDc": {
+            "hits": 1,
+            "textWords": 1308
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "ASOFd0--rHBy",
+        "address": "https://www.mikrocontroller.net/topic/581844",
+        "title": "Sicherheitsschrauben? ganz einfach.",
+        "snippet": "",
+        "matchedWords": {
+          "9KPnrl-iyiDc": {
+            "hits": 1,
+            "textWords": 2378
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "C1C1-PJ0xFth",
+        "address": "https://rp-online.de/leben/reisen/deutschland/",
+        "title": "Reisen in Deutschland",
+        "snippet": "",
+        "matchedWords": {
+          "9KPnrl-iyiDc": {
+            "hits": 1,
+            "textWords": 3900
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "BoFERhloDMX5",
+        "address": "https://rainerspeer.com/2012/06/04/ikombe-im-juni/",
+        "title": "Ikombe im Juni – rainerspeer",
+        "snippet": "",
+        "matchedWords": {
+          "9KPnrl-iyiDc": {
+            "hits": 2,
+            "textWords": 3158
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "DsO-P7J0xFth",
+        "address": "https://rp-online.de/nrw/staedte/rommerskirchen/rhein-kreis-neuss-tritt-rommerskirchens-stromprojekt-bei_aid-139651029",
+        "title": "Rhein-Kreis Neuss tritt  Rommerskirchens Stromprojekt bei",
+        "snippet": "",
+        "matchedWords": {
+          "9KPnrl-iyiDc": {
+            "hits": 1,
+            "textWords": 1645
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
     [
       {
         "hash": "BkidfpL47Vlg",
@@ -13,7 +145,8 @@
             "hits": 7,
             "textWords": 659
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
         "hash": "am1CxiqZa4Gg",
@@ -25,7 +158,21 @@
             "hits": 6,
             "textWords": 598
           }
-        }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "9IbIz-sZ9g84",
+        "address": "https://sbahn.berlin/fahren/bahnhofsuebersicht/sonnenallee/",
+        "title": "S-Bahnhof Sonnenallee | S-Bahn Berlin GmbH",
+        "snippet": "",
+        "matchedWords": {
+          "9KPnrl-iyiDc": {
+            "hits": 1,
+            "textWords": 1190
+          }
+        },
+        "queryPhraseHits": 0
       },
       {
         "hash": "vhP0C1qF-3Lg",
@@ -37,7 +184,8 @@
             "hits": 7,
             "textWords": 3995
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
         "hash": "Te4VHPemigYg",
@@ -49,7 +197,8 @@
             "hits": 3,
             "textWords": 2302
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
         "hash": "UJ2ILPemigYg",
@@ -61,19 +210,8 @@
             "hits": 3,
             "textWords": 2332
           }
-        }
-      },
-      {
-        "hash": "-MavXiqZa4Gg",
-        "address": "https://www.familie.de/kleinkind/warum-sich-premium-kinderraeder-am-ende-auch-fuer-familien-mit-kleinem-budget-auszahlen--01H2SX9GGCTN5NAJ2TR0ZJKSQR",
-        "title": "Warum sich Premium-Kinderräder am Ende auch für Familien mit kleinem Budget auszahlen",
-        "snippet": "",
-        "matchedWords": {
-          "9KPnrl-iyiDc": {
-            "hits": 17,
-            "textWords": 2781
-          }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
         "hash": "TLO0RPemigYg",
@@ -85,19 +223,34 @@
             "hits": 3,
             "textWords": 2261
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
-        "hash": "AErQCPemigYg",
-        "address": "https://www.flixbus.de/fernbus/messina",
-        "title": "Bus nach Messina - Bus Ticket günstig buchen",
+        "hash": "RI-Z5UemigYg",
+        "address": "https://www.flixbus.de/busverbindung/fernbus-budapest-karlsruhe",
+        "title": "Bus Budapest nach Karlsruhe - Günstig Tickets buchen",
+        "snippet": "",
+        "matchedWords": {
+          "9KPnrl-iyiDc": {
+            "hits": 1,
+            "textWords": 3473
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "AMRF9PemigYg",
+        "address": "https://www.flixbus.de/fernbus/cirella",
+        "title": "Bus nach Cirella - Bus Ticket günstig buchen",
         "snippet": "",
         "matchedWords": {
           "9KPnrl-iyiDc": {
             "hits": 3,
-            "textWords": 2373
+            "textWords": 2317
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
         "hash": "TsXqnlu8sKAg",
@@ -109,143 +262,11 @@
             "hits": 1,
             "textWords": 1367
           }
-        }
-      },
-      {
-        "hash": "zPXZ6sOMQ-fh",
-        "address": "https://konsument.at/blog",
-        "title": "Blog | KONSUMENT.AT",
-        "snippet": "",
-        "matchedWords": {
-          "9KPnrl-iyiDc": {
-            "hits": 2,
-            "textWords": 2408
-          }
-        }
+        },
+        "queryPhraseHits": 0
       }
     ],
-    [
-      {
-        "hash": "K3XqtLlA2Rig",
-        "address": "https://www.n-tv.de/mediathek/videos/wirtschaft/Warum-immer-mehr-Menschen-das-Fahrrad-stehen-lassen-id31007897.html",
-        "title": "Neue Modelle, neue Hürden: Warum immer mehr Menschen das Fahrrad stehen lassen - n-tv.de",
-        "snippet": "Fahrrad stehen lassen\n25.06.2026, 07:38 Uhr\nRund drei Viertel der Deutschen besitzen ein Fahrrad. Doch Reparatur und Instandhaltung werden für viele Radfahrer zur großen Hürde. Wie eine Umfrage von Shimano zeigt, lassen einige das Rad deshalb sogar häufiger stehen.",
-        "matchedWords": {
-          "9KPnrl-iyiDc": {
-            "hits": 2,
-            "textWords": 50
-          }
-        }
-      },
-      {
-        "hash": "lmn0n_3sDtZg",
-        "address": "https://tini24.de/news/handwerker-finden-hochwertiges-fahrrad-in-einem-scharbeutzer-knick/",
-        "title": "Handwerker finden hochwertiges Fahrrad in einem Scharbeutzer Knick - News | TiNi24",
-        "snippet": "Fahrrad im Gebüsch im hinteren Bereich des beschrankten Parkplatzes. Das Pedelec wäre am Vortag noch nicht dort gewesen.\nPolizeibeamtinnen der Polizeistation Scharbeutz wurden hinzugerufen. Das Fahrrad war mit einem stabilen Schloss an einem Baumstamm gesichert worden. Der Abstellort ließ darauf",
-        "matchedWords": {
-          "9KPnrl-iyiDc": {
-            "hits": 3,
-            "textWords": 176
-          }
-        }
-      },
-      {
-        "hash": "N4_4wlRtt2cA",
-        "address": "http://www.leipzig.de/leben-in-leipzig/verkehr/fahrrad/fahrradstrassen-in-leipzig",
-        "title": "Fahrradstraßen in Leipzig - Stadt Leipzig",
-        "snippet": "",
-        "matchedWords": {
-          "9KPnrl-iyiDc": {
-            "hits": 6,
-            "textWords": 6765
-          }
-        }
-      },
-      {
-        "hash": "8tS2DYsdClVg",
-        "address": "https://kurier.at/motor/fahrrad?amp%3Bcx_artPos=1\u0026amp%3Bcx_experienceId=EXFFM61BSA2S\u0026amp%3Bcx_testId=97\u0026amp%3Bcx_testVariant=cx_1",
-        "title": "Fahrräder und E-Bikes: aktuelle News und Tests | Kurier",
-        "snippet": "",
-        "matchedWords": {
-          "9KPnrl-iyiDc": {
-            "hits": 4,
-            "textWords": 2404
-          }
-        }
-      },
-      {
-        "hash": "5ASkPXDOAHJg",
-        "address": "https://www.heise.de/bestenlisten/testsieger/top-10-die-besten-gps-tracker-fuer-fahrrad-auto-und-co-im-test/1gmyf1g",
-        "title": "Top 10: Die besten GPS-Tracker für Fahrrad, Auto und Co. im Test | heise online bestenlisten",
-        "snippet": "",
-        "matchedWords": {
-          "9KPnrl-iyiDc": {
-            "hits": 7,
-            "textWords": 13609
-          }
-        }
-      },
-      {
-        "hash": "l1cfILLahQOg",
-        "address": "https://www.malteser.de/aware/hilfreich/erste-hilfe-auf-radtouren-was-gehoert-ins-notfallset.html",
-        "title": "Erste Hilfe auf Radtouren: Was gehört ins Notfallset?",
-        "snippet": "",
-        "matchedWords": {
-          "9KPnrl-iyiDc": {
-            "hits": 9,
-            "textWords": 1879
-          }
-        }
-      },
-      {
-        "hash": "17eJBoFVaPpg",
-        "address": "https://www.dvr.de/mensch-im-verkehr/fahrtuechtigkeit/alkohol",
-        "title": "Alkohol im Straßenverkehr und Promillegrenze im Auto | Deutscher Verkehrssicherheitsrat",
-        "snippet": "",
-        "matchedWords": {
-          "9KPnrl-iyiDc": {
-            "hits": 2,
-            "textWords": 1420
-          }
-        }
-      },
-      {
-        "hash": "JALYKJ-vbMDi",
-        "address": "https://www.nordsee-zeitung.de/bremerhaven/unbekannte-rauben-pedelec-in-geestemuende-polizei-sucht-zeugen-387053.html",
-        "title": "Unbekannte rauben Pedelec in Geestemünde: Polizei sucht Zeugen",
-        "snippet": "",
-        "matchedWords": {
-          "9KPnrl-iyiDc": {
-            "hits": 2,
-            "textWords": 699
-          }
-        }
-      },
-      {
-        "hash": "sWEopPemigYg",
-        "address": "https://www.flixbus.de/fernbus/san-severo",
-        "title": "Bus nach San Severo - Bus Ticket günstig buchen",
-        "snippet": "",
-        "matchedWords": {
-          "9KPnrl-iyiDc": {
-            "hits": 3,
-            "textWords": 2433
-          }
-        }
-      },
-      {
-        "hash": "JN4hAuQCzJQg",
-        "address": "https://www.chip.de/static/nutzungsbedingungen-chip_4fcb8cef-57bb-49ba-81eb-d27a76e3b8d5.html",
-        "title": "AGB - CHIP",
-        "snippet": "",
-        "matchedWords": {
-          "9KPnrl-iyiDc": {
-            "hits": 3,
-            "textWords": 306
-          }
-        }
-      }
-    ],
+    [],
     [
       {
         "hash": "Ol37rmlamVlg",
@@ -257,7 +278,8 @@
             "hits": 45,
             "textWords": 1994
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
         "hash": "0QrBgsnKVAHh",
@@ -269,7 +291,8 @@
             "hits": 3,
             "textWords": 132
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
         "hash": "MzIHKNlA2Rig",
@@ -281,7 +304,8 @@
             "hits": 3,
             "textWords": 472
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
         "hash": "PZdUH0tFNgwi",
@@ -293,7 +317,8 @@
             "hits": 0,
             "textWords": 153
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
         "hash": "bu8l3dBwt6mx",
@@ -305,7 +330,8 @@
             "hits": 11,
             "textWords": 979
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
         "hash": "BjsHZdqs_Xcx",
@@ -317,7 +343,8 @@
             "hits": 21,
             "textWords": 2688
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
         "hash": "TOxVc4uRD7_g",
@@ -329,7 +356,8 @@
             "hits": 1,
             "textWords": 1325
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
         "hash": "MGr4WJyX5Qug",
@@ -341,19 +369,21 @@
             "hits": 3,
             "textWords": 1438
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
-        "hash": "FYF2T4wuDCAi",
-        "address": "https://www.mobil-potsdam.de/de/fahrrad/",
-        "title": "... und Potsdam bietet die besten Voraussetzungen dafür. Durch die kompakte Struktur sind viele Wege in der Stadt nicht länger als die ideale Fahrraddistanz von 5 km und wegen der nur wenig hügeligen Landschaft ist das Radfahren hier auch nicht so anstrengend.",
+        "hash": "6Sef74wuDCAi",
+        "address": "https://www.mobil-potsdam.de/de/fahrrad/fahrradparken/",
+        "title": "mobil in potsdam",
         "snippet": "",
         "matchedWords": {
           "9KPnrl-iyiDc": {
             "hits": 3,
-            "textWords": 526
+            "textWords": 1040
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
         "hash": "OJRuGUjM8Ljg",
@@ -365,33 +395,23 @@
             "hits": 4,
             "textWords": 1482
           }
-        }
+        },
+        "queryPhraseHits": 0
       }
     ],
     [
       {
-        "hash": "AUzbOPemigYg",
-        "address": "https://www.flixbus.de/fernbus/cervia",
-        "title": "Bus nach Cervia - Bus Ticket günstig buchen",
+        "hash": "uQwjKPemigYg",
+        "address": "https://www.flixbus.de/fernbus/savigliano",
+        "title": "Bus nach Savigliano - Bus Ticket günstig buchen",
         "snippet": "",
         "matchedWords": {
           "9KPnrl-iyiDc": {
             "hits": 3,
-            "textWords": 2142
+            "textWords": 2198
           }
-        }
-      },
-      {
-        "hash": "wRdnhl4er3tg",
-        "address": "https://www.jelbi.de/en/jelbi-stations/",
-        "title": "Everything you need to know about Jelbi stations",
-        "snippet": "",
-        "matchedWords": {
-          "9KPnrl-iyiDc": {
-            "hits": 1,
-            "textWords": 633
-          }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
         "hash": "RuAsUlMCiH44",
@@ -403,19 +423,8 @@
             "hits": 2,
             "textWords": 1298
           }
-        }
-      },
-      {
-        "hash": "O35ZOQ5HXE0D",
-        "address": "http://www.haikosfilmlexikon.de/index.php?nfm=film4078",
-        "title": "Simpsons, Die - Der Kampf um Marge",
-        "snippet": "",
-        "matchedWords": {
-          "9KPnrl-iyiDc": {
-            "hits": 1,
-            "textWords": 573
-          }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
         "hash": "vjKxr2wiCtsh",
@@ -427,19 +436,21 @@
             "hits": 2,
             "textWords": 1453
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
-        "hash": "0sgrEhnAgGgh",
-        "address": "https://www.heisegroup.de/artikel/heise-als-Arbeitgeber-1812545.html",
-        "title": "heise als Arbeitgeber | heise group",
+        "hash": "O35ZOQ5HXE0D",
+        "address": "http://www.haikosfilmlexikon.de/index.php?nfm=film4078",
+        "title": "Simpsons, Die - Der Kampf um Marge",
         "snippet": "",
         "matchedWords": {
           "9KPnrl-iyiDc": {
-            "hits": 2,
-            "textWords": 1284
+            "hits": 1,
+            "textWords": 573
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
         "hash": "QJGi7vczAIuh",
@@ -451,31 +462,21 @@
             "hits": 3,
             "textWords": 2390
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
-        "hash": "uQwjKPemigYg",
-        "address": "https://www.flixbus.de/fernbus/savigliano",
-        "title": "Bus nach Savigliano - Bus Ticket günstig buchen",
+        "hash": "0sgrEhnAgGgh",
+        "address": "https://www.heisegroup.de/artikel/heise-als-Arbeitgeber-1812545.html",
+        "title": "heise als Arbeitgeber | heise group",
         "snippet": "",
         "matchedWords": {
           "9KPnrl-iyiDc": {
-            "hits": 3,
-            "textWords": 2198
+            "hits": 2,
+            "textWords": 1284
           }
-        }
-      },
-      {
-        "hash": "qx7mVPGyaxOg",
-        "address": "https://www.flixbus.at/fernbus/bremen",
-        "title": "Bus nach Bremen - Bus ticket günstig buchen",
-        "snippet": "",
-        "matchedWords": {
-          "9KPnrl-iyiDc": {
-            "hits": 1,
-            "textWords": 2633
-          }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
         "hash": "aXggaVqF-3Lg",
@@ -487,7 +488,47 @@
             "hits": 1,
             "textWords": 1296
           }
-        }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "AUzbOPemigYg",
+        "address": "https://www.flixbus.de/fernbus/cervia",
+        "title": "Bus nach Cervia - Bus Ticket günstig buchen",
+        "snippet": "",
+        "matchedWords": {
+          "9KPnrl-iyiDc": {
+            "hits": 3,
+            "textWords": 2142
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "qwrWjPemigYg",
+        "address": "https://www.flixbus.de/fernbus/fuscaldo",
+        "title": "Bus nach Fuscaldo - Bus Ticket günstig buchen",
+        "snippet": "",
+        "matchedWords": {
+          "9KPnrl-iyiDc": {
+            "hits": 3,
+            "textWords": 2324
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "z5jEaPemigYg",
+        "address": "https://www.flixbus.de/fernbus/longobucco",
+        "title": "Bus nach Longobucco - Bus Ticket günstig buchen",
+        "snippet": "",
+        "matchedWords": {
+          "9KPnrl-iyiDc": {
+            "hits": 3,
+            "textWords": 2301
+          }
+        },
+        "queryPhraseHits": 0
       }
     ],
     [
@@ -501,7 +542,8 @@
             "hits": 0,
             "textWords": 54
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
         "hash": "lzV3MwuDQ-Fg",
@@ -513,7 +555,8 @@
             "hits": 4,
             "textWords": 226
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
         "hash": "krFymlUs6etg",
@@ -525,7 +568,8 @@
             "hits": 3,
             "textWords": 251
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
         "hash": "gPwaOlAii4pg",
@@ -537,7 +581,8 @@
             "hits": 0,
             "textWords": 87
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
         "hash": "gJzS1hjFwR5g",
@@ -549,7 +594,8 @@
             "hits": 15,
             "textWords": 2239
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
         "hash": "drtwWlogRgtg",
@@ -561,7 +607,8 @@
             "hits": 1,
             "textWords": 233
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
         "hash": "RWbw3XqO2Dlg",
@@ -573,7 +620,8 @@
             "hits": 1,
             "textWords": 125
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
         "hash": "ekaWDJseDREg",
@@ -585,7 +633,8 @@
             "hits": 7,
             "textWords": 942
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
         "hash": "Hk81LNrjjaYh",
@@ -597,7 +646,8 @@
             "hits": 1,
             "textWords": 325
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
         "hash": "iIpdu1X8WHMg",
@@ -609,7 +659,8 @@
             "hits": 8,
             "textWords": 922
           }
-        }
+        },
+        "queryPhraseHits": 0
       }
     ],
     [
@@ -623,7 +674,8 @@
             "hits": 9,
             "textWords": 295
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
         "hash": "w1lOUsghd-Kg",
@@ -635,19 +687,8 @@
             "hits": 4,
             "textWords": 2567
           }
-        }
-      },
-      {
-        "hash": "_r_A2UemigYg",
-        "address": "https://www.flixbus.de/busverbindung/fernbus-hamburg-thisted",
-        "title": "Bus Hamburg nach Thisted - Günstig Tickets buchen",
-        "snippet": "",
-        "matchedWords": {
-          "9KPnrl-iyiDc": {
-            "hits": 1,
-            "textWords": 1981
-          }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
         "hash": "yFUorUemigYg",
@@ -659,31 +700,8 @@
             "hits": 1,
             "textWords": 1817
           }
-        }
-      },
-      {
-        "hash": "18MMOUemigYg",
-        "address": "https://www.flixbus.de/busverbindung/fernbus-karlsruhe-burgas",
-        "title": "Bus Karlsruhe nach Burgas - Günstig Tickets buchen",
-        "snippet": "",
-        "matchedWords": {
-          "9KPnrl-iyiDc": {
-            "hits": 1,
-            "textWords": 3178
-          }
-        }
-      },
-      {
-        "hash": "SizfqluDQ-Fg",
-        "address": "https://www.muenchen.de/verkehr",
-        "title": "Verkehr in München: ÖPNV, Fahrrad, Auto und mehr - muenchen.de",
-        "snippet": "Fahrrad, Auto, Taxi und vieles mehr - Mobilität und Verkehr in München hat viele Gesichter. Hier gibt es alle Informationen, um am schnellsten und sichersten von A nach B zu kommen.\nTickets, Fahrpläne, Live-Auskunft, Mieträder: Die Infos\nMVG: Infos zu U-Bahn, Bus und Tram\nWo gibt es Tickets für",
-        "matchedWords": {
-          "9KPnrl-iyiDc": {
-            "hits": 2,
-            "textWords": 141
-          }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
         "hash": "2WW6oUemigYg",
@@ -695,31 +713,34 @@
             "hits": 1,
             "textWords": 2173
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
-        "hash": "4e5V2UemigYg",
-        "address": "https://www.flixbus.de/busverbindung/fernbus-como-karlsruhe",
-        "title": "Bus Como nach Karlsruhe - Günstig Tickets buchen",
+        "hash": "18MMOUemigYg",
+        "address": "https://www.flixbus.de/busverbindung/fernbus-karlsruhe-burgas",
+        "title": "Bus Karlsruhe nach Burgas - Günstig Tickets buchen",
         "snippet": "",
         "matchedWords": {
           "9KPnrl-iyiDc": {
             "hits": 1,
-            "textWords": 3375
+            "textWords": 3178
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
-        "hash": "CzoEWFrrGcCg",
-        "address": "https://preisvergleich.heise.de/filmer-led-gepaecktraegermontage-ruecklicht-40062-a3771730.html?hloc=de",
-        "title": "Filmer LED Gepäckträgermontage Rücklicht (40062) ab € 4,69 (2026) | heise preisvergleich Deutschland",
+        "hash": "SizfqluDQ-Fg",
+        "address": "https://www.muenchen.de/verkehr",
+        "title": "Verkehr in München: ÖPNV, Fahrrad, Auto und mehr - muenchen.de",
         "snippet": "",
         "matchedWords": {
           "9KPnrl-iyiDc": {
             "hits": 3,
-            "textWords": 1297
+            "textWords": 1353
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
         "hash": "3EIQ5UemigYg",
@@ -731,7 +752,47 @@
             "hits": 1,
             "textWords": 2222
           }
-        }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "CzoEWFrrGcCg",
+        "address": "https://preisvergleich.heise.de/filmer-led-gepaecktraegermontage-ruecklicht-40062-a3771730.html?hloc=de",
+        "title": "Filmer LED Gepäckträgermontage Rücklicht (40062) ab € 4,69 (2026) | heise preisvergleich Deutschland",
+        "snippet": "",
+        "matchedWords": {
+          "9KPnrl-iyiDc": {
+            "hits": 3,
+            "textWords": 1297
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "yKGyRUemigYg",
+        "address": "https://www.flixbus.de/busverbindung/fernbus-znojmo-dresden",
+        "title": "Bus Znojmo nach Dresden - Günstig Tickets buchen",
+        "snippet": "",
+        "matchedWords": {
+          "9KPnrl-iyiDc": {
+            "hits": 1,
+            "textWords": 2180
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "y0zgBUemigYg",
+        "address": "https://www.flixbus.de/busverbindung/fernbus-karlsruhe-bregenz",
+        "title": "Bus Karlsruhe nach Bregenz - Günstig Tickets buchen",
+        "snippet": "",
+        "matchedWords": {
+          "9KPnrl-iyiDc": {
+            "hits": 1,
+            "textWords": 3314
+          }
+        },
+        "queryPhraseHits": 0
       }
     ],
     [
@@ -745,7 +806,8 @@
             "hits": 2,
             "textWords": 1212
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
         "hash": "fiGiEXCZCJKg",
@@ -757,7 +819,8 @@
             "hits": 5,
             "textWords": 512
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
         "hash": "ckqpIvY3c3Fg",
@@ -769,7 +832,8 @@
             "hits": 6,
             "textWords": 1261
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
         "hash": "fEPlVZtFNgwi",
@@ -781,7 +845,8 @@
             "hits": 1,
             "textWords": 101
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
         "hash": "x-I85Npg7ax4",
@@ -793,31 +858,21 @@
             "hits": 11,
             "textWords": 834
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
         "hash": "bA1UOFKP-5B5",
         "address": "https://demystifikation.wordpress.com/tag/fahrrad/",
         "title": "Fahrrad | Demystifikation",
-        "snippet": "Fahrrad, darauf pinselte man erst einen Radstreifen hin. Dann gab es Proteste, das bringe doch nix, die haltenden PKWs würden sich da auch einfach draufstellen. Daraufhin wurde eine Kette von Barken errichtet, die die PKWs jetzt abhält.\nNach Norden heißt die Hauptstraße übrigens ab Kleistpark",
+        "snippet": "",
         "matchedWords": {
           "9KPnrl-iyiDc": {
-            "hits": 1,
-            "textWords": 1207
+            "hits": 4,
+            "textWords": 1934
           }
-        }
-      },
-      {
-        "hash": "3YYi2Npg7ax4",
-        "address": "https://de.wikipedia.org./wiki/Mein_Fahrrad",
-        "title": "Mein Fahrrad – Wikipedia",
-        "snippet": "Fahrrad\nDie Prinzen\nVeröffentlichung\n9. September 1991 (Album)\n1992 (Single)\nLänge\n2:25\nGenre(s)\nPop\nAutor(en)\nSebastian Krumbiegel, Tobias Künzel\nProduktion\nAnnette Humpe\nLabel\nHansa Records\nAlbum\nDas Leben ist grausam\nMein Fahrrad ist ein Lied der deutschen A-cappella- und Popband Die Prinzen aus",
-        "matchedWords": {
-          "9KPnrl-iyiDc": {
-            "hits": 11,
-            "textWords": 315
-          }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
         "hash": "ryCuKNpg7ax4",
@@ -829,19 +884,21 @@
             "hits": 2,
             "textWords": 87
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
-        "hash": "PZOOWNpg7ax4",
-        "address": "https://de.wikipedia.org./wiki/Aufbruch_Fahrrad",
-        "title": "Aufbruch Fahrrad – Wikipedia",
-        "snippet": "Fahrrad NRW\nAufbruch Fahrrad ist ein Projekt zur Stärkung des Radverkehrs in Nordrhein-Westfalen.\nGestartet wurde Aufbruch Fahrrad im Herbst 2016 vom gemeinnützigen Verein Radkomm e.V. in Köln. Aufbruch Fahrrad besteht aus drei Elementen: Einer breit angelegten Kampagne für mehr Radverkehr; dem",
+        "hash": "3YYi2Npg7ax4",
+        "address": "https://de.wikipedia.org./wiki/Mein_Fahrrad",
+        "title": "Mein Fahrrad – Wikipedia",
+        "snippet": "Fahrrad\nDie Prinzen\nVeröffentlichung\n9. September 1991 (Album)\n1992 (Single)\nLänge\n2:25\nGenre(s)\nPop\nAutor(en)\nSebastian Krumbiegel, Tobias Künzel\nProduktion\nAnnette Humpe\nLabel\nHansa Records\nAlbum\nDas Leben ist grausam\nMein Fahrrad ist ein Lied der deutschen A-cappella- und Popband Die Prinzen aus",
         "matchedWords": {
           "9KPnrl-iyiDc": {
-            "hits": 31,
-            "textWords": 891
+            "hits": 11,
+            "textWords": 315
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
         "hash": "NyrVYNpg7ax4",
@@ -853,45 +910,36 @@
             "hits": 0,
             "textWords": 66
           }
-        }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "sUt4HNpg7ax4",
+        "address": "https://de.wikipedia.org./wiki/Portal:Fahrrad/Qualit%C3%A4tssicherung",
+        "title": "Portal:Fahrrad/Qualitätssicherung – Wikipedia",
+        "snippet": "Portal:Fahrrad derzeit leider nicht aktiv ist, ist die Qualitätssicherung hier daher leider derzeit nicht aktiv. Bitte keine neuen Einträge vornehmen, da diese nicht bearbeitet werden.\nHier können Artikel aus dem Bereich Fahrrad eingetragen werden, die in gewissem Maße überarbeitungsbedürftig sind.",
+        "matchedWords": {
+          "9KPnrl-iyiDc": {
+            "hits": 6,
+            "textWords": 166
+          }
+        },
+        "queryPhraseHits": 0
       }
     ],
     [
       {
-        "hash": "hgpLOKaZAz0h",
-        "address": "https://www.tageblatt.de/Nachrichten/Fahrrad-Gruppe-stellt-Insolvenzantrag-761770.html",
-        "title": "Fahrrad-Gruppe stellt Insolvenzantrag",
+        "hash": "6ZPWKYX3cKDg",
+        "address": "https://www.bahn.de/faq/fahrrad-bw-kosten",
+        "title": "Was kostet das Ticket bwFahrrad?",
         "snippet": "",
         "matchedWords": {
           "9KPnrl-iyiDc": {
             "hits": 1,
-            "textWords": 1136
+            "textWords": 17
           }
-        }
-      },
-      {
-        "hash": "i2TgoZCZCJKg",
-        "address": "https://www.merkur.de/wirtschaft/fahrrad-riese-accell-insolvent-haibike-ghost-und-winora-bangen-zr-94441488.html",
-        "title": "Fahrrad-Riese Accell insolvent – Haibike, Ghost und Winora bangen",
-        "snippet": "",
-        "matchedWords": {
-          "9KPnrl-iyiDc": {
-            "hits": 1,
-            "textWords": 826
-          }
-        }
-      },
-      {
-        "hash": "i_LlZNlA2Rig",
-        "address": "https://www.n-tv.de/wissen/Am-Vatertag-bleibt-es-auf-deutschen-Strassen-am-gefaehrlichsten-id30817546.html",
-        "title": "Ausreißer bei Alkoholunfällen: Am Vatertag bleibt es auf deutschen Straßen am gefährlichsten - n-tv.de",
-        "snippet": "",
-        "matchedWords": {
-          "9KPnrl-iyiDc": {
-            "hits": 2,
-            "textWords": 1224
-          }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
         "hash": "gKp9PwX-NDdg",
@@ -903,94 +951,115 @@
             "hits": 10,
             "textWords": 1171
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
-        "hash": "5Shmyvc16L-j",
-        "address": "https://www.arbeit-und-arbeitsrecht.de/news/arbeitsmittel-eines-fahrradlieferanten.html",
-        "title": "Arbeitsmittel eines Fahrradlieferanten - Vertragsgestaltung,Entgelt | News | Arbeit und Arbeitsrecht - Personal | Praxis | Recht",
+        "hash": "hrWXRdBwt6mx",
+        "address": "https://de.wikivoyage.org/wiki/Costa_Rica",
+        "title": "Costa Rica – Reiseführer auf Wikivoyage",
         "snippet": "",
         "matchedWords": {
           "9KPnrl-iyiDc": {
-            "hits": 5,
-            "textWords": 1312
+            "hits": 3,
+            "textWords": 7953
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
-        "hash": "iyL0IT82WFg4",
-        "address": "https://hotel-salzburg.dorint.com/en/arrangements-offers",
-        "title": "Our hotel offers for Salzburg | Dorint Hotels",
+        "hash": "FMlVXPemigYg",
+        "address": "https://www.flixbus.de/fernbus/wichita-ks",
+        "title": "Bus nach Wichita, KS - Bus Ticket günstig buchen",
         "snippet": "",
         "matchedWords": {
           "9KPnrl-iyiDc": {
-            "hits": 1,
-            "textWords": 2372
+            "hits": 3,
+            "textWords": 2433
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
-        "hash": "jresF7yX5Qug",
-        "address": "https://www.t-online.de/themen/dfb/",
-        "title": "DFB: Aktuelle News und Infos zum Deutschen Fußball-Bund",
-        "snippet": "",
-        "matchedWords": {
-          "9KPnrl-iyiDc": {
-            "hits": 1,
-            "textWords": 1508
-          }
-        }
-      },
-      {
-        "hash": "gLOoJPY3c3Fg",
-        "address": "https://www.golem.de/specials/rtl/",
-        "title": "RTL - Golem.de",
+        "hash": "Rp2slPwm21Ng",
+        "address": "https://www.flixbus.ch/fernbus/wichita-ks",
+        "title": "Bus nach Wichita, KS - Bus ticket günstig buchen",
         "snippet": "",
         "matchedWords": {
           "9KPnrl-iyiDc": {
             "hits": 2,
-            "textWords": 3155
+            "textWords": 1920
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
-        "hash": "gQxAemJ0xFth",
-        "address": "https://rp-online.de/thema/gareth-southgate/",
-        "title": "Gareth Southgate: Aktuelle News und Infos zum Nationaltrainer von England",
+        "hash": "LigS3bwEL1Ng",
+        "address": "https://www.nimmbus.de/fahrplanbuch/plaene/269H-2.htm",
+        "title": "Fahrplan Linie 269, Hin, Sa",
         "snippet": "",
         "matchedWords": {
           "9KPnrl-iyiDc": {
             "hits": 1,
-            "textWords": 2125
+            "textWords": 956
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
-        "hash": "jMlwsl6bFQy6",
-        "address": "https://www.notebookcheck.com/",
-        "title": "Notebook Test, Laptop Test und News - Notebookcheck",
+        "hash": "eE7cUjRvmBbx",
+        "address": "https://en.wikipedia.org/wiki/Bicycle_cooperative",
+        "title": "Bicycle cooperative - Wikipedia",
         "snippet": "",
         "matchedWords": {
           "9KPnrl-iyiDc": {
             "hits": 1,
-            "textWords": 7418
+            "textWords": 2948
           }
-        }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "bFbWJlMCiH44",
+        "address": "https://www.xing.com/jobs/bad-segeberg-personalsachbearbeiter-157660951",
+        "title": "Personalsachbearbeiter*in (m/w/d) in Bad Segeberg | XING Jobs",
+        "snippet": "",
+        "matchedWords": {
+          "9KPnrl-iyiDc": {
+            "hits": 1,
+            "textWords": 605
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "5ET-PN8KpGIj",
+        "address": "https://www.demokratiewebstatt.at/wissen/demokratie-lexikon",
+        "title": "Demokratie-Lexikon - DemokratieWEBstatt.at",
+        "snippet": "",
+        "matchedWords": {
+          "9KPnrl-iyiDc": {
+            "hits": 1,
+            "textWords": 20944
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "_Pknpf5ARWyg",
+        "address": "https://www.spiegel.de/impressum/autor-f2d18766-0001-0003-0000-000000000594",
+        "title": "Hilmar Schmundt - DER SPIEGEL",
+        "snippet": "",
+        "matchedWords": {
+          "9KPnrl-iyiDc": {
+            "hits": 1,
+            "textWords": 2388
+          }
+        },
+        "queryPhraseHits": 0
       }
     ],
     [
-      {
-        "hash": "rbRpbe6j6z4g",
-        "address": "https://www.bmluk.gv.at/themen/regionen-raumentwicklung/internationale-kooperationen/eusdr-flagships-2026.html",
-        "title": "Wie Österreich von der europäischen Strategie für den Donauraum profitiert - Bundesministerium für Land- und Forstwirtschaft, Klima- und Umweltschutz, Regionen und Wasserwirtschaft",
-        "snippet": "",
-        "matchedWords": {
-          "9KPnrl-iyiDc": {
-            "hits": 1,
-            "textWords": 1479
-          }
-        }
-      },
       {
         "hash": "sKdLe1qF-3Lg",
         "address": "https://www.bmimi.gv.at/themen/verkehr/luftfahrt/unternehmen/statistik.html",
@@ -1001,7 +1070,21 @@
             "hits": 1,
             "textWords": 3412
           }
-        }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "rbRpbe6j6z4g",
+        "address": "https://www.bmluk.gv.at/themen/regionen-raumentwicklung/internationale-kooperationen/eusdr-flagships-2026.html",
+        "title": "Wie Österreich von der europäischen Strategie für den Donauraum profitiert - Bundesministerium für Land- und Forstwirtschaft, Klima- und Umweltschutz, Regionen und Wasserwirtschaft",
+        "snippet": "",
+        "matchedWords": {
+          "9KPnrl-iyiDc": {
+            "hits": 1,
+            "textWords": 1479
+          }
+        },
+        "queryPhraseHits": 0
       },
       {
         "hash": "tjEmL1qF-3Lg",
@@ -1013,7 +1096,8 @@
             "hits": 1,
             "textWords": 3430
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
         "hash": "tWujj1qF-3Lg",
@@ -1025,7 +1109,8 @@
             "hits": 1,
             "textWords": 3657
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
         "hash": "HHdrk1qF-3Lg",
@@ -1037,7 +1122,8 @@
             "hits": 1,
             "textWords": 3461
           }
-        }
+        },
+        "queryPhraseHits": 0
       }
     ],
     [
@@ -1045,13 +1131,14 @@
         "hash": "XdTmsyX3cKDg",
         "address": "https://www.bahn.de/angebot/zusatzticket/fahrrad/bw",
         "title": "Fahrrad-Tageskarte Baden-Württemberg",
-        "snippet": "Fahrrad durch Baden-Württemberg.\nFür beliebig viele Fahrten an einem Tag im Geltungsbereich.\n6 Euro\nSie brauchen eine bwFahrradkarte nur Montag bis Freitag zwischen 6 Uhr und 9 Uhr.\nHäufig gestellte Fragen\nDie Fahrrad-Tageskarte bwFahrrad kostet 6 Euro pro Rad und Tag. Sie ist nur gültig in",
+        "snippet": "",
         "matchedWords": {
           "9KPnrl-iyiDc": {
-            "hits": 2,
-            "textWords": 168
+            "hits": 1,
+            "textWords": 11
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
         "hash": "WB0VzYsdClVg",
@@ -1063,7 +1150,8 @@
             "hits": 4,
             "textWords": 2396
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
         "hash": "w6y94maTwyCg",
@@ -1075,7 +1163,8 @@
             "hits": 6,
             "textWords": 1560
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
         "hash": "Z0RF7l6bFQy6",
@@ -1087,7 +1176,8 @@
             "hits": 1,
             "textWords": 1227
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
         "hash": "T-MSgIgw84xh",
@@ -1099,19 +1189,21 @@
             "hits": 2,
             "textWords": 1112
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
-        "hash": "4WYmLPemigYg",
-        "address": "https://www.flixbus.de/fernbus/zoagli",
-        "title": "Bus nach Zoagli - Bus Ticket günstig buchen",
+        "hash": "_nrrUUemigYg",
+        "address": "https://www.flixbus.de/busverbindung/fernbus-nuernberg-osnabrueck",
+        "title": "Bus Nürnberg nach Osnabrück - Günstig Tickets buchen",
         "snippet": "",
         "matchedWords": {
           "9KPnrl-iyiDc": {
-            "hits": 3,
-            "textWords": 2303
+            "hits": 1,
+            "textWords": 2012
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
         "hash": "tpxBqzYzEGnj",
@@ -1123,43 +1215,47 @@
             "hits": 9,
             "textWords": 2562
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
-        "hash": "7I06CbwEL1Ng",
-        "address": "https://www.nimmbus.de/fahrplanbuch/plaene/7550H-2.htm",
-        "title": "Fahrplan Linie 7550, Hin, Sa",
-        "snippet": "",
-        "matchedWords": {
-          "9KPnrl-iyiDc": {
-            "hits": 1,
-            "textWords": 634
-          }
-        }
-      },
-      {
-        "hash": "7pyPjfDUiN7g",
-        "address": "https://www.international.tum.de/global/thinking-green-travel-stories/",
-        "title": "Thinking Green Travel Stories - TUM Global",
+        "hash": "bWpwHIgw84xh",
+        "address": "https://www.sueddeutsche.de/auto/e-bike-test-suv-bike-1.5583596?reduced=true",
+        "title": "SUV-Bikes im Test: Alleskönner oder alles nur Marketing? - Auto \u0026 Mobil - SZ.de",
         "snippet": "",
         "matchedWords": {
           "9KPnrl-iyiDc": {
             "hits": 2,
-            "textWords": 1738
+            "textWords": 1081
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
-        "hash": "9gnYfNVosUrh",
-        "address": "https://www.norderstedt.de/Politik-und-Rathaus/Fachkr%C3%A4fte-und-Karriere/Stellenangebote/",
-        "title": "Stellenangebote / Stadt Norderstedt",
+        "hash": "o4_E7ly-Hbyh",
+        "address": "https://www.nimms-rad.de/news/",
+        "title": "Nimms-Rad.de - Urban Mobility News \u0026 Artikel",
         "snippet": "",
         "matchedWords": {
           "9KPnrl-iyiDc": {
-            "hits": 3,
-            "textWords": 1987
+            "hits": 6,
+            "textWords": 3591
           }
-        }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "-Iy_wlCij-Th",
+        "address": "https://www.tenstickers.ch/",
+        "title": "Wandtattoos, Tapeten, Fototapeten und Leinwandbilder - TenStickers",
+        "snippet": "",
+        "matchedWords": {
+          "9KPnrl-iyiDc": {
+            "hits": 2,
+            "textWords": 3914
+          }
+        },
+        "queryPhraseHits": 0
       }
     ],
     [],
@@ -1174,7 +1270,8 @@
             "hits": 2,
             "textWords": 4491
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
         "hash": "0gTbNYG-ATF4",
@@ -1186,7 +1283,8 @@
             "hits": 1,
             "textWords": 3062
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
         "hash": "iZNBf50w__jw",
@@ -1198,7 +1296,8 @@
             "hits": 1,
             "textWords": 1309
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
         "hash": "t0OyDeMcq6Ew",
@@ -1210,7 +1309,8 @@
             "hits": 1,
             "textWords": 1553
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
         "hash": "tMq5IlGQqF_g",
@@ -1222,7 +1322,8 @@
             "hits": 1,
             "textWords": 3293
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
         "hash": "SWV0kjRvmBbx",
@@ -1234,7 +1335,8 @@
             "hits": 1,
             "textWords": 26537
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
         "hash": "-p2w3taoSn1x",
@@ -1246,19 +1348,8 @@
             "hits": 1,
             "textWords": 17946
           }
-        }
-      },
-      {
-        "hash": "Foq5cdFO6r_x",
-        "address": "https://de.wikipedia.org/wiki/Bill_Cunningham_(Fotograf,_1929)",
-        "title": "Bill Cunningham (Fotograf, 1929) – Wikipedia",
-        "snippet": "",
-        "matchedWords": {
-          "9KPnrl-iyiDc": {
-            "hits": 1,
-            "textWords": 1472
-          }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
         "hash": "WLeSrl5ARWyg",
@@ -1270,7 +1361,8 @@
             "hits": 3,
             "textWords": 11901
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
         "hash": "bb0uydiCNgAi",
@@ -1282,7 +1374,21 @@
             "hits": 1,
             "textWords": 7984
           }
-        }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "Foq5cdFO6r_x",
+        "address": "https://de.wikipedia.org/wiki/Bill_Cunningham_(Fotograf,_1929)",
+        "title": "Bill Cunningham (Fotograf, 1929) – Wikipedia",
+        "snippet": "",
+        "matchedWords": {
+          "9KPnrl-iyiDc": {
+            "hits": 1,
+            "textWords": 1472
+          }
+        },
+        "queryPhraseHits": 0
       }
     ],
     [
@@ -1296,7 +1402,8 @@
             "hits": 0,
             "textWords": 54
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
         "hash": "sm2a9JemigYg",
@@ -1308,7 +1415,8 @@
             "hits": 9,
             "textWords": 308
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
         "hash": "0tDCmJwm21Ng",
@@ -1320,7 +1428,8 @@
             "hits": 9,
             "textWords": 298
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
         "hash": "fx_qtlzZulEg",
@@ -1332,7 +1441,8 @@
             "hits": 20,
             "textWords": 858
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
         "hash": "SKnTYF1e7Xjg",
@@ -1344,7 +1454,8 @@
             "hits": 11,
             "textWords": 848
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
         "hash": "8p5gwlkdSSIx",
@@ -1356,7 +1467,8 @@
             "hits": 161,
             "textWords": 8233
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
         "hash": "a1zkjdfd0Dbg",
@@ -1368,7 +1480,8 @@
             "hits": 60,
             "textWords": 2522
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
         "hash": "BAerhXQCzJQg",
@@ -1380,7 +1493,8 @@
             "hits": 12,
             "textWords": 5903
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
         "hash": "-aqICsldwjog",
@@ -1392,7 +1506,8 @@
             "hits": 2,
             "textWords": 1715
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
         "hash": "bg5CcupuaNbg",
@@ -1404,7 +1519,8 @@
             "hits": 11,
             "textWords": 373
           }
-        }
+        },
+        "queryPhraseHits": 0
       }
     ],
     [
@@ -1418,7 +1534,21 @@
             "hits": 33,
             "textWords": 21064
           }
-        }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "FItLjeVb8V15",
+        "address": "https://www.anwaltonline.com/firmen-_-gewerbe/urteile/41858/eigenmaechtige-fahrrad-probefahrt-im-geschaeft-haftet-der-haendler-bei-einem-sturz/?pk_campaign=rss\u0026pk_source=rss",
+        "title": "Eigenmächtige Fahrrad-Probefahrt im Geschäft: Haftet der Händler bei einem Sturz? - Firmen / Gewerbe - Urteile - AnwaltOnline",
+        "snippet": "Fahrrad unternimmt, handelt außerhalb der bestimmungsgemäßen Nutzung der Verkaufsräume. Eine Verletzung der Verkehrssicherungspflicht des Betreibers liegt in diesem Fall nicht vor, da dieser nicht mit einer eigenmächtigen Nutzung der Ausstellungsstücke zu Fahrzwecken rechnen muss.\nWelche Maßstäbe",
+        "matchedWords": {
+          "9KPnrl-iyiDc": {
+            "hits": 5,
+            "textWords": 562
+          }
+        },
+        "queryPhraseHits": 0
       },
       {
         "hash": "GX5_0lezMa1j",
@@ -1430,19 +1560,21 @@
             "hits": 3,
             "textWords": 365
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
-        "hash": "FItLjeVb8V15",
-        "address": "https://www.anwaltonline.com/firmen-_-gewerbe/urteile/41858/eigenmaechtige-fahrrad-probefahrt-im-geschaeft-haftet-der-haendler-bei-einem-sturz/?pk_campaign=rss\u0026pk_source=rss",
-        "title": "Eigenmächtige Fahrrad-Probefahrt im Geschäft: Haftet der Händler bei einem Sturz? - Firmen / Gewerbe - Urteile - AnwaltOnline",
-        "snippet": "Fahrrad unternimmt, handelt außerhalb der bestimmungsgemäßen Nutzung der Verkaufsräume. Eine Verletzung der Verkehrssicherungspflicht des Betreibers liegt in diesem Fall nicht vor, da dieser nicht mit einer eigenmächtigen Nutzung der Ausstellungsstücke zu Fahrzwecken rechnen muss.\nWelche Maßstäbe",
+        "hash": "At8tqlzQbQvh",
+        "address": "https://www.umweltlupe.de/fahrrad-statt-auto-oder-der-verkehrsversuch-auf-der-hauptverkehrsachse-2131526?pk_campaign=rss\u0026pk_source=rss",
+        "title": "Fahrrad statt Auto - oder: Der Verkehrsversuch auf der Hauptverkehrsachse | Umweltlupe",
+        "snippet": "",
         "matchedWords": {
           "9KPnrl-iyiDc": {
-            "hits": 5,
-            "textWords": 618
+            "hits": 3,
+            "textWords": 1718
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
         "hash": "h_4kJ_DciWRh",
@@ -1454,31 +1586,21 @@
             "hits": 3,
             "textWords": 3086
           }
-        }
-      },
-      {
-        "hash": "At8tqlzQbQvh",
-        "address": "https://www.umweltlupe.de/fahrrad-statt-auto-oder-der-verkehrsversuch-auf-der-hauptverkehrsachse-2131526?pk_campaign=rss\u0026pk_source=rss",
-        "title": "Fahrrad statt Auto - oder: Der Verkehrsversuch auf der Hauptverkehrsachse | Umweltlupe",
-        "snippet": "Auch auf einer Hauptverkehrsachse einer Großstadt können im Rahmen eines Verkehrsversuchs Fahrstreifen in geschützte Fahrradspuren umgewandelt werden.\nSo hat aktuell das Verwaltungsgericht Köln die Eilanträge von zwei Anliegern der Adenaueralle gegen den von der Stadt Bonn im Sommer 2025",
-        "matchedWords": {
-          "9KPnrl-iyiDc": {
-            "hits": 0,
-            "textWords": 415
-          }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
         "hash": "pU_GestXwxcx",
         "address": "https://apollo-news.net/begegnungsort-an-kriminalittshotspots-grne-zahlen-12-000-euro-fr-e-fahrrad-bibliothek/",
         "title": "Berlin: Grüne zahlen 12.000 Euro für E-Fahrrad-Bibliothek - Apollo News",
-        "snippet": "E-Fahrrad mit Anhänger, das zu einer Art Leseinsel mit Hängematten umgebaut werden kann. Dort sollen sich Berliner kostenlos Bücher und Spiele ausleihen können, um es sich zwischen Drogendealern und -konsumenten an Kriminalitätshotspots wie dem Görlitzer Park gemütlich zu machen.\nDer mobile „Ort",
+        "snippet": "",
         "matchedWords": {
           "9KPnrl-iyiDc": {
-            "hits": 1,
-            "textWords": 367
+            "hits": 3,
+            "textWords": 1984
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
         "hash": "w4tWSrf_-JMg",
@@ -1490,7 +1612,8 @@
             "hits": 4,
             "textWords": 642
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
         "hash": "s9Butzm9Dfig",
@@ -1502,7 +1625,8 @@
             "hits": 6,
             "textWords": 2608
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
         "hash": "UwmJogrBmPch",
@@ -1514,7 +1638,8 @@
             "hits": 5,
             "textWords": 1957
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
         "hash": "3Ex7nA7wx37i",
@@ -1526,7 +1651,8 @@
             "hits": 5,
             "textWords": 2788
           }
-        }
+        },
+        "queryPhraseHits": 0
       }
     ],
     [
@@ -1540,7 +1666,8 @@
             "hits": 1,
             "textWords": 685
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
         "hash": "EtsaaesdClVg",
@@ -1552,79 +1679,21 @@
             "hits": 1,
             "textWords": 1529
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
-        "hash": "gChLUPemigYg",
-        "address": "https://www.flixbus.de/fernbus/lodi",
-        "title": "Bus nach Lodi - Bus Ticket günstig buchen",
+        "hash": "NEYvuQsWnm5h",
+        "address": "https://hls-dhs-dss.ch/articles/013903/2009-01-08/",
+        "title": "Motorrad",
         "snippet": "",
         "matchedWords": {
           "9KPnrl-iyiDc": {
-            "hits": 3,
-            "textWords": 2175
+            "hits": 2,
+            "textWords": 1137
           }
-        }
-      },
-      {
-        "hash": "GpkfsUGyaxOg",
-        "address": "https://www.flixbus.at/busverbindung/fernbus-bratislava-wien-flughafen",
-        "title": "Bus Bratislava nach Flughafen Wien - Günstig tickets buchen",
-        "snippet": "",
-        "matchedWords": {
-          "9KPnrl-iyiDc": {
-            "hits": 3,
-            "textWords": 2411
-          }
-        }
-      },
-      {
-        "hash": "Fipe8svGIzOw",
-        "address": "https://filler.cc/",
-        "title": "Filler – offenes Jugendbüro der Gewerkschaftsjugend",
-        "snippet": "",
-        "matchedWords": {
-          "9KPnrl-iyiDc": {
-            "hits": 1,
-            "textWords": 849
-          }
-        }
-      },
-      {
-        "hash": "n-tkql3advYi",
-        "address": "https://www.die-radkultur.de/",
-        "title": "die Radkultur | Fahrradladen und Werkstatt | Ansbacher Str. 85, 91541 Rothenburg ob der Tauber",
-        "snippet": "",
-        "matchedWords": {
-          "9KPnrl-iyiDc": {
-            "hits": 3,
-            "textWords": 2532
-          }
-        }
-      },
-      {
-        "hash": "po5Jsllwq5e6",
-        "address": "https://www.derreisefuehrer.com/guides/europa/montenegro/getting-around/",
-        "title": "Montenegro | World Travel Guide",
-        "snippet": "",
-        "matchedWords": {
-          "9KPnrl-iyiDc": {
-            "hits": 1,
-            "textWords": 900
-          }
-        }
-      },
-      {
-        "hash": "3DDvPPemigYg",
-        "address": "https://www.flixbus.de/fernbus/venas-di-cadore",
-        "title": "Bus nach Venas di Cadore - Bus Ticket günstig buchen",
-        "snippet": "",
-        "matchedWords": {
-          "9KPnrl-iyiDc": {
-            "hits": 3,
-            "textWords": 2415
-          }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
         "hash": "28KwtPemigYg",
@@ -1636,145 +1705,484 @@
             "hits": 3,
             "textWords": 2308
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
-        "hash": "9-OvHBqZa4Gg",
-        "address": "https://www.familie.de/testberichte/so-gut-sind-woom-bikes-wirklich-unser-test-zeigt-die-staerken-und-schwaechen--01H2SYGYNTAHR71CRNQ6AWVF1N",
-        "title": "So gut sind Woom-Bikes wirklich: Unser Test zeigt die Stärken und Schwächen",
+        "hash": "n-tkql3advYi",
+        "address": "https://www.die-radkultur.de/",
+        "title": "die Radkultur | Fahrradladen und Werkstatt | Ansbacher Str. 85, 91541 Rothenburg ob der Tauber",
         "snippet": "",
         "matchedWords": {
           "9KPnrl-iyiDc": {
             "hits": 3,
-            "textWords": 2980
+            "textWords": 2532
           }
-        }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "NaB5PUGyaxOg",
+        "address": "https://www.flixbus.at/busverbindung/fernbus-zagreb-wien",
+        "title": "Bus Zagreb nach Wien - Günstig tickets buchen",
+        "snippet": "",
+        "matchedWords": {
+          "9KPnrl-iyiDc": {
+            "hits": 3,
+            "textWords": 2403
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "Fipe8svGIzOw",
+        "address": "https://filler.cc/",
+        "title": "Filler – offenes Jugendbüro der Gewerkschaftsjugend",
+        "snippet": "",
+        "matchedWords": {
+          "9KPnrl-iyiDc": {
+            "hits": 1,
+            "textWords": 849
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "po5Jsllwq5e6",
+        "address": "https://www.derreisefuehrer.com/guides/europa/montenegro/getting-around/",
+        "title": "Montenegro | World Travel Guide",
+        "snippet": "",
+        "matchedWords": {
+          "9KPnrl-iyiDc": {
+            "hits": 1,
+            "textWords": 900
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "gChLUPemigYg",
+        "address": "https://www.flixbus.de/fernbus/lodi",
+        "title": "Bus nach Lodi - Bus Ticket günstig buchen",
+        "snippet": "",
+        "matchedWords": {
+          "9KPnrl-iyiDc": {
+            "hits": 3,
+            "textWords": 2175
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "GUDARKKiI0Hh",
+        "address": "https://web1.karlsruhe.de/service/Buergerdienste/leistung.php?id=6022739",
+        "title": "Bürgerdienste: Als berechtigte Person Fahrzeugregisterauskunft (Halterauskunft) beantragen",
+        "snippet": "",
+        "matchedWords": {
+          "9KPnrl-iyiDc": {
+            "hits": 1,
+            "textWords": 747
+          }
+        },
+        "queryPhraseHits": 0
       }
     ],
     [
       {
-        "hash": "Ao-x4AwFKWzg",
-        "address": "https://streaming-guide.spiegel.de/streamingdienste/paramount-plus/",
-        "title": "Top Filme und Serien auf Paramount+ - Ihr ultimativer Streaming-Guide | Streaming Guide",
-        "snippet": "",
+        "hash": "ueLLVFotHkcg",
+        "address": "https://kaufradar.spiegel.de/auto-fahrrad/",
+        "title": "Auto \u0026 Fahrrad - DER SPIEGEL Kaufradar",
+        "snippet": "Affiliate-Hinweis\nDieser Link enthält Affiliate-Angebote.\nMehr erfahren\nIn Artikeln des Kaufradars finden sich sogenannte Affiliate-Anzeigen, die Links zu Onlineshops enthalten. Besucht ein Nutzer über einen solchen Link einen dieser Shops und kauft dort ein, wird der SPIEGEL-Verlag, aber nie der",
         "matchedWords": {
           "9KPnrl-iyiDc": {
-            "hits": 2,
-            "textWords": 1823
+            "hits": 0,
+            "textWords": 54
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
-        "hash": "C0gtHFotHkcg",
-        "address": "https://kaufradar.spiegel.de/finanzen-versicherungen/",
-        "title": "Finanzen \u0026 Versicherungen - DER SPIEGEL Kaufradar",
+        "hash": "5bfb-NseDREg",
+        "address": "https://www.zdfheute.de/thema/fahrrad-150.html",
+        "title": "Fahrrad - News, Tipps \u0026 Tricks",
+        "snippet": "Fahrrad\n|\nRadfahren ist in Deutschland beliebt. E-Bikes liegen neben dem klassischen Fahrrad im Trend. Egal ob neues Mountainbike, Rennrad oder gebrauchtes Pedelec: Tipps und Tricks rund ums Fahrrad und E-Bike. ZDFheute informiert zum Thema Fahrrad aktuell: Nachrichten, Hintergründe und mehr in der",
+        "matchedWords": {
+          "9KPnrl-iyiDc": {
+            "hits": 6,
+            "textWords": 73
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "_XWQSIPpH0Ui",
+        "address": "https://www.fuldaerzeitung.de/fulda/scooter-unfall-in-fulda-drei-verletzte-nach-zusammenstoss-mit-fahrrad-94465279.html",
+        "title": "E-Scooter-Unfall in Fulda: Drei Verletzte nach Zusammenstoß mit Fahrrad",
         "snippet": "",
         "matchedWords": {
           "9KPnrl-iyiDc": {
             "hits": 4,
-            "textWords": 1749
+            "textWords": 312
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
-        "hash": "AMV3kl5ARWyg",
-        "address": "https://www.spiegel.de/kontakt?betreff=Were+Americans+As+Bad+as+the+Soviets%3F\u0026channel=International\u0026id=051d06cd-0001-0001-0000-000001021298\u0026reason=Technische+Fragen+und+Probleme",
-        "title": "Kontakt - DER SPIEGEL",
+        "hash": "15aRPhQCzJQg",
+        "address": "https://www.chip.de/downloads/Bikemap-Fahrrad-Navi-GPS-Android-App_144195848.html",
+        "title": "Bikemap: Fahrrad Navi \u0026 GPS - Android App - Download - CHIP",
+        "snippet": "",
+        "matchedWords": {
+          "9KPnrl-iyiDc": {
+            "hits": 21,
+            "textWords": 1228
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "gf7TPXX-NDdg",
+        "address": "https://www.pcwelt.de/bestenlisten/auto-fahrrad",
+        "title": "Auto \u0026 Fahrrad Bestenlisten | PC-WELT",
+        "snippet": "FAHRRAD INHALTE PRO KATEGORIE\nAuto \u0026 Fahrrad\nNews\nBestenlisten\nTests\nRatgeber\nMore\nDie besten großen Elektroautos im Test\nSie wollen elektrisch fahren und benötigen gleichzeitig viel Platz? Hier finden Sie die größten Elektroautos auf dem Markt.\nVon Mikael Lindkvist und Michael SöldnerVor 7 Monate",
+        "matchedWords": {
+          "9KPnrl-iyiDc": {
+            "hits": 2,
+            "textWords": 261
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "aesxMvi-f6Eg",
+        "address": "https://www.zeit.de/news/2026-04/18/auto-erfasst-vierjaehrige-auf-dem-fahrrad",
+        "title": "Unfall: Auto erfasst Vierjährige auf dem Fahrrad | DIE ZEIT",
         "snippet": "",
         "matchedWords": {
           "9KPnrl-iyiDc": {
             "hits": 1,
-            "textWords": 1104
+            "textWords": 52
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
-        "hash": "D_w9rdFO6r_x",
-        "address": "https://de.wikipedia.org/wiki/Portal:Wikipedia_nach_Themen",
-        "title": "Portal:Wikipedia nach Themen – Wikipedia",
-        "snippet": "",
+        "hash": "OtLRfAbQpWqg",
+        "address": "https://www.hna.de/kassel/betrunkener-versucht-fahrrad-zu-rauben-polizei-schnappt-ihn-hinter-bauwagen-94376579.html",
+        "title": "Betrunkener versucht Fahrrad zu rauben – Polizei schnappt ihn hinter Bauwagen",
+        "snippet": "Fahrrad rauben wollte. © Lino Mirgeler/dpa\nEin 23-Jähriger hat in Kassel-Wehlheiden versucht, einem 22-Jährigen das Fahrrad zu entreißen. Der Täter hatte über zwei Promille und versteckte sich nach der Tat hinter einem Bauwagen.\nKassel – Ein 23-jähriger Mann hat in der Nacht zum Dienstag in",
         "matchedWords": {
           "9KPnrl-iyiDc": {
-            "hits": 1,
-            "textWords": 1428
+            "hits": 4,
+            "textWords": 233
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
-        "hash": "A-cG3lyeZGNi",
-        "address": "https://www.report-medizin.de/",
-        "title": "Report Medizin,Neues aus der Medizin,Medizin News,Info-Netzwerk MEDIZIN 2000,Medizin 2000",
+        "hash": "tO_uslXmYZug",
+        "address": "https://www.kit-shop.de/Fahrrad+Multitool+TROIKA.htm",
+        "title": "TROIKA Multitool für das Fahrrad vom KIT",
         "snippet": "",
         "matchedWords": {
           "9KPnrl-iyiDc": {
             "hits": 2,
-            "textWords": 31500
+            "textWords": 418
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
-        "hash": "D2jvwQHjdLqg",
-        "address": "https://www.focus.de/kultur/kino-tv/buergergeld-empfaengerin-goennt-sich-luxus-limousine-trotz-geldnot_133182ed-ce3d-4284-b42d-b104b12b6076.html",
-        "title": "Bürgergeld-Empfängerin gönnt sich Luxus-Limousine trotz Geldnot - FOCUS online",
-        "snippet": "",
+        "hash": "gUrbQFbLrFTi",
+        "address": "https://www.wer-weiss-was.de/c/auto-rad-mobilitat/fahrrad/126",
+        "title": "Auto, Rad \u0026 Mobilität / Fahrrad - Ratgeber \u0026 Forum - wer-weiss-was.de",
+        "snippet": "Fahrrad\n1\n1633\n4. September 2019\nMenü Einstellung für Controller e-bike\n2\n49\n20. August 2026\nCruxer Fahrrad Alarmanlage Fernbedienung abmelden\n2\n58\n13. Januar 2026\nAlurahmen löten oder schweißen\n13\n550\n28. Oktober 2025\nWelche Reifen passen bei 42-622\n5\n2184\n19. September 2025\nKinderfahrrad Bremse",
+        "matchedWords": {
+          "9KPnrl-iyiDc": {
+            "hits": 4,
+            "textWords": 270
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "vMjnWzXOdHBh",
+        "address": "https://www.kino-zeit.de/film-kritiken-trailer/same-sun-mit-dem-fahrrad-durch-afrika-2026",
+        "title": "Same Sun - Mit dem Fahrrad durch Afrika (2026) | Film, Trailer, Kritik",
+        "snippet": "Fahrrad auf den Weg. Ihr Ziel ist das Kap der Guten Hoffnung nahe der Südspitze Afrikas. Das bedeutet: Sie muss 22 Länder durchqueren und dabei etwa 20.000 Kilometer zurücklegen. Gleich zu Beginn blendet der Film die Bedenken und Warnungen ein, die Lühmann als Alleinreisende von diesem großen",
         "matchedWords": {
           "9KPnrl-iyiDc": {
             "hits": 1,
-            "textWords": 1308
+            "textWords": 364
           }
-        }
-      },
-      {
-        "hash": "ASOFd0--rHBy",
-        "address": "https://www.mikrocontroller.net/topic/581844",
-        "title": "Sicherheitsschrauben? ganz einfach.",
-        "snippet": "",
-        "matchedWords": {
-          "9KPnrl-iyiDc": {
-            "hits": 1,
-            "textWords": 2378
-          }
-        }
-      },
-      {
-        "hash": "C1C1-PJ0xFth",
-        "address": "https://rp-online.de/leben/reisen/deutschland/",
-        "title": "Reisen in Deutschland",
-        "snippet": "",
-        "matchedWords": {
-          "9KPnrl-iyiDc": {
-            "hits": 1,
-            "textWords": 3900
-          }
-        }
-      },
-      {
-        "hash": "BoFERhloDMX5",
-        "address": "https://rainerspeer.com/2012/06/04/ikombe-im-juni/",
-        "title": "Ikombe im Juni – rainerspeer",
-        "snippet": "",
-        "matchedWords": {
-          "9KPnrl-iyiDc": {
-            "hits": 2,
-            "textWords": 3158
-          }
-        }
-      },
-      {
-        "hash": "DsO-P7J0xFth",
-        "address": "https://rp-online.de/nrw/staedte/rommerskirchen/rhein-kreis-neuss-tritt-rommerskirchens-stromprojekt-bei_aid-139651029",
-        "title": "Rhein-Kreis Neuss tritt  Rommerskirchens Stromprojekt bei",
-        "snippet": "",
-        "matchedWords": {
-          "9KPnrl-iyiDc": {
-            "hits": 1,
-            "textWords": 1645
-          }
-        }
+        },
+        "queryPhraseHits": 0
       }
     ],
-    [],
-    [],
+    [
+      {
+        "hash": "T3iPpdQRq0sg",
+        "address": "https://www.polizei.hessen.de/praevention/beratung-hilfe-und-unterstuetzung/sicher-im-urlaub/auf-der-reise/mit-dem-fahrrad",
+        "title": "Unterwegs mit dem Fahrrad | Polizei Hessen",
+        "snippet": "Fahrrad fährt, tut nicht nur etwas für seine Gesundheit,sondern entlastet auch die Umwelt. Sie wollen Ihren Urlaub mit dem Fahrrad verbringen und planen mit Ihrer Familie, Freunden und Bekannten eine Radtour. Dabei gilt es nicht nur sich sicher und verkehrsgerecht im Straßenverkehr zu verhalten.",
+        "matchedWords": {
+          "9KPnrl-iyiDc": {
+            "hits": 4,
+            "textWords": 179
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "woKZdW6yoeRi",
+        "address": "https://www.wienerzeitung.at/p/94-weltreise-auf-dem-fahrrad",
+        "title": "Weltreise auf dem Fahrrad: „Ich bin einfach losgefahren!“ | WZ • Wiener Zeitung",
+        "snippet": "Fahrrad die Welt zu bereisen, was sie dabei erlebt hat und was ihr am meisten fehlt, darüber spricht Leoni mit WZ-Redakteur Mathias Ziegler, der gemeinsam mit WZ-Host Petra Tempfer durch diese Folge unseres Podcasts „Weiter gedacht“ führt.\nProduziert von „hört hört!“.\nDerzeit durchquert Leoni",
+        "matchedWords": {
+          "9KPnrl-iyiDc": {
+            "hits": 2,
+            "textWords": 308
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "BkidfpL47Vlg",
+        "address": "https://bikemarkt.mtb-news.de/kaufvertrag-fahrrad",
+        "title": "Kaufvertrag Fahrrad – Kaufvertrag Vorlage für ein gebrauchtes Fahrrad | Bikemarkt.MTB-News.de",
+        "snippet": "Fahrrad kaufen: Was sollte ich beachten bei einem Gebrauchtfahrrad Kauf von Privat?\nSieh dir das Fahrrad und das Inserat vor dem Kauf genau an. Drucke es ggf. für deine Unterlagen oder Nachfragen aus, bzw speichere es.\nPrüfe das Fahrrad am besten vor Ort - vor der Bezahlung.\nIst das Fahrrad sauber",
+        "matchedWords": {
+          "9KPnrl-iyiDc": {
+            "hits": 7,
+            "textWords": 659
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "adfdUmlPDvFg",
+        "address": "https://www.wien.gv.at/amtswege/fahrradstaender-scooter-nicht-oeffentlicher-grund",
+        "title": "Antrag auf Förderung von Fahrrad- und Scooter-Abstellplätzen auf nicht öffentlichem Grund - Stadt Wien",
+        "snippet": "Fahrrad- oder Scooter-Rahmen direkt an der Anlage diebstahlgeschützt abgesperrt werden.\nEs besteht kein Rechtsanspruch auf die Förderung oder auf eine Förderung in einer bestimmten Höhe. Ob Sie eine Förderung erhalten, hängt vom Vorliegen der Voraussetzungen ab und davon, wie viel Fördergelder zur",
+        "matchedWords": {
+          "9KPnrl-iyiDc": {
+            "hits": 6,
+            "textWords": 635
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "EjKOMLlA2Rig",
+        "address": "https://www.n-tv.de/mediathek/videos/ratgeber/Auf-E-Scootern-gilt-bei-Alkohol-nicht-der-Fahrrad-Grenzwert-id30801037.html",
+        "title": "Führerschein-Entzug droht: Auf E-Scootern gilt bei Alkohol nicht der Fahrrad-Grenzwert - n-tv.de",
+        "snippet": "",
+        "matchedWords": {
+          "9KPnrl-iyiDc": {
+            "hits": 1,
+            "textWords": 967
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "2BJAgIgw84xh",
+        "address": "https://www.sueddeutsche.de/auto/s-pedelec-radverkehr-fahrrad-1.5670381",
+        "title": "S-Pedelecs: Was man beachten muss und für wen sie interessant sind - Auto \u0026 Mobil - SZ.de",
+        "snippet": "",
+        "matchedWords": {
+          "9KPnrl-iyiDc": {
+            "hits": 4,
+            "textWords": 2539
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "6htibYsdClVg",
+        "address": "https://kurier.at/motor/fahrrad?amp%3Bamp%3Bdicbo=v2-WZxe3Fd\u0026cm_ven=chip_outbrain",
+        "title": "Fahrräder und E-Bikes: aktuelle News und Tests | Kurier",
+        "snippet": "",
+        "matchedWords": {
+          "9KPnrl-iyiDc": {
+            "hits": 4,
+            "textWords": 2397
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "67vR1zWnwItg",
+        "address": "https://www.umwelt.nrw.de/themen/verkehr/nahmobilitaet/radverkehr",
+        "title": "Radverkehr | umwelt.nrw.de",
+        "snippet": "",
+        "matchedWords": {
+          "9KPnrl-iyiDc": {
+            "hits": 5,
+            "textWords": 1993
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "OEbwPl0cR3qh",
+        "address": "https://www.stadtradeln.de/oststeinbek/",
+        "title": "STADTRADELN - Oststeinbek",
+        "snippet": "",
+        "matchedWords": {
+          "9KPnrl-iyiDc": {
+            "hits": 1,
+            "textWords": 190
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "6ePMJ5ZSxJwg",
+        "address": "https://www.linz.at/umwelt/foerderungen.php",
+        "title": "Umwelt- und Energieförderungen | Stadt Linz",
+        "snippet": "",
+        "matchedWords": {
+          "9KPnrl-iyiDc": {
+            "hits": 1,
+            "textWords": 503
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "xN59udQRq0sg",
+        "address": "https://www.polizei.hessen.de/praevention/beratung-hilfe-und-unterstuetzung/sicher-im-urlaub/auf-der-reise/mit-dem-fahrrad/fahrradcodierungen",
+        "title": "Hinweis zu kostenlosen Fahrradcodierungen in Westhessen | Polizei Hessen",
+        "snippet": "",
+        "matchedWords": {
+          "9KPnrl-iyiDc": {
+            "hits": 2,
+            "textWords": 679
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "uvHeBVsdClVg",
+        "address": "https://kurier.at/techno/sicherer-start-in-die-e-bike-saison/403163955",
+        "title": "Sicherer Start in die E-Bike-Saison | Kurier",
+        "snippet": "",
+        "matchedWords": {
+          "9KPnrl-iyiDc": {
+            "hits": 2,
+            "textWords": 894
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "uzUk3uztH2oj",
+        "address": "https://www.meinezeitung-shop.de/deko-haushalt/leuchtturm-mit-beleuchtungssatz-edelrost-gartendeko_1045815_6741/",
+        "title": "Edelrost, Leuchtturm mit Beleuchtungssatz | Meinezeitung",
+        "snippet": "",
+        "matchedWords": {
+          "9KPnrl-iyiDc": {
+            "hits": 1,
+            "textWords": 825
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "73fsGD_Z86ng",
+        "address": "https://www.oekom.de/buch/green-travelling-9783962382834",
+        "title": "Green travelling | oekom verlag",
+        "snippet": "",
+        "matchedWords": {
+          "9KPnrl-iyiDc": {
+            "hits": 1,
+            "textWords": 1845
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "entT3EacE7ui",
+        "address": "https://www.vorspeisenplatte.de/speisen/2011/04/journal-sonntag-3-april-2011.htm",
+        "title": "Vorspeisenplatte » Blog Archive » Journal Sonntag, 3. April 2011",
+        "snippet": "",
+        "matchedWords": {
+          "9KPnrl-iyiDc": {
+            "hits": 1,
+            "textWords": 691
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "JN4hAuQCzJQg",
+        "address": "https://www.chip.de/static/nutzungsbedingungen-chip_4fcb8cef-57bb-49ba-81eb-d27a76e3b8d5.html",
+        "title": "AGB - CHIP",
+        "snippet": "",
+        "matchedWords": {
+          "9KPnrl-iyiDc": {
+            "hits": 3,
+            "textWords": 306
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "WCqKlPemigYg",
+        "address": "https://www.flixbus.de/fernbus/sala-consilina",
+        "title": "Bus nach Sala Consilina - Bus Ticket günstig buchen",
+        "snippet": "",
+        "matchedWords": {
+          "9KPnrl-iyiDc": {
+            "hits": 3,
+            "textWords": 2382
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "Zg4ViUemigYg",
+        "address": "https://www.flixbus.de/busverbindung/fernbus-kosice-karlsruhe",
+        "title": "Bus Košice nach Karlsruhe - Günstig Tickets buchen",
+        "snippet": "",
+        "matchedWords": {
+          "9KPnrl-iyiDc": {
+            "hits": 1,
+            "textWords": 3343
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "C9Y9jPemigYg",
+        "address": "https://www.flixbus.de/fernbus/empoli",
+        "title": "Bus nach Empoli - Bus Ticket günstig buchen",
+        "snippet": "",
+        "matchedWords": {
+          "9KPnrl-iyiDc": {
+            "hits": 3,
+            "textWords": 2307
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "T4UsHlQ_MGVg",
+        "address": "https://www.pokewiki.de/Leben-Orb",
+        "title": "Leben-Orb – PokéWiki",
+        "snippet": "",
+        "matchedWords": {
+          "9KPnrl-iyiDc": {
+            "hits": 13,
+            "textWords": 13527
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
     [
       {
         "hash": "GA9mbazJVNwg",
@@ -1786,7 +2194,8 @@
             "hits": 24,
             "textWords": 2250
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
         "hash": "r8lbeUhbiSJi",
@@ -1798,7 +2207,8 @@
             "hits": 1,
             "textWords": 109
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
         "hash": "ppwBT1qF-3Lg",
@@ -1810,7 +2220,8 @@
             "hits": 3,
             "textWords": 3545
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
         "hash": "66CQRtztH2oj",
@@ -1822,43 +2233,47 @@
             "hits": 1,
             "textWords": 851
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
-        "hash": "zoF_FPemigYg",
-        "address": "https://www.flixbus.de/fernbus/rionero",
-        "title": "Bus nach Rionero - Bus Ticket günstig buchen",
+        "hash": "zVvaK2wiCtsh",
+        "address": "https://www.flixtrain.de/zugverbindung/dresden-frankfurt",
+        "title": "Dresden - Frankfurt Bahn - Günstige Tickets",
+        "snippet": "",
+        "matchedWords": {
+          "9KPnrl-iyiDc": {
+            "hits": 2,
+            "textWords": 1448
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "-bzCIsghd-Kg",
+        "address": "https://geizhals.de/rixen-kaul-doggy-basket-plus-a1198835.html?hloc=de",
+        "title": "Rixen\u0026Kaul Doggy Basket Plus Fahrradkorb ab € 130,98 (2026) | Preisvergleich Geizhals Deutschland",
         "snippet": "",
         "matchedWords": {
           "9KPnrl-iyiDc": {
             "hits": 3,
-            "textWords": 2167
+            "textWords": 3095
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
-        "hash": "oYLVWl5wbj4h",
-        "address": "https://www.laurichhof.de/service/",
-        "title": "Designhotel Laurichhof in Pirna - Unser Service",
+        "hash": "3yOXLUemigYg",
+        "address": "https://www.flixbus.de/busverbindung/fernbus-montabaur-dresden",
+        "title": "Bus Montabaur nach Dresden - Günstig Tickets buchen",
         "snippet": "",
         "matchedWords": {
           "9KPnrl-iyiDc": {
             "hits": 1,
-            "textWords": 590
+            "textWords": 2096
           }
-        }
-      },
-      {
-        "hash": "jAKO22wiCtsh",
-        "address": "https://www.flixtrain.de/zugverbindung/duesseldorf-stuttgart",
-        "title": "Düsseldorf - Stuttgart Bahn - Günstige Tickets",
-        "snippet": "",
-        "matchedWords": {
-          "9KPnrl-iyiDc": {
-            "hits": 4,
-            "textWords": 2166
-          }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
         "hash": "AtHfdtztH2oj",
@@ -1870,31 +2285,34 @@
             "hits": 1,
             "textWords": 913
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
-        "hash": "_YXudUemigYg",
-        "address": "https://www.flixbus.de/busverbindung/fernbus-goettingen-heidelberg",
-        "title": "Bus Göttingen nach Heidelberg - Günstig Tickets buchen",
+        "hash": "_LYXeMaTwyCg",
+        "address": "https://www.test.de/Private-Unfallversicherung-im-Test-4910731-detail/350000034810!4/",
+        "title": "Test: Adam Riese XXL | Stiftung Warentest",
         "snippet": "",
         "matchedWords": {
           "9KPnrl-iyiDc": {
             "hits": 1,
-            "textWords": 2048
+            "textWords": 1219
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
-        "hash": "7MQZmUemigYg",
-        "address": "https://www.flixbus.de/busverbindung/fernbus-bonn-dresden",
-        "title": "Bus Bonn nach Dresden - Günstig Tickets buchen",
+        "hash": "0viBOUemigYg",
+        "address": "https://www.flixbus.de/busverbindung/fernbus-gera-duesseldorf",
+        "title": "Bus Gera nach Düsseldorf - Günstig Tickets buchen",
         "snippet": "",
         "matchedWords": {
           "9KPnrl-iyiDc": {
             "hits": 1,
-            "textWords": 2286
+            "textWords": 2069
           }
-        }
+        },
+        "queryPhraseHits": 0
       }
     ],
     [
@@ -1908,7 +2326,8 @@
             "hits": 1,
             "textWords": 187
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
         "hash": "EGZi8lRtt2cA",
@@ -1920,19 +2339,8 @@
             "hits": 6,
             "textWords": 7626
           }
-        }
-      },
-      {
-        "hash": "oiBWFXbaL7qg",
-        "address": "https://www.lra-ffb.de/amt-service/aufgaben-von-a-z/o-p-q-r",
-        "title": "O P Q R | Landratsamt Fürstenfeldbruck",
-        "snippet": "",
-        "matchedWords": {
-          "9KPnrl-iyiDc": {
-            "hits": 1,
-            "textWords": 1928
-          }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
         "hash": "xHzgijjEZfvx",
@@ -1944,7 +2352,8 @@
             "hits": 1,
             "textWords": 50759
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
         "hash": "LBxBzlpcc_2y",
@@ -1956,19 +2365,21 @@
             "hits": 1,
             "textWords": 1299
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
-        "hash": "9tsrZltP704h",
-        "address": "https://www.vdpb-bayern.de/kontakt/",
-        "title": "Kontakt - Vereinigung der Pflegenden in Bayern",
+        "hash": "oiBWFXbaL7qg",
+        "address": "https://www.lra-ffb.de/amt-service/aufgaben-von-a-z/o-p-q-r",
+        "title": "O P Q R | Landratsamt Fürstenfeldbruck",
         "snippet": "",
         "matchedWords": {
           "9KPnrl-iyiDc": {
             "hits": 1,
-            "textWords": 738
+            "textWords": 1928
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
         "hash": "j61v3s8vCbWg",
@@ -1980,19 +2391,21 @@
             "hits": 2,
             "textWords": 308
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
-        "hash": "_61PJUemigYg",
-        "address": "https://www.flixbus.de/busverbindung/fernbus-freiburg-ibr-zuerich",
-        "title": "Bus Freiburg (i.Br.) nach Zürich - Günstig Tickets buchen",
+        "hash": "-JFEAUemigYg",
+        "address": "https://www.flixbus.de/busverbindung/fernbus-essen-bruegge",
+        "title": "Bus Essen nach Brügge - Günstig Tickets buchen",
         "snippet": "",
         "matchedWords": {
           "9KPnrl-iyiDc": {
             "hits": 1,
-            "textWords": 2117
+            "textWords": 2043
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
         "hash": "M0A0sFrrGcCg",
@@ -2004,7 +2417,21 @@
             "hits": 4,
             "textWords": 1289
           }
-        }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "8t3bvUemigYg",
+        "address": "https://www.flixbus.de/busverbindung/fernbus-duesseldorf-hasselt",
+        "title": "Bus Düsseldorf nach Hasselt - Günstig Tickets buchen",
+        "snippet": "",
+        "matchedWords": {
+          "9KPnrl-iyiDc": {
+            "hits": 1,
+            "textWords": 2081
+          }
+        },
+        "queryPhraseHits": 0
       },
       {
         "hash": "zMTvlPemigYg",
@@ -2016,7 +2443,8 @@
             "hits": 3,
             "textWords": 2302
           }
-        }
+        },
+        "queryPhraseHits": 0
       }
     ],
     [],
@@ -2025,25 +2453,27 @@
         "hash": "OaRb8YX3cKDg",
         "address": "https://www.bahn.de/faq/fahrrad-kostenfrei-mitnehmen-niedersachsen-ticket",
         "title": "Darf ich mein Fahrrad mit dem Niedersachsen-Ticket kostenfrei mitnehmen?",
-        "snippet": "Fahrrad mit dem Niedersachsen-Ticket kostenfrei mitnehmen?\nNein. Für die Mitnahme von Fahrrädern brauchen Sie eine Fahrradtageskarte pro Fahrrad.\nAusnahmen:\nDiese Verpflichtung entfällt bei Strecken, auf denen für Inhaber von Fahrkarten des DB-Tarifs besondere Bestimmungen zur kostenfreien Mitnahme",
+        "snippet": "",
         "matchedWords": {
           "9KPnrl-iyiDc": {
-            "hits": 3,
-            "textWords": 77
+            "hits": 1,
+            "textWords": 27
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
         "hash": "bXkrI-uG0-bg",
         "address": "https://www.fr.de/produktempfehlung/fahrrad-sandale-shimano-sh-sd501-mit-klicks-fuers-zr-94436967.html",
         "title": "Sandale Shimano SH-SD501 mit Klicks fürs Fahrrad",
-        "snippet": "Fahrrad unterwegs sind und dabei nicht auf die Verbindung zum Klickpedal verzichten möchten. Zum Beispiel fürs Bikepacking oder längere Graveltouren.\nFür einen ausgedehnten Stadtbummel gibt es sicher elegantere Schuhe, aber für den Weg zum Eisladen oder zur nächsten Bank reicht es allemal.\nDie",
+        "snippet": "",
         "matchedWords": {
           "9KPnrl-iyiDc": {
-            "hits": 1,
-            "textWords": 800
+            "hits": 2,
+            "textWords": 1038
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
         "hash": "adfdUmlPDvFg",
@@ -2055,19 +2485,21 @@
             "hits": 6,
             "textWords": 635
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
-        "hash": "YqO_IX5ARWyg",
-        "address": "https://www.spiegel.de/tests/fahrrad-zubehoer/im-test-wechselwillige-gepaecktraegertaschen-a-203ebbcf-a451-4579-a961-69062a9ce823",
-        "title": "Im Test: Wechselwillige Gepäckträgertaschen - DER SPIEGEL",
+        "hash": "ZN5-6X5ARWyg",
+        "address": "https://www.spiegel.de/tests/fahrrad-zubehoer/smartphone-halterungen-fuer-fahrraeder-im-test-modelle-von-sks-contec-sp-connect-und-mehr-a-9bb713e1-57ce-4728-8c68-5857016c98de",
+        "title": "Smartphone-Halterungen für Fahrräder im Test: Modelle von SKS, Contec, SP Connect und mehr - DER SPIEGEL",
         "snippet": "",
         "matchedWords": {
           "9KPnrl-iyiDc": {
-            "hits": 1,
-            "textWords": 3350
+            "hits": 9,
+            "textWords": 5322
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
         "hash": "mRdGsl0cR3qh",
@@ -2079,7 +2511,8 @@
             "hits": 1,
             "textWords": 190
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
         "hash": "aEzRiLlA2Rig",
@@ -2091,7 +2524,8 @@
             "hits": 1,
             "textWords": 965
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
         "hash": "YqJfz2_qyJvh",
@@ -2103,7 +2537,8 @@
             "hits": 1,
             "textWords": 901
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
         "hash": "Ys4pqpgw84xh",
@@ -2115,19 +2550,8 @@
             "hits": 3,
             "textWords": 1575
           }
-        }
-      },
-      {
-        "hash": "-anPKlGyaxOg",
-        "address": "https://www.flixbus.at/",
-        "title": "FlixBus → Günstig mit dem Fernbus reisen",
-        "snippet": "",
-        "matchedWords": {
-          "9KPnrl-iyiDc": {
-            "hits": 1,
-            "textWords": 1401
-          }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
         "hash": "_RhasUemigYg",
@@ -2139,7 +2563,21 @@
             "hits": 1,
             "textWords": 2060
           }
-        }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "-anPKlGyaxOg",
+        "address": "https://www.flixbus.at/",
+        "title": "FlixBus → Günstig mit dem Fernbus reisen",
+        "snippet": "",
+        "matchedWords": {
+          "9KPnrl-iyiDc": {
+            "hits": 1,
+            "textWords": 1401
+          }
+        },
+        "queryPhraseHits": 0
       }
     ],
     [
@@ -2153,7 +2591,8 @@
             "hits": 1,
             "textWords": 1910
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
         "hash": "Nhn_b0oKFI1g",
@@ -2165,7 +2604,8 @@
             "hits": 1,
             "textWords": 1473
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
         "hash": "dQvZThfjI1Dh",
@@ -2177,7 +2617,8 @@
             "hits": 1,
             "textWords": 1855
           }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
         "hash": "sZJ_Uz20pWq4",
@@ -2189,43 +2630,8 @@
             "hits": 1,
             "textWords": 1705
           }
-        }
-      },
-      {
-        "hash": "e5DcAXDOAHJg",
-        "address": "https://www.heise.de/bestenlisten/testbericht/lenovo-idea-tab-pro-gen-2-im-test-starkes-tablet-mit-13-zoll-und-144-hz-display/sbcmk97?wt_mc=rss.red.ho.ho.atom.beitrag.beitrag",
-        "title": "Lenovo Idea Tab Pro Gen 2 im Test: Starkes Tablet mit 13 Zoll und 144-Hz-Display | heise online bestenlisten",
-        "snippet": "",
-        "matchedWords": {
-          "9KPnrl-iyiDc": {
-            "hits": 2,
-            "textWords": 4787
-          }
-        }
-      },
-      {
-        "hash": "hnH7C6J0xFth",
-        "address": "https://rp-online.de/panorama/deutschland/gabrielle-scharnitzky-schauspielerin-kuendigt-chinesin-den-untermietvertrag_aid-48886715",
-        "title": "Gabrielle Scharnitzky: Schauspielerin kündigt Chinesin den Untermietvertrag",
-        "snippet": "",
-        "matchedWords": {
-          "9KPnrl-iyiDc": {
-            "hits": 1,
-            "textWords": 1382
-          }
-        }
-      },
-      {
-        "hash": "WO8yldFO6r_x",
-        "address": "https://de.wikipedia.org/wiki/Portal:Sport",
-        "title": "Portal:Sport – Wikipedia",
-        "snippet": "",
-        "matchedWords": {
-          "9KPnrl-iyiDc": {
-            "hits": 1,
-            "textWords": 1596
-          }
-        }
+        },
+        "queryPhraseHits": 0
       },
       {
         "hash": "dxlJWXDOAHJg",
@@ -2237,7 +2643,47 @@
             "hits": 2,
             "textWords": 65209
           }
-        }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "hnH7C6J0xFth",
+        "address": "https://rp-online.de/panorama/deutschland/gabrielle-scharnitzky-schauspielerin-kuendigt-chinesin-den-untermietvertrag_aid-48886715",
+        "title": "Gabrielle Scharnitzky: Schauspielerin kündigt Chinesin den Untermietvertrag",
+        "snippet": "",
+        "matchedWords": {
+          "9KPnrl-iyiDc": {
+            "hits": 1,
+            "textWords": 1382
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "WO8yldFO6r_x",
+        "address": "https://de.wikipedia.org/wiki/Portal:Sport",
+        "title": "Portal:Sport – Wikipedia",
+        "snippet": "",
+        "matchedWords": {
+          "9KPnrl-iyiDc": {
+            "hits": 1,
+            "textWords": 1596
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "e5DcAXDOAHJg",
+        "address": "https://www.heise.de/bestenlisten/testbericht/lenovo-idea-tab-pro-gen-2-im-test-starkes-tablet-mit-13-zoll-und-144-hz-display/sbcmk97?wt_mc=rss.red.ho.ho.atom.beitrag.beitrag",
+        "title": "Lenovo Idea Tab Pro Gen 2 im Test: Starkes Tablet mit 13 Zoll und 144-Hz-Display | heise online bestenlisten",
+        "snippet": "",
+        "matchedWords": {
+          "9KPnrl-iyiDc": {
+            "hits": 2,
+            "textWords": 4787
+          }
+        },
+        "queryPhraseHits": 0
       }
     ]
   ],

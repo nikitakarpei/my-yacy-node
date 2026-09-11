@@ -2,76 +2,16 @@
   "query": "libreoffice",
   "judgedDocuments": [
     {
-      "hash": "g5dE49OwONZ6",
-      "address": "https://www.gamingonlinux.com/2026/09/yes-no-ai-is-now-a-feature-libreoffice-the-document-foundation/page=1/",
-      "title": "\"Yes, no AI is now a feature\" - LibreOffice / The Document Foundation | GamingOnLinux",
-      "grade": 1
-    },
-    {
-      "hash": "ehYdFl-4htmx",
-      "address": "https://www.libreoffice.org/installation-instructions/",
-      "title": "Installation Instructions — LibreOffice",
-      "grade": 1
-    },
-    {
-      "hash": "DchgXl-4htmx",
-      "address": "https://www.libreoffice.org/download-other/",
-      "title": "Alternative installation methods, SDK and source code — LibreOffice",
-      "grade": 2
-    },
-    {
-      "hash": "FjwwUk-4htmx",
-      "address": "https://www.libreoffice.org/community/nlc",
-      "title": "Native-Lang Projects | LibreOffice - Free and private office suite - Based on OpenOffice - Compatible with Microsoft",
-      "grade": 1
-    },
-    {
-      "hash": "e3kA0O1f59yx",
-      "address": "https://cs.libreoffice.org/get-help/documentation/",
-      "title": "Dokumentace | LibreOffice - Svobodný kancelářský balík - Smysluplný projekt - Skvělí lidé",
-      "grade": 2
-    },
-    {
-      "hash": "5y_i0yz8AoWx",
-      "address": "https://de.libreoffice.org/",
-      "title": "Willkommen | LibreOffice - Freie Office Suite – Nachfolger von OpenOffice",
-      "grade": 2
-    },
-    {
-      "hash": "XIY3hYj86aPx",
-      "address": "https://help.libreoffice.org/latest/en-US/text/swriter/main0000.html",
-      "title": "Welcome to the LibreOffice Writer Help",
-      "grade": 2
-    },
-    {
-      "hash": "0Cj1PMLQStix",
-      "address": "https://zh-cn.libreoffice.org/",
-      "title": "主页 | LibreOffice 简体中文官方网站 - 自由免费的办公套件",
-      "grade": 2
-    },
-    {
-      "hash": "qZrTal-4htmx",
-      "address": "https://www.libreoffice.org/improve-it/",
-      "title": "Improve it — LibreOffice",
-      "grade": 1
-    },
-    {
-      "hash": "21XYOwp2j53x",
-      "address": "https://documentation.libreoffice.org/en/english-documentation/",
-      "title": "English documentation | LibreOffice Documentation - LibreOffice User Guides",
-      "grade": 2
-    },
-    {
       "hash": "BI9h2exFffU5",
       "address": "https://help.nextcloud.com/t/preview-office-document-failed-libreoffice-is-intalled-in-other-server/146493",
       "title": "Preview office document failed, libreoffice is intalled in other server - ℹ️ Support - Nextcloud community",
       "grade": 1
     },
     {
-      "hash": "Uy5MSiMQjAmx",
-      "address": "https://it.libreoffice.org/",
-      "title": "Home | LibreOffice in italiano - La suite libera per l'ufficio",
-      "grade": 2
+      "hash": "QaEPlQxXGmlz",
+      "address": "https://wiki.documentfoundation.org/LibreOffice_Localization_Guide",
+      "title": "LibreOffice Localization Guide - The Document Foundation Wiki",
+      "grade": 1
     },
     {
       "hash": "bb55mls8l0-4",
@@ -92,21 +32,249 @@
       "grade": 0
     },
     {
+      "hash": "a_LYv0hl92eQ",
+      "address": "http://advisories.mageia.org/src_libreoffice.html",
+      "title": "Mageia advisories for package libreoffice",
+      "grade": 1
+    },
+    {
       "hash": "tb9f6s_XwdU5",
       "address": "https://endoflife.date/libreoffice",
       "title": "LibreOffice added",
       "grade": 1
     },
     {
-      "hash": "QKtcwtZoJuAw",
-      "address": "https://anwalt.us/im/LaDanzaDeLaCorrupci%C3%B3n18NOV2025.pdf",
-      "title": "LaDanzaDeLaCorrupción18NOV2025.pdf",
-      "grade": 0
+      "hash": "cBBK_NcIC9Gh",
+      "address": "https://www.eduvidual.at/course/view.php?id=215108",
+      "title": "Course: LibreOffice Writer | eduvidual.at",
+      "grade": 1
+    },
+    {
+      "hash": "g5dE49OwONZ6",
+      "address": "https://www.gamingonlinux.com/2026/09/yes-no-ai-is-now-a-feature-libreoffice-the-document-foundation/page=1/",
+      "title": "\"Yes, no AI is now a feature\" - LibreOffice / The Document Foundation | GamingOnLinux",
+      "grade": 1
     },
     {
       "hash": "xe-kDv8UyKhh",
       "address": "https://www.computerbase.de/news/apps/libreoffice-7-1-office-suite-neue-features.75375/",
       "title": "LibreOffice 7.1 Community: Die freie Office-Suite wird mächtiger und anpassbarer - ComputerBase",
+      "grade": 1
+    },
+    {
+      "hash": "Uy5MSiMQjAmx",
+      "address": "https://it.libreoffice.org/",
+      "title": "Home | LibreOffice in italiano - La suite libera per l'ufficio",
+      "grade": 2
+    },
+    {
+      "hash": "PCpNBzxXGmlz",
+      "address": "https://wiki.documentfoundation.org/ReleaseNotes/5.3",
+      "title": "LibreOffice 5.3: Release Notes - The Document Foundation Wiki",
+      "grade": 1
+    },
+    {
+      "hash": "0c2hEZZ5FD3x",
+      "address": "https://bugs.launchpad.net/ubuntu/+source/libreoffice/+bug/1300792",
+      "title": "Bug #1300792 “libreoffice toolbar icons large and ugly - no matt...” : Bugs : libreoffice package : Ubuntu",
+      "grade": 1
+    },
+    {
+      "hash": "Cq-xgm0h8sSw",
+      "address": "https://tracker.debian.org/pkg/libreoffice",
+      "title": "libreoffice - Debian Package Tracker",
+      "grade": 1
+    },
+    {
+      "hash": "WGRJbZZ5FD3x",
+      "address": "https://bugs.launchpad.net/ubuntu/+source/libreoffice/+bug/991556",
+      "title": "Bug #991556 “package python-uno 1:3.4.4-0ubuntu1 failed to insta...” : Bugs : libreoffice package : Ubuntu",
+      "grade": 1
+    },
+    {
+      "hash": "ehYdFl-4htmx",
+      "address": "https://www.libreoffice.org/installation-instructions/",
+      "title": "Installation Instructions — LibreOffice",
+      "grade": 1
+    },
+    {
+      "hash": "bDjTLIbLrFTi",
+      "address": "https://www.wer-weiss-was.de/t/installation-von-libreoffice/9531643",
+      "title": "Installation von LibreOffice - wer-weiss-was.de",
+      "grade": 1
+    },
+    {
+      "hash": "5y_i0yz8AoWx",
+      "address": "https://de.libreoffice.org/",
+      "title": "Willkommen | LibreOffice - Freie Office Suite – Nachfolger von OpenOffice",
+      "grade": 2
+    },
+    {
+      "hash": "qZrTal-4htmx",
+      "address": "https://www.libreoffice.org/improve-it/",
+      "title": "Improve it — LibreOffice",
+      "grade": 1
+    },
+    {
+      "hash": "MpRMNls8l0-4",
+      "address": "https://www.clubic.com/telecharger-fiche366452-libreoffice.html?file=33508\u0026launched=true",
+      "title": "Télécharger LibreOffice (gratuit) Windows, Mac, Linux - Clubic",
+      "grade": 1
+    },
+    {
+      "hash": "HTF6isLafmQx",
+      "address": "https://launchpad.net/~libreoffice",
+      "title": "LibreOffice Packaging in Launchpad",
+      "grade": 1
+    },
+    {
+      "hash": "03n6NdwG-02z",
+      "address": "https://blog.documentfoundation.org/blog/2016/12/21/the-document-foundation-announces-the-muffin-a-new-tasty-user-interface-concept-for-libreoffice/",
+      "title": "The Document Foundation announces the MUFFIN, a new tasty user interface concept for LibreOffice - TDF Community Blog",
+      "grade": 1
+    },
+    {
+      "hash": "ym4zSwSMo4M4",
+      "address": "https://www.zdnet.com/article/whats-new-in-libreoffice-and-how-do-you-install-it-on-macos/",
+      "title": "What's new in LibreOffice and how do you install it on MacOS? | ZDNET",
+      "grade": 1
+    },
+    {
+      "hash": "A8BLfu9heOmx",
+      "address": "https://fr.libreoffice.org/",
+      "title": "Home | Communauté LibreOffice francophone",
+      "grade": 2
+    },
+    {
+      "hash": "U3jbhlf4UL4w",
+      "address": "https://www.freewear.org/LibreOffice",
+      "title": "LibreOffice merchandise | FreeWear.org",
+      "grade": 1
+    },
+    {
+      "hash": "MIW-s0hl92eQ",
+      "address": "http://advisories.mageia.org/MGASA-2016-0246.html",
+      "title": "Mageia Advisory: MGASA-2016-0246 - Updated libreoffice packages fix security vulnerability",
+      "grade": 1
+    },
+    {
+      "hash": "X0gS6jRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/LibreOffice",
+      "title": "LibreOffice - Wikipedia",
+      "grade": 1
+    },
+    {
+      "hash": "DRJ3LFS6MKD4",
+      "address": "https://github.com/goosepirate/lox365",
+      "title": "GitHub - goosepirate/lox365: ⚗️ Lox365: XLOOKUP for LibreOffice · GitHub",
+      "grade": 1
+    },
+    {
+      "hash": "vPrcjvDOAHJg",
+      "address": "https://www.heise.de/news/Download-Rekord-fuer-LibreOffice-wegen-Verzicht-auf-KI-11446528.html",
+      "title": "Download-Rekord für LibreOffice – wegen Verzicht auf KI? | heise online",
+      "grade": 1
+    },
+    {
+      "hash": "W7nisvkPMhTg",
+      "address": "https://www.origo.hu/cimke/libreoffice",
+      "title": "LibreOffice | origo.hu",
+      "grade": 0
+    },
+    {
+      "hash": "GnyIOOxyFvIw",
+      "address": "https://forums.gentoo.org/viewtopic-t-1172463-postdays-0-postorder-asc-start-0.html",
+      "title": "manual roll back to an old version of libreoffice? - Gentoo Forums",
+      "grade": 1
+    },
+    {
+      "hash": "ztziL7WVJLyY",
+      "address": "http://mednis.info/wp/?p=168",
+      "title": "LibreOffice: Readonly content cannot be changed – Mrt M",
+      "grade": 1
+    },
+    {
+      "hash": "Fq-1FwX-NDdg",
+      "address": "https://www.pcwelt.de/article/1140010/office-paket-libreoffice-windows.html",
+      "title": "LibreOffice",
+      "grade": 1
+    },
+    {
+      "hash": "Wkqnc1yo0Dhx",
+      "address": "https://forum.openmandriva.org/t/problemi-con-libreoffice-draw/4690",
+      "title": "Problemi con LibreOffice draw - Supporto (it) - OpenMandriva forum",
+      "grade": 1
+    },
+    {
+      "hash": "bpvwLdwG-02z",
+      "address": "https://blog.documentfoundation.org/blog/2024/12/24/best-wishes-to-all-libreoffice-community-members/",
+      "title": "Best Wishes to All LibreOffice Community Members - TDF Community Blog",
+      "grade": 1
+    },
+    {
+      "hash": "21XYOwp2j53x",
+      "address": "https://documentation.libreoffice.org/en/english-documentation/",
+      "title": "English documentation | LibreOffice Documentation - LibreOffice User Guides",
+      "grade": 2
+    },
+    {
+      "hash": "aiqLkZZ5FD3x",
+      "address": "https://bugs.launchpad.net/ubuntu/+source/libreoffice/+bug/969187",
+      "title": "Bug #969187 “package libreoffice-mysql-connector 1.0.1+LibO3.4.5...” : Bugs : libreoffice package : Ubuntu",
+      "grade": 1
+    },
+    {
+      "hash": "T0CN_3bQpWqg",
+      "address": "https://www.hna.de/verbraucher/libreoffice-schriftrolle-fuer-einladungen-und-urkunden-zr-94484044.html",
+      "title": "LibreOffice: Schriftrolle für Einladungen und Urkunden",
+      "grade": 1
+    },
+    {
+      "hash": "MewNztxeGHlx",
+      "address": "https://es.libreoffice.org/",
+      "title": "Inicio | LibreOffice en español - suite ofimática libre, basada en OpenOffice, compatible con Microsoft",
+      "grade": 2
+    },
+    {
+      "hash": "b21sNh8UyKhh",
+      "address": "https://www.computerbase.de/forum/threads/in-neuer-vorabversion-libreoffice-ueberrascht-mit-farbigem-ribbon-design.2273204/",
+      "title": "News - In neuer Vorabversion: LibreOffice überrascht mit farbigem Ribbon-Design | ComputerBase Forum",
+      "grade": 1
+    },
+    {
+      "hash": "LOxPFdwG-02z",
+      "address": "https://blog.documentfoundation.org/blog/2024/08/07/registration-is-open-for-the-libreoffice-conference-2024/",
+      "title": "Registration is open for the LibreOffice Conference 2024! - The Document Foundation Blog",
+      "grade": 1
+    },
+    {
+      "hash": "XIY3hYj86aPx",
+      "address": "https://help.libreoffice.org/latest/en-US/text/swriter/main0000.html",
+      "title": "Welcome to the LibreOffice Writer Help",
+      "grade": 2
+    },
+    {
+      "hash": "7TXARQxXGmlz",
+      "address": "https://wiki.documentfoundation.org/Feature_Comparison:_LibreOffice_-_Microsoft_Office",
+      "title": "Feature Comparison: LibreOffice - Microsoft Office - The Document Foundation Wiki",
+      "grade": 1
+    },
+    {
+      "hash": "3Oel_DiaMkRw",
+      "address": "https://archive.fosdem.org/2023/schedule/event/lotech_wasmport/",
+      "title": "FOSDEM 2023 - A Rocket Engine for LibreOffice Templates",
+      "grade": 1
+    },
+    {
+      "hash": "0Cj1PMLQStix",
+      "address": "https://zh-cn.libreoffice.org/",
+      "title": "主页 | LibreOffice 简体中文官方网站 - 自由免费的办公套件",
+      "grade": 2
+    },
+    {
+      "hash": "VoX7RF3X_rqw",
+      "address": "https://lists.gnu.org/archive/html/help-guix/2024-01/msg00088.html",
+      "title": "Re: libreoffice crashes when starting",
       "grade": 1
     }
   ]

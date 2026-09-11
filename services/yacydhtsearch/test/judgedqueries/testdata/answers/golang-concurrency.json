@@ -1,6 +1,6 @@
 {
   "query": "golang concurrency",
-  "recordedAt": "2026-09-11T20:59:31Z",
+  "recordedAt": "2026-09-11T22:14:21Z",
   "itemsInTheOrderOfEachAnswer": [
     [
       {
@@ -17,25 +17,46 @@
             "hits": 1,
             "textWords": 8109
           }
-        }
+        },
+        "queryPhraseHits": 0
       }
     ],
     [
       {
-        "hash": "8gsjosK-xyJ4",
-        "address": "https://go.dev/",
-        "title": "The Go Programming Language",
-        "snippet": "concurrency and a robust standard library\nLarge ecosystem of partners, communities, and tools\nDownload packages for Windows 64-bit, macOS, Linux, and more\nThe go command by default downloads and authenticates modules using the Go module mirror and Go checksum database run by Google. Learn more.\n“At",
+        "hash": "D4lABzaS0qdw",
+        "address": "https://planet.debian.org/",
+        "title": "Planet Debian",
+        "snippet": "https://pkg.go.dev/golang.org/x/perf/cmd/benchstat BENCHFLAGS=-run=^$$ -bench=. -benchtime=200000x -count=6 # use taskset -c1 to always pin to the same single core, # avoiding accidental scheduling on different cores on # mixed-core CPUs like the Ryzen 9 9950X3D. TASKSET=taskset -c 1",
         "matchedWords": {
           "FyRSmQlWVTdS": {
-            "hits": 2,
-            "textWords": 607
+            "hits": 0,
+            "textWords": 8109
           },
           "IcwoQJcpVl_B": {
-            "hits": 0,
-            "textWords": 607
+            "hits": 1,
+            "textWords": 8109
           }
-        }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "tucm1jRvmBbx",
+        "address": "https://en.wikipedia.org/wiki/Concurrent_computing",
+        "title": "Concurrent computing - Wikipedia",
+        "snippet": "concurrency: no task begins until the prior task ends) is called a serial schedule. A set of tasks that can be scheduled serially is serializable, which simplifies concurrency control.[citation needed]\nCoordinating access to shared resources\n[edit]\nThe main challenge in designing concurrent",
+        "matchedWords": {
+          "FyRSmQlWVTdS": {
+            "hits": 25,
+            "textWords": 2973
+          },
+          "IcwoQJcpVl_B": {
+            "hits": 1,
+            "textWords": 2973
+          }
+        },
+        "queryPhraseHits": 0
       }
     ]
   ],
@@ -44,7 +65,7 @@
       "hash": "CjgsxsIyoLTx",
       "address": "https://planetpython.org/",
       "title": "Planet Python",
-      "snippet": "Last update: September 11, 2026 07:49 PM UTC\nSeptember 11, 2026\nLernerPython blog, from Reuven Lerner\nNewsprint: Turning e-mail newsletters into a personal PDF\nI really enjoy reading e-mail newsletters. They’re clever, informative, and funny, and provide me with lots of food for thought — as well",
+      "snippet": "Last update: September 11, 2026 09:48 PM UTC\nSeptember 11, 2026\nLernerPython blog, from Reuven Lerner\nNewsprint: Turning e-mail newsletters into a personal PDF\nI really enjoy reading e-mail newsletters. They’re clever, informative, and funny, and provide me with lots of food for thought — as well",
       "matchedWords": {
         "FyRSmQlWVTdS": {
           "hits": 0,
@@ -54,75 +75,97 @@
           "hits": 0,
           "textWords": 30728
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
-      "hash": "DB7viAK-xyJ4",
-      "address": "https://go.dev/doc/faq",
-      "title": "Frequently Asked Questions (FAQ) - The Go Programming Language",
-      "snippet": "concurrency or parallelism. And to make resource management tractable in a large concurrent program, garbage collection, or at least some sort of safe automatic memory management was required.\nThese considerations led to a series of discussions from which Go arose, first as a set of ideas and",
+      "hash": "mHFlJdUhjm5w",
+      "address": "https://airflow.apache.org/docs/apache-airflow/2.11.2/release_notes.html",
+      "title": "Release Notes — Airflow 2.11.2 Documentation",
+      "snippet": "concurrency label to max active tasks (#36691)\nRestore function scoped httpx import in file_task_handler for performance (#36753)\nAdd support of Pendulum 3 (#36281)\nStandardize airflow build process and switch to Hatchling build backend (#36537)\nGet rid of pyarrow-hotfix for CVE-2023-47248 (#36697)",
       "matchedWords": {
         "FyRSmQlWVTdS": {
-          "hits": 17,
-          "textWords": 13818
-        },
-        "IcwoQJcpVl_B": {
-          "hits": 8,
-          "textWords": 13818
-        }
-      }
-    },
-    {
-      "hash": "84vzxd14cltk",
-      "address": "https://planet.python.org.br/",
-      "title": "Planeta PythonBrasil",
-      "snippet": "Este tutorial é baseado no Intro to Django que fica na parte de baixo da página start do Django project.\nAté a data deste post o Django está na versão 2.2.2, e requer Python 3.\nO que você precisa?\nPython 3.6 ou superior, pip e virtualenv.\nConsidere que você tenha instalado Python 3.6 ou superior,",
-      "matchedWords": {
-        "FyRSmQlWVTdS": {
-          "hits": 0,
-          "textWords": 2318
-        },
-        "IcwoQJcpVl_B": {
-          "hits": 0,
-          "textWords": 2318
-        }
-      }
-    },
-    {
-      "hash": "CDe2DjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Race_condition",
-      "title": "Race condition - Wikipedia",
-      "snippet": "concurrency model being used, but typically it refers to a situation where a memory operation in one thread could potentially attempt to access a memory location at the same time that a memory operation in another thread is writing to that memory location, in a context where this is dangerous. This",
-      "matchedWords": {
-        "FyRSmQlWVTdS": {
-          "hits": 5,
-          "textWords": 4488
+          "hits": 42,
+          "textWords": 101483
         },
         "IcwoQJcpVl_B": {
           "hits": 1,
-          "textWords": 4488
+          "textWords": 101483
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
-      "hash": "A_45Olcc31ei",
-      "address": "https://www.gophercon-russia.ru/en",
-      "title": "GopherCon Russia 2021",
-      "snippet": "Golang. She loves writing poems and playing board games.\nOleg Kovalev\nOleg is an open-source addicted gopher, a big fan of statistical code analysis, and one Generic Talks podcast co-host.\nAlexander Egurnov\nTeam Lead Backend at Verve Group in Berlin. He has been building high-load systems with Go",
+      "hash": "QriquAK-xyJ4",
+      "address": "https://go.dev/doc/devel/weekly",
+      "title": "Weekly Snapshot History - The Go Programming Language",
+      "snippet": "Concurrency Patterns: Timing out, moving on article (thanks Francisco Souza), add Go image/draw package article and convert code snippets to Go1, add Gobs of data article (thanks Francisco Souza), add Godoc: documenting Go code article (thanks Francisco Souza), add JSON and Go article (thanks",
       "matchedWords": {
         "FyRSmQlWVTdS": {
-          "hits": 1,
-          "textWords": 2583
-        },
-        "IcwoQJcpVl_B": {
           "hits": 2,
-          "textWords": 2583
+          "textWords": 43354
+        },
+        "IcwoQJcpVl_B": {
+          "hits": 42,
+          "textWords": 43354
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
-      "hash": "eR_fN7f4Pib5",
-      "address": "https://code.visualstudio.com/",
+      "hash": "jDc0FAK-xyJ4",
+      "address": "https://go.dev/doc/go1.27",
+      "title": "Go 1.27 Release Notes - The Go Programming Language",
+      "snippet": "concurrency primitive (channels, sync.Mutex, sync.Cond, etc) that cannot possibly become unblocked. The runtime detects leaked goroutines using the garbage collector: if a goroutine G is blocked on concurrency primitive P, and P is unreachable from any runnable goroutine or any goroutine that those",
+      "matchedWords": {
+        "FyRSmQlWVTdS": {
+          "hits": 3,
+          "textWords": 3222
+        },
+        "IcwoQJcpVl_B": {
+          "hits": 0,
+          "textWords": 3222
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "jh2nEAK-xyJ4",
+      "address": "https://go.dev/doc/go1.15",
+      "title": "Go 1.15 Release Notes - The Go Programming Language",
+      "snippet": "https://proxy.golang.org,direct, which does not fall back to direct in case of errors.\ngo test\nChanging the -timeout flag now invalidates cached test results. A cached result for a test run with a long timeout will no longer count as passing when go test is re-invoked with a short one.\nFlag parsing",
+      "matchedWords": {
+        "FyRSmQlWVTdS": {
+          "hits": 1,
+          "textWords": 3663
+        },
+        "IcwoQJcpVl_B": {
+          "hits": 1,
+          "textWords": 3663
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "gefeHzS6MKD4",
+      "address": "https://github.com/topics/cross-platform",
+      "title": "cross-platform · GitHub Topics · GitHub",
+      "snippet": "",
+      "matchedWords": {
+        "FyRSmQlWVTdS": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "IcwoQJcpVl_B": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "ioDB87f4Pib5",
+      "address": "https://code.visualstudio.com/?wt.mc_id=DX_841432",
       "title": "Visual Studio Code - The open source AI code editor | Your home for multi-agent development",
       "snippet": "\"golang.org/x/sync/errgroup\" \"golang.org/x/sync/semaphore\" \"go.opentelemetry.io/otel\" ) type Result[T any] struct { Name string `json:\"name\"` Value T `json:\"value,omitempty\"` Error string `json:\"error,omitempty\"` } type Meta struct { Format string `json:\"format\"` Width int `json:\"width\"` Height int",
       "matchedWords": {
@@ -134,71 +177,8 @@
           "hits": 2,
           "textWords": 1518
         }
-      }
-    },
-    {
-      "hash": "NPoTiMvuh6k5",
-      "address": "https://muharem.wordpress.com/",
-      "title": "Muharem Hrnjadovic | Cool ideas revolving around computers and programming",
-      "snippet": "golang). In order to get a feeling for it I picked a random Google code jam problem and programmed it in Go.\nThe code used in the experiments that follow is pretty simple\nthe main module handles the command line arguments and prints the results\nthe input module parses the input file and starts a",
-      "matchedWords": {
-        "FyRSmQlWVTdS": {
-          "hits": 0,
-          "textWords": 609
-        },
-        "IcwoQJcpVl_B": {
-          "hits": 3,
-          "textWords": 609
-        }
-      }
-    },
-    {
-      "hash": "pKhEcsxbIFag",
-      "address": "https://jmason.ie/",
-      "title": "Justin's Linklog – (Things I found interesting recently.)",
-      "snippet": "concurrency limits and failing to auto scale correctly because of a misconfigured policy that watched host service but not sidecar limits. One failure cascaded to more and eventually four HAProxy nodes exhausted their flow limits, degrading the gateway auth path and causing widespread",
-      "matchedWords": {
-        "FyRSmQlWVTdS": {
-          "hits": 1,
-          "textWords": 17249
-        },
-        "IcwoQJcpVl_B": {
-          "hits": 0,
-          "textWords": 17249
-        }
-      }
-    },
-    {
-      "hash": "QriquAK-xyJ4",
-      "address": "https://go.dev/doc/devel/weekly",
-      "title": "Weekly Snapshot History - The Go Programming Language",
-      "snippet": "Concurrency Patterns: Timing out, moving on article (thanks Francisco Souza), add Go image/draw package article and convert code snippets to Go1, add Gobs of data article (thanks Francisco Souza), add Godoc: documenting Go code article (thanks Francisco Souza), add JSON and Go article (thanks",
-      "matchedWords": {
-        "FyRSmQlWVTdS": {
-          "hits": 2,
-          "textWords": 43354
-        },
-        "IcwoQJcpVl_B": {
-          "hits": 42,
-          "textWords": 43354
-        }
-      }
-    },
-    {
-      "hash": "QriquAK-xyJ4",
-      "address": "https://go.dev/doc/devel/weekly",
-      "title": "Weekly Snapshot History - The Go Programming Language",
-      "snippet": "Concurrency Patterns: Timing out, moving on article (thanks Francisco Souza), add Go image/draw package article and convert code snippets to Go1, add Gobs of data article (thanks Francisco Souza), add Godoc: documenting Go code article (thanks Francisco Souza), add JSON and Go article (thanks",
-      "matchedWords": {
-        "FyRSmQlWVTdS": {
-          "hits": 2,
-          "textWords": 43354
-        },
-        "IcwoQJcpVl_B": {
-          "hits": 42,
-          "textWords": 43354
-        }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "r_C2TAK-xyJ4",
@@ -214,23 +194,8 @@
           "hits": 0,
           "textWords": 4063
         }
-      }
-    },
-    {
-      "hash": "tucm1jRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Concurrent_computing",
-      "title": "Concurrent computing - Wikipedia",
-      "snippet": "concurrency: no task begins until the prior task ends) is called a serial schedule. A set of tasks that can be scheduled serially is serializable, which simplifies concurrency control.[citation needed]\nCoordinating access to shared resources\n[edit]\nThe main challenge in designing concurrent",
-      "matchedWords": {
-        "FyRSmQlWVTdS": {
-          "hits": 25,
-          "textWords": 2973
-        },
-        "IcwoQJcpVl_B": {
-          "hits": 1,
-          "textWords": 2973
-        }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "QriquAK-xyJ4",
@@ -246,61 +211,82 @@
           "hits": 42,
           "textWords": 43354
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
-      "hash": "DB7viAK-xyJ4",
-      "address": "https://go.dev/doc/faq",
-      "title": "Frequently Asked Questions (FAQ) - The Go Programming Language",
-      "snippet": "concurrency or parallelism. And to make resource management tractable in a large concurrent program, garbage collection, or at least some sort of safe automatic memory management was required.\nThese considerations led to a series of discussions from which Go arose, first as a set of ideas and",
-      "matchedWords": {
-        "FyRSmQlWVTdS": {
-          "hits": 17,
-          "textWords": 13818
-        },
-        "IcwoQJcpVl_B": {
-          "hits": 8,
-          "textWords": 13818
-        }
-      }
-    },
-    {
-      "hash": "CDe2DjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Race_condition",
-      "title": "Race condition - Wikipedia",
-      "snippet": "concurrency model being used, but typically it refers to a situation where a memory operation in one thread could potentially attempt to access a memory location at the same time that a memory operation in another thread is writing to that memory location, in a context where this is dangerous. This",
-      "matchedWords": {
-        "FyRSmQlWVTdS": {
-          "hits": 5,
-          "textWords": 4488
-        },
-        "IcwoQJcpVl_B": {
-          "hits": 1,
-          "textWords": 4488
-        }
-      }
-    },
-    {
-      "hash": "r_C2TAK-xyJ4",
-      "address": "https://go.dev/doc/go1.26",
-      "title": "Go 1.26 Release Notes - The Go Programming Language",
+      "hash": "jDc0FAK-xyJ4",
+      "address": "https://go.dev/doc/go1.27",
+      "title": "Go 1.27 Release Notes - The Go Programming Language",
       "snippet": "concurrency primitive (channels, sync.Mutex, sync.Cond, etc) that cannot possibly become unblocked. The runtime detects leaked goroutines using the garbage collector: if a goroutine G is blocked on concurrency primitive P, and P is unreachable from any runnable goroutine or any goroutine that those",
       "matchedWords": {
         "FyRSmQlWVTdS": {
           "hits": 3,
-          "textWords": 4063
+          "textWords": 3222
         },
         "IcwoQJcpVl_B": {
           "hits": 0,
-          "textWords": 4063
+          "textWords": 3222
         }
-      }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "jh2nEAK-xyJ4",
+      "address": "https://go.dev/doc/go1.15",
+      "title": "Go 1.15 Release Notes - The Go Programming Language",
+      "snippet": "https://proxy.golang.org,direct, which does not fall back to direct in case of errors.\ngo test\nChanging the -timeout flag now invalidates cached test results. A cached result for a test run with a long timeout will no longer count as passing when go test is re-invoked with a short one.\nFlag parsing",
+      "matchedWords": {
+        "FyRSmQlWVTdS": {
+          "hits": 1,
+          "textWords": 3663
+        },
+        "IcwoQJcpVl_B": {
+          "hits": 1,
+          "textWords": 3663
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "gefeHzS6MKD4",
+      "address": "https://github.com/topics/cross-platform",
+      "title": "cross-platform · GitHub Topics · GitHub",
+      "snippet": "",
+      "matchedWords": {
+        "FyRSmQlWVTdS": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "IcwoQJcpVl_B": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "ioDB87f4Pib5",
+      "address": "https://code.visualstudio.com/?wt.mc_id=DX_841432",
+      "title": "Visual Studio Code - The open source AI code editor | Your home for multi-agent development",
+      "snippet": "\"golang.org/x/sync/errgroup\" \"golang.org/x/sync/semaphore\" \"go.opentelemetry.io/otel\" ) type Result[T any] struct { Name string `json:\"name\"` Value T `json:\"value,omitempty\"` Error string `json:\"error,omitempty\"` } type Meta struct { Format string `json:\"format\"` Width int `json:\"width\"` Height int",
+      "matchedWords": {
+        "FyRSmQlWVTdS": {
+          "hits": 1,
+          "textWords": 1518
+        },
+        "IcwoQJcpVl_B": {
+          "hits": 2,
+          "textWords": 1518
+        }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "CjgsxsIyoLTx",
       "address": "https://planetpython.org/",
       "title": "Planet Python",
-      "snippet": "Last update: September 11, 2026 07:49 PM UTC\nSeptember 11, 2026\nLernerPython blog, from Reuven Lerner\nNewsprint: Turning e-mail newsletters into a personal PDF\nI really enjoy reading e-mail newsletters. They’re clever, informative, and funny, and provide me with lots of food for thought — as well",
+      "snippet": "Last update: September 11, 2026 09:48 PM UTC\nSeptember 11, 2026\nLernerPython blog, from Reuven Lerner\nNewsprint: Turning e-mail newsletters into a personal PDF\nI really enjoy reading e-mail newsletters. They’re clever, informative, and funny, and provide me with lots of food for thought — as well",
       "matchedWords": {
         "FyRSmQlWVTdS": {
           "hits": 0,
@@ -310,23 +296,25 @@
           "hits": 0,
           "textWords": 30728
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
-      "hash": "NPoTiMvuh6k5",
-      "address": "https://muharem.wordpress.com/",
-      "title": "Muharem Hrnjadovic | Cool ideas revolving around computers and programming",
-      "snippet": "golang). In order to get a feeling for it I picked a random Google code jam problem and programmed it in Go.\nThe code used in the experiments that follow is pretty simple\nthe main module handles the command line arguments and prints the results\nthe input module parses the input file and starts a",
+      "hash": "jDc0FAK-xyJ4",
+      "address": "https://go.dev/doc/go1.27",
+      "title": "Go 1.27 Release Notes - The Go Programming Language",
+      "snippet": "concurrency primitive (channels, sync.Mutex, sync.Cond, etc) that cannot possibly become unblocked. The runtime detects leaked goroutines using the garbage collector: if a goroutine G is blocked on concurrency primitive P, and P is unreachable from any runnable goroutine or any goroutine that those",
       "matchedWords": {
         "FyRSmQlWVTdS": {
-          "hits": 0,
-          "textWords": 609
+          "hits": 3,
+          "textWords": 3222
         },
         "IcwoQJcpVl_B": {
-          "hits": 3,
-          "textWords": 609
+          "hits": 0,
+          "textWords": 3222
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "r_C2TAK-xyJ4",
@@ -342,11 +330,12 @@
           "hits": 0,
           "textWords": 4063
         }
-      }
+      },
+      "queryPhraseHits": 0
     }
   ],
   "documentsHeldPerQueryWord": {
-    "FyRSmQlWVTdS": 3774,
-    "IcwoQJcpVl_B": 1081
+    "FyRSmQlWVTdS": 3452,
+    "IcwoQJcpVl_B": 2665
   }
 }

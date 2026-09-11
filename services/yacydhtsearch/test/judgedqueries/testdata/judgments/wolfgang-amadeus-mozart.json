@@ -2,63 +2,45 @@
   "query": "wolfgang amadeus mozart",
   "judgedDocuments": [
     {
-      "hash": "wBabKs5D-QSg",
-      "address": "https://snl.no/Wolfgang_Amadeus_Mozart",
-      "title": "Wolfgang Amadeus Mozart – Store norske leksikon",
-      "grade": 2
-    },
-    {
-      "hash": "Jgz8BjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Wolfgang_Amadeus_Mozart",
-      "title": "Wolfgang Amadeus Mozart - Wikipedia",
-      "grade": 2
-    },
-    {
-      "hash": "TR2jOlLSmY1j",
-      "address": "https://www.deutsche-biographie.de/118584596.html?language=en",
-      "title": "Deutsche Biographie - Mozart, Wolfgang Amadeus",
-      "grade": 2
-    },
-    {
-      "hash": "0PraV-ZPxIKi",
-      "address": "https://www.enciklopedija.hr/clanak/mozart-wolfgang-amadeus",
-      "title": "Mozart, Wolfgang Amadeus - Hrvatska enciklopedija",
-      "grade": 2
-    },
-    {
       "hash": "_aJejh3e0QFx",
       "address": "https://commons.wikimedia.org/wiki/Category:Compositions_by_Wolfgang_Amadeus_Mozart",
       "title": "Category:Compositions by Wolfgang Amadeus Mozart - Wikimedia Commons",
       "grade": 1
     },
     {
-      "hash": "i37h9p5WQO5o",
-      "address": "https://ci.nii.ac.jp/ncid/BA44131098",
-      "title": "CiNii 図書 - Così fan tutte",
-      "grade": 1
-    },
-    {
-      "hash": "-ayy5ivw0u35",
-      "address": "https://www.classicfm.com/discover-music/instruments/piano/best-pianists-all-time/",
-      "title": "The 25 best pianists of all time - Classic FM",
-      "grade": 1
-    },
-    {
-      "hash": "2omiE_5WQO5o",
-      "address": "https://ci.nii.ac.jp/author/DA04993139",
-      "title": "CiNii Books 著者 - Porter, Andrew",
+      "hash": "Xk7LPaJwAZyx",
+      "address": "https://pcd.wikipedia.org/wiki/Accueul",
+      "title": "Wikipedia",
       "grade": 0
     },
     {
-      "hash": "gIqX6WMt_GI5",
-      "address": "https://www.infoescola.com/artes/opera/",
-      "title": "Ópera - InfoEscola",
-      "grade": 1
+      "hash": "qrkNlDALMeMh",
+      "address": "https://www.smsticket.cz/vstupenky/6774-moc-art-aneb-amadeus-v-brne-strasna-mela-",
+      "title": "Moc art aneb Amadeus v Brně (strašná mela) – Divadlo Husa na provázku – Brno – tickets",
+      "grade": 2
     },
     {
-      "hash": "Wfq3FswvoTD5",
-      "address": "https://r-universe.dev/articles",
-      "title": "R-universe - browse articles",
+      "hash": "6R0qplU0FcHg",
+      "address": "https://www.gravsted.dk/person.php?navn=constanzemozart",
+      "title": "Constanze Mozart",
+      "grade": 2
+    },
+    {
+      "hash": "RueziJZAFfux",
+      "address": "https://no.wikipedia.org/wiki/Forside",
+      "title": "Wikipedia, den frie encyklopedi",
+      "grade": 0
+    },
+    {
+      "hash": "62zG5Q8moajg",
+      "address": "https://www.welt.de/kultur/kino/article69315d0e76c2ae9f577fb060/ard-serie-mozart-mozart-ein-mozart-zum-fremdschaemen.html",
+      "title": "ARD-Serie „Mozart/Mozart“: Ein Mozart zum Fremdschämen - WELT",
+      "grade": 2
+    },
+    {
+      "hash": "WE4YBjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Isis",
+      "title": "Isis - Wikipedia",
       "grade": 0
     },
     {
@@ -68,16 +50,238 @@
       "grade": 0
     },
     {
+      "hash": "wBabKs5D-QSg",
+      "address": "https://snl.no/Wolfgang_Amadeus_Mozart",
+      "title": "Wolfgang Amadeus Mozart – Store norske leksikon",
+      "grade": 2
+    },
+    {
+      "hash": "qo2IOhkSiA1g",
+      "address": "https://www.gramophone.co.uk/content/features/was-wolfgang-amadeus-mozart-the-greatest-composer-of-all",
+      "title": "Was Wolfgang Amadeus Mozart the greatest composer of all?",
+      "grade": 1
+    },
+    {
+      "hash": "_JJX7gJPjR4x",
+      "address": "https://es.wikipedia.org/wiki/Wikipedia:Portada",
+      "title": "Wikipedia, la enciclopedia libre",
+      "grade": 0
+    },
+    {
+      "hash": "0PraV-ZPxIKi",
+      "address": "https://www.enciklopedija.hr/clanak/mozart-wolfgang-amadeus",
+      "title": "Mozart, Wolfgang Amadeus - Hrvatska enciklopedija",
+      "grade": 2
+    },
+    {
+      "hash": "E6xpB5JMJtfQ",
+      "address": "http://www.zeno.org/Musik/M/Mozart,+Wolfgang+Amadeus",
+      "title": "Mozart, Wolfgang Amadeus - Zeno.org",
+      "grade": 2
+    },
+    {
+      "hash": "QembcgM-i-mx",
+      "address": "https://it.wikipedia.org/wiki/Pagina_principale",
+      "title": "Wikipedia, l'enciclopedia libera",
+      "grade": 0
+    },
+    {
+      "hash": "nDUd4Q5ARWyg",
+      "address": "https://www.spiegel.de/kultur/musik/wolfgang-amadeus-mozart-unbekanntes-manuskript-in-paris-aufgetaucht-a-37de93d5-e336-4797-8462-7fefb56fba8a",
+      "title": "Wolfgang Amadeus Mozart: Unbekanntes Manuskript in Paris aufgetaucht - DER SPIEGEL",
+      "grade": 2
+    },
+    {
+      "hash": "Jgz8BjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Wolfgang_Amadeus_Mozart",
+      "title": "Wolfgang Amadeus Mozart - Wikipedia",
+      "grade": 2
+    },
+    {
+      "hash": "cKaIjQ8moajg",
+      "address": "https://www.welt.de/kultur/article693ff49151bc29ca6d7a3961/serie-amadeus-der-allzu-sedierte-mozart.html",
+      "title": "Serie „Amadeus“: Der allzu sedierte Mozart - WELT",
+      "grade": 2
+    },
+    {
+      "hash": "YaMZzhq8WcQ5",
+      "address": "https://infernemland.blog/2014/04/03/julia-lezhneva-canta-vivaldi-handel-porpora-mozart-rossini-i-schubert/",
+      "title": "JULIA LEZHNEVA CANTA Vivaldi, Handel. Porpora, Mozart Rossini i Schubert | IN FERNEM LAND",
+      "grade": 1
+    },
+    {
+      "hash": "TR2jOlLSmY1j",
+      "address": "https://www.deutsche-biographie.de/118584596.html?language=en",
+      "title": "Deutsche Biographie - Mozart, Wolfgang Amadeus",
+      "grade": 2
+    },
+    {
+      "hash": "-Jibrh3e0QFx",
+      "address": "https://commons.wikimedia.org/wiki/Wolfgang_Amadeus_Mozart?uselang=fr",
+      "title": "Wolfgang Amadeus Mozart — Wikimedia Commons",
+      "grade": 2
+    },
+    {
+      "hash": "fEh2xp5WQO5o",
+      "address": "https://ci.nii.ac.jp/ncid/BA43950785",
+      "title": "CiNii 図書 - Le nozze di Figaro",
+      "grade": 2
+    },
+    {
+      "hash": "8cIYpx9HRjox",
+      "address": "https://pdc.wikipedia.org/wiki/Wolfgang_Amadeus_Mozart",
+      "title": "Wolfgang Amadeus Mozart – Wikipedia",
+      "grade": 2
+    },
+    {
+      "hash": "0XoFCsqiBbnx",
+      "address": "https://stq.wikipedia.org/wiki/Wolfgang_Amadeus_Mozart",
+      "title": "Wolfgang Amadeus Mozart – Wikipedia",
+      "grade": 2
+    },
+    {
       "hash": "zuAhdcoc6Io4",
       "address": "https://www.nndb.com/lists/800/000083551/",
       "title": "Movie Keyword: Drama",
       "grade": 0
     },
     {
+      "hash": "yszhehTC-rDx",
+      "address": "https://et.wikipedia.org/wiki/Wolfgang_Amadeus_Mozart",
+      "title": "Wolfgang Amadeus Mozart – Vikipeedia",
+      "grade": 2
+    },
+    {
       "hash": "190GJocHOkWx",
       "address": "https://www.gutenberg.org/browse/authors/m",
       "title": "Browse By Author: M | Project Gutenberg",
       "grade": 1
+    },
+    {
+      "hash": "2LwXx4XlMkDx",
+      "address": "https://scn.wikipedia.org/wiki/Wolfgang_Amadeus_Mozart",
+      "title": "Wolfgang Amadeus Mozart - Wikipedia",
+      "grade": 2
+    },
+    {
+      "hash": "REDKRAvw0u35",
+      "address": "https://www.classicfm.com/composers/bartok/",
+      "title": "Bartók - Composers - Classic FM",
+      "grade": 0
+    },
+    {
+      "hash": "tUVzUivw0u35",
+      "address": "https://www.classicfm.com/discover-music/latest/music-coronation-queen-elizabeth-ii/",
+      "title": "What music was played at Queen Elizabeth II’s coronation? - Classic FM",
+      "grade": 0
+    },
+    {
+      "hash": "SWV0kjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Vienna",
+      "title": "Vienna - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "_ddgCjjEZfvx",
+      "address": "https://en.wiktionary.org/wiki/Wiktionary:Word_of_the_day/Nominations",
+      "title": "Wiktionary:Word of the day/Nominations - Wiktionary, the free dictionary",
+      "grade": 0
+    },
+    {
+      "hash": "UHO9fjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Age_of_Enlightenment",
+      "title": "Age of Enlightenment - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "UHPX7jRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Venice",
+      "title": "Venice - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "Wv5DEjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Germans",
+      "title": "Germans - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "xKMdljRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Austria-Hungary",
+      "title": "Austria-Hungary - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "KeXAMjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Musical_instrument",
+      "title": "Musical instrument - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "b9rfSjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/St._Stephen%27s_Cathedral,_Vienna",
+      "title": "St. Stephen's Cathedral, Vienna - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "d9r-KocHOkWx",
+      "address": "https://www.gutenberg.org/browse/authors/p",
+      "title": "Browse By Author: P | Project Gutenberg",
+      "grade": 0
+    },
+    {
+      "hash": "3JZLOo1ILRNx",
+      "address": "https://tum.wikipedia.org/wiki/Jani_likulu",
+      "title": "Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "NvD21vEndn4x",
+      "address": "https://cs.wikipedia.org/wiki/Klav%C3%ADr",
+      "title": "Klavír – Wikipedie",
+      "grade": 0
+    },
+    {
+      "hash": "LusGWdFO6r_x",
+      "address": "https://de.wikipedia.org/wiki/Queen_(Band)",
+      "title": "Queen (Band) – Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "iBMkcdFO6r_x",
+      "address": "https://de.wikipedia.org/wiki/Klavier",
+      "title": "Klavier – Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "zB1TmjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Grand_piano",
+      "title": "Piano - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "8t9z8jRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Benjamin_Franklin",
+      "title": "Benjamin Franklin - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "E7eSYiVDQ15x",
+      "address": "https://eo.wikipedia.org/wiki/Piano",
+      "title": "Piano - Vikipedio",
+      "grade": 0
+    },
+    {
+      "hash": "tmMWtEmve8Sx",
+      "address": "https://hr.wikipedia.org/wiki/Benjamin_Franklin",
+      "title": "Benjamin Franklin – Wikipedija",
+      "grade": 0
+    },
+    {
+      "hash": "eon5Kh3e0QFx",
+      "address": "https://commons.wikimedia.org/wiki/New_York_City",
+      "title": "New York City - Wikimedia Commons",
+      "grade": 0
     }
   ]
 }

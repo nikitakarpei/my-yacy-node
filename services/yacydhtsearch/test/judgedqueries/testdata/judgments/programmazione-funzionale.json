@@ -2,51 +2,27 @@
   "query": "programmazione funzionale",
   "judgedDocuments": [
     {
+      "hash": "ZttM8hXQbwqg",
+      "address": "https://documenti.camera.it/Leg16/dossier/Testi/BI0350.htm",
+      "title": "Camera dei deputati Dossier BI0350",
+      "grade": 0
+    },
+    {
       "hash": "W9B-bFtsxhzg",
-      "address": "https://www.camera.it/leg18/1058?idLegislatura=18&tipologia=audiz1&sottotipologia=&anno=2018&mese=11&giorno=09&idCommissione=05c05&numero=0001&file=indice_stenografico",
+      "address": "https://www.camera.it/leg18/1058?idLegislatura=18\u0026tipologia=audiz1\u0026sottotipologia=\u0026anno=2018\u0026mese=11\u0026giorno=09\u0026idCommissione=05c05\u0026numero=0001\u0026file=indice_stenografico",
       "title": "XVIII Legislatura - Lavori - Resoconti delle Giunte e Commissioni",
+      "grade": 0
+    },
+    {
+      "hash": "Oliy_OnsHw9g",
+      "address": "https://www.treccani.it/enciclopedia/linguaggio/",
+      "title": "Linguaggio - Enciclopedia - Treccani",
       "grade": 0
     },
     {
       "hash": "ZIJNjOnsHw9g",
       "address": "https://www.treccani.it/enciclopedia/antropologia/",
       "title": "Antropologia - Enciclopedia - Treccani",
-      "grade": 0
-    },
-    {
-      "hash": "ffXdOsnNxxyj",
-      "address": "https://operacarlofelicegenova.it/teatro-della-gioventu/",
-      "title": "Teatro della Gioventù | Teatro Carlo Felice",
-      "grade": 0
-    },
-    {
-      "hash": "_cKrZgM-i-mx",
-      "address": "https://it.wikipedia.org/wiki/Intelligenza_artificiale",
-      "title": "Intelligenza artificiale - Wikipedia",
-      "grade": 0
-    },
-    {
-      "hash": "6KgxngHGY7xx",
-      "address": "https://it.wikiversity.org/wiki/La_Riforma_Costituzionale_del_Governo_Renzi",
-      "title": "La Riforma Costituzionale del Governo Renzi - Wikiversità",
-      "grade": 0
-    },
-    {
-      "hash": "pWyxHOnsHw9g",
-      "address": "https://www.treccani.it/enciclopedia/giappone_res-7d55b1cf-87e9-11dc-8e9d-0016357eee51_(Enciclopedia-Italiana)/",
-      "title": "Giappone - Enciclopedia - Treccani",
-      "grade": 0
-    },
-    {
-      "hash": "q5NJjgM-i-mx",
-      "address": "https://it.wikipedia.org/wiki/Trani",
-      "title": "Trani - Wikipedia",
-      "grade": 0
-    },
-    {
-      "hash": "STL-FgM-i-mx",
-      "address": "https://it.wikipedia.org/wiki/Unione_europea",
-      "title": "Unione europea - Wikipedia",
       "grade": 0
     },
     {
@@ -62,21 +38,171 @@
       "grade": 0
     },
     {
-      "hash": "aaSEMBxYdD3g",
-      "address": "https://www.ecb.europa.eu/pub/pdf/annrep/ar2003it.pdf",
-      "title": "Rapporto annuale 2003",
+      "hash": "6KgxngHGY7xx",
+      "address": "https://it.wikiversity.org/wiki/La_Riforma_Costituzionale_del_Governo_Renzi",
+      "title": "La Riforma Costituzionale del Governo Renzi - Wikiversità",
       "grade": 0
     },
     {
-      "hash": "3az_rBxYdD3g",
-      "address": "https://www.ecb.europa.eu/pub/pdf/annrep/ar2007it.pdf",
-      "title": "RAPPORTO ANNUALE 2007",
+      "hash": "STL-FgM-i-mx",
+      "address": "https://it.wikipedia.org/wiki/Unione_europea",
+      "title": "Unione europea - Wikipedia",
       "grade": 0
     },
     {
-      "hash": "5Zz5OBxYdD3g",
-      "address": "https://www.ecb.europa.eu/pub/pdf/annrep/ar2010it.pdf",
-      "title": "RAPPORTO ANNUALE 2010",
+      "hash": "q5NJjgM-i-mx",
+      "address": "https://it.wikipedia.org/wiki/Trani",
+      "title": "Trani - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "_cKrZgM-i-mx",
+      "address": "https://it.wikipedia.org/wiki/Intelligenza_artificiale",
+      "title": "Intelligenza artificiale - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "pWyxHOnsHw9g",
+      "address": "https://www.treccani.it/enciclopedia/giappone_res-7d55b1cf-87e9-11dc-8e9d-0016357eee51_(Enciclopedia-Italiana)/",
+      "title": "Giappone - Enciclopedia - Treccani",
+      "grade": 0
+    },
+    {
+      "hash": "s0im2v7fOGSg",
+      "address": "https://www.regione.veneto.it/",
+      "title": "Home - Regione del Veneto",
+      "grade": 0
+    },
+    {
+      "hash": "-3-OagM-i-mx",
+      "address": "https://it.wikipedia.org/wiki/Apple",
+      "title": "Apple - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "d5G1fu7o3wtx",
+      "address": "https://vec.wikipedia.org/wiki/JavaScript",
+      "title": "JavaScript - Wikipèdia Vèneta, ła ensiclopedia łìbara",
+      "grade": 1
+    },
+    {
+      "hash": "BxrargM-i-mx",
+      "address": "https://it.wikipedia.org/wiki/Governo_Draghi",
+      "title": "Governo Draghi - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "F-4n_gM-i-mx",
+      "address": "https://it.wikipedia.org/wiki/Sito_web",
+      "title": "Sito web - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "GldsEgM-i-mx",
+      "address": "https://it.wikipedia.org/wiki/Python",
+      "title": "Python - Wikipedia",
+      "grade": 1
+    },
+    {
+      "hash": "HREakgM-i-mx",
+      "address": "https://it.wikipedia.org/wiki/Teoria_dei_giochi",
+      "title": "Teoria dei giochi - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "H4WgLgM-i-mx",
+      "address": "https://it.wikipedia.org/wiki/Piattaforma_(informatica)",
+      "title": "Piattaforma (informatica) - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "Jj9Z8gM-i-mx",
+      "address": "https://it.wikipedia.org/wiki/Android",
+      "title": "Android - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "Jprm6gM-i-mx",
+      "address": "https://it.wikipedia.org/wiki/Lugano",
+      "title": "Lugano - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "J_Lm7gM-i-mx",
+      "address": "https://it.wikipedia.org/wiki/Posta_elettronica",
+      "title": "Posta elettronica - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "LasKHgM-i-mx",
+      "address": "https://it.wikipedia.org/wiki/Sistema_operativo",
+      "title": "Sistema operativo - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "UXal2gM-i-mx",
+      "address": "https://it.wikipedia.org/wiki/American_Beauty",
+      "title": "American Beauty - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "homhZgM-i-mx",
+      "address": "https://it.wikipedia.org/wiki/Distribuzione_Linux",
+      "title": "Distribuzione Linux - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "lQe8hgM-i-mx",
+      "address": "https://it.wikipedia.org/wiki/Ente_locale_(Italia)",
+      "title": "Ente locale (Italia) - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "mXzRPgM-i-mx",
+      "address": "https://it.wikipedia.org/wiki/Matematica",
+      "title": "Matematica - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "rO8ErgM-i-mx",
+      "address": "https://it.wikipedia.org/wiki/Urbanistica",
+      "title": "Urbanistica - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "tfG0EgM-i-mx",
+      "address": "https://it.wikipedia.org/wiki/Metodo_scientifico",
+      "title": "Metodo scientifico - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "0utszgM-i-mx",
+      "address": "https://it.wikipedia.org/wiki/Comune_(ordinamento_italiano)",
+      "title": "Comune (ordinamento italiano) - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "7_uA0gM-i-mx",
+      "address": "https://it.wikipedia.org/wiki/Firenze",
+      "title": "Firenze - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "qh7RKOnG_Txx",
+      "address": "https://eml.wikipedia.org/wiki/Discussione:PP",
+      "title": "Discussione:PP - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "ffXdOsnNxxyj",
+      "address": "https://operacarlofelicegenova.it/teatro-della-gioventu/",
+      "title": "Teatro della Gioventù | Teatro Carlo Felice",
+      "grade": 0
+    },
+    {
+      "hash": "SHRf1ezpMIig",
+      "address": "https://www.comune.palermo.it/",
+      "title": "Sito Istituzionale - Comune di Palermo",
       "grade": 0
     }
   ]

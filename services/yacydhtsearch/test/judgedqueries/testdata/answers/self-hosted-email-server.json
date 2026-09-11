@@ -1,157 +1,238 @@
 {
   "query": "self hosted email server",
-  "recordedAt": "2026-09-11T21:02:40Z",
+  "recordedAt": "2026-09-11T22:14:23Z",
   "itemsInTheOrderOfEachAnswer": [],
   "itemsInNoOrder": [
     {
-      "hash": "XTPIBlptNsG4",
-      "address": "https://www.akdart.com/hijrah.html",
-      "title": "Islamic invasion disguised as the displacement and acceptance of refugees",
-      "snippet": "self-inflicted oblivion. The antithesis of multicultural harmony, the year 2025 brings another pitiful surrender to the forces of Islamic extremism, a phenomenon chillingly encapsulated by Melanie Phillips in her prescient 2006 tome Londonistan. Phillips, a Cassandra of our age, warned of London's",
+      "hash": "Fl-YxlDOAHJg",
+      "address": "https://www.heise.de/",
+      "title": "heise online - IT-News, Nachrichten und Hintergründe | heise online",
+      "snippet": "Anzeige\nAnzeige\nEigenwerbung\nCyber Resilience Act in der Praxis\nLive-Classroom · 21.10. - 11.11.26\nCRA-Anforderungen verstehen und einordnen\nRisikoanalyse und Dokumentation aufbauen\nKonformitätsbewertung sicher planen\nClassroom entdecken\nAnzeige\nAnzeige\nmeistgelesen\nbeliebt bei Abonnenten",
       "matchedWords": {
         "DIP1fHhqC0o5": {
-          "hits": 11,
-          "textWords": 405419
+          "hits": 0,
+          "textWords": 967
         },
         "WQ9T6GmYF8b6": {
-          "hits": 88,
-          "textWords": 405419
+          "hits": 0,
+          "textWords": 967
         },
         "c00wMP9yrY2W": {
-          "hits": 15,
-          "textWords": 405419
+          "hits": 0,
+          "textWords": 967
         },
         "zx6MFOVFBfYK": {
-          "hits": 1,
-          "textWords": 405419
+          "hits": 0,
+          "textWords": 967
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
-      "hash": "XTPIBlptNsG4",
-      "address": "https://www.akdart.com/hijrah.html",
-      "title": "Islamic invasion disguised as the displacement and acceptance of refugees",
-      "snippet": "self-inflicted oblivion. The antithesis of multicultural harmony, the year 2025 brings another pitiful surrender to the forces of Islamic extremism, a phenomenon chillingly encapsulated by Melanie Phillips in her prescient 2006 tome Londonistan. Phillips, a Cassandra of our age, warned of London's",
+      "hash": "Fl-YxlDOAHJg",
+      "address": "https://www.heise.de/",
+      "title": "heise online - IT-News, Nachrichten und Hintergründe | heise online",
+      "snippet": "Anzeige\nAnzeige\nEigenwerbung\nCyber Resilience Act in der Praxis\nLive-Classroom · 21.10. - 11.11.26\nCRA-Anforderungen verstehen und einordnen\nRisikoanalyse und Dokumentation aufbauen\nKonformitätsbewertung sicher planen\nClassroom entdecken\nAnzeige\nAnzeige\nmeistgelesen\nbeliebt bei Abonnenten",
       "matchedWords": {
         "DIP1fHhqC0o5": {
-          "hits": 11,
-          "textWords": 405419
+          "hits": 0,
+          "textWords": 967
         },
         "WQ9T6GmYF8b6": {
-          "hits": 88,
-          "textWords": 405419
+          "hits": 0,
+          "textWords": 967
         },
         "c00wMP9yrY2W": {
-          "hits": 15,
-          "textWords": 405419
+          "hits": 0,
+          "textWords": 967
         },
         "zx6MFOVFBfYK": {
-          "hits": 1,
-          "textWords": 405419
+          "hits": 0,
+          "textWords": 967
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
-      "hash": "XTPIBlptNsG4",
-      "address": "https://www.akdart.com/hijrah.html",
-      "title": "Islamic invasion disguised as the displacement and acceptance of refugees",
-      "snippet": "self-inflicted oblivion. The antithesis of multicultural harmony, the year 2025 brings another pitiful surrender to the forces of Islamic extremism, a phenomenon chillingly encapsulated by Melanie Phillips in her prescient 2006 tome Londonistan. Phillips, a Cassandra of our age, warned of London's",
+      "hash": "D4lABzaS0qdw",
+      "address": "https://planet.debian.org/",
+      "title": "Planet Debian",
+      "snippet": "server, which I rent with two 1 TB SSD disks. The optimized decoder of the C TurboPFor library is what made decoding fast at query time.\nIf you want to dive deeper into the algorithm, see this blog post from February 2019:\nIf you want to learn more about the positional index, see this blog post",
       "matchedWords": {
         "DIP1fHhqC0o5": {
-          "hits": 11,
-          "textWords": 405419
+          "hits": 0,
+          "textWords": 8109
         },
         "WQ9T6GmYF8b6": {
-          "hits": 88,
-          "textWords": 405419
+          "hits": 0,
+          "textWords": 8109
         },
         "c00wMP9yrY2W": {
-          "hits": 15,
-          "textWords": 405419
+          "hits": 0,
+          "textWords": 8109
         },
         "zx6MFOVFBfYK": {
-          "hits": 1,
-          "textWords": 405419
+          "hits": 2,
+          "textWords": 8109
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
-      "hash": "XTPIBlptNsG4",
-      "address": "https://www.akdart.com/hijrah.html",
-      "title": "Islamic invasion disguised as the displacement and acceptance of refugees",
-      "snippet": "self-inflicted oblivion. The antithesis of multicultural harmony, the year 2025 brings another pitiful surrender to the forces of Islamic extremism, a phenomenon chillingly encapsulated by Melanie Phillips in her prescient 2006 tome Londonistan. Phillips, a Cassandra of our age, warned of London's",
+      "hash": "D4lABzaS0qdw",
+      "address": "https://planet.debian.org/",
+      "title": "Planet Debian",
+      "snippet": "server, which I rent with two 1 TB SSD disks. The optimized decoder of the C TurboPFor library is what made decoding fast at query time.\nIf you want to dive deeper into the algorithm, see this blog post from February 2019:\nIf you want to learn more about the positional index, see this blog post",
       "matchedWords": {
         "DIP1fHhqC0o5": {
-          "hits": 11,
-          "textWords": 405419
+          "hits": 0,
+          "textWords": 8109
         },
         "WQ9T6GmYF8b6": {
-          "hits": 88,
-          "textWords": 405419
+          "hits": 0,
+          "textWords": 8109
         },
         "c00wMP9yrY2W": {
-          "hits": 15,
-          "textWords": 405419
+          "hits": 0,
+          "textWords": 8109
         },
         "zx6MFOVFBfYK": {
-          "hits": 1,
-          "textWords": 405419
+          "hits": 2,
+          "textWords": 8109
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
-      "hash": "XTPIBlptNsG4",
-      "address": "https://www.akdart.com/hijrah.html",
-      "title": "Islamic invasion disguised as the displacement and acceptance of refugees",
-      "snippet": "self-inflicted oblivion. The antithesis of multicultural harmony, the year 2025 brings another pitiful surrender to the forces of Islamic extremism, a phenomenon chillingly encapsulated by Melanie Phillips in her prescient 2006 tome Londonistan. Phillips, a Cassandra of our age, warned of London's",
+      "hash": "Fl-YxlDOAHJg",
+      "address": "https://www.heise.de/",
+      "title": "heise online - IT-News, Nachrichten und Hintergründe | heise online",
+      "snippet": "Anzeige\nAnzeige\nEigenwerbung\nCyber Resilience Act in der Praxis\nLive-Classroom · 21.10. - 11.11.26\nCRA-Anforderungen verstehen und einordnen\nRisikoanalyse und Dokumentation aufbauen\nKonformitätsbewertung sicher planen\nClassroom entdecken\nAnzeige\nAnzeige\nmeistgelesen\nbeliebt bei Abonnenten",
       "matchedWords": {
         "DIP1fHhqC0o5": {
-          "hits": 11,
-          "textWords": 405419
+          "hits": 0,
+          "textWords": 967
         },
         "WQ9T6GmYF8b6": {
-          "hits": 88,
-          "textWords": 405419
+          "hits": 0,
+          "textWords": 967
         },
         "c00wMP9yrY2W": {
-          "hits": 15,
-          "textWords": 405419
+          "hits": 0,
+          "textWords": 967
         },
         "zx6MFOVFBfYK": {
-          "hits": 1,
-          "textWords": 405419
+          "hits": 0,
+          "textWords": 967
         }
-      }
+      },
+      "queryPhraseHits": 0
     },
     {
-      "hash": "XTPIBlptNsG4",
-      "address": "https://www.akdart.com/hijrah.html",
-      "title": "Islamic invasion disguised as the displacement and acceptance of refugees",
-      "snippet": "self-inflicted oblivion. The antithesis of multicultural harmony, the year 2025 brings another pitiful surrender to the forces of Islamic extremism, a phenomenon chillingly encapsulated by Melanie Phillips in her prescient 2006 tome Londonistan. Phillips, a Cassandra of our age, warned of London's",
+      "hash": "D4lABzaS0qdw",
+      "address": "https://planet.debian.org/",
+      "title": "Planet Debian",
+      "snippet": "server, which I rent with two 1 TB SSD disks. The optimized decoder of the C TurboPFor library is what made decoding fast at query time.\nIf you want to dive deeper into the algorithm, see this blog post from February 2019:\nIf you want to learn more about the positional index, see this blog post",
       "matchedWords": {
         "DIP1fHhqC0o5": {
-          "hits": 11,
-          "textWords": 405419
+          "hits": 0,
+          "textWords": 8109
         },
         "WQ9T6GmYF8b6": {
-          "hits": 88,
-          "textWords": 405419
+          "hits": 0,
+          "textWords": 8109
         },
         "c00wMP9yrY2W": {
-          "hits": 15,
-          "textWords": 405419
+          "hits": 0,
+          "textWords": 8109
         },
         "zx6MFOVFBfYK": {
-          "hits": 1,
-          "textWords": 405419
+          "hits": 2,
+          "textWords": 8109
         }
-      }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "D4lABzaS0qdw",
+      "address": "https://planet.debian.org/",
+      "title": "Planet Debian",
+      "snippet": "server, which I rent with two 1 TB SSD disks. The optimized decoder of the C TurboPFor library is what made decoding fast at query time.\nIf you want to dive deeper into the algorithm, see this blog post from February 2019:\nIf you want to learn more about the positional index, see this blog post",
+      "matchedWords": {
+        "DIP1fHhqC0o5": {
+          "hits": 0,
+          "textWords": 8109
+        },
+        "WQ9T6GmYF8b6": {
+          "hits": 0,
+          "textWords": 8109
+        },
+        "c00wMP9yrY2W": {
+          "hits": 0,
+          "textWords": 8109
+        },
+        "zx6MFOVFBfYK": {
+          "hits": 2,
+          "textWords": 8109
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "Fl-YxlDOAHJg",
+      "address": "https://www.heise.de/",
+      "title": "heise online - IT-News, Nachrichten und Hintergründe | heise online",
+      "snippet": "Anzeige\nAnzeige\nEigenwerbung\nCyber Resilience Act in der Praxis\nLive-Classroom · 21.10. - 11.11.26\nCRA-Anforderungen verstehen und einordnen\nRisikoanalyse und Dokumentation aufbauen\nKonformitätsbewertung sicher planen\nClassroom entdecken\nAnzeige\nAnzeige\nmeistgelesen\nbeliebt bei Abonnenten",
+      "matchedWords": {
+        "DIP1fHhqC0o5": {
+          "hits": 0,
+          "textWords": 967
+        },
+        "WQ9T6GmYF8b6": {
+          "hits": 0,
+          "textWords": 967
+        },
+        "c00wMP9yrY2W": {
+          "hits": 0,
+          "textWords": 967
+        },
+        "zx6MFOVFBfYK": {
+          "hits": 0,
+          "textWords": 967
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "D4lABzaS0qdw",
+      "address": "https://planet.debian.org/",
+      "title": "Planet Debian",
+      "snippet": "server, which I rent with two 1 TB SSD disks. The optimized decoder of the C TurboPFor library is what made decoding fast at query time.\nIf you want to dive deeper into the algorithm, see this blog post from February 2019:\nIf you want to learn more about the positional index, see this blog post",
+      "matchedWords": {
+        "DIP1fHhqC0o5": {
+          "hits": 0,
+          "textWords": 8109
+        },
+        "WQ9T6GmYF8b6": {
+          "hits": 0,
+          "textWords": 8109
+        },
+        "c00wMP9yrY2W": {
+          "hits": 0,
+          "textWords": 8109
+        },
+        "zx6MFOVFBfYK": {
+          "hits": 2,
+          "textWords": 8109
+        }
+      },
+      "queryPhraseHits": 0
     }
   ],
   "documentsHeldPerQueryWord": {
-    "DIP1fHhqC0o5": 100317,
-    "WQ9T6GmYF8b6": 2850,
-    "c00wMP9yrY2W": 9760,
-    "zx6MFOVFBfYK": 34267
+    "DIP1fHhqC0o5": 85788,
+    "WQ9T6GmYF8b6": 51344,
+    "c00wMP9yrY2W": 10505,
+    "zx6MFOVFBfYK": 33854
   }
 }
