@@ -82,13 +82,15 @@ func itemTitledMatchingTheWords(
 ) peeranswers.AnsweredItem {
 	t.Helper()
 
-	matchedWords := make([]yacymodel.Hash, 0, len(words))
+	matchedWords := make(map[yacymodel.Hash]peeranswers.WordCount, len(words))
 	for _, word := range words {
-		matchedWords = append(matchedWords, yacymodel.WordHash(word))
+		matchedWords[yacymodel.WordHash(word)] = peeranswers.WordCount{}
 	}
 
-	return peeranswers.AnsweredItem{Metadata: metadataOf(t, address, title)}.
-		MatchingTheWords(matchedWords)
+	return peeranswers.AnsweredItem{
+		Metadata:     metadataOf(t, address, title),
+		MatchedWords: matchedWords,
+	}
 }
 
 const addressNoNodeCanRead = "https://berlin weather.example/"
@@ -105,15 +107,18 @@ func itemOfTheAddressNoNodeCanReadMatchingTheWords(
 }
 
 func answersOf(
+	queryWords []string,
 	itemsInTheOrderOfEachPeerRanking ...[]peeranswers.AnsweredItem,
 ) peeranswers.AnsweredQuery {
 	return peeranswers.AnsweredQuery{
+		QueryWords:                       hashesOfTheQueryWords(queryWords),
 		ItemsInTheOrderOfEachPeerRanking: itemsInTheOrderOfEachPeerRanking,
 	}
 }
 
 func answersHolding(
 	documentsPerWord map[string]int,
+	queryWords []string,
 	itemsInTheOrderOfEachPeerRanking ...[]peeranswers.AnsweredItem,
 ) peeranswers.AnsweredQuery {
 	documentsHeldPerQueryWord := make(map[yacymodel.Hash]int, len(documentsPerWord))
@@ -122,9 +127,19 @@ func answersHolding(
 	}
 
 	return peeranswers.AnsweredQuery{
+		QueryWords:                       hashesOfTheQueryWords(queryWords),
 		ItemsInTheOrderOfEachPeerRanking: itemsInTheOrderOfEachPeerRanking,
 		DocumentsHeldPerQueryWord:        documentsHeldPerQueryWord,
 	}
+}
+
+func hashesOfTheQueryWords(queryWords []string) []yacymodel.Hash {
+	hashes := make([]yacymodel.Hash, 0, len(queryWords))
+	for _, queryWord := range queryWords {
+		hashes = append(hashes, yacymodel.WordHash(queryWord))
+	}
+
+	return hashes
 }
 
 func addressesInFallingOrderOfRelevance(answers peeranswers.AnsweredQuery) []string {
@@ -157,6 +172,7 @@ func TestTheDocumentOfTheRarerQueryWordComesFirst(t *testing.T) {
 
 	answers := answersHolding(
 		map[string]int{"berlin": 100000, "kelondro": 10},
+		[]string{"berlin", "kelondro"},
 		[]peeranswers.AnsweredItem{
 			itemCountedForTheWord(t, "https://common.example/", "berlin", 1),
 		},
@@ -175,6 +191,7 @@ func TestEveryQueryWordWeighsTheSameWhenNoPeerCountedDocumentsForIt(t *testing.T
 	t.Parallel()
 
 	answers := answersOf(
+		[]string{"berlin", "kelondro"},
 		[]peeranswers.AnsweredItem{itemCountedForTheWord(t, "https://a.example/", "berlin", 1)},
 		[]peeranswers.AnsweredItem{itemCountedForTheWord(t, "https://b.example/", "kelondro", 1)},
 	)
@@ -190,6 +207,7 @@ func TestTheWordNoPeerCountedDocumentsForWeighsAsMuchAsTheMostCommonCountedWord(
 
 	answers := answersHolding(
 		map[string]int{"berlin": 100},
+		[]string{"berlin", "kelondro"},
 		[]peeranswers.AnsweredItem{
 			itemCountedForTheWord(t, "https://counted.example/", "berlin", 1),
 		},
@@ -209,6 +227,7 @@ func TestTheDocumentWithMoreHitsOfTheSameWordComesFirst(t *testing.T) {
 
 	answers := answersHolding(
 		map[string]int{"berlin": 100},
+		[]string{"berlin"},
 		[]peeranswers.AnsweredItem{itemCountedForTheWord(t, "https://once.example/", "berlin", 1)},
 		[]peeranswers.AnsweredItem{
 			itemCountedForTheWord(t, "https://often.example/", "berlin", 9),
@@ -233,6 +252,7 @@ func TestEachFurtherHitOfTheSameWordAddsLessThanTheFirstHitOfAnotherWord(t *test
 		},
 	}
 	answers := answersOf(
+		[]string{"berlin", "weather"},
 		[]peeranswers.AnsweredItem{twiceOneWord},
 		[]peeranswers.AnsweredItem{onceEachWord},
 	)
@@ -248,6 +268,7 @@ func TestTheShorterDocumentOfTheSameHitsComesFirst(t *testing.T) {
 
 	answers := answersHolding(
 		map[string]int{"berlin": 100},
+		[]string{"berlin"},
 		[]peeranswers.AnsweredItem{itemOfTextWords(t, "https://long.example/", "berlin", 3, 5000)},
 		[]peeranswers.AnsweredItem{itemOfTextWords(t, "https://short.example/", "berlin", 3, 100)},
 	)
@@ -263,6 +284,7 @@ func TestTheDocumentThatMatchedMoreQueryWordsComesFirst(t *testing.T) {
 
 	answers := answersHolding(
 		map[string]int{"berlin": 100, "weather": 100},
+		[]string{"berlin", "weather"},
 		[]peeranswers.AnsweredItem{
 			itemCountedForTheWords(t, "https://one.example/", map[string]int{"berlin": 1}),
 		},
@@ -283,6 +305,7 @@ func TestTheDocumentOfEveryQueryWordComesBeforeOneOfManyHitsOfASingleQueryWord(t
 
 	answers := answersHolding(
 		map[string]int{"berlin": 100, "weather": 100},
+		[]string{"berlin", "weather"},
 		[]peeranswers.AnsweredItem{
 			itemCountedForTheWords(t, "https://one-word.example/",
 				map[string]int{"berlin": 50, "weather": 0}),
@@ -304,6 +327,7 @@ func TestTheDocumentWhoseHostHoldsTheOnlyQueryWordComesBeforeOneOfHitsOfThatWord
 
 	answers := answersHolding(
 		map[string]int{"berlin": 100},
+		[]string{"berlin"},
 		[]peeranswers.AnsweredItem{
 			itemCountedForTheWords(t, "https://berlin.example/", map[string]int{"berlin": 0}),
 		},
@@ -323,6 +347,7 @@ func TestTheDocumentNoOneCountedAHitInComesAfterOneWithAHit(t *testing.T) {
 
 	answers := answersHolding(
 		map[string]int{"berlin": 100, "weather": 100},
+		[]string{"berlin", "weather"},
 		[]peeranswers.AnsweredItem{
 			itemMatchingTheWords(t, "https://uncounted.example/", "berlin", "weather"),
 		},
@@ -341,6 +366,7 @@ func TestTheDocumentWithoutATitleComesAfterOneAPeerPutBehindIt(t *testing.T) {
 	t.Parallel()
 
 	answers := answersOf(
+		[]string{"berlin"},
 		[]peeranswers.AnsweredItem{
 			itemMatchingTheWords(t, "https://untitled.example/", "berlin"),
 			itemTitledMatchingTheWords(t, "https://titled.example/", "A city", "berlin"),
@@ -358,6 +384,7 @@ func TestTheDocumentWhoseTitleHoldsTheQueryWordComesFirst(t *testing.T) {
 
 	answers := answersHolding(
 		map[string]int{"berlin": 100},
+		[]string{"berlin"},
 		[]peeranswers.AnsweredItem{
 			itemTitledMatchingTheWords(t, "https://beside.example/", "The weather of a city",
 				"berlin"),
@@ -378,6 +405,7 @@ func TestTheDocumentWhoseTitleHoldsTheRarerQueryWordComesFirst(t *testing.T) {
 
 	answers := answersHolding(
 		map[string]int{"emacs": 10, "manual": 100000},
+		[]string{"emacs", "manual"},
 		[]peeranswers.AnsweredItem{
 			itemTitledMatchingTheWords(t, "https://beside.example/", "The manual",
 				"emacs", "manual"),
@@ -397,6 +425,7 @@ func TestATitleThatOnlyHoldsALongerWordChangesNoOrder(t *testing.T) {
 
 	answers := answersHolding(
 		map[string]int{"tofu": 100},
+		[]string{"tofu"},
 		[]peeranswers.AnsweredItem{
 			itemTitledMatchingTheWords(t, "https://beside.example/", "Migrating to a fork",
 				"tofu"),
@@ -418,6 +447,7 @@ func TestATitleIsReadPastItsPunctuation(t *testing.T) {
 
 	answers := answersHolding(
 		map[string]int{"opentofu": 100},
+		[]string{"opentofu"},
 		[]peeranswers.AnsweredItem{itemMatchingTheWords(t, "https://beside.example/", "opentofu")},
 		[]peeranswers.AnsweredItem{
 			itemTitledMatchingTheWords(t, "https://titled.example/",
@@ -436,6 +466,7 @@ func TestAWeighedAddressScorePutsTheDocumentWhoseHostHoldsTheQueryWordFirst(t *t
 
 	answers := answersHolding(
 		map[string]int{"berlin": 100},
+		[]string{"berlin"},
 		[]peeranswers.AnsweredItem{
 			itemMatchingTheWords(t, "https://weather.example/city/", "berlin"),
 		},
@@ -473,6 +504,7 @@ func TestTheDocumentWhoseTextHoldsTheQueryPhraseComesFirst(t *testing.T) {
 
 	answers := answersHolding(
 		map[string]int{"berlin": 100},
+		[]string{"berlin"},
 		[]peeranswers.AnsweredItem{
 			itemHoldingTheQueryPhrase(t, "https://apart.example/", 0),
 		},
@@ -492,6 +524,7 @@ func TestEachFurtherQueryPhraseHitAddsLessThanTheFirst(t *testing.T) {
 
 	answers := answersHolding(
 		map[string]int{"berlin": 100},
+		[]string{"berlin"},
 		[]peeranswers.AnsweredItem{
 			itemHoldingTheQueryPhrase(t, "https://once.example/", 1),
 			itemHoldingTheQueryPhrase(t, "https://often.example/", 9),
@@ -509,6 +542,7 @@ func TestTheDocumentOfAnAddressNoNodeCanReadKeepsThePlaceThePeersPutIt(t *testin
 
 	answers := answersHolding(
 		map[string]int{"berlin": 100},
+		[]string{"berlin"},
 		[]peeranswers.AnsweredItem{itemOfTheAddressNoNodeCanReadMatchingTheWords(t, "berlin")},
 		[]peeranswers.AnsweredItem{
 			itemMatchingTheWords(t, "https://weather.example/city/", "berlin"),
@@ -526,6 +560,7 @@ func TestTheDocumentTwoPeersPutHighComesBeforeOneASinglePeerPutFirst(t *testing.
 
 	putByBothPeers := itemCountedForTheWord(t, "https://both.example/", "berlin", 1)
 	answers := answersOf(
+		[]string{"berlin"},
 		[]peeranswers.AnsweredItem{
 			itemCountedForTheWord(t, "https://one.example/", "berlin", 1), putByBothPeers,
 		},
@@ -542,6 +577,7 @@ func TestAnItemOfNoOrderComesAfterAnEquallyCountedItemAPeerPut(t *testing.T) {
 	t.Parallel()
 
 	answers := peeranswers.AnsweredQuery{
+		QueryWords: []yacymodel.Hash{yacymodel.WordHash("berlin")},
 		ItemsInTheOrderOfEachPeerRanking: [][]peeranswers.AnsweredItem{
 			{itemCountedForTheWord(t, "https://ordered.example/", "berlin", 1)},
 		},
@@ -561,6 +597,7 @@ func TestTheSameAnswersComeBackInTheSameOrderEveryRun(t *testing.T) {
 
 	answers := answersHolding(
 		map[string]int{"berlin": 100000, "weather": 7000, "kelondro": 13, "freeworld": 421},
+		[]string{"berlin", "weather", "kelondro", "freeworld"},
 		[]peeranswers.AnsweredItem{
 			itemCountedForTheWords(t, "https://a.example/",
 				map[string]int{"berlin": 3, "weather": 2, "kelondro": 1, "freeworld": 4}),
@@ -590,6 +627,7 @@ func TestTwoDocumentsOfTheSameCountedHitsHoldTheSameRelevance(t *testing.T) {
 
 	answers := answersHolding(
 		map[string]int{"berlin": 100},
+		[]string{"berlin"},
 		[]peeranswers.AnsweredItem{itemCountedForTheWord(t, "https://a.example/", "berlin", 1)},
 		[]peeranswers.AnsweredItem{itemCountedForTheWord(t, "https://b.example/", "berlin", 1)},
 	)

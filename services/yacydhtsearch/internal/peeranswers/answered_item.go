@@ -13,26 +13,10 @@ type AnsweredItem struct {
 	QueryPhraseHits int
 }
 
-func (a AnsweredItem) MatchingTheWords(words []yacymodel.Hash) AnsweredItem {
-	matchedWords := a.matchedWordsWithRoomFor(len(words))
-	for _, word := range words {
-		if _, matched := matchedWords[word]; matched {
-			continue
-		}
-		matchedWords[word] = WordCount{}
-	}
-	a.MatchedWords = matchedWords
-
-	return a
-}
-
 func (a AnsweredItem) carryingTheText(text documenttext.DocumentText) AnsweredItem {
-	matchedWords := make(map[yacymodel.Hash]WordCount, len(a.MatchedWords))
-	for word := range a.MatchedWords {
-		matchedWords[word] = WordCount{
-			Hits:      text.HitsPerQueryWord[word],
-			TextWords: text.AmountOfWords,
-		}
+	matchedWords := make(map[yacymodel.Hash]WordCount, len(text.HitsPerQueryWord))
+	for word, hits := range text.HitsPerQueryWord {
+		matchedWords[word] = WordCount{Hits: hits, TextWords: text.AmountOfWords}
 	}
 	a.MatchedWords = matchedWords
 	a.QueryPhraseHits = text.QueryPhraseHits

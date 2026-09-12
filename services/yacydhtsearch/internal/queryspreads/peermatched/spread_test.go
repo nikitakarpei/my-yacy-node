@@ -2,6 +2,7 @@ package peermatched_test
 
 import (
 	"context"
+	"slices"
 	"testing"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peeranswers"
@@ -110,11 +111,15 @@ func searchOf(
 }
 
 func searchForTheQuery(network *peerNetwork, query string) [][]peeranswers.AnsweredItem {
+	return answersOfTheQuery(network, query).ItemsInTheOrderOfEachPeerRanking
+}
+
+func answersOfTheQuery(network *peerNetwork, query string) peeranswers.AnsweredQuery {
 	return spreadOf(network, peersHoldingOneWord, &recordedSpreads{}).SpreadOverPeers(
 		context.Background(),
 		searchquery.QueryFrom(query, ""),
 		[]peerdirectory.AskablePeer{peerAt("first"), peerAt("second")},
-	).ItemsInTheOrderOfEachPeerRanking
+	)
 }
 
 func spreadOf(
@@ -184,25 +189,16 @@ func TestTheItemsOfEachPeerRankingStayApart(t *testing.T) {
 	}
 }
 
-func TestEveryItemAPeerMatchedMatchedEveryQueryWord(t *testing.T) {
+func TestTheAnswersCarryTheWordsOfTheQuery(t *testing.T) {
 	t.Parallel()
 
 	network := networkOf(map[string][]string{"first": {"https://a.example/"}})
 
-	itemsInTheOrderOfEachPeerRanking := searchOf(network, &recordedSpreads{})
+	answers := answersOfTheQuery(network, "berlin weather")
 
-	queryWords := []yacymodel.Hash{
-		yacymodel.WordHash("berlin"), yacymodel.WordHash("weather"),
-	}
-	for _, items := range itemsInTheOrderOfEachPeerRanking {
-		for _, item := range items {
-			for _, queryWord := range queryWords {
-				if _, matched := item.MatchedWords[queryWord]; !matched {
-					t.Fatalf("the item of %v matched %v, want every query word",
-						item.Metadata.Address, item.MatchedWords)
-				}
-			}
-		}
+	want := []yacymodel.Hash{yacymodel.WordHash("berlin"), yacymodel.WordHash("weather")}
+	if !slices.Equal(answers.QueryWords, want) {
+		t.Fatalf("the answers carry the query words %v, want %v", answers.QueryWords, want)
 	}
 }
 

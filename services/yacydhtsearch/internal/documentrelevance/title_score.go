@@ -10,7 +10,9 @@ const (
 	shareOfTheRarityOfTheQueryWordsOfATitleWithoutAQueryWord   = 0.0
 )
 
-func titleScoreOf(item peeranswers.AnsweredItem, rarity queryWordRarity) float64 {
+func titleScoreOf(
+	item peeranswers.AnsweredItem, rarity queryWordRarity, queryWords []yacymodel.Hash,
+) float64 {
 	if item.Metadata.Title == "" {
 		return shareOfTheRarityOfTheQueryWordsADocumentWithoutATitleLoses
 	}
@@ -18,15 +20,17 @@ func titleScoreOf(item peeranswers.AnsweredItem, rarity queryWordRarity) float64
 		return shareOfTheRarityOfTheQueryWordsOfATitleWithoutAQueryWord
 	}
 
-	return rarity.sumOfTheRarityOf(queryWordsOfTheTitleOf(item)) /
+	return rarity.sumOfTheRarityOf(queryWordsOfTheTitleOf(item, queryWords)) /
 		rarity.sumOfTheRarityOfTheQueryWords
 }
 
-func queryWordsOfTheTitleOf(item peeranswers.AnsweredItem) []yacymodel.Hash {
+func queryWordsOfTheTitleOf(
+	item peeranswers.AnsweredItem, queryWords []yacymodel.Hash,
+) []yacymodel.Hash {
 	wordsOfTheTitle := wordsOfTheTitleOf(item.Metadata.Title)
 
-	queryWordsOfTheTitle := make([]yacymodel.Hash, 0, len(item.MatchedWords))
-	for _, word := range matchedWordsAlwaysInTheSameOrder(item) {
+	queryWordsOfTheTitle := make([]yacymodel.Hash, 0, len(queryWords))
+	for _, word := range queryWords {
 		if _, inTheTitle := wordsOfTheTitle[word]; !inTheTitle {
 			continue
 		}

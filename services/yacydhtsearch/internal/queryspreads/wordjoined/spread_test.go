@@ -682,36 +682,19 @@ func TestTheItemsAPeerAnsweredForJoinedDocumentsComeBack(t *testing.T) {
 	}
 }
 
-func TestEveryAnsweredItemMatchedEveryQueryWord(t *testing.T) {
+func TestTheAnswersCarryTheWordsOfTheQuery(t *testing.T) {
 	t.Parallel()
 
 	answered := "https://answered.example/"
-	fetched := "https://fetched.example/"
 	network := networkOf(map[string]map[string][]string{
-		"first": {firstWord: {answered, fetched}, secondWord: {answered, fetched}},
+		"first": {firstWord: {answered}, secondWord: {answered}},
 	})
-	network.answeredItemsPerWordPerPeer = map[string]map[string][]string{
-		"first": {firstWord: {answered}},
-	}
 
 	answers := spreadOf(network, &recordedSpreads{})
 
-	wantedWords := []yacymodel.Hash{
-		yacymodel.WordHash(firstWord), yacymodel.WordHash(secondWord),
-	}
-	itemsOfEveryAnswer := slices.Concat(
-		answers.ItemsInTheOrderOfEachPeerRanking,
-		[][]peeranswers.AnsweredItem{answers.ItemsInNoOrder},
-	)
-	for _, items := range itemsOfEveryAnswer {
-		for _, item := range items {
-			for _, word := range wantedWords {
-				if _, matched := item.MatchedWords[word]; !matched {
-					t.Fatalf("the item of %v matched %v, want every query word",
-						item.Metadata.Hash, item.MatchedWords)
-				}
-			}
-		}
+	want := []yacymodel.Hash{yacymodel.WordHash(firstWord), yacymodel.WordHash(secondWord)}
+	if !slices.Equal(answers.QueryWords, want) {
+		t.Fatalf("the answers carry the query words %v, want %v", answers.QueryWords, want)
 	}
 }
 

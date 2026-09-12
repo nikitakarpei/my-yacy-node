@@ -23,9 +23,8 @@ func (relevance Relevance) RelevancePerDocumentOf(
 ) map[yacymodel.URLHash]float64 {
 	items := answers.ItemOfEachAnsweredDocument()
 	placeScorePerDocument := placeScorePerDocumentOf(answers.ItemsInTheOrderOfEachPeerRanking)
-	queryWordsOfTheAnswers := queryWordsOfTheAnswersAcross(items)
 	rarityOfTheQueryWords := queryWordRarityOf(
-		answers.DocumentsHeldPerQueryWord, queryWordsOfTheAnswers,
+		answers.DocumentsHeldPerQueryWord, answers.QueryWords,
 	)
 	averageDocumentLength := averageDocumentLengthOf(items)
 
@@ -36,7 +35,7 @@ func (relevance Relevance) RelevancePerDocumentOf(
 			placeScorePerDocument[item.Metadata.Hash],
 			rarityOfTheQueryWords,
 			averageDocumentLength,
-			len(queryWordsOfTheAnswers),
+			answers.QueryWords,
 		)
 	}
 

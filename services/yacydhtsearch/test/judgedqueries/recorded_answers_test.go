@@ -8,6 +8,7 @@ import (
 	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peeranswers"
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/searchquery"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
@@ -51,6 +52,7 @@ func (r recordedAnswers) answeredQuery() peeranswers.AnsweredQuery {
 	}
 
 	return peeranswers.AnsweredQuery{
+		QueryWords:                       searchquery.QueryFrom(r.Query, "").TermHashes(),
 		ItemsInTheOrderOfEachPeerRanking: itemsInTheOrderOfEachPeerRanking,
 		ItemsInNoOrder:                   answeredItemsOf(r.ItemsInNoOrder),
 		DocumentsHeldPerQueryWord:        r.DocumentsHeldPerQueryWord,

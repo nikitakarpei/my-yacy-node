@@ -1,10 +1,6 @@
 package documentrelevance
 
 import (
-	"maps"
-	"slices"
-	"strings"
-
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peeranswers"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
@@ -19,11 +15,12 @@ func textScoreOf(
 	item peeranswers.AnsweredItem,
 	rarity queryWordRarity,
 	averageDocumentLength float64,
+	queryWords []yacymodel.Hash,
 ) float64 {
 	amountOfTextWords := amountOfTextWordsOf(item)
 
 	textScore := 0.0
-	for _, word := range matchedWordsAlwaysInTheSameOrder(item) {
+	for _, word := range queryWords {
 		textScore += rarity.rarityOfTheQueryWord(word) * saturatedHitsOf(
 			item.MatchedWords[word].Hits, amountOfTextWords, averageDocumentLength,
 		)
@@ -56,15 +53,6 @@ func amountOfTextWordsOf(item peeranswers.AnsweredItem) int {
 	}
 
 	return amountOfTextWords
-}
-
-func matchedWordsAlwaysInTheSameOrder(item peeranswers.AnsweredItem) []yacymodel.Hash {
-	matchedWords := slices.Collect(maps.Keys(item.MatchedWords))
-	slices.SortFunc(matchedWords, func(one, other yacymodel.Hash) int {
-		return strings.Compare(one.String(), other.String())
-	})
-
-	return matchedWords
 }
 
 func saturatedHitsOf(hits int, amountOfTextWords int, averageDocumentLength float64) float64 {

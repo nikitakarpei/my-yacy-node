@@ -2,6 +2,7 @@ package documentrelevance
 
 import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peeranswers"
+	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
 type ScoreWeights struct {
@@ -29,13 +30,13 @@ func (weights ScoreWeights) relevanceOf(
 	placeScore float64,
 	rarityOfTheQueryWords queryWordRarity,
 	averageDocumentLength float64,
-	amountOfQueryWords int,
+	queryWords []yacymodel.Hash,
 ) float64 {
 	return weights.WeightOfThePlaceScore*placeScore +
-		weights.WeightOfTheTitleScore*titleScoreOf(item, rarityOfTheQueryWords) +
+		weights.WeightOfTheTitleScore*titleScoreOf(item, rarityOfTheQueryWords, queryWords) +
 		weights.WeightOfTheTextScore*
-			textScoreOf(item, rarityOfTheQueryWords, averageDocumentLength) +
-		weights.WeightOfTheAddressScore*addressScoreOf(item) +
+			textScoreOf(item, rarityOfTheQueryWords, averageDocumentLength, queryWords) +
+		weights.WeightOfTheAddressScore*addressScoreOf(item, queryWords) +
 		weights.WeightOfThePhraseScore*phraseScoreOf(item) +
-		weights.WeightOfTheCoordinationScore*coordinationScoreOf(item, amountOfQueryWords)
+		weights.WeightOfTheCoordinationScore*coordinationScoreOf(item, queryWords)
 }

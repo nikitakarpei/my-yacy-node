@@ -38,13 +38,17 @@ func answeredItemCountedForTheWord(
 	}
 }
 
-func answeredItemMatchingTheWord(
-	t *testing.T, address string, word string,
-) peeranswers.AnsweredItem {
+const wordEveryMatchingItemMatched = "berlin"
+
+func answeredItemMatchingTheWord(t *testing.T, address string) peeranswers.AnsweredItem {
 	t.Helper()
 
-	return answeredItemAt(t, address).
-		MatchingTheWords([]yacymodel.Hash{yacymodel.WordHash(word)})
+	return peeranswers.AnsweredItem{
+		Metadata: metadataNamedByAddress(t, address),
+		MatchedWords: map[yacymodel.Hash]peeranswers.WordCount{
+			yacymodel.WordHash(wordEveryMatchingItemMatched): {},
+		},
+	}
 }
 
 func addressesOfAnsweredItems(answeredItems []peeranswers.AnsweredItem) []string {
@@ -99,7 +103,7 @@ func TestTheCountsOfEveryPeerThatAnsweredADocumentComeBackTogether(t *testing.T)
 	address := "https://shared.example/"
 	answers := peeranswers.AnsweredQuery{
 		ItemsInTheOrderOfEachPeerRanking: [][]peeranswers.AnsweredItem{
-			{answeredItemMatchingTheWord(t, address, "berlin")},
+			{answeredItemMatchingTheWord(t, address)},
 			{answeredItemCountedForTheWord(t, address, "berlin")},
 			{answeredItemCountedForTheWord(t, address, "weather")},
 		},
@@ -144,7 +148,7 @@ func TestAnItemOfNoOrderCarriesItsCountsToTheDocumentAPeerAlsoAnswered(t *testin
 	address := "https://shared.example/"
 	answers := peeranswers.AnsweredQuery{
 		ItemsInTheOrderOfEachPeerRanking: [][]peeranswers.AnsweredItem{
-			{answeredItemMatchingTheWord(t, address, "berlin")},
+			{answeredItemMatchingTheWord(t, address)},
 		},
 		ItemsInNoOrder: []peeranswers.AnsweredItem{
 			answeredItemCountedForTheWord(t, address, "berlin"),

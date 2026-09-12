@@ -432,6 +432,9 @@ func answersOfTwoWords(t *testing.T, commonWordAddress, rareWordAddress string) 
 	t.Helper()
 
 	return spreadAnswering{answers: peeranswers.AnsweredQuery{
+		QueryWords: []yacymodel.Hash{
+			yacymodel.WordHash("berlin"), yacymodel.WordHash("kelondro"),
+		},
 		ItemsInTheOrderOfEachPeerRanking: [][]peeranswers.AnsweredItem{
 			{answeredItemCountedForTheWord(t, commonWordAddress, "berlin")},
 			{answeredItemCountedForTheWord(t, rareWordAddress, "kelondro")},
@@ -502,24 +505,6 @@ func TestASearchReportsHowManyRankedItemsAPeerCounted(t *testing.T) {
 	}
 }
 
-func answersOfTwoWordsMatchedByEveryItem(
-	t *testing.T, commonWordAddress, rareWordAddress string,
-) spreadAnswering {
-	t.Helper()
-
-	queryWords := []yacymodel.Hash{
-		yacymodel.WordHash("berlin"), yacymodel.WordHash("kelondro"),
-	}
-	answers := answersOfTwoWords(t, commonWordAddress, rareWordAddress)
-	for _, itemsOfOnePeerRanking := range answers.answers.ItemsInTheOrderOfEachPeerRanking {
-		for place, item := range itemsOfOnePeerRanking {
-			itemsOfOnePeerRanking[place] = item.MatchingTheWords(queryWords)
-		}
-	}
-
-	return answers
-}
-
 type pagesHoldingTheWordOfOneDocument struct {
 	address string
 	word    string
@@ -551,7 +536,7 @@ func TestTheRankingByRelevanceFollowsTheWordsReadFromThePages(t *testing.T) {
 	common, rare := "https://common.example/", "https://rare.example/"
 	network := networksearch.New(
 		directoryAnsweringAt(t, peerHolding(t)),
-		answersOfTwoWordsMatchedByEveryItem(t, common, rare),
+		answersOfTwoWords(t, common, rare),
 		pagesHoldingTheWordOfOneDocument{address: common, word: "kelondro", hits: 50},
 		relevance.New(documentrelevance.New(documentrelevance.DefaultScoreWeights())),
 		queryBudget,

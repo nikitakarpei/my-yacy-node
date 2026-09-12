@@ -16,14 +16,14 @@ type queryWordRarity struct {
 
 func queryWordRarityOf(
 	documentsHeldPerQueryWord map[yacymodel.Hash]int,
-	queryWordsOfTheAnswers []yacymodel.Hash,
+	queryWords []yacymodel.Hash,
 ) queryWordRarity {
 	rarityPerQueryWord := rarityPerQueryWordOf(documentsHeldPerQueryWord)
 	rarity := queryWordRarity{
 		rarityPerQueryWord:           rarityPerQueryWord,
 		rarityOfAnUncountedQueryWord: rarityOfAnUncountedQueryWordFrom(rarityPerQueryWord),
 	}
-	rarity.sumOfTheRarityOfTheQueryWords = rarity.sumOfTheRarityOf(queryWordsOfTheAnswers)
+	rarity.sumOfTheRarityOfTheQueryWords = rarity.sumOfTheRarityOf(queryWords)
 
 	return rarity
 }

@@ -1,8 +1,8 @@
 // Package peeranswers holds what the peers answered for one whole query: the
-// items of each peer ranking in the order the peer put them, the items in no
-// order, how many documents the peers hold per query word, and the one item of
-// each answered document. The text of a document, once a node read its page,
-// replaces what the peers counted for it on every item of the document.
+// words of the query, the items of each peer ranking in the order the peer put
+// them, the items in no order, how many documents the peers hold per query
+// word, and the one item of each answered document. The text of a document,
+// once a node read its page, replaces what the peers counted for it.
 package peeranswers
 
 import (
@@ -11,6 +11,7 @@ import (
 )
 
 type AnsweredQuery struct {
+	QueryWords                       []yacymodel.Hash
 	ItemsInTheOrderOfEachPeerRanking [][]AnsweredItem
 	ItemsInNoOrder                   []AnsweredItem
 	DocumentsHeldPerQueryWord        map[yacymodel.Hash]int
@@ -33,13 +34,10 @@ func (a AnsweredQuery) CarryingTheTextOfEachDocument(
 		)
 	}
 
-	return AnsweredQuery{
-		ItemsInTheOrderOfEachPeerRanking: itemsInTheOrderOfEachPeerRanking,
-		ItemsInNoOrder: itemsCarryingTheTextOfTheirDocument(
-			a.ItemsInNoOrder, textPerDocument,
-		),
-		DocumentsHeldPerQueryWord: a.DocumentsHeldPerQueryWord,
-	}
+	a.ItemsInTheOrderOfEachPeerRanking = itemsInTheOrderOfEachPeerRanking
+	a.ItemsInNoOrder = itemsCarryingTheTextOfTheirDocument(a.ItemsInNoOrder, textPerDocument)
+
+	return a
 }
 
 func itemsCarryingTheTextOfTheirDocument(

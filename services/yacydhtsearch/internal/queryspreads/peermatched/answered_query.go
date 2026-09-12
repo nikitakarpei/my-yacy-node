@@ -11,6 +11,7 @@ func answeredQueryFrom(
 	queryWords []yacymodel.Hash,
 ) peeranswers.AnsweredQuery {
 	return peeranswers.AnsweredQuery{
+		QueryWords: queryWords,
 		ItemsInTheOrderOfEachPeerRanking: itemsInTheOrderOfEachPeerRankingOf(
 			answeredAsks,
 			queryWords,
@@ -26,14 +27,14 @@ func itemsInTheOrderOfEachPeerRankingOf(
 	for _, answeredAsk := range answeredAsks {
 		itemsInTheOrderOfEachPeerRanking = append(
 			itemsInTheOrderOfEachPeerRanking,
-			itemsWithACountForEveryQueryWordFrom(answeredAsk.MatchedDocuments, queryWords),
+			itemsOfTheMatchedDocuments(answeredAsk.MatchedDocuments, queryWords),
 		)
 	}
 
 	return itemsInTheOrderOfEachPeerRanking
 }
 
-func itemsWithACountForEveryQueryWordFrom(
+func itemsOfTheMatchedDocuments(
 	matchedDocuments []peerasks.MatchedDocument,
 	queryWords []yacymodel.Hash,
 ) []peeranswers.AnsweredItem {
@@ -52,13 +53,11 @@ func countPerQueryWordOf(
 	matchedDocument peerasks.MatchedDocument,
 	queryWords []yacymodel.Hash,
 ) map[yacymodel.Hash]peeranswers.WordCount {
-	countPerQueryWord := make(map[yacymodel.Hash]peeranswers.WordCount, len(queryWords))
-	for _, queryWord := range queryWords {
-		countPerQueryWord[queryWord] = peeranswers.WordCount{}
-	}
-	if len(queryWords) == 1 {
-		countPerQueryWord[queryWords[0]] = matchedDocument.CountOfAWordTheAskNamed
+	if len(queryWords) != 1 {
+		return nil
 	}
 
-	return countPerQueryWord
+	return map[yacymodel.Hash]peeranswers.WordCount{
+		queryWords[0]: matchedDocument.CountOfAWordTheAskNamed,
+	}
 }

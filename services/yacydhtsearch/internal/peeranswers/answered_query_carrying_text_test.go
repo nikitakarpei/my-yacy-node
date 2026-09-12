@@ -31,9 +31,10 @@ func textOfTheReadDocument(t *testing.T) map[yacymodel.URLHash]documenttext.Docu
 func answersOfTheReadDocument(t *testing.T) peeranswers.AnsweredQuery {
 	t.Helper()
 
-	item := answeredItemMatchingTheWord(t, addressOfTheReadDocument, "berlin")
+	item := answeredItemMatchingTheWord(t, addressOfTheReadDocument)
 
 	return peeranswers.AnsweredQuery{
+		QueryWords:                       []yacymodel.Hash{yacymodel.WordHash("berlin")},
 		ItemsInTheOrderOfEachPeerRanking: [][]peeranswers.AnsweredItem{{item}, {item}},
 		ItemsInNoOrder:                   []peeranswers.AnsweredItem{item},
 		DocumentsHeldPerQueryWord:        map[yacymodel.Hash]int{yacymodel.WordHash("berlin"): 12},
@@ -57,6 +58,36 @@ func TestEveryItemOfAReadDocumentCarriesWhatItsTextHolds(t *testing.T) {
 			item.Metadata.Snippet != "Berlin holds a wall." {
 			t.Fatalf("the item reads %+v, want the counts and the snippet of the text", item)
 		}
+	}
+}
+
+func TestTheTextOfADocumentCountsAQueryWordNoPeerMatchedItFor(t *testing.T) {
+	t.Parallel()
+
+	answers := peeranswers.AnsweredQuery{
+		QueryWords: []yacymodel.Hash{
+			yacymodel.WordHash("berlin"), yacymodel.WordHash("weather"),
+		},
+		ItemsInNoOrder: []peeranswers.AnsweredItem{
+			answeredItemMatchingTheWord(t, addressOfTheReadDocument),
+		},
+	}
+	textOfTheDocument := map[yacymodel.URLHash]documenttext.DocumentText{
+		documentOf(t, addressOfTheReadDocument): {
+			HitsPerQueryWord: map[yacymodel.Hash]int{
+				yacymodel.WordHash("berlin"):  7,
+				yacymodel.WordHash("weather"): 2,
+			},
+			AmountOfWords: 400,
+		},
+	}
+
+	read := answers.CarryingTheTextOfEachDocument(textOfTheDocument)
+
+	count := read.ItemsInNoOrder[0].MatchedWords[yacymodel.WordHash("weather")]
+	if count.Hits != 2 || count.TextWords != 400 {
+		t.Fatalf("the item counts %+v for the word no peer matched it for, want the count "+
+			"of the text", count)
 	}
 }
 
