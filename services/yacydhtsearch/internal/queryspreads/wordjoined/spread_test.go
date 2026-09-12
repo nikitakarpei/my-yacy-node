@@ -436,7 +436,7 @@ func TestTheSpreadReportsWhatEveryQueryWordWasHeldFor(t *testing.T) {
 		t.Fatalf("the spread reported %+v, want two words, two peers and one joined document",
 			performed)
 	}
-	if performed.AmountOfQueryWordsNoPeerHeld != 0 ||
+	if performed.AmountOfQueryWordsHeldByNoPeer != 0 ||
 		performed.AmountOfAskedDocumentsWithMetadata != 1 {
 		t.Fatalf(
 			"the spread reported %+v, want every word held and the joined document back",
@@ -445,7 +445,7 @@ func TestTheSpreadReportsWhatEveryQueryWordWasHeldFor(t *testing.T) {
 	}
 }
 
-func TestAQueryWordNoPeerHeldIsReported(t *testing.T) {
+func TestAQueryWordHeldByNoPeerIsReported(t *testing.T) {
 	t.Parallel()
 
 	network := networkOf(map[string]map[string][]string{
@@ -456,10 +456,10 @@ func TestAQueryWordNoPeerHeldIsReported(t *testing.T) {
 
 	spreadOf(network, observer)
 
-	if observer.performed[0].AmountOfQueryWordsNoPeerHeld != 1 {
+	if observer.performed[0].AmountOfQueryWordsHeldByNoPeer != 1 {
 		t.Fatalf(
-			"the spread reported %d query words no peer held, want the one word nobody held",
-			observer.performed[0].AmountOfQueryWordsNoPeerHeld,
+			"the spread reported %d query words held by no peer, want the one word nobody held",
+			observer.performed[0].AmountOfQueryWordsHeldByNoPeer,
 		)
 	}
 }

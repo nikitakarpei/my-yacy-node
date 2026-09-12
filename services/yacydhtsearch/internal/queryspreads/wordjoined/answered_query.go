@@ -13,18 +13,18 @@ func answeredQueryFrom(
 	queryWords []yacymodel.Hash,
 ) peeranswers.AnsweredQuery {
 	return peeranswers.AnsweredQuery{
-		ItemsInTheOrderOfEachPeerRanking: itemsInTheOrderOfEachPeerRankingWithACountForEveryQueryWord(
+		ItemsInTheOrderOfEachPeerRanking: itemsInTheOrderOfEachPeerRankingWithACountForEveryQueryWordFrom(
 			itemsInTheOrderOfEachPeerRanking,
 			queryWords,
 		),
-		ItemsInNoOrder: itemsWithACountForEveryQueryWord(
+		ItemsInNoOrder: itemsWithACountForEveryQueryWordFrom(
 			itemsOfAnsweredURLMetadataAsks(answeredURLMetadataAsks), queryWords,
 		),
 		DocumentsHeldPerQueryWord: documentsHeldPerQueryWordOf(answeredHeldDocumentsAsks),
 	}
 }
 
-func itemsInTheOrderOfEachPeerRankingWithACountForEveryQueryWord(
+func itemsInTheOrderOfEachPeerRankingWithACountForEveryQueryWordFrom(
 	itemsInTheOrderOfEachPeerRanking [][]peeranswers.AnsweredItem,
 	queryWords []yacymodel.Hash,
 ) [][]peeranswers.AnsweredItem {
@@ -34,14 +34,14 @@ func itemsInTheOrderOfEachPeerRankingWithACountForEveryQueryWord(
 	for _, items := range itemsInTheOrderOfEachPeerRanking {
 		countedItemsInTheOrderOfEachPeerRanking = append(
 			countedItemsInTheOrderOfEachPeerRanking,
-			itemsWithACountForEveryQueryWord(items, queryWords),
+			itemsWithACountForEveryQueryWordFrom(items, queryWords),
 		)
 	}
 
 	return countedItemsInTheOrderOfEachPeerRanking
 }
 
-func itemsWithACountForEveryQueryWord(
+func itemsWithACountForEveryQueryWordFrom(
 	items []peeranswers.AnsweredItem,
 	queryWords []yacymodel.Hash,
 ) []peeranswers.AnsweredItem {
@@ -71,11 +71,11 @@ func documentsHeldPerQueryWordOf(
 ) map[yacymodel.Hash]int {
 	documentsHeldPerQueryWord := make(map[yacymodel.Hash]int, len(answeredAsks))
 	for _, answeredAsk := range answeredAsks {
-		documentsHeldForTheWord, counted := answeredAsk.AmountOfDocumentsHeldForTheWord.Get()
+		amountOfDocumentsHeldForTheWord, counted := answeredAsk.AmountOfDocumentsHeldForTheWord.Get()
 		if !counted {
 			continue
 		}
-		documentsHeldPerQueryWord[answeredAsk.Ask.Word] += documentsHeldForTheWord
+		documentsHeldPerQueryWord[answeredAsk.Ask.Word] += amountOfDocumentsHeldForTheWord
 	}
 
 	return documentsHeldPerQueryWord

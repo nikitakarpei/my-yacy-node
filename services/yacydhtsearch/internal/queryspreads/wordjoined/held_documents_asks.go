@@ -58,10 +58,10 @@ func asksInTurnsAcrossTheWordsOf(
 }
 
 func amountOfTurnsAcrossTheWordsOf(asksPerQueryWord [][]peerasks.HeldDocumentsAsk) int {
-	turns := 0
+	amountOfTurns := 0
 	for _, asksOfQueryWord := range asksPerQueryWord {
-		turns = max(turns, len(asksOfQueryWord))
+		amountOfTurns = max(amountOfTurns, len(asksOfQueryWord))
 	}
 
-	return turns
+	return amountOfTurns
 }

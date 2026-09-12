@@ -15,7 +15,7 @@ func urlMetadataAsksFor(
 	documentsWithoutMetadata map[yacymodel.URLHash]struct{},
 	answeredHeldDocumentsAsks []peerasks.AnsweredHeldDocumentsAsk,
 	metadataDocumentsCeiling int,
-	peersCeiling int,
+	amountOfPeersAskedPerWord int,
 ) []peerasks.URLMetadataAsk {
 	mostHeldDocuments := mostHeldDocumentsAmong(
 		documentsWithoutMetadata, answeredHeldDocumentsAsks, metadataDocumentsCeiling,
@@ -23,13 +23,15 @@ func urlMetadataAsksFor(
 	documentsHeldByEachPeer := documentsHeldByEachPeerAmong(
 		mostHeldDocuments, answeredHeldDocumentsAsks,
 	)
-	coveringPeers := peersCoveringMostDocuments(documentsHeldByEachPeer, peersCeiling)
+	coveringPeers := peersCoveringMostDocuments(
+		documentsHeldByEachPeer, amountOfPeersAskedPerWord,
+	)
 
 	asks := make([]peerasks.URLMetadataAsk, 0, len(coveringPeers))
-	for _, heldByPeer := range coveringPeers {
+	for _, documentsHeldByOnePeer := range coveringPeers {
 		asks = append(asks, peerasks.URLMetadataAsk{
-			Peer:      heldByPeer.peer,
-			Documents: heldByPeer.documents,
+			Peer:      documentsHeldByOnePeer.peer,
+			Documents: documentsHeldByOnePeer.documents,
 		})
 	}
 
@@ -45,24 +47,26 @@ func mostHeldDocumentsAmong(
 		return documents
 	}
 
-	amountOfPeers := amountOfPeersPerDocument(answeredAsks)
-	mostHeldFirst := slices.SortedFunc(
+	amountOfPeersPerDocument := amountOfPeersPerDocument(answeredAsks)
+	documentsMostHeldFirst := slices.SortedFunc(
 		maps.Keys(documents),
 		func(first, second yacymodel.URLHash) int {
-			if amountOfPeers[first] != amountOfPeers[second] {
-				return cmp.Compare(amountOfPeers[second], amountOfPeers[first])
+			if amountOfPeersPerDocument[first] != amountOfPeersPerDocument[second] {
+				return cmp.Compare(
+					amountOfPeersPerDocument[second], amountOfPeersPerDocument[first],
+				)
 			}
 
 			return strings.Compare(first.String(), second.String())
 		},
 	)
 
-	mostHeld := make(map[yacymodel.URLHash]struct{}, metadataDocumentsCeiling)
-	for _, document := range mostHeldFirst[:metadataDocumentsCeiling] {
-		mostHeld[document] = struct{}{}
+	mostHeldDocuments := make(map[yacymodel.URLHash]struct{}, metadataDocumentsCeiling)
+	for _, document := range documentsMostHeldFirst[:metadataDocumentsCeiling] {
+		mostHeldDocuments[document] = struct{}{}
 	}
 
-	return mostHeld
+	return mostHeldDocuments
 }
 
 type peerOfDocument struct {
@@ -74,19 +78,19 @@ func amountOfPeersPerDocument(
 	answeredAsks []peerasks.AnsweredHeldDocumentsAsk,
 ) map[yacymodel.URLHash]int {
 	countedPeers := map[peerOfDocument]struct{}{}
-	amountOfPeers := map[yacymodel.URLHash]int{}
+	amountOfPeersPerDocument := map[yacymodel.URLHash]int{}
 	for _, answeredAsk := range answeredAsks {
 		for _, document := range answeredAsk.DocumentsHeldForTheWord {
-			ofDocument := peerOfDocument{document: document, peer: answeredAsk.Ask.Peer.Hash}
-			if _, counted := countedPeers[ofDocument]; counted {
+			peerOfDocument := peerOfDocument{document: document, peer: answeredAsk.Ask.Peer.Hash}
+			if _, counted := countedPeers[peerOfDocument]; counted {
 				continue
 			}
-			countedPeers[ofDocument] = struct{}{}
-			amountOfPeers[document]++
+			countedPeers[peerOfDocument] = struct{}{}
+			amountOfPeersPerDocument[document]++
 		}
 	}
 
-	return amountOfPeers
+	return amountOfPeersPerDocument
 }
 
 type documentsHeldByPeer struct {
@@ -98,88 +102,94 @@ func documentsHeldByEachPeerAmong(
 	documents map[yacymodel.URLHash]struct{},
 	answeredAsks []peerasks.AnsweredHeldDocumentsAsk,
 ) []documentsHeldByPeer {
-	heldByEachPeer := make([]documentsHeldByPeer, 0, len(answeredAsks))
+	documentsHeldByEachPeer := make([]documentsHeldByPeer, 0, len(answeredAsks))
 	placeOfPeer := map[yacymodel.Hash]int{}
 	for _, answeredAsk := range answeredAsks {
-		heldDocuments := documentsHeldAmong(answeredAsk.DocumentsHeldForTheWord, documents)
+		heldDocuments := documentsHeldAmong(documents, answeredAsk.DocumentsHeldForTheWord)
 		if len(heldDocuments) == 0 {
 			continue
 		}
 		place, holds := placeOfPeer[answeredAsk.Ask.Peer.Hash]
 		if !holds {
-			place = len(heldByEachPeer)
+			place = len(documentsHeldByEachPeer)
 			placeOfPeer[answeredAsk.Ask.Peer.Hash] = place
-			heldByEachPeer = append(heldByEachPeer, documentsHeldByPeer{peer: answeredAsk.Ask.Peer})
+			documentsHeldByEachPeer = append(
+				documentsHeldByEachPeer, documentsHeldByPeer{peer: answeredAsk.Ask.Peer},
+			)
 		}
-		heldByEachPeer[place].documents = append(heldByEachPeer[place].documents, heldDocuments...)
+		documentsHeldByEachPeer[place].documents = append(
+			documentsHeldByEachPeer[place].documents, heldDocuments...,
+		)
 	}
-	for place, heldByPeer := range heldByEachPeer {
-		heldByEachPeer[place].documents = documentsWithoutRepeats(heldByPeer.documents)
+	for place, documentsHeldByOnePeer := range documentsHeldByEachPeer {
+		documentsHeldByEachPeer[place].documents = documentsWithoutRepeats(
+			documentsHeldByOnePeer.documents,
+		)
 	}
 
-	return heldByEachPeer
+	return documentsHeldByEachPeer
 }
 
 func documentsHeldAmong(
-	heldDocuments []yacymodel.URLHash,
 	documents map[yacymodel.URLHash]struct{},
+	heldDocuments []yacymodel.URLHash,
 ) []yacymodel.URLHash {
-	kept := make([]yacymodel.URLHash, 0, len(heldDocuments))
+	keptDocuments := make([]yacymodel.URLHash, 0, len(heldDocuments))
 	for _, document := range heldDocuments {
 		if _, among := documents[document]; !among {
 			continue
 		}
-		kept = append(kept, document)
+		keptDocuments = append(keptDocuments, document)
 	}
 
-	return kept
+	return keptDocuments
 }
 
 func documentsWithoutRepeats(documents []yacymodel.URLHash) []yacymodel.URLHash {
-	kept := make([]yacymodel.URLHash, 0, len(documents))
+	keptDocuments := make([]yacymodel.URLHash, 0, len(documents))
 	seenDocuments := make(map[yacymodel.URLHash]struct{}, len(documents))
 	for _, document := range documents {
 		if _, seen := seenDocuments[document]; seen {
 			continue
 		}
 		seenDocuments[document] = struct{}{}
-		kept = append(kept, document)
+		keptDocuments = append(keptDocuments, document)
 	}
 
-	return kept
+	return keptDocuments
 }
 
 func peersCoveringMostDocuments(
 	documentsHeldByEachPeer []documentsHeldByPeer,
-	peersCeiling int,
+	amountOfPeersAskedPerWord int,
 ) []documentsHeldByPeer {
-	if len(documentsHeldByEachPeer) <= peersCeiling {
+	if len(documentsHeldByEachPeer) <= amountOfPeersAskedPerWord {
 		return documentsHeldByEachPeer
 	}
 
-	covering := make([]documentsHeldByPeer, 0, peersCeiling)
+	coveringPeers := make([]documentsHeldByPeer, 0, amountOfPeersAskedPerWord)
 	coveredDocuments := map[yacymodel.URLHash]struct{}{}
 	takenPeers := make([]bool, len(documentsHeldByEachPeer))
-	for len(covering) < peersCeiling {
-		mostCovering := mostCoveringPeerAmong(
+	for len(coveringPeers) < amountOfPeersAskedPerWord {
+		mostCoveringPeer := mostCoveringPeerAmong(
 			documentsHeldByEachPeer, takenPeers, coveredDocuments,
 		)
-		if mostCovering.uncoveredDocuments == 0 {
+		if mostCoveringPeer.amountOfUncoveredDocuments == 0 {
 			break
 		}
-		takenPeers[mostCovering.place] = true
-		for _, document := range documentsHeldByEachPeer[mostCovering.place].documents {
+		takenPeers[mostCoveringPeer.place] = true
+		for _, document := range documentsHeldByEachPeer[mostCoveringPeer.place].documents {
 			coveredDocuments[document] = struct{}{}
 		}
-		covering = append(covering, documentsHeldByEachPeer[mostCovering.place])
+		coveringPeers = append(coveringPeers, documentsHeldByEachPeer[mostCoveringPeer.place])
 	}
 
-	return covering
+	return coveringPeers
 }
 
 type mostCoveringPeer struct {
-	place              int
-	uncoveredDocuments int
+	place                      int
+	amountOfUncoveredDocuments int
 }
 
 func mostCoveringPeerAmong(
@@ -187,18 +197,21 @@ func mostCoveringPeerAmong(
 	takenPeers []bool,
 	coveredDocuments map[yacymodel.URLHash]struct{},
 ) mostCoveringPeer {
-	mostCovering := mostCoveringPeer{}
-	for place, heldByPeer := range documentsHeldByEachPeer {
+	mostCoveringPeer := mostCoveringPeer{}
+	for place, documentsHeldByOnePeer := range documentsHeldByEachPeer {
 		if takenPeers[place] {
 			continue
 		}
-		uncovered := amountOfDocumentsNotCovered(heldByPeer.documents, coveredDocuments)
-		if uncovered > mostCovering.uncoveredDocuments {
-			mostCovering = mostCoveringPeer{place: place, uncoveredDocuments: uncovered}
+		amountOfUncoveredDocuments := amountOfDocumentsNotCovered(
+			documentsHeldByOnePeer.documents, coveredDocuments,
+		)
+		if amountOfUncoveredDocuments > mostCoveringPeer.amountOfUncoveredDocuments {
+			mostCoveringPeer.place = place
+			mostCoveringPeer.amountOfUncoveredDocuments = amountOfUncoveredDocuments
 		}
 	}
 
-	return mostCovering
+	return mostCoveringPeer
 }
 
 func amountOfDocumentsNotCovered(

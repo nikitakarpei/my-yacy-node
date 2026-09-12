@@ -37,7 +37,7 @@ func (c Choice) ChoosePeersPerQueryWord(
 	ctx context.Context,
 	queryWords []yacymodel.Hash,
 	askablePeers []peerdirectory.AskablePeer,
-	peersHoldingOneWord int,
+	amountOfPeersAskedPerWord int,
 ) [][]peerdirectory.AskablePeer {
 	chosenPeersPerQueryWord := make([][]peerdirectory.AskablePeer, 0, len(queryWords))
 	for _, queryWord := range queryWords {
@@ -45,7 +45,7 @@ func (c Choice) ChoosePeersPerQueryWord(
 			ctx,
 			queryWord,
 			askablePeers,
-			peersHoldingOneWord,
+			amountOfPeersAskedPerWord,
 		)
 		c.peerDirectory.MarkPeersChosen(ctx, chosenPeers)
 		chosenPeersPerQueryWord = append(chosenPeersPerQueryWord, chosenPeers)

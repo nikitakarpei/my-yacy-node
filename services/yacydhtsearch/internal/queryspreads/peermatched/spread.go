@@ -22,7 +22,7 @@ type PeerChoice interface {
 		ctx context.Context,
 		queryWords []yacymodel.Hash,
 		askablePeers []peerdirectory.AskablePeer,
-		peersHoldingOneWord int,
+		amountOfPeersAskedPerWord int,
 	) [][]peerdirectory.AskablePeer
 }
 
@@ -34,44 +34,45 @@ type PeerAsks interface {
 }
 
 type Spread struct {
-	peerAsks            PeerAsks
-	peerChoice          PeerChoice
-	peerItemsCeiling    int
-	peersHoldingOneWord int
-	observer            PeerMatchedSpreadObserver
+	peerAsks                  PeerAsks
+	peerChoice                PeerChoice
+	peerItemsCeiling          int
+	amountOfPeersAskedPerWord int
+	observer                  PeerMatchedSpreadObserver
 }
 
 func New(
 	peerAsks PeerAsks,
 	peerChoice PeerChoice,
 	peerItemsCeiling int,
-	peersHoldingOneWord int,
+	amountOfPeersAskedPerWord int,
 	observer PeerMatchedSpreadObserver,
 ) Spread {
 	return Spread{
-		peerAsks:            peerAsks,
-		peerChoice:          peerChoice,
-		peerItemsCeiling:    peerItemsCeiling,
-		peersHoldingOneWord: peersHoldingOneWord,
-		observer:            observer,
+		peerAsks:                  peerAsks,
+		peerChoice:                peerChoice,
+		peerItemsCeiling:          peerItemsCeiling,
+		amountOfPeersAskedPerWord: amountOfPeersAskedPerWord,
+		observer:                  observer,
 	}
 }
 
-func (s Spread) SpreadOverPeers(
+// TECHDEBT: vocabulary — searchquery says term, peerasks and the spreads say word, for one fact.
+func (spread Spread) SpreadOverPeers(
 	ctx context.Context,
 	query searchquery.Query,
 	askablePeers []peerdirectory.AskablePeer,
 ) peeranswers.AnsweredQuery {
 	startedAt := time.Now()
 
-	chosenPeersPerQueryWord := s.peerChoice.ChoosePeersPerQueryWord(
-		ctx, query.TermHashes(), askablePeers, s.peersHoldingOneWord,
+	chosenPeersPerQueryWord := spread.peerChoice.ChoosePeersPerQueryWord(
+		ctx, query.TermHashes(), askablePeers, spread.amountOfPeersAskedPerWord,
 	)
 	chosenPeers := peersAcrossQueryWords(chosenPeersPerQueryWord)
-	asks := matchedItemsAsksFor(query, chosenPeers, s.peerItemsCeiling)
-	answeredAsks := s.peerAsks.AskForMatchedItems(ctx, asks)
+	asks := matchedItemsAsksFor(query, chosenPeers, spread.peerItemsCeiling)
+	answeredAsks := spread.peerAsks.AskForMatchedItems(ctx, asks)
 
-	s.observer.PeerMatchedSpreadPerformed(
+	spread.observer.PeerMatchedSpreadPerformed(
 		ctx,
 		performedPeerMatchedSpreadFrom(
 			query.TermHashes(),

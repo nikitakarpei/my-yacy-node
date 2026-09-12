@@ -197,7 +197,7 @@ func (m *WordJoinedSpreadMetrics) observeQueryRatios(
 ) {
 	if spread.AmountOfQueryWords > 0 {
 		m.unheldQueryWordsRatio.Observe(
-			float64(spread.AmountOfQueryWordsNoPeerHeld) / float64(spread.AmountOfQueryWords),
+			float64(spread.AmountOfQueryWordsHeldByNoPeer) / float64(spread.AmountOfQueryWords),
 		)
 	}
 	if spread.AmountOfDocumentsAskedMetadataFor == 0 {

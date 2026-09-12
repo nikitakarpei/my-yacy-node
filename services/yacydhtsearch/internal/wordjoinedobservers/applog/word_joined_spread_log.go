@@ -18,7 +18,7 @@ func (WordJoinedSpreadLog) WordJoinedSpreadPerformed(
 ) {
 	slog.DebugContext(ctx, msgWordJoinedSpreadPerformed,
 		slog.Int("amountOfQueryWords", spread.AmountOfQueryWords),
-		slog.Int("amountOfQueryWordsNoPeerHeld", spread.AmountOfQueryWordsNoPeerHeld),
+		slog.Int("amountOfQueryWordsHeldByNoPeer", spread.AmountOfQueryWordsHeldByNoPeer),
 		slog.Int("amountOfPeersAsked", spread.AmountOfPeersAsked),
 		slog.Int("amountOfPeersThatAnswered", spread.AmountOfPeersThatAnswered),
 		slog.Int("amountOfPeersHoldingAQueryWord", spread.AmountOfPeersHoldingAQueryWord),
