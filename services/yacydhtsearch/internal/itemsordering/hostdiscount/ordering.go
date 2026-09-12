@@ -42,23 +42,40 @@ func itemsInFallingOrderOfDiscountedRelevance(
 	itemsInFallingOrderOfRelevance []peeranswers.AnsweredItem,
 	relevancePerDocument map[yacymodel.URLHash]float64,
 ) []peeranswers.AnsweredItem {
-	unplacedItems := slices.Clone(itemsInFallingOrderOfRelevance)
+	unplacedItems := itemsWithTheirHosts(itemsInFallingOrderOfRelevance)
 	amountOfPlacedItemsPerHost := map[string]int{}
 	placedItems := make([]peeranswers.AnsweredItem, 0, len(unplacedItems))
 	for len(unplacedItems) > 0 {
 		place := placeOfTheMostRelevantItemAfterTheDiscountAmong(
 			unplacedItems, relevancePerDocument, amountOfPlacedItemsPerHost,
 		)
-		placedItems = append(placedItems, unplacedItems[place])
-		amountOfPlacedItemsPerHost[hostOf(unplacedItems[place].Metadata.Address)]++
+		placedItems = append(placedItems, unplacedItems[place].item)
+		amountOfPlacedItemsPerHost[unplacedItems[place].host]++
 		unplacedItems = slices.Delete(unplacedItems, place, place+1)
 	}
 
 	return placedItems
 }
 
+type itemWithItsHost struct {
+	item peeranswers.AnsweredItem
+	host string
+}
+
+func itemsWithTheirHosts(items []peeranswers.AnsweredItem) []itemWithItsHost {
+	itemsWithTheirHosts := make([]itemWithItsHost, 0, len(items))
+	for _, item := range items {
+		itemsWithTheirHosts = append(itemsWithTheirHosts, itemWithItsHost{
+			item: item,
+			host: hostOf(item.Metadata.Address),
+		})
+	}
+
+	return itemsWithTheirHosts
+}
+
 func placeOfTheMostRelevantItemAfterTheDiscountAmong(
-	items []peeranswers.AnsweredItem,
+	items []itemWithItsHost,
 	relevancePerDocument map[yacymodel.URLHash]float64,
 	amountOfPlacedItemsPerHost map[string]int,
 ) int {
@@ -78,13 +95,13 @@ func placeOfTheMostRelevantItemAfterTheDiscountAmong(
 }
 
 func relevanceDiscountedPerHostOf(
-	item peeranswers.AnsweredItem,
+	item itemWithItsHost,
 	relevancePerDocument map[yacymodel.URLHash]float64,
 	amountOfPlacedItemsPerHost map[string]int,
 ) float64 {
-	return relevancePerDocument[item.Metadata.Hash] * math.Pow(
+	return relevancePerDocument[item.item.Metadata.Hash] * math.Pow(
 		discountOfARepeatedHost,
-		float64(amountOfPlacedItemsPerHost[hostOf(item.Metadata.Address)]),
+		float64(amountOfPlacedItemsPerHost[item.host]),
 	)
 }
 
