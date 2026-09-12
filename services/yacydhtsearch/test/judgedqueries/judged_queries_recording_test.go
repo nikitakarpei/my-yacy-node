@@ -84,6 +84,7 @@ var judgedQueries = []string{
 	"nextcloud installation",
 	"raspberry pi",
 	"git rebase",
+	"half life",
 	"how to install debian",
 	"how do i reset my router",
 	"why does my laptop battery drain fast",
@@ -156,7 +157,9 @@ func TestRecordWhatThePeersAnswerForTheJudgedQueries(t *testing.T) {
 		len(directory.AskablePeers(t.Context())),
 	)
 	for _, query := range judgedQueries {
-		recordOneJudgedQuery(t, spread, reading, directory, query)
+		t.Run(queryInFileNames(query), func(t *testing.T) {
+			recordOneJudgedQuery(t, spread, reading, directory, query)
+		})
 	}
 }
 
