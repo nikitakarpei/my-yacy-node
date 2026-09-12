@@ -266,6 +266,46 @@ func TestTheDocumentThatMatchedMoreQueryWordsComesFirst(t *testing.T) {
 	}
 }
 
+func TestTheDocumentOfEveryQueryWordComesBeforeOneOfManyHitsOfASingleQueryWord(t *testing.T) {
+	t.Parallel()
+
+	answers := answersHolding(
+		map[string]int{"berlin": 100, "weather": 100},
+		[]peeranswers.AnsweredItem{
+			itemCountedForTheWords(t, "https://one-word.example/",
+				map[string]int{"berlin": 50, "weather": 0}),
+		},
+		[]peeranswers.AnsweredItem{
+			itemCountedForTheWords(t, "https://every-word.example/",
+				map[string]int{"berlin": 1, "weather": 1}),
+		},
+	)
+
+	want := []string{"https://every-word.example/", "https://one-word.example/"}
+	if got := addressesOrderedBy(answers); !slices.Equal(got, want) {
+		t.Fatalf("the relevance order reads %v, want %v", got, want)
+	}
+}
+
+func TestTheDocumentWhoseHostHoldsTheOnlyQueryWordComesBeforeOneOfHitsOfThatWord(t *testing.T) {
+	t.Parallel()
+
+	answers := answersHolding(
+		map[string]int{"berlin": 100},
+		[]peeranswers.AnsweredItem{
+			itemCountedForTheWords(t, "https://berlin.example/", map[string]int{"berlin": 0}),
+		},
+		[]peeranswers.AnsweredItem{
+			itemCountedForTheWords(t, "https://weather.example/", map[string]int{"berlin": 5}),
+		},
+	)
+
+	want := []string{"https://berlin.example/", "https://weather.example/"}
+	if got := addressesOrderedBy(answers); !slices.Equal(got, want) {
+		t.Fatalf("the relevance order reads %v, want %v", got, want)
+	}
+}
+
 func TestTheDocumentNoOneCountedAHitInComesAfterOneWithAHit(t *testing.T) {
 	t.Parallel()
 

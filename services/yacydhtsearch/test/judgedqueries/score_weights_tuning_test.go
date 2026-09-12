@@ -14,11 +14,11 @@ import (
 
 const (
 	tuningSwitch                     = "YACYDHTSEARCH_TUNE_RELEVANCE_WEIGHTS"
-	amountOfWeightsOfTheScoreWeights = 5
+	amountOfWeightsOfTheScoreWeights = 6
 	roundingOfTheWeightRatios        = 1e6
 )
 
-var weightValuesOfTheGrid = []float64{0, 0.25, 0.5, 1, 1.5, 2, 3}
+var weightValuesOfTheGrid = []float64{0, 0.25, 0.5, 1, 3}
 
 func TestTuneTheScoreWeightsOfTheRelevanceOrdering(t *testing.T) {
 	if os.Getenv(tuningSwitch) == "" {
@@ -137,31 +137,41 @@ func scoreWeightsOfTheGrid() []relevance.ScoreWeights {
 }
 
 func scoreWeightsOfEveryWeightCombination() []relevance.ScoreWeights {
-	amountOfVectors := 1
-	for range amountOfWeightsOfTheScoreWeights {
-		amountOfVectors *= len(weightValuesOfTheGrid)
-	}
-
-	combinations := make([]relevance.ScoreWeights, 0, amountOfVectors)
-	for _, weightOfThePlaceScore := range weightValuesOfTheGrid {
-		for _, weightOfTheTitleScore := range weightValuesOfTheGrid {
-			for _, weightOfTheTextScore := range weightValuesOfTheGrid {
-				for _, weightOfTheAddressScore := range weightValuesOfTheGrid {
-					for _, weightOfThePhraseScore := range weightValuesOfTheGrid {
-						combinations = append(combinations, relevance.ScoreWeights{
-							WeightOfThePlaceScore:   weightOfThePlaceScore,
-							WeightOfTheTitleScore:   weightOfTheTitleScore,
-							WeightOfTheTextScore:    weightOfTheTextScore,
-							WeightOfTheAddressScore: weightOfTheAddressScore,
-							WeightOfThePhraseScore:  weightOfThePhraseScore,
-						})
-					}
-				}
-			}
-		}
+	combinations := []relevance.ScoreWeights{{}}
+	for score := range amountOfWeightsOfTheScoreWeights {
+		combinations = combinationsOfEveryValueOfTheWeight(combinations, score)
 	}
 
 	return combinations
+}
+
+func combinationsOfEveryValueOfTheWeight(
+	combinations []relevance.ScoreWeights, score int,
+) []relevance.ScoreWeights {
+	widened := make(
+		[]relevance.ScoreWeights, 0, len(combinations)*len(weightValuesOfTheGrid),
+	)
+	for _, scoreWeights := range combinations {
+		for _, weightValue := range weightValuesOfTheGrid {
+			*weightOfEachScoreIn(&scoreWeights)[score] = weightValue
+			widened = append(widened, scoreWeights)
+		}
+	}
+
+	return widened
+}
+
+func weightOfEachScoreIn(
+	scoreWeights *relevance.ScoreWeights,
+) [amountOfWeightsOfTheScoreWeights]*float64 {
+	return [amountOfWeightsOfTheScoreWeights]*float64{
+		&scoreWeights.WeightOfThePlaceScore,
+		&scoreWeights.WeightOfTheTitleScore,
+		&scoreWeights.WeightOfTheTextScore,
+		&scoreWeights.WeightOfTheAddressScore,
+		&scoreWeights.WeightOfThePhraseScore,
+		&scoreWeights.WeightOfTheCoordinationScore,
+	}
 }
 
 func scoreWeightsOfDistinctWeightRatiosAmong(
@@ -184,12 +194,9 @@ func scoreWeightsOfDistinctWeightRatiosAmong(
 func weightRatiosOf(
 	scoreWeights relevance.ScoreWeights,
 ) [amountOfWeightsOfTheScoreWeights]float64 {
-	weights := [amountOfWeightsOfTheScoreWeights]float64{
-		scoreWeights.WeightOfThePlaceScore,
-		scoreWeights.WeightOfTheTitleScore,
-		scoreWeights.WeightOfTheTextScore,
-		scoreWeights.WeightOfTheAddressScore,
-		scoreWeights.WeightOfThePhraseScore,
+	var weights [amountOfWeightsOfTheScoreWeights]float64
+	for place, weight := range weightOfEachScoreIn(&scoreWeights) {
+		weights[place] = *weight
 	}
 	highestWeight := slices.Max(weights[:])
 	if highestWeight == 0 {
@@ -206,11 +213,12 @@ func weightRatiosOf(
 
 func spelledScoreWeightsOf(scoreWeights relevance.ScoreWeights) string {
 	return fmt.Sprintf(
-		"place %.2f, title %.2f, text %.2f, address %.2f, phrase %.2f",
+		"place %.2f, title %.2f, text %.2f, address %.2f, phrase %.2f, coordination %.2f",
 		scoreWeights.WeightOfThePlaceScore,
 		scoreWeights.WeightOfTheTitleScore,
 		scoreWeights.WeightOfTheTextScore,
 		scoreWeights.WeightOfTheAddressScore,
 		scoreWeights.WeightOfThePhraseScore,
+		scoreWeights.WeightOfTheCoordinationScore,
 	)
 }
