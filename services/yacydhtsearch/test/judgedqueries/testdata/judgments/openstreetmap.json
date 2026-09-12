@@ -17,13 +17,13 @@
       "hash": "5Uppzlybg-vy",
       "address": "https://www.openstreetmap.org/?mlat=40.711667\u0026mlon=-74.0125\u0026zoom=15",
       "title": "OpenStreetMap",
-      "grade": null
+      "grade": 2
     },
     {
       "hash": "eO3Aulybg-vy",
       "address": "https://www.openstreetmap.org/?mlat=40.009376\u0026mlon=-75.133346\u0026zoom=12",
       "title": "OpenStreetMap",
-      "grade": null
+      "grade": 2
     },
     {
       "hash": "1mo1Mlybg-vy",
@@ -35,7 +35,7 @@
       "hash": "YCJ-Fgybg-vy",
       "address": "https://www.openstreetmap.org/user/tyr_asd/diary/22363",
       "title": "tyr_asd's Diary | OSM Node Density 2014 | OpenStreetMap",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "7sbfBsxlxh74",
@@ -47,25 +47,25 @@
       "hash": "7jWewSS6MKD4",
       "address": "https://github.com/dkahle/ggmap",
       "title": "GitHub - dkahle/ggmap: A package for plotting maps in R with ggplot2 · GitHub",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "2Q34jlHS80Jh",
       "address": "https://www.mba-studium.de/datenschutzerklaerung/",
       "title": "Datenschutzerklärung | MBA-Studium.de",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "EVoYIPc_rKzh",
       "address": "https://www.telepolis.de/features/Kostenlose-Wanderkarten-Die-besten-OpenStreetMap-Apps-im-Test-10313937.html?wt_mc=rss.red.tp.tp.atom.beitrag.beitrag",
       "title": "Kostenlose Wanderkarten: Die besten OpenStreetMap-Apps im Test | Telepolis",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "uKAJVlybg-vy",
       "address": "https://www.openstreetmap.org/?mlat=47.8391464\u0026mlon=8.8611088",
       "title": "OpenStreetMap",
-      "grade": null
+      "grade": 2
     },
     {
       "hash": "bE2T7lybg-vy",
@@ -77,13 +77,13 @@
       "hash": "lYm9vlybg-vy",
       "address": "https://www.openstreetmap.org/?mlat=35.728026\u0026mlon=139.809705\u0026zoom=15",
       "title": "OpenStreetMap",
-      "grade": null
+      "grade": 2
     },
     {
       "hash": "2IsWFlybg-vy",
       "address": "https://www.openstreetmap.org/?mlat=51.698\u0026mlon=94.39\u0026zoom=6",
       "title": "OpenStreetMap",
-      "grade": null
+      "grade": 2
     },
     {
       "hash": "STrh8lybg-vy",
@@ -95,7 +95,7 @@
       "hash": "P95urlybg-vy",
       "address": "https://www.openstreetmap.org/?mlat=53\u0026mlon=-8\u0026zoom=5",
       "title": "OpenStreetMap",
-      "grade": null
+      "grade": 2
     },
     {
       "hash": "PB3kvlybg-vy",
@@ -107,7 +107,7 @@
       "hash": "WmYuElybg-vy",
       "address": "https://www.openstreetmap.org/?mlat=1.3\u0026mlon=103.8\u0026zoom=6",
       "title": "OpenStreetMap",
-      "grade": null
+      "grade": 2
     },
     {
       "hash": "ePCLCl-n3pGi",
@@ -125,25 +125,25 @@
       "hash": "-2wmalybg-vy",
       "address": "https://www.openstreetmap.org/directions?to=52.5091,13.3464",
       "title": "OpenStreetMap",
-      "grade": null
+      "grade": 2
     },
     {
       "hash": "-Frwjlybg-vy",
       "address": "https://www.openstreetmap.org/?mlat=35.1816\u0026mlon=33.3634\u0026zoom=14",
       "title": "OpenStreetMap",
-      "grade": null
+      "grade": 2
     },
     {
       "hash": "mrBojlybg-vy",
       "address": "https://www.openstreetmap.org/directions?to=32.788231,34.968442",
       "title": "OpenStreetMap",
-      "grade": null
+      "grade": 2
     },
     {
       "hash": "lJ7RJlybg-vy",
       "address": "https://www.openstreetmap.org/?mlat=47.33518\u0026mlon=11.19355",
       "title": "OpenStreetMap",
-      "grade": null
+      "grade": 2
     },
     {
       "hash": "VdH8ilybg-vy",
@@ -185,13 +185,13 @@
       "hash": "zI04Alybg-vy",
       "address": "https://www.openstreetmap.org/?mlat=16.083333\u0026mlon=121\u0026zoom=12",
       "title": "OpenStreetMap",
-      "grade": null
+      "grade": 2
     },
     {
       "hash": "F08OWlybg-vy",
       "address": "https://www.openstreetmap.org/?mlat=48.20843\u0026mlon=16.37813",
       "title": "OpenStreetMap",
-      "grade": null
+      "grade": 2
     },
     {
       "hash": "Qv8CFlybg-vy",
@@ -203,7 +203,7 @@
       "hash": "NNqA1lybg-vy",
       "address": "https://www.openstreetmap.org/?mlat=21.000\u0026mlon=57.000\u0026zoom=14",
       "title": "OpenStreetMap",
-      "grade": null
+      "grade": 2
     },
     {
       "hash": "pOt6vlybg-vy",
@@ -239,7 +239,7 @@
       "hash": "0Wwhvlybg-vy",
       "address": "https://www.openstreetmap.org/directions?to=41.87864,-87.64025",
       "title": "OpenStreetMap",
-      "grade": null
+      "grade": 2
     },
     {
       "hash": "MVkeZlybg-vy",
@@ -257,7 +257,7 @@
       "hash": "ehgIXlybg-vy",
       "address": "https://www.openstreetmap.org/?mlat=50.10000\u0026mlon=9.20000\u0026zoom=12",
       "title": "OpenStreetMap",
-      "grade": null
+      "grade": 2
     },
     {
       "hash": "_7OgYNybg-vy",
@@ -275,7 +275,7 @@
       "hash": "jft0alybg-vy",
       "address": "https://www.openstreetmap.org/?mlat=17.351\u0026mlon=78.475",
       "title": "OpenStreetMap",
-      "grade": null
+      "grade": 2
     },
     {
       "hash": "tpw_7lybg-vy",
@@ -293,7 +293,7 @@
       "hash": "HIfHwlybg-vy",
       "address": "https://www.openstreetmap.org/?mlat=50.345278\u0026mlon=8.590556\u0026zoom=15",
       "title": "OpenStreetMap",
-      "grade": null
+      "grade": 2
     },
     {
       "hash": "PUd1Ulybg-vy",
@@ -305,13 +305,13 @@
       "hash": "ubz0Klybg-vy",
       "address": "https://www.openstreetmap.org/?mlat=50.97188\u0026mlon=11.32970",
       "title": "OpenStreetMap",
-      "grade": null
+      "grade": 2
     },
     {
       "hash": "-TY-Vlybg-vy",
       "address": "https://www.openstreetmap.org/?mlat=47.5003674\u0026mlon=10.7208852",
       "title": "OpenStreetMap",
-      "grade": null
+      "grade": 2
     },
     {
       "hash": "S763-lybg-vy",
@@ -323,7 +323,7 @@
       "hash": "AWewB8KDigKy",
       "address": "https://wiki.openstreetmap.org/wiki/Lb:Main_Page",
       "title": "Lb:Main Page - OpenStreetMap Wiki",
-      "grade": null
+      "grade": 1
     }
   ]
 }

@@ -11,13 +11,13 @@
       "hash": "G1s4LyEkAvow",
       "address": "https://developer.mozilla.org/en-US/docs/Mozilla/Firefox/Releases/151",
       "title": "Firefox 151 release notes for developers (Stable) - Mozilla | MDN",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "7qi9OOZ4S_O4",
       "address": "https://www.ctrl-c.club/~timemachine/2020/09/24/adding-gitea-to-my-rasberry-pi/",
       "title": "Adding Gitea To My Raspberry Pi",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "SyGXxpA4psi4",
@@ -29,25 +29,25 @@
       "hash": "oZ1OMDVimsy4",
       "address": "https://thepihut.com/blogs/raspberry-pi-tutorials/build-a-raspberry-pi-pico-robot-with-mecanum-wheels",
       "title": "Build a Raspberry Pi Pico Robot with Mecanum Wheels",
-      "grade": null
+      "grade": 2
     },
     {
       "hash": "3E1W2tEMwriD",
       "address": "http://macchineperidrocolonterapia.it/2018/01/14/ciao-mondo/",
       "title": "News ed Articoli – Macchine per idrocolonterapia",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "ruDQwQy9F8gR",
       "address": "http://www.cotswoldjam.org/",
       "title": "Cotswold Raspberry Jam – Raspberry Pi computer enthusiast events in Cheltenham, Gloucestershire and beyond",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "qHotSl8bqxA4",
       "address": "https://www.sparkfun.com/raspberry-pi-poe-hat.html",
       "title": "Raspberry Pi PoE+ HAT - SparkFun Electronics",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "gvuasl8bqxA4",
@@ -83,7 +83,7 @@
       "hash": "tGMz3l8bqxA4",
       "address": "https://www.sparkfun.com/raspberry-pi-iqaudio-dac.html",
       "title": "Raspberry Pi IQAudio DAC+ - SparkFun Electronics",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "vdRFB2sEYJ15",
@@ -95,7 +95,7 @@
       "hash": "gUgNJl8bqxA4",
       "address": "https://www.sparkfun.com/raspberry-pi-ai-camera.html",
       "title": "Raspberry Pi AI Camera - SparkFun Electronics",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "hhTy_SMAuxi4",
@@ -107,7 +107,7 @@
       "hash": "cg_-JDFJZONx",
       "address": "https://insinuator.net/2025/06/using-the-raspberry-pi-pico-w-as-a-bluetooth-dongle/",
       "title": "Using the Raspberry Pi Pico W as a Bluetooth Dongle – Insinuator.net",
-      "grade": null
+      "grade": 2
     },
     {
       "hash": "jDfrOl8bqxA4",
@@ -119,7 +119,7 @@
       "hash": "qqLWzXVimsy4",
       "address": "https://thepihut.com/products/raspberry-pi-5",
       "title": "Raspberry Pi 5 - The Pi Hut",
-      "grade": null
+      "grade": 2
     },
     {
       "hash": "7uQD4VgsGuO5",
@@ -131,13 +131,13 @@
       "hash": "-vFO6sYLAaI5",
       "address": "https://www.tomshardware.com/how-to/create-ai-chatbot-server-on-raspberry-pi",
       "title": "How To Create Your Own AI Chatbot Server With Raspberry Pi 4 | Tom's Hardware",
-      "grade": null
+      "grade": 2
     },
     {
       "hash": "bvdN-lBjnZN4",
       "address": "https://www.canakit.com/raspberry-pi-5",
       "title": "Raspberry Pi 5",
-      "grade": null
+      "grade": 2
     },
     {
       "hash": "0joG-ALfGIY4",
@@ -149,13 +149,13 @@
       "hash": "1QNhwAVimsy4",
       "address": "https://thepihut.com/collections/raspberry-pi-store?page=39",
       "title": "Raspberry Pi Store - The Pi Hut – Page 39",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "XwlZglBjnZN4",
       "address": "https://www.canakit.com/",
       "title": "Buy CanaKit Raspberry Pi Kits and Raspberry Pi Boards and Accessories",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "wOjCtsnRCfv4",
@@ -167,7 +167,7 @@
       "hash": "fCwYYl8bqxA4",
       "address": "https://www.sparkfun.com/raspberry-pi-500-kit.html",
       "title": "Raspberry Pi 500 Kit - SparkFun Electronics",
-      "grade": null
+      "grade": 2
     },
     {
       "hash": "jIiTLVflQqd5",
@@ -179,13 +179,13 @@
       "hash": "yheYm9DZkUL4",
       "address": "https://www.cnet.com/tech/computing/1-million-raspberry-pi-computers-have-been-sold/",
       "title": "1 million Raspberry Pi computers have been sold - CNET",
-      "grade": null
+      "grade": 2
     },
     {
       "hash": "5eTOUl8bqxA4",
       "address": "https://www.sparkfun.com/raspberry-pi-touch-display-2.html",
       "title": "Raspberry Pi Touch Display 2 - SparkFun Electronics",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "jURJnM591Hww",
@@ -203,13 +203,13 @@
       "hash": "dTAtytzmo8j4",
       "address": "https://tilde.town/~diff/snippets/speedofpi.html",
       "title": "401 ~Raspberry Pi FastBoot™ Tips",
-      "grade": null
+      "grade": 2
     },
     {
       "hash": "EJyw0l55Qxow",
       "address": "https://yacy.net/installation/raspberry_pi/",
       "title": "Raspberry pi - YaCy",
-      "grade": null
+      "grade": 2
     },
     {
       "hash": "t3Gfs8uKjjbw",
@@ -221,7 +221,7 @@
       "hash": "l21Wyl8bqxA4",
       "address": "https://www.sparkfun.com/raspberry-pi-poe-injector.html",
       "title": "Raspberry Pi PoE+ Injector - SparkFun Electronics",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "1x38FsOMezx5",
@@ -245,13 +245,13 @@
       "hash": "suYK1l8bqxA4",
       "address": "https://www.sparkfun.com/raspberry-pi-build-hat.html",
       "title": "Raspberry Pi Build HAT - SparkFun Electronics",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "f1Rj-Szmo8j4",
       "address": "https://tilde.town/~kzimmermann/articles/30_days_on_a_pi.html",
       "title": "Klaus Zimmermann's musings - 30 days on a Raspberry Pi",
-      "grade": null
+      "grade": 2
     },
     {
       "hash": "hWXeAdFO6r_x",
@@ -263,7 +263,7 @@
       "hash": "20Pc3luwPzox",
       "address": "https://www.raspberrypi.org/donate/?utm_source=blog\u0026utm_medium=web\u0026utm_campaign=pi-day-2023",
       "title": "Donate to the Raspberry Pi Foundation – Raspberry Pi",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "P2AlLvwmtUd5",
@@ -281,7 +281,7 @@
       "hash": "siS8iMlnIma5",
       "address": "https://www.waveshare.com/product/raspberry-pi/hats/versatile.htm",
       "title": "Raspberry Pi Versatile HATs",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "byIvhvYLAaI5",
@@ -293,7 +293,7 @@
       "hash": "Ot6mnJuwPzox",
       "address": "https://www.raspberrypi.org/blog/welcome-dave/",
       "title": "Welcome Dave! - Raspberry Pi Foundation",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "uz0rrQ3yZjwC",
@@ -305,7 +305,7 @@
       "hash": "1gefTsOMezx5",
       "address": "https://pimylifeup.com/raspberry-pi-peanut/",
       "title": "Building a NUT Dashboard with PeaNUT on the Raspberry Pi - Pi My Life Up",
-      "grade": null
+      "grade": 2
     }
   ]
 }

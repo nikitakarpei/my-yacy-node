@@ -5,7 +5,7 @@
       "hash": "Ckmv4yRO6Xx4",
       "address": "https://docs.redhat.com/en/documentation/Red_Hat_Enterprise_Linux/6/html-single/Installation_Guide/index",
       "title": "Installation Guide | Red Hat Enterprise Linux | 6 | Red Hat Documentation",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "9KNuQjRvmBbx",
@@ -17,7 +17,7 @@
       "hash": "AE5Ku2sEYJ15",
       "address": "https://tailscale.com/docs/reference/kernel-vs-userspace-routers",
       "title": "Kernel vs. netstack subnet routing \u0026 exit nodes · Tailscale Docs",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "EJB5gmVSvPzg",
@@ -29,7 +29,7 @@
       "hash": "hMYfxA24Kkqw",
       "address": "https://www.ghacks.net/category/linux/",
       "title": "Linux News: Distributions, Kernel Updates, Open-Source Developments - gHacks",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "zm1LfOy8O7iw",
@@ -53,7 +53,7 @@
       "hash": "FJclwl6plxQx",
       "address": "https://www.linux-live.org/",
       "title": "Linux Live Kit is a set of shell scripts which allows you to create your own Live Linux!",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "HCJIZsscikty",
@@ -113,7 +113,7 @@
       "hash": "z9JxTVGZ4FKw",
       "address": "https://www.kernel.org/doc/html/latest/subsystem-apis.html",
       "title": "Kernel subsystem documentation — The Linux Kernel documentation",
-      "grade": null
+      "grade": 2
     },
     {
       "hash": "5Iwamsscikty",
@@ -179,7 +179,7 @@
       "hash": "uX9xOlSCNQa4",
       "address": "https://www.redhat.com/en/topics/linux/what-is-linux-kernel-live-patching",
       "title": "What is Linux kernel live patching?",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "yUVUXCS6MKD4",
@@ -203,7 +203,7 @@
       "hash": "F9OBAuQVdKD5",
       "address": "https://projectzero.google/2022/08/the-quantum-state-of-linux-kernel.html",
       "title": "The quantum state of Linux kernel garbage collection CVE-2021-0920 (Part I) - Project Zero",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "SDL4QvKqlBA4",
@@ -215,13 +215,13 @@
       "hash": "04jSmwSMo4M4",
       "address": "https://www.zdnet.com/article/linux-kernel-6-8-offers-some-exciting-new-features-and-fixes-all-over/",
       "title": "Linux kernel 6.8 offers some exciting new features and 'fixes all over' | ZDNET",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "glnJPIXKQKtw",
       "address": "https://docs.kernel.org/arch/xtensa/index.html",
       "title": "Xtensa Architecture — The Linux Kernel documentation",
-      "grade": null
+      "grade": 2
     },
     {
       "hash": "eaGhAlpcc_2y",
@@ -251,13 +251,13 @@
       "hash": "DnI_SvKqlBA4",
       "address": "https://www.phoronix.com/news/Linux-DRM-AI-Code-Review",
       "title": "Linux Kernel Graphics Driver Development Now Experimenting With AI Code Review - Phoronix",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "25bbQURMLT-5",
       "address": "https://canonical.com/blog/dirtyclone-linux-vulnerability-fixes-available",
       "title": "DirtyClone Linux kernel local privilege escalation vulnerability fixes available | Canonical",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "JEaJ_ZXKQKtw",
@@ -275,13 +275,13 @@
       "hash": "IZCQCG1ajpq5",
       "address": "https://www.linuxjournal.com/content/linux-kernel-72-officially-released-cache-aware-scheduling-usb4stream-and-major-amd",
       "title": "Linux Kernel 7.2 Officially Released with Cache-Aware Scheduling, USB4STREAM, and Major AMD Improvements | Linux Journal",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "8DxDpIXKQKtw",
       "address": "https://docs.kernel.org/arch/nios2/index.html",
       "title": "Nios II Specific Documentation — The Linux Kernel documentation",
-      "grade": null
+      "grade": 2
     },
     {
       "hash": "b6kPgOy8O7iw",
@@ -299,13 +299,13 @@
       "hash": "DPunis-UOu6x",
       "address": "https://thenewstack.io/linux-kernel-6-12-prepped-for-superior-scheduling-real-time-ops/",
       "title": "Linux Kernel 6.12 Prepped for Superior Scheduling, Real Time Ops - The New Stack",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "CzKLxslc4Pz6",
       "address": "https://open-sourceress.com/my-project-at-linux-kernel/",
       "title": "My Project at Linux Kernel | Open Sourceress",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "fK864sueNoX4",
@@ -317,7 +317,7 @@
       "hash": "5jH2G2F6GHVw",
       "address": "https://calyxos.org/docs/development/build/kernel/",
       "title": "Building the Linux kernel for CalyxOS",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "vYInm_XKQKtw",
@@ -329,25 +329,25 @@
       "hash": "18zCc_YgUcBw",
       "address": "https://salsa.debian.org/kernel-team/linux/-/merge_requests/2027",
       "title": "Include rsync in Build-Depends-Arch for any build including tools (!2027) · Merge requests · Debian kernel team / linux · GitLab",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "56_ORwX-NDdg",
       "address": "https://www.pcwelt.de/article/1161399/linux-kernel.html",
       "title": "Linux Kernel – PC-WELT",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "omgCZMZ5FD3x",
       "address": "https://bugs.launchpad.net/kernel-sru-workflow/promote-to-updates/+bug/2154040",
       "title": "Bug #2154040 “noble/linux-vmware-6.17: 6.17.0-1003.3 -proposed t...” : Series promote-to-updates : Bugs : Kernel SRU Workflow",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "9zN-vVGZ4FKw",
       "address": "https://www.kernel.org/doc/html/latest/staging/index.html",
       "title": "Unsorted Documentation — The Linux Kernel documentation",
-      "grade": null
+      "grade": 2
     }
   ]
 }

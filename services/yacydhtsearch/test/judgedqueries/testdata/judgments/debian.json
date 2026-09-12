@@ -5,7 +5,7 @@
       "hash": "zviPwZBP-b24",
       "address": "https://docs.vultr.com/how-to-install-docker-ce-on-debian-11",
       "title": "How to Install Docker CE on Debian 11 | Vultr Docs",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "R7L27l1nrxbw",
@@ -17,13 +17,13 @@
       "hash": "LphQq3piq92w",
       "address": "https://packages.debian.org/squeeze/system-config-lvm",
       "title": "Debian -- Error",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "T2EF52bypRQw",
       "address": "https://forgejo.org/docs/latest/user/packages/debian/",
       "title": "Debian Package Registry | Forgejo – Beyond coding. We forge.",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "XFmAGZIOYuRw",
@@ -35,19 +35,19 @@
       "hash": "StjW1Spiq92w",
       "address": "https://packages.debian.org/sid/cups-pk-helper,",
       "title": "Debian -- Error",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "zqqUCl1nrxbw",
       "address": "https://www.debian.org/logos/",
       "title": "Debian logos",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "6IL4IjRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Template_talk:Timeline_Debian_GNU/Linux",
       "title": "Template talk:Timeline Debian GNU/Linux - Wikipedia",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "wRV4m5piq92w",
@@ -107,13 +107,13 @@
       "hash": "W1Hv7L1nrxbw",
       "address": "https://www.debian.org/intro/people",
       "title": "Debian -- People: Who we are and what we do",
-      "grade": null
+      "grade": 2
     },
     {
       "hash": "aan2nSpiq92w",
       "address": "https://packages.debian.org/sid/source/llvm-toolchain-19",
       "title": "Debian -- Details of source package llvm-toolchain-19 in sid",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "xY0EdL1nrxbw",
@@ -125,13 +125,13 @@
       "hash": "SL3yxl1nrxbw",
       "address": "https://www.debian.org/blends/",
       "title": "Debian Pure Blends",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "k6fRrm0h8sSw",
       "address": "https://tracker.debian.org/pkg/python-openai",
       "title": "python-openai - Debian Package Tracker",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "wXumBqp4ogvw",
@@ -143,7 +143,7 @@
       "hash": "TvFA_y1nrxbw",
       "address": "https://www.debian.org/releases/stable/",
       "title": "Debian -- Debian “trixie” Release Information",
-      "grade": null
+      "grade": 2
     },
     {
       "hash": "AjzZFn7vg5bw",
@@ -167,7 +167,7 @@
       "hash": "y37Q7m0h8sSw",
       "address": "https://tracker.debian.org/pkg/lua-geoip",
       "title": "lua-geoip - Debian Package Tracker",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "-120uSpiq92w",
@@ -179,25 +179,25 @@
       "hash": "HV8U8m0h8sSw",
       "address": "https://tracker.debian.org/pkg/lua-systemd",
       "title": "lua-systemd - Debian Package Tracker",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "EWF5R0piq92w",
       "address": "https://packages.debian.org/bullseye/epiphany-browser",
       "title": "Debian -- Details of package epiphany-browser in bullseye",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "YAZ8YE1nrxbw",
       "address": "https://www.debian.org/users/com/one_eighty_out",
       "title": "Debian -- One-Eighty Out, Incorporated, Colorado Springs, Colorado, USA",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "M_UYiL1nrxbw",
       "address": "https://www.debian.org/intro/index",
       "title": "Debian -- Introduction to Debian",
-      "grade": null
+      "grade": 2
     },
     {
       "hash": "xCnp1G1nrxbw",
@@ -239,7 +239,7 @@
       "hash": "6VKzVE1nrxbw",
       "address": "https://www.debian.org/users/com/computerisms",
       "title": "Debian -- Computerisms, Yukon, Canada",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "7ErrjSpiq92w",
@@ -251,13 +251,13 @@
       "hash": "Kc02xl1nrxbw",
       "address": "https://www.debian.org/",
       "title": "Debian -- The Universal Operating System",
-      "grade": null
+      "grade": 2
     },
     {
       "hash": "-2p0pZIOYuRw",
       "address": "https://chronicles.debian.org/www/News/2014/",
       "title": "Debian -- News from 2014",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "FEd6Pl1nrxbw",
@@ -281,7 +281,7 @@
       "hash": "cWDIYm0h8sSw",
       "address": "https://tracker.debian.org/pkg/hplip",
       "title": "hplip - Debian Package Tracker",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "_NH8h31nrxbw",
@@ -293,7 +293,7 @@
       "hash": "RECWXCeuM-zw",
       "address": "https://ftp.debian.org/debian/dists/trixie/",
       "title": "Index of /debian/dists/trixie",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "LJkrJX1nrxbw",
@@ -305,7 +305,7 @@
       "hash": "_vBCkt1nrxbw",
       "address": "https://www.debian.org/CD/http-ftp/",
       "title": "Downloading Debian USB/CD/DVD images via HTTP/FTP",
-      "grade": null
+      "grade": 2
     },
     {
       "hash": "dwvDam0h8sSw",
@@ -323,13 +323,13 @@
       "hash": "GppVSifhnZpw",
       "address": "https://nm.debian.org/public/people/dd_u/",
       "title": "Debian New Member Process",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "R5pe_l1nrxbw",
       "address": "https://www.debian.org/News/",
       "title": "Debian -- Latest News",
-      "grade": null
+      "grade": 1
     }
   ]
 }

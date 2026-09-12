@@ -5,7 +5,7 @@
       "hash": "XhM90s4so94h",
       "address": "https://microclimat.bg/blog?journal_blog_post_id=1",
       "title": "Хладилен агент R32, климатици, Фреон ...",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "hIjKNwgOlJX5",
@@ -17,7 +17,7 @@
       "hash": "pGRD67yp6WtY",
       "address": "http://tantek.com/",
       "title": "Tantek Çelik",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "VWPgq5c9duY5",
@@ -41,7 +41,7 @@
       "hash": "2olJgk4eGBC5",
       "address": "https://www.digitalocean.com/community/tutorials/how-to-write-a-proposal-and-outline-for-a-digitalocean-community-tutorial",
       "title": "How To Write a Proposal and Outline for a DigitalOcean Community Tutorial | DigitalOcean",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "3iXGeD52F4m7",
@@ -65,19 +65,19 @@
       "hash": "WsZR54pGtAW4",
       "address": "https://www.amazon.com/Ruby-Rails-Tutorial-Addison-Wesley-Professional/dp/013804984X/ref=pd_bxgy_d_sccl_2/146-7842358-8605926?pd_rd_w=n4P2W\u0026content-id=amzn1.sym.dcf559c6-d374-405e-a13e-133e852d81e1\u0026pf_rd_p=dcf559c6-d374-405e-a13e-133e852d81e1\u0026pf_rd_r=E2VGS25MFN6KTFW5THJ9\u0026pd_rd_wg=jO0x8\u0026pd_rd_r=b875eb98-89c0-4487-8618-a9810b77ffcc\u0026pd_rd_i=013804984X\u0026psc=1",
       "title": "Ruby on Rails Tutorial: Learn Web Development with Rails (Addison-Wesley Professional Ruby Series): Hartl, Michael: 9780138049843: Amazon.com: Books",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "jvtsOhOVXrIx",
       "address": "https://isprs-annals.copernicus.org/articles/IV-2-W5/179/2019/",
       "title": "ISPRS-Annals - DETECTING RUMEX OBTUSIFOLIUS WEED PLANTS IN GRASSLANDS FROM UAV RGB IMAGERY USING DEEP LEARNING",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "w2JFXUOKqMn4",
       "address": "https://mathspp.com/blog/python-deque-tutorial",
       "title": "Python deque tutorial | mathspp",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "1Nn18Q3MeyZ4",
@@ -95,13 +95,13 @@
       "hash": "wGK6WJexqsOx",
       "address": "https://docs.opensearch.org/latest/search-plugins/ubi/ubi-dashboard-tutorial/",
       "title": "UBI dashboard tutorial | OpenSearch Documentation",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "pMFw3Ptl82z5",
       "address": "https://www.w3schools.com/excel/index.php",
       "title": "Excel Tutorial",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "8ytWdoBB0JD5",
@@ -113,13 +113,13 @@
       "hash": "rgpLSKf4Pib5",
       "address": "https://code.visualstudio.com/docs/datascience/azure-machine-learning",
       "title": "Azure Machine Learning in Visual Studio Code",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "6zaS72Tusnf4",
       "address": "https://blackduck.skilljar.com/page/polaris-learning-paths",
       "title": "Polaris Learning Paths",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "1NslGKf4Pib5",
@@ -131,7 +131,7 @@
       "hash": "niBQ18S6MKD4",
       "address": "https://github.com/RhetTbull/osxphotos",
       "title": "GitHub - RhetTbull/osxphotos: Python app to work with pictures and associated metadata from Apple Photos on macOS.",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "kmD2akndz9ox",
@@ -167,13 +167,13 @@
       "hash": "G2Nk1si1vot6",
       "address": "https://missclaireshay.com/",
       "title": "missclaireshay -",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "sMiPKsnQvdJ6",
       "address": "https://cassandrasturdy.com/",
       "title": "cassandrasturdy.com -",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "GtLjhloUbV15",
@@ -185,19 +185,19 @@
       "hash": "1lGoBsyuNlT5",
       "address": "https://alt-webring.com/",
       "title": "alt-webring | The (former) alternative webring system",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "any3Qs9w8XV5",
       "address": "https://cloudinary.com/",
       "title": "Image and Video Upload, Storage, Optimization and CDN",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "9kBrIsCMzuQw",
       "address": "https://icml.cc/",
       "title": "2026 Conference",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "Mb7ip0SWekJ4",
@@ -215,7 +215,7 @@
       "hash": "x0uPesUTqyyz",
       "address": "https://programmingassignmentshelp.net/",
       "title": "programmingassignmentshelp -",
-      "grade": null
+      "grade": 0
     }
   ]
 }

@@ -29,7 +29,7 @@
       "hash": "_2VMoQXXOSAg",
       "address": "https://www.rbb24.de/kultur/beitrag/2026/06/berlin-open-air-veranstaltungen-genehmigung-fete-de-la-musique.html",
       "title": "Weniger Hürden für Open-Airs in Berlin? Mitte wagt einen neuen Ansatz",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "-gSHXofjI1Dh",
@@ -53,13 +53,13 @@
       "hash": "n-pRzHfjI1Dh",
       "address": "https://www.tagesschau.de/wetter/regenradar-deutschland/osten",
       "title": "Regenradar Ostdeutschland: Aktueller Niederschlag | tagesschau.de",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "37f63My11Gbg",
       "address": "https://berlin.t-online.de/region/berlin/",
       "title": "Berlin: Nachrichten \u0026 News aus Berlin",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "-5YtplfjI1Dh",
@@ -83,13 +83,13 @@
       "hash": "FcrOSdR5Djcw",
       "address": "https://de.wikinews.org/wiki/Hauptseite",
       "title": "Wikinews, die freie Nachrichtenquelle",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "tR-1WXj5gZJ5",
       "address": "https://wissenschaft3000.wordpress.com/tag/1913/",
       "title": "1913 | Wissenschaft3000 ~ science3000",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "-WvJtjRvmBbx",
@@ -101,7 +101,7 @@
       "hash": "4Its1HfjI1Dh",
       "address": "https://www.tagesschau.de/wetter/europa-welt",
       "title": "Wettervorhersage Europa: Wetterlage und Temperaturen | tagesschau.de",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "Bhyw76Fs30aw",
@@ -131,19 +131,19 @@
       "hash": "xk2PwlWgkBXg",
       "address": "https://www.wetter.de/",
       "title": "Wetter - Wettervorhersage - Wetterbericht",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "hpNx6l0w__jw",
       "address": "https://www.faz.net/aktuell/",
       "title": "Aktuelle Nachrichten online - FAZ.NET",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "WLeSrl5ARWyg",
       "address": "https://www.spiegel.de/",
       "title": "DER SPIEGEL | Online-Nachrichten",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "gt1Hms8_y8I6",
@@ -155,31 +155,31 @@
       "hash": "YFg0eX8moajg",
       "address": "https://www.welt.de/sonderthemen/medizin-der-zukunft/",
       "title": "Medizin der Zukunft",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "zjc5Mm8moajg",
       "address": "https://www.welt.de/sport/handball/",
       "title": "Handball: Aktuelle News zu Bundesliga, DHB \u0026 Champions League",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "2RTWrl8moajg",
       "address": "https://www.welt.de/",
       "title": "WELT - Aktuelle Nachrichten, News, Hintergründe \u0026 Videos",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "--rz3C8moajg",
       "address": "https://www.welt.de/regionales/sachsen-anhalt/",
       "title": "Sachsen-Anhalt - Nachrichten \u0026 aktuelle News - WELT",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "_a84pW8moajg",
       "address": "https://www.welt.de/reise/weltplus/",
       "title": "WELTplus Reise - Qualitätsjournalismus für Abonnenten",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "Fl-YxlDOAHJg",
@@ -191,7 +191,7 @@
       "hash": "oq1hJjRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Cardiff",
       "title": "Cardiff - Wikipedia",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "r7SQ1PSEx1zg",
@@ -203,91 +203,91 @@
       "hash": "TR9kflXXOSAg",
       "address": "https://www.rbb24.de/",
       "title": "rbb24 - Nachrichten aus Berlin und Brandenburg",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "I86iVlfjI1Dh",
       "address": "https://www.tagesschau.de/investigativ",
       "title": "Investigativ Berichterstattung und Reportagen | tagesschau.de",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "SH2v_lfjI1Dh",
       "address": "https://www.tagesschau.de/ausland",
       "title": "Internationale Nachrichten aus aller Welt | tagesschau.de",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "Sm8W4sfjI1Dh",
       "address": "https://www.tagesschau.de/faktenfinder/kontext",
       "title": "Kontext - Einordnung zu aktuellen Nachrichten | tagesschau.de",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "UEXwEofjI1Dh",
       "address": "https://www.tagesschau.de/wahlarchiv/laenderparlamente/rheinland-pfalz",
       "title": "Nachrichten und Hintergründe | tagesschau.de",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "UF5LEvfjI1Dh",
       "address": "https://www.tagesschau.de/multimedia/bilder",
       "title": "Bilder des Tages | tagesschau.de",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "V93UbofjI1Dh",
       "address": "https://www.tagesschau.de/wahlarchiv/laenderparlamente/thueringen",
       "title": "Nachrichten und Hintergründe | tagesschau.de",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "XCS0EofjI1Dh",
       "address": "https://www.tagesschau.de/wahlarchiv/laenderparlamente",
       "title": "Nachrichten und Hintergründe | tagesschau.de",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "k1dSkZfjI1Dh",
       "address": "https://www.tagesschau.de/wirtschaft/verbraucher",
       "title": "Nachrichten zu Verbraucher-Themen | tagesschau.de",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "ng9PTlfjI1Dh",
       "address": "https://www.tagesschau.de/",
       "title": "tagesschau.de - die erste Adresse für Nachrichten und Information | tagesschau.de",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "sII4cofjI1Dh",
       "address": "https://www.tagesschau.de/wahlarchiv/laenderparlamente/brandenburg",
       "title": "Nachrichten und Hintergründe | tagesschau.de",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "tHnWBhfjI1Dh",
       "address": "https://www.tagesschau.de/ausland/europa",
       "title": "Aktuelle Nachrichten aus Europa | tagesschau.de",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "uj2IelfjI1Dh",
       "address": "https://www.tagesschau.de/inland",
       "title": "Aktuelle Nachrichten aus Deutschland | tagesschau.de",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "0s4GelfjI1Dh",
       "address": "https://www.tagesschau.de/thema",
       "title": "Nachrichten-Themen | tagesschau.de",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "1_T-KZfjI1Dh",
       "address": "https://www.tagesschau.de/wirtschaft/digitales",
       "title": "Digitales aktuell | tagesschau.de",
-      "grade": null
+      "grade": 0
     }
   ]
 }

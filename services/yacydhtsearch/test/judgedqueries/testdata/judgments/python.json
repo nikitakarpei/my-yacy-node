@@ -11,13 +11,13 @@
       "hash": "GAtpWgsjOPf5",
       "address": "https://fuchsia.googlesource.com/third_party/github.com/python/mypy_extensions/+/refs/heads/upstream/master",
       "title": "refs/heads/upstream/master - third_party/github.com/python/mypy_extensions - Git at Google",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "soIzFAIRlUi5",
       "address": "https://www.10zenmonkeys.com/category/uncategorized/",
       "title": "All Articles – 10 Zen Monkeys",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "ROGk4VdG5jPw",
@@ -53,19 +53,19 @@
       "hash": "qRaHnG-j6W54",
       "address": "https://rpep.dev/posts/alpine-python-antipattern/",
       "title": "Why using Alpine Docker images and Python is probably bad for your project (right now) | rpep.dev",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "vfhHBEgOlJX5",
       "address": "https://www.codecademy.com/projects/language/python",
       "title": "Projects in Python | Codecademy",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "2vIepkdG5jPw",
       "address": "https://www.python.org/community/forums/",
       "title": "Forums | Python.org",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "gQlf6itD2jQw",
@@ -89,7 +89,7 @@
       "hash": "426AildG5jPw",
       "address": "https://www.python.org/jobs/type/evangelism/",
       "title": "Python Job Board | Python.org",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "a9fkoldG5jPw",
@@ -125,7 +125,7 @@
       "hash": "CEg0qsdG5jPw",
       "address": "https://www.python.org/about/website/",
       "title": "About the Python Web Site | Python.org",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "Nh8yR1r4CjGw",
@@ -137,7 +137,7 @@
       "hash": "g14O1hdG5jPw",
       "address": "https://www.python.org/downloads/release/python-326/",
       "title": "Python Release Python 3.2.6 | Python.org",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "dDT4-t3vtu2w",
@@ -155,7 +155,7 @@
       "hash": "9DykFpdG5jPw",
       "address": "https://www.python.org/events/calendars/",
       "title": "Python Calendars | Python.org",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "SooFRitD2jQw",
@@ -179,7 +179,7 @@
       "hash": "_OfvEhdG5jPw",
       "address": "https://www.python.org/downloads/release/python-3110b2/",
       "title": "Python Release Python 3.11.0b2 | Python.org",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "JfZEMitD2jQw",
@@ -191,7 +191,7 @@
       "hash": "NI6PS33vtu2w",
       "address": "https://blog.python.org/authors/jacob-coffee/",
       "title": "Jacob Coffee | Python Insider",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "aUDQBxbhx54w",
@@ -203,13 +203,13 @@
       "hash": "g70YoTCk19rw",
       "address": "https://peps.python.org/pep-0587/",
       "title": "PEP 587 – Python Initialization Configuration | peps.python.org",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "APn9VTCk19rw",
       "address": "https://peps.python.org/pep-0457/",
       "title": "PEP 457 – Notation For Positional-Only Parameters | peps.python.org",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "2fxzxltD2jQw",
@@ -251,7 +251,7 @@
       "hash": "XmjB_sdG5jPw",
       "address": "https://www.python.org/about/gettingstarted/",
       "title": "Python For Beginners | Python.org",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "dIVOAIR2NVbw",
@@ -287,7 +287,7 @@
       "hash": "zh2qIGtD2jQw",
       "address": "https://docs.python.org/3.16/bugs.html",
       "title": "Dealing with Bugs — Python 3.16.0a0 documentation",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "JV0vxTCk19rw",
@@ -305,7 +305,7 @@
       "hash": "eQ3N3sdG5jPw",
       "address": "https://www.python.org/about/quotes/",
       "title": "Quotes about Python | Python.org",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "nelDPNaJVZ24",

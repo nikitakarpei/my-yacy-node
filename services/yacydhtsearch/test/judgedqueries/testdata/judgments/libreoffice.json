@@ -11,7 +11,7 @@
       "hash": "QaEPlQxXGmlz",
       "address": "https://wiki.documentfoundation.org/LibreOffice_Localization_Guide",
       "title": "LibreOffice Localization Guide - The Document Foundation Wiki",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "ehYdFl-4htmx",
@@ -35,13 +35,13 @@
       "hash": "a_LYv0hl92eQ",
       "address": "http://advisories.mageia.org/src_libreoffice.html",
       "title": "Mageia advisories for package libreoffice",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "DU4mtls8l0-4",
       "address": "https://www.clubic.com/microsoft-office/",
       "title": "Microsoft Office : Actualités, Avis, Dossiers, Guides et Tutos",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "cBBK_NcIC9Gh",
@@ -53,7 +53,7 @@
       "hash": "_i4Gv7JCQNT0",
       "address": "https://www.nobleprog.co.za/",
       "title": "NobleProg South Africa | The World's Local Training Provider",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "g5dE49OwONZ6",
@@ -83,7 +83,7 @@
       "hash": "hR7IkRRnHrtg",
       "address": "https://elearn.ellak.gr/mod/forum/discuss.php?d=45404",
       "title": "LibreOffice: paybis",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "0c2hEZZ5FD3x",
@@ -107,7 +107,7 @@
       "hash": "T-ON6dIRRnbx",
       "address": "https://books.libreoffice.org/en/",
       "title": "LibreOffice Bookshelf",
-      "grade": null
+      "grade": 2
     },
     {
       "hash": "x5sAFVPMwjH4",
@@ -131,7 +131,7 @@
       "hash": "HTF6isLafmQx",
       "address": "https://launchpad.net/~libreoffice",
       "title": "LibreOffice Packaging in Launchpad",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "5y_i0yz8AoWx",
@@ -167,7 +167,7 @@
       "hash": "2RLnvl-4htmx",
       "address": "https://www.libreoffice.org/donate/?pk_campaign=help",
       "title": "Donate — LibreOffice",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "ilWjy61ajpq5",
@@ -179,13 +179,13 @@
       "hash": "MpRMNls8l0-4",
       "address": "https://www.clubic.com/telecharger-fiche366452-libreoffice.html?file=33508\u0026launched=true",
       "title": "Télécharger LibreOffice (gratuit) Windows, Mac, Linux - Clubic",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "03n6NdwG-02z",
       "address": "https://blog.documentfoundation.org/blog/2016/12/21/the-document-foundation-announces-the-muffin-a-new-tasty-user-interface-concept-for-libreoffice/",
       "title": "The Document Foundation announces the MUFFIN, a new tasty user interface concept for LibreOffice - TDF Community Blog",
-      "grade": null
+      "grade": 2
     },
     {
       "hash": "2xk3is9r_z8g",
@@ -215,19 +215,19 @@
       "hash": "2DhRj0TYIVRx",
       "address": "https://blog.thebehrens.net/2017/07/28/openpgp-signature-support-in-libreoffice/",
       "title": "OpenPGP signature support in LibreOffice | Thorsten's Weblog",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "OK3ohYj86aPx",
       "address": "https://help.libreoffice.org/latest/en-US/text/shared/05/new_help.html",
       "title": "The LibreOffice Help Window",
-      "grade": null
+      "grade": 2
     },
     {
       "hash": "QKv26xtQ-zSx",
       "address": "https://wiki.archlinux.org/title/LibreOffice",
       "title": "LibreOffice - ArchWiki",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "GD15j_TXSTfx",
@@ -239,13 +239,13 @@
       "hash": "DRJ3LFS6MKD4",
       "address": "https://github.com/goosepirate/lox365",
       "title": "GitHub - goosepirate/lox365: ⚗️ Lox365: XLOOKUP for LibreOffice · GitHub",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "-5h9wl-4htmx",
       "address": "https://www.libreoffice.org/imprint/",
       "title": "Imprint — LibreOffice",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "kvqmPdwG-02z",
@@ -275,7 +275,7 @@
       "hash": "ZDXTViPMwjH4",
       "address": "https://docs.aws.amazon.com/linux/al2023/ug/al2023-libreoffice.html",
       "title": "Tutorial: Install LibreOffice on AL2023 - Amazon Linux 2023",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "MewNztxeGHlx",

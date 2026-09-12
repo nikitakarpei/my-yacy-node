@@ -11,19 +11,19 @@
       "hash": "Fl-YxlDOAHJg",
       "address": "https://www.heise.de/",
       "title": "heise online - IT-News, Nachrichten und Hintergründe | heise online",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "ytosSsXT2Q14",
       "address": "https://mastodon.social/?ref=jamesfrew.me",
       "title": "Mastodon",
-      "grade": null
+      "grade": 2
     },
     {
       "hash": "nLEeWYsNgbb4",
       "address": "https://music.apple.com/np/album/marrow-deep/6781040477",
       "title": "‎Marrow Deep - Album by Mastodon - Apple Music",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "BH0SPsXT2Q14",
@@ -35,7 +35,7 @@
       "hash": "aysh7T7AHFOw",
       "address": "https://apps.kde.org/id/tokodon/",
       "title": "Tokodon - Aplikasi KDE",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "cad2Xscvw7Vx",
@@ -59,7 +59,7 @@
       "hash": "Pckw3sS6MKD4",
       "address": "https://github.com/mbauman",
       "title": "mbauman (Matt Bauman) · GitHub",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "3Bjd3sXT2Q14",
@@ -89,7 +89,7 @@
       "hash": "c5_CmNXT2Q14",
       "address": "https://mastodon.social/@stroughtonsmith/109819345925189299",
       "title": "Steve Troughton-Smith: \"libc does *what* 😟 /via https://mastodon.social/@…\" - Mastodon",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "96OHNsXT2Q14",
@@ -119,7 +119,7 @@
       "hash": "kyXnDfXT2Q14",
       "address": "https://mastodon.social/@cdevroe/109933294082940633",
       "title": "Colin Devroe: \"When Nilay Patel interviewed Mozilla CEO @WMitche…\" - Mastodon",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "RJNKSsXT2Q14",
@@ -143,7 +143,7 @@
       "hash": "STm-dsXT2Q14",
       "address": "https://mastodon.social/@amerika21",
       "title": "amerika21.de (@amerika21@mastodon.social) - Mastodon",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "myp5YsXT2Q14",
@@ -155,25 +155,25 @@
       "hash": "hk2qqwXT2Q14",
       "address": "https://mastodon.social/@davemark/109936826662610131",
       "title": "Dave Mark: \"SOLUTION: - Buried in the Screen Time Settings, …\" - Mastodon",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "fKGqasXT2Q14",
       "address": "https://mastodon.social/@programming_dev",
       "title": "programming.dev (@programming_dev@mastodon.social) - Mastodon",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "GE_UmsXT2Q14",
       "address": "https://mastodon.social/@opennetru",
       "title": "OpenNet (@opennetru@mastodon.social) - Mastodon",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "7xcye5svrCt4",
       "address": "https://mastodon.gamedev.place/@ruffle",
       "title": "Ruffle - Flash Player Emulator (@ruffle@mastodon.gamedev.place) - Gamedev Mastodon",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "ZE95msXT2Q14",
@@ -203,7 +203,7 @@
       "hash": "AUpqbsViDFz4",
       "address": "https://mastodon.cloud/@boingboing",
       "title": "Boing Boing (@boingboing@mastodon.cloud) - mastodon.cloud",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "_WYPmIpL_jd4",
@@ -221,13 +221,13 @@
       "hash": "UEhtisXT2Q14",
       "address": "https://mastodon.social/privacy-policy",
       "title": "Privacy Policy - Mastodon",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "cVY9CsXT2Q14",
       "address": "https://mastodon.social/@brianhurley",
       "title": "Brian Hurley (@BrianHurley@mastodon.social) - Mastodon",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "yC4nFsXT2Q14",
@@ -245,7 +245,7 @@
       "hash": "HRkUR5a4DhX4",
       "address": "https://mastodon.stack.black/@diego",
       "title": "Diego \"rehrar\" Salazar (@diego@stack.black) - Mastodon",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "1rLQosXT2Q14",
@@ -257,7 +257,7 @@
       "hash": "_CRjE5IHupF5",
       "address": "https://mastodon.fediverse.observer/go\u0026software=mastodon",
       "title": "Fediverse Observer | mastodon Sites Status",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "Du8sc5B52pXw",
@@ -275,7 +275,7 @@
       "hash": "6Ek5p5svrCt4",
       "address": "https://mastodon.gamedev.place/@gpuopen",
       "title": "GPUOpen (@gpuopen@mastodon.gamedev.place) - Gamedev Mastodon",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "1Q_5fsXT2Q14",
@@ -293,7 +293,7 @@
       "hash": "zahydsmeXit4",
       "address": "https://mastodon.xyz/@nextcloud",
       "title": "Nextcloud 📱☁️💻 (@nextcloud@mastodon.xyz) - Mastodon",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "ZIStn5svrCt4",
@@ -305,7 +305,7 @@
       "hash": "pL-nGsXT2Q14",
       "address": "https://mastodon.social/@creativecommons",
       "title": "Creative Commons (@creativecommons@mastodon.social) - Mastodon",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "Y_F6esXT2Q14",
@@ -317,7 +317,7 @@
       "hash": "rqw6vsXT2Q14",
       "address": "https://mastodon.social/@eff",
       "title": "Electronic Frontier Foundation (@eff@mastodon.social) - Mastodon",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "KcqYNsXT2Q14",

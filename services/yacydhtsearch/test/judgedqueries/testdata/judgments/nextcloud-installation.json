@@ -5,13 +5,13 @@
       "hash": "Fl-YxlDOAHJg",
       "address": "https://www.heise.de/",
       "title": "heise online - IT-News, Nachrichten und Hintergründe | heise online",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "ehUE-qbVMkf5",
       "address": "https://apps.nextcloud.com/",
       "title": "All apps - App Store - Nextcloud",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "PBHGklNdxz8x",
@@ -23,31 +23,31 @@
       "hash": "DkfmwlqvBx1x",
       "address": "https://www.openproject.org/",
       "title": "OpenProject - Open Source Project Management Software",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "FHioIb1rzS04",
       "address": "https://community.ovhcloud.com/",
       "title": "OVHcloud Community",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "hrFN1s9r_z8g",
       "address": "https://gnulinux.ch/",
       "title": "GNU/Linux.ch - Freie Software, Freie Gesellschaft",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "xr6iDzS6MKD4",
       "address": "https://github.com/awesome-selfhosted/awesome-selfhosted",
       "title": "GitHub - awesome-selfhosted/awesome-selfhosted: A list of Free Software network services and web applications which can be hosted on your own servers",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "X0gS6jRvmBbx",
       "address": "https://en.wikipedia.org/wiki/LibreOffice",
       "title": "LibreOffice - Wikipedia",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "wZPUHjRvmBbx",
@@ -65,7 +65,7 @@
       "hash": "z6Av1szj0XMi",
       "address": "https://dasnetzundich.de/youtube-dl-mit-neuem-entwickler-team/",
       "title": "yt-dlp statt youtube-dl: Installation und Updates unter Linux 2026 | Das Netz und ich",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "bPT5aq7AHFOw",
@@ -77,7 +77,7 @@
       "hash": "m84_zxKAn6I5",
       "address": "https://news.ycombinator.com/item?id=33165836",
       "title": "I wish my web server were in the corner of my room | Hacker News",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "PCpNBzxXGmlz",
@@ -89,7 +89,7 @@
       "hash": "6plOjszj0XMi",
       "address": "https://dasnetzundich.de/notiz-app-joplin-mit-nextcloud-integration/",
       "title": "Joplin mit Nextcloud synchronisieren: aktuelle WebDAV-Anleitung | Das Netz und ich",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "X_Gb0yfAodxw",
@@ -101,7 +101,7 @@
       "hash": "OqU1klUKWg6g",
       "address": "https://www.manitu.de/webhosting/",
       "title": "Webhosting - schon ab 1 € pro Monat - manitu",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "OdWaBD7AHFOw",
@@ -113,7 +113,7 @@
       "hash": "w9rUZjRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Internet_censorship_circumvention",
       "title": "Internet censorship circumvention - Wikipedia",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "bzwX8z_hTtNw",
@@ -137,7 +137,7 @@
       "hash": "-Hsz5szj0XMi",
       "address": "https://dasnetzundich.de/nc-downloader-fuer-die-nextcloud/",
       "title": "NCDownloader für Nextcloud: heute besser Vapor oder eine moderne Alternative nutzen | Das Netz und ich",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "faU-Olx2yOxg",
@@ -155,13 +155,13 @@
       "hash": "A8BLfu9heOmx",
       "address": "https://fr.libreoffice.org/",
       "title": "Home | Communauté LibreOffice francophone",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "MfYW2-iaMkRw",
       "address": "https://archive.fosdem.org/2025/schedule/events/",
       "title": "FOSDEM 2025 - Events",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "xIkDby3WSkX4",
@@ -173,7 +173,7 @@
       "hash": "xxkx6aQ2lNtg",
       "address": "https://friendica.ginestes.es/display/0a49108d-1469-29f5-fe91-d0e813562323",
       "title": "Friendica Social Network | Display",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "S9YMJzCJVaIz",
@@ -185,13 +185,13 @@
       "hash": "D5UzaAjUmtg5",
       "address": "https://www.saasworthy.com/list/diagram-software",
       "title": "Diagramming Software List (November 2025)",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "EHVbry2kkkww",
       "address": "https://docs.weblate.org/en/latest/",
       "title": "Weblate 2026.10 documentation",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "Wkx1aJr2pvE4",
@@ -215,7 +215,7 @@
       "hash": "xxNsZjRvmBbx",
       "address": "https://en.wikipedia.org/wiki/List_of_free_and_open-source_Android_applications",
       "title": "List of free and open-source Android applications - Wikipedia",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "wzmiPtS6MKD4",
@@ -227,7 +227,7 @@
       "hash": "sC0kMlDOAHJg",
       "address": "https://www.heise.de/en",
       "title": "heise online – IT news, guides and background information | heise online",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "FZ9QOswUSuo5",
@@ -239,7 +239,7 @@
       "hash": "cD8T2ChvKhg5",
       "address": "https://mailvelope.com/en/help/anywhere",
       "title": "How to set up Mailvelope?",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "DkgJosH3-qPx",
@@ -251,31 +251,31 @@
       "hash": "tptsBjRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Lumen_Technologies",
       "title": "Lumen Technologies - Wikipedia",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "BDAwvszj0XMi",
       "address": "https://dasnetzundich.de/was-bietet-die-nextcloud/",
       "title": "Was bietet die Nextcloud? | Das Netz und ich",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "FLQUcszj0XMi",
       "address": "https://dasnetzundich.de/nextcloud-installation-von-fulltextsearch/",
       "title": "Nextcloud Full Text Search einrichten: Dateien durchsuchen mit Elasticsearch oder SQL | Das Netz und ich",
-      "grade": null
+      "grade": 2
     },
     {
       "hash": "IHg31szj0XMi",
       "address": "https://dasnetzundich.de/redis-caching-richtig-einstellen-fuer-nextcloud/",
       "title": "Nextcloud mit Redis und APCu beschleunigen: Caching richtig einrichten | Das Netz und ich",
-      "grade": null
+      "grade": 2
     },
     {
       "hash": "4A6jVszj0XMi",
       "address": "https://dasnetzundich.de/ocdownloader-einrichten-fuer-nextcloud-per-init-d-script/",
       "title": "ocDownloader für Nextcloud nicht mehr nutzen: aktuelle Alternativen | Das Netz und ich",
-      "grade": null
+      "grade": 1
     }
   ]
 }
