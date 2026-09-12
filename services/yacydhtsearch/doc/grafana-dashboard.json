@@ -808,7 +808,7 @@
     },
     {
       "id": 19,
-      "title": "Share of the joined documents that arrived with their metadata",
+      "title": "Share of the joined documents that arrived with their metadata in the first round",
       "description": "A joined document is one every query word led to. Metadata is the title, address and dates a result is shown with, and a joined document without it costs a second round of calls.",
       "type": "heatmap",
       "datasource": {
@@ -868,8 +868,8 @@
     },
     {
       "id": 20,
-      "title": "Share of the documents needing metadata the query requested",
-      "description": "One query requests metadata for a limited number of documents. When more joined documents need it, the documents that the most peers hold are requested and the rest are dropped.",
+      "title": "Share of the joined documents without metadata kept for the second round",
+      "description": "The rest drop out of the results before any peer is asked. The second round takes a limited number of documents, set by YACYDHTSEARCH_RANKED_ITEMS_CEILING, from a limited number of peers.",
       "type": "heatmap",
       "datasource": {
         "type": "prometheus",
@@ -928,7 +928,7 @@
     },
     {
       "id": 21,
-      "title": "Share of the requested documents whose metadata arrived",
+      "title": "Share of the second-round documents whose metadata arrived",
       "description": "A document whose metadata no peer sends back drops out of the results.",
       "type": "heatmap",
       "datasource": {
@@ -1084,8 +1084,8 @@
     },
     {
       "id": 24,
-      "title": "Peers asked which documents they hold",
-      "description": "A peer counts once, whatever amount of query words it is responsible for.",
+      "title": "Peers the first round asked which documents they hold",
+      "description": "The first round asks each peer which documents it holds for one query word. A peer counts once, whatever amount of query words it is responsible for.",
       "type": "heatmap",
       "datasource": {
         "type": "prometheus",
@@ -1144,7 +1144,7 @@
     },
     {
       "id": 25,
-      "title": "Share of the asked peers that answered which documents they hold",
+      "title": "Share of the peers the first round asked that answered",
       "description": "The rest were unreachable or slower than the time the query allows them.",
       "type": "heatmap",
       "datasource": {
@@ -1380,7 +1380,7 @@
     },
     {
       "id": 30,
-      "title": "How long reading the pages of a search took",
+      "title": "How long reading all the pages of one query took",
       "description": "The page read budget bounds it, and takes its share of the query budget.",
       "type": "heatmap",
       "datasource": {
@@ -1659,7 +1659,7 @@
     {
       "id": 45,
       "title": "Calls that asked which documents a peer holds for one word, by outcome",
-      "description": "Only a query of more than one word makes these calls.",
+      "description": "The first round of a query of more than one word.",
       "type": "timeseries",
       "datasource": {
         "type": "prometheus",
