@@ -251,7 +251,7 @@ func recordOneJudgedQuery(
 	answersCarryingThePageText := answersCarryingThePageTextOfEachDocument(
 		query, answers, pageTextPerDocument,
 	)
-	writeFixtureFile(
+	writeRecordedAnswersFile(
 		t, recordedAnswersFileOf(query), recordedAnswersOf(query, answersCarryingThePageText),
 	)
 	judgments := queryJudgmentsOfTheDocumentsToJudge(
@@ -300,11 +300,14 @@ func pageTextOfTheFirstAnsweredDocuments(
 }
 
 func recordedAnswersFileOf(query string) string {
-	return filepath.Join(recordedAnswersDirectory, queryInFileNames(query)+".json")
+	return filepath.Join(
+		recordedAnswersDirectory,
+		queryInFileNames(query)+recordedAnswersFileSuffix,
+	)
 }
 
 func queryJudgmentsFileOf(query string) string {
-	return filepath.Join(queryJudgmentsDirectory, queryInFileNames(query)+".json")
+	return filepath.Join(queryJudgmentsDirectory, queryInFileNames(query)+queryJudgmentsFileSuffix)
 }
 
 func queryInFileNames(query string) string {

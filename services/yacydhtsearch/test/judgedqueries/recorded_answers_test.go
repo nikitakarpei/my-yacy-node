@@ -12,9 +12,10 @@ import (
 )
 
 const (
-	recordedAnswersDirectory = "testdata/answers"
-	fixtureFilePermissions   = 0o644
-	fixtureDirPermissions    = 0o755
+	recordedAnswersDirectory  = "testdata/answers"
+	recordedAnswersFileSuffix = ".json.gz"
+	fixtureFilePermissions    = 0o644
+	fixtureDirPermissions     = 0o755
 )
 
 type recordedAnswers struct {
@@ -140,7 +141,9 @@ func recordedWordCountsOf(
 func recordedAnswersFiles(t *testing.T) []string {
 	t.Helper()
 
-	answersFiles, err := filepath.Glob(filepath.Join(recordedAnswersDirectory, "*.json"))
+	answersFiles, err := filepath.Glob(
+		filepath.Join(recordedAnswersDirectory, "*"+recordedAnswersFileSuffix),
+	)
 	if err != nil {
 		t.Fatalf("read %s: %v", recordedAnswersDirectory, err)
 	}
@@ -154,16 +157,25 @@ func recordedAnswersFiles(t *testing.T) []string {
 func recordedAnswersInTheFile(t *testing.T, path string) recordedAnswers {
 	t.Helper()
 
-	content, err := os.ReadFile(path) //nolint:gosec // a fixture path of this test directory
-	if err != nil {
-		t.Fatalf("read %s: %v", path, err)
-	}
 	var answers recordedAnswers
-	if err := json.Unmarshal(content, &answers); err != nil {
+	if err := json.Unmarshal(contentOfTheCompressedFixtureFile(t, path), &answers); err != nil {
 		t.Fatalf("read %s: %v", path, err)
 	}
 
 	return answers
+}
+
+func writeRecordedAnswersFile(t *testing.T, path string, answers recordedAnswers) {
+	t.Helper()
+
+	content, err := json.MarshalIndent(answers, "", "  ")
+	if err != nil {
+		t.Fatalf("write %s: %v", path, err)
+	}
+	if err := os.MkdirAll(filepath.Dir(path), fixtureDirPermissions); err != nil {
+		t.Fatalf("write %s: %v", path, err)
+	}
+	writeCompressedFixtureFile(t, path, append(content, '\n'))
 }
 
 func writeFixtureFile(t *testing.T, path string, fixture any) {

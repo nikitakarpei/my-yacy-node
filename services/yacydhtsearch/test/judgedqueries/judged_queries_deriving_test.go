@@ -25,7 +25,7 @@ func deriveOneJudgedQueryFromTheStoredPageText(t *testing.T, answersFile string)
 	derived := answersCarryingThePageTextOfEachDocument(
 		answers.Query, answers.answeredQuery(), pageTextPerDocument,
 	)
-	writeFixtureFile(t, answersFile, recordedAnswersOf(answers.Query, derived))
+	writeRecordedAnswersFile(t, answersFile, recordedAnswersOf(answers.Query, derived))
 	judgments := queryJudgmentsOfTheDocumentsToJudge(
 		answers.Query,
 		derived,

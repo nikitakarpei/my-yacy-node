@@ -12,7 +12,10 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
-const queryJudgmentsDirectory = "testdata/judgments"
+const (
+	queryJudgmentsDirectory  = "testdata/judgments"
+	queryJudgmentsFileSuffix = ".json"
+)
 
 type queryJudgments struct {
 	Query           string           `json:"query"`

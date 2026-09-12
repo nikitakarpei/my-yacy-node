@@ -5,6 +5,7 @@ import (
 	"os"
 	"path/filepath"
 	"slices"
+	"strings"
 	"testing"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/itemsordering/hostdiscount"
@@ -66,7 +67,11 @@ func judgedQueriesRecorded(t *testing.T) []judgedQuery {
 func gradedDocumentsOfTheAnswersFile(t *testing.T, answersFile string) gradedDocuments {
 	t.Helper()
 
-	judgmentsFile := filepath.Join(queryJudgmentsDirectory, filepath.Base(answersFile))
+	judgmentsFile := filepath.Join(
+		queryJudgmentsDirectory,
+		strings.TrimSuffix(filepath.Base(answersFile), recordedAnswersFileSuffix)+
+			queryJudgmentsFileSuffix,
+	)
 	if _, err := os.Stat(judgmentsFile); err != nil {
 		t.Fatalf("read %s: %v", judgmentsFile, err)
 	}

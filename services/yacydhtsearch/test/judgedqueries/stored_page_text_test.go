@@ -1,9 +1,6 @@
 package judgedqueries_test
 
 import (
-	"bytes"
-	"compress/gzip"
-	"io"
 	"os"
 	"path/filepath"
 	"strings"
@@ -39,17 +36,7 @@ func storePageTextOfTheQuery(
 func writeStoredPageTextFile(t *testing.T, path string, pageText string) {
 	t.Helper()
 
-	var compressed bytes.Buffer
-	compressing := gzip.NewWriter(&compressed)
-	if _, err := compressing.Write([]byte(pageText)); err != nil {
-		t.Fatalf("write %s: %v", path, err)
-	}
-	if err := compressing.Close(); err != nil {
-		t.Fatalf("write %s: %v", path, err)
-	}
-	if err := os.WriteFile(path, compressed.Bytes(), fixtureFilePermissions); err != nil {
-		t.Fatalf("write %s: %v", path, err)
-	}
+	writeCompressedFixtureFile(t, path, []byte(pageText))
 }
 
 func storedPageTextPerDocument(
@@ -92,20 +79,7 @@ func documentOfTheStoredPageTextFile(t *testing.T, path string) yacymodel.URLHas
 func storedPageTextInTheFile(t *testing.T, path string) string {
 	t.Helper()
 
-	compressed, err := os.ReadFile(path) //nolint:gosec // a fixture path of this test directory
-	if err != nil {
-		t.Fatalf("read %s: %v", path, err)
-	}
-	decompressing, err := gzip.NewReader(bytes.NewReader(compressed))
-	if err != nil {
-		t.Fatalf("read %s: %v", path, err)
-	}
-	pageText, err := io.ReadAll(decompressing)
-	if err != nil {
-		t.Fatalf("read %s: %v", path, err)
-	}
-
-	return string(pageText)
+	return string(contentOfTheCompressedFixtureFile(t, path))
 }
 
 func storedPageTextFileOf(query string, document yacymodel.URLHash) string {
