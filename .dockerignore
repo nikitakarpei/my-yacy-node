@@ -6,3 +6,4 @@ data
 doc
 *.md
 .toolchain
+.untracked

@@ -16,7 +16,9 @@ import (
 
 const adminAuthHeader = "Authorization: Basic YWRtaW46eWFjeQ=="
 
-const pushedDocumentTitle = "yacy rwi node end to end document"
+// pushedDocumentTitle holds an ampersand because a peer sends a title on
+// without an XML escape, which a reader of the peer must accept.
+const pushedDocumentTitle = "yacy rwi node end & to end document"
 
 func TransferTokens() []string {
 	tokens := make([]string, 150)
@@ -37,12 +39,31 @@ func PushDocument(
 	tokens []string,
 ) string {
 	t.Helper()
-	wantURL := fmt.Sprintf("http://transfer.example.invalid/doc-%d.html", len(tokens))
+
+	return PushDocumentUnderAddress(
+		t, ctx, probe, yacyURL,
+		fmt.Sprintf("http://transfer.example.invalid/doc-%d.html", len(tokens)),
+		tokens,
+	)
+}
+
+// PushDocumentUnderAddress indexes one HTML document of the given tokens under
+// the address the caller names, so that several peers can hold one document
+// with the words each of them indexes for it.
+func PushDocumentUnderAddress(
+	t *testing.T,
+	ctx context.Context,
+	probe *httpprobe.Probe,
+	yacyURL string,
+	documentAddress string,
+	tokens []string,
+) string {
+	t.Helper()
 
 	body, contentType := buildMultipart(
 		map[string]string{
 			"count":         "1",
-			"url-0":         wantURL,
+			"url-0":         documentAddress,
 			"contentType-0": "text/html",
 			"collection-0":  "transfer",
 			"synchronous":   "true",
@@ -60,7 +81,7 @@ func PushDocument(
 		t.Fatalf("push_p.json did not report success: %s", result.Body)
 	}
 
-	return wantURL
+	return documentAddress
 }
 
 func htmlPageOf(tokens []string) string {

@@ -1,0 +1,305 @@
+{
+  "query": "how to install debian",
+  "judgedDocuments": [
+    {
+      "hash": "zviPwZBP-b24",
+      "address": "https://docs.vultr.com/how-to-install-docker-ce-on-debian-11",
+      "title": "How to Install Docker CE on Debian 11 | Vultr Docs",
+      "grade": 0
+    },
+    {
+      "hash": "S6BIcp65jyZQ",
+      "address": "http://neuro.debian.net/",
+      "title": "The Ultimate Neuroscience Software Platform — Debian Neuroscience Package Repository",
+      "grade": 0
+    },
+    {
+      "hash": "It5EdL1nrxbw",
+      "address": "https://www.debian.org/intro/about",
+      "title": "Debian -- About Debian",
+      "grade": 0
+    },
+    {
+      "hash": "QEGeKX2Yfep5",
+      "address": "https://learn.microsoft.com/en-us/azure/developer/github-copilot-app-modernization/modernization-agent/quickstart",
+      "title": "Quickstart: Install and Use the GitHub Copilot Modernization Agent | Microsoft Learn",
+      "grade": 0
+    },
+    {
+      "hash": "T2EF52bypRQw",
+      "address": "https://forgejo.org/docs/latest/user/packages/debian/",
+      "title": "Debian Package Registry | Forgejo – Beyond coding. We forge.",
+      "grade": 0
+    },
+    {
+      "hash": "0wub2ZIOYuRw",
+      "address": "https://chronicles.debian.org/www/News/2008/",
+      "title": "Debian -- News from 2008",
+      "grade": 0
+    },
+    {
+      "hash": "xRhGhzDGa7S6",
+      "address": "https://raphaelhertzog.com/2026/08/26/debians-general-resolution-on-ai-and-llm/",
+      "title": "Debian’s General Resolution on AI and LLM",
+      "grade": 0
+    },
+    {
+      "hash": "my3jOE9Ojva4",
+      "address": "https://docs.docker.com/engine/install/ubuntu/",
+      "title": "Install Docker Engine on Ubuntu | Docker Docs",
+      "grade": 0
+    },
+    {
+      "hash": "_vBCkt1nrxbw",
+      "address": "https://www.debian.org/CD/http-ftp/",
+      "title": "Downloading Debian USB/CD/DVD images via HTTP/FTP",
+      "grade": 1
+    },
+    {
+      "hash": "oS68c3PBIxVw",
+      "address": "https://www.getzola.org/documentation/getting-started/installation/",
+      "title": "Installation | Zola",
+      "grade": 0
+    },
+    {
+      "hash": "xCnp1G1nrxbw",
+      "address": "https://www.debian.org/vote/2007/vote_003",
+      "title": "General Resolution: Endorse the concept of Debian Maintainers",
+      "grade": 0
+    },
+    {
+      "hash": "f2gAZmwYpnl5",
+      "address": "https://protonvpn.com/support/linux-vpn-debian-ubuntu",
+      "title": "How to install Proton VPN on Debian and Ubuntu | Proton VPN",
+      "grade": 0
+    },
+    {
+      "hash": "iaso0m0h8sSw",
+      "address": "https://tracker.debian.org/pkg/debian-installer",
+      "title": "debian-installer - Debian Package Tracker",
+      "grade": 0
+    },
+    {
+      "hash": "4SIJYl1nrxbw",
+      "address": "https://www.debian.org/distrib/",
+      "title": "Download Debian",
+      "grade": 1
+    },
+    {
+      "hash": "NNK8wg7Yxvhx",
+      "address": "https://www.postgresql.org/download/linux/debian/",
+      "title": "PostgreSQL: Linux downloads (Debian)",
+      "grade": 0
+    },
+    {
+      "hash": "ZtizaYS6MKD4",
+      "address": "https://github.com/HirbodBehnam/MTProtoProxyInstaller",
+      "title": "GitHub - HirbodBehnam/MTProtoProxyInstaller: One-click script to install MTProto Proxy server on CentOS, Ubuntu and Debian",
+      "grade": 0
+    },
+    {
+      "hash": "e0hrdtlTdLA5",
+      "address": "https://blog.mmakowski.com/technology/debian-unattended-upgrades/",
+      "title": "Debian Unattended Upgrades | The Eternal Beginner",
+      "grade": 0
+    },
+    {
+      "hash": "gZzFUHWhP36w",
+      "address": "https://matrix-team.pages.debian.net/blogue/",
+      "title": "Matrix on Debian blog",
+      "grade": 0
+    },
+    {
+      "hash": "yp2SBE9Ojva4",
+      "address": "https://docs.docker.com/engine/install/debian/",
+      "title": "Debian | Docker Docs",
+      "grade": 0
+    },
+    {
+      "hash": "3ePeGt0wUTHg",
+      "address": "https://blog.ganneff.de/",
+      "title": "Ganneff’s Little Blog | Thoughts of a small and very unimportant Debian Developer",
+      "grade": 0
+    },
+    {
+      "hash": "-32vwSSLTmwg",
+      "address": "https://blog.entek.org.uk/notes/2024/01/12/orchestrating-debian-install-and-automated-post-install-configuration-with-ansible.html",
+      "title": "Orchestrating Debian install and automated post-install configuration with Ansible | Laurence’s Blog",
+      "grade": 1
+    },
+    {
+      "hash": "9bBlhjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Debian",
+      "title": "Debian - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "D4lABzaS0qdw",
+      "address": "https://planet.debian.org/",
+      "title": "Planet Debian",
+      "grade": 0
+    },
+    {
+      "hash": "HpCyvVSLTmwg",
+      "address": "https://blog.entek.org.uk/technical/2020/05/28/debian-system-updates.html",
+      "title": "Debian system updates | Laurence’s Blog",
+      "grade": 0
+    },
+    {
+      "hash": "QX8MPKUFabq4",
+      "address": "https://blog.cihar.com/archives/debian/?page=2",
+      "title": "Blog Archives for Debian - Michal Čihař",
+      "grade": 0
+    },
+    {
+      "hash": "YAZ8YE1nrxbw",
+      "address": "https://www.debian.org/users/com/one_eighty_out",
+      "title": "Debian -- One-Eighty Out, Incorporated, Colorado Springs, Colorado, USA",
+      "grade": 0
+    },
+    {
+      "hash": "xY0EdL1nrxbw",
+      "address": "https://www.debian.org/intro/help",
+      "title": "Debian -- Contribute: How you can help Debian",
+      "grade": 0
+    },
+    {
+      "hash": "R5pe_l1nrxbw",
+      "address": "https://www.debian.org/News/",
+      "title": "Debian -- Latest News",
+      "grade": 0
+    },
+    {
+      "hash": "-0XzPobrsZjx",
+      "address": "https://www.mediawiki.org/wiki/Debian_packages",
+      "title": "Debian packages - MediaWiki",
+      "grade": 0
+    },
+    {
+      "hash": "fpiTEk9xSLDY",
+      "address": "http://search.osakos.com/cache.php?key=c0792b69d674164f3134f6a4d8b0fd4b\u0026uri=http%3A%2F%2Fpenzu.com%2Fp%2F9114926c6b6601e3",
+      "title": "LDAP/NSS - Debian Wiki",
+      "grade": 0
+    },
+    {
+      "hash": "SJVoVZIOYuRw",
+      "address": "https://chronicles.debian.org/www/News/2020/",
+      "title": "Debian -- News from 2020",
+      "grade": 0
+    },
+    {
+      "hash": "z3R1oo8zaRUY",
+      "address": "http://www.hungry.com/~pere/blog/How_to_transform_a_Debian_based_system_to_a_Debian_Edu_installation.html",
+      "title": "How to transform a Debian based system to a Debian Edu installation",
+      "grade": 0
+    },
+    {
+      "hash": "XFmAGZIOYuRw",
+      "address": "https://chronicles.debian.org/www/News/2022/",
+      "title": "Debian -- News from 2022",
+      "grade": 0
+    },
+    {
+      "hash": "lp940TlsIQEw",
+      "address": "https://people.debian.org/~nthykier/blog/",
+      "title": "Things that I work on in Debian -",
+      "grade": 0
+    },
+    {
+      "hash": "jhc0hTB-MEAg",
+      "address": "https://tanguy.ortolo.eu/blog/categorie2/debian",
+      "title": "Tanguy Ortolo - Debian",
+      "grade": 0
+    },
+    {
+      "hash": "M_UYiL1nrxbw",
+      "address": "https://www.debian.org/intro/index",
+      "title": "Debian -- Introduction to Debian",
+      "grade": 0
+    },
+    {
+      "hash": "Bc4mj0ruEU54",
+      "address": "https://www.cyrius.com/debian/nslu2/unpack/",
+      "title": "Debian tar ball for Linksys NSLU2 | Martin Michlmayr",
+      "grade": 1
+    },
+    {
+      "hash": "lYmRuy1nrxbw",
+      "address": "https://www.debian.org/releases/etch/",
+      "title": "Debian -- Debian “etch” Release Information",
+      "grade": 0
+    },
+    {
+      "hash": "_NH8h31nrxbw",
+      "address": "https://www.debian.org/News/2026/2026011002",
+      "title": "Debian -- News -- Updated Debian 12: 12.13 released",
+      "grade": 0
+    },
+    {
+      "hash": "yBMaQL1nrxbw",
+      "address": "https://www.debian.org/intro/free",
+      "title": "Debian -- What does free mean?",
+      "grade": 0
+    },
+    {
+      "hash": "q03Sr2QlA5B4",
+      "address": "https://miniflux.app/docs/debian.html",
+      "title": "Debian Installation",
+      "grade": 0
+    },
+    {
+      "hash": "ALdUosH8M7Hx",
+      "address": "https://snapcraft.io/telegram-desktop",
+      "title": "Install Telegram on Linux | Snap Store",
+      "grade": 0
+    },
+    {
+      "hash": "eKmk8ZFFVuw4",
+      "address": "https://www.passbolt.com/ce/debian",
+      "title": "Install Community Edition on Debian: Passbolt Install Guide",
+      "grade": 0
+    },
+    {
+      "hash": "SL3yxl1nrxbw",
+      "address": "https://www.debian.org/blends/",
+      "title": "Debian Pure Blends",
+      "grade": 0
+    },
+    {
+      "hash": "_BwQ1GNQlu2w",
+      "address": "https://bits.debian.org/",
+      "title": "Bits from Debian - Blog from the Debian Project",
+      "grade": 0
+    },
+    {
+      "hash": "vkZ39WzhkODg",
+      "address": "https://soloconlinux.org.es/debian-13-6-point-release/",
+      "title": "Debian 13.6 (point release)",
+      "grade": 0
+    },
+    {
+      "hash": "NweMal1nrxbw",
+      "address": "https://www.debian.org/social_contract",
+      "title": "Debian Social Contract",
+      "grade": 0
+    },
+    {
+      "hash": "Q6EQky1nrxbw",
+      "address": "https://www.debian.org/releases/trixie/installmanual",
+      "title": "Debian trixie -- Installation Guide",
+      "grade": 2
+    },
+    {
+      "hash": "941WA31nrxbw",
+      "address": "https://www.debian.org/News/weekly/",
+      "title": "Debian Project News - Index",
+      "grade": 0
+    },
+    {
+      "hash": "K5flrZIOYuRw",
+      "address": "https://chronicles.debian.org/www/News/2021/",
+      "title": "Debian -- News from 2021",
+      "grade": 0
+    }
+  ]
+}

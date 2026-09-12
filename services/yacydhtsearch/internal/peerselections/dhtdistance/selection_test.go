@@ -6,11 +6,14 @@ import (
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerdirectory"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerselections/dhtdistance"
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/searchquery"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
-const partitionExponent = 4
+const (
+	partitionExponent = 4
+	ringPartitions    = 1 << partitionExponent
+	peersCeiling      = 24
+)
 
 type recordedFractions struct{ fractions []float64 }
 
@@ -46,49 +49,106 @@ func askablePeers(t *testing.T, count int) []peerdirectory.AskablePeer {
 func TestEveryChosenPeerIsNamedOnce(t *testing.T) {
 	t.Parallel()
 
-	selection := dhtdistance.New(partitions(t), 3, &recordedFractions{})
+	selection := dhtdistance.New(partitions(t), &recordedFractions{})
 
-	chosen := selection.PeersFor(
+	chosen := selection.PeersForWord(
 		t.Context(),
-		searchquery.QueryFrom("berlin weather forecast"),
+		yacymodel.WordHash("berlin"),
 		askablePeers(t, 20),
+		peersCeiling,
 	)
 
 	seen := map[yacymodel.Hash]struct{}{}
 	for _, peer := range chosen {
 		if _, twice := seen[peer.Hash]; twice {
-			t.Fatalf("PeersFor named %s twice", peer.Hash)
+			t.Fatalf("PeersForWord named %s twice", peer.Hash)
 		}
 		seen[peer.Hash] = struct{}{}
 	}
 }
 
-func TestEveryAskablePeerIsChosenWhenTheyAreFewerThanTheRedundancy(t *testing.T) {
+func TestNoMorePeersAreChosenThanTheCeilingAllows(t *testing.T) {
 	t.Parallel()
 
-	selection := dhtdistance.New(partitions(t), 3, &recordedFractions{})
+	selection := dhtdistance.New(partitions(t), &recordedFractions{})
+
+	chosen := selection.PeersForWord(
+		t.Context(),
+		yacymodel.WordHash("berlin"),
+		askablePeers(t, 200),
+		peersCeiling,
+	)
+
+	if len(chosen) != peersCeiling {
+		t.Fatalf("PeersForWord chose %d peers, want %d", len(chosen), peersCeiling)
+	}
+}
+
+func TestAPartitionOfTheRingKeepsItsPeersWhenTheCeilingIsBelowThePartitions(t *testing.T) {
+	t.Parallel()
+
+	const peerOfEachPartition = ringPartitions
+
+	observer := &recordedFractions{}
+	selection := dhtdistance.New(partitions(t), observer)
+
+	chosen := selection.PeersForWord(
+		t.Context(),
+		yacymodel.WordHash("berlin"),
+		askablePeers(t, 200),
+		peerOfEachPartition,
+	)
+
+	if len(chosen) != peerOfEachPartition {
+		t.Fatalf("PeersForWord chose %d peers, want %d", len(chosen), peerOfEachPartition)
+	}
+	nearestOfEachPartition := 0
+	for _, fraction := range observer.fractions {
+		if fraction < 1.0/ringPartitions {
+			nearestOfEachPartition++
+		}
+	}
+	if nearestOfEachPartition != peerOfEachPartition {
+		t.Fatalf(
+			"%d of %d chosen peers sit inside their own partition, want all of them",
+			nearestOfEachPartition,
+			peerOfEachPartition,
+		)
+	}
+}
+
+func TestEveryAskablePeerIsChosenWhenTheyAreFewerThanTheCeiling(t *testing.T) {
+	t.Parallel()
+
+	selection := dhtdistance.New(partitions(t), &recordedFractions{})
 	askable := askablePeers(t, 2)
 
-	chosen := selection.PeersFor(t.Context(), searchquery.QueryFrom("berlin"), askable)
+	chosen := selection.PeersForWord(
+		t.Context(),
+		yacymodel.WordHash("berlin"),
+		askable,
+		peersCeiling,
+	)
 
 	if len(chosen) != len(askable) {
-		t.Fatalf("PeersFor chose %d of %d askable peers, want all", len(chosen), len(askable))
+		t.Fatalf("PeersForWord chose %d of %d askable peers, want all", len(chosen), len(askable))
 	}
 }
 
 func TestNoPeerIsChosenFromAnEmptyAskableSet(t *testing.T) {
 	t.Parallel()
 
-	selection := dhtdistance.New(partitions(t), 3, &recordedFractions{})
+	selection := dhtdistance.New(partitions(t), &recordedFractions{})
 
-	if chosen := selection.PeersFor(
+	chosen := selection.PeersForWord(
 		t.Context(),
-		searchquery.QueryFrom("berlin"),
+		yacymodel.WordHash("berlin"),
 		nil,
-	); len(
-		chosen,
-	) != 0 {
-		t.Fatalf("PeersFor = %v, want none", chosen)
+		peersCeiling,
+	)
+
+	if len(chosen) != 0 {
+		t.Fatalf("PeersForWord = %v, want none", chosen)
 	}
 }
 
@@ -96,9 +156,14 @@ func TestOneRingFractionIsReportedForEachChosenPeer(t *testing.T) {
 	t.Parallel()
 
 	observer := &recordedFractions{}
-	selection := dhtdistance.New(partitions(t), 3, dhtdistance.DHTDistanceObservers{observer})
+	selection := dhtdistance.New(partitions(t), dhtdistance.DHTDistanceObservers{observer})
 
-	chosen := selection.PeersFor(t.Context(), searchquery.QueryFrom("berlin"), askablePeers(t, 20))
+	chosen := selection.PeersForWord(
+		t.Context(),
+		yacymodel.WordHash("berlin"),
+		askablePeers(t, 20),
+		peersCeiling,
+	)
 
 	if len(observer.fractions) != len(chosen) {
 		t.Fatalf(

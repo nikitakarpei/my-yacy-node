@@ -122,7 +122,7 @@ func TestAnAskedPeerRestsForTheCooldown(t *testing.T) {
 	directory.Admit(t.Context(), []yacymodel.Seed{seedOf(t, peer, "10.0.0.1")})
 	directory.ConfirmAnswering(t.Context(), peer, "http://10.0.0.1:8090")
 
-	directory.MarkPeersAsked(t.Context(), directory.AskablePeers(t.Context()))
+	directory.MarkPeersChosen(t.Context(), directory.AskablePeers(t.Context()))
 	clock.instant = clock.instant.Add(cooldown - time.Second)
 	if askable := directory.AskablePeers(t.Context()); len(askable) != 0 {
 		t.Fatalf("AskablePeers = %v, want none inside the cooldown", askable)

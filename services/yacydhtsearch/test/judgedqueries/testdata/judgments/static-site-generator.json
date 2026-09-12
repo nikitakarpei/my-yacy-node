@@ -1,0 +1,281 @@
+{
+  "query": "static site generator",
+  "judgedDocuments": [
+    {
+      "hash": "xr6iDzS6MKD4",
+      "address": "https://github.com/awesome-selfhosted/awesome-selfhosted",
+      "title": "GitHub - awesome-selfhosted/awesome-selfhosted: A list of Free Software network services and web applications which can be hosted on your own servers",
+      "grade": 0
+    },
+    {
+      "hash": "aR3Mq3WRlFM5",
+      "address": "https://ohdsi.r-universe.dev/PatientGenerator",
+      "title": "PatientGenerator: Generator of Synthetic Patient Data for the OMOP Common Data Model",
+      "grade": 0
+    },
+    {
+      "hash": "ps4tWNkxS534",
+      "address": "https://powerpoint-generator.utils.com/",
+      "title": "PowerPoint Generator - utils.com",
+      "grade": 0
+    },
+    {
+      "hash": "3DgxkZGR0Is4",
+      "address": "https://slug-generator.utils.com/",
+      "title": "Slug Generator - utils.com",
+      "grade": 0
+    },
+    {
+      "hash": "by8Ivl_0-Tb4",
+      "address": "https://www.11ty.dev/",
+      "title": "Eleventy is a simpler static site generator",
+      "grade": 1
+    },
+    {
+      "hash": "VMcRUXwA4J44",
+      "address": "https://team-generator.utils.com/",
+      "title": "Random Team Generator - utils.com",
+      "grade": 0
+    },
+    {
+      "hash": "qg3blaMjkbX4",
+      "address": "https://password-generator.utils.com/",
+      "title": "Secure Password Generator - utils.com",
+      "grade": 0
+    },
+    {
+      "hash": "Fc0AMlVE8Pt4",
+      "address": "https://token-generator.utils.com/",
+      "title": "Random Token Generator - utils.com",
+      "grade": 0
+    },
+    {
+      "hash": "NTKSIW8dlWJ4",
+      "address": "https://ics-generator.utils.com/",
+      "title": "ICS File Generator - utils.com",
+      "grade": 0
+    },
+    {
+      "hash": "iNzCnU5yy4Rk",
+      "address": "https://visme.co/blog/digital-magazine/",
+      "title": "How to Create Your Own Digital Magazine",
+      "grade": 0
+    },
+    {
+      "hash": "jhXbDbLXFVYx",
+      "address": "https://petrapixel.neocities.org/coding/layout-generator",
+      "title": "layout generator | petrapixel",
+      "grade": 0
+    },
+    {
+      "hash": "m-OH2DS6MKD4",
+      "address": "https://github.com/godotengine/godot-website",
+      "title": "GitHub - godotengine/godot-website: The code for the official Godot Engine website. A static site built using Jekyll.",
+      "grade": 0
+    },
+    {
+      "hash": "vPMnw50j8oEw",
+      "address": "https://git.sr.ht/~sircmpwn/openring",
+      "title": "~sircmpwn/openring - A webring for static site generators - sourcehut git",
+      "grade": 0
+    },
+    {
+      "hash": "rtZi4U7V5mo4",
+      "address": "https://alt-text.utils.com/",
+      "title": "Alt Text Generator - Image Accessibility Tool - utils.com",
+      "grade": 0
+    },
+    {
+      "hash": "vgOC8IkVtSQ4",
+      "address": "https://tv-signoff.utils.com/",
+      "title": "TV Sign-Off - Color Bars, Test Card \u0026 Analog Static - utils.com",
+      "grade": 0
+    },
+    {
+      "hash": "22wd2Ij2CTW4",
+      "address": "https://invoice-generator.utils.com/",
+      "title": "Invoice Generator - Create Professional Invoices with PDF Download - utils.com",
+      "grade": 0
+    },
+    {
+      "hash": "ImmtH6WvMIm4",
+      "address": "https://would-you-rather.utils.com/",
+      "title": "Would You Rather Generator - utils.com",
+      "grade": 0
+    },
+    {
+      "hash": "mmup3xKAn6I5",
+      "address": "https://news.ycombinator.com/item?id=32730020",
+      "title": "Static site hosting hurdles | Hacker News",
+      "grade": 0
+    },
+    {
+      "hash": "2gBdSK58I4M4",
+      "address": "https://placeholder.utils.com/",
+      "title": "Placeholder Image Editor - Create Custom Placeholder Images - utils.com",
+      "grade": 0
+    },
+    {
+      "hash": "sZYJ9s4tw1tw",
+      "address": "https://jamstack.org/generators/",
+      "title": "Static Site Generators - Top Open Source SSGs | Jamstack",
+      "grade": 2
+    },
+    {
+      "hash": "lezxDvA4psi4",
+      "address": "https://www.theverge.com/news/718795/xai-grok-imagine-video-generator-spicy-mode",
+      "title": "xAI’s new Grok image and video generator has a ‘spicy’ mode | The Verge",
+      "grade": 0
+    },
+    {
+      "hash": "4iKjkFS6MKD4",
+      "address": "https://github.com/cstate/cstate",
+      "title": "GitHub - cstate/cstate: 🔥 Open source static (serverless) status page. Uses hyperfast Go \u0026 Hugo, minimal HTML/CSS/JS, customizable, outstanding browser support (IE8+), preloaded CMS, read-only API, badges \u0026 more. · GitHub",
+      "grade": 0
+    },
+    {
+      "hash": "_GFZkkgpBPX4",
+      "address": "https://robots.utils.com/",
+      "title": "Robots.txt Generator - Create SEO Robot Files - utils.com",
+      "grade": 0
+    },
+    {
+      "hash": "Tl3clyW9wAS4",
+      "address": "https://meme-generator.utils.com/",
+      "title": "Meme Generator - utils.com",
+      "grade": 0
+    },
+    {
+      "hash": "zULfQuWyDnvx",
+      "address": "https://jam.wikipedia.org/wiki/Wikipidia:Vilij_skwier",
+      "title": "Wikipidia:Vilij skwier - Wikipidia",
+      "grade": 0
+    },
+    {
+      "hash": "PTfRuhy01CE4",
+      "address": "https://phrasebook-generator.utils.com/",
+      "title": "Phrasebook Generator - utils.com",
+      "grade": 0
+    },
+    {
+      "hash": "jMOthj7fawp4",
+      "address": "https://study-planner.utils.com/",
+      "title": "Study Planner - Spaced Repetition Schedule Generator - utils.com",
+      "grade": 0
+    },
+    {
+      "hash": "vyCjVFs3IbY4",
+      "address": "https://watering-schedule.utils.com/",
+      "title": "Watering Schedule Generator - Plant Watering Plan by Climate \u0026 Soil - utils.com",
+      "grade": 0
+    },
+    {
+      "hash": "_bVAd0omXJt4",
+      "address": "https://ripemd160.utils.com/",
+      "title": "RIPEMD-160 Hasher - utils.com",
+      "grade": 0
+    },
+    {
+      "hash": "Eno3yUXJd_Y4",
+      "address": "https://number-base.utils.com/",
+      "title": "Number Base Converter - Binary, Octal, Decimal, Hex \u0026 Custom Bases - utils.com",
+      "grade": 0
+    },
+    {
+      "hash": "F2Mbtsq1kBn4",
+      "address": "https://shellcheck.utils.com/",
+      "title": "Shellcheck Paste Analyzer - Lint Bash \u0026 Zsh Scripts - utils.com",
+      "grade": 0
+    },
+    {
+      "hash": "yqut5p4vsYu4",
+      "address": "https://sql-query.utils.com/",
+      "title": "SQL Query Builder - Visual SQL Generator Online - utils.com",
+      "grade": 0
+    },
+    {
+      "hash": "FObfyIti3uS4",
+      "address": "https://rand.utils.com/",
+      "title": "Random Number Generator - utils.com",
+      "grade": 0
+    },
+    {
+      "hash": "X_tpr4xbskn4",
+      "address": "https://barcode.utils.com/",
+      "title": "Barcode Generator - utils.com",
+      "grade": 0
+    },
+    {
+      "hash": "GuV9GN1uwFW4",
+      "address": "https://pdf-numbers.utils.com/",
+      "title": "PDF Page Numbers - Add Page Numbers to PDF Online - utils.com",
+      "grade": 0
+    },
+    {
+      "hash": "XGmXWRcoB-a4",
+      "address": "https://htpasswd.utils.com/",
+      "title": "htpasswd Generator - utils.com",
+      "grade": 0
+    },
+    {
+      "hash": "onaY7j-JVcyx",
+      "address": "https://en.wikiquote.org/wiki/Barack_Obama",
+      "title": "Barack Obama - Wikiquote",
+      "grade": 0
+    },
+    {
+      "hash": "4YsOiW-beEs4",
+      "address": "https://unixtime.utils.com/",
+      "title": "Unixtime Converter - utils.com",
+      "grade": 0
+    },
+    {
+      "hash": "SrzD7m1QAr_4",
+      "address": "https://ccpa-compliance.utils.com/",
+      "title": "CCPA Compliance Checker - Free Online Assessment Tool - utils.com",
+      "grade": 0
+    },
+    {
+      "hash": "gCVBNZ3WSkX4",
+      "address": "https://docs.ovhcloud.com/en/",
+      "title": "OVHcloud Documentation",
+      "grade": 0
+    },
+    {
+      "hash": "qrC8FZ4zksK4",
+      "address": "https://dilution.utils.com/",
+      "title": "Dilution Calculator (C1V1 = C2V2) - utils.com",
+      "grade": 0
+    },
+    {
+      "hash": "iDhWR29G76F4",
+      "address": "https://myip.utils.com/",
+      "title": "My IP - utils.com",
+      "grade": 0
+    },
+    {
+      "hash": "QkU46F9yt2X4",
+      "address": "https://table-cards.utils.com/",
+      "title": "Table Card Generator - utils.com",
+      "grade": 0
+    },
+    {
+      "hash": "wtG_rlLO17z5",
+      "address": "https://www.pagetable.com/?p=547",
+      "title": "How many Commodore 64 computers were really sold? – pagetable.com",
+      "grade": 0
+    },
+    {
+      "hash": "YagNtcMDVVD4",
+      "address": "https://vat.utils.com/",
+      "title": "VAT Calculator - utils.com",
+      "grade": 0
+    },
+    {
+      "hash": "qcSF2cuStRZ4",
+      "address": "https://mock-data.utils.com/",
+      "title": "Mock Data Generator (JSON) - Generate Fake Test Data - utils.com",
+      "grade": 0
+    }
+  ]
+}

@@ -63,8 +63,10 @@ func TestSearchResponseRoundTrip(t *testing.T) {
 			sampleSearchResource(t, "url-a"),
 			sampleSearchResource(t, "url-b"),
 		},
-		IndexCount:    map[yacymodel.Hash]int{alpha: 17},
-		IndexAbstract: map[yacymodel.Hash]string{alpha: "abc"},
+		IndexCount: map[yacymodel.Hash]int{alpha: 17},
+		IndexAbstract: map[yacymodel.Hash][]yacymodel.URLHash{
+			alpha: {mustParseURLHash(t, "bbbbbbAAAAAA")},
+		},
 	}
 
 	msg := resp.Encode()
@@ -142,7 +144,7 @@ func TestSearchResponseUsesYaCyCountField(t *testing.T) {
 func TestParseSearchResponseSkipsMissingAndBadResources(t *testing.T) {
 	t.Parallel()
 
-	valid := sampleURLMetadata("url-a")
+	valid := sampleURLMetadata(t, "url-a")
 	msg := yacyproto.Message{
 		yacyproto.FieldCount: "3",
 		"resource0":          sampleURLMetadataWireForm(t, valid),
@@ -177,10 +179,7 @@ func TestSearchResponsePostingNamesTheDocumentOfItsRow(t *testing.T) {
 		t.Fatalf("resources = %d, want 1", len(got.Resources))
 	}
 
-	documentHash, err := got.Resources[0].Metadata.Hash()
-	if err != nil {
-		t.Fatalf("url metadata hash: %v", err)
-	}
+	documentHash := got.Resources[0].Metadata.Hash
 	posting, ok := got.Resources[0].Posting.Get()
 	if !ok {
 		t.Fatal("row carries no posting")

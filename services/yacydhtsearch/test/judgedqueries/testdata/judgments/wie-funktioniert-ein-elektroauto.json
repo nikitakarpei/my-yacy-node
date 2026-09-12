@@ -1,0 +1,287 @@
+{
+  "query": "wie funktioniert ein elektroauto",
+  "judgedDocuments": [
+    {
+      "hash": "cQVvPl5ARWyg",
+      "address": "https://www.spiegel.de/schlagzeilen/",
+      "title": "Schlagzeilen - DER SPIEGEL",
+      "grade": 0
+    },
+    {
+      "hash": "WLeSrl5ARWyg",
+      "address": "https://www.spiegel.de/",
+      "title": "DER SPIEGEL | Online-Nachrichten",
+      "grade": 0
+    },
+    {
+      "hash": "emM1QjyX5Qug",
+      "address": "https://www.t-online.de/mobilitaet/e-autos/",
+      "title": "Elektroauto Ratgeber: Tipps und Infos rund um Elektroautos",
+      "grade": 1
+    },
+    {
+      "hash": "lScV_l8moajg",
+      "address": "https://www.welt.de/motor/",
+      "title": "PS WELT - Auto-News, Fahrberichte, und Tests - WELT",
+      "grade": 0
+    },
+    {
+      "hash": "osq-HlBPr4m7",
+      "address": "https://www.motorsport-magazin.com/auto-tuning/",
+      "title": "Auto Vorstellungen, E-Mobility und Tuning - alle Infos",
+      "grade": 0
+    },
+    {
+      "hash": "RzdNbIgw84xh",
+      "address": "https://www.sueddeutsche.de/auto/mobilitaet-das-problem-mit-dem-e-1.2520098",
+      "title": "Elektromobilität - Das Problem der Elektroautos - Auto \u0026 Mobil - SZ.de",
+      "grade": 1
+    },
+    {
+      "hash": "meozUllA2Rig",
+      "address": "https://www.n-tv.de/auto/",
+      "title": "Auto - n-tv.de",
+      "grade": 0
+    },
+    {
+      "hash": "HWuoKXDOAHJg",
+      "address": "https://www.heise.de/tests/Elektroauto-Mercedes-GLC-400-im-Test-E-SUV-laesst-Verbrenner-alt-aussehen-11425170.html",
+      "title": "Elektroauto Mercedes GLC 400 im Test: E-SUV lässt Verbrenner alt aussehen | heise autos",
+      "grade": 1
+    },
+    {
+      "hash": "EZWaqlDOAHJg",
+      "address": "https://www.heise.de/plus",
+      "title": "heise+ Immer mehr Wissen | heise online",
+      "grade": 0
+    },
+    {
+      "hash": "Fl-YxlDOAHJg",
+      "address": "https://www.heise.de/",
+      "title": "heise online - IT-News, Nachrichten und Hintergründe | heise online",
+      "grade": 0
+    },
+    {
+      "hash": "YUdn2a2R88yh",
+      "address": "https://www.klimaaktiv.at/private/zukunftsfittes-haus/sanieren/foerderung-und-beratung",
+      "title": "Sanierung – Förderung nutzen \u0026 richtig beraten lassen | klimaaktiv",
+      "grade": 0
+    },
+    {
+      "hash": "2RTWrl8moajg",
+      "address": "https://www.welt.de/",
+      "title": "WELT - Aktuelle Nachrichten, News, Hintergründe \u0026 Videos",
+      "grade": 0
+    },
+    {
+      "hash": "QurvL3sdClVg",
+      "address": "https://kurier.at/politik/klima?cx_artpos=2\u0026cx_experienceactionid=showrecommendationswphda8on3w4d37",
+      "title": "Klima: Nachrichten über die Klimakrise | Kurier",
+      "grade": 0
+    },
+    {
+      "hash": "VYaXgl8moajg",
+      "address": "https://www.welt.de/finanzen/",
+      "title": "Finanzen - Aktuelle Nachrichten, News \u0026 Ratgeber - WELT",
+      "grade": 0
+    },
+    {
+      "hash": "DXOeRNDOAHJg",
+      "address": "https://www.heise.de/hintergrund/Elektroautos-mit-Wechselstrom-laden-Langsam-aber-bewaehrt-11385092.html",
+      "title": "Elektroautos mit Wechselstrom laden: Langsam, aber bewährt | heise autos",
+      "grade": 1
+    },
+    {
+      "hash": "w623Xl8moajg",
+      "address": "https://www.welt.de/weltplus/",
+      "title": "WELTplus - Qualitätsjournalismus für Abonnenten - WELT",
+      "grade": 0
+    },
+    {
+      "hash": "3KI3Qh8moajg",
+      "address": "https://www.welt.de/finanzen/weltplus/",
+      "title": "WELTplus Finanzen - Qualitätsjournalismus für Abonnenten",
+      "grade": 0
+    },
+    {
+      "hash": "pgzRRh8moajg",
+      "address": "https://www.welt.de/finanzen/immobilien/",
+      "title": "Immobilien - Wohneigentum, Finanzierung \u0026 Kaufpreise - WELT",
+      "grade": 0
+    },
+    {
+      "hash": "D9oZ8NDOAHJg",
+      "address": "https://www.heise.de/thema/Digital-Health",
+      "title": "Digital Health: News, Ratgeber und Tipps | heise online",
+      "grade": 0
+    },
+    {
+      "hash": "A5MTflMudkbg",
+      "address": "https://www.waz.de/",
+      "title": "WAZ | Westdeutsche Allgemeine Zeitung",
+      "grade": 0
+    },
+    {
+      "hash": "AthR8li-f6Eg",
+      "address": "https://www.zeit.de/daten-und-visualisierung",
+      "title": "Übersicht: Unsere Daten und Visualisierungen | ZEIT ONLINE",
+      "grade": 0
+    },
+    {
+      "hash": "DjQWH1qF-3Lg",
+      "address": "https://www.bmimi.gv.at/themen/innovation/internationales/cost.html",
+      "title": "COST",
+      "grade": 0
+    },
+    {
+      "hash": "hpNx6l0w__jw",
+      "address": "https://www.faz.net/aktuell/",
+      "title": "Aktuelle Nachrichten online - FAZ.NET",
+      "grade": 0
+    },
+    {
+      "hash": "YbzwIlDOAHJg",
+      "address": "https://www.heise.de/newsticker/",
+      "title": "7-Tage-News | heise online",
+      "grade": 0
+    },
+    {
+      "hash": "ZyiHz7E1ETA5",
+      "address": "https://www.handelsblatt.com/themen/elektro-autos",
+      "title": "Elektromobilität News: Neueste Nachrichten aus der Welt der E-Autos",
+      "grade": 1
+    },
+    {
+      "hash": "gkwLV1qF-3Lg",
+      "address": "https://www.bmimi.gv.at/themen/mobilitaet/alternative_verkehrskonzepte/automatisiertesfahren/faq.html",
+      "title": "Häufig gestellte Fragen, FAQ",
+      "grade": 0
+    },
+    {
+      "hash": "rtQ-JluG0-bg",
+      "address": "https://www.fr.de/",
+      "title": "FR.de | News aus Politik, Wirtschaft, Sport, Frankfurt, Hessen und der Welt",
+      "grade": 0
+    },
+    {
+      "hash": "O4Dj_MdDehkg",
+      "address": "https://www.adac.de/services/apps/smartconnect/",
+      "title": "ADAC Smart Connect App",
+      "grade": 0
+    },
+    {
+      "hash": "T74ZyKdDehkg",
+      "address": "https://www.adac.de/rund-ums-fahrzeug/ausstattung-technik-zubehoer/autonomes-fahren/",
+      "title": "Autonomes Fahren: Was selbst fahrende Autos können - und was nicht | ADAC",
+      "grade": 0
+    },
+    {
+      "hash": "0kHsN50w__jw",
+      "address": "https://www.faz.net/aktuell/technik-motor/energie/",
+      "title": "Energie - FAZ",
+      "grade": 0
+    },
+    {
+      "hash": "c7JXtCdDehkg",
+      "address": "https://www.adac.de/reise-freizeit/ratgeber/flugentschaedigung/",
+      "title": "Bis zu 600,- Entschädigung für Flugverspätung und Annullierung",
+      "grade": 0
+    },
+    {
+      "hash": "c95rUlyT1Gu7",
+      "address": "https://www.solaranlagen-portal.com/?ref=622965\u0026utm_source=Focus\u0026utm_medium=Linkbox-generell\u0026utm_campaign=solar-mehr-button",
+      "title": "Solaranlage: Photovoltaik verstehen \u0026 sparen mit PV! ☀",
+      "grade": 0
+    },
+    {
+      "hash": "2PrnHiUHQOxh",
+      "address": "https://futurezone.at/produkte/wie-elektro-das-aussehen-von-autos-veraendern-wird/401095335",
+      "title": "Wie Elektro das Aussehen von Autos verändern wird",
+      "grade": 0
+    },
+    {
+      "hash": "5FjW3z0w__jw",
+      "address": "https://www.faz.net/kaufkompass/test/die-beste-dachbox/",
+      "title": "Die beste Dachbox | Test 09/2026 | F.A.Z. Kaufkompass",
+      "grade": 0
+    },
+    {
+      "hash": "V2xlnzNo0aCw",
+      "address": "https://automarkt.faz.net/",
+      "title": "F.A.Z.-Automarkt: Angebote rund um das Thema Auto",
+      "grade": 0
+    },
+    {
+      "hash": "q32UbskjxbMg",
+      "address": "https://t3n.de/",
+      "title": "t3n – digital pioneers | Das Magazin für digitales Business - t3nde",
+      "grade": 0
+    },
+    {
+      "hash": "O7gAKjyX5Qug",
+      "address": "https://www.t-online.de/mobilitaet/aktuelles/",
+      "title": "Aktuelle News und Infos rund um das Thema Mobilität",
+      "grade": 0
+    },
+    {
+      "hash": "VfIdk7yX5Qug",
+      "address": "https://www.t-online.de/themen/vw/",
+      "title": "VW: Aktuelle News und Infos",
+      "grade": 0
+    },
+    {
+      "hash": "eVKhB7yX5Qug",
+      "address": "https://www.t-online.de/themen/byd/",
+      "title": "BYD: Aktuelle News \u0026 Infos",
+      "grade": 0
+    },
+    {
+      "hash": "jREsW7yX5Qug",
+      "address": "https://www.t-online.de/themen/bmw/",
+      "title": "BMW: Aktuelle News \u0026 Infos",
+      "grade": 0
+    },
+    {
+      "hash": "ksYCRlyX5Qug",
+      "address": "https://www.t-online.de/mobilitaet/",
+      "title": "News und Infos rund um das Thema Mobilität",
+      "grade": 0
+    },
+    {
+      "hash": "0Et0vMdDehkg",
+      "address": "https://www.adac.de/produkte/versicherungen/auslandskrankenversicherung/tarife-und-leistungen/",
+      "title": "Auslandskrankenversicherung - \"Sehr gut\" im Test",
+      "grade": 0
+    },
+    {
+      "hash": "s8nhVZ8moajg",
+      "address": "https://www.welt.de/wirtschaft/webwelt/",
+      "title": "Technik \u0026 Internet - Aktuelle News rund um Web \u0026 Digitales - WELT",
+      "grade": 0
+    },
+    {
+      "hash": "zyRaalDOAHJg",
+      "address": "https://www.heise.de/autos",
+      "title": "heise autos: News, Tests, Technik und Service | heise online",
+      "grade": 0
+    },
+    {
+      "hash": "jS34cMdDehkg",
+      "address": "https://www.adac.de/produkte/finanzdienstleistungen/autokredit/ballonfinanzierung/",
+      "title": "ADAC Autokredit mit Schlussrate | Ballonfinanzierung",
+      "grade": 0
+    },
+    {
+      "hash": "0w4-YT9uM9Dh",
+      "address": "https://www.hardwareluxx.de/index.php/news/hardware/auto/48440-elektroauto-von-honda-soll-noch-dieses-jahr-kommen.html",
+      "title": "Elektroauto von Honda soll noch dieses Jahr kommen - Hardwareluxx",
+      "grade": 1
+    },
+    {
+      "hash": "17qDAT9uM9Dh",
+      "address": "https://www.hardwareluxx.de/index.php/news/hardware/auto/48503-volkswagen-20-000-euro-elektroauto-soll-kommen.html",
+      "title": "Volkswagen: 20.000-Euro-Elektroauto soll kommen - Hardwareluxx",
+      "grade": 1
+    }
+  ]
+}

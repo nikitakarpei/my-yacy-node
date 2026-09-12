@@ -29,90 +29,43 @@ type RankingCache interface {
 	)
 }
 
-type RankingObserver interface {
-	QueryAnsweredFromCache(ctx context.Context, query searchquery.Query, items int)
-	QueryAnsweredByPeers(ctx context.Context, query searchquery.Query, items int)
-	QueryHadNoIndexedTerm(ctx context.Context, query searchquery.Query)
-	QueryFoundNoPeerToAsk(ctx context.Context, query searchquery.Query)
+type QueryRankingObserver interface {
+	QueryAnsweredFromCache(ctx context.Context, query searchquery.Query, amountOfItems int)
+	QueryAnsweredByPeers(ctx context.Context, query searchquery.Query, amountOfItems int)
+	QueryHoldsNoIndexedTerm(ctx context.Context, query searchquery.Query)
+	QueryReachedNoPeer(ctx context.Context, query searchquery.Query)
 }
 
 type Rankings struct {
 	cache    RankingCache
 	network  Network
-	observer RankingObserver
+	observer QueryRankingObserver
 }
 
-func New(cache RankingCache, network Network, observer RankingObserver) Rankings {
+func New(cache RankingCache, network Network, observer QueryRankingObserver) Rankings {
 	return Rankings{cache: cache, network: network, observer: observer}
 }
 
-func (r Rankings) RankingFor(
+func (rankings Rankings) RankingFor(
 	ctx context.Context,
 	query searchquery.Query,
 ) searchresult.Ranking {
-	if ranking, cached := r.cache.CachedRankingFor(ctx, query); cached {
-		r.observer.QueryAnsweredFromCache(ctx, query, len(ranking.Items))
+	if cachedRanking, cached := rankings.cache.CachedRankingFor(ctx, query); cached {
+		rankings.observer.QueryAnsweredFromCache(ctx, query, len(cachedRanking.Items))
 
-		return ranking
+		return cachedRanking
 	}
 
-	return r.rankingFromPeers(ctx, query)
-}
-
-func (r Rankings) rankingFromPeers(
-	ctx context.Context,
-	query searchquery.Query,
-) searchresult.Ranking {
-	ranking, outcome := r.network.Search(ctx, query)
+	ranking, outcome := rankings.network.Search(ctx, query)
 	switch outcome {
 	case networksearch.NoIndexedTermInQuery:
-		r.observer.QueryHadNoIndexedTerm(ctx, query)
+		rankings.observer.QueryHoldsNoIndexedTerm(ctx, query)
 	case networksearch.NoPeerToAsk:
-		r.observer.QueryFoundNoPeerToAsk(ctx, query)
+		rankings.observer.QueryReachedNoPeer(ctx, query)
 	case networksearch.PeersAsked:
-		r.cache.StoreRanking(ctx, query, ranking)
-		r.observer.QueryAnsweredByPeers(ctx, query, len(ranking.Items))
+		rankings.cache.StoreRanking(ctx, query, ranking)
+		rankings.observer.QueryAnsweredByPeers(ctx, query, len(ranking.Items))
 	}
 
 	return ranking
-}
-
-type RankingObservers []RankingObserver
-
-func (observers RankingObservers) QueryAnsweredFromCache(
-	ctx context.Context,
-	query searchquery.Query,
-	items int,
-) {
-	for _, observer := range observers {
-		observer.QueryAnsweredFromCache(ctx, query, items)
-	}
-}
-
-func (observers RankingObservers) QueryAnsweredByPeers(
-	ctx context.Context,
-	query searchquery.Query,
-	items int,
-) {
-	for _, observer := range observers {
-		observer.QueryAnsweredByPeers(ctx, query, items)
-	}
-}
-
-func (observers RankingObservers) QueryHadNoIndexedTerm(
-	ctx context.Context,
-	query searchquery.Query,
-) {
-	for _, observer := range observers {
-		observer.QueryHadNoIndexedTerm(ctx, query)
-	}
-}
-
-func (observers RankingObservers) QueryFoundNoPeerToAsk(
-	ctx context.Context,
-	query searchquery.Query,
-) {
-	for _, observer := range observers {
-		observer.QueryFoundNoPeerToAsk(ctx, query)
-	}
 }

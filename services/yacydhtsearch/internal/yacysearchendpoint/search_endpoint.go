@@ -53,10 +53,7 @@ func (e SearchEndpoint) ServeHTTP(writer http.ResponseWriter, request *http.Requ
 }
 
 func queryOf(form url.Values) searchquery.Query {
-	query := searchquery.QueryFrom(form.Get(fieldQuery))
-	query.Language = form.Get(fieldLanguage)
-
-	return query
+	return searchquery.QueryFrom(form.Get(fieldQuery), form.Get(fieldLanguage))
 }
 
 func startRecordOf(form url.Values) int {

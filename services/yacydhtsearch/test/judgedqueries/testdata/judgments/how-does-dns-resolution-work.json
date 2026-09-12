@@ -1,0 +1,305 @@
+{
+  "query": "how does dns resolution work",
+  "judgedDocuments": [
+    {
+      "hash": "F3enq_nMM_j5",
+      "address": "https://grokipedia.com/page/GitHub",
+      "title": "GitHub — Grokipedia",
+      "grade": 0
+    },
+    {
+      "hash": "9dnewsdTeyA4",
+      "address": "https://github.blog/",
+      "title": "Home - The GitHub Blog",
+      "grade": 0
+    },
+    {
+      "hash": "i5OTelQw_dt5",
+      "address": "https://www.cloudflare.com/privacypolicy/",
+      "title": "Cloudflare's Privacy Policy | Cloudflare",
+      "grade": 0
+    },
+    {
+      "hash": "QcKsL2jw1Zlx",
+      "address": "https://kubernetes.io/docs/concepts/services-networking/dns-pod-service/",
+      "title": "DNS for Services and Pods | Kubernetes",
+      "grade": 0
+    },
+    {
+      "hash": "VSu84l1J_Myw",
+      "address": "https://www.cloudns.net/reverse-dns/",
+      "title": "Reverse DNS Service | rDNS Hosting for Secure Emails | ClouDNS",
+      "grade": 0
+    },
+    {
+      "hash": "aCwTx2jw1Zlx",
+      "address": "https://kubernetes.io/docs/tasks/administer-cluster/dns-horizontal-autoscaling/",
+      "title": "Autoscale the DNS Service in a Cluster | Kubernetes",
+      "grade": 0
+    },
+    {
+      "hash": "fqt_oUwYpnl5",
+      "address": "https://protonvpn.com/blog/what-is-dns",
+      "title": "What is DNS? | Proton",
+      "grade": 2
+    },
+    {
+      "hash": "pO0vLyEkAvow",
+      "address": "https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Attributes/rel/dns-prefetch",
+      "title": "rel=\"dns-prefetch\" - HTML | MDN",
+      "grade": 0
+    },
+    {
+      "hash": "gOUNKUb8iyg4",
+      "address": "https://cloud.google.com/dns",
+      "title": "Cloud DNS | Google Cloud",
+      "grade": 0
+    },
+    {
+      "hash": "9Axfb05kpS44",
+      "address": "https://www.oracle.com/cloud/networking/dns/",
+      "title": "Domain Name System (DNS) | Oracle",
+      "grade": 0
+    },
+    {
+      "hash": "GmDi12jw1Zlx",
+      "address": "https://kubernetes.io/docs/tasks/administer-cluster/dns-debugging-resolution/",
+      "title": "Debugging DNS Resolution | Kubernetes",
+      "grade": 0
+    },
+    {
+      "hash": "0HLmCAcbctC6",
+      "address": "https://www.experts-exchange.com/questions/28195321/RHEL-6-2-NFS-Server-does-not-work-properly-with-Solaris-10-computer.html",
+      "title": "Solved: RHEL 6.2 NFS Server does not work properly with Solaris 10 computer | Experts Exchange",
+      "grade": 0
+    },
+    {
+      "hash": "OC1-yuS6MKD4",
+      "address": "https://github.com/hickory-dns/hickory-dns",
+      "title": "GitHub - hickory-dns/hickory-dns: A Rust based DNS client, server, and resolver",
+      "grade": 0
+    },
+    {
+      "hash": "y49V8Z9Ietny",
+      "address": "https://lists.fedoraproject.org/archives/list/devel-announce@lists.fedoraproject.org/2020/9/",
+      "title": "September 2020 - devel-announce - Fedora mailing-lists",
+      "grade": 0
+    },
+    {
+      "hash": "DO6vtsv0FDc4",
+      "address": "https://gcore.com/dns",
+      "title": "Free DNS Hosting. Fast and Resilient | Gcore",
+      "grade": 0
+    },
+    {
+      "hash": "pLpBuAmYhm_4",
+      "address": "https://ens-subname.utils.com/",
+      "title": "ENS Subname Explorer - List Subnames Under Any ENS Name - utils.com",
+      "grade": 0
+    },
+    {
+      "hash": "vo6A9AK-xyJ4",
+      "address": "https://go.dev/doc/go1.7",
+      "title": "Go 1.7 Release Notes - The Go Programming Language",
+      "grade": 0
+    },
+    {
+      "hash": "8Vmj5lbZsoE4",
+      "address": "https://www.noip.com/managed-dns",
+      "title": "Managed DNS Services - 100% Uptime - Top-Rated Support - No-IP",
+      "grade": 0
+    },
+    {
+      "hash": "2CAHw8uKjjbw",
+      "address": "https://wiki.gentoo.org/wiki/FAQ",
+      "title": "FAQ - Gentoo wiki",
+      "grade": 0
+    },
+    {
+      "hash": "JJjvolE_8xm7",
+      "address": "https://www.blacklanternsecurity.com/bbot/Stable/dev/helpers/dns/",
+      "title": "DNS - BBOT Docs",
+      "grade": 0
+    },
+    {
+      "hash": "zPBaXSmEXcf4",
+      "address": "https://viewport-size.utils.com/",
+      "title": "Viewport Size Detector - Live Browser Viewport Dimensions | utils.com",
+      "grade": 0
+    },
+    {
+      "hash": "4SUxOWRfu9ww",
+      "address": "https://datatracker.ietf.org/doc/recent",
+      "title": "Internet-Drafts submitted during the last 7 days",
+      "grade": 0
+    },
+    {
+      "hash": "5axnUWKJWKmY",
+      "address": "http://googlecode.blogspot.com/2009/12/introducing-google-public-dns-new-dns.html?showComment=1260317165105",
+      "title": "Introducing Google Public DNS: A new DNS resolver from Google - The official Google Code blog",
+      "grade": 1
+    },
+    {
+      "hash": "4OyE6nvEFCz4",
+      "address": "https://mobile-desktop.utils.com/",
+      "title": "Mobile vs Desktop Comparison - utils.com",
+      "grade": 0
+    },
+    {
+      "hash": "4E_8IssEYJ15",
+      "address": "https://tailscale.com/changelog",
+      "title": "Changelog · Tailscale",
+      "grade": 0
+    },
+    {
+      "hash": "_wmsVE9Ojva4",
+      "address": "https://docs.docker.com/engine/release-notes/29/",
+      "title": "Docker Engine version 29 release notes | Docker Docs",
+      "grade": 0
+    },
+    {
+      "hash": "rXUw60ADJCy4",
+      "address": "https://securitylab.github.com/advisories/",
+      "title": "Advisories | GitHub Security Lab",
+      "grade": 0
+    },
+    {
+      "hash": "Cpc5fjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Wikipedia",
+      "title": "Wikipedia - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "ag6aqjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Unicode",
+      "title": "Unicode - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "b-x4NjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Domain_name",
+      "title": "Domain name - Wikipedia",
+      "grade": 1
+    },
+    {
+      "hash": "qzV8sjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/YouTube",
+      "title": "YouTube - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "wYESGjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Microsoft_Windows",
+      "title": "Microsoft Windows - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "6U4ewjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Hdl_(identifier)",
+      "title": "Handle System - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "IAm3dsS6MKD4",
+      "address": "https://github.com/advisories",
+      "title": "GitHub Advisory Database · GitHub",
+      "grade": 0
+    },
+    {
+      "hash": "h6qKJHS6MKD4",
+      "address": "https://github.com/mcp/microsoft/playwright-mcp",
+      "title": "MCP Registry | Playwright · GitHub",
+      "grade": 0
+    },
+    {
+      "hash": "4-p3KlSMo4M4",
+      "address": "https://www.zdnet.com/",
+      "title": "News and Advice on the World's Latest Innovations | ZDNET - ZDNET",
+      "grade": 0
+    },
+    {
+      "hash": "XwuSSjXxSRFx",
+      "address": "https://www.rfc-editor.org/rfc/rfc9110.html",
+      "title": "RFC 9110: HTTP Semantics",
+      "grade": 0
+    },
+    {
+      "hash": "e78ng7XxSRFx",
+      "address": "https://www.rfc-editor.org/info/rfc7230/",
+      "title": "RFC 7230: Hypertext Transfer Protocol (HTTP/1.1): Message Syntax and Routing | RFC Editor",
+      "grade": 0
+    },
+    {
+      "hash": "gbOAx7XxSRFx",
+      "address": "https://www.rfc-editor.org/info/rfc1035/",
+      "title": "RFC 1035: Domain names - implementation and specification | RFC Editor",
+      "grade": 1
+    },
+    {
+      "hash": "hWuQZ7XxSRFx",
+      "address": "https://www.rfc-editor.org/info/rfc3986/",
+      "title": "RFC 3986: Uniform Resource Identifier (URI): Generic Syntax | RFC Editor",
+      "grade": 0
+    },
+    {
+      "hash": "sjywP7XxSRFx",
+      "address": "https://www.rfc-editor.org/info/rfc2616/",
+      "title": "RFC 2616: Hypertext Transfer Protocol -- HTTP/1.1 | RFC Editor",
+      "grade": 0
+    },
+    {
+      "hash": "S8-8qGfVq0pw",
+      "address": "https://httpwg.org/specs/rfc9110.html",
+      "title": "RFC 9110 - HTTP Semantics",
+      "grade": 0
+    },
+    {
+      "hash": "_QujqCjVeYyw",
+      "address": "https://w3c.github.io/network-error-logging/",
+      "title": "Network Error Logging",
+      "grade": 0
+    },
+    {
+      "hash": "m0ZD62jw1Zlx",
+      "address": "https://kubernetes.io/docs/home/",
+      "title": "Kubernetes Documentation | Kubernetes",
+      "grade": 0
+    },
+    {
+      "hash": "8F3_I2jw1Zlx",
+      "address": "https://kubernetes.io/docs/tasks/extend-kubernetes/http-proxy-access-api/",
+      "title": "Use an HTTP Proxy to Access the Kubernetes API | Kubernetes",
+      "grade": 0
+    },
+    {
+      "hash": "8P7iQ2jw1Zlx",
+      "address": "https://kubernetes.io/docs/reference/kubectl/docker-cli-to-kubectl/",
+      "title": "kubectl for Docker Users | Kubernetes",
+      "grade": 0
+    },
+    {
+      "hash": "8kFwP2jw1Zlx",
+      "address": "https://kubernetes.io/docs/tasks/access-application-cluster/communicate-containers-same-pod-shared-volume/",
+      "title": "Communicate Between Containers in the Same Pod Using a Shared Volume | Kubernetes",
+      "grade": 0
+    },
+    {
+      "hash": "8zWEK2jw1Zlx",
+      "address": "https://kubernetes.io/docs/reference/using-api/server-side-apply/",
+      "title": "Server-Side Apply | Kubernetes",
+      "grade": 0
+    },
+    {
+      "hash": "9bUqH2jw1Zlx",
+      "address": "https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/",
+      "title": "Assigning Pods to Nodes | Kubernetes",
+      "grade": 0
+    },
+    {
+      "hash": "9cVUQ2jw1Zlx",
+      "address": "https://kubernetes.io/docs/reference/kubectl/generated/kubectl_config/kubectl_config_delete-context/",
+      "title": "kubectl config delete-context | Kubernetes",
+      "grade": 0
+    }
+  ]
+}

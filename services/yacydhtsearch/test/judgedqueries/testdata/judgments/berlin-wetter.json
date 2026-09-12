@@ -1,0 +1,293 @@
+{
+  "query": "berlin wetter",
+  "judgedDocuments": [
+    {
+      "hash": "5Y0vTPSEx1zg",
+      "address": "https://wetter.welt.de/",
+      "title": "Das aktuelle Wetter und 5-Tage Wettervorhersage für Deutschland",
+      "grade": 1
+    },
+    {
+      "hash": "ySJH8lvSGqr4",
+      "address": "https://einarschlereth.blogspot.com/",
+      "title": "einartysken",
+      "grade": 0
+    },
+    {
+      "hash": "m4HF5WVhMz6w",
+      "address": "https://journalism.us.to/",
+      "title": "Journalism | Jornalismus | Journalism.us.to",
+      "grade": 0
+    },
+    {
+      "hash": "EjISsl3kFhe4",
+      "address": "https://www.wetter.com/",
+      "title": "Wetter, Wettervorhersage \u0026 Wetterbericht | wetter.com",
+      "grade": 1
+    },
+    {
+      "hash": "_2VMoQXXOSAg",
+      "address": "https://www.rbb24.de/kultur/beitrag/2026/06/berlin-open-air-veranstaltungen-genehmigung-fete-de-la-musique.html",
+      "title": "Weniger Hürden für Open-Airs in Berlin? Mitte wagt einen neuen Ansatz",
+      "grade": 0
+    },
+    {
+      "hash": "-gSHXofjI1Dh",
+      "address": "https://www.tagesschau.de/wahlarchiv/laenderparlamente/baden-wuerttemberg",
+      "title": "Wahlarchiv zur Landtagswahl Baden-Württemberg | tagesschau.de",
+      "grade": 0
+    },
+    {
+      "hash": "RA7PGPPVWAXw",
+      "address": "https://wetter.faz.net/",
+      "title": "Wetter und 5-Tage Wettervorhersage Deutschland | FAZ",
+      "grade": 1
+    },
+    {
+      "hash": "SMcXIlvmeA6g",
+      "address": "https://www.wetter.at/",
+      "title": "Wetter in Österreich - wetter.at",
+      "grade": 1
+    },
+    {
+      "hash": "n-pRzHfjI1Dh",
+      "address": "https://www.tagesschau.de/wetter/regenradar-deutschland/osten",
+      "title": "Regenradar Ostdeutschland: Aktueller Niederschlag | tagesschau.de",
+      "grade": 1
+    },
+    {
+      "hash": "37f63My11Gbg",
+      "address": "https://berlin.t-online.de/region/berlin/",
+      "title": "Berlin: Nachrichten \u0026 News aus Berlin",
+      "grade": 0
+    },
+    {
+      "hash": "-5YtplfjI1Dh",
+      "address": "https://www.tagesschau.de/wetter",
+      "title": "Das tagesschau.de-Wetter | tagesschau.de",
+      "grade": 1
+    },
+    {
+      "hash": "LSS-floLWSig",
+      "address": "https://www.berlin.de/stadtplan/",
+      "title": "Stadtplan Berlin - Berlin.de",
+      "grade": 0
+    },
+    {
+      "hash": "h-LXAjyX5Qug",
+      "address": "https://www.t-online.de/mobilitaet/reifen/",
+      "title": "Reifen: Autoreifen und Reifentest für Sommerreifen und Winterreifen",
+      "grade": 0
+    },
+    {
+      "hash": "FcrOSdR5Djcw",
+      "address": "https://de.wikinews.org/wiki/Hauptseite",
+      "title": "Wikinews, die freie Nachrichtenquelle",
+      "grade": 0
+    },
+    {
+      "hash": "tR-1WXj5gZJ5",
+      "address": "https://wissenschaft3000.wordpress.com/tag/1913/",
+      "title": "1913 | Wissenschaft3000 ~ science3000",
+      "grade": 0
+    },
+    {
+      "hash": "-WvJtjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Singapore",
+      "title": "Singapore - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "4Its1HfjI1Dh",
+      "address": "https://www.tagesschau.de/wetter/europa-welt",
+      "title": "Wettervorhersage Europa: Wetterlage und Temperaturen | tagesschau.de",
+      "grade": 1
+    },
+    {
+      "hash": "Bhyw76Fs30aw",
+      "address": "https://www.gsd.harvard.edu/",
+      "title": "Home - Harvard Graduate School of Design",
+      "grade": 0
+    },
+    {
+      "hash": "6AeNnlyX5Qug",
+      "address": "https://www.t-online.de/video/",
+      "title": "Die besten Videos aus Web, TV, News und Sport",
+      "grade": 0
+    },
+    {
+      "hash": "zqhYnX8moajg",
+      "address": "https://www.welt.de/politik/ausland/article185195188/Rex-Tillerson-Trump-attackiert-Ex-Minister-strohdumm-und-stinkfaul.html",
+      "title": "Rex Tillerson: Trump attackiert Ex-Minister – „strohdumm und stinkfaul“ - WELT",
+      "grade": 0
+    },
+    {
+      "hash": "DcJqWlFc3viw",
+      "address": "https://www.wetter.net/",
+      "title": "wetter.net | Wetter, Wetter aktuell, Wettervorhersage",
+      "grade": 1
+    },
+    {
+      "hash": "xk2PwlWgkBXg",
+      "address": "https://www.wetter.de/",
+      "title": "Wetter - Wettervorhersage - Wetterbericht",
+      "grade": 1
+    },
+    {
+      "hash": "hpNx6l0w__jw",
+      "address": "https://www.faz.net/aktuell/",
+      "title": "Aktuelle Nachrichten online - FAZ.NET",
+      "grade": 0
+    },
+    {
+      "hash": "WLeSrl5ARWyg",
+      "address": "https://www.spiegel.de/",
+      "title": "DER SPIEGEL | Online-Nachrichten",
+      "grade": 0
+    },
+    {
+      "hash": "gt1Hms8_y8I6",
+      "address": "https://henrymakow-de.com/",
+      "title": "Henry Makow – Aufdeckung der Neuen Weltordnung",
+      "grade": 0
+    },
+    {
+      "hash": "YFg0eX8moajg",
+      "address": "https://www.welt.de/sonderthemen/medizin-der-zukunft/",
+      "title": "Medizin der Zukunft",
+      "grade": 0
+    },
+    {
+      "hash": "zjc5Mm8moajg",
+      "address": "https://www.welt.de/sport/handball/",
+      "title": "Handball: Aktuelle News zu Bundesliga, DHB \u0026 Champions League",
+      "grade": 0
+    },
+    {
+      "hash": "2RTWrl8moajg",
+      "address": "https://www.welt.de/",
+      "title": "WELT - Aktuelle Nachrichten, News, Hintergründe \u0026 Videos",
+      "grade": 0
+    },
+    {
+      "hash": "--rz3C8moajg",
+      "address": "https://www.welt.de/regionales/sachsen-anhalt/",
+      "title": "Sachsen-Anhalt - Nachrichten \u0026 aktuelle News - WELT",
+      "grade": 0
+    },
+    {
+      "hash": "_a84pW8moajg",
+      "address": "https://www.welt.de/reise/weltplus/",
+      "title": "WELTplus Reise - Qualitätsjournalismus für Abonnenten",
+      "grade": 0
+    },
+    {
+      "hash": "Fl-YxlDOAHJg",
+      "address": "https://www.heise.de/",
+      "title": "heise online - IT-News, Nachrichten und Hintergründe | heise online",
+      "grade": 0
+    },
+    {
+      "hash": "oq1hJjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Cardiff",
+      "title": "Cardiff - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "r7SQ1PSEx1zg",
+      "address": "https://wetter.welt.de/europa/",
+      "title": "Das aktuelle Wetter und 5-Tage Wettervorhersage für Europa",
+      "grade": 1
+    },
+    {
+      "hash": "TR9kflXXOSAg",
+      "address": "https://www.rbb24.de/",
+      "title": "rbb24 - Nachrichten aus Berlin und Brandenburg",
+      "grade": 0
+    },
+    {
+      "hash": "I86iVlfjI1Dh",
+      "address": "https://www.tagesschau.de/investigativ",
+      "title": "Investigativ Berichterstattung und Reportagen | tagesschau.de",
+      "grade": 0
+    },
+    {
+      "hash": "SH2v_lfjI1Dh",
+      "address": "https://www.tagesschau.de/ausland",
+      "title": "Internationale Nachrichten aus aller Welt | tagesschau.de",
+      "grade": 0
+    },
+    {
+      "hash": "Sm8W4sfjI1Dh",
+      "address": "https://www.tagesschau.de/faktenfinder/kontext",
+      "title": "Kontext - Einordnung zu aktuellen Nachrichten | tagesschau.de",
+      "grade": 0
+    },
+    {
+      "hash": "UEXwEofjI1Dh",
+      "address": "https://www.tagesschau.de/wahlarchiv/laenderparlamente/rheinland-pfalz",
+      "title": "Nachrichten und Hintergründe | tagesschau.de",
+      "grade": 0
+    },
+    {
+      "hash": "UF5LEvfjI1Dh",
+      "address": "https://www.tagesschau.de/multimedia/bilder",
+      "title": "Bilder des Tages | tagesschau.de",
+      "grade": 0
+    },
+    {
+      "hash": "V93UbofjI1Dh",
+      "address": "https://www.tagesschau.de/wahlarchiv/laenderparlamente/thueringen",
+      "title": "Nachrichten und Hintergründe | tagesschau.de",
+      "grade": 0
+    },
+    {
+      "hash": "XCS0EofjI1Dh",
+      "address": "https://www.tagesschau.de/wahlarchiv/laenderparlamente",
+      "title": "Nachrichten und Hintergründe | tagesschau.de",
+      "grade": 0
+    },
+    {
+      "hash": "k1dSkZfjI1Dh",
+      "address": "https://www.tagesschau.de/wirtschaft/verbraucher",
+      "title": "Nachrichten zu Verbraucher-Themen | tagesschau.de",
+      "grade": 0
+    },
+    {
+      "hash": "ng9PTlfjI1Dh",
+      "address": "https://www.tagesschau.de/",
+      "title": "tagesschau.de - die erste Adresse für Nachrichten und Information | tagesschau.de",
+      "grade": 0
+    },
+    {
+      "hash": "sII4cofjI1Dh",
+      "address": "https://www.tagesschau.de/wahlarchiv/laenderparlamente/brandenburg",
+      "title": "Nachrichten und Hintergründe | tagesschau.de",
+      "grade": 0
+    },
+    {
+      "hash": "tHnWBhfjI1Dh",
+      "address": "https://www.tagesschau.de/ausland/europa",
+      "title": "Aktuelle Nachrichten aus Europa | tagesschau.de",
+      "grade": 0
+    },
+    {
+      "hash": "uj2IelfjI1Dh",
+      "address": "https://www.tagesschau.de/inland",
+      "title": "Aktuelle Nachrichten aus Deutschland | tagesschau.de",
+      "grade": 0
+    },
+    {
+      "hash": "0s4GelfjI1Dh",
+      "address": "https://www.tagesschau.de/thema",
+      "title": "Nachrichten-Themen | tagesschau.de",
+      "grade": 0
+    },
+    {
+      "hash": "1_T-KZfjI1Dh",
+      "address": "https://www.tagesschau.de/wirtschaft/digitales",
+      "title": "Digitales aktuell | tagesschau.de",
+      "grade": 0
+    }
+  ]
+}

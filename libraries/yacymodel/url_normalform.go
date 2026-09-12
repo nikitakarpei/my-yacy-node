@@ -133,7 +133,7 @@ func (n URLNormalform) String() string {
 			form.WriteString(userInfo)
 			form.WriteString("@")
 		}
-		form.WriteString(host)
+		form.WriteString(bracketedHost(host))
 	}
 	if !n.portIsImplied() {
 		form.WriteString(":")

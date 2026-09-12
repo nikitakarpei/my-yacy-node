@@ -6,6 +6,7 @@ import (
 	"context"
 	"encoding/json"
 	"net/url"
+	"slices"
 	"strings"
 	"testing"
 	"time"
@@ -26,6 +27,12 @@ const (
 
 	cacheProbeAlias = "yacy-holder-ranking-cache-e2e"
 	cacheProbeToken = "yacydhtsearchrankingcacheprobe"
+
+	firstWordHolderAlias  = "yacy-first-word-holder-e2e"
+	secondWordHolderAlias = "yacy-second-word-holder-e2e"
+	firstWordToken        = "yacydhtsearchfirstwordprobe"
+	secondWordToken       = "yacydhtsearchsecondwordprobe"
+	crossPeerSearchAlias  = "yacydhtsearch-cross-peer"
 
 	askingSearchAlias  = "yacydhtsearch-asking"
 	readingSearchAlias = "yacydhtsearch-reading"
@@ -127,6 +134,107 @@ func TestASecondServiceAnswersFromTheRankingHeldInNATS(t *testing.T) {
 	if strings.Contains(metrics, `yacydhtsearch_searches_total{outcome="answered_by_peers"}`) {
 		t.Fatalf("%s asked peers for a query it could read:\n%s", readingSearchAlias, metrics)
 	}
+}
+
+func TestTwoPeersThatHoldOneQueryWordEachStillAnswerWithTheDocuments(t *testing.T) {
+	ctx := context.Background()
+	probe := httpprobe.New(t)
+
+	network := hermeticnetwork.New(t, ctx)
+	egressproxy.Start(t, ctx, network.Name)
+
+	_, firstWordHolderURL := yacypeer.Start(
+		t, ctx, probe, network.Name, firstWordHolderAlias, yacypeer.RemoteSearchOverrides()...,
+	)
+	_, secondWordHolderURL := yacypeer.Start(
+		t, ctx, probe, network.Name, secondWordHolderAlias, yacypeer.RemoteSearchOverrides()...,
+	)
+	for _, document := range firstWordDocuments() {
+		yacypeer.PushDocumentUnderAddress(
+			t, ctx, probe, firstWordHolderURL, document, []string{firstWordToken},
+		)
+	}
+	for _, document := range secondWordDocuments() {
+		yacypeer.PushDocumentUnderAddress(
+			t, ctx, probe, secondWordHolderURL, document, []string{secondWordToken},
+		)
+	}
+
+	service := startYacydhtsearch(
+		t,
+		ctx,
+		network.Name,
+		crossPeerSearchAlias,
+		seedlistURLOf(firstWordHolderAlias)+","+seedlistURLOf(secondWordHolderAlias),
+		map[string]string{
+			"YACYDHTSEARCH_RANKING_LIFETIME": "5s",
+		},
+	)
+
+	query := firstWordToken + " " + secondWordToken
+	wanted := documentsOfBothWords()
+	var links []string
+	answered := pollwait.For(answerTimeout, func() bool {
+		links = resultLinksFor(t, ctx, probe, service.searchURL, query)
+
+		return containsEach(links, wanted)
+	})
+	if !answered {
+		t.Fatalf(
+			"%s returned %v for %q, want every document both words are held for: %v",
+			crossPeerSearchAlias,
+			links,
+			query,
+			wanted,
+		)
+	}
+	for _, link := range links {
+		if !slices.Contains(wanted, link) {
+			t.Fatalf(
+				"%s returned %s, which only one peer holds a query word for; all links %v",
+				crossPeerSearchAlias,
+				link,
+				links,
+			)
+		}
+	}
+}
+
+func firstWordDocuments() []string {
+	return []string{
+		crossPeerDocumentAt("both-words-one.html"),
+		crossPeerDocumentAt("both-words-two.html"),
+		crossPeerDocumentAt("first-word-only.html"),
+	}
+}
+
+func secondWordDocuments() []string {
+	return []string{
+		crossPeerDocumentAt("both-words-one.html"),
+		crossPeerDocumentAt("both-words-two.html"),
+		crossPeerDocumentAt("second-word-only.html"),
+	}
+}
+
+func documentsOfBothWords() []string {
+	return []string{
+		crossPeerDocumentAt("both-words-one.html"),
+		crossPeerDocumentAt("both-words-two.html"),
+	}
+}
+
+func crossPeerDocumentAt(path string) string {
+	return "http://transfer.example.invalid/" + path
+}
+
+func containsEach(links, wanted []string) bool {
+	for _, want := range wanted {
+		if !slices.Contains(links, want) {
+			return false
+		}
+	}
+
+	return true
 }
 
 func seedlistURLOf(alias string) string {

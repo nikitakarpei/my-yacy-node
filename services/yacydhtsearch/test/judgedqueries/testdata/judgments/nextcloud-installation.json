@@ -1,0 +1,281 @@
+{
+  "query": "nextcloud installation",
+  "judgedDocuments": [
+    {
+      "hash": "Fl-YxlDOAHJg",
+      "address": "https://www.heise.de/",
+      "title": "heise online - IT-News, Nachrichten und Hintergründe | heise online",
+      "grade": 0
+    },
+    {
+      "hash": "ehUE-qbVMkf5",
+      "address": "https://apps.nextcloud.com/",
+      "title": "All apps - App Store - Nextcloud",
+      "grade": 0
+    },
+    {
+      "hash": "PBHGklNdxz8x",
+      "address": "https://www.freshports.org/",
+      "title": "FreshPorts -- The Place For Ports - Most recent commits",
+      "grade": 0
+    },
+    {
+      "hash": "DkfmwlqvBx1x",
+      "address": "https://www.openproject.org/",
+      "title": "OpenProject - Open Source Project Management Software",
+      "grade": 0
+    },
+    {
+      "hash": "FHioIb1rzS04",
+      "address": "https://community.ovhcloud.com/",
+      "title": "OVHcloud Community",
+      "grade": 0
+    },
+    {
+      "hash": "hrFN1s9r_z8g",
+      "address": "https://gnulinux.ch/",
+      "title": "GNU/Linux.ch - Freie Software, Freie Gesellschaft",
+      "grade": 0
+    },
+    {
+      "hash": "xr6iDzS6MKD4",
+      "address": "https://github.com/awesome-selfhosted/awesome-selfhosted",
+      "title": "GitHub - awesome-selfhosted/awesome-selfhosted: A list of Free Software network services and web applications which can be hosted on your own servers",
+      "grade": 0
+    },
+    {
+      "hash": "X0gS6jRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/LibreOffice",
+      "title": "LibreOffice - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "wZPUHjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/KDE_neon",
+      "title": "KDE neon - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "myKVgl2uAu0w",
+      "address": "https://www.linux.org/",
+      "title": "Linux.org",
+      "grade": 0
+    },
+    {
+      "hash": "z6Av1szj0XMi",
+      "address": "https://dasnetzundich.de/youtube-dl-mit-neuem-entwickler-team/",
+      "title": "yt-dlp statt youtube-dl: Installation und Updates unter Linux 2026 | Das Netz und ich",
+      "grade": 0
+    },
+    {
+      "hash": "bPT5aq7AHFOw",
+      "address": "https://apps.kde.org/tokodon/",
+      "title": "Tokodon - KDE Applications",
+      "grade": 0
+    },
+    {
+      "hash": "m84_zxKAn6I5",
+      "address": "https://news.ycombinator.com/item?id=33165836",
+      "title": "I wish my web server were in the corner of my room | Hacker News",
+      "grade": 0
+    },
+    {
+      "hash": "PCpNBzxXGmlz",
+      "address": "https://wiki.documentfoundation.org/ReleaseNotes/5.3",
+      "title": "LibreOffice 5.3: Release Notes - The Document Foundation Wiki",
+      "grade": 0
+    },
+    {
+      "hash": "6plOjszj0XMi",
+      "address": "https://dasnetzundich.de/notiz-app-joplin-mit-nextcloud-integration/",
+      "title": "Joplin mit Nextcloud synchronisieren: aktuelle WebDAV-Anleitung | Das Netz und ich",
+      "grade": 0
+    },
+    {
+      "hash": "X_Gb0yfAodxw",
+      "address": "https://docs.freebsd.org/en/books/porters-handbook/uses/",
+      "title": "Chapter 17. Using USES Macros | FreeBSD Documentation Portal",
+      "grade": 0
+    },
+    {
+      "hash": "OqU1klUKWg6g",
+      "address": "https://www.manitu.de/webhosting/",
+      "title": "Webhosting - schon ab 1 € pro Monat - manitu",
+      "grade": 0
+    },
+    {
+      "hash": "OdWaBD7AHFOw",
+      "address": "https://apps.kde.org/lt/tokodon/",
+      "title": "Tokodon - KDE programos",
+      "grade": 0
+    },
+    {
+      "hash": "w9rUZjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Internet_censorship_circumvention",
+      "title": "Internet censorship circumvention - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "bzwX8z_hTtNw",
+      "address": "https://planet.kde.org/",
+      "title": "English - Planet KDE",
+      "grade": 0
+    },
+    {
+      "hash": "1U9VNkPMN02h",
+      "address": "https://www.mardi4nfdi.de/community/newsletter",
+      "title": "Newsletter - MaRDI",
+      "grade": 0
+    },
+    {
+      "hash": "gCVBNZ3WSkX4",
+      "address": "https://docs.ovhcloud.com/en/",
+      "title": "OVHcloud Documentation",
+      "grade": 0
+    },
+    {
+      "hash": "-Hsz5szj0XMi",
+      "address": "https://dasnetzundich.de/nc-downloader-fuer-die-nextcloud/",
+      "title": "NCDownloader für Nextcloud: heute besser Vapor oder eine moderne Alternative nutzen | Das Netz und ich",
+      "grade": 0
+    },
+    {
+      "hash": "faU-Olx2yOxg",
+      "address": "https://www.radiotux.de/",
+      "title": "RadioTux",
+      "grade": 0
+    },
+    {
+      "hash": "zTCfkxtQ-zSx",
+      "address": "https://wiki.archlinux.org/title/List_of_applications/Internet",
+      "title": "List of applications/Internet - ArchWiki",
+      "grade": 0
+    },
+    {
+      "hash": "A8BLfu9heOmx",
+      "address": "https://fr.libreoffice.org/",
+      "title": "Home | Communauté LibreOffice francophone",
+      "grade": 0
+    },
+    {
+      "hash": "MfYW2-iaMkRw",
+      "address": "https://archive.fosdem.org/2025/schedule/events/",
+      "title": "FOSDEM 2025 - Events",
+      "grade": 0
+    },
+    {
+      "hash": "xIkDby3WSkX4",
+      "address": "https://docs.ovhcloud.com/en/guides/web-cloud/domains/overview",
+      "title": "Domains - OVHcloud Documentation",
+      "grade": 0
+    },
+    {
+      "hash": "xxkx6aQ2lNtg",
+      "address": "https://friendica.ginestes.es/display/0a49108d-1469-29f5-fe91-d0e813562323",
+      "title": "Friendica Social Network | Display",
+      "grade": 0
+    },
+    {
+      "hash": "S9YMJzCJVaIz",
+      "address": "https://planet.documentfoundation.org/",
+      "title": "The Document Foundation Planet",
+      "grade": 0
+    },
+    {
+      "hash": "D5UzaAjUmtg5",
+      "address": "https://www.saasworthy.com/list/diagram-software",
+      "title": "Diagramming Software List (November 2025)",
+      "grade": 0
+    },
+    {
+      "hash": "EHVbry2kkkww",
+      "address": "https://docs.weblate.org/en/latest/",
+      "title": "Weblate 2026.10 documentation",
+      "grade": 0
+    },
+    {
+      "hash": "Wkx1aJr2pvE4",
+      "address": "https://www.asustor.com/service/downloads?product_id=77",
+      "title": "Downloads | ASUSTOR NAS",
+      "grade": 0
+    },
+    {
+      "hash": "dH4aGswUSuo5",
+      "address": "https://nextcloud.com/instant-trial/",
+      "title": "Request an instant trial - Nextcloud",
+      "grade": 0
+    },
+    {
+      "hash": "lnvzkjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Cross-platform",
+      "title": "Cross-platform software - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "xxNsZjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/List_of_free_and_open-source_Android_applications",
+      "title": "List of free and open-source Android applications - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "wzmiPtS6MKD4",
+      "address": "https://github.com/trending/php?since=daily",
+      "title": "Trending PHP repositories on GitHub today · GitHub",
+      "grade": 0
+    },
+    {
+      "hash": "sC0kMlDOAHJg",
+      "address": "https://www.heise.de/en",
+      "title": "heise online – IT news, guides and background information | heise online",
+      "grade": 0
+    },
+    {
+      "hash": "FZ9QOswUSuo5",
+      "address": "https://nextcloud.com/trademarks/",
+      "title": "Nextcloud trademark guidelines",
+      "grade": 0
+    },
+    {
+      "hash": "cD8T2ChvKhg5",
+      "address": "https://mailvelope.com/en/help/anywhere",
+      "title": "How to set up Mailvelope?",
+      "grade": 0
+    },
+    {
+      "hash": "DkgJosH3-qPx",
+      "address": "https://cyberduck.io/",
+      "title": "Cyberduck | Libre server and cloud storage browser for Mac and",
+      "grade": 0
+    },
+    {
+      "hash": "tptsBjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Lumen_Technologies",
+      "title": "Lumen Technologies - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "BDAwvszj0XMi",
+      "address": "https://dasnetzundich.de/was-bietet-die-nextcloud/",
+      "title": "Was bietet die Nextcloud? | Das Netz und ich",
+      "grade": 1
+    },
+    {
+      "hash": "FLQUcszj0XMi",
+      "address": "https://dasnetzundich.de/nextcloud-installation-von-fulltextsearch/",
+      "title": "Nextcloud Full Text Search einrichten: Dateien durchsuchen mit Elasticsearch oder SQL | Das Netz und ich",
+      "grade": 1
+    },
+    {
+      "hash": "IHg31szj0XMi",
+      "address": "https://dasnetzundich.de/redis-caching-richtig-einstellen-fuer-nextcloud/",
+      "title": "Nextcloud mit Redis und APCu beschleunigen: Caching richtig einrichten | Das Netz und ich",
+      "grade": 1
+    },
+    {
+      "hash": "4A6jVszj0XMi",
+      "address": "https://dasnetzundich.de/ocdownloader-einrichten-fuer-nextcloud-per-init-d-script/",
+      "title": "ocDownloader für Nextcloud nicht mehr nutzen: aktuelle Alternativen | Das Netz und ich",
+      "grade": 0
+    }
+  ]
+}

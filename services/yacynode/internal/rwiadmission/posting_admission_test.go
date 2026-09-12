@@ -146,7 +146,12 @@ func (h harness) storeMetadata(t *testing.T, seeds ...string) {
 
 	metadata := make([]yacymodel.URLMetadata, 0, len(seeds))
 	for _, seed := range seeds {
-		metadata = append(metadata, yacymodel.URLMetadata{Address: urlAddress(seed)})
+		address := urlAddress(seed)
+		hash, err := yacymodel.URLHashOf(address)
+		if err != nil {
+			t.Fatalf("URLHashOf(%q): %v", address, err)
+		}
+		metadata = append(metadata, yacymodel.URLMetadata{Hash: hash, Address: address})
 	}
 	if _, err := h.urls.Receive(context.Background(), metadata); err != nil {
 		t.Fatalf("urls.Receive: %v", err)

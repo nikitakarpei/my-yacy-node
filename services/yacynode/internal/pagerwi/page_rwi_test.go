@@ -121,10 +121,7 @@ func TestOfCarriesTextStatsAndPageReferenceIntoMetadata(t *testing.T) {
 }
 
 func TestOfMetadataCarriesURLHash(t *testing.T) {
-	got, err := indexOf(t, sampleText).Metadata.Hash()
-	if err != nil {
-		t.Fatalf("Hash: %v", err)
-	}
+	got := indexOf(t, sampleText).Metadata.Hash
 	if want := hashOfPageURL(t); got != want {
 		t.Fatalf("metadata url hash = %q, want %q", got, want)
 	}

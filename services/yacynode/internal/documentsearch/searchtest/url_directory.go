@@ -16,6 +16,7 @@ func (d URLDirectory) MetadataPerHash(
 	found := make(map[yacymodel.URLHash]yacymodel.URLMetadata, len(hashes))
 	for _, hash := range hashes {
 		if stored, ok := d.Documents[hash]; ok {
+			stored.Hash = hash
 			found[hash] = stored
 		}
 	}

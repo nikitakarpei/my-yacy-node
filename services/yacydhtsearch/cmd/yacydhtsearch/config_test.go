@@ -29,11 +29,21 @@ func TestAServiceConfigFallsBackToTheDocumentedDefaults(t *testing.T) {
 		t.Fatalf("addresses = %q and %q, want the defaults", cfg.ListenAddr, cfg.OpsAddr)
 	}
 	if cfg.QueryBudget != main.DefaultQueryBudget ||
-		cfg.PeerSearchCooldown != main.DefaultPeerSearchCooldown {
+		cfg.PeerChoiceCooldown != main.DefaultPeerChoiceCooldown {
 		t.Fatalf(
 			"budgets = %v and %v, want the defaults",
 			cfg.QueryBudget,
-			cfg.PeerSearchCooldown,
+			cfg.PeerChoiceCooldown,
+		)
+	}
+	if cfg.NetworkRedundancy != main.DefaultNetworkRedundancy ||
+		cfg.PeerCallsInFlight != main.DefaultPeerCallsInFlight ||
+		cfg.PeerCallBudget != main.DefaultPeerCallBudget {
+		t.Fatalf(
+			"network redundancy = %d, peer calls in flight = %d and budget = %v, want the defaults",
+			cfg.NetworkRedundancy,
+			cfg.PeerCallsInFlight,
+			cfg.PeerCallBudget,
 		)
 	}
 	if cfg.Partitions != 1<<main.DefaultPartitionExponent {
@@ -64,16 +74,21 @@ func TestAnOperatorOverridesEveryBudgetAndLimit(t *testing.T) {
 
 	environment := minimalEnvironment()
 	environment[main.EnvQueryBudget] = "9s"
-	environment[main.EnvPeerSearchCooldown] = "7s"
-	environment[main.EnvPeerCallsInFlight] = "7"
+	environment[main.EnvPeerChoiceCooldown] = "7s"
+	environment[main.EnvNetworkRedundancy] = "7"
+	environment[main.EnvPeerCallsInFlight] = "9"
+	environment[main.EnvPeerCallBudget] = "2s"
+	environment[main.EnvProbesInFlight] = "12"
 	environment[main.EnvRankedItemsCeiling] = "25"
 
 	cfg, err := main.LoadServiceConfig(environmentOf(environment))
 	if err != nil {
 		t.Fatalf("load service config: %v", err)
 	}
-	if cfg.QueryBudget != 9*time.Second || cfg.PeerSearchCooldown != 7*time.Second ||
-		cfg.PeerCallsInFlight != 7 || cfg.RankedItemsCeiling != 25 {
+	if cfg.QueryBudget != 9*time.Second || cfg.PeerChoiceCooldown != 7*time.Second ||
+		cfg.NetworkRedundancy != 7 || cfg.PeerCallsInFlight != 9 ||
+		cfg.PeerCallBudget != 2*time.Second ||
+		cfg.ProbesInFlight != 12 || cfg.RankedItemsCeiling != 25 {
 		t.Fatalf("config = %+v, want the overrides", cfg)
 	}
 }

@@ -1,0 +1,221 @@
+{
+  "query": "machine learning tutorial",
+  "judgedDocuments": [
+    {
+      "hash": "XhM90s4so94h",
+      "address": "https://microclimat.bg/blog?journal_blog_post_id=1",
+      "title": "Хладилен агент R32, климатици, Фреон ...",
+      "grade": 0
+    },
+    {
+      "hash": "hIjKNwgOlJX5",
+      "address": "https://www.codecademy.com/article/nano-banana-pro-tutorial",
+      "title": "Nano Banana Pro Tutorial: Create \u0026 Edit Images | Codecademy",
+      "grade": 0
+    },
+    {
+      "hash": "pGRD67yp6WtY",
+      "address": "http://tantek.com/",
+      "title": "Tantek Çelik",
+      "grade": 0
+    },
+    {
+      "hash": "VWPgq5c9duY5",
+      "address": "https://azure.microsoft.com/en-us/products/machine-learning",
+      "title": "Azure Machine Learning - ML as a Service | Microsoft Azure",
+      "grade": 1
+    },
+    {
+      "hash": "uaEnGzTwnifx",
+      "address": "https://planet.wordpress.org/",
+      "title": "Planet — WordPress.org",
+      "grade": 0
+    },
+    {
+      "hash": "Poobl5c9duY5",
+      "address": "https://azure.microsoft.com/en-us/products/machine-learning/",
+      "title": "Azure Machine Learning - ML as a Service | Microsoft Azure",
+      "grade": 1
+    },
+    {
+      "hash": "2olJgk4eGBC5",
+      "address": "https://www.digitalocean.com/community/tutorials/how-to-write-a-proposal-and-outline-for-a-digitalocean-community-tutorial",
+      "title": "How To Write a Proposal and Outline for a DigitalOcean Community Tutorial | DigitalOcean",
+      "grade": 0
+    },
+    {
+      "hash": "3iXGeD52F4m7",
+      "address": "https://industrialmonitordirect.com/blogs/knowledgebase/honeywell-dcs-training-resources-and-learning-path-guide",
+      "title": "Honeywell DCS Training Resources and Learning Path Guide – Industrial Monitor Direct",
+      "grade": 0
+    },
+    {
+      "hash": "CsepD3S6MKD4",
+      "address": "https://github.com/ChristosChristofidis/awesome-deep-learning",
+      "title": "GitHub - ChristosChristofidis/awesome-deep-learning: A curated list of awesome Deep Learning tutorials, projects and communities.",
+      "grade": 1
+    },
+    {
+      "hash": "9dnewsdTeyA4",
+      "address": "https://github.blog/",
+      "title": "Home - The GitHub Blog",
+      "grade": 0
+    },
+    {
+      "hash": "WsZR54pGtAW4",
+      "address": "https://www.amazon.com/Ruby-Rails-Tutorial-Addison-Wesley-Professional/dp/013804984X/ref=pd_bxgy_d_sccl_2/146-7842358-8605926?pd_rd_w=n4P2W\u0026content-id=amzn1.sym.dcf559c6-d374-405e-a13e-133e852d81e1\u0026pf_rd_p=dcf559c6-d374-405e-a13e-133e852d81e1\u0026pf_rd_r=E2VGS25MFN6KTFW5THJ9\u0026pd_rd_wg=jO0x8\u0026pd_rd_r=b875eb98-89c0-4487-8618-a9810b77ffcc\u0026pd_rd_i=013804984X\u0026psc=1",
+      "title": "Ruby on Rails Tutorial: Learn Web Development with Rails (Addison-Wesley Professional Ruby Series): Hartl, Michael: 9780138049843: Amazon.com: Books",
+      "grade": 0
+    },
+    {
+      "hash": "jvtsOhOVXrIx",
+      "address": "https://isprs-annals.copernicus.org/articles/IV-2-W5/179/2019/",
+      "title": "ISPRS-Annals - DETECTING RUMEX OBTUSIFOLIUS WEED PLANTS IN GRASSLANDS FROM UAV RGB IMAGERY USING DEEP LEARNING",
+      "grade": 0
+    },
+    {
+      "hash": "w2JFXUOKqMn4",
+      "address": "https://mathspp.com/blog/python-deque-tutorial",
+      "title": "Python deque tutorial | mathspp",
+      "grade": 0
+    },
+    {
+      "hash": "1Nn18Q3MeyZ4",
+      "address": "https://www0.assets.heroku.com/python/",
+      "title": "Deploy and Scale Python \u0026 Django in the Cloud | Heroku",
+      "grade": 0
+    },
+    {
+      "hash": "6Kcbls6GdY-4",
+      "address": "https://danluu.com/metrics-analytics/",
+      "title": "A simple way to get more value from metrics",
+      "grade": 0
+    },
+    {
+      "hash": "wGK6WJexqsOx",
+      "address": "https://docs.opensearch.org/latest/search-plugins/ubi/ubi-dashboard-tutorial/",
+      "title": "UBI dashboard tutorial | OpenSearch Documentation",
+      "grade": 0
+    },
+    {
+      "hash": "pMFw3Ptl82z5",
+      "address": "https://www.w3schools.com/excel/index.php",
+      "title": "Excel Tutorial",
+      "grade": 0
+    },
+    {
+      "hash": "8ytWdoBB0JD5",
+      "address": "https://siloandsage.com/2011/03/14/maternity-pants-tutorial/",
+      "title": "Maternity Pants Tutorial - Silo \u0026 Sage",
+      "grade": 0
+    },
+    {
+      "hash": "rgpLSKf4Pib5",
+      "address": "https://code.visualstudio.com/docs/datascience/azure-machine-learning",
+      "title": "Azure Machine Learning in Visual Studio Code",
+      "grade": 1
+    },
+    {
+      "hash": "6zaS72Tusnf4",
+      "address": "https://blackduck.skilljar.com/page/polaris-learning-paths",
+      "title": "Polaris Learning Paths",
+      "grade": 0
+    },
+    {
+      "hash": "1NslGKf4Pib5",
+      "address": "https://code.visualstudio.com/docs/python/tutorial-fastapi",
+      "title": "Python and FastAPI tutorial in Visual Studio Code",
+      "grade": 0
+    },
+    {
+      "hash": "niBQ18S6MKD4",
+      "address": "https://github.com/RhetTbull/osxphotos",
+      "title": "GitHub - RhetTbull/osxphotos: Python app to work with pictures and associated metadata from Apple Photos on macOS.",
+      "grade": 0
+    },
+    {
+      "hash": "kmD2akndz9ox",
+      "address": "https://www.cambridge.org/core/journals/cambridge-materials-circularity/article/extending-graphbased-lattice-kinetic-monte-carlo-simulations-to-polymer-transformations-a-tutorial-perspective/2CEE4DD6FF50D84855B4AE1CCD8C43BA",
+      "title": "Extending graph-based lattice kinetic Monte Carlo simulations to polymer transformations: A tutorial perspective | Cambridge Materials: Circularity | Cambridge Core",
+      "grade": 0
+    },
+    {
+      "hash": "AHhJbh3e0QFx",
+      "address": "https://commons.wikimedia.org/wiki/Main_Page",
+      "title": "Wikimedia Commons",
+      "grade": 0
+    },
+    {
+      "hash": "D4lABzaS0qdw",
+      "address": "https://planet.debian.org/",
+      "title": "Planet Debian",
+      "grade": 0
+    },
+    {
+      "hash": "iLQO1sN0ip-w",
+      "address": "https://m-reform.net/",
+      "title": "replica football shirts",
+      "grade": 0
+    },
+    {
+      "hash": "BiYCIWOXoHMQ",
+      "address": "http://acecomments.mu.nu/?post=392880%3Futm_source=akdart",
+      "title": "The Morning Report — 9/ 2 /26Daily Tech News 2 September 2026Tuesday Overnight Open Thread - September 1, 2026Cats \u0026 Dogs CafeIranian-Descended Loudmouth Communist Moron Mark",
+      "grade": 0
+    },
+    {
+      "hash": "G2Nk1si1vot6",
+      "address": "https://missclaireshay.com/",
+      "title": "missclaireshay -",
+      "grade": 0
+    },
+    {
+      "hash": "sMiPKsnQvdJ6",
+      "address": "https://cassandrasturdy.com/",
+      "title": "cassandrasturdy.com -",
+      "grade": 0
+    },
+    {
+      "hash": "GtLjhloUbV15",
+      "address": "https://www.whatfinger.com/",
+      "title": "Whatfinger News® – Unfiltered Truth. America’s News Feed",
+      "grade": 0
+    },
+    {
+      "hash": "1lGoBsyuNlT5",
+      "address": "https://alt-webring.com/",
+      "title": "alt-webring | The (former) alternative webring system",
+      "grade": 0
+    },
+    {
+      "hash": "any3Qs9w8XV5",
+      "address": "https://cloudinary.com/",
+      "title": "Image and Video Upload, Storage, Optimization and CDN",
+      "grade": 0
+    },
+    {
+      "hash": "9kBrIsCMzuQw",
+      "address": "https://icml.cc/",
+      "title": "2026 Conference",
+      "grade": 0
+    },
+    {
+      "hash": "Mb7ip0SWekJ4",
+      "address": "https://thangs.com/resources/blog",
+      "title": "Blog",
+      "grade": 0
+    },
+    {
+      "hash": "btqgslTg2KM4",
+      "address": "https://www.wikihow.com/Experts",
+      "title": "wikiHow Experts",
+      "grade": 0
+    },
+    {
+      "hash": "x0uPesUTqyyz",
+      "address": "https://programmingassignmentshelp.net/",
+      "title": "programmingassignmentshelp -",
+      "grade": 0
+    }
+  ]
+}

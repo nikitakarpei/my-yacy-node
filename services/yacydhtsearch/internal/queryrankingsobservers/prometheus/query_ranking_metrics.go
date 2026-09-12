@@ -12,9 +12,11 @@ import (
 const (
 	labelOutcome             = "outcome"
 	outcomeAnsweredFromCache = "answered_from_cache"
+	outcomeNoItemFromCache   = "no_item_from_cache"
 	outcomeAnsweredByPeers   = "answered_by_peers"
+	outcomeNoItemFromPeers   = "no_item_from_peers"
 	outcomeNoIndexedTerm     = "no_indexed_term"
-	outcomeNoPeerToAsk       = "no_peer_to_ask"
+	outcomeNoPeerReached     = "no_peer_reached"
 )
 
 type QueryRankingMetrics struct {
@@ -34,21 +36,38 @@ func New(registry prometheusclient.Registerer) *QueryRankingMetrics {
 }
 
 func (m *QueryRankingMetrics) QueryAnsweredFromCache(
-	context.Context,
-	searchquery.Query,
-	int,
+	_ context.Context,
+	_ searchquery.Query,
+	amountOfItems int,
 ) {
-	m.searches.WithLabelValues(outcomeAnsweredFromCache).Inc()
+	m.countSearch(outcomeAnsweredFromCache, outcomeNoItemFromCache, amountOfItems)
 }
 
-func (m *QueryRankingMetrics) QueryAnsweredByPeers(context.Context, searchquery.Query, int) {
-	m.searches.WithLabelValues(outcomeAnsweredByPeers).Inc()
+func (m *QueryRankingMetrics) QueryAnsweredByPeers(
+	_ context.Context,
+	_ searchquery.Query,
+	amountOfItems int,
+) {
+	m.countSearch(outcomeAnsweredByPeers, outcomeNoItemFromPeers, amountOfItems)
 }
 
-func (m *QueryRankingMetrics) QueryHadNoIndexedTerm(context.Context, searchquery.Query) {
+func (m *QueryRankingMetrics) countSearch(
+	outcomeWithItems string,
+	outcomeWithNoItem string,
+	amountOfItems int,
+) {
+	if amountOfItems == 0 {
+		m.searches.WithLabelValues(outcomeWithNoItem).Inc()
+
+		return
+	}
+	m.searches.WithLabelValues(outcomeWithItems).Inc()
+}
+
+func (m *QueryRankingMetrics) QueryHoldsNoIndexedTerm(context.Context, searchquery.Query) {
 	m.searches.WithLabelValues(outcomeNoIndexedTerm).Inc()
 }
 
-func (m *QueryRankingMetrics) QueryFoundNoPeerToAsk(context.Context, searchquery.Query) {
-	m.searches.WithLabelValues(outcomeNoPeerToAsk).Inc()
+func (m *QueryRankingMetrics) QueryReachedNoPeer(context.Context, searchquery.Query) {
+	m.searches.WithLabelValues(outcomeNoPeerReached).Inc()
 }

@@ -20,6 +20,7 @@ func New(client *http.Client, networkName string) Wire {
 	return Wire{client: client, networkName: networkName}
 }
 
+// TECHDEBT: Logging: request and connection failures return without an observation.
 func (w Wire) Alive(ctx context.Context, address string) bool {
 	probe := address + livenessPath + "?" + url.Values{
 		yacyproto.FieldNetworkName: {w.networkName},

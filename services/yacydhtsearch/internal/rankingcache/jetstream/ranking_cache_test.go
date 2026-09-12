@@ -35,16 +35,19 @@ func (r *recordedFailure) RankingStoreFailed(context.Context, searchquery.Query,
 func rankingOver(t *testing.T, address string) searchresult.Ranking {
 	t.Helper()
 
-	item, ok := searchresult.ItemFrom(yacymodel.URLMetadata{
-		Address: address,
-		Title:   "Weather",
-		Snippet: "prose",
-	})
-	if !ok {
-		t.Fatalf("ItemFrom(%q) refused a well-formed address", address)
+	hash, err := yacymodel.URLHashOf(address)
+	if err != nil {
+		t.Fatalf("URLHashOf(%q): %v", address, err)
 	}
 
-	return searchresult.Ranking{Items: []searchresult.Item{item}}
+	return searchresult.Ranking{
+		Items: []searchresult.Item{searchresult.ItemFrom(yacymodel.URLMetadata{
+			Hash:    hash,
+			Address: address,
+			Title:   "Weather",
+			Snippet: "prose",
+		})},
+	}
 }
 
 func bucketFor(t *testing.T, config natsjetstream.KeyValueConfig) natsjetstream.KeyValue {
@@ -68,7 +71,7 @@ func TestARankingIsReadBackForTheQueryItWasHeldFor(t *testing.T) {
 		bucketFor(t, natsjetstream.KeyValueConfig{}),
 		rankingcachejetstream.RankingCacheObservers{failures},
 	)
-	query := searchquery.QueryFrom("berlin")
+	query := searchquery.QueryFrom("berlin", "")
 	cache.StoreRanking(t.Context(), query, rankingOver(t, "https://a.example/"))
 
 	ranking, found := cache.CachedRankingFor(t.Context(), query)
@@ -94,7 +97,7 @@ func TestNoRankingIsHeldForAQueryNobodyAsked(t *testing.T) {
 		rankingcachejetstream.RankingCacheObservers{failures},
 	)
 
-	_, found := cache.CachedRankingFor(t.Context(), searchquery.QueryFrom("berlin"))
+	_, found := cache.CachedRankingFor(t.Context(), searchquery.QueryFrom("berlin", ""))
 
 	if found || failures.lookups != 0 {
 		t.Fatalf(
@@ -112,7 +115,7 @@ func TestARankingIsGoneOnceItsLifetimeIsSpent(t *testing.T) {
 		bucketFor(t, natsjetstream.KeyValueConfig{TTL: 100 * time.Millisecond}),
 		rankingcachejetstream.RankingCacheObservers{&recordedFailure{}},
 	)
-	query := searchquery.QueryFrom("berlin")
+	query := searchquery.QueryFrom("berlin", "")
 	cache.StoreRanking(t.Context(), query, rankingOver(t, "https://a.example/"))
 
 	time.Sleep(time.Second)
@@ -130,7 +133,7 @@ func TestARankingTheBucketRefusesIsReported(t *testing.T) {
 		bucketFor(t, natsjetstream.KeyValueConfig{MaxValueSize: valueCeiling}),
 		rankingcachejetstream.RankingCacheObservers{failures},
 	)
-	query := searchquery.QueryFrom("berlin")
+	query := searchquery.QueryFrom("berlin", "")
 
 	items := make([]searchresult.Item, 0, 100)
 	for range 100 {

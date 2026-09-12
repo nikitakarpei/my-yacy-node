@@ -151,6 +151,28 @@ func postingOfWordForURL(
 	return yacymodel.RWIPosting{WordHash: word, URLHash: urlHash}
 }
 
+func TestPeersHoldingOneWordOfCountsEveryPartitionOfTheRing(t *testing.T) {
+	const (
+		partitionExponent = 4
+		networkRedundancy = 3
+	)
+	partitions, err := yacymodel.DHTRingPartitionsFromExponent(partitionExponent)
+	if err != nil {
+		t.Fatalf("dht ring partitions: %v", err)
+	}
+
+	holders := yacymodel.PeersHoldingOneWordOf(partitions, networkRedundancy)
+
+	if holders != int(partitions)*networkRedundancy {
+		t.Fatalf(
+			"PeersHoldingOneWordOf = %d, want %d peers for each of the %d partitions",
+			holders,
+			networkRedundancy,
+			partitions,
+		)
+	}
+}
+
 func TestDHTRingPositionOfWordInPartitionHoldsEveryPostingOfThatWord(t *testing.T) {
 	const partitionExponent = 4
 	partitions, err := yacymodel.DHTRingPartitionsFromExponent(partitionExponent)

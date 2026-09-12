@@ -7,7 +7,9 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
-func EncodeSearchIndexAbstract(urlHashes []yacymodel.URLHash) string {
+const pathPrefixLength = yacymodel.HashLength - yacymodel.HostHashLength
+
+func encodeSearchIndexAbstract(urlHashes []yacymodel.URLHash) string {
 	if len(urlHashes) == 0 {
 		return "{}"
 	}
@@ -18,7 +20,8 @@ func EncodeSearchIndexAbstract(urlHashes []yacymodel.URLHash) string {
 			continue
 		}
 		raw := hash.String()
-		domains[raw[6:]] = append(domains[raw[6:]], raw[:6])
+		hostHash := raw[len(raw)-yacymodel.HostHashLength:]
+		domains[hostHash] = append(domains[hostHash], raw[:pathPrefixLength])
 	}
 
 	if len(domains) == 0 {
@@ -77,4 +80,40 @@ func base64Order(c byte) int {
 		}
 	}
 	return len(yacymodel.Alphabet) + int(c)
+}
+
+func decodeSearchIndexAbstract(abstract string) []yacymodel.URLHash {
+	packed, ok := strings.CutPrefix(abstract, "{")
+	if !ok {
+		return nil
+	}
+	packed, ok = strings.CutSuffix(packed, "}")
+	if !ok {
+		return nil
+	}
+
+	var urlHashes []yacymodel.URLHash
+	for _, group := range strings.Split(packed, ",") {
+		urlHashes = append(urlHashes, urlHashesOfDomainGroup(group)...)
+	}
+
+	return urlHashes
+}
+
+func urlHashesOfDomainGroup(group string) []yacymodel.URLHash {
+	domain, paths, ok := strings.Cut(group, ":")
+	if !ok || len(domain) != yacymodel.HostHashLength {
+		return nil
+	}
+
+	urlHashes := make([]yacymodel.URLHash, 0, len(paths)/pathPrefixLength)
+	for start := 0; start+pathPrefixLength <= len(paths); start += pathPrefixLength {
+		urlHash, err := yacymodel.ParseURLHash(paths[start:start+pathPrefixLength] + domain)
+		if err != nil {
+			continue
+		}
+		urlHashes = append(urlHashes, urlHash)
+	}
+
+	return urlHashes
 }
