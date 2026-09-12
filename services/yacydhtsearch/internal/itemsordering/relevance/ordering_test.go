@@ -361,6 +361,25 @@ func TestTheDocumentWhoseTitleHoldsTheQueryWordComesFirst(t *testing.T) {
 	}
 }
 
+func TestTheDocumentWhoseTitleHoldsTheRarerQueryWordComesFirst(t *testing.T) {
+	t.Parallel()
+
+	answers := answersHolding(
+		map[string]int{"emacs": 10, "manual": 100000},
+		[]peeranswers.AnsweredItem{
+			itemTitledMatchingTheWords(t, "https://beside.example/", "The manual",
+				"emacs", "manual"),
+			itemTitledMatchingTheWords(t, "https://titled.example/", "The emacs",
+				"emacs", "manual"),
+		},
+	)
+
+	want := []string{"https://titled.example/", "https://beside.example/"}
+	if got := addressesOrderedBy(answers); !slices.Equal(got, want) {
+		t.Fatalf("the relevance order reads %v, want %v", got, want)
+	}
+}
+
 func TestATitleThatOnlyHoldsALongerWordChangesNoOrder(t *testing.T) {
 	t.Parallel()
 

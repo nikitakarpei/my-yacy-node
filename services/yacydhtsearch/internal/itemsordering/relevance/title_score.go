@@ -5,23 +5,35 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
-const titleScoreOfADocumentWithoutATitle = -2.0
+const (
+	shareOfTheRarityOfTheQueryWordsADocumentWithoutATitleLoses = -1.0
+	shareOfTheRarityOfTheQueryWordsOfATitleWithoutAQueryWord   = 0.0
+)
 
-func titleScoreOf(item peeranswers.AnsweredItem) float64 {
+func titleScoreOf(item peeranswers.AnsweredItem, rarity queryWordRarity) float64 {
 	if item.Metadata.Title == "" {
-		return titleScoreOfADocumentWithoutATitle
+		return shareOfTheRarityOfTheQueryWordsADocumentWithoutATitleLoses
 	}
+	if rarity.sumOfTheRarityOfTheQueryWords <= 0 {
+		return shareOfTheRarityOfTheQueryWordsOfATitleWithoutAQueryWord
+	}
+
+	return rarity.sumOfTheRarityOf(queryWordsOfTheTitleOf(item)) /
+		rarity.sumOfTheRarityOfTheQueryWords
+}
+
+func queryWordsOfTheTitleOf(item peeranswers.AnsweredItem) []yacymodel.Hash {
 	wordsOfTheTitle := wordsOfTheTitleOf(item.Metadata.Title)
 
-	amountOfQueryWordsInTheTitle := 0
-	for word := range item.MatchedWords {
+	queryWordsOfTheTitle := make([]yacymodel.Hash, 0, len(item.MatchedWords))
+	for _, word := range matchedWordsAlwaysInTheSameOrder(item) {
 		if _, inTheTitle := wordsOfTheTitle[word]; !inTheTitle {
 			continue
 		}
-		amountOfQueryWordsInTheTitle++
+		queryWordsOfTheTitle = append(queryWordsOfTheTitle, word)
 	}
 
-	return float64(amountOfQueryWordsInTheTitle)
+	return queryWordsOfTheTitle
 }
 
 func wordsOfTheTitleOf(title string) map[yacymodel.Hash]struct{} {

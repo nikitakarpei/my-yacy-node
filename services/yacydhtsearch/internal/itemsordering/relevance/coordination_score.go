@@ -1,6 +1,10 @@
 package relevance
 
 import (
+	"maps"
+	"slices"
+	"strings"
+
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peeranswers"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
@@ -23,7 +27,7 @@ func coordinationScoreOf(item peeranswers.AnsweredItem, amountOfQueryWords int) 
 	return float64(amountOfQueryWordsTheDocumentHolds) / float64(amountOfQueryWords)
 }
 
-func amountOfQueryWordsAcross(items []peeranswers.AnsweredItem) int {
+func queryWordsOfTheAnswersAcross(items []peeranswers.AnsweredItem) []yacymodel.Hash {
 	queryWordsOfTheAnswers := map[yacymodel.Hash]struct{}{}
 	for _, item := range items {
 		for word := range item.MatchedWords {
@@ -31,5 +35,10 @@ func amountOfQueryWordsAcross(items []peeranswers.AnsweredItem) int {
 		}
 	}
 
-	return len(queryWordsOfTheAnswers)
+	return slices.SortedFunc(
+		maps.Keys(queryWordsOfTheAnswers),
+		func(one, other yacymodel.Hash) int {
+			return strings.Compare(one.String(), other.String())
+		},
+	)
 }

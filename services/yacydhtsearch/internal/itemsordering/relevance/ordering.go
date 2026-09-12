@@ -1,7 +1,8 @@
 // Package relevance orders the answered items by how well each document
 // answers the query. Its relevance adds up how high the peers placed it, the
-// query words its title and its host hold, a BM25 score of the query words in
-// its text, the query phrases and the share of the query words its text holds.
+// share of the rarity of the query words its title holds, the query words its
+// host holds, a BM25 score of the query words in its text, the query phrases
+// and the share of the query words its text holds.
 // Documents of equal relevance keep the order the peers put them in.
 package relevance
 
@@ -34,18 +35,20 @@ func (ordering Ordering) RelevancePerDocumentOf(
 ) map[yacymodel.URLHash]float64 {
 	items := answers.ItemOfEachAnsweredDocument()
 	placeScorePerDocument := placeScorePerDocumentOf(answers.ItemsInTheOrderOfEachAnswer)
-	rarityPerQueryWord := rarityPerQueryWordOf(answers.DocumentsHeldPerQueryWord)
+	queryWordsOfTheAnswers := queryWordsOfTheAnswersAcross(items)
+	rarityOfTheQueryWords := queryWordRarityOf(
+		answers.DocumentsHeldPerQueryWord, queryWordsOfTheAnswers,
+	)
 	averageDocumentLength := averageDocumentLengthOf(items)
-	amountOfQueryWords := amountOfQueryWordsAcross(items)
 
 	relevancePerDocument := make(map[yacymodel.URLHash]float64, len(items))
 	for _, item := range items {
 		relevancePerDocument[item.Metadata.Hash] = ordering.scoreWeights.relevanceOf(
 			item,
 			placeScorePerDocument[item.Metadata.Hash],
-			rarityPerQueryWord,
+			rarityOfTheQueryWords,
 			averageDocumentLength,
-			amountOfQueryWords,
+			len(queryWordsOfTheAnswers),
 		)
 	}
 

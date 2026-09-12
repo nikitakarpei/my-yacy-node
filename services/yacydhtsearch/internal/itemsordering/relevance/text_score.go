@@ -2,7 +2,6 @@ package relevance
 
 import (
 	"maps"
-	"math"
 	"slices"
 	"strings"
 
@@ -11,53 +10,26 @@ import (
 )
 
 const (
-	rarityOfAQueryWordWhenNoWordWasCounted = 1.0
-	saturationOfTheHitsOfAWord             = 1.2
-	weightOfTheDocumentLength              = 0.75
-	lengthRatioOfADocumentNoPeerMeasured   = 1.0
+	saturationOfTheHitsOfAWord           = 1.2
+	weightOfTheDocumentLength            = 0.75
+	lengthRatioOfADocumentNoPeerMeasured = 1.0
 )
 
 func textScoreOf(
 	item peeranswers.AnsweredItem,
-	rarityPerQueryWord map[yacymodel.Hash]float64,
+	rarity queryWordRarity,
 	averageDocumentLength float64,
 ) float64 {
 	amountOfTextWords := amountOfTextWordsOf(item)
-	rarityOfAnUncountedQueryWord := rarityOfAnUncountedQueryWordFrom(rarityPerQueryWord)
 
 	textScore := 0.0
 	for _, word := range matchedWordsAlwaysInTheSameOrder(item) {
-		rarity, counted := rarityPerQueryWord[word]
-		if !counted {
-			rarity = rarityOfAnUncountedQueryWord
-		}
-		textScore += rarity * saturatedHitsOf(
+		textScore += rarity.rarityOfTheQueryWord(word) * saturatedHitsOf(
 			item.MatchedWords[word].Hits, amountOfTextWords, averageDocumentLength,
 		)
 	}
 
 	return textScore
-}
-
-func rarityPerQueryWordOf(
-	documentsHeldPerQueryWord map[yacymodel.Hash]int,
-) map[yacymodel.Hash]float64 {
-	mostDocumentsHeldForAQueryWord := 0
-	for _, documentsHeld := range documentsHeldPerQueryWord {
-		mostDocumentsHeldForAQueryWord = max(mostDocumentsHeldForAQueryWord, documentsHeld)
-	}
-
-	rarityPerQueryWord := make(map[yacymodel.Hash]float64, len(documentsHeldPerQueryWord))
-	for word, documentsHeld := range documentsHeldPerQueryWord {
-		if documentsHeld <= 0 {
-			continue
-		}
-		rarityPerQueryWord[word] = math.Log1p(
-			float64(mostDocumentsHeldForAQueryWord) / float64(documentsHeld),
-		)
-	}
-
-	return rarityPerQueryWord
 }
 
 func averageDocumentLengthOf(items []peeranswers.AnsweredItem) float64 {
@@ -75,17 +47,6 @@ func averageDocumentLengthOf(items []peeranswers.AnsweredItem) float64 {
 	}
 
 	return float64(sumOfTextWordsAcrossDocuments) / float64(amountOfMeasuredDocuments)
-}
-
-func rarityOfAnUncountedQueryWordFrom(
-	rarityPerQueryWord map[yacymodel.Hash]float64,
-) float64 {
-	rarityOfAnUncountedQueryWord := rarityOfAQueryWordWhenNoWordWasCounted
-	for _, rarityOfACountedQueryWord := range rarityPerQueryWord {
-		rarityOfAnUncountedQueryWord = min(rarityOfAnUncountedQueryWord, rarityOfACountedQueryWord)
-	}
-
-	return rarityOfAnUncountedQueryWord
 }
 
 func amountOfTextWordsOf(item peeranswers.AnsweredItem) int {
