@@ -41,7 +41,7 @@ const (
 
 	DefaultListenAddr           = ":8080"
 	DefaultOpsAddr              = ":9090"
-	DefaultQueryBudget          = 8 * time.Second
+	DefaultQueryBudget          = 10 * time.Second
 	DefaultPeerChoiceCooldown   = 5 * time.Second
 	DefaultNetworkRedundancy    = 3
 	DefaultPeerCallsInFlight    = 48
