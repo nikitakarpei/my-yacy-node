@@ -41,7 +41,7 @@
       "hash": "Eefa2CKCIhSg",
       "address": "https://madame.lefigaro.fr/recettes/idees-menus/aperitif-dinatoire-0",
       "title": "Recettes Apéro dînatoire : faciles et originales",
-      "grade": 1
+      "grade": 0
     },
     {
       "hash": "cCdvbCKCIhSg",
@@ -53,7 +53,7 @@
       "hash": "64NrRCKCIhSg",
       "address": "https://madame.lefigaro.fr/recettes/idees-menus/fruit",
       "title": "Recettes Recettes à base de fruits : faciles et originales",
-      "grade": 1
+      "grade": 0
     },
     {
       "hash": "FF-7Scw63Csx",
@@ -89,7 +89,7 @@
       "hash": "9gLDqCKCIhSg",
       "address": "https://madame.lefigaro.fr/recettes/plats/dessert",
       "title": "Dessert : recettes faciles et rapides",
-      "grade": 1
+      "grade": 0
     },
     {
       "hash": "F0IMFcw63Csx",
@@ -101,7 +101,7 @@
       "hash": "vNDoJcw63Csx",
       "address": "https://fr.wikipedia.org/wiki/Pomme",
       "title": "",
-      "grade": 1
+      "grade": 0
     },
     {
       "hash": "154wlcw63Csx",

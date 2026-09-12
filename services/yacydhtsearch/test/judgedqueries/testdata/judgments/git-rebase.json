@@ -5,7 +5,7 @@
       "hash": "CeKDz29cq-94",
       "address": "https://git-scm.com/docs/git-config",
       "title": "Git - git-config Documentation",
-      "grade": 1
+      "grade": 0
     },
     {
       "hash": "F3enq_nMM_j5",
@@ -35,7 +35,7 @@
       "hash": "0uJDlvRjxAex",
       "address": "https://cs.wikibooks.org/wiki/Git",
       "title": "Git – Wikiknihy",
-      "grade": 1
+      "grade": 0
     },
     {
       "hash": "wVAXw_nMM_j5",
@@ -71,7 +71,7 @@
       "hash": "YgAeyl0lKwR5",
       "address": "https://www.git-tower.com/",
       "title": "Tower — The most powerful Git client for Mac and Windows",
-      "grade": 1
+      "grade": 0
     },
     {
       "hash": "cEcJUyXjZ9O4",
@@ -89,7 +89,7 @@
       "hash": "-eL3TvdTeyA4",
       "address": "https://github.blog/open-source/git/highlights-from-git-2-55/",
       "title": "Highlights from Git 2.55 - The GitHub Blog",
-      "grade": 1
+      "grade": 0
     },
     {
       "hash": "p_5Wwo0Z_SDg",
@@ -107,7 +107,7 @@
       "hash": "v733uyXjZ9O4",
       "address": "https://docs.github.com/en/get-started/using-github/github-flow",
       "title": "GitHub flow - GitHub Docs",
-      "grade": 1
+      "grade": 0
     },
     {
       "hash": "6bQzZ2bypRQw",
@@ -119,7 +119,7 @@
       "hash": "CmQQlyEkAvow",
       "address": "https://developer.mozilla.org/en-US/blog/optimize-your-workflow-git-stash/",
       "title": "Optimize your workflow with Git stash",
-      "grade": 1
+      "grade": 0
     },
     {
       "hash": "rqW0fx8XNsex",
@@ -131,7 +131,7 @@
       "hash": "ZLEAaobrsZjx",
       "address": "https://www.mediawiki.org/wiki/Gerrit/Tutorial",
       "title": "Gerrit/Tutorial - MediaWiki",
-      "grade": 1
+      "grade": 0
     },
     {
       "hash": "PexbGAK-xyJ4",
@@ -167,7 +167,7 @@
       "hash": "6vbK7ssY0Thg",
       "address": "https://bueltge.de/git/",
       "title": "Get your Practice-Git on!",
-      "grade": 1
+      "grade": 0
     },
     {
       "hash": "RVPC2yXjZ9O4",
@@ -203,25 +203,25 @@
       "hash": "WVLgdPaM_sMw",
       "address": "https://docs.codeberg.org/collaborating/pull-requests-and-git-flow/",
       "title": "Pull requests and Git flow | Codeberg Documentation",
-      "grade": 2
+      "grade": 0
     },
     {
       "hash": "jmgT3MS6MKD4",
       "address": "https://github.com/tpope/vim-fugitive",
       "title": "GitHub - tpope/vim-fugitive: fugitive.vim: A Git wrapper so awesome, it should be illegal · GitHub",
-      "grade": 1
+      "grade": 0
     },
     {
       "hash": "98ydQs9cq-94",
       "address": "https://git-scm.com/learn",
       "title": "Git - Learn",
-      "grade": 1
+      "grade": 0
     },
     {
       "hash": "xDYFcsUZXr25",
       "address": "https://pre-commit.com/",
       "title": "pre-commit",
-      "grade": 1
+      "grade": 0
     },
     {
       "hash": "SGCHO29cq-94",
@@ -233,7 +233,7 @@
       "hash": "-7-UKs9cq-94",
       "address": "https://git-scm.com/docs",
       "title": "Git - Reference",
-      "grade": 1
+      "grade": 0
     },
     {
       "hash": "RgG4r29cq-94",
@@ -245,19 +245,19 @@
       "hash": "6JOUD29cq-94",
       "address": "https://git-scm.com/docs/git-remote",
       "title": "Git - git-remote Documentation",
-      "grade": 1
+      "grade": 0
     },
     {
       "hash": "18R0h29cq-94",
       "address": "https://git-scm.com/docs/git-send-email",
       "title": "Git - git-send-email Documentation",
-      "grade": 1
+      "grade": 0
     },
     {
       "hash": "7WP56MS6MKD4",
       "address": "https://github.com/tiimgreen/github-cheat-sheet",
       "title": "GitHub - tiimgreen/github-cheat-sheet: A list of cool features of Git and GitHub. · GitHub",
-      "grade": 1
+      "grade": 0
     },
     {
       "hash": "9qMfQo0Z_SDg",
@@ -275,7 +275,7 @@
       "hash": "18Aza29cq-94",
       "address": "https://git-scm.com/docs/giteveryday",
       "title": "Git - giteveryday Documentation",
-      "grade": 1
+      "grade": 0
     },
     {
       "hash": "6fDY-29cq-94",

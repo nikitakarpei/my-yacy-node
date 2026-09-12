@@ -17,7 +17,7 @@
       "hash": "ID1l38bIDBOw",
       "address": "https://pypi.org/project/azure-eventhub/5.6.1/",
       "title": "azure-eventhub · PyPI",
-      "grade": 1
+      "grade": 0
     },
     {
       "hash": "J7RVs2o0ru95",
@@ -35,7 +35,7 @@
       "hash": "A5Y2hWr4CjGw",
       "address": "https://discuss.python.org/c/async-sig/20",
       "title": "Latest Async-SIG topics - Discussions on Python.org",
-      "grade": 1
+      "grade": 0
     },
     {
       "hash": "L-Mg04S6MKD4",
@@ -53,13 +53,13 @@
       "hash": "kEYSoltD2jQw",
       "address": "https://docs.python.org/3.14/whatsnew/3.6.html",
       "title": "What’s New In Python 3.6 — Python 3.14.0a0 documentation",
-      "grade": 1
+      "grade": 0
     },
     {
       "hash": "0NHyDitD2jQw",
       "address": "https://docs.python.org/3/glossary.html",
       "title": "Glossary — Python 3.14.7 documentation",
-      "grade": 1
+      "grade": 0
     },
     {
       "hash": "rJ2EhKukjnGx",
@@ -89,7 +89,7 @@
       "hash": "3SfDVU3rjROw",
       "address": "https://oxylabs.io/blog/rotate-proxies-python",
       "title": "How to Rotate Proxies in Python Using Requests and AIOHTTP",
-      "grade": 1
+      "grade": 0
     },
     {
       "hash": "4tfUFTCk19rw",
@@ -107,7 +107,7 @@
       "hash": "9RxyZlS6MKD4",
       "address": "https://github.com/tqdm/tqdm",
       "title": "GitHub - tqdm/tqdm: :zap: A Fast, Extensible Progress Bar for Python and CLI · GitHub",
-      "grade": 1
+      "grade": 0
     },
     {
       "hash": "AEEDPTCk19rw",
@@ -125,7 +125,7 @@
       "hash": "Z4rOdhS6MKD4",
       "address": "https://github.com/oxylabs/how-to-make-web-scraping-faster",
       "title": "GitHub - oxylabs/how-to-make-web-scraping-faster: How to Make Web Scraping Faster - Python Tutorial · GitHub",
-      "grade": 1
+      "grade": 0
     },
     {
       "hash": "iJjNZ2o0ru95",
@@ -173,7 +173,7 @@
       "hash": "OX5sqitD2jQw",
       "address": "https://docs.python.org/3/library/asyncio-runner.html",
       "title": "Runners — Python 3.13.3 documentation",
-      "grade": 2
+      "grade": 1
     },
     {
       "hash": "omDQhitD2jQw",
@@ -209,7 +209,7 @@
       "hash": "SbPWiitD2jQw",
       "address": "https://docs.python.org/3/library/asyncio-policy.html",
       "title": "Policies — Python 3.14.7 documentation",
-      "grade": 2
+      "grade": 1
     },
     {
       "hash": "yD2PttXdbot4",
@@ -221,7 +221,7 @@
       "hash": "wiRlOlBLxyZw",
       "address": "https://bugs.python.org/issue43723",
       "title": "Issue 43723: Deprecate camelCase aliases from threading.py - Python tracker",
-      "grade": 1
+      "grade": 0
     },
     {
       "hash": "-kzhpsuKfTnw",
@@ -239,13 +239,13 @@
       "hash": "YZiTmitD2jQw",
       "address": "https://docs.python.org/3/genindex-S.html",
       "title": "Index — Python 3.14.0 documentation",
-      "grade": 1
+      "grade": 0
     },
     {
       "hash": "DN17WTCk19rw",
       "address": "https://peps.python.org/pep-0550/",
       "title": "PEP 550 – Execution Context | peps.python.org",
-      "grade": 1
+      "grade": 0
     },
     {
       "hash": "0DzM8itD2jQw",
@@ -275,7 +275,7 @@
       "hash": "P-tQgitD2jQw",
       "address": "https://docs.python.org/3/library/asyncio-eventloop.html",
       "title": "Event Loop — Python 3.13.2 documentation",
-      "grade": 2
+      "grade": 1
     },
     {
       "hash": "53evZitD2jQw",
@@ -287,13 +287,13 @@
       "hash": "PpEXoitD2jQw",
       "address": "https://docs.python.org/3/library/contextvars.html",
       "title": "contextvars — Context Variables — Python 3.14.6 documentation",
-      "grade": 1
+      "grade": 0
     },
     {
       "hash": "TYQnKitD2jQw",
       "address": "https://docs.python.org/3/deprecations/index.html",
       "title": "Deprecations — Python 3.14.6 documentation",
-      "grade": 1
+      "grade": 0
     },
     {
       "hash": "wLl5mitD2jQw",
@@ -305,31 +305,31 @@
       "hash": "OJETritD2jQw",
       "address": "https://docs.python.org/3/library/asyncore.html",
       "title": "asyncore — Asynchronous socket handler — Python 3.14.7 documentation",
-      "grade": 1
+      "grade": 0
     },
     {
       "hash": "TfoQZitD2jQw",
       "address": "https://docs.python.org/3/genindex-D.html",
       "title": "Index — Python 3.14.5 documentation",
-      "grade": 1
+      "grade": 0
     },
     {
       "hash": "jNBt8itD2jQw",
       "address": "https://docs.python.org/3/library/asyncio-graph.html",
       "title": "Call Graph Introspection — Python 3.14.2 documentation",
-      "grade": 2
+      "grade": 1
     },
     {
       "hash": "QsUXRitD2jQw",
       "address": "https://docs.python.org/3/genindex-M.html",
       "title": "Index — Python 3.10.7 documentation",
-      "grade": 1
+      "grade": 0
     },
     {
       "hash": "SxNpQitD2jQw",
       "address": "https://docs.python.org/3/library/index.html",
       "title": "The Python Standard Library — Python 3.14.4 documentation",
-      "grade": 1
+      "grade": 0
     }
   ]
 }

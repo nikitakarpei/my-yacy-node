@@ -11,13 +11,13 @@
       "hash": "9KNuQjRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Red_Hat_Enterprise_Linux",
       "title": "Red Hat Enterprise Linux - Wikipedia",
-      "grade": 1
+      "grade": 0
     },
     {
       "hash": "AE5Ku2sEYJ15",
       "address": "https://tailscale.com/docs/reference/kernel-vs-userspace-routers",
       "title": "Kernel vs. netstack subnet routing \u0026 exit nodes · Tailscale Docs",
-      "grade": 1
+      "grade": 0
     },
     {
       "hash": "EJB5gmVSvPzg",
@@ -41,7 +41,7 @@
       "hash": "N_bW_5DJH5aw",
       "address": "https://www.wiki.kernel.org/",
       "title": "Main Page - Demeter of the Kernel.org",
-      "grade": 2
+      "grade": 1
     },
     {
       "hash": "OBXywlSCNQa4",
@@ -59,7 +59,7 @@
       "hash": "HCJIZsscikty",
       "address": "https://kernelnewbies.org/Linux_4.2",
       "title": "Linux_4.2 - Linux Kernel Newbies",
-      "grade": 2
+      "grade": 1
     },
     {
       "hash": "5A3Als-kQ1nw",
@@ -77,13 +77,13 @@
       "hash": "INtzHVGZ4FKw",
       "address": "https://www.kernel.org/doc/html/latest/translations/zh_CN/admin-guide/numastat.html",
       "title": "Numa策略命中/未命中统计 — The Linux Kernel documentation",
-      "grade": 2
+      "grade": 1
     },
     {
       "hash": "_BwbJVGZ4FKw",
       "address": "https://www.kernel.org/doc/html/latest/devicetree/index.html",
       "title": "Open Firmware and Devicetree — The Linux Kernel documentation",
-      "grade": 2
+      "grade": 1
     },
     {
       "hash": "N280urS6MKD4",
@@ -95,55 +95,55 @@
       "hash": "V_Sy6HDMrHS4",
       "address": "https://gist.github.com/ricardoanguiano/18125b7eb3f26cf83724fb60662bdd2c",
       "title": "linux kernel mainline 4.9 sloccount.txt · GitHub",
-      "grade": 1
+      "grade": 0
     },
     {
       "hash": "fq3pBVGZ4FKw",
       "address": "https://www.kernel.org/doc/html/latest/kbuild/index.html",
       "title": "Kernel Build System — The Linux Kernel documentation",
-      "grade": 2
+      "grade": 1
     },
     {
       "hash": "ntv1cVGZ4FKw",
       "address": "https://www.kernel.org/doc/html/latest/firmware-guide/index.html",
       "title": "The Linux kernel firmware guide — The Linux Kernel documentation",
-      "grade": 2
+      "grade": 1
     },
     {
       "hash": "z9JxTVGZ4FKw",
       "address": "https://www.kernel.org/doc/html/latest/subsystem-apis.html",
       "title": "Kernel subsystem documentation — The Linux Kernel documentation",
-      "grade": 2
+      "grade": 1
     },
     {
       "hash": "5Iwamsscikty",
       "address": "https://kernelnewbies.org/Linux_2_6_36",
       "title": "Linux_2_6_36 - Linux Kernel Newbies",
-      "grade": 2
+      "grade": 1
     },
     {
       "hash": "6QS8lVGZ4FKw",
       "address": "https://www.kernel.org/doc/html/latest/dev-tools/index.html",
       "title": "Development tools for the kernel — The Linux Kernel documentation",
-      "grade": 2
+      "grade": 1
     },
     {
       "hash": "CrsApVGZ4FKw",
       "address": "https://www.kernel.org/doc/html/latest/livepatch/index.html",
       "title": "Kernel Livepatching — The Linux Kernel documentation",
-      "grade": 2
+      "grade": 1
     },
     {
       "hash": "UxZv1VGZ4FKw",
       "address": "https://www.kernel.org/doc/html/latest/process/index.html",
       "title": "Working with the kernel development community — The Linux Kernel documentation",
-      "grade": 2
+      "grade": 1
     },
     {
       "hash": "ayEXgVGZ4FKw",
       "address": "https://www.kernel.org/doc/html/latest/index.html",
       "title": "The Linux Kernel documentation \u0026mdash; The Linux Kernel documentation",
-      "grade": 2
+      "grade": 1
     },
     {
       "hash": "lmRNDjRvmBbx",
@@ -155,25 +155,25 @@
       "hash": "QfHA9VGZ4FKw",
       "address": "https://www.kernel.org/doc/html/latest/doc-guide/index.html",
       "title": "How to write kernel documentation — The Linux Kernel documentation",
-      "grade": 2
+      "grade": 1
     },
     {
       "hash": "5OdiTlSCNQa4",
       "address": "https://www.redhat.com/en/topics/linux/what-is-the-linux-kernel",
       "title": "What is the Linux kernel?",
-      "grade": 2
+      "grade": 1
     },
     {
       "hash": "uEZoLvXKQKtw",
       "address": "https://docs.kernel.org/leds/index.html",
       "title": "LEDs — The Linux Kernel documentation",
-      "grade": 2
+      "grade": 1
     },
     {
       "hash": "k94uERXKQKtw",
       "address": "https://docs.kernel.org/input/index.html",
       "title": "Input Documentation — The Linux Kernel documentation",
-      "grade": 2
+      "grade": 1
     },
     {
       "hash": "uX9xOlSCNQa4",
@@ -191,7 +191,7 @@
       "hash": "7yh0lVGZ4FKw",
       "address": "https://www.kernel.org/doc/html/latest/translations/ja_JP/index.html",
       "title": "日本語訳 — The Linux Kernel documentation",
-      "grade": 2
+      "grade": 1
     },
     {
       "hash": "WpZ1HHOSpvvg",
@@ -209,7 +209,7 @@
       "hash": "SDL4QvKqlBA4",
       "address": "https://www.phoronix.com/news/Linux-Kernel-AI-Guidelines-v3",
       "title": "Latest Proposed Guidelines For Tool-Generated / AI Submissions To The Linux Kernel - Phoronix",
-      "grade": 2
+      "grade": 1
     },
     {
       "hash": "04jSmwSMo4M4",
@@ -221,31 +221,31 @@
       "hash": "glnJPIXKQKtw",
       "address": "https://docs.kernel.org/arch/xtensa/index.html",
       "title": "Xtensa Architecture — The Linux Kernel documentation",
-      "grade": 2
+      "grade": 1
     },
     {
       "hash": "eaGhAlpcc_2y",
       "address": "https://www.notebookcheck.net/Venom-Linux-20250108-launches-with-the-6-12-8-kernel-Wayland-1-23-1-and-more.944449.0.html",
       "title": "Venom Linux 20250108 launches with the 6.12.8 kernel, Wayland 1.23.1, and more - Notebookcheck News",
-      "grade": 1
+      "grade": 0
     },
     {
       "hash": "fRleuzvWe9Yw",
       "address": "https://se-radio.net/2026/06/se-radio-723-dave-airlie-on-linux-kernel-maintenance/",
       "title": "SE Radio 723: Dave Airlie on Linux Kernel Maintenance – Software Engineering Radio",
-      "grade": 2
+      "grade": 1
     },
     {
       "hash": "9vmHasOAID44",
       "address": "https://linuxiac.com/linux-kernel-5-8-released-as-the-one-of-biggest-releases-of-all-time/",
       "title": "Linux Kernel 5.8 Released As The 'One Of Biggest Releases Of All Time'",
-      "grade": 2
+      "grade": 1
     },
     {
       "hash": "U7ces6XKQKtw",
       "address": "https://docs.kernel.org/driver-api/dma-buf.html",
       "title": "Buffer Sharing and Synchronization (dma-buf) — The Linux Kernel documentation",
-      "grade": 2
+      "grade": 1
     },
     {
       "hash": "DnI_SvKqlBA4",
@@ -263,13 +263,13 @@
       "hash": "JEaJ_ZXKQKtw",
       "address": "https://docs.kernel.org/",
       "title": "The Linux Kernel documentation — The Linux Kernel documentation",
-      "grade": 2
+      "grade": 1
     },
     {
       "hash": "ebOJMOXKQKtw",
       "address": "https://docs.kernel.org/userspace-api/dma-buf-alloc-exchange.html",
       "title": "Exchanging pixel buffers — The Linux Kernel documentation",
-      "grade": 2
+      "grade": 1
     },
     {
       "hash": "IZCQCG1ajpq5",
@@ -281,7 +281,7 @@
       "hash": "8DxDpIXKQKtw",
       "address": "https://docs.kernel.org/arch/nios2/index.html",
       "title": "Nios II Specific Documentation — The Linux Kernel documentation",
-      "grade": 2
+      "grade": 1
     },
     {
       "hash": "b6kPgOy8O7iw",
@@ -293,7 +293,7 @@
       "hash": "ne8urIXKQKtw",
       "address": "https://docs.kernel.org/arch/x86/i386/index.html",
       "title": "29. i386 Support — The Linux Kernel documentation",
-      "grade": 2
+      "grade": 1
     },
     {
       "hash": "DPunis-UOu6x",
@@ -311,7 +311,7 @@
       "hash": "fK864sueNoX4",
       "address": "https://itsfoss.com/compile-linux-kernel/",
       "title": "A Guide to Compiling the Linux Kernel All By Yourself",
-      "grade": 2
+      "grade": 1
     },
     {
       "hash": "5jH2G2F6GHVw",
@@ -323,7 +323,7 @@
       "hash": "vYInm_XKQKtw",
       "address": "https://docs.kernel.org/admin-guide/pstore-blk.html",
       "title": "pstore block oops/panic logger — The Linux Kernel documentation",
-      "grade": 2
+      "grade": 1
     },
     {
       "hash": "18zCc_YgUcBw",
@@ -347,7 +347,7 @@
       "hash": "9zN-vVGZ4FKw",
       "address": "https://www.kernel.org/doc/html/latest/staging/index.html",
       "title": "Unsorted Documentation — The Linux Kernel documentation",
-      "grade": 2
+      "grade": 1
     }
   ]
 }

@@ -29,7 +29,7 @@
       "hash": "by8Ivl_0-Tb4",
       "address": "https://www.11ty.dev/",
       "title": "Eleventy is a simpler static site generator",
-      "grade": 2
+      "grade": 1
     },
     {
       "hash": "VMcRUXwA4J44",
@@ -65,19 +65,19 @@
       "hash": "jhXbDbLXFVYx",
       "address": "https://petrapixel.neocities.org/coding/layout-generator",
       "title": "layout generator | petrapixel",
-      "grade": 1
+      "grade": 0
     },
     {
       "hash": "m-OH2DS6MKD4",
       "address": "https://github.com/godotengine/godot-website",
       "title": "GitHub - godotengine/godot-website: The code for the official Godot Engine website. A static site built using Jekyll.",
-      "grade": 1
+      "grade": 0
     },
     {
       "hash": "vPMnw50j8oEw",
       "address": "https://git.sr.ht/~sircmpwn/openring",
       "title": "~sircmpwn/openring - A webring for static site generators - sourcehut git",
-      "grade": 1
+      "grade": 0
     },
     {
       "hash": "rtZi4U7V5mo4",
@@ -107,7 +107,7 @@
       "hash": "mmup3xKAn6I5",
       "address": "https://news.ycombinator.com/item?id=32730020",
       "title": "Static site hosting hurdles | Hacker News",
-      "grade": 1
+      "grade": 0
     },
     {
       "hash": "2gBdSK58I4M4",
@@ -131,7 +131,7 @@
       "hash": "4iKjkFS6MKD4",
       "address": "https://github.com/cstate/cstate",
       "title": "GitHub - cstate/cstate: 🔥 Open source static (serverless) status page. Uses hyperfast Go \u0026 Hugo, minimal HTML/CSS/JS, customizable, outstanding browser support (IE8+), preloaded CMS, read-only API, badges \u0026 more. · GitHub",
-      "grade": 1
+      "grade": 0
     },
     {
       "hash": "_GFZkkgpBPX4",

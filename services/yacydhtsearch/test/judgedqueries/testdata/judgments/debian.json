@@ -11,7 +11,7 @@
       "hash": "R7L27l1nrxbw",
       "address": "https://www.debian.org/doc/",
       "title": "Debian -- Documentation",
-      "grade": 2
+      "grade": 1
     },
     {
       "hash": "LphQq3piq92w",
@@ -47,7 +47,7 @@
       "hash": "6IL4IjRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Template_talk:Timeline_Debian_GNU/Linux",
       "title": "Template talk:Timeline Debian GNU/Linux - Wikipedia",
-      "grade": 1
+      "grade": 0
     },
     {
       "hash": "wRV4m5piq92w",
@@ -71,7 +71,7 @@
       "hash": "It5EdL1nrxbw",
       "address": "https://www.debian.org/intro/about",
       "title": "Debian -- About Debian",
-      "grade": 2
+      "grade": 1
     },
     {
       "hash": "vlCSfg1nrxbw",
@@ -83,7 +83,7 @@
       "hash": "4SIJYl1nrxbw",
       "address": "https://www.debian.org/distrib/",
       "title": "Download Debian",
-      "grade": 2
+      "grade": 1
     },
     {
       "hash": "iwrFOp1nrxbw",
@@ -107,7 +107,7 @@
       "hash": "W1Hv7L1nrxbw",
       "address": "https://www.debian.org/intro/people",
       "title": "Debian -- People: Who we are and what we do",
-      "grade": 2
+      "grade": 1
     },
     {
       "hash": "aan2nSpiq92w",
@@ -143,7 +143,7 @@
       "hash": "TvFA_y1nrxbw",
       "address": "https://www.debian.org/releases/stable/",
       "title": "Debian -- Debian “trixie” Release Information",
-      "grade": 2
+      "grade": 1
     },
     {
       "hash": "AjzZFn7vg5bw",
@@ -197,7 +197,7 @@
       "hash": "M_UYiL1nrxbw",
       "address": "https://www.debian.org/intro/index",
       "title": "Debian -- Introduction to Debian",
-      "grade": 2
+      "grade": 1
     },
     {
       "hash": "xCnp1G1nrxbw",
@@ -305,7 +305,7 @@
       "hash": "_vBCkt1nrxbw",
       "address": "https://www.debian.org/CD/http-ftp/",
       "title": "Downloading Debian USB/CD/DVD images via HTTP/FTP",
-      "grade": 2
+      "grade": 1
     },
     {
       "hash": "dwvDam0h8sSw",

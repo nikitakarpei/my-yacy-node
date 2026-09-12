@@ -11,7 +11,7 @@
       "hash": "ehUE-qbVMkf5",
       "address": "https://apps.nextcloud.com/",
       "title": "All apps - App Store - Nextcloud",
-      "grade": 1
+      "grade": 0
     },
     {
       "hash": "PBHGklNdxz8x",
@@ -89,7 +89,7 @@
       "hash": "6plOjszj0XMi",
       "address": "https://dasnetzundich.de/notiz-app-joplin-mit-nextcloud-integration/",
       "title": "Joplin mit Nextcloud synchronisieren: aktuelle WebDAV-Anleitung | Das Netz und ich",
-      "grade": 1
+      "grade": 0
     },
     {
       "hash": "X_Gb0yfAodxw",
@@ -101,7 +101,7 @@
       "hash": "OqU1klUKWg6g",
       "address": "https://www.manitu.de/webhosting/",
       "title": "Webhosting - schon ab 1 € pro Monat - manitu",
-      "grade": 1
+      "grade": 0
     },
     {
       "hash": "OdWaBD7AHFOw",
@@ -137,13 +137,13 @@
       "hash": "-Hsz5szj0XMi",
       "address": "https://dasnetzundich.de/nc-downloader-fuer-die-nextcloud/",
       "title": "NCDownloader für Nextcloud: heute besser Vapor oder eine moderne Alternative nutzen | Das Netz und ich",
-      "grade": 1
+      "grade": 0
     },
     {
       "hash": "faU-Olx2yOxg",
       "address": "https://www.radiotux.de/",
       "title": "RadioTux",
-      "grade": 1
+      "grade": 0
     },
     {
       "hash": "zTCfkxtQ-zSx",
@@ -173,7 +173,7 @@
       "hash": "xxkx6aQ2lNtg",
       "address": "https://friendica.ginestes.es/display/0a49108d-1469-29f5-fe91-d0e813562323",
       "title": "Friendica Social Network | Display",
-      "grade": 1
+      "grade": 0
     },
     {
       "hash": "S9YMJzCJVaIz",
@@ -197,13 +197,13 @@
       "hash": "Wkx1aJr2pvE4",
       "address": "https://www.asustor.com/service/downloads?product_id=77",
       "title": "Downloads | ASUSTOR NAS",
-      "grade": 1
+      "grade": 0
     },
     {
       "hash": "dH4aGswUSuo5",
       "address": "https://nextcloud.com/instant-trial/",
       "title": "Request an instant trial - Nextcloud",
-      "grade": 1
+      "grade": 0
     },
     {
       "hash": "lnvzkjRvmBbx",
@@ -221,7 +221,7 @@
       "hash": "wzmiPtS6MKD4",
       "address": "https://github.com/trending/php?since=daily",
       "title": "Trending PHP repositories on GitHub today · GitHub",
-      "grade": 1
+      "grade": 0
     },
     {
       "hash": "sC0kMlDOAHJg",
@@ -233,7 +233,7 @@
       "hash": "FZ9QOswUSuo5",
       "address": "https://nextcloud.com/trademarks/",
       "title": "Nextcloud trademark guidelines",
-      "grade": 1
+      "grade": 0
     },
     {
       "hash": "cD8T2ChvKhg5",
@@ -263,19 +263,19 @@
       "hash": "FLQUcszj0XMi",
       "address": "https://dasnetzundich.de/nextcloud-installation-von-fulltextsearch/",
       "title": "Nextcloud Full Text Search einrichten: Dateien durchsuchen mit Elasticsearch oder SQL | Das Netz und ich",
-      "grade": 2
+      "grade": 1
     },
     {
       "hash": "IHg31szj0XMi",
       "address": "https://dasnetzundich.de/redis-caching-richtig-einstellen-fuer-nextcloud/",
       "title": "Nextcloud mit Redis und APCu beschleunigen: Caching richtig einrichten | Das Netz und ich",
-      "grade": 2
+      "grade": 1
     },
     {
       "hash": "4A6jVszj0XMi",
       "address": "https://dasnetzundich.de/ocdownloader-einrichten-fuer-nextcloud-per-init-d-script/",
       "title": "ocDownloader für Nextcloud nicht mehr nutzen: aktuelle Alternativen | Das Netz und ich",
-      "grade": 1
+      "grade": 0
     }
   ]
 }

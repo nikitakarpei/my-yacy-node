@@ -5,7 +5,7 @@
       "hash": "AsVNaz7OfS44",
       "address": "https://labs.iximiuz.com/playgrounds?category=kubernetes\u0026filter=all",
       "title": "Kubernetes Playgrounds 🧪 | iximiuz Labs",
-      "grade": 1
+      "grade": 0
     },
     {
       "hash": "OBtKCl9V0Pqw",
@@ -17,7 +17,7 @@
       "hash": "4iXo2S0M4T84",
       "address": "https://tilde.club/~calor/blog/tag_kubernetes.html",
       "title": "my tildelog — posts tagged \"kubernetes\"",
-      "grade": 1
+      "grade": 0
     },
     {
       "hash": "P8xl6XqO2Dlg",
@@ -47,13 +47,13 @@
       "hash": "ubKuHJb8iyg4",
       "address": "https://cloud.google.com/kubernetes-engine/pricing",
       "title": "Google Kubernetes Engine pricing | Google Cloud",
-      "grade": 1
+      "grade": 0
     },
     {
       "hash": "lXUphWptipG4",
       "address": "https://yoshio3.com/tag/kubernetes/",
       "title": "Kubernetes | 寺田　佳央 - Yoshio Terada",
-      "grade": 1
+      "grade": 0
     },
     {
       "hash": "i1qY6Gs7qoi5",
@@ -83,7 +83,7 @@
       "hash": "gsQNdv-HUoo0",
       "address": "https://docs.dagu.sh/step-types/kubernetes",
       "title": "Kubernetes | Dagu",
-      "grade": 1
+      "grade": 0
     },
     {
       "hash": "_O-0BOjw1Zlx",
@@ -101,13 +101,13 @@
       "hash": "o0eYctS6MKD4",
       "address": "https://github.com/kubernetes-el/kubernetes-el",
       "title": "GitHub - kubernetes-el/kubernetes-el: Manage Kubernetes clusters with Emacs.",
-      "grade": 1
+      "grade": 0
     },
     {
       "hash": "iwuExlQ4KKDh",
       "address": "https://www.skoleniroot.cz/kubernetes/",
       "title": "Kubernetes - Školení od Root.cz",
-      "grade": 1
+      "grade": 0
     },
     {
       "hash": "3DGOK2jw1Zlx",
@@ -125,13 +125,13 @@
       "hash": "Sw99fdUhjm5w",
       "address": "https://airflow.apache.org/docs/apache-airflow-providers-google/stable/_api/tests/system/google/cloud/kubernetes_engine/example_kubernetes_engine/index.html",
       "title": "tests.system.google.cloud.kubernetes_engine.example_kubernetes_engine — apache-airflow-providers-google Documentation",
-      "grade": 1
+      "grade": 0
     },
     {
       "hash": "26zHHWlfXUB4",
       "address": "https://vexpose.blog/tag/kubernetes/",
       "title": "kubernetes – {{ vExpose }}.Blog",
-      "grade": 1
+      "grade": 0
     },
     {
       "hash": "nI4bKGS6MKD4",
@@ -173,19 +173,19 @@
       "hash": "DpOP6dUhjm5w",
       "address": "https://airflow.apache.org/docs/apache-airflow-providers-cncf-kubernetes/stable/_api/airflow/providers/cncf/kubernetes/operators/pod/index.html",
       "title": "airflow.providers.cncf.kubernetes.operators.pod — apache-airflow-providers-cncf-kubernetes Documentation",
-      "grade": 1
+      "grade": 0
     },
     {
       "hash": "jEre840jxin4",
       "address": "https://docs.gitlab.com/user/clusters/agent/",
       "title": "Connecting a Kubernetes cluster with GitLab | GitLab Docs",
-      "grade": 1
+      "grade": 0
     },
     {
       "hash": "6y4OTxAl9Ia5",
       "address": "https://developer.hashicorp.com/vault/tutorials/integrate-kubernetes-hcp-vault-dedicated/kubernetes-vso-hcp-vault",
       "title": "Create Kubernetes native secrets from HCP Vault Dedicated with VSO | Vault | HashiCorp Developer",
-      "grade": 1
+      "grade": 0
     },
     {
       "hash": "qjo2Ci-VnHQw",
@@ -197,7 +197,7 @@
       "hash": "VRF90Xyvgfs5",
       "address": "https://docs.digitalocean.com/reference/ansible/reference/modules/kubernetes_cluster/",
       "title": "kubernetes_cluster | DigitalOcean Documentation",
-      "grade": 1
+      "grade": 0
     },
     {
       "hash": "JqxSFBxFffU5",
@@ -227,19 +227,19 @@
       "hash": "_nQGxLLc30Qw",
       "address": "https://www.coursera.org/learn/kubernetes-for-absolute-beginners",
       "title": "Kubernetes for the Absolute Beginners with Hands-on Labs | Coursera",
-      "grade": 1
+      "grade": 0
     },
     {
       "hash": "sJ2DfvtgnJ_5",
       "address": "https://vivekdhami.com/tags/kubernetes/",
       "title": "Tag: kubernetes | Vivek Dhami",
-      "grade": 1
+      "grade": 0
     },
     {
       "hash": "Ceyo32cDhyy5",
       "address": "https://aerospike.com/docs/kubernetes/install/helm/",
       "title": "Install Aerospike Kubernetes Operator using Helm | Aerospike Documentation",
-      "grade": 1
+      "grade": 0
     },
     {
       "hash": "FCRyr2jw1Zlx",
@@ -251,13 +251,13 @@
       "hash": "9-wFc2jw1Zlx",
       "address": "https://kubernetes.io/docs/contribute/style/page-content-types/",
       "title": "Page content types | Kubernetes",
-      "grade": 1
+      "grade": 0
     },
     {
       "hash": "tgPOkWBJaYCh",
       "address": "https://cloudbear.nl/tag/managed-kubernetes-hosting/",
       "title": "managed kubernetes hosting Archives - Cloudbear",
-      "grade": 1
+      "grade": 0
     },
     {
       "hash": "wtEcA2WvZanx",
@@ -293,7 +293,7 @@
       "hash": "0VrucIDqcl0x",
       "address": "https://v1-36.docs.kubernetes.io/",
       "title": "Kubernetes",
-      "grade": 2
+      "grade": 1
     },
     {
       "hash": "_-WLsUjw1Zlx",

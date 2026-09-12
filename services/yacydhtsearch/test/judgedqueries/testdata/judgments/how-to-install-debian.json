@@ -17,7 +17,7 @@
       "hash": "It5EdL1nrxbw",
       "address": "https://www.debian.org/intro/about",
       "title": "Debian -- About Debian",
-      "grade": 1
+      "grade": 0
     },
     {
       "hash": "QEGeKX2Yfep5",
@@ -83,7 +83,7 @@
       "hash": "4SIJYl1nrxbw",
       "address": "https://www.debian.org/distrib/",
       "title": "Download Debian",
-      "grade": 2
+      "grade": 1
     },
     {
       "hash": "NNK8wg7Yxvhx",
@@ -131,13 +131,13 @@
       "hash": "9bBlhjRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Debian",
       "title": "Debian - Wikipedia",
-      "grade": 1
+      "grade": 0
     },
     {
       "hash": "D4lABzaS0qdw",
       "address": "https://planet.debian.org/",
       "title": "Planet Debian",
-      "grade": 1
+      "grade": 0
     },
     {
       "hash": "HpCyvVSLTmwg",
@@ -161,13 +161,13 @@
       "hash": "xY0EdL1nrxbw",
       "address": "https://www.debian.org/intro/help",
       "title": "Debian -- Contribute: How you can help Debian",
-      "grade": 1
+      "grade": 0
     },
     {
       "hash": "R5pe_l1nrxbw",
       "address": "https://www.debian.org/News/",
       "title": "Debian -- Latest News",
-      "grade": 1
+      "grade": 0
     },
     {
       "hash": "-0XzPobrsZjx",
@@ -239,7 +239,7 @@
       "hash": "yBMaQL1nrxbw",
       "address": "https://www.debian.org/intro/free",
       "title": "Debian -- What does free mean?",
-      "grade": 1
+      "grade": 0
     },
     {
       "hash": "q03Sr2QlA5B4",
@@ -263,7 +263,7 @@
       "hash": "SL3yxl1nrxbw",
       "address": "https://www.debian.org/blends/",
       "title": "Debian Pure Blends",
-      "grade": 1
+      "grade": 0
     },
     {
       "hash": "_BwQ1GNQlu2w",
@@ -281,7 +281,7 @@
       "hash": "NweMal1nrxbw",
       "address": "https://www.debian.org/social_contract",
       "title": "Debian Social Contract",
-      "grade": 1
+      "grade": 0
     },
     {
       "hash": "Q6EQky1nrxbw",
@@ -293,7 +293,7 @@
       "hash": "941WA31nrxbw",
       "address": "https://www.debian.org/News/weekly/",
       "title": "Debian Project News - Index",
-      "grade": 1
+      "grade": 0
     },
     {
       "hash": "K5flrZIOYuRw",

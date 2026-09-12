@@ -5,7 +5,7 @@
       "hash": "MKQ2gEDOAHJg",
       "address": "https://www.heise.de/benachrichtigungen/heise-bot/",
       "title": "heise-Bot | heise online",
-      "grade": 2
+      "grade": 1
     },
     {
       "hash": "fSquuvDOAHJg",
@@ -65,7 +65,7 @@
       "hash": "_N0F_NDOAHJg",
       "address": "https://www.heise.de/thema/Mobiles",
       "title": "Mobiles: News, Ratgeber und Tipps | heise online",
-      "grade": 2
+      "grade": 1
     },
     {
       "hash": "31yTCerrGcCg",
@@ -113,7 +113,7 @@
       "hash": "9zP6RNDOAHJg",
       "address": "https://www.heise.de/thema/Journal",
       "title": "Journal: News, Ratgeber und Tipps | heise online",
-      "grade": 2
+      "grade": 1
     },
     {
       "hash": "56C3uerrGcCg",
@@ -125,7 +125,7 @@
       "hash": "_8mjOXDOAHJg",
       "address": "https://www.heise.de/bestenlisten/testsieger/top-10-die-beste-powerstation-im-test-ecoflow-vor-bluetti-und-anker/1f379f0",
       "title": "Top 10: Die beste Powerstation im Test – Ecoflow vor Bluetti und Anker | heise online bestenlisten",
-      "grade": 2
+      "grade": 1
     },
     {
       "hash": "VeY8uFrrGcCg",
@@ -137,13 +137,13 @@
       "hash": "65JIOvDOAHJg",
       "address": "https://www.heise.de/news/Proxmox-VE-8-3-kommt-mit-ueberarbeiteter-Netzwerk-Verwaltung-10173704.html",
       "title": "Proxmox VE 8.3 kommt mit überarbeiteter Netzwerk-Verwaltung | heise online",
-      "grade": 2
+      "grade": 1
     },
     {
       "hash": "MeA2UvDOAHJg",
       "address": "https://www.heise.de/news/Microsoft-Alternativen-Open-Source-Software-aus-Europa-c-t-uplink-11449625.html?wt_mc=rss.red.ho.ho.rdf.beitrag.beitrag",
       "title": "Microsoft-Alternativen: Open-Source-Software aus Europa | c’t uplink | heise online",
-      "grade": 2
+      "grade": 1
     },
     {
       "hash": "jNwyNerrGcCg",
@@ -155,7 +155,7 @@
       "hash": "SmPLuNDOAHJg",
       "address": "https://www.heise.de/thema/Wirtschaft",
       "title": "Wirtschaft: News, Ratgeber und Tipps | heise online",
-      "grade": 2
+      "grade": 1
     },
     {
       "hash": "KBQ_merrGcCg",
@@ -167,19 +167,19 @@
       "hash": "mhfr-lDOAHJg",
       "address": "https://www.heise.de/developer/kontakt/",
       "title": "Kontaktformular | heise online",
-      "grade": 2
+      "grade": 1
     },
     {
       "hash": "FWcFzNwxwI-g",
       "address": "https://mediadaten.heise.de/en/",
       "title": "heise - Heise Medienportal",
-      "grade": 2
+      "grade": 1
     },
     {
       "hash": "68WStvDOAHJg",
       "address": "https://www.heise.de/news/Schnelles-Ethernet-c-t-uplink-9706879.html",
       "title": "Schnelles Ethernet | c’t uplink | heise online",
-      "grade": 2
+      "grade": 1
     },
     {
       "hash": "9D3TzFrrGcCg",
@@ -203,7 +203,7 @@
       "hash": "K6y74vDOAHJg",
       "address": "https://www.heise.de/news/Massiver-Datendiebstahl-in-Litauen-11309035.html",
       "title": "Massiver Datendiebstahl in Litauen | heise online",
-      "grade": 2
+      "grade": 1
     },
     {
       "hash": "R8DHxInk4jwg",
@@ -215,13 +215,13 @@
       "hash": "DAq1DvDOAHJg",
       "address": "https://www.heise.de/news/NET-User-Groups-Update-Juli-2011-1272244.html",
       "title": ".NET User Groups Update, Juli 2011 | heise online",
-      "grade": 2
+      "grade": 1
     },
     {
       "hash": "imQXflDOAHJg",
       "address": "https://www.heise.de/security",
       "title": "heise security: Alerts,Newsticker,Hintergrund und Events | heise online",
-      "grade": 2
+      "grade": 1
     },
     {
       "hash": "6ubVWerrGcCg",
@@ -239,25 +239,25 @@
       "hash": "7VU1wvDOAHJg",
       "address": "https://www.heise.de/news/MDR-warnt-vor-gefaelschten-Videos-und-Desinformationskampagne-11414625.html?wt_mc=rss.red.ho.ho.rdf.beitrag.beitrag",
       "title": "MDR wird Ziel russischer Desinformationskampagne | heise online",
-      "grade": 2
+      "grade": 1
     },
     {
       "hash": "ldSuNvDOAHJg",
       "address": "https://www.heise.de/news/Microsoft-Alternativen-Open-Source-Software-aus-Europa-c-t-uplink-11449625.html?wt_mc=rss.red.ho.ho.atom.beitrag.beitrag",
       "title": "Microsoft-Alternativen: Open-Source-Software aus Europa | c’t uplink | heise online",
-      "grade": 2
+      "grade": 1
     },
     {
       "hash": "0tzohlDOAHJg",
       "address": "https://www.heise.de/spiele",
       "title": "Spiele | heise online",
-      "grade": 2
+      "grade": 1
     },
     {
       "hash": "LomHECDOAHJg",
       "address": "https://www.heise.de/netze/tools/ping/",
       "title": "Ping | heise Netze",
-      "grade": 2
+      "grade": 1
     },
     {
       "hash": "prD7VFrrGcCg",
@@ -269,7 +269,7 @@
       "hash": "xymdFJDOAHJg",
       "address": "https://www.heise.de/ratgeber/Stromleitungen-und-Rohre-finden-mit-Waermebildkameras-10460890.html?seite=all",
       "title": "Stromleitungen und Rohre finden mit Wärmebildkameras | heise online",
-      "grade": 2
+      "grade": 1
     },
     {
       "hash": "xH8OUvDOAHJg",
@@ -281,19 +281,19 @@
       "hash": "hEJ9KvDOAHJg",
       "address": "https://www.heise.de/news/Windows-Phone-7-8-SDK-ist-da-1789726.html",
       "title": "Windows Phone 7.8 SDK ist da | heise online",
-      "grade": 2
+      "grade": 1
     },
     {
       "hash": "TfHCJvDOAHJg",
       "address": "https://www.heise.de/news/Microsoft-Alternativen-Open-Source-Software-aus-Europa-c-t-uplink-11449625.html?wt_mc=rss.red.ho.beitrag.atom.beitrag.beitrag",
       "title": "Microsoft-Alternativen: Open-Source-Software aus Europa | c’t uplink | heise online",
-      "grade": 2
+      "grade": 1
     },
     {
       "hash": "IMRbOCDOAHJg",
       "address": "https://www.heise.de/netze/tools/spam-listen/",
       "title": "Spam-Listen | heise Netze",
-      "grade": 2
+      "grade": 1
     },
     {
       "hash": "iRZd5qBwgIkg",
@@ -311,7 +311,7 @@
       "hash": "VWVH19D69aig",
       "address": "https://peertube.heise.de/",
       "title": "Videos von heise online",
-      "grade": 2
+      "grade": 1
     },
     {
       "hash": "EUwmPsU0aeEi",

@@ -11,19 +11,19 @@
       "hash": "toVhKsc7o6d4",
       "address": "https://yacy.space/instances",
       "title": "YaCy Public Peer Directory | yacy.space",
-      "grade": 2
+      "grade": 1
     },
     {
       "hash": "I2NpYX42xI24",
       "address": "https://peer.yacy.space/",
       "title": "YaCy Decentralized Web Search | yacy.space",
-      "grade": 2
+      "grade": 1
     },
     {
       "hash": "MeW_Rs55Qxow",
       "address": "https://yacy.net/docs/",
       "title": "Docs - YaCy",
-      "grade": 2
+      "grade": 1
     },
     {
       "hash": "T8ZB7sS6MKD4",
@@ -35,7 +35,7 @@
       "hash": "dq1cqsc7o6d4",
       "address": "https://yacy.space/",
       "title": "YaCy Instances",
-      "grade": 2
+      "grade": 1
     },
     {
       "hash": "toKo9sS6MKD4",
@@ -53,13 +53,13 @@
       "hash": "X460EjRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Distributed_hash_table",
       "title": "Distributed hash table - Wikipedia",
-      "grade": 1
+      "grade": 0
     },
     {
       "hash": "xr6iDzS6MKD4",
       "address": "https://github.com/awesome-selfhosted/awesome-selfhosted",
       "title": "GitHub - awesome-selfhosted/awesome-selfhosted: A list of Free Software network services and web applications which can be hosted on your own servers",
-      "grade": 1
+      "grade": 0
     },
     {
       "hash": "EAGyIl55Qxow",
@@ -71,13 +71,13 @@
       "hash": "TJnRLsc7o6d4",
       "address": "https://yacy.space/submit-url.php",
       "title": "Submit a URL to YaCy (Single Page)",
-      "grade": 2
+      "grade": 1
     },
     {
       "hash": "rPXKVIfPEct4",
       "address": "https://ro.frwiki.wiki/wiki/YaCy",
       "title": "YaCy - frwiki.wiki",
-      "grade": 2
+      "grade": 1
     },
     {
       "hash": "zg6OjlNJwYqw",
@@ -101,13 +101,13 @@
       "hash": "jevS_s55Qxow",
       "address": "https://yacy.net/faq/",
       "title": "FAQ - YaCy",
-      "grade": 2
+      "grade": 1
     },
     {
       "hash": "laNsBI55Qxow",
       "address": "https://yacy.net/operation/network-definition/",
       "title": "Network definition - YaCy",
-      "grade": 2
+      "grade": 1
     },
     {
       "hash": "AeOqws55Qxow",
@@ -173,7 +173,7 @@
       "hash": "gSVvczS6MKD4",
       "address": "https://github.com/topics/p2p-network",
       "title": "p2p-network · GitHub Topics · GitHub",
-      "grade": 1
+      "grade": 0
     },
     {
       "hash": "rpVoLD1nrxbw",
@@ -191,7 +191,7 @@
       "hash": "p6_irg-d-q94",
       "address": "https://it.frwiki.wiki/wiki/YaCy",
       "title": "YaCy - frwiki.wiki",
-      "grade": 2
+      "grade": 1
     },
     {
       "hash": "1YudAsS6MKD4",
@@ -203,7 +203,7 @@
       "hash": "-gZYhsS6MKD4",
       "address": "https://github.com/yacy/yacy_search_server/blob/master/README.md",
       "title": "yacy_search_server/README.md at master · yacy/yacy_search_server · GitHub",
-      "grade": 2
+      "grade": 1
     },
     {
       "hash": "pkF3plkhygUx",
@@ -233,13 +233,13 @@
       "hash": "VVkiYmS6MKD4",
       "address": "https://github.com/pluja/awesome-privacy",
       "title": "GitHub - pluja/awesome-privacy: Awesome Privacy - A curated list of services and alternatives that respect your privacy because PRIVACY MATTERS.",
-      "grade": 1
+      "grade": 0
     },
     {
       "hash": "s6pHTsS6MKD4",
       "address": "https://github.com/yacy/yacy_search_server/commits/master/",
       "title": "Commits · yacy/yacy_search_server · GitHub",
-      "grade": 1
+      "grade": 0
     }
   ]
 }

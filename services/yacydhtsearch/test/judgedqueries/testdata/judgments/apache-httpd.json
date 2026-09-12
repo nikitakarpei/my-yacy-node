@@ -5,25 +5,25 @@
       "hash": "A8UIrXyzSDzw",
       "address": "https://httpd.apache.org/docs/2.4/content-negotiation.html",
       "title": "Content Negotiation - Apache HTTP Server Version 2.4",
-      "grade": 2
+      "grade": 1
     },
     {
       "hash": "rvWpms2gfdCg",
       "address": "https://rw.rs/~x2as9kbbte/",
       "title": "It works! Apache httpd",
-      "grade": 1
+      "grade": 0
     },
     {
       "hash": "D6ZmTayzSDzw",
       "address": "https://httpd.apache.org/modules/",
       "title": "Apache httpd Modules - The Apache HTTP Server Project",
-      "grade": 2
+      "grade": 1
     },
     {
       "hash": "OtQmQXyzSDzw",
       "address": "https://httpd.apache.org/docs/2.4/",
       "title": "Apache HTTP Server Version 2.4 Documentation - Apache HTTP Server Version 2.4",
-      "grade": 2
+      "grade": 1
     },
     {
       "hash": "TQ_Z1jRvmBbx",
@@ -47,13 +47,13 @@
       "hash": "ebMwaXyzSDzw",
       "address": "https://httpd.apache.org/docs/current/rewrite/",
       "title": "Guide to Apache mod_rewrite - Apache HTTP Server Version 2.4",
-      "grade": 2
+      "grade": 1
     },
     {
       "hash": "P2FWiayzSDzw",
       "address": "https://httpd.apache.org/docs/",
       "title": "Documentation: Apache HTTP Server - The Apache HTTP Server Project",
-      "grade": 2
+      "grade": 1
     },
     {
       "hash": "CymIK8uKjjbw",
@@ -71,13 +71,13 @@
       "hash": "tkDMTXyzSDzw",
       "address": "https://httpd.apache.org/docs/trunk/vhosts/",
       "title": "Apache Virtual Host documentation - Apache HTTP Server Version 2.5",
-      "grade": 2
+      "grade": 1
     },
     {
       "hash": "OVoJaXyzSDzw",
       "address": "https://httpd.apache.org/docs/2.4/sitemap.html",
       "title": "Sitemap - Apache HTTP Server Version 2.4",
-      "grade": 2
+      "grade": 1
     },
     {
       "hash": "U69luayzSDzw",
@@ -89,7 +89,7 @@
       "hash": "9xaYXayzSDzw",
       "address": "https://httpd.apache.org/lists.html",
       "title": "Apache HTTP Server Mailing Lists - The Apache HTTP Server Project",
-      "grade": 2
+      "grade": 1
     },
     {
       "hash": "FE6GfV2Rr_dw",
@@ -107,13 +107,13 @@
       "hash": "iVmHRayzSDzw",
       "address": "https://httpd.apache.org/apreq/",
       "title": "Apache HTTP Request Library - The Apache HTTP Server Project",
-      "grade": 2
+      "grade": 1
     },
     {
       "hash": "yu99cXyzSDzw",
       "address": "https://httpd.apache.org/docs/trunk/sitemap.html",
       "title": "Sitemap - Apache HTTP Server Version 2.5",
-      "grade": 2
+      "grade": 1
     },
     {
       "hash": "26lB5oozk0_4",
@@ -143,13 +143,13 @@
       "hash": "7DbfcXyzSDzw",
       "address": "https://httpd.apache.org/docs/current/en/sitemap.html",
       "title": "Sitemap - Apache HTTP Server Version 2.4",
-      "grade": 2
+      "grade": 1
     },
     {
       "hash": "FgUjHXyzSDzw",
       "address": "https://httpd.apache.org/docs/trunk/mod/mod_syslog.html",
       "title": "mod_syslog - Apache HTTP Server Version 2.5",
-      "grade": 2
+      "grade": 1
     },
     {
       "hash": "cwHhRDyzSDzw",
@@ -161,7 +161,7 @@
       "hash": "NimdWXyzSDzw",
       "address": "https://httpd.apache.org/docs/2.4/glossary.html",
       "title": "Glossary - Apache HTTP Server Version 2.4",
-      "grade": 2
+      "grade": 1
     },
     {
       "hash": "We0DfMaQF27w",
@@ -179,7 +179,7 @@
       "hash": "LUUJYayzSDzw",
       "address": "https://httpd.apache.org/ABOUT_APACHE.html",
       "title": "About the Apache HTTP Server Project - The Apache HTTP Server Project",
-      "grade": 2
+      "grade": 1
     },
     {
       "hash": "QJO3EayzSDzw",
@@ -191,25 +191,25 @@
       "hash": "YOsk6XyzSDzw",
       "address": "https://httpd.apache.org/docs/trunk/",
       "title": "Apache HTTP Server Version 2.5 Documentation - Apache HTTP Server Version 2.5",
-      "grade": 2
+      "grade": 1
     },
     {
       "hash": "jZqlPXyzSDzw",
       "address": "https://httpd.apache.org/docs/2.4/mod/mod_userdir.html",
       "title": "mod_userdir - Apache HTTP Server Version 2.4",
-      "grade": 2
+      "grade": 1
     },
     {
       "hash": "ng_vvayzSDzw",
       "address": "https://httpd.apache.org/dev/",
       "title": "Apache HTTP Server Developer Information - The Apache HTTP Server Project",
-      "grade": 2
+      "grade": 1
     },
     {
       "hash": "rTEMGayzSDzw",
       "address": "https://httpd.apache.org/test/",
       "title": "Apache HTTP Test Project - The Apache HTTP Server Project",
-      "grade": 2
+      "grade": 1
     },
     {
       "hash": "s2BSFayzSDzw",
@@ -227,91 +227,91 @@
       "hash": "xYhRzayzSDzw",
       "address": "https://httpd.apache.org/contribute/",
       "title": "Apache HTTP Server: Contribute - The Apache HTTP Server Project",
-      "grade": 2
+      "grade": 1
     },
     {
       "hash": "yL0svvyzSDzw",
       "address": "https://httpd.apache.org/dev/devnotes.html",
       "title": "Apache Development Notes - The Apache HTTP Server Project",
-      "grade": 2
+      "grade": 1
     },
     {
       "hash": "zAucNayzSDzw",
       "address": "https://httpd.apache.org/bug_report.html",
       "title": "Bug Reporting - The Apache HTTP Server Project",
-      "grade": 2
+      "grade": 1
     },
     {
       "hash": "0XsHISyzSDzw",
       "address": "https://httpd.apache.org/test/flood/",
       "title": "Flood - The Apache HTTP Server Project",
-      "grade": 2
+      "grade": 1
     },
     {
       "hash": "34RhOayzSDzw",
       "address": "https://httpd.apache.org/info/",
       "title": "Apache HTTP Server Miscellaneous Information - The Apache HTTP Server Project",
-      "grade": 2
+      "grade": 1
     },
     {
       "hash": "4X4ryXyzSDzw",
       "address": "https://httpd.apache.org/docs/trunk/new_features_2_4.html",
       "title": "Overview of new features in Apache HTTP Server 2.4 - Apache HTTP Server Version 2.5",
-      "grade": 2
+      "grade": 1
     },
     {
       "hash": "4YGkdayzSDzw",
       "address": "https://httpd.apache.org/mod_fcgid/",
       "title": "mod_fcgid - FastCGI interface module for Apache 2 - The Apache HTTP Server Project",
-      "grade": 2
+      "grade": 1
     },
     {
       "hash": "NkgclXyzSDzw",
       "address": "https://httpd.apache.org/docs/current/mod/core.html",
       "title": "core - Apache HTTP Server Version 2.4",
-      "grade": 2
+      "grade": 1
     },
     {
       "hash": "O1k6UXyzSDzw",
       "address": "https://httpd.apache.org/docs/2.4/mod/quickreference.html",
       "title": "Directive Quick Reference - Apache HTTP Server Version 2.4",
-      "grade": 2
+      "grade": 1
     },
     {
       "hash": "SKjknXyzSDzw",
       "address": "https://httpd.apache.org/docs/2.4/mod/directive-dict.html",
       "title": "Terms Used to Describe Directives - Apache HTTP Server Version 2.4",
-      "grade": 2
+      "grade": 1
     },
     {
       "hash": "UKe3dXyzSDzw",
       "address": "https://httpd.apache.org/docs/2.4/mod/",
       "title": "Module Index - Apache HTTP Server Version 2.4",
-      "grade": 2
+      "grade": 1
     },
     {
       "hash": "u6qsvXyzSDzw",
       "address": "https://httpd.apache.org/docs/current/glossary.html",
       "title": "Glossary - Apache HTTP Server Version 2.4",
-      "grade": 2
+      "grade": 1
     },
     {
       "hash": "HqY_7XyzSDzw",
       "address": "https://httpd.apache.org/docs/2.4/mod/core.html",
       "title": "core - Apache HTTP Server Version 2.4",
-      "grade": 2
+      "grade": 1
     },
     {
       "hash": "1Xy9mXyzSDzw",
       "address": "https://httpd.apache.org/docs/trunk/mod/mod_md.html",
       "title": "mod_md - Apache HTTP Server Version 2.5",
-      "grade": 2
+      "grade": 1
     },
     {
       "hash": "-XrviXyzSDzw",
       "address": "https://httpd.apache.org/docs/current/misc/security_tips.html",
       "title": "Security Tips - Apache HTTP Server Version 2.4",
-      "grade": 2
+      "grade": 1
     },
     {
       "hash": "vWLvBMaQF27w",
