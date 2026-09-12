@@ -1,5 +1,5 @@
-// Package urlmeta owns the transferURL endpoint, URL intake, and URL metadata
-// storage and lookup. Its published ports speak the yacymodel vocabulary and
+// Package urlmeta owns the transferURL and urls.xml endpoints, URL intake, and
+// URL metadata storage and lookup. Its published ports speak the yacymodel vocabulary and
 // never leak the schema. A port that reads or writes stored metadata takes the
 // transaction its caller opened, so the caller decides and writes in one
 // transaction.
@@ -74,11 +74,32 @@ func MountTransferURL(
 	identity nodeidentity.Identity,
 	receiver URLReceiver,
 ) {
-	httpguard.Mount(
+	httpguard.MountMessage(
 		router,
 		yacyproto.PathTransferURL,
 		yacyproto.TransferURLEndpointMethods,
 		yacyproto.ParseTransferURLRequest,
 		transferURLEndpoint{identity: identity, intake: receiver}.Serve,
+	)
+}
+
+func MountURLMetadataLookup(
+	router httpguard.WireRouter,
+	identity nodeidentity.Identity,
+	vault *vault.Vault,
+	directory URLDirectory,
+	servedURLMetadataPerRequest int,
+) {
+	httpguard.MountFeed(
+		router,
+		yacyproto.PathURLMetadata,
+		yacyproto.URLMetadataEndpointMethods,
+		yacyproto.ParseURLMetadataRequest,
+		urlMetadataLookupEndpoint{
+			identity:                    identity,
+			vault:                       vault,
+			directory:                   directory,
+			servedURLMetadataPerRequest: servedURLMetadataPerRequest,
+		}.Serve,
 	)
 }

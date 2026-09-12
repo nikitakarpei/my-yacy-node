@@ -17,12 +17,22 @@ func NewWireRouter(mux *http.ServeMux, gate WireGate) WireRouter {
 	return WireRouter{mux: mux, gate: gate}
 }
 
-func Mount[Req any, Resp WireResponse](
+func MountMessage[Req any, Resp MessageResponse](
 	router WireRouter,
 	path string,
 	methods yacyproto.EndpointMethodSet,
 	parse func(ctx context.Context, form url.Values) (Req, error),
 	serve func(ctx context.Context, req Req) (Resp, error),
 ) {
-	router.mux.Handle(path, Serve(router.gate, methods, parse, serve))
+	router.mux.Handle(path, ServeMessage(router.gate, methods, parse, serve))
+}
+
+func MountFeed[Req any, Resp FeedResponse](
+	router WireRouter,
+	path string,
+	methods yacyproto.EndpointMethodSet,
+	parse func(ctx context.Context, form url.Values) (Req, error),
+	serve func(ctx context.Context, req Req) (Resp, error),
+) {
+	router.mux.Handle(path, ServeFeed(router.gate, methods, parse, serve))
 }

@@ -75,6 +75,8 @@ const (
 
 const searchPostingsPerWord = 1000
 
+const servedURLMetadataPerRequest = 1000
+
 func assembleNode(
 	ctx context.Context,
 	config nodeconfiguration.Settings,
@@ -208,6 +210,13 @@ func assembleNode(
 
 	mux.Handle("/{$}", landing.NewEndpoint())
 	urlmeta.MountTransferURL(router, identity, urlReceiver)
+	urlmeta.MountURLMetadataLookup(
+		router,
+		identity,
+		vault,
+		urlDirectory,
+		servedURLMetadataPerRequest,
+	)
 	rwiingress.Mount(router, identity, postingReceiver, rwiingress.Config{
 		PostingCap: peerPostingTransferCapacity,
 		Pause:      postingAdmissionBusyPause,

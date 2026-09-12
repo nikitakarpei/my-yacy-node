@@ -30,7 +30,7 @@ func MountHello(
 	reachability reachableRoster,
 	client *http.Client,
 ) {
-	httpguard.Mount(
+	httpguard.MountMessage(
 		router,
 		yacyproto.PathHello,
 		yacyproto.HelloEndpointMethods,

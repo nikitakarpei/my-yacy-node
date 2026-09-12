@@ -131,7 +131,7 @@ func ParseSearchRequest(ctx context.Context, form url.Values) (SearchRequest, er
 		return SearchRequest{}, err
 	}
 
-	req.URLs, err = splitSearchURLHashes(FieldURLs, form.Get(FieldURLs))
+	req.URLs, err = splitConcatURLHashes("search request", FieldURLs, form.Get(FieldURLs))
 	if err != nil {
 		return SearchRequest{}, err
 	}

@@ -21,6 +21,42 @@ func (r echoResponse) Encode() yacyproto.Message {
 	return yacyproto.Message{"yourip": r.addr}
 }
 
+type echoFeed struct {
+	addr string
+}
+
+func (f echoFeed) Encode() []byte {
+	return []byte("<rss>" + f.addr + "</rss>")
+}
+
+func TestServeFeedWritesTheFeedAsXML(t *testing.T) {
+	handler := httpguard.ServeFeed(
+		testGate(),
+		yacyproto.URLMetadataEndpointMethods,
+		func(ctx context.Context, _ url.Values) (echoFeed, error) {
+			return echoFeed{addr: httpguard.RemoteAddr(ctx)}, nil
+		},
+		func(_ context.Context, feed echoFeed) (echoFeed, error) {
+			return feed, nil
+		},
+	)
+
+	rec := httptest.NewRecorder()
+	req := postForm(yacyproto.PathURLMetadata)
+	req.RemoteAddr = "203.0.113.9:5000"
+	handler.ServeHTTP(rec, req)
+
+	if rec.Code != http.StatusOK {
+		t.Fatalf("status = %d, want 200", rec.Code)
+	}
+	if got := rec.Body.String(); got != "<rss>203.0.113.9</rss>" {
+		t.Fatalf("body = %q, want the feed with the resolved remote address", got)
+	}
+	if got := rec.Header().Get("Content-Type"); !strings.HasPrefix(got, "text/xml") {
+		t.Fatalf("content type = %q, want xml", got)
+	}
+}
+
 func testGate() httpguard.WireGate {
 	return httpguard.WireGate{
 		Guard:   testGuard(),
@@ -41,8 +77,8 @@ func postForm(target string) *http.Request {
 	return req
 }
 
-func TestServeWritesResponseWithRemoteAddr(t *testing.T) {
-	handler := httpguard.Serve(
+func TestServeMessageWritesResponseWithRemoteAddr(t *testing.T) {
+	handler := httpguard.ServeMessage(
 		testGate(),
 		yacyproto.TransferURLEndpointMethods,
 		func(ctx context.Context, _ url.Values) (echoResponse, error) {
@@ -66,8 +102,8 @@ func TestServeWritesResponseWithRemoteAddr(t *testing.T) {
 	}
 }
 
-func TestServeMapsParseErrorToBadRequest(t *testing.T) {
-	handler := httpguard.Serve(
+func TestServeMessageMapsParseErrorToBadRequest(t *testing.T) {
+	handler := httpguard.ServeMessage(
 		testGate(),
 		yacyproto.TransferURLEndpointMethods,
 		func(context.Context, url.Values) (echoResponse, error) {
@@ -86,8 +122,8 @@ func TestServeMapsParseErrorToBadRequest(t *testing.T) {
 	}
 }
 
-func TestServeMapsServeErrorToInternal(t *testing.T) {
-	handler := httpguard.Serve(
+func TestServeMessageMapsServeErrorToInternal(t *testing.T) {
+	handler := httpguard.ServeMessage(
 		testGate(),
 		yacyproto.TransferURLEndpointMethods,
 		func(context.Context, url.Values) (echoResponse, error) {
@@ -106,8 +142,8 @@ func TestServeMapsServeErrorToInternal(t *testing.T) {
 	}
 }
 
-func TestServeRejectsDisallowedMethod(t *testing.T) {
-	handler := httpguard.Serve(
+func TestServeMessageRejectsDisallowedMethod(t *testing.T) {
+	handler := httpguard.ServeMessage(
 		testGate(),
 		yacyproto.TransferURLEndpointMethods,
 		func(context.Context, url.Values) (echoResponse, error) {

@@ -64,6 +64,70 @@ func TestURLMetadataRequestFormCarriesTheNamesUnseparated(t *testing.T) {
 	}
 }
 
+func TestURLMetadataRequestReadsTheNamesItsFormCarries(t *testing.T) {
+	sent := yacyproto.URLMetadataRequest{
+		NetworkName: "freeworld",
+		URLs: []yacymodel.URLHash{
+			mustParseURLHash(t, "Q_ylfl--9bK5"),
+			mustParseURLHash(t, "eVZzCn--SAOx"),
+		},
+	}
+
+	received, err := yacyproto.ParseURLMetadataRequest(context.Background(), sent.Form())
+	if err != nil {
+		t.Fatalf("ParseURLMetadataRequest: %v", err)
+	}
+	if received.NetworkName != sent.NetworkName {
+		t.Errorf("network name = %q, want %q", received.NetworkName, sent.NetworkName)
+	}
+	if len(received.URLs) != len(sent.URLs) ||
+		received.URLs[0] != sent.URLs[0] || received.URLs[1] != sent.URLs[1] {
+		t.Errorf("urls = %v, want %v", received.URLs, sent.URLs)
+	}
+}
+
+func TestURLMetadataRequestRefusesAMalformedName(t *testing.T) {
+	sent := yacyproto.URLMetadataRequest{NetworkName: "freeworld"}
+	form := sent.Form()
+	form.Set(yacyproto.FieldHashes, "Q_ylfl--9bK!")
+
+	if _, err := yacyproto.ParseURLMetadataRequest(context.Background(), form); err == nil {
+		t.Error("ParseURLMetadataRequest accepted a malformed name")
+	}
+}
+
+func TestURLMetadataResponseReadsBackWhatItWrote(t *testing.T) {
+	written := yacyproto.URLMetadataResponse{URLs: []yacymodel.URLMetadata{
+		{
+			Hash:     mustParseURLHash(t, "Q_ylfl--9bK5"),
+			Address:  "https://example.com/?a=1&b=<2>",
+			Title:    "Rock & Roll's <best>",
+			Author:   "Smith & Sons",
+			Modified: calendarDay(t, "2025-11-16"),
+		},
+		{
+			Hash:    mustParseURLHash(t, "eVZzCn--SAOx"),
+			Address: "https://example.org/",
+		},
+	}}
+
+	read, err := yacyproto.ParseURLMetadataResponse(context.Background(), written.Encode())
+	if err != nil {
+		t.Fatalf("ParseURLMetadataResponse: %v", err)
+	}
+	if len(read.URLs) != len(written.URLs) {
+		t.Fatalf("urls = %d, want %d", len(read.URLs), len(written.URLs))
+	}
+	for i, got := range read.URLs {
+		want := written.URLs[i]
+		if got.Hash != want.Hash || got.Address != want.Address ||
+			got.Title != want.Title || got.Author != want.Author ||
+			got.Modified != want.Modified {
+			t.Errorf("url %d = %+v, want %+v", i, got, want)
+		}
+	}
+}
+
 func TestURLMetadataResponseReadsARealYaCyAnswer(t *testing.T) {
 	response, err := yacyproto.ParseURLMetadataResponse(
 		context.Background(),
