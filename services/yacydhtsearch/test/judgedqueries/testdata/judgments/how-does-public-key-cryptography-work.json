@@ -11,37 +11,37 @@
       "hash": "F0CwieFbwuxx",
       "address": "https://letsencrypt.org/documents/isrg-cps-v4.1/",
       "title": "ISRG CPS v4.1 - Let's Encrypt",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "5uJeNaIq6BFg",
       "address": "https://proton.me/learn/encryption/glossary/post-quantum-cryptography",
       "title": "What is post-quantum cryptography? | Proton",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "3VHCVsOEIUyr",
       "address": "https://simerdupolresbatang.id/",
       "title": "simerdupolresbatangid",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "32glu_nMM_j5",
       "address": "https://grokipedia.com/page/Authentication",
       "title": "Authentication — Grokipedia",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "E-T1Ljldhbwx",
       "address": "https://en.wikibooks.org/wiki/Cryptography/Print_version",
       "title": "Cryptography/Print version - Wikibooks, open books for an open world",
-      "grade": null
+      "grade": 2
     },
     {
       "hash": "Hz7ud_nMM_j5",
       "address": "https://grokipedia.com/page/Digital_transformation",
       "title": "Digital transformation — Grokipedia",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "cF6iQswQPNL4",
@@ -65,19 +65,19 @@
       "hash": "YIVK5aIq6BFg",
       "address": "https://proton.me/learn/encryption/types-of-encryption/zero-access",
       "title": "What is zero-access encryption? | Proton",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "kt1CvWawk-F5",
       "address": "https://theintactone.com/tag/sblc/",
       "title": "Read MBA, BBA, B.COM Notes",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "FEiQtWRfu9ww",
       "address": "https://datatracker.ietf.org/doc/html/rfc8471",
       "title": "RFC 8471 - The Token Binding Protocol Version 1.0",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "B9VWfKsrSOQw",
@@ -89,13 +89,13 @@
       "hash": "jrbsLWawk-F5",
       "address": "https://theintactone.com/tag/holder/",
       "title": "Read MBA, BBA, B.COM Notes",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "w_9jmzX55GGw",
       "address": "https://planet.jabber.org/",
       "title": "Planet Jabber",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "zjh_EiBbCobw",
@@ -113,7 +113,7 @@
       "hash": "46ps9sE9Eiw4",
       "address": "https://pgp.utils.com/",
       "title": "PGP Encrypt/Decrypt - utils.com",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "W-eXqzF3--Qw",
@@ -131,13 +131,13 @@
       "hash": "Zm-akaIq6BFg",
       "address": "https://proton.me/learn/encryption",
       "title": "What is encryption? A complete guide | Proton",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "4HqVeaIq6BFg",
       "address": "https://proton.me/learn/encryption/types-of-encryption/full-disk-encryption",
       "title": "What is full-disk encryption? A complete guide | Proton",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "4w4qosN9NeLw",
@@ -149,13 +149,13 @@
       "hash": "FSWGqjRvmBbx",
       "address": "https://en.wikipedia.org/wiki/World_War_I",
       "title": "World War I - Wikipedia",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "XZgTmjRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Edgar_Allan_Poe",
       "title": "Edgar Allan Poe - Wikipedia",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "ptCCrjRvmBbx",
@@ -173,7 +173,7 @@
       "hash": "fRWe3tS6MKD4",
       "address": "https://github.com/trending/systemverilog?since=daily",
       "title": "Trending SystemVerilog repositories on GitHub today · GitHub",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "vcPgA7XxSRFx",
@@ -185,13 +185,13 @@
       "hash": "YzkOOsa7-qV4",
       "address": "https://xkcd.com/archive/",
       "title": "xkcd - A webcomic of romance, sarcasm, math, and language - By Randall Munroe",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "G7Xre2cHOkWx",
       "address": "https://www.gutenberg.org/files/3008/3008-h/3008-h.htm",
       "title": "The Project Gutenberg Etext of The New Hacker's Dictionary version 4.2.2",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "DhKFI-fvgwV4",
@@ -209,7 +209,7 @@
       "hash": "2i-X_sofUy-5",
       "address": "https://duckduckgo.com/bang_lite.html",
       "title": "DuckDuckGo !Bang",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "mHyFhKsrSOQw",
@@ -221,7 +221,7 @@
       "hash": "UobyTsuI8hnw",
       "address": "https://www.eff.org/about/staff",
       "title": "EFF's Staff and Contributors | Electronic Frontier Foundation",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "CRermB-c6vHw",
@@ -233,19 +233,19 @@
       "hash": "41DS_L8hxo35",
       "address": "https://www.microsoft.com/en-us/trust-center/security/secure-future-initiative/sfi-progress-report-july-2026",
       "title": "SFI Progress Report July 2026 | Microsoft Trust Center",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "-PEP9iBbCobw",
       "address": "https://www.php.net/manual/en/features.http-auth.php",
       "title": "PHP: HTTP authentication with PHP - Manual",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "n9fGWlSCNQa4",
       "address": "https://www.redhat.com/en/technologies/linux-platforms/enterprise-linux",
       "title": "Red Hat Enterprise Linux",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "0BZyCsY-tUi5",
@@ -257,7 +257,7 @@
       "hash": "0IsrslZZ-o74",
       "address": "https://www.nccgroup.com/research/",
       "title": "Cyber Security Research | NCC Group",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "3zFnUKsrSOQw",

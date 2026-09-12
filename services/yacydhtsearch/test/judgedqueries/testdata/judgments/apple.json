@@ -11,37 +11,37 @@
       "hash": "9hkMQQgc0eF5",
       "address": "https://appleinsider.com/articles/26/08/20/apple-musics-ai-disclosure-labels-will-soon-be-mandatory-rather-than-optional",
       "title": "AI content in Apple Music will soon have to be labeled",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "BxsbyjRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Apple_Inc.",
       "title": "Apple Inc. - Wikipedia",
-      "grade": null
+      "grade": 2
     },
     {
       "hash": "THPLFiVUrQm6",
       "address": "https://earthnewspaper.com/2022-news/24-7-news-november-2022/",
       "title": "24/7 News November 2022 – EarthNewspaper.com – All The Honest News Fit To Publish",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "xwQSEfSIk8o4",
       "address": "https://support.apple.com/en-gb/121115",
       "title": "How to get Apple Intelligence – Apple Support (UK)",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "n8bZUFbD0zn4",
       "address": "https://stripe.com/ae/resources/more/apple-pay-an-in-depth-guide",
       "title": "A Guide to Apple Pay for Businesses | Stripe",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "Kx-lE9DZkUL4",
       "address": "https://www.cnet.com/tech/computing/best-android-tablet/",
       "title": "Best Android Tablet for 2025 - CNET",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "z1tovtdA5r_4",
@@ -59,7 +59,7 @@
       "hash": "0EmbfDb0QHTg",
       "address": "https://www.buzer.de/gesetz/76/al7912-0.htm",
       "title": "Fassung Anlage 4 AGOZV a.F. bis 04.08.2007 (geändert durch Artikel 3 V. v. 24.07.2007 BGBl. I S. 1767)",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "_Ot-ctapm5B4",
@@ -71,7 +71,7 @@
       "hash": "Hvudx3dA5r_4",
       "address": "https://www.apple.com/education/k12/",
       "title": "K–12 Education Technology Tools - Apple",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "Fs2TYEnsvpM4",
@@ -89,7 +89,7 @@
       "hash": "8AJv1hdA5r_4",
       "address": "https://www.apple.com/befr/sitemap/",
       "title": "Plan du site - Apple (BE)",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "qtUUrmdA5r_4",
@@ -107,7 +107,7 @@
       "hash": "5TQvmtapm5B4",
       "address": "https://discussionschinese.apple.com/terms",
       "title": "Apple 支持社区使用协议 - Apple 社区",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "-70oPldA5r_4",
@@ -119,19 +119,19 @@
       "hash": "WhWHNrdA5r_4",
       "address": "https://www.apple.com/jp/apple-tv/",
       "title": "Apple TV - Apple（日本）",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "9nl56BdA5r_4",
       "address": "https://www.apple.com/au/newsroom/apple-stories/",
       "title": "Apple Stories - Newsroom - Apple (AU)",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "-oCDHmdA5r_4",
       "address": "https://www.apple.com/shop/buy-watch",
       "title": "Buy Apple Watch - Apple",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "-42_UldA5r_4",
@@ -143,7 +143,7 @@
       "hash": "9-B26xdA5r_4",
       "address": "https://www.apple.com/mo/retail/",
       "title": "Apple Store - 尋找零售店 - Apple (澳門)",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "K1bn2ySIk8o4",
@@ -155,19 +155,19 @@
       "hash": "T0GrOXvfqqu4",
       "address": "https://communities.apple.com/fr/terms",
       "title": "Accord relatif à l’utilisation des Commu… - Communauté Apple",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "8dM1hTXWSPc4",
       "address": "https://developer.apple.com/apple-pay/",
       "title": "Apple Pay Overview - Apple Developer",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "nzt4Y3dA5r_4",
       "address": "https://www.apple.com/sg/mac/?focus=apple-values",
       "title": "Mac - Apple Values and Mac - Apple (SG)",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "zujzU4bvuEZ4",
@@ -197,7 +197,7 @@
       "hash": "Y8vU3bdA5r_4",
       "address": "https://www.apple.com/today/camp/",
       "title": "Today at Apple - Apple Camp - Apple",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "Ck4SI4ZNzNto",
@@ -215,13 +215,13 @@
       "hash": "_R6sr7SIk8o4",
       "address": "https://support.apple.com/en-euro/guide/watch/apdac6807516/watchos",
       "title": "Get information about Apple Watch - Apple Support",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "6rvhubdA5r_4",
       "address": "https://www.apple.com/today/calendar/eastwoodtownecenter/",
       "title": "Today at Apple - Calendar - Eastwood Towne Center - Apple",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "-O8_4mdA5r_4",
@@ -239,19 +239,19 @@
       "hash": "z3C8y_SIk8o4",
       "address": "https://support.apple.com/en-uz/109522",
       "title": "About Apple Watch water resistance - Apple Support (UZ)",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "-MYk3YsNgbb4",
       "address": "https://music.apple.com/se/curator/apple-music-fitness/1558256909",
       "title": "‎Musik inom Fitness – Apple Music",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "-5GIBbSIk8o4",
       "address": "https://support.apple.com/en-ca/102626",
       "title": "Make purchases using Apple Pay - Apple Support (CA)",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "aZtmvtapm5B4",
@@ -263,31 +263,31 @@
       "hash": "qcHGdldA5r_4",
       "address": "https://www.apple.com/environment/",
       "title": "Environment - Apple",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "_YWHsxSIk8o4",
       "address": "https://support.apple.com/en-au/guide/mac-help/mchl0f933212/mac",
       "title": "Use Apple Intelligence with Siri on Mac – Apple Support (AU)",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "KNCMAVdA5r_4",
       "address": "https://www.apple.com/retail/bocaraton/",
       "title": "Boca Raton - Apple Store - Apple",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "Lboc4ySIk8o4",
       "address": "https://support.apple.com/en-us/106342",
       "title": "About Search on your Apple TV - Apple Support",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "_jryreG-ATF4",
       "address": "https://podcasts.apple.com/us/podcast/the-cultcast/id503494956",
       "title": "The CultCast - Podcast - Apple Podcasts",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "9IvDr7SIk8o4",
@@ -299,31 +299,31 @@
       "hash": "vJlx-pwskRf4",
       "address": "https://bcrw.apple.com/messages/ui/unsupported",
       "title": "Apple Business Register",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "DwsxlbdA5r_4",
       "address": "https://www.apple.com/today/haywoodmall/",
       "title": "Today at Apple - Haywood Mall - Apple",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "AY332isNgbb4",
       "address": "https://music.apple.com/pa/room/6504969161",
       "title": "‎Top 100 diario – Apple Music",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "KKc6ICsNgbb4",
       "address": "https://music.apple.com/us/new",
       "title": "‎Apple Music - Web Player",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "GFIJL54Lp0o4",
       "address": "https://discussions.apple.com/welcome",
       "title": "Official Apple Support Community",
-      "grade": null
+      "grade": 1
     }
   ]
 }

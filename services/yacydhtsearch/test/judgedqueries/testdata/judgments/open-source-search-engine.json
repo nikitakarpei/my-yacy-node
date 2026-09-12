@@ -5,7 +5,7 @@
       "hash": "cad2Xscvw7Vx",
       "address": "https://wordpress.org/",
       "title": "Blog Tool, Publishing Platform, and CMS – WordPress.org",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "jp9IEwSMo4M4",
@@ -17,7 +17,7 @@
       "hash": "OZtxqlSCNQa4",
       "address": "https://www.redhat.com/en/blog/making-open-source-more-inclusive-eradicating-problematic-language",
       "title": "Making open source more inclusive by eradicating problematic language",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "Vv81ls2xL7A6",
@@ -35,7 +35,7 @@
       "hash": "oaPaDjRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Browser_engine",
       "title": "Browser engine - Wikipedia",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "y8tXOWRMLT-5",
@@ -53,7 +53,7 @@
       "hash": "S2d8PhFozFBx",
       "address": "https://diff.wikimedia.org/2026/01/08/semantic-search-making-it-easier-to-find-the-information-readers-want/",
       "title": "Semantic search: making it easier to find the information readers want – Diff",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "RRNM9k_MW7i4",
@@ -65,13 +65,13 @@
       "hash": "YTZvAdDZkUL4",
       "address": "https://www.cnet.com/home/security/best-smoke-detector/",
       "title": "Best Smoke Detectors and Dual Alarms for 2026: Lab Tested - CNET",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "x_XB_vdTeyA4",
       "address": "https://github.blog/open-source/maintainers/securing-the-supply-chain-at-scale-starting-with-71-important-open-source-projects/",
       "title": "Securing the supply chain at scale: Starting with 71 important open source projects - The GitHub Blog",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "3yo3vyS6MKD4",
@@ -83,31 +83,31 @@
       "hash": "bAimuE9Ojva4",
       "address": "https://docs.docker.com/engine/install/",
       "title": "Install | Docker Docs",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "Tx1E8DF20Rww",
       "address": "https://ma.tt/category/open-source/",
       "title": "Open Source | Matt Mullenweg",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "VkCPbvdTeyA4",
       "address": "https://github.blog/open-source/gaming/",
       "title": "The latest on open source games - The GitHub Blog",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "SAX5vjRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Source_code",
       "title": "Source code - Wikipedia",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "-_ueuGKvmHFw",
       "address": "https://www.cncf.io/people/ambassadors/?_sft_lf-project=service-mesh-interface",
       "title": "Ambassadors | CNCF",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "_wmsVE9Ojva4",
@@ -119,7 +119,7 @@
       "hash": "-xqfujRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Google_Search",
       "title": "Google Search - Wikipedia",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "9dnewsdTeyA4",
@@ -137,7 +137,7 @@
       "hash": "bY7qBlLqTzM4",
       "address": "https://www.patreon.com/godotengine",
       "title": "Godot Engine | Your free, open‑source game engine. | Patreon",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "tsBO3hsWTYKx",
@@ -149,7 +149,7 @@
       "hash": "1G79UlSCNQa4",
       "address": "https://www.redhat.com/en/technologies/cloud-computing/openshift/virtualization-engine",
       "title": "Red Hat OpenShift Virtualization Engine",
-      "grade": null
+      "grade": 0
     }
   ]
 }

@@ -5,31 +5,31 @@
       "hash": "xI2Q8Lr2AoNY",
       "address": "http://yagoseek.dev:8090/",
       "title": "YagoSeek node",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "toVhKsc7o6d4",
       "address": "https://yacy.space/instances",
       "title": "YaCy Public Peer Directory | yacy.space",
-      "grade": null
+      "grade": 2
     },
     {
       "hash": "I2NpYX42xI24",
       "address": "https://peer.yacy.space/",
       "title": "YaCy Decentralized Web Search | yacy.space",
-      "grade": null
+      "grade": 2
     },
     {
       "hash": "MeW_Rs55Qxow",
       "address": "https://yacy.net/docs/",
       "title": "Docs - YaCy",
-      "grade": null
+      "grade": 2
     },
     {
       "hash": "T8ZB7sS6MKD4",
       "address": "https://github.com/yacy/yacy_search_server",
       "title": "GitHub - yacy/yacy_search_server: Distributed Peer-to-Peer Web Search Engine and Intranet Search Appliance · GitHub",
-      "grade": null
+      "grade": 2
     },
     {
       "hash": "dq1cqsc7o6d4",
@@ -41,31 +41,31 @@
       "hash": "toKo9sS6MKD4",
       "address": "https://github.com/yacy/yacy_search_server/tree/master/docker",
       "title": "yacy_search_server/docker at master · yacy/yacy_search_server · GitHub",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "282vDThMx-8Y",
       "address": "http://157.245.217.151:8090/",
       "title": "YaCy Decentralized Web Search | peer.yacy.space",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "X460EjRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Distributed_hash_table",
       "title": "Distributed hash table - Wikipedia",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "xr6iDzS6MKD4",
       "address": "https://github.com/awesome-selfhosted/awesome-selfhosted",
       "title": "GitHub - awesome-selfhosted/awesome-selfhosted: A list of Free Software network services and web applications which can be hosted on your own servers",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "EAGyIl55Qxow",
       "address": "https://yacy.net/installation/headless/",
       "title": "Headless - YaCy on a Remote Server - YaCy",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "TJnRLsc7o6d4",
@@ -77,37 +77,37 @@
       "hash": "rPXKVIfPEct4",
       "address": "https://ro.frwiki.wiki/wiki/YaCy",
       "title": "YaCy - frwiki.wiki",
-      "grade": null
+      "grade": 2
     },
     {
       "hash": "zg6OjlNJwYqw",
       "address": "https://www.yacy.net/demonstration_tutorial_screenshot/",
       "title": "Demo - YaCy",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "EJyw0l55Qxow",
       "address": "https://yacy.net/installation/raspberry_pi/",
       "title": "Raspberry pi - YaCy",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "KT61is55Qxow",
       "address": "https://yacy.net/",
       "title": "Home - YaCy",
-      "grade": null
+      "grade": 2
     },
     {
       "hash": "jevS_s55Qxow",
       "address": "https://yacy.net/faq/",
       "title": "FAQ - YaCy",
-      "grade": null
+      "grade": 2
     },
     {
       "hash": "laNsBI55Qxow",
       "address": "https://yacy.net/operation/network-definition/",
       "title": "Network definition - YaCy",
-      "grade": null
+      "grade": 2
     },
     {
       "hash": "AeOqws55Qxow",
@@ -119,13 +119,13 @@
       "hash": "OS_Qis55Qxow",
       "address": "https://yacy.net/index.html",
       "title": "Home - YaCy",
-      "grade": null
+      "grade": 2
     },
     {
       "hash": "Pj_U8I55Qxow",
       "address": "https://yacy.net/operation/yacyoverhttps/",
       "title": "Using the YaCy Front-End over HTTPS - YaCy",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "D4lABzaS0qdw",
@@ -137,91 +137,91 @@
       "hash": "Hf9uMl55Qxow",
       "address": "https://yacy.net/installation/shrink/",
       "title": "Shrink Debian by removing all graphical features to turn it into a headless server - YaCy",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "VWrPII55Qxow",
       "address": "https://yacy.net/operation/search-parameters/",
       "title": "Using Advanced Search Parameters - YaCy",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "WNb37l55Qxow",
       "address": "https://yacy.net/installation/freebsdinstall/",
       "title": "FreeBSD Install Guide - YaCy",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "sXV2Dl55Qxow",
       "address": "https://yacy.net/installation/archinstall/",
       "title": "Arch Install Guide - YaCy",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "vi4eAI55Qxow",
       "address": "https://yacy.net/operation/yacy-tor/",
       "title": "YaCy and Tor - YaCy",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "zJhXBI55Qxow",
       "address": "https://yacy.net/operation/ranking/",
       "title": "Definition of Ranking Rules - YaCy",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "gSVvczS6MKD4",
       "address": "https://github.com/topics/p2p-network",
       "title": "p2p-network · GitHub Topics · GitHub",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "rpVoLD1nrxbw",
       "address": "https://www.debian.org/devel/wnpp/requested_byage",
       "title": "Debian -- Requested packages, organized by age",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "uOw20D1nrxbw",
       "address": "https://www.debian.org/devel/wnpp/requested",
       "title": "Debian -- Requested packages",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "p6_irg-d-q94",
       "address": "https://it.frwiki.wiki/wiki/YaCy",
       "title": "YaCy - frwiki.wiki",
-      "grade": null
+      "grade": 2
     },
     {
       "hash": "1YudAsS6MKD4",
       "address": "https://github.com/yacy/yacy_search_server/blob/master/Heroku.md",
       "title": "yacy_search_server/Heroku.md at master · yacy/yacy_search_server · GitHub",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "-gZYhsS6MKD4",
       "address": "https://github.com/yacy/yacy_search_server/blob/master/README.md",
       "title": "yacy_search_server/README.md at master · yacy/yacy_search_server · GitHub",
-      "grade": null
+      "grade": 2
     },
     {
       "hash": "pkF3plkhygUx",
       "address": "https://uk.wikipedia.org/wiki/YaCy",
       "title": "YaCy — Вікіпедія",
-      "grade": null
+      "grade": 2
     },
     {
       "hash": "vmLt2wRMd2Bg",
       "address": "https://eldar.cz/yacydoc/operation/performance.html",
       "title": "Performance Tuning - YaCy Docs",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "02u43wRMd2Bg",
       "address": "https://eldar.cz/yacydoc/demonstration_tutorial_screenshot.html",
       "title": "Demo, screenshots and tutorial - YaCy Docs",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "tt-iHg2Rr_dw",
@@ -239,7 +239,7 @@
       "hash": "s6pHTsS6MKD4",
       "address": "https://github.com/yacy/yacy_search_server/commits/master/",
       "title": "Commits · yacy/yacy_search_server · GitHub",
-      "grade": null
+      "grade": 1
     }
   ]
 }

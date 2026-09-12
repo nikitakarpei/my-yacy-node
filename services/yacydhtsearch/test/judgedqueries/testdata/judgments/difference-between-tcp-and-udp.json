@@ -5,25 +5,25 @@
       "hash": "hLGLSjRvmBbx",
       "address": "https://en.wikipedia.org/wiki/TCP/IP",
       "title": "Internet protocol suite - Wikipedia",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "7IiavjRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Internet_Protocol",
       "title": "Internet Protocol - Wikipedia",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "qc5L3jRvmBbx",
       "address": "https://en.wikipedia.org/wiki/FreeBSD_Foundation",
       "title": "FreeBSD - Wikipedia",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "p_t9M7XxSRFx",
       "address": "https://www.rfc-editor.org/info/rfc4306/",
       "title": "RFC 4306: Internet Key Exchange (IKEv2) Protocol | RFC Editor",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "wRN6JitD2jQw",
@@ -35,115 +35,115 @@
       "hash": "rnITUDoXncf5",
       "address": "https://android.googlesource.com/platform/external/curl/+/f551028d5caab/CHANGES.0",
       "title": "CHANGES.0 - platform/external/curl - Git at Google",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "A-93m7XxSRFx",
       "address": "https://www.rfc-editor.org/info/rfc8323/",
       "title": "RFC 8323: CoAP (Constrained Application Protocol) over TCP, TLS, and WebSockets | RFC Editor",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "J9FvvmwYpnl5",
       "address": "https://protonvpn.com/support/udp-tcp",
       "title": "What is the difference between UDP and TCP? | Proton VPN",
-      "grade": null
+      "grade": 2
     },
     {
       "hash": "uyg_1x7Vnw6w",
       "address": "https://cwe.mitre.org/data/definitions/200.html",
       "title": "CWE - CWE-200: Exposure of Sensitive Information to an Unauthorized Actor (4.20)",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "5LUlKmwYpnl5",
       "address": "https://protonvpn.com/support/how-to-change-vpn-protocols",
       "title": "Change your VPN protocol | Proton VPN",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "xr6iDzS6MKD4",
       "address": "https://github.com/awesome-selfhosted/awesome-selfhosted",
       "title": "GitHub - awesome-selfhosted/awesome-selfhosted: A list of Free Software network services and web applications which can be hosted on your own servers",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "CKl7VjRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Modbus",
       "title": "Modbus - Wikipedia",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "FC5Gw0XF4o7w",
       "address": "https://xmpp.org/extensions/xep-0166.html",
       "title": "XEP-0166: Jingle",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "nb1MnL5qygIx",
       "address": "https://origin.gstreamer.freedesktop.org/planet/",
       "title": "GStreamer Planet",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "BaZLYjRvmBbx",
       "address": "https://en.wikipedia.org/wiki/NetBSD",
       "title": "NetBSD - Wikipedia",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "CCbDyjRvmBbx",
       "address": "https://en.wikipedia.org/wiki/IS-IS",
       "title": "IS-IS - Wikipedia",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "oG6uF2jw1Zlx",
       "address": "https://kubernetes.io/docs/concepts/services-networking/service/",
       "title": "Service | Kubernetes",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "2R3mlmwYpnl5",
       "address": "https://protonvpn.com/support/protonvpn-features/protocols",
       "title": "Protocols | Proton VPN",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "Ku6Rp7XxSRFx",
       "address": "https://www.rfc-editor.org/info/rfc3552/",
       "title": "RFC 3552: Guidelines for Writing RFC Text on Security Considerations | RFC Editor",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "f8PBZ70fl1jw",
       "address": "https://streams.spec.whatwg.org/",
       "title": "Streams Standard",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "SmtHKH1wPzJx",
       "address": "https://ipset.netfilter.org/iptables-extensions.man.html",
       "title": "Man page of iptables-extensions",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "kz8HLq6TtVY5",
       "address": "https://my.pressable.com/documentation/api/v1",
       "title": "My Pressable Control Panel API Documentation",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "sAeglsJDpFPw",
       "address": "https://seclists.org/",
       "title": "SecLists.Org Security Mailing List Archive",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "XwuSSjXxSRFx",
       "address": "https://www.rfc-editor.org/rfc/rfc9110.html",
       "title": "RFC 9110: HTTP Semantics",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "D4lABzaS0qdw",
@@ -155,49 +155,49 @@
       "hash": "4ZVCTtaaTUr5",
       "address": "https://www.techradar.com/vpn/best-free-vpn",
       "title": "The best free VPN in 2026 | TechRadar",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "2ZqdVzfOEiDw",
       "address": "https://planet.gnome.org/",
       "title": "Planet GNOME",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "iVZ_tlj4MAVw",
       "address": "https://man7.org/linux/man-pages/man2/send.2.html",
       "title": "send(2) - Linux manual page",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "MG5kKyEkAvow",
       "address": "https://developer.mozilla.org/en-US/docs/Glossary/Argument",
       "title": "Argument - Glossary | MDN",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "hEmHajRvmBbx",
       "address": "https://en.wikipedia.org/wiki/List_of_URI_schemes",
       "title": "List of URI schemes - Wikipedia",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "4bBitjRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Node.js",
       "title": "Node.js - Wikipedia",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "OXwEA7XxSRFx",
       "address": "https://www.rfc-editor.org/info/rfc6275/",
       "title": "RFC 6275: Mobility Support in IPv6 | RFC Editor",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "PozOJ7XxSRFx",
       "address": "https://www.rfc-editor.org/info/rfc9114/",
       "title": "RFC 9114: HTTP/3 | RFC Editor",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "P-tQgitD2jQw",
@@ -209,91 +209,91 @@
       "hash": "6w-KRsyg0sGw",
       "address": "https://msgpack.org/",
       "title": "MessagePack: It's like JSON. but fast and small.",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "EXyBtjRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Transport_Layer_Security",
       "title": "Transport Layer Security - Wikipedia",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "6Tw8_yfAodxw",
       "address": "https://docs.freebsd.org/en/books/handbook/disks/",
       "title": "Chapter 20. Storage | FreeBSD Documentation Portal",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "Q3Za17XxSRFx",
       "address": "https://www.rfc-editor.org/info/rfc4340/",
       "title": "RFC 4340: Datagram Congestion Control Protocol (DCCP) | RFC Editor",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "eF249jRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Internet",
       "title": "Internet - Wikipedia",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "hTclojRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Firewall_(computing)",
       "title": "Firewall (computing) - Wikipedia",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "ba19vjXxSRFx",
       "address": "https://www.rfc-editor.org/rfc/rfc9000.html",
       "title": "RFC 9000: QUIC: A UDP-Based Multiplexed and Secure Transport",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "gbOAx7XxSRFx",
       "address": "https://www.rfc-editor.org/info/rfc1035/",
       "title": "RFC 1035: Domain names - implementation and specification | RFC Editor",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "q1uQb7XxSRFx",
       "address": "https://www.rfc-editor.org/info/rfc5905/",
       "title": "RFC 5905: Network Time Protocol Version 4: Protocol and Algorithms Specification | RFC Editor",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "jRKbJlC6AYh4",
       "address": "https://www.f5.com/glossary",
       "title": "Glossary: Cybersecurity Terms \u0026 Definitions | F5",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "tO_SNWRfu9ww",
       "address": "https://datatracker.ietf.org/doc/html/rfc1035",
       "title": "RFC 1035 - Domain names - implementation and specification",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "CWZwFjRvmBbx",
       "address": "https://en.wikipedia.org/wiki/FreeBSD",
       "title": "FreeBSD - Wikipedia",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "EtPUKjRvmBbx",
       "address": "https://en.wikipedia.org/wiki/HTTPS",
       "title": "HTTPS - Wikipedia",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "Gg5rbjRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Internet_protocol_suite",
       "title": "Internet protocol suite - Wikipedia",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "TGlevjRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Application_layer",
       "title": "Application layer - Wikipedia",
-      "grade": null
+      "grade": 0
     }
   ]
 }

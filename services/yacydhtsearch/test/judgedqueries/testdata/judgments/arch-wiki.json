@@ -11,7 +11,7 @@
       "hash": "5G5XeeSLKN4x",
       "address": "https://bbs.archlinux.org/viewtopic.php?pid=189982",
       "title": "howto become a arch developer? / Arch Discussion / Arch Linux Forums",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "1kOALGsyhcfx",
@@ -47,13 +47,13 @@
       "hash": "xYnNBeSLKN4x",
       "address": "https://bbs.archlinux.org/viewtopic.php?pid=409134",
       "title": "/etc/issue \"2.0\" - My ASCII art version with Arch logo and text / Artwork and Screenshots / Arch Linux Forums",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "xyan1FuhndQx",
       "address": "https://pkgs.alpinelinux.org/contents?name=evolution-etesync\u0026repo=testing\u0026branch=edge\u0026arch=x86_64",
       "title": "Package index - Alpine Linux packages",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "VDvsI5syhcfx",
@@ -71,13 +71,13 @@
       "hash": "un8HSeSLKN4x",
       "address": "https://bbs.archlinux.org/viewtopic.php?pid=285739",
       "title": "Arch Leadership / Announcements, Package \u0026 Security Advisories / Arch Linux Forums",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "IBItAsXcOmMx",
       "address": "https://neocities.org/browse?tag=arch",
       "title": "Neocities - Sites tagged arch",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "n_BbL_JJheBx",
@@ -95,7 +95,7 @@
       "hash": "_8XRJjRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Arch_Build_System",
       "title": "Arch Linux - Wikipedia",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "sFJf-jjEZfvx",
@@ -107,13 +107,13 @@
       "hash": "fMgRSGsyhcfx",
       "address": "https://archlinux.org/mirrors/arch.mirror.winslow.cloud/",
       "title": "Arch Linux - arch.mirror.winslow.cloud - Mirror Details",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "5LyX15syhcfx",
       "address": "https://archlinux.org/packages/extra/x86_64/tgt/",
       "title": "Arch Linux - tgt 1.0.97-2 (x86_64)",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "_MvmMeSLKN4x",
@@ -125,13 +125,13 @@
       "hash": "SIyLLv0lYtaw",
       "address": "https://www.parabola.nu/news/from-arch-switch-to-the-base-devel-meta-package-requires-manual-intervention/",
       "title": "Parabola GNU/Linux-libre - News: [From Arch] Switch to the base-devel meta package requires manual intervention",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "q_UUpeSLKN4x",
       "address": "https://bbs.archlinux.org/viewtopic.php?pid=192666",
       "title": "howto become a arch developer? / Arch Discussion / Arch Linux Forums",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "oej5lsdsPYlw",
@@ -161,7 +161,7 @@
       "hash": "Pwe03ZDMrHS4",
       "address": "https://gist.github.com/mattiaslundberg/8620837",
       "title": "Minimal instructions for installing arch linux on an UEFI system with full system encryption using dm-crypt and luks · GitHub",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "Gab0Essyhcfx",
@@ -179,7 +179,7 @@
       "hash": "1eLp2eSLKN4x",
       "address": "https://bbs.archlinux.org/viewtopic.php?pid=1759847",
       "title": "[solved] /bin/init is in systemd-sysvcompat ? / Installation / Arch Linux Forums",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "6g2ztAsyhcfx",
@@ -191,7 +191,7 @@
       "hash": "gemHpeSLKN4x",
       "address": "https://bbs.archlinux.org/viewtopic.php?pid=850341",
       "title": "Wayland on Arch Linux? / AUR Issues, Discussion \u0026 PKGBUILD Requests / Arch Linux Forums",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "m2kA6lSmquRw",
@@ -203,7 +203,7 @@
       "hash": "rY1JPAsyhcfx",
       "address": "https://archlinux.org/groups/x86_64/maui/",
       "title": "Arch Linux - maui (x86_64) - Group Details",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "CeYYAopg4UCw",
@@ -221,7 +221,7 @@
       "hash": "K6sibGsyhcfx",
       "address": "https://archlinux.org/mirrors/owochle.app/",
       "title": "Arch Linux - owochle.app - Mirror Details",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "YFWL1h3e0QFx",
@@ -233,13 +233,13 @@
       "hash": "_uCaIssyhcfx",
       "address": "https://archlinux.org/packages/",
       "title": "Arch Linux - Package Search",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "iCZLms98xLWx",
       "address": "https://linuxreviews.org/Arch_Conf_2020",
       "title": "Arch Conf 2020 - LinuxReviews",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "bATU-TsmV515",
@@ -251,7 +251,7 @@
       "hash": "zNid7eSLKN4x",
       "address": "https://bbs.archlinux.org/viewtopic.php?id=53665\u0026p=12",
       "title": "Project ARM :: Arch Rollback Machine (Page 12) / Community Contributions / Arch Linux Forums",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "o8Mxf2bypRQw",
@@ -275,13 +275,13 @@
       "hash": "yYtH-Asyhcfx",
       "address": "https://archlinux.org/groups/x86_64/kde-network/",
       "title": "Arch Linux - kde-network (x86_64) - Group Details",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "93M8veSLKN4x",
       "address": "https://bbs.archlinux.org/viewtopic.php?pid=1648326",
       "title": "[SOLVED] Xfce - PowerManager - Sleep on AC / Applications \u0026 Desktop Environments / Arch Linux Forums",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "BKXNQo1ILRNx",

@@ -29,7 +29,7 @@
       "hash": "11YwxZPqQlSw",
       "address": "https://pip.pypa.io/en/stable/development/contributing/",
       "title": "Contributing - pip documentation v26.2.1",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "0uJDlvRjxAex",
@@ -59,13 +59,13 @@
       "hash": "SOAt4sWMnAPx",
       "address": "https://fedoraplanet.org/",
       "title": "Fedora People",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "X1qxTyXjZ9O4",
       "address": "https://docs.github.com/en/get-started/writing-on-github/working-with-advanced-formatting/autolinked-references-and-urls",
       "title": "Autolinked references and URLs - GitHub Docs",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "YgAeyl0lKwR5",
@@ -77,19 +77,19 @@
       "hash": "cEcJUyXjZ9O4",
       "address": "https://docs.github.com/en/get-started/learning-about-github/about-github-advanced-security",
       "title": "About GitHub Advanced Security - GitHub Docs",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "cx4QG2McH3tw",
       "address": "https://llvm.org/docs/CodingStandards.html",
       "title": "LLVM Coding Standards — LLVM 13 documentation",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "-eL3TvdTeyA4",
       "address": "https://github.blog/open-source/git/highlights-from-git-2-55/",
       "title": "Highlights from Git 2.55 - The GitHub Blog",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "p_5Wwo0Z_SDg",
@@ -107,13 +107,13 @@
       "hash": "v733uyXjZ9O4",
       "address": "https://docs.github.com/en/get-started/using-github/github-flow",
       "title": "GitHub flow - GitHub Docs",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "6bQzZ2bypRQw",
       "address": "https://forgejo.org/docs/latest/contributor/localization/admin/",
       "title": "Weblate admin duties | Forgejo – Beyond coding. We forge.",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "CmQQlyEkAvow",
@@ -125,13 +125,13 @@
       "hash": "rqW0fx8XNsex",
       "address": "https://edgeguides.rubyonrails.org/contributing_to_ruby_on_rails.html",
       "title": "Contributing to Ruby on Rails — Ruby on Rails Guides",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "ZLEAaobrsZjx",
       "address": "https://www.mediawiki.org/wiki/Gerrit/Tutorial",
       "title": "Gerrit/Tutorial - MediaWiki",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "PexbGAK-xyJ4",
@@ -155,7 +155,7 @@
       "hash": "TKQQYyS6MKD4",
       "address": "https://github.com/blindglobe/common-lisp-stat",
       "title": "GitHub - blindglobe/common-lisp-stat: Common Lisp Statistics -- based on LispStat (Tierney) but updated for Common Lisp and incorporating lessons from R (http://www.r-project.org/). See the google group for lisp stat / common lisp statistics for a mailing list. · GitHub",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "1di-C29cq-94",
@@ -179,37 +179,37 @@
       "hash": "CjgsxsIyoLTx",
       "address": "https://planetpython.org/",
       "title": "Planet Python",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "79vs4yXjZ9O4",
       "address": "https://docs.github.com/en/get-started/learning-about-github/githubs-plans",
       "title": "GitHub's plans - GitHub Docs",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "cZ2_WkRFf6Bx",
       "address": "https://wikitech.wikimedia.org/wiki/Parsoid",
       "title": "Parsoid - Wikitech",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "_HoZdyXjZ9O4",
       "address": "https://docs.github.com/en/get-started/using-github/github-mobile",
       "title": "GitHub Mobile - GitHub Docs",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "WVLgdPaM_sMw",
       "address": "https://docs.codeberg.org/collaborating/pull-requests-and-git-flow/",
       "title": "Pull requests and Git flow | Codeberg Documentation",
-      "grade": null
+      "grade": 2
     },
     {
       "hash": "jmgT3MS6MKD4",
       "address": "https://github.com/tpope/vim-fugitive",
       "title": "GitHub - tpope/vim-fugitive: fugitive.vim: A Git wrapper so awesome, it should be illegal · GitHub",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "98ydQs9cq-94",
@@ -221,7 +221,7 @@
       "hash": "xDYFcsUZXr25",
       "address": "https://pre-commit.com/",
       "title": "pre-commit",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "SGCHO29cq-94",
@@ -245,13 +245,13 @@
       "hash": "6JOUD29cq-94",
       "address": "https://git-scm.com/docs/git-remote",
       "title": "Git - git-remote Documentation",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "18R0h29cq-94",
       "address": "https://git-scm.com/docs/git-send-email",
       "title": "Git - git-send-email Documentation",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "7WP56MS6MKD4",
@@ -275,7 +275,7 @@
       "hash": "18Aza29cq-94",
       "address": "https://git-scm.com/docs/giteveryday",
       "title": "Git - giteveryday Documentation",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "6fDY-29cq-94",

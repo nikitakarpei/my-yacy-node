@@ -41,7 +41,7 @@
       "hash": "OFFidA07xaXx",
       "address": "https://musicbrainz.org/doc/Live_Data_Feed",
       "title": "Live Data Feed - MusicBrainz",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "lYsgT81iNM2x",
@@ -53,19 +53,19 @@
       "hash": "v4aP-zS6MKD4",
       "address": "https://github.com/topics/low-code",
       "title": "low-code · GitHub Topics · GitHub",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "96dSMyXjZ9O4",
       "address": "https://docs.github.com/en/actions/tutorials/use-containerized-services/create-postgresql-service-containers",
       "title": "Creating PostgreSQL service containers - GitHub Docs",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "_9wYhs7Yxvhx",
       "address": "https://www.postgresql.org/about/events/",
       "title": "PostgreSQL: Upcoming Events",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "-PElUl7Yxvhx",
@@ -77,19 +77,19 @@
       "hash": "9103Gx7Yxvhx",
       "address": "https://www.postgresql.org/docs/current/app-vacuumdb.html",
       "title": "PostgreSQL: Documentation: 18: vacuumdb",
-      "grade": null
+      "grade": 2
     },
     {
       "hash": "t5snQNswUu_h",
       "address": "https://board.issociate.de/thread/509376/-Wchentlicher-PostgreSQL-Newsletter---21-August-2011-.html",
       "title": "== WÃ¶chentlicher PostgreSQL Newsletter - 21. August 2011 ==",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "T8OWqcw63Csx",
       "address": "https://fr.wikipedia.org/wiki/PostgreSQL",
       "title": "PostgreSQL — Wikipédia",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "zNzIvx7Yxvhx",
@@ -101,7 +101,7 @@
       "hash": "4H1zux7Yxvhx",
       "address": "https://www.postgresql.org/docs/current/spi-spi-getnspname.html",
       "title": "PostgreSQL: Documentation: 18: SPI_getnspname",
-      "grade": null
+      "grade": 2
     },
     {
       "hash": "0aV0fx7Yxvhx",
@@ -113,7 +113,7 @@
       "hash": "bRUZxx7Yxvhx",
       "address": "https://www.postgresql.org/docs/release/16.0/",
       "title": "PostgreSQL: Release Notes",
-      "grade": null
+      "grade": 2
     },
     {
       "hash": "ELEstx7Yxvhx",
@@ -125,7 +125,7 @@
       "hash": "QpqD5Jg54E6x",
       "address": "https://www.integrate.io/blog/postgresql-vs-mysql-which-one-is-better-for-your-use-case/",
       "title": "PostgreSQL vs MySQL: The Critical Differences | Integrate.io",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "ixNKTx7Yxvhx",
@@ -167,7 +167,7 @@
       "hash": "Q6N2Vx7Yxvhx",
       "address": "https://www.postgresql.org/docs/current/spi-spi-pfree.html",
       "title": "PostgreSQL: Documentation: 18: SPI_pfree",
-      "grade": null
+      "grade": 2
     },
     {
       "hash": "AXOajx7Yxvhx",
@@ -179,13 +179,13 @@
       "hash": "GDBJHx7Yxvhx",
       "address": "https://www.postgresql.org/docs/current/pgprewarm.html",
       "title": "PostgreSQL: Documentation: 18: F.30. pg_prewarm — preload relation data into buffer caches",
-      "grade": null
+      "grade": 2
     },
     {
       "hash": "rI2m6x7Yxvhx",
       "address": "https://www.postgresql.org/docs/current/storage-page-layout.html",
       "title": "PostgreSQL: Documentation: 18: 66.6. Database Page Layout",
-      "grade": null
+      "grade": 2
     },
     {
       "hash": "hYc2i0yvgfs5",
@@ -233,7 +233,7 @@
       "hash": "9LRebx7Yxvhx",
       "address": "https://www.postgresql.org/docs/current/sourcerepo.html",
       "title": "PostgreSQL: Documentation: 18: Appendix I. The Source Code Repository",
-      "grade": null
+      "grade": 2
     },
     {
       "hash": "BMMdex7Yxvhx",
@@ -245,7 +245,7 @@
       "hash": "464Spx7Yxvhx",
       "address": "https://www.postgresql.org/docs/current/logicaldecoding-writer.html",
       "title": "PostgreSQL: Documentation: 18: 47.7. Logical Decoding Output Writers",
-      "grade": null
+      "grade": 2
     },
     {
       "hash": "Pv3T_x7Yxvhx",
@@ -257,7 +257,7 @@
       "hash": "x320kx7Yxvhx",
       "address": "https://www.postgresql.org/docs/current/sql-revoke.html",
       "title": "PostgreSQL: Documentation: 18: REVOKE",
-      "grade": null
+      "grade": 2
     },
     {
       "hash": "vwtScx7Yxvhx",
@@ -269,7 +269,7 @@
       "hash": "5j1TMx7Yxvhx",
       "address": "https://www.postgresql.org/docs/current/datetime-appendix.html",
       "title": "PostgreSQL: Documentation: 18: Appendix B. Date/Time Support",
-      "grade": null
+      "grade": 2
     },
     {
       "hash": "Cv_cfysV8O86",
@@ -281,43 +281,43 @@
       "hash": "4x6u-x7Yxvhx",
       "address": "https://www.postgresql.org/docs/current/legalnotice.html",
       "title": "PostgreSQL: Documentation: 18: Legal Notice",
-      "grade": null
+      "grade": 2
     },
     {
       "hash": "f90B1x7Yxvhx",
       "address": "https://www.postgresql.org/docs/current/sql-alterstatistics.html",
       "title": "PostgreSQL: Documentation: 18: ALTER STATISTICS",
-      "grade": null
+      "grade": 2
     },
     {
       "hash": "htowwp2PJqNx",
       "address": "https://doxygen.postgresql.org/win32fdatasync_8c_source.html",
       "title": "PostgreSQL Source Code: src/port/win32fdatasync.c Source File",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "4lnzox7Yxvhx",
       "address": "https://www.postgresql.org/docs/current/catalog-pg-largeobject-metadata.html",
       "title": "PostgreSQL: Documentation: 18: 52.31. pg_largeobject_metadata",
-      "grade": null
+      "grade": 2
     },
     {
       "hash": "67t3mx7Yxvhx",
       "address": "https://www.postgresql.org/docs/current/user-manag.html",
       "title": "PostgreSQL: Documentation: 18: Chapter 21. Database Roles",
-      "grade": null
+      "grade": 2
     },
     {
       "hash": "4cGpZx7Yxvhx",
       "address": "https://www.postgresql.org/docs/current/infoschema-sql-parts.html",
       "title": "PostgreSQL: Documentation: 18: 35.50. sql_parts",
-      "grade": null
+      "grade": 2
     },
     {
       "hash": "7NEkax7Yxvhx",
       "address": "https://www.postgresql.org/docs/current/spi-spi-gettype.html",
       "title": "PostgreSQL: Documentation: 18: SPI_gettype",
-      "grade": null
+      "grade": 2
     }
   ]
 }

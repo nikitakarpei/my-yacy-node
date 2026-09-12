@@ -17,13 +17,13 @@
       "hash": "v9X3_N7zKFZx",
       "address": "https://ashmontservicemusic.neocities.org/",
       "title": "Ashmont Choral Music",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "yWLyprqgYoSx",
       "address": "https://lupinus.neocities.org/raindropsonroses",
       "title": "Favorite Shit",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "wBabKs5D-QSg",
@@ -41,7 +41,7 @@
       "hash": "001fJgh20iqw",
       "address": "https://www.last.fm/music/Franz+Schubert/+wiki",
       "title": "Franz Schubert age, hometown, biography | Last.fm",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "RueziJZAFfux",
@@ -59,13 +59,13 @@
       "hash": "SCDjQ_wMIbph",
       "address": "https://www.kinopoisk.ru/name/149547/",
       "title": "Вольфганг Амадей Моцарт (Wolfgang Amadeus Mozart): фильмы, биография, семья, фильмография — Кинопоиск",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "eaisguQeSaC6",
       "address": "https://www.smithsonianmag.com/smart-news/A-German-Composer-uncovered-collaboration-between-mozart-and-salieri-180958154/?itm_source=related-content\u0026itm_medium=parsely-api",
       "title": "A German Composer Uncovered a Collaboration Between Mozart and Salieri",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "pFfoRxwaEtgg",
@@ -131,7 +131,7 @@
       "hash": "M_COfCP-nXCh",
       "address": "https://mozarteum.at/en/home",
       "title": "International Mozarteum Foundation | Concerts | Research | Wolfgang Amadeus Mozart | Cultural Education | Mozart Museums | Mozart Birthplace | Mozart Residence | Mozart in Salzburg and in the world",
-      "grade": null
+      "grade": 2
     },
     {
       "hash": "OkrBR6djm6dw",
@@ -143,13 +143,13 @@
       "hash": "lPR4y2S5IvA4",
       "address": "https://www.bitchute.com/video/7giTtcrNlj1o",
       "title": "Requiem by Wolfgang Amadeus Mozart (1791)",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "w6Ikr6djm6dw",
       "address": "https://imslp.org/wiki/Symphony_No.36_in_C_major,_K.425_(Mozart,_Wolfgang_Amadeus)",
       "title": "Symphony No.36 in C major, K.425 (Mozart, Wolfgang Amadeus) - IMSLP",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "pM22OqiiXUAh",
@@ -185,7 +185,7 @@
       "hash": "8AqJgGzvQPgh",
       "address": "https://www.radiofrance.fr/francemusique/podcasts/serie-mozart-1791-l-annee-enchantee",
       "title": "Mozart : 1791, l'année enchantée : un podcast à écouter en ligne | France Musique",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "ZRvYJLL6aK6g",
@@ -263,7 +263,7 @@
       "hash": "hWBRFLUnydmg",
       "address": "https://www.lemonde.fr/memorable/blog/mozart",
       "title": "Qui est Mozart ? Testez et étoffez vos connaissances avec Mémorable",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "-Jibrh3e0QFx",
@@ -323,7 +323,7 @@
       "hash": "qpuGHDg7NoDY",
       "address": "http://nndb.com/people/872/000024800/",
       "title": "Wolfgang Amadeus Mozart",
-      "grade": null
+      "grade": 2
     }
   ]
 }

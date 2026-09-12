@@ -11,7 +11,7 @@
       "hash": "rvWpms2gfdCg",
       "address": "https://rw.rs/~x2as9kbbte/",
       "title": "It works! Apache httpd",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "D6ZmTayzSDzw",
@@ -35,13 +35,13 @@
       "hash": "z8uaTG1ajpq5",
       "address": "https://www.linuxjournal.com/content/thinking-concurrently",
       "title": "Thinking Concurrently: How Modern Network Applications Handle Multiple Connections | Linux Journal",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "aOE5evbMGqiy",
       "address": "https://simonwillison.net/tags/apache/",
       "title": "Simon Willison on apache",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "ebMwaXyzSDzw",
@@ -59,7 +59,7 @@
       "hash": "CymIK8uKjjbw",
       "address": "https://wiki.gentoo.org/wiki/Project:Apache",
       "title": "Project:Apache - Gentoo wiki",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "pd58GXS6MKD4",
@@ -71,7 +71,7 @@
       "hash": "tkDMTXyzSDzw",
       "address": "https://httpd.apache.org/docs/trunk/vhosts/",
       "title": "Apache Virtual Host documentation - Apache HTTP Server Version 2.5",
-      "grade": null
+      "grade": 2
     },
     {
       "hash": "OVoJaXyzSDzw",
@@ -101,13 +101,13 @@
       "hash": "w8M_GjRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Apache_HTTP_Server",
       "title": "Apache HTTP Server - Wikipedia",
-      "grade": null
+      "grade": 2
     },
     {
       "hash": "iVmHRayzSDzw",
       "address": "https://httpd.apache.org/apreq/",
       "title": "Apache HTTP Request Library - The Apache HTTP Server Project",
-      "grade": null
+      "grade": 2
     },
     {
       "hash": "yu99cXyzSDzw",
@@ -119,25 +119,25 @@
       "hash": "26lB5oozk0_4",
       "address": "https://www.plesk.com/wiki/apache/",
       "title": "Apache - Hosting Wikipedia",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "9N5z4MaQF27w",
       "address": "https://www.apache.org/foundation/members",
       "title": "ASF Members | Apache Software Foundation",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "SAzDyaS6MKD4",
       "address": "https://github.com/jzdziarski/mod_evasive",
       "title": "GitHub - jzdziarski/mod_evasive: Apache mod_evasive module · GitHub",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "doqJjjtFkY-p",
       "address": "https://wiki.archlinux.jp/index.php/Apache_HTTP_Server",
       "title": "Apache HTTP Server - ArchWiki",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "7DbfcXyzSDzw",
@@ -167,7 +167,7 @@
       "hash": "We0DfMaQF27w",
       "address": "https://www.apache.org/foundation/members.html",
       "title": "ASF Members | Apache Software Foundation",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "OlDnjayzSDzw",
@@ -293,7 +293,7 @@
       "hash": "u6qsvXyzSDzw",
       "address": "https://httpd.apache.org/docs/current/glossary.html",
       "title": "Glossary - Apache HTTP Server Version 2.4",
-      "grade": null
+      "grade": 2
     },
     {
       "hash": "HqY_7XyzSDzw",
@@ -305,19 +305,19 @@
       "hash": "1Xy9mXyzSDzw",
       "address": "https://httpd.apache.org/docs/trunk/mod/mod_md.html",
       "title": "mod_md - Apache HTTP Server Version 2.5",
-      "grade": null
+      "grade": 2
     },
     {
       "hash": "-XrviXyzSDzw",
       "address": "https://httpd.apache.org/docs/current/misc/security_tips.html",
       "title": "Security Tips - Apache HTTP Server Version 2.4",
-      "grade": null
+      "grade": 2
     },
     {
       "hash": "vWLvBMaQF27w",
       "address": "https://www.apache.org/foundation/marks/list/",
       "title": "Apache Trademark Listing | Apache Software Foundation",
-      "grade": null
+      "grade": 0
     }
   ]
 }

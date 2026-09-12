@@ -17,13 +17,13 @@
       "hash": "QSl7VQjpmq6Q",
       "address": "http://www.gnu.org/home.zh-cn.html",
       "title": "GNU 操作系统和自由软件运动",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "je0ycX3rJRBw",
       "address": "https://ftp.gnu.org/gnu/",
       "title": "Index of /gnu",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "w_9jmzX55GGw",
@@ -41,7 +41,7 @@
       "hash": "rAcGdsyV5lzw",
       "address": "https://orgmode.org/",
       "title": "Org mode for GNU Emacs",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "gloktjRvmBbx",
@@ -71,7 +71,7 @@
       "hash": "0WCDDjRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Conkeror",
       "title": "Conkeror - Wikipedia",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "QriquAK-xyJ4",
@@ -101,7 +101,7 @@
       "hash": "C1Wyrs1_farg",
       "address": "https://ar.al/",
       "title": "Aral Balkan",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "AonnkjRvmBbx",
@@ -113,31 +113,31 @@
       "hash": "DEUnajRvmBbx",
       "address": "https://en.wikipedia.org/wiki/List_of_programming_languages_by_type",
       "title": "List of programming languages by type - Wikipedia",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "rBG8Oh3e0QFx",
       "address": "https://commons.wikimedia.org/wiki/Category:Web_browsers",
       "title": "Category:Web browsers - Wikimedia Commons",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "HiNfCs5tr8M4",
       "address": "https://leanpub.com/",
       "title": "Leanpub: Publish Early, Publish Often",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "ILpP4B69iSD4",
       "address": "https://nicholas.carlini.com/writing/2024/how-i-use-ai.html",
       "title": "How I Use \"AI\"",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "Kmk49sMaUr46",
       "address": "https://gnuworldorder.info/",
       "title": "Gnu World Order",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "lN9DCbR2NVbw",
@@ -161,25 +161,25 @@
       "hash": "LRfNwzmvZD7w",
       "address": "https://planet.opensuse.org/",
       "title": "Global - openSUSE Planet",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "FIRH00oB9UFw",
       "address": "https://docs-archive.freebsd.org/44doc/",
       "title": "4.4BSD Documents",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "GvUBmisE1LOw",
       "address": "https://devmanual.gentoo.org/",
       "title": "Master index – Gentoo Development Guide",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "eE-MAxtQ-zSx",
       "address": "https://wiki.archlinux.org/title/Systemd",
       "title": "systemd - ArchWiki",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "zTCfkxtQ-zSx",
@@ -263,13 +263,13 @@
       "hash": "y9Sjojldhbwx",
       "address": "https://en.wikibooks.org/wiki/Shelf:Computer_software",
       "title": "Shelf:Computer software - Wikibooks, open books for an open world",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "RfX7GxtQ-zSx",
       "address": "https://wiki.archlinux.org/title/Man_page",
       "title": "man page - ArchWiki",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "JlpqPjRvmBbx",
