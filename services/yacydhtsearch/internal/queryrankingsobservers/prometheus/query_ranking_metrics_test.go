@@ -35,15 +35,15 @@ func TestEveryOutcomeOfASearchIsPublishedApart(t *testing.T) {
 	metrics.QueryAnsweredFromCache(t.Context(), query, 12)
 	metrics.QueryAnsweredFromCache(t.Context(), query, 12)
 	metrics.QueryAnsweredByPeers(t.Context(), query, 12)
-	metrics.QueryHadNoIndexedTerm(t.Context(), query)
-	metrics.QueryFoundNoPeerToAsk(t.Context(), query)
+	metrics.QueryHoldsNoIndexedTerm(t.Context(), query)
+	metrics.QueryReachedNoPeer(t.Context(), query)
 
 	body := publishedBy(t, registry)
 	for _, published := range []string{
 		`yacydhtsearch_searches_total{outcome="answered_from_cache"} 2`,
 		`yacydhtsearch_searches_total{outcome="answered_by_peers"} 1`,
 		`yacydhtsearch_searches_total{outcome="no_indexed_term"} 1`,
-		`yacydhtsearch_searches_total{outcome="no_peer_to_ask"} 1`,
+		`yacydhtsearch_searches_total{outcome="no_peer_reached"} 1`,
 	} {
 		if !strings.Contains(body, published) {
 			t.Fatalf("metrics do not carry %q:\n%s", published, body)

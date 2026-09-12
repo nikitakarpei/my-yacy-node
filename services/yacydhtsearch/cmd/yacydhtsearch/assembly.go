@@ -120,12 +120,12 @@ func RunService(
 			networksearchobserversprometheus.New(registry, cfg.QueryBudget),
 		},
 	)
-	rankingMetrics := rankingcacheobserversprometheus.New(registry)
-	cache, err := rankingCacheFor(ctx, cfg, rankingMetrics)
+	rankingCacheMetrics := rankingcacheobserversprometheus.New(registry)
+	cache, err := rankingCacheFor(ctx, cfg, rankingCacheMetrics)
 	if err != nil {
 		return err
 	}
-	rankings := queryrankings.New(cache, network, queryrankings.RankingObservers{
+	rankings := queryrankings.New(cache, network, queryrankings.QueryRankingObservers{
 		queryrankingsobserversapplog.QueryRankingLog{},
 		queryrankingsobserversprometheus.New(registry),
 	})
