@@ -1,16 +1,16 @@
 {
   "query": "how does public key cryptography work",
-  "recordedAt": "2026-09-12T07:52:05Z",
+  "recordedAt": "2026-09-12T10:15:26Z",
   "itemsInTheOrderOfEachAnswer": [
     [
       {
         "hash": "D4lABzaS0qdw",
         "address": "https://planet.debian.org/",
         "title": "Planet Debian",
-        "snippet": "In all honesty, I could have probably stopped here, but now that the milestone of a viable replacement was reached, I got curious to see how far it would be possible to push the encoder (how much work to reach C speeds?) and afterwards, the decoder, too.\nSetup",
+        "snippet": "Of course, this is a terribly inefficient compressor, so after the first commit, the real work starts: implement each block type until the compression matches the original C TurboPFor implementation (same output file size), or in other words: do the reverse of the decoder.",
         "matchedWords": {
           "24igJXwiDb_d": {
-            "hits": 18,
+            "hits": 0,
             "textWords": 8109
           },
           "4NALnzN9NXxv": {
@@ -26,7 +26,7 @@
             "textWords": 8109
           },
           "VEDnDEPMAqup": {
-            "hits": 7,
+            "hits": 0,
             "textWords": 8109
           },
           "Z-ksh2WpvH-y": {
@@ -45,7 +45,7 @@
         "snippet": "What Does a VPN Do? How Does a VPN Work?\nWhen you use a VPN, you’re creating a secure and encrypted “tunnel” for internet traffic between your device and the wider internet — including the websites you visit and the apps you use. This prevents outsiders from intercepting and reading your data.",
         "matchedWords": {
           "24igJXwiDb_d": {
-            "hits": 7,
+            "hits": 0,
             "textWords": 538
           },
           "4NALnzN9NXxv": {
@@ -61,7 +61,7 @@
             "textWords": 538
           },
           "VEDnDEPMAqup": {
-            "hits": 5,
+            "hits": 0,
             "textWords": 538
           },
           "Z-ksh2WpvH-y": {
@@ -69,7 +69,7 @@
             "textWords": 538
           }
         },
-        "queryPhraseHits": 4
+        "queryPhraseHits": 0
       }
     ],
     [
@@ -77,10 +77,10 @@
         "hash": "4I8HnsgJoQyx",
         "address": "https://grapheneos.org/features",
         "title": "Features overview | GrapheneOS",
-        "snippet": "In many cases, vulnerability classes can be completely wiped out while in many others they can at least be made meaningfully harder to exploit. Android does a lot of work in this area, and GrapheneOS has helped to advance this in Android and the Linux kernel.",
+        "snippet": "It's a very technical project building privacy and security into the OS rather than including assorted unhelpful frills or bundling subjective third party apps choices.\nGrapheneOS is also hard at work on filling in gaps from not bundling Google apps and services into the OS.",
         "matchedWords": {
           "24igJXwiDb_d": {
-            "hits": 6,
+            "hits": 0,
             "textWords": 10166
           },
           "4NALnzN9NXxv": {
@@ -96,7 +96,7 @@
             "textWords": 10166
           },
           "VEDnDEPMAqup": {
-            "hits": 4,
+            "hits": 0,
             "textWords": 10166
           },
           "Z-ksh2WpvH-y": {
@@ -150,7 +150,7 @@
         "snippet": "Their Government Is Completely Corrupt\nExposed - How The CIA Manipulates Public Opinion\nTrump Official Denies Stealing Venezuela’s\nOil One Hour After Boasting Country is\n‘Forced to Work’ With US\nKaren Bass office claims she's 'not\navailable’ to testify at House hearing on LA\nhomelessness agency",
         "matchedWords": {
           "24igJXwiDb_d": {
-            "hits": 159,
+            "hits": 0,
             "textWords": 85916
           },
           "4NALnzN9NXxv": {
@@ -166,7 +166,7 @@
             "textWords": 85916
           },
           "VEDnDEPMAqup": {
-            "hits": 15,
+            "hits": 0,
             "textWords": 85916
           },
           "Z-ksh2WpvH-y": {
@@ -174,7 +174,7 @@
             "textWords": 85916
           }
         },
-        "queryPhraseHits": 1
+        "queryPhraseHits": 0
       }
     ],
     [
@@ -185,7 +185,7 @@
         "snippet": "Their Government Is Completely Corrupt\nExposed - How The CIA Manipulates Public Opinion\nTrump Official Denies Stealing Venezuela’s\nOil One Hour After Boasting Country is\n‘Forced to Work’ With US\nKaren Bass office claims she's 'not\navailable’ to testify at House hearing on LA\nhomelessness agency",
         "matchedWords": {
           "24igJXwiDb_d": {
-            "hits": 159,
+            "hits": 0,
             "textWords": 85916
           },
           "4NALnzN9NXxv": {
@@ -201,7 +201,7 @@
             "textWords": 85916
           },
           "VEDnDEPMAqup": {
-            "hits": 15,
+            "hits": 0,
             "textWords": 85916
           },
           "Z-ksh2WpvH-y": {
@@ -209,7 +209,7 @@
             "textWords": 85916
           }
         },
-        "queryPhraseHits": 1
+        "queryPhraseHits": 0
       }
     ],
     [
@@ -217,10 +217,10 @@
         "hash": "siAIZpx-vfi7",
         "address": "https://www.askamathematician.com/2012/09/q-what-is-a-fourier-transform-what-is-it-used-for/",
         "title": "Q: What is a Fourier transform? What is it used for? | Ask a Mathematician / Ask a Physicist",
-        "snippet": "This break down, and how much of each wave is needed, is the Fourier Transform.\nFourier transforms (FT) take a signal and express it in terms of the frequencies of the waves that make up that signal. Sound is probably the easiest thing to think about when talking about Fourier transforms.",
+        "snippet": "Physicist: Almost every imaginable signal can be broken down into a combination of simple waves. This fact is the central philosophy behind Fourier transforms (Fourier was very French, so his name is pronounced a little wonky: “4 E yay”).\nA complicated signal can be broken down into simple waves.",
         "matchedWords": {
           "24igJXwiDb_d": {
-            "hits": 3,
+            "hits": 0,
             "textWords": 1283
           },
           "4NALnzN9NXxv": {
@@ -255,7 +255,7 @@
         "snippet": "crypto­.subtle­.get­Public­Key() for ML-KEM and ML-DSA (@kkoyung, #45252)\nThis is another big update, so here’s an outline:\nYou can help!\nSecurity\nReal world compat\nWork in progress\nEmbedding API\nFor users and developers\nMore on the web platform\nGarbage collection safety\nPerformance and stability",
         "matchedWords": {
           "24igJXwiDb_d": {
-            "hits": 148,
+            "hits": 0,
             "textWords": 66162
           },
           "4NALnzN9NXxv": {
@@ -271,7 +271,7 @@
             "textWords": 66162
           },
           "VEDnDEPMAqup": {
-            "hits": 39,
+            "hits": 0,
             "textWords": 66162
           },
           "Z-ksh2WpvH-y": {
@@ -279,7 +279,7 @@
             "textWords": 66162
           }
         },
-        "queryPhraseHits": 8
+        "queryPhraseHits": 4
       }
     ],
     [
@@ -290,7 +290,7 @@
         "snippet": "Their Government Is Completely Corrupt\nExposed - How The CIA Manipulates Public Opinion\nTrump Official Denies Stealing Venezuela’s\nOil One Hour After Boasting Country is\n‘Forced to Work’ With US\nKaren Bass office claims she's 'not\navailable’ to testify at House hearing on LA\nhomelessness agency",
         "matchedWords": {
           "24igJXwiDb_d": {
-            "hits": 159,
+            "hits": 0,
             "textWords": 85916
           },
           "4NALnzN9NXxv": {
@@ -306,7 +306,7 @@
             "textWords": 85916
           },
           "VEDnDEPMAqup": {
-            "hits": 15,
+            "hits": 0,
             "textWords": 85916
           },
           "Z-ksh2WpvH-y": {
@@ -314,7 +314,7 @@
             "textWords": 85916
           }
         },
-        "queryPhraseHits": 1
+        "queryPhraseHits": 0
       }
     ],
     [
@@ -322,10 +322,10 @@
         "hash": "D4lABzaS0qdw",
         "address": "https://planet.debian.org/",
         "title": "Planet Debian",
-        "snippet": "In all honesty, I could have probably stopped here, but now that the milestone of a viable replacement was reached, I got curious to see how far it would be possible to push the encoder (how much work to reach C speeds?) and afterwards, the decoder, too.\nSetup",
+        "snippet": "Of course, this is a terribly inefficient compressor, so after the first commit, the real work starts: implement each block type until the compression matches the original C TurboPFor implementation (same output file size), or in other words: do the reverse of the decoder.",
         "matchedWords": {
           "24igJXwiDb_d": {
-            "hits": 18,
+            "hits": 0,
             "textWords": 8109
           },
           "4NALnzN9NXxv": {
@@ -341,7 +341,7 @@
             "textWords": 8109
           },
           "VEDnDEPMAqup": {
-            "hits": 7,
+            "hits": 0,
             "textWords": 8109
           },
           "Z-ksh2WpvH-y": {
@@ -355,10 +355,10 @@
         "hash": "kHtomjRvmBbx",
         "address": "https://en.wikipedia.org/wiki/Mao_Zedong",
         "title": "Mao Zedong - Wikipedia",
-        "snippet": "How does one weigh, for example, the good fortune of hundreds of millions of peasants in getting land against the execution, in the course of land reform and the 'Campaign against Counter-Revolutionaries,' or in other contexts, of millions, some of whom certainly deserved to die, but others of whom",
+        "snippet": "56] During this period, Mao involved himself in political work with manual labourers, setting up night schools and trade unions.[",
         "matchedWords": {
           "24igJXwiDb_d": {
-            "hits": 8,
+            "hits": 0,
             "textWords": 21055
           },
           "4NALnzN9NXxv": {
@@ -374,7 +374,7 @@
             "textWords": 21055
           },
           "VEDnDEPMAqup": {
-            "hits": 2,
+            "hits": 0,
             "textWords": 21055
           },
           "Z-ksh2WpvH-y": {
@@ -382,7 +382,7 @@
             "textWords": 21055
           }
         },
-        "queryPhraseHits": 2
+        "queryPhraseHits": 0
       }
     ],
     [
@@ -429,7 +429,7 @@
       "snippet": "php const DATA_KEY = 'const-key'; $great = 'fantastic'; $arr = [ '1', '2', '3', [41, 42, 43], 'key' =\u003e 'Indexed value', 'const-key' =\u003e 'Key with minus sign', 'foo' =\u003e ['foo1', 'foo2', 'foo3'] ]; // Won't work, outputs: This is { fantastic} echo \"This is { $great}\" .",
       "matchedWords": {
         "24igJXwiDb_d": {
-          "hits": 3,
+          "hits": 0,
           "textWords": 4495
         },
         "4NALnzN9NXxv": {
@@ -445,7 +445,7 @@
           "textWords": 4495
         },
         "VEDnDEPMAqup": {
-          "hits": 7,
+          "hits": 0,
           "textWords": 4495
         },
         "Z-ksh2WpvH-y": {
@@ -462,7 +462,7 @@
       "snippet": "AI: Google brings Gemini as its own desktop app for Windows systems\nThe Gemini app can be called up via a key command and can evaluate information from Google services. The free AI app can also create images and videos.\n25 Years After 9/11: How the Anti-Terror Fight Erodes Freedom",
       "matchedWords": {
         "24igJXwiDb_d": {
-          "hits": 2,
+          "hits": 0,
           "textWords": 695
         },
         "4NALnzN9NXxv": {
@@ -478,7 +478,7 @@
           "textWords": 695
         },
         "VEDnDEPMAqup": {
-          "hits": 1,
+          "hits": 0,
           "textWords": 695
         },
         "Z-ksh2WpvH-y": {
@@ -528,7 +528,7 @@
       "snippet": "In our view of God, Leibniz declares that we cannot admire the work solely because of the maker, lest we mar the glory and love God in doing so. Instead, we must admire the maker for the work he has done (II[full citation needed]).",
       "matchedWords": {
         "24igJXwiDb_d": {
-          "hits": 9,
+          "hits": 0,
           "textWords": 20779
         },
         "4NALnzN9NXxv": {
@@ -544,7 +544,7 @@
           "textWords": 20779
         },
         "VEDnDEPMAqup": {
-          "hits": 6,
+          "hits": 0,
           "textWords": 20779
         },
         "Z-ksh2WpvH-y": {
@@ -561,7 +561,7 @@
       "snippet": "Cryptography – MIT researchers Ron Rivest, Adi Shamir and Leonard Adleman developed one of the first practical public-key cryptosystems, the RSA cryptosystem, and started a company, RSA Security.[331]",
       "matchedWords": {
         "24igJXwiDb_d": {
-          "hits": 6,
+          "hits": 0,
           "textWords": 20296
         },
         "4NALnzN9NXxv": {
@@ -577,7 +577,7 @@
           "textWords": 20296
         },
         "VEDnDEPMAqup": {
-          "hits": 7,
+          "hits": 0,
           "textWords": 20296
         },
         "Z-ksh2WpvH-y": {
@@ -591,10 +591,10 @@
       "hash": "t9RUcmVUrQm6",
       "address": "https://earthnewspaper.com/mark-r-elsis/attack-on-pearl-harbor-december-7-1941-by-mark-r-elsis/",
       "title": "Attack On Pearl Harbor, December 7, 1941 by Mark R. Elsis – EarthNewspaper.com – All The Honest News Fit To Publish",
-      "snippet": "http://www.renegadetribune.com/the-final-secret-of-pearl-harbor\nHow U.S. Economic Warfare Provoked Japan’s Attack On Pearl Harbor\nby Robert Higgs\nhttps://mises.org/library/how-us-economic-warfare-provoked-japans-attack-pearl-harbor\nPearl Harbor Attack No Surprise\nby Roger A. Stolley",
+      "snippet": "When I lived on Siesta Key, Florida (1997 – 2008), I had a wonderful conversation with an old navy man, Captain Ralph Emerson Styles, a graduate of the US Naval Academy in 1933.",
       "matchedWords": {
         "24igJXwiDb_d": {
-          "hits": 6,
+          "hits": 0,
           "textWords": 7117
         },
         "4NALnzN9NXxv": {
@@ -610,7 +610,7 @@
           "textWords": 7117
         },
         "VEDnDEPMAqup": {
-          "hits": 1,
+          "hits": 0,
           "textWords": 7117
         },
         "Z-ksh2WpvH-y": {
@@ -624,10 +624,10 @@
       "hash": "0BZyCsY-tUi5",
       "address": "https://moralparty.com/ai/",
       "title": "AI – MoralParty.com",
-      "snippet": "If you’ve ever read about some weird cult and thought “How does something like this get started?” – well, you can watch it happen. Just don’t watch it so closely that you start playing along and end up donating all your money to a chatbot or whatever.",
+      "snippet": "The problem with AI will boost productivity everywhere claim is a consequential share of all “work” is needless bureaucratic churn created not by actual need but by the apparently permanent abundance of huge surpluses that can be squandered on make-work, churn and profiteering.",
       "matchedWords": {
         "24igJXwiDb_d": {
-          "hits": 123,
+          "hits": 0,
           "textWords": 63075
         },
         "4NALnzN9NXxv": {
@@ -643,7 +643,7 @@
           "textWords": 63075
         },
         "VEDnDEPMAqup": {
-          "hits": 48,
+          "hits": 0,
           "textWords": 63075
         },
         "Z-ksh2WpvH-y": {
@@ -651,7 +651,7 @@
           "textWords": 63075
         }
       },
-      "queryPhraseHits": 3
+      "queryPhraseHits": 0
     },
     {
       "hash": "ww-gf8cZd9Fw",
@@ -660,7 +660,7 @@
       "snippet": "crypto-pubkey library, test and benchmark: Public Key cryptography\ncrypto-pubkey-openssh library and test: OpenSSH keys decoder/encoder\ncrypto-pubkey-types library: Generic cryptography Public keys algorithm types\ncrypto-random library: Simple cryptographic random related types",
       "matchedWords": {
         "24igJXwiDb_d": {
-          "hits": 22,
+          "hits": 0,
           "textWords": 267877
         },
         "4NALnzN9NXxv": {
@@ -676,7 +676,7 @@
           "textWords": 267877
         },
         "VEDnDEPMAqup": {
-          "hits": 8,
+          "hits": 0,
           "textWords": 267877
         },
         "Z-ksh2WpvH-y": {
@@ -690,10 +690,10 @@
       "hash": "2ZqdVzfOEiDw",
       "address": "https://planet.gnome.org/",
       "title": "Planet GNOME",
-      "snippet": "This does not look like much, until you consider how often these files are downloaded: A 20% file size reduction may only save 1-2 MiB of disk space, but if they are downloaded over and over again by many clients, it will save a lot of bandwidth.\nInteresting JXL encoding findings",
+      "snippet": "So, even though it has big advantages, you may want to hold off on using JXL right away, and force PNG by setting the ImageFormat key to png in appstream-generator‘s configuration, or passing --image-format=png to appstreamcli compose.",
       "matchedWords": {
         "24igJXwiDb_d": {
-          "hits": 2,
+          "hits": 0,
           "textWords": 2681
         },
         "4NALnzN9NXxv": {
@@ -709,7 +709,7 @@
           "textWords": 2681
         },
         "VEDnDEPMAqup": {
-          "hits": 10,
+          "hits": 0,
           "textWords": 2681
         },
         "Z-ksh2WpvH-y": {
@@ -759,7 +759,7 @@
       "snippet": "5:20 PM · Nov 17, 2022\n6 Reposts · 42 Likes\nI guarantee that these are people who understand public-private key cryptography.",
       "matchedWords": {
         "24igJXwiDb_d": {
-          "hits": 10,
+          "hits": 0,
           "textWords": 7086
         },
         "4NALnzN9NXxv": {
@@ -775,7 +775,7 @@
           "textWords": 7086
         },
         "VEDnDEPMAqup": {
-          "hits": 4,
+          "hits": 0,
           "textWords": 7086
         },
         "Z-ksh2WpvH-y": {
@@ -822,10 +822,10 @@
       "hash": "8UUF7AIRlUi5",
       "address": "https://www.10zenmonkeys.com/category/politics/",
       "title": "Politics, Law \u0026 War – 10 Zen Monkeys",
-      "snippet": "How was the Musical Genome Project conceived and how does it work?\nTW: It's something that we started about seven and a half years ago in a one-bedroom apartment in San Francisco.",
+      "snippet": "The Inspector General held a very comprehensive review, the National Academy of Sciences was asked to do a review of the work with BZ, and although they produced follow-ups finding no harm, somehow in the public mind, the CIA work and the U.S. Army work became interwoven.",
       "matchedWords": {
         "24igJXwiDb_d": {
-          "hits": 276,
+          "hits": 0,
           "textWords": 153509
         },
         "4NALnzN9NXxv": {
@@ -841,7 +841,7 @@
           "textWords": 153509
         },
         "VEDnDEPMAqup": {
-          "hits": 92,
+          "hits": 0,
           "textWords": 153509
         },
         "Z-ksh2WpvH-y": {
@@ -849,7 +849,7 @@
           "textWords": 153509
         }
       },
-      "queryPhraseHits": 7
+      "queryPhraseHits": 0
     },
     {
       "hash": "OLTxn0MIE-Ix",
@@ -891,7 +891,7 @@
       "snippet": "These protocols work the way most people are familiar with: one who wishes to receive encrypted email advertises a public key, and those wishing to send encrypted email to that person encrypt their outgoing message with that public key.\nRead more...",
       "matchedWords": {
         "24igJXwiDb_d": {
-          "hits": 30,
+          "hits": 0,
           "textWords": 14456
         },
         "4NALnzN9NXxv": {
@@ -907,7 +907,7 @@
           "textWords": 14456
         },
         "VEDnDEPMAqup": {
-          "hits": 8,
+          "hits": 0,
           "textWords": 14456
         },
         "Z-ksh2WpvH-y": {
@@ -921,10 +921,10 @@
       "hash": "9p2eCjRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Artificial_intelligence",
       "title": "Artificial intelligence - Wikipedia",
-      "snippet": "↑ \"Artificial Intelligence (AI): What Is AI and How Does It Work?\". Built In. Retrieved 30 October 2023.\n↑ Computational learning theory: Russell \u0026 Norvig (2021, pp. 672–674), Jordan \u0026 Mitchell (2015)\n↑ Natural language processing (NLP): Russell \u0026 Norvig (2021, chpt.",
+      "snippet": "Experts disagree about how well and under what circumstances this rationale will hold up in courts of law; relevant factors may include \"the purpose and character of the use of the copyrighted work\" and \"the effect upon the potential market for the copyrighted work\".[",
       "matchedWords": {
         "24igJXwiDb_d": {
-          "hits": 39,
+          "hits": 0,
           "textWords": 27483
         },
         "4NALnzN9NXxv": {
@@ -940,7 +940,7 @@
           "textWords": 27483
         },
         "VEDnDEPMAqup": {
-          "hits": 11,
+          "hits": 0,
           "textWords": 27483
         },
         "Z-ksh2WpvH-y": {
@@ -948,7 +948,7 @@
           "textWords": 27483
         }
       },
-      "queryPhraseHits": 2
+      "queryPhraseHits": 0
     },
     {
       "hash": "BKEmz7XxSRFx",
@@ -957,7 +957,7 @@
       "snippet": "[IEEE.P1363] IEEE, \"Standard Specifications for Public Key Cryptography\", IEEE Std P1363, \u003chttp://ieeexplore.ieee.org/document/891000/\u003e. [Menezes] Menezes, A. and B. Ustaoglu, \"On reusing ephemeral keys in Diffie-Hellman key agreement protocols\", International Journal of Applied Cryptography, Vol.",
       "matchedWords": {
         "24igJXwiDb_d": {
-          "hits": 4,
+          "hits": 0,
           "textWords": 8528
         },
         "4NALnzN9NXxv": {
@@ -973,7 +973,7 @@
           "textWords": 8528
         },
         "VEDnDEPMAqup": {
-          "hits": 11,
+          "hits": 0,
           "textWords": 8528
         },
         "Z-ksh2WpvH-y": {
@@ -990,7 +990,7 @@
       "snippet": "644-654, DOI 10.1109/TIT.1976.1055638, November 1976. [ECDSA] American National Standards Institute, \"Public Key Cryptography for the Financial Services Industry: The Elliptic Curve Digital Signature Algorithm (ECDSA)\", ANSI ANS X9.62-2005, November 2005.",
       "matchedWords": {
         "24igJXwiDb_d": {
-          "hits": 11,
+          "hits": 0,
           "textWords": 40303
         },
         "4NALnzN9NXxv": {
@@ -1006,7 +1006,7 @@
           "textWords": 40303
         },
         "VEDnDEPMAqup": {
-          "hits": 55,
+          "hits": 0,
           "textWords": 40303
         },
         "Z-ksh2WpvH-y": {
@@ -1089,7 +1089,7 @@
       "snippet": "Secure Simple Pairing uses a form of public-key cryptography, and some types can help protect against man in the middle, or MITM attacks. SSP has the following authentication mechanisms: Just works: As the name implies, this method just works, with no user interaction.",
       "matchedWords": {
         "24igJXwiDb_d": {
-          "hits": 9,
+          "hits": 0,
           "textWords": 14282
         },
         "4NALnzN9NXxv": {
@@ -1105,7 +1105,7 @@
           "textWords": 14282
         },
         "VEDnDEPMAqup": {
-          "hits": 4,
+          "hits": 0,
           "textWords": 14282
         },
         "Z-ksh2WpvH-y": {
@@ -1155,7 +1155,7 @@
       "snippet": "php const DATA_KEY = 'const-key'; $great = 'fantastic'; $arr = [ '1', '2', '3', [41, 42, 43], 'key' =\u003e 'Indexed value', 'const-key' =\u003e 'Key with minus sign', 'foo' =\u003e ['foo1', 'foo2', 'foo3'] ]; // Won't work, outputs: This is { fantastic} echo \"This is { $great}\" .",
       "matchedWords": {
         "24igJXwiDb_d": {
-          "hits": 3,
+          "hits": 0,
           "textWords": 4495
         },
         "4NALnzN9NXxv": {
@@ -1171,7 +1171,7 @@
           "textWords": 4495
         },
         "VEDnDEPMAqup": {
-          "hits": 7,
+          "hits": 0,
           "textWords": 4495
         },
         "Z-ksh2WpvH-y": {
@@ -1218,10 +1218,10 @@
       "hash": "7eYSusLVkley",
       "address": "https://daringfireball.net/",
       "title": "Daring Fireball",
-      "snippet": "I know that is controversial, I just tee it up as another way to look at the size of the business, what we want to achieve, and how we stay competitive. Again, just food for thought.\nDickover of the Week: Slashdot Put One in Their RSS Feed ★\nHow does this even happen? Who is this for?",
+      "snippet": "In a meta sense, remaining so private was revealing. I think that’s who Tim Cook is — an intensely private man who took on a high-profile public role. The more revealing stories about the real Cook aren’t his public performances or memos. There’s the 2009 “Why are you still here?”",
       "matchedWords": {
         "24igJXwiDb_d": {
-          "hits": 34,
+          "hits": 0,
           "textWords": 13247
         },
         "4NALnzN9NXxv": {
@@ -1237,7 +1237,7 @@
           "textWords": 13247
         },
         "VEDnDEPMAqup": {
-          "hits": 8,
+          "hits": 0,
           "textWords": 13247
         },
         "Z-ksh2WpvH-y": {
@@ -1245,7 +1245,7 @@
           "textWords": 13247
         }
       },
-      "queryPhraseHits": 1
+      "queryPhraseHits": 0
     },
     {
       "hash": "y9mkpsMAuxi4",
@@ -1254,7 +1254,7 @@
       "snippet": "Together, we explored key questions facing businesses today, including: • How to navigate quantum-safe cryptography and quantum key distribution • The importance of standardising quantum software tools. • Steps businesses can take now to prepare for a quantum future.",
       "matchedWords": {
         "24igJXwiDb_d": {
-          "hits": 5,
+          "hits": 0,
           "textWords": 2738
         },
         "4NALnzN9NXxv": {
@@ -1270,7 +1270,7 @@
           "textWords": 2738
         },
         "VEDnDEPMAqup": {
-          "hits": 1,
+          "hits": 0,
           "textWords": 2738
         },
         "Z-ksh2WpvH-y": {
@@ -1320,7 +1320,7 @@
       "snippet": "In our view of God, Leibniz declares that we cannot admire the work solely because of the maker, lest we mar the glory and love God in doing so. Instead, we must admire the maker for the work he has done (II[full citation needed]).",
       "matchedWords": {
         "24igJXwiDb_d": {
-          "hits": 9,
+          "hits": 0,
           "textWords": 20779
         },
         "4NALnzN9NXxv": {
@@ -1336,7 +1336,7 @@
           "textWords": 20779
         },
         "VEDnDEPMAqup": {
-          "hits": 6,
+          "hits": 0,
           "textWords": 20779
         },
         "Z-ksh2WpvH-y": {
@@ -1383,10 +1383,10 @@
       "hash": "0BZyCsY-tUi5",
       "address": "https://moralparty.com/ai/",
       "title": "AI – MoralParty.com",
-      "snippet": "If you’ve ever read about some weird cult and thought “How does something like this get started?” – well, you can watch it happen. Just don’t watch it so closely that you start playing along and end up donating all your money to a chatbot or whatever.",
+      "snippet": "The problem with AI will boost productivity everywhere claim is a consequential share of all “work” is needless bureaucratic churn created not by actual need but by the apparently permanent abundance of huge surpluses that can be squandered on make-work, churn and profiteering.",
       "matchedWords": {
         "24igJXwiDb_d": {
-          "hits": 123,
+          "hits": 0,
           "textWords": 63075
         },
         "4NALnzN9NXxv": {
@@ -1402,7 +1402,7 @@
           "textWords": 63075
         },
         "VEDnDEPMAqup": {
-          "hits": 48,
+          "hits": 0,
           "textWords": 63075
         },
         "Z-ksh2WpvH-y": {
@@ -1410,7 +1410,7 @@
           "textWords": 63075
         }
       },
-      "queryPhraseHits": 3
+      "queryPhraseHits": 0
     },
     {
       "hash": "yUzfC5ZwBp64",
@@ -1452,7 +1452,7 @@
       "snippet": "crypto-pubkey library, test and benchmark: Public Key cryptography\ncrypto-pubkey-openssh library and test: OpenSSH keys decoder/encoder\ncrypto-pubkey-types library: Generic cryptography Public keys algorithm types\ncrypto-random library: Simple cryptographic random related types",
       "matchedWords": {
         "24igJXwiDb_d": {
-          "hits": 22,
+          "hits": 0,
           "textWords": 267877
         },
         "4NALnzN9NXxv": {
@@ -1468,7 +1468,7 @@
           "textWords": 267877
         },
         "VEDnDEPMAqup": {
-          "hits": 8,
+          "hits": 0,
           "textWords": 267877
         },
         "Z-ksh2WpvH-y": {
@@ -1482,10 +1482,10 @@
       "hash": "2ZqdVzfOEiDw",
       "address": "https://planet.gnome.org/",
       "title": "Planet GNOME",
-      "snippet": "This does not look like much, until you consider how often these files are downloaded: A 20% file size reduction may only save 1-2 MiB of disk space, but if they are downloaded over and over again by many clients, it will save a lot of bandwidth.\nInteresting JXL encoding findings",
+      "snippet": "So, even though it has big advantages, you may want to hold off on using JXL right away, and force PNG by setting the ImageFormat key to png in appstream-generator‘s configuration, or passing --image-format=png to appstreamcli compose.",
       "matchedWords": {
         "24igJXwiDb_d": {
-          "hits": 2,
+          "hits": 0,
           "textWords": 2681
         },
         "4NALnzN9NXxv": {
@@ -1501,7 +1501,7 @@
           "textWords": 2681
         },
         "VEDnDEPMAqup": {
-          "hits": 10,
+          "hits": 0,
           "textWords": 2681
         },
         "Z-ksh2WpvH-y": {
@@ -1581,10 +1581,10 @@
       "hash": "CRermB-c6vHw",
       "address": "https://nixos.org/manual/nixos/stable/",
       "title": "NixOS Manual",
-      "snippet": "doh-server can also work as a standalone HTTPS web server (with SSL cert and key specified), but this is not recommended as doh-server does not do OCSP Stabbing.\nSetup a standalone instance with ACME:",
+      "snippet": "$ ssh-keygen -t ed25519 -P '' -f example-key Generating public/private ed25519 key pair. Your identification has been saved in example-key Your public key has been saved in example-key.pub The key fingerprint is: SHA256:yjxl3UbTn31fLWeyLYTAKYJPRmzknjQZoyG8gSNEoIE my-user@workstation",
       "matchedWords": {
         "24igJXwiDb_d": {
-          "hits": 65,
+          "hits": 0,
           "textWords": 86420
         },
         "4NALnzN9NXxv": {
@@ -1600,7 +1600,7 @@
           "textWords": 86420
         },
         "VEDnDEPMAqup": {
-          "hits": 55,
+          "hits": 0,
           "textWords": 86420
         },
         "Z-ksh2WpvH-y": {
@@ -1647,10 +1647,10 @@
       "hash": "8UUF7AIRlUi5",
       "address": "https://www.10zenmonkeys.com/category/politics/",
       "title": "Politics, Law \u0026 War – 10 Zen Monkeys",
-      "snippet": "How was the Musical Genome Project conceived and how does it work?\nTW: It's something that we started about seven and a half years ago in a one-bedroom apartment in San Francisco.",
+      "snippet": "The Inspector General held a very comprehensive review, the National Academy of Sciences was asked to do a review of the work with BZ, and although they produced follow-ups finding no harm, somehow in the public mind, the CIA work and the U.S. Army work became interwoven.",
       "matchedWords": {
         "24igJXwiDb_d": {
-          "hits": 276,
+          "hits": 0,
           "textWords": 153509
         },
         "4NALnzN9NXxv": {
@@ -1666,7 +1666,7 @@
           "textWords": 153509
         },
         "VEDnDEPMAqup": {
-          "hits": 92,
+          "hits": 0,
           "textWords": 153509
         },
         "Z-ksh2WpvH-y": {
@@ -1674,7 +1674,7 @@
           "textWords": 153509
         }
       },
-      "queryPhraseHits": 7
+      "queryPhraseHits": 0
     },
     {
       "hash": "4w4qosN9NeLw",
@@ -1683,7 +1683,7 @@
       "snippet": "These protocols work the way most people are familiar with: one who wishes to receive encrypted email advertises a public key, and those wishing to send encrypted email to that person encrypt their outgoing message with that public key.\nRead more...",
       "matchedWords": {
         "24igJXwiDb_d": {
-          "hits": 30,
+          "hits": 0,
           "textWords": 14456
         },
         "4NALnzN9NXxv": {
@@ -1699,7 +1699,7 @@
           "textWords": 14456
         },
         "VEDnDEPMAqup": {
-          "hits": 8,
+          "hits": 0,
           "textWords": 14456
         },
         "Z-ksh2WpvH-y": {
@@ -1716,7 +1716,7 @@
       "snippet": "Cryptography – MIT researchers Ron Rivest, Adi Shamir and Leonard Adleman developed one of the first practical public-key cryptosystems, the RSA cryptosystem, and started a company, RSA Security.[331]",
       "matchedWords": {
         "24igJXwiDb_d": {
-          "hits": 6,
+          "hits": 0,
           "textWords": 20296
         },
         "4NALnzN9NXxv": {
@@ -1732,7 +1732,7 @@
           "textWords": 20296
         },
         "VEDnDEPMAqup": {
-          "hits": 7,
+          "hits": 0,
           "textWords": 20296
         },
         "Z-ksh2WpvH-y": {
@@ -1746,10 +1746,10 @@
       "hash": "zSc6gjRvmBbx",
       "address": "https://en.wikipedia.org/wiki/WhatsApp",
       "title": "WhatsApp - Wikipedia",
-      "snippet": "The key to WhatsApp's new encryption is at least a strong random one. Guess how I know? :D\" (Tweet). Retrieved August 8, 2019 – via Twitter.\n↑ Elkind, Peter; Gillum, Jack; Silverman, Craig (September 8, 2021). \"How Facebook Undermines Privacy Protections for Its 2 Billion WhatsApp Users\".",
+      "snippet": "65] A month earlier, Koum had purchased an iPhone, and he and Acton decided to create an app for the App Store. The idea started off as an app that would display statuses in a phone's Contacts menu, showing if a person was at work or on a call.[30]",
       "matchedWords": {
         "24igJXwiDb_d": {
-          "hits": 30,
+          "hits": 0,
           "textWords": 21445
         },
         "4NALnzN9NXxv": {
@@ -1765,7 +1765,7 @@
           "textWords": 21445
         },
         "VEDnDEPMAqup": {
-          "hits": 5,
+          "hits": 0,
           "textWords": 21445
         },
         "Z-ksh2WpvH-y": {
@@ -1779,10 +1779,10 @@
       "hash": "9p2eCjRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Artificial_intelligence",
       "title": "Artificial intelligence - Wikipedia",
-      "snippet": "↑ \"Artificial Intelligence (AI): What Is AI and How Does It Work?\". Built In. Retrieved 30 October 2023.\n↑ Computational learning theory: Russell \u0026 Norvig (2021, pp. 672–674), Jordan \u0026 Mitchell (2015)\n↑ Natural language processing (NLP): Russell \u0026 Norvig (2021, chpt.",
+      "snippet": "Experts disagree about how well and under what circumstances this rationale will hold up in courts of law; relevant factors may include \"the purpose and character of the use of the copyrighted work\" and \"the effect upon the potential market for the copyrighted work\".[",
       "matchedWords": {
         "24igJXwiDb_d": {
-          "hits": 39,
+          "hits": 0,
           "textWords": 27483
         },
         "4NALnzN9NXxv": {
@@ -1798,7 +1798,7 @@
           "textWords": 27483
         },
         "VEDnDEPMAqup": {
-          "hits": 11,
+          "hits": 0,
           "textWords": 27483
         },
         "Z-ksh2WpvH-y": {
@@ -1806,7 +1806,7 @@
           "textWords": 27483
         }
       },
-      "queryPhraseHits": 2
+      "queryPhraseHits": 0
     },
     {
       "hash": "VK6Z_Fs4EUS4",
@@ -1815,7 +1815,7 @@
       "snippet": "5:20 PM · Nov 17, 2022\n6 Reposts · 42 Likes\nI guarantee that these are people who understand public-private key cryptography.",
       "matchedWords": {
         "24igJXwiDb_d": {
-          "hits": 10,
+          "hits": 0,
           "textWords": 7086
         },
         "4NALnzN9NXxv": {
@@ -1831,7 +1831,7 @@
           "textWords": 7086
         },
         "VEDnDEPMAqup": {
-          "hits": 4,
+          "hits": 0,
           "textWords": 7086
         },
         "Z-ksh2WpvH-y": {
@@ -1878,10 +1878,10 @@
       "hash": "kiVj1l2e50v4",
       "address": "https://labs.ovhcloud.com/en/end-to-end-encryption/",
       "title": "End-to-End Encryption Platform",
-      "snippet": "With E2EE, data is encrypted before transmission, preventing any reading or access even if the backend is compromised.\n🧠 How does OVHcloud E2EE Platform work?\nImport the SDK into your application after creating an account and retrieving your API keys.\nEncrypt data locally using sdk.encrypt().",
+      "snippet": "OVHcloud’s E2EE Platform offering is designed to help developers easily integrate end-to-end encryption into their web, mobile, or desktop applications without requiring deep cryptography expertise. It automatically handles cryptography, key exchanges, and private key recovery.",
       "matchedWords": {
         "24igJXwiDb_d": {
-          "hits": 3,
+          "hits": 0,
           "textWords": 431
         },
         "4NALnzN9NXxv": {
@@ -1897,7 +1897,7 @@
           "textWords": 431
         },
         "VEDnDEPMAqup": {
-          "hits": 4,
+          "hits": 0,
           "textWords": 431
         },
         "Z-ksh2WpvH-y": {
@@ -1905,7 +1905,7 @@
           "textWords": 431
         }
       },
-      "queryPhraseHits": 1
+      "queryPhraseHits": 0
     },
     {
       "hash": "8L_aSlESuha4",
@@ -1980,7 +1980,7 @@
       "snippet": "These protocols work the way most people are familiar with: one who wishes to receive encrypted email advertises a public key, and those wishing to send encrypted email to that person encrypt their outgoing message with that public key.\nRead more...",
       "matchedWords": {
         "24igJXwiDb_d": {
-          "hits": 30,
+          "hits": 0,
           "textWords": 14456
         },
         "4NALnzN9NXxv": {
@@ -1996,7 +1996,7 @@
           "textWords": 14456
         },
         "VEDnDEPMAqup": {
-          "hits": 8,
+          "hits": 0,
           "textWords": 14456
         },
         "Z-ksh2WpvH-y": {
@@ -2013,7 +2013,7 @@
       "snippet": "In our view of God, Leibniz declares that we cannot admire the work solely because of the maker, lest we mar the glory and love God in doing so. Instead, we must admire the maker for the work he has done (II[full citation needed]).",
       "matchedWords": {
         "24igJXwiDb_d": {
-          "hits": 9,
+          "hits": 0,
           "textWords": 20779
         },
         "4NALnzN9NXxv": {
@@ -2029,7 +2029,7 @@
           "textWords": 20779
         },
         "VEDnDEPMAqup": {
-          "hits": 6,
+          "hits": 0,
           "textWords": 20779
         },
         "Z-ksh2WpvH-y": {
@@ -2076,10 +2076,10 @@
       "hash": "t9RUcmVUrQm6",
       "address": "https://earthnewspaper.com/mark-r-elsis/attack-on-pearl-harbor-december-7-1941-by-mark-r-elsis/",
       "title": "Attack On Pearl Harbor, December 7, 1941 by Mark R. Elsis – EarthNewspaper.com – All The Honest News Fit To Publish",
-      "snippet": "http://www.renegadetribune.com/the-final-secret-of-pearl-harbor\nHow U.S. Economic Warfare Provoked Japan’s Attack On Pearl Harbor\nby Robert Higgs\nhttps://mises.org/library/how-us-economic-warfare-provoked-japans-attack-pearl-harbor\nPearl Harbor Attack No Surprise\nby Roger A. Stolley",
+      "snippet": "When I lived on Siesta Key, Florida (1997 – 2008), I had a wonderful conversation with an old navy man, Captain Ralph Emerson Styles, a graduate of the US Naval Academy in 1933.",
       "matchedWords": {
         "24igJXwiDb_d": {
-          "hits": 6,
+          "hits": 0,
           "textWords": 7117
         },
         "4NALnzN9NXxv": {
@@ -2095,7 +2095,7 @@
           "textWords": 7117
         },
         "VEDnDEPMAqup": {
-          "hits": 1,
+          "hits": 0,
           "textWords": 7117
         },
         "Z-ksh2WpvH-y": {
@@ -2109,10 +2109,10 @@
       "hash": "0BZyCsY-tUi5",
       "address": "https://moralparty.com/ai/",
       "title": "AI – MoralParty.com",
-      "snippet": "If you’ve ever read about some weird cult and thought “How does something like this get started?” – well, you can watch it happen. Just don’t watch it so closely that you start playing along and end up donating all your money to a chatbot or whatever.",
+      "snippet": "The problem with AI will boost productivity everywhere claim is a consequential share of all “work” is needless bureaucratic churn created not by actual need but by the apparently permanent abundance of huge surpluses that can be squandered on make-work, churn and profiteering.",
       "matchedWords": {
         "24igJXwiDb_d": {
-          "hits": 123,
+          "hits": 0,
           "textWords": 63075
         },
         "4NALnzN9NXxv": {
@@ -2128,7 +2128,7 @@
           "textWords": 63075
         },
         "VEDnDEPMAqup": {
-          "hits": 48,
+          "hits": 0,
           "textWords": 63075
         },
         "Z-ksh2WpvH-y": {
@@ -2136,7 +2136,7 @@
           "textWords": 63075
         }
       },
-      "queryPhraseHits": 3
+      "queryPhraseHits": 0
     },
     {
       "hash": "yUzfC5ZwBp64",
@@ -2307,10 +2307,10 @@
       "hash": "31RRrlv6IfH4",
       "address": "https://www.schneier.com/",
       "title": "Schneier on Security -",
-      "snippet": "You don’t have to know how these AI genies work to know and care about how the story could end.\nTags: AI, LLM\nPosted on September 8, 2026 at 1:12 PM • 11 Comments\nStealing AI Reasoning Traces\nInteresting research: “Stealing Reasoning Traces from Proprietary LLM APIs“:",
+      "snippet": "“If you think about what happens after four or five days, it’s a gooey mess,” he said.\nThe odor has become a defining feature of the operation, and the beach remains closed to the public while crews work on a removal plan.",
       "matchedWords": {
         "24igJXwiDb_d": {
-          "hits": 11,
+          "hits": 0,
           "textWords": 2190
         },
         "4NALnzN9NXxv": {
@@ -2326,7 +2326,7 @@
           "textWords": 2190
         },
         "VEDnDEPMAqup": {
-          "hits": 1,
+          "hits": 0,
           "textWords": 2190
         },
         "Z-ksh2WpvH-y": {
@@ -2425,7 +2425,7 @@
           "textWords": 444
         },
         "VEDnDEPMAqup": {
-          "hits": 1,
+          "hits": 0,
           "textWords": 444
         },
         "Z-ksh2WpvH-y": {
@@ -2439,10 +2439,10 @@
       "hash": "2ZqdVzfOEiDw",
       "address": "https://planet.gnome.org/",
       "title": "Planet GNOME",
-      "snippet": "This does not look like much, until you consider how often these files are downloaded: A 20% file size reduction may only save 1-2 MiB of disk space, but if they are downloaded over and over again by many clients, it will save a lot of bandwidth.\nInteresting JXL encoding findings",
+      "snippet": "So, even though it has big advantages, you may want to hold off on using JXL right away, and force PNG by setting the ImageFormat key to png in appstream-generator‘s configuration, or passing --image-format=png to appstreamcli compose.",
       "matchedWords": {
         "24igJXwiDb_d": {
-          "hits": 2,
+          "hits": 0,
           "textWords": 2681
         },
         "4NALnzN9NXxv": {
@@ -2458,7 +2458,7 @@
           "textWords": 2681
         },
         "VEDnDEPMAqup": {
-          "hits": 10,
+          "hits": 0,
           "textWords": 2681
         },
         "Z-ksh2WpvH-y": {
@@ -2475,7 +2475,7 @@
       "snippet": "See Wikipedia:Public-key cryptography for more information on the public-key process to authenticate keys.\nPrepare an installation medium",
       "matchedWords": {
         "24igJXwiDb_d": {
-          "hits": 1,
+          "hits": 0,
           "textWords": 2660
         },
         "4NALnzN9NXxv": {
@@ -2491,7 +2491,7 @@
           "textWords": 2660
         },
         "VEDnDEPMAqup": {
-          "hits": 1,
+          "hits": 0,
           "textWords": 2660
         },
         "Z-ksh2WpvH-y": {
@@ -2508,7 +2508,7 @@
       "snippet": "AI: Google brings Gemini as its own desktop app for Windows systems\nThe Gemini app can be called up via a key command and can evaluate information from Google services. The free AI app can also create images and videos.\n25 Years After 9/11: How the Anti-Terror Fight Erodes Freedom",
       "matchedWords": {
         "24igJXwiDb_d": {
-          "hits": 2,
+          "hits": 0,
           "textWords": 695
         },
         "4NALnzN9NXxv": {
@@ -2524,7 +2524,7 @@
           "textWords": 695
         },
         "VEDnDEPMAqup": {
-          "hits": 1,
+          "hits": 0,
           "textWords": 695
         },
         "Z-ksh2WpvH-y": {
@@ -2571,10 +2571,10 @@
       "hash": "7eYSusLVkley",
       "address": "https://daringfireball.net/",
       "title": "Daring Fireball",
-      "snippet": "I know that is controversial, I just tee it up as another way to look at the size of the business, what we want to achieve, and how we stay competitive. Again, just food for thought.\nDickover of the Week: Slashdot Put One in Their RSS Feed ★\nHow does this even happen? Who is this for?",
+      "snippet": "In a meta sense, remaining so private was revealing. I think that’s who Tim Cook is — an intensely private man who took on a high-profile public role. The more revealing stories about the real Cook aren’t his public performances or memos. There’s the 2009 “Why are you still here?”",
       "matchedWords": {
         "24igJXwiDb_d": {
-          "hits": 34,
+          "hits": 0,
           "textWords": 13247
         },
         "4NALnzN9NXxv": {
@@ -2590,7 +2590,7 @@
           "textWords": 13247
         },
         "VEDnDEPMAqup": {
-          "hits": 8,
+          "hits": 0,
           "textWords": 13247
         },
         "Z-ksh2WpvH-y": {
@@ -2598,7 +2598,7 @@
           "textWords": 13247
         }
       },
-      "queryPhraseHits": 1
+      "queryPhraseHits": 0
     },
     {
       "hash": "OLTxn0MIE-Ix",
@@ -2640,7 +2640,7 @@
       "snippet": "These protocols work the way most people are familiar with: one who wishes to receive encrypted email advertises a public key, and those wishing to send encrypted email to that person encrypt their outgoing message with that public key.\nRead more...",
       "matchedWords": {
         "24igJXwiDb_d": {
-          "hits": 30,
+          "hits": 0,
           "textWords": 14456
         },
         "4NALnzN9NXxv": {
@@ -2656,7 +2656,7 @@
           "textWords": 14456
         },
         "VEDnDEPMAqup": {
-          "hits": 8,
+          "hits": 0,
           "textWords": 14456
         },
         "Z-ksh2WpvH-y": {
@@ -2670,10 +2670,10 @@
       "hash": "iTNcujRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Charles_Babbage",
       "title": "Charles Babbage - Wikipedia",
-      "snippet": "Three or four of their mathematicians decided how to compute the tables, half a dozen more broke down the operations into simple stages, and the work itself, which was restricted to addition and subtraction, was done by eighty computers who knew only these two arithmetical processes.",
+      "snippet": "2][6] As part of his computer work, he also designed the first computer printers.[7] He had a broad range of interests in addition to his work on computers, covered in his 1832 book Economy of Manufactures and Machinery.[",
       "matchedWords": {
         "24igJXwiDb_d": {
-          "hits": 6,
+          "hits": 0,
           "textWords": 12197
         },
         "4NALnzN9NXxv": {
@@ -2689,7 +2689,7 @@
           "textWords": 12197
         },
         "VEDnDEPMAqup": {
-          "hits": 1,
+          "hits": 0,
           "textWords": 12197
         },
         "Z-ksh2WpvH-y": {
@@ -2706,7 +2706,7 @@
       "snippet": "Cryptography – MIT researchers Ron Rivest, Adi Shamir and Leonard Adleman developed one of the first practical public-key cryptosystems, the RSA cryptosystem, and started a company, RSA Security.[331]",
       "matchedWords": {
         "24igJXwiDb_d": {
-          "hits": 6,
+          "hits": 0,
           "textWords": 20296
         },
         "4NALnzN9NXxv": {
@@ -2722,7 +2722,7 @@
           "textWords": 20296
         },
         "VEDnDEPMAqup": {
-          "hits": 7,
+          "hits": 0,
           "textWords": 20296
         },
         "Z-ksh2WpvH-y": {
@@ -2736,10 +2736,10 @@
       "hash": "t9RUcmVUrQm6",
       "address": "https://earthnewspaper.com/mark-r-elsis/attack-on-pearl-harbor-december-7-1941-by-mark-r-elsis/",
       "title": "Attack On Pearl Harbor, December 7, 1941 by Mark R. Elsis – EarthNewspaper.com – All The Honest News Fit To Publish",
-      "snippet": "http://www.renegadetribune.com/the-final-secret-of-pearl-harbor\nHow U.S. Economic Warfare Provoked Japan’s Attack On Pearl Harbor\nby Robert Higgs\nhttps://mises.org/library/how-us-economic-warfare-provoked-japans-attack-pearl-harbor\nPearl Harbor Attack No Surprise\nby Roger A. Stolley",
+      "snippet": "When I lived on Siesta Key, Florida (1997 – 2008), I had a wonderful conversation with an old navy man, Captain Ralph Emerson Styles, a graduate of the US Naval Academy in 1933.",
       "matchedWords": {
         "24igJXwiDb_d": {
-          "hits": 6,
+          "hits": 0,
           "textWords": 7117
         },
         "4NALnzN9NXxv": {
@@ -2755,7 +2755,7 @@
           "textWords": 7117
         },
         "VEDnDEPMAqup": {
-          "hits": 1,
+          "hits": 0,
           "textWords": 7117
         },
         "Z-ksh2WpvH-y": {
@@ -2772,7 +2772,7 @@
       "snippet": "644-654, DOI 10.1109/TIT.1976.1055638, November 1976. [ECDSA] American National Standards Institute, \"Public Key Cryptography for the Financial Services Industry: The Elliptic Curve Digital Signature Algorithm (ECDSA)\", ANSI ANS X9.62-2005, November 2005.",
       "matchedWords": {
         "24igJXwiDb_d": {
-          "hits": 11,
+          "hits": 0,
           "textWords": 40303
         },
         "4NALnzN9NXxv": {
@@ -2788,7 +2788,7 @@
           "textWords": 40303
         },
         "VEDnDEPMAqup": {
-          "hits": 55,
+          "hits": 0,
           "textWords": 40303
         },
         "Z-ksh2WpvH-y": {
@@ -2802,10 +2802,10 @@
       "hash": "0BZyCsY-tUi5",
       "address": "https://moralparty.com/ai/",
       "title": "AI – MoralParty.com",
-      "snippet": "If you’ve ever read about some weird cult and thought “How does something like this get started?” – well, you can watch it happen. Just don’t watch it so closely that you start playing along and end up donating all your money to a chatbot or whatever.",
+      "snippet": "The problem with AI will boost productivity everywhere claim is a consequential share of all “work” is needless bureaucratic churn created not by actual need but by the apparently permanent abundance of huge surpluses that can be squandered on make-work, churn and profiteering.",
       "matchedWords": {
         "24igJXwiDb_d": {
-          "hits": 123,
+          "hits": 0,
           "textWords": 63075
         },
         "4NALnzN9NXxv": {
@@ -2821,7 +2821,7 @@
           "textWords": 63075
         },
         "VEDnDEPMAqup": {
-          "hits": 48,
+          "hits": 0,
           "textWords": 63075
         },
         "Z-ksh2WpvH-y": {
@@ -2829,7 +2829,7 @@
           "textWords": 63075
         }
       },
-      "queryPhraseHits": 3
+      "queryPhraseHits": 0
     },
     {
       "hash": "Rx8AIs_tHst4",
@@ -2838,7 +2838,7 @@
       "snippet": "Many security experts have stated that FLOSS has advantages over the security of proprietary software, including Whitfield Diffie (co-inventor of public key cryptography), Bruce Schneier (expert on cryptography and computer security), Vincent Rijmen (a developer of the Advanced Encryption Standard",
       "matchedWords": {
         "24igJXwiDb_d": {
-          "hits": 87,
+          "hits": 0,
           "textWords": 92275
         },
         "4NALnzN9NXxv": {
@@ -2854,7 +2854,7 @@
           "textWords": 92275
         },
         "VEDnDEPMAqup": {
-          "hits": 76,
+          "hits": 0,
           "textWords": 92275
         },
         "Z-ksh2WpvH-y": {
@@ -2862,7 +2862,7 @@
           "textWords": 92275
         }
       },
-      "queryPhraseHits": 4
+      "queryPhraseHits": 2
     },
     {
       "hash": "8HJM8yiZhzY4",
@@ -2871,7 +2871,7 @@
       "snippet": "While this does not replace legislative action, it signals that political pressure is growing, instead of fading.\" Right. Like I said, it's becoming more and more public. So we'll see what happens.\nThe Spyware Document Pool that this posting introduces is a really terrific piece of work.",
       "matchedWords": {
         "24igJXwiDb_d": {
-          "hits": 40,
+          "hits": 0,
           "textWords": 19207
         },
         "4NALnzN9NXxv": {
@@ -2887,7 +2887,7 @@
           "textWords": 19207
         },
         "VEDnDEPMAqup": {
-          "hits": 15,
+          "hits": 0,
           "textWords": 19207
         },
         "Z-ksh2WpvH-y": {
@@ -3003,7 +3003,7 @@
       "snippet": "Secure Simple Pairing uses a form of public-key cryptography, and some types can help protect against man in the middle, or MITM attacks. SSP has the following authentication mechanisms: Just works: As the name implies, this method just works, with no user interaction.",
       "matchedWords": {
         "24igJXwiDb_d": {
-          "hits": 9,
+          "hits": 0,
           "textWords": 14282
         },
         "4NALnzN9NXxv": {
@@ -3019,7 +3019,7 @@
           "textWords": 14282
         },
         "VEDnDEPMAqup": {
-          "hits": 4,
+          "hits": 0,
           "textWords": 14282
         },
         "Z-ksh2WpvH-y": {
@@ -3033,10 +3033,10 @@
       "hash": "-60L9j5sllYz",
       "address": "https://internationalaisafetyreport.org/publication/international-ai-safety-report-2026",
       "title": "International AI Safety Report 2026 | International AI Safety Report",
-      "snippet": "AI companies are subject to existing legal frameworks, such as tort law, criminal law, and contract law, allowing victims to seek compensation for harms.692 Some experts argue that liability regimes will play a key role in ensuring basic protection for victims harmed by using or interacting with",
+      "snippet": "For example, recent work has explored using AI-mediated conversations to find common ground in democratic debates or to reduce belief in conspiracy theories through dialogue.135 136 137\nFigure 1.4: Scores of leading general-purpose AI systems on key benchmarks from April 2023 to November 2025.",
       "matchedWords": {
         "24igJXwiDb_d": {
-          "hits": 231,
+          "hits": 0,
           "textWords": 108580
         },
         "4NALnzN9NXxv": {
@@ -3052,7 +3052,7 @@
           "textWords": 108580
         },
         "VEDnDEPMAqup": {
-          "hits": 28,
+          "hits": 0,
           "textWords": 108580
         },
         "Z-ksh2WpvH-y": {
@@ -3060,7 +3060,7 @@
           "textWords": 108580
         }
       },
-      "queryPhraseHits": 4
+      "queryPhraseHits": 0
     },
     {
       "hash": "zjh_EiBbCobw",
@@ -3069,7 +3069,7 @@
       "snippet": "php const DATA_KEY = 'const-key'; $great = 'fantastic'; $arr = [ '1', '2', '3', [41, 42, 43], 'key' =\u003e 'Indexed value', 'const-key' =\u003e 'Key with minus sign', 'foo' =\u003e ['foo1', 'foo2', 'foo3'] ]; // Won't work, outputs: This is { fantastic} echo \"This is { $great}\" .",
       "matchedWords": {
         "24igJXwiDb_d": {
-          "hits": 3,
+          "hits": 0,
           "textWords": 4495
         },
         "4NALnzN9NXxv": {
@@ -3085,7 +3085,7 @@
           "textWords": 4495
         },
         "VEDnDEPMAqup": {
-          "hits": 7,
+          "hits": 0,
           "textWords": 4495
         },
         "Z-ksh2WpvH-y": {
@@ -3102,7 +3102,7 @@
       "snippet": "AI: Google brings Gemini as its own desktop app for Windows systems\nThe Gemini app can be called up via a key command and can evaluate information from Google services. The free AI app can also create images and videos.\n25 Years After 9/11: How the Anti-Terror Fight Erodes Freedom",
       "matchedWords": {
         "24igJXwiDb_d": {
-          "hits": 2,
+          "hits": 0,
           "textWords": 695
         },
         "4NALnzN9NXxv": {
@@ -3118,7 +3118,7 @@
           "textWords": 695
         },
         "VEDnDEPMAqup": {
-          "hits": 1,
+          "hits": 0,
           "textWords": 695
         },
         "Z-ksh2WpvH-y": {
@@ -3135,7 +3135,7 @@
       "snippet": "Used to create digital signatures that can be verified by the corresponding Public Key or to decrypt messages encrypted by the corresponding Public Key.\nPublic Key The only key in a Key Pair that can safely be publicly disclosed.",
       "matchedWords": {
         "24igJXwiDb_d": {
-          "hits": 1,
+          "hits": 0,
           "textWords": 10452
         },
         "4NALnzN9NXxv": {
@@ -3151,7 +3151,7 @@
           "textWords": 10452
         },
         "VEDnDEPMAqup": {
-          "hits": 28,
+          "hits": 0,
           "textWords": 10452
         },
         "Z-ksh2WpvH-y": {
@@ -3201,7 +3201,7 @@
       "snippet": "These credentials are either username and password in case of password-authenticated SSH sessions or username, filename of private SSH key and key password if public key authentication is used.",
       "matchedWords": {
         "24igJXwiDb_d": {
-          "hits": 5,
+          "hits": 0,
           "textWords": 5389
         },
         "4NALnzN9NXxv": {
@@ -3217,7 +3217,7 @@
           "textWords": 5389
         },
         "VEDnDEPMAqup": {
-          "hits": 5,
+          "hits": 0,
           "textWords": 5389
         },
         "Z-ksh2WpvH-y": {
@@ -3234,7 +3234,7 @@
       "snippet": "In our view of God, Leibniz declares that we cannot admire the work solely because of the maker, lest we mar the glory and love God in doing so. Instead, we must admire the maker for the work he has done (II[full citation needed]).",
       "matchedWords": {
         "24igJXwiDb_d": {
-          "hits": 9,
+          "hits": 0,
           "textWords": 20779
         },
         "4NALnzN9NXxv": {
@@ -3250,7 +3250,7 @@
           "textWords": 20779
         },
         "VEDnDEPMAqup": {
-          "hits": 6,
+          "hits": 0,
           "textWords": 20779
         },
         "Z-ksh2WpvH-y": {
@@ -3297,10 +3297,10 @@
       "hash": "0BZyCsY-tUi5",
       "address": "https://moralparty.com/ai/",
       "title": "AI – MoralParty.com",
-      "snippet": "If you’ve ever read about some weird cult and thought “How does something like this get started?” – well, you can watch it happen. Just don’t watch it so closely that you start playing along and end up donating all your money to a chatbot or whatever.",
+      "snippet": "The problem with AI will boost productivity everywhere claim is a consequential share of all “work” is needless bureaucratic churn created not by actual need but by the apparently permanent abundance of huge surpluses that can be squandered on make-work, churn and profiteering.",
       "matchedWords": {
         "24igJXwiDb_d": {
-          "hits": 123,
+          "hits": 0,
           "textWords": 63075
         },
         "4NALnzN9NXxv": {
@@ -3316,7 +3316,7 @@
           "textWords": 63075
         },
         "VEDnDEPMAqup": {
-          "hits": 48,
+          "hits": 0,
           "textWords": 63075
         },
         "Z-ksh2WpvH-y": {
@@ -3324,7 +3324,7 @@
           "textWords": 63075
         }
       },
-      "queryPhraseHits": 3
+      "queryPhraseHits": 0
     },
     {
       "hash": "ww-gf8cZd9Fw",
@@ -3333,7 +3333,7 @@
       "snippet": "crypto-pubkey library, test and benchmark: Public Key cryptography\ncrypto-pubkey-openssh library and test: OpenSSH keys decoder/encoder\ncrypto-pubkey-types library: Generic cryptography Public keys algorithm types\ncrypto-random library: Simple cryptographic random related types",
       "matchedWords": {
         "24igJXwiDb_d": {
-          "hits": 22,
+          "hits": 0,
           "textWords": 267877
         },
         "4NALnzN9NXxv": {
@@ -3349,7 +3349,7 @@
           "textWords": 267877
         },
         "VEDnDEPMAqup": {
-          "hits": 8,
+          "hits": 0,
           "textWords": 267877
         },
         "Z-ksh2WpvH-y": {
@@ -3429,10 +3429,10 @@
       "hash": "31RRrlv6IfH4",
       "address": "https://www.schneier.com/",
       "title": "Schneier on Security -",
-      "snippet": "You don’t have to know how these AI genies work to know and care about how the story could end.\nTags: AI, LLM\nPosted on September 8, 2026 at 1:12 PM • 11 Comments\nStealing AI Reasoning Traces\nInteresting research: “Stealing Reasoning Traces from Proprietary LLM APIs“:",
+      "snippet": "“If you think about what happens after four or five days, it’s a gooey mess,” he said.\nThe odor has become a defining feature of the operation, and the beach remains closed to the public while crews work on a removal plan.",
       "matchedWords": {
         "24igJXwiDb_d": {
-          "hits": 11,
+          "hits": 0,
           "textWords": 2190
         },
         "4NALnzN9NXxv": {
@@ -3448,7 +3448,7 @@
           "textWords": 2190
         },
         "VEDnDEPMAqup": {
-          "hits": 1,
+          "hits": 0,
           "textWords": 2190
         },
         "Z-ksh2WpvH-y": {
@@ -3564,7 +3564,7 @@
       "snippet": "Cryptography – MIT researchers Ron Rivest, Adi Shamir and Leonard Adleman developed one of the first practical public-key cryptosystems, the RSA cryptosystem, and started a company, RSA Security.[331]",
       "matchedWords": {
         "24igJXwiDb_d": {
-          "hits": 6,
+          "hits": 0,
           "textWords": 20296
         },
         "4NALnzN9NXxv": {
@@ -3580,7 +3580,7 @@
           "textWords": 20296
         },
         "VEDnDEPMAqup": {
-          "hits": 7,
+          "hits": 0,
           "textWords": 20296
         },
         "Z-ksh2WpvH-y": {
@@ -3594,10 +3594,10 @@
       "hash": "t9RUcmVUrQm6",
       "address": "https://earthnewspaper.com/mark-r-elsis/attack-on-pearl-harbor-december-7-1941-by-mark-r-elsis/",
       "title": "Attack On Pearl Harbor, December 7, 1941 by Mark R. Elsis – EarthNewspaper.com – All The Honest News Fit To Publish",
-      "snippet": "http://www.renegadetribune.com/the-final-secret-of-pearl-harbor\nHow U.S. Economic Warfare Provoked Japan’s Attack On Pearl Harbor\nby Robert Higgs\nhttps://mises.org/library/how-us-economic-warfare-provoked-japans-attack-pearl-harbor\nPearl Harbor Attack No Surprise\nby Roger A. Stolley",
+      "snippet": "When I lived on Siesta Key, Florida (1997 – 2008), I had a wonderful conversation with an old navy man, Captain Ralph Emerson Styles, a graduate of the US Naval Academy in 1933.",
       "matchedWords": {
         "24igJXwiDb_d": {
-          "hits": 6,
+          "hits": 0,
           "textWords": 7117
         },
         "4NALnzN9NXxv": {
@@ -3613,7 +3613,7 @@
           "textWords": 7117
         },
         "VEDnDEPMAqup": {
-          "hits": 1,
+          "hits": 0,
           "textWords": 7117
         },
         "Z-ksh2WpvH-y": {
@@ -3660,10 +3660,10 @@
       "hash": "7eYSusLVkley",
       "address": "https://daringfireball.net/",
       "title": "Daring Fireball",
-      "snippet": "I know that is controversial, I just tee it up as another way to look at the size of the business, what we want to achieve, and how we stay competitive. Again, just food for thought.\nDickover of the Week: Slashdot Put One in Their RSS Feed ★\nHow does this even happen? Who is this for?",
+      "snippet": "In a meta sense, remaining so private was revealing. I think that’s who Tim Cook is — an intensely private man who took on a high-profile public role. The more revealing stories about the real Cook aren’t his public performances or memos. There’s the 2009 “Why are you still here?”",
       "matchedWords": {
         "24igJXwiDb_d": {
-          "hits": 34,
+          "hits": 0,
           "textWords": 13247
         },
         "4NALnzN9NXxv": {
@@ -3679,7 +3679,7 @@
           "textWords": 13247
         },
         "VEDnDEPMAqup": {
-          "hits": 8,
+          "hits": 0,
           "textWords": 13247
         },
         "Z-ksh2WpvH-y": {
@@ -3687,16 +3687,16 @@
           "textWords": 13247
         }
       },
-      "queryPhraseHits": 1
+      "queryPhraseHits": 0
     },
     {
       "hash": "0BZyCsY-tUi5",
       "address": "https://moralparty.com/ai/",
       "title": "AI – MoralParty.com",
-      "snippet": "If you’ve ever read about some weird cult and thought “How does something like this get started?” – well, you can watch it happen. Just don’t watch it so closely that you start playing along and end up donating all your money to a chatbot or whatever.",
+      "snippet": "The problem with AI will boost productivity everywhere claim is a consequential share of all “work” is needless bureaucratic churn created not by actual need but by the apparently permanent abundance of huge surpluses that can be squandered on make-work, churn and profiteering.",
       "matchedWords": {
         "24igJXwiDb_d": {
-          "hits": 123,
+          "hits": 0,
           "textWords": 63075
         },
         "4NALnzN9NXxv": {
@@ -3712,7 +3712,7 @@
           "textWords": 63075
         },
         "VEDnDEPMAqup": {
-          "hits": 48,
+          "hits": 0,
           "textWords": 63075
         },
         "Z-ksh2WpvH-y": {
@@ -3720,7 +3720,7 @@
           "textWords": 63075
         }
       },
-      "queryPhraseHits": 3
+      "queryPhraseHits": 0
     },
     {
       "hash": "MQJwI5my_IVw",

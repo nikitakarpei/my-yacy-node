@@ -30,7 +30,7 @@ func TestEveryOutcomeOfASearchIsPublishedApart(t *testing.T) {
 
 	registry := prometheusclient.NewRegistry()
 	metrics := queryrankingsobserversprometheus.New(registry)
-	query := searchquery.QueryFrom("berlin")
+	query := searchquery.QueryFrom("berlin", "")
 
 	metrics.QueryAnsweredFromCache(t.Context(), query, 12)
 	metrics.QueryAnsweredFromCache(t.Context(), query, 12)
@@ -56,7 +56,7 @@ func TestASearchThatCameBackWithNoItemIsCountedApartFromOneThatHeldItems(t *test
 
 	registry := prometheusclient.NewRegistry()
 	metrics := queryrankingsobserversprometheus.New(registry)
-	query := searchquery.QueryFrom("berlin")
+	query := searchquery.QueryFrom("berlin", "")
 
 	metrics.QueryAnsweredByPeers(t.Context(), query, 0)
 	metrics.QueryAnsweredFromCache(t.Context(), query, 0)

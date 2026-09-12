@@ -303,8 +303,7 @@ func TestAMatchedItemsAskCarriesTheQueryAndTheNetworkOfThisNode(t *testing.T) {
 	t.Parallel()
 
 	address, requests := peerAnswering(t, searchAnswerHolding(t), http.StatusOK)
-	query := searchquery.QueryFrom("berlin -rain")
-	query.Language = "de"
+	query := searchquery.QueryFrom("berlin -rain", "de")
 
 	matchedItemsOf(t, &recordedOutcome{}, peerasks.MatchedItemsAsk{
 		Peer:          peerAt(address),

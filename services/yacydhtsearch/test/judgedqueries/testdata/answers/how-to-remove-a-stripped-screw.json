@@ -1,20 +1,20 @@
 {
   "query": "how to remove a stripped screw",
-  "recordedAt": "2026-09-12T07:52:08Z",
+  "recordedAt": "2026-09-12T10:15:27Z",
   "itemsInTheOrderOfEachAnswer": [
     [
       {
         "hash": "D4lABzaS0qdw",
         "address": "https://planet.debian.org/",
         "title": "Planet Debian",
-        "snippet": "Let’s walk through how to set the microarchitecture level when using Go on 64-bit x86 (x86-64).\nGo uses the GOARCH environment variable to configure the target compilation architecture, and I am using the value amd64 to select 64-bit x86 (AVX2 and AVX512 are instruction sets found on x86-64 CPUs).",
+        "snippet": "We could use more SIMD instructions to remove all code that still processes one value at a time. For example, in my encoder’s encodeBitpackVBExc function. Or we could price all bit widths concurrently in encode. Or in the decoder’s exception apply code path.",
         "matchedWords": {
           "24igJXwiDb_d": {
-            "hits": 18,
+            "hits": 0,
             "textWords": 8109
           },
           "AbbiA0S2iDXF": {
-            "hits": 162,
+            "hits": 0,
             "textWords": 8109
           },
           "D2lp1wUtqSYe": {
@@ -30,7 +30,7 @@
             "textWords": 8109
           }
         },
-        "queryPhraseHits": 3
+        "queryPhraseHits": 0
       }
     ],
     [
@@ -38,14 +38,14 @@
         "hash": "-b3sxspKNBr4",
         "address": "https://rense.com/",
         "title": "rense.com",
-        "snippet": "Chatbots How to Talk About Gaza. It's Working\nIsrael Destroys Schools in South Lebanon,\nHindering Residents' Return\nIsrael Is Paying Millions to Train AI\nChatbots How to Talk About Gaza. It's Working.\nIsrael’s Yellow Line, a Shifting Edge of War\nPushing Gazans from Home",
+        "snippet": "History - Vile, Satanic General Eisenhower\nMURDERED Over 1 Million German POWS - This is\n100% True - Video\nDeath Toll From Israeli ‘Settler' Attacks\nSpirals in 'Most Violent' Year for West Bank\nIsrael ready to remove Gaza population if Trump\ngives approval - Minister",
         "matchedWords": {
           "24igJXwiDb_d": {
-            "hits": 159,
+            "hits": 0,
             "textWords": 85916
           },
           "AbbiA0S2iDXF": {
-            "hits": 2049,
+            "hits": 0,
             "textWords": 85916
           },
           "D2lp1wUtqSYe": {
@@ -61,7 +61,7 @@
             "textWords": 85916
           }
         },
-        "queryPhraseHits": 13
+        "queryPhraseHits": 0
       }
     ],
     [
@@ -69,14 +69,14 @@
         "hash": "-b3sxspKNBr4",
         "address": "https://rense.com/",
         "title": "rense.com",
-        "snippet": "Chatbots How to Talk About Gaza. It's Working\nIsrael Destroys Schools in South Lebanon,\nHindering Residents' Return\nIsrael Is Paying Millions to Train AI\nChatbots How to Talk About Gaza. It's Working.\nIsrael’s Yellow Line, a Shifting Edge of War\nPushing Gazans from Home",
+        "snippet": "History - Vile, Satanic General Eisenhower\nMURDERED Over 1 Million German POWS - This is\n100% True - Video\nDeath Toll From Israeli ‘Settler' Attacks\nSpirals in 'Most Violent' Year for West Bank\nIsrael ready to remove Gaza population if Trump\ngives approval - Minister",
         "matchedWords": {
           "24igJXwiDb_d": {
-            "hits": 159,
+            "hits": 0,
             "textWords": 85916
           },
           "AbbiA0S2iDXF": {
-            "hits": 2049,
+            "hits": 0,
             "textWords": 85916
           },
           "D2lp1wUtqSYe": {
@@ -92,7 +92,7 @@
             "textWords": 85916
           }
         },
-        "queryPhraseHits": 13
+        "queryPhraseHits": 0
       }
     ],
     [
@@ -100,14 +100,14 @@
         "hash": "D4lABzaS0qdw",
         "address": "https://planet.debian.org/",
         "title": "Planet Debian",
-        "snippet": "Let’s walk through how to set the microarchitecture level when using Go on 64-bit x86 (x86-64).\nGo uses the GOARCH environment variable to configure the target compilation architecture, and I am using the value amd64 to select 64-bit x86 (AVX2 and AVX512 are instruction sets found on x86-64 CPUs).",
+        "snippet": "We could use more SIMD instructions to remove all code that still processes one value at a time. For example, in my encoder’s encodeBitpackVBExc function. Or we could price all bit widths concurrently in encode. Or in the decoder’s exception apply code path.",
         "matchedWords": {
           "24igJXwiDb_d": {
-            "hits": 18,
+            "hits": 0,
             "textWords": 8109
           },
           "AbbiA0S2iDXF": {
-            "hits": 162,
+            "hits": 0,
             "textWords": 8109
           },
           "D2lp1wUtqSYe": {
@@ -123,7 +123,7 @@
             "textWords": 8109
           }
         },
-        "queryPhraseHits": 3
+        "queryPhraseHits": 0
       }
     ],
     [
@@ -131,14 +131,14 @@
         "hash": "D4lABzaS0qdw",
         "address": "https://planet.debian.org/",
         "title": "Planet Debian",
-        "snippet": "Let’s walk through how to set the microarchitecture level when using Go on 64-bit x86 (x86-64).\nGo uses the GOARCH environment variable to configure the target compilation architecture, and I am using the value amd64 to select 64-bit x86 (AVX2 and AVX512 are instruction sets found on x86-64 CPUs).",
+        "snippet": "We could use more SIMD instructions to remove all code that still processes one value at a time. For example, in my encoder’s encodeBitpackVBExc function. Or we could price all bit widths concurrently in encode. Or in the decoder’s exception apply code path.",
         "matchedWords": {
           "24igJXwiDb_d": {
-            "hits": 18,
+            "hits": 0,
             "textWords": 8109
           },
           "AbbiA0S2iDXF": {
-            "hits": 162,
+            "hits": 0,
             "textWords": 8109
           },
           "D2lp1wUtqSYe": {
@@ -154,7 +154,7 @@
             "textWords": 8109
           }
         },
-        "queryPhraseHits": 3
+        "queryPhraseHits": 0
       }
     ]
   ],
@@ -163,14 +163,14 @@
       "hash": "W-eXqzF3--Qw",
       "address": "https://planet.mozilla.org/",
       "title": "Planet Mozilla",
-      "snippet": "Tutorials: How to do a basic task, step by step: intended for beginners\nExplanation: Longer documents describing the \"why\": intended for all\nHow-to: How to accomplish a specific task: intended for non-beginners\nReference: Ground truth establishing the \"what\": intended for all",
+      "snippet": "🌟 mikey gough: Remove three unused devtools.debugger.file-search-* preferences\n🌟 Nathan Leuz: Remove unused legacy preference browser.translation.neverForLanguages\n🌟 Priyanshu[:0xanshu]: “Forget About This Site” dialog is cut off\n🌟 K: Disable breakpoints shortcut",
       "matchedWords": {
         "24igJXwiDb_d": {
-          "hits": 148,
+          "hits": 0,
           "textWords": 66162
         },
         "AbbiA0S2iDXF": {
-          "hits": 1667,
+          "hits": 0,
           "textWords": 66162
         },
         "D2lp1wUtqSYe": {
@@ -186,7 +186,7 @@
           "textWords": 66162
         }
       },
-      "queryPhraseHits": 28
+      "queryPhraseHits": 0
     },
     {
       "hash": "oOVv2jRvmBbx",
@@ -221,14 +221,14 @@
       "hash": "HqxJhQZchFfZ",
       "address": "http://www.greenteethmm.com/europe-unglued.shtml",
       "title": "the-editor-of-business-insider-fears-europe-is-coming-unglued-from-his-globalist-agenda",
-      "snippet": "16 September 2021: A leaked Zoom conference reveals a doctor questioning how to increase the count of COVID-19 patient numbers on the hospitalâ€™s dashboard report.National File and other local media outlets that reported on the leak identified the people in the video as Mary Kathryn Rudyk, a",
+      "snippet": "The European Union having failed to completely remove the gas essential to all lifeforms, Carbon Dioxide from the atmosphere, is now setting itself up to remove another esstential gas, nitrogen - which accounts for 70% of the air we breathe.",
       "matchedWords": {
         "24igJXwiDb_d": {
-          "hits": 50,
+          "hits": 0,
           "textWords": 39329
         },
         "AbbiA0S2iDXF": {
-          "hits": 1142,
+          "hits": 0,
           "textWords": 39329
         },
         "D2lp1wUtqSYe": {
@@ -244,20 +244,20 @@
           "textWords": 39329
         }
       },
-      "queryPhraseHits": 8
+      "queryPhraseHits": 0
     },
     {
       "hash": "59FTtQZchFfZ",
       "address": "http://www.greenteethmm.com/MH17-news-suppressed.shtml",
       "title": "downed-malaysia-airlines-flight-mh17-news-developments-being-suppressed-by-mainstream-media.",
-      "snippet": "16 September 2021: A leaked Zoom conference reveals a doctor questioning how to increase the count of COVID-19 patient numbers on the hospitalâ€™s dashboard report.National File and other local media outlets that reported on the leak identified the people in the video as Mary Kathryn Rudyk, a",
+      "snippet": "The European Union having failed to completely remove the gas essential to all lifeforms, Carbon Dioxide from the atmosphere, is now setting itself up to remove another esstential gas, nitrogen - which accounts for 70% of the air we breathe.",
       "matchedWords": {
         "24igJXwiDb_d": {
-          "hits": 50,
+          "hits": 0,
           "textWords": 39329
         },
         "AbbiA0S2iDXF": {
-          "hits": 1142,
+          "hits": 0,
           "textWords": 39329
         },
         "D2lp1wUtqSYe": {
@@ -273,20 +273,20 @@
           "textWords": 39329
         }
       },
-      "queryPhraseHits": 8
+      "queryPhraseHits": 0
     },
     {
       "hash": "GtLjhloUbV15",
       "address": "https://www.whatfinger.com/",
       "title": "Whatfinger News® – Unfiltered Truth. America’s News Feed",
-      "snippet": "Patriots, Whatfinger News is your uncensored battle station—crushing fake news, Big Tech, and woke garbage without selling out. Keep the truth flowing and own the libs in 2026: drop a donation (monthly = fewer ads, more middle fingers to the establishment) right now and let’s win this war together!",
+      "snippet": "Whatfinger – 🛑 Features, Red-pill blasts, takedowns, hits, deep state reveals, and savage roasts that’ll make you say ‘DAMN!’ No safe spaces. (use arrows) – Sgt Pat, Beth, Ben, Sgt K\n🛑Headline Hurricane: 40 Top Stories Across All Beats (use arrows) – Sgt Pat, Ben, Luke",
       "matchedWords": {
         "24igJXwiDb_d": {
           "hits": 0,
           "textWords": 157
         },
         "AbbiA0S2iDXF": {
-          "hits": 2,
+          "hits": 0,
           "textWords": 157
         },
         "D2lp1wUtqSYe": {

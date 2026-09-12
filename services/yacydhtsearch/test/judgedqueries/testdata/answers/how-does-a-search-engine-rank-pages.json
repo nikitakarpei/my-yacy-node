@@ -1,16 +1,16 @@
 {
   "query": "how does a search engine rank pages",
-  "recordedAt": "2026-09-12T07:52:04Z",
+  "recordedAt": "2026-09-12T10:15:24Z",
   "itemsInTheOrderOfEachAnswer": [
     [
       {
         "hash": "W-eXqzF3--Qw",
         "address": "https://planet.mozilla.org/",
         "title": "Planet Mozilla",
-        "snippet": "Most browsers have already decided how you’re going to search. Firefox hasn’t. Pick your search engine, control what happens to your queries, decide who sees data about you, even turn AI on or off. It should always be your call.",
+        "snippet": "Whether you want to search with Startpage, or another preferred search engine, it’s as easy as opening your search settings, picking a default, and done.\nAnd if you’re happy with your current search engine, nothing about your setup changes.\nWhy Europe first",
         "matchedWords": {
           "24igJXwiDb_d": {
-            "hits": 148,
+            "hits": 0,
             "textWords": 66162
           },
           "BqlDxZ8zo0u1": {
@@ -18,7 +18,7 @@
             "textWords": 66162
           },
           "VEDnDEPMAqup": {
-            "hits": 39,
+            "hits": 0,
             "textWords": 66162
           },
           "ZdxdKgOqyHsZ": {
@@ -34,7 +34,7 @@
             "textWords": 66162
           }
         },
-        "queryPhraseHits": 13
+        "queryPhraseHits": 9
       }
     ],
     [
@@ -77,10 +77,10 @@
         "hash": "t-vTMs6GdY-4",
         "address": "https://danluu.com/ftc-google-antitrust/",
         "title": "What the FTC got wrong in the Google antitrust investigation",
-        "snippet": "\"Google does not require Google to be the default search engine in order to license the Android OS\" [seems technically correct, but misleading at best when taken as part of the broader argument here]",
+        "snippet": "Horizontal search providers sell (\"syndicate\") services to other websites\nSearch engine can also return search ads to the website; search engine and website share revenue\nConsumers are websites that want search; sellers are horizontal search providers, Google, Bing, Yahoo",
         "matchedWords": {
           "24igJXwiDb_d": {
-            "hits": 38,
+            "hits": 0,
             "textWords": 30944
           },
           "BqlDxZ8zo0u1": {
@@ -88,7 +88,7 @@
             "textWords": 30944
           },
           "VEDnDEPMAqup": {
-            "hits": 20,
+            "hits": 0,
             "textWords": 30944
           },
           "ZdxdKgOqyHsZ": {
@@ -115,7 +115,7 @@
         "snippet": "City at the Water's Edge: A Natural History of New York (2005), environmental history excerpt and text search\nReitano, Joanne. The Restless City: A Short History of New York from Colonial Times to the Present (2010), Popular history with focus on politics and riots excerpt and text search",
         "matchedWords": {
           "24igJXwiDb_d": {
-            "hits": 10,
+            "hits": 0,
             "textWords": 32535
           },
           "BqlDxZ8zo0u1": {
@@ -123,7 +123,7 @@
             "textWords": 32535
           },
           "VEDnDEPMAqup": {
-            "hits": 2,
+            "hits": 0,
             "textWords": 32535
           },
           "ZdxdKgOqyHsZ": {
@@ -148,10 +148,10 @@
       "hash": "Q831Yj-JVcyx",
       "address": "https://en.wikiquote.org/wiki/United_States",
       "title": "United States - Wikiquote",
-      "snippet": "I believe in the individual, in less government so as to allow that individual maximum freedom to create and achieve; that societies which are founded on restraining the government rather than the individual are optimum; that the individual is smart enough to solve his own problems and does not",
+      "snippet": "Wherever the standard of freedom and Independence has been or shall be unfurled, there will her heart, her benedictions and her prayers be. But she goes not abroad, in search of monsters to destroy. She is the well-wisher to the freedom and independence of all.",
       "matchedWords": {
         "24igJXwiDb_d": {
-          "hits": 66,
+          "hits": 0,
           "textWords": 85210
         },
         "BqlDxZ8zo0u1": {
@@ -159,7 +159,7 @@
           "textWords": 85210
         },
         "VEDnDEPMAqup": {
-          "hits": 61,
+          "hits": 0,
           "textWords": 85210
         },
         "ZdxdKgOqyHsZ": {
@@ -181,10 +181,10 @@
       "hash": "onaY7j-JVcyx",
       "address": "https://en.wikiquote.org/wiki/Barack_Obama",
       "title": "Barack Obama - Wikiquote",
-      "snippet": "\"What do you still bring from Hawaii? How does it affect your character, how does it affect your politics?\" I try to explain to them something about the Aloha Spirit.",
+      "snippet": "It can be an engine that drives us into the future the same way the computer was the engine for economic growth over the last couple of decades.\nAnd we can do it, but we're going to have to make an investment.",
       "matchedWords": {
         "24igJXwiDb_d": {
-          "hits": 268,
+          "hits": 0,
           "textWords": 132299
         },
         "BqlDxZ8zo0u1": {
@@ -192,7 +192,7 @@
           "textWords": 132299
         },
         "VEDnDEPMAqup": {
-          "hits": 90,
+          "hits": 0,
           "textWords": 132299
         },
         "ZdxdKgOqyHsZ": {
@@ -208,7 +208,7 @@
           "textWords": 132299
         }
       },
-      "queryPhraseHits": 7
+      "queryPhraseHits": 0
     },
     {
       "hash": "pYw3_AHucLY4",
@@ -250,7 +250,7 @@
       "snippet": "If you’ve got ever used an Web search engine, you’ve submitted a query — your search terms. An excellent information integration system would let the marketing division view data from each sources in a unified means, leaving out any data that didn’t apply to the search.",
       "matchedWords": {
         "24igJXwiDb_d": {
-          "hits": 157,
+          "hits": 0,
           "textWords": 230924
         },
         "BqlDxZ8zo0u1": {
@@ -258,7 +258,7 @@
           "textWords": 230924
         },
         "VEDnDEPMAqup": {
-          "hits": 49,
+          "hits": 0,
           "textWords": 230924
         },
         "ZdxdKgOqyHsZ": {
@@ -274,7 +274,7 @@
           "textWords": 230924
         }
       },
-      "queryPhraseHits": 3
+      "queryPhraseHits": 2
     },
     {
       "hash": "McHqxjRvmBbx",
@@ -283,7 +283,7 @@
       "snippet": "147] ANTEL has launched a commercial 5G network in April 2019[148] with still continual development.[149] Movistar and Claro have 30% and 21% market share, respectively.[150] The Google Search engine accounted for 95% of total search engine market share in 2023–2024.[151]",
       "matchedWords": {
         "24igJXwiDb_d": {
-          "hits": 1,
+          "hits": 0,
           "textWords": 16115
         },
         "BqlDxZ8zo0u1": {
@@ -291,7 +291,7 @@
           "textWords": 16115
         },
         "VEDnDEPMAqup": {
-          "hits": 2,
+          "hits": 0,
           "textWords": 16115
         },
         "ZdxdKgOqyHsZ": {
@@ -313,10 +313,10 @@
       "hash": "diDs1jRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Uganda",
       "title": "Uganda - Wikipedia",
-      "snippet": "The issue of how to manage the largest monarchy within the framework of a unitary state had been a problem since the British creation of the Protectorate of Uganda. Colonial governors had failed to come up with a formula that worked.",
+      "snippet": "Forest condition measured by degree of anthropogenic modification. 0 = most modifications; 10 = least. Created in Google Earth Engine. National boundaries = LSIB 2017: Large Scale International Boundary Polygons, Detailed, US Officer of the Geographer.",
       "matchedWords": {
         "24igJXwiDb_d": {
-          "hits": 3,
+          "hits": 0,
           "textWords": 19748
         },
         "BqlDxZ8zo0u1": {
@@ -324,7 +324,7 @@
           "textWords": 19748
         },
         "VEDnDEPMAqup": {
-          "hits": 1,
+          "hits": 0,
           "textWords": 19748
         },
         "ZdxdKgOqyHsZ": {
@@ -346,10 +346,10 @@
       "hash": "gE7l4jRvmBbx",
       "address": "https://en.wikipedia.org/wiki/University_of_Cambridge",
       "title": "University of Cambridge - Wikipedia",
-      "snippet": "The council is obliged to advise Regent House on matters of general concern to the university, which it does by publishing notices to the Cambridge University Reporter, the university's official journal.[",
+      "snippet": "It also issues some awards to those of varying global academic accomplishment regardless of whether their recipient is affiliated with the University of Cambridge. Some of these awards and prizes rank among the world's most estimable academic and intellectual accomplishments.",
       "matchedWords": {
         "24igJXwiDb_d": {
-          "hits": 7,
+          "hits": 0,
           "textWords": 18577
         },
         "BqlDxZ8zo0u1": {
@@ -357,7 +357,7 @@
           "textWords": 18577
         },
         "VEDnDEPMAqup": {
-          "hits": 2,
+          "hits": 0,
           "textWords": 18577
         },
         "ZdxdKgOqyHsZ": {
@@ -379,10 +379,10 @@
       "hash": "i445gjRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Sydney",
       "title": "Sydney - Wikipedia",
-      "snippet": "↑ \"How Australia's biggest cities rank for public transport access\". SBS News. 8 July 2024. Retrieved 20 May 2025.\n↑ \"History of the NSW Railways\". Transport for NSW. 5 June 2017. Retrieved 20 May 2025.\n↑ Dunn, Mark. \"Electrification of the Sydney Suburban Train Network\". Dictionary of Sydney.",
+      "snippet": "The internal combustion engine made buses more flexible than trams and consequently more popular, leading to the progressive closure of the network with the final tram operating in 1961.[446] From 1930 there were 612 buses across Sydney carrying 90 million passengers per annum.[464]",
       "matchedWords": {
         "24igJXwiDb_d": {
-          "hits": 4,
+          "hits": 0,
           "textWords": 26878
         },
         "BqlDxZ8zo0u1": {
@@ -390,7 +390,7 @@
           "textWords": 26878
         },
         "VEDnDEPMAqup": {
-          "hits": 2,
+          "hits": 0,
           "textWords": 26878
         },
         "ZdxdKgOqyHsZ": {
@@ -415,7 +415,7 @@
       "snippet": "Allegiance\nUnited States\nBranch/service\nVirginia militia\nYears of service\n1775–1776\nRank\nColonel\nUnit\nAlbemarle County Militia\nBattles/wars\nAmerican Revolutionary War\nPhilosophical work\nEra\nAge of Enlightenment\nRegion\nWestern philosophy\nAmerican philosophy\nSchool\nClassical liberalism\nDeism",
       "matchedWords": {
         "24igJXwiDb_d": {
-          "hits": 1,
+          "hits": 0,
           "textWords": 24487
         },
         "BqlDxZ8zo0u1": {
@@ -423,7 +423,7 @@
           "textWords": 24487
         },
         "VEDnDEPMAqup": {
-          "hits": 2,
+          "hits": 0,
           "textWords": 24487
         },
         "ZdxdKgOqyHsZ": {
@@ -445,10 +445,10 @@
       "hash": "m0QS_jRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Myanmar",
       "title": "Myanmar - Wikipedia",
-      "snippet": "28] The United Nations uses Myanmar, as does the ASEAN and as do Australia,[29] Russia, Germany,[30] China, India, Bangladesh, Norway,[31] Japan,[32] Switzerland,[33] Canada[34] and Ukraine.[",
+      "snippet": "285][286]\nLargest cities\nLargest cities or towns in Myanmar\ngeohive.com\nRank\nName\nDivision\nPop.\n1\nYangon\nYangon\n5,211,431\n2\nMandalay\nMandalay\n1,225,546\n3\nNaypyidaw\nNaypyidaw\n1,160,242\n4\nBago\nBago\n491,434\n5\nHpa-An\nKayin\n421,575\n6\nTaunggyi\nShan\n381,636\n7\nMonywa\nSagaing\n372,095\n8\nMyitkyina\nKachin",
       "matchedWords": {
         "24igJXwiDb_d": {
-          "hits": 2,
+          "hits": 0,
           "textWords": 23318
         },
         "BqlDxZ8zo0u1": {
@@ -456,7 +456,7 @@
           "textWords": 23318
         },
         "VEDnDEPMAqup": {
-          "hits": 2,
+          "hits": 0,
           "textWords": 23318
         },
         "ZdxdKgOqyHsZ": {
@@ -481,7 +481,7 @@
       "snippet": "Iran ranks 17th among countries by number of Internet users. Google Search is Iran's most widely used search engine and Instagram is the most popular online social networking service.[",
       "matchedWords": {
         "24igJXwiDb_d": {
-          "hits": 16,
+          "hits": 0,
           "textWords": 32584
         },
         "BqlDxZ8zo0u1": {
@@ -489,7 +489,7 @@
           "textWords": 32584
         },
         "VEDnDEPMAqup": {
-          "hits": 8,
+          "hits": 0,
           "textWords": 32584
         },
         "ZdxdKgOqyHsZ": {
@@ -514,7 +514,7 @@
       "snippet": "Eventually, they changed the name to Google; the name of the search engine was a misspelling of the word googol, a very large number written 10100 (1 followed by 100 zeros), picked to signify that the search engine was intended to search a large number of websites.[30]",
       "matchedWords": {
         "24igJXwiDb_d": {
-          "hits": 22,
+          "hits": 0,
           "textWords": 22911
         },
         "BqlDxZ8zo0u1": {
@@ -522,7 +522,7 @@
           "textWords": 22911
         },
         "VEDnDEPMAqup": {
-          "hits": 3,
+          "hits": 0,
           "textWords": 22911
         },
         "ZdxdKgOqyHsZ": {
@@ -547,7 +547,7 @@
       "snippet": "152] He introduced two initiatives that bore his name: Lugar–Obama, which expanded the Nunn–Lugar Cooperative Threat Reduction concept to conventional weapons;[153] and the Federal Funding Accountability and Transparency Act of 2006, which authorized the establishment of USAspending.gov, a web",
       "matchedWords": {
         "24igJXwiDb_d": {
-          "hits": 13,
+          "hits": 0,
           "textWords": 27810
         },
         "BqlDxZ8zo0u1": {
@@ -555,7 +555,7 @@
           "textWords": 27810
         },
         "VEDnDEPMAqup": {
-          "hits": 1,
+          "hits": 0,
           "textWords": 27810
         },
         "ZdxdKgOqyHsZ": {
@@ -580,7 +580,7 @@
       "snippet": "Search for the target URL at archive.org.\nPages with this error are automatically placed in Category:CS1 errors: archive-url (405 pages).[a]\n|archive-url= requires |archive-date=\n|archive-date=, identifies the date that the web resource was archived.",
       "matchedWords": {
         "24igJXwiDb_d": {
-          "hits": 8,
+          "hits": 0,
           "textWords": 15218
         },
         "BqlDxZ8zo0u1": {
@@ -588,7 +588,7 @@
           "textWords": 15218
         },
         "VEDnDEPMAqup": {
-          "hits": 20,
+          "hits": 0,
           "textWords": 15218
         },
         "ZdxdKgOqyHsZ": {
@@ -613,7 +613,7 @@
       "snippet": "400 ft (122 m)\nLowest elevation\n0 ft (0 m)\nPopulation (2020)\n• Total\n8,804,190\n• Estimate\n(2025)[5]\n8,584,629\n• Rank\n1st in the United States\n• Density\n29,303/sq mi (11,313.8/km2)\n• Urban[6]\n19,426,449\n• Urban density\n5,981/sq mi (2,309.2/km2)\n• Metro[7]\n20,140,470\nDemonym\nNew Yorker\nGDP[8][9]",
       "matchedWords": {
         "24igJXwiDb_d": {
-          "hits": 17,
+          "hits": 0,
           "textWords": 38901
         },
         "BqlDxZ8zo0u1": {
@@ -621,7 +621,7 @@
           "textWords": 38901
         },
         "VEDnDEPMAqup": {
-          "hits": 3,
+          "hits": 0,
           "textWords": 38901
         },
         "ZdxdKgOqyHsZ": {
@@ -646,7 +646,7 @@
       "snippet": "The first car with an ethanol engine was produced in 1978 and the first airplane engine running on ethanol in 2005.[345]",
       "matchedWords": {
         "24igJXwiDb_d": {
-          "hits": 3,
+          "hits": 0,
           "textWords": 26529
         },
         "BqlDxZ8zo0u1": {
@@ -654,7 +654,7 @@
           "textWords": 26529
         },
         "VEDnDEPMAqup": {
-          "hits": 3,
+          "hits": 0,
           "textWords": 26529
         },
         "ZdxdKgOqyHsZ": {
@@ -676,10 +676,10 @@
       "hash": "7IIFujRvmBbx",
       "address": "https://en.wikipedia.org/wiki/United_Kingdom",
       "title": "United Kingdom - Wikipedia",
-      "snippet": "Health Service Journal. 24 September 2019. Retrieved 19 November 2019.\n↑ \"How does UK healthcare spending compare with other countries?\". Office of National Statistics. 29 August 2019. Retrieved 5 October 2019.\n↑ \"'Huge contrasts' in devolved NHS\". BBC News.",
+      "snippet": "(England and Wales: 2011 census built-up area;[356] Scotland: 2016 estimates settlement;[357] Northern Ireland: 2001 census urban area)[358]\nRank\nName\nUrban area\nPop.\nRank\nName\nUrban area\nPop.\n1\nLondon\nGreater London\n9,787,426\n11\nBristol\nBristol\n617,280\n2\nManchester\nGreater Manchester\n2,553,379\n12",
       "matchedWords": {
         "24igJXwiDb_d": {
-          "hits": 11,
+          "hits": 0,
           "textWords": 31950
         },
         "BqlDxZ8zo0u1": {
@@ -687,7 +687,7 @@
           "textWords": 31950
         },
         "VEDnDEPMAqup": {
-          "hits": 10,
+          "hits": 0,
           "textWords": 31950
         },
         "ZdxdKgOqyHsZ": {
@@ -703,16 +703,16 @@
           "textWords": 31950
         }
       },
-      "queryPhraseHits": 1
+      "queryPhraseHits": 0
     },
     {
       "hash": "-WvJtjRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Singapore",
       "title": "Singapore - Wikipedia",
-      "snippet": "While temperature does not vary greatly throughout the year, there is a wetter monsoon season from November to February.[152]\nFrom July to October, there is often haze caused by bush fires in neighbouring Indonesia, usually from the island of Sumatra.[",
+      "snippet": "201] Freedom House ranks Singapore as \"partly free\" in its Freedom in the World report,[202][183] and the Economist Intelligence Unit ranks Singapore as a \"flawed democracy\", the second freest rank of four, in its \"Democracy Index\".[",
       "matchedWords": {
         "24igJXwiDb_d": {
-          "hits": 5,
+          "hits": 0,
           "textWords": 27838
         },
         "BqlDxZ8zo0u1": {
@@ -720,7 +720,7 @@
           "textWords": 27838
         },
         "VEDnDEPMAqup": {
-          "hits": 4,
+          "hits": 0,
           "textWords": 27838
         },
         "ZdxdKgOqyHsZ": {
@@ -742,10 +742,10 @@
       "hash": "fkFkDmVUrQm6",
       "address": "https://earthnewspaper.com/mark-r-elsis/eisenhowers-rhine-meadows-death-camps-by-mark-r-elsis/",
       "title": "Eisenhower’s Rhine-Meadows Death Camps by Mark R. Elsis – EarthNewspaper.com – All The Honest News Fit To Publish",
-      "snippet": "[How did Eisenhower who was General Douglas MacArthur’s secretary, became the Supreme Allied Commander? Especially when General MacArthur felt Eisenhower was incompetent. How within 45 months did he bypass hundreds of officers with higher rank?",
+      "snippet": "Confronting The Truth About WWII: Gemma O’Doherty Interviews Dr. E. Michael Jones (1:05:53)\nhttps://www.bitchute.com/video/A97cdKYgCQGT\nHitler’s Peace Plans (95 Pages)\nEdited and Written by Mark R. Elsis\nhttps://HitlersPeacePlans.com\nHolocaust Revisionism (168 Pages)\nby Mark R. Elsis",
       "matchedWords": {
         "24igJXwiDb_d": {
-          "hits": 4,
+          "hits": 0,
           "textWords": 1617
         },
         "BqlDxZ8zo0u1": {
@@ -778,7 +778,7 @@
       "snippet": "Businesses, government organisations and even our humble laptop and desktop computers at home are being under constant attack, not by hackers and cybercriminals but by Search Engine Operators, Social Media Networks and online marketplaces.",
       "matchedWords": {
         "24igJXwiDb_d": {
-          "hits": 47,
+          "hits": 0,
           "textWords": 40231
         },
         "BqlDxZ8zo0u1": {
@@ -786,7 +786,7 @@
           "textWords": 40231
         },
         "VEDnDEPMAqup": {
-          "hits": 15,
+          "hits": 0,
           "textWords": 40231
         },
         "ZdxdKgOqyHsZ": {
@@ -811,7 +811,7 @@
       "snippet": "Background: Why does DCS need a fast Integer Codec?\nDebian Code Search (DCS) is a search engine that allows searching all the Open Source source code within Debian, with either literal search expressions or regular expression search queries.",
       "matchedWords": {
         "24igJXwiDb_d": {
-          "hits": 18,
+          "hits": 0,
           "textWords": 8109
         },
         "BqlDxZ8zo0u1": {
@@ -819,7 +819,7 @@
           "textWords": 8109
         },
         "VEDnDEPMAqup": {
-          "hits": 7,
+          "hits": 0,
           "textWords": 8109
         },
         "ZdxdKgOqyHsZ": {
@@ -844,7 +844,7 @@
       "snippet": "Without limiting the foregoing, you may not (i) use any artificial intelligence systems, machine learning models or tools, software robots, spider, crawlers, or other data gathering, analysis or extraction tools, whether automated or manual, to access, acquire, copy, monitor, scrape or aggregate",
       "matchedWords": {
         "24igJXwiDb_d": {
-          "hits": 3,
+          "hits": 0,
           "textWords": 9818
         },
         "BqlDxZ8zo0u1": {
@@ -852,7 +852,7 @@
           "textWords": 9818
         },
         "VEDnDEPMAqup": {
-          "hits": 11,
+          "hits": 0,
           "textWords": 9818
         },
         "ZdxdKgOqyHsZ": {
@@ -874,10 +874,10 @@
       "hash": "-p2w3taoSn1x",
       "address": "https://en.planet.wikimedia.org/",
       "title": "en.planet.wikimedia.org",
-      "snippet": "It is known for its seafood, and above all for jeotgal, seafood salted and left to ferment… which does raise the question of how an inland town became famous for seafood at all.",
+      "snippet": "Guideline and policy news\nSpeedy deletion criteria G15 has been renamed from \"LLM-generated pages without human review\" to \"Unambiguously LLM-generated pages\" and has an additional sign of detection added to it following a RfC.\nTechnical news\nArbitration\nMiscellaneous",
       "matchedWords": {
         "24igJXwiDb_d": {
-          "hits": 47,
+          "hits": 0,
           "textWords": 16720
         },
         "BqlDxZ8zo0u1": {
@@ -885,7 +885,7 @@
           "textWords": 16720
         },
         "VEDnDEPMAqup": {
-          "hits": 6,
+          "hits": 0,
           "textWords": 16720
         },
         "ZdxdKgOqyHsZ": {
@@ -907,10 +907,10 @@
       "hash": "c_fxuopg4UCw",
       "address": "https://www.wikidata.org/wiki/Wikidata:Project_chat",
       "title": "Wikidata:Project chat - Wikidata",
-      "snippet": "You are right that this is all the same river. Unfortunately merging them is not trivial.\nDheel (Q32730157) and Dheel (Q32730160) are bot pages on ceb.wiki, meaning that they can't be merged unless cebuano wiki does first.",
+      "snippet": "\"Add a qualifier that marks as defunct without deprecation\" I thing the rank at item-level may be changed its rank to deprecated, adding the qualifier reason for deprecated rank (P2241) with the new item I suggested above as value.",
       "matchedWords": {
         "24igJXwiDb_d": {
-          "hits": 13,
+          "hits": 0,
           "textWords": 12053
         },
         "BqlDxZ8zo0u1": {
@@ -918,7 +918,7 @@
           "textWords": 12053
         },
         "VEDnDEPMAqup": {
-          "hits": 17,
+          "hits": 0,
           "textWords": 12053
         },
         "ZdxdKgOqyHsZ": {
@@ -1009,7 +1009,7 @@
       "snippet": "Providing valuable information, such as expert analysis or engaging blogs, will enhance the user experience and increase customer loyalty. Additionally, creating relevant content will help you rank higher in search engine results, which can significantly improve traffic to your sportsbook.",
       "matchedWords": {
         "24igJXwiDb_d": {
-          "hits": 99,
+          "hits": 0,
           "textWords": 101475
         },
         "BqlDxZ8zo0u1": {
@@ -1017,7 +1017,7 @@
           "textWords": 101475
         },
         "VEDnDEPMAqup": {
-          "hits": 4,
+          "hits": 0,
           "textWords": 101475
         },
         "ZdxdKgOqyHsZ": {
@@ -1072,10 +1072,10 @@
       "hash": "WbYVe_QzrsJ5",
       "address": "https://thestingofthescorpion.wordpress.com/tag/country/",
       "title": "Country | The Sting Of The Scorpion Blog (T.S.O.T.S.B.)",
-      "snippet": "But still, how does this help me sleep at night.\nMy wife and I spent the better part of yesterday evening going over the possibilities of where my card specifically was targeted and then compromised.",
+      "snippet": "The Texas mud flap girl and the Everything is Bigger in Texas pictures were both acquired via a Google image search. The images do not belong to me or The Sting Of The Scorpion and were borrowed, used, and placed assuming they were royalty free. Meaning?",
       "matchedWords": {
         "24igJXwiDb_d": {
-          "hits": 24,
+          "hits": 0,
           "textWords": 10069
         },
         "BqlDxZ8zo0u1": {
@@ -1083,7 +1083,7 @@
           "textWords": 10069
         },
         "VEDnDEPMAqup": {
-          "hits": 3,
+          "hits": 0,
           "textWords": 10069
         },
         "ZdxdKgOqyHsZ": {
@@ -1099,16 +1099,16 @@
           "textWords": 10069
         }
       },
-      "queryPhraseHits": 1
+      "queryPhraseHits": 0
     },
     {
       "hash": "jEM-o_QzrsJ5",
       "address": "https://thestingofthescorpion.wordpress.com/tag/story/",
       "title": "Story | The Sting Of The Scorpion Blog (T.S.O.T.S.B.)",
-      "snippet": "But, damn, my future wife had (and still does) an ass that commanded my full attention. Women, eventhough they’ll never admit it, are tricky crafty creatures, they play coy but know they are the black widow. One can search the blog for more on her as well.",
+      "snippet": "Want to know more, search this blog, I’ve written extensively about being adopted. In their eyes I was wrong for wanting to where I came from. But, slowly, I got them to understand.",
       "matchedWords": {
         "24igJXwiDb_d": {
-          "hits": 43,
+          "hits": 0,
           "textWords": 17053
         },
         "BqlDxZ8zo0u1": {
@@ -1116,7 +1116,7 @@
           "textWords": 17053
         },
         "VEDnDEPMAqup": {
-          "hits": 15,
+          "hits": 0,
           "textWords": 17053
         },
         "ZdxdKgOqyHsZ": {
@@ -1138,10 +1138,10 @@
       "hash": "krJ9TsRD6io6",
       "address": "https://licindiachennai.com/",
       "title": "licindiachennai -",
-      "snippet": "Then you can start playing and winning!\n\u003cspan class=\"entry-utility-prep entry-utility-prep-cat-links\"\u003ePosted in\u003c/span\u003e News |\nHow Does Online Slot Work?\nOnline Slot is one of the most popular casino games. It is easy to play and can offer big payouts. The technology behind online slots is complex.",
+      "snippet": "Other marketing tactics include well-crafted email marketing and high search engine rankings.\nIt’s also important to look for the casino’s licensing. You’re likely to lose your money if you play at an unlicensed online casino.",
       "matchedWords": {
         "24igJXwiDb_d": {
-          "hits": 814,
+          "hits": 0,
           "textWords": 403394
         },
         "BqlDxZ8zo0u1": {
@@ -1149,7 +1149,7 @@
           "textWords": 403394
         },
         "VEDnDEPMAqup": {
-          "hits": 114,
+          "hits": 0,
           "textWords": 403394
         },
         "ZdxdKgOqyHsZ": {
@@ -1165,7 +1165,7 @@
           "textWords": 403394
         }
       },
-      "queryPhraseHits": 6
+      "queryPhraseHits": 2
     },
     {
       "hash": "oOVv2jRvmBbx",
@@ -1204,10 +1204,10 @@
       "hash": "zG_etzSBCthw",
       "address": "https://publishing.cdlib.org/ucpressebooks/public/book/before-the-nickelodeon-edwin-s-porter-and-the-edison-manufacturing-company.html",
       "title": "Before the Nickelodeon: Edwin S. Porter and the Edison Manufacturing Company | UC Press E-Books Collection Archive, 1982-2004",
-      "snippet": "How Bridget Made the Fire (Biograph, 1900), 170 , 171\nHow Jones Lost His Roll (1905), 317 -18\nHow the Office Boy Saw the Ball Game (1906), 332 , 345 -47, 346 , 419\nHow They Do Things on the Bowery (1902), 165 , 198 , 209 -11, 210 , 225 , 226 , 232 , 486",
+      "snippet": "the house, drawn by eager, prancing steeds. Here we dissolve again to the fifth scene.\nScene 5.—The Apparatus Leaving the Engine House. We show a fine exterior view of engine house, the great doors swinging open, and the apparatus coming out. This is a most imposing scene.",
       "matchedWords": {
         "24igJXwiDb_d": {
-          "hits": 82,
+          "hits": 0,
           "textWords": 202698
         },
         "BqlDxZ8zo0u1": {
@@ -1215,7 +1215,7 @@
           "textWords": 202698
         },
         "VEDnDEPMAqup": {
-          "hits": 44,
+          "hits": 0,
           "textWords": 202698
         },
         "ZdxdKgOqyHsZ": {
@@ -1273,7 +1273,7 @@
       "snippet": "The internet search giant will now be able to use information about what people are entering into its search engine to target adverts according to users' interests under the changes.",
       "matchedWords": {
         "24igJXwiDb_d": {
-          "hits": 70,
+          "hits": 0,
           "textWords": 54675
         },
         "BqlDxZ8zo0u1": {
@@ -1281,7 +1281,7 @@
           "textWords": 54675
         },
         "VEDnDEPMAqup": {
-          "hits": 20,
+          "hits": 0,
           "textWords": 54675
         },
         "ZdxdKgOqyHsZ": {
@@ -1303,10 +1303,10 @@
       "hash": "PSkz_QXx1HRZ",
       "address": "http://www.dailystirrer.com/2021-october.shtml",
       "title": "dailystirrer-2021-news-october-comment-opinion-controversy-contrarianism",
-      "snippet": "But how does telling people what they can and cannot think promote diversity?\nHave You Committed Your Three Thought Crimes Today?\nYou're a criminal. So am I.",
+      "snippet": "The fact is of course that nobody can possibly predict exactly what will happen in the future, the predictions of the last twenty years, none of which have been borne out by the way, as a little research using a decent search engine will confirm, have been based the reults of mathematical modelling",
       "matchedWords": {
         "24igJXwiDb_d": {
-          "hits": 161,
+          "hits": 0,
           "textWords": 123511
         },
         "BqlDxZ8zo0u1": {
@@ -1314,7 +1314,7 @@
           "textWords": 123511
         },
         "VEDnDEPMAqup": {
-          "hits": 85,
+          "hits": 0,
           "textWords": 123511
         },
         "ZdxdKgOqyHsZ": {
@@ -1330,16 +1330,16 @@
           "textWords": 123511
         }
       },
-      "queryPhraseHits": 4
+      "queryPhraseHits": 1
     },
     {
       "hash": "I-6nyQZchFfZ",
       "address": "http://www.greenteethmm.com/brexit-europe.shtml",
       "title": "eu-brexit-britain-decides-if-the-ftuture-lies-in-or-outside-the-european-union-index",
-      "snippet": "The case, which many Remain campaigners have used in their efforts to discredit and overturn the result of the 2016 referendum on EU membership.\nHow Much Does The UK Actually Send To The EU",
+      "snippet": "After several years publishing The Daily Stirrer we decided that the journal was a difficult medium to access archive material in, so we introduced these omnibus pages, on which we gather posts on a particular topic.",
       "matchedWords": {
         "24igJXwiDb_d": {
-          "hits": 46,
+          "hits": 0,
           "textWords": 15267
         },
         "BqlDxZ8zo0u1": {
@@ -1347,7 +1347,7 @@
           "textWords": 15267
         },
         "VEDnDEPMAqup": {
-          "hits": 9,
+          "hits": 0,
           "textWords": 15267
         },
         "ZdxdKgOqyHsZ": {
@@ -1402,10 +1402,10 @@
       "hash": "x_LrOsmr6zb7",
       "address": "https://elperiodicodelara.com/",
       "title": "elperiodicodelara -",
-      "snippet": "You can even make money playing these tournaments! This is the new way to win big at an online casino.\nHow Does an Online Lottery Work?\nHow Does an Online Lottery Work?",
+      "snippet": "You can easily find out the payout percentage for each individual slot game by checking its rules or information page. You can also search for the game’s name on a search engine and look for terms like “payout percentage” or “return to player”.",
       "matchedWords": {
         "24igJXwiDb_d": {
-          "hits": 849,
+          "hits": 0,
           "textWords": 390763
         },
         "BqlDxZ8zo0u1": {
@@ -1413,7 +1413,7 @@
           "textWords": 390763
         },
         "VEDnDEPMAqup": {
-          "hits": 93,
+          "hits": 0,
           "textWords": 390763
         },
         "ZdxdKgOqyHsZ": {
@@ -1429,7 +1429,7 @@
           "textWords": 390763
         }
       },
-      "queryPhraseHits": 6
+      "queryPhraseHits": 2
     },
     {
       "hash": "ClTOilptNsG4",
@@ -1438,7 +1438,7 @@
       "snippet": "Note: You might want to start at the Barack Obama Index Page, especially if you arrived here by using a search engine.\nDuring the seemingly endless 'transition\" period between election day and Obama's inauguration, I composed another page called, What can we expect from the Obama administration?",
       "matchedWords": {
         "24igJXwiDb_d": {
-          "hits": 86,
+          "hits": 0,
           "textWords": 95784
         },
         "BqlDxZ8zo0u1": {
@@ -1446,7 +1446,7 @@
           "textWords": 95784
         },
         "VEDnDEPMAqup": {
-          "hits": 40,
+          "hits": 0,
           "textWords": 95784
         },
         "ZdxdKgOqyHsZ": {
@@ -1462,7 +1462,7 @@
           "textWords": 95784
         }
       },
-      "queryPhraseHits": 3
+      "queryPhraseHits": 1
     },
     {
       "hash": "mHyFhKsrSOQw",
@@ -1501,10 +1501,10 @@
       "hash": "nA0ugsw4UVk6",
       "address": "https://paydayloansforus.com/",
       "title": "Paydayloansforus -",
-      "snippet": "In recent years, it has become easier than ever to purchase lottery tickets online. This is especially true when you’re a commuter and don’t have the time to run out and pick up a ticket at a local bodega. But is buying a lottery ticket online legal? If so, how does it work?",
+      "snippet": "Most legal online lottery websites have terms of use pages that explain the policies and requirements involved in purchasing, playing, and collecting a win. It is crucial to read these pages carefully, as it will protect you from fraudulent operators and a variety of other problems.",
       "matchedWords": {
         "24igJXwiDb_d": {
-          "hits": 457,
+          "hits": 0,
           "textWords": 279804
         },
         "BqlDxZ8zo0u1": {
@@ -1512,7 +1512,7 @@
           "textWords": 279804
         },
         "VEDnDEPMAqup": {
-          "hits": 48,
+          "hits": 0,
           "textWords": 279804
         },
         "ZdxdKgOqyHsZ": {
@@ -1528,7 +1528,7 @@
           "textWords": 279804
         }
       },
-      "queryPhraseHits": 2
+      "queryPhraseHits": 0
     },
     {
       "hash": "Wfq3FswvoTD5",
@@ -1570,7 +1570,7 @@
       "snippet": "Search Engine Optimization Search engine optimization is the art of obtaining top positions on the world wide web for words and phrases that people are searching for.",
       "matchedWords": {
         "24igJXwiDb_d": {
-          "hits": 57,
+          "hits": 0,
           "textWords": 79601
         },
         "BqlDxZ8zo0u1": {
@@ -1578,7 +1578,7 @@
           "textWords": 79601
         },
         "VEDnDEPMAqup": {
-          "hits": 7,
+          "hits": 0,
           "textWords": 79601
         },
         "ZdxdKgOqyHsZ": {
@@ -1594,16 +1594,16 @@
           "textWords": 79601
         }
       },
-      "queryPhraseHits": 4
+      "queryPhraseHits": 3
     },
     {
       "hash": "Q831Yj-JVcyx",
       "address": "https://en.wikiquote.org/wiki/United_States",
       "title": "United States - Wikiquote",
-      "snippet": "I believe in the individual, in less government so as to allow that individual maximum freedom to create and achieve; that societies which are founded on restraining the government rather than the individual are optimum; that the individual is smart enough to solve his own problems and does not",
+      "snippet": "Wherever the standard of freedom and Independence has been or shall be unfurled, there will her heart, her benedictions and her prayers be. But she goes not abroad, in search of monsters to destroy. She is the well-wisher to the freedom and independence of all.",
       "matchedWords": {
         "24igJXwiDb_d": {
-          "hits": 66,
+          "hits": 0,
           "textWords": 85210
         },
         "BqlDxZ8zo0u1": {
@@ -1611,7 +1611,7 @@
           "textWords": 85210
         },
         "VEDnDEPMAqup": {
-          "hits": 61,
+          "hits": 0,
           "textWords": 85210
         },
         "ZdxdKgOqyHsZ": {
@@ -1633,10 +1633,10 @@
       "hash": "urBnQl0Wuyo4",
       "address": "https://www.mkzine.com/",
       "title": "MKzine Resource Corner - Enriching lives with news",
-      "snippet": "Since Search Engine Optimization increases the number of visitors to your site, it will also increase the possibility of you earning more patients. The more people see you online, the more your dental services get known.…\n6 Tips on How to Choose the Best Roof Financing Contractors",
+      "snippet": "In fact, a lot of huge and widely-known companies still invest in SEO tactics, while some renowned internet marketing agencies are constantly renewing their SEO tactics to make them more search engine friendly, given the ever-changing algorithm of search engines especially Google.",
       "matchedWords": {
         "24igJXwiDb_d": {
-          "hits": 70,
+          "hits": 0,
           "textWords": 25695
         },
         "BqlDxZ8zo0u1": {
@@ -1644,7 +1644,7 @@
           "textWords": 25695
         },
         "VEDnDEPMAqup": {
-          "hits": 13,
+          "hits": 0,
           "textWords": 25695
         },
         "ZdxdKgOqyHsZ": {
@@ -1666,10 +1666,10 @@
       "hash": "qlxkrs3DFtAz",
       "address": "https://westnorthamptonshirejpu.org/",
       "title": "westnorthamptonshirejpu.org -",
-      "snippet": "Besides RTP and volatility, another factor to consider when choosing an online slot is its hit frequency. This is how often the game pays out winning combinations. You can find this information on the game’s paytable or by entering its title into a search engine.",
+      "snippet": "However, the most important thing is to find a casino that is licensed and offers high payout rates. You can use a reliable online casino search engine to look for live casinos that meet your needs and requirements.",
       "matchedWords": {
         "24igJXwiDb_d": {
-          "hits": 102,
+          "hits": 0,
           "textWords": 50066
         },
         "BqlDxZ8zo0u1": {
@@ -1677,7 +1677,7 @@
           "textWords": 50066
         },
         "VEDnDEPMAqup": {
-          "hits": 8,
+          "hits": 0,
           "textWords": 50066
         },
         "ZdxdKgOqyHsZ": {
@@ -1735,7 +1735,7 @@
       "snippet": "Providing valuable information, such as expert analysis or engaging blogs, will enhance the user experience and increase customer loyalty. Additionally, creating relevant content will help you rank higher in search engine results, which can significantly improve traffic to your sportsbook.",
       "matchedWords": {
         "24igJXwiDb_d": {
-          "hits": 99,
+          "hits": 0,
           "textWords": 101475
         },
         "BqlDxZ8zo0u1": {
@@ -1743,7 +1743,7 @@
           "textWords": 101475
         },
         "VEDnDEPMAqup": {
-          "hits": 4,
+          "hits": 0,
           "textWords": 101475
         },
         "ZdxdKgOqyHsZ": {
@@ -1834,7 +1834,7 @@
       "snippet": "If you’ve got ever used an Web search engine, you’ve submitted a query — your search terms. An excellent information integration system would let the marketing division view data from each sources in a unified means, leaving out any data that didn’t apply to the search.",
       "matchedWords": {
         "24igJXwiDb_d": {
-          "hits": 157,
+          "hits": 0,
           "textWords": 230924
         },
         "BqlDxZ8zo0u1": {
@@ -1842,7 +1842,7 @@
           "textWords": 230924
         },
         "VEDnDEPMAqup": {
-          "hits": 49,
+          "hits": 0,
           "textWords": 230924
         },
         "ZdxdKgOqyHsZ": {
@@ -1858,16 +1858,16 @@
           "textWords": 230924
         }
       },
-      "queryPhraseHits": 3
+      "queryPhraseHits": 2
     },
     {
       "hash": "WbYVe_QzrsJ5",
       "address": "https://thestingofthescorpion.wordpress.com/tag/country/",
       "title": "Country | The Sting Of The Scorpion Blog (T.S.O.T.S.B.)",
-      "snippet": "But still, how does this help me sleep at night.\nMy wife and I spent the better part of yesterday evening going over the possibilities of where my card specifically was targeted and then compromised.",
+      "snippet": "The Texas mud flap girl and the Everything is Bigger in Texas pictures were both acquired via a Google image search. The images do not belong to me or The Sting Of The Scorpion and were borrowed, used, and placed assuming they were royalty free. Meaning?",
       "matchedWords": {
         "24igJXwiDb_d": {
-          "hits": 24,
+          "hits": 0,
           "textWords": 10069
         },
         "BqlDxZ8zo0u1": {
@@ -1875,7 +1875,7 @@
           "textWords": 10069
         },
         "VEDnDEPMAqup": {
-          "hits": 3,
+          "hits": 0,
           "textWords": 10069
         },
         "ZdxdKgOqyHsZ": {
@@ -1891,16 +1891,16 @@
           "textWords": 10069
         }
       },
-      "queryPhraseHits": 1
+      "queryPhraseHits": 0
     },
     {
       "hash": "jEM-o_QzrsJ5",
       "address": "https://thestingofthescorpion.wordpress.com/tag/story/",
       "title": "Story | The Sting Of The Scorpion Blog (T.S.O.T.S.B.)",
-      "snippet": "But, damn, my future wife had (and still does) an ass that commanded my full attention. Women, eventhough they’ll never admit it, are tricky crafty creatures, they play coy but know they are the black widow. One can search the blog for more on her as well.",
+      "snippet": "Want to know more, search this blog, I’ve written extensively about being adopted. In their eyes I was wrong for wanting to where I came from. But, slowly, I got them to understand.",
       "matchedWords": {
         "24igJXwiDb_d": {
-          "hits": 43,
+          "hits": 0,
           "textWords": 17053
         },
         "BqlDxZ8zo0u1": {
@@ -1908,7 +1908,7 @@
           "textWords": 17053
         },
         "VEDnDEPMAqup": {
-          "hits": 15,
+          "hits": 0,
           "textWords": 17053
         },
         "ZdxdKgOqyHsZ": {
@@ -1930,10 +1930,10 @@
       "hash": "krJ9TsRD6io6",
       "address": "https://licindiachennai.com/",
       "title": "licindiachennai -",
-      "snippet": "Then you can start playing and winning!\n\u003cspan class=\"entry-utility-prep entry-utility-prep-cat-links\"\u003ePosted in\u003c/span\u003e News |\nHow Does Online Slot Work?\nOnline Slot is one of the most popular casino games. It is easy to play and can offer big payouts. The technology behind online slots is complex.",
+      "snippet": "Other marketing tactics include well-crafted email marketing and high search engine rankings.\nIt’s also important to look for the casino’s licensing. You’re likely to lose your money if you play at an unlicensed online casino.",
       "matchedWords": {
         "24igJXwiDb_d": {
-          "hits": 814,
+          "hits": 0,
           "textWords": 403394
         },
         "BqlDxZ8zo0u1": {
@@ -1941,7 +1941,7 @@
           "textWords": 403394
         },
         "VEDnDEPMAqup": {
-          "hits": 114,
+          "hits": 0,
           "textWords": 403394
         },
         "ZdxdKgOqyHsZ": {
@@ -1957,16 +1957,16 @@
           "textWords": 403394
         }
       },
-      "queryPhraseHits": 6
+      "queryPhraseHits": 2
     },
     {
       "hash": "diDs1jRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Uganda",
       "title": "Uganda - Wikipedia",
-      "snippet": "The issue of how to manage the largest monarchy within the framework of a unitary state had been a problem since the British creation of the Protectorate of Uganda. Colonial governors had failed to come up with a formula that worked.",
+      "snippet": "Forest condition measured by degree of anthropogenic modification. 0 = most modifications; 10 = least. Created in Google Earth Engine. National boundaries = LSIB 2017: Large Scale International Boundary Polygons, Detailed, US Officer of the Geographer.",
       "matchedWords": {
         "24igJXwiDb_d": {
-          "hits": 3,
+          "hits": 0,
           "textWords": 19748
         },
         "BqlDxZ8zo0u1": {
@@ -1974,7 +1974,7 @@
           "textWords": 19748
         },
         "VEDnDEPMAqup": {
-          "hits": 1,
+          "hits": 0,
           "textWords": 19748
         },
         "ZdxdKgOqyHsZ": {
@@ -1996,10 +1996,10 @@
       "hash": "m0QS_jRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Myanmar",
       "title": "Myanmar - Wikipedia",
-      "snippet": "28] The United Nations uses Myanmar, as does the ASEAN and as do Australia,[29] Russia, Germany,[30] China, India, Bangladesh, Norway,[31] Japan,[32] Switzerland,[33] Canada[34] and Ukraine.[",
+      "snippet": "285][286]\nLargest cities\nLargest cities or towns in Myanmar\ngeohive.com\nRank\nName\nDivision\nPop.\n1\nYangon\nYangon\n5,211,431\n2\nMandalay\nMandalay\n1,225,546\n3\nNaypyidaw\nNaypyidaw\n1,160,242\n4\nBago\nBago\n491,434\n5\nHpa-An\nKayin\n421,575\n6\nTaunggyi\nShan\n381,636\n7\nMonywa\nSagaing\n372,095\n8\nMyitkyina\nKachin",
       "matchedWords": {
         "24igJXwiDb_d": {
-          "hits": 2,
+          "hits": 0,
           "textWords": 23318
         },
         "BqlDxZ8zo0u1": {
@@ -2007,7 +2007,7 @@
           "textWords": 23318
         },
         "VEDnDEPMAqup": {
-          "hits": 2,
+          "hits": 0,
           "textWords": 23318
         },
         "ZdxdKgOqyHsZ": {
@@ -2032,7 +2032,7 @@
       "snippet": "Iran ranks 17th among countries by number of Internet users. Google Search is Iran's most widely used search engine and Instagram is the most popular online social networking service.[",
       "matchedWords": {
         "24igJXwiDb_d": {
-          "hits": 16,
+          "hits": 0,
           "textWords": 32584
         },
         "BqlDxZ8zo0u1": {
@@ -2040,7 +2040,7 @@
           "textWords": 32584
         },
         "VEDnDEPMAqup": {
-          "hits": 8,
+          "hits": 0,
           "textWords": 32584
         },
         "ZdxdKgOqyHsZ": {
@@ -2065,7 +2065,7 @@
       "snippet": "Eventually, they changed the name to Google; the name of the search engine was a misspelling of the word googol, a very large number written 10100 (1 followed by 100 zeros), picked to signify that the search engine was intended to search a large number of websites.[30]",
       "matchedWords": {
         "24igJXwiDb_d": {
-          "hits": 22,
+          "hits": 0,
           "textWords": 22911
         },
         "BqlDxZ8zo0u1": {
@@ -2073,7 +2073,7 @@
           "textWords": 22911
         },
         "VEDnDEPMAqup": {
-          "hits": 3,
+          "hits": 0,
           "textWords": 22911
         },
         "ZdxdKgOqyHsZ": {
@@ -2131,7 +2131,7 @@
       "snippet": "152] He introduced two initiatives that bore his name: Lugar–Obama, which expanded the Nunn–Lugar Cooperative Threat Reduction concept to conventional weapons;[153] and the Federal Funding Accountability and Transparency Act of 2006, which authorized the establishment of USAspending.gov, a web",
       "matchedWords": {
         "24igJXwiDb_d": {
-          "hits": 13,
+          "hits": 0,
           "textWords": 27810
         },
         "BqlDxZ8zo0u1": {
@@ -2139,7 +2139,7 @@
           "textWords": 27810
         },
         "VEDnDEPMAqup": {
-          "hits": 1,
+          "hits": 0,
           "textWords": 27810
         },
         "ZdxdKgOqyHsZ": {
@@ -2164,7 +2164,7 @@
       "snippet": "400 ft (122 m)\nLowest elevation\n0 ft (0 m)\nPopulation (2020)\n• Total\n8,804,190\n• Estimate\n(2025)[5]\n8,584,629\n• Rank\n1st in the United States\n• Density\n29,303/sq mi (11,313.8/km2)\n• Urban[6]\n19,426,449\n• Urban density\n5,981/sq mi (2,309.2/km2)\n• Metro[7]\n20,140,470\nDemonym\nNew Yorker\nGDP[8][9]",
       "matchedWords": {
         "24igJXwiDb_d": {
-          "hits": 17,
+          "hits": 0,
           "textWords": 38901
         },
         "BqlDxZ8zo0u1": {
@@ -2172,7 +2172,7 @@
           "textWords": 38901
         },
         "VEDnDEPMAqup": {
-          "hits": 3,
+          "hits": 0,
           "textWords": 38901
         },
         "ZdxdKgOqyHsZ": {
@@ -2194,10 +2194,10 @@
       "hash": "7IIFujRvmBbx",
       "address": "https://en.wikipedia.org/wiki/United_Kingdom",
       "title": "United Kingdom - Wikipedia",
-      "snippet": "Health Service Journal. 24 September 2019. Retrieved 19 November 2019.\n↑ \"How does UK healthcare spending compare with other countries?\". Office of National Statistics. 29 August 2019. Retrieved 5 October 2019.\n↑ \"'Huge contrasts' in devolved NHS\". BBC News.",
+      "snippet": "(England and Wales: 2011 census built-up area;[356] Scotland: 2016 estimates settlement;[357] Northern Ireland: 2001 census urban area)[358]\nRank\nName\nUrban area\nPop.\nRank\nName\nUrban area\nPop.\n1\nLondon\nGreater London\n9,787,426\n11\nBristol\nBristol\n617,280\n2\nManchester\nGreater Manchester\n2,553,379\n12",
       "matchedWords": {
         "24igJXwiDb_d": {
-          "hits": 11,
+          "hits": 0,
           "textWords": 31950
         },
         "BqlDxZ8zo0u1": {
@@ -2205,7 +2205,7 @@
           "textWords": 31950
         },
         "VEDnDEPMAqup": {
-          "hits": 10,
+          "hits": 0,
           "textWords": 31950
         },
         "ZdxdKgOqyHsZ": {
@@ -2221,16 +2221,16 @@
           "textWords": 31950
         }
       },
-      "queryPhraseHits": 1
+      "queryPhraseHits": 0
     },
     {
       "hash": "-WvJtjRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Singapore",
       "title": "Singapore - Wikipedia",
-      "snippet": "While temperature does not vary greatly throughout the year, there is a wetter monsoon season from November to February.[152]\nFrom July to October, there is often haze caused by bush fires in neighbouring Indonesia, usually from the island of Sumatra.[",
+      "snippet": "201] Freedom House ranks Singapore as \"partly free\" in its Freedom in the World report,[202][183] and the Economist Intelligence Unit ranks Singapore as a \"flawed democracy\", the second freest rank of four, in its \"Democracy Index\".[",
       "matchedWords": {
         "24igJXwiDb_d": {
-          "hits": 5,
+          "hits": 0,
           "textWords": 27838
         },
         "BqlDxZ8zo0u1": {
@@ -2238,7 +2238,7 @@
           "textWords": 27838
         },
         "VEDnDEPMAqup": {
-          "hits": 4,
+          "hits": 0,
           "textWords": 27838
         },
         "ZdxdKgOqyHsZ": {
@@ -2260,10 +2260,10 @@
       "hash": "zG_etzSBCthw",
       "address": "https://publishing.cdlib.org/ucpressebooks/public/book/before-the-nickelodeon-edwin-s-porter-and-the-edison-manufacturing-company.html",
       "title": "Before the Nickelodeon: Edwin S. Porter and the Edison Manufacturing Company | UC Press E-Books Collection Archive, 1982-2004",
-      "snippet": "How Bridget Made the Fire (Biograph, 1900), 170 , 171\nHow Jones Lost His Roll (1905), 317 -18\nHow the Office Boy Saw the Ball Game (1906), 332 , 345 -47, 346 , 419\nHow They Do Things on the Bowery (1902), 165 , 198 , 209 -11, 210 , 225 , 226 , 232 , 486",
+      "snippet": "the house, drawn by eager, prancing steeds. Here we dissolve again to the fifth scene.\nScene 5.—The Apparatus Leaving the Engine House. We show a fine exterior view of engine house, the great doors swinging open, and the apparatus coming out. This is a most imposing scene.",
       "matchedWords": {
         "24igJXwiDb_d": {
-          "hits": 82,
+          "hits": 0,
           "textWords": 202698
         },
         "BqlDxZ8zo0u1": {
@@ -2271,7 +2271,7 @@
           "textWords": 202698
         },
         "VEDnDEPMAqup": {
-          "hits": 44,
+          "hits": 0,
           "textWords": 202698
         },
         "ZdxdKgOqyHsZ": {
@@ -2359,10 +2359,10 @@
       "hash": "fkFkDmVUrQm6",
       "address": "https://earthnewspaper.com/mark-r-elsis/eisenhowers-rhine-meadows-death-camps-by-mark-r-elsis/",
       "title": "Eisenhower’s Rhine-Meadows Death Camps by Mark R. Elsis – EarthNewspaper.com – All The Honest News Fit To Publish",
-      "snippet": "[How did Eisenhower who was General Douglas MacArthur’s secretary, became the Supreme Allied Commander? Especially when General MacArthur felt Eisenhower was incompetent. How within 45 months did he bypass hundreds of officers with higher rank?",
+      "snippet": "Confronting The Truth About WWII: Gemma O’Doherty Interviews Dr. E. Michael Jones (1:05:53)\nhttps://www.bitchute.com/video/A97cdKYgCQGT\nHitler’s Peace Plans (95 Pages)\nEdited and Written by Mark R. Elsis\nhttps://HitlersPeacePlans.com\nHolocaust Revisionism (168 Pages)\nby Mark R. Elsis",
       "matchedWords": {
         "24igJXwiDb_d": {
-          "hits": 4,
+          "hits": 0,
           "textWords": 1617
         },
         "BqlDxZ8zo0u1": {
@@ -2428,7 +2428,7 @@
       "snippet": "The internet search giant will now be able to use information about what people are entering into its search engine to target adverts according to users' interests under the changes.",
       "matchedWords": {
         "24igJXwiDb_d": {
-          "hits": 70,
+          "hits": 0,
           "textWords": 54675
         },
         "BqlDxZ8zo0u1": {
@@ -2436,7 +2436,7 @@
           "textWords": 54675
         },
         "VEDnDEPMAqup": {
-          "hits": 20,
+          "hits": 0,
           "textWords": 54675
         },
         "ZdxdKgOqyHsZ": {
@@ -2458,10 +2458,10 @@
       "hash": "PSkz_QXx1HRZ",
       "address": "http://www.dailystirrer.com/2021-october.shtml",
       "title": "dailystirrer-2021-news-october-comment-opinion-controversy-contrarianism",
-      "snippet": "But how does telling people what they can and cannot think promote diversity?\nHave You Committed Your Three Thought Crimes Today?\nYou're a criminal. So am I.",
+      "snippet": "The fact is of course that nobody can possibly predict exactly what will happen in the future, the predictions of the last twenty years, none of which have been borne out by the way, as a little research using a decent search engine will confirm, have been based the reults of mathematical modelling",
       "matchedWords": {
         "24igJXwiDb_d": {
-          "hits": 161,
+          "hits": 0,
           "textWords": 123511
         },
         "BqlDxZ8zo0u1": {
@@ -2469,7 +2469,7 @@
           "textWords": 123511
         },
         "VEDnDEPMAqup": {
-          "hits": 85,
+          "hits": 0,
           "textWords": 123511
         },
         "ZdxdKgOqyHsZ": {
@@ -2485,16 +2485,16 @@
           "textWords": 123511
         }
       },
-      "queryPhraseHits": 4
+      "queryPhraseHits": 1
     },
     {
       "hash": "I-6nyQZchFfZ",
       "address": "http://www.greenteethmm.com/brexit-europe.shtml",
       "title": "eu-brexit-britain-decides-if-the-ftuture-lies-in-or-outside-the-european-union-index",
-      "snippet": "The case, which many Remain campaigners have used in their efforts to discredit and overturn the result of the 2016 referendum on EU membership.\nHow Much Does The UK Actually Send To The EU",
+      "snippet": "After several years publishing The Daily Stirrer we decided that the journal was a difficult medium to access archive material in, so we introduced these omnibus pages, on which we gather posts on a particular topic.",
       "matchedWords": {
         "24igJXwiDb_d": {
-          "hits": 46,
+          "hits": 0,
           "textWords": 15267
         },
         "BqlDxZ8zo0u1": {
@@ -2502,7 +2502,7 @@
           "textWords": 15267
         },
         "VEDnDEPMAqup": {
-          "hits": 9,
+          "hits": 0,
           "textWords": 15267
         },
         "ZdxdKgOqyHsZ": {
@@ -2527,7 +2527,7 @@
       "snippet": "Businesses, government organisations and even our humble laptop and desktop computers at home are being under constant attack, not by hackers and cybercriminals but by Search Engine Operators, Social Media Networks and online marketplaces.",
       "matchedWords": {
         "24igJXwiDb_d": {
-          "hits": 47,
+          "hits": 0,
           "textWords": 40231
         },
         "BqlDxZ8zo0u1": {
@@ -2535,7 +2535,7 @@
           "textWords": 40231
         },
         "VEDnDEPMAqup": {
-          "hits": 15,
+          "hits": 0,
           "textWords": 40231
         },
         "ZdxdKgOqyHsZ": {
@@ -2560,7 +2560,7 @@
       "snippet": "Background: Why does DCS need a fast Integer Codec?\nDebian Code Search (DCS) is a search engine that allows searching all the Open Source source code within Debian, with either literal search expressions or regular expression search queries.",
       "matchedWords": {
         "24igJXwiDb_d": {
-          "hits": 18,
+          "hits": 0,
           "textWords": 8109
         },
         "BqlDxZ8zo0u1": {
@@ -2568,7 +2568,7 @@
           "textWords": 8109
         },
         "VEDnDEPMAqup": {
-          "hits": 7,
+          "hits": 0,
           "textWords": 8109
         },
         "ZdxdKgOqyHsZ": {
@@ -2623,10 +2623,10 @@
       "hash": "x_LrOsmr6zb7",
       "address": "https://elperiodicodelara.com/",
       "title": "elperiodicodelara -",
-      "snippet": "You can even make money playing these tournaments! This is the new way to win big at an online casino.\nHow Does an Online Lottery Work?\nHow Does an Online Lottery Work?",
+      "snippet": "You can easily find out the payout percentage for each individual slot game by checking its rules or information page. You can also search for the game’s name on a search engine and look for terms like “payout percentage” or “return to player”.",
       "matchedWords": {
         "24igJXwiDb_d": {
-          "hits": 849,
+          "hits": 0,
           "textWords": 390763
         },
         "BqlDxZ8zo0u1": {
@@ -2634,7 +2634,7 @@
           "textWords": 390763
         },
         "VEDnDEPMAqup": {
-          "hits": 93,
+          "hits": 0,
           "textWords": 390763
         },
         "ZdxdKgOqyHsZ": {
@@ -2650,7 +2650,7 @@
           "textWords": 390763
         }
       },
-      "queryPhraseHits": 6
+      "queryPhraseHits": 2
     },
     {
       "hash": "ClTOilptNsG4",
@@ -2659,7 +2659,7 @@
       "snippet": "Note: You might want to start at the Barack Obama Index Page, especially if you arrived here by using a search engine.\nDuring the seemingly endless 'transition\" period between election day and Obama's inauguration, I composed another page called, What can we expect from the Obama administration?",
       "matchedWords": {
         "24igJXwiDb_d": {
-          "hits": 86,
+          "hits": 0,
           "textWords": 95784
         },
         "BqlDxZ8zo0u1": {
@@ -2667,7 +2667,7 @@
           "textWords": 95784
         },
         "VEDnDEPMAqup": {
-          "hits": 40,
+          "hits": 0,
           "textWords": 95784
         },
         "ZdxdKgOqyHsZ": {
@@ -2683,7 +2683,7 @@
           "textWords": 95784
         }
       },
-      "queryPhraseHits": 3
+      "queryPhraseHits": 1
     },
     {
       "hash": "7Nac2lptNsG4",
@@ -2755,10 +2755,10 @@
       "hash": "nA0ugsw4UVk6",
       "address": "https://paydayloansforus.com/",
       "title": "Paydayloansforus -",
-      "snippet": "In recent years, it has become easier than ever to purchase lottery tickets online. This is especially true when you’re a commuter and don’t have the time to run out and pick up a ticket at a local bodega. But is buying a lottery ticket online legal? If so, how does it work?",
+      "snippet": "Most legal online lottery websites have terms of use pages that explain the policies and requirements involved in purchasing, playing, and collecting a win. It is crucial to read these pages carefully, as it will protect you from fraudulent operators and a variety of other problems.",
       "matchedWords": {
         "24igJXwiDb_d": {
-          "hits": 457,
+          "hits": 0,
           "textWords": 279804
         },
         "BqlDxZ8zo0u1": {
@@ -2766,7 +2766,7 @@
           "textWords": 279804
         },
         "VEDnDEPMAqup": {
-          "hits": 48,
+          "hits": 0,
           "textWords": 279804
         },
         "ZdxdKgOqyHsZ": {
@@ -2782,7 +2782,7 @@
           "textWords": 279804
         }
       },
-      "queryPhraseHits": 2
+      "queryPhraseHits": 0
     },
     {
       "hash": "Wfq3FswvoTD5",
@@ -2824,7 +2824,7 @@
       "snippet": "Search Engine Optimization Search engine optimization is the art of obtaining top positions on the world wide web for words and phrases that people are searching for.",
       "matchedWords": {
         "24igJXwiDb_d": {
-          "hits": 57,
+          "hits": 0,
           "textWords": 79601
         },
         "BqlDxZ8zo0u1": {
@@ -2832,7 +2832,7 @@
           "textWords": 79601
         },
         "VEDnDEPMAqup": {
-          "hits": 7,
+          "hits": 0,
           "textWords": 79601
         },
         "ZdxdKgOqyHsZ": {
@@ -2848,7 +2848,7 @@
           "textWords": 79601
         }
       },
-      "queryPhraseHits": 4
+      "queryPhraseHits": 3
     },
     {
       "hash": "hMirq_DUt2yk",
@@ -2890,7 +2890,7 @@
       "snippet": "If you’ve got ever used an Web search engine, you’ve submitted a query — your search terms. An excellent information integration system would let the marketing division view data from each sources in a unified means, leaving out any data that didn’t apply to the search.",
       "matchedWords": {
         "24igJXwiDb_d": {
-          "hits": 157,
+          "hits": 0,
           "textWords": 230924
         },
         "BqlDxZ8zo0u1": {
@@ -2898,7 +2898,7 @@
           "textWords": 230924
         },
         "VEDnDEPMAqup": {
-          "hits": 49,
+          "hits": 0,
           "textWords": 230924
         },
         "ZdxdKgOqyHsZ": {
@@ -2914,7 +2914,7 @@
           "textWords": 230924
         }
       },
-      "queryPhraseHits": 3
+      "queryPhraseHits": 2
     },
     {
       "hash": "jb1jqjRvmBbx",
@@ -2923,7 +2923,7 @@
       "snippet": "Allegiance\nUnited States\nBranch/service\nVirginia militia\nYears of service\n1775–1776\nRank\nColonel\nUnit\nAlbemarle County Militia\nBattles/wars\nAmerican Revolutionary War\nPhilosophical work\nEra\nAge of Enlightenment\nRegion\nWestern philosophy\nAmerican philosophy\nSchool\nClassical liberalism\nDeism",
       "matchedWords": {
         "24igJXwiDb_d": {
-          "hits": 1,
+          "hits": 0,
           "textWords": 24487
         },
         "BqlDxZ8zo0u1": {
@@ -2931,7 +2931,7 @@
           "textWords": 24487
         },
         "VEDnDEPMAqup": {
-          "hits": 2,
+          "hits": 0,
           "textWords": 24487
         },
         "ZdxdKgOqyHsZ": {

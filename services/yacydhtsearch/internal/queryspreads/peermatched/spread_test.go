@@ -104,7 +104,7 @@ func searchOf(
 ) [][]peeranswers.AnsweredItem {
 	return spreadOf(network, peersHoldingOneWord, observer).SpreadOverPeers(
 		context.Background(),
-		searchquery.QueryFrom("berlin weather"),
+		searchquery.QueryFrom("berlin weather", ""),
 		[]peerdirectory.AskablePeer{peerAt("first"), peerAt("second")},
 	).ItemsInTheOrderOfEachAnswer
 }
@@ -112,7 +112,7 @@ func searchOf(
 func searchForTheQuery(network *peerNetwork, query string) [][]peeranswers.AnsweredItem {
 	return spreadOf(network, peersHoldingOneWord, &recordedSpreads{}).SpreadOverPeers(
 		context.Background(),
-		searchquery.QueryFrom(query),
+		searchquery.QueryFrom(query, ""),
 		[]peerdirectory.AskablePeer{peerAt("first"), peerAt("second")},
 	).ItemsInTheOrderOfEachAnswer
 }
@@ -132,7 +132,7 @@ func TestEveryPeerChosenForAnyQueryWordIsAskedOnce(t *testing.T) {
 
 	spreadOf(network, peersHoldingOneWord, &recordedSpreads{}).SpreadOverPeers(
 		context.Background(),
-		searchquery.QueryFrom("berlin weather"),
+		searchquery.QueryFrom("berlin weather", ""),
 		[]peerdirectory.AskablePeer{
 			peerAt("first"), peerAt("second"), peerAt("third"), peerAt("fourth"),
 		},

@@ -1,20 +1,20 @@
 {
   "query": "difference between tcp and udp",
-  "recordedAt": "2026-09-12T07:51:59Z",
+  "recordedAt": "2026-09-12T10:15:20Z",
   "itemsInTheOrderOfEachAnswer": [
     [
       {
         "hash": "D4lABzaS0qdw",
         "address": "https://planet.debian.org/",
         "title": "Planet Debian",
-        "snippet": "PHONY: all test bench bench-baseline bench-relative all: test bench: test $(BENCH) | tee bench.txt # Compares compression ratio between C and Go implementation benchstat -col /impl -row '/n /vals' -filter '-/impl:go-stream .unit:(encoded-bytes)' bench.txt # Compares performance between C (cgo) and",
+        "snippet": "The SIMD version also processes 8 values, but without a for i := range 8 loop!\nOne difference is that we no longer have the luxury of using uint64 for acc (holding rest and current bits); because AVX2 registers only fit 8 uint32 (not 8 uint64). Instead, we split acc into rest8 and cur8.",
         "matchedWords": {
           "4guyArHVU3sU": {
             "hits": 0,
             "textWords": 8109
           },
           "KULEZq6YXE_i": {
-            "hits": 2,
+            "hits": 0,
             "textWords": 8109
           },
           "hIZMH-CVNZvJ": {
@@ -26,7 +26,7 @@
             "textWords": 8109
           },
           "vl1dN1Qtdfk6": {
-            "hits": 82,
+            "hits": 0,
             "textWords": 8109
           }
         },
@@ -38,14 +38,14 @@
         "hash": "D4lABzaS0qdw",
         "address": "https://planet.debian.org/",
         "title": "Planet Debian",
-        "snippet": "PHONY: all test bench bench-baseline bench-relative all: test bench: test $(BENCH) | tee bench.txt # Compares compression ratio between C and Go implementation benchstat -col /impl -row '/n /vals' -filter '-/impl:go-stream .unit:(encoded-bytes)' bench.txt # Compares performance between C (cgo) and",
+        "snippet": "The SIMD version also processes 8 values, but without a for i := range 8 loop!\nOne difference is that we no longer have the luxury of using uint64 for acc (holding rest and current bits); because AVX2 registers only fit 8 uint32 (not 8 uint64). Instead, we split acc into rest8 and cur8.",
         "matchedWords": {
           "4guyArHVU3sU": {
             "hits": 0,
             "textWords": 8109
           },
           "KULEZq6YXE_i": {
-            "hits": 2,
+            "hits": 0,
             "textWords": 8109
           },
           "hIZMH-CVNZvJ": {
@@ -57,7 +57,7 @@
             "textWords": 8109
           },
           "vl1dN1Qtdfk6": {
-            "hits": 82,
+            "hits": 0,
             "textWords": 8109
           }
         },
@@ -69,14 +69,14 @@
         "hash": "wRN6JitD2jQw",
         "address": "https://docs.python.org/3/whatsnew/2.7.html",
         "title": "What’s New in Python 2.7 — Python 3.13.2 documentation",
-        "snippet": "However, while there is a large common subset between Python 2.7 and Python 3, and many of the changes involved in migrating to that common subset, or directly to Python 3, can be safely automated, some other changes (notably those associated with Unicode handling) may require careful",
+        "snippet": "Three smaller enhancements to the logging module, all implemented by Vinay Sajip, are:\nThe SysLogHandler class now supports syslogging over TCP. The constructor has a socktype parameter giving the type of socket to use, either socket.SOCK_DGRAM for UDP or socket.SOCK_STREAM for TCP.",
         "matchedWords": {
           "4guyArHVU3sU": {
             "hits": 4,
             "textWords": 15027
           },
           "KULEZq6YXE_i": {
-            "hits": 9,
+            "hits": 0,
             "textWords": 15027
           },
           "hIZMH-CVNZvJ": {
@@ -88,7 +88,7 @@
             "textWords": 15027
           },
           "vl1dN1Qtdfk6": {
-            "hits": 349,
+            "hits": 0,
             "textWords": 15027
           }
         },
@@ -100,14 +100,14 @@
         "hash": "D4lABzaS0qdw",
         "address": "https://planet.debian.org/",
         "title": "Planet Debian",
-        "snippet": "PHONY: all test bench bench-baseline bench-relative all: test bench: test $(BENCH) | tee bench.txt # Compares compression ratio between C and Go implementation benchstat -col /impl -row '/n /vals' -filter '-/impl:go-stream .unit:(encoded-bytes)' bench.txt # Compares performance between C (cgo) and",
+        "snippet": "The SIMD version also processes 8 values, but without a for i := range 8 loop!\nOne difference is that we no longer have the luxury of using uint64 for acc (holding rest and current bits); because AVX2 registers only fit 8 uint32 (not 8 uint64). Instead, we split acc into rest8 and cur8.",
         "matchedWords": {
           "4guyArHVU3sU": {
             "hits": 0,
             "textWords": 8109
           },
           "KULEZq6YXE_i": {
-            "hits": 2,
+            "hits": 0,
             "textWords": 8109
           },
           "hIZMH-CVNZvJ": {
@@ -119,7 +119,7 @@
             "textWords": 8109
           },
           "vl1dN1Qtdfk6": {
-            "hits": 82,
+            "hits": 0,
             "textWords": 8109
           }
         },
@@ -131,14 +131,14 @@
         "hash": "D4lABzaS0qdw",
         "address": "https://planet.debian.org/",
         "title": "Planet Debian",
-        "snippet": "PHONY: all test bench bench-baseline bench-relative all: test bench: test $(BENCH) | tee bench.txt # Compares compression ratio between C and Go implementation benchstat -col /impl -row '/n /vals' -filter '-/impl:go-stream .unit:(encoded-bytes)' bench.txt # Compares performance between C (cgo) and",
+        "snippet": "The SIMD version also processes 8 values, but without a for i := range 8 loop!\nOne difference is that we no longer have the luxury of using uint64 for acc (holding rest and current bits); because AVX2 registers only fit 8 uint32 (not 8 uint64). Instead, we split acc into rest8 and cur8.",
         "matchedWords": {
           "4guyArHVU3sU": {
             "hits": 0,
             "textWords": 8109
           },
           "KULEZq6YXE_i": {
-            "hits": 2,
+            "hits": 0,
             "textWords": 8109
           },
           "hIZMH-CVNZvJ": {
@@ -150,7 +150,7 @@
             "textWords": 8109
           },
           "vl1dN1Qtdfk6": {
-            "hits": 82,
+            "hits": 0,
             "textWords": 8109
           }
         },
@@ -162,14 +162,14 @@
         "hash": "D4lABzaS0qdw",
         "address": "https://planet.debian.org/",
         "title": "Planet Debian",
-        "snippet": "PHONY: all test bench bench-baseline bench-relative all: test bench: test $(BENCH) | tee bench.txt # Compares compression ratio between C and Go implementation benchstat -col /impl -row '/n /vals' -filter '-/impl:go-stream .unit:(encoded-bytes)' bench.txt # Compares performance between C (cgo) and",
+        "snippet": "The SIMD version also processes 8 values, but without a for i := range 8 loop!\nOne difference is that we no longer have the luxury of using uint64 for acc (holding rest and current bits); because AVX2 registers only fit 8 uint32 (not 8 uint64). Instead, we split acc into rest8 and cur8.",
         "matchedWords": {
           "4guyArHVU3sU": {
             "hits": 0,
             "textWords": 8109
           },
           "KULEZq6YXE_i": {
-            "hits": 2,
+            "hits": 0,
             "textWords": 8109
           },
           "hIZMH-CVNZvJ": {
@@ -181,7 +181,7 @@
             "textWords": 8109
           },
           "vl1dN1Qtdfk6": {
-            "hits": 82,
+            "hits": 0,
             "textWords": 8109
           }
         },
@@ -193,14 +193,14 @@
         "hash": "D4lABzaS0qdw",
         "address": "https://planet.debian.org/",
         "title": "Planet Debian",
-        "snippet": "PHONY: all test bench bench-baseline bench-relative all: test bench: test $(BENCH) | tee bench.txt # Compares compression ratio between C and Go implementation benchstat -col /impl -row '/n /vals' -filter '-/impl:go-stream .unit:(encoded-bytes)' bench.txt # Compares performance between C (cgo) and",
+        "snippet": "The SIMD version also processes 8 values, but without a for i := range 8 loop!\nOne difference is that we no longer have the luxury of using uint64 for acc (holding rest and current bits); because AVX2 registers only fit 8 uint32 (not 8 uint64). Instead, we split acc into rest8 and cur8.",
         "matchedWords": {
           "4guyArHVU3sU": {
             "hits": 0,
             "textWords": 8109
           },
           "KULEZq6YXE_i": {
-            "hits": 2,
+            "hits": 0,
             "textWords": 8109
           },
           "hIZMH-CVNZvJ": {
@@ -212,7 +212,7 @@
             "textWords": 8109
           },
           "vl1dN1Qtdfk6": {
-            "hits": 82,
+            "hits": 0,
             "textWords": 8109
           }
         },
@@ -225,14 +225,14 @@
       "hash": "P-tQgitD2jQw",
       "address": "https://docs.python.org/3/library/asyncio-eventloop.html",
       "title": "Event Loop — Python 3.12.3 documentation",
-      "snippet": "Changed in version 3.8: In Python 3.7 and earlier with the default event loop implementation, the difference between when and the current time could not exceed one day. This has been fixed in Python 3.8.\nloop.time()¶",
+      "snippet": "Changed in version 3.5: Added support for SSL/TLS in ProactorEventLoop.\nChanged in version 3.6: The socket option socket.TCP_NODELAY is set by default for all TCP connections.\nChanged in version 3.7: Added the ssl_handshake_timeout parameter.",
       "matchedWords": {
         "4guyArHVU3sU": {
           "hits": 8,
           "textWords": 8854
         },
         "KULEZq6YXE_i": {
-          "hits": 2,
+          "hits": 0,
           "textWords": 8854
         },
         "hIZMH-CVNZvJ": {
@@ -244,24 +244,24 @@
           "textWords": 8854
         },
         "vl1dN1Qtdfk6": {
-          "hits": 140,
+          "hits": 0,
           "textWords": 8854
         }
       },
-      "queryPhraseHits": 2
+      "queryPhraseHits": 0
     },
     {
       "hash": "P-tQgitD2jQw",
       "address": "https://docs.python.org/3/library/asyncio-eventloop.html",
       "title": "Event Loop — Python 3.12.3 documentation",
-      "snippet": "Changed in version 3.8: In Python 3.7 and earlier with the default event loop implementation, the difference between when and the current time could not exceed one day. This has been fixed in Python 3.8.\nloop.time()¶",
+      "snippet": "Changed in version 3.5: Added support for SSL/TLS in ProactorEventLoop.\nChanged in version 3.6: The socket option socket.TCP_NODELAY is set by default for all TCP connections.\nChanged in version 3.7: Added the ssl_handshake_timeout parameter.",
       "matchedWords": {
         "4guyArHVU3sU": {
           "hits": 8,
           "textWords": 8854
         },
         "KULEZq6YXE_i": {
-          "hits": 2,
+          "hits": 0,
           "textWords": 8854
         },
         "hIZMH-CVNZvJ": {
@@ -273,24 +273,24 @@
           "textWords": 8854
         },
         "vl1dN1Qtdfk6": {
-          "hits": 140,
+          "hits": 0,
           "textWords": 8854
         }
       },
-      "queryPhraseHits": 2
+      "queryPhraseHits": 0
     },
     {
       "hash": "P-tQgitD2jQw",
       "address": "https://docs.python.org/3/library/asyncio-eventloop.html",
       "title": "Event loop — Python 3.14.6 documentation",
-      "snippet": "Changed in version 3.8: In Python 3.7 and earlier with the default event loop implementation, the difference between when and the current time could not exceed one day. This has been fixed in Python 3.8.\nloop.time()¶",
+      "snippet": "Changed in version 3.5: Added support for SSL/TLS in ProactorEventLoop.\nChanged in version 3.6: The socket option socket.TCP_NODELAY is set by default for all TCP connections.\nChanged in version 3.7: Added the ssl_handshake_timeout parameter.",
       "matchedWords": {
         "4guyArHVU3sU": {
           "hits": 8,
           "textWords": 8854
         },
         "KULEZq6YXE_i": {
-          "hits": 2,
+          "hits": 0,
           "textWords": 8854
         },
         "hIZMH-CVNZvJ": {
@@ -302,11 +302,11 @@
           "textWords": 8854
         },
         "vl1dN1Qtdfk6": {
-          "hits": 140,
+          "hits": 0,
           "textWords": 8854
         }
       },
-      "queryPhraseHits": 2
+      "queryPhraseHits": 0
     },
     {
       "hash": "P60DNWVFEEow",
@@ -341,14 +341,14 @@
       "hash": "P-tQgitD2jQw",
       "address": "https://docs.python.org/3/library/asyncio-eventloop.html",
       "title": "Event Loop — Python 3.12.3 documentation",
-      "snippet": "Changed in version 3.8: In Python 3.7 and earlier with the default event loop implementation, the difference between when and the current time could not exceed one day. This has been fixed in Python 3.8.\nloop.time()¶",
+      "snippet": "Changed in version 3.5: Added support for SSL/TLS in ProactorEventLoop.\nChanged in version 3.6: The socket option socket.TCP_NODELAY is set by default for all TCP connections.\nChanged in version 3.7: Added the ssl_handshake_timeout parameter.",
       "matchedWords": {
         "4guyArHVU3sU": {
           "hits": 8,
           "textWords": 8854
         },
         "KULEZq6YXE_i": {
-          "hits": 2,
+          "hits": 0,
           "textWords": 8854
         },
         "hIZMH-CVNZvJ": {
@@ -360,24 +360,24 @@
           "textWords": 8854
         },
         "vl1dN1Qtdfk6": {
-          "hits": 140,
+          "hits": 0,
           "textWords": 8854
         }
       },
-      "queryPhraseHits": 2
+      "queryPhraseHits": 0
     },
     {
       "hash": "P-tQgitD2jQw",
       "address": "https://docs.python.org/3/library/asyncio-eventloop.html",
       "title": "Event loop — Python 3.14.7 documentation",
-      "snippet": "Changed in version 3.8: In Python 3.7 and earlier with the default event loop implementation, the difference between when and the current time could not exceed one day. This has been fixed in Python 3.8.\nloop.time()¶",
+      "snippet": "Changed in version 3.5: Added support for SSL/TLS in ProactorEventLoop.\nChanged in version 3.6: The socket option socket.TCP_NODELAY is set by default for all TCP connections.\nChanged in version 3.7: Added the ssl_handshake_timeout parameter.",
       "matchedWords": {
         "4guyArHVU3sU": {
           "hits": 8,
           "textWords": 8854
         },
         "KULEZq6YXE_i": {
-          "hits": 2,
+          "hits": 0,
           "textWords": 8854
         },
         "hIZMH-CVNZvJ": {
@@ -389,11 +389,11 @@
           "textWords": 8854
         },
         "vl1dN1Qtdfk6": {
-          "hits": 140,
+          "hits": 0,
           "textWords": 8854
         }
       },
-      "queryPhraseHits": 2
+      "queryPhraseHits": 0
     },
     {
       "hash": "P60DNWVFEEow",
@@ -428,14 +428,14 @@
       "hash": "Wnr2gs6GdY-4",
       "address": "https://danluu.com/google-sre-book/",
       "title": "Google SRE book",
-      "snippet": "Ex: if a user is on a smartphone with 99% reliability, they can’t tell the difference between 99.99% and 99.999% reliability\nManaging risk\nReliability isn’t linear in cost. It can easily cost 100x more to get one additional increment of reliability Cost associated with redundant equipment",
+      "snippet": "Inactive connections are relatively cheap, but not free, even in “inactive” mode (reduced health checks, UDP instead of TCP, etc.)\nChoosing the correct subset Typ: 20-100, choose base on workload\nSubset selection: random Bad utilization",
       "matchedWords": {
         "4guyArHVU3sU": {
           "hits": 1,
           "textWords": 6615
         },
         "KULEZq6YXE_i": {
-          "hits": 5,
+          "hits": 0,
           "textWords": 6615
         },
         "hIZMH-CVNZvJ": {
@@ -447,11 +447,11 @@
           "textWords": 6615
         },
         "vl1dN1Qtdfk6": {
-          "hits": 100,
+          "hits": 0,
           "textWords": 6615
         }
       },
-      "queryPhraseHits": 2
+      "queryPhraseHits": 0
     },
     {
       "hash": "P60DNWVFEEow",
@@ -493,7 +493,7 @@
           "textWords": 3110
         },
         "KULEZq6YXE_i": {
-          "hits": 3,
+          "hits": 0,
           "textWords": 3110
         },
         "hIZMH-CVNZvJ": {
@@ -505,11 +505,11 @@
           "textWords": 3110
         },
         "vl1dN1Qtdfk6": {
-          "hits": 51,
+          "hits": 0,
           "textWords": 3110
         }
       },
-      "queryPhraseHits": 3
+      "queryPhraseHits": 0
     },
     {
       "hash": "P60DNWVFEEow",
@@ -544,14 +544,14 @@
       "hash": "mt0JEs6GdY-4",
       "address": "https://danluu.com/navigate-url/",
       "title": "What happens when you load a URL?",
-      "snippet": "If we can figure out where to go our packets go from our ISP through some edge router, some core routers, another edge router, and then go through their network to get into the “meat” of a datacenter.\nWhat's the difference between core and edge routers?",
+      "snippet": "Do we do that for DNS or does it have to be UDP?\nHow does the OS decide if an outgoing connection should be allowed? What if there's a software firewall? How does that work?\nFor TCP, without TLS/SSL, we can just do slow-start followed by some standard congestion protocol, right?",
       "matchedWords": {
         "4guyArHVU3sU": {
           "hits": 3,
           "textWords": 1771
         },
         "KULEZq6YXE_i": {
-          "hits": 7,
+          "hits": 0,
           "textWords": 1771
         },
         "hIZMH-CVNZvJ": {
@@ -563,24 +563,24 @@
           "textWords": 1771
         },
         "vl1dN1Qtdfk6": {
-          "hits": 47,
+          "hits": 0,
           "textWords": 1771
         }
       },
-      "queryPhraseHits": 2
+      "queryPhraseHits": 0
     },
     {
       "hash": "mt0JEs6GdY-4",
       "address": "https://danluu.com/navigate-url/",
       "title": "What happens when you load a URL?",
-      "snippet": "If we can figure out where to go our packets go from our ISP through some edge router, some core routers, another edge router, and then go through their network to get into the “meat” of a datacenter.\nWhat's the difference between core and edge routers?",
+      "snippet": "Do we do that for DNS or does it have to be UDP?\nHow does the OS decide if an outgoing connection should be allowed? What if there's a software firewall? How does that work?\nFor TCP, without TLS/SSL, we can just do slow-start followed by some standard congestion protocol, right?",
       "matchedWords": {
         "4guyArHVU3sU": {
           "hits": 3,
           "textWords": 1771
         },
         "KULEZq6YXE_i": {
-          "hits": 7,
+          "hits": 0,
           "textWords": 1771
         },
         "hIZMH-CVNZvJ": {
@@ -592,24 +592,24 @@
           "textWords": 1771
         },
         "vl1dN1Qtdfk6": {
-          "hits": 47,
+          "hits": 0,
           "textWords": 1771
         }
       },
-      "queryPhraseHits": 2
+      "queryPhraseHits": 0
     },
     {
       "hash": "mt0JEs6GdY-4",
       "address": "https://danluu.com/navigate-url/",
       "title": "What happens when you load a URL?",
-      "snippet": "If we can figure out where to go our packets go from our ISP through some edge router, some core routers, another edge router, and then go through their network to get into the “meat” of a datacenter.\nWhat's the difference between core and edge routers?",
+      "snippet": "Do we do that for DNS or does it have to be UDP?\nHow does the OS decide if an outgoing connection should be allowed? What if there's a software firewall? How does that work?\nFor TCP, without TLS/SSL, we can just do slow-start followed by some standard congestion protocol, right?",
       "matchedWords": {
         "4guyArHVU3sU": {
           "hits": 3,
           "textWords": 1771
         },
         "KULEZq6YXE_i": {
-          "hits": 7,
+          "hits": 0,
           "textWords": 1771
         },
         "hIZMH-CVNZvJ": {
@@ -621,24 +621,24 @@
           "textWords": 1771
         },
         "vl1dN1Qtdfk6": {
-          "hits": 47,
+          "hits": 0,
           "textWords": 1771
         }
       },
-      "queryPhraseHits": 2
+      "queryPhraseHits": 0
     },
     {
       "hash": "P-tQgitD2jQw",
       "address": "https://docs.python.org/3/library/asyncio-eventloop.html",
       "title": "Event loop — Python 3.14.7 documentation",
-      "snippet": "Changed in version 3.8: In Python 3.7 and earlier with the default event loop implementation, the difference between when and the current time could not exceed one day. This has been fixed in Python 3.8.\nloop.time()¶",
+      "snippet": "Changed in version 3.5: Added support for SSL/TLS in ProactorEventLoop.\nChanged in version 3.6: The socket option socket.TCP_NODELAY is set by default for all TCP connections.\nChanged in version 3.7: Added the ssl_handshake_timeout parameter.",
       "matchedWords": {
         "4guyArHVU3sU": {
           "hits": 8,
           "textWords": 8854
         },
         "KULEZq6YXE_i": {
-          "hits": 2,
+          "hits": 0,
           "textWords": 8854
         },
         "hIZMH-CVNZvJ": {
@@ -650,11 +650,11 @@
           "textWords": 8854
         },
         "vl1dN1Qtdfk6": {
-          "hits": 140,
+          "hits": 0,
           "textWords": 8854
         }
       },
-      "queryPhraseHits": 2
+      "queryPhraseHits": 0
     },
     {
       "hash": "VgxBBitD2jQw",
@@ -667,7 +667,7 @@
           "textWords": 3110
         },
         "KULEZq6YXE_i": {
-          "hits": 3,
+          "hits": 0,
           "textWords": 3110
         },
         "hIZMH-CVNZvJ": {
@@ -679,24 +679,24 @@
           "textWords": 3110
         },
         "vl1dN1Qtdfk6": {
-          "hits": 51,
+          "hits": 0,
           "textWords": 3110
         }
       },
-      "queryPhraseHits": 3
+      "queryPhraseHits": 0
     },
     {
       "hash": "mt0JEs6GdY-4",
       "address": "https://danluu.com/navigate-url/",
       "title": "What happens when you load a URL?",
-      "snippet": "If we can figure out where to go our packets go from our ISP through some edge router, some core routers, another edge router, and then go through their network to get into the “meat” of a datacenter.\nWhat's the difference between core and edge routers?",
+      "snippet": "Do we do that for DNS or does it have to be UDP?\nHow does the OS decide if an outgoing connection should be allowed? What if there's a software firewall? How does that work?\nFor TCP, without TLS/SSL, we can just do slow-start followed by some standard congestion protocol, right?",
       "matchedWords": {
         "4guyArHVU3sU": {
           "hits": 3,
           "textWords": 1771
         },
         "KULEZq6YXE_i": {
-          "hits": 7,
+          "hits": 0,
           "textWords": 1771
         },
         "hIZMH-CVNZvJ": {
@@ -708,24 +708,24 @@
           "textWords": 1771
         },
         "vl1dN1Qtdfk6": {
-          "hits": 47,
+          "hits": 0,
           "textWords": 1771
         }
       },
-      "queryPhraseHits": 2
+      "queryPhraseHits": 0
     },
     {
       "hash": "P-tQgitD2jQw",
       "address": "https://docs.python.org/3/library/asyncio-eventloop.html",
       "title": "Event Loop — Python 3.14.0 documentation",
-      "snippet": "Changed in version 3.8: In Python 3.7 and earlier with the default event loop implementation, the difference between when and the current time could not exceed one day. This has been fixed in Python 3.8.\nloop.time()¶",
+      "snippet": "Changed in version 3.5: Added support for SSL/TLS in ProactorEventLoop.\nChanged in version 3.6: The socket option socket.TCP_NODELAY is set by default for all TCP connections.\nChanged in version 3.7: Added the ssl_handshake_timeout parameter.",
       "matchedWords": {
         "4guyArHVU3sU": {
           "hits": 8,
           "textWords": 8854
         },
         "KULEZq6YXE_i": {
-          "hits": 2,
+          "hits": 0,
           "textWords": 8854
         },
         "hIZMH-CVNZvJ": {
@@ -737,11 +737,11 @@
           "textWords": 8854
         },
         "vl1dN1Qtdfk6": {
-          "hits": 140,
+          "hits": 0,
           "textWords": 8854
         }
       },
-      "queryPhraseHits": 2
+      "queryPhraseHits": 0
     },
     {
       "hash": "VgxBBitD2jQw",
@@ -754,7 +754,7 @@
           "textWords": 3110
         },
         "KULEZq6YXE_i": {
-          "hits": 3,
+          "hits": 0,
           "textWords": 3110
         },
         "hIZMH-CVNZvJ": {
@@ -766,24 +766,24 @@
           "textWords": 3110
         },
         "vl1dN1Qtdfk6": {
-          "hits": 51,
+          "hits": 0,
           "textWords": 3110
         }
       },
-      "queryPhraseHits": 3
+      "queryPhraseHits": 0
     },
     {
       "hash": "Wnr2gs6GdY-4",
       "address": "https://danluu.com/google-sre-book/",
       "title": "Google SRE book",
-      "snippet": "Ex: if a user is on a smartphone with 99% reliability, they can’t tell the difference between 99.99% and 99.999% reliability\nManaging risk\nReliability isn’t linear in cost. It can easily cost 100x more to get one additional increment of reliability Cost associated with redundant equipment",
+      "snippet": "Inactive connections are relatively cheap, but not free, even in “inactive” mode (reduced health checks, UDP instead of TCP, etc.)\nChoosing the correct subset Typ: 20-100, choose base on workload\nSubset selection: random Bad utilization",
       "matchedWords": {
         "4guyArHVU3sU": {
           "hits": 1,
           "textWords": 6615
         },
         "KULEZq6YXE_i": {
-          "hits": 5,
+          "hits": 0,
           "textWords": 6615
         },
         "hIZMH-CVNZvJ": {
@@ -795,24 +795,24 @@
           "textWords": 6615
         },
         "vl1dN1Qtdfk6": {
-          "hits": 100,
+          "hits": 0,
           "textWords": 6615
         }
       },
-      "queryPhraseHits": 2
+      "queryPhraseHits": 0
     },
     {
       "hash": "P-tQgitD2jQw",
       "address": "https://docs.python.org/3/library/asyncio-eventloop.html",
       "title": "Event loop — Python 3.14.7 documentation",
-      "snippet": "Changed in version 3.8: In Python 3.7 and earlier with the default event loop implementation, the difference between when and the current time could not exceed one day. This has been fixed in Python 3.8.\nloop.time()¶",
+      "snippet": "Changed in version 3.5: Added support for SSL/TLS in ProactorEventLoop.\nChanged in version 3.6: The socket option socket.TCP_NODELAY is set by default for all TCP connections.\nChanged in version 3.7: Added the ssl_handshake_timeout parameter.",
       "matchedWords": {
         "4guyArHVU3sU": {
           "hits": 8,
           "textWords": 8854
         },
         "KULEZq6YXE_i": {
-          "hits": 2,
+          "hits": 0,
           "textWords": 8854
         },
         "hIZMH-CVNZvJ": {
@@ -824,24 +824,24 @@
           "textWords": 8854
         },
         "vl1dN1Qtdfk6": {
-          "hits": 140,
+          "hits": 0,
           "textWords": 8854
         }
       },
-      "queryPhraseHits": 2
+      "queryPhraseHits": 0
     },
     {
       "hash": "P-tQgitD2jQw",
       "address": "https://docs.python.org/3/library/asyncio-eventloop.html",
       "title": "Event loop — Python 3.14.7 documentation",
-      "snippet": "Changed in version 3.8: In Python 3.7 and earlier with the default event loop implementation, the difference between when and the current time could not exceed one day. This has been fixed in Python 3.8.\nloop.time()¶",
+      "snippet": "Changed in version 3.5: Added support for SSL/TLS in ProactorEventLoop.\nChanged in version 3.6: The socket option socket.TCP_NODELAY is set by default for all TCP connections.\nChanged in version 3.7: Added the ssl_handshake_timeout parameter.",
       "matchedWords": {
         "4guyArHVU3sU": {
           "hits": 8,
           "textWords": 8854
         },
         "KULEZq6YXE_i": {
-          "hits": 2,
+          "hits": 0,
           "textWords": 8854
         },
         "hIZMH-CVNZvJ": {
@@ -853,24 +853,24 @@
           "textWords": 8854
         },
         "vl1dN1Qtdfk6": {
-          "hits": 140,
+          "hits": 0,
           "textWords": 8854
         }
       },
-      "queryPhraseHits": 2
+      "queryPhraseHits": 0
     },
     {
       "hash": "P-tQgitD2jQw",
       "address": "https://docs.python.org/3/library/asyncio-eventloop.html",
       "title": "Event Loop — Python 3.12.3 documentation",
-      "snippet": "Changed in version 3.8: In Python 3.7 and earlier with the default event loop implementation, the difference between when and the current time could not exceed one day. This has been fixed in Python 3.8.\nloop.time()¶",
+      "snippet": "Changed in version 3.5: Added support for SSL/TLS in ProactorEventLoop.\nChanged in version 3.6: The socket option socket.TCP_NODELAY is set by default for all TCP connections.\nChanged in version 3.7: Added the ssl_handshake_timeout parameter.",
       "matchedWords": {
         "4guyArHVU3sU": {
           "hits": 8,
           "textWords": 8854
         },
         "KULEZq6YXE_i": {
-          "hits": 2,
+          "hits": 0,
           "textWords": 8854
         },
         "hIZMH-CVNZvJ": {
@@ -882,24 +882,24 @@
           "textWords": 8854
         },
         "vl1dN1Qtdfk6": {
-          "hits": 140,
+          "hits": 0,
           "textWords": 8854
         }
       },
-      "queryPhraseHits": 2
+      "queryPhraseHits": 0
     },
     {
       "hash": "Wnr2gs6GdY-4",
       "address": "https://danluu.com/google-sre-book/",
       "title": "Google SRE book",
-      "snippet": "Ex: if a user is on a smartphone with 99% reliability, they can’t tell the difference between 99.99% and 99.999% reliability\nManaging risk\nReliability isn’t linear in cost. It can easily cost 100x more to get one additional increment of reliability Cost associated with redundant equipment",
+      "snippet": "Inactive connections are relatively cheap, but not free, even in “inactive” mode (reduced health checks, UDP instead of TCP, etc.)\nChoosing the correct subset Typ: 20-100, choose base on workload\nSubset selection: random Bad utilization",
       "matchedWords": {
         "4guyArHVU3sU": {
           "hits": 1,
           "textWords": 6615
         },
         "KULEZq6YXE_i": {
-          "hits": 5,
+          "hits": 0,
           "textWords": 6615
         },
         "hIZMH-CVNZvJ": {
@@ -911,11 +911,11 @@
           "textWords": 6615
         },
         "vl1dN1Qtdfk6": {
-          "hits": 100,
+          "hits": 0,
           "textWords": 6615
         }
       },
-      "queryPhraseHits": 2
+      "queryPhraseHits": 0
     },
     {
       "hash": "VgxBBitD2jQw",
@@ -928,7 +928,7 @@
           "textWords": 3110
         },
         "KULEZq6YXE_i": {
-          "hits": 3,
+          "hits": 0,
           "textWords": 3110
         },
         "hIZMH-CVNZvJ": {
@@ -940,24 +940,24 @@
           "textWords": 3110
         },
         "vl1dN1Qtdfk6": {
-          "hits": 51,
+          "hits": 0,
           "textWords": 3110
         }
       },
-      "queryPhraseHits": 3
+      "queryPhraseHits": 0
     },
     {
       "hash": "Wnr2gs6GdY-4",
       "address": "https://danluu.com/google-sre-book/",
       "title": "Google SRE book",
-      "snippet": "Ex: if a user is on a smartphone with 99% reliability, they can’t tell the difference between 99.99% and 99.999% reliability\nManaging risk\nReliability isn’t linear in cost. It can easily cost 100x more to get one additional increment of reliability Cost associated with redundant equipment",
+      "snippet": "Inactive connections are relatively cheap, but not free, even in “inactive” mode (reduced health checks, UDP instead of TCP, etc.)\nChoosing the correct subset Typ: 20-100, choose base on workload\nSubset selection: random Bad utilization",
       "matchedWords": {
         "4guyArHVU3sU": {
           "hits": 1,
           "textWords": 6615
         },
         "KULEZq6YXE_i": {
-          "hits": 5,
+          "hits": 0,
           "textWords": 6615
         },
         "hIZMH-CVNZvJ": {
@@ -969,11 +969,11 @@
           "textWords": 6615
         },
         "vl1dN1Qtdfk6": {
-          "hits": 100,
+          "hits": 0,
           "textWords": 6615
         }
       },
-      "queryPhraseHits": 2
+      "queryPhraseHits": 0
     },
     {
       "hash": "P60DNWVFEEow",
@@ -1008,14 +1008,14 @@
       "hash": "P-tQgitD2jQw",
       "address": "https://docs.python.org/3/library/asyncio-eventloop.html",
       "title": "Event Loop — Python 3.14.3 documentation",
-      "snippet": "Changed in version 3.8: In Python 3.7 and earlier with the default event loop implementation, the difference between when and the current time could not exceed one day. This has been fixed in Python 3.8.\nloop.time()¶",
+      "snippet": "Changed in version 3.5: Added support for SSL/TLS in ProactorEventLoop.\nChanged in version 3.6: The socket option socket.TCP_NODELAY is set by default for all TCP connections.\nChanged in version 3.7: Added the ssl_handshake_timeout parameter.",
       "matchedWords": {
         "4guyArHVU3sU": {
           "hits": 8,
           "textWords": 8854
         },
         "KULEZq6YXE_i": {
-          "hits": 2,
+          "hits": 0,
           "textWords": 8854
         },
         "hIZMH-CVNZvJ": {
@@ -1027,11 +1027,11 @@
           "textWords": 8854
         },
         "vl1dN1Qtdfk6": {
-          "hits": 140,
+          "hits": 0,
           "textWords": 8854
         }
       },
-      "queryPhraseHits": 2
+      "queryPhraseHits": 0
     },
     {
       "hash": "VgxBBitD2jQw",
@@ -1044,7 +1044,7 @@
           "textWords": 3110
         },
         "KULEZq6YXE_i": {
-          "hits": 3,
+          "hits": 0,
           "textWords": 3110
         },
         "hIZMH-CVNZvJ": {
@@ -1056,24 +1056,24 @@
           "textWords": 3110
         },
         "vl1dN1Qtdfk6": {
-          "hits": 51,
+          "hits": 0,
           "textWords": 3110
         }
       },
-      "queryPhraseHits": 3
+      "queryPhraseHits": 0
     },
     {
       "hash": "Wnr2gs6GdY-4",
       "address": "https://danluu.com/google-sre-book/",
       "title": "Google SRE book",
-      "snippet": "Ex: if a user is on a smartphone with 99% reliability, they can’t tell the difference between 99.99% and 99.999% reliability\nManaging risk\nReliability isn’t linear in cost. It can easily cost 100x more to get one additional increment of reliability Cost associated with redundant equipment",
+      "snippet": "Inactive connections are relatively cheap, but not free, even in “inactive” mode (reduced health checks, UDP instead of TCP, etc.)\nChoosing the correct subset Typ: 20-100, choose base on workload\nSubset selection: random Bad utilization",
       "matchedWords": {
         "4guyArHVU3sU": {
           "hits": 1,
           "textWords": 6615
         },
         "KULEZq6YXE_i": {
-          "hits": 5,
+          "hits": 0,
           "textWords": 6615
         },
         "hIZMH-CVNZvJ": {
@@ -1085,11 +1085,11 @@
           "textWords": 6615
         },
         "vl1dN1Qtdfk6": {
-          "hits": 100,
+          "hits": 0,
           "textWords": 6615
         }
       },
-      "queryPhraseHits": 2
+      "queryPhraseHits": 0
     },
     {
       "hash": "VgxBBitD2jQw",
@@ -1102,7 +1102,7 @@
           "textWords": 3110
         },
         "KULEZq6YXE_i": {
-          "hits": 3,
+          "hits": 0,
           "textWords": 3110
         },
         "hIZMH-CVNZvJ": {
@@ -1114,24 +1114,24 @@
           "textWords": 3110
         },
         "vl1dN1Qtdfk6": {
-          "hits": 51,
+          "hits": 0,
           "textWords": 3110
         }
       },
-      "queryPhraseHits": 3
+      "queryPhraseHits": 0
     },
     {
       "hash": "mt0JEs6GdY-4",
       "address": "https://danluu.com/navigate-url/",
       "title": "What happens when you load a URL?",
-      "snippet": "If we can figure out where to go our packets go from our ISP through some edge router, some core routers, another edge router, and then go through their network to get into the “meat” of a datacenter.\nWhat's the difference between core and edge routers?",
+      "snippet": "Do we do that for DNS or does it have to be UDP?\nHow does the OS decide if an outgoing connection should be allowed? What if there's a software firewall? How does that work?\nFor TCP, without TLS/SSL, we can just do slow-start followed by some standard congestion protocol, right?",
       "matchedWords": {
         "4guyArHVU3sU": {
           "hits": 3,
           "textWords": 1771
         },
         "KULEZq6YXE_i": {
-          "hits": 7,
+          "hits": 0,
           "textWords": 1771
         },
         "hIZMH-CVNZvJ": {
@@ -1143,24 +1143,24 @@
           "textWords": 1771
         },
         "vl1dN1Qtdfk6": {
-          "hits": 47,
+          "hits": 0,
           "textWords": 1771
         }
       },
-      "queryPhraseHits": 2
+      "queryPhraseHits": 0
     },
     {
       "hash": "Wnr2gs6GdY-4",
       "address": "https://danluu.com/google-sre-book/",
       "title": "Google SRE book",
-      "snippet": "Ex: if a user is on a smartphone with 99% reliability, they can’t tell the difference between 99.99% and 99.999% reliability\nManaging risk\nReliability isn’t linear in cost. It can easily cost 100x more to get one additional increment of reliability Cost associated with redundant equipment",
+      "snippet": "Inactive connections are relatively cheap, but not free, even in “inactive” mode (reduced health checks, UDP instead of TCP, etc.)\nChoosing the correct subset Typ: 20-100, choose base on workload\nSubset selection: random Bad utilization",
       "matchedWords": {
         "4guyArHVU3sU": {
           "hits": 1,
           "textWords": 6615
         },
         "KULEZq6YXE_i": {
-          "hits": 5,
+          "hits": 0,
           "textWords": 6615
         },
         "hIZMH-CVNZvJ": {
@@ -1172,11 +1172,11 @@
           "textWords": 6615
         },
         "vl1dN1Qtdfk6": {
-          "hits": 100,
+          "hits": 0,
           "textWords": 6615
         }
       },
-      "queryPhraseHits": 2
+      "queryPhraseHits": 0
     },
     {
       "hash": "VgxBBitD2jQw",
@@ -1189,7 +1189,7 @@
           "textWords": 3110
         },
         "KULEZq6YXE_i": {
-          "hits": 3,
+          "hits": 0,
           "textWords": 3110
         },
         "hIZMH-CVNZvJ": {
@@ -1201,24 +1201,24 @@
           "textWords": 3110
         },
         "vl1dN1Qtdfk6": {
-          "hits": 51,
+          "hits": 0,
           "textWords": 3110
         }
       },
-      "queryPhraseHits": 3
+      "queryPhraseHits": 0
     },
     {
       "hash": "mt0JEs6GdY-4",
       "address": "https://danluu.com/navigate-url/",
       "title": "What happens when you load a URL?",
-      "snippet": "If we can figure out where to go our packets go from our ISP through some edge router, some core routers, another edge router, and then go through their network to get into the “meat” of a datacenter.\nWhat's the difference between core and edge routers?",
+      "snippet": "Do we do that for DNS or does it have to be UDP?\nHow does the OS decide if an outgoing connection should be allowed? What if there's a software firewall? How does that work?\nFor TCP, without TLS/SSL, we can just do slow-start followed by some standard congestion protocol, right?",
       "matchedWords": {
         "4guyArHVU3sU": {
           "hits": 3,
           "textWords": 1771
         },
         "KULEZq6YXE_i": {
-          "hits": 7,
+          "hits": 0,
           "textWords": 1771
         },
         "hIZMH-CVNZvJ": {
@@ -1230,11 +1230,11 @@
           "textWords": 1771
         },
         "vl1dN1Qtdfk6": {
-          "hits": 47,
+          "hits": 0,
           "textWords": 1771
         }
       },
-      "queryPhraseHits": 2
+      "queryPhraseHits": 0
     },
     {
       "hash": "P60DNWVFEEow",

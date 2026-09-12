@@ -281,7 +281,7 @@ func answersOfOneQuery(
 	defer stopQueryBudget()
 
 	return spread.SpreadOverPeers(
-		ctx, searchquery.QueryFrom(query), directory.AskablePeers(ctx),
+		ctx, searchquery.QueryFrom(query, ""), directory.AskablePeers(ctx),
 	)
 }
 

@@ -19,7 +19,7 @@ yacydhtsearch is configured entirely through environment variables.
 
 ## Ranking cache
 
-One query produces one ranking, and every page of that query is cut from it. While a ranking stays in the cache, the peers are not asked again.
+One query produces one ranking, and every page of that query is cut from it. While a ranking stays in the cache, the peers are not asked again. Without a NATS address each instance caches its own rankings, and a restart drops them. With one, the instances answer a repeated query from the same ranking. An address that does not answer stops the service from starting.
 
 | Variable | Default | Meaning |
 |---|---|---|
@@ -27,8 +27,6 @@ One query produces one ranking, and every page of that query is cut from it. Whi
 | `YACYDHTSEARCH_RANKED_ITEMS_CEILING` | `50` | Most items one ranking holds. A client cannot get more than this. |
 | `YACYDHTSEARCH_RANKING_CACHE_CAPACITY` | `1024` | Most rankings the cache keeps at one time. |
 | `YACYDHTSEARCH_NATS_URL` | in-memory | NATS address that caches rankings for every instance. |
-
-Without a NATS address each instance caches its own rankings, and a restart drops them. With one, the instances answer a repeated query from the same ranking. An address that does not answer stops the service from starting.
 
 ## Peer directory
 
@@ -51,6 +49,8 @@ YaCy peers can limit remote searches by client address. Service instances that u
 | `YACYDHTSEARCH_NETWORK_REDUNDANCY` | `3` | How many peers hold one copy of a posting in the network. It must match the network. |
 
 ## Cross-peer words
+
+The service leaves the stopwords of the query out of the words it asks the peers for, counts in the page text and takes the snippet from. It holds a stopword list for English, German, French, Spanish, Italian and Russian. The list is the one the `lr` field names, or, when the client names no language, the one that covers the most query words. Two lists that cover as many words leave the query as it is, and a query of stopwords alone keeps all its words.
 
 | Variable | Default | Meaning |
 |---|---|---|

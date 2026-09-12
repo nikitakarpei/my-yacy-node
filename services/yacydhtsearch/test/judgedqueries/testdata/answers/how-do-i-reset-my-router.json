@@ -1,6 +1,6 @@
 {
   "query": "how do i reset my router",
-  "recordedAt": "2026-09-12T07:52:00Z",
+  "recordedAt": "2026-09-12T10:15:21Z",
   "itemsInTheOrderOfEachAnswer": [
     [
       {
@@ -38,14 +38,14 @@
         "hash": "pGRD67yp6WtY",
         "address": "http://tantek.com/",
         "title": "Tantek Çelik",
-        "snippet": "Because when it is, students cannot do it.”\n* https://www.reddit.com/r/Professors/comments/1vkw6by/how_do_you_know_an_assignment_is_ai_proof_because/\n“I assign a profile essay. Have for 30 years. Student interviews a person, records it, writes a paper based off the recording.",
+        "snippet": "Personally I do not have any “internet connected” home appliances (not counting a router or video streaming devices, home computers) or vehicles and even before this, never planned to get any for both security and privacy reasons.",
         "matchedWords": {
           "1FebJojWdSNf": {
-            "hits": 29,
+            "hits": 0,
             "textWords": 10682
           },
           "24igJXwiDb_d": {
-            "hits": 25,
+            "hits": 0,
             "textWords": 10682
           },
           "8zlc1Uz4V934": {
@@ -53,7 +53,7 @@
             "textWords": 10682
           },
           "aGTzidmHZDa8": {
-            "hits": 18,
+            "hits": 0,
             "textWords": 10682
           },
           "hiZu6TfZf4Eq": {
@@ -61,7 +61,7 @@
             "textWords": 10682
           }
         },
-        "queryPhraseHits": 3
+        "queryPhraseHits": 0
       }
     ],
     [
@@ -69,14 +69,14 @@
         "hash": "uaEnGzTwnifx",
         "address": "https://planet.wordpress.org/",
         "title": "Planet — WordPress.org",
-        "snippet": "But like, that’s with the belief that those data centres are going to matter meaningfully. And I don’t know if they will.\nLike we don’t, because we didn’t know how we got here. And it’s doing the thing now. I can use it to code my site. Like I can do that today.",
+        "snippet": "Transcript [00:00:19] Nathan Wrigley: Welcome to the Jukebox Podcast from WP Tavern. My name is Nathan Wrigley.\nJukebox is a podcast which is dedicated to all things WordPress.",
         "matchedWords": {
           "1FebJojWdSNf": {
-            "hits": 80,
+            "hits": 0,
             "textWords": 9047
           },
           "24igJXwiDb_d": {
-            "hits": 47,
+            "hits": 0,
             "textWords": 9047
           },
           "8zlc1Uz4V934": {
@@ -84,7 +84,7 @@
             "textWords": 9047
           },
           "aGTzidmHZDa8": {
-            "hits": 28,
+            "hits": 0,
             "textWords": 9047
           },
           "hiZu6TfZf4Eq": {
@@ -92,7 +92,7 @@
             "textWords": 9047
           }
         },
-        "queryPhraseHits": 2
+        "queryPhraseHits": 0
       }
     ],
     [
@@ -100,14 +100,14 @@
         "hash": "ZVVpsl0w8O86",
         "address": "https://www.pandasecurity.com/en/mediacenter/secure-home-network/",
         "title": "How to Set Up a Secure Home Network",
-        "snippet": "Some routers do this automatically, so check with your ISP to see how your router handles guest connections.\n7. Update Your Router’s Firmware\nFirmware runs your router like software runs your computer, supporting connections and protecting your network.",
+        "snippet": "Place your router in a hard-to-reach place that’s a bit off the ground. That way, you know exactly where it is if you need to reset it. Tucking it away also reduces the likelihood of unauthorized access.\n12. Monitor Your Network",
         "matchedWords": {
           "1FebJojWdSNf": {
-            "hits": 3,
+            "hits": 0,
             "textWords": 2423
           },
           "24igJXwiDb_d": {
-            "hits": 12,
+            "hits": 0,
             "textWords": 2423
           },
           "8zlc1Uz4V934": {
@@ -131,14 +131,14 @@
         "hash": "1oF23Q87RqzY",
         "address": "http://ajacksonian.blogspot.com/",
         "title": "Dumb Looks Still Free",
-        "snippet": "Terrorists usually don't take an aircraft and do nothing with it, claim no responsibility and generally remain silent about it. They might buy an aircraft, as bin Laden did in the early '90s in Africa, but hijack one and claim nothing and do nothing with it?",
+        "snippet": "And the loss of verbal and transponder information may be an indication of either a system manual reset or the power supply to those systems going out for other causes. The engine transmission system has its own power supply separate from those systems, and could remain intact and functional.",
         "matchedWords": {
           "1FebJojWdSNf": {
-            "hits": 11,
+            "hits": 0,
             "textWords": 2241
           },
           "24igJXwiDb_d": {
-            "hits": 6,
+            "hits": 0,
             "textWords": 2241
           },
           "8zlc1Uz4V934": {
@@ -221,14 +221,14 @@
       "hash": "rgTfGlDMrHS4",
       "address": "https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f",
       "title": "llm-wiki · GitHub",
-      "snippet": "Research: going deep on a topic over weeks or months — reading papers, articles, reports, and incrementally building a comprehensive wiki with an evolving thesis.\nReading a book: filing each chapter as you go, building out pages for characters, themes, plot threads, and how they connect.",
+      "snippet": "A pattern for building personal knowledge bases using LLMs.\nThis is an idea file, it is designed to be copy pasted to your own LLM Agent (e.g. OpenAI Codex, Claude Code, OpenCode / Pi, or etc.).",
       "matchedWords": {
         "1FebJojWdSNf": {
-          "hits": 2,
+          "hits": 0,
           "textWords": 1868
         },
         "24igJXwiDb_d": {
-          "hits": 2,
+          "hits": 0,
           "textWords": 1868
         },
         "8zlc1Uz4V934": {
@@ -279,14 +279,14 @@
       "hash": "GxTNgsF20Rww",
       "address": "https://ma.tt/",
       "title": "Matt Mullenweg | Unlucky in Cards",
-      "snippet": "There’s also a #ceo Slack channel where anyone can drop in and request a meeting, which my esteemed colleague Damianne President did, and this morning we had an interesting chat that set my mind racing about how we might engineer happiness in the future.",
+      "snippet": "I know everyone has been waiting to hear what’s been going on behind the scenes, so I’m just going to lay it out: I’ve made an offer to buy Ryan Phelan and Stewart Brand’s houseboat Mirene.",
       "matchedWords": {
         "1FebJojWdSNf": {
-          "hits": 4,
+          "hits": 0,
           "textWords": 2499
         },
         "24igJXwiDb_d": {
-          "hits": 8,
+          "hits": 0,
           "textWords": 2499
         },
         "8zlc1Uz4V934": {
@@ -294,7 +294,7 @@
           "textWords": 2499
         },
         "aGTzidmHZDa8": {
-          "hits": 14,
+          "hits": 0,
           "textWords": 2499
         },
         "hiZu6TfZf4Eq": {
@@ -308,14 +308,14 @@
       "hash": "CjgsxsIyoLTx",
       "address": "https://planetpython.org/",
       "title": "Planet Python",
-      "snippet": "I’ll code by hand to do the same thing for my mind.\nA Real World Example\nBut let’s go back to how I code now, in late 2026. And let me give you an example of something I worked on last week and used successfully this weekend.\nIt’s not Python code. It’s a Google Sheets spreadsheet.",
+      "snippet": "The same report can be produced every hour on the hour with totals reset, from the same file, by giving the window a schedule; the scheduled tracing page covers that, and I will leave it there.\nSlow for whom",
       "matchedWords": {
         "1FebJojWdSNf": {
-          "hits": 70,
+          "hits": 0,
           "textWords": 30728
         },
         "24igJXwiDb_d": {
-          "hits": 64,
+          "hits": 0,
           "textWords": 30728
         },
         "8zlc1Uz4V934": {
@@ -323,7 +323,7 @@
           "textWords": 30728
         },
         "aGTzidmHZDa8": {
-          "hits": 61,
+          "hits": 0,
           "textWords": 30728
         },
         "hiZu6TfZf4Eq": {
@@ -331,20 +331,20 @@
           "textWords": 30728
         }
       },
-      "queryPhraseHits": 2
+      "queryPhraseHits": 0
     },
     {
       "hash": "iPDu4jRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Transmission_Control_Protocol",
       "title": "Transmission Control Protocol - Wikipedia",
-      "snippet": "TCP is connection-oriented, meaning that sender and receiver first need to establish a connection based on agreed parameters; they do this through a three-way handshake procedure.[2] The server must be listening (passive open) for connection requests from clients before a connection is established.",
+      "snippet": "However, there are vulnerabilities in TCP, including denial of service, connection hijacking, TCP veto, and reset attack.\nIn May 1974, Vint Cerf and Bob Kahn described an internetworking protocol for sharing resources using packet switching among network nodes.[",
       "matchedWords": {
         "1FebJojWdSNf": {
-          "hits": 8,
+          "hits": 0,
           "textWords": 13591
         },
         "24igJXwiDb_d": {
-          "hits": 3,
+          "hits": 0,
           "textWords": 13591
         },
         "8zlc1Uz4V934": {
@@ -352,7 +352,7 @@
           "textWords": 13591
         },
         "aGTzidmHZDa8": {
-          "hits": 1,
+          "hits": 0,
           "textWords": 13591
         },
         "hiZu6TfZf4Eq": {
@@ -366,14 +366,14 @@
       "hash": "5DZ6TjRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Android_(operating_system)",
       "title": "Android (operating system) - Wikipedia",
-      "snippet": "\"Android's new desktop windowing mode has changed how I use my tablet\". Android Authority. Retrieved March 16, 2026.\n↑ Triggs, Robert (March 3, 2026). \"Your Pixel can now double up as a full Android PC with nothing more than a USB-C cable\". Android Authority. Retrieved March 16, 2026.",
+      "snippet": "There are many other uses for a TEE such as mobile payments, secure banking, full-disk encryption, multi-factor authentication, device reset protection, replay-protected persistent storage, wireless display (\"cast\") of protected content, secure PIN and fingerprint processing, and even malware",
       "matchedWords": {
         "1FebJojWdSNf": {
-          "hits": 12,
+          "hits": 0,
           "textWords": 32219
         },
         "24igJXwiDb_d": {
-          "hits": 31,
+          "hits": 0,
           "textWords": 32219
         },
         "8zlc1Uz4V934": {
@@ -381,7 +381,7 @@
           "textWords": 32219
         },
         "aGTzidmHZDa8": {
-          "hits": 5,
+          "hits": 0,
           "textWords": 32219
         },
         "hiZu6TfZf4Eq": {
@@ -395,14 +395,14 @@
       "hash": "D4lABzaS0qdw",
       "address": "https://planet.debian.org/",
       "title": "Planet Debian",
-      "snippet": "Once you identified the slow part of a program, how do you know why it’s slow?\nTo learn more about the specific bottlenecks your program encounters, you can consult your CPU’s hardware performance counters.",
+      "snippet": "% cd ~/go/src/github.com/stapelberg/goturbopfor % git reset --hard 49b7c05cc61e77f0257568eb73833467714d2b4a % go test -c # go1.27.0 % go tool objdump -S goturbopfor.test | perl -nlE 'say if /p4dec32/ ..",
       "matchedWords": {
         "1FebJojWdSNf": {
-          "hits": 8,
+          "hits": 0,
           "textWords": 8109
         },
         "24igJXwiDb_d": {
-          "hits": 18,
+          "hits": 0,
           "textWords": 8109
         },
         "8zlc1Uz4V934": {
@@ -410,7 +410,7 @@
           "textWords": 8109
         },
         "aGTzidmHZDa8": {
-          "hits": 22,
+          "hits": 0,
           "textWords": 8109
         },
         "hiZu6TfZf4Eq": {
@@ -418,20 +418,20 @@
           "textWords": 8109
         }
       },
-      "queryPhraseHits": 1
+      "queryPhraseHits": 0
     },
     {
       "hash": "-p2w3taoSn1x",
       "address": "https://en.planet.wikimedia.org/",
       "title": "en.planet.wikimedia.org",
-      "snippet": "If we were really going to do it, where, and how? The discussion ran through the night. What came out of it was Ganggyeong — or more precisely, the Ganggyeong Institute of History and Culture. The concrete arguments for Ganggyeong were these:",
+      "snippet": "This July, the City of Light welcomed Wikimedians from all over the world. Some 1,250 attendees joined in person in Paris, while nearly 2000 joined Wikimania 2026 online.",
       "matchedWords": {
         "1FebJojWdSNf": {
-          "hits": 20,
+          "hits": 0,
           "textWords": 16720
         },
         "24igJXwiDb_d": {
-          "hits": 47,
+          "hits": 0,
           "textWords": 16720
         },
         "8zlc1Uz4V934": {
@@ -439,7 +439,7 @@
           "textWords": 16720
         },
         "aGTzidmHZDa8": {
-          "hits": 37,
+          "hits": 0,
           "textWords": 16720
         },
         "hiZu6TfZf4Eq": {
@@ -468,7 +468,7 @@
           "textWords": 147
         },
         "aGTzidmHZDa8": {
-          "hits": 2,
+          "hits": 0,
           "textWords": 147
         },
         "hiZu6TfZf4Eq": {
@@ -540,14 +540,14 @@
       "hash": "oGhktzW61vZ4",
       "address": "https://handbook.gitlab.com/handbook/marketing/digital-experience/onetrust/",
       "title": "OneTrust | The GitLab Handbook",
-      "snippet": "This will display either Do Not Sell My Data button or Cookie Settings button based on where the site visitors come from according to the geolocation rule group associated with the domain. The script has a class that can be customized through CSS.\nCookie List Script",
+      "snippet": "OneTrust is privacy, security, and data governance software that marketing uses as our privacy and compliance solution on our websites.\nUses\nOneTrust is privacy, security, and data governance software that marketing uses as our privacy and compliance solution on our websites.",
       "matchedWords": {
         "1FebJojWdSNf": {
-          "hits": 7,
+          "hits": 0,
           "textWords": 4388
         },
         "24igJXwiDb_d": {
-          "hits": 2,
+          "hits": 0,
           "textWords": 4388
         },
         "8zlc1Uz4V934": {
@@ -555,7 +555,7 @@
           "textWords": 4388
         },
         "aGTzidmHZDa8": {
-          "hits": 1,
+          "hits": 0,
           "textWords": 4388
         },
         "hiZu6TfZf4Eq": {
@@ -569,14 +569,14 @@
       "hash": "p_VDQzW61vZ4",
       "address": "https://handbook.gitlab.com/handbook/customer-success/professional-services-engineering/education-services/ilt-labs/gitlabcicdhandsonlab4/",
       "title": "GitLab CI/CD - Hands-On Lab: Working with CI/CD Components | The GitLab Handbook",
-      "snippet": "Creating a Component\nLet’s create a component to use in our GitLab project.\nNavigate to your My Test Group by clicking it in the breadcrumb at the top of the page.\nFrom your My Test Group in GitLab, click the New project button.\nClick the Create blank project tile.",
+      "snippet": "This Hands-On Guide demonstrates how to add CI/CD components to a pipeline\nEstimated time to complete: 15 minutes\nPreface\nAs Tanuki Enterprises scaled from one project to dozens, your team discovered they were copying and pasting the same CI/CD configurations across every repository.",
       "matchedWords": {
         "1FebJojWdSNf": {
           "hits": 0,
           "textWords": 1145
         },
         "24igJXwiDb_d": {
-          "hits": 1,
+          "hits": 0,
           "textWords": 1145
         },
         "8zlc1Uz4V934": {
@@ -584,7 +584,7 @@
           "textWords": 1145
         },
         "aGTzidmHZDa8": {
-          "hits": 2,
+          "hits": 0,
           "textWords": 1145
         },
         "hiZu6TfZf4Eq": {
@@ -601,11 +601,11 @@
       "snippet": "Personal readme page for Alex Ives, Engineering Manager, GitLab\nMotivation for this document\nFor folks who are currently or planning on working with me, I wrote this as a guide to help you have an idea about how I like to work. I tried to be as honest in here as I could manage.\nMy role",
       "matchedWords": {
         "1FebJojWdSNf": {
-          "hits": 10,
+          "hits": 0,
           "textWords": 1137
         },
         "24igJXwiDb_d": {
-          "hits": 4,
+          "hits": 0,
           "textWords": 1137
         },
         "8zlc1Uz4V934": {
@@ -613,7 +613,7 @@
           "textWords": 1137
         },
         "aGTzidmHZDa8": {
-          "hits": 10,
+          "hits": 0,
           "textWords": 1137
         },
         "hiZu6TfZf4Eq": {
@@ -656,14 +656,14 @@
       "hash": "zIs5tyrcmStw",
       "address": "https://defcon.org/html/defcon-33/dc-33-speakers.html",
       "title": "DEF CON® Hacking Conference - Speakers",
-      "snippet": "The stolen assets were laundered through decentralized exchanges, split across multiple wallets, bridged to Bitcoin, and passed through mixers like Wasabi Wallet.\nSo how do attackers manage to launder crypto, and how can we stop them?",
+      "snippet": "We will demonstrate the attack vectors that red teamers can exploit after hijacking a tunnel or compromising a router by manipulating the routing protocols.\nLastly, we will conclude the presentation by showing how companies can mitigate these vulnerabilities.",
       "matchedWords": {
         "1FebJojWdSNf": {
-          "hits": 23,
+          "hits": 0,
           "textWords": 40059
         },
         "24igJXwiDb_d": {
-          "hits": 160,
+          "hits": 0,
           "textWords": 40059
         },
         "8zlc1Uz4V934": {
@@ -671,7 +671,7 @@
           "textWords": 40059
         },
         "aGTzidmHZDa8": {
-          "hits": 29,
+          "hits": 0,
           "textWords": 40059
         },
         "hiZu6TfZf4Eq": {
@@ -679,7 +679,7 @@
           "textWords": 40059
         }
       },
-      "queryPhraseHits": 4
+      "queryPhraseHits": 0
     },
     {
       "hash": "jPQVTswE2Xer",
@@ -714,14 +714,14 @@
       "hash": "yJuijsCG40j4",
       "address": "https://tantek.com/",
       "title": "Tantek Çelik",
-      "snippet": "Because when it is, students cannot do it.”\n* https://www.reddit.com/r/Professors/comments/1vkw6by/how_do_you_know_an_assignment_is_ai_proof_because/\n“I assign a profile essay. Have for 30 years. Student interviews a person, records it, writes a paper based off the recording.",
+      "snippet": "Personally I do not have any “internet connected” home appliances (not counting a router or video streaming devices, home computers) or vehicles and even before this, never planned to get any for both security and privacy reasons.",
       "matchedWords": {
         "1FebJojWdSNf": {
-          "hits": 29,
+          "hits": 0,
           "textWords": 10682
         },
         "24igJXwiDb_d": {
-          "hits": 25,
+          "hits": 0,
           "textWords": 10682
         },
         "8zlc1Uz4V934": {
@@ -729,7 +729,7 @@
           "textWords": 10682
         },
         "aGTzidmHZDa8": {
-          "hits": 18,
+          "hits": 0,
           "textWords": 10682
         },
         "hiZu6TfZf4Eq": {
@@ -737,20 +737,20 @@
           "textWords": 10682
         }
       },
-      "queryPhraseHits": 3
+      "queryPhraseHits": 0
     },
     {
       "hash": "wNGurdDZkUL4",
       "address": "https://www.cnet.com/home/security/best-home-security-system/",
       "title": "Best Home Security Systems in 2026: Expert Tested for Your Home - CNET",
-      "snippet": "How do I set up a home security system?\nSome home security systems include professional installation, so the company sets everything up for you. Others, especially DIY options, require self-installation — but they typically come with clear instructions and are easy to set up.",
+      "snippet": "Ring Alarm Pro: The Pro version of Ring’s sytem includes an Eero router, which is nice if you don’t already have a Wi-Fi 6 router but most homes already have routers, and if you want to upgrade it’s much smarter to get a standalone router that’s exactly what you want rather than one that’s bundled",
       "matchedWords": {
         "1FebJojWdSNf": {
-          "hits": 10,
+          "hits": 0,
           "textWords": 6164
         },
         "24igJXwiDb_d": {
-          "hits": 15,
+          "hits": 0,
           "textWords": 6164
         },
         "8zlc1Uz4V934": {
@@ -758,7 +758,7 @@
           "textWords": 6164
         },
         "aGTzidmHZDa8": {
-          "hits": 1,
+          "hits": 0,
           "textWords": 6164
         },
         "hiZu6TfZf4Eq": {
@@ -766,20 +766,20 @@
           "textWords": 6164
         }
       },
-      "queryPhraseHits": 1
+      "queryPhraseHits": 0
     },
     {
       "hash": "GxTNgsF20Rww",
       "address": "https://ma.tt/",
       "title": "Matt Mullenweg | Unlucky in Cards",
-      "snippet": "There’s also a #ceo Slack channel where anyone can drop in and request a meeting, which my esteemed colleague Damianne President did, and this morning we had an interesting chat that set my mind racing about how we might engineer happiness in the future.",
+      "snippet": "I know everyone has been waiting to hear what’s been going on behind the scenes, so I’m just going to lay it out: I’ve made an offer to buy Ryan Phelan and Stewart Brand’s houseboat Mirene.",
       "matchedWords": {
         "1FebJojWdSNf": {
-          "hits": 4,
+          "hits": 0,
           "textWords": 2499
         },
         "24igJXwiDb_d": {
-          "hits": 8,
+          "hits": 0,
           "textWords": 2499
         },
         "8zlc1Uz4V934": {
@@ -787,7 +787,7 @@
           "textWords": 2499
         },
         "aGTzidmHZDa8": {
-          "hits": 14,
+          "hits": 0,
           "textWords": 2499
         },
         "hiZu6TfZf4Eq": {
@@ -830,14 +830,14 @@
       "hash": "D4lABzaS0qdw",
       "address": "https://planet.debian.org/",
       "title": "Planet Debian",
-      "snippet": "Once you identified the slow part of a program, how do you know why it’s slow?\nTo learn more about the specific bottlenecks your program encounters, you can consult your CPU’s hardware performance counters.",
+      "snippet": "% cd ~/go/src/github.com/stapelberg/goturbopfor % git reset --hard 49b7c05cc61e77f0257568eb73833467714d2b4a % go test -c # go1.27.0 % go tool objdump -S goturbopfor.test | perl -nlE 'say if /p4dec32/ ..",
       "matchedWords": {
         "1FebJojWdSNf": {
-          "hits": 8,
+          "hits": 0,
           "textWords": 8109
         },
         "24igJXwiDb_d": {
-          "hits": 18,
+          "hits": 0,
           "textWords": 8109
         },
         "8zlc1Uz4V934": {
@@ -845,7 +845,7 @@
           "textWords": 8109
         },
         "aGTzidmHZDa8": {
-          "hits": 22,
+          "hits": 0,
           "textWords": 8109
         },
         "hiZu6TfZf4Eq": {
@@ -853,20 +853,20 @@
           "textWords": 8109
         }
       },
-      "queryPhraseHits": 1
+      "queryPhraseHits": 0
     },
     {
       "hash": "-p2w3taoSn1x",
       "address": "https://en.planet.wikimedia.org/",
       "title": "en.planet.wikimedia.org",
-      "snippet": "If we were really going to do it, where, and how? The discussion ran through the night. What came out of it was Ganggyeong — or more precisely, the Ganggyeong Institute of History and Culture. The concrete arguments for Ganggyeong were these:",
+      "snippet": "This July, the City of Light welcomed Wikimedians from all over the world. Some 1,250 attendees joined in person in Paris, while nearly 2000 joined Wikimania 2026 online.",
       "matchedWords": {
         "1FebJojWdSNf": {
-          "hits": 20,
+          "hits": 0,
           "textWords": 16720
         },
         "24igJXwiDb_d": {
-          "hits": 47,
+          "hits": 0,
           "textWords": 16720
         },
         "8zlc1Uz4V934": {
@@ -874,7 +874,7 @@
           "textWords": 16720
         },
         "aGTzidmHZDa8": {
-          "hits": 37,
+          "hits": 0,
           "textWords": 16720
         },
         "hiZu6TfZf4Eq": {
@@ -917,14 +917,14 @@
       "hash": "zjU19-2Sk-24",
       "address": "https://www.dexerto.com/archive/2024/1/",
       "title": "Archive - January 2024 - Dexerto",
-      "snippet": "Why Molly Mae Hague was banned from kissing on Love Island: All Stars\nWarzone streamer accused of hacking after hitting the “craziest” quick-scope shot\nMy Demon explained: How did Do-hee’s parents die?\nVPR’s Scheana Shay accuses Nick Viall’s fiance of being on his payroll",
+      "snippet": "Call of Duty Mobile rank guide: Points breakdown, rank reset, \u0026 more\nMasters of the Air review: A landmark TV spectacle\nHow to pin a TikTok video to your profile page\nJohn Cena sets timeline for WWE retirement and names dream final venue\nFake Drake TikTok fools everyone with bootleg merch scam",
       "matchedWords": {
         "1FebJojWdSNf": {
-          "hits": 27,
+          "hits": 0,
           "textWords": 48383
         },
         "24igJXwiDb_d": {
-          "hits": 497,
+          "hits": 0,
           "textWords": 48383
         },
         "8zlc1Uz4V934": {
@@ -932,7 +932,7 @@
           "textWords": 48383
         },
         "aGTzidmHZDa8": {
-          "hits": 20,
+          "hits": 0,
           "textWords": 48383
         },
         "hiZu6TfZf4Eq": {
@@ -940,20 +940,20 @@
           "textWords": 48383
         }
       },
-      "queryPhraseHits": 2
+      "queryPhraseHits": 0
     },
     {
       "hash": "bEZNkdDZkUL4",
       "address": "https://www.cnet.com/home/internet/t-mobile-5g-home-internet-review/",
       "title": "T-Mobile Home Internet Review - CNET",
-      "snippet": "My former CNET colleague Eli Blumenthal has thoroughly detailed the basics of 5G and how not all “5G” is the same. In summary, faster 5G speeds come with shorter ranges. The farther the distance, the less speed on the top end.",
+      "snippet": "Instead, a fixed wireless internet service provides you with a router that connects to a cellular signal.\nT-Mobile\nT-Mobile provides its Wi-Fi Gateway device, a combination modem and Wi-Fi 6 router compatible with T-Mobile’s 4G LTE and 5G networks.",
       "matchedWords": {
         "1FebJojWdSNf": {
           "hits": 0,
           "textWords": 2270
         },
         "24igJXwiDb_d": {
-          "hits": 1,
+          "hits": 0,
           "textWords": 2270
         },
         "8zlc1Uz4V934": {
@@ -961,7 +961,7 @@
           "textWords": 2270
         },
         "aGTzidmHZDa8": {
-          "hits": 2,
+          "hits": 0,
           "textWords": 2270
         },
         "hiZu6TfZf4Eq": {
@@ -1033,14 +1033,14 @@
       "hash": "yJuijsCG40j4",
       "address": "https://tantek.com/",
       "title": "Tantek Çelik",
-      "snippet": "Because when it is, students cannot do it.”\n* https://www.reddit.com/r/Professors/comments/1vkw6by/how_do_you_know_an_assignment_is_ai_proof_because/\n“I assign a profile essay. Have for 30 years. Student interviews a person, records it, writes a paper based off the recording.",
+      "snippet": "Personally I do not have any “internet connected” home appliances (not counting a router or video streaming devices, home computers) or vehicles and even before this, never planned to get any for both security and privacy reasons.",
       "matchedWords": {
         "1FebJojWdSNf": {
-          "hits": 29,
+          "hits": 0,
           "textWords": 10682
         },
         "24igJXwiDb_d": {
-          "hits": 25,
+          "hits": 0,
           "textWords": 10682
         },
         "8zlc1Uz4V934": {
@@ -1048,7 +1048,7 @@
           "textWords": 10682
         },
         "aGTzidmHZDa8": {
-          "hits": 18,
+          "hits": 0,
           "textWords": 10682
         },
         "hiZu6TfZf4Eq": {
@@ -1056,20 +1056,20 @@
           "textWords": 10682
         }
       },
-      "queryPhraseHits": 3
+      "queryPhraseHits": 0
     },
     {
       "hash": "sC0kMlDOAHJg",
       "address": "https://www.heise.de/en",
       "title": "heise online – IT news, guides and background information | heise online",
-      "snippet": "AI: Google brings Gemini as its own desktop app for Windows systems\nThe Gemini app can be called up via a key command and can evaluate information from Google services. The free AI app can also create images and videos.\n25 Years After 9/11: How the Anti-Terror Fight Erodes Freedom",
+      "snippet": "Europe's Premier Tech News\nGet cutting-edge IT insights from Europe's largest tech editorial team – from curated news to expert opinions. Follow us on Facebook, LinkedIn or Mastodon.\nSelf-Promotion\nClassroom\nEthical Hacking für Admins\nPentesting für eine sichere IT\n5 Live-Sessions Inkl.",
       "matchedWords": {
         "1FebJojWdSNf": {
           "hits": 0,
           "textWords": 695
         },
         "24igJXwiDb_d": {
-          "hits": 2,
+          "hits": 0,
           "textWords": 695
         },
         "8zlc1Uz4V934": {
@@ -1091,14 +1091,14 @@
       "hash": "ETfRxdDZkUL4",
       "address": "https://www.cnet.com/home/security/best-video-doorbell-cameras/",
       "title": "Best Video Doorbells of 2025: Eyes on Your Front Door - CNET",
-      "snippet": "If you want to read more about CNET’s review process, check out the in-depth article on how we test home security cameras and video doorbells.\nHow do I install a video doorbell?",
+      "snippet": "If you live in an area prone to lightning strikes, there’s a chance of them shorting out if your doorbell’s wiring doesn’t have surge protection. Of course, when the power goes out, the Wi-Fi router your doorbell is connected to likely will go offline, meaning you won’t receive alerts.",
       "matchedWords": {
         "1FebJojWdSNf": {
-          "hits": 7,
+          "hits": 0,
           "textWords": 5285
         },
         "24igJXwiDb_d": {
-          "hits": 19,
+          "hits": 0,
           "textWords": 5285
         },
         "8zlc1Uz4V934": {
@@ -1106,7 +1106,7 @@
           "textWords": 5285
         },
         "aGTzidmHZDa8": {
-          "hits": 13,
+          "hits": 0,
           "textWords": 5285
         },
         "hiZu6TfZf4Eq": {
@@ -1114,20 +1114,20 @@
           "textWords": 5285
         }
       },
-      "queryPhraseHits": 2
+      "queryPhraseHits": 0
     },
     {
       "hash": "G34vBdDZkUL4",
       "address": "https://www.cnet.com/home/security/best-outdoor-home-security-cameras/",
       "title": "Best Outdoor Home Security Cameras of 2025: Expert-Tested - CNET",
-      "snippet": "The Google Nest Cam may start running into trouble as temperatures go below 32 degrees Fahrenheit regularly, while our top Arlo pick can work at minus 20 degrees Fahrenheit.\nWhat do I do if my outdoor camera records a crime?",
+      "snippet": "An outdoor security camera can give you peace of mind, whether you’re at home or traveling, by keeping an eye on your property at all times.",
       "matchedWords": {
         "1FebJojWdSNf": {
-          "hits": 11,
+          "hits": 0,
           "textWords": 6488
         },
         "24igJXwiDb_d": {
-          "hits": 21,
+          "hits": 0,
           "textWords": 6488
         },
         "8zlc1Uz4V934": {
@@ -1135,7 +1135,7 @@
           "textWords": 6488
         },
         "aGTzidmHZDa8": {
-          "hits": 5,
+          "hits": 0,
           "textWords": 6488
         },
         "hiZu6TfZf4Eq": {
@@ -1149,14 +1149,14 @@
       "hash": "TI6ZU9DZkUL4",
       "address": "https://www.cnet.com/tech/services-and-software/best-vpn-for-iphone/",
       "title": "Best VPN for iPhone 2025: Privacy Protection on the Go - CNET",
-      "snippet": "If you want to hide the fact that you’re using a VPN altogether, you can connect to an obfuscated server, if offered by your VPN.\nHow do I set up a VPN on my iPhone?\nThe easiest way to set up a VPN on your iPhone is by downloading your VPN provider’s app from Apple’s App Store.",
+      "snippet": "✔️ (with GUI)\nAndroid/AndroidTV\n✔️\n✔️\n✔️\n✔️\n✔️\n✔️\niOS/iPadOS\n✔️\n✔️\n✔️\n✔️\n✔️\n✔️\nFire TV\n✔️\n✔️\n✔️\n✔️\n✔️\n✔️\nSmart TV*\n✔️\n✔️\n✔️\n✔️\n✔️\n✔️\nApple TV\n✔️\n✔️\n✔️\n✔️\n✔️\n✔️\nRouter\n✔️\n✔️\n✔️\n✔️\n✔️\n✔️\nBrowser plugin**\n✔️\n✔️\n✔️\n✔️\n✔️\n✔️\nSimultaneous connections\nUnlimited\nUnlimited\nUnlimited\n10\n8\n10",
       "matchedWords": {
         "1FebJojWdSNf": {
-          "hits": 4,
+          "hits": 0,
           "textWords": 5859
         },
         "24igJXwiDb_d": {
-          "hits": 6,
+          "hits": 0,
           "textWords": 5859
         },
         "8zlc1Uz4V934": {
@@ -1164,7 +1164,7 @@
           "textWords": 5859
         },
         "aGTzidmHZDa8": {
-          "hits": 5,
+          "hits": 0,
           "textWords": 5859
         },
         "hiZu6TfZf4Eq": {
@@ -1172,20 +1172,20 @@
           "textWords": 5859
         }
       },
-      "queryPhraseHits": 1
+      "queryPhraseHits": 0
     },
     {
       "hash": "UpNYP9DZkUL4",
       "address": "https://www.cnet.com/tech/services-and-software/expressvpn-review/",
       "title": "ExpressVPN Review 2025: A Top-Notch VPN That Keeps Getting Better, but at a Premium Price - CNET",
-      "snippet": "With ExpressVPN, you’ll get apps for Windows, MacOS, Linux (GUI), Chromebook, Android, iOS, FireTV, Android TV and Apple TV. A router app is also available as well as detailed tutorials on how to set up ExpressVPN on a variety of routers.",
+      "snippet": "This review focuses primarily on ExpressVPN’s Basic subscription tier, but depending on which plan you choose, its higher tiers include the Keys password manager, full suite of Advanced Protection features, Identity Defender tools, dedicated IP and a solid discount on its Aircove Wi-Fi 6 router.",
       "matchedWords": {
         "1FebJojWdSNf": {
-          "hits": 6,
+          "hits": 0,
           "textWords": 4021
         },
         "24igJXwiDb_d": {
-          "hits": 7,
+          "hits": 0,
           "textWords": 4021
         },
         "8zlc1Uz4V934": {
@@ -1193,7 +1193,7 @@
           "textWords": 4021
         },
         "aGTzidmHZDa8": {
-          "hits": 12,
+          "hits": 0,
           "textWords": 4021
         },
         "hiZu6TfZf4Eq": {
@@ -1207,14 +1207,14 @@
       "hash": "bEZNkdDZkUL4",
       "address": "https://www.cnet.com/home/internet/t-mobile-5g-home-internet-review/",
       "title": "T-Mobile Home Internet Review - CNET",
-      "snippet": "My former CNET colleague Eli Blumenthal has thoroughly detailed the basics of 5G and how not all “5G” is the same. In summary, faster 5G speeds come with shorter ranges. The farther the distance, the less speed on the top end.",
+      "snippet": "Instead, a fixed wireless internet service provides you with a router that connects to a cellular signal.\nT-Mobile\nT-Mobile provides its Wi-Fi Gateway device, a combination modem and Wi-Fi 6 router compatible with T-Mobile’s 4G LTE and 5G networks.",
       "matchedWords": {
         "1FebJojWdSNf": {
           "hits": 0,
           "textWords": 2270
         },
         "24igJXwiDb_d": {
-          "hits": 1,
+          "hits": 0,
           "textWords": 2270
         },
         "8zlc1Uz4V934": {
@@ -1222,7 +1222,7 @@
           "textWords": 2270
         },
         "aGTzidmHZDa8": {
-          "hits": 2,
+          "hits": 0,
           "textWords": 2270
         },
         "hiZu6TfZf4Eq": {
@@ -1280,7 +1280,7 @@
           "textWords": 152
         },
         "aGTzidmHZDa8": {
-          "hits": 1,
+          "hits": 0,
           "textWords": 152
         },
         "hiZu6TfZf4Eq": {
@@ -1294,14 +1294,14 @@
       "hash": "vIni89DZkUL4",
       "address": "https://www.cnet.com/tech/computing/best-budget-laptop/",
       "title": "Best Cheap Laptop for 2025 - Budget Computers Under $500 - CNET",
-      "snippet": "Last, budget laptop shoppers should consider a Chromebook — especially if much of what you do is on the web — and check out my list of best Chromebooks.\nBest cheap laptops of 2026\nMatt Elliott/CNET\nBest budget laptop overall\nMacBook Neo\n8.3\nPremium MacBook look and feel at much lower cost",
+      "snippet": "You don’t need to overspend to get a capable laptop, including Windows models and Apple MacBooks. It’s possible to find a decent laptop for less than $1,000, even with RAM prices on the rise.\nOur Picks\nBottom Line\n8.3",
       "matchedWords": {
         "1FebJojWdSNf": {
-          "hits": 12,
+          "hits": 0,
           "textWords": 7001
         },
         "24igJXwiDb_d": {
-          "hits": 8,
+          "hits": 0,
           "textWords": 7001
         },
         "8zlc1Uz4V934": {
@@ -1309,7 +1309,7 @@
           "textWords": 7001
         },
         "aGTzidmHZDa8": {
-          "hits": 9,
+          "hits": 0,
           "textWords": 7001
         },
         "hiZu6TfZf4Eq": {
@@ -1323,14 +1323,14 @@
       "hash": "wNGurdDZkUL4",
       "address": "https://www.cnet.com/home/security/best-home-security-system/",
       "title": "Best Home Security Systems for 2025: Top Smart Hubs to Protect Your Home - CNET",
-      "snippet": "How do I set up a home security system?\nSome home security systems include professional installation, so the company sets everything up for you. Others, especially DIY options, require self-installation — but they typically come with clear instructions and are easy to set up.",
+      "snippet": "Ring Alarm Pro: The Pro version of Ring’s sytem includes an Eero router, which is nice if you don’t already have a Wi-Fi 6 router but most homes already have routers, and if you want to upgrade it’s much smarter to get a standalone router that’s exactly what you want rather than one that’s bundled",
       "matchedWords": {
         "1FebJojWdSNf": {
-          "hits": 10,
+          "hits": 0,
           "textWords": 6164
         },
         "24igJXwiDb_d": {
-          "hits": 15,
+          "hits": 0,
           "textWords": 6164
         },
         "8zlc1Uz4V934": {
@@ -1338,7 +1338,7 @@
           "textWords": 6164
         },
         "aGTzidmHZDa8": {
-          "hits": 1,
+          "hits": 0,
           "textWords": 6164
         },
         "hiZu6TfZf4Eq": {
@@ -1346,7 +1346,7 @@
           "textWords": 6164
         }
       },
-      "queryPhraseHits": 1
+      "queryPhraseHits": 0
     },
     {
       "hash": "6Bk1YdDZkUL4",
@@ -1359,7 +1359,7 @@
           "textWords": 2362
         },
         "24igJXwiDb_d": {
-          "hits": 6,
+          "hits": 0,
           "textWords": 2362
         },
         "8zlc1Uz4V934": {
@@ -1381,14 +1381,14 @@
       "hash": "9b7tXdDZkUL4",
       "address": "https://www.cnet.com/home/internet/",
       "title": "Home Internet - CNET",
-      "snippet": "You’re Probably Overpaying for Internet. Here’s How to Spot Hidden Fees\nHere’s the real reason your internet bill is so high — and what you can (and can’t) do about it.\n09/03/2026\nHow We Evaluate and Score ISPs at CNET",
+      "snippet": "Our experts can help you get online fast with tested, frequently-updated reviews of internet service providers and routers and helpful advice.\nHome\nHome Internet\nHome Security\nKitchen \u0026 Household\nSmart Home\nHome Energy \u0026 Utilities\nYard \u0026 Outdoors",
       "matchedWords": {
         "1FebJojWdSNf": {
-          "hits": 1,
+          "hits": 0,
           "textWords": 195
         },
         "24igJXwiDb_d": {
-          "hits": 3,
+          "hits": 0,
           "textWords": 195
         },
         "8zlc1Uz4V934": {
@@ -1439,14 +1439,14 @@
       "hash": "_wxyPdDZkUL4",
       "address": "https://www.cnet.com/home/internet/best-internet-providers/",
       "title": "Best Internet Providers for 2026 - CNET",
-      "snippet": "The only caveat with fiber is that it’s not as widely available as cable internet. If cable internet is available at your address, we recommend Xfinity, Spectrum and Sparklight.\nHow do I know what ISPs are available in my area?",
+      "snippet": "Free equipment for all plans\nFast speeds for a valuable price\nWi-Fi 7 router included for some plans\nRouter opt-out not available\nPost promo period is unclear\nLimited coverage\nBottom Line\n8.9",
       "matchedWords": {
         "1FebJojWdSNf": {
-          "hits": 5,
+          "hits": 0,
           "textWords": 14889
         },
         "24igJXwiDb_d": {
-          "hits": 15,
+          "hits": 0,
           "textWords": 14889
         },
         "8zlc1Uz4V934": {
@@ -1454,7 +1454,7 @@
           "textWords": 14889
         },
         "aGTzidmHZDa8": {
-          "hits": 1,
+          "hits": 0,
           "textWords": 14889
         },
         "hiZu6TfZf4Eq": {
@@ -1462,20 +1462,20 @@
           "textWords": 14889
         }
       },
-      "queryPhraseHits": 1
+      "queryPhraseHits": 0
     },
     {
       "hash": "GxTNgsF20Rww",
       "address": "https://ma.tt/",
       "title": "Matt Mullenweg | Unlucky in Cards",
-      "snippet": "There’s also a #ceo Slack channel where anyone can drop in and request a meeting, which my esteemed colleague Damianne President did, and this morning we had an interesting chat that set my mind racing about how we might engineer happiness in the future.",
+      "snippet": "I know everyone has been waiting to hear what’s been going on behind the scenes, so I’m just going to lay it out: I’ve made an offer to buy Ryan Phelan and Stewart Brand’s houseboat Mirene.",
       "matchedWords": {
         "1FebJojWdSNf": {
-          "hits": 4,
+          "hits": 0,
           "textWords": 2499
         },
         "24igJXwiDb_d": {
-          "hits": 8,
+          "hits": 0,
           "textWords": 2499
         },
         "8zlc1Uz4V934": {
@@ -1483,7 +1483,7 @@
           "textWords": 2499
         },
         "aGTzidmHZDa8": {
-          "hits": 14,
+          "hits": 0,
           "textWords": 2499
         },
         "hiZu6TfZf4Eq": {
@@ -1497,14 +1497,14 @@
       "hash": "CjgsxsIyoLTx",
       "address": "https://planetpython.org/",
       "title": "Planet Python",
-      "snippet": "I’ll code by hand to do the same thing for my mind.\nA Real World Example\nBut let’s go back to how I code now, in late 2026. And let me give you an example of something I worked on last week and used successfully this weekend.\nIt’s not Python code. It’s a Google Sheets spreadsheet.",
+      "snippet": "The same report can be produced every hour on the hour with totals reset, from the same file, by giving the window a schedule; the scheduled tracing page covers that, and I will leave it there.\nSlow for whom",
       "matchedWords": {
         "1FebJojWdSNf": {
-          "hits": 70,
+          "hits": 0,
           "textWords": 30728
         },
         "24igJXwiDb_d": {
-          "hits": 64,
+          "hits": 0,
           "textWords": 30728
         },
         "8zlc1Uz4V934": {
@@ -1512,7 +1512,7 @@
           "textWords": 30728
         },
         "aGTzidmHZDa8": {
-          "hits": 61,
+          "hits": 0,
           "textWords": 30728
         },
         "hiZu6TfZf4Eq": {
@@ -1520,20 +1520,20 @@
           "textWords": 30728
         }
       },
-      "queryPhraseHits": 2
+      "queryPhraseHits": 0
     },
     {
       "hash": "djTAnlM8aJI6",
       "address": "https://www.theepochtimes.com/",
       "title": "The Epoch Times | Breaking News, Latest News, World News and Videos",
-      "snippet": "The Rise of Flock Cameras and the Growing Pushback\nVP Vance Asked How He Lost ‘Ton Of Weight.’\nMan Rushes to Save Child Running Into Traffic\nFEATURED\nIn-Depth\n25 Years After 9/11, National Tour Sparks Grief, Inspiration",
+      "snippet": "Trump, Hegseth Pay Tribute to 9/11 Victims at Pentagon, 25 Years After Attack\nThe name of each of the 184 who perished at the Pentagon that day was read aloud as part of the memorial ceremony.\n3 Min Read\n3 Min Read\nPerforming Artist Who Heard the Call on 9/11\nLATEST NEWS\nMORE\n15m ago",
       "matchedWords": {
         "1FebJojWdSNf": {
           "hits": 0,
           "textWords": 1465
         },
         "24igJXwiDb_d": {
-          "hits": 5,
+          "hits": 0,
           "textWords": 1465
         },
         "8zlc1Uz4V934": {
@@ -1555,14 +1555,14 @@
       "hash": "AX7xBjRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Wikipedia:Help_desk",
       "title": "Wikipedia:Help desk - Wikipedia",
-      "snippet": "How do I find my account info and log in. ~2026-49018-19 (talk) 00:32, 10 September 2026 (UTC)Reply\n@~2026-49018-19: Does \"contribute\" refer to donations or edits? Donations are not linked to user accounts and you can donate without having an account.",
+      "snippet": "WP:HD\nWP:Y\nFor other types of questions, use the search box, see the reference desk or Help:Contents. If you have comments about a specific article, use that article's talk page.\nDo not provide your email address or any other contact information. Answers will be provided on this page only.",
       "matchedWords": {
         "1FebJojWdSNf": {
-          "hits": 42,
+          "hits": 0,
           "textWords": 14224
         },
         "24igJXwiDb_d": {
-          "hits": 27,
+          "hits": 0,
           "textWords": 14224
         },
         "8zlc1Uz4V934": {
@@ -1570,7 +1570,7 @@
           "textWords": 14224
         },
         "aGTzidmHZDa8": {
-          "hits": 41,
+          "hits": 0,
           "textWords": 14224
         },
         "hiZu6TfZf4Eq": {
@@ -1578,7 +1578,7 @@
           "textWords": 14224
         }
       },
-      "queryPhraseHits": 3
+      "queryPhraseHits": 0
     },
     {
       "hash": "GOC_RsS6MKD4",
@@ -1616,11 +1616,11 @@
       "snippet": "Service (service)\nACTIVE_CODE_LIVE_MINUTES: 180: Time limit (min) to confirm account/email registration.\nRESET_PASSWD_CODE_LIVE_MINUTES: 180: Time limit (min) to confirm forgot password reset process.\nREGISTER_EMAIL_CONFIRM: false: Enable this to ask for mail confirmation of registration.",
       "matchedWords": {
         "1FebJojWdSNf": {
-          "hits": 6,
+          "hits": 0,
           "textWords": 17704
         },
         "24igJXwiDb_d": {
-          "hits": 16,
+          "hits": 0,
           "textWords": 17704
         },
         "8zlc1Uz4V934": {
@@ -1628,7 +1628,7 @@
           "textWords": 17704
         },
         "aGTzidmHZDa8": {
-          "hits": 2,
+          "hits": 0,
           "textWords": 17704
         },
         "hiZu6TfZf4Eq": {
@@ -1642,14 +1642,14 @@
       "hash": "KqLCEwfdy0sw",
       "address": "https://devices.slashdot.org/",
       "title": "Devices News | Slashdot",
-      "snippet": "To ensure its mouthwash reservoir can effectively pump no matter how the CameraJet is held -- even upside down -- instead of sticking a tube into the reservoir, there's an air bladder inside the tank that slowly inflates to fill empty space, minimize air pockets, and maintain a constant pressure.",
+      "snippet": "Topics:\nDevices\nBuild\nEntertainment\nTechnology\nOpen Source\nScience\nYRO\nApple Launches iPhone 18 Pro With Variable-Aperture Camera System (techcrunch.com)\nPosted by BeauHD on Wednesday September 09, 2026 @03:00PM from the new-and-improved dept.",
       "matchedWords": {
         "1FebJojWdSNf": {
-          "hits": 3,
+          "hits": 0,
           "textWords": 5445
         },
         "24igJXwiDb_d": {
-          "hits": 3,
+          "hits": 0,
           "textWords": 5445
         },
         "8zlc1Uz4V934": {
@@ -1700,14 +1700,14 @@
       "hash": "nWMgE7yp6WtY",
       "address": "http://tantek.com/?skin=vtx",
       "title": "Tantek Çelik",
-      "snippet": "Because when it is, students cannot do it.”\n* https://www.reddit.com/r/Professors/comments/1vkw6by/how_do_you_know_an_assignment_is_ai_proof_because/\n“I assign a profile essay. Have for 30 years. Student interviews a person, records it, writes a paper based off the recording.",
+      "snippet": "Personally I do not have any “internet connected” home appliances (not counting a router or video streaming devices, home computers) or vehicles and even before this, never planned to get any for both security and privacy reasons.",
       "matchedWords": {
         "1FebJojWdSNf": {
-          "hits": 29,
+          "hits": 0,
           "textWords": 10682
         },
         "24igJXwiDb_d": {
-          "hits": 25,
+          "hits": 0,
           "textWords": 10682
         },
         "8zlc1Uz4V934": {
@@ -1715,7 +1715,7 @@
           "textWords": 10682
         },
         "aGTzidmHZDa8": {
-          "hits": 18,
+          "hits": 0,
           "textWords": 10682
         },
         "hiZu6TfZf4Eq": {
@@ -1723,20 +1723,20 @@
           "textWords": 10682
         }
       },
-      "queryPhraseHits": 3
+      "queryPhraseHits": 0
     },
     {
       "hash": "_zR0Cs5dlbp4",
       "address": "https://mashable.com/tech",
       "title": "Tech News, Trends, Reviews, \u0026 More | Mashable",
-      "snippet": "iPhone Duo price: Here's how much Apple's most expensive Duo will cost\nIt's the most expensive iPhone ever.\n09/09/2026\nBy Matt Binder\nYes, the iPhone Duo supports MagSafe — here’s how fast it charges\nApple’s foldable can charge wirelessly to 50 percent in around 30 minutes.\n09/09/2026",
+      "snippet": "More in Tech\niPhone 18 Pro Max vs. Samsung Galaxy S26 Ultra: Battle of the flagships\nWhich premium flagship should you buy?\n09/10/2026\nBy Alex Perry\nWill GTA 6 be on Xbox Game Pass at launch?\nRockstar Games will finally release 'Grand Theft Auto VI' on Nov. 19.\n09/10/2026\nBy Matt Binder",
       "matchedWords": {
         "1FebJojWdSNf": {
           "hits": 0,
           "textWords": 797
         },
         "24igJXwiDb_d": {
-          "hits": 3,
+          "hits": 0,
           "textWords": 797
         },
         "8zlc1Uz4V934": {
@@ -1744,7 +1744,7 @@
           "textWords": 797
         },
         "aGTzidmHZDa8": {
-          "hits": 1,
+          "hits": 0,
           "textWords": 797
         },
         "hiZu6TfZf4Eq": {
@@ -1758,14 +1758,14 @@
       "hash": "sC0kMlDOAHJg",
       "address": "https://www.heise.de/en",
       "title": "",
-      "snippet": "AI: Google brings Gemini as its own desktop app for Windows systems\nThe Gemini app can be called up via a key command and can evaluate information from Google services. The free AI app can also create images and videos.\n25 Years After 9/11: How the Anti-Terror Fight Erodes Freedom",
+      "snippet": "Europe's Premier Tech News\nGet cutting-edge IT insights from Europe's largest tech editorial team – from curated news to expert opinions. Follow us on Facebook, LinkedIn or Mastodon.\nSelf-Promotion\nClassroom\nEthical Hacking für Admins\nPentesting für eine sichere IT\n5 Live-Sessions Inkl.",
       "matchedWords": {
         "1FebJojWdSNf": {
           "hits": 0,
           "textWords": 695
         },
         "24igJXwiDb_d": {
-          "hits": 2,
+          "hits": 0,
           "textWords": 695
         },
         "8zlc1Uz4V934": {
@@ -1787,14 +1787,14 @@
       "hash": "ETfRxdDZkUL4",
       "address": "https://www.cnet.com/home/security/best-video-doorbell-cameras/",
       "title": "The Best Video Doorbells of 2026: Watch Porches, Packages and More - CNET",
-      "snippet": "If you want to read more about CNET’s review process, check out the in-depth article on how we test home security cameras and video doorbells.\nHow do I install a video doorbell?",
+      "snippet": "If you live in an area prone to lightning strikes, there’s a chance of them shorting out if your doorbell’s wiring doesn’t have surge protection. Of course, when the power goes out, the Wi-Fi router your doorbell is connected to likely will go offline, meaning you won’t receive alerts.",
       "matchedWords": {
         "1FebJojWdSNf": {
-          "hits": 7,
+          "hits": 0,
           "textWords": 5285
         },
         "24igJXwiDb_d": {
-          "hits": 19,
+          "hits": 0,
           "textWords": 5285
         },
         "8zlc1Uz4V934": {
@@ -1802,7 +1802,7 @@
           "textWords": 5285
         },
         "aGTzidmHZDa8": {
-          "hits": 13,
+          "hits": 0,
           "textWords": 5285
         },
         "hiZu6TfZf4Eq": {
@@ -1810,20 +1810,20 @@
           "textWords": 5285
         }
       },
-      "queryPhraseHits": 2
+      "queryPhraseHits": 0
     },
     {
       "hash": "G34vBdDZkUL4",
       "address": "https://www.cnet.com/home/security/best-outdoor-home-security-cameras/",
       "title": "The Best Outdoor Home Security Cameras of 2026, Backed by Over 200 Hours of Testing - CNET",
-      "snippet": "The Google Nest Cam may start running into trouble as temperatures go below 32 degrees Fahrenheit regularly, while our top Arlo pick can work at minus 20 degrees Fahrenheit.\nWhat do I do if my outdoor camera records a crime?",
+      "snippet": "An outdoor security camera can give you peace of mind, whether you’re at home or traveling, by keeping an eye on your property at all times.",
       "matchedWords": {
         "1FebJojWdSNf": {
-          "hits": 11,
+          "hits": 0,
           "textWords": 6488
         },
         "24igJXwiDb_d": {
-          "hits": 21,
+          "hits": 0,
           "textWords": 6488
         },
         "8zlc1Uz4V934": {
@@ -1831,7 +1831,7 @@
           "textWords": 6488
         },
         "aGTzidmHZDa8": {
-          "hits": 5,
+          "hits": 0,
           "textWords": 6488
         },
         "hiZu6TfZf4Eq": {
@@ -1845,14 +1845,14 @@
       "hash": "TI6ZU9DZkUL4",
       "address": "https://www.cnet.com/tech/services-and-software/best-vpn-for-iphone/",
       "title": "Best VPN for iPhone 2026: Boost Your Privacy on the Go - CNET",
-      "snippet": "If you want to hide the fact that you’re using a VPN altogether, you can connect to an obfuscated server, if offered by your VPN.\nHow do I set up a VPN on my iPhone?\nThe easiest way to set up a VPN on your iPhone is by downloading your VPN provider’s app from Apple’s App Store.",
+      "snippet": "✔️ (with GUI)\nAndroid/AndroidTV\n✔️\n✔️\n✔️\n✔️\n✔️\n✔️\niOS/iPadOS\n✔️\n✔️\n✔️\n✔️\n✔️\n✔️\nFire TV\n✔️\n✔️\n✔️\n✔️\n✔️\n✔️\nSmart TV*\n✔️\n✔️\n✔️\n✔️\n✔️\n✔️\nApple TV\n✔️\n✔️\n✔️\n✔️\n✔️\n✔️\nRouter\n✔️\n✔️\n✔️\n✔️\n✔️\n✔️\nBrowser plugin**\n✔️\n✔️\n✔️\n✔️\n✔️\n✔️\nSimultaneous connections\nUnlimited\nUnlimited\nUnlimited\n10\n8\n10",
       "matchedWords": {
         "1FebJojWdSNf": {
-          "hits": 4,
+          "hits": 0,
           "textWords": 5859
         },
         "24igJXwiDb_d": {
-          "hits": 6,
+          "hits": 0,
           "textWords": 5859
         },
         "8zlc1Uz4V934": {
@@ -1860,7 +1860,7 @@
           "textWords": 5859
         },
         "aGTzidmHZDa8": {
-          "hits": 5,
+          "hits": 0,
           "textWords": 5859
         },
         "hiZu6TfZf4Eq": {
@@ -1868,20 +1868,20 @@
           "textWords": 5859
         }
       },
-      "queryPhraseHits": 1
+      "queryPhraseHits": 0
     },
     {
       "hash": "UpNYP9DZkUL4",
       "address": "https://www.cnet.com/tech/services-and-software/expressvpn-review/",
       "title": "ExpressVPN Review 2025: The Best VPN Keeps Pushing the Industry Forward - CNET",
-      "snippet": "With ExpressVPN, you’ll get apps for Windows, MacOS, Linux (GUI), Chromebook, Android, iOS, FireTV, Android TV and Apple TV. A router app is also available as well as detailed tutorials on how to set up ExpressVPN on a variety of routers.",
+      "snippet": "This review focuses primarily on ExpressVPN’s Basic subscription tier, but depending on which plan you choose, its higher tiers include the Keys password manager, full suite of Advanced Protection features, Identity Defender tools, dedicated IP and a solid discount on its Aircove Wi-Fi 6 router.",
       "matchedWords": {
         "1FebJojWdSNf": {
-          "hits": 6,
+          "hits": 0,
           "textWords": 4021
         },
         "24igJXwiDb_d": {
-          "hits": 7,
+          "hits": 0,
           "textWords": 4021
         },
         "8zlc1Uz4V934": {
@@ -1889,7 +1889,7 @@
           "textWords": 4021
         },
         "aGTzidmHZDa8": {
-          "hits": 12,
+          "hits": 0,
           "textWords": 4021
         },
         "hiZu6TfZf4Eq": {
@@ -1903,14 +1903,14 @@
       "hash": "bEZNkdDZkUL4",
       "address": "https://www.cnet.com/home/internet/t-mobile-5g-home-internet-review/",
       "title": "T-Mobile 5G Home Internet Review: Plans, Pricing, Speed and Availability - CNET",
-      "snippet": "My former CNET colleague Eli Blumenthal has thoroughly detailed the basics of 5G and how not all “5G” is the same. In summary, faster 5G speeds come with shorter ranges. The farther the distance, the less speed on the top end.",
+      "snippet": "Instead, a fixed wireless internet service provides you with a router that connects to a cellular signal.\nT-Mobile\nT-Mobile provides its Wi-Fi Gateway device, a combination modem and Wi-Fi 6 router compatible with T-Mobile’s 4G LTE and 5G networks.",
       "matchedWords": {
         "1FebJojWdSNf": {
           "hits": 0,
           "textWords": 2270
         },
         "24igJXwiDb_d": {
-          "hits": 1,
+          "hits": 0,
           "textWords": 2270
         },
         "8zlc1Uz4V934": {
@@ -1918,7 +1918,7 @@
           "textWords": 2270
         },
         "aGTzidmHZDa8": {
-          "hits": 2,
+          "hits": 0,
           "textWords": 2270
         },
         "hiZu6TfZf4Eq": {
@@ -1976,7 +1976,7 @@
           "textWords": 152
         },
         "aGTzidmHZDa8": {
-          "hits": 1,
+          "hits": 0,
           "textWords": 152
         },
         "hiZu6TfZf4Eq": {
@@ -1990,14 +1990,14 @@
       "hash": "vIni89DZkUL4",
       "address": "https://www.cnet.com/tech/computing/best-budget-laptop/",
       "title": "Best Budget Laptop for 2026 - Cheap Computers Under $500",
-      "snippet": "Last, budget laptop shoppers should consider a Chromebook — especially if much of what you do is on the web — and check out my list of best Chromebooks.\nBest cheap laptops of 2026\nMatt Elliott/CNET\nBest budget laptop overall\nMacBook Neo\n8.3\nPremium MacBook look and feel at much lower cost",
+      "snippet": "You don’t need to overspend to get a capable laptop, including Windows models and Apple MacBooks. It’s possible to find a decent laptop for less than $1,000, even with RAM prices on the rise.\nOur Picks\nBottom Line\n8.3",
       "matchedWords": {
         "1FebJojWdSNf": {
-          "hits": 12,
+          "hits": 0,
           "textWords": 7001
         },
         "24igJXwiDb_d": {
-          "hits": 8,
+          "hits": 0,
           "textWords": 7001
         },
         "8zlc1Uz4V934": {
@@ -2005,7 +2005,7 @@
           "textWords": 7001
         },
         "aGTzidmHZDa8": {
-          "hits": 9,
+          "hits": 0,
           "textWords": 7001
         },
         "hiZu6TfZf4Eq": {
@@ -2019,14 +2019,14 @@
       "hash": "wNGurdDZkUL4",
       "address": "https://www.cnet.com/home/security/best-home-security-system/",
       "title": "Best Home Security Systems in 2026: Expert Tested for Your Home - CNET",
-      "snippet": "How do I set up a home security system?\nSome home security systems include professional installation, so the company sets everything up for you. Others, especially DIY options, require self-installation — but they typically come with clear instructions and are easy to set up.",
+      "snippet": "Ring Alarm Pro: The Pro version of Ring’s sytem includes an Eero router, which is nice if you don’t already have a Wi-Fi 6 router but most homes already have routers, and if you want to upgrade it’s much smarter to get a standalone router that’s exactly what you want rather than one that’s bundled",
       "matchedWords": {
         "1FebJojWdSNf": {
-          "hits": 10,
+          "hits": 0,
           "textWords": 6164
         },
         "24igJXwiDb_d": {
-          "hits": 15,
+          "hits": 0,
           "textWords": 6164
         },
         "8zlc1Uz4V934": {
@@ -2034,7 +2034,7 @@
           "textWords": 6164
         },
         "aGTzidmHZDa8": {
-          "hits": 1,
+          "hits": 0,
           "textWords": 6164
         },
         "hiZu6TfZf4Eq": {
@@ -2042,7 +2042,7 @@
           "textWords": 6164
         }
       },
-      "queryPhraseHits": 1
+      "queryPhraseHits": 0
     },
     {
       "hash": "6Bk1YdDZkUL4",
@@ -2055,7 +2055,7 @@
           "textWords": 2362
         },
         "24igJXwiDb_d": {
-          "hits": 6,
+          "hits": 0,
           "textWords": 2362
         },
         "8zlc1Uz4V934": {
@@ -2077,14 +2077,14 @@
       "hash": "9b7tXdDZkUL4",
       "address": "https://www.cnet.com/home/internet/",
       "title": "Home Internet - CNET",
-      "snippet": "You’re Probably Overpaying for Internet. Here’s How to Spot Hidden Fees\nHere’s the real reason your internet bill is so high — and what you can (and can’t) do about it.\n09/03/2026\nHow We Evaluate and Score ISPs at CNET",
+      "snippet": "Our experts can help you get online fast with tested, frequently-updated reviews of internet service providers and routers and helpful advice.\nHome\nHome Internet\nHome Security\nKitchen \u0026 Household\nSmart Home\nHome Energy \u0026 Utilities\nYard \u0026 Outdoors",
       "matchedWords": {
         "1FebJojWdSNf": {
-          "hits": 1,
+          "hits": 0,
           "textWords": 195
         },
         "24igJXwiDb_d": {
-          "hits": 3,
+          "hits": 0,
           "textWords": 195
         },
         "8zlc1Uz4V934": {
@@ -2135,14 +2135,14 @@
       "hash": "_wxyPdDZkUL4",
       "address": "https://www.cnet.com/home/internet/best-internet-providers/",
       "title": "Best ISPs of 2026: Our Top Picks Evaluated for Speed, Value and Price Transparency  - CNET",
-      "snippet": "The only caveat with fiber is that it’s not as widely available as cable internet. If cable internet is available at your address, we recommend Xfinity, Spectrum and Sparklight.\nHow do I know what ISPs are available in my area?",
+      "snippet": "Free equipment for all plans\nFast speeds for a valuable price\nWi-Fi 7 router included for some plans\nRouter opt-out not available\nPost promo period is unclear\nLimited coverage\nBottom Line\n8.9",
       "matchedWords": {
         "1FebJojWdSNf": {
-          "hits": 5,
+          "hits": 0,
           "textWords": 14889
         },
         "24igJXwiDb_d": {
-          "hits": 15,
+          "hits": 0,
           "textWords": 14889
         },
         "8zlc1Uz4V934": {
@@ -2150,7 +2150,7 @@
           "textWords": 14889
         },
         "aGTzidmHZDa8": {
-          "hits": 1,
+          "hits": 0,
           "textWords": 14889
         },
         "hiZu6TfZf4Eq": {
@@ -2158,20 +2158,20 @@
           "textWords": 14889
         }
       },
-      "queryPhraseHits": 1
+      "queryPhraseHits": 0
     },
     {
       "hash": "GxTNgsF20Rww",
       "address": "https://ma.tt/",
       "title": "Matt Mullenweg | Unlucky in Cards",
-      "snippet": "There’s also a #ceo Slack channel where anyone can drop in and request a meeting, which my esteemed colleague Damianne President did, and this morning we had an interesting chat that set my mind racing about how we might engineer happiness in the future.",
+      "snippet": "I know everyone has been waiting to hear what’s been going on behind the scenes, so I’m just going to lay it out: I’ve made an offer to buy Ryan Phelan and Stewart Brand’s houseboat Mirene.",
       "matchedWords": {
         "1FebJojWdSNf": {
-          "hits": 4,
+          "hits": 0,
           "textWords": 2499
         },
         "24igJXwiDb_d": {
-          "hits": 8,
+          "hits": 0,
           "textWords": 2499
         },
         "8zlc1Uz4V934": {
@@ -2179,7 +2179,7 @@
           "textWords": 2499
         },
         "aGTzidmHZDa8": {
-          "hits": 14,
+          "hits": 0,
           "textWords": 2499
         },
         "hiZu6TfZf4Eq": {
@@ -2193,14 +2193,14 @@
       "hash": "CjgsxsIyoLTx",
       "address": "https://planetpython.org/",
       "title": "Planet Python",
-      "snippet": "I’ll code by hand to do the same thing for my mind.\nA Real World Example\nBut let’s go back to how I code now, in late 2026. And let me give you an example of something I worked on last week and used successfully this weekend.\nIt’s not Python code. It’s a Google Sheets spreadsheet.",
+      "snippet": "The same report can be produced every hour on the hour with totals reset, from the same file, by giving the window a schedule; the scheduled tracing page covers that, and I will leave it there.\nSlow for whom",
       "matchedWords": {
         "1FebJojWdSNf": {
-          "hits": 70,
+          "hits": 0,
           "textWords": 30728
         },
         "24igJXwiDb_d": {
-          "hits": 64,
+          "hits": 0,
           "textWords": 30728
         },
         "8zlc1Uz4V934": {
@@ -2208,7 +2208,7 @@
           "textWords": 30728
         },
         "aGTzidmHZDa8": {
-          "hits": 61,
+          "hits": 0,
           "textWords": 30728
         },
         "hiZu6TfZf4Eq": {
@@ -2216,20 +2216,20 @@
           "textWords": 30728
         }
       },
-      "queryPhraseHits": 2
+      "queryPhraseHits": 0
     },
     {
       "hash": "AX7xBjRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Wikipedia:Help_desk",
       "title": "Wikipedia:Help desk - Wikipedia",
-      "snippet": "How do I find my account info and log in. ~2026-49018-19 (talk) 00:32, 10 September 2026 (UTC)Reply\n@~2026-49018-19: Does \"contribute\" refer to donations or edits? Donations are not linked to user accounts and you can donate without having an account.",
+      "snippet": "WP:HD\nWP:Y\nFor other types of questions, use the search box, see the reference desk or Help:Contents. If you have comments about a specific article, use that article's talk page.\nDo not provide your email address or any other contact information. Answers will be provided on this page only.",
       "matchedWords": {
         "1FebJojWdSNf": {
-          "hits": 42,
+          "hits": 0,
           "textWords": 14224
         },
         "24igJXwiDb_d": {
-          "hits": 27,
+          "hits": 0,
           "textWords": 14224
         },
         "8zlc1Uz4V934": {
@@ -2237,7 +2237,7 @@
           "textWords": 14224
         },
         "aGTzidmHZDa8": {
-          "hits": 41,
+          "hits": 0,
           "textWords": 14224
         },
         "hiZu6TfZf4Eq": {
@@ -2245,20 +2245,20 @@
           "textWords": 14224
         }
       },
-      "queryPhraseHits": 3
+      "queryPhraseHits": 0
     },
     {
       "hash": "Ma72KjRvmBbx",
       "address": "https://en.wikipedia.org/wiki/ChromeOS",
       "title": "ChromeOS - Wikipedia",
-      "snippet": "\"Google Reveals 'Aluminium OS': Android-ChromeOS Merger\". Gadget Hacks. Archived from the original on December 1, 2025. Retrieved December 13, 2025.\n↑ bio, See full. \"You Got Your Phone OS in My Laptop! Here's How Android and ChromeOS Will Merge\". CNET.",
+      "snippet": "It is possible to return to the verified boot mode after entering the canary channel, but the channel updater disappears and the only way to return to another channel is using the \"powerwash\" factory reset.[",
       "matchedWords": {
         "1FebJojWdSNf": {
-          "hits": 6,
+          "hits": 0,
           "textWords": 11960
         },
         "24igJXwiDb_d": {
-          "hits": 6,
+          "hits": 0,
           "textWords": 11960
         },
         "8zlc1Uz4V934": {
@@ -2266,7 +2266,7 @@
           "textWords": 11960
         },
         "aGTzidmHZDa8": {
-          "hits": 2,
+          "hits": 0,
           "textWords": 11960
         },
         "hiZu6TfZf4Eq": {
@@ -2280,14 +2280,14 @@
       "hash": "gdFRUjRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Android_(software)",
       "title": "Android (operating system) - Wikipedia",
-      "snippet": "\"Android's new desktop windowing mode has changed how I use my tablet\". Android Authority. Retrieved March 16, 2026.\n↑ Triggs, Robert (March 3, 2026). \"Your Pixel can now double up as a full Android PC with nothing more than a USB-C cable\". Android Authority. Retrieved March 16, 2026.",
+      "snippet": "There are many other uses for a TEE such as mobile payments, secure banking, full-disk encryption, multi-factor authentication, device reset protection, replay-protected persistent storage, wireless display (\"cast\") of protected content, secure PIN and fingerprint processing, and even malware",
       "matchedWords": {
         "1FebJojWdSNf": {
-          "hits": 12,
+          "hits": 0,
           "textWords": 32219
         },
         "24igJXwiDb_d": {
-          "hits": 31,
+          "hits": 0,
           "textWords": 32219
         },
         "8zlc1Uz4V934": {
@@ -2295,7 +2295,7 @@
           "textWords": 32219
         },
         "aGTzidmHZDa8": {
-          "hits": 5,
+          "hits": 0,
           "textWords": 32219
         },
         "hiZu6TfZf4Eq": {
@@ -2309,14 +2309,14 @@
       "hash": "iPDu4jRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Transmission_Control_Protocol",
       "title": "Transmission Control Protocol - Wikipedia",
-      "snippet": "TCP is connection-oriented, meaning that sender and receiver first need to establish a connection based on agreed parameters; they do this through a three-way handshake procedure.[2] The server must be listening (passive open) for connection requests from clients before a connection is established.",
+      "snippet": "However, there are vulnerabilities in TCP, including denial of service, connection hijacking, TCP veto, and reset attack.\nIn May 1974, Vint Cerf and Bob Kahn described an internetworking protocol for sharing resources using packet switching among network nodes.[",
       "matchedWords": {
         "1FebJojWdSNf": {
-          "hits": 8,
+          "hits": 0,
           "textWords": 13591
         },
         "24igJXwiDb_d": {
-          "hits": 3,
+          "hits": 0,
           "textWords": 13591
         },
         "8zlc1Uz4V934": {
@@ -2324,7 +2324,7 @@
           "textWords": 13591
         },
         "aGTzidmHZDa8": {
-          "hits": 1,
+          "hits": 0,
           "textWords": 13591
         },
         "hiZu6TfZf4Eq": {
@@ -2338,14 +2338,14 @@
       "hash": "5DZ6TjRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Android_(operating_system)",
       "title": "Android (operating system) - Wikipedia",
-      "snippet": "\"Android's new desktop windowing mode has changed how I use my tablet\". Android Authority. Retrieved March 16, 2026.\n↑ Triggs, Robert (March 3, 2026). \"Your Pixel can now double up as a full Android PC with nothing more than a USB-C cable\". Android Authority. Retrieved March 16, 2026.",
+      "snippet": "There are many other uses for a TEE such as mobile payments, secure banking, full-disk encryption, multi-factor authentication, device reset protection, replay-protected persistent storage, wireless display (\"cast\") of protected content, secure PIN and fingerprint processing, and even malware",
       "matchedWords": {
         "1FebJojWdSNf": {
-          "hits": 12,
+          "hits": 0,
           "textWords": 32219
         },
         "24igJXwiDb_d": {
-          "hits": 31,
+          "hits": 0,
           "textWords": 32219
         },
         "8zlc1Uz4V934": {
@@ -2353,7 +2353,7 @@
           "textWords": 32219
         },
         "aGTzidmHZDa8": {
-          "hits": 5,
+          "hits": 0,
           "textWords": 32219
         },
         "hiZu6TfZf4Eq": {
@@ -2396,14 +2396,14 @@
       "hash": "a0zSCMS6MKD4",
       "address": "https://github.com/orgs/community/discussions/137746",
       "title": "🌟 Put Your First Project in the Spotlight! · community · Discussion #137746 · GitHub",
-      "snippet": "Knowledge Explorer takes a different approach.\nInstead of navigating content linearly, learners explore subjects visually, understanding how concepts connect and where individual topics fit within the broader knowledge landscape.\nThe goal is to make learning:\nVisual\nStructured\nContextual",
+      "snippet": "Hi, This is Rishi Bharaj and am trying to build this. A Knowledge Explorer where the user can click and understand the topic.\nhttps://rishibharaj.github.io/Knowledge-Explorer/\nKnowledge Explorer\nAn interactive, domain-independent learning platform.",
       "matchedWords": {
         "1FebJojWdSNf": {
           "hits": 0,
           "textWords": 1062
         },
         "24igJXwiDb_d": {
-          "hits": 7,
+          "hits": 0,
           "textWords": 1062
         },
         "8zlc1Uz4V934": {
@@ -2411,7 +2411,7 @@
           "textWords": 1062
         },
         "aGTzidmHZDa8": {
-          "hits": 1,
+          "hits": 0,
           "textWords": 1062
         },
         "hiZu6TfZf4Eq": {
@@ -2425,14 +2425,14 @@
       "hash": "-p2w3taoSn1x",
       "address": "https://en.planet.wikimedia.org/",
       "title": "en.planet.wikimedia.org",
-      "snippet": "If we were really going to do it, where, and how? The discussion ran through the night. What came out of it was Ganggyeong — or more precisely, the Ganggyeong Institute of History and Culture. The concrete arguments for Ganggyeong were these:",
+      "snippet": "This July, the City of Light welcomed Wikimedians from all over the world. Some 1,250 attendees joined in person in Paris, while nearly 2000 joined Wikimania 2026 online.",
       "matchedWords": {
         "1FebJojWdSNf": {
-          "hits": 20,
+          "hits": 0,
           "textWords": 16720
         },
         "24igJXwiDb_d": {
-          "hits": 47,
+          "hits": 0,
           "textWords": 16720
         },
         "8zlc1Uz4V934": {
@@ -2440,7 +2440,7 @@
           "textWords": 16720
         },
         "aGTzidmHZDa8": {
-          "hits": 37,
+          "hits": 0,
           "textWords": 16720
         },
         "hiZu6TfZf4Eq": {
@@ -2483,14 +2483,14 @@
       "hash": "zjU19-2Sk-24",
       "address": "https://www.dexerto.com/archive/2024/1/",
       "title": "Archive - January 2024 - Dexerto",
-      "snippet": "Why Molly Mae Hague was banned from kissing on Love Island: All Stars\nWarzone streamer accused of hacking after hitting the “craziest” quick-scope shot\nMy Demon explained: How did Do-hee’s parents die?\nVPR’s Scheana Shay accuses Nick Viall’s fiance of being on his payroll",
+      "snippet": "Call of Duty Mobile rank guide: Points breakdown, rank reset, \u0026 more\nMasters of the Air review: A landmark TV spectacle\nHow to pin a TikTok video to your profile page\nJohn Cena sets timeline for WWE retirement and names dream final venue\nFake Drake TikTok fools everyone with bootleg merch scam",
       "matchedWords": {
         "1FebJojWdSNf": {
-          "hits": 27,
+          "hits": 0,
           "textWords": 48383
         },
         "24igJXwiDb_d": {
-          "hits": 497,
+          "hits": 0,
           "textWords": 48383
         },
         "8zlc1Uz4V934": {
@@ -2498,7 +2498,7 @@
           "textWords": 48383
         },
         "aGTzidmHZDa8": {
-          "hits": 20,
+          "hits": 0,
           "textWords": 48383
         },
         "hiZu6TfZf4Eq": {
@@ -2506,20 +2506,20 @@
           "textWords": 48383
         }
       },
-      "queryPhraseHits": 2
+      "queryPhraseHits": 0
     },
     {
       "hash": "GxTNgsF20Rww",
       "address": "https://ma.tt/",
       "title": "Matt Mullenweg | Unlucky in Cards",
-      "snippet": "There’s also a #ceo Slack channel where anyone can drop in and request a meeting, which my esteemed colleague Damianne President did, and this morning we had an interesting chat that set my mind racing about how we might engineer happiness in the future.",
+      "snippet": "I know everyone has been waiting to hear what’s been going on behind the scenes, so I’m just going to lay it out: I’ve made an offer to buy Ryan Phelan and Stewart Brand’s houseboat Mirene.",
       "matchedWords": {
         "1FebJojWdSNf": {
-          "hits": 4,
+          "hits": 0,
           "textWords": 2499
         },
         "24igJXwiDb_d": {
-          "hits": 8,
+          "hits": 0,
           "textWords": 2499
         },
         "8zlc1Uz4V934": {
@@ -2527,7 +2527,7 @@
           "textWords": 2499
         },
         "aGTzidmHZDa8": {
-          "hits": 14,
+          "hits": 0,
           "textWords": 2499
         },
         "hiZu6TfZf4Eq": {
@@ -2570,14 +2570,14 @@
       "hash": "CjgsxsIyoLTx",
       "address": "https://planetpython.org/",
       "title": "Planet Python",
-      "snippet": "I’ll code by hand to do the same thing for my mind.\nA Real World Example\nBut let’s go back to how I code now, in late 2026. And let me give you an example of something I worked on last week and used successfully this weekend.\nIt’s not Python code. It’s a Google Sheets spreadsheet.",
+      "snippet": "The same report can be produced every hour on the hour with totals reset, from the same file, by giving the window a schedule; the scheduled tracing page covers that, and I will leave it there.\nSlow for whom",
       "matchedWords": {
         "1FebJojWdSNf": {
-          "hits": 70,
+          "hits": 0,
           "textWords": 30728
         },
         "24igJXwiDb_d": {
-          "hits": 64,
+          "hits": 0,
           "textWords": 30728
         },
         "8zlc1Uz4V934": {
@@ -2585,7 +2585,7 @@
           "textWords": 30728
         },
         "aGTzidmHZDa8": {
-          "hits": 61,
+          "hits": 0,
           "textWords": 30728
         },
         "hiZu6TfZf4Eq": {
@@ -2593,20 +2593,20 @@
           "textWords": 30728
         }
       },
-      "queryPhraseHits": 2
+      "queryPhraseHits": 0
     },
     {
       "hash": "AX7xBjRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Wikipedia:Help_desk",
       "title": "Wikipedia:Help desk - Wikipedia",
-      "snippet": "How do I find my account info and log in. ~2026-49018-19 (talk) 00:32, 10 September 2026 (UTC)Reply\n@~2026-49018-19: Does \"contribute\" refer to donations or edits? Donations are not linked to user accounts and you can donate without having an account.",
+      "snippet": "WP:HD\nWP:Y\nFor other types of questions, use the search box, see the reference desk or Help:Contents. If you have comments about a specific article, use that article's talk page.\nDo not provide your email address or any other contact information. Answers will be provided on this page only.",
       "matchedWords": {
         "1FebJojWdSNf": {
-          "hits": 42,
+          "hits": 0,
           "textWords": 14224
         },
         "24igJXwiDb_d": {
-          "hits": 27,
+          "hits": 0,
           "textWords": 14224
         },
         "8zlc1Uz4V934": {
@@ -2614,7 +2614,7 @@
           "textWords": 14224
         },
         "aGTzidmHZDa8": {
-          "hits": 41,
+          "hits": 0,
           "textWords": 14224
         },
         "hiZu6TfZf4Eq": {
@@ -2622,20 +2622,20 @@
           "textWords": 14224
         }
       },
-      "queryPhraseHits": 3
+      "queryPhraseHits": 0
     },
     {
       "hash": "D4lABzaS0qdw",
       "address": "https://planet.debian.org/",
       "title": "Planet Debian",
-      "snippet": "Once you identified the slow part of a program, how do you know why it’s slow?\nTo learn more about the specific bottlenecks your program encounters, you can consult your CPU’s hardware performance counters.",
+      "snippet": "% cd ~/go/src/github.com/stapelberg/goturbopfor % git reset --hard 49b7c05cc61e77f0257568eb73833467714d2b4a % go test -c # go1.27.0 % go tool objdump -S goturbopfor.test | perl -nlE 'say if /p4dec32/ ..",
       "matchedWords": {
         "1FebJojWdSNf": {
-          "hits": 8,
+          "hits": 0,
           "textWords": 8109
         },
         "24igJXwiDb_d": {
-          "hits": 18,
+          "hits": 0,
           "textWords": 8109
         },
         "8zlc1Uz4V934": {
@@ -2643,7 +2643,7 @@
           "textWords": 8109
         },
         "aGTzidmHZDa8": {
-          "hits": 22,
+          "hits": 0,
           "textWords": 8109
         },
         "hiZu6TfZf4Eq": {
@@ -2651,20 +2651,20 @@
           "textWords": 8109
         }
       },
-      "queryPhraseHits": 1
+      "queryPhraseHits": 0
     },
     {
       "hash": "-p2w3taoSn1x",
       "address": "https://en.planet.wikimedia.org/",
       "title": "en.planet.wikimedia.org",
-      "snippet": "If we were really going to do it, where, and how? The discussion ran through the night. What came out of it was Ganggyeong — or more precisely, the Ganggyeong Institute of History and Culture. The concrete arguments for Ganggyeong were these:",
+      "snippet": "This July, the City of Light welcomed Wikimedians from all over the world. Some 1,250 attendees joined in person in Paris, while nearly 2000 joined Wikimania 2026 online.",
       "matchedWords": {
         "1FebJojWdSNf": {
-          "hits": 20,
+          "hits": 0,
           "textWords": 16720
         },
         "24igJXwiDb_d": {
-          "hits": 47,
+          "hits": 0,
           "textWords": 16720
         },
         "8zlc1Uz4V934": {
@@ -2672,7 +2672,7 @@
           "textWords": 16720
         },
         "aGTzidmHZDa8": {
-          "hits": 37,
+          "hits": 0,
           "textWords": 16720
         },
         "hiZu6TfZf4Eq": {
@@ -2744,14 +2744,14 @@
       "hash": "nWMgE7yp6WtY",
       "address": "http://tantek.com/?skin=vtx",
       "title": "Tantek Çelik",
-      "snippet": "Because when it is, students cannot do it.”\n* https://www.reddit.com/r/Professors/comments/1vkw6by/how_do_you_know_an_assignment_is_ai_proof_because/\n“I assign a profile essay. Have for 30 years. Student interviews a person, records it, writes a paper based off the recording.",
+      "snippet": "Personally I do not have any “internet connected” home appliances (not counting a router or video streaming devices, home computers) or vehicles and even before this, never planned to get any for both security and privacy reasons.",
       "matchedWords": {
         "1FebJojWdSNf": {
-          "hits": 29,
+          "hits": 0,
           "textWords": 10682
         },
         "24igJXwiDb_d": {
-          "hits": 25,
+          "hits": 0,
           "textWords": 10682
         },
         "8zlc1Uz4V934": {
@@ -2759,7 +2759,7 @@
           "textWords": 10682
         },
         "aGTzidmHZDa8": {
-          "hits": 18,
+          "hits": 0,
           "textWords": 10682
         },
         "hiZu6TfZf4Eq": {
@@ -2767,7 +2767,7 @@
           "textWords": 10682
         }
       },
-      "queryPhraseHits": 3
+      "queryPhraseHits": 0
     }
   ],
   "documentsHeldPerQueryWord": {

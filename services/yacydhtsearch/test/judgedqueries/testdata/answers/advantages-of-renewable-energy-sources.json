@@ -1,6 +1,6 @@
 {
   "query": "advantages of renewable energy sources",
-  "recordedAt": "2026-09-12T07:51:56Z",
+  "recordedAt": "2026-09-12T10:15:17Z",
   "itemsInTheOrderOfEachAnswer": [
     [
       {
@@ -26,7 +26,7 @@
             "textWords": 5141
           },
           "i_iFS-vhCBg8": {
-            "hits": 5,
+            "hits": 0,
             "textWords": 5141
           }
         },
@@ -69,7 +69,7 @@
         "hash": "qaZ9q_nMM_j5",
         "address": "https://grokipedia.com/page/Manufacturing",
         "title": "Manufacturing — Grokipedia",
-        "snippet": "17][3] Fundamentally, manufacturing operates as a causal chain converting inputs—raw materials, labor, energy, and capital equipment—into finished goods suitable for intermediate or final use, with value added serving as the primary metric of output net of intermediate consumption.[",
+        "snippet": "6][7] In the contemporary global economy, it accounts for about 16% of world GDP, with China dominating output at approximately 29% share in 2023 due to scale advantages and policy supports, while advanced economies like the United States maintain high value-added manufacturing through",
         "matchedWords": {
           "-u50LisykPAq": {
             "hits": 2,
@@ -88,7 +88,7 @@
             "textWords": 9726
           },
           "i_iFS-vhCBg8": {
-            "hits": 165,
+            "hits": 0,
             "textWords": 9726
           }
         },
@@ -100,7 +100,7 @@
         "hash": "yPB1c_nMM_j5",
         "address": "https://grokipedia.com/page/Profibus",
         "title": "Profibus — Grokipedia",
-        "snippet": "Key advantages include cost-effective wiring, high reliability through robust diagnostics, and an installed base of approximately 70 million devices globally as part of the broader Profibus ecosystem as of 2025.",
+        "snippet": "18] Designed for process industries, MBP-IS ensures explosion protection in Zones 0, 1, and 2 via the FISCO model, limiting energy to prevent ignition.[",
         "matchedWords": {
           "-u50LisykPAq": {
             "hits": 1,
@@ -119,7 +119,7 @@
             "textWords": 4241
           },
           "i_iFS-vhCBg8": {
-            "hits": 61,
+            "hits": 0,
             "textWords": 4241
           }
         },
@@ -151,11 +151,11 @@
           "textWords": 26529
         },
         "i_iFS-vhCBg8": {
-          "hits": 859,
+          "hits": 0,
           "textWords": 26529
         }
       },
-      "queryPhraseHits": 3
+      "queryPhraseHits": 2
     },
     {
       "hash": "mHyFhKsrSOQw",
@@ -180,7 +180,7 @@
           "textWords": 2520
         },
         "i_iFS-vhCBg8": {
-          "hits": 5,
+          "hits": 0,
           "textWords": 2520
         }
       },
@@ -219,7 +219,7 @@
       "hash": "D4lABzaS0qdw",
       "address": "https://planet.debian.org/",
       "title": "Planet Debian",
-      "snippet": "Full Index Merging: The many thousands of partial index files (for each Debian package) are combined into a small handful of large index files: When searching, it would be expensive to consult thousands of indexes.",
+      "snippet": "This August, I accomplished what I wanted for many years: I deleted the last cgo dependency in Debian Code Search!",
       "matchedWords": {
         "-u50LisykPAq": {
           "hits": 0,
@@ -238,7 +238,7 @@
           "textWords": 8109
         },
         "i_iFS-vhCBg8": {
-          "hits": 103,
+          "hits": 0,
           "textWords": 8109
         }
       },
@@ -267,11 +267,11 @@
           "textWords": 9381
         },
         "i_iFS-vhCBg8": {
-          "hits": 128,
+          "hits": 0,
           "textWords": 9381
         }
       },
-      "queryPhraseHits": 3
+      "queryPhraseHits": 2
     },
     {
       "hash": "d3Xoss6GdY-4",
@@ -296,7 +296,7 @@
           "textWords": 33486
         },
         "i_iFS-vhCBg8": {
-          "hits": 1078,
+          "hits": 0,
           "textWords": 33486
         }
       },
@@ -325,11 +325,11 @@
           "textWords": 26529
         },
         "i_iFS-vhCBg8": {
-          "hits": 859,
+          "hits": 0,
           "textWords": 26529
         }
       },
-      "queryPhraseHits": 3
+      "queryPhraseHits": 2
     },
     {
       "hash": "8BsDjjRvmBbx",
@@ -354,11 +354,11 @@
           "textWords": 27115
         },
         "i_iFS-vhCBg8": {
-          "hits": 987,
+          "hits": 0,
           "textWords": 27115
         }
       },
-      "queryPhraseHits": 6
+      "queryPhraseHits": 5
     },
     {
       "hash": "8FgCajRvmBbx",
@@ -383,7 +383,7 @@
           "textWords": 16905
         },
         "i_iFS-vhCBg8": {
-          "hits": 614,
+          "hits": 0,
           "textWords": 16905
         }
       },
@@ -393,7 +393,7 @@
       "hash": "D4lABzaS0qdw",
       "address": "https://planet.debian.org/",
       "title": "Planet Debian",
-      "snippet": "Full Index Merging: The many thousands of partial index files (for each Debian package) are combined into a small handful of large index files: When searching, it would be expensive to consult thousands of indexes.",
+      "snippet": "This August, I accomplished what I wanted for many years: I deleted the last cgo dependency in Debian Code Search!",
       "matchedWords": {
         "-u50LisykPAq": {
           "hits": 0,
@@ -412,7 +412,7 @@
           "textWords": 8109
         },
         "i_iFS-vhCBg8": {
-          "hits": 103,
+          "hits": 0,
           "textWords": 8109
         }
       },
@@ -422,7 +422,7 @@
       "hash": "Oo2Gb_nMM_j5",
       "address": "https://grokipedia.com/page/Learning_curve",
       "title": "Learning curve — Grokipedia",
-      "snippet": "For example, solar photovoltaic modules have followed Wright's Law, with costs declining by approximately 20% for each doubling of cumulative global installed capacity over more than four decades, driving the rapid expansion of renewable energy.",
+      "snippet": "7] Similar patterns hold in renewable energy technologies, with solar photovoltaic module prices declining by about 20-30% per doubling of global capacity, supporting the model's applicability in scaling production.[",
       "matchedWords": {
         "-u50LisykPAq": {
           "hits": 2,
@@ -441,17 +441,17 @@
           "textWords": 7990
         },
         "i_iFS-vhCBg8": {
-          "hits": 160,
+          "hits": 0,
           "textWords": 7990
         }
       },
-      "queryPhraseHits": 3
+      "queryPhraseHits": 2
     },
     {
       "hash": "O5O6-_nMM_j5",
       "address": "https://grokipedia.com/page/Technology",
       "title": "Technology — Grokipedia",
-      "snippet": "3] Controversies persist regarding the uneven distribution of benefits, risks of dependency on fragile supply chains, and ethical dilemmas in deploying powerful tools like nuclear energy or artificial intelligence without robust safeguards.[4]\nDefinition\nCore Principles and Scope",
+      "snippet": "85] Similarly, the laws of thermodynamics, formalized in the mid-19th century by Rudolf Clausius and William Thomson (Lord Kelvin), predict energy conservation and entropy's directional increase, setting theoretical efficiency bounds for heat engines that convert thermal energy to mechanical work,",
       "matchedWords": {
         "-u50LisykPAq": {
           "hits": 2,
@@ -470,7 +470,7 @@
           "textWords": 11550
         },
         "i_iFS-vhCBg8": {
-          "hits": 184,
+          "hits": 0,
           "textWords": 11550
         }
       },
@@ -528,7 +528,7 @@
           "textWords": 8941
         },
         "i_iFS-vhCBg8": {
-          "hits": 135,
+          "hits": 0,
           "textWords": 8941
         }
       },
@@ -557,7 +557,7 @@
           "textWords": 33486
         },
         "i_iFS-vhCBg8": {
-          "hits": 1078,
+          "hits": 0,
           "textWords": 33486
         }
       },
@@ -596,7 +596,7 @@
       "hash": "D4lABzaS0qdw",
       "address": "https://planet.debian.org/",
       "title": "Planet Debian",
-      "snippet": "Full Index Merging: The many thousands of partial index files (for each Debian package) are combined into a small handful of large index files: When searching, it would be expensive to consult thousands of indexes.",
+      "snippet": "This August, I accomplished what I wanted for many years: I deleted the last cgo dependency in Debian Code Search!",
       "matchedWords": {
         "-u50LisykPAq": {
           "hits": 0,
@@ -615,7 +615,7 @@
           "textWords": 8109
         },
         "i_iFS-vhCBg8": {
-          "hits": 103,
+          "hits": 0,
           "textWords": 8109
         }
       },
@@ -644,7 +644,7 @@
           "textWords": 13373
         },
         "i_iFS-vhCBg8": {
-          "hits": 205,
+          "hits": 0,
           "textWords": 13373
         }
       },
@@ -673,11 +673,11 @@
           "textWords": 2782
         },
         "i_iFS-vhCBg8": {
-          "hits": 38,
+          "hits": 0,
           "textWords": 2782
         }
       },
-      "queryPhraseHits": 3
+      "queryPhraseHits": 1
     }
   ],
   "documentsHeldPerQueryWord": {

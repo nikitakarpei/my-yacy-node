@@ -12,7 +12,7 @@ func answersCarryingThePageTextOfEachDocument(
 	answers peeranswers.AnsweredQuery,
 	pageTextPerDocument map[yacymodel.URLHash]string,
 ) peeranswers.AnsweredQuery {
-	queryWords := searchquery.QueryFrom(query).TermHashes()
+	queryWords := searchquery.QueryFrom(query, "").TermHashes()
 
 	documentTextPerDocument := make(
 		map[yacymodel.URLHash]documenttext.DocumentText, len(pageTextPerDocument),

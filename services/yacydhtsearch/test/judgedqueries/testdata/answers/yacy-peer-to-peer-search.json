@@ -1,6 +1,6 @@
 {
   "query": "yacy peer to peer search",
-  "recordedAt": "2026-09-12T07:52:15Z",
+  "recordedAt": "2026-09-12T10:15:34Z",
   "itemsInTheOrderOfEachAnswer": [
     [
       {
@@ -14,7 +14,7 @@
             "textWords": 83
           },
           "AbbiA0S2iDXF": {
-            "hits": 1,
+            "hits": 0,
             "textWords": 83
           },
           "BqlDxZ8zo0u1": {
@@ -26,7 +26,7 @@
             "textWords": 83
           }
         },
-        "queryPhraseHits": 1
+        "queryPhraseHits": 2
       }
     ],
     [
@@ -34,14 +34,14 @@
         "hash": "TJnRLsc7o6d4",
         "address": "https://yacy.space/submit-url.php",
         "title": "Submit a URL to YaCy (Single Page)",
-        "snippet": "Home Submit a URL\nRequest indexing of one public web page through the yacy.space peer and the decentralized YaCy search network.\nPage URL\nHow URL submission works\nyacy.space validates that the address resolves to a public HTTP or HTTPS page.",
+        "snippet": "The local YaCy peer queues that exact URL with crawl depth zero, so linked pages are not automatically followed.\nAfter processing, the page may appear on the yacy.space search homepage and may be shared through the YaCy network.",
         "matchedWords": {
           "-P5otMTLoZfv": {
             "hits": 2,
             "textWords": 111
           },
           "AbbiA0S2iDXF": {
-            "hits": 3,
+            "hits": 0,
             "textWords": 111
           },
           "BqlDxZ8zo0u1": {
@@ -61,14 +61,14 @@
         "hash": "TJnRLsc7o6d4",
         "address": "https://yacy.space/submit-url.php",
         "title": "Submit a URL to YaCy (Single Page)",
-        "snippet": "Home Submit a URL\nRequest indexing of one public web page through the yacy.space peer and the decentralized YaCy search network.\nPage URL\nHow URL submission works\nyacy.space validates that the address resolves to a public HTTP or HTTPS page.",
+        "snippet": "The local YaCy peer queues that exact URL with crawl depth zero, so linked pages are not automatically followed.\nAfter processing, the page may appear on the yacy.space search homepage and may be shared through the YaCy network.",
         "matchedWords": {
           "-P5otMTLoZfv": {
             "hits": 2,
             "textWords": 111
           },
           "AbbiA0S2iDXF": {
-            "hits": 3,
+            "hits": 0,
             "textWords": 111
           },
           "BqlDxZ8zo0u1": {
@@ -95,7 +95,7 @@
             "textWords": 83
           },
           "AbbiA0S2iDXF": {
-            "hits": 1,
+            "hits": 0,
             "textWords": 83
           },
           "BqlDxZ8zo0u1": {
@@ -107,7 +107,7 @@
             "textWords": 83
           }
         },
-        "queryPhraseHits": 1
+        "queryPhraseHits": 2
       }
     ],
     [
@@ -115,14 +115,14 @@
         "hash": "TJnRLsc7o6d4",
         "address": "https://yacy.space/submit-url.php",
         "title": "Submit a URL to YaCy (Single Page)",
-        "snippet": "Home Submit a URL\nRequest indexing of one public web page through the yacy.space peer and the decentralized YaCy search network.\nPage URL\nHow URL submission works\nyacy.space validates that the address resolves to a public HTTP or HTTPS page.",
+        "snippet": "The local YaCy peer queues that exact URL with crawl depth zero, so linked pages are not automatically followed.\nAfter processing, the page may appear on the yacy.space search homepage and may be shared through the YaCy network.",
         "matchedWords": {
           "-P5otMTLoZfv": {
             "hits": 2,
             "textWords": 111
           },
           "AbbiA0S2iDXF": {
-            "hits": 3,
+            "hits": 0,
             "textWords": 111
           },
           "BqlDxZ8zo0u1": {
@@ -149,7 +149,7 @@
             "textWords": 83
           },
           "AbbiA0S2iDXF": {
-            "hits": 1,
+            "hits": 0,
             "textWords": 83
           },
           "BqlDxZ8zo0u1": {
@@ -161,7 +161,7 @@
             "textWords": 83
           }
         },
-        "queryPhraseHits": 1
+        "queryPhraseHits": 2
       },
       {
         "hash": "cw0xkbg2aLVh",
@@ -201,7 +201,7 @@
             "textWords": 83
           },
           "AbbiA0S2iDXF": {
-            "hits": 1,
+            "hits": 0,
             "textWords": 83
           },
           "BqlDxZ8zo0u1": {
@@ -213,7 +213,7 @@
             "textWords": 83
           }
         },
-        "queryPhraseHits": 1
+        "queryPhraseHits": 2
       }
     ],
     [
@@ -228,7 +228,7 @@
             "textWords": 83
           },
           "AbbiA0S2iDXF": {
-            "hits": 1,
+            "hits": 0,
             "textWords": 83
           },
           "BqlDxZ8zo0u1": {
@@ -240,7 +240,7 @@
             "textWords": 83
           }
         },
-        "queryPhraseHits": 1
+        "queryPhraseHits": 2
       }
     ],
     [
@@ -248,14 +248,14 @@
         "hash": "D4lABzaS0qdw",
         "address": "https://planet.debian.org/",
         "title": "Planet Debian",
-        "snippet": "When searching, it is important to quickly decode these lists to answer the search query. However, there is a point of diminishing returns where the decoding speed, even though it can still be measurably improved quite a bit, no longer influences the overall query duration.",
+        "snippet": "Background: Why does DCS need a fast Integer Codec?\nDebian Code Search (DCS) is a search engine that allows searching all the Open Source source code within Debian, with either literal search expressions or regular expression search queries.",
         "matchedWords": {
           "-P5otMTLoZfv": {
             "hits": 0,
             "textWords": 8109
           },
           "AbbiA0S2iDXF": {
-            "hits": 162,
+            "hits": 0,
             "textWords": 8109
           },
           "BqlDxZ8zo0u1": {
@@ -282,7 +282,7 @@
             "textWords": 83
           },
           "AbbiA0S2iDXF": {
-            "hits": 1,
+            "hits": 0,
             "textWords": 83
           },
           "BqlDxZ8zo0u1": {
@@ -294,7 +294,7 @@
             "textWords": 83
           }
         },
-        "queryPhraseHits": 1
+        "queryPhraseHits": 2
       }
     ],
     [
@@ -302,14 +302,14 @@
         "hash": "D4lABzaS0qdw",
         "address": "https://planet.debian.org/",
         "title": "Planet Debian",
-        "snippet": "When searching, it is important to quickly decode these lists to answer the search query. However, there is a point of diminishing returns where the decoding speed, even though it can still be measurably improved quite a bit, no longer influences the overall query duration.",
+        "snippet": "Background: Why does DCS need a fast Integer Codec?\nDebian Code Search (DCS) is a search engine that allows searching all the Open Source source code within Debian, with either literal search expressions or regular expression search queries.",
         "matchedWords": {
           "-P5otMTLoZfv": {
             "hits": 0,
             "textWords": 8109
           },
           "AbbiA0S2iDXF": {
-            "hits": 162,
+            "hits": 0,
             "textWords": 8109
           },
           "BqlDxZ8zo0u1": {
@@ -336,7 +336,7 @@
             "textWords": 83
           },
           "AbbiA0S2iDXF": {
-            "hits": 1,
+            "hits": 0,
             "textWords": 83
           },
           "BqlDxZ8zo0u1": {
@@ -348,7 +348,7 @@
             "textWords": 83
           }
         },
-        "queryPhraseHits": 1
+        "queryPhraseHits": 2
       }
     ],
     [
@@ -363,7 +363,7 @@
             "textWords": 83
           },
           "AbbiA0S2iDXF": {
-            "hits": 1,
+            "hits": 0,
             "textWords": 83
           },
           "BqlDxZ8zo0u1": {
@@ -375,7 +375,7 @@
             "textWords": 83
           }
         },
-        "queryPhraseHits": 1
+        "queryPhraseHits": 2
       }
     ]
   ],
@@ -384,14 +384,14 @@
       "hash": "AeOqws55Qxow",
       "address": "https://yacy.net/.",
       "title": "Home - YaCy",
-      "snippet": "YaCy is free software for your own search engine.\nYaCy is free search engine software for local search, organization-wide search portals, and a decentralized peer-to-peer web index.\nChoose how you want to use YaCy",
+      "snippet": "Run YaCy locally, build a search portal for your organization, or join the decentralized peer-to-peer search network.\nP2P Mode\nWeb Search by the people, for the people: decentralized, all users are equal, no central, no search request storage, shared index.\nYour Search Portal",
       "matchedWords": {
         "-P5otMTLoZfv": {
           "hits": 6,
           "textWords": 154
         },
         "AbbiA0S2iDXF": {
-          "hits": 5,
+          "hits": 0,
           "textWords": 154
         },
         "BqlDxZ8zo0u1": {
@@ -403,7 +403,7 @@
           "textWords": 154
         }
       },
-      "queryPhraseHits": 3
+      "queryPhraseHits": 1
     },
     {
       "hash": "ByKn9s55Qxow",
@@ -416,7 +416,7 @@
           "textWords": 318
         },
         "AbbiA0S2iDXF": {
-          "hits": 11,
+          "hits": 0,
           "textWords": 318
         },
         "BqlDxZ8zo0u1": {
@@ -428,20 +428,20 @@
           "textWords": 318
         }
       },
-      "queryPhraseHits": 6
+      "queryPhraseHits": 1
     },
     {
       "hash": "AeOqws55Qxow",
       "address": "https://yacy.net/.",
       "title": "Home - YaCy",
-      "snippet": "YaCy is free software for your own search engine.\nYaCy is free search engine software for local search, organization-wide search portals, and a decentralized peer-to-peer web index.\nChoose how you want to use YaCy",
+      "snippet": "Run YaCy locally, build a search portal for your organization, or join the decentralized peer-to-peer search network.\nP2P Mode\nWeb Search by the people, for the people: decentralized, all users are equal, no central, no search request storage, shared index.\nYour Search Portal",
       "matchedWords": {
         "-P5otMTLoZfv": {
           "hits": 6,
           "textWords": 154
         },
         "AbbiA0S2iDXF": {
-          "hits": 5,
+          "hits": 0,
           "textWords": 154
         },
         "BqlDxZ8zo0u1": {
@@ -453,7 +453,7 @@
           "textWords": 154
         }
       },
-      "queryPhraseHits": 3
+      "queryPhraseHits": 1
     },
     {
       "hash": "ByKn9s55Qxow",
@@ -466,7 +466,7 @@
           "textWords": 318
         },
         "AbbiA0S2iDXF": {
-          "hits": 11,
+          "hits": 0,
           "textWords": 318
         },
         "BqlDxZ8zo0u1": {
@@ -478,20 +478,20 @@
           "textWords": 318
         }
       },
-      "queryPhraseHits": 6
+      "queryPhraseHits": 1
     },
     {
       "hash": "AeOqws55Qxow",
       "address": "https://yacy.net/.",
       "title": "Home - YaCy",
-      "snippet": "YaCy is free software for your own search engine.\nYaCy is free search engine software for local search, organization-wide search portals, and a decentralized peer-to-peer web index.\nChoose how you want to use YaCy",
+      "snippet": "Run YaCy locally, build a search portal for your organization, or join the decentralized peer-to-peer search network.\nP2P Mode\nWeb Search by the people, for the people: decentralized, all users are equal, no central, no search request storage, shared index.\nYour Search Portal",
       "matchedWords": {
         "-P5otMTLoZfv": {
           "hits": 6,
           "textWords": 154
         },
         "AbbiA0S2iDXF": {
-          "hits": 5,
+          "hits": 0,
           "textWords": 154
         },
         "BqlDxZ8zo0u1": {
@@ -503,7 +503,7 @@
           "textWords": 154
         }
       },
-      "queryPhraseHits": 3
+      "queryPhraseHits": 1
     },
     {
       "hash": "ByKn9s55Qxow",
@@ -516,7 +516,7 @@
           "textWords": 318
         },
         "AbbiA0S2iDXF": {
-          "hits": 11,
+          "hits": 0,
           "textWords": 318
         },
         "BqlDxZ8zo0u1": {
@@ -528,20 +528,20 @@
           "textWords": 318
         }
       },
-      "queryPhraseHits": 6
+      "queryPhraseHits": 1
     },
     {
       "hash": "AeOqws55Qxow",
       "address": "https://yacy.net/.",
       "title": "Home - YaCy",
-      "snippet": "YaCy is free software for your own search engine.\nYaCy is free search engine software for local search, organization-wide search portals, and a decentralized peer-to-peer web index.\nChoose how you want to use YaCy",
+      "snippet": "Run YaCy locally, build a search portal for your organization, or join the decentralized peer-to-peer search network.\nP2P Mode\nWeb Search by the people, for the people: decentralized, all users are equal, no central, no search request storage, shared index.\nYour Search Portal",
       "matchedWords": {
         "-P5otMTLoZfv": {
           "hits": 6,
           "textWords": 154
         },
         "AbbiA0S2iDXF": {
-          "hits": 5,
+          "hits": 0,
           "textWords": 154
         },
         "BqlDxZ8zo0u1": {
@@ -553,7 +553,7 @@
           "textWords": 154
         }
       },
-      "queryPhraseHits": 3
+      "queryPhraseHits": 1
     },
     {
       "hash": "ByKn9s55Qxow",
@@ -566,7 +566,7 @@
           "textWords": 318
         },
         "AbbiA0S2iDXF": {
-          "hits": 11,
+          "hits": 0,
           "textWords": 318
         },
         "BqlDxZ8zo0u1": {
@@ -578,7 +578,7 @@
           "textWords": 318
         }
       },
-      "queryPhraseHits": 6
+      "queryPhraseHits": 1
     },
     {
       "hash": "VVkiYmS6MKD4",
@@ -591,7 +591,7 @@
           "textWords": 13433
         },
         "AbbiA0S2iDXF": {
-          "hits": 344,
+          "hits": 0,
           "textWords": 13433
         },
         "BqlDxZ8zo0u1": {
@@ -603,7 +603,7 @@
           "textWords": 13433
         }
       },
-      "queryPhraseHits": 8
+      "queryPhraseHits": 1
     },
     {
       "hash": "tt-iHg2Rr_dw",
@@ -616,7 +616,7 @@
           "textWords": 138
         },
         "AbbiA0S2iDXF": {
-          "hits": 2,
+          "hits": 0,
           "textWords": 138
         },
         "BqlDxZ8zo0u1": {
@@ -641,7 +641,7 @@
           "textWords": 138
         },
         "AbbiA0S2iDXF": {
-          "hits": 2,
+          "hits": 0,
           "textWords": 138
         },
         "BqlDxZ8zo0u1": {
@@ -659,14 +659,14 @@
       "hash": "AeOqws55Qxow",
       "address": "https://yacy.net/.",
       "title": "Home - YaCy",
-      "snippet": "YaCy is free software for your own search engine.\nYaCy is free search engine software for local search, organization-wide search portals, and a decentralized peer-to-peer web index.\nChoose how you want to use YaCy",
+      "snippet": "Run YaCy locally, build a search portal for your organization, or join the decentralized peer-to-peer search network.\nP2P Mode\nWeb Search by the people, for the people: decentralized, all users are equal, no central, no search request storage, shared index.\nYour Search Portal",
       "matchedWords": {
         "-P5otMTLoZfv": {
           "hits": 6,
           "textWords": 154
         },
         "AbbiA0S2iDXF": {
-          "hits": 5,
+          "hits": 0,
           "textWords": 154
         },
         "BqlDxZ8zo0u1": {
@@ -678,7 +678,7 @@
           "textWords": 154
         }
       },
-      "queryPhraseHits": 3
+      "queryPhraseHits": 1
     },
     {
       "hash": "ByKn9s55Qxow",
@@ -691,7 +691,7 @@
           "textWords": 318
         },
         "AbbiA0S2iDXF": {
-          "hits": 11,
+          "hits": 0,
           "textWords": 318
         },
         "BqlDxZ8zo0u1": {
@@ -703,7 +703,7 @@
           "textWords": 318
         }
       },
-      "queryPhraseHits": 6
+      "queryPhraseHits": 1
     },
     {
       "hash": "ByKn9s55Qxow",
@@ -716,7 +716,7 @@
           "textWords": 318
         },
         "AbbiA0S2iDXF": {
-          "hits": 11,
+          "hits": 0,
           "textWords": 318
         },
         "BqlDxZ8zo0u1": {
@@ -728,7 +728,7 @@
           "textWords": 318
         }
       },
-      "queryPhraseHits": 6
+      "queryPhraseHits": 1
     },
     {
       "hash": "tt-iHg2Rr_dw",
@@ -741,7 +741,7 @@
           "textWords": 138
         },
         "AbbiA0S2iDXF": {
-          "hits": 2,
+          "hits": 0,
           "textWords": 138
         },
         "BqlDxZ8zo0u1": {
@@ -766,7 +766,7 @@
           "textWords": 318
         },
         "AbbiA0S2iDXF": {
-          "hits": 11,
+          "hits": 0,
           "textWords": 318
         },
         "BqlDxZ8zo0u1": {
@@ -778,20 +778,20 @@
           "textWords": 318
         }
       },
-      "queryPhraseHits": 6
+      "queryPhraseHits": 1
     },
     {
       "hash": "AeOqws55Qxow",
       "address": "https://yacy.net/.",
       "title": "Home - YaCy",
-      "snippet": "YaCy is free software for your own search engine.\nYaCy is free search engine software for local search, organization-wide search portals, and a decentralized peer-to-peer web index.\nChoose how you want to use YaCy",
+      "snippet": "Run YaCy locally, build a search portal for your organization, or join the decentralized peer-to-peer search network.\nP2P Mode\nWeb Search by the people, for the people: decentralized, all users are equal, no central, no search request storage, shared index.\nYour Search Portal",
       "matchedWords": {
         "-P5otMTLoZfv": {
           "hits": 6,
           "textWords": 154
         },
         "AbbiA0S2iDXF": {
-          "hits": 5,
+          "hits": 0,
           "textWords": 154
         },
         "BqlDxZ8zo0u1": {
@@ -803,7 +803,7 @@
           "textWords": 154
         }
       },
-      "queryPhraseHits": 3
+      "queryPhraseHits": 1
     },
     {
       "hash": "VVkiYmS6MKD4",
@@ -816,7 +816,7 @@
           "textWords": 13433
         },
         "AbbiA0S2iDXF": {
-          "hits": 344,
+          "hits": 0,
           "textWords": 13433
         },
         "BqlDxZ8zo0u1": {
@@ -828,7 +828,7 @@
           "textWords": 13433
         }
       },
-      "queryPhraseHits": 8
+      "queryPhraseHits": 1
     },
     {
       "hash": "tt-iHg2Rr_dw",
@@ -841,7 +841,7 @@
           "textWords": 138
         },
         "AbbiA0S2iDXF": {
-          "hits": 2,
+          "hits": 0,
           "textWords": 138
         },
         "BqlDxZ8zo0u1": {
@@ -859,14 +859,14 @@
       "hash": "AeOqws55Qxow",
       "address": "https://yacy.net/.",
       "title": "Home - YaCy",
-      "snippet": "YaCy is free software for your own search engine.\nYaCy is free search engine software for local search, organization-wide search portals, and a decentralized peer-to-peer web index.\nChoose how you want to use YaCy",
+      "snippet": "Run YaCy locally, build a search portal for your organization, or join the decentralized peer-to-peer search network.\nP2P Mode\nWeb Search by the people, for the people: decentralized, all users are equal, no central, no search request storage, shared index.\nYour Search Portal",
       "matchedWords": {
         "-P5otMTLoZfv": {
           "hits": 6,
           "textWords": 154
         },
         "AbbiA0S2iDXF": {
-          "hits": 5,
+          "hits": 0,
           "textWords": 154
         },
         "BqlDxZ8zo0u1": {
@@ -878,7 +878,7 @@
           "textWords": 154
         }
       },
-      "queryPhraseHits": 3
+      "queryPhraseHits": 1
     },
     {
       "hash": "ByKn9s55Qxow",
@@ -891,7 +891,7 @@
           "textWords": 318
         },
         "AbbiA0S2iDXF": {
-          "hits": 11,
+          "hits": 0,
           "textWords": 318
         },
         "BqlDxZ8zo0u1": {
@@ -903,7 +903,7 @@
           "textWords": 318
         }
       },
-      "queryPhraseHits": 6
+      "queryPhraseHits": 1
     },
     {
       "hash": "VVkiYmS6MKD4",
@@ -916,7 +916,7 @@
           "textWords": 13433
         },
         "AbbiA0S2iDXF": {
-          "hits": 344,
+          "hits": 0,
           "textWords": 13433
         },
         "BqlDxZ8zo0u1": {
@@ -928,7 +928,7 @@
           "textWords": 13433
         }
       },
-      "queryPhraseHits": 8
+      "queryPhraseHits": 1
     },
     {
       "hash": "tt-iHg2Rr_dw",
@@ -941,7 +941,7 @@
           "textWords": 138
         },
         "AbbiA0S2iDXF": {
-          "hits": 2,
+          "hits": 0,
           "textWords": 138
         },
         "BqlDxZ8zo0u1": {
@@ -966,7 +966,7 @@
           "textWords": 138
         },
         "AbbiA0S2iDXF": {
-          "hits": 2,
+          "hits": 0,
           "textWords": 138
         },
         "BqlDxZ8zo0u1": {
@@ -984,14 +984,14 @@
       "hash": "AeOqws55Qxow",
       "address": "https://yacy.net/.",
       "title": "Home - YaCy",
-      "snippet": "YaCy is free software for your own search engine.\nYaCy is free search engine software for local search, organization-wide search portals, and a decentralized peer-to-peer web index.\nChoose how you want to use YaCy",
+      "snippet": "Run YaCy locally, build a search portal for your organization, or join the decentralized peer-to-peer search network.\nP2P Mode\nWeb Search by the people, for the people: decentralized, all users are equal, no central, no search request storage, shared index.\nYour Search Portal",
       "matchedWords": {
         "-P5otMTLoZfv": {
           "hits": 6,
           "textWords": 154
         },
         "AbbiA0S2iDXF": {
-          "hits": 5,
+          "hits": 0,
           "textWords": 154
         },
         "BqlDxZ8zo0u1": {
@@ -1003,7 +1003,7 @@
           "textWords": 154
         }
       },
-      "queryPhraseHits": 3
+      "queryPhraseHits": 1
     },
     {
       "hash": "ByKn9s55Qxow",
@@ -1016,7 +1016,7 @@
           "textWords": 318
         },
         "AbbiA0S2iDXF": {
-          "hits": 11,
+          "hits": 0,
           "textWords": 318
         },
         "BqlDxZ8zo0u1": {
@@ -1028,7 +1028,7 @@
           "textWords": 318
         }
       },
-      "queryPhraseHits": 6
+      "queryPhraseHits": 1
     },
     {
       "hash": "ByKn9s55Qxow",
@@ -1041,7 +1041,7 @@
           "textWords": 318
         },
         "AbbiA0S2iDXF": {
-          "hits": 11,
+          "hits": 0,
           "textWords": 318
         },
         "BqlDxZ8zo0u1": {
@@ -1053,7 +1053,7 @@
           "textWords": 318
         }
       },
-      "queryPhraseHits": 6
+      "queryPhraseHits": 1
     },
     {
       "hash": "tt-iHg2Rr_dw",
@@ -1066,7 +1066,7 @@
           "textWords": 138
         },
         "AbbiA0S2iDXF": {
-          "hits": 2,
+          "hits": 0,
           "textWords": 138
         },
         "BqlDxZ8zo0u1": {
@@ -1091,7 +1091,7 @@
           "textWords": 13433
         },
         "AbbiA0S2iDXF": {
-          "hits": 344,
+          "hits": 0,
           "textWords": 13433
         },
         "BqlDxZ8zo0u1": {
@@ -1103,7 +1103,7 @@
           "textWords": 13433
         }
       },
-      "queryPhraseHits": 8
+      "queryPhraseHits": 1
     }
   ],
   "documentsHeldPerQueryWord": {

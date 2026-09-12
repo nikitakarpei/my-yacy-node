@@ -30,7 +30,7 @@ func searchesOf(t *testing.T, spelledQuery string) (int, int) {
 	wordJoinedSpread, peerMatchedSpread := &countedSpread{}, &countedSpread{}
 	bywordcount.New(wordJoinedSpread, peerMatchedSpread).SpreadOverPeers(
 		t.Context(),
-		searchquery.QueryFrom(spelledQuery),
+		searchquery.QueryFrom(spelledQuery, ""),
 		nil,
 	)
 

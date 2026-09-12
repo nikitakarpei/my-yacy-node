@@ -17,6 +17,8 @@ components:
     in: internal/peermatchedobservers/prometheus/**
   searchquery:
     in: internal/searchquery/**
+  stopwords:
+    in: internal/stopwords/**
   searchresult:
     in: internal/searchresult/**
   peeranswers:
@@ -156,6 +158,8 @@ deps:
   searchquery:
     canUse:
       - yacymodel
+    mayDependOn:
+      - stopwords
   itemsorderingpeerorder:
     mayDependOn:
       - peeranswers

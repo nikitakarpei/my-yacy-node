@@ -1,16 +1,16 @@
 {
   "query": "best practices for database indexing",
-  "recordedAt": "2026-09-12T07:51:56Z",
+  "recordedAt": "2026-09-12T10:15:18Z",
   "itemsInTheOrderOfEachAnswer": [
     [
       {
         "hash": "tqphPlx-PVw5",
         "address": "https://www.githubstatus.com/",
         "title": "GitHub Status",
-        "snippet": "The degradation was caused by an issue with an upstream model provider. GitHub engineers detected the issue through automated monitoring, displayed in-product warnings for the affected models, and coordinated with the provider. Service returned to normal after the provider implemented a mitigation.",
+        "snippet": "Resolved - Between 13:22 and 17:11 UTC on September 03, 2026, GitHub Copilot experienced degradation affecting several Grok models, including Grok 4.5 and Grok 4.6. Users encountered elevated error rates, but other models were not affected.",
         "matchedWords": {
           "1VZpgi8ajPcu": {
-            "hits": 3,
+            "hits": 0,
             "textWords": 204
           },
           "24Igax1JBC0a": {
@@ -38,10 +38,10 @@
         "hash": "XEyWzL8hxo35",
         "address": "https://www.microsoft.com/en-us/privacy/privacystatement",
         "title": "Microsoft Privacy Statement – Microsoft privacy",
-        "snippet": "If you’ve given permission for an app to listen for voice keywords, Windows will actively monitor the microphone for those keywords. Each app needs to ask for your permission before accessing your microphone.",
+        "snippet": "Windows is a personalized computing environment that enables you to seamlessly roam and access services, preferences, and content across your computing devices.",
         "matchedWords": {
           "1VZpgi8ajPcu": {
-            "hits": 88,
+            "hits": 0,
             "textWords": 9755
           },
           "24Igax1JBC0a": {
@@ -72,7 +72,7 @@
         "snippet": "26] Detailed best practices for this configuration are provided in the Performance and Tuning section.",
         "matchedWords": {
           "1VZpgi8ajPcu": {
-            "hits": 465,
+            "hits": 0,
             "textWords": 18311
           },
           "24Igax1JBC0a": {
@@ -92,7 +92,7 @@
             "textWords": 18311
           }
         },
-        "queryPhraseHits": 8
+        "queryPhraseHits": 3
       }
     ],
     [
@@ -103,7 +103,7 @@
         "snippet": "106] Best practices for NoSQL adoption emphasize aligning database types with workload characteristics to optimize performance and cost.",
         "matchedWords": {
           "1VZpgi8ajPcu": {
-            "hits": 198,
+            "hits": 0,
             "textWords": 8789
           },
           "24Igax1JBC0a": {
@@ -123,7 +123,7 @@
             "textWords": 8789
           }
         },
-        "queryPhraseHits": 3
+        "queryPhraseHits": 1
       }
     ],
     [
@@ -134,7 +134,7 @@
         "snippet": "26] Detailed best practices for this configuration are provided in the Performance and Tuning section.",
         "matchedWords": {
           "1VZpgi8ajPcu": {
-            "hits": 465,
+            "hits": 0,
             "textWords": 18311
           },
           "24Igax1JBC0a": {
@@ -154,7 +154,7 @@
             "textWords": 18311
           }
         },
-        "queryPhraseHits": 8
+        "queryPhraseHits": 3
       }
     ],
     [
@@ -165,7 +165,7 @@
         "snippet": "func (be *BlockEncoder) encode(dest []byte, vals []uint32, layout blockLayout) []byte { var stats stats scan(\u0026stats, vals) // gathers statistics from every value in vals bitWidth := bits.Len32(stats.or) if stats.or == stats.and { return be.encodeConstant(dest, vals, bitWidth) } n := len(vals) //",
         "matchedWords": {
           "1VZpgi8ajPcu": {
-            "hits": 117,
+            "hits": 0,
             "textWords": 8109
           },
           "24Igax1JBC0a": {
@@ -193,10 +193,10 @@
         "hash": "g4p8j_nMM_j5",
         "address": "https://grokipedia.com/page/MongoDB",
         "title": "MongoDB — Grokipedia",
-        "snippet": "Document databases like MongoDB are particularly suitable for storing high-volume event logs and application telemetry due to their flexible schemas, high write throughput, and support for semi-structured data. Key best practices include:",
+        "snippet": "141][189]\nMongoDB Conferences and Resources\nMongoDB hosts a series of regional conferences known as MongoDB.local, which provide in-person technical sessions on database best practices, application development, and emerging integrations such as AI-driven features.[",
         "matchedWords": {
           "1VZpgi8ajPcu": {
-            "hits": 261,
+            "hits": 0,
             "textWords": 11255
           },
           "24Igax1JBC0a": {
@@ -216,7 +216,7 @@
             "textWords": 11255
           }
         },
-        "queryPhraseHits": 3
+        "queryPhraseHits": 2
       }
     ],
     [
@@ -227,7 +227,7 @@
         "snippet": "func (be *BlockEncoder) encode(dest []byte, vals []uint32, layout blockLayout) []byte { var stats stats scan(\u0026stats, vals) // gathers statistics from every value in vals bitWidth := bits.Len32(stats.or) if stats.or == stats.and { return be.encodeConstant(dest, vals, bitWidth) } n := len(vals) //",
         "matchedWords": {
           "1VZpgi8ajPcu": {
-            "hits": 117,
+            "hits": 0,
             "textWords": 8109
           },
           "24Igax1JBC0a": {
@@ -258,7 +258,7 @@
         "snippet": "106] Best practices for NoSQL adoption emphasize aligning database types with workload characteristics to optimize performance and cost.",
         "matchedWords": {
           "1VZpgi8ajPcu": {
-            "hits": 198,
+            "hits": 0,
             "textWords": 8789
           },
           "24Igax1JBC0a": {
@@ -278,7 +278,7 @@
             "textWords": 8789
           }
         },
-        "queryPhraseHits": 3
+        "queryPhraseHits": 1
       }
     ],
     [
@@ -289,7 +289,7 @@
         "snippet": "By mentioning other people (via knows or other relationships), and by providing an rdfs:seeAlso link to their FOAF file, you can make it easy for FOAF indexing tools ('scutters') to find your FOAF and the FOAF of the people you've mentioned. And the FOAF of the people they mention, and so on.",
         "matchedWords": {
           "1VZpgi8ajPcu": {
-            "hits": 176,
+            "hits": 0,
             "textWords": 10421
           },
           "24Igax1JBC0a": {
@@ -350,7 +350,7 @@
       "snippet": "These limits are intentionally set as high as possible to minimise impact on the community. Bots running in Toolforge/WMCS or with the bot user right on any wiki should not be affected for now. However, all developers are advised to follow updated best practices.",
       "matchedWords": {
         "1VZpgi8ajPcu": {
-          "hits": 295,
+          "hits": 0,
           "textWords": 18265
         },
         "24Igax1JBC0a": {
@@ -370,16 +370,16 @@
           "textWords": 18265
         }
       },
-      "queryPhraseHits": 5
+      "queryPhraseHits": 3
     },
     {
       "hash": "ZLCPGlRhEzc4",
       "address": "https://www.amazon.science/",
       "title": "Amazon Science homepage",
-      "snippet": "Be willing to roll up your sleeves and learn core topics outside applied science, for example ML engineering A day in the life A typical day might involve (a) working on ideas for improving models around product similarity or price recommendations, (b) working closely with other scientists and our",
+      "snippet": "We work closely with device engineering teams and cloud-based speech science teams to deliver the best possible experience for our customers.",
       "matchedWords": {
         "1VZpgi8ajPcu": {
-          "hits": 47,
+          "hits": 0,
           "textWords": 4040
         },
         "24Igax1JBC0a": {
@@ -405,10 +405,10 @@
       "hash": "AX7xBjRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Wikipedia:Help_desk",
       "title": "Wikipedia:Help desk - Wikipedia",
-      "snippet": "Mario Paniccia would meet Wikipedia’s notability guidelines for a biographical article, and what the best process would be for having an independent editor assess and potentially create one.",
+      "snippet": "But the page you mentioned doesn't have any template that would enable archiving in the first place – presumably that was removed at some point (it does have an archive indexing bot template). -- Maddy from Celeste (WAVEDASH) 18:19, 24 August 2026 (UTC)Reply\nI am having trouble logging in\n[edit]",
       "matchedWords": {
         "1VZpgi8ajPcu": {
-          "hits": 150,
+          "hits": 0,
           "textWords": 14224
         },
         "24Igax1JBC0a": {
@@ -434,10 +434,10 @@
       "hash": "ccuJ8jRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Map",
       "title": "Map - Wikipedia",
-      "snippet": "Provided that the imagery has been properly georeferenced, it can be used to extract precise geographic coordinate values for any identifiable objects in the image.[269][bh] For example, a cartographer can extract the locations of terrain and feature data (such as rivers, roads, and buildings) for",
+      "snippet": "272] Rectifying structures requires that they be modeled either within the terrain database, or separately from the terrain as 3D wireframe models.[272][bj]\nSearching and indexing\n[edit]",
       "matchedWords": {
         "1VZpgi8ajPcu": {
-          "hits": 146,
+          "hits": 0,
           "textWords": 18623
         },
         "24Igax1JBC0a": {
@@ -466,7 +466,7 @@
       "snippet": "In 2008, Wiley was named for the second consecutive year to Forbes magazine's annual list of the \"400 Best Big Companies in America\". In 2007, Book Business magazine cited Wiley as \"One of the 20 Best Book Publishing Companies to Work For\".",
       "matchedWords": {
         "1VZpgi8ajPcu": {
-          "hits": 72,
+          "hits": 0,
           "textWords": 6492
         },
         "24Igax1JBC0a": {
@@ -495,7 +495,7 @@
       "snippet": "Bethesda, MD: NISO Press. p. 15. ISBN 978-1-880124-62-8. Archived from the original (PDF) on 7 November 2014. Retrieved 13 July 2022.\n↑ \"Metadata = Surveillance\". Archived from the original on 21 June 2016. Retrieved 6 June 2016.\n↑ \"Best Practices for Structural Metadata\". University of Illinois.",
       "matchedWords": {
         "1VZpgi8ajPcu": {
-          "hits": 138,
+          "hits": 0,
           "textWords": 12196
         },
         "24Igax1JBC0a": {
@@ -515,7 +515,7 @@
           "textWords": 12196
         }
       },
-      "queryPhraseHits": 4
+      "queryPhraseHits": 1
     },
     {
       "hash": "75kEMjRvmBbx",
@@ -524,7 +524,7 @@
       "snippet": "Interface 2010 – the Interface Marketing Supplier Integration Institute\nInternational Classification for Standards – Classification system for technical standards\nThe International Customer Service Institute – International partnership organisation for sharing of best practices in customer service",
       "matchedWords": {
         "1VZpgi8ajPcu": {
-          "hits": 84,
+          "hits": 0,
           "textWords": 4588
         },
         "24Igax1JBC0a": {
@@ -579,10 +579,10 @@
       "hash": "0uT1BzW61vZ4",
       "address": "https://handbook.gitlab.com/handbook/customer-experience/cx-journey/",
       "title": "Customer Experience Journey Research | The GitLab Handbook",
-      "snippet": "This year, the research conducted by this team will focus on building Foundational Maps**:** from aligning the many journey stages across the business into a unified journey view, mapping the current state end-to-end journey, a visionary future state map for what good looks like, and a single pane",
+      "snippet": "GitLab Teams: Understanding the experience of the GitLab team collaborating as a team in service of helping customers move through their purchasing and adoption journey with us, and where there are areas of friction inhibiting us from providing our best service to customers.",
       "matchedWords": {
         "1VZpgi8ajPcu": {
-          "hits": 13,
+          "hits": 0,
           "textWords": 728
         },
         "24Igax1JBC0a": {
@@ -611,7 +611,7 @@
       "snippet": "This is a placeholder page. Please see the links below for any child pages that exist.\nLast modified July 8, 2025: Update AWS Orgs list (7aedf0dc)\nView page source - Edit this page - please contribute.",
       "matchedWords": {
         "1VZpgi8ajPcu": {
-          "hits": 1,
+          "hits": 0,
           "textWords": 32
         },
         "24Igax1JBC0a": {
@@ -637,10 +637,10 @@
       "hash": "1s9OizW61vZ4",
       "address": "https://handbook.gitlab.com/handbook/company/culture/exec-connect/",
       "title": "Executive Connect events | The GitLab Handbook",
-      "snippet": "The goal is to build connection, strengthen trust, and create space for open conversation as a way to continually improve our culture.\nWe heard through engagement surveys and direct feedback that team members want more opportunities to connect with leaders face-to-face.\nOverview",
+      "snippet": "Content last updated 2025-11-03\nAn overview of Executive Connect events\nExec Connect\nExec Connect is a series of informal, in-person meetups between GitLab leaders and local team members.",
       "matchedWords": {
         "1VZpgi8ajPcu": {
-          "hits": 4,
+          "hits": 0,
           "textWords": 350
         },
         "24Igax1JBC0a": {
@@ -666,10 +666,10 @@
       "hash": "4X6v9zW61vZ4",
       "address": "https://handbook.gitlab.com/handbook/engineering/infrastructure-platforms/gitlab-delivery/distribution/triage/",
       "title": "Distribution Team Triage | The GitLab Handbook",
-      "snippet": "Also, create a similar header for the next presenter as an agenda item for the next week’s meeting in the meeting doc.\nResponse templates\nCopy and paste into issues where appropriate\nIf someone is asking for support in our projects, point them to the correct place to look",
+      "snippet": "Issues occasionally would be best inspected by a project maintainer. When this occurs, label them with maintainer-discussion. Example cases where maintainers should be notified with this label: An issue was accurate at the time of creation, but is questionable at this time.",
       "matchedWords": {
         "1VZpgi8ajPcu": {
-          "hits": 56,
+          "hits": 0,
           "textWords": 2768
         },
         "24Igax1JBC0a": {
@@ -698,7 +698,7 @@
       "snippet": "Basic information on contributing to the GitLab Handbook.\nYou can help to improve the GitLab Handbook website by submitting merge requests to the handbook project. Thank you for your interest and help!",
       "matchedWords": {
         "1VZpgi8ajPcu": {
-          "hits": 3,
+          "hits": 0,
           "textWords": 109
         },
         "24Igax1JBC0a": {
@@ -727,7 +727,7 @@
       "snippet": "Confirm the new hire is completing all required Academy coursework and certifications\nBegin introducing the new hire to key customers and internal stakeholders\nDiscuss best practices and rules of engagement for AEs working with SA, CSM, RM, and Ecosystem partners",
       "matchedWords": {
         "1VZpgi8ajPcu": {
-          "hits": 20,
+          "hits": 0,
           "textWords": 2437
         },
         "24Igax1JBC0a": {
@@ -753,10 +753,10 @@
       "hash": "-OnNvzW61vZ4",
       "address": "https://handbook.gitlab.com/handbook/legal/subscription-agreement/",
       "title": "GitLab Subscription Agreement | The GitLab Handbook",
-      "snippet": "6.7 In the event a Customer procures Software from an Authorized Partner, or, GitLab is unable to: (i) verify and generate a Quarterly Add-On Report, and/or (ii) collect payment(s) with respect to Quarterly Add-Ons as provided in the Quarterly Add-On Report, Customer shall be obligated to: (a)",
+      "snippet": "GitLab.com will support high availability and fault tolerance through the use of multiple web, application and database servers, and redundant networking devices, including routers, firewalls, switches and load balancing devices and will support public Internet access through diverse paths.",
       "matchedWords": {
         "1VZpgi8ajPcu": {
-          "hits": 113,
+          "hits": 0,
           "textWords": 11292
         },
         "24Igax1JBC0a": {
@@ -814,7 +814,7 @@
       "snippet": "Follow these practices to use AI credits more efficiently in the app:\nMatch model capability to task complexity. Use lighter models for straightforward changes and higher-capability models for complex debugging, design decisions, and multi-step tasks.",
       "matchedWords": {
         "1VZpgi8ajPcu": {
-          "hits": 18,
+          "hits": 0,
           "textWords": 883
         },
         "24Igax1JBC0a": {
@@ -840,10 +840,10 @@
       "hash": "DFzdbyXjZ9O4",
       "address": "https://docs.github.com/en/copilot/how-tos/administer-copilot/manage-for-organization/manage-access",
       "title": "Managing access to GitHub Copilot in your organization - GitHub Docs",
-      "snippet": "Granting access to GitHub Copilot for members of your organization\nGrant access to GitHub Copilot for some or all of the members of your organization.\nManaging requests for GitHub Copilot Business in your organization\nApprove or deny requests for Copilot access in your organization.",
+      "snippet": "Skip to main content\nGitHub Docs\nHome\nGitHub Copilot\nHow-tos\nAdminister Copilot\nManage for organization\nManage access\nGrant access\nManage requests for access\nRevoke access\nManage network access\nManage policies\nAdd Copilot cloud agent\nConfigure agent runners\nPrepare for custom agents",
       "matchedWords": {
         "1VZpgi8ajPcu": {
-          "hits": 10,
+          "hits": 0,
           "textWords": 174
         },
         "24Igax1JBC0a": {
@@ -869,10 +869,10 @@
       "hash": "G5ifEyXjZ9O4",
       "address": "https://docs.github.com/en/copilot/how-tos/configure-personal-settings/authenticate-to-ghecom",
       "title": "Using GitHub Copilot with an account on GHE.com - GitHub Docs",
-      "snippet": "Authenticating from VS Code\nTo open your VS Code settings, press Command+, (Mac) or Ctrl+, (Windows).\nIn the search bar, search for enterprise.\nFor the Github-enterprise: Uri setting, enter the URL where you access GitHub. For example: https://octocorp.ghe.com.",
+      "snippet": "Update your development environment to access a Copilot plan for an account on GHE.com.\nTo use GitHub Copilot in an IDE or the command line, you must authenticate to an account on GitHub that has a Copilot license.",
       "matchedWords": {
         "1VZpgi8ajPcu": {
-          "hits": 13,
+          "hits": 0,
           "textWords": 523
         },
         "24Igax1JBC0a": {
@@ -898,10 +898,10 @@
       "hash": "JTegTyXjZ9O4",
       "address": "https://docs.github.com/en/copilot/responsible-use/chat",
       "title": "Application card: GitHub Copilot Chat - GitHub Docs",
-      "snippet": "For more information, see Finding public code that matches GitHub Copilot suggestions.\n10. Best practices for deploying and adopting GitHub Copilot Chat\nResponsible AI is a shared commitment between GitHub and its customers.",
+      "snippet": "Limiting prompts to coding questions or tasks enhances the model's output quality.\nUse secure coding and code review practices: Follow best practices for secure coding—such as avoiding hard-coded passwords or SQL injection vulnerabilities—and review all generated code.",
       "matchedWords": {
         "1VZpgi8ajPcu": {
-          "hits": 73,
+          "hits": 0,
           "textWords": 5274
         },
         "24Igax1JBC0a": {
@@ -921,16 +921,16 @@
           "textWords": 5274
         }
       },
-      "queryPhraseHits": 7
+      "queryPhraseHits": 4
     },
     {
       "hash": "RMUETyXjZ9O4",
       "address": "https://docs.github.com/en/copilot/how-tos/use-copilot-agents/request-a-code-review/use-code-review",
       "title": "Using GitHub Copilot code review - GitHub Docs",
-      "snippet": "For example, you can explain which patterns are intentional, which parts of the codebase need closer scrutiny, and what your team considers good architecture, testing, and implementation practices. This helps make reviews more relevant and aligned with the way your team builds software.",
+      "snippet": "This is a good place to describe organization-wide expectations, such as coding standards, review criteria, or general practices that Copilot should consider in every review.",
       "matchedWords": {
         "1VZpgi8ajPcu": {
-          "hits": 58,
+          "hits": 0,
           "textWords": 3335
         },
         "24Igax1JBC0a": {
@@ -956,10 +956,10 @@
       "hash": "Ua5YKyXjZ9O4",
       "address": "https://docs.github.com/en/copilot/how-tos/github-copilot-app/customize-github-copilot-app",
       "title": "Customizing the GitHub Copilot app - GitHub Docs",
-      "snippet": "Any skills configured for your repositories or Copilot CLI are automatically available in the GitHub Copilot app. To add or manage skills, click Customize in the app sidebar, then click Skills.\nFor more information about agent skills, see About agent skills.",
+      "snippet": "Customize the GitHub Copilot app so it works the way you and your team do.\nWho can use this feature?\nTailor the GitHub Copilot app to your workflows so your agents follow your conventions, use your preferred tools, and apply the right expertise to every task.",
       "matchedWords": {
         "1VZpgi8ajPcu": {
-          "hits": 15,
+          "hits": 0,
           "textWords": 671
         },
         "24Igax1JBC0a": {
@@ -985,10 +985,10 @@
       "hash": "UetwYyXjZ9O4",
       "address": "https://docs.github.com/en/copilot",
       "title": "GitHub Copilot documentation - GitHub Docs",
-      "snippet": "Use one centralized control page to jump between agent sessions, check progress, and stay in control without losing your place.\nLearn about Copilot\nAbout cloud and local sandboxes for GitHub Copilot",
+      "snippet": "About agent apps\nAgent apps let you use partner-built agents directly in your workflows on GitHub, powered by your Copilot subscription.\nLearn about CopilotAuthor and optimize with Copilot\nAbout agent management",
       "matchedWords": {
         "1VZpgi8ajPcu": {
-          "hits": 1,
+          "hits": 0,
           "textWords": 173
         },
         "24Igax1JBC0a": {
@@ -1014,10 +1014,10 @@
       "hash": "rXFU9yXjZ9O4",
       "address": "https://docs.github.com/en/copilot/how-tos/github-copilot-app/using-automations",
       "title": "Using automations in the GitHub Copilot app - GitHub Docs",
-      "snippet": "For example, you can create an automation that triages new issues daily or checks your open pull requests for review status each morning.\nYou can create and manage automations from:\nThe Agents tab in a repository on GitHub, in the Automations pane.\nThe Automations tab in the GitHub Copilot app.",
+      "snippet": "Automate recurring agent tasks so they run on a schedule or on demand, without manual intervention.\nWho can use this feature?\nAbout automations\nAutomations let you save recurring agent tasks and run them on a schedule or on demand.",
       "matchedWords": {
         "1VZpgi8ajPcu": {
-          "hits": 12,
+          "hits": 0,
           "textWords": 634
         },
         "24Igax1JBC0a": {
@@ -1046,7 +1046,7 @@
       "snippet": "Automatically select the best model for each task.\nWho can use this feature?\nAuto model selection is available with all GitHub Copilot plans.\nOverview",
       "matchedWords": {
         "1VZpgi8ajPcu": {
-          "hits": 16,
+          "hits": 0,
           "textWords": 711
         },
         "24Igax1JBC0a": {
@@ -1072,10 +1072,10 @@
       "hash": "tqy9_yXjZ9O4",
       "address": "https://docs.github.com/en/copilot/how-tos/github-copilot-app/agent-sessions",
       "title": "Working with agent sessions in the GitHub Copilot app - GitHub Docs",
-      "snippet": "Choose a project—you can use a folder already on your machine, choose from GitHub, or clone from a Git URL for repositories hosted outside GitHub (for example, on Azure DevOps) or for private repositories without app access.",
+      "snippet": "Run multiple isolated agent sessions simultaneously, each with its own branch, and steer them using different session modes, models, and tools.\nWho can use this feature?\nStarting a session",
       "matchedWords": {
         "1VZpgi8ajPcu": {
-          "hits": 22,
+          "hits": 0,
           "textWords": 1099
         },
         "24Igax1JBC0a": {
@@ -1130,10 +1130,10 @@
       "hash": "yv0qxyXjZ9O4",
       "address": "https://docs.github.com/en/copilot/how-tos/github-copilot-app/managing-issues-and-pull-requests",
       "title": "Managing issues and pull requests with the GitHub Copilot app - GitHub Docs",
-      "snippet": "The app creates a new session with the issue context already loaded.\nSelect a session mode from the dropdown below the prompt field—for example, Plan to have the agent propose a plan first, or Interactive to work collaboratively with the agent.\nPrompt the agent with what you want it to do.",
+      "snippet": "Pick up an issue, direct an agent to implement changes, and land a pull request—all without leaving the GitHub Copilot app.\nWho can use this feature?\nBrowsing your issues and pull requests\nOpen My work in the sidebar to see your issues and pull requests in one place.",
       "matchedWords": {
         "1VZpgi8ajPcu": {
-          "hits": 3,
+          "hits": 0,
           "textWords": 506
         },
         "24Igax1JBC0a": {
@@ -1159,10 +1159,10 @@
       "hash": "zczfLyXjZ9O4",
       "address": "https://docs.github.com/en/copilot/tutorials/customization-library",
       "title": "Customization library - GitHub Docs",
-      "snippet": "Instructions for systematic debugging and troubleshooting.\nCustom instructionsGetting startedConfigure CopilotScale institutional knowledgeSimple\nCode reviewer\nInstructions for thorough and constructive code reviews.",
+      "snippet": "Discover a curated collection of customizations, including custom instructions, custom agents, and prompt files, to enhance your GitHub Copilot experience.\nSpotlight\nYour first prompt file",
       "matchedWords": {
         "1VZpgi8ajPcu": {
-          "hits": 10,
+          "hits": 0,
           "textWords": 387
         },
         "24Igax1JBC0a": {
@@ -1188,10 +1188,10 @@
       "hash": "0zCYHyXjZ9O4",
       "address": "https://docs.github.com/en/copilot/tutorials/copilot-cookbook",
       "title": "GitHub Copilot Cookbook - GitHub Docs",
-      "snippet": "Debugging codeAuthor and optimize with CopilotImprove quality and maintainabilityCLI\nExploring potential feature implementations\nCopilot Chat can help explore different approaches for implementing a single feature.",
+      "snippet": "Copilot Chat can help you to refactor code to avoid classes with multiple layers of inheritance.\nRefactoring codeAuthor and optimize with CopilotImprove quality and maintainabilityChat\nFixing database deadlocks or data integrity issues",
       "matchedWords": {
         "1VZpgi8ajPcu": {
-          "hits": 3,
+          "hits": 0,
           "textWords": 804
         },
         "24Igax1JBC0a": {
@@ -1246,10 +1246,10 @@
       "hash": "3E6rJyXjZ9O4",
       "address": "https://docs.github.com/en/copilot/tutorials",
       "title": "Tutorials for GitHub Copilot - GitHub Docs",
-      "snippet": "Scale institutional knowledge\nAccessibility auditor\nInstructions for comprehensive web accessibility testing and compliance.\nScale institutional knowledge\nBug fix teammate\nA custom agent that identifies critical bugs in your project and implements targeted fixes.\nShowing 1-9 of 104",
+      "snippet": "Build skills and knowledge about GitHub Copilot through examples and hands-on activities.\nRecommended\nCustomization library\nDiscover a curated collection of customizations, including custom instructions, custom agents, and prompt files, to enhance your GitHub Copilot experience.",
       "matchedWords": {
         "1VZpgi8ajPcu": {
-          "hits": 1,
+          "hits": 0,
           "textWords": 70
         },
         "24Igax1JBC0a": {
@@ -1278,7 +1278,7 @@
       "snippet": "Rather than starting from zero, communities can build on what Let’s Connect has learned, developed and documented. This includes best practices for encouraging participation, preparing presenters, creating inclusive learning environments, and capturing knowledge for future use and adaptation.",
       "matchedWords": {
         "1VZpgi8ajPcu": {
-          "hits": 150,
+          "hits": 0,
           "textWords": 16720
         },
         "24Igax1JBC0a": {
@@ -1298,7 +1298,7 @@
           "textWords": 16720
         }
       },
-      "queryPhraseHits": 2
+      "queryPhraseHits": 1
     },
     {
       "hash": "0thoeJcvw7Vx",
@@ -1307,7 +1307,7 @@
       "snippet": "Canonical URLs to prevent duplicate content issues.\nAdvanced XML sitemaps for clear site indexing.\nDeep Schema.org integration to improve how search engines and AI systems understand your site.\nComplete breadcrumb control for visitors and crawlers.",
       "matchedWords": {
         "1VZpgi8ajPcu": {
-          "hits": 49,
+          "hits": 0,
           "textWords": 1779
         },
         "24Igax1JBC0a": {
@@ -1336,7 +1336,7 @@
       "snippet": "\"Deploy-Aware Incident Response Agent\"\n\"Auto-Fix Agent (From Trace to Pull Request)\"\n\"Observability Best Practices Onboarding Agent\"\n\"Zombie Service Hunter\"\n\"Feature Flag ↔ Incident Correlation Agent\"\n\"Cloud Cost Anomaly Agent\"",
       "matchedWords": {
         "1VZpgi8ajPcu": {
-          "hits": 25,
+          "hits": 0,
           "textWords": 1464
         },
         "24Igax1JBC0a": {
@@ -1365,7 +1365,7 @@
       "snippet": "You maintain complete visibility and pay for additional services (+50% of the annual price) only on the volume that exceeds your commitment.\nCan I forward logs from one Datadog account to another?\nThis is currently not supported.\nBest Practices",
       "matchedWords": {
         "1VZpgi8ajPcu": {
-          "hits": 580,
+          "hits": 0,
           "textWords": 32662
         },
         "24Igax1JBC0a": {
@@ -1420,10 +1420,10 @@
       "hash": "YJVGomoWtInx",
       "address": "https://meta.wikimedia.org/wiki/Wikimedia_Forum",
       "title": "Wikimedia Forum - Meta-Wiki",
-      "snippet": "Jingjinjij (talk) 15:21, 19 August 2026 (UTC)Reply\n@Jingjinjij: There's an automatic conversion system, so translations in different variants of Chinese are typically kept in one page. Take Translations:Main Page/8/zh for example; its source code (also known as wikitext) reads:",
+      "snippet": "From Meta, a Wikimedia project coordination wiki\nAbout Meta\nDiscussion pages\nRequest pages\nPolicies and guidelines\nInformation and statistics\nCategories\nHelp pages\nMeta-Wiki discussion page",
       "matchedWords": {
         "1VZpgi8ajPcu": {
-          "hits": 4,
+          "hits": 0,
           "textWords": 1141
         },
         "24Igax1JBC0a": {
@@ -1449,10 +1449,10 @@
       "hash": "c_fxuopg4UCw",
       "address": "https://www.wikidata.org/wiki/Wikidata:Project_chat",
       "title": "Wikidata:Project chat - Wikidata",
-      "snippet": "Regards. --Amitie 10g (talk) 12:15, 3 September 2026 (UTC)Reply Regarding \"Identifiers may be migrated to a new system\" -\u003e For example with Hungarian National Namespace organisation ID (old) (P6989) that has now a new variant. The origin database created new ids for all their entries.",
+      "snippet": "If the organization becomes defunct and other organization takes the database and the same scheme: propose the creation of a new property, keeping the older identifier, as it refers to the older database.\nRegards. --Amitie 10g (talk) 23:43, 3 September 2026 (UTC)Reply",
       "matchedWords": {
         "1VZpgi8ajPcu": {
-          "hits": 146,
+          "hits": 0,
           "textWords": 12053
         },
         "24Igax1JBC0a": {
@@ -1536,10 +1536,10 @@
       "hash": "AX7xBjRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Wikipedia:Help_desk",
       "title": "Wikipedia:Help desk - Wikipedia",
-      "snippet": "Mario Paniccia would meet Wikipedia’s notability guidelines for a biographical article, and what the best process would be for having an independent editor assess and potentially create one.",
+      "snippet": "But the page you mentioned doesn't have any template that would enable archiving in the first place – presumably that was removed at some point (it does have an archive indexing bot template). -- Maddy from Celeste (WAVEDASH) 18:19, 24 August 2026 (UTC)Reply\nI am having trouble logging in\n[edit]",
       "matchedWords": {
         "1VZpgi8ajPcu": {
-          "hits": 150,
+          "hits": 0,
           "textWords": 14224
         },
         "24Igax1JBC0a": {
@@ -1568,7 +1568,7 @@
       "snippet": "ISBN 0-596-10009-4.\nWatt, Andrew (2007). Professional Windows PowerShell. Wrox Press. ISBN 978-0-471-94693-9.\nWilson, Ed (2013). Windows PowerShell 3.0 Step by Step. Microsoft Press. ISBN 978-0-7356-6339-8.\nWilson, Ed (2014). Windows PowerShell Best Practices. Microsoft Press.",
       "matchedWords": {
         "1VZpgi8ajPcu": {
-          "hits": 99,
+          "hits": 0,
           "textWords": 8784
         },
         "24Igax1JBC0a": {
@@ -1597,7 +1597,7 @@
       "snippet": "In fact, the National Highway Traffic Safety Administration (NHTSA) is preparing cybersecurity guidelines and a database of best practices to make automotive computer systems more secure.[226]",
       "matchedWords": {
         "1VZpgi8ajPcu": {
-          "hits": 208,
+          "hits": 0,
           "textWords": 22020
         },
         "24Igax1JBC0a": {
@@ -1626,7 +1626,7 @@
       "snippet": "These include transparency over its rules, practices, and Windows' \"interoperability interfaces\", not preventing competing application storefronts to run on Windows, charging developers \"reasonable fees\" and not \"forc[ing]\" them to include in-app purchases, allowing access to the store by any",
       "matchedWords": {
         "1VZpgi8ajPcu": {
-          "hits": 46,
+          "hits": 0,
           "textWords": 4176
         },
         "24Igax1JBC0a": {
@@ -1652,10 +1652,10 @@
       "hash": "ZtxqojRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Open_access",
       "title": "Open access - Wikipedia",
-      "snippet": "In 2012, the Harvard Open Access Project released its guide to good practices for university open-access policies,[139] focusing on rights-retention policies that allow universities to distribute faculty research without seeking permission from publishers.",
+      "snippet": "226] In this sense, Grudniewicz et al.[227] proposed a consensus definition that needs to be shared: \"Predatory journals and publishers are entities that prioritize self-interest at the expense of scholarship and are characterized by false or misleading information, deviation from best editorial",
       "matchedWords": {
         "1VZpgi8ajPcu": {
-          "hits": 146,
+          "hits": 0,
           "textWords": 17837
         },
         "24Igax1JBC0a": {
@@ -1675,7 +1675,7 @@
           "textWords": 17837
         }
       },
-      "queryPhraseHits": 2
+      "queryPhraseHits": 0
     },
     {
       "hash": "bi9ppjRvmBbx",
@@ -1713,7 +1713,7 @@
       "snippet": "Bethesda, MD: NISO Press. p. 15. ISBN 978-1-880124-62-8. Archived from the original (PDF) on 7 November 2014. Retrieved 13 July 2022.\n↑ \"Metadata = Surveillance\". Archived from the original on 21 June 2016. Retrieved 6 June 2016.\n↑ \"Best Practices for Structural Metadata\". University of Illinois.",
       "matchedWords": {
         "1VZpgi8ajPcu": {
-          "hits": 138,
+          "hits": 0,
           "textWords": 12196
         },
         "24Igax1JBC0a": {
@@ -1733,7 +1733,7 @@
           "textWords": 12196
         }
       },
-      "queryPhraseHits": 4
+      "queryPhraseHits": 1
     },
     {
       "hash": "3mlWOjRvmBbx",
@@ -1800,7 +1800,7 @@
       "snippet": "Rather than starting from zero, communities can build on what Let’s Connect has learned, developed and documented. This includes best practices for encouraging participation, preparing presenters, creating inclusive learning environments, and capturing knowledge for future use and adaptation.",
       "matchedWords": {
         "1VZpgi8ajPcu": {
-          "hits": 150,
+          "hits": 0,
           "textWords": 16720
         },
         "24Igax1JBC0a": {
@@ -1820,7 +1820,7 @@
           "textWords": 16720
         }
       },
-      "queryPhraseHits": 2
+      "queryPhraseHits": 1
     },
     {
       "hash": "2ZqdVzfOEiDw",
@@ -1855,10 +1855,10 @@
       "hash": "YJVGomoWtInx",
       "address": "https://meta.wikimedia.org/wiki/Wikimedia_Forum",
       "title": "Wikimedia Forum - Meta-Wiki",
-      "snippet": "Jingjinjij (talk) 15:21, 19 August 2026 (UTC)Reply\n@Jingjinjij: There's an automatic conversion system, so translations in different variants of Chinese are typically kept in one page. Take Translations:Main Page/8/zh for example; its source code (also known as wikitext) reads:",
+      "snippet": "From Meta, a Wikimedia project coordination wiki\nAbout Meta\nDiscussion pages\nRequest pages\nPolicies and guidelines\nInformation and statistics\nCategories\nHelp pages\nMeta-Wiki discussion page",
       "matchedWords": {
         "1VZpgi8ajPcu": {
-          "hits": 4,
+          "hits": 0,
           "textWords": 1141
         },
         "24Igax1JBC0a": {
@@ -1884,10 +1884,10 @@
       "hash": "ccuJ8jRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Map",
       "title": "Map - Wikipedia",
-      "snippet": "Provided that the imagery has been properly georeferenced, it can be used to extract precise geographic coordinate values for any identifiable objects in the image.[269][bh] For example, a cartographer can extract the locations of terrain and feature data (such as rivers, roads, and buildings) for",
+      "snippet": "272] Rectifying structures requires that they be modeled either within the terrain database, or separately from the terrain as 3D wireframe models.[272][bj]\nSearching and indexing\n[edit]",
       "matchedWords": {
         "1VZpgi8ajPcu": {
-          "hits": 146,
+          "hits": 0,
           "textWords": 18623
         },
         "24Igax1JBC0a": {
@@ -1913,10 +1913,10 @@
       "hash": "c_fxuopg4UCw",
       "address": "https://www.wikidata.org/wiki/Wikidata:Project_chat",
       "title": "Wikidata:Project chat - Wikidata",
-      "snippet": "Regards. --Amitie 10g (talk) 12:15, 3 September 2026 (UTC)Reply Regarding \"Identifiers may be migrated to a new system\" -\u003e For example with Hungarian National Namespace organisation ID (old) (P6989) that has now a new variant. The origin database created new ids for all their entries.",
+      "snippet": "If the organization becomes defunct and other organization takes the database and the same scheme: propose the creation of a new property, keeping the older identifier, as it refers to the older database.\nRegards. --Amitie 10g (talk) 23:43, 3 September 2026 (UTC)Reply",
       "matchedWords": {
         "1VZpgi8ajPcu": {
-          "hits": 146,
+          "hits": 0,
           "textWords": 12053
         },
         "24Igax1JBC0a": {

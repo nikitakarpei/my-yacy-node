@@ -274,7 +274,7 @@ func spreadOverPeers(
 ) peeranswers.AnsweredQuery {
 	return spread.SpreadOverPeers(
 		context.Background(),
-		searchquery.QueryFrom(firstWord+" "+secondWord),
+		searchquery.QueryFrom(firstWord+" "+secondWord, ""),
 		askablePeers,
 	)
 }

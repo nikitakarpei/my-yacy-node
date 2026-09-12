@@ -1,20 +1,20 @@
 {
   "query": "what is the difference between http and https",
-  "recordedAt": "2026-09-12T07:52:14Z",
+  "recordedAt": "2026-09-12T10:15:33Z",
   "itemsInTheOrderOfEachAnswer": [
     [
       {
         "hash": "D4lABzaS0qdw",
         "address": "https://planet.debian.org/",
         "title": "Planet Debian",
-        "snippet": "The SIMD version also processes 8 values, but without a for i := range 8 loop!\nOne difference is that we no longer have the luxury of using uint64 for acc (holding rest and current bits); because AVX2 registers only fit 8 uint32 (not 8 uint64). Instead, we split acc into rest8 and cur8.",
+        "snippet": "GOTEST=go test # -count=6 gives p≤0.002 in benchstat: # https://pkg.go.dev/golang.org/x/perf/cmd/benchstat BENCHFLAGS=-run=^$$ -bench=. -benchtime=200000x -count=6 # use taskset -c1 to always pin to the same single core, # avoiding accidental scheduling on different cores on # mixed-core CPUs like",
         "matchedWords": {
           "KULEZq6YXE_i": {
-            "hits": 2,
+            "hits": 0,
             "textWords": 8109
           },
           "SiAo7OrF4fTS": {
-            "hits": 10,
+            "hits": 0,
             "textWords": 8109
           },
           "XgVsUAocS2px": {
@@ -26,7 +26,7 @@
             "textWords": 8109
           },
           "j8Qsbd-ZZts7": {
-            "hits": 367,
+            "hits": 0,
             "textWords": 8109
           },
           "lUVudQaoycBO": {
@@ -34,15 +34,15 @@
             "textWords": 8109
           },
           "oqVRpkWKjeIk": {
-            "hits": 93,
+            "hits": 0,
             "textWords": 8109
           },
           "vl1dN1Qtdfk6": {
-            "hits": 82,
+            "hits": 0,
             "textWords": 8109
           }
         },
-        "queryPhraseHits": 9
+        "queryPhraseHits": 0
       }
     ],
     [
@@ -50,14 +50,14 @@
         "hash": "-b3sxspKNBr4",
         "address": "https://rense.com/",
         "title": "rense.com",
-        "snippet": "The largest AI data center project in\nCalifornia is suing to get access to the\nColorado River A 330 MW data center wanted to\nbuy a farm, switch off the irrigation, and\ndrink the difference — California's most\npowerful irrigation district said no, so it sued\nAI is quietly scanning and then shredding",
+        "snippet": "Android 17 Hides Your Browsing Destinations\nFrom Carriers, Closing HTTPS Privacy Gap\nGoogle Moved Its Gemini AI Safety Team Into\nLobbying, Blocking Researchers From Staying\nKinisi KR1 Humanoid Starts Crankshaft Bearing\nAssembly for Major Global Automaker\nMusk Launching New Turbine Blade Factory To",
         "matchedWords": {
           "KULEZq6YXE_i": {
-            "hits": 20,
+            "hits": 0,
             "textWords": 85916
           },
           "SiAo7OrF4fTS": {
-            "hits": 104,
+            "hits": 0,
             "textWords": 85916
           },
           "XgVsUAocS2px": {
@@ -69,7 +69,7 @@
             "textWords": 85916
           },
           "j8Qsbd-ZZts7": {
-            "hits": 1870,
+            "hits": 0,
             "textWords": 85916
           },
           "lUVudQaoycBO": {
@@ -77,15 +77,15 @@
             "textWords": 85916
           },
           "oqVRpkWKjeIk": {
-            "hits": 660,
+            "hits": 0,
             "textWords": 85916
           },
           "vl1dN1Qtdfk6": {
-            "hits": 1012,
+            "hits": 0,
             "textWords": 85916
           }
         },
-        "queryPhraseHits": 24
+        "queryPhraseHits": 0
       }
     ],
     [
@@ -93,14 +93,14 @@
         "hash": "D4lABzaS0qdw",
         "address": "https://planet.debian.org/",
         "title": "Planet Debian",
-        "snippet": "The SIMD version also processes 8 values, but without a for i := range 8 loop!\nOne difference is that we no longer have the luxury of using uint64 for acc (holding rest and current bits); because AVX2 registers only fit 8 uint32 (not 8 uint64). Instead, we split acc into rest8 and cur8.",
+        "snippet": "GOTEST=go test # -count=6 gives p≤0.002 in benchstat: # https://pkg.go.dev/golang.org/x/perf/cmd/benchstat BENCHFLAGS=-run=^$$ -bench=. -benchtime=200000x -count=6 # use taskset -c1 to always pin to the same single core, # avoiding accidental scheduling on different cores on # mixed-core CPUs like",
         "matchedWords": {
           "KULEZq6YXE_i": {
-            "hits": 2,
+            "hits": 0,
             "textWords": 8109
           },
           "SiAo7OrF4fTS": {
-            "hits": 10,
+            "hits": 0,
             "textWords": 8109
           },
           "XgVsUAocS2px": {
@@ -112,7 +112,7 @@
             "textWords": 8109
           },
           "j8Qsbd-ZZts7": {
-            "hits": 367,
+            "hits": 0,
             "textWords": 8109
           },
           "lUVudQaoycBO": {
@@ -120,28 +120,28 @@
             "textWords": 8109
           },
           "oqVRpkWKjeIk": {
-            "hits": 93,
+            "hits": 0,
             "textWords": 8109
           },
           "vl1dN1Qtdfk6": {
-            "hits": 82,
+            "hits": 0,
             "textWords": 8109
           }
         },
-        "queryPhraseHits": 9
+        "queryPhraseHits": 0
       },
       {
         "hash": "-b3sxspKNBr4",
         "address": "https://rense.com/",
         "title": "rense.com",
-        "snippet": "The largest AI data center project in\nCalifornia is suing to get access to the\nColorado River A 330 MW data center wanted to\nbuy a farm, switch off the irrigation, and\ndrink the difference — California's most\npowerful irrigation district said no, so it sued\nAI is quietly scanning and then shredding",
+        "snippet": "Android 17 Hides Your Browsing Destinations\nFrom Carriers, Closing HTTPS Privacy Gap\nGoogle Moved Its Gemini AI Safety Team Into\nLobbying, Blocking Researchers From Staying\nKinisi KR1 Humanoid Starts Crankshaft Bearing\nAssembly for Major Global Automaker\nMusk Launching New Turbine Blade Factory To",
         "matchedWords": {
           "KULEZq6YXE_i": {
-            "hits": 20,
+            "hits": 0,
             "textWords": 85916
           },
           "SiAo7OrF4fTS": {
-            "hits": 104,
+            "hits": 0,
             "textWords": 85916
           },
           "XgVsUAocS2px": {
@@ -153,7 +153,7 @@
             "textWords": 85916
           },
           "j8Qsbd-ZZts7": {
-            "hits": 1870,
+            "hits": 0,
             "textWords": 85916
           },
           "lUVudQaoycBO": {
@@ -161,15 +161,15 @@
             "textWords": 85916
           },
           "oqVRpkWKjeIk": {
-            "hits": 660,
+            "hits": 0,
             "textWords": 85916
           },
           "vl1dN1Qtdfk6": {
-            "hits": 1012,
+            "hits": 0,
             "textWords": 85916
           }
         },
-        "queryPhraseHits": 24
+        "queryPhraseHits": 0
       }
     ],
     [
@@ -177,14 +177,14 @@
         "hash": "-b3sxspKNBr4",
         "address": "https://rense.com/",
         "title": "rense.com",
-        "snippet": "The largest AI data center project in\nCalifornia is suing to get access to the\nColorado River A 330 MW data center wanted to\nbuy a farm, switch off the irrigation, and\ndrink the difference — California's most\npowerful irrigation district said no, so it sued\nAI is quietly scanning and then shredding",
+        "snippet": "Android 17 Hides Your Browsing Destinations\nFrom Carriers, Closing HTTPS Privacy Gap\nGoogle Moved Its Gemini AI Safety Team Into\nLobbying, Blocking Researchers From Staying\nKinisi KR1 Humanoid Starts Crankshaft Bearing\nAssembly for Major Global Automaker\nMusk Launching New Turbine Blade Factory To",
         "matchedWords": {
           "KULEZq6YXE_i": {
-            "hits": 20,
+            "hits": 0,
             "textWords": 85916
           },
           "SiAo7OrF4fTS": {
-            "hits": 104,
+            "hits": 0,
             "textWords": 85916
           },
           "XgVsUAocS2px": {
@@ -196,7 +196,7 @@
             "textWords": 85916
           },
           "j8Qsbd-ZZts7": {
-            "hits": 1870,
+            "hits": 0,
             "textWords": 85916
           },
           "lUVudQaoycBO": {
@@ -204,15 +204,15 @@
             "textWords": 85916
           },
           "oqVRpkWKjeIk": {
-            "hits": 660,
+            "hits": 0,
             "textWords": 85916
           },
           "vl1dN1Qtdfk6": {
-            "hits": 1012,
+            "hits": 0,
             "textWords": 85916
           }
         },
-        "queryPhraseHits": 24
+        "queryPhraseHits": 0
       }
     ],
     [
@@ -220,14 +220,14 @@
         "hash": "-b3sxspKNBr4",
         "address": "https://rense.com/",
         "title": "rense.com",
-        "snippet": "The largest AI data center project in\nCalifornia is suing to get access to the\nColorado River A 330 MW data center wanted to\nbuy a farm, switch off the irrigation, and\ndrink the difference — California's most\npowerful irrigation district said no, so it sued\nAI is quietly scanning and then shredding",
+        "snippet": "Android 17 Hides Your Browsing Destinations\nFrom Carriers, Closing HTTPS Privacy Gap\nGoogle Moved Its Gemini AI Safety Team Into\nLobbying, Blocking Researchers From Staying\nKinisi KR1 Humanoid Starts Crankshaft Bearing\nAssembly for Major Global Automaker\nMusk Launching New Turbine Blade Factory To",
         "matchedWords": {
           "KULEZq6YXE_i": {
-            "hits": 20,
+            "hits": 0,
             "textWords": 85916
           },
           "SiAo7OrF4fTS": {
-            "hits": 104,
+            "hits": 0,
             "textWords": 85916
           },
           "XgVsUAocS2px": {
@@ -239,7 +239,7 @@
             "textWords": 85916
           },
           "j8Qsbd-ZZts7": {
-            "hits": 1870,
+            "hits": 0,
             "textWords": 85916
           },
           "lUVudQaoycBO": {
@@ -247,15 +247,15 @@
             "textWords": 85916
           },
           "oqVRpkWKjeIk": {
-            "hits": 660,
+            "hits": 0,
             "textWords": 85916
           },
           "vl1dN1Qtdfk6": {
-            "hits": 1012,
+            "hits": 0,
             "textWords": 85916
           }
         },
-        "queryPhraseHits": 24
+        "queryPhraseHits": 0
       }
     ],
     [
@@ -263,14 +263,14 @@
         "hash": "-b3sxspKNBr4",
         "address": "https://rense.com/",
         "title": "rense.com",
-        "snippet": "The largest AI data center project in\nCalifornia is suing to get access to the\nColorado River A 330 MW data center wanted to\nbuy a farm, switch off the irrigation, and\ndrink the difference — California's most\npowerful irrigation district said no, so it sued\nAI is quietly scanning and then shredding",
+        "snippet": "Android 17 Hides Your Browsing Destinations\nFrom Carriers, Closing HTTPS Privacy Gap\nGoogle Moved Its Gemini AI Safety Team Into\nLobbying, Blocking Researchers From Staying\nKinisi KR1 Humanoid Starts Crankshaft Bearing\nAssembly for Major Global Automaker\nMusk Launching New Turbine Blade Factory To",
         "matchedWords": {
           "KULEZq6YXE_i": {
-            "hits": 20,
+            "hits": 0,
             "textWords": 85916
           },
           "SiAo7OrF4fTS": {
-            "hits": 104,
+            "hits": 0,
             "textWords": 85916
           },
           "XgVsUAocS2px": {
@@ -282,7 +282,7 @@
             "textWords": 85916
           },
           "j8Qsbd-ZZts7": {
-            "hits": 1870,
+            "hits": 0,
             "textWords": 85916
           },
           "lUVudQaoycBO": {
@@ -290,28 +290,28 @@
             "textWords": 85916
           },
           "oqVRpkWKjeIk": {
-            "hits": 660,
+            "hits": 0,
             "textWords": 85916
           },
           "vl1dN1Qtdfk6": {
-            "hits": 1012,
+            "hits": 0,
             "textWords": 85916
           }
         },
-        "queryPhraseHits": 24
+        "queryPhraseHits": 0
       },
       {
         "hash": "D4lABzaS0qdw",
         "address": "https://planet.debian.org/",
         "title": "Planet Debian",
-        "snippet": "The SIMD version also processes 8 values, but without a for i := range 8 loop!\nOne difference is that we no longer have the luxury of using uint64 for acc (holding rest and current bits); because AVX2 registers only fit 8 uint32 (not 8 uint64). Instead, we split acc into rest8 and cur8.",
+        "snippet": "GOTEST=go test # -count=6 gives p≤0.002 in benchstat: # https://pkg.go.dev/golang.org/x/perf/cmd/benchstat BENCHFLAGS=-run=^$$ -bench=. -benchtime=200000x -count=6 # use taskset -c1 to always pin to the same single core, # avoiding accidental scheduling on different cores on # mixed-core CPUs like",
         "matchedWords": {
           "KULEZq6YXE_i": {
-            "hits": 2,
+            "hits": 0,
             "textWords": 8109
           },
           "SiAo7OrF4fTS": {
-            "hits": 10,
+            "hits": 0,
             "textWords": 8109
           },
           "XgVsUAocS2px": {
@@ -323,7 +323,7 @@
             "textWords": 8109
           },
           "j8Qsbd-ZZts7": {
-            "hits": 367,
+            "hits": 0,
             "textWords": 8109
           },
           "lUVudQaoycBO": {
@@ -331,15 +331,15 @@
             "textWords": 8109
           },
           "oqVRpkWKjeIk": {
-            "hits": 93,
+            "hits": 0,
             "textWords": 8109
           },
           "vl1dN1Qtdfk6": {
-            "hits": 82,
+            "hits": 0,
             "textWords": 8109
           }
         },
-        "queryPhraseHits": 9
+        "queryPhraseHits": 0
       }
     ],
     [
@@ -347,14 +347,14 @@
         "hash": "-b3sxspKNBr4",
         "address": "https://rense.com/",
         "title": "rense.com",
-        "snippet": "The largest AI data center project in\nCalifornia is suing to get access to the\nColorado River A 330 MW data center wanted to\nbuy a farm, switch off the irrigation, and\ndrink the difference — California's most\npowerful irrigation district said no, so it sued\nAI is quietly scanning and then shredding",
+        "snippet": "Android 17 Hides Your Browsing Destinations\nFrom Carriers, Closing HTTPS Privacy Gap\nGoogle Moved Its Gemini AI Safety Team Into\nLobbying, Blocking Researchers From Staying\nKinisi KR1 Humanoid Starts Crankshaft Bearing\nAssembly for Major Global Automaker\nMusk Launching New Turbine Blade Factory To",
         "matchedWords": {
           "KULEZq6YXE_i": {
-            "hits": 20,
+            "hits": 0,
             "textWords": 85916
           },
           "SiAo7OrF4fTS": {
-            "hits": 104,
+            "hits": 0,
             "textWords": 85916
           },
           "XgVsUAocS2px": {
@@ -366,7 +366,7 @@
             "textWords": 85916
           },
           "j8Qsbd-ZZts7": {
-            "hits": 1870,
+            "hits": 0,
             "textWords": 85916
           },
           "lUVudQaoycBO": {
@@ -374,28 +374,28 @@
             "textWords": 85916
           },
           "oqVRpkWKjeIk": {
-            "hits": 660,
+            "hits": 0,
             "textWords": 85916
           },
           "vl1dN1Qtdfk6": {
-            "hits": 1012,
+            "hits": 0,
             "textWords": 85916
           }
         },
-        "queryPhraseHits": 24
+        "queryPhraseHits": 0
       },
       {
         "hash": "D4lABzaS0qdw",
         "address": "https://planet.debian.org/",
         "title": "Planet Debian",
-        "snippet": "The SIMD version also processes 8 values, but without a for i := range 8 loop!\nOne difference is that we no longer have the luxury of using uint64 for acc (holding rest and current bits); because AVX2 registers only fit 8 uint32 (not 8 uint64). Instead, we split acc into rest8 and cur8.",
+        "snippet": "GOTEST=go test # -count=6 gives p≤0.002 in benchstat: # https://pkg.go.dev/golang.org/x/perf/cmd/benchstat BENCHFLAGS=-run=^$$ -bench=. -benchtime=200000x -count=6 # use taskset -c1 to always pin to the same single core, # avoiding accidental scheduling on different cores on # mixed-core CPUs like",
         "matchedWords": {
           "KULEZq6YXE_i": {
-            "hits": 2,
+            "hits": 0,
             "textWords": 8109
           },
           "SiAo7OrF4fTS": {
-            "hits": 10,
+            "hits": 0,
             "textWords": 8109
           },
           "XgVsUAocS2px": {
@@ -407,7 +407,7 @@
             "textWords": 8109
           },
           "j8Qsbd-ZZts7": {
-            "hits": 367,
+            "hits": 0,
             "textWords": 8109
           },
           "lUVudQaoycBO": {
@@ -415,15 +415,15 @@
             "textWords": 8109
           },
           "oqVRpkWKjeIk": {
-            "hits": 93,
+            "hits": 0,
             "textWords": 8109
           },
           "vl1dN1Qtdfk6": {
-            "hits": 82,
+            "hits": 0,
             "textWords": 8109
           }
         },
-        "queryPhraseHits": 9
+        "queryPhraseHits": 0
       }
     ],
     [
@@ -431,14 +431,14 @@
         "hash": "D4lABzaS0qdw",
         "address": "https://planet.debian.org/",
         "title": "Planet Debian",
-        "snippet": "The SIMD version also processes 8 values, but without a for i := range 8 loop!\nOne difference is that we no longer have the luxury of using uint64 for acc (holding rest and current bits); because AVX2 registers only fit 8 uint32 (not 8 uint64). Instead, we split acc into rest8 and cur8.",
+        "snippet": "GOTEST=go test # -count=6 gives p≤0.002 in benchstat: # https://pkg.go.dev/golang.org/x/perf/cmd/benchstat BENCHFLAGS=-run=^$$ -bench=. -benchtime=200000x -count=6 # use taskset -c1 to always pin to the same single core, # avoiding accidental scheduling on different cores on # mixed-core CPUs like",
         "matchedWords": {
           "KULEZq6YXE_i": {
-            "hits": 2,
+            "hits": 0,
             "textWords": 8109
           },
           "SiAo7OrF4fTS": {
-            "hits": 10,
+            "hits": 0,
             "textWords": 8109
           },
           "XgVsUAocS2px": {
@@ -450,7 +450,7 @@
             "textWords": 8109
           },
           "j8Qsbd-ZZts7": {
-            "hits": 367,
+            "hits": 0,
             "textWords": 8109
           },
           "lUVudQaoycBO": {
@@ -458,15 +458,15 @@
             "textWords": 8109
           },
           "oqVRpkWKjeIk": {
-            "hits": 93,
+            "hits": 0,
             "textWords": 8109
           },
           "vl1dN1Qtdfk6": {
-            "hits": 82,
+            "hits": 0,
             "textWords": 8109
           }
         },
-        "queryPhraseHits": 9
+        "queryPhraseHits": 0
       }
     ],
     [
@@ -474,14 +474,14 @@
         "hash": "-b3sxspKNBr4",
         "address": "https://rense.com/",
         "title": "rense.com",
-        "snippet": "The largest AI data center project in\nCalifornia is suing to get access to the\nColorado River A 330 MW data center wanted to\nbuy a farm, switch off the irrigation, and\ndrink the difference — California's most\npowerful irrigation district said no, so it sued\nAI is quietly scanning and then shredding",
+        "snippet": "Android 17 Hides Your Browsing Destinations\nFrom Carriers, Closing HTTPS Privacy Gap\nGoogle Moved Its Gemini AI Safety Team Into\nLobbying, Blocking Researchers From Staying\nKinisi KR1 Humanoid Starts Crankshaft Bearing\nAssembly for Major Global Automaker\nMusk Launching New Turbine Blade Factory To",
         "matchedWords": {
           "KULEZq6YXE_i": {
-            "hits": 20,
+            "hits": 0,
             "textWords": 85916
           },
           "SiAo7OrF4fTS": {
-            "hits": 104,
+            "hits": 0,
             "textWords": 85916
           },
           "XgVsUAocS2px": {
@@ -493,7 +493,7 @@
             "textWords": 85916
           },
           "j8Qsbd-ZZts7": {
-            "hits": 1870,
+            "hits": 0,
             "textWords": 85916
           },
           "lUVudQaoycBO": {
@@ -501,28 +501,28 @@
             "textWords": 85916
           },
           "oqVRpkWKjeIk": {
-            "hits": 660,
+            "hits": 0,
             "textWords": 85916
           },
           "vl1dN1Qtdfk6": {
-            "hits": 1012,
+            "hits": 0,
             "textWords": 85916
           }
         },
-        "queryPhraseHits": 24
+        "queryPhraseHits": 0
       },
       {
         "hash": "D4lABzaS0qdw",
         "address": "https://planet.debian.org/",
         "title": "Planet Debian",
-        "snippet": "The SIMD version also processes 8 values, but without a for i := range 8 loop!\nOne difference is that we no longer have the luxury of using uint64 for acc (holding rest and current bits); because AVX2 registers only fit 8 uint32 (not 8 uint64). Instead, we split acc into rest8 and cur8.",
+        "snippet": "GOTEST=go test # -count=6 gives p≤0.002 in benchstat: # https://pkg.go.dev/golang.org/x/perf/cmd/benchstat BENCHFLAGS=-run=^$$ -bench=. -benchtime=200000x -count=6 # use taskset -c1 to always pin to the same single core, # avoiding accidental scheduling on different cores on # mixed-core CPUs like",
         "matchedWords": {
           "KULEZq6YXE_i": {
-            "hits": 2,
+            "hits": 0,
             "textWords": 8109
           },
           "SiAo7OrF4fTS": {
-            "hits": 10,
+            "hits": 0,
             "textWords": 8109
           },
           "XgVsUAocS2px": {
@@ -534,7 +534,7 @@
             "textWords": 8109
           },
           "j8Qsbd-ZZts7": {
-            "hits": 367,
+            "hits": 0,
             "textWords": 8109
           },
           "lUVudQaoycBO": {
@@ -542,15 +542,15 @@
             "textWords": 8109
           },
           "oqVRpkWKjeIk": {
-            "hits": 93,
+            "hits": 0,
             "textWords": 8109
           },
           "vl1dN1Qtdfk6": {
-            "hits": 82,
+            "hits": 0,
             "textWords": 8109
           }
         },
-        "queryPhraseHits": 9
+        "queryPhraseHits": 0
       }
     ],
     [
@@ -558,14 +558,14 @@
         "hash": "D4lABzaS0qdw",
         "address": "https://planet.debian.org/",
         "title": "Planet Debian",
-        "snippet": "The SIMD version also processes 8 values, but without a for i := range 8 loop!\nOne difference is that we no longer have the luxury of using uint64 for acc (holding rest and current bits); because AVX2 registers only fit 8 uint32 (not 8 uint64). Instead, we split acc into rest8 and cur8.",
+        "snippet": "GOTEST=go test # -count=6 gives p≤0.002 in benchstat: # https://pkg.go.dev/golang.org/x/perf/cmd/benchstat BENCHFLAGS=-run=^$$ -bench=. -benchtime=200000x -count=6 # use taskset -c1 to always pin to the same single core, # avoiding accidental scheduling on different cores on # mixed-core CPUs like",
         "matchedWords": {
           "KULEZq6YXE_i": {
-            "hits": 2,
+            "hits": 0,
             "textWords": 8109
           },
           "SiAo7OrF4fTS": {
-            "hits": 10,
+            "hits": 0,
             "textWords": 8109
           },
           "XgVsUAocS2px": {
@@ -577,7 +577,7 @@
             "textWords": 8109
           },
           "j8Qsbd-ZZts7": {
-            "hits": 367,
+            "hits": 0,
             "textWords": 8109
           },
           "lUVudQaoycBO": {
@@ -585,28 +585,28 @@
             "textWords": 8109
           },
           "oqVRpkWKjeIk": {
-            "hits": 93,
+            "hits": 0,
             "textWords": 8109
           },
           "vl1dN1Qtdfk6": {
-            "hits": 82,
+            "hits": 0,
             "textWords": 8109
           }
         },
-        "queryPhraseHits": 9
+        "queryPhraseHits": 0
       },
       {
         "hash": "-b3sxspKNBr4",
         "address": "https://rense.com/",
         "title": "rense.com",
-        "snippet": "The largest AI data center project in\nCalifornia is suing to get access to the\nColorado River A 330 MW data center wanted to\nbuy a farm, switch off the irrigation, and\ndrink the difference — California's most\npowerful irrigation district said no, so it sued\nAI is quietly scanning and then shredding",
+        "snippet": "Android 17 Hides Your Browsing Destinations\nFrom Carriers, Closing HTTPS Privacy Gap\nGoogle Moved Its Gemini AI Safety Team Into\nLobbying, Blocking Researchers From Staying\nKinisi KR1 Humanoid Starts Crankshaft Bearing\nAssembly for Major Global Automaker\nMusk Launching New Turbine Blade Factory To",
         "matchedWords": {
           "KULEZq6YXE_i": {
-            "hits": 20,
+            "hits": 0,
             "textWords": 85916
           },
           "SiAo7OrF4fTS": {
-            "hits": 104,
+            "hits": 0,
             "textWords": 85916
           },
           "XgVsUAocS2px": {
@@ -618,7 +618,7 @@
             "textWords": 85916
           },
           "j8Qsbd-ZZts7": {
-            "hits": 1870,
+            "hits": 0,
             "textWords": 85916
           },
           "lUVudQaoycBO": {
@@ -626,15 +626,15 @@
             "textWords": 85916
           },
           "oqVRpkWKjeIk": {
-            "hits": 660,
+            "hits": 0,
             "textWords": 85916
           },
           "vl1dN1Qtdfk6": {
-            "hits": 1012,
+            "hits": 0,
             "textWords": 85916
           }
         },
-        "queryPhraseHits": 24
+        "queryPhraseHits": 0
       }
     ],
     [
@@ -642,14 +642,14 @@
         "hash": "-b3sxspKNBr4",
         "address": "https://rense.com/",
         "title": "rense.com",
-        "snippet": "The largest AI data center project in\nCalifornia is suing to get access to the\nColorado River A 330 MW data center wanted to\nbuy a farm, switch off the irrigation, and\ndrink the difference — California's most\npowerful irrigation district said no, so it sued\nAI is quietly scanning and then shredding",
+        "snippet": "Android 17 Hides Your Browsing Destinations\nFrom Carriers, Closing HTTPS Privacy Gap\nGoogle Moved Its Gemini AI Safety Team Into\nLobbying, Blocking Researchers From Staying\nKinisi KR1 Humanoid Starts Crankshaft Bearing\nAssembly for Major Global Automaker\nMusk Launching New Turbine Blade Factory To",
         "matchedWords": {
           "KULEZq6YXE_i": {
-            "hits": 20,
+            "hits": 0,
             "textWords": 85916
           },
           "SiAo7OrF4fTS": {
-            "hits": 104,
+            "hits": 0,
             "textWords": 85916
           },
           "XgVsUAocS2px": {
@@ -661,7 +661,7 @@
             "textWords": 85916
           },
           "j8Qsbd-ZZts7": {
-            "hits": 1870,
+            "hits": 0,
             "textWords": 85916
           },
           "lUVudQaoycBO": {
@@ -669,15 +669,15 @@
             "textWords": 85916
           },
           "oqVRpkWKjeIk": {
-            "hits": 660,
+            "hits": 0,
             "textWords": 85916
           },
           "vl1dN1Qtdfk6": {
-            "hits": 1012,
+            "hits": 0,
             "textWords": 85916
           }
         },
-        "queryPhraseHits": 24
+        "queryPhraseHits": 0
       }
     ],
     [
@@ -685,14 +685,14 @@
         "hash": "D4lABzaS0qdw",
         "address": "https://planet.debian.org/",
         "title": "Planet Debian",
-        "snippet": "The SIMD version also processes 8 values, but without a for i := range 8 loop!\nOne difference is that we no longer have the luxury of using uint64 for acc (holding rest and current bits); because AVX2 registers only fit 8 uint32 (not 8 uint64). Instead, we split acc into rest8 and cur8.",
+        "snippet": "GOTEST=go test # -count=6 gives p≤0.002 in benchstat: # https://pkg.go.dev/golang.org/x/perf/cmd/benchstat BENCHFLAGS=-run=^$$ -bench=. -benchtime=200000x -count=6 # use taskset -c1 to always pin to the same single core, # avoiding accidental scheduling on different cores on # mixed-core CPUs like",
         "matchedWords": {
           "KULEZq6YXE_i": {
-            "hits": 2,
+            "hits": 0,
             "textWords": 8109
           },
           "SiAo7OrF4fTS": {
-            "hits": 10,
+            "hits": 0,
             "textWords": 8109
           },
           "XgVsUAocS2px": {
@@ -704,7 +704,7 @@
             "textWords": 8109
           },
           "j8Qsbd-ZZts7": {
-            "hits": 367,
+            "hits": 0,
             "textWords": 8109
           },
           "lUVudQaoycBO": {
@@ -712,15 +712,15 @@
             "textWords": 8109
           },
           "oqVRpkWKjeIk": {
-            "hits": 93,
+            "hits": 0,
             "textWords": 8109
           },
           "vl1dN1Qtdfk6": {
-            "hits": 82,
+            "hits": 0,
             "textWords": 8109
           }
         },
-        "queryPhraseHits": 9
+        "queryPhraseHits": 0
       }
     ]
   ],
@@ -729,14 +729,14 @@
       "hash": "1ojMPAK-xyJ4",
       "address": "https://go.dev/doc/effective_go",
       "title": "Effective Go - The Go Programming Language",
-      "snippet": "In contrast, new([]int) returns a pointer to a newly allocated, zeroed slice structure, that is, a pointer to a nil slice value.\nThese examples illustrate the difference between new and make.",
+      "snippet": "// A channel that sends a notification on each visit. // (Probably want the channel to be buffered.) type Chan chan *http.Request func (ch Chan) ServeHTTP(w http.ResponseWriter, req *http.Request) { ch \u003c- req fmt.Fprint(w, \"notification sent\") }",
       "matchedWords": {
         "KULEZq6YXE_i": {
-          "hits": 5,
+          "hits": 0,
           "textWords": 14983
         },
         "SiAo7OrF4fTS": {
-          "hits": 16,
+          "hits": 0,
           "textWords": 14983
         },
         "XgVsUAocS2px": {
@@ -748,7 +748,7 @@
           "textWords": 14983
         },
         "j8Qsbd-ZZts7": {
-          "hits": 1002,
+          "hits": 0,
           "textWords": 14983
         },
         "lUVudQaoycBO": {
@@ -756,28 +756,28 @@
           "textWords": 14983
         },
         "oqVRpkWKjeIk": {
-          "hits": 259,
+          "hits": 0,
           "textWords": 14983
         },
         "vl1dN1Qtdfk6": {
-          "hits": 244,
+          "hits": 0,
           "textWords": 14983
         }
       },
-      "queryPhraseHits": 18
+      "queryPhraseHits": 0
     },
     {
       "hash": "MAC3Gs6GdY-4",
       "address": "https://danluu.com/web-bloat/",
       "title": "How web bloat impacts users with slow connections",
-      "snippet": "When I measured my connection, I found that the bandwidth was roughly comparable to what I got with a 56k modem in the 90s. The latency and packetloss were significantly worse than the average day on dialup: latency varied between 500ms and 1000ms and packetloss varied between 1% and 10%.",
+      "snippet": "83\n235\nFAIL\nFAIL\nFAIL\nEach row is a website. For sites that support both plain HTTP as well as HTTPS, both were tested; URLs are HTTPS except where explicitly specified as HTTP.",
       "matchedWords": {
         "KULEZq6YXE_i": {
-          "hits": 3,
+          "hits": 0,
           "textWords": 4102
         },
         "SiAo7OrF4fTS": {
-          "hits": 10,
+          "hits": 0,
           "textWords": 4102
         },
         "XgVsUAocS2px": {
@@ -789,7 +789,7 @@
           "textWords": 4102
         },
         "j8Qsbd-ZZts7": {
-          "hits": 189,
+          "hits": 0,
           "textWords": 4102
         },
         "lUVudQaoycBO": {
@@ -797,28 +797,28 @@
           "textWords": 4102
         },
         "oqVRpkWKjeIk": {
-          "hits": 46,
+          "hits": 0,
           "textWords": 4102
         },
         "vl1dN1Qtdfk6": {
-          "hits": 67,
+          "hits": 0,
           "textWords": 4102
         }
       },
-      "queryPhraseHits": 2
+      "queryPhraseHits": 0
     },
     {
       "hash": "MAC3Gs6GdY-4",
       "address": "https://danluu.com/web-bloat/",
       "title": "How web bloat impacts users with slow connections",
-      "snippet": "When I measured my connection, I found that the bandwidth was roughly comparable to what I got with a 56k modem in the 90s. The latency and packetloss were significantly worse than the average day on dialup: latency varied between 500ms and 1000ms and packetloss varied between 1% and 10%.",
+      "snippet": "83\n235\nFAIL\nFAIL\nFAIL\nEach row is a website. For sites that support both plain HTTP as well as HTTPS, both were tested; URLs are HTTPS except where explicitly specified as HTTP.",
       "matchedWords": {
         "KULEZq6YXE_i": {
-          "hits": 3,
+          "hits": 0,
           "textWords": 4102
         },
         "SiAo7OrF4fTS": {
-          "hits": 10,
+          "hits": 0,
           "textWords": 4102
         },
         "XgVsUAocS2px": {
@@ -830,7 +830,7 @@
           "textWords": 4102
         },
         "j8Qsbd-ZZts7": {
-          "hits": 189,
+          "hits": 0,
           "textWords": 4102
         },
         "lUVudQaoycBO": {
@@ -838,15 +838,15 @@
           "textWords": 4102
         },
         "oqVRpkWKjeIk": {
-          "hits": 46,
+          "hits": 0,
           "textWords": 4102
         },
         "vl1dN1Qtdfk6": {
-          "hits": 67,
+          "hits": 0,
           "textWords": 4102
         }
       },
-      "queryPhraseHits": 2
+      "queryPhraseHits": 0
     },
     {
       "hash": "Oxa0g_nMM_j5",
@@ -893,14 +893,14 @@
       "hash": "MAC3Gs6GdY-4",
       "address": "https://danluu.com/web-bloat/",
       "title": "How web bloat impacts users with slow connections",
-      "snippet": "When I measured my connection, I found that the bandwidth was roughly comparable to what I got with a 56k modem in the 90s. The latency and packetloss were significantly worse than the average day on dialup: latency varied between 500ms and 1000ms and packetloss varied between 1% and 10%.",
+      "snippet": "83\n235\nFAIL\nFAIL\nFAIL\nEach row is a website. For sites that support both plain HTTP as well as HTTPS, both were tested; URLs are HTTPS except where explicitly specified as HTTP.",
       "matchedWords": {
         "KULEZq6YXE_i": {
-          "hits": 3,
+          "hits": 0,
           "textWords": 4102
         },
         "SiAo7OrF4fTS": {
-          "hits": 10,
+          "hits": 0,
           "textWords": 4102
         },
         "XgVsUAocS2px": {
@@ -912,7 +912,7 @@
           "textWords": 4102
         },
         "j8Qsbd-ZZts7": {
-          "hits": 189,
+          "hits": 0,
           "textWords": 4102
         },
         "lUVudQaoycBO": {
@@ -920,15 +920,15 @@
           "textWords": 4102
         },
         "oqVRpkWKjeIk": {
-          "hits": 46,
+          "hits": 0,
           "textWords": 4102
         },
         "vl1dN1Qtdfk6": {
-          "hits": 67,
+          "hits": 0,
           "textWords": 4102
         }
       },
-      "queryPhraseHits": 2
+      "queryPhraseHits": 0
     },
     {
       "hash": "Oxa0g_nMM_j5",
@@ -975,14 +975,14 @@
       "hash": "MAC3Gs6GdY-4",
       "address": "https://danluu.com/web-bloat/",
       "title": "How web bloat impacts users with slow connections",
-      "snippet": "When I measured my connection, I found that the bandwidth was roughly comparable to what I got with a 56k modem in the 90s. The latency and packetloss were significantly worse than the average day on dialup: latency varied between 500ms and 1000ms and packetloss varied between 1% and 10%.",
+      "snippet": "83\n235\nFAIL\nFAIL\nFAIL\nEach row is a website. For sites that support both plain HTTP as well as HTTPS, both were tested; URLs are HTTPS except where explicitly specified as HTTP.",
       "matchedWords": {
         "KULEZq6YXE_i": {
-          "hits": 3,
+          "hits": 0,
           "textWords": 4102
         },
         "SiAo7OrF4fTS": {
-          "hits": 10,
+          "hits": 0,
           "textWords": 4102
         },
         "XgVsUAocS2px": {
@@ -994,7 +994,7 @@
           "textWords": 4102
         },
         "j8Qsbd-ZZts7": {
-          "hits": 189,
+          "hits": 0,
           "textWords": 4102
         },
         "lUVudQaoycBO": {
@@ -1002,15 +1002,15 @@
           "textWords": 4102
         },
         "oqVRpkWKjeIk": {
-          "hits": 46,
+          "hits": 0,
           "textWords": 4102
         },
         "vl1dN1Qtdfk6": {
-          "hits": 67,
+          "hits": 0,
           "textWords": 4102
         }
       },
-      "queryPhraseHits": 2
+      "queryPhraseHits": 0
     },
     {
       "hash": "Oxa0g_nMM_j5",
@@ -1057,14 +1057,14 @@
       "hash": "MAC3Gs6GdY-4",
       "address": "https://danluu.com/web-bloat/",
       "title": "How web bloat impacts users with slow connections",
-      "snippet": "When I measured my connection, I found that the bandwidth was roughly comparable to what I got with a 56k modem in the 90s. The latency and packetloss were significantly worse than the average day on dialup: latency varied between 500ms and 1000ms and packetloss varied between 1% and 10%.",
+      "snippet": "83\n235\nFAIL\nFAIL\nFAIL\nEach row is a website. For sites that support both plain HTTP as well as HTTPS, both were tested; URLs are HTTPS except where explicitly specified as HTTP.",
       "matchedWords": {
         "KULEZq6YXE_i": {
-          "hits": 3,
+          "hits": 0,
           "textWords": 4102
         },
         "SiAo7OrF4fTS": {
-          "hits": 10,
+          "hits": 0,
           "textWords": 4102
         },
         "XgVsUAocS2px": {
@@ -1076,7 +1076,7 @@
           "textWords": 4102
         },
         "j8Qsbd-ZZts7": {
-          "hits": 189,
+          "hits": 0,
           "textWords": 4102
         },
         "lUVudQaoycBO": {
@@ -1084,15 +1084,15 @@
           "textWords": 4102
         },
         "oqVRpkWKjeIk": {
-          "hits": 46,
+          "hits": 0,
           "textWords": 4102
         },
         "vl1dN1Qtdfk6": {
-          "hits": 67,
+          "hits": 0,
           "textWords": 4102
         }
       },
-      "queryPhraseHits": 2
+      "queryPhraseHits": 0
     },
     {
       "hash": "Oxa0g_nMM_j5",
@@ -1139,14 +1139,14 @@
       "hash": "WJpREitD2jQw",
       "address": "https://docs.python.org/3/library/datetime.html",
       "title": "datetime — Basic date and time types — Python 3.13.5 documentation",
-      "snippet": "Return the fixed value specified when the timezone instance is constructed.\nThe dt argument is ignored. The return value is a timedelta instance equal to the difference between the local time and UTC.\nChanged in version 3.7: The UTC offset is not restricted to a whole number of minutes.",
+      "snippet": "For a complete and up-to-date set of DST rules # and timezone definitions, visit the Olson Database (or try pytz): # http://www.twinsun.com/tz/tz-link.htm # https://sourceforge.net/projects/pytz/ (might not be up-to-date) # # In the US, since 2007, DST starts at 2am (standard time) on the second #",
       "matchedWords": {
         "KULEZq6YXE_i": {
-          "hits": 34,
+          "hits": 0,
           "textWords": 13307
         },
         "SiAo7OrF4fTS": {
-          "hits": 1,
+          "hits": 0,
           "textWords": 13307
         },
         "XgVsUAocS2px": {
@@ -1158,7 +1158,7 @@
           "textWords": 13307
         },
         "j8Qsbd-ZZts7": {
-          "hits": 645,
+          "hits": 0,
           "textWords": 13307
         },
         "lUVudQaoycBO": {
@@ -1166,28 +1166,28 @@
           "textWords": 13307
         },
         "oqVRpkWKjeIk": {
-          "hits": 322,
+          "hits": 0,
           "textWords": 13307
         },
         "vl1dN1Qtdfk6": {
-          "hits": 286,
+          "hits": 0,
           "textWords": 13307
         }
       },
-      "queryPhraseHits": 31
+      "queryPhraseHits": 0
     },
     {
       "hash": "WJpREitD2jQw",
       "address": "https://docs.python.org/3/library/datetime.html",
       "title": "datetime — Basic date and time types — Python 3.14.7 documentation",
-      "snippet": "Return the fixed value specified when the timezone instance is constructed.\nThe dt argument is ignored. The return value is a timedelta instance equal to the difference between the local time and UTC.\nChanged in version 3.7: The UTC offset is not restricted to a whole number of minutes.",
+      "snippet": "For a complete and up-to-date set of DST rules # and timezone definitions, visit the Olson Database (or try pytz): # http://www.twinsun.com/tz/tz-link.htm # https://sourceforge.net/projects/pytz/ (might not be up-to-date) # # In the US, since 2007, DST starts at 2am (standard time) on the second #",
       "matchedWords": {
         "KULEZq6YXE_i": {
-          "hits": 34,
+          "hits": 0,
           "textWords": 13307
         },
         "SiAo7OrF4fTS": {
-          "hits": 1,
+          "hits": 0,
           "textWords": 13307
         },
         "XgVsUAocS2px": {
@@ -1199,7 +1199,7 @@
           "textWords": 13307
         },
         "j8Qsbd-ZZts7": {
-          "hits": 645,
+          "hits": 0,
           "textWords": 13307
         },
         "lUVudQaoycBO": {
@@ -1207,586 +1207,12 @@
           "textWords": 13307
         },
         "oqVRpkWKjeIk": {
-          "hits": 322,
+          "hits": 0,
           "textWords": 13307
         },
         "vl1dN1Qtdfk6": {
-          "hits": 286,
+          "hits": 0,
           "textWords": 13307
-        }
-      },
-      "queryPhraseHits": 31
-    },
-    {
-      "hash": "WJpREitD2jQw",
-      "address": "https://docs.python.org/3/library/datetime.html",
-      "title": "datetime — Basic date and time types — Python 3.14.0 documentation",
-      "snippet": "Return the fixed value specified when the timezone instance is constructed.\nThe dt argument is ignored. The return value is a timedelta instance equal to the difference between the local time and UTC.\nChanged in version 3.7: The UTC offset is not restricted to a whole number of minutes.",
-      "matchedWords": {
-        "KULEZq6YXE_i": {
-          "hits": 34,
-          "textWords": 13307
-        },
-        "SiAo7OrF4fTS": {
-          "hits": 1,
-          "textWords": 13307
-        },
-        "XgVsUAocS2px": {
-          "hits": 1,
-          "textWords": 13307
-        },
-        "gHkbOucALLiM": {
-          "hits": 1,
-          "textWords": 13307
-        },
-        "j8Qsbd-ZZts7": {
-          "hits": 645,
-          "textWords": 13307
-        },
-        "lUVudQaoycBO": {
-          "hits": 9,
-          "textWords": 13307
-        },
-        "oqVRpkWKjeIk": {
-          "hits": 322,
-          "textWords": 13307
-        },
-        "vl1dN1Qtdfk6": {
-          "hits": 286,
-          "textWords": 13307
-        }
-      },
-      "queryPhraseHits": 31
-    },
-    {
-      "hash": "1ojMPAK-xyJ4",
-      "address": "https://go.dev/doc/effective_go",
-      "title": "Effective Go - The Go Programming Language",
-      "snippet": "In contrast, new([]int) returns a pointer to a newly allocated, zeroed slice structure, that is, a pointer to a nil slice value.\nThese examples illustrate the difference between new and make.",
-      "matchedWords": {
-        "KULEZq6YXE_i": {
-          "hits": 5,
-          "textWords": 14983
-        },
-        "SiAo7OrF4fTS": {
-          "hits": 16,
-          "textWords": 14983
-        },
-        "XgVsUAocS2px": {
-          "hits": 0,
-          "textWords": 14983
-        },
-        "gHkbOucALLiM": {
-          "hits": 38,
-          "textWords": 14983
-        },
-        "j8Qsbd-ZZts7": {
-          "hits": 1002,
-          "textWords": 14983
-        },
-        "lUVudQaoycBO": {
-          "hits": 2,
-          "textWords": 14983
-        },
-        "oqVRpkWKjeIk": {
-          "hits": 259,
-          "textWords": 14983
-        },
-        "vl1dN1Qtdfk6": {
-          "hits": 244,
-          "textWords": 14983
-        }
-      },
-      "queryPhraseHits": 18
-    },
-    {
-      "hash": "1ojMPAK-xyJ4",
-      "address": "https://go.dev/doc/effective_go",
-      "title": "Effective Go - The Go Programming Language",
-      "snippet": "In contrast, new([]int) returns a pointer to a newly allocated, zeroed slice structure, that is, a pointer to a nil slice value.\nThese examples illustrate the difference between new and make.",
-      "matchedWords": {
-        "KULEZq6YXE_i": {
-          "hits": 5,
-          "textWords": 14983
-        },
-        "SiAo7OrF4fTS": {
-          "hits": 16,
-          "textWords": 14983
-        },
-        "XgVsUAocS2px": {
-          "hits": 0,
-          "textWords": 14983
-        },
-        "gHkbOucALLiM": {
-          "hits": 38,
-          "textWords": 14983
-        },
-        "j8Qsbd-ZZts7": {
-          "hits": 1002,
-          "textWords": 14983
-        },
-        "lUVudQaoycBO": {
-          "hits": 2,
-          "textWords": 14983
-        },
-        "oqVRpkWKjeIk": {
-          "hits": 259,
-          "textWords": 14983
-        },
-        "vl1dN1Qtdfk6": {
-          "hits": 244,
-          "textWords": 14983
-        }
-      },
-      "queryPhraseHits": 18
-    },
-    {
-      "hash": "1ojMPAK-xyJ4",
-      "address": "https://go.dev/doc/effective_go",
-      "title": "Effective Go - The Go Programming Language",
-      "snippet": "In contrast, new([]int) returns a pointer to a newly allocated, zeroed slice structure, that is, a pointer to a nil slice value.\nThese examples illustrate the difference between new and make.",
-      "matchedWords": {
-        "KULEZq6YXE_i": {
-          "hits": 5,
-          "textWords": 14983
-        },
-        "SiAo7OrF4fTS": {
-          "hits": 16,
-          "textWords": 14983
-        },
-        "XgVsUAocS2px": {
-          "hits": 0,
-          "textWords": 14983
-        },
-        "gHkbOucALLiM": {
-          "hits": 38,
-          "textWords": 14983
-        },
-        "j8Qsbd-ZZts7": {
-          "hits": 1002,
-          "textWords": 14983
-        },
-        "lUVudQaoycBO": {
-          "hits": 2,
-          "textWords": 14983
-        },
-        "oqVRpkWKjeIk": {
-          "hits": 259,
-          "textWords": 14983
-        },
-        "vl1dN1Qtdfk6": {
-          "hits": 244,
-          "textWords": 14983
-        }
-      },
-      "queryPhraseHits": 18
-    },
-    {
-      "hash": "1ojMPAK-xyJ4",
-      "address": "https://go.dev/doc/effective_go",
-      "title": "Effective Go - The Go Programming Language",
-      "snippet": "In contrast, new([]int) returns a pointer to a newly allocated, zeroed slice structure, that is, a pointer to a nil slice value.\nThese examples illustrate the difference between new and make.",
-      "matchedWords": {
-        "KULEZq6YXE_i": {
-          "hits": 5,
-          "textWords": 14983
-        },
-        "SiAo7OrF4fTS": {
-          "hits": 16,
-          "textWords": 14983
-        },
-        "XgVsUAocS2px": {
-          "hits": 0,
-          "textWords": 14983
-        },
-        "gHkbOucALLiM": {
-          "hits": 38,
-          "textWords": 14983
-        },
-        "j8Qsbd-ZZts7": {
-          "hits": 1002,
-          "textWords": 14983
-        },
-        "lUVudQaoycBO": {
-          "hits": 2,
-          "textWords": 14983
-        },
-        "oqVRpkWKjeIk": {
-          "hits": 259,
-          "textWords": 14983
-        },
-        "vl1dN1Qtdfk6": {
-          "hits": 244,
-          "textWords": 14983
-        }
-      },
-      "queryPhraseHits": 18
-    },
-    {
-      "hash": "1ojMPAK-xyJ4",
-      "address": "https://go.dev/doc/effective_go",
-      "title": "Effective Go - The Go Programming Language",
-      "snippet": "In contrast, new([]int) returns a pointer to a newly allocated, zeroed slice structure, that is, a pointer to a nil slice value.\nThese examples illustrate the difference between new and make.",
-      "matchedWords": {
-        "KULEZq6YXE_i": {
-          "hits": 5,
-          "textWords": 14983
-        },
-        "SiAo7OrF4fTS": {
-          "hits": 16,
-          "textWords": 14983
-        },
-        "XgVsUAocS2px": {
-          "hits": 0,
-          "textWords": 14983
-        },
-        "gHkbOucALLiM": {
-          "hits": 38,
-          "textWords": 14983
-        },
-        "j8Qsbd-ZZts7": {
-          "hits": 1002,
-          "textWords": 14983
-        },
-        "lUVudQaoycBO": {
-          "hits": 2,
-          "textWords": 14983
-        },
-        "oqVRpkWKjeIk": {
-          "hits": 259,
-          "textWords": 14983
-        },
-        "vl1dN1Qtdfk6": {
-          "hits": 244,
-          "textWords": 14983
-        }
-      },
-      "queryPhraseHits": 18
-    },
-    {
-      "hash": "MAC3Gs6GdY-4",
-      "address": "https://danluu.com/web-bloat/",
-      "title": "How web bloat impacts users with slow connections",
-      "snippet": "When I measured my connection, I found that the bandwidth was roughly comparable to what I got with a 56k modem in the 90s. The latency and packetloss were significantly worse than the average day on dialup: latency varied between 500ms and 1000ms and packetloss varied between 1% and 10%.",
-      "matchedWords": {
-        "KULEZq6YXE_i": {
-          "hits": 3,
-          "textWords": 4102
-        },
-        "SiAo7OrF4fTS": {
-          "hits": 10,
-          "textWords": 4102
-        },
-        "XgVsUAocS2px": {
-          "hits": 5,
-          "textWords": 4102
-        },
-        "gHkbOucALLiM": {
-          "hits": 8,
-          "textWords": 4102
-        },
-        "j8Qsbd-ZZts7": {
-          "hits": 189,
-          "textWords": 4102
-        },
-        "lUVudQaoycBO": {
-          "hits": 3,
-          "textWords": 4102
-        },
-        "oqVRpkWKjeIk": {
-          "hits": 46,
-          "textWords": 4102
-        },
-        "vl1dN1Qtdfk6": {
-          "hits": 67,
-          "textWords": 4102
-        }
-      },
-      "queryPhraseHits": 2
-    },
-    {
-      "hash": "Oxa0g_nMM_j5",
-      "address": "https://grokipedia.com/page/Data_validation",
-      "title": "Data validation — Grokipedia",
-      "snippet": "",
-      "matchedWords": {
-        "KULEZq6YXE_i": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "SiAo7OrF4fTS": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "XgVsUAocS2px": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "gHkbOucALLiM": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "j8Qsbd-ZZts7": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "lUVudQaoycBO": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "oqVRpkWKjeIk": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "vl1dN1Qtdfk6": {
-          "hits": 0,
-          "textWords": 0
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "MAC3Gs6GdY-4",
-      "address": "https://danluu.com/web-bloat/",
-      "title": "How web bloat impacts users with slow connections",
-      "snippet": "When I measured my connection, I found that the bandwidth was roughly comparable to what I got with a 56k modem in the 90s. The latency and packetloss were significantly worse than the average day on dialup: latency varied between 500ms and 1000ms and packetloss varied between 1% and 10%.",
-      "matchedWords": {
-        "KULEZq6YXE_i": {
-          "hits": 3,
-          "textWords": 4102
-        },
-        "SiAo7OrF4fTS": {
-          "hits": 10,
-          "textWords": 4102
-        },
-        "XgVsUAocS2px": {
-          "hits": 5,
-          "textWords": 4102
-        },
-        "gHkbOucALLiM": {
-          "hits": 8,
-          "textWords": 4102
-        },
-        "j8Qsbd-ZZts7": {
-          "hits": 189,
-          "textWords": 4102
-        },
-        "lUVudQaoycBO": {
-          "hits": 3,
-          "textWords": 4102
-        },
-        "oqVRpkWKjeIk": {
-          "hits": 46,
-          "textWords": 4102
-        },
-        "vl1dN1Qtdfk6": {
-          "hits": 67,
-          "textWords": 4102
-        }
-      },
-      "queryPhraseHits": 2
-    },
-    {
-      "hash": "Oxa0g_nMM_j5",
-      "address": "https://grokipedia.com/page/Data_validation",
-      "title": "Data validation — Grokipedia",
-      "snippet": "",
-      "matchedWords": {
-        "KULEZq6YXE_i": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "SiAo7OrF4fTS": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "XgVsUAocS2px": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "gHkbOucALLiM": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "j8Qsbd-ZZts7": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "lUVudQaoycBO": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "oqVRpkWKjeIk": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "vl1dN1Qtdfk6": {
-          "hits": 0,
-          "textWords": 0
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "MAC3Gs6GdY-4",
-      "address": "https://danluu.com/web-bloat/",
-      "title": "How web bloat impacts users with slow connections",
-      "snippet": "When I measured my connection, I found that the bandwidth was roughly comparable to what I got with a 56k modem in the 90s. The latency and packetloss were significantly worse than the average day on dialup: latency varied between 500ms and 1000ms and packetloss varied between 1% and 10%.",
-      "matchedWords": {
-        "KULEZq6YXE_i": {
-          "hits": 3,
-          "textWords": 4102
-        },
-        "SiAo7OrF4fTS": {
-          "hits": 10,
-          "textWords": 4102
-        },
-        "XgVsUAocS2px": {
-          "hits": 5,
-          "textWords": 4102
-        },
-        "gHkbOucALLiM": {
-          "hits": 8,
-          "textWords": 4102
-        },
-        "j8Qsbd-ZZts7": {
-          "hits": 189,
-          "textWords": 4102
-        },
-        "lUVudQaoycBO": {
-          "hits": 3,
-          "textWords": 4102
-        },
-        "oqVRpkWKjeIk": {
-          "hits": 46,
-          "textWords": 4102
-        },
-        "vl1dN1Qtdfk6": {
-          "hits": 67,
-          "textWords": 4102
-        }
-      },
-      "queryPhraseHits": 2
-    },
-    {
-      "hash": "Oxa0g_nMM_j5",
-      "address": "https://grokipedia.com/page/Data_validation",
-      "title": "Data validation — Grokipedia",
-      "snippet": "",
-      "matchedWords": {
-        "KULEZq6YXE_i": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "SiAo7OrF4fTS": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "XgVsUAocS2px": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "gHkbOucALLiM": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "j8Qsbd-ZZts7": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "lUVudQaoycBO": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "oqVRpkWKjeIk": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "vl1dN1Qtdfk6": {
-          "hits": 0,
-          "textWords": 0
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "MAC3Gs6GdY-4",
-      "address": "https://danluu.com/web-bloat/",
-      "title": "How web bloat impacts users with slow connections",
-      "snippet": "When I measured my connection, I found that the bandwidth was roughly comparable to what I got with a 56k modem in the 90s. The latency and packetloss were significantly worse than the average day on dialup: latency varied between 500ms and 1000ms and packetloss varied between 1% and 10%.",
-      "matchedWords": {
-        "KULEZq6YXE_i": {
-          "hits": 3,
-          "textWords": 4102
-        },
-        "SiAo7OrF4fTS": {
-          "hits": 10,
-          "textWords": 4102
-        },
-        "XgVsUAocS2px": {
-          "hits": 5,
-          "textWords": 4102
-        },
-        "gHkbOucALLiM": {
-          "hits": 8,
-          "textWords": 4102
-        },
-        "j8Qsbd-ZZts7": {
-          "hits": 189,
-          "textWords": 4102
-        },
-        "lUVudQaoycBO": {
-          "hits": 3,
-          "textWords": 4102
-        },
-        "oqVRpkWKjeIk": {
-          "hits": 46,
-          "textWords": 4102
-        },
-        "vl1dN1Qtdfk6": {
-          "hits": 67,
-          "textWords": 4102
-        }
-      },
-      "queryPhraseHits": 2
-    },
-    {
-      "hash": "Oxa0g_nMM_j5",
-      "address": "https://grokipedia.com/page/Data_validation",
-      "title": "Data validation — Grokipedia",
-      "snippet": "",
-      "matchedWords": {
-        "KULEZq6YXE_i": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "SiAo7OrF4fTS": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "XgVsUAocS2px": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "gHkbOucALLiM": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "j8Qsbd-ZZts7": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "lUVudQaoycBO": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "oqVRpkWKjeIk": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "vl1dN1Qtdfk6": {
-          "hits": 0,
-          "textWords": 0
         }
       },
       "queryPhraseHits": 0
@@ -1795,14 +1221,14 @@
       "hash": "WJpREitD2jQw",
       "address": "https://docs.python.org/3/library/datetime.html",
       "title": "datetime — Basic date and time types — Python 3.14.0 documentation",
-      "snippet": "Return the fixed value specified when the timezone instance is constructed.\nThe dt argument is ignored. The return value is a timedelta instance equal to the difference between the local time and UTC.\nChanged in version 3.7: The UTC offset is not restricted to a whole number of minutes.",
+      "snippet": "For a complete and up-to-date set of DST rules # and timezone definitions, visit the Olson Database (or try pytz): # http://www.twinsun.com/tz/tz-link.htm # https://sourceforge.net/projects/pytz/ (might not be up-to-date) # # In the US, since 2007, DST starts at 2am (standard time) on the second #",
       "matchedWords": {
         "KULEZq6YXE_i": {
-          "hits": 34,
+          "hits": 0,
           "textWords": 13307
         },
         "SiAo7OrF4fTS": {
-          "hits": 1,
+          "hits": 0,
           "textWords": 13307
         },
         "XgVsUAocS2px": {
@@ -1814,7 +1240,7 @@
           "textWords": 13307
         },
         "j8Qsbd-ZZts7": {
-          "hits": 645,
+          "hits": 0,
           "textWords": 13307
         },
         "lUVudQaoycBO": {
@@ -1822,28 +1248,602 @@
           "textWords": 13307
         },
         "oqVRpkWKjeIk": {
-          "hits": 322,
+          "hits": 0,
           "textWords": 13307
         },
         "vl1dN1Qtdfk6": {
-          "hits": 286,
+          "hits": 0,
           "textWords": 13307
         }
       },
-      "queryPhraseHits": 31
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "1ojMPAK-xyJ4",
+      "address": "https://go.dev/doc/effective_go",
+      "title": "Effective Go - The Go Programming Language",
+      "snippet": "// A channel that sends a notification on each visit. // (Probably want the channel to be buffered.) type Chan chan *http.Request func (ch Chan) ServeHTTP(w http.ResponseWriter, req *http.Request) { ch \u003c- req fmt.Fprint(w, \"notification sent\") }",
+      "matchedWords": {
+        "KULEZq6YXE_i": {
+          "hits": 0,
+          "textWords": 14983
+        },
+        "SiAo7OrF4fTS": {
+          "hits": 0,
+          "textWords": 14983
+        },
+        "XgVsUAocS2px": {
+          "hits": 0,
+          "textWords": 14983
+        },
+        "gHkbOucALLiM": {
+          "hits": 38,
+          "textWords": 14983
+        },
+        "j8Qsbd-ZZts7": {
+          "hits": 0,
+          "textWords": 14983
+        },
+        "lUVudQaoycBO": {
+          "hits": 2,
+          "textWords": 14983
+        },
+        "oqVRpkWKjeIk": {
+          "hits": 0,
+          "textWords": 14983
+        },
+        "vl1dN1Qtdfk6": {
+          "hits": 0,
+          "textWords": 14983
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "1ojMPAK-xyJ4",
+      "address": "https://go.dev/doc/effective_go",
+      "title": "Effective Go - The Go Programming Language",
+      "snippet": "// A channel that sends a notification on each visit. // (Probably want the channel to be buffered.) type Chan chan *http.Request func (ch Chan) ServeHTTP(w http.ResponseWriter, req *http.Request) { ch \u003c- req fmt.Fprint(w, \"notification sent\") }",
+      "matchedWords": {
+        "KULEZq6YXE_i": {
+          "hits": 0,
+          "textWords": 14983
+        },
+        "SiAo7OrF4fTS": {
+          "hits": 0,
+          "textWords": 14983
+        },
+        "XgVsUAocS2px": {
+          "hits": 0,
+          "textWords": 14983
+        },
+        "gHkbOucALLiM": {
+          "hits": 38,
+          "textWords": 14983
+        },
+        "j8Qsbd-ZZts7": {
+          "hits": 0,
+          "textWords": 14983
+        },
+        "lUVudQaoycBO": {
+          "hits": 2,
+          "textWords": 14983
+        },
+        "oqVRpkWKjeIk": {
+          "hits": 0,
+          "textWords": 14983
+        },
+        "vl1dN1Qtdfk6": {
+          "hits": 0,
+          "textWords": 14983
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "1ojMPAK-xyJ4",
+      "address": "https://go.dev/doc/effective_go",
+      "title": "Effective Go - The Go Programming Language",
+      "snippet": "// A channel that sends a notification on each visit. // (Probably want the channel to be buffered.) type Chan chan *http.Request func (ch Chan) ServeHTTP(w http.ResponseWriter, req *http.Request) { ch \u003c- req fmt.Fprint(w, \"notification sent\") }",
+      "matchedWords": {
+        "KULEZq6YXE_i": {
+          "hits": 0,
+          "textWords": 14983
+        },
+        "SiAo7OrF4fTS": {
+          "hits": 0,
+          "textWords": 14983
+        },
+        "XgVsUAocS2px": {
+          "hits": 0,
+          "textWords": 14983
+        },
+        "gHkbOucALLiM": {
+          "hits": 38,
+          "textWords": 14983
+        },
+        "j8Qsbd-ZZts7": {
+          "hits": 0,
+          "textWords": 14983
+        },
+        "lUVudQaoycBO": {
+          "hits": 2,
+          "textWords": 14983
+        },
+        "oqVRpkWKjeIk": {
+          "hits": 0,
+          "textWords": 14983
+        },
+        "vl1dN1Qtdfk6": {
+          "hits": 0,
+          "textWords": 14983
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "1ojMPAK-xyJ4",
+      "address": "https://go.dev/doc/effective_go",
+      "title": "Effective Go - The Go Programming Language",
+      "snippet": "// A channel that sends a notification on each visit. // (Probably want the channel to be buffered.) type Chan chan *http.Request func (ch Chan) ServeHTTP(w http.ResponseWriter, req *http.Request) { ch \u003c- req fmt.Fprint(w, \"notification sent\") }",
+      "matchedWords": {
+        "KULEZq6YXE_i": {
+          "hits": 0,
+          "textWords": 14983
+        },
+        "SiAo7OrF4fTS": {
+          "hits": 0,
+          "textWords": 14983
+        },
+        "XgVsUAocS2px": {
+          "hits": 0,
+          "textWords": 14983
+        },
+        "gHkbOucALLiM": {
+          "hits": 38,
+          "textWords": 14983
+        },
+        "j8Qsbd-ZZts7": {
+          "hits": 0,
+          "textWords": 14983
+        },
+        "lUVudQaoycBO": {
+          "hits": 2,
+          "textWords": 14983
+        },
+        "oqVRpkWKjeIk": {
+          "hits": 0,
+          "textWords": 14983
+        },
+        "vl1dN1Qtdfk6": {
+          "hits": 0,
+          "textWords": 14983
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "1ojMPAK-xyJ4",
+      "address": "https://go.dev/doc/effective_go",
+      "title": "Effective Go - The Go Programming Language",
+      "snippet": "// A channel that sends a notification on each visit. // (Probably want the channel to be buffered.) type Chan chan *http.Request func (ch Chan) ServeHTTP(w http.ResponseWriter, req *http.Request) { ch \u003c- req fmt.Fprint(w, \"notification sent\") }",
+      "matchedWords": {
+        "KULEZq6YXE_i": {
+          "hits": 0,
+          "textWords": 14983
+        },
+        "SiAo7OrF4fTS": {
+          "hits": 0,
+          "textWords": 14983
+        },
+        "XgVsUAocS2px": {
+          "hits": 0,
+          "textWords": 14983
+        },
+        "gHkbOucALLiM": {
+          "hits": 38,
+          "textWords": 14983
+        },
+        "j8Qsbd-ZZts7": {
+          "hits": 0,
+          "textWords": 14983
+        },
+        "lUVudQaoycBO": {
+          "hits": 2,
+          "textWords": 14983
+        },
+        "oqVRpkWKjeIk": {
+          "hits": 0,
+          "textWords": 14983
+        },
+        "vl1dN1Qtdfk6": {
+          "hits": 0,
+          "textWords": 14983
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "MAC3Gs6GdY-4",
+      "address": "https://danluu.com/web-bloat/",
+      "title": "How web bloat impacts users with slow connections",
+      "snippet": "83\n235\nFAIL\nFAIL\nFAIL\nEach row is a website. For sites that support both plain HTTP as well as HTTPS, both were tested; URLs are HTTPS except where explicitly specified as HTTP.",
+      "matchedWords": {
+        "KULEZq6YXE_i": {
+          "hits": 0,
+          "textWords": 4102
+        },
+        "SiAo7OrF4fTS": {
+          "hits": 0,
+          "textWords": 4102
+        },
+        "XgVsUAocS2px": {
+          "hits": 5,
+          "textWords": 4102
+        },
+        "gHkbOucALLiM": {
+          "hits": 8,
+          "textWords": 4102
+        },
+        "j8Qsbd-ZZts7": {
+          "hits": 0,
+          "textWords": 4102
+        },
+        "lUVudQaoycBO": {
+          "hits": 3,
+          "textWords": 4102
+        },
+        "oqVRpkWKjeIk": {
+          "hits": 0,
+          "textWords": 4102
+        },
+        "vl1dN1Qtdfk6": {
+          "hits": 0,
+          "textWords": 4102
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "Oxa0g_nMM_j5",
+      "address": "https://grokipedia.com/page/Data_validation",
+      "title": "Data validation — Grokipedia",
+      "snippet": "",
+      "matchedWords": {
+        "KULEZq6YXE_i": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "SiAo7OrF4fTS": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "XgVsUAocS2px": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "gHkbOucALLiM": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "j8Qsbd-ZZts7": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "lUVudQaoycBO": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "oqVRpkWKjeIk": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "vl1dN1Qtdfk6": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "MAC3Gs6GdY-4",
+      "address": "https://danluu.com/web-bloat/",
+      "title": "How web bloat impacts users with slow connections",
+      "snippet": "83\n235\nFAIL\nFAIL\nFAIL\nEach row is a website. For sites that support both plain HTTP as well as HTTPS, both were tested; URLs are HTTPS except where explicitly specified as HTTP.",
+      "matchedWords": {
+        "KULEZq6YXE_i": {
+          "hits": 0,
+          "textWords": 4102
+        },
+        "SiAo7OrF4fTS": {
+          "hits": 0,
+          "textWords": 4102
+        },
+        "XgVsUAocS2px": {
+          "hits": 5,
+          "textWords": 4102
+        },
+        "gHkbOucALLiM": {
+          "hits": 8,
+          "textWords": 4102
+        },
+        "j8Qsbd-ZZts7": {
+          "hits": 0,
+          "textWords": 4102
+        },
+        "lUVudQaoycBO": {
+          "hits": 3,
+          "textWords": 4102
+        },
+        "oqVRpkWKjeIk": {
+          "hits": 0,
+          "textWords": 4102
+        },
+        "vl1dN1Qtdfk6": {
+          "hits": 0,
+          "textWords": 4102
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "Oxa0g_nMM_j5",
+      "address": "https://grokipedia.com/page/Data_validation",
+      "title": "Data validation — Grokipedia",
+      "snippet": "",
+      "matchedWords": {
+        "KULEZq6YXE_i": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "SiAo7OrF4fTS": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "XgVsUAocS2px": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "gHkbOucALLiM": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "j8Qsbd-ZZts7": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "lUVudQaoycBO": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "oqVRpkWKjeIk": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "vl1dN1Qtdfk6": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "MAC3Gs6GdY-4",
+      "address": "https://danluu.com/web-bloat/",
+      "title": "How web bloat impacts users with slow connections",
+      "snippet": "83\n235\nFAIL\nFAIL\nFAIL\nEach row is a website. For sites that support both plain HTTP as well as HTTPS, both were tested; URLs are HTTPS except where explicitly specified as HTTP.",
+      "matchedWords": {
+        "KULEZq6YXE_i": {
+          "hits": 0,
+          "textWords": 4102
+        },
+        "SiAo7OrF4fTS": {
+          "hits": 0,
+          "textWords": 4102
+        },
+        "XgVsUAocS2px": {
+          "hits": 5,
+          "textWords": 4102
+        },
+        "gHkbOucALLiM": {
+          "hits": 8,
+          "textWords": 4102
+        },
+        "j8Qsbd-ZZts7": {
+          "hits": 0,
+          "textWords": 4102
+        },
+        "lUVudQaoycBO": {
+          "hits": 3,
+          "textWords": 4102
+        },
+        "oqVRpkWKjeIk": {
+          "hits": 0,
+          "textWords": 4102
+        },
+        "vl1dN1Qtdfk6": {
+          "hits": 0,
+          "textWords": 4102
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "Oxa0g_nMM_j5",
+      "address": "https://grokipedia.com/page/Data_validation",
+      "title": "Data validation — Grokipedia",
+      "snippet": "",
+      "matchedWords": {
+        "KULEZq6YXE_i": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "SiAo7OrF4fTS": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "XgVsUAocS2px": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "gHkbOucALLiM": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "j8Qsbd-ZZts7": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "lUVudQaoycBO": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "oqVRpkWKjeIk": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "vl1dN1Qtdfk6": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "MAC3Gs6GdY-4",
+      "address": "https://danluu.com/web-bloat/",
+      "title": "How web bloat impacts users with slow connections",
+      "snippet": "83\n235\nFAIL\nFAIL\nFAIL\nEach row is a website. For sites that support both plain HTTP as well as HTTPS, both were tested; URLs are HTTPS except where explicitly specified as HTTP.",
+      "matchedWords": {
+        "KULEZq6YXE_i": {
+          "hits": 0,
+          "textWords": 4102
+        },
+        "SiAo7OrF4fTS": {
+          "hits": 0,
+          "textWords": 4102
+        },
+        "XgVsUAocS2px": {
+          "hits": 5,
+          "textWords": 4102
+        },
+        "gHkbOucALLiM": {
+          "hits": 8,
+          "textWords": 4102
+        },
+        "j8Qsbd-ZZts7": {
+          "hits": 0,
+          "textWords": 4102
+        },
+        "lUVudQaoycBO": {
+          "hits": 3,
+          "textWords": 4102
+        },
+        "oqVRpkWKjeIk": {
+          "hits": 0,
+          "textWords": 4102
+        },
+        "vl1dN1Qtdfk6": {
+          "hits": 0,
+          "textWords": 4102
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "Oxa0g_nMM_j5",
+      "address": "https://grokipedia.com/page/Data_validation",
+      "title": "Data validation — Grokipedia",
+      "snippet": "",
+      "matchedWords": {
+        "KULEZq6YXE_i": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "SiAo7OrF4fTS": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "XgVsUAocS2px": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "gHkbOucALLiM": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "j8Qsbd-ZZts7": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "lUVudQaoycBO": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "oqVRpkWKjeIk": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "vl1dN1Qtdfk6": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "WJpREitD2jQw",
+      "address": "https://docs.python.org/3/library/datetime.html",
+      "title": "datetime — Basic date and time types — Python 3.14.0 documentation",
+      "snippet": "For a complete and up-to-date set of DST rules # and timezone definitions, visit the Olson Database (or try pytz): # http://www.twinsun.com/tz/tz-link.htm # https://sourceforge.net/projects/pytz/ (might not be up-to-date) # # In the US, since 2007, DST starts at 2am (standard time) on the second #",
+      "matchedWords": {
+        "KULEZq6YXE_i": {
+          "hits": 0,
+          "textWords": 13307
+        },
+        "SiAo7OrF4fTS": {
+          "hits": 0,
+          "textWords": 13307
+        },
+        "XgVsUAocS2px": {
+          "hits": 1,
+          "textWords": 13307
+        },
+        "gHkbOucALLiM": {
+          "hits": 1,
+          "textWords": 13307
+        },
+        "j8Qsbd-ZZts7": {
+          "hits": 0,
+          "textWords": 13307
+        },
+        "lUVudQaoycBO": {
+          "hits": 9,
+          "textWords": 13307
+        },
+        "oqVRpkWKjeIk": {
+          "hits": 0,
+          "textWords": 13307
+        },
+        "vl1dN1Qtdfk6": {
+          "hits": 0,
+          "textWords": 13307
+        }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "WJpREitD2jQw",
       "address": "https://docs.python.org/3/library/datetime.html",
       "title": "datetime — Basic date and time types — Python 3.14.6 documentation",
-      "snippet": "Return the fixed value specified when the timezone instance is constructed.\nThe dt argument is ignored. The return value is a timedelta instance equal to the difference between the local time and UTC.\nChanged in version 3.7: The UTC offset is not restricted to a whole number of minutes.",
+      "snippet": "For a complete and up-to-date set of DST rules # and timezone definitions, visit the Olson Database (or try pytz): # http://www.twinsun.com/tz/tz-link.htm # https://sourceforge.net/projects/pytz/ (might not be up-to-date) # # In the US, since 2007, DST starts at 2am (standard time) on the second #",
       "matchedWords": {
         "KULEZq6YXE_i": {
-          "hits": 34,
+          "hits": 0,
           "textWords": 13307
         },
         "SiAo7OrF4fTS": {
-          "hits": 1,
+          "hits": 0,
           "textWords": 13307
         },
         "XgVsUAocS2px": {
@@ -1855,7 +1855,7 @@
           "textWords": 13307
         },
         "j8Qsbd-ZZts7": {
-          "hits": 645,
+          "hits": 0,
           "textWords": 13307
         },
         "lUVudQaoycBO": {
@@ -1863,28 +1863,28 @@
           "textWords": 13307
         },
         "oqVRpkWKjeIk": {
-          "hits": 322,
+          "hits": 0,
           "textWords": 13307
         },
         "vl1dN1Qtdfk6": {
-          "hits": 286,
+          "hits": 0,
           "textWords": 13307
         }
       },
-      "queryPhraseHits": 31
+      "queryPhraseHits": 0
     },
     {
       "hash": "WJpREitD2jQw",
       "address": "https://docs.python.org/3/library/datetime.html",
       "title": "8.1. datetime — Basic date and time types — Python 3.6.5 documentation",
-      "snippet": "Return the fixed value specified when the timezone instance is constructed.\nThe dt argument is ignored. The return value is a timedelta instance equal to the difference between the local time and UTC.\nChanged in version 3.7: The UTC offset is not restricted to a whole number of minutes.",
+      "snippet": "For a complete and up-to-date set of DST rules # and timezone definitions, visit the Olson Database (or try pytz): # http://www.twinsun.com/tz/tz-link.htm # https://sourceforge.net/projects/pytz/ (might not be up-to-date) # # In the US, since 2007, DST starts at 2am (standard time) on the second #",
       "matchedWords": {
         "KULEZq6YXE_i": {
-          "hits": 34,
+          "hits": 0,
           "textWords": 13307
         },
         "SiAo7OrF4fTS": {
-          "hits": 1,
+          "hits": 0,
           "textWords": 13307
         },
         "XgVsUAocS2px": {
@@ -1896,7 +1896,7 @@
           "textWords": 13307
         },
         "j8Qsbd-ZZts7": {
-          "hits": 645,
+          "hits": 0,
           "textWords": 13307
         },
         "lUVudQaoycBO": {
@@ -1904,28 +1904,28 @@
           "textWords": 13307
         },
         "oqVRpkWKjeIk": {
-          "hits": 322,
+          "hits": 0,
           "textWords": 13307
         },
         "vl1dN1Qtdfk6": {
-          "hits": 286,
+          "hits": 0,
           "textWords": 13307
         }
       },
-      "queryPhraseHits": 31
+      "queryPhraseHits": 0
     },
     {
       "hash": "WJpREitD2jQw",
       "address": "https://docs.python.org/3/library/datetime.html",
       "title": "datetime — Basic date and time types — Python 3.14.0 documentation",
-      "snippet": "Return the fixed value specified when the timezone instance is constructed.\nThe dt argument is ignored. The return value is a timedelta instance equal to the difference between the local time and UTC.\nChanged in version 3.7: The UTC offset is not restricted to a whole number of minutes.",
+      "snippet": "For a complete and up-to-date set of DST rules # and timezone definitions, visit the Olson Database (or try pytz): # http://www.twinsun.com/tz/tz-link.htm # https://sourceforge.net/projects/pytz/ (might not be up-to-date) # # In the US, since 2007, DST starts at 2am (standard time) on the second #",
       "matchedWords": {
         "KULEZq6YXE_i": {
-          "hits": 34,
+          "hits": 0,
           "textWords": 13307
         },
         "SiAo7OrF4fTS": {
-          "hits": 1,
+          "hits": 0,
           "textWords": 13307
         },
         "XgVsUAocS2px": {
@@ -1937,7 +1937,7 @@
           "textWords": 13307
         },
         "j8Qsbd-ZZts7": {
-          "hits": 645,
+          "hits": 0,
           "textWords": 13307
         },
         "lUVudQaoycBO": {
@@ -1945,28 +1945,28 @@
           "textWords": 13307
         },
         "oqVRpkWKjeIk": {
-          "hits": 322,
+          "hits": 0,
           "textWords": 13307
         },
         "vl1dN1Qtdfk6": {
-          "hits": 286,
+          "hits": 0,
           "textWords": 13307
         }
       },
-      "queryPhraseHits": 31
+      "queryPhraseHits": 0
     },
     {
       "hash": "WJpREitD2jQw",
       "address": "https://docs.python.org/3/library/datetime.html",
       "title": "datetime — Basic date and time types — Python 3.14.0 documentation",
-      "snippet": "Return the fixed value specified when the timezone instance is constructed.\nThe dt argument is ignored. The return value is a timedelta instance equal to the difference between the local time and UTC.\nChanged in version 3.7: The UTC offset is not restricted to a whole number of minutes.",
+      "snippet": "For a complete and up-to-date set of DST rules # and timezone definitions, visit the Olson Database (or try pytz): # http://www.twinsun.com/tz/tz-link.htm # https://sourceforge.net/projects/pytz/ (might not be up-to-date) # # In the US, since 2007, DST starts at 2am (standard time) on the second #",
       "matchedWords": {
         "KULEZq6YXE_i": {
-          "hits": 34,
+          "hits": 0,
           "textWords": 13307
         },
         "SiAo7OrF4fTS": {
-          "hits": 1,
+          "hits": 0,
           "textWords": 13307
         },
         "XgVsUAocS2px": {
@@ -1978,7 +1978,7 @@
           "textWords": 13307
         },
         "j8Qsbd-ZZts7": {
-          "hits": 645,
+          "hits": 0,
           "textWords": 13307
         },
         "lUVudQaoycBO": {
@@ -1986,28 +1986,28 @@
           "textWords": 13307
         },
         "oqVRpkWKjeIk": {
-          "hits": 322,
+          "hits": 0,
           "textWords": 13307
         },
         "vl1dN1Qtdfk6": {
-          "hits": 286,
+          "hits": 0,
           "textWords": 13307
         }
       },
-      "queryPhraseHits": 31
+      "queryPhraseHits": 0
     },
     {
       "hash": "1ojMPAK-xyJ4",
       "address": "https://go.dev/doc/effective_go",
       "title": "Effective Go - The Go Programming Language",
-      "snippet": "In contrast, new([]int) returns a pointer to a newly allocated, zeroed slice structure, that is, a pointer to a nil slice value.\nThese examples illustrate the difference between new and make.",
+      "snippet": "// A channel that sends a notification on each visit. // (Probably want the channel to be buffered.) type Chan chan *http.Request func (ch Chan) ServeHTTP(w http.ResponseWriter, req *http.Request) { ch \u003c- req fmt.Fprint(w, \"notification sent\") }",
       "matchedWords": {
         "KULEZq6YXE_i": {
-          "hits": 5,
+          "hits": 0,
           "textWords": 14983
         },
         "SiAo7OrF4fTS": {
-          "hits": 16,
+          "hits": 0,
           "textWords": 14983
         },
         "XgVsUAocS2px": {
@@ -2019,7 +2019,7 @@
           "textWords": 14983
         },
         "j8Qsbd-ZZts7": {
-          "hits": 1002,
+          "hits": 0,
           "textWords": 14983
         },
         "lUVudQaoycBO": {
@@ -2027,28 +2027,28 @@
           "textWords": 14983
         },
         "oqVRpkWKjeIk": {
-          "hits": 259,
+          "hits": 0,
           "textWords": 14983
         },
         "vl1dN1Qtdfk6": {
-          "hits": 244,
+          "hits": 0,
           "textWords": 14983
         }
       },
-      "queryPhraseHits": 18
+      "queryPhraseHits": 0
     },
     {
       "hash": "1ojMPAK-xyJ4",
       "address": "https://go.dev/doc/effective_go",
       "title": "Effective Go - The Go Programming Language",
-      "snippet": "In contrast, new([]int) returns a pointer to a newly allocated, zeroed slice structure, that is, a pointer to a nil slice value.\nThese examples illustrate the difference between new and make.",
+      "snippet": "// A channel that sends a notification on each visit. // (Probably want the channel to be buffered.) type Chan chan *http.Request func (ch Chan) ServeHTTP(w http.ResponseWriter, req *http.Request) { ch \u003c- req fmt.Fprint(w, \"notification sent\") }",
       "matchedWords": {
         "KULEZq6YXE_i": {
-          "hits": 5,
+          "hits": 0,
           "textWords": 14983
         },
         "SiAo7OrF4fTS": {
-          "hits": 16,
+          "hits": 0,
           "textWords": 14983
         },
         "XgVsUAocS2px": {
@@ -2060,7 +2060,7 @@
           "textWords": 14983
         },
         "j8Qsbd-ZZts7": {
-          "hits": 1002,
+          "hits": 0,
           "textWords": 14983
         },
         "lUVudQaoycBO": {
@@ -2068,28 +2068,28 @@
           "textWords": 14983
         },
         "oqVRpkWKjeIk": {
-          "hits": 259,
+          "hits": 0,
           "textWords": 14983
         },
         "vl1dN1Qtdfk6": {
-          "hits": 244,
+          "hits": 0,
           "textWords": 14983
         }
       },
-      "queryPhraseHits": 18
+      "queryPhraseHits": 0
     },
     {
       "hash": "WJpREitD2jQw",
       "address": "https://docs.python.org/3/library/datetime.html",
       "title": "datetime — Basic date and time types — Python 3.14.6 documentation",
-      "snippet": "Return the fixed value specified when the timezone instance is constructed.\nThe dt argument is ignored. The return value is a timedelta instance equal to the difference between the local time and UTC.\nChanged in version 3.7: The UTC offset is not restricted to a whole number of minutes.",
+      "snippet": "For a complete and up-to-date set of DST rules # and timezone definitions, visit the Olson Database (or try pytz): # http://www.twinsun.com/tz/tz-link.htm # https://sourceforge.net/projects/pytz/ (might not be up-to-date) # # In the US, since 2007, DST starts at 2am (standard time) on the second #",
       "matchedWords": {
         "KULEZq6YXE_i": {
-          "hits": 34,
+          "hits": 0,
           "textWords": 13307
         },
         "SiAo7OrF4fTS": {
-          "hits": 1,
+          "hits": 0,
           "textWords": 13307
         },
         "XgVsUAocS2px": {
@@ -2101,7 +2101,7 @@
           "textWords": 13307
         },
         "j8Qsbd-ZZts7": {
-          "hits": 645,
+          "hits": 0,
           "textWords": 13307
         },
         "lUVudQaoycBO": {
@@ -2109,28 +2109,28 @@
           "textWords": 13307
         },
         "oqVRpkWKjeIk": {
-          "hits": 322,
+          "hits": 0,
           "textWords": 13307
         },
         "vl1dN1Qtdfk6": {
-          "hits": 286,
+          "hits": 0,
           "textWords": 13307
         }
       },
-      "queryPhraseHits": 31
+      "queryPhraseHits": 0
     },
     {
       "hash": "1ojMPAK-xyJ4",
       "address": "https://go.dev/doc/effective_go",
       "title": "Effective Go - The Go Programming Language",
-      "snippet": "In contrast, new([]int) returns a pointer to a newly allocated, zeroed slice structure, that is, a pointer to a nil slice value.\nThese examples illustrate the difference between new and make.",
+      "snippet": "// A channel that sends a notification on each visit. // (Probably want the channel to be buffered.) type Chan chan *http.Request func (ch Chan) ServeHTTP(w http.ResponseWriter, req *http.Request) { ch \u003c- req fmt.Fprint(w, \"notification sent\") }",
       "matchedWords": {
         "KULEZq6YXE_i": {
-          "hits": 5,
+          "hits": 0,
           "textWords": 14983
         },
         "SiAo7OrF4fTS": {
-          "hits": 16,
+          "hits": 0,
           "textWords": 14983
         },
         "XgVsUAocS2px": {
@@ -2142,7 +2142,7 @@
           "textWords": 14983
         },
         "j8Qsbd-ZZts7": {
-          "hits": 1002,
+          "hits": 0,
           "textWords": 14983
         },
         "lUVudQaoycBO": {
@@ -2150,28 +2150,28 @@
           "textWords": 14983
         },
         "oqVRpkWKjeIk": {
-          "hits": 259,
+          "hits": 0,
           "textWords": 14983
         },
         "vl1dN1Qtdfk6": {
-          "hits": 244,
+          "hits": 0,
           "textWords": 14983
         }
       },
-      "queryPhraseHits": 18
+      "queryPhraseHits": 0
     },
     {
       "hash": "MAC3Gs6GdY-4",
       "address": "https://danluu.com/web-bloat/",
       "title": "How web bloat impacts users with slow connections",
-      "snippet": "When I measured my connection, I found that the bandwidth was roughly comparable to what I got with a 56k modem in the 90s. The latency and packetloss were significantly worse than the average day on dialup: latency varied between 500ms and 1000ms and packetloss varied between 1% and 10%.",
+      "snippet": "83\n235\nFAIL\nFAIL\nFAIL\nEach row is a website. For sites that support both plain HTTP as well as HTTPS, both were tested; URLs are HTTPS except where explicitly specified as HTTP.",
       "matchedWords": {
         "KULEZq6YXE_i": {
-          "hits": 3,
+          "hits": 0,
           "textWords": 4102
         },
         "SiAo7OrF4fTS": {
-          "hits": 10,
+          "hits": 0,
           "textWords": 4102
         },
         "XgVsUAocS2px": {
@@ -2183,7 +2183,7 @@
           "textWords": 4102
         },
         "j8Qsbd-ZZts7": {
-          "hits": 189,
+          "hits": 0,
           "textWords": 4102
         },
         "lUVudQaoycBO": {
@@ -2191,15 +2191,15 @@
           "textWords": 4102
         },
         "oqVRpkWKjeIk": {
-          "hits": 46,
+          "hits": 0,
           "textWords": 4102
         },
         "vl1dN1Qtdfk6": {
-          "hits": 67,
+          "hits": 0,
           "textWords": 4102
         }
       },
-      "queryPhraseHits": 2
+      "queryPhraseHits": 0
     },
     {
       "hash": "Oxa0g_nMM_j5",
@@ -2246,14 +2246,14 @@
       "hash": "WJpREitD2jQw",
       "address": "https://docs.python.org/3/library/datetime.html",
       "title": "datetime — Basic date and time types — Python 3.14.0 documentation",
-      "snippet": "Return the fixed value specified when the timezone instance is constructed.\nThe dt argument is ignored. The return value is a timedelta instance equal to the difference between the local time and UTC.\nChanged in version 3.7: The UTC offset is not restricted to a whole number of minutes.",
+      "snippet": "For a complete and up-to-date set of DST rules # and timezone definitions, visit the Olson Database (or try pytz): # http://www.twinsun.com/tz/tz-link.htm # https://sourceforge.net/projects/pytz/ (might not be up-to-date) # # In the US, since 2007, DST starts at 2am (standard time) on the second #",
       "matchedWords": {
         "KULEZq6YXE_i": {
-          "hits": 34,
+          "hits": 0,
           "textWords": 13307
         },
         "SiAo7OrF4fTS": {
-          "hits": 1,
+          "hits": 0,
           "textWords": 13307
         },
         "XgVsUAocS2px": {
@@ -2265,7 +2265,7 @@
           "textWords": 13307
         },
         "j8Qsbd-ZZts7": {
-          "hits": 645,
+          "hits": 0,
           "textWords": 13307
         },
         "lUVudQaoycBO": {
@@ -2273,28 +2273,28 @@
           "textWords": 13307
         },
         "oqVRpkWKjeIk": {
-          "hits": 322,
+          "hits": 0,
           "textWords": 13307
         },
         "vl1dN1Qtdfk6": {
-          "hits": 286,
+          "hits": 0,
           "textWords": 13307
         }
       },
-      "queryPhraseHits": 31
+      "queryPhraseHits": 0
     },
     {
       "hash": "1ojMPAK-xyJ4",
       "address": "https://go.dev/doc/effective_go",
       "title": "Effective Go - The Go Programming Language",
-      "snippet": "In contrast, new([]int) returns a pointer to a newly allocated, zeroed slice structure, that is, a pointer to a nil slice value.\nThese examples illustrate the difference between new and make.",
+      "snippet": "// A channel that sends a notification on each visit. // (Probably want the channel to be buffered.) type Chan chan *http.Request func (ch Chan) ServeHTTP(w http.ResponseWriter, req *http.Request) { ch \u003c- req fmt.Fprint(w, \"notification sent\") }",
       "matchedWords": {
         "KULEZq6YXE_i": {
-          "hits": 5,
+          "hits": 0,
           "textWords": 14983
         },
         "SiAo7OrF4fTS": {
-          "hits": 16,
+          "hits": 0,
           "textWords": 14983
         },
         "XgVsUAocS2px": {
@@ -2306,7 +2306,7 @@
           "textWords": 14983
         },
         "j8Qsbd-ZZts7": {
-          "hits": 1002,
+          "hits": 0,
           "textWords": 14983
         },
         "lUVudQaoycBO": {
@@ -2314,15 +2314,15 @@
           "textWords": 14983
         },
         "oqVRpkWKjeIk": {
-          "hits": 259,
+          "hits": 0,
           "textWords": 14983
         },
         "vl1dN1Qtdfk6": {
-          "hits": 244,
+          "hits": 0,
           "textWords": 14983
         }
       },
-      "queryPhraseHits": 18
+      "queryPhraseHits": 0
     }
   ],
   "documentsHeldPerQueryWord": {

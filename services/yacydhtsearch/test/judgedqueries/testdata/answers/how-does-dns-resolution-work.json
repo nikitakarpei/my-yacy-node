@@ -1,20 +1,20 @@
 {
   "query": "how does dns resolution work",
-  "recordedAt": "2026-09-12T07:52:04Z",
+  "recordedAt": "2026-09-12T10:15:25Z",
   "itemsInTheOrderOfEachAnswer": [
     [
       {
         "hash": "F1n0LluI8hnw",
         "address": "https://www.eff.org/deeplinks/2015/12/how-tpp-will-affect-you-and-your-digital-rights",
         "title": "How the TPP Will Affect You and Your Digital Rights | Electronic Frontier Foundation",
-        "snippet": "Fans could face a lawsuit or a criminal prosecution even if the author of the work they used or modified does not care about the activity in question. That means law enforcement can go after fans for derivative works on a “commercial scale” without the author of the original work filing charges.",
+        "snippet": "Removing DRM or rights management information from textbooks, articles, or any kind of creative work could lead to criminal liabilities if they share the unlocked work with friends or fellow students.",
         "matchedWords": {
           "24igJXwiDb_d": {
-            "hits": 2,
+            "hits": 0,
             "textWords": 2716
           },
           "VEDnDEPMAqup": {
-            "hits": 2,
+            "hits": 0,
             "textWords": 2716
           },
           "Z-ksh2WpvH-y": {
@@ -41,11 +41,11 @@
         "snippet": "This page describes how Kubernetes allocates devices to workloads with dynamic resource allocation (DRA), and how pre-scheduled Pods interact with the process.\nHow resource allocation with DRA works",
         "matchedWords": {
           "24igJXwiDb_d": {
-            "hits": 6,
+            "hits": 0,
             "textWords": 1976
           },
           "VEDnDEPMAqup": {
-            "hits": 2,
+            "hits": 0,
             "textWords": 1976
           },
           "Z-ksh2WpvH-y": {
@@ -69,14 +69,14 @@
         "hash": "2CAHw8uKjjbw",
         "address": "https://wiki.gentoo.org/wiki/FAQ",
         "title": "FAQ - Gentoo wiki",
-        "snippet": "Please note that there are several pages that provide information about Gentoo Linux. See the page on the website about Gentoo, the philosophy of Gentoo, and the article on the benefits of Gentoo. The handbook also has a section about Gentoo.\nHow is Gentoo pronounced, and what does it mean?",
+        "snippet": "Then, issue a reboot, or restart the keymaps and consolefont scripts:\nroot #/etc/init.d/keymaps restart\nroot #/etc/init.d/consolefont restart\nSee keyboard layout switching for more information.\nDNS name resolution works for root only\n/etc/resolv.conf has the wrong permissions; fix it as follows:",
         "matchedWords": {
           "24igJXwiDb_d": {
-            "hits": 17,
+            "hits": 0,
             "textWords": 4280
           },
           "VEDnDEPMAqup": {
-            "hits": 11,
+            "hits": 0,
             "textWords": 4280
           },
           "Z-ksh2WpvH-y": {
@@ -107,7 +107,7 @@
             "textWords": 4221
           },
           "VEDnDEPMAqup": {
-            "hits": 3,
+            "hits": 0,
             "textWords": 4221
           },
           "Z-ksh2WpvH-y": {
@@ -131,14 +131,14 @@
         "hash": "W-eXqzF3--Qw",
         "address": "https://planet.mozilla.org/",
         "title": "Planet Mozilla",
-        "snippet": "How does the user change their view and navigate forward and backward?\nHow does the user connect to their calendars, and manage them all in one place?\nThese considerations led us to a lean design, with screen space broken up into three main sections.",
+        "snippet": "Full-time MiR: funded for 5 days/week of Rust Project work\nHalf-time MiR: funded for ~2.5 days/week of Rust Project work\nMaintainer Grant: funded for ~1 day/week of Rust Project work",
         "matchedWords": {
           "24igJXwiDb_d": {
-            "hits": 148,
+            "hits": 0,
             "textWords": 66162
           },
           "VEDnDEPMAqup": {
-            "hits": 39,
+            "hits": 0,
             "textWords": 66162
           },
           "Z-ksh2WpvH-y": {
@@ -154,7 +154,7 @@
             "textWords": 66162
           }
         },
-        "queryPhraseHits": 4
+        "queryPhraseHits": 0
       }
     ]
   ],
@@ -166,11 +166,11 @@
       "snippet": "fakeNss also provides /etc/nsswitch.conf, configuring NSS host resolution to first check /etc/hosts before checking DNS, since the default in the absence of a config file (dns [!UNAVAIL=return] files) is quite unexpected.",
       "matchedWords": {
         "24igJXwiDb_d": {
-          "hits": 133,
+          "hits": 0,
           "textWords": 109514
         },
         "VEDnDEPMAqup": {
-          "hits": 101,
+          "hits": 0,
           "textWords": 109514
         },
         "Z-ksh2WpvH-y": {
@@ -250,14 +250,14 @@
       "hash": "fRk_vs5DCs35",
       "address": "https://wordpress.com/features/",
       "title": "Explore WordPress.com Features | WordPress.com",
-      "snippet": "Your site is hosted, secured, and ready for visitors from day one. Share it on social media, grow your audience through the WordPress.com Reader, and keep building from there.\nFeatures FAQs\nWhat is WordPress.com and how does it work?",
+      "snippet": "Use intuitive drag-and-drop tools to easily arrange, rearrange, and organize your content and media.\nVideoPress\nShowcase beautiful videos with 4k resolution, picture-in-picture, chapters, subtitles, and different playback speeds.\nPre-Built Block Patterns",
       "matchedWords": {
         "24igJXwiDb_d": {
-          "hits": 4,
+          "hits": 0,
           "textWords": 1218
         },
         "VEDnDEPMAqup": {
-          "hits": 3,
+          "hits": 0,
           "textWords": 1218
         },
         "Z-ksh2WpvH-y": {
@@ -273,16 +273,16 @@
           "textWords": 1218
         }
       },
-      "queryPhraseHits": 1
+      "queryPhraseHits": 0
     },
     {
       "hash": "VpCOpt6ArEvw",
       "address": "https://blog.archive.org/",
       "title": "Internet Archive Blogs | Updates from the Internet Archive",
-      "snippet": "“But from a creative and artistic standpoint, that’s awesome. It’s fantastic. If critics can’t figure out how to talk about the work, maybe it means we actually are doing something a little bit different.”",
+      "snippet": "Our live shows are sort of a safe space for people who are just real oddballs.”\nNegativland’s work encompasses sampling music, but also photography, visual arts, graphics, art shows and live, improvisational performances. Its work has adapted to the evolving technology of the past four decades.",
       "matchedWords": {
         "24igJXwiDb_d": {
-          "hits": 6,
+          "hits": 0,
           "textWords": 5347
         },
         "VEDnDEPMAqup": {
@@ -308,14 +308,14 @@
       "hash": "sC0kMlDOAHJg",
       "address": "https://www.heise.de/en",
       "title": "heise online – IT news, guides and background information | heise online",
-      "snippet": "Aufzeichnung\n20.08. – 17.09.2026\nClassroom entdecken\nOLG Cologne curbs consumer advocates: “Paying with data” is not a price\nAnyone using customer apps often pays with data. Per the Cologne Higher Regional Court, this does not result in a total price under consumer law.",
+      "snippet": "Europe's Premier Tech News\nGet cutting-edge IT insights from Europe's largest tech editorial team – from curated news to expert opinions. Follow us on Facebook, LinkedIn or Mastodon.\nSelf-Promotion\nClassroom\nEthical Hacking für Admins\nPentesting für eine sichere IT\n5 Live-Sessions Inkl.",
       "matchedWords": {
         "24igJXwiDb_d": {
-          "hits": 2,
+          "hits": 0,
           "textWords": 695
         },
         "VEDnDEPMAqup": {
-          "hits": 1,
+          "hits": 0,
           "textWords": 695
         },
         "Z-ksh2WpvH-y": {
@@ -337,14 +337,14 @@
       "hash": "h6qKJHS6MKD4",
       "address": "https://github.com/mcp/microsoft/playwright-mcp",
       "title": "MCP Registry | Playwright · GitHub",
-      "snippet": "env PLAYWRIGHT_MCP_TIMEOUT_ACTION\n--timeout-navigation\nspecify navigation timeout in milliseconds, defaults to 60000ms\nenv PLAYWRIGHT_MCP_TIMEOUT_NAVIGATION\n--timeout-settle\nhow long to wait after each action for triggered work to settle, in milliseconds, defaults to 500ms",
+      "snippet": "scale (string): Image resolution scale. \"css\" produces a screenshot sized in CSS pixels (smaller, consistent across devices). \"device\" produces a high-resolution screenshot using device pixels (larger, accounts for the device pixel ratio). Default is css.\nRead-only: true",
       "matchedWords": {
         "24igJXwiDb_d": {
-          "hits": 3,
+          "hits": 0,
           "textWords": 6683
         },
         "VEDnDEPMAqup": {
-          "hits": 4,
+          "hits": 0,
           "textWords": 6683
         },
         "Z-ksh2WpvH-y": {
@@ -369,11 +369,11 @@
       "snippet": "Roku Streaming Stick Plus\nNormal Retail Price\n$50\n$40\nPicture quality\n4K resolution, Dolby Vision, HDR10, HDR10+\n4K resolution, HDR10, HDR10+\nFrame rate\n60 FPS\n60 FPS\nWi-Fi\nWi-Fi 6 Dual-band\nWi-Fi 5 Dual-band\nPorts\nHDMI 2.1 output with ARC support, Micro-USB for power\nHDMI 2.0b\nRemote batteries",
       "matchedWords": {
         "24igJXwiDb_d": {
-          "hits": 1,
+          "hits": 0,
           "textWords": 1597
         },
         "VEDnDEPMAqup": {
-          "hits": 1,
+          "hits": 0,
           "textWords": 1597
         },
         "Z-ksh2WpvH-y": {
@@ -453,14 +453,14 @@
       "hash": "XwuSSjXxSRFx",
       "address": "https://www.rfc-editor.org/rfc/rfc9110.html",
       "title": "RFC 9110: HTTP Semantics",
-      "snippet": "It does not define how resource state is \"stored\", nor how such storage might change as a result of a change in resource state, nor how the origin server translates resource state into representations.",
+      "snippet": "Likewise, the user's choice of server for Domain Name Service (DNS), and the hierarchy of servers from which it obtains resolution results, could impact the authenticity of address mappings; DNS Security Extensions (DNSSEC, [RFC4033]) are one way to improve authenticity, as are the various",
       "matchedWords": {
         "24igJXwiDb_d": {
-          "hits": 38,
+          "hits": 0,
           "textWords": 58186
         },
         "VEDnDEPMAqup": {
-          "hits": 88,
+          "hits": 0,
           "textWords": 58186
         },
         "Z-ksh2WpvH-y": {
@@ -485,11 +485,11 @@
       "snippet": "A URI resolution implementation might use DNS, host tables, yellow pages, NetInfo, WINS, or any other system for lookup of registered names. However, a globally scoped naming system, such as DNS fully qualified domain names, is necessary for URIs intended to have global scope.",
       "matchedWords": {
         "24igJXwiDb_d": {
-          "hits": 13,
+          "hits": 0,
           "textWords": 17773
         },
         "VEDnDEPMAqup": {
-          "hits": 25,
+          "hits": 0,
           "textWords": 17773
         },
         "Z-ksh2WpvH-y": {
@@ -511,14 +511,14 @@
       "hash": "jh1R77XxSRFx",
       "address": "https://www.rfc-editor.org/info/rfc6125/",
       "title": "RFC 6125: Representation and Verification of Domain-Based Application Service Identity within Internet Public Key Infrastructure Using X.509 (PKIX) Certificates in the Context of Transport Layer Security (TLS) | RFC Editor",
-      "snippet": "* How to certify or validate other kinds of information that might be included in a certificate (e.g., organization name). o Resolution of DNS domain names.",
+      "snippet": "Each reference identifier in the list SHOULD be based on the source domain and SHOULD NOT be based on a derived domain (e.g., a host name or domain name discovered through DNS resolution of the source domain).",
       "matchedWords": {
         "24igJXwiDb_d": {
-          "hits": 7,
+          "hits": 0,
           "textWords": 17272
         },
         "VEDnDEPMAqup": {
-          "hits": 29,
+          "hits": 0,
           "textWords": 17272
         },
         "Z-ksh2WpvH-y": {
@@ -540,14 +540,14 @@
       "hash": "sjywP7XxSRFx",
       "address": "https://www.rfc-editor.org/info/rfc2616/",
       "title": "RFC 2616: Hypertext Transfer Protocol -- HTTP/1.1 | RFC Editor",
-      "snippet": "HTTP/1.1 does not define how a PUT method affects the state of an origin server. PUT requests MUST obey the message transmission requirements set out in section 8.2.",
+      "snippet": "HTTP, FTP, LDAP) or some other auxiliary server (e.g. DNS) it needed to access in attempting to complete the request. Note: Note to implementors: some deployed proxies are known to return 400 or 500 when DNS lookups time out.",
       "matchedWords": {
         "24igJXwiDb_d": {
-          "hits": 13,
+          "hits": 0,
           "textWords": 57101
         },
         "VEDnDEPMAqup": {
-          "hits": 128,
+          "hits": 0,
           "textWords": 57101
         },
         "Z-ksh2WpvH-y": {
@@ -569,14 +569,14 @@
       "hash": "Rx8AIs_tHst4",
       "address": "https://dwheeler.com/oss_fs_why.html",
       "title": "Why Open Source Software / Free Software (OSS/FS, FOSS, or FLOSS)? Look at the Numbers!",
-      "snippet": "Years ago some tried to label FLOSS as “communistic” or “socialistic” (i.e., anti-capitalist), but that rhetoric has failed. One article explaining why FLOSS and capitalism are compatible is Ganesh Prasad’s How Does the Capitalist View Open Source?.",
+      "snippet": "Bind is an FLOSS program.\nA survey in May 2004 found that over 75% of all DNS domains are serviced by an FLOSS program. Don Moore’s DNS Server Survey completed May 23, 2004 surveyed DNS servers.",
       "matchedWords": {
         "24igJXwiDb_d": {
-          "hits": 87,
+          "hits": 0,
           "textWords": 92275
         },
         "VEDnDEPMAqup": {
-          "hits": 76,
+          "hits": 0,
           "textWords": 92275
         },
         "Z-ksh2WpvH-y": {
@@ -592,20 +592,20 @@
           "textWords": 92275
         }
       },
-      "queryPhraseHits": 2
+      "queryPhraseHits": 0
     },
     {
       "hash": "aJD3bsakFVXw",
       "address": "https://slashdot.org/",
       "title": "Slashdot: News for nerds, stuff that matters, \u0026 software",
-      "snippet": "\"By design, Siri Recap does not create a recording, does not produce a verbatim transcript, and does not identify and attribute speakers,\" Apple's technical documentation explains. \"The output is a brief, high-level summary, comparable to notes a person might write after a conversation.",
+      "snippet": "OpenAI has already paused development once this year for security work and is now pushing for mandatory U.S. AI safety requirements. Anthropic has also signaled interest in coordinating on the pace of new releases.",
       "matchedWords": {
         "24igJXwiDb_d": {
-          "hits": 8,
+          "hits": 0,
           "textWords": 4681
         },
         "VEDnDEPMAqup": {
-          "hits": 6,
+          "hits": 0,
           "textWords": 4681
         },
         "Z-ksh2WpvH-y": {
@@ -627,14 +627,14 @@
       "hash": "2ZqdVzfOEiDw",
       "address": "https://planet.gnome.org/",
       "title": "Planet GNOME",
-      "snippet": "This does not look like much, until you consider how often these files are downloaded: A 20% file size reduction may only save 1-2 MiB of disk space, but if they are downloaded over and over again by many clients, it will save a lot of bandwidth.\nInteresting JXL encoding findings",
+      "snippet": "Especially the fonts, and the fact that fonts can appear in SVG images, has caused issues in the past, as libappstream-compose is a heavily threaded library and most font libraries can only work from a single thread.",
       "matchedWords": {
         "24igJXwiDb_d": {
-          "hits": 2,
+          "hits": 0,
           "textWords": 2681
         },
         "VEDnDEPMAqup": {
-          "hits": 10,
+          "hits": 0,
           "textWords": 2681
         },
         "Z-ksh2WpvH-y": {
@@ -659,11 +659,11 @@
       "snippet": "No, it only provides privacy for DNS resolution. Even authenticating DNS results with DNSSEC does not protect other connections, unless the DNS records are part of the system used to provide authenticated encryption, and DNS-over-TLS is not a substitute for DNSSEC.",
       "matchedWords": {
         "24igJXwiDb_d": {
-          "hits": 30,
+          "hits": 0,
           "textWords": 15793
         },
         "VEDnDEPMAqup": {
-          "hits": 27,
+          "hits": 0,
           "textWords": 15793
         },
         "Z-ksh2WpvH-y": {
@@ -679,7 +679,7 @@
           "textWords": 15793
         }
       },
-      "queryPhraseHits": 8
+      "queryPhraseHits": 4
     },
     {
       "hash": "_QujqCjVeYyw",
@@ -688,11 +688,11 @@
       "snippet": "DNS resolution errors\nAll of the network errors in this section occur during DNS resolution, and therefore have a phase of dns.\ndns.unreachable\nDNS server is unreachable\ndns.name_not_resolved\nDNS server responded but is unable to resolve the address\ndns.failed",
       "matchedWords": {
         "24igJXwiDb_d": {
-          "hits": 2,
+          "hits": 0,
           "textWords": 6032
         },
         "VEDnDEPMAqup": {
-          "hits": 3,
+          "hits": 0,
           "textWords": 6032
         },
         "Z-ksh2WpvH-y": {
@@ -714,14 +714,14 @@
       "hash": "-Qqp72jw1Zlx",
       "address": "https://kubernetes.io/docs/concepts/workloads/pods/disruptions/",
       "title": "Disruptions | Kubernetes",
-      "snippet": "You can see how Kubernetes varies the rate at which disruptions can happen, according to:\nhow many replicas an application needs\nhow long it takes to gracefully shutdown an instance\nhow long it takes a new instance to start up\nthe type of controller\nthe cluster's resource capacity",
+      "snippet": "Allows more automation of cluster administration.\nWriting disruption-tolerant applications is tricky, but the work to tolerate voluntary disruptions largely overlaps with work to support autoscaling and tolerating involuntary disruptions.\nWhat's next",
       "matchedWords": {
         "24igJXwiDb_d": {
-          "hits": 6,
+          "hits": 0,
           "textWords": 1989
         },
         "VEDnDEPMAqup": {
-          "hits": 1,
+          "hits": 0,
           "textWords": 1989
         },
         "Z-ksh2WpvH-y": {
@@ -743,10 +743,10 @@
       "hash": "84FlxRrrnsyQ",
       "address": "http://planet.gnu.org/",
       "title": "Planet GNU",
-      "snippet": "Refer to Shepherd Services for more information on how to write Shepherd services. I will only highlight how to handle the configuration we just wrote.",
+      "snippet": "Since this is a blog post about writing configurations, I won't dive deep into G-Expressions, but let's try to get you a sense for them.\nYou will need to import (guix gexp) for the following snippet to work.",
       "matchedWords": {
         "24igJXwiDb_d": {
-          "hits": 10,
+          "hits": 0,
           "textWords": 4834
         },
         "VEDnDEPMAqup": {
@@ -772,14 +772,14 @@
       "hash": "-xpxEitD2jQw",
       "address": "https://docs.python.org/3/contents.html",
       "title": "Python Documentation contents — Python 3.14.7 documentation",
-      "snippet": "How does Python manage memory?\nWhy doesn’t CPython use a more traditional garbage collection scheme?\nWhy isn’t all memory freed when CPython exits?\nWhy are there separate tuple and list data types?\nHow are lists implemented in CPython?\nHow are dictionaries implemented in CPython?",
+      "snippet": "PEP 539: New C API for Thread-Local Storage\nPEP 562: Customization of Access to Module Attributes\nPEP 564: New Time Functions With Nanosecond Resolution\nPEP 565: Show DeprecationWarning in __main__\nPEP 560: Core Support for typing module and Generic Types\nPEP 552: Hash-based .pyc Files",
       "matchedWords": {
         "24igJXwiDb_d": {
-          "hits": 49,
+          "hits": 0,
           "textWords": 15755
         },
         "VEDnDEPMAqup": {
-          "hits": 6,
+          "hits": 0,
           "textWords": 15755
         },
         "Z-ksh2WpvH-y": {
@@ -795,20 +795,20 @@
           "textWords": 15755
         }
       },
-      "queryPhraseHits": 1
+      "queryPhraseHits": 0
     },
     {
       "hash": "UobyTsuI8hnw",
       "address": "https://www.eff.org/about/staff",
       "title": "EFF's Staff and Contributors | Electronic Frontier Foundation",
-      "snippet": "As the Director of Development Strategy, Jason works to reach those people with a clear message about how EFF supports them and their freedom—and how they can support EFF and its work in turn.",
+      "snippet": "Prior to 2007, when she came to work for EFF, Eva worked in security and IT in Silicon Valley and earned degrees in Political Science and International Relations from SFSU. Her work is primarily focused on providing privacy and security for vulnerable populations around the world.",
       "matchedWords": {
         "24igJXwiDb_d": {
-          "hits": 7,
+          "hits": 0,
           "textWords": 10674
         },
         "VEDnDEPMAqup": {
-          "hits": 2,
+          "hits": 0,
           "textWords": 10674
         },
         "Z-ksh2WpvH-y": {
@@ -859,14 +859,14 @@
       "hash": "pGRD67yp6WtY",
       "address": "http://tantek.com/",
       "title": "Tantek Çelik",
-      "snippet": "Otherwise, take a look at how you frequently use the Web, and post what you have found useful, especially the most useful for you.\nBlog clever tips about how you have made better use of the Web, web browsers, search engines etc.",
+      "snippet": "The other apparent hazard of having a WG-specific wiki is they can be (and have been) shutdown or frozen (like the example given), breaking any chance of fixing typos, other minor errors, or creating redirects to where the work has been restarted subsequently.",
       "matchedWords": {
         "24igJXwiDb_d": {
-          "hits": 25,
+          "hits": 0,
           "textWords": 10682
         },
         "VEDnDEPMAqup": {
-          "hits": 6,
+          "hits": 0,
           "textWords": 10682
         },
         "Z-ksh2WpvH-y": {
@@ -891,11 +891,11 @@
       "snippet": "fakeNss also provides /etc/nsswitch.conf, configuring NSS host resolution to first check /etc/hosts before checking DNS, since the default in the absence of a config file (dns [!UNAVAIL=return] files) is quite unexpected.",
       "matchedWords": {
         "24igJXwiDb_d": {
-          "hits": 133,
+          "hits": 0,
           "textWords": 109514
         },
         "VEDnDEPMAqup": {
-          "hits": 101,
+          "hits": 0,
           "textWords": 109514
         },
         "Z-ksh2WpvH-y": {
@@ -917,14 +917,14 @@
       "hash": "8-yf-WRfu9ww",
       "address": "https://datatracker.ietf.org/doc/html/rfc3261",
       "title": "RFC 3261 - SIP: Session Initiation Protocol",
-      "snippet": "As this example shows, a single primitive is typically used to provide several different services. SIP does not offer conference control services such as floor control or voting and does not prescribe how a conference is to be managed.",
+      "snippet": "The atlanta.com proxy server locates the proxy server at biloxi.com, possibly by performing a particular type of DNS (Domain Name Service) lookup to find the SIP server that serves the biloxi.com domain. This is described in [4].",
       "matchedWords": {
         "24igJXwiDb_d": {
-          "hits": 40,
+          "hits": 0,
           "textWords": 87299
         },
         "VEDnDEPMAqup": {
-          "hits": 147,
+          "hits": 0,
           "textWords": 87299
         },
         "Z-ksh2WpvH-y": {
@@ -946,14 +946,14 @@
       "hash": "Cpc5fjRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Wikipedia",
       "title": "Wikipedia - Wikipedia",
-      "snippet": "\"Does the Internet Undermine Culture?\". National Public Radio, US. The NPR interview with A. Keen, Weekend Edition Saturday, June 16, 2007.\nAyers, Phoebe; Matthews, Charles; Yates, Ben (2008). How Wikipedia Works: And How You Can Be a Part of It. San Francisco: No Starch Press.",
+      "snippet": "Taha Yasseri of the University of Oxford examined editing conflicts and their resolution in a 2013 study.[108][109] Yasseri contended that simple reverts or \"undo\" operations were not the most significant measure of counterproductive work behavior at Wikipedia.",
       "matchedWords": {
         "24igJXwiDb_d": {
-          "hits": 21,
+          "hits": 0,
           "textWords": 28639
         },
         "VEDnDEPMAqup": {
-          "hits": 5,
+          "hits": 0,
           "textWords": 28639
         },
         "Z-ksh2WpvH-y": {
@@ -975,14 +975,14 @@
       "hash": "PbwP7jRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Wikipedia:Village_pump_(WMF)",
       "title": "Wikipedia:Village pump (WMF) - Wikipedia",
-      "snippet": "Though, we think it's a useful first step.\nWithin Suggestion Mode (as an experimental suggestion) so that experienced editors (you all) can see how the suggestions would look and work in practice.\nHow does this sound to you? What (if anything) about the above do you think we could make clearer?",
+      "snippet": "Why are we working on projects like this instead of more work on the backlog of bugs and small improvements for editing? Because the important work sucks and nerds think its fun to play around with AI. Also the WMF does not understand its role; it should serve and protect the community.",
       "matchedWords": {
         "24igJXwiDb_d": {
-          "hits": 152,
+          "hits": 0,
           "textWords": 58285
         },
         "VEDnDEPMAqup": {
-          "hits": 67,
+          "hits": 0,
           "textWords": 58285
         },
         "Z-ksh2WpvH-y": {
@@ -998,7 +998,7 @@
           "textWords": 58285
         }
       },
-      "queryPhraseHits": 5
+      "queryPhraseHits": 0
     },
     {
       "hash": "hWuQZ7XxSRFx",
@@ -1007,11 +1007,11 @@
       "snippet": "A URI resolution implementation might use DNS, host tables, yellow pages, NetInfo, WINS, or any other system for lookup of registered names. However, a globally scoped naming system, such as DNS fully qualified domain names, is necessary for URIs intended to have global scope.",
       "matchedWords": {
         "24igJXwiDb_d": {
-          "hits": 13,
+          "hits": 0,
           "textWords": 17773
         },
         "VEDnDEPMAqup": {
-          "hits": 25,
+          "hits": 0,
           "textWords": 17773
         },
         "Z-ksh2WpvH-y": {
@@ -1033,14 +1033,14 @@
       "hash": "jh1R77XxSRFx",
       "address": "https://www.rfc-editor.org/info/rfc6125/",
       "title": "RFC 6125: Representation and Verification of Domain-Based Application Service Identity within Internet Public Key Infrastructure Using X.",
-      "snippet": "* How to certify or validate other kinds of information that might be included in a certificate (e.g., organization name). o Resolution of DNS domain names.",
+      "snippet": "Each reference identifier in the list SHOULD be based on the source domain and SHOULD NOT be based on a derived domain (e.g., a host name or domain name discovered through DNS resolution of the source domain).",
       "matchedWords": {
         "24igJXwiDb_d": {
-          "hits": 7,
+          "hits": 0,
           "textWords": 17272
         },
         "VEDnDEPMAqup": {
-          "hits": 29,
+          "hits": 0,
           "textWords": 17272
         },
         "Z-ksh2WpvH-y": {
@@ -1120,14 +1120,14 @@
       "hash": "D4lABzaS0qdw",
       "address": "https://planet.debian.org/",
       "title": "Planet Debian",
-      "snippet": "In all honesty, I could have probably stopped here, but now that the milestone of a viable replacement was reached, I got curious to see how far it would be possible to push the encoder (how much work to reach C speeds?) and afterwards, the decoder, too.\nSetup",
+      "snippet": "Of course, this is a terribly inefficient compressor, so after the first commit, the real work starts: implement each block type until the compression matches the original C TurboPFor implementation (same output file size), or in other words: do the reverse of the decoder.",
       "matchedWords": {
         "24igJXwiDb_d": {
-          "hits": 18,
+          "hits": 0,
           "textWords": 8109
         },
         "VEDnDEPMAqup": {
-          "hits": 7,
+          "hits": 0,
           "textWords": 8109
         },
         "Z-ksh2WpvH-y": {
@@ -1149,14 +1149,14 @@
       "hash": "2ZqdVzfOEiDw",
       "address": "https://planet.gnome.org/",
       "title": "Planet GNOME",
-      "snippet": "This does not look like much, until you consider how often these files are downloaded: A 20% file size reduction may only save 1-2 MiB of disk space, but if they are downloaded over and over again by many clients, it will save a lot of bandwidth.\nInteresting JXL encoding findings",
+      "snippet": "Especially the fonts, and the fact that fonts can appear in SVG images, has caused issues in the past, as libappstream-compose is a heavily threaded library and most font libraries can only work from a single thread.",
       "matchedWords": {
         "24igJXwiDb_d": {
-          "hits": 2,
+          "hits": 0,
           "textWords": 2681
         },
         "VEDnDEPMAqup": {
-          "hits": 10,
+          "hits": 0,
           "textWords": 2681
         },
         "Z-ksh2WpvH-y": {
@@ -1265,10 +1265,10 @@
       "hash": "VpCOpt6ArEvw",
       "address": "https://blog.archive.org/",
       "title": "Internet Archive Blogs | Updates from the Internet Archive",
-      "snippet": "“But from a creative and artistic standpoint, that’s awesome. It’s fantastic. If critics can’t figure out how to talk about the work, maybe it means we actually are doing something a little bit different.”",
+      "snippet": "Our live shows are sort of a safe space for people who are just real oddballs.”\nNegativland’s work encompasses sampling music, but also photography, visual arts, graphics, art shows and live, improvisational performances. Its work has adapted to the evolving technology of the past four decades.",
       "matchedWords": {
         "24igJXwiDb_d": {
-          "hits": 6,
+          "hits": 0,
           "textWords": 5347
         },
         "VEDnDEPMAqup": {
@@ -1294,14 +1294,14 @@
       "hash": "Ma72KjRvmBbx",
       "address": "https://en.wikipedia.org/wiki/ChromeOS",
       "title": "ChromeOS - Wikipedia",
-      "snippet": "Designed to rival the Apple iPad, it had an identical screen size and resolution and other similar specifications, a notable addition was a Wacom-branded stylus that does not require a battery or charging.[92]",
+      "snippet": "At the conference, the operating system booted up in seven seconds, a time Google said it would work to reduce.[",
       "matchedWords": {
         "24igJXwiDb_d": {
-          "hits": 6,
+          "hits": 0,
           "textWords": 11960
         },
         "VEDnDEPMAqup": {
-          "hits": 2,
+          "hits": 0,
           "textWords": 11960
         },
         "Z-ksh2WpvH-y": {
@@ -1323,14 +1323,14 @@
       "hash": "PbwP7jRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Wikipedia:Village_pump_(WMF)",
       "title": "Wikipedia:Village pump (WMF) - Wikipedia",
-      "snippet": "Though, we think it's a useful first step.\nWithin Suggestion Mode (as an experimental suggestion) so that experienced editors (you all) can see how the suggestions would look and work in practice.\nHow does this sound to you? What (if anything) about the above do you think we could make clearer?",
+      "snippet": "Why are we working on projects like this instead of more work on the backlog of bugs and small improvements for editing? Because the important work sucks and nerds think its fun to play around with AI. Also the WMF does not understand its role; it should serve and protect the community.",
       "matchedWords": {
         "24igJXwiDb_d": {
-          "hits": 152,
+          "hits": 0,
           "textWords": 58285
         },
         "VEDnDEPMAqup": {
-          "hits": 67,
+          "hits": 0,
           "textWords": 58285
         },
         "Z-ksh2WpvH-y": {
@@ -1346,20 +1346,20 @@
           "textWords": 58285
         }
       },
-      "queryPhraseHits": 5
+      "queryPhraseHits": 0
     },
     {
       "hash": "h6qKJHS6MKD4",
       "address": "https://github.com/mcp/microsoft/playwright-mcp",
       "title": "MCP Registry | Playwright · GitHub",
-      "snippet": "env PLAYWRIGHT_MCP_TIMEOUT_ACTION\n--timeout-navigation\nspecify navigation timeout in milliseconds, defaults to 60000ms\nenv PLAYWRIGHT_MCP_TIMEOUT_NAVIGATION\n--timeout-settle\nhow long to wait after each action for triggered work to settle, in milliseconds, defaults to 500ms",
+      "snippet": "scale (string): Image resolution scale. \"css\" produces a screenshot sized in CSS pixels (smaller, consistent across devices). \"device\" produces a high-resolution screenshot using device pixels (larger, accounts for the device pixel ratio). Default is css.\nRead-only: true",
       "matchedWords": {
         "24igJXwiDb_d": {
-          "hits": 3,
+          "hits": 0,
           "textWords": 6683
         },
         "VEDnDEPMAqup": {
-          "hits": 4,
+          "hits": 0,
           "textWords": 6683
         },
         "Z-ksh2WpvH-y": {
@@ -1413,11 +1413,11 @@
       "snippet": "A URI resolution implementation might use DNS, host tables, yellow pages, NetInfo, WINS, or any other system for lookup of registered names. However, a globally scoped naming system, such as DNS fully qualified domain names, is necessary for URIs intended to have global scope.",
       "matchedWords": {
         "24igJXwiDb_d": {
-          "hits": 13,
+          "hits": 0,
           "textWords": 17773
         },
         "VEDnDEPMAqup": {
-          "hits": 25,
+          "hits": 0,
           "textWords": 17773
         },
         "Z-ksh2WpvH-y": {
@@ -1439,14 +1439,14 @@
       "hash": "jh1R77XxSRFx",
       "address": "https://www.rfc-editor.org/info/rfc6125/",
       "title": "RFC 6125: Representation and Verification of Domain-Based Application Service Identity within Internet Public Key Infrastructure Using X.",
-      "snippet": "* How to certify or validate other kinds of information that might be included in a certificate (e.g., organization name). o Resolution of DNS domain names.",
+      "snippet": "Each reference identifier in the list SHOULD be based on the source domain and SHOULD NOT be based on a derived domain (e.g., a host name or domain name discovered through DNS resolution of the source domain).",
       "matchedWords": {
         "24igJXwiDb_d": {
-          "hits": 7,
+          "hits": 0,
           "textWords": 17272
         },
         "VEDnDEPMAqup": {
-          "hits": 29,
+          "hits": 0,
           "textWords": 17272
         },
         "Z-ksh2WpvH-y": {
@@ -1500,11 +1500,11 @@
       "snippet": "use GrapheneOS name by default for remaining DNS resolver name resolution tests\nextend GrapheneOS toggle to remaining DNS resolver name resolution tests\nport remaining GrapheneOS settings to modern GrapheneOS settings infrastructure",
       "matchedWords": {
         "24igJXwiDb_d": {
-          "hits": 12,
+          "hits": 0,
           "textWords": 112219
         },
         "VEDnDEPMAqup": {
-          "hits": 13,
+          "hits": 0,
           "textWords": 112219
         },
         "Z-ksh2WpvH-y": {
@@ -1526,14 +1526,14 @@
       "hash": "fRk_vs5DCs35",
       "address": "https://wordpress.com/features/",
       "title": "Explore WordPress.com Features | WordPress.com",
-      "snippet": "Your site is hosted, secured, and ready for visitors from day one. Share it on social media, grow your audience through the WordPress.com Reader, and keep building from there.\nFeatures FAQs\nWhat is WordPress.com and how does it work?",
+      "snippet": "Use intuitive drag-and-drop tools to easily arrange, rearrange, and organize your content and media.\nVideoPress\nShowcase beautiful videos with 4k resolution, picture-in-picture, chapters, subtitles, and different playback speeds.\nPre-Built Block Patterns",
       "matchedWords": {
         "24igJXwiDb_d": {
-          "hits": 4,
+          "hits": 0,
           "textWords": 1218
         },
         "VEDnDEPMAqup": {
-          "hits": 3,
+          "hits": 0,
           "textWords": 1218
         },
         "Z-ksh2WpvH-y": {
@@ -1549,7 +1549,7 @@
           "textWords": 1218
         }
       },
-      "queryPhraseHits": 1
+      "queryPhraseHits": 0
     },
     {
       "hash": "4-p3KlSMo4M4",
@@ -1584,10 +1584,10 @@
       "hash": "VpCOpt6ArEvw",
       "address": "https://blog.archive.org/",
       "title": "Internet Archive Blogs | Updates from the Internet Archive",
-      "snippet": "“But from a creative and artistic standpoint, that’s awesome. It’s fantastic. If critics can’t figure out how to talk about the work, maybe it means we actually are doing something a little bit different.”",
+      "snippet": "Our live shows are sort of a safe space for people who are just real oddballs.”\nNegativland’s work encompasses sampling music, but also photography, visual arts, graphics, art shows and live, improvisational performances. Its work has adapted to the evolving technology of the past four decades.",
       "matchedWords": {
         "24igJXwiDb_d": {
-          "hits": 6,
+          "hits": 0,
           "textWords": 5347
         },
         "VEDnDEPMAqup": {
@@ -1613,14 +1613,14 @@
       "hash": "89Pocs6GdY-4",
       "address": "https://danluu.com/diseconomies-scale/",
       "title": "Diseconomies of scale in fraud, spam, support, and moderation",
-      "snippet": "Later, when the trick would go viral again, people would point to the discussions about how people thought the trick didn't work, with this message noting that it appears to work (almost certainly not by the mechanism that users think, and instead just because having a long list of filters causes",
+      "snippet": "There was moderate confidence that this trick didn't work, but no one would state with certainty that the trick didn't work because, as at all large companies, the aggregate behavior of the system is beyond human understanding and even parts that could be understood often aren't because there are",
       "matchedWords": {
         "24igJXwiDb_d": {
-          "hits": 105,
+          "hits": 0,
           "textWords": 54155
         },
         "VEDnDEPMAqup": {
-          "hits": 46,
+          "hits": 0,
           "textWords": 54155
         },
         "Z-ksh2WpvH-y": {
@@ -1642,14 +1642,14 @@
       "hash": "Ma72KjRvmBbx",
       "address": "https://en.wikipedia.org/wiki/ChromeOS",
       "title": "ChromeOS - Wikipedia",
-      "snippet": "Designed to rival the Apple iPad, it had an identical screen size and resolution and other similar specifications, a notable addition was a Wacom-branded stylus that does not require a battery or charging.[92]",
+      "snippet": "At the conference, the operating system booted up in seven seconds, a time Google said it would work to reduce.[",
       "matchedWords": {
         "24igJXwiDb_d": {
-          "hits": 6,
+          "hits": 0,
           "textWords": 11960
         },
         "VEDnDEPMAqup": {
-          "hits": 2,
+          "hits": 0,
           "textWords": 11960
         },
         "Z-ksh2WpvH-y": {
@@ -1671,14 +1671,14 @@
       "hash": "XCqnWjRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Computer_security",
       "title": "Computer security - Wikipedia",
-      "snippet": "1 2 \"How cyber attacks work\". www.ncsc.gov.uk. Retrieved 30 November 2023.\n↑ \"What is a backdoor attack? Definition and prevention | NordVPN\". nordvpn.com. 30 November 2023. Retrieved 3 January 2024.\n1 2 \"What is a backdoor attack?\". McAfee. 4 December 2023. Retrieved 4 December 2023.",
+      "snippet": "Address Resolution Protocol (ARP) spoofing, where an attacker sends spoofed address resolution protocol onto a local area network to associate their Media Access Control address with a different host's IP address. This causes data to be sent to the attacker rather than the intended host.",
       "matchedWords": {
         "24igJXwiDb_d": {
-          "hits": 22,
+          "hits": 0,
           "textWords": 22169
         },
         "VEDnDEPMAqup": {
-          "hits": 3,
+          "hits": 0,
           "textWords": 22169
         },
         "Z-ksh2WpvH-y": {
@@ -1703,11 +1703,11 @@
       "snippet": "An example of very deep levels of subdomain ordering are the IPv6 reverse resolution DNS zones, e.g., 1.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.ip6.arpa, which is the reverse DNS resolution domain name for the IP address of a loopback interface, or the localhost name.",
       "matchedWords": {
         "24igJXwiDb_d": {
-          "hits": 1,
+          "hits": 0,
           "textWords": 6417
         },
         "VEDnDEPMAqup": {
-          "hits": 4,
+          "hits": 0,
           "textWords": 6417
         },
         "Z-ksh2WpvH-y": {
@@ -1729,14 +1729,14 @@
       "hash": "wYESGjRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Microsoft_Windows",
       "title": "Microsoft Windows - Wikipedia",
-      "snippet": "\"Windows 7 Taskbar APIs\". docs.microsoft.com. Archived from the original on August 21, 2021. Retrieved August 21, 2021.\n↑ LeBlanc, Brandon (October 28, 2008). \"How Libraries \u0026 HomeGroup Work Together in Windows 7\". Windows Experience Blog. Microsoft. Archived from the original on November 2, 2008.",
+      "snippet": "The history of Windows dates back to 1981 when Microsoft started work on a program called \"Interface Manager\".",
       "matchedWords": {
         "24igJXwiDb_d": {
-          "hits": 8,
+          "hits": 0,
           "textWords": 9681
         },
         "VEDnDEPMAqup": {
-          "hits": 2,
+          "hits": 0,
           "textWords": 9681
         },
         "Z-ksh2WpvH-y": {
@@ -1758,14 +1758,14 @@
       "hash": "D4lABzaS0qdw",
       "address": "https://planet.debian.org/",
       "title": "Planet Debian",
-      "snippet": "In all honesty, I could have probably stopped here, but now that the milestone of a viable replacement was reached, I got curious to see how far it would be possible to push the encoder (how much work to reach C speeds?) and afterwards, the decoder, too.\nSetup",
+      "snippet": "Of course, this is a terribly inefficient compressor, so after the first commit, the real work starts: implement each block type until the compression matches the original C TurboPFor implementation (same output file size), or in other words: do the reverse of the decoder.",
       "matchedWords": {
         "24igJXwiDb_d": {
-          "hits": 18,
+          "hits": 0,
           "textWords": 8109
         },
         "VEDnDEPMAqup": {
-          "hits": 7,
+          "hits": 0,
           "textWords": 8109
         },
         "Z-ksh2WpvH-y": {
@@ -1787,14 +1787,14 @@
       "hash": "aJD3bsakFVXw",
       "address": "https://slashdot.org/",
       "title": "Slashdot: News for nerds, stuff that matters, \u0026 software",
-      "snippet": "\"By design, Siri Recap does not create a recording, does not produce a verbatim transcript, and does not identify and attribute speakers,\" Apple's technical documentation explains. \"The output is a brief, high-level summary, comparable to notes a person might write after a conversation.",
+      "snippet": "OpenAI has already paused development once this year for security work and is now pushing for mandatory U.S. AI safety requirements. Anthropic has also signaled interest in coordinating on the pace of new releases.",
       "matchedWords": {
         "24igJXwiDb_d": {
-          "hits": 8,
+          "hits": 0,
           "textWords": 4681
         },
         "VEDnDEPMAqup": {
-          "hits": 6,
+          "hits": 0,
           "textWords": 4681
         },
         "Z-ksh2WpvH-y": {
@@ -1816,14 +1816,14 @@
       "hash": "mKjEVzAa-Sqx",
       "address": "https://planet.freedesktop.org/",
       "title": "planet.freedesktop.org",
-      "snippet": "Q: I do care about long-winded rants about Linux graphics drivers! How does this work?\nLet’s first look at what problems we actually run into when we have games running on GPUs with little VRAM.",
+      "snippet": "https://vmst.io/@doctroid/116542487573304110 (dead link)\nhttps://gitlab.gnome.org/GNOME/gnome-calendar/-/work_items/300\nhttps://gitlab.gnome.org/GNOME/gnome-calendar/-/work_items/1562\nhttps://gitlab.gnome.org/GNOME/gnome-calendar/-/work_items/1535",
       "matchedWords": {
         "24igJXwiDb_d": {
-          "hits": 153,
+          "hits": 0,
           "textWords": 71870
         },
         "VEDnDEPMAqup": {
-          "hits": 80,
+          "hits": 0,
           "textWords": 71870
         },
         "Z-ksh2WpvH-y": {
@@ -1839,7 +1839,7 @@
           "textWords": 71870
         }
       },
-      "queryPhraseHits": 2
+      "queryPhraseHits": 0
     },
     {
       "hash": "J6LFIsYyzH0z",
