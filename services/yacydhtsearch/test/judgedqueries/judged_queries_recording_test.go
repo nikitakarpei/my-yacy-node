@@ -84,7 +84,6 @@ var judgedQueries = []string{
 	"nextcloud installation",
 	"raspberry pi",
 	"git rebase",
-	"half life",
 	"how to install debian",
 	"how do i reset my router",
 	"why does my laptop battery drain fast",

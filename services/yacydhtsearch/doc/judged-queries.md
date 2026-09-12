@@ -1,7 +1,7 @@
 # Judged queries
 
 The judged query set measures how well the ordering of the service puts the
-documents that answer a query first. It holds 73 queries: one word, two words,
+documents that answer a query first. It holds 72 queries: one word, two words,
 three or more words, navigational, other languages, and queries no peer answers.
 
 Each query has three files in `test/judgedqueries/testdata/`, named by the query
