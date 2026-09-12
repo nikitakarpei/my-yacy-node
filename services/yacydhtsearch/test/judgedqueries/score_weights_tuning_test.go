@@ -18,7 +18,19 @@ const (
 	roundingOfTheWeightRatios        = 1e6
 )
 
-var weightValuesOfTheGrid = []float64{0, 0.25, 0.5, 1, 3}
+var (
+	weightValuesOfTheGridOfTheTitleScore           = []float64{0, 3, 6, 10, 15}
+	weightValuesOfTheGridOfTheScoresBesideTheTitle = []float64{0, 0.25, 0.5, 1, 3}
+
+	weightValuesOfTheGridOfEachScore = [amountOfWeightsOfTheScoreWeights][]float64{
+		weightValuesOfTheGridOfTheScoresBesideTheTitle,
+		weightValuesOfTheGridOfTheTitleScore,
+		weightValuesOfTheGridOfTheScoresBesideTheTitle,
+		weightValuesOfTheGridOfTheScoresBesideTheTitle,
+		weightValuesOfTheGridOfTheScoresBesideTheTitle,
+		weightValuesOfTheGridOfTheScoresBesideTheTitle,
+	}
+)
 
 func TestTuneTheScoreWeightsOfTheRelevanceOrdering(t *testing.T) {
 	if os.Getenv(tuningSwitch) == "" {
@@ -148,11 +160,10 @@ func scoreWeightsOfEveryWeightCombination() []relevance.ScoreWeights {
 func combinationsOfEveryValueOfTheWeight(
 	combinations []relevance.ScoreWeights, score int,
 ) []relevance.ScoreWeights {
-	widened := make(
-		[]relevance.ScoreWeights, 0, len(combinations)*len(weightValuesOfTheGrid),
-	)
+	weightValues := weightValuesOfTheGridOfEachScore[score]
+	widened := make([]relevance.ScoreWeights, 0, len(combinations)*len(weightValues))
 	for _, scoreWeights := range combinations {
-		for _, weightValue := range weightValuesOfTheGrid {
+		for _, weightValue := range weightValues {
 			*weightOfEachScoreIn(&scoreWeights)[score] = weightValue
 			widened = append(widened, scoreWeights)
 		}
