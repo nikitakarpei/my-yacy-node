@@ -48,7 +48,6 @@ YaCy peers can limit remote searches by client address. Service instances that u
 | Variable | Default | Meaning |
 |---|---|---|
 | `YACYDHTSEARCH_QUERY_BUDGET` | `10s` | Time one client query may take, end to end. |
-| `YACYDHTSEARCH_WORD_JOINED_SEARCH` | `false` | Join the answers of the peers that hold each word of a query of more than one word. |
 | `YACYDHTSEARCH_PEER_ITEMS_CEILING` | `10` | Items this service asks one peer for. |
 | `YACYDHTSEARCH_PAGES_READ_PER_QUERY` | `50` | Pages one query reads, taken from the results it puts first. |
 | `YACYDHTSEARCH_PAGE_READ_BUDGET` | `3s` | Time the query keeps for its pages. The peer calls get the rest of the query budget. A page that is not read leaves its result as the peers answered it. |

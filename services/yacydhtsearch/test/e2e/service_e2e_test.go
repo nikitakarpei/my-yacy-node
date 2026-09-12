@@ -167,8 +167,7 @@ func TestTwoPeersThatHoldOneQueryWordEachStillAnswerWithTheDocuments(t *testing.
 		crossPeerSearchAlias,
 		seedlistURLOf(firstWordHolderAlias)+","+seedlistURLOf(secondWordHolderAlias),
 		map[string]string{
-			"YACYDHTSEARCH_WORD_JOINED_SEARCH": "true",
-			"YACYDHTSEARCH_RANKING_LIFETIME":   "5s",
+			"YACYDHTSEARCH_RANKING_LIFETIME": "5s",
 		},
 	)
 

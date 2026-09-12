@@ -182,20 +182,6 @@ func querySpreadFor(
 	amountOfPeersAskedPerWord := yacymodel.PeersHoldingOneWordOf(
 		cfg.Partitions, cfg.NetworkRedundancy,
 	)
-	peerMatchedSpread := peermatched.New(
-		peers,
-		choice,
-		cfg.PeerItemsCeiling,
-		amountOfPeersAskedPerWord,
-		peermatched.PeerMatchedSpreadObservers{
-			peermatchedobserversapplog.PeerMatchedSpreadLog{},
-			peermatchedobserversprometheus.New(registry, cfg.QueryBudget),
-		},
-	)
-	if !cfg.WordJoinedSearch {
-		return peerMatchedSpread
-	}
-
 	return bywordcount.New(
 		wordjoined.New(
 			peers,
@@ -208,7 +194,16 @@ func querySpreadFor(
 				wordjoinedobserversprometheus.New(registry, cfg.QueryBudget),
 			},
 		),
-		peerMatchedSpread,
+		peermatched.New(
+			peers,
+			choice,
+			cfg.PeerItemsCeiling,
+			amountOfPeersAskedPerWord,
+			peermatched.PeerMatchedSpreadObservers{
+				peermatchedobserversapplog.PeerMatchedSpreadLog{},
+				peermatchedobserversprometheus.New(registry, cfg.QueryBudget),
+			},
+		),
 	)
 }
 
