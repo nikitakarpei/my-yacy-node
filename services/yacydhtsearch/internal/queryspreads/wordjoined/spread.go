@@ -83,11 +83,11 @@ func (s Spread) SpreadOverPeers(
 		ctx, query, chosenPeersPerQueryWord,
 	)
 	joinedDocuments := joinedDocumentsOf(answeredHeldDocumentsAsks, query.TermHashes())
-	itemsInTheOrderOfEachAnswer := itemsInTheOrderOfEachAnswerAmong(
+	itemsInTheOrderOfEachPeerRanking := itemsInTheOrderOfEachPeerRankingAmong(
 		answeredHeldDocumentsAsks, joinedDocuments,
 	)
 	documentsWithoutMetadata := joinedDocumentsWithoutMetadata(
-		joinedDocuments, itemsInTheOrderOfEachAnswer,
+		joinedDocuments, itemsInTheOrderOfEachPeerRanking,
 	)
 	urlMetadataAsks, answeredURLMetadataAsks := s.askForURLMetadata(
 		ctx, documentsWithoutMetadata, answeredHeldDocumentsAsks,
@@ -108,7 +108,7 @@ func (s Spread) SpreadOverPeers(
 	)
 
 	return answeredQueryFrom(
-		itemsInTheOrderOfEachAnswer,
+		itemsInTheOrderOfEachPeerRanking,
 		answeredURLMetadataAsks,
 		answeredHeldDocumentsAsks,
 		query.TermHashes(),

@@ -36,10 +36,12 @@ func addressesOrderedBy(answers peeranswers.AnsweredQuery) []string {
 func TestTheItemsComeBackOneOfEachPeerPerRound(t *testing.T) {
 	t.Parallel()
 
-	answers := peeranswers.AnsweredQuery{ItemsInTheOrderOfEachAnswer: [][]peeranswers.AnsweredItem{
-		{itemAt(t, "https://a.example/1"), itemAt(t, "https://a.example/2")},
-		{itemAt(t, "https://b.example/1")},
-	}}
+	answers := peeranswers.AnsweredQuery{
+		ItemsInTheOrderOfEachPeerRanking: [][]peeranswers.AnsweredItem{
+			{itemAt(t, "https://a.example/1"), itemAt(t, "https://a.example/2")},
+			{itemAt(t, "https://b.example/1")},
+		},
+	}
 
 	want := []string{"https://a.example/1", "https://b.example/1", "https://a.example/2"}
 	if got := addressesOrderedBy(answers); !slices.Equal(got, want) {
@@ -51,7 +53,7 @@ func TestTheItemsInNoOrderComeBackBehindTheItemsThePeersPutInOrder(t *testing.T)
 	t.Parallel()
 
 	answers := peeranswers.AnsweredQuery{
-		ItemsInTheOrderOfEachAnswer: [][]peeranswers.AnsweredItem{
+		ItemsInTheOrderOfEachPeerRanking: [][]peeranswers.AnsweredItem{
 			{itemAt(t, "https://ordered.example/")},
 		},
 		ItemsInNoOrder: []peeranswers.AnsweredItem{

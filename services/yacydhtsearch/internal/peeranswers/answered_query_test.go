@@ -59,10 +59,12 @@ func addressesOfAnsweredItems(answeredItems []peeranswers.AnsweredItem) []string
 func TestOneItemOfEachPeerComesBackPerRound(t *testing.T) {
 	t.Parallel()
 
-	answers := peeranswers.AnsweredQuery{ItemsInTheOrderOfEachAnswer: [][]peeranswers.AnsweredItem{
-		{answeredItemAt(t, "https://a.example/1"), answeredItemAt(t, "https://a.example/2")},
-		{answeredItemAt(t, "https://b.example/1")},
-	}}
+	answers := peeranswers.AnsweredQuery{
+		ItemsInTheOrderOfEachPeerRanking: [][]peeranswers.AnsweredItem{
+			{answeredItemAt(t, "https://a.example/1"), answeredItemAt(t, "https://a.example/2")},
+			{answeredItemAt(t, "https://b.example/1")},
+		},
+	}
 
 	items := answers.ItemOfEachAnsweredDocument()
 
@@ -76,9 +78,11 @@ func TestOneURLComesBackOnceHoweverManyPeersAnsweredIt(t *testing.T) {
 	t.Parallel()
 
 	shared := answeredItemAt(t, "https://shared.example/")
-	answers := peeranswers.AnsweredQuery{ItemsInTheOrderOfEachAnswer: [][]peeranswers.AnsweredItem{
-		{shared}, {shared},
-	}}
+	answers := peeranswers.AnsweredQuery{
+		ItemsInTheOrderOfEachPeerRanking: [][]peeranswers.AnsweredItem{
+			{shared}, {shared},
+		},
+	}
 
 	items := answers.ItemOfEachAnsweredDocument()
 
@@ -93,11 +97,13 @@ func TestTheCountsOfEveryPeerThatAnsweredADocumentComeBackTogether(t *testing.T)
 	t.Parallel()
 
 	address := "https://shared.example/"
-	answers := peeranswers.AnsweredQuery{ItemsInTheOrderOfEachAnswer: [][]peeranswers.AnsweredItem{
-		{answeredItemMatchingTheWord(t, address, "berlin")},
-		{answeredItemCountedForTheWord(t, address, "berlin")},
-		{answeredItemCountedForTheWord(t, address, "weather")},
-	}}
+	answers := peeranswers.AnsweredQuery{
+		ItemsInTheOrderOfEachPeerRanking: [][]peeranswers.AnsweredItem{
+			{answeredItemMatchingTheWord(t, address, "berlin")},
+			{answeredItemCountedForTheWord(t, address, "berlin")},
+			{answeredItemCountedForTheWord(t, address, "weather")},
+		},
+	}
 
 	items := answers.ItemOfEachAnsweredDocument()
 
@@ -116,7 +122,7 @@ func TestAnItemOfNoOrderComesBackBehindTheItemsThePeersPutInOrder(t *testing.T) 
 	t.Parallel()
 
 	answers := peeranswers.AnsweredQuery{
-		ItemsInTheOrderOfEachAnswer: [][]peeranswers.AnsweredItem{
+		ItemsInTheOrderOfEachPeerRanking: [][]peeranswers.AnsweredItem{
 			{answeredItemAt(t, "https://ordered.example/")},
 		},
 		ItemsInNoOrder: []peeranswers.AnsweredItem{
@@ -137,7 +143,7 @@ func TestAnItemOfNoOrderCarriesItsCountsToTheDocumentAPeerAlsoAnswered(t *testin
 
 	address := "https://shared.example/"
 	answers := peeranswers.AnsweredQuery{
-		ItemsInTheOrderOfEachAnswer: [][]peeranswers.AnsweredItem{
+		ItemsInTheOrderOfEachPeerRanking: [][]peeranswers.AnsweredItem{
 			{answeredItemMatchingTheWord(t, address, "berlin")},
 		},
 		ItemsInNoOrder: []peeranswers.AnsweredItem{

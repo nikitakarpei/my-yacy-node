@@ -103,14 +103,16 @@ func itemOfTheAddressNoNodeCanReadMatchingTheWords(
 }
 
 func answersOf(
-	itemsInTheOrderOfEachAnswer ...[]peeranswers.AnsweredItem,
+	itemsInTheOrderOfEachPeerRanking ...[]peeranswers.AnsweredItem,
 ) peeranswers.AnsweredQuery {
-	return peeranswers.AnsweredQuery{ItemsInTheOrderOfEachAnswer: itemsInTheOrderOfEachAnswer}
+	return peeranswers.AnsweredQuery{
+		ItemsInTheOrderOfEachPeerRanking: itemsInTheOrderOfEachPeerRanking,
+	}
 }
 
 func answersHolding(
 	documentsPerWord map[string]int,
-	itemsInTheOrderOfEachAnswer ...[]peeranswers.AnsweredItem,
+	itemsInTheOrderOfEachPeerRanking ...[]peeranswers.AnsweredItem,
 ) peeranswers.AnsweredQuery {
 	documentsHeldPerQueryWord := make(map[yacymodel.Hash]int, len(documentsPerWord))
 	for word, documentsHeldForTheWord := range documentsPerWord {
@@ -118,8 +120,8 @@ func answersHolding(
 	}
 
 	return peeranswers.AnsweredQuery{
-		ItemsInTheOrderOfEachAnswer: itemsInTheOrderOfEachAnswer,
-		DocumentsHeldPerQueryWord:   documentsHeldPerQueryWord,
+		ItemsInTheOrderOfEachPeerRanking: itemsInTheOrderOfEachPeerRanking,
+		DocumentsHeldPerQueryWord:        documentsHeldPerQueryWord,
 	}
 }
 
@@ -530,7 +532,7 @@ func TestAnItemOfNoOrderComesAfterAnEquallyCountedItemAPeerPut(t *testing.T) {
 	t.Parallel()
 
 	answers := peeranswers.AnsweredQuery{
-		ItemsInTheOrderOfEachAnswer: [][]peeranswers.AnsweredItem{
+		ItemsInTheOrderOfEachPeerRanking: [][]peeranswers.AnsweredItem{
 			{itemCountedForTheWord(t, "https://ordered.example/", "berlin", 1)},
 		},
 		ItemsInNoOrder: []peeranswers.AnsweredItem{

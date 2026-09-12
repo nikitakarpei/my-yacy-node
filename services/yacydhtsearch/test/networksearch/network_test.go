@@ -424,7 +424,7 @@ func answersOfTwoWords(t *testing.T, commonWordAddress, rareWordAddress string) 
 	t.Helper()
 
 	return spreadAnswering{answers: peeranswers.AnsweredQuery{
-		ItemsInTheOrderOfEachAnswer: [][]peeranswers.AnsweredItem{
+		ItemsInTheOrderOfEachPeerRanking: [][]peeranswers.AnsweredItem{
 			{answeredItemCountedForTheWord(t, commonWordAddress, "berlin")},
 			{answeredItemCountedForTheWord(t, rareWordAddress, "kelondro")},
 		},
@@ -503,9 +503,9 @@ func answersOfTwoWordsMatchedByEveryItem(
 		yacymodel.WordHash("berlin"), yacymodel.WordHash("kelondro"),
 	}
 	answers := answersOfTwoWords(t, commonWordAddress, rareWordAddress)
-	for _, itemsOfOneAnswer := range answers.answers.ItemsInTheOrderOfEachAnswer {
-		for place, item := range itemsOfOneAnswer {
-			itemsOfOneAnswer[place] = item.MatchingTheWords(queryWords)
+	for _, itemsOfOnePeerRanking := range answers.answers.ItemsInTheOrderOfEachPeerRanking {
+		for place, item := range itemsOfOnePeerRanking {
+			itemsOfOnePeerRanking[place] = item.MatchingTheWords(queryWords)
 		}
 	}
 

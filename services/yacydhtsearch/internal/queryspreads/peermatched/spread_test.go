@@ -106,7 +106,7 @@ func searchOf(
 		context.Background(),
 		searchquery.QueryFrom("berlin weather", ""),
 		[]peerdirectory.AskablePeer{peerAt("first"), peerAt("second")},
-	).ItemsInTheOrderOfEachAnswer
+	).ItemsInTheOrderOfEachPeerRanking
 }
 
 func searchForTheQuery(network *peerNetwork, query string) [][]peeranswers.AnsweredItem {
@@ -114,7 +114,7 @@ func searchForTheQuery(network *peerNetwork, query string) [][]peeranswers.Answe
 		context.Background(),
 		searchquery.QueryFrom(query, ""),
 		[]peerdirectory.AskablePeer{peerAt("first"), peerAt("second")},
-	).ItemsInTheOrderOfEachAnswer
+	).ItemsInTheOrderOfEachPeerRanking
 }
 
 func spreadOf(
@@ -160,7 +160,7 @@ func TestEveryChosenPeerIsAskedToMatchTheWholeQueryOnce(t *testing.T) {
 	}
 }
 
-func TestTheItemsOfEachAnswerStayApart(t *testing.T) {
+func TestTheItemsOfEachPeerRankingStayApart(t *testing.T) {
 	t.Parallel()
 
 	network := networkOf(map[string][]string{
@@ -168,16 +168,19 @@ func TestTheItemsOfEachAnswerStayApart(t *testing.T) {
 		"second": {"https://c.example/"},
 	})
 
-	itemsInTheOrderOfEachAnswer := searchOf(network, &recordedSpreads{})
+	itemsInTheOrderOfEachPeerRanking := searchOf(network, &recordedSpreads{})
 
-	if len(itemsInTheOrderOfEachAnswer) != 2 {
+	if len(itemsInTheOrderOfEachPeerRanking) != 2 {
 		t.Fatalf(
 			"%d peers answered items, want the items of each peer apart",
-			len(itemsInTheOrderOfEachAnswer),
+			len(itemsInTheOrderOfEachPeerRanking),
 		)
 	}
-	if len(itemsInTheOrderOfEachAnswer[0])+len(itemsInTheOrderOfEachAnswer[1]) != 3 {
-		t.Fatalf("the peers answered %v, want three items in total", itemsInTheOrderOfEachAnswer)
+	if len(itemsInTheOrderOfEachPeerRanking[0])+len(itemsInTheOrderOfEachPeerRanking[1]) != 3 {
+		t.Fatalf(
+			"the peers answered %v, want three items in total",
+			itemsInTheOrderOfEachPeerRanking,
+		)
 	}
 }
 
@@ -186,12 +189,12 @@ func TestEveryItemAPeerMatchedMatchedEveryQueryWord(t *testing.T) {
 
 	network := networkOf(map[string][]string{"first": {"https://a.example/"}})
 
-	itemsInTheOrderOfEachAnswer := searchOf(network, &recordedSpreads{})
+	itemsInTheOrderOfEachPeerRanking := searchOf(network, &recordedSpreads{})
 
 	queryWords := []yacymodel.Hash{
 		yacymodel.WordHash("berlin"), yacymodel.WordHash("weather"),
 	}
-	for _, items := range itemsInTheOrderOfEachAnswer {
+	for _, items := range itemsInTheOrderOfEachPeerRanking {
 		for _, item := range items {
 			for _, queryWord := range queryWords {
 				if _, matched := item.MatchedWords[queryWord]; !matched {

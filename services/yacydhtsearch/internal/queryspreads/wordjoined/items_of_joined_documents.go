@@ -6,20 +6,20 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
-func itemsInTheOrderOfEachAnswerAmong(
+func itemsInTheOrderOfEachPeerRankingAmong(
 	answeredAsks []peerasks.AnsweredHeldDocumentsAsk,
 	joinedDocuments map[yacymodel.URLHash]struct{},
 ) [][]peeranswers.AnsweredItem {
-	itemsInTheOrderOfEachAnswer := make([][]peeranswers.AnsweredItem, 0, len(answeredAsks))
+	itemsInTheOrderOfEachPeerRanking := make([][]peeranswers.AnsweredItem, 0, len(answeredAsks))
 	for _, answeredAsk := range answeredAsks {
 		items := itemsOfJoinedDocumentsIn(answeredAsk, joinedDocuments)
 		if len(items) == 0 {
 			continue
 		}
-		itemsInTheOrderOfEachAnswer = append(itemsInTheOrderOfEachAnswer, items)
+		itemsInTheOrderOfEachPeerRanking = append(itemsInTheOrderOfEachPeerRanking, items)
 	}
 
-	return itemsInTheOrderOfEachAnswer
+	return itemsInTheOrderOfEachPeerRanking
 }
 
 func itemsOfJoinedDocumentsIn(

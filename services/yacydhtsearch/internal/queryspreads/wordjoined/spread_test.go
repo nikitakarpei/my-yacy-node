@@ -368,7 +368,7 @@ func TestNoPeerIsAskedAboutADocumentWhenNoDocumentIsHeldForEveryWord(t *testing.
 		"second": {secondWord: {"https://only-second.example/"}},
 	})
 
-	items := spreadOf(network, &recordedSpreads{}).ItemsInTheOrderOfEachAnswer
+	items := spreadOf(network, &recordedSpreads{}).ItemsInTheOrderOfEachPeerRanking
 
 	if len(network.urlMetadataAsks) != 0 || len(items) != 0 {
 		t.Fatalf(
@@ -664,11 +664,14 @@ func TestTheItemsAPeerAnsweredForJoinedDocumentsComeBack(t *testing.T) {
 		"first": {firstWord: {answered, "https://unjoined.example/"}},
 	}
 
-	itemsInTheOrderOfEachAnswer := spreadOf(network, &recordedSpreads{}).ItemsInTheOrderOfEachAnswer
+	itemsInTheOrderOfEachPeerRanking := spreadOf(
+		network,
+		&recordedSpreads{},
+	).ItemsInTheOrderOfEachPeerRanking
 
 	wanted := documentHashOf(t, answered)
 	documents := map[yacymodel.URLHash]struct{}{}
-	for _, items := range itemsInTheOrderOfEachAnswer {
+	for _, items := range itemsInTheOrderOfEachPeerRanking {
 		for _, item := range items {
 			documents[item.Metadata.Hash] = struct{}{}
 		}
@@ -697,7 +700,8 @@ func TestEveryAnsweredItemMatchedEveryQueryWord(t *testing.T) {
 		yacymodel.WordHash(firstWord), yacymodel.WordHash(secondWord),
 	}
 	itemsOfEveryAnswer := slices.Concat(
-		answers.ItemsInTheOrderOfEachAnswer, [][]peeranswers.AnsweredItem{answers.ItemsInNoOrder},
+		answers.ItemsInTheOrderOfEachPeerRanking,
+		[][]peeranswers.AnsweredItem{answers.ItemsInNoOrder},
 	)
 	for _, items := range itemsOfEveryAnswer {
 		for _, item := range items {
@@ -723,15 +727,18 @@ func TestAnAnsweredItemIsCountedForTheWordThePeerWasAskedAbout(t *testing.T) {
 	}
 	network.countsAWordWithEachItem = true
 
-	itemsInTheOrderOfEachAnswer := spreadOf(network, &recordedSpreads{}).ItemsInTheOrderOfEachAnswer
+	itemsInTheOrderOfEachPeerRanking := spreadOf(
+		network,
+		&recordedSpreads{},
+	).ItemsInTheOrderOfEachPeerRanking
 
-	if len(itemsInTheOrderOfEachAnswer) != 1 || len(itemsInTheOrderOfEachAnswer[0]) != 1 {
+	if len(itemsInTheOrderOfEachPeerRanking) != 1 || len(itemsInTheOrderOfEachPeerRanking[0]) != 1 {
 		t.Fatalf(
 			"the spread answered %v, want the one item the peer answered",
-			itemsInTheOrderOfEachAnswer,
+			itemsInTheOrderOfEachPeerRanking,
 		)
 	}
-	matchedWords := itemsInTheOrderOfEachAnswer[0][0].MatchedWords
+	matchedWords := itemsInTheOrderOfEachPeerRanking[0][0].MatchedWords
 	if matchedWords[yacymodel.WordHash(firstWord)].Hits != 3 ||
 		matchedWords[yacymodel.WordHash(secondWord)].CountedByAPeer() {
 		t.Fatalf("the item matched %v, want the count under the word the ask named", matchedWords)

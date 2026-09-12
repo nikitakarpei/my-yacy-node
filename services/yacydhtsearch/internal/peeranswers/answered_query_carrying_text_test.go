@@ -34,9 +34,9 @@ func answersOfTheReadDocument(t *testing.T) peeranswers.AnsweredQuery {
 	item := answeredItemMatchingTheWord(t, addressOfTheReadDocument, "berlin")
 
 	return peeranswers.AnsweredQuery{
-		ItemsInTheOrderOfEachAnswer: [][]peeranswers.AnsweredItem{{item}, {item}},
-		ItemsInNoOrder:              []peeranswers.AnsweredItem{item},
-		DocumentsHeldPerQueryWord:   map[yacymodel.Hash]int{yacymodel.WordHash("berlin"): 12},
+		ItemsInTheOrderOfEachPeerRanking: [][]peeranswers.AnsweredItem{{item}, {item}},
+		ItemsInNoOrder:                   []peeranswers.AnsweredItem{item},
+		DocumentsHeldPerQueryWord:        map[yacymodel.Hash]int{yacymodel.WordHash("berlin"): 12},
 	}
 }
 
@@ -48,8 +48,8 @@ func TestEveryItemOfAReadDocumentCarriesWhatItsTextHolds(t *testing.T) {
 	read := answers.CarryingTheTextOfEachDocument(textOfTheReadDocument(t))
 
 	for _, item := range []peeranswers.AnsweredItem{
-		read.ItemsInTheOrderOfEachAnswer[0][0],
-		read.ItemsInTheOrderOfEachAnswer[1][0],
+		read.ItemsInTheOrderOfEachPeerRanking[0][0],
+		read.ItemsInTheOrderOfEachPeerRanking[1][0],
 		read.ItemsInNoOrder[0],
 	} {
 		count := item.MatchedWords[yacymodel.WordHash("berlin")]

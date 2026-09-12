@@ -19,11 +19,11 @@ const (
 )
 
 type recordedAnswers struct {
-	Query                       string                 `json:"query"`
-	RecordedAt                  time.Time              `json:"recordedAt"`
-	ItemsInTheOrderOfEachAnswer [][]recordedItem       `json:"itemsInTheOrderOfEachAnswer"`
-	ItemsInNoOrder              []recordedItem         `json:"itemsInNoOrder"`
-	DocumentsHeldPerQueryWord   map[yacymodel.Hash]int `json:"documentsHeldPerQueryWord"`
+	Query                            string                 `json:"query"`
+	RecordedAt                       time.Time              `json:"recordedAt"`
+	ItemsInTheOrderOfEachPeerRanking [][]recordedItem       `json:"itemsInTheOrderOfEachPeerRanking"`
+	ItemsInNoOrder                   []recordedItem         `json:"itemsInNoOrder"`
+	DocumentsHeldPerQueryWord        map[yacymodel.Hash]int `json:"documentsHeldPerQueryWord"`
 }
 
 type recordedItem struct {
@@ -41,19 +41,19 @@ type recordedWordCount struct {
 }
 
 func (r recordedAnswers) answeredQuery() peeranswers.AnsweredQuery {
-	itemsInTheOrderOfEachAnswer := make(
-		[][]peeranswers.AnsweredItem, 0, len(r.ItemsInTheOrderOfEachAnswer),
+	itemsInTheOrderOfEachPeerRanking := make(
+		[][]peeranswers.AnsweredItem, 0, len(r.ItemsInTheOrderOfEachPeerRanking),
 	)
-	for _, recordedItemsOfOneAnswer := range r.ItemsInTheOrderOfEachAnswer {
-		itemsInTheOrderOfEachAnswer = append(
-			itemsInTheOrderOfEachAnswer, answeredItemsOf(recordedItemsOfOneAnswer),
+	for _, recordedItemsOfOnePeerRanking := range r.ItemsInTheOrderOfEachPeerRanking {
+		itemsInTheOrderOfEachPeerRanking = append(
+			itemsInTheOrderOfEachPeerRanking, answeredItemsOf(recordedItemsOfOnePeerRanking),
 		)
 	}
 
 	return peeranswers.AnsweredQuery{
-		ItemsInTheOrderOfEachAnswer: itemsInTheOrderOfEachAnswer,
-		ItemsInNoOrder:              answeredItemsOf(r.ItemsInNoOrder),
-		DocumentsHeldPerQueryWord:   r.DocumentsHeldPerQueryWord,
+		ItemsInTheOrderOfEachPeerRanking: itemsInTheOrderOfEachPeerRanking,
+		ItemsInNoOrder:                   answeredItemsOf(r.ItemsInNoOrder),
+		DocumentsHeldPerQueryWord:        r.DocumentsHeldPerQueryWord,
 	}
 }
 
@@ -90,21 +90,21 @@ func wordCountsOf(
 }
 
 func recordedAnswersOf(query string, answers peeranswers.AnsweredQuery) recordedAnswers {
-	itemsInTheOrderOfEachAnswer := make(
-		[][]recordedItem, 0, len(answers.ItemsInTheOrderOfEachAnswer),
+	itemsInTheOrderOfEachPeerRanking := make(
+		[][]recordedItem, 0, len(answers.ItemsInTheOrderOfEachPeerRanking),
 	)
-	for _, itemsOfOneAnswer := range answers.ItemsInTheOrderOfEachAnswer {
-		itemsInTheOrderOfEachAnswer = append(
-			itemsInTheOrderOfEachAnswer, recordedItemsOf(itemsOfOneAnswer),
+	for _, itemsOfOnePeerRanking := range answers.ItemsInTheOrderOfEachPeerRanking {
+		itemsInTheOrderOfEachPeerRanking = append(
+			itemsInTheOrderOfEachPeerRanking, recordedItemsOf(itemsOfOnePeerRanking),
 		)
 	}
 
 	return recordedAnswers{
-		Query:                       query,
-		RecordedAt:                  time.Now().UTC().Truncate(time.Second),
-		ItemsInTheOrderOfEachAnswer: itemsInTheOrderOfEachAnswer,
-		ItemsInNoOrder:              recordedItemsOf(answers.ItemsInNoOrder),
-		DocumentsHeldPerQueryWord:   answers.DocumentsHeldPerQueryWord,
+		Query:                            query,
+		RecordedAt:                       time.Now().UTC().Truncate(time.Second),
+		ItemsInTheOrderOfEachPeerRanking: itemsInTheOrderOfEachPeerRanking,
+		ItemsInNoOrder:                   recordedItemsOf(answers.ItemsInNoOrder),
+		DocumentsHeldPerQueryWord:        answers.DocumentsHeldPerQueryWord,
 	}
 }
 

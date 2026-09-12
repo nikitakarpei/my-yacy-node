@@ -49,11 +49,11 @@ func amountOfQueryWordsPerDocument(
 
 func joinedDocumentsWithoutMetadata(
 	joinedDocuments map[yacymodel.URLHash]struct{},
-	itemsInTheOrderOfEachAnswer [][]peeranswers.AnsweredItem,
+	itemsInTheOrderOfEachPeerRanking [][]peeranswers.AnsweredItem,
 ) map[yacymodel.URLHash]struct{} {
 	withoutMetadata := make(map[yacymodel.URLHash]struct{}, len(joinedDocuments))
 	maps.Copy(withoutMetadata, joinedDocuments)
-	for _, items := range itemsInTheOrderOfEachAnswer {
+	for _, items := range itemsInTheOrderOfEachPeerRanking {
 		for _, item := range items {
 			delete(withoutMetadata, item.Metadata.Hash)
 		}

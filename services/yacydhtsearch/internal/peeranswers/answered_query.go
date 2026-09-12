@@ -1,7 +1,7 @@
 // Package peeranswers holds what the peers answered for one whole query: the
-// items of each answer in the order the peer put them, the items in no order,
-// how many documents the peers hold per query word, and the one item of each
-// answered document. The text of a document, once a node read its page,
+// items of each peer ranking in the order the peer put them, the items in no
+// order, how many documents the peers hold per query word, and the one item of
+// each answered document. The text of a document, once a node read its page,
 // replaces what the peers counted for it on every item of the document.
 package peeranswers
 
@@ -11,9 +11,9 @@ import (
 )
 
 type AnsweredQuery struct {
-	ItemsInTheOrderOfEachAnswer [][]AnsweredItem
-	ItemsInNoOrder              []AnsweredItem
-	DocumentsHeldPerQueryWord   map[yacymodel.Hash]int
+	ItemsInTheOrderOfEachPeerRanking [][]AnsweredItem
+	ItemsInNoOrder                   []AnsweredItem
+	DocumentsHeldPerQueryWord        map[yacymodel.Hash]int
 }
 
 func (a AnsweredQuery) CarryingTheTextOfEachDocument(
@@ -23,18 +23,18 @@ func (a AnsweredQuery) CarryingTheTextOfEachDocument(
 		return a
 	}
 
-	itemsInTheOrderOfEachAnswer := make(
-		[][]AnsweredItem, 0, len(a.ItemsInTheOrderOfEachAnswer),
+	itemsInTheOrderOfEachPeerRanking := make(
+		[][]AnsweredItem, 0, len(a.ItemsInTheOrderOfEachPeerRanking),
 	)
-	for _, itemsOfOneAnswer := range a.ItemsInTheOrderOfEachAnswer {
-		itemsInTheOrderOfEachAnswer = append(
-			itemsInTheOrderOfEachAnswer,
-			itemsCarryingTheTextOfTheirDocument(itemsOfOneAnswer, textPerDocument),
+	for _, itemsOfOnePeerRanking := range a.ItemsInTheOrderOfEachPeerRanking {
+		itemsInTheOrderOfEachPeerRanking = append(
+			itemsInTheOrderOfEachPeerRanking,
+			itemsCarryingTheTextOfTheirDocument(itemsOfOnePeerRanking, textPerDocument),
 		)
 	}
 
 	return AnsweredQuery{
-		ItemsInTheOrderOfEachAnswer: itemsInTheOrderOfEachAnswer,
+		ItemsInTheOrderOfEachPeerRanking: itemsInTheOrderOfEachPeerRanking,
 		ItemsInNoOrder: itemsCarryingTheTextOfTheirDocument(
 			a.ItemsInNoOrder, textPerDocument,
 		),
@@ -60,12 +60,12 @@ func itemsCarryingTheTextOfTheirDocument(
 
 func (a AnsweredQuery) ItemOfEachAnsweredDocument() []AnsweredItem {
 	merged := mergedItems{placeOfTakenDocument: map[yacymodel.URLHash]int{}}
-	for round := range amountOfRoundsAcross(a.ItemsInTheOrderOfEachAnswer) {
-		for _, itemsOfOneAnswer := range a.ItemsInTheOrderOfEachAnswer {
-			if round >= len(itemsOfOneAnswer) {
+	for round := range amountOfRoundsAcross(a.ItemsInTheOrderOfEachPeerRanking) {
+		for _, itemsOfOnePeerRanking := range a.ItemsInTheOrderOfEachPeerRanking {
+			if round >= len(itemsOfOnePeerRanking) {
 				continue
 			}
-			merged.take(itemsOfOneAnswer[round])
+			merged.take(itemsOfOnePeerRanking[round])
 		}
 	}
 	for _, item := range a.ItemsInNoOrder {
@@ -90,10 +90,10 @@ func (m *mergedItems) take(answeredItem AnsweredItem) {
 	m.items = append(m.items, answeredItem)
 }
 
-func amountOfRoundsAcross(itemsInTheOrderOfEachAnswer [][]AnsweredItem) int {
+func amountOfRoundsAcross(itemsInTheOrderOfEachPeerRanking [][]AnsweredItem) int {
 	var rounds int
-	for _, itemsOfOneAnswer := range itemsInTheOrderOfEachAnswer {
-		rounds = max(rounds, len(itemsOfOneAnswer))
+	for _, itemsOfOnePeerRanking := range itemsInTheOrderOfEachPeerRanking {
+		rounds = max(rounds, len(itemsOfOnePeerRanking))
 	}
 
 	return rounds

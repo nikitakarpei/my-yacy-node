@@ -7,14 +7,15 @@ import (
 )
 
 func answeredQueryFrom(
-	itemsInTheOrderOfEachAnswer [][]peeranswers.AnsweredItem,
+	itemsInTheOrderOfEachPeerRanking [][]peeranswers.AnsweredItem,
 	answeredURLMetadataAsks []peerasks.AnsweredURLMetadataAsk,
 	answeredHeldDocumentsAsks []peerasks.AnsweredHeldDocumentsAsk,
 	queryWords []yacymodel.Hash,
 ) peeranswers.AnsweredQuery {
 	return peeranswers.AnsweredQuery{
-		ItemsInTheOrderOfEachAnswer: itemsInTheOrderOfEachAnswerWithACountForEveryQueryWord(
-			itemsInTheOrderOfEachAnswer, queryWords,
+		ItemsInTheOrderOfEachPeerRanking: itemsInTheOrderOfEachPeerRankingWithACountForEveryQueryWord(
+			itemsInTheOrderOfEachPeerRanking,
+			queryWords,
 		),
 		ItemsInNoOrder: itemsWithACountForEveryQueryWord(
 			itemsOfAnsweredURLMetadataAsks(answeredURLMetadataAsks), queryWords,
@@ -23,20 +24,21 @@ func answeredQueryFrom(
 	}
 }
 
-func itemsInTheOrderOfEachAnswerWithACountForEveryQueryWord(
-	itemsInTheOrderOfEachAnswer [][]peeranswers.AnsweredItem,
+func itemsInTheOrderOfEachPeerRankingWithACountForEveryQueryWord(
+	itemsInTheOrderOfEachPeerRanking [][]peeranswers.AnsweredItem,
 	queryWords []yacymodel.Hash,
 ) [][]peeranswers.AnsweredItem {
-	countedItemsInTheOrderOfEachAnswer := make(
-		[][]peeranswers.AnsweredItem, 0, len(itemsInTheOrderOfEachAnswer),
+	countedItemsInTheOrderOfEachPeerRanking := make(
+		[][]peeranswers.AnsweredItem, 0, len(itemsInTheOrderOfEachPeerRanking),
 	)
-	for _, items := range itemsInTheOrderOfEachAnswer {
-		countedItemsInTheOrderOfEachAnswer = append(
-			countedItemsInTheOrderOfEachAnswer, itemsWithACountForEveryQueryWord(items, queryWords),
+	for _, items := range itemsInTheOrderOfEachPeerRanking {
+		countedItemsInTheOrderOfEachPeerRanking = append(
+			countedItemsInTheOrderOfEachPeerRanking,
+			itemsWithACountForEveryQueryWord(items, queryWords),
 		)
 	}
 
-	return countedItemsInTheOrderOfEachAnswer
+	return countedItemsInTheOrderOfEachPeerRanking
 }
 
 func itemsWithACountForEveryQueryWord(

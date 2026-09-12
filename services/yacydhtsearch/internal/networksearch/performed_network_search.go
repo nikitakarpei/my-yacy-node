@@ -27,7 +27,7 @@ func performedNetworkSearchFrom(
 		AmountOfItemsAcrossAnswers: amountOfItemsAcrossAnswers(answers),
 		AmountOfItemsInRanking:     len(rankedItems),
 		AmountOfRankedItemsOfTheOnePeer: amountOfRankedItemsOfTheOnePeer(
-			answers.ItemsInTheOrderOfEachAnswer,
+			answers.ItemsInTheOrderOfEachPeerRanking,
 			rankedItems,
 		),
 		AmountOfRankedItemsCountedByAPeer: amountOfItemsCountedByAPeer(rankedItems),
@@ -37,15 +37,15 @@ func performedNetworkSearchFrom(
 
 func amountOfItemsAcrossAnswers(answers peeranswers.AnsweredQuery) int {
 	amountOfAnsweredItems := len(answers.ItemsInNoOrder)
-	for _, itemsOfOneAnswer := range answers.ItemsInTheOrderOfEachAnswer {
-		amountOfAnsweredItems += len(itemsOfOneAnswer)
+	for _, itemsOfOnePeerRanking := range answers.ItemsInTheOrderOfEachPeerRanking {
+		amountOfAnsweredItems += len(itemsOfOnePeerRanking)
 	}
 
 	return amountOfAnsweredItems
 }
 
 func amountOfRankedItemsOfTheOnePeer(
-	itemsInTheOrderOfEachAnswer [][]peeranswers.AnsweredItem,
+	itemsInTheOrderOfEachPeerRanking [][]peeranswers.AnsweredItem,
 	rankedItems []peeranswers.AnsweredItem,
 ) int {
 	rankedDocuments := make(map[yacymodel.URLHash]struct{}, len(rankedItems))
@@ -54,7 +54,7 @@ func amountOfRankedItemsOfTheOnePeer(
 	}
 
 	var mostRankedItemsOfOnePeer int
-	for _, items := range itemsInTheOrderOfEachAnswer {
+	for _, items := range itemsInTheOrderOfEachPeerRanking {
 		mostRankedItemsOfOnePeer = max(
 			mostRankedItemsOfOnePeer,
 			amountOfRankedItemsAmong(items, rankedDocuments),

@@ -8,11 +8,11 @@ import (
 const placesHalvingAPlaceScore = 61.0
 
 func placeScorePerDocumentOf(
-	itemsInTheOrderOfEachAnswer [][]peeranswers.AnsweredItem,
+	itemsInTheOrderOfEachPeerRanking [][]peeranswers.AnsweredItem,
 ) map[yacymodel.URLHash]float64 {
 	placeScorePerDocument := map[yacymodel.URLHash]float64{}
-	for _, itemsOfOneAnswer := range itemsInTheOrderOfEachAnswer {
-		for place, item := range itemsOfOneAnswer {
+	for _, itemsOfOnePeerRanking := range itemsInTheOrderOfEachPeerRanking {
+		for place, item := range itemsOfOnePeerRanking {
 			placeScorePerDocument[item.Metadata.Hash] +=
 				1 / (1 + float64(place)/placesHalvingAPlaceScore)
 		}

@@ -11,23 +11,26 @@ func answeredQueryFrom(
 	queryWords []yacymodel.Hash,
 ) peeranswers.AnsweredQuery {
 	return peeranswers.AnsweredQuery{
-		ItemsInTheOrderOfEachAnswer: itemsInTheOrderOfEachAnswerOf(answeredAsks, queryWords),
+		ItemsInTheOrderOfEachPeerRanking: itemsInTheOrderOfEachPeerRankingOf(
+			answeredAsks,
+			queryWords,
+		),
 	}
 }
 
-func itemsInTheOrderOfEachAnswerOf(
+func itemsInTheOrderOfEachPeerRankingOf(
 	answeredAsks []peerasks.AnsweredMatchedItemsAsk,
 	queryWords []yacymodel.Hash,
 ) [][]peeranswers.AnsweredItem {
-	itemsInTheOrderOfEachAnswer := make([][]peeranswers.AnsweredItem, 0, len(answeredAsks))
+	itemsInTheOrderOfEachPeerRanking := make([][]peeranswers.AnsweredItem, 0, len(answeredAsks))
 	for _, answeredAsk := range answeredAsks {
-		itemsInTheOrderOfEachAnswer = append(
-			itemsInTheOrderOfEachAnswer,
+		itemsInTheOrderOfEachPeerRanking = append(
+			itemsInTheOrderOfEachPeerRanking,
 			itemsWithACountForEveryQueryWordFrom(answeredAsk.MatchedDocuments, queryWords),
 		)
 	}
 
-	return itemsInTheOrderOfEachAnswer
+	return itemsInTheOrderOfEachPeerRanking
 }
 
 func itemsWithACountForEveryQueryWordFrom(

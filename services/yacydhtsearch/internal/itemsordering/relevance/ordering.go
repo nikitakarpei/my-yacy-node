@@ -34,7 +34,7 @@ func (ordering Ordering) RelevancePerDocumentOf(
 	answers peeranswers.AnsweredQuery,
 ) map[yacymodel.URLHash]float64 {
 	items := answers.ItemOfEachAnsweredDocument()
-	placeScorePerDocument := placeScorePerDocumentOf(answers.ItemsInTheOrderOfEachAnswer)
+	placeScorePerDocument := placeScorePerDocumentOf(answers.ItemsInTheOrderOfEachPeerRanking)
 	queryWordsOfTheAnswers := queryWordsOfTheAnswersAcross(items)
 	rarityOfTheQueryWords := queryWordRarityOf(
 		answers.DocumentsHeldPerQueryWord, queryWordsOfTheAnswers,
