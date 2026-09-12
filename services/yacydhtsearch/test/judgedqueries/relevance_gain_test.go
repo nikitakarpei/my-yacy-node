@@ -7,7 +7,7 @@ import (
 	"slices"
 	"testing"
 
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/itemsordering/hostturns"
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/itemsordering/hostdiscount"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/itemsordering/peerorder"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/itemsordering/relevance"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peeranswers"
@@ -74,8 +74,8 @@ func gradedDocumentsOfTheAnswersFile(t *testing.T, answersFile string) gradedDoc
 	return queryJudgmentsInTheFile(t, judgmentsFile).gradedDocumentsOfTheQuery()
 }
 
-func orderingOfTheServiceFrom(scoreWeights relevance.ScoreWeights) hostturns.Ordering {
-	return hostturns.New(relevance.New(scoreWeights))
+func orderingOfTheServiceFrom(scoreWeights relevance.ScoreWeights) hostdiscount.Ordering {
+	return hostdiscount.New(relevance.New(scoreWeights))
 }
 
 func reportTheGainOfEachJudgedQuery(
@@ -85,9 +85,10 @@ func reportTheGainOfEachJudgedQuery(
 
 	relevanceOrdering := relevance.New(relevance.DefaultScoreWeights())
 	for _, judgedQuery := range judged {
-		orderedItems := hostturns.New(relevanceOrdering).OrderedItemsOf(judgedQuery.answers)
+		orderedItems := hostdiscount.New(relevanceOrdering).OrderedItemsOf(judgedQuery.answers)
 		t.Logf(
-			"%q: host turns %.4f, relevance %.4f, peer order %.4f, %d ungraded documents dropped",
+			"%q: host discount %.4f, relevance %.4f, peer order %.4f, %d ungraded documents "+
+				"dropped",
 			judgedQuery.query,
 			gainOfTheOrderingOfTheService[judgedQuery.query],
 			judgedQuery.gradedDocuments.normalizedGainDiscountedPerHostOf(
@@ -100,9 +101,9 @@ func reportTheGainOfEachJudgedQuery(
 		)
 	}
 	t.Logf(
-		"the mean over %d judged queries: host turns %.4f, relevance %.4f, peer order %.4f",
+		"the mean over %d judged queries: host discount %.4f, relevance %.4f, peer order %.4f",
 		len(judged),
-		meanNormalizedGainDiscountedPerHostOf(hostturns.New(relevanceOrdering), judged),
+		meanNormalizedGainDiscountedPerHostOf(hostdiscount.New(relevanceOrdering), judged),
 		meanNormalizedGainDiscountedPerHostOf(relevanceOrdering, judged),
 		meanNormalizedGainDiscountedPerHostOf(peerorder.Ordering{}, judged),
 	)

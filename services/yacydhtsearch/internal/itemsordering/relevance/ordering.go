@@ -24,30 +24,22 @@ func New(scoreWeights ScoreWeights) Ordering {
 func (ordering Ordering) OrderedItemsOf(
 	answers peeranswers.AnsweredQuery,
 ) []peeranswers.AnsweredItem {
-	items := answers.ItemOfEachAnsweredDocument()
-	relevancePerDocument := relevancePerDocumentOf(
-		items,
-		answers.ItemsInTheOrderOfEachAnswer,
-		answers.DocumentsHeldPerQueryWord,
-		ordering.scoreWeights,
+	return itemsOrderedByRelevance(
+		answers.ItemOfEachAnsweredDocument(), ordering.RelevancePerDocumentOf(answers),
 	)
-
-	return itemsOrderedByRelevance(items, relevancePerDocument)
 }
 
-func relevancePerDocumentOf(
-	items []peeranswers.AnsweredItem,
-	itemsInTheOrderOfEachAnswer [][]peeranswers.AnsweredItem,
-	documentsHeldPerQueryWord map[yacymodel.Hash]int,
-	scoreWeights ScoreWeights,
+func (ordering Ordering) RelevancePerDocumentOf(
+	answers peeranswers.AnsweredQuery,
 ) map[yacymodel.URLHash]float64 {
-	placeScorePerDocument := placeScorePerDocumentOf(itemsInTheOrderOfEachAnswer)
-	rarityPerQueryWord := rarityPerQueryWordOf(documentsHeldPerQueryWord)
+	items := answers.ItemOfEachAnsweredDocument()
+	placeScorePerDocument := placeScorePerDocumentOf(answers.ItemsInTheOrderOfEachAnswer)
+	rarityPerQueryWord := rarityPerQueryWordOf(answers.DocumentsHeldPerQueryWord)
 	averageDocumentLength := averageDocumentLengthOf(items)
 
 	relevancePerDocument := make(map[yacymodel.URLHash]float64, len(items))
 	for _, item := range items {
-		relevancePerDocument[item.Metadata.Hash] = scoreWeights.relevanceOf(
+		relevancePerDocument[item.Metadata.Hash] = ordering.scoreWeights.relevanceOf(
 			item,
 			placeScorePerDocument[item.Metadata.Hash],
 			rarityPerQueryWord,
