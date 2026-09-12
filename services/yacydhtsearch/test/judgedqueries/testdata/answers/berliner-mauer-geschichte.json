@@ -1,25 +1,25 @@
 {
   "query": "berliner mauer geschichte",
-  "recordedAt": "2026-09-12T10:15:18Z",
+  "recordedAt": "2026-09-12T11:25:01Z",
   "itemsInTheOrderOfEachAnswer": [
     [
       {
         "hash": "Fl-YxlDOAHJg",
         "address": "https://www.heise.de/",
         "title": "heise online - IT-News, Nachrichten und Hintergründe | heise online",
-        "snippet": "Anzeige\nAnzeige\nEigenwerbung\nCyber Resilience Act in der Praxis\nLive-Classroom · 21.10. - 11.11.26\nCRA-Anforderungen verstehen und einordnen\nRisikoanalyse und Dokumentation aufbauen\nKonformitätsbewertung sicher planen\nClassroom entdecken\nAnzeige\nAnzeige\nmeistgelesen\nbeliebt bei Abonnenten",
+        "snippet": "Anzeige\nAnzeige\nEigenwerbung\nWebinar\nIT-Security für Nicht-Nerds\nSchutz vor Phishing Mails und Kontoklau verständlich erklärt\nSicher surfen und im Netz unterwegs sein\n22.09. + 24.09.2026\nMEHR ERFAHREN\nAnzeige\nAnzeige\nVW stimmt Gesprächen mit Gewerkschaft über Konzernumbau zu",
         "matchedWords": {
           "65rGEicCRUgV": {
             "hits": 0,
-            "textWords": 978
+            "textWords": 1225
           },
           "SEhoJU8Vd4OY": {
             "hits": 0,
-            "textWords": 978
+            "textWords": 1225
           },
           "le_-kTULPwfi": {
             "hits": 0,
-            "textWords": 978
+            "textWords": 1225
           }
         },
         "queryPhraseHits": 0
@@ -27,25 +27,48 @@
     ],
     [
       {
-        "hash": "KJbG1jRvmBbx",
-        "address": "https://en.wikipedia.org/wiki/Berlin_Wall",
-        "title": "Berlin Wall - Wikipedia",
-        "snippet": "Berlin escapes\"; North Sports Final Edition Associated Press. Chicago Tribune, Chicago, Ill.: 23 June 1998. p. 8\n↑ \"Chronik der Mauer – Bau und Fall der Berliner Mauer | Opfer der Mauer\". Chronik-der-mauer.de. Archived from the original on 14 March 2016. Retrieved 6 August 2011.",
+        "hash": "R1PZSlKDFhNg",
+        "address": "https://www.bpb.de/",
+        "title": "Bundeszentrale für politische Bildung | Startseite | bpb.de",
+        "snippet": "September 2001 verübte das islamistische Terrornetzwerk al-Qaida die bisher folgenreichsten Anschläge in der jüngeren Geschichte. Etwa 3.000 Menschen verloren ihr Leben.",
         "matchedWords": {
           "65rGEicCRUgV": {
-            "hits": 17,
-            "textWords": 15257
+            "hits": 1,
+            "textWords": 1479
           },
           "SEhoJU8Vd4OY": {
-            "hits": 3,
-            "textWords": 15257
+            "hits": 1,
+            "textWords": 1479
           },
           "le_-kTULPwfi": {
-            "hits": 25,
-            "textWords": 15257
+            "hits": 0,
+            "textWords": 1479
           }
         },
-        "queryPhraseHits": 9
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "JvV_6jRvmBbx",
+        "address": "https://en.wikipedia.org/wiki/Cold_War",
+        "title": "Cold War - Wikipedia",
+        "snippet": "↑ Hilde Szabo: Die Berliner Mauer begann im Burgenland zu bröckeln (The Berlin Wall began to crumble in Burgenland – German), in Wiener Zeitung 16 August 1999.\n↑ Garthoff 1994, p. [page needed].\n↑ Lefeber, Fitzmaurice \u0026 Vierdag 1991, p. 221.\n↑ Gaddis 2005, p. 247.",
+        "matchedWords": {
+          "65rGEicCRUgV": {
+            "hits": 1,
+            "textWords": 29289
+          },
+          "SEhoJU8Vd4OY": {
+            "hits": 1,
+            "textWords": 29289
+          },
+          "le_-kTULPwfi": {
+            "hits": 1,
+            "textWords": 29289
+          }
+        },
+        "queryPhraseHits": 1
       }
     ],
     [
@@ -57,15 +80,15 @@
         "matchedWords": {
           "65rGEicCRUgV": {
             "hits": 0,
-            "textWords": 4434
+            "textWords": 4481
           },
           "SEhoJU8Vd4OY": {
             "hits": 26,
-            "textWords": 4434
+            "textWords": 4481
           },
           "le_-kTULPwfi": {
             "hits": 0,
-            "textWords": 4434
+            "textWords": 4481
           }
         },
         "queryPhraseHits": 0
@@ -96,45 +119,22 @@
     ],
     [
       {
-        "hash": "sxUL2dFO6r_x",
-        "address": "https://de.wikipedia.org/wiki/Wikipedia:Hauptseite",
-        "title": "Wikipedia – Die freie Enzyklopädie",
-        "snippet": "Die Lokomotivflucht nach Eger war laut Jaroslav Rudiš „die größte Heldentat in der Geschichte der sächsischen Eisenbahnen“.\nWeitere neue Artikel\nArchiv\nSchwesterprojekte\nCommons – Medien\nMeta-Wiki – Koordination\nWikibooks – Lehrbücher\nWikidata – Wissensdatenbank\nWikifunctions – Funktionsbibliothek",
+        "hash": "WsFtevF-RWXj",
+        "address": "https://www.bundesumweltministerium.de/media/berliner-dienstsitz-aktuelle-aufnahmen",
+        "title": "BMUKN: Berliner Dienstsitz: aktuelle Aufnahmen | Bildergalerie",
+        "snippet": "Berliner Dienstsitz Baufortschritt 2007 - 2011\n46 Bilder\n01.06.2011\nBerliner Dienstsitz Baufortschritt 2007 - 2011\nStresemannstraße 128 - Damals und heute\n15 Bilder\n24.08.2005\nStresemannstraße 128 - Damals und heute\nhttps://www.bundesumweltministerium.de/MD50",
         "matchedWords": {
           "65rGEicCRUgV": {
-            "hits": 0,
-            "textWords": 520
+            "hits": 2,
+            "textWords": 254
           },
           "SEhoJU8Vd4OY": {
-            "hits": 1,
-            "textWords": 520
+            "hits": 0,
+            "textWords": 254
           },
           "le_-kTULPwfi": {
             "hits": 0,
-            "textWords": 520
-          }
-        },
-        "queryPhraseHits": 0
-      }
-    ],
-    [
-      {
-        "hash": "O_W7sdFO6r_x",
-        "address": "https://de.wikipedia.org/wiki/Wikipedia:Exzellente_Artikel",
-        "title": "Wikipedia:Exzellente Artikel – Wikipedia",
-        "snippet": "U-Bahn: Geschichte der Berliner U-Bahn · London Underground · Metro Bilbao · Metró Budapest · Metro Madrid · Metro Moskau · Metropolitan Railway · Metro Prag · Metro Rotterdam · Oslo T-bane · U-Bahn Berlin · U-Bahn Frankfurt · U-Bahn München · U-Bahn Nürnberg · U-Bahn-Linie U2 (Berlin)",
-        "matchedWords": {
-          "65rGEicCRUgV": {
-            "hits": 7,
-            "textWords": 3105
-          },
-          "SEhoJU8Vd4OY": {
-            "hits": 3,
-            "textWords": 3105
-          },
-          "le_-kTULPwfi": {
-            "hits": 0,
-            "textWords": 3105
+            "textWords": 254
           }
         },
         "queryPhraseHits": 0
@@ -158,96 +158,6 @@
           "le_-kTULPwfi": {
             "hits": 1,
             "textWords": 33580
-          }
-        },
-        "queryPhraseHits": 0
-      }
-    ],
-    [
-      {
-        "hash": "6-otadFO6r_x",
-        "address": "https://de.wikipedia.org/wiki/1989",
-        "title": "1989 – Wikipedia",
-        "snippet": "November: In New York City entscheiden sich die Wähler für David Dinkins als ihren künftigen Bürgermeister. Er ist in der Millionenstadt das erste afroamerikanische Stadtoberhaupt.\n9./10. November: Öffnung der Berliner Mauer (Fall der Mauer) und Öffnung der innerdeutschen Grenze\n10.",
-        "matchedWords": {
-          "65rGEicCRUgV": {
-            "hits": 9,
-            "textWords": 13652
-          },
-          "SEhoJU8Vd4OY": {
-            "hits": 1,
-            "textWords": 13652
-          },
-          "le_-kTULPwfi": {
-            "hits": 6,
-            "textWords": 13652
-          }
-        },
-        "queryPhraseHits": 4
-      }
-    ],
-    [
-      {
-        "hash": "7URIg3ci-_qj",
-        "address": "https://www.chronik-der-mauer.de/material/175240/1967?show=image\u0026i=183565",
-        "title": "Fotos 1967 | Chronik der Mauer",
-        "snippet": "Präsidium des VII. SED-Parteitages: (v. l. n. r.) Erich Honecker, Leonid Breschnew, Walter Ulbricht und Kurt Hager zusammen; Aufnahme 17. April 1967 (Foto: Bundesarchiv, Bild 183-F0417-0001-048 / Kohls, Ulrich / CC-BY-SA 3.0)\nZurück zum Artikel\nBild im Original ansehen",
-        "matchedWords": {
-          "65rGEicCRUgV": {
-            "hits": 0,
-            "textWords": 38
-          },
-          "SEhoJU8Vd4OY": {
-            "hits": 0,
-            "textWords": 38
-          },
-          "le_-kTULPwfi": {
-            "hits": 0,
-            "textWords": 38
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "17zOZjc4UIAx",
-        "address": "https://en.wikivoyage.org/wiki/Germany",
-        "title": "Germany – Travel guide at Wikivoyage",
-        "snippet": "Bonn's Haus der Geschichte (House of History) about the history of the Federal Republic, with a Mercedes car used by Konrad Adenauer, the first post-war chancellor",
-        "matchedWords": {
-          "65rGEicCRUgV": {
-            "hits": 2,
-            "textWords": 33580
-          },
-          "SEhoJU8Vd4OY": {
-            "hits": 2,
-            "textWords": 33580
-          },
-          "le_-kTULPwfi": {
-            "hits": 1,
-            "textWords": 33580
-          }
-        },
-        "queryPhraseHits": 0
-      }
-    ],
-    [
-      {
-        "hash": "tgYaolT3kTrg",
-        "address": "https://www.logo.de/deutsche-geschichte-110.html",
-        "title": "logo!-Thema: Deutsche Geschichte - logo!",
-        "snippet": "logo!:Deshalb war Deutschland früher geteilt\nlogo!:Eine Mauer trennte Westen und Osten\nDas Grundgesetz\nDeutsche Geschichte\nDeutschland, so wie ihr es heute kennt, gibt es also noch gar nicht so lange.",
-        "matchedWords": {
-          "65rGEicCRUgV": {
-            "hits": 0,
-            "textWords": 170
-          },
-          "SEhoJU8Vd4OY": {
-            "hits": 4,
-            "textWords": 170
-          },
-          "le_-kTULPwfi": {
-            "hits": 1,
-            "textWords": 170
           }
         },
         "queryPhraseHits": 0
@@ -278,64 +188,22 @@
     ],
     [
       {
-        "hash": "7URIg3ci-_qj",
-        "address": "https://www.chronik-der-mauer.de/material/175240/1967?show=image\u0026i=183565",
-        "title": "Fotos 1967 | Chronik der Mauer",
-        "snippet": "Präsidium des VII. SED-Parteitages: (v. l. n. r.) Erich Honecker, Leonid Breschnew, Walter Ulbricht und Kurt Hager zusammen; Aufnahme 17. April 1967 (Foto: Bundesarchiv, Bild 183-F0417-0001-048 / Kohls, Ulrich / CC-BY-SA 3.0)\nZurück zum Artikel\nBild im Original ansehen",
+        "hash": "8uW9ql8moajg",
+        "address": "https://www.welt.de/geschichte/",
+        "title": "Geschichte - Von der Antike über das Mittelalter zur Moderne - WELT",
+        "snippet": "Der Mann, der Bismarck reizte\nSchon bald nach seinem Start ins Zeitungsgeschäft legte sich Leopold Ullstein ausgerechnet mit dem Reichskanzler an. Eine Erinnerung zum 200. Geburtstag des großen Berliner Verlegers.\nSo ging man im Altertum mit Beschwerden um",
         "matchedWords": {
           "65rGEicCRUgV": {
-            "hits": 0,
-            "textWords": 38
+            "hits": 3,
+            "textWords": 740
           },
           "SEhoJU8Vd4OY": {
-            "hits": 0,
-            "textWords": 38
-          },
-          "le_-kTULPwfi": {
-            "hits": 0,
-            "textWords": 38
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "tgYaolT3kTrg",
-        "address": "https://www.logo.de/deutsche-geschichte-110.html",
-        "title": "logo!-Thema: Deutsche Geschichte - logo!",
-        "snippet": "logo!:Deshalb war Deutschland früher geteilt\nlogo!:Eine Mauer trennte Westen und Osten\nDas Grundgesetz\nDeutsche Geschichte\nDeutschland, so wie ihr es heute kennt, gibt es also noch gar nicht so lange.",
-        "matchedWords": {
-          "65rGEicCRUgV": {
-            "hits": 0,
-            "textWords": 170
-          },
-          "SEhoJU8Vd4OY": {
-            "hits": 4,
-            "textWords": 170
-          },
-          "le_-kTULPwfi": {
             "hits": 1,
-            "textWords": 170
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "17zOZjc4UIAx",
-        "address": "https://en.wikivoyage.org/wiki/Germany",
-        "title": "Germany – Travel guide at Wikivoyage",
-        "snippet": "Bonn's Haus der Geschichte (House of History) about the history of the Federal Republic, with a Mercedes car used by Konrad Adenauer, the first post-war chancellor",
-        "matchedWords": {
-          "65rGEicCRUgV": {
-            "hits": 2,
-            "textWords": 33580
-          },
-          "SEhoJU8Vd4OY": {
-            "hits": 2,
-            "textWords": 33580
+            "textWords": 740
           },
           "le_-kTULPwfi": {
-            "hits": 1,
-            "textWords": 33580
+            "hits": 0,
+            "textWords": 740
           }
         },
         "queryPhraseHits": 0
@@ -367,6 +235,27 @@
   ],
   "itemsInNoOrder": [
     {
+      "hash": "hpNx6l0w__jw",
+      "address": "https://www.faz.net/aktuell/",
+      "title": "Aktuelle Nachrichten online - FAZ.NET",
+      "snippet": "Dianas „Revenge Dress“ wird versteigert\nAls der damalige Prinz Charles 1994 seine Untreue öffentlich einräumte, erschien Diana am selben Abend in einem Kleid, das in die Geschichte einging. Bei seiner Auktion könnte es Hunderttausende Dollar einbringen.\nImmobilienMarkt Anzeigen\nÖffnen\nMerken\nFAZ+",
+      "matchedWords": {
+        "65rGEicCRUgV": {
+          "hits": 0,
+          "textWords": 874
+        },
+        "SEhoJU8Vd4OY": {
+          "hits": 1,
+          "textWords": 874
+        },
+        "le_-kTULPwfi": {
+          "hits": 0,
+          "textWords": 874
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
       "hash": "WLeSrl5ARWyg",
       "address": "https://www.spiegel.de/",
       "title": "DER SPIEGEL | Online-Nachrichten",
@@ -374,15 +263,225 @@
       "matchedWords": {
         "65rGEicCRUgV": {
           "hits": 0,
-          "textWords": 323
+          "textWords": 328
         },
         "SEhoJU8Vd4OY": {
           "hits": 2,
-          "textWords": 323
+          "textWords": 328
         },
         "le_-kTULPwfi": {
           "hits": 0,
-          "textWords": 323
+          "textWords": 328
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "2RTWrl8moajg",
+      "address": "https://www.welt.de/",
+      "title": "WELT - Aktuelle Nachrichten, News, Hintergründe \u0026 Videos",
+      "snippet": "WELT TV\nWeltplus Artikel\nSachsen-Anhalt\nWarum jetzt alles auf Neuwahlen hinausläuft\nDie Wahl in Sachsen-Anhalt hat klare Machtverhältnisse geschaffen, aber keine regierungsfähige Mehrheit. Drei Szenarien sind jetzt wahrscheinlich.\nWeltplus Artikel\nIslamisierung\nWarten auf das Kinderkopftuch",
+      "matchedWords": {
+        "65rGEicCRUgV": {
+          "hits": 0,
+          "textWords": 1230
+        },
+        "SEhoJU8Vd4OY": {
+          "hits": 0,
+          "textWords": 1230
+        },
+        "le_-kTULPwfi": {
+          "hits": 0,
+          "textWords": 1230
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "3Qt4nC8moajg",
+      "address": "https://www.welt.de/regionales/berlin/",
+      "title": "Berlin \u0026 Brandenburg - News \u0026 aktuelle Nachrichten - WELT",
+      "snippet": "Altglienicke ging als klarer Favorit in die Partie und erfüllte diese Erwartungen am Ende auch.\nBerliner Athletik Klub 07 - FSV 63 Luckenwalde\nNichts zu holen gab es für den FSV 63 Luckenwalde beim Berliner Athletik Klub 07. Die Gastgeber erfreuten ihre Fans mit einem 2:1.",
+      "matchedWords": {
+        "65rGEicCRUgV": {
+          "hits": 11,
+          "textWords": 1100
+        },
+        "SEhoJU8Vd4OY": {
+          "hits": 0,
+          "textWords": 1100
+        },
+        "le_-kTULPwfi": {
+          "hits": 0,
+          "textWords": 1100
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "68MPWl8moajg",
+      "address": "https://www.welt.de/videos/",
+      "title": "WELT Videos: Aktuelle News \u0026 Nachrichten-Videos",
+      "snippet": "Pfadnavigation\nHome\nArtikeltyp:VideoPutins Krieg\n„Moskau will die Ukraine beherrschen“\nIm WELT-Gespräch analysiert Sicherheitsexperte Nico Lange die Verhandlungspositionen im Ukraine-Krieg und Putins Auftreten in Neu-Delhi.\nArtikeltyp:VideoDrohung an den Westen",
+      "matchedWords": {
+        "65rGEicCRUgV": {
+          "hits": 0,
+          "textWords": 857
+        },
+        "SEhoJU8Vd4OY": {
+          "hits": 0,
+          "textWords": 857
+        },
+        "le_-kTULPwfi": {
+          "hits": 0,
+          "textWords": 857
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "O_W7sdFO6r_x",
+      "address": "https://de.wikipedia.org/wiki/Wikipedia:Exzellente_Artikel",
+      "title": "Wikipedia:Exzellente Artikel – Wikipedia",
+      "snippet": "U-Bahn: Geschichte der Berliner U-Bahn · London Underground · Metro Bilbao · Metró Budapest · Metro Madrid · Metro Moskau · Metropolitan Railway · Metro Prag · Metro Rotterdam · Oslo T-bane · U-Bahn Berlin · U-Bahn Frankfurt · U-Bahn München · U-Bahn Nürnberg · U-Bahn-Linie U2 (Berlin)",
+      "matchedWords": {
+        "65rGEicCRUgV": {
+          "hits": 7,
+          "textWords": 3105
+        },
+        "SEhoJU8Vd4OY": {
+          "hits": 3,
+          "textWords": 3105
+        },
+        "le_-kTULPwfi": {
+          "hits": 0,
+          "textWords": 3105
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "TR9kflXXOSAg",
+      "address": "https://www.rbb24.de/",
+      "title": "rbb24 - Nachrichten aus Berlin und Brandenburg",
+      "snippet": "Poller sorgen in Berliner immer wieder für Diskussionen. Die CDU-geführte Verkehrsverwaltung möchte alle zur Überprüfung freigeben. Ist das sinnvoll?\nvon Klaas-Wilhelm Brandenburg\nGeschichte des Plattenbaus 100 Jahre Splanemann-Siedlung: Die erste \"Platte\" Deutschlands steht in Berlin",
+      "matchedWords": {
+        "65rGEicCRUgV": {
+          "hits": 12,
+          "textWords": 2125
+        },
+        "SEhoJU8Vd4OY": {
+          "hits": 1,
+          "textWords": 2125
+        },
+        "le_-kTULPwfi": {
+          "hits": 0,
+          "textWords": 2125
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "QlH6oLfjI1Dh",
+      "address": "https://www.tagesschau.de/inland/regional",
+      "title": "Regionalnachrichten aus den Bundesländern | tagesschau.de",
+      "snippet": "",
+      "matchedWords": {
+        "65rGEicCRUgV": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "SEhoJU8Vd4OY": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "le_-kTULPwfi": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "ATIMylhl_5qi",
+      "address": "https://www.deutschlandfunk.de/sendungen",
+      "title": "Alle Sendungen",
+      "snippet": "Kalenderblatt\nErstsendung: Montag bis Freitag • 01:05 und 03:52 Uhr, zusätzlich Montag bis Sonntag • 9:05 Uhr\nHier wird Geschichte zum Leben erweckt: Das „Kalenderblatt“ von Deutschlandfunk lädt zum Entdecken bedeutender und außergewöhnlicher Menschen und Ereignisse ein.\nKlassik-Pop-et cetera",
+      "matchedWords": {
+        "65rGEicCRUgV": {
+          "hits": 1,
+          "textWords": 3639
+        },
+        "SEhoJU8Vd4OY": {
+          "hits": 4,
+          "textWords": 3639
+        },
+        "le_-kTULPwfi": {
+          "hits": 0,
+          "textWords": 3639
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "0OQaDApVI8fh",
+      "address": "https://plus.sueddeutsche.de/",
+      "title": "Alle SZplus Inhalte der Süddeutschen Zeitung - SZ.de",
+      "snippet": "Hackerangriff\n:So brisant sind die Berliner Daten, die nun im Darknet liegen\nDie Aufarbeitung des Cyberangriffs in Berlin geht nur langsam voran. Wen die Behörden für die Täter halten – und warum es viel Kritik am Senat gibt.\nModeindustrie\n:Wer soll denn das noch anziehen?",
+      "matchedWords": {
+        "65rGEicCRUgV": {
+          "hits": 1,
+          "textWords": 1837
+        },
+        "SEhoJU8Vd4OY": {
+          "hits": 1,
+          "textWords": 1837
+        },
+        "le_-kTULPwfi": {
+          "hits": 0,
+          "textWords": 1837
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "bWC1SaqeWpa5",
+      "address": "https://www.leverkusen.com/wohin/index.php?view=00000029",
+      "title": "Essen und Trinken in Wiesdorf",
+      "snippet": "China-Express\nNobelstr. 11\nChinesische Mauer\nDhünnstr. 2d\n0214/46768\nCockpit\nKurtekotten\nMo., Di., Fr., 11:30-23:00; Sa., So., feiertags 10:00-23:00Neuer Pächter zum 01.11.2006\nCristallo\nFriedensstraße 15\n0214/2061100\nCurry 'n' Spice\nHauptstr. 69\nCharlot\nBreidenbachstr. 18/Ecke Dönhoffstr.\nDAX",
+      "matchedWords": {
+        "65rGEicCRUgV": {
+          "hits": 0,
+          "textWords": 1284
+        },
+        "SEhoJU8Vd4OY": {
+          "hits": 0,
+          "textWords": 1284
+        },
+        "le_-kTULPwfi": {
+          "hits": 1,
+          "textWords": 1284
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "WLeSrl5ARWyg",
+      "address": "https://www.spiegel.de/",
+      "title": "DER SPIEGEL | Online-Nachrichten",
+      "snippet": "Bücher, die alte Muster erkennen helfen und zeigen, wie Sie sich von ihnen lösen und klarer auf sich selbst blicken.\nDie Geschichte des 11. September - 25 Jahre danach",
+      "matchedWords": {
+        "65rGEicCRUgV": {
+          "hits": 0,
+          "textWords": 328
+        },
+        "SEhoJU8Vd4OY": {
+          "hits": 2,
+          "textWords": 328
+        },
+        "le_-kTULPwfi": {
+          "hits": 0,
+          "textWords": 328
         }
       },
       "queryPhraseHits": 0
@@ -391,19 +490,19 @@
       "hash": "XlXr-l5ARWyg",
       "address": "https://www.spiegel.de/kultur/",
       "title": "Kultur - DER SPIEGEL",
-      "snippet": "Von Trump attackierte Museen Smithsonian-Chef Lonnie Bunch kündigt Rücktritt an\nDonald Trump drängt dem Smithsonian seine Sicht auf die amerikanische Geschichte auf. Dessen Leiter gibt nun sein Amt ab.",
+      "snippet": "In »City of Blood« leiden die Berliner unter dem Klimawandel, und Vampire saugen die Stadt aus. Die Serie basiert auf einer großartigen Comic-Reihe, aber die Leute hinter dem Projekt wollen »Themen der Gegenwart«. Es ist zum Heulen. Von Oliver Kaever",
       "matchedWords": {
         "65rGEicCRUgV": {
-          "hits": 0,
-          "textWords": 888
+          "hits": 1,
+          "textWords": 894
         },
         "SEhoJU8Vd4OY": {
-          "hits": 1,
-          "textWords": 888
+          "hits": 0,
+          "textWords": 894
         },
         "le_-kTULPwfi": {
           "hits": 0,
-          "textWords": 888
+          "textWords": 894
         }
       },
       "queryPhraseHits": 0
@@ -415,16 +514,16 @@
       "snippet": "Erfolg im Film Schauspieler Oliver Masucci hält Unsicherheit für gute Berufsvoraussetzung\n11. September, 15.37 Uhr • Kultur • 1 Min\nWutzkyallee in Neukölln Kommission erkennt keine Vertuschung nach mutmaßlicher Vergewaltigung in Berliner Jugendclub\n11. September, 15.32 Uhr • Panorama • 2 Min",
       "matchedWords": {
         "65rGEicCRUgV": {
-          "hits": 11,
-          "textWords": 6965
+          "hits": 10,
+          "textWords": 6296
         },
         "SEhoJU8Vd4OY": {
-          "hits": 5,
-          "textWords": 6965
+          "hits": 4,
+          "textWords": 6296
         },
         "le_-kTULPwfi": {
           "hits": 0,
-          "textWords": 6965
+          "textWords": 6296
         }
       },
       "queryPhraseHits": 0
@@ -472,6 +571,27 @@
       "queryPhraseHits": 5
     },
     {
+      "hash": "O_W7sdFO6r_x",
+      "address": "https://de.wikipedia.org/wiki/Wikipedia:Exzellente_Artikel",
+      "title": "Wikipedia:Exzellente Artikel – Wikipedia",
+      "snippet": "U-Bahn: Geschichte der Berliner U-Bahn · London Underground · Metro Bilbao · Metró Budapest · Metro Madrid · Metro Moskau · Metropolitan Railway · Metro Prag · Metro Rotterdam · Oslo T-bane · U-Bahn Berlin · U-Bahn Frankfurt · U-Bahn München · U-Bahn Nürnberg · U-Bahn-Linie U2 (Berlin)",
+      "matchedWords": {
+        "65rGEicCRUgV": {
+          "hits": 7,
+          "textWords": 3105
+        },
+        "SEhoJU8Vd4OY": {
+          "hits": 3,
+          "textWords": 3105
+        },
+        "le_-kTULPwfi": {
+          "hits": 0,
+          "textWords": 3105
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
       "hash": "NbA0slHjdLqg",
       "address": "https://www.focus.de/",
       "title": "FOCUS online - Aktuelle Nachrichten",
@@ -496,19 +616,19 @@
       "hash": "PCb0dlhl_5qi",
       "address": "https://www.deutschlandfunk.de/",
       "title": "Deutschlandfunk - Alles von Relevanz",
-      "snippet": "25 Jahre nach 9/11 - Eine andere Welt?\nDer 11. September 2001 und die Angriffe auf die Twin Towers in New York - warum die Folgen dieses Tags bis heute zu spüren sind. Und: Der Präsident der Vereinigten Arabischen Emirate verspricht in Berlin eine Milliarden-Investition.",
+      "snippet": "Doch der Preis für die ungebremste Siedlungspolitik wird immer höher.\nNext\n\"Kudamm-Krawall\" 1931 - Ein Pogrom in der Weimarer Republik\nIm September 1931 zogen Hunderte nationalsozialistische Schläger durch das Judenviertel am Berliner Kurfürstendamm.",
       "matchedWords": {
         "65rGEicCRUgV": {
-          "hits": 0,
-          "textWords": 958
+          "hits": 1,
+          "textWords": 1153
         },
         "SEhoJU8Vd4OY": {
           "hits": 0,
-          "textWords": 958
+          "textWords": 1153
         },
         "le_-kTULPwfi": {
           "hits": 0,
-          "textWords": 958
+          "textWords": 1153
         }
       },
       "queryPhraseHits": 0
@@ -517,19 +637,19 @@
       "hash": "bthkIlgw84xh",
       "address": "https://www.sueddeutsche.de/",
       "title": "Aktuelle Nachrichten und Kommentare - SZ.de",
-      "snippet": ":So brisant sind die Berliner Daten, die nun im Darknet liegen\nDie Aufarbeitung des Cyberangriffs in Berlin geht nur langsam voran. Wen die Behörden für die Täter halten – und warum es viel Kritik am Senat gibt.\nMedizin\n:Sollte man sich jetzt gegen Covid und Grippe impfen lassen?",
+      "snippet": ":Was wäre falsch daran, sie aufzunehmen?\nFaten Ben Omar wollte frei sein. Dafür stieg die Marokkanerin ins Meer – und ertrank vor Ceuta. Ihre Geschichte erzählt von den vielen jungen Frauen, die alles riskieren, um vor patriarchalen Zwängen zu fliehen.\nZahloptionen in der Gastronomie",
       "matchedWords": {
         "65rGEicCRUgV": {
-          "hits": 1,
-          "textWords": 2599
+          "hits": 0,
+          "textWords": 2664
         },
         "SEhoJU8Vd4OY": {
-          "hits": 3,
-          "textWords": 2599
+          "hits": 4,
+          "textWords": 2664
         },
         "le_-kTULPwfi": {
           "hits": 0,
-          "textWords": 2599
+          "textWords": 2664
         }
       },
       "queryPhraseHits": 0
@@ -542,15 +662,78 @@
       "matchedWords": {
         "65rGEicCRUgV": {
           "hits": 0,
-          "textWords": 323
+          "textWords": 328
         },
         "SEhoJU8Vd4OY": {
           "hits": 2,
-          "textWords": 323
+          "textWords": 328
         },
         "le_-kTULPwfi": {
           "hits": 0,
-          "textWords": 323
+          "textWords": 328
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "6BzIDjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Eastern_Bloc",
+      "title": "Eastern Bloc - Wikipedia",
+      "snippet": "↑ Hilde Szabo: Die Berliner Mauer begann im Burgenland zu bröckeln (The Berlin Wall began to crumble in Burgenland – German), in Wiener Zeitung 16 August 1999; Otmar Lahodynsky: Paneuropäisches Picknick: Die Generalprobe für den Mauerfall (Pan-European picnic: the dress rehearsal for the fall of",
+      "matchedWords": {
+        "65rGEicCRUgV": {
+          "hits": 1,
+          "textWords": 24285
+        },
+        "SEhoJU8Vd4OY": {
+          "hits": 1,
+          "textWords": 24285
+        },
+        "le_-kTULPwfi": {
+          "hits": 1,
+          "textWords": 24285
+        }
+      },
+      "queryPhraseHits": 1
+    },
+    {
+      "hash": "-eJKllXXOSAg",
+      "address": "https://www.rbb24.de/thema/",
+      "title": "Themen von A - Z",
+      "snippet": "\"Bau fällig\": Besondere Berliner Bauten\nNachrichten zum Thema\nBerlin-Abo\nAktuelle Umfragen und Analysen\nBerlin Trend\nÜberblick\nBildergalerien\nNachrichten zum Thema\nBildung\nAktuelle Umfragen und Analysen\nBrandenburg Trend\nNachrichten zum Thema\nBundesautobahn A100\nNachrichten zum Thema\nBundeswehr",
+      "matchedWords": {
+        "65rGEicCRUgV": {
+          "hits": 1,
+          "textWords": 539
+        },
+        "SEhoJU8Vd4OY": {
+          "hits": 1,
+          "textWords": 539
+        },
+        "le_-kTULPwfi": {
+          "hits": 0,
+          "textWords": 539
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "LA9XAhoLWSig",
+      "address": "https://www.berlin.de/landesdenkmalamt/veranstaltungen/tag-des-offenen-denkmals/",
+      "title": "Tag des offenen Denkmals - Berlin.de",
+      "snippet": "Privatpersonen, Vereine, Institutionen und viele mehr beteiligen sich am Denkmalwochenende\n45.000 Besucher:innen\nDas Denkmalwochenende steht nicht nur bei Berliner:innen sondern auch bei vielen Tourist:innen fest im Kalender\nZum Onlineprogramm\nProgrammsuche",
+      "matchedWords": {
+        "65rGEicCRUgV": {
+          "hits": 3,
+          "textWords": 511
+        },
+        "SEhoJU8Vd4OY": {
+          "hits": 0,
+          "textWords": 511
+        },
+        "le_-kTULPwfi": {
+          "hits": 0,
+          "textWords": 511
         }
       },
       "queryPhraseHits": 0
@@ -577,6 +760,27 @@
       "queryPhraseHits": 5
     },
     {
+      "hash": "O_W7sdFO6r_x",
+      "address": "https://de.wikipedia.org/wiki/Wikipedia:Exzellente_Artikel",
+      "title": "Wikipedia:Exzellente Artikel – Wikipedia",
+      "snippet": "U-Bahn: Geschichte der Berliner U-Bahn · London Underground · Metro Bilbao · Metró Budapest · Metro Madrid · Metro Moskau · Metropolitan Railway · Metro Prag · Metro Rotterdam · Oslo T-bane · U-Bahn Berlin · U-Bahn Frankfurt · U-Bahn München · U-Bahn Nürnberg · U-Bahn-Linie U2 (Berlin)",
+      "matchedWords": {
+        "65rGEicCRUgV": {
+          "hits": 7,
+          "textWords": 3105
+        },
+        "SEhoJU8Vd4OY": {
+          "hits": 3,
+          "textWords": 3105
+        },
+        "le_-kTULPwfi": {
+          "hits": 0,
+          "textWords": 3105
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
       "hash": "QrcPgdFO6r_x",
       "address": "https://de.wikipedia.org/wiki/Klassizismus",
       "title": "Klassizismus – Wikipedia",
@@ -593,6 +797,27 @@
         "le_-kTULPwfi": {
           "hits": 0,
           "textWords": 6889
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "hpNx6l0w__jw",
+      "address": "https://www.faz.net/aktuell/",
+      "title": "Aktuelle Nachrichten online - FAZ.NET",
+      "snippet": "Dianas „Revenge Dress“ wird versteigert\nAls der damalige Prinz Charles 1994 seine Untreue öffentlich einräumte, erschien Diana am selben Abend in einem Kleid, das in die Geschichte einging. Bei seiner Auktion könnte es Hunderttausende Dollar einbringen.\nImmobilienMarkt Anzeigen\nÖffnen\nMerken\nFAZ+",
+      "matchedWords": {
+        "65rGEicCRUgV": {
+          "hits": 0,
+          "textWords": 874
+        },
+        "SEhoJU8Vd4OY": {
+          "hits": 1,
+          "textWords": 874
+        },
+        "le_-kTULPwfi": {
+          "hits": 0,
+          "textWords": 874
         }
       },
       "queryPhraseHits": 0
@@ -622,22 +847,106 @@
       "hash": "bthkIlgw84xh",
       "address": "https://www.sueddeutsche.de/",
       "title": "Aktuelle Nachrichten und Kommentare - SZ.de",
-      "snippet": ":So brisant sind die Berliner Daten, die nun im Darknet liegen\nDie Aufarbeitung des Cyberangriffs in Berlin geht nur langsam voran. Wen die Behörden für die Täter halten – und warum es viel Kritik am Senat gibt.\nMedizin\n:Sollte man sich jetzt gegen Covid und Grippe impfen lassen?",
+      "snippet": ":Was wäre falsch daran, sie aufzunehmen?\nFaten Ben Omar wollte frei sein. Dafür stieg die Marokkanerin ins Meer – und ertrank vor Ceuta. Ihre Geschichte erzählt von den vielen jungen Frauen, die alles riskieren, um vor patriarchalen Zwängen zu fliehen.\nZahloptionen in der Gastronomie",
       "matchedWords": {
         "65rGEicCRUgV": {
-          "hits": 1,
-          "textWords": 2599
+          "hits": 0,
+          "textWords": 2664
         },
         "SEhoJU8Vd4OY": {
-          "hits": 3,
-          "textWords": 2599
+          "hits": 4,
+          "textWords": 2664
         },
         "le_-kTULPwfi": {
           "hits": 0,
-          "textWords": 2599
+          "textWords": 2664
         }
       },
       "queryPhraseHits": 0
+    },
+    {
+      "hash": "hpNx6l0w__jw",
+      "address": "https://www.faz.net/aktuell/",
+      "title": "Aktuelle Nachrichten online - FAZ.NET",
+      "snippet": "Dianas „Revenge Dress“ wird versteigert\nAls der damalige Prinz Charles 1994 seine Untreue öffentlich einräumte, erschien Diana am selben Abend in einem Kleid, das in die Geschichte einging. Bei seiner Auktion könnte es Hunderttausende Dollar einbringen.\nImmobilienMarkt Anzeigen\nÖffnen\nMerken\nFAZ+",
+      "matchedWords": {
+        "65rGEicCRUgV": {
+          "hits": 0,
+          "textWords": 874
+        },
+        "SEhoJU8Vd4OY": {
+          "hits": 1,
+          "textWords": 874
+        },
+        "le_-kTULPwfi": {
+          "hits": 0,
+          "textWords": 874
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "2RTWrl8moajg",
+      "address": "https://www.welt.de/",
+      "title": "WELT - Aktuelle Nachrichten, News, Hintergründe \u0026 Videos",
+      "snippet": "WELT TV\nWeltplus Artikel\nSachsen-Anhalt\nWarum jetzt alles auf Neuwahlen hinausläuft\nDie Wahl in Sachsen-Anhalt hat klare Machtverhältnisse geschaffen, aber keine regierungsfähige Mehrheit. Drei Szenarien sind jetzt wahrscheinlich.\nWeltplus Artikel\nIslamisierung\nWarten auf das Kinderkopftuch",
+      "matchedWords": {
+        "65rGEicCRUgV": {
+          "hits": 0,
+          "textWords": 1230
+        },
+        "SEhoJU8Vd4OY": {
+          "hits": 0,
+          "textWords": 1230
+        },
+        "le_-kTULPwfi": {
+          "hits": 0,
+          "textWords": 1230
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "B9pAUdFO6r_x",
+      "address": "https://de.wikipedia.org/wiki/Zweiter_Weltkrieg",
+      "title": "Zweiter Weltkrieg – Wikipedia",
+      "snippet": "Die europäischen Kolonialmächte Großbritannien und Frankreich verloren ihre Übersee-Besitzungen, die meisten ihrer Kolonien wurden unabhängig. „Erst mit dem Fall der Mauer 1989 und dem Ende des Kalten Krieges ging die vom Zweiten Weltkrieg […] geprägte Phase der Geschichte zu Ende.“[6]",
+      "matchedWords": {
+        "65rGEicCRUgV": {
+          "hits": 4,
+          "textWords": 47026
+        },
+        "SEhoJU8Vd4OY": {
+          "hits": 81,
+          "textWords": 47026
+        },
+        "le_-kTULPwfi": {
+          "hits": 1,
+          "textWords": 47026
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "DWP4NdFO6r_x",
+      "address": "https://de.wikipedia.org/wiki/Deutscher_Bundestag",
+      "title": "Deutscher Bundestag – Wikipedia",
+      "snippet": "Der Bau der Berliner Mauer 1961 fiel mitten in den Wahlkampf.\nVierter Deutscher Bundestag (1961–1965)\nVierter Bundestag\nStimmenauszählung 1961\nAuf der konstituierenden Sitzung des am 17.",
+      "matchedWords": {
+        "65rGEicCRUgV": {
+          "hits": 11,
+          "textWords": 23362
+        },
+        "SEhoJU8Vd4OY": {
+          "hits": 16,
+          "textWords": 23362
+        },
+        "le_-kTULPwfi": {
+          "hits": 2,
+          "textWords": 23362
+        }
+      },
+      "queryPhraseHits": 2
     },
     {
       "hash": "MnL7SdFO6r_x",
@@ -659,6 +968,48 @@
         }
       },
       "queryPhraseHits": 5
+    },
+    {
+      "hash": "N_sgsdFO6r_x",
+      "address": "https://de.wikipedia.org/wiki/Europa",
+      "title": "Europa – Wikipedia",
+      "snippet": "Erst Perestroika und Glasnost führten in der Sowjetunion Mitte der 1980er Jahre zu einem politischen Kurswechsel. 1989 brach der Ostblock auf, die Berliner Mauer fiel. Die Sowjetunion und der Warschauer Pakt lösten sich auf.",
+      "matchedWords": {
+        "65rGEicCRUgV": {
+          "hits": 1,
+          "textWords": 7394
+        },
+        "SEhoJU8Vd4OY": {
+          "hits": 10,
+          "textWords": 7394
+        },
+        "le_-kTULPwfi": {
+          "hits": 1,
+          "textWords": 7394
+        }
+      },
+      "queryPhraseHits": 1
+    },
+    {
+      "hash": "O_W7sdFO6r_x",
+      "address": "https://de.wikipedia.org/wiki/Wikipedia:Exzellente_Artikel",
+      "title": "Wikipedia:Exzellente Artikel – Wikipedia",
+      "snippet": "U-Bahn: Geschichte der Berliner U-Bahn · London Underground · Metro Bilbao · Metró Budapest · Metro Madrid · Metro Moskau · Metropolitan Railway · Metro Prag · Metro Rotterdam · Oslo T-bane · U-Bahn Berlin · U-Bahn Frankfurt · U-Bahn München · U-Bahn Nürnberg · U-Bahn-Linie U2 (Berlin)",
+      "matchedWords": {
+        "65rGEicCRUgV": {
+          "hits": 7,
+          "textWords": 3105
+        },
+        "SEhoJU8Vd4OY": {
+          "hits": 3,
+          "textWords": 3105
+        },
+        "le_-kTULPwfi": {
+          "hits": 0,
+          "textWords": 3105
+        }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "VSatEdFO6r_x",
@@ -703,6 +1054,48 @@
       "queryPhraseHits": 0
     },
     {
+      "hash": "sxUL2dFO6r_x",
+      "address": "https://de.wikipedia.org/wiki/Wikipedia:Hauptseite",
+      "title": "Wikipedia – Die freie Enzyklopädie",
+      "snippet": "Die Freiberger Huldigungsmedaille zeigt die Stadtansicht und Einblicke ins Bergbauwesen.\nDie Lokomotivflucht nach Eger war laut Jaroslav Rudiš „die größte Heldentat in der Geschichte der sächsischen Eisenbahnen“.\nWeitere neue Artikel\nArchiv\nSchwesterprojekte\nCommons – Medien",
+      "matchedWords": {
+        "65rGEicCRUgV": {
+          "hits": 0,
+          "textWords": 510
+        },
+        "SEhoJU8Vd4OY": {
+          "hits": 1,
+          "textWords": 510
+        },
+        "le_-kTULPwfi": {
+          "hits": 0,
+          "textWords": 510
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "UGaaTjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Central_Europe",
+      "title": "Central Europe - Wikipedia",
+      "snippet": "\"Regions Of Europe\". WorldAtlas. Retrieved 23 August 2023.\n↑ \"Iron Curtain Trail – EuroVelo 13\". Council of Europe. Retrieved 17 October 2023.\n↑ \"The Berlin Wall | Berlin Wall Foundation\". stiftung-berliner-mauer.de. Retrieved 17 October 2023.\n↑ \"Fall of Communism in Eastern Europe, 1989\". U.S.",
+      "matchedWords": {
+        "65rGEicCRUgV": {
+          "hits": 2,
+          "textWords": 12862
+        },
+        "SEhoJU8Vd4OY": {
+          "hits": 2,
+          "textWords": 12862
+        },
+        "le_-kTULPwfi": {
+          "hits": 2,
+          "textWords": 12862
+        }
+      },
+      "queryPhraseHits": 2
+    },
+    {
       "hash": "RXMx0mcqomtg",
       "address": "https://taz.de/Kultur/!p4639/",
       "title": "Kultur | taz.de",
@@ -731,15 +1124,15 @@
       "matchedWords": {
         "65rGEicCRUgV": {
           "hits": 0,
-          "textWords": 2056
+          "textWords": 2064
         },
         "SEhoJU8Vd4OY": {
           "hits": 2,
-          "textWords": 2056
+          "textWords": 2064
         },
         "le_-kTULPwfi": {
           "hits": 0,
-          "textWords": 2056
+          "textWords": 2064
         }
       },
       "queryPhraseHits": 0
@@ -748,19 +1141,19 @@
       "hash": "ZMZqM3cqomtg",
       "address": "https://taz.de/Themen/!p5360/",
       "title": "Themen | taz.de",
-      "snippet": "Zwischen den Fronten: Die Autorin Stella Gaitano macht in „Eddos goldenes Lächeln“ die Geschichte eines Kriegs erfahrbar, der den Sudan zweiteilen sollte.\nVon Carola Ebeling\n3.8.2026\npressefreiheit\nLizenzentzug für niederländischen Sender Hitler-Relativierung als letzter Tropfen",
+      "snippet": "Die Berliner Bewegung „Klimaneustart“ hat mit 300 Leuten über ihre Klimasorgen gesprochen. Aktivistin Veronika Brugger entwickelte die Gesprächsform.\nInterview von Adam Schwedhelm\n12.9.2026\nWahlsieg der Rechtsextremen Könnte die AfD in Sachsen-Anhalt Klimapolitik zurückdrehen?",
       "matchedWords": {
         "65rGEicCRUgV": {
-          "hits": 1,
-          "textWords": 2946
+          "hits": 2,
+          "textWords": 2949
         },
         "SEhoJU8Vd4OY": {
           "hits": 2,
-          "textWords": 2946
+          "textWords": 2949
         },
         "le_-kTULPwfi": {
           "hits": 0,
-          "textWords": 2946
+          "textWords": 2949
         }
       },
       "queryPhraseHits": 0
@@ -773,15 +1166,15 @@
       "matchedWords": {
         "65rGEicCRUgV": {
           "hits": 2,
-          "textWords": 4568
+          "textWords": 4499
         },
         "SEhoJU8Vd4OY": {
           "hits": 8,
-          "textWords": 4568
+          "textWords": 4499
         },
         "le_-kTULPwfi": {
           "hits": 0,
-          "textWords": 4568
+          "textWords": 4499
         }
       },
       "queryPhraseHits": 0
@@ -790,40 +1183,19 @@
       "hash": "46TeYscqomtg",
       "address": "https://taz.de/!p5360/",
       "title": "Themen | taz.de",
-      "snippet": "Zwischen den Fronten: Die Autorin Stella Gaitano macht in „Eddos goldenes Lächeln“ die Geschichte eines Kriegs erfahrbar, der den Sudan zweiteilen sollte.\nVon Carola Ebeling\n3.8.2026\npressefreiheit\nLizenzentzug für niederländischen Sender Hitler-Relativierung als letzter Tropfen",
+      "snippet": "Die Berliner Bewegung „Klimaneustart“ hat mit 300 Leuten über ihre Klimasorgen gesprochen. Aktivistin Veronika Brugger entwickelte die Gesprächsform.\nInterview von Adam Schwedhelm\n12.9.2026\nWahlsieg der Rechtsextremen Könnte die AfD in Sachsen-Anhalt Klimapolitik zurückdrehen?",
       "matchedWords": {
         "65rGEicCRUgV": {
-          "hits": 1,
-          "textWords": 2946
+          "hits": 2,
+          "textWords": 2949
         },
         "SEhoJU8Vd4OY": {
           "hits": 2,
-          "textWords": 2946
+          "textWords": 2949
         },
         "le_-kTULPwfi": {
           "hits": 0,
-          "textWords": 2946
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "1c6AWlfWll-g",
-      "address": "https://www.3sat.de/",
-      "title": "Startseite - 3sat-Mediathek",
-      "snippet": "Serien-Highlights\nDiese Beitragsliste überspringen\nThemen\nNeues aus Wissenschaft \u0026 Forschung\nDiese Beitragsliste überspringen\nMetropolen des Pop: Städte erzählen ihre Pop-Geschichte\nKultur\nLondon: Britpop, Punk und schwarzer Humor\nMetropolen des Pop\nKultur\nMailand: Die Kunst der Leichtigkeit",
-      "matchedWords": {
-        "65rGEicCRUgV": {
-          "hits": 0,
-          "textWords": 300
-        },
-        "SEhoJU8Vd4OY": {
-          "hits": 1,
-          "textWords": 300
-        },
-        "le_-kTULPwfi": {
-          "hits": 0,
-          "textWords": 300
+          "textWords": 2949
         }
       },
       "queryPhraseHits": 0
@@ -850,526 +1222,190 @@
       "queryPhraseHits": 0
     },
     {
-      "hash": "R1PZSlKDFhNg",
-      "address": "https://www.bpb.de/",
-      "title": "Bundeszentrale für politische Bildung | Startseite | bpb.de",
-      "snippet": "September 2001 verübte das islamistische Terrornetzwerk al-Qaida die bisher folgenreichsten Anschläge in der jüngeren Geschichte. Etwa 3.000 Menschen verloren ihr Leben.",
+      "hash": "6BzIDjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Eastern_Bloc",
+      "title": "Eastern Bloc - Wikipedia",
+      "snippet": "↑ Hilde Szabo: Die Berliner Mauer begann im Burgenland zu bröckeln (The Berlin Wall began to crumble in Burgenland – German), in Wiener Zeitung 16 August 1999; Otmar Lahodynsky: Paneuropäisches Picknick: Die Generalprobe für den Mauerfall (Pan-European picnic: the dress rehearsal for the fall of",
       "matchedWords": {
         "65rGEicCRUgV": {
           "hits": 1,
-          "textWords": 1479
+          "textWords": 24285
         },
         "SEhoJU8Vd4OY": {
           "hits": 1,
-          "textWords": 1479
+          "textWords": 24285
+        },
+        "le_-kTULPwfi": {
+          "hits": 1,
+          "textWords": 24285
+        }
+      },
+      "queryPhraseHits": 1
+    },
+    {
+      "hash": "-eJKllXXOSAg",
+      "address": "https://www.rbb24.de/thema/",
+      "title": "Themen von A - Z",
+      "snippet": "\"Bau fällig\": Besondere Berliner Bauten\nNachrichten zum Thema\nBerlin-Abo\nAktuelle Umfragen und Analysen\nBerlin Trend\nÜberblick\nBildergalerien\nNachrichten zum Thema\nBildung\nAktuelle Umfragen und Analysen\nBrandenburg Trend\nNachrichten zum Thema\nBundesautobahn A100\nNachrichten zum Thema\nBundeswehr",
+      "matchedWords": {
+        "65rGEicCRUgV": {
+          "hits": 1,
+          "textWords": 539
+        },
+        "SEhoJU8Vd4OY": {
+          "hits": 1,
+          "textWords": 539
         },
         "le_-kTULPwfi": {
           "hits": 0,
-          "textWords": 1479
+          "textWords": 539
         }
       },
       "queryPhraseHits": 0
     },
     {
-      "hash": "0jbQd7KDFhNg",
-      "address": "https://www.bpb.de/themen/deutschlandarchiv/550520/neugablonz-vom-truemmergelaende-zur-vertriebenensiedlung/",
-      "title": "Neugablonz - vom Trümmergelände zur Vertriebenensiedlung | Deutschland Archiv | bpb.de",
-      "snippet": "Der Beitrag ist Teil einer Serie \"Orte des Ankommens\", erstellt in Kooperation des Fachgebietes Städtebauliche Denkmalpflege und Urbanes Kulturerbe der Technischen Universität Berlin, dem Leibniz-Institut für Raumbezogene Sozialforschung Erkner und der Stiftung Berliner Mauer 2023/24, herausgegeben",
+      "hash": "1c6AWlfWll-g",
+      "address": "https://www.3sat.de/",
+      "title": "Startseite - 3sat-Mediathek",
+      "snippet": "Hervorgehobene Inhalte\nWeit\nDie Geschichte von einem Weg um die Welt\nBesonders sehenswert\nDiese Beitragsliste überspringen\nKrimis \u0026 Thriller\nDiese Beitragsliste überspringen\nAlles auf einen Blick\nDiese Beitragsliste überspringen\nFilmfestspiele von Venedig\nKultur",
       "matchedWords": {
         "65rGEicCRUgV": {
+          "hits": 0,
+          "textWords": 291
+        },
+        "SEhoJU8Vd4OY": {
           "hits": 2,
-          "textWords": 2847
-        },
-        "SEhoJU8Vd4OY": {
-          "hits": 4,
-          "textWords": 2847
-        },
-        "le_-kTULPwfi": {
-          "hits": 1,
-          "textWords": 2847
-        }
-      },
-      "queryPhraseHits": 1
-    },
-    {
-      "hash": "1dN9D7KDFhNg",
-      "address": "https://www.bpb.de/themen/deutschlandarchiv/294350/die-aufarbeitung-der-aufarbeitung-welche-zukunft-hat-die-ddr-geschichte/",
-      "title": "Die Aufarbeitung der Aufarbeitung - Welche Zukunft hat die DDR-Geschichte? | Deutschland Archiv | bpb.de",
-      "snippet": "Das war oft schwer zu glauben. Dahinter verbarg sich aber etwas anderes: Diese Geschichte von Leid, Opfern, Unterdrückung und Widerstand erreichte die Gesellschaft nicht, sie war nicht ihre Geschichte; noch schlimmer sogar: Sie wurde nicht ihre Geschichte.",
-      "matchedWords": {
-        "65rGEicCRUgV": {
-          "hits": 1,
-          "textWords": 3271
-        },
-        "SEhoJU8Vd4OY": {
-          "hits": 15,
-          "textWords": 3271
+          "textWords": 291
         },
         "le_-kTULPwfi": {
           "hits": 0,
-          "textWords": 3271
+          "textWords": 291
         }
       },
       "queryPhraseHits": 0
     },
     {
-      "hash": "1f_Ai7KDFhNg",
-      "address": "https://www.bpb.de/themen/deutschlandarchiv/324915/die-durchlaufene-mauer/",
-      "title": "Die durchlaufene Mauer | Deutschland Archiv | bpb.de",
-      "snippet": "Deshalb entschieden wir uns, es für unwahrscheinlich, aber denkbar zu halten. Wir verabredeten, uns am Abend noch einmal zu treffen, er weiter Nachrichten sehen und uns informieren solle. Wenn die Grenze tatsächlich geöffnet werden sollte, wollten wir unbedingt zur Berliner Mauer fahren.",
+      "hash": "bWC1SaqeWpa5",
+      "address": "https://www.leverkusen.com/wohin/index.php?view=00000029",
+      "title": "Essen und Trinken in Wiesdorf",
+      "snippet": "China-Express\nNobelstr. 11\nChinesische Mauer\nDhünnstr. 2d\n0214/46768\nCockpit\nKurtekotten\nMo., Di., Fr., 11:30-23:00; Sa., So., feiertags 10:00-23:00Neuer Pächter zum 01.11.2006\nCristallo\nFriedensstraße 15\n0214/2061100\nCurry 'n' Spice\nHauptstr. 69\nCharlot\nBreidenbachstr. 18/Ecke Dönhoffstr.\nDAX",
       "matchedWords": {
         "65rGEicCRUgV": {
-          "hits": 4,
-          "textWords": 4902
+          "hits": 0,
+          "textWords": 1284
         },
         "SEhoJU8Vd4OY": {
-          "hits": 7,
-          "textWords": 4902
+          "hits": 0,
+          "textWords": 1284
         },
         "le_-kTULPwfi": {
-          "hits": 11,
-          "textWords": 4902
+          "hits": 1,
+          "textWords": 1284
         }
       },
-      "queryPhraseHits": 1
+      "queryPhraseHits": 0
     },
     {
-      "hash": "14BQC7KDFhNg",
-      "address": "https://www.bpb.de/themen/deutschlandarchiv/297811/die-maueroeffner/",
-      "title": "Die Maueröffner | Deutschland Archiv | bpb.de",
-      "snippet": "Plötzlich zeigten auch sie keine Angst mehr vor der Mauer und dem Grenzregime, dem anfangs immer noch zugetraut wurde, gegebenenfalls Waffen bei Grenzdurchbrüchen einzusetzen.",
+      "hash": "bWC1SaqeWpa5",
+      "address": "https://www.leverkusen.com/wohin/index.php?view=00000029",
+      "title": "Essen und Trinken in Wiesdorf",
+      "snippet": "China-Express\nNobelstr. 11\nChinesische Mauer\nDhünnstr. 2d\n0214/46768\nCockpit\nKurtekotten\nMo., Di., Fr., 11:30-23:00; Sa., So., feiertags 10:00-23:00Neuer Pächter zum 01.11.2006\nCristallo\nFriedensstraße 15\n0214/2061100\nCurry 'n' Spice\nHauptstr. 69\nCharlot\nBreidenbachstr. 18/Ecke Dönhoffstr.\nDAX",
+      "matchedWords": {
+        "65rGEicCRUgV": {
+          "hits": 0,
+          "textWords": 1284
+        },
+        "SEhoJU8Vd4OY": {
+          "hits": 0,
+          "textWords": 1284
+        },
+        "le_-kTULPwfi": {
+          "hits": 1,
+          "textWords": 1284
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "0k0HOtcqomtg",
+      "address": "https://taz.de/verlag/aktuelles-aus-der-taz/!v=8f20076f-2be2-41ba-b79b-5a03bb0ecc51/",
+      "title": "Aktuelles | taz.de",
+      "snippet": "10 Ausgaben für 10 Euro\nDie Wochenzeitung mit taz-Blick\nUnsere wochentaz bietet jeden Samstag Journalismus, der es nicht allen recht macht und Stimmen, die man woanders nicht hört. Jetzt zehn Wochen lang kennenlernen.",
+      "matchedWords": {
+        "65rGEicCRUgV": {
+          "hits": 0,
+          "textWords": 84
+        },
+        "SEhoJU8Vd4OY": {
+          "hits": 0,
+          "textWords": 84
+        },
+        "le_-kTULPwfi": {
+          "hits": 0,
+          "textWords": 84
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "hpNx6l0w__jw",
+      "address": "https://www.faz.net/aktuell/",
+      "title": "Aktuelle Nachrichten online - FAZ.NET",
+      "snippet": "Dianas „Revenge Dress“ wird versteigert\nAls der damalige Prinz Charles 1994 seine Untreue öffentlich einräumte, erschien Diana am selben Abend in einem Kleid, das in die Geschichte einging. Bei seiner Auktion könnte es Hunderttausende Dollar einbringen.\nImmobilienMarkt Anzeigen\nÖffnen\nMerken\nFAZ+",
+      "matchedWords": {
+        "65rGEicCRUgV": {
+          "hits": 0,
+          "textWords": 874
+        },
+        "SEhoJU8Vd4OY": {
+          "hits": 1,
+          "textWords": 874
+        },
+        "le_-kTULPwfi": {
+          "hits": 0,
+          "textWords": 874
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "bWC1SaqeWpa5",
+      "address": "https://www.leverkusen.com/wohin/index.php?view=00000029",
+      "title": "Essen und Trinken in Wiesdorf",
+      "snippet": "China-Express\nNobelstr. 11\nChinesische Mauer\nDhünnstr. 2d\n0214/46768\nCockpit\nKurtekotten\nMo., Di., Fr., 11:30-23:00; Sa., So., feiertags 10:00-23:00Neuer Pächter zum 01.11.2006\nCristallo\nFriedensstraße 15\n0214/2061100\nCurry 'n' Spice\nHauptstr. 69\nCharlot\nBreidenbachstr. 18/Ecke Dönhoffstr.\nDAX",
+      "matchedWords": {
+        "65rGEicCRUgV": {
+          "hits": 0,
+          "textWords": 1284
+        },
+        "SEhoJU8Vd4OY": {
+          "hits": 0,
+          "textWords": 1284
+        },
+        "le_-kTULPwfi": {
+          "hits": 1,
+          "textWords": 1284
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "LA9XAhoLWSig",
+      "address": "https://www.berlin.de/landesdenkmalamt/veranstaltungen/tag-des-offenen-denkmals/",
+      "title": "Tag des offenen Denkmals - Berlin.de",
+      "snippet": "Privatpersonen, Vereine, Institutionen und viele mehr beteiligen sich am Denkmalwochenende\n45.000 Besucher:innen\nDas Denkmalwochenende steht nicht nur bei Berliner:innen sondern auch bei vielen Tourist:innen fest im Kalender\nZum Onlineprogramm\nProgrammsuche",
       "matchedWords": {
         "65rGEicCRUgV": {
           "hits": 3,
-          "textWords": 1396
-        },
-        "SEhoJU8Vd4OY": {
-          "hits": 3,
-          "textWords": 1396
-        },
-        "le_-kTULPwfi": {
-          "hits": 8,
-          "textWords": 1396
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "2AnHz7KDFhNg",
-      "address": "https://www.bpb.de/themen/deutschlandarchiv/344484/eliten-im-osten-ein-anhaltendes-defizit/",
-      "title": "Eliten im Osten - ein anhaltendes Defizit? | Deutschland Archiv | bpb.de",
-      "snippet": "Die Cover der beiden Bände von \"(Ost)Deutschlands Weg\" I (1989 bis 2020) und II (Gegenwart und Zukunft), mittlerweile wieder erhältlich im Externer Link: www.bpb.de/shop unter den Bestellnummern 10676 I+II und seit September 2024 kostenlos als e-book.",
-      "matchedWords": {
-        "65rGEicCRUgV": {
-          "hits": 0,
-          "textWords": 125
+          "textWords": 511
         },
         "SEhoJU8Vd4OY": {
           "hits": 0,
-          "textWords": 125
+          "textWords": 511
         },
         "le_-kTULPwfi": {
           "hits": 0,
-          "textWords": 125
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "3X7hb7KDFhNg",
-      "address": "https://www.bpb.de/themen/deutschlandarchiv/158899/der-andere-mauerfall/",
-      "title": "Der andere Mauerfall | Deutschland Archiv | bpb.de",
-      "snippet": "November. Der Tag an dem die Mauer fiel, Berlin 1999; Manfred Wilke, Der 9. November: Fall der Berliner Mauer, in: Klaus-Dietmar Henke (Hg.), Revolution und Vereinigung 1989/90. Als in Deutschland die Realität die Phantasie überholte, München 2009, S. 224-237.",
-      "matchedWords": {
-        "65rGEicCRUgV": {
-          "hits": 9,
-          "textWords": 5873
-        },
-        "SEhoJU8Vd4OY": {
-          "hits": 6,
-          "textWords": 5873
-        },
-        "le_-kTULPwfi": {
-          "hits": 9,
-          "textWords": 5873
-        }
-      },
-      "queryPhraseHits": 3
-    },
-    {
-      "hash": "3mWBh7KDFhNg",
-      "address": "https://www.bpb.de/themen/deutschlandarchiv/518214/der-13-februar-1945-im-kollektiven-gedaechtnis-dresdens/",
-      "title": "Der 13. Februar 1945 im kollektiven Gedächtnis Dresdens | Deutschland Archiv | bpb.de",
-      "snippet": "Erstmals gab es in Dresden eine solche Menschenkette im Februar 2010, auch als Reaktion auf umfangreiche Neonaziaufzüge, die das Gedenken an die etwa 25.000 Bombenopfer in Dresden mit ihren Feindbildern propandistisch für sich ummünzen wollen und Geschichte nach wie vor mit ideologischer Brille",
-      "matchedWords": {
-        "65rGEicCRUgV": {
-          "hits": 1,
-          "textWords": 7963
-        },
-        "SEhoJU8Vd4OY": {
-          "hits": 7,
-          "textWords": 7963
-        },
-        "le_-kTULPwfi": {
-          "hits": 0,
-          "textWords": 7963
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "3o-vl7KDFhNg",
-      "address": "https://www.bpb.de/themen/deutschlandarchiv/548200/d-und-ddr-die-doppelte-staatsgruendung-vor-75-jahren/",
-      "title": "D und DDR. Die doppelte Staatsgründung vor 75 Jahren. | Deutschland Archiv | bpb.de",
-      "snippet": "Interner Link: Warum es zur doppelten Staatsgründung kam.\nDie Konkurrenz der Gründungen von \"Bundesrebublik Deutschland\" in Bonn und \"Deutscher Demokratischer Republik\" in Ost-Berlin war kein Akt des Jahres 1949, sondern vollzog sich über einen längeren Zeitraum.",
-      "matchedWords": {
-        "65rGEicCRUgV": {
-          "hits": 0,
-          "textWords": 168
-        },
-        "SEhoJU8Vd4OY": {
-          "hits": 0,
-          "textWords": 168
-        },
-        "le_-kTULPwfi": {
-          "hits": 0,
-          "textWords": 168
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "4bIqt7KDFhNg",
-      "address": "https://www.bpb.de/themen/deutschlandarchiv/310154/die-debatte-ueber-die-asiatische-grippe/",
-      "title": "Die Debatte über die Asiatische Grippe | Deutschland Archiv | bpb.de",
-      "snippet": "Damals wie heute herrscht parallel zur Grippeepidemie auch eine intensive gesellschaftliche Auseinandersetzung über deren Ursprung. Welche Rückschlüsse lässt der Blick in die Geschichte zu? Kann die Historiografie möglicherweise doch „systemrelevante“ Erkenntnisse liefern?",
-      "matchedWords": {
-        "65rGEicCRUgV": {
-          "hits": 0,
-          "textWords": 2927
-        },
-        "SEhoJU8Vd4OY": {
-          "hits": 6,
-          "textWords": 2927
-        },
-        "le_-kTULPwfi": {
-          "hits": 0,
-          "textWords": 2927
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "4koo47KDFhNg",
-      "address": "https://www.bpb.de/themen/deutschlandarchiv/546140/als-es-mir-kalt-den-ruecken-runterlief/",
-      "title": "Als es mir kalt den Rücken runterlief | Deutschland Archiv | bpb.de",
-      "snippet": "Bereits 2019 hatten die Autoren für die Stiftung Berliner Mauer eine erste Graphic Novel mit dem Titel „Todesstreifen“ entwickelt, die zeigt, wie sie nach ihren Ausreisen, die nach langem Warten zwischen 1986 und 1989 ermöglicht worden sind, zu Widerstandsformen gegen die Mauer und die",
-      "matchedWords": {
-        "65rGEicCRUgV": {
-          "hits": 2,
-          "textWords": 3402
-        },
-        "SEhoJU8Vd4OY": {
-          "hits": 7,
-          "textWords": 3402
-        },
-        "le_-kTULPwfi": {
-          "hits": 6,
-          "textWords": 3402
-        }
-      },
-      "queryPhraseHits": 1
-    },
-    {
-      "hash": "4qI5D7KDFhNg",
-      "address": "https://www.bpb.de/themen/deutschlandarchiv/302316/5-den-anderen-anders-wahrnehmen/",
-      "title": "5. Den Anderen anders wahrnehmen | Deutschland Archiv | bpb.de",
-      "snippet": "DDR-Bürgerinnen und -Bürger zwischen Verkaufsständen in einem West-Berliner Warenhaus im November 1989 (© Oliver Rüther/laif)\nInterner Link: (a) Frauen\nInterner Link: Gesellschaftspolitischer Hintergrund – Ost und West\nInterner Link: Interview mit Lena",
-      "matchedWords": {
-        "65rGEicCRUgV": {
-          "hits": 1,
-          "textWords": 3527
-        },
-        "SEhoJU8Vd4OY": {
-          "hits": 0,
-          "textWords": 3527
-        },
-        "le_-kTULPwfi": {
-          "hits": 1,
-          "textWords": 3527
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "5MrdD7KDFhNg",
-      "address": "https://www.bpb.de/themen/deutschlandarchiv/139631/der-honecker-besuch-in-bonn-1987/",
-      "title": "Der Honecker-Besuch in Bonn 1987 | Deutschland Archiv | bpb.de",
-      "snippet": "Die beiden Weltmächte einigten sich auf den Abbau ihrer Mittelstreckenraketen in Europa und damit näherte sich der Ost-West-Konflikt seinem Ende. Während der INF-Verhandlungen besuchte Reagan Berlin und forderte vor der Mauer am Brandenburger Tor Gorbatschow auf, die Mauer niederzureißen.",
-      "matchedWords": {
-        "65rGEicCRUgV": {
-          "hits": 0,
-          "textWords": 7092
-        },
-        "SEhoJU8Vd4OY": {
-          "hits": 6,
-          "textWords": 7092
-        },
-        "le_-kTULPwfi": {
-          "hits": 5,
-          "textWords": 7092
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "5W0Sd7KDFhNg",
-      "address": "https://www.bpb.de/themen/deutschlandarchiv/138893/nach-dem-mauerbau/",
-      "title": "Nach dem Mauerbau | Deutschland Archiv | bpb.de",
-      "snippet": "Gemeinsam mit Peter Fechter wagte vor 50 Jahren Helmut Kulbeik die Flucht in den Westen. Kulbeik gelang der Sprung über die Mauer, Fechter starb vor laufenden Kameras. Kulbeik verweigerte sich bis…",
-      "matchedWords": {
-        "65rGEicCRUgV": {
-          "hits": 1,
-          "textWords": 227
-        },
-        "SEhoJU8Vd4OY": {
-          "hits": 0,
-          "textWords": 227
-        },
-        "le_-kTULPwfi": {
-          "hits": 1,
-          "textWords": 227
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "5aMQ77KDFhNg",
-      "address": "https://www.bpb.de/themen/deutschlandarchiv/231079/demokratischer-denkmalsturz/",
-      "title": "Demokratischer Denkmalsturz? | Deutschland Archiv | bpb.de",
-      "snippet": "Doch im Gegensatz zu den osteuropäischen Ländern richtete sich der Volkszorn in Deutschland zunächst gar nicht gegen die Denkmäler sondern gegen andere sichtbare Zeichen des SED-Staates, wie die Zentralen der Staatssicherheit oder die Berliner Mauer.",
-      "matchedWords": {
-        "65rGEicCRUgV": {
-          "hits": 3,
-          "textWords": 3569
-        },
-        "SEhoJU8Vd4OY": {
-          "hits": 5,
-          "textWords": 3569
-        },
-        "le_-kTULPwfi": {
-          "hits": 2,
-          "textWords": 3569
-        }
-      },
-      "queryPhraseHits": 1
-    },
-    {
-      "hash": "5nLdN7KDFhNg",
-      "address": "https://www.bpb.de/themen/deutschlandarchiv/284384/israel-im-schwarzen-kanal/",
-      "title": "Israel im Schwarzen Kanal | Deutschland Archiv | bpb.de",
-      "snippet": "Der DDR gelang somit derselbe geschichtspolitische Husarenstreich wie der wiedererstandenen Republik Österreich: „Hitler war gleichsam Westdeutscher geworden.“\nMehr noch, Joseph Goebbels war Israeli geworden: „Und da sage einer, die Geschichte wiederhole sich nicht!",
-      "matchedWords": {
-        "65rGEicCRUgV": {
-          "hits": 1,
-          "textWords": 5573
-        },
-        "SEhoJU8Vd4OY": {
-          "hits": 3,
-          "textWords": 5573
-        },
-        "le_-kTULPwfi": {
-          "hits": 0,
-          "textWords": 5573
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "6DUXh7KDFhNg",
-      "address": "https://www.bpb.de/themen/deutschlandarchiv/kutzner-alltagsleben-im-grenzgebiet/",
-      "title": "Alltagsleben im Grenzgebiet. Ein Oral History Projekt | Deutschland Archiv | bpb.de",
-      "snippet": "Interview mit Siegfried Schilling, 57:00 min.\nInterview Alexander Henning, 57:30 min.\nEdgar Wolfrum, Die Mauer. Geschichte einer Teilung, München 2009, S. 128.\nStoll, Das war die Grenze (Anm. 7), S. 197.\nLizenz",
-      "matchedWords": {
-        "65rGEicCRUgV": {
-          "hits": 2,
-          "textWords": 4841
-        },
-        "SEhoJU8Vd4OY": {
-          "hits": 6,
-          "textWords": 4841
-        },
-        "le_-kTULPwfi": {
-          "hits": 1,
-          "textWords": 4841
-        }
-      },
-      "queryPhraseHits": 1
-    },
-    {
-      "hash": "6O-fk7KDFhNg",
-      "address": "https://www.bpb.de/themen/deutschlandarchiv/517277/ich-hatte-scheissangst/",
-      "title": "\"Ich hatte Scheißangst\" | Deutschland Archiv | bpb.de",
-      "snippet": "",
-      "matchedWords": {
-        "65rGEicCRUgV": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "SEhoJU8Vd4OY": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "le_-kTULPwfi": {
-          "hits": 0,
-          "textWords": 0
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "6iInX7KDFhNg",
-      "address": "https://www.bpb.de/themen/deutschlandarchiv/557958/der-zauber-des-anfangs/",
-      "title": "Der Zauber des Anfangs | Deutschland Archiv | bpb.de",
-      "snippet": "",
-      "matchedWords": {
-        "65rGEicCRUgV": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "SEhoJU8Vd4OY": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "le_-kTULPwfi": {
-          "hits": 0,
-          "textWords": 0
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "-JFhL7KDFhNg",
-      "address": "https://www.bpb.de/themen/deutschlandarchiv/284090/eine-fernsehserie-schreibt-geschichte/",
-      "title": "Eine Fernsehserie schreibt Geschichte | Deutschland Archiv | bpb.de",
-      "snippet": "Zitierweise: Katrin Hammerstein, Eine Fernsehserie schreibt Geschichte: Reaktionen auf die Ausstrahlung von „Holocaust“ vor 40 Jahren, in: Deutschland Archiv, 18.1.2019, Link: www.bpb.de/284090\nFussnoten\nFußnoten\n„WDR, NDR und SWR zeigen ‚Holocaust – Die Geschichte der Familie Weiss‘“.",
-      "matchedWords": {
-        "65rGEicCRUgV": {
-          "hits": 1,
-          "textWords": 3149
-        },
-        "SEhoJU8Vd4OY": {
-          "hits": 13,
-          "textWords": 3149
-        },
-        "le_-kTULPwfi": {
-          "hits": 0,
-          "textWords": 3149
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "-kGq77KDFhNg",
-      "address": "https://www.bpb.de/themen/deutschlandarchiv/259587/fruehe-fremdbetreuung-in-der-ddr/",
-      "title": "Frühe Fremdbetreuung in der DDR | Deutschland Archiv | bpb.de",
-      "snippet": "",
-      "matchedWords": {
-        "65rGEicCRUgV": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "SEhoJU8Vd4OY": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "le_-kTULPwfi": {
-          "hits": 0,
-          "textWords": 0
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "-kHh-7KDFhNg",
-      "address": "https://www.bpb.de/themen/deutschlandarchiv/523377/wie-ist-dieser-krieg-zu-deeskalieren-und-zu-beenden-teil-1/",
-      "title": "Wie ist dieser Krieg zu deeskalieren und zu beenden? Teil 1 | Deutschland Archiv | bpb.de",
-      "snippet": "",
-      "matchedWords": {
-        "65rGEicCRUgV": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "SEhoJU8Vd4OY": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "le_-kTULPwfi": {
-          "hits": 0,
-          "textWords": 0
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "-wEhL7KDFhNg",
-      "address": "https://www.bpb.de/themen/deutschlandarchiv/140023/geschiedene-gemueter-zerschnittene-beziehungen/",
-      "title": "Geschiedene Gemüter, zerschnittene Beziehungen | Deutschland Archiv | bpb.de",
-      "snippet": "",
-      "matchedWords": {
-        "65rGEicCRUgV": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "SEhoJU8Vd4OY": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "le_-kTULPwfi": {
-          "hits": 0,
-          "textWords": 0
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "-yGHl7KDFhNg",
-      "address": "https://www.bpb.de/themen/deutschlandarchiv/297868/die-deutsche-regierung-beschleunigt-zu-stark/",
-      "title": "„Die deutsche Regierung beschleunigt zu stark“ | Deutschland Archiv | bpb.de",
-      "snippet": "",
-      "matchedWords": {
-        "65rGEicCRUgV": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "SEhoJU8Vd4OY": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "le_-kTULPwfi": {
-          "hits": 0,
-          "textWords": 0
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "-z5jG7KDFhNg",
-      "address": "https://www.bpb.de/themen/deutschlandarchiv/132873/kriegsverbrecherverfolgung-in-der-sbz-und-fruehen-ddr-1945-1950/",
-      "title": "Kriegsverbrecherverfolgung in der SBZ und frühen DDR 1945–1950 | Deutschland Archiv | bpb.de",
-      "snippet": "",
-      "matchedWords": {
-        "65rGEicCRUgV": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "SEhoJU8Vd4OY": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "le_-kTULPwfi": {
-          "hits": 0,
-          "textWords": 0
+          "textWords": 511
         }
       },
       "queryPhraseHits": 0
@@ -1399,19 +1435,19 @@
       "hash": "TR9kflXXOSAg",
       "address": "https://www.rbb24.de/",
       "title": "Nachrichten aus Berlin und Brandenburg | rbb24",
-      "snippet": "",
+      "snippet": "Poller sorgen in Berliner immer wieder für Diskussionen. Die CDU-geführte Verkehrsverwaltung möchte alle zur Überprüfung freigeben. Ist das sinnvoll?\nvon Klaas-Wilhelm Brandenburg\nGeschichte des Plattenbaus 100 Jahre Splanemann-Siedlung: Die erste \"Platte\" Deutschlands steht in Berlin",
       "matchedWords": {
         "65rGEicCRUgV": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 12,
+          "textWords": 2125
         },
         "SEhoJU8Vd4OY": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 1,
+          "textWords": 2125
         },
         "le_-kTULPwfi": {
           "hits": 0,
-          "textWords": 0
+          "textWords": 2125
         }
       },
       "queryPhraseHits": 0
@@ -1459,9 +1495,114 @@
       "queryPhraseHits": 0
     },
     {
-      "hash": "3PkGQ7KDFhNg",
-      "address": "https://www.bpb.de/themen/migration-integration/regionalprofile/deutschland/",
-      "title": "Deutschland | bpb.de",
+      "hash": "bWC1SaqeWpa5",
+      "address": "https://www.leverkusen.com/wohin/index.php?view=00000029",
+      "title": "Essen und Trinken in Wiesdorf",
+      "snippet": "China-Express\nNobelstr. 11\nChinesische Mauer\nDhünnstr. 2d\n0214/46768\nCockpit\nKurtekotten\nMo., Di., Fr., 11:30-23:00; Sa., So., feiertags 10:00-23:00Neuer Pächter zum 01.11.2006\nCristallo\nFriedensstraße 15\n0214/2061100\nCurry 'n' Spice\nHauptstr. 69\nCharlot\nBreidenbachstr. 18/Ecke Dönhoffstr.\nDAX",
+      "matchedWords": {
+        "65rGEicCRUgV": {
+          "hits": 0,
+          "textWords": 1284
+        },
+        "SEhoJU8Vd4OY": {
+          "hits": 0,
+          "textWords": 1284
+        },
+        "le_-kTULPwfi": {
+          "hits": 1,
+          "textWords": 1284
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "UGaaTjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Central_Europe",
+      "title": "Central Europe - Wikipedia",
+      "snippet": "\"Regions Of Europe\". WorldAtlas. Retrieved 23 August 2023.\n↑ \"Iron Curtain Trail – EuroVelo 13\". Council of Europe. Retrieved 17 October 2023.\n↑ \"The Berlin Wall | Berlin Wall Foundation\". stiftung-berliner-mauer.de. Retrieved 17 October 2023.\n↑ \"Fall of Communism in Eastern Europe, 1989\". U.S.",
+      "matchedWords": {
+        "65rGEicCRUgV": {
+          "hits": 2,
+          "textWords": 12862
+        },
+        "SEhoJU8Vd4OY": {
+          "hits": 2,
+          "textWords": 12862
+        },
+        "le_-kTULPwfi": {
+          "hits": 2,
+          "textWords": 12862
+        }
+      },
+      "queryPhraseHits": 2
+    },
+    {
+      "hash": "-eJKllXXOSAg",
+      "address": "https://www.rbb24.de/thema/",
+      "title": "Themen von A - Z",
+      "snippet": "\"Bau fällig\": Besondere Berliner Bauten\nNachrichten zum Thema\nBerlin-Abo\nAktuelle Umfragen und Analysen\nBerlin Trend\nÜberblick\nBildergalerien\nNachrichten zum Thema\nBildung\nAktuelle Umfragen und Analysen\nBrandenburg Trend\nNachrichten zum Thema\nBundesautobahn A100\nNachrichten zum Thema\nBundeswehr",
+      "matchedWords": {
+        "65rGEicCRUgV": {
+          "hits": 1,
+          "textWords": 539
+        },
+        "SEhoJU8Vd4OY": {
+          "hits": 1,
+          "textWords": 539
+        },
+        "le_-kTULPwfi": {
+          "hits": 0,
+          "textWords": 539
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "bWC1SaqeWpa5",
+      "address": "https://www.leverkusen.com/wohin/index.php?view=00000029",
+      "title": "Essen und Trinken in Wiesdorf",
+      "snippet": "China-Express\nNobelstr. 11\nChinesische Mauer\nDhünnstr. 2d\n0214/46768\nCockpit\nKurtekotten\nMo., Di., Fr., 11:30-23:00; Sa., So., feiertags 10:00-23:00Neuer Pächter zum 01.11.2006\nCristallo\nFriedensstraße 15\n0214/2061100\nCurry 'n' Spice\nHauptstr. 69\nCharlot\nBreidenbachstr. 18/Ecke Dönhoffstr.\nDAX",
+      "matchedWords": {
+        "65rGEicCRUgV": {
+          "hits": 0,
+          "textWords": 1284
+        },
+        "SEhoJU8Vd4OY": {
+          "hits": 0,
+          "textWords": 1284
+        },
+        "le_-kTULPwfi": {
+          "hits": 1,
+          "textWords": 1284
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "B9pAUdFO6r_x",
+      "address": "https://de.wikipedia.org/wiki/Zweiter_Weltkrieg",
+      "title": "Zweiter Weltkrieg – Wikipedia",
+      "snippet": "Die europäischen Kolonialmächte Großbritannien und Frankreich verloren ihre Übersee-Besitzungen, die meisten ihrer Kolonien wurden unabhängig. „Erst mit dem Fall der Mauer 1989 und dem Ende des Kalten Krieges ging die vom Zweiten Weltkrieg […] geprägte Phase der Geschichte zu Ende.“[6]",
+      "matchedWords": {
+        "65rGEicCRUgV": {
+          "hits": 4,
+          "textWords": 47026
+        },
+        "SEhoJU8Vd4OY": {
+          "hits": 81,
+          "textWords": 47026
+        },
+        "le_-kTULPwfi": {
+          "hits": 1,
+          "textWords": 47026
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "HpdLvdFO6r_x",
+      "address": "https://de.wikipedia.org/wiki/1981",
+      "title": "1981 – Wikipedia",
       "snippet": "",
       "matchedWords": {
         "65rGEicCRUgV": {
@@ -1480,43 +1621,358 @@
       "queryPhraseHits": 0
     },
     {
-      "hash": "bWC1SaqeWpa5",
-      "address": "https://www.leverkusen.com/wohin/index.php?view=00000029",
-      "title": "Essen und Trinken in Wiesdorf",
-      "snippet": "China-Express\nNobelstr. 11\nChinesische Mauer\nDhünnstr. 2d\n0214/46768\nCockpit\nKurtekotten\nMo., Di., Fr., 11:30-23:00; Sa., So., feiertags 10:00-23:00Neuer Pächter zum 01.11.2006\nCristallo\nFriedensstraße 15\n0214/2061100\nCurry 'n' Spice\nHauptstr. 69\nCharlot\nBreidenbachstr. 18/Ecke Dönhoffstr.\nDAX",
+      "hash": "MnL7SdFO6r_x",
+      "address": "https://de.wikipedia.org/wiki/Berlin",
+      "title": "Berlin – Wikipedia",
+      "snippet": "Entlang des früheren Verlaufs der Berliner Mauer führt der Berliner Mauerweg. Mehrere tausend Mietfahrräder können im Innenstadtbereich per Telefonanruf oder (mobilem) Internet (Apps) ausgeliehen werden, von verschiedenen Anbietern (u. a. Nextbike, CallBike, Bird).[",
       "matchedWords": {
         "65rGEicCRUgV": {
-          "hits": 0,
-          "textWords": 1284
+          "hits": 224,
+          "textWords": 23675
         },
         "SEhoJU8Vd4OY": {
-          "hits": 0,
-          "textWords": 1284
+          "hits": 17,
+          "textWords": 23675
+        },
+        "le_-kTULPwfi": {
+          "hits": 7,
+          "textWords": 23675
+        }
+      },
+      "queryPhraseHits": 5
+    },
+    {
+      "hash": "N_sgsdFO6r_x",
+      "address": "https://de.wikipedia.org/wiki/Europa",
+      "title": "Europa – Wikipedia",
+      "snippet": "Erst Perestroika und Glasnost führten in der Sowjetunion Mitte der 1980er Jahre zu einem politischen Kurswechsel. 1989 brach der Ostblock auf, die Berliner Mauer fiel. Die Sowjetunion und der Warschauer Pakt lösten sich auf.",
+      "matchedWords": {
+        "65rGEicCRUgV": {
+          "hits": 1,
+          "textWords": 7394
+        },
+        "SEhoJU8Vd4OY": {
+          "hits": 10,
+          "textWords": 7394
         },
         "le_-kTULPwfi": {
           "hits": 1,
-          "textWords": 1284
+          "textWords": 7394
+        }
+      },
+      "queryPhraseHits": 1
+    },
+    {
+      "hash": "O_W7sdFO6r_x",
+      "address": "https://de.wikipedia.org/wiki/Wikipedia:Exzellente_Artikel",
+      "title": "Wikipedia:Exzellente Artikel – Wikipedia",
+      "snippet": "U-Bahn: Geschichte der Berliner U-Bahn · London Underground · Metro Bilbao · Metró Budapest · Metro Madrid · Metro Moskau · Metropolitan Railway · Metro Prag · Metro Rotterdam · Oslo T-bane · U-Bahn Berlin · U-Bahn Frankfurt · U-Bahn München · U-Bahn Nürnberg · U-Bahn-Linie U2 (Berlin)",
+      "matchedWords": {
+        "65rGEicCRUgV": {
+          "hits": 7,
+          "textWords": 3105
+        },
+        "SEhoJU8Vd4OY": {
+          "hits": 3,
+          "textWords": 3105
+        },
+        "le_-kTULPwfi": {
+          "hits": 0,
+          "textWords": 3105
         }
       },
       "queryPhraseHits": 0
     },
     {
-      "hash": "bWC1SaqeWpa5",
-      "address": "https://www.leverkusen.com/wohin/index.php?view=00000029",
-      "title": "Essen und Trinken in Wiesdorf",
-      "snippet": "China-Express\nNobelstr. 11\nChinesische Mauer\nDhünnstr. 2d\n0214/46768\nCockpit\nKurtekotten\nMo., Di., Fr., 11:30-23:00; Sa., So., feiertags 10:00-23:00Neuer Pächter zum 01.11.2006\nCristallo\nFriedensstraße 15\n0214/2061100\nCurry 'n' Spice\nHauptstr. 69\nCharlot\nBreidenbachstr. 18/Ecke Dönhoffstr.\nDAX",
+      "hash": "QrcPgdFO6r_x",
+      "address": "https://de.wikipedia.org/wiki/Klassizismus",
+      "title": "Klassizismus – Wikipedia",
+      "snippet": "Zu Rauchs Hauptwerken gehören das Berliner Grabmal für Königin Luise von Preußen (1814), das Scharnhorst-Denkmal (1822), das Blücher-Denkmal (1826), das Münchner Max-Joseph-Denkmal (1835), das Nürnberger Dürer-Denkmal (1840), die Kranzwerfende Viktoria (1841) und das Berliner Denkmal für Friedrich",
       "matchedWords": {
         "65rGEicCRUgV": {
-          "hits": 0,
-          "textWords": 1284
+          "hits": 6,
+          "textWords": 6889
         },
         "SEhoJU8Vd4OY": {
+          "hits": 3,
+          "textWords": 6889
+        },
+        "le_-kTULPwfi": {
           "hits": 0,
-          "textWords": 1284
+          "textWords": 6889
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "VSatEdFO6r_x",
+      "address": "https://de.wikipedia.org/wiki/Wikipedia:Lesenswerte_Artikel",
+      "title": "Wikipedia:Lesenswerte Artikel – Wikipedia",
+      "snippet": "Nahverkehr: Aldwych (London Underground) · Berliner Dampfstraßenbahn-Konsortium · Berliner Ostbahnen · BVG-Baureihe A · BVG-Baureihe E · Central London Railway · Charing Cross, Euston and Hampstead Railway · City and South London Railway · Flachbahn (Berlin) · Friedrichshagener Straßenbahn ·",
+      "matchedWords": {
+        "65rGEicCRUgV": {
+          "hits": 6,
+          "textWords": 4445
+        },
+        "SEhoJU8Vd4OY": {
+          "hits": 6,
+          "textWords": 4445
         },
         "le_-kTULPwfi": {
           "hits": 1,
-          "textWords": 1284
+          "textWords": 4445
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "nFqlndFO6r_x",
+      "address": "https://de.wikipedia.org/wiki/Volksrepublik_China",
+      "title": "Volksrepublik China – Wikipedia",
+      "snippet": "Geschichte\nDie Geschichte vor dem Zweiten Opiumkrieg ist unter Geschichte Chinas zu finden.\nDirekt kontrollierte Gebiete des Qing-Kaiserreichs zur Zeit seiner größten Ausbreitung 1820 (in dunklerem Farbton: die Kernprovinzen des „eigentlichen China“)",
+      "matchedWords": {
+        "65rGEicCRUgV": {
+          "hits": 3,
+          "textWords": 26915
+        },
+        "SEhoJU8Vd4OY": {
+          "hits": 11,
+          "textWords": 26915
+        },
+        "le_-kTULPwfi": {
+          "hits": 1,
+          "textWords": 26915
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "sxUL2dFO6r_x",
+      "address": "https://de.wikipedia.org/wiki/Wikipedia:Hauptseite",
+      "title": "Wikipedia – Die freie Enzyklopädie",
+      "snippet": "Die Freiberger Huldigungsmedaille zeigt die Stadtansicht und Einblicke ins Bergbauwesen.\nDie Lokomotivflucht nach Eger war laut Jaroslav Rudiš „die größte Heldentat in der Geschichte der sächsischen Eisenbahnen“.\nWeitere neue Artikel\nArchiv\nSchwesterprojekte\nCommons – Medien",
+      "matchedWords": {
+        "65rGEicCRUgV": {
+          "hits": 0,
+          "textWords": 510
+        },
+        "SEhoJU8Vd4OY": {
+          "hits": 1,
+          "textWords": 510
+        },
+        "le_-kTULPwfi": {
+          "hits": 0,
+          "textWords": 510
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "UGaaTjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Central_Europe",
+      "title": "Central Europe - Wikipedia",
+      "snippet": "\"Regions Of Europe\". WorldAtlas. Retrieved 23 August 2023.\n↑ \"Iron Curtain Trail – EuroVelo 13\". Council of Europe. Retrieved 17 October 2023.\n↑ \"The Berlin Wall | Berlin Wall Foundation\". stiftung-berliner-mauer.de. Retrieved 17 October 2023.\n↑ \"Fall of Communism in Eastern Europe, 1989\". U.S.",
+      "matchedWords": {
+        "65rGEicCRUgV": {
+          "hits": 2,
+          "textWords": 12862
+        },
+        "SEhoJU8Vd4OY": {
+          "hits": 2,
+          "textWords": 12862
+        },
+        "le_-kTULPwfi": {
+          "hits": 2,
+          "textWords": 12862
+        }
+      },
+      "queryPhraseHits": 2
+    },
+    {
+      "hash": "6BzIDjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Eastern_Bloc",
+      "title": "Eastern Bloc - Wikipedia",
+      "snippet": "↑ Hilde Szabo: Die Berliner Mauer begann im Burgenland zu bröckeln (The Berlin Wall began to crumble in Burgenland – German), in Wiener Zeitung 16 August 1999; Otmar Lahodynsky: Paneuropäisches Picknick: Die Generalprobe für den Mauerfall (Pan-European picnic: the dress rehearsal for the fall of",
+      "matchedWords": {
+        "65rGEicCRUgV": {
+          "hits": 1,
+          "textWords": 24285
+        },
+        "SEhoJU8Vd4OY": {
+          "hits": 1,
+          "textWords": 24285
+        },
+        "le_-kTULPwfi": {
+          "hits": 1,
+          "textWords": 24285
+        }
+      },
+      "queryPhraseHits": 1
+    },
+    {
+      "hash": "TR9kflXXOSAg",
+      "address": "https://www.rbb24.de/",
+      "title": "rbb24 - Nachrichten aus Berlin und Brandenburg",
+      "snippet": "Poller sorgen in Berliner immer wieder für Diskussionen. Die CDU-geführte Verkehrsverwaltung möchte alle zur Überprüfung freigeben. Ist das sinnvoll?\nvon Klaas-Wilhelm Brandenburg\nGeschichte des Plattenbaus 100 Jahre Splanemann-Siedlung: Die erste \"Platte\" Deutschlands steht in Berlin",
+      "matchedWords": {
+        "65rGEicCRUgV": {
+          "hits": 12,
+          "textWords": 2125
+        },
+        "SEhoJU8Vd4OY": {
+          "hits": 1,
+          "textWords": 2125
+        },
+        "le_-kTULPwfi": {
+          "hits": 0,
+          "textWords": 2125
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "VZxGl4cqomtg",
+      "address": "https://taz.de/Gesellschaft/!p4611/",
+      "title": "Gesellschaft | taz.de",
+      "snippet": "Jörg, Benny, Kim, Nils und Bina haben überlebt – und erzählen ihre Geschichte.\nVon Jörg Böckem\n31.8.2026\nProtest von Geflüchteten in Hamburg Was bleibt vom Camp Schlachthofstraße?",
+      "matchedWords": {
+        "65rGEicCRUgV": {
+          "hits": 0,
+          "textWords": 2064
+        },
+        "SEhoJU8Vd4OY": {
+          "hits": 2,
+          "textWords": 2064
+        },
+        "le_-kTULPwfi": {
+          "hits": 0,
+          "textWords": 2064
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "ZMZqM3cqomtg",
+      "address": "https://taz.de/Themen/!p5360/",
+      "title": "Themen | taz.de",
+      "snippet": "Die Berliner Bewegung „Klimaneustart“ hat mit 300 Leuten über ihre Klimasorgen gesprochen. Aktivistin Veronika Brugger entwickelte die Gesprächsform.\nInterview von Adam Schwedhelm\n12.9.2026\nWahlsieg der Rechtsextremen Könnte die AfD in Sachsen-Anhalt Klimapolitik zurückdrehen?",
+      "matchedWords": {
+        "65rGEicCRUgV": {
+          "hits": 2,
+          "textWords": 2949
+        },
+        "SEhoJU8Vd4OY": {
+          "hits": 2,
+          "textWords": 2949
+        },
+        "le_-kTULPwfi": {
+          "hits": 0,
+          "textWords": 2949
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "0k0HOtcqomtg",
+      "address": "https://taz.de/verlag/aktuelles-aus-der-taz/!v=8f20076f-2be2-41ba-b79b-5a03bb0ecc51/",
+      "title": "Aktuelles | taz.de",
+      "snippet": "10 Ausgaben für 10 Euro\nDie Wochenzeitung mit taz-Blick\nUnsere wochentaz bietet jeden Samstag Journalismus, der es nicht allen recht macht und Stimmen, die man woanders nicht hört. Jetzt zehn Wochen lang kennenlernen.",
+      "matchedWords": {
+        "65rGEicCRUgV": {
+          "hits": 0,
+          "textWords": 84
+        },
+        "SEhoJU8Vd4OY": {
+          "hits": 0,
+          "textWords": 84
+        },
+        "le_-kTULPwfi": {
+          "hits": 0,
+          "textWords": 84
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "46TeYscqomtg",
+      "address": "https://taz.de/!p5360/",
+      "title": "Themen | taz.de",
+      "snippet": "Die Berliner Bewegung „Klimaneustart“ hat mit 300 Leuten über ihre Klimasorgen gesprochen. Aktivistin Veronika Brugger entwickelte die Gesprächsform.\nInterview von Adam Schwedhelm\n12.9.2026\nWahlsieg der Rechtsextremen Könnte die AfD in Sachsen-Anhalt Klimapolitik zurückdrehen?",
+      "matchedWords": {
+        "65rGEicCRUgV": {
+          "hits": 2,
+          "textWords": 2949
+        },
+        "SEhoJU8Vd4OY": {
+          "hits": 2,
+          "textWords": 2949
+        },
+        "le_-kTULPwfi": {
+          "hits": 0,
+          "textWords": 2949
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "QlH6oLfjI1Dh",
+      "address": "https://www.tagesschau.de/inland/regional",
+      "title": "Regionalnachrichten aus den Bundesländern | tagesschau.de",
+      "snippet": "",
+      "matchedWords": {
+        "65rGEicCRUgV": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "SEhoJU8Vd4OY": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "le_-kTULPwfi": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "bthkIlgw84xh",
+      "address": "https://www.sueddeutsche.de/",
+      "title": "Aktuelle Nachrichten und Kommentare - SZ.de",
+      "snippet": ":Was wäre falsch daran, sie aufzunehmen?\nFaten Ben Omar wollte frei sein. Dafür stieg die Marokkanerin ins Meer – und ertrank vor Ceuta. Ihre Geschichte erzählt von den vielen jungen Frauen, die alles riskieren, um vor patriarchalen Zwängen zu fliehen.\nZahloptionen in der Gastronomie",
+      "matchedWords": {
+        "65rGEicCRUgV": {
+          "hits": 0,
+          "textWords": 2664
+        },
+        "SEhoJU8Vd4OY": {
+          "hits": 4,
+          "textWords": 2664
+        },
+        "le_-kTULPwfi": {
+          "hits": 0,
+          "textWords": 2664
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "LA9XAhoLWSig",
+      "address": "https://www.berlin.de/landesdenkmalamt/veranstaltungen/tag-des-offenen-denkmals/",
+      "title": "Tag des offenen Denkmals - Berlin.de",
+      "snippet": "Privatpersonen, Vereine, Institutionen und viele mehr beteiligen sich am Denkmalwochenende\n45.000 Besucher:innen\nDas Denkmalwochenende steht nicht nur bei Berliner:innen sondern auch bei vielen Tourist:innen fest im Kalender\nZum Onlineprogramm\nProgrammsuche",
+      "matchedWords": {
+        "65rGEicCRUgV": {
+          "hits": 3,
+          "textWords": 511
+        },
+        "SEhoJU8Vd4OY": {
+          "hits": 0,
+          "textWords": 511
+        },
+        "le_-kTULPwfi": {
+          "hits": 0,
+          "textWords": 511
         }
       },
       "queryPhraseHits": 0
@@ -1528,16 +1984,16 @@
       "snippet": "Erfolg im Film Schauspieler Oliver Masucci hält Unsicherheit für gute Berufsvoraussetzung\n11. September, 15.37 Uhr • Kultur • 1 Min\nWutzkyallee in Neukölln Kommission erkennt keine Vertuschung nach mutmaßlicher Vergewaltigung in Berliner Jugendclub\n11. September, 15.32 Uhr • Panorama • 2 Min",
       "matchedWords": {
         "65rGEicCRUgV": {
-          "hits": 11,
-          "textWords": 6965
+          "hits": 10,
+          "textWords": 6296
         },
         "SEhoJU8Vd4OY": {
-          "hits": 5,
-          "textWords": 6965
+          "hits": 4,
+          "textWords": 6296
         },
         "le_-kTULPwfi": {
           "hits": 0,
-          "textWords": 6965
+          "textWords": 6296
         }
       },
       "queryPhraseHits": 0
@@ -1546,19 +2002,19 @@
       "hash": "PCb0dlhl_5qi",
       "address": "https://www.deutschlandfunk.de/",
       "title": "Dlf",
-      "snippet": "25 Jahre nach 9/11 - Eine andere Welt?\nDer 11. September 2001 und die Angriffe auf die Twin Towers in New York - warum die Folgen dieses Tags bis heute zu spüren sind. Und: Der Präsident der Vereinigten Arabischen Emirate verspricht in Berlin eine Milliarden-Investition.",
+      "snippet": "Doch der Preis für die ungebremste Siedlungspolitik wird immer höher.\nNext\n\"Kudamm-Krawall\" 1931 - Ein Pogrom in der Weimarer Republik\nIm September 1931 zogen Hunderte nationalsozialistische Schläger durch das Judenviertel am Berliner Kurfürstendamm.",
       "matchedWords": {
         "65rGEicCRUgV": {
-          "hits": 0,
-          "textWords": 958
+          "hits": 1,
+          "textWords": 1153
         },
         "SEhoJU8Vd4OY": {
           "hits": 0,
-          "textWords": 958
+          "textWords": 1153
         },
         "le_-kTULPwfi": {
           "hits": 0,
-          "textWords": 958
+          "textWords": 1153
         }
       },
       "queryPhraseHits": 0
@@ -1613,15 +2069,36 @@
       "matchedWords": {
         "65rGEicCRUgV": {
           "hits": 2,
-          "textWords": 4568
+          "textWords": 4499
         },
         "SEhoJU8Vd4OY": {
           "hits": 8,
-          "textWords": 4568
+          "textWords": 4499
         },
         "le_-kTULPwfi": {
           "hits": 0,
-          "textWords": 4568
+          "textWords": 4499
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "hpNx6l0w__jw",
+      "address": "https://www.faz.net/aktuell/",
+      "title": "Aktuelle Nachrichten online - FAZ.NET",
+      "snippet": "Dianas „Revenge Dress“ wird versteigert\nAls der damalige Prinz Charles 1994 seine Untreue öffentlich einräumte, erschien Diana am selben Abend in einem Kleid, das in die Geschichte einging. Bei seiner Auktion könnte es Hunderttausende Dollar einbringen.\nImmobilienMarkt Anzeigen\nÖffnen\nMerken\nFAZ+",
+      "matchedWords": {
+        "65rGEicCRUgV": {
+          "hits": 0,
+          "textWords": 874
+        },
+        "SEhoJU8Vd4OY": {
+          "hits": 1,
+          "textWords": 874
+        },
+        "le_-kTULPwfi": {
+          "hits": 0,
+          "textWords": 874
         }
       },
       "queryPhraseHits": 0
@@ -1634,15 +2111,15 @@
       "matchedWords": {
         "65rGEicCRUgV": {
           "hits": 0,
-          "textWords": 323
+          "textWords": 328
         },
         "SEhoJU8Vd4OY": {
           "hits": 2,
-          "textWords": 323
+          "textWords": 328
         },
         "le_-kTULPwfi": {
           "hits": 0,
-          "textWords": 323
+          "textWords": 328
         }
       },
       "queryPhraseHits": 0
@@ -1651,19 +2128,19 @@
       "hash": "XlXr-l5ARWyg",
       "address": "https://www.spiegel.de/kultur/",
       "title": "Kultur - DER SPIEGEL",
-      "snippet": "Von Trump attackierte Museen Smithsonian-Chef Lonnie Bunch kündigt Rücktritt an\nDonald Trump drängt dem Smithsonian seine Sicht auf die amerikanische Geschichte auf. Dessen Leiter gibt nun sein Amt ab.",
+      "snippet": "In »City of Blood« leiden die Berliner unter dem Klimawandel, und Vampire saugen die Stadt aus. Die Serie basiert auf einer großartigen Comic-Reihe, aber die Leute hinter dem Projekt wollen »Themen der Gegenwart«. Es ist zum Heulen. Von Oliver Kaever",
       "matchedWords": {
         "65rGEicCRUgV": {
-          "hits": 0,
-          "textWords": 888
+          "hits": 1,
+          "textWords": 894
         },
         "SEhoJU8Vd4OY": {
-          "hits": 1,
-          "textWords": 888
+          "hits": 0,
+          "textWords": 894
         },
         "le_-kTULPwfi": {
           "hits": 0,
-          "textWords": 888
+          "textWords": 894
         }
       },
       "queryPhraseHits": 0
@@ -1675,16 +2152,16 @@
       "snippet": "Erfolg im Film Schauspieler Oliver Masucci hält Unsicherheit für gute Berufsvoraussetzung\n11. September, 15.37 Uhr • Kultur • 1 Min\nWutzkyallee in Neukölln Kommission erkennt keine Vertuschung nach mutmaßlicher Vergewaltigung in Berliner Jugendclub\n11. September, 15.32 Uhr • Panorama • 2 Min",
       "matchedWords": {
         "65rGEicCRUgV": {
-          "hits": 11,
-          "textWords": 6965
+          "hits": 10,
+          "textWords": 6296
         },
         "SEhoJU8Vd4OY": {
-          "hits": 5,
-          "textWords": 6965
+          "hits": 4,
+          "textWords": 6296
         },
         "le_-kTULPwfi": {
           "hits": 0,
-          "textWords": 6965
+          "textWords": 6296
         }
       },
       "queryPhraseHits": 0
@@ -1711,22 +2188,64 @@
       "queryPhraseHits": 0
     },
     {
-      "hash": "3Qt4nC8moajg",
-      "address": "https://www.welt.de/regionales/berlin/",
-      "title": "Berlin \u0026 Brandenburg - News \u0026 aktuelle Nachrichten - WELT",
-      "snippet": "",
+      "hash": "2RTWrl8moajg",
+      "address": "https://www.welt.de/",
+      "title": "WELT - Aktuelle Nachrichten, News, Hintergründe \u0026 Videos",
+      "snippet": "WELT TV\nWeltplus Artikel\nSachsen-Anhalt\nWarum jetzt alles auf Neuwahlen hinausläuft\nDie Wahl in Sachsen-Anhalt hat klare Machtverhältnisse geschaffen, aber keine regierungsfähige Mehrheit. Drei Szenarien sind jetzt wahrscheinlich.\nWeltplus Artikel\nIslamisierung\nWarten auf das Kinderkopftuch",
       "matchedWords": {
         "65rGEicCRUgV": {
           "hits": 0,
-          "textWords": 0
+          "textWords": 1230
         },
         "SEhoJU8Vd4OY": {
           "hits": 0,
-          "textWords": 0
+          "textWords": 1230
         },
         "le_-kTULPwfi": {
           "hits": 0,
-          "textWords": 0
+          "textWords": 1230
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "3Qt4nC8moajg",
+      "address": "https://www.welt.de/regionales/berlin/",
+      "title": "Berlin \u0026 Brandenburg - News \u0026 aktuelle Nachrichten - WELT",
+      "snippet": "Altglienicke ging als klarer Favorit in die Partie und erfüllte diese Erwartungen am Ende auch.\nBerliner Athletik Klub 07 - FSV 63 Luckenwalde\nNichts zu holen gab es für den FSV 63 Luckenwalde beim Berliner Athletik Klub 07. Die Gastgeber erfreuten ihre Fans mit einem 2:1.",
+      "matchedWords": {
+        "65rGEicCRUgV": {
+          "hits": 11,
+          "textWords": 1100
+        },
+        "SEhoJU8Vd4OY": {
+          "hits": 0,
+          "textWords": 1100
+        },
+        "le_-kTULPwfi": {
+          "hits": 0,
+          "textWords": 1100
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "68MPWl8moajg",
+      "address": "https://www.welt.de/videos/",
+      "title": "WELT Videos: Aktuelle News \u0026 Nachrichten-Videos",
+      "snippet": "Pfadnavigation\nHome\nArtikeltyp:VideoPutins Krieg\n„Moskau will die Ukraine beherrschen“\nIm WELT-Gespräch analysiert Sicherheitsexperte Nico Lange die Verhandlungspositionen im Ukraine-Krieg und Putins Auftreten in Neu-Delhi.\nArtikeltyp:VideoDrohung an den Westen",
+      "matchedWords": {
+        "65rGEicCRUgV": {
+          "hits": 0,
+          "textWords": 857
+        },
+        "SEhoJU8Vd4OY": {
+          "hits": 0,
+          "textWords": 857
+        },
+        "le_-kTULPwfi": {
+          "hits": 0,
+          "textWords": 857
         }
       },
       "queryPhraseHits": 0
@@ -1753,6 +2272,27 @@
       "queryPhraseHits": 0
     },
     {
+      "hash": "sxUL2dFO6r_x",
+      "address": "https://de.wikipedia.org/wiki/Wikipedia:Hauptseite",
+      "title": "Wikipedia – Die freie Enzyklopädie",
+      "snippet": "Die Freiberger Huldigungsmedaille zeigt die Stadtansicht und Einblicke ins Bergbauwesen.\nDie Lokomotivflucht nach Eger war laut Jaroslav Rudiš „die größte Heldentat in der Geschichte der sächsischen Eisenbahnen“.\nWeitere neue Artikel\nArchiv\nSchwesterprojekte\nCommons – Medien",
+      "matchedWords": {
+        "65rGEicCRUgV": {
+          "hits": 0,
+          "textWords": 510
+        },
+        "SEhoJU8Vd4OY": {
+          "hits": 1,
+          "textWords": 510
+        },
+        "le_-kTULPwfi": {
+          "hits": 0,
+          "textWords": 510
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
       "hash": "NbA0slHjdLqg",
       "address": "https://www.focus.de/",
       "title": "FOCUS online - Aktuelle Nachrichten",
@@ -1774,46 +2314,25 @@
       "queryPhraseHits": 0
     },
     {
-      "hash": "R1PZSlKDFhNg",
-      "address": "https://www.bpb.de/",
-      "title": "Bundeszentrale für politische Bildung | Startseite | bpb.de",
-      "snippet": "September 2001 verübte das islamistische Terrornetzwerk al-Qaida die bisher folgenreichsten Anschläge in der jüngeren Geschichte. Etwa 3.000 Menschen verloren ihr Leben.",
-      "matchedWords": {
-        "65rGEicCRUgV": {
-          "hits": 1,
-          "textWords": 1479
-        },
-        "SEhoJU8Vd4OY": {
-          "hits": 1,
-          "textWords": 1479
-        },
-        "le_-kTULPwfi": {
-          "hits": 0,
-          "textWords": 1479
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
       "hash": "0jbQd7KDFhNg",
       "address": "https://www.bpb.de/themen/deutschlandarchiv/550520/neugablonz-vom-truemmergelaende-zur-vertriebenensiedlung/",
       "title": "Neugablonz - vom Trümmergelände zur Vertriebenensiedlung | Deutschland Archiv | bpb.de",
-      "snippet": "Der Beitrag ist Teil einer Serie \"Orte des Ankommens\", erstellt in Kooperation des Fachgebietes Städtebauliche Denkmalpflege und Urbanes Kulturerbe der Technischen Universität Berlin, dem Leibniz-Institut für Raumbezogene Sozialforschung Erkner und der Stiftung Berliner Mauer 2023/24, herausgegeben",
+      "snippet": "",
       "matchedWords": {
         "65rGEicCRUgV": {
-          "hits": 2,
-          "textWords": 2847
+          "hits": 0,
+          "textWords": 0
         },
         "SEhoJU8Vd4OY": {
-          "hits": 4,
-          "textWords": 2847
+          "hits": 0,
+          "textWords": 0
         },
         "le_-kTULPwfi": {
-          "hits": 1,
-          "textWords": 2847
+          "hits": 0,
+          "textWords": 0
         }
       },
-      "queryPhraseHits": 1
+      "queryPhraseHits": 0
     },
     {
       "hash": "1dN9D7KDFhNg",
@@ -1861,19 +2380,19 @@
       "hash": "14BQC7KDFhNg",
       "address": "https://www.bpb.de/themen/deutschlandarchiv/297811/die-maueroeffner/",
       "title": "Die Maueröffner | Deutschland Archiv | bpb.de",
-      "snippet": "Plötzlich zeigten auch sie keine Angst mehr vor der Mauer und dem Grenzregime, dem anfangs immer noch zugetraut wurde, gegebenenfalls Waffen bei Grenzdurchbrüchen einzusetzen.",
+      "snippet": "",
       "matchedWords": {
         "65rGEicCRUgV": {
-          "hits": 3,
-          "textWords": 1396
+          "hits": 0,
+          "textWords": 0
         },
         "SEhoJU8Vd4OY": {
-          "hits": 3,
-          "textWords": 1396
+          "hits": 0,
+          "textWords": 0
         },
         "le_-kTULPwfi": {
-          "hits": 8,
-          "textWords": 1396
+          "hits": 0,
+          "textWords": 0
         }
       },
       "queryPhraseHits": 0
@@ -1882,300 +2401,6 @@
       "hash": "2AnHz7KDFhNg",
       "address": "https://www.bpb.de/themen/deutschlandarchiv/344484/eliten-im-osten-ein-anhaltendes-defizit/",
       "title": "Eliten im Osten - ein anhaltendes Defizit? | Deutschland Archiv | bpb.de",
-      "snippet": "Die Cover der beiden Bände von \"(Ost)Deutschlands Weg\" I (1989 bis 2020) und II (Gegenwart und Zukunft), mittlerweile wieder erhältlich im Externer Link: www.bpb.de/shop unter den Bestellnummern 10676 I+II und seit September 2024 kostenlos als e-book.",
-      "matchedWords": {
-        "65rGEicCRUgV": {
-          "hits": 0,
-          "textWords": 125
-        },
-        "SEhoJU8Vd4OY": {
-          "hits": 0,
-          "textWords": 125
-        },
-        "le_-kTULPwfi": {
-          "hits": 0,
-          "textWords": 125
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "3PkGQ7KDFhNg",
-      "address": "https://www.bpb.de/themen/migration-integration/regionalprofile/deutschland/",
-      "title": "Deutschland | bpb.de",
-      "snippet": "",
-      "matchedWords": {
-        "65rGEicCRUgV": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "SEhoJU8Vd4OY": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "le_-kTULPwfi": {
-          "hits": 0,
-          "textWords": 0
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "3X7hb7KDFhNg",
-      "address": "https://www.bpb.de/themen/deutschlandarchiv/158899/der-andere-mauerfall/",
-      "title": "Der andere Mauerfall | Deutschland Archiv | bpb.de",
-      "snippet": "November. Der Tag an dem die Mauer fiel, Berlin 1999; Manfred Wilke, Der 9. November: Fall der Berliner Mauer, in: Klaus-Dietmar Henke (Hg.), Revolution und Vereinigung 1989/90. Als in Deutschland die Realität die Phantasie überholte, München 2009, S. 224-237.",
-      "matchedWords": {
-        "65rGEicCRUgV": {
-          "hits": 9,
-          "textWords": 5873
-        },
-        "SEhoJU8Vd4OY": {
-          "hits": 6,
-          "textWords": 5873
-        },
-        "le_-kTULPwfi": {
-          "hits": 9,
-          "textWords": 5873
-        }
-      },
-      "queryPhraseHits": 3
-    },
-    {
-      "hash": "3mWBh7KDFhNg",
-      "address": "https://www.bpb.de/themen/deutschlandarchiv/518214/der-13-februar-1945-im-kollektiven-gedaechtnis-dresdens/",
-      "title": "Der 13. Februar 1945 im kollektiven Gedächtnis Dresdens | Deutschland Archiv | bpb.de",
-      "snippet": "Erstmals gab es in Dresden eine solche Menschenkette im Februar 2010, auch als Reaktion auf umfangreiche Neonaziaufzüge, die das Gedenken an die etwa 25.000 Bombenopfer in Dresden mit ihren Feindbildern propandistisch für sich ummünzen wollen und Geschichte nach wie vor mit ideologischer Brille",
-      "matchedWords": {
-        "65rGEicCRUgV": {
-          "hits": 1,
-          "textWords": 7963
-        },
-        "SEhoJU8Vd4OY": {
-          "hits": 7,
-          "textWords": 7963
-        },
-        "le_-kTULPwfi": {
-          "hits": 0,
-          "textWords": 7963
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "3o-vl7KDFhNg",
-      "address": "https://www.bpb.de/themen/deutschlandarchiv/548200/d-und-ddr-die-doppelte-staatsgruendung-vor-75-jahren/",
-      "title": "D und DDR. Die doppelte Staatsgründung vor 75 Jahren. | Deutschland Archiv | bpb.de",
-      "snippet": "Interner Link: Warum es zur doppelten Staatsgründung kam.\nDie Konkurrenz der Gründungen von \"Bundesrebublik Deutschland\" in Bonn und \"Deutscher Demokratischer Republik\" in Ost-Berlin war kein Akt des Jahres 1949, sondern vollzog sich über einen längeren Zeitraum.",
-      "matchedWords": {
-        "65rGEicCRUgV": {
-          "hits": 0,
-          "textWords": 168
-        },
-        "SEhoJU8Vd4OY": {
-          "hits": 0,
-          "textWords": 168
-        },
-        "le_-kTULPwfi": {
-          "hits": 0,
-          "textWords": 168
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "4bIqt7KDFhNg",
-      "address": "https://www.bpb.de/themen/deutschlandarchiv/310154/die-debatte-ueber-die-asiatische-grippe/",
-      "title": "Die Debatte über die Asiatische Grippe | Deutschland Archiv | bpb.de",
-      "snippet": "Damals wie heute herrscht parallel zur Grippeepidemie auch eine intensive gesellschaftliche Auseinandersetzung über deren Ursprung. Welche Rückschlüsse lässt der Blick in die Geschichte zu? Kann die Historiografie möglicherweise doch „systemrelevante“ Erkenntnisse liefern?",
-      "matchedWords": {
-        "65rGEicCRUgV": {
-          "hits": 0,
-          "textWords": 2927
-        },
-        "SEhoJU8Vd4OY": {
-          "hits": 6,
-          "textWords": 2927
-        },
-        "le_-kTULPwfi": {
-          "hits": 0,
-          "textWords": 2927
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "4koo47KDFhNg",
-      "address": "https://www.bpb.de/themen/deutschlandarchiv/546140/als-es-mir-kalt-den-ruecken-runterlief/",
-      "title": "Als es mir kalt den Rücken runterlief | Deutschland Archiv | bpb.de",
-      "snippet": "Bereits 2019 hatten die Autoren für die Stiftung Berliner Mauer eine erste Graphic Novel mit dem Titel „Todesstreifen“ entwickelt, die zeigt, wie sie nach ihren Ausreisen, die nach langem Warten zwischen 1986 und 1989 ermöglicht worden sind, zu Widerstandsformen gegen die Mauer und die",
-      "matchedWords": {
-        "65rGEicCRUgV": {
-          "hits": 2,
-          "textWords": 3402
-        },
-        "SEhoJU8Vd4OY": {
-          "hits": 7,
-          "textWords": 3402
-        },
-        "le_-kTULPwfi": {
-          "hits": 6,
-          "textWords": 3402
-        }
-      },
-      "queryPhraseHits": 1
-    },
-    {
-      "hash": "4qI5D7KDFhNg",
-      "address": "https://www.bpb.de/themen/deutschlandarchiv/302316/5-den-anderen-anders-wahrnehmen/",
-      "title": "5. Den Anderen anders wahrnehmen | Deutschland Archiv | bpb.de",
-      "snippet": "DDR-Bürgerinnen und -Bürger zwischen Verkaufsständen in einem West-Berliner Warenhaus im November 1989 (© Oliver Rüther/laif)\nInterner Link: (a) Frauen\nInterner Link: Gesellschaftspolitischer Hintergrund – Ost und West\nInterner Link: Interview mit Lena",
-      "matchedWords": {
-        "65rGEicCRUgV": {
-          "hits": 1,
-          "textWords": 3527
-        },
-        "SEhoJU8Vd4OY": {
-          "hits": 0,
-          "textWords": 3527
-        },
-        "le_-kTULPwfi": {
-          "hits": 1,
-          "textWords": 3527
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "5MrdD7KDFhNg",
-      "address": "https://www.bpb.de/themen/deutschlandarchiv/139631/der-honecker-besuch-in-bonn-1987/",
-      "title": "Der Honecker-Besuch in Bonn 1987 | Deutschland Archiv | bpb.de",
-      "snippet": "Die beiden Weltmächte einigten sich auf den Abbau ihrer Mittelstreckenraketen in Europa und damit näherte sich der Ost-West-Konflikt seinem Ende. Während der INF-Verhandlungen besuchte Reagan Berlin und forderte vor der Mauer am Brandenburger Tor Gorbatschow auf, die Mauer niederzureißen.",
-      "matchedWords": {
-        "65rGEicCRUgV": {
-          "hits": 0,
-          "textWords": 7092
-        },
-        "SEhoJU8Vd4OY": {
-          "hits": 6,
-          "textWords": 7092
-        },
-        "le_-kTULPwfi": {
-          "hits": 5,
-          "textWords": 7092
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "5W0Sd7KDFhNg",
-      "address": "https://www.bpb.de/themen/deutschlandarchiv/138893/nach-dem-mauerbau/",
-      "title": "Nach dem Mauerbau | Deutschland Archiv | bpb.de",
-      "snippet": "Gemeinsam mit Peter Fechter wagte vor 50 Jahren Helmut Kulbeik die Flucht in den Westen. Kulbeik gelang der Sprung über die Mauer, Fechter starb vor laufenden Kameras. Kulbeik verweigerte sich bis…",
-      "matchedWords": {
-        "65rGEicCRUgV": {
-          "hits": 1,
-          "textWords": 227
-        },
-        "SEhoJU8Vd4OY": {
-          "hits": 0,
-          "textWords": 227
-        },
-        "le_-kTULPwfi": {
-          "hits": 1,
-          "textWords": 227
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "5aMQ77KDFhNg",
-      "address": "https://www.bpb.de/themen/deutschlandarchiv/231079/demokratischer-denkmalsturz/",
-      "title": "Demokratischer Denkmalsturz? | Deutschland Archiv | bpb.de",
-      "snippet": "Doch im Gegensatz zu den osteuropäischen Ländern richtete sich der Volkszorn in Deutschland zunächst gar nicht gegen die Denkmäler sondern gegen andere sichtbare Zeichen des SED-Staates, wie die Zentralen der Staatssicherheit oder die Berliner Mauer.",
-      "matchedWords": {
-        "65rGEicCRUgV": {
-          "hits": 3,
-          "textWords": 3569
-        },
-        "SEhoJU8Vd4OY": {
-          "hits": 5,
-          "textWords": 3569
-        },
-        "le_-kTULPwfi": {
-          "hits": 2,
-          "textWords": 3569
-        }
-      },
-      "queryPhraseHits": 1
-    },
-    {
-      "hash": "5nLdN7KDFhNg",
-      "address": "https://www.bpb.de/themen/deutschlandarchiv/284384/israel-im-schwarzen-kanal/",
-      "title": "Israel im Schwarzen Kanal | Deutschland Archiv | bpb.de",
-      "snippet": "Der DDR gelang somit derselbe geschichtspolitische Husarenstreich wie der wiedererstandenen Republik Österreich: „Hitler war gleichsam Westdeutscher geworden.“\nMehr noch, Joseph Goebbels war Israeli geworden: „Und da sage einer, die Geschichte wiederhole sich nicht!",
-      "matchedWords": {
-        "65rGEicCRUgV": {
-          "hits": 1,
-          "textWords": 5573
-        },
-        "SEhoJU8Vd4OY": {
-          "hits": 3,
-          "textWords": 5573
-        },
-        "le_-kTULPwfi": {
-          "hits": 0,
-          "textWords": 5573
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "6DUXh7KDFhNg",
-      "address": "https://www.bpb.de/themen/deutschlandarchiv/kutzner-alltagsleben-im-grenzgebiet/",
-      "title": "Alltagsleben im Grenzgebiet. Ein Oral History Projekt | Deutschland Archiv | bpb.de",
-      "snippet": "Interview mit Siegfried Schilling, 57:00 min.\nInterview Alexander Henning, 57:30 min.\nEdgar Wolfrum, Die Mauer. Geschichte einer Teilung, München 2009, S. 128.\nStoll, Das war die Grenze (Anm. 7), S. 197.\nLizenz",
-      "matchedWords": {
-        "65rGEicCRUgV": {
-          "hits": 2,
-          "textWords": 4841
-        },
-        "SEhoJU8Vd4OY": {
-          "hits": 6,
-          "textWords": 4841
-        },
-        "le_-kTULPwfi": {
-          "hits": 1,
-          "textWords": 4841
-        }
-      },
-      "queryPhraseHits": 1
-    },
-    {
-      "hash": "6O-fk7KDFhNg",
-      "address": "https://www.bpb.de/themen/deutschlandarchiv/517277/ich-hatte-scheissangst/",
-      "title": "\"Ich hatte Scheißangst\" | Deutschland Archiv | bpb.de",
-      "snippet": "",
-      "matchedWords": {
-        "65rGEicCRUgV": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "SEhoJU8Vd4OY": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "le_-kTULPwfi": {
-          "hits": 0,
-          "textWords": 0
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "6iInX7KDFhNg",
-      "address": "https://www.bpb.de/themen/deutschlandarchiv/557958/der-zauber-des-anfangs/",
-      "title": "Der Zauber des Anfangs | Deutschland Archiv | bpb.de",
       "snippet": "",
       "matchedWords": {
         "65rGEicCRUgV": {
@@ -2323,19 +2548,19 @@
       "hash": "TR9kflXXOSAg",
       "address": "https://www.rbb24.de/",
       "title": "rbb24 - Nachrichten aus Berlin und Brandenburg",
-      "snippet": "",
+      "snippet": "Poller sorgen in Berliner immer wieder für Diskussionen. Die CDU-geführte Verkehrsverwaltung möchte alle zur Überprüfung freigeben. Ist das sinnvoll?\nvon Klaas-Wilhelm Brandenburg\nGeschichte des Plattenbaus 100 Jahre Splanemann-Siedlung: Die erste \"Platte\" Deutschlands steht in Berlin",
       "matchedWords": {
         "65rGEicCRUgV": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 12,
+          "textWords": 2125
         },
         "SEhoJU8Vd4OY": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 1,
+          "textWords": 2125
         },
         "le_-kTULPwfi": {
           "hits": 0,
-          "textWords": 0
+          "textWords": 2125
         }
       },
       "queryPhraseHits": 0
@@ -2369,15 +2594,15 @@
       "matchedWords": {
         "65rGEicCRUgV": {
           "hits": 0,
-          "textWords": 2056
+          "textWords": 2064
         },
         "SEhoJU8Vd4OY": {
           "hits": 2,
-          "textWords": 2056
+          "textWords": 2064
         },
         "le_-kTULPwfi": {
           "hits": 0,
-          "textWords": 2056
+          "textWords": 2064
         }
       },
       "queryPhraseHits": 0
@@ -2386,19 +2611,19 @@
       "hash": "ZMZqM3cqomtg",
       "address": "https://taz.de/Themen/!p5360/",
       "title": "Themen | taz.de",
-      "snippet": "Zwischen den Fronten: Die Autorin Stella Gaitano macht in „Eddos goldenes Lächeln“ die Geschichte eines Kriegs erfahrbar, der den Sudan zweiteilen sollte.\nVon Carola Ebeling\n3.8.2026\npressefreiheit\nLizenzentzug für niederländischen Sender Hitler-Relativierung als letzter Tropfen",
+      "snippet": "Die Berliner Bewegung „Klimaneustart“ hat mit 300 Leuten über ihre Klimasorgen gesprochen. Aktivistin Veronika Brugger entwickelte die Gesprächsform.\nInterview von Adam Schwedhelm\n12.9.2026\nWahlsieg der Rechtsextremen Könnte die AfD in Sachsen-Anhalt Klimapolitik zurückdrehen?",
       "matchedWords": {
         "65rGEicCRUgV": {
-          "hits": 1,
-          "textWords": 2946
+          "hits": 2,
+          "textWords": 2949
         },
         "SEhoJU8Vd4OY": {
           "hits": 2,
-          "textWords": 2946
+          "textWords": 2949
         },
         "le_-kTULPwfi": {
           "hits": 0,
-          "textWords": 2946
+          "textWords": 2949
         }
       },
       "queryPhraseHits": 0
@@ -2411,15 +2636,15 @@
       "matchedWords": {
         "65rGEicCRUgV": {
           "hits": 2,
-          "textWords": 4568
+          "textWords": 4499
         },
         "SEhoJU8Vd4OY": {
           "hits": 8,
-          "textWords": 4568
+          "textWords": 4499
         },
         "le_-kTULPwfi": {
           "hits": 0,
-          "textWords": 4568
+          "textWords": 4499
         }
       },
       "queryPhraseHits": 0
@@ -2449,19 +2674,19 @@
       "hash": "46TeYscqomtg",
       "address": "https://taz.de/!p5360/",
       "title": "Themen | taz.de",
-      "snippet": "Zwischen den Fronten: Die Autorin Stella Gaitano macht in „Eddos goldenes Lächeln“ die Geschichte eines Kriegs erfahrbar, der den Sudan zweiteilen sollte.\nVon Carola Ebeling\n3.8.2026\npressefreiheit\nLizenzentzug für niederländischen Sender Hitler-Relativierung als letzter Tropfen",
+      "snippet": "Die Berliner Bewegung „Klimaneustart“ hat mit 300 Leuten über ihre Klimasorgen gesprochen. Aktivistin Veronika Brugger entwickelte die Gesprächsform.\nInterview von Adam Schwedhelm\n12.9.2026\nWahlsieg der Rechtsextremen Könnte die AfD in Sachsen-Anhalt Klimapolitik zurückdrehen?",
       "matchedWords": {
         "65rGEicCRUgV": {
-          "hits": 1,
-          "textWords": 2946
+          "hits": 2,
+          "textWords": 2949
         },
         "SEhoJU8Vd4OY": {
           "hits": 2,
-          "textWords": 2946
+          "textWords": 2949
         },
         "le_-kTULPwfi": {
           "hits": 0,
-          "textWords": 2946
+          "textWords": 2949
         }
       },
       "queryPhraseHits": 0
@@ -2470,19 +2695,40 @@
       "hash": "1c6AWlfWll-g",
       "address": "https://www.3sat.de/",
       "title": "Startseite - 3sat-Mediathek",
-      "snippet": "Serien-Highlights\nDiese Beitragsliste überspringen\nThemen\nNeues aus Wissenschaft \u0026 Forschung\nDiese Beitragsliste überspringen\nMetropolen des Pop: Städte erzählen ihre Pop-Geschichte\nKultur\nLondon: Britpop, Punk und schwarzer Humor\nMetropolen des Pop\nKultur\nMailand: Die Kunst der Leichtigkeit",
+      "snippet": "Hervorgehobene Inhalte\nWeit\nDie Geschichte von einem Weg um die Welt\nBesonders sehenswert\nDiese Beitragsliste überspringen\nKrimis \u0026 Thriller\nDiese Beitragsliste überspringen\nAlles auf einen Blick\nDiese Beitragsliste überspringen\nFilmfestspiele von Venedig\nKultur",
       "matchedWords": {
         "65rGEicCRUgV": {
           "hits": 0,
-          "textWords": 300
+          "textWords": 291
         },
         "SEhoJU8Vd4OY": {
-          "hits": 1,
-          "textWords": 300
+          "hits": 2,
+          "textWords": 291
         },
         "le_-kTULPwfi": {
           "hits": 0,
-          "textWords": 300
+          "textWords": 291
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "QlH6oLfjI1Dh",
+      "address": "https://www.tagesschau.de/inland/regional",
+      "title": "Regionalnachrichten aus den Bundesländern | tagesschau.de",
+      "snippet": "",
+      "matchedWords": {
+        "65rGEicCRUgV": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "SEhoJU8Vd4OY": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "le_-kTULPwfi": {
+          "hits": 0,
+          "textWords": 0
         }
       },
       "queryPhraseHits": 0
@@ -2491,19 +2737,40 @@
       "hash": "bthkIlgw84xh",
       "address": "https://www.sueddeutsche.de/",
       "title": "Aktuelle Nachrichten und Kommentare - SZ.de",
-      "snippet": ":So brisant sind die Berliner Daten, die nun im Darknet liegen\nDie Aufarbeitung des Cyberangriffs in Berlin geht nur langsam voran. Wen die Behörden für die Täter halten – und warum es viel Kritik am Senat gibt.\nMedizin\n:Sollte man sich jetzt gegen Covid und Grippe impfen lassen?",
+      "snippet": ":Was wäre falsch daran, sie aufzunehmen?\nFaten Ben Omar wollte frei sein. Dafür stieg die Marokkanerin ins Meer – und ertrank vor Ceuta. Ihre Geschichte erzählt von den vielen jungen Frauen, die alles riskieren, um vor patriarchalen Zwängen zu fliehen.\nZahloptionen in der Gastronomie",
       "matchedWords": {
         "65rGEicCRUgV": {
-          "hits": 1,
-          "textWords": 2599
+          "hits": 0,
+          "textWords": 2664
         },
         "SEhoJU8Vd4OY": {
-          "hits": 3,
-          "textWords": 2599
+          "hits": 4,
+          "textWords": 2664
         },
         "le_-kTULPwfi": {
           "hits": 0,
-          "textWords": 2599
+          "textWords": 2664
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "ATIMylhl_5qi",
+      "address": "https://www.deutschlandfunk.de/sendungen",
+      "title": "Alle Sendungen",
+      "snippet": "Kalenderblatt\nErstsendung: Montag bis Freitag • 01:05 und 03:52 Uhr, zusätzlich Montag bis Sonntag • 9:05 Uhr\nHier wird Geschichte zum Leben erweckt: Das „Kalenderblatt“ von Deutschlandfunk lädt zum Entdecken bedeutender und außergewöhnlicher Menschen und Ereignisse ein.\nKlassik-Pop-et cetera",
+      "matchedWords": {
+        "65rGEicCRUgV": {
+          "hits": 1,
+          "textWords": 3639
+        },
+        "SEhoJU8Vd4OY": {
+          "hits": 4,
+          "textWords": 3639
+        },
+        "le_-kTULPwfi": {
+          "hits": 0,
+          "textWords": 3639
         }
       },
       "queryPhraseHits": 0
@@ -2512,19 +2779,19 @@
       "hash": "PCb0dlhl_5qi",
       "address": "https://www.deutschlandfunk.de/",
       "title": "Deutschlandfunk - Alles von Relevanz",
-      "snippet": "25 Jahre nach 9/11 - Eine andere Welt?\nDer 11. September 2001 und die Angriffe auf die Twin Towers in New York - warum die Folgen dieses Tags bis heute zu spüren sind. Und: Der Präsident der Vereinigten Arabischen Emirate verspricht in Berlin eine Milliarden-Investition.",
+      "snippet": "Doch der Preis für die ungebremste Siedlungspolitik wird immer höher.\nNext\n\"Kudamm-Krawall\" 1931 - Ein Pogrom in der Weimarer Republik\nIm September 1931 zogen Hunderte nationalsozialistische Schläger durch das Judenviertel am Berliner Kurfürstendamm.",
       "matchedWords": {
         "65rGEicCRUgV": {
-          "hits": 0,
-          "textWords": 958
+          "hits": 1,
+          "textWords": 1153
         },
         "SEhoJU8Vd4OY": {
           "hits": 0,
-          "textWords": 958
+          "textWords": 1153
         },
         "le_-kTULPwfi": {
           "hits": 0,
-          "textWords": 958
+          "textWords": 1153
         }
       },
       "queryPhraseHits": 0
@@ -2551,6 +2818,27 @@
       "queryPhraseHits": 0
     },
     {
+      "hash": "0OQaDApVI8fh",
+      "address": "https://plus.sueddeutsche.de/",
+      "title": "Alle SZplus Inhalte der Süddeutschen Zeitung - SZ.de",
+      "snippet": "Hackerangriff\n:So brisant sind die Berliner Daten, die nun im Darknet liegen\nDie Aufarbeitung des Cyberangriffs in Berlin geht nur langsam voran. Wen die Behörden für die Täter halten – und warum es viel Kritik am Senat gibt.\nModeindustrie\n:Wer soll denn das noch anziehen?",
+      "matchedWords": {
+        "65rGEicCRUgV": {
+          "hits": 1,
+          "textWords": 1837
+        },
+        "SEhoJU8Vd4OY": {
+          "hits": 1,
+          "textWords": 1837
+        },
+        "le_-kTULPwfi": {
+          "hits": 0,
+          "textWords": 1837
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
       "hash": "TQ5QsllA2Rig",
       "address": "https://www.n-tv.de/",
       "title": "Nachrichten, aktuelle Schlagzeilen und Videos - n-tv.de",
@@ -2572,22 +2860,43 @@
       "queryPhraseHits": 0
     },
     {
-      "hash": "XlXr-l5ARWyg",
-      "address": "https://www.spiegel.de/kultur/",
-      "title": "Kultur - DER SPIEGEL",
-      "snippet": "Von Trump attackierte Museen Smithsonian-Chef Lonnie Bunch kündigt Rücktritt an\nDonald Trump drängt dem Smithsonian seine Sicht auf die amerikanische Geschichte auf. Dessen Leiter gibt nun sein Amt ab.",
+      "hash": "hpNx6l0w__jw",
+      "address": "https://www.faz.net/aktuell/",
+      "title": "Aktuelle Nachrichten online - FAZ.NET",
+      "snippet": "Dianas „Revenge Dress“ wird versteigert\nAls der damalige Prinz Charles 1994 seine Untreue öffentlich einräumte, erschien Diana am selben Abend in einem Kleid, das in die Geschichte einging. Bei seiner Auktion könnte es Hunderttausende Dollar einbringen.\nImmobilienMarkt Anzeigen\nÖffnen\nMerken\nFAZ+",
       "matchedWords": {
         "65rGEicCRUgV": {
           "hits": 0,
-          "textWords": 888
+          "textWords": 874
         },
         "SEhoJU8Vd4OY": {
           "hits": 1,
-          "textWords": 888
+          "textWords": 874
         },
         "le_-kTULPwfi": {
           "hits": 0,
-          "textWords": 888
+          "textWords": 874
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "XlXr-l5ARWyg",
+      "address": "https://www.spiegel.de/kultur/",
+      "title": "Kultur - DER SPIEGEL",
+      "snippet": "In »City of Blood« leiden die Berliner unter dem Klimawandel, und Vampire saugen die Stadt aus. Die Serie basiert auf einer großartigen Comic-Reihe, aber die Leute hinter dem Projekt wollen »Themen der Gegenwart«. Es ist zum Heulen. Von Oliver Kaever",
+      "matchedWords": {
+        "65rGEicCRUgV": {
+          "hits": 1,
+          "textWords": 894
+        },
+        "SEhoJU8Vd4OY": {
+          "hits": 0,
+          "textWords": 894
+        },
+        "le_-kTULPwfi": {
+          "hits": 0,
+          "textWords": 894
         }
       },
       "queryPhraseHits": 0
@@ -2599,16 +2908,16 @@
       "snippet": "Erfolg im Film Schauspieler Oliver Masucci hält Unsicherheit für gute Berufsvoraussetzung\n11. September, 15.37 Uhr • Kultur • 1 Min\nWutzkyallee in Neukölln Kommission erkennt keine Vertuschung nach mutmaßlicher Vergewaltigung in Berliner Jugendclub\n11. September, 15.32 Uhr • Panorama • 2 Min",
       "matchedWords": {
         "65rGEicCRUgV": {
-          "hits": 11,
-          "textWords": 6965
+          "hits": 10,
+          "textWords": 6296
         },
         "SEhoJU8Vd4OY": {
-          "hits": 5,
-          "textWords": 6965
+          "hits": 4,
+          "textWords": 6296
         },
         "le_-kTULPwfi": {
           "hits": 0,
-          "textWords": 6965
+          "textWords": 6296
         }
       },
       "queryPhraseHits": 0
@@ -2635,25 +2944,109 @@
       "queryPhraseHits": 0
     },
     {
-      "hash": "3Qt4nC8moajg",
-      "address": "https://www.welt.de/regionales/berlin/",
-      "title": "Berlin \u0026 Brandenburg - News \u0026 aktuelle Nachrichten - WELT",
-      "snippet": "",
+      "hash": "2RTWrl8moajg",
+      "address": "https://www.welt.de/",
+      "title": "WELT - Aktuelle Nachrichten, News, Hintergründe \u0026 Videos",
+      "snippet": "WELT TV\nWeltplus Artikel\nSachsen-Anhalt\nWarum jetzt alles auf Neuwahlen hinausläuft\nDie Wahl in Sachsen-Anhalt hat klare Machtverhältnisse geschaffen, aber keine regierungsfähige Mehrheit. Drei Szenarien sind jetzt wahrscheinlich.\nWeltplus Artikel\nIslamisierung\nWarten auf das Kinderkopftuch",
       "matchedWords": {
         "65rGEicCRUgV": {
           "hits": 0,
-          "textWords": 0
+          "textWords": 1230
         },
         "SEhoJU8Vd4OY": {
           "hits": 0,
-          "textWords": 0
+          "textWords": 1230
         },
         "le_-kTULPwfi": {
           "hits": 0,
-          "textWords": 0
+          "textWords": 1230
         }
       },
       "queryPhraseHits": 0
+    },
+    {
+      "hash": "3Qt4nC8moajg",
+      "address": "https://www.welt.de/regionales/berlin/",
+      "title": "Berlin \u0026 Brandenburg - News \u0026 aktuelle Nachrichten - WELT",
+      "snippet": "Altglienicke ging als klarer Favorit in die Partie und erfüllte diese Erwartungen am Ende auch.\nBerliner Athletik Klub 07 - FSV 63 Luckenwalde\nNichts zu holen gab es für den FSV 63 Luckenwalde beim Berliner Athletik Klub 07. Die Gastgeber erfreuten ihre Fans mit einem 2:1.",
+      "matchedWords": {
+        "65rGEicCRUgV": {
+          "hits": 11,
+          "textWords": 1100
+        },
+        "SEhoJU8Vd4OY": {
+          "hits": 0,
+          "textWords": 1100
+        },
+        "le_-kTULPwfi": {
+          "hits": 0,
+          "textWords": 1100
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "68MPWl8moajg",
+      "address": "https://www.welt.de/videos/",
+      "title": "WELT Videos: Aktuelle News \u0026 Nachrichten-Videos",
+      "snippet": "Pfadnavigation\nHome\nArtikeltyp:VideoPutins Krieg\n„Moskau will die Ukraine beherrschen“\nIm WELT-Gespräch analysiert Sicherheitsexperte Nico Lange die Verhandlungspositionen im Ukraine-Krieg und Putins Auftreten in Neu-Delhi.\nArtikeltyp:VideoDrohung an den Westen",
+      "matchedWords": {
+        "65rGEicCRUgV": {
+          "hits": 0,
+          "textWords": 857
+        },
+        "SEhoJU8Vd4OY": {
+          "hits": 0,
+          "textWords": 857
+        },
+        "le_-kTULPwfi": {
+          "hits": 0,
+          "textWords": 857
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "B9pAUdFO6r_x",
+      "address": "https://de.wikipedia.org/wiki/Zweiter_Weltkrieg",
+      "title": "Zweiter Weltkrieg – Wikipedia",
+      "snippet": "Die europäischen Kolonialmächte Großbritannien und Frankreich verloren ihre Übersee-Besitzungen, die meisten ihrer Kolonien wurden unabhängig. „Erst mit dem Fall der Mauer 1989 und dem Ende des Kalten Krieges ging die vom Zweiten Weltkrieg […] geprägte Phase der Geschichte zu Ende.“[6]",
+      "matchedWords": {
+        "65rGEicCRUgV": {
+          "hits": 4,
+          "textWords": 47026
+        },
+        "SEhoJU8Vd4OY": {
+          "hits": 81,
+          "textWords": 47026
+        },
+        "le_-kTULPwfi": {
+          "hits": 1,
+          "textWords": 47026
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "DWP4NdFO6r_x",
+      "address": "https://de.wikipedia.org/wiki/Deutscher_Bundestag",
+      "title": "Deutscher Bundestag – Wikipedia",
+      "snippet": "Der Bau der Berliner Mauer 1961 fiel mitten in den Wahlkampf.\nVierter Deutscher Bundestag (1961–1965)\nVierter Bundestag\nStimmenauszählung 1961\nAuf der konstituierenden Sitzung des am 17.",
+      "matchedWords": {
+        "65rGEicCRUgV": {
+          "hits": 11,
+          "textWords": 23362
+        },
+        "SEhoJU8Vd4OY": {
+          "hits": 16,
+          "textWords": 23362
+        },
+        "le_-kTULPwfi": {
+          "hits": 2,
+          "textWords": 23362
+        }
+      },
+      "queryPhraseHits": 2
     },
     {
       "hash": "MnL7SdFO6r_x",
@@ -2677,6 +3070,48 @@
       "queryPhraseHits": 5
     },
     {
+      "hash": "N_sgsdFO6r_x",
+      "address": "https://de.wikipedia.org/wiki/Europa",
+      "title": "Europa – Wikipedia",
+      "snippet": "Erst Perestroika und Glasnost führten in der Sowjetunion Mitte der 1980er Jahre zu einem politischen Kurswechsel. 1989 brach der Ostblock auf, die Berliner Mauer fiel. Die Sowjetunion und der Warschauer Pakt lösten sich auf.",
+      "matchedWords": {
+        "65rGEicCRUgV": {
+          "hits": 1,
+          "textWords": 7394
+        },
+        "SEhoJU8Vd4OY": {
+          "hits": 10,
+          "textWords": 7394
+        },
+        "le_-kTULPwfi": {
+          "hits": 1,
+          "textWords": 7394
+        }
+      },
+      "queryPhraseHits": 1
+    },
+    {
+      "hash": "O_W7sdFO6r_x",
+      "address": "https://de.wikipedia.org/wiki/Wikipedia:Exzellente_Artikel",
+      "title": "Wikipedia:Exzellente Artikel – Wikipedia",
+      "snippet": "U-Bahn: Geschichte der Berliner U-Bahn · London Underground · Metro Bilbao · Metró Budapest · Metro Madrid · Metro Moskau · Metropolitan Railway · Metro Prag · Metro Rotterdam · Oslo T-bane · U-Bahn Berlin · U-Bahn Frankfurt · U-Bahn München · U-Bahn Nürnberg · U-Bahn-Linie U2 (Berlin)",
+      "matchedWords": {
+        "65rGEicCRUgV": {
+          "hits": 7,
+          "textWords": 3105
+        },
+        "SEhoJU8Vd4OY": {
+          "hits": 3,
+          "textWords": 3105
+        },
+        "le_-kTULPwfi": {
+          "hits": 0,
+          "textWords": 3105
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
       "hash": "VSatEdFO6r_x",
       "address": "https://de.wikipedia.org/wiki/Wikipedia:Lesenswerte_Artikel",
       "title": "Wikipedia:Lesenswerte Artikel – Wikipedia",
@@ -2693,6 +3128,27 @@
         "le_-kTULPwfi": {
           "hits": 1,
           "textWords": 4445
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "sxUL2dFO6r_x",
+      "address": "https://de.wikipedia.org/wiki/Wikipedia:Hauptseite",
+      "title": "Wikipedia – Die freie Enzyklopädie",
+      "snippet": "Die Freiberger Huldigungsmedaille zeigt die Stadtansicht und Einblicke ins Bergbauwesen.\nDie Lokomotivflucht nach Eger war laut Jaroslav Rudiš „die größte Heldentat in der Geschichte der sächsischen Eisenbahnen“.\nWeitere neue Artikel\nArchiv\nSchwesterprojekte\nCommons – Medien",
+      "matchedWords": {
+        "65rGEicCRUgV": {
+          "hits": 0,
+          "textWords": 510
+        },
+        "SEhoJU8Vd4OY": {
+          "hits": 1,
+          "textWords": 510
+        },
+        "le_-kTULPwfi": {
+          "hits": 0,
+          "textWords": 510
         }
       },
       "queryPhraseHits": 0
@@ -2719,43 +3175,22 @@
       "queryPhraseHits": 0
     },
     {
-      "hash": "R1PZSlKDFhNg",
-      "address": "https://www.bpb.de/",
-      "title": "Bundeszentrale für politische Bildung | Startseite | bpb.de",
-      "snippet": "September 2001 verübte das islamistische Terrornetzwerk al-Qaida die bisher folgenreichsten Anschläge in der jüngeren Geschichte. Etwa 3.000 Menschen verloren ihr Leben.",
-      "matchedWords": {
-        "65rGEicCRUgV": {
-          "hits": 1,
-          "textWords": 1479
-        },
-        "SEhoJU8Vd4OY": {
-          "hits": 1,
-          "textWords": 1479
-        },
-        "le_-kTULPwfi": {
-          "hits": 0,
-          "textWords": 1479
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
       "hash": "TR9kflXXOSAg",
       "address": "https://www.rbb24.de/",
       "title": "rbb24 - Nachrichten aus Berlin und Brandenburg",
-      "snippet": "",
+      "snippet": "Poller sorgen in Berliner immer wieder für Diskussionen. Die CDU-geführte Verkehrsverwaltung möchte alle zur Überprüfung freigeben. Ist das sinnvoll?\nvon Klaas-Wilhelm Brandenburg\nGeschichte des Plattenbaus 100 Jahre Splanemann-Siedlung: Die erste \"Platte\" Deutschlands steht in Berlin",
       "matchedWords": {
         "65rGEicCRUgV": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 12,
+          "textWords": 2125
         },
         "SEhoJU8Vd4OY": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 1,
+          "textWords": 2125
         },
         "le_-kTULPwfi": {
           "hits": 0,
-          "textWords": 0
+          "textWords": 2125
         }
       },
       "queryPhraseHits": 0
@@ -2789,15 +3224,15 @@
       "matchedWords": {
         "65rGEicCRUgV": {
           "hits": 0,
-          "textWords": 2056
+          "textWords": 2064
         },
         "SEhoJU8Vd4OY": {
           "hits": 2,
-          "textWords": 2056
+          "textWords": 2064
         },
         "le_-kTULPwfi": {
           "hits": 0,
-          "textWords": 2056
+          "textWords": 2064
         }
       },
       "queryPhraseHits": 0
@@ -2806,19 +3241,19 @@
       "hash": "ZMZqM3cqomtg",
       "address": "https://taz.de/Themen/!p5360/",
       "title": "Themen | taz.de",
-      "snippet": "Zwischen den Fronten: Die Autorin Stella Gaitano macht in „Eddos goldenes Lächeln“ die Geschichte eines Kriegs erfahrbar, der den Sudan zweiteilen sollte.\nVon Carola Ebeling\n3.8.2026\npressefreiheit\nLizenzentzug für niederländischen Sender Hitler-Relativierung als letzter Tropfen",
+      "snippet": "Die Berliner Bewegung „Klimaneustart“ hat mit 300 Leuten über ihre Klimasorgen gesprochen. Aktivistin Veronika Brugger entwickelte die Gesprächsform.\nInterview von Adam Schwedhelm\n12.9.2026\nWahlsieg der Rechtsextremen Könnte die AfD in Sachsen-Anhalt Klimapolitik zurückdrehen?",
       "matchedWords": {
         "65rGEicCRUgV": {
-          "hits": 1,
-          "textWords": 2946
+          "hits": 2,
+          "textWords": 2949
         },
         "SEhoJU8Vd4OY": {
           "hits": 2,
-          "textWords": 2946
+          "textWords": 2949
         },
         "le_-kTULPwfi": {
           "hits": 0,
-          "textWords": 2946
+          "textWords": 2949
         }
       },
       "queryPhraseHits": 0
@@ -2831,15 +3266,15 @@
       "matchedWords": {
         "65rGEicCRUgV": {
           "hits": 2,
-          "textWords": 4568
+          "textWords": 4499
         },
         "SEhoJU8Vd4OY": {
           "hits": 8,
-          "textWords": 4568
+          "textWords": 4499
         },
         "le_-kTULPwfi": {
           "hits": 0,
-          "textWords": 4568
+          "textWords": 4499
         }
       },
       "queryPhraseHits": 0
@@ -2869,19 +3304,19 @@
       "hash": "46TeYscqomtg",
       "address": "https://taz.de/!p5360/",
       "title": "Themen | taz.de",
-      "snippet": "Zwischen den Fronten: Die Autorin Stella Gaitano macht in „Eddos goldenes Lächeln“ die Geschichte eines Kriegs erfahrbar, der den Sudan zweiteilen sollte.\nVon Carola Ebeling\n3.8.2026\npressefreiheit\nLizenzentzug für niederländischen Sender Hitler-Relativierung als letzter Tropfen",
+      "snippet": "Die Berliner Bewegung „Klimaneustart“ hat mit 300 Leuten über ihre Klimasorgen gesprochen. Aktivistin Veronika Brugger entwickelte die Gesprächsform.\nInterview von Adam Schwedhelm\n12.9.2026\nWahlsieg der Rechtsextremen Könnte die AfD in Sachsen-Anhalt Klimapolitik zurückdrehen?",
       "matchedWords": {
         "65rGEicCRUgV": {
-          "hits": 1,
-          "textWords": 2946
+          "hits": 2,
+          "textWords": 2949
         },
         "SEhoJU8Vd4OY": {
           "hits": 2,
-          "textWords": 2946
+          "textWords": 2949
         },
         "le_-kTULPwfi": {
           "hits": 0,
-          "textWords": 2946
+          "textWords": 2949
         }
       },
       "queryPhraseHits": 0
@@ -2890,19 +3325,40 @@
       "hash": "1c6AWlfWll-g",
       "address": "https://www.3sat.de/",
       "title": "Startseite - 3sat-Mediathek",
-      "snippet": "Serien-Highlights\nDiese Beitragsliste überspringen\nThemen\nNeues aus Wissenschaft \u0026 Forschung\nDiese Beitragsliste überspringen\nMetropolen des Pop: Städte erzählen ihre Pop-Geschichte\nKultur\nLondon: Britpop, Punk und schwarzer Humor\nMetropolen des Pop\nKultur\nMailand: Die Kunst der Leichtigkeit",
+      "snippet": "Hervorgehobene Inhalte\nWeit\nDie Geschichte von einem Weg um die Welt\nBesonders sehenswert\nDiese Beitragsliste überspringen\nKrimis \u0026 Thriller\nDiese Beitragsliste überspringen\nAlles auf einen Blick\nDiese Beitragsliste überspringen\nFilmfestspiele von Venedig\nKultur",
       "matchedWords": {
         "65rGEicCRUgV": {
           "hits": 0,
-          "textWords": 300
+          "textWords": 291
         },
         "SEhoJU8Vd4OY": {
-          "hits": 1,
-          "textWords": 300
+          "hits": 2,
+          "textWords": 291
         },
         "le_-kTULPwfi": {
           "hits": 0,
-          "textWords": 300
+          "textWords": 291
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "QlH6oLfjI1Dh",
+      "address": "https://www.tagesschau.de/inland/regional",
+      "title": "Regionalnachrichten aus den Bundesländern | tagesschau.de",
+      "snippet": "",
+      "matchedWords": {
+        "65rGEicCRUgV": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "SEhoJU8Vd4OY": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "le_-kTULPwfi": {
+          "hits": 0,
+          "textWords": 0
         }
       },
       "queryPhraseHits": 0
@@ -2911,19 +3367,40 @@
       "hash": "bthkIlgw84xh",
       "address": "https://www.sueddeutsche.de/",
       "title": "Aktuelle Nachrichten und Kommentare - SZ.de",
-      "snippet": ":So brisant sind die Berliner Daten, die nun im Darknet liegen\nDie Aufarbeitung des Cyberangriffs in Berlin geht nur langsam voran. Wen die Behörden für die Täter halten – und warum es viel Kritik am Senat gibt.\nMedizin\n:Sollte man sich jetzt gegen Covid und Grippe impfen lassen?",
+      "snippet": ":Was wäre falsch daran, sie aufzunehmen?\nFaten Ben Omar wollte frei sein. Dafür stieg die Marokkanerin ins Meer – und ertrank vor Ceuta. Ihre Geschichte erzählt von den vielen jungen Frauen, die alles riskieren, um vor patriarchalen Zwängen zu fliehen.\nZahloptionen in der Gastronomie",
       "matchedWords": {
         "65rGEicCRUgV": {
-          "hits": 1,
-          "textWords": 2599
+          "hits": 0,
+          "textWords": 2664
         },
         "SEhoJU8Vd4OY": {
-          "hits": 3,
-          "textWords": 2599
+          "hits": 4,
+          "textWords": 2664
         },
         "le_-kTULPwfi": {
           "hits": 0,
-          "textWords": 2599
+          "textWords": 2664
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "ATIMylhl_5qi",
+      "address": "https://www.deutschlandfunk.de/sendungen",
+      "title": "Alle Sendungen",
+      "snippet": "Kalenderblatt\nErstsendung: Montag bis Freitag • 01:05 und 03:52 Uhr, zusätzlich Montag bis Sonntag • 9:05 Uhr\nHier wird Geschichte zum Leben erweckt: Das „Kalenderblatt“ von Deutschlandfunk lädt zum Entdecken bedeutender und außergewöhnlicher Menschen und Ereignisse ein.\nKlassik-Pop-et cetera",
+      "matchedWords": {
+        "65rGEicCRUgV": {
+          "hits": 1,
+          "textWords": 3639
+        },
+        "SEhoJU8Vd4OY": {
+          "hits": 4,
+          "textWords": 3639
+        },
+        "le_-kTULPwfi": {
+          "hits": 0,
+          "textWords": 3639
         }
       },
       "queryPhraseHits": 0
@@ -2932,19 +3409,19 @@
       "hash": "PCb0dlhl_5qi",
       "address": "https://www.deutschlandfunk.de/",
       "title": "Deutschlandfunk - Alles von Relevanz",
-      "snippet": "25 Jahre nach 9/11 - Eine andere Welt?\nDer 11. September 2001 und die Angriffe auf die Twin Towers in New York - warum die Folgen dieses Tags bis heute zu spüren sind. Und: Der Präsident der Vereinigten Arabischen Emirate verspricht in Berlin eine Milliarden-Investition.",
+      "snippet": "Doch der Preis für die ungebremste Siedlungspolitik wird immer höher.\nNext\n\"Kudamm-Krawall\" 1931 - Ein Pogrom in der Weimarer Republik\nIm September 1931 zogen Hunderte nationalsozialistische Schläger durch das Judenviertel am Berliner Kurfürstendamm.",
       "matchedWords": {
         "65rGEicCRUgV": {
-          "hits": 0,
-          "textWords": 958
+          "hits": 1,
+          "textWords": 1153
         },
         "SEhoJU8Vd4OY": {
           "hits": 0,
-          "textWords": 958
+          "textWords": 1153
         },
         "le_-kTULPwfi": {
           "hits": 0,
-          "textWords": 958
+          "textWords": 1153
         }
       },
       "queryPhraseHits": 0
@@ -2992,6 +3469,69 @@
       "queryPhraseHits": 0
     },
     {
+      "hash": "0OQaDApVI8fh",
+      "address": "https://plus.sueddeutsche.de/",
+      "title": "Alle SZplus Inhalte der Süddeutschen Zeitung - SZ.de",
+      "snippet": "Hackerangriff\n:So brisant sind die Berliner Daten, die nun im Darknet liegen\nDie Aufarbeitung des Cyberangriffs in Berlin geht nur langsam voran. Wen die Behörden für die Täter halten – und warum es viel Kritik am Senat gibt.\nModeindustrie\n:Wer soll denn das noch anziehen?",
+      "matchedWords": {
+        "65rGEicCRUgV": {
+          "hits": 1,
+          "textWords": 1837
+        },
+        "SEhoJU8Vd4OY": {
+          "hits": 1,
+          "textWords": 1837
+        },
+        "le_-kTULPwfi": {
+          "hits": 0,
+          "textWords": 1837
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "UGaaTjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Central_Europe",
+      "title": "Central Europe - Wikipedia",
+      "snippet": "\"Regions Of Europe\". WorldAtlas. Retrieved 23 August 2023.\n↑ \"Iron Curtain Trail – EuroVelo 13\". Council of Europe. Retrieved 17 October 2023.\n↑ \"The Berlin Wall | Berlin Wall Foundation\". stiftung-berliner-mauer.de. Retrieved 17 October 2023.\n↑ \"Fall of Communism in Eastern Europe, 1989\". U.S.",
+      "matchedWords": {
+        "65rGEicCRUgV": {
+          "hits": 2,
+          "textWords": 12862
+        },
+        "SEhoJU8Vd4OY": {
+          "hits": 2,
+          "textWords": 12862
+        },
+        "le_-kTULPwfi": {
+          "hits": 2,
+          "textWords": 12862
+        }
+      },
+      "queryPhraseHits": 2
+    },
+    {
+      "hash": "1c6AWlfWll-g",
+      "address": "https://www.3sat.de/",
+      "title": "Startseite - 3sat-Mediathek",
+      "snippet": "Hervorgehobene Inhalte\nWeit\nDie Geschichte von einem Weg um die Welt\nBesonders sehenswert\nDiese Beitragsliste überspringen\nKrimis \u0026 Thriller\nDiese Beitragsliste überspringen\nAlles auf einen Blick\nDiese Beitragsliste überspringen\nFilmfestspiele von Venedig\nKultur",
+      "matchedWords": {
+        "65rGEicCRUgV": {
+          "hits": 0,
+          "textWords": 291
+        },
+        "SEhoJU8Vd4OY": {
+          "hits": 2,
+          "textWords": 291
+        },
+        "le_-kTULPwfi": {
+          "hits": 0,
+          "textWords": 291
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
       "hash": "_8OCxlkaJR9i",
       "address": "https://www.berliner-zeitung.de/categories",
       "title": "Themen A-Z - Berliner Zeitung",
@@ -3013,298 +3553,25 @@
       "queryPhraseHits": 1
     },
     {
-      "hash": "HpdLvdFO6r_x",
-      "address": "https://de.wikipedia.org/wiki/1981",
-      "title": "1981 – Wikipedia",
-      "snippet": "",
-      "matchedWords": {
-        "65rGEicCRUgV": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "SEhoJU8Vd4OY": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "le_-kTULPwfi": {
-          "hits": 0,
-          "textWords": 0
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "MnL7SdFO6r_x",
-      "address": "https://de.wikipedia.org/wiki/Berlin",
-      "title": "Berlin – Wikipedia",
-      "snippet": "Entlang des früheren Verlaufs der Berliner Mauer führt der Berliner Mauerweg. Mehrere tausend Mietfahrräder können im Innenstadtbereich per Telefonanruf oder (mobilem) Internet (Apps) ausgeliehen werden, von verschiedenen Anbietern (u. a. Nextbike, CallBike, Bird).[",
-      "matchedWords": {
-        "65rGEicCRUgV": {
-          "hits": 224,
-          "textWords": 23675
-        },
-        "SEhoJU8Vd4OY": {
-          "hits": 17,
-          "textWords": 23675
-        },
-        "le_-kTULPwfi": {
-          "hits": 7,
-          "textWords": 23675
-        }
-      },
-      "queryPhraseHits": 5
-    },
-    {
-      "hash": "QrcPgdFO6r_x",
-      "address": "https://de.wikipedia.org/wiki/Klassizismus",
-      "title": "Klassizismus – Wikipedia",
-      "snippet": "Zu Rauchs Hauptwerken gehören das Berliner Grabmal für Königin Luise von Preußen (1814), das Scharnhorst-Denkmal (1822), das Blücher-Denkmal (1826), das Münchner Max-Joseph-Denkmal (1835), das Nürnberger Dürer-Denkmal (1840), die Kranzwerfende Viktoria (1841) und das Berliner Denkmal für Friedrich",
-      "matchedWords": {
-        "65rGEicCRUgV": {
-          "hits": 6,
-          "textWords": 6889
-        },
-        "SEhoJU8Vd4OY": {
-          "hits": 3,
-          "textWords": 6889
-        },
-        "le_-kTULPwfi": {
-          "hits": 0,
-          "textWords": 6889
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "VSatEdFO6r_x",
-      "address": "https://de.wikipedia.org/wiki/Wikipedia:Lesenswerte_Artikel",
-      "title": "Wikipedia:Lesenswerte Artikel – Wikipedia",
-      "snippet": "Nahverkehr: Aldwych (London Underground) · Berliner Dampfstraßenbahn-Konsortium · Berliner Ostbahnen · BVG-Baureihe A · BVG-Baureihe E · Central London Railway · Charing Cross, Euston and Hampstead Railway · City and South London Railway · Flachbahn (Berlin) · Friedrichshagener Straßenbahn ·",
-      "matchedWords": {
-        "65rGEicCRUgV": {
-          "hits": 6,
-          "textWords": 4445
-        },
-        "SEhoJU8Vd4OY": {
-          "hits": 6,
-          "textWords": 4445
-        },
-        "le_-kTULPwfi": {
-          "hits": 1,
-          "textWords": 4445
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "nFqlndFO6r_x",
-      "address": "https://de.wikipedia.org/wiki/Volksrepublik_China",
-      "title": "Volksrepublik China – Wikipedia",
-      "snippet": "Geschichte\nDie Geschichte vor dem Zweiten Opiumkrieg ist unter Geschichte Chinas zu finden.\nDirekt kontrollierte Gebiete des Qing-Kaiserreichs zur Zeit seiner größten Ausbreitung 1820 (in dunklerem Farbton: die Kernprovinzen des „eigentlichen China“)",
-      "matchedWords": {
-        "65rGEicCRUgV": {
-          "hits": 3,
-          "textWords": 26915
-        },
-        "SEhoJU8Vd4OY": {
-          "hits": 11,
-          "textWords": 26915
-        },
-        "le_-kTULPwfi": {
-          "hits": 1,
-          "textWords": 26915
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "TR9kflXXOSAg",
-      "address": "https://www.rbb24.de/",
-      "title": "rbb24 - Nachrichten aus Berlin und Brandenburg",
-      "snippet": "",
-      "matchedWords": {
-        "65rGEicCRUgV": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "SEhoJU8Vd4OY": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "le_-kTULPwfi": {
-          "hits": 0,
-          "textWords": 0
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "VZxGl4cqomtg",
-      "address": "https://taz.de/Gesellschaft/!p4611/",
-      "title": "Gesellschaft | taz.de",
-      "snippet": "Jörg, Benny, Kim, Nils und Bina haben überlebt – und erzählen ihre Geschichte.\nVon Jörg Böckem\n31.8.2026\nProtest von Geflüchteten in Hamburg Was bleibt vom Camp Schlachthofstraße?",
-      "matchedWords": {
-        "65rGEicCRUgV": {
-          "hits": 0,
-          "textWords": 2056
-        },
-        "SEhoJU8Vd4OY": {
-          "hits": 2,
-          "textWords": 2056
-        },
-        "le_-kTULPwfi": {
-          "hits": 0,
-          "textWords": 2056
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "ZMZqM3cqomtg",
-      "address": "https://taz.de/Themen/!p5360/",
-      "title": "Themen | taz.de",
-      "snippet": "Zwischen den Fronten: Die Autorin Stella Gaitano macht in „Eddos goldenes Lächeln“ die Geschichte eines Kriegs erfahrbar, der den Sudan zweiteilen sollte.\nVon Carola Ebeling\n3.8.2026\npressefreiheit\nLizenzentzug für niederländischen Sender Hitler-Relativierung als letzter Tropfen",
-      "matchedWords": {
-        "65rGEicCRUgV": {
-          "hits": 1,
-          "textWords": 2946
-        },
-        "SEhoJU8Vd4OY": {
-          "hits": 2,
-          "textWords": 2946
-        },
-        "le_-kTULPwfi": {
-          "hits": 0,
-          "textWords": 2946
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "0k0HOtcqomtg",
-      "address": "https://taz.de/verlag/aktuelles-aus-der-taz/!v=8f20076f-2be2-41ba-b79b-5a03bb0ecc51/",
-      "title": "Aktuelles | taz.de",
-      "snippet": "10 Ausgaben für 10 Euro\nDie Wochenzeitung mit taz-Blick\nUnsere wochentaz bietet jeden Samstag Journalismus, der es nicht allen recht macht und Stimmen, die man woanders nicht hört. Jetzt zehn Wochen lang kennenlernen.",
-      "matchedWords": {
-        "65rGEicCRUgV": {
-          "hits": 0,
-          "textWords": 84
-        },
-        "SEhoJU8Vd4OY": {
-          "hits": 0,
-          "textWords": 84
-        },
-        "le_-kTULPwfi": {
-          "hits": 0,
-          "textWords": 84
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "46TeYscqomtg",
-      "address": "https://taz.de/!p5360/",
-      "title": "Themen | taz.de",
-      "snippet": "Zwischen den Fronten: Die Autorin Stella Gaitano macht in „Eddos goldenes Lächeln“ die Geschichte eines Kriegs erfahrbar, der den Sudan zweiteilen sollte.\nVon Carola Ebeling\n3.8.2026\npressefreiheit\nLizenzentzug für niederländischen Sender Hitler-Relativierung als letzter Tropfen",
-      "matchedWords": {
-        "65rGEicCRUgV": {
-          "hits": 1,
-          "textWords": 2946
-        },
-        "SEhoJU8Vd4OY": {
-          "hits": 2,
-          "textWords": 2946
-        },
-        "le_-kTULPwfi": {
-          "hits": 0,
-          "textWords": 2946
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "bthkIlgw84xh",
-      "address": "https://www.sueddeutsche.de/",
-      "title": "Aktuelle Nachrichten und Kommentare - SZ.de",
-      "snippet": ":So brisant sind die Berliner Daten, die nun im Darknet liegen\nDie Aufarbeitung des Cyberangriffs in Berlin geht nur langsam voran. Wen die Behörden für die Täter halten – und warum es viel Kritik am Senat gibt.\nMedizin\n:Sollte man sich jetzt gegen Covid und Grippe impfen lassen?",
-      "matchedWords": {
-        "65rGEicCRUgV": {
-          "hits": 1,
-          "textWords": 2599
-        },
-        "SEhoJU8Vd4OY": {
-          "hits": 3,
-          "textWords": 2599
-        },
-        "le_-kTULPwfi": {
-          "hits": 0,
-          "textWords": 2599
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "vysDFN5ARWyg",
-      "address": "https://www.spiegel.de/thema/spiegel-tv/",
-      "title": "SPIEGEL TV - DER SPIEGEL",
-      "snippet": "SPIEGEL TV\nSPIEGEL TV True Crime\nSPIEGEL TV für ARTE Re:\nGeschichte-Dokus\n54 Min\n44 Min\n44 Min\n44 Min\n44 Min\n45 Min\n44 Min\n45 Min\n44 Min\n42 Min\n44 Min\n43 Min\n43 Min\n42 Min\n43 Min\n42 Min\n42 Min\n42 Min\n43 Min\n43 Min\n44 Min\n44 Min\n44 Min\n47 Min\n23 Min\n40 Min\n46 Min\n44 Min\n46 Min\n42 Min\n44 Min\n42 Min",
-      "matchedWords": {
-        "65rGEicCRUgV": {
-          "hits": 0,
-          "textWords": 128
-        },
-        "SEhoJU8Vd4OY": {
-          "hits": 1,
-          "textWords": 128
-        },
-        "le_-kTULPwfi": {
-          "hits": 0,
-          "textWords": 128
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "QrcPgdFO6r_x",
-      "address": "https://de.wikipedia.org/wiki/Klassizismus",
-      "title": "Klassizismus – Wikipedia",
-      "snippet": "Zu Rauchs Hauptwerken gehören das Berliner Grabmal für Königin Luise von Preußen (1814), das Scharnhorst-Denkmal (1822), das Blücher-Denkmal (1826), das Münchner Max-Joseph-Denkmal (1835), das Nürnberger Dürer-Denkmal (1840), die Kranzwerfende Viktoria (1841) und das Berliner Denkmal für Friedrich",
-      "matchedWords": {
-        "65rGEicCRUgV": {
-          "hits": 6,
-          "textWords": 6889
-        },
-        "SEhoJU8Vd4OY": {
-          "hits": 3,
-          "textWords": 6889
-        },
-        "le_-kTULPwfi": {
-          "hits": 0,
-          "textWords": 6889
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
       "hash": "0jbQd7KDFhNg",
       "address": "https://www.bpb.de/themen/deutschlandarchiv/550520/neugablonz-vom-truemmergelaende-zur-vertriebenensiedlung/",
       "title": "Neugablonz - vom Trümmergelände zur Vertriebenensiedlung | Deutschland Archiv | bpb.de",
-      "snippet": "Der Beitrag ist Teil einer Serie \"Orte des Ankommens\", erstellt in Kooperation des Fachgebietes Städtebauliche Denkmalpflege und Urbanes Kulturerbe der Technischen Universität Berlin, dem Leibniz-Institut für Raumbezogene Sozialforschung Erkner und der Stiftung Berliner Mauer 2023/24, herausgegeben",
+      "snippet": "",
       "matchedWords": {
         "65rGEicCRUgV": {
-          "hits": 2,
-          "textWords": 2847
+          "hits": 0,
+          "textWords": 0
         },
         "SEhoJU8Vd4OY": {
-          "hits": 4,
-          "textWords": 2847
+          "hits": 0,
+          "textWords": 0
         },
         "le_-kTULPwfi": {
-          "hits": 1,
-          "textWords": 2847
+          "hits": 0,
+          "textWords": 0
         }
       },
-      "queryPhraseHits": 1
+      "queryPhraseHits": 0
     },
     {
       "hash": "1dN9D7KDFhNg",
@@ -3352,48 +3619,6 @@
       "hash": "14BQC7KDFhNg",
       "address": "https://www.bpb.de/themen/deutschlandarchiv/297811/die-maueroeffner/",
       "title": "Die Maueröffner | Deutschland Archiv | bpb.de",
-      "snippet": "Plötzlich zeigten auch sie keine Angst mehr vor der Mauer und dem Grenzregime, dem anfangs immer noch zugetraut wurde, gegebenenfalls Waffen bei Grenzdurchbrüchen einzusetzen.",
-      "matchedWords": {
-        "65rGEicCRUgV": {
-          "hits": 3,
-          "textWords": 1396
-        },
-        "SEhoJU8Vd4OY": {
-          "hits": 3,
-          "textWords": 1396
-        },
-        "le_-kTULPwfi": {
-          "hits": 8,
-          "textWords": 1396
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "2AnHz7KDFhNg",
-      "address": "https://www.bpb.de/themen/deutschlandarchiv/344484/eliten-im-osten-ein-anhaltendes-defizit/",
-      "title": "Eliten im Osten - ein anhaltendes Defizit? | Deutschland Archiv | bpb.de",
-      "snippet": "Die Cover der beiden Bände von \"(Ost)Deutschlands Weg\" I (1989 bis 2020) und II (Gegenwart und Zukunft), mittlerweile wieder erhältlich im Externer Link: www.bpb.de/shop unter den Bestellnummern 10676 I+II und seit September 2024 kostenlos als e-book.",
-      "matchedWords": {
-        "65rGEicCRUgV": {
-          "hits": 0,
-          "textWords": 125
-        },
-        "SEhoJU8Vd4OY": {
-          "hits": 0,
-          "textWords": 125
-        },
-        "le_-kTULPwfi": {
-          "hits": 0,
-          "textWords": 125
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "3PkGQ7KDFhNg",
-      "address": "https://www.bpb.de/themen/migration-integration/regionalprofile/deutschland/",
-      "title": "Deutschland | bpb.de",
       "snippet": "",
       "matchedWords": {
         "65rGEicCRUgV": {
@@ -3412,64 +3637,421 @@
       "queryPhraseHits": 0
     },
     {
-      "hash": "3X7hb7KDFhNg",
-      "address": "https://www.bpb.de/themen/deutschlandarchiv/158899/der-andere-mauerfall/",
-      "title": "Der andere Mauerfall | Deutschland Archiv | bpb.de",
-      "snippet": "November. Der Tag an dem die Mauer fiel, Berlin 1999; Manfred Wilke, Der 9. November: Fall der Berliner Mauer, in: Klaus-Dietmar Henke (Hg.), Revolution und Vereinigung 1989/90. Als in Deutschland die Realität die Phantasie überholte, München 2009, S. 224-237.",
+      "hash": "2AnHz7KDFhNg",
+      "address": "https://www.bpb.de/themen/deutschlandarchiv/344484/eliten-im-osten-ein-anhaltendes-defizit/",
+      "title": "Eliten im Osten - ein anhaltendes Defizit? | Deutschland Archiv | bpb.de",
+      "snippet": "",
       "matchedWords": {
         "65rGEicCRUgV": {
-          "hits": 9,
-          "textWords": 5873
+          "hits": 0,
+          "textWords": 0
         },
         "SEhoJU8Vd4OY": {
-          "hits": 6,
-          "textWords": 5873
-        },
-        "le_-kTULPwfi": {
-          "hits": 9,
-          "textWords": 5873
-        }
-      },
-      "queryPhraseHits": 3
-    },
-    {
-      "hash": "3mWBh7KDFhNg",
-      "address": "https://www.bpb.de/themen/deutschlandarchiv/518214/der-13-februar-1945-im-kollektiven-gedaechtnis-dresdens/",
-      "title": "Der 13. Februar 1945 im kollektiven Gedächtnis Dresdens | Deutschland Archiv | bpb.de",
-      "snippet": "Erstmals gab es in Dresden eine solche Menschenkette im Februar 2010, auch als Reaktion auf umfangreiche Neonaziaufzüge, die das Gedenken an die etwa 25.000 Bombenopfer in Dresden mit ihren Feindbildern propandistisch für sich ummünzen wollen und Geschichte nach wie vor mit ideologischer Brille",
-      "matchedWords": {
-        "65rGEicCRUgV": {
-          "hits": 1,
-          "textWords": 7963
-        },
-        "SEhoJU8Vd4OY": {
-          "hits": 7,
-          "textWords": 7963
+          "hits": 0,
+          "textWords": 0
         },
         "le_-kTULPwfi": {
           "hits": 0,
-          "textWords": 7963
+          "textWords": 0
         }
       },
       "queryPhraseHits": 0
     },
     {
-      "hash": "3o-vl7KDFhNg",
-      "address": "https://www.bpb.de/themen/deutschlandarchiv/548200/d-und-ddr-die-doppelte-staatsgruendung-vor-75-jahren/",
-      "title": "D und DDR. Die doppelte Staatsgründung vor 75 Jahren. | Deutschland Archiv | bpb.de",
-      "snippet": "Interner Link: Warum es zur doppelten Staatsgründung kam.\nDie Konkurrenz der Gründungen von \"Bundesrebublik Deutschland\" in Bonn und \"Deutscher Demokratischer Republik\" in Ost-Berlin war kein Akt des Jahres 1949, sondern vollzog sich über einen längeren Zeitraum.",
+      "hash": "-JFhL7KDFhNg",
+      "address": "https://www.bpb.de/themen/deutschlandarchiv/284090/eine-fernsehserie-schreibt-geschichte/",
+      "title": "Eine Fernsehserie schreibt Geschichte | Deutschland Archiv | bpb.de",
+      "snippet": "Zitierweise: Katrin Hammerstein, Eine Fernsehserie schreibt Geschichte: Reaktionen auf die Ausstrahlung von „Holocaust“ vor 40 Jahren, in: Deutschland Archiv, 18.1.2019, Link: www.bpb.de/284090\nFussnoten\nFußnoten\n„WDR, NDR und SWR zeigen ‚Holocaust – Die Geschichte der Familie Weiss‘“.",
       "matchedWords": {
         "65rGEicCRUgV": {
-          "hits": 0,
-          "textWords": 168
+          "hits": 1,
+          "textWords": 3149
         },
         "SEhoJU8Vd4OY": {
-          "hits": 0,
-          "textWords": 168
+          "hits": 13,
+          "textWords": 3149
         },
         "le_-kTULPwfi": {
           "hits": 0,
-          "textWords": 168
+          "textWords": 3149
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "-kGq77KDFhNg",
+      "address": "https://www.bpb.de/themen/deutschlandarchiv/259587/fruehe-fremdbetreuung-in-der-ddr/",
+      "title": "Frühe Fremdbetreuung in der DDR | Deutschland Archiv | bpb.de",
+      "snippet": "",
+      "matchedWords": {
+        "65rGEicCRUgV": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "SEhoJU8Vd4OY": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "le_-kTULPwfi": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "-kHh-7KDFhNg",
+      "address": "https://www.bpb.de/themen/deutschlandarchiv/523377/wie-ist-dieser-krieg-zu-deeskalieren-und-zu-beenden-teil-1/",
+      "title": "Wie ist dieser Krieg zu deeskalieren und zu beenden? Teil 1 | Deutschland Archiv | bpb.de",
+      "snippet": "",
+      "matchedWords": {
+        "65rGEicCRUgV": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "SEhoJU8Vd4OY": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "le_-kTULPwfi": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "-wEhL7KDFhNg",
+      "address": "https://www.bpb.de/themen/deutschlandarchiv/140023/geschiedene-gemueter-zerschnittene-beziehungen/",
+      "title": "Geschiedene Gemüter, zerschnittene Beziehungen | Deutschland Archiv | bpb.de",
+      "snippet": "",
+      "matchedWords": {
+        "65rGEicCRUgV": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "SEhoJU8Vd4OY": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "le_-kTULPwfi": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "-yGHl7KDFhNg",
+      "address": "https://www.bpb.de/themen/deutschlandarchiv/297868/die-deutsche-regierung-beschleunigt-zu-stark/",
+      "title": "„Die deutsche Regierung beschleunigt zu stark“ | Deutschland Archiv | bpb.de",
+      "snippet": "",
+      "matchedWords": {
+        "65rGEicCRUgV": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "SEhoJU8Vd4OY": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "le_-kTULPwfi": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "-z5jG7KDFhNg",
+      "address": "https://www.bpb.de/themen/deutschlandarchiv/132873/kriegsverbrecherverfolgung-in-der-sbz-und-fruehen-ddr-1945-1950/",
+      "title": "Kriegsverbrecherverfolgung in der SBZ und frühen DDR 1945–1950 | Deutschland Archiv | bpb.de",
+      "snippet": "",
+      "matchedWords": {
+        "65rGEicCRUgV": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "SEhoJU8Vd4OY": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "le_-kTULPwfi": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "RXMx0mcqomtg",
+      "address": "https://taz.de/Kultur/!p4639/",
+      "title": "Kultur - taz.de",
+      "snippet": "4-Stunden-Musk-Doku in Venedig Hier spricht die Simulation\nDokumentarfilmer Alex Gibney zeichnet bei den Filmfestspielen von Venedig ein Porträt von Elon Musk. Es ist unheimlicher als die Gothic-Geschichte von Regisseur Casey Affleck.\nVon Tim Caspar Boehme\n9.9.2026",
+      "matchedWords": {
+        "65rGEicCRUgV": {
+          "hits": 2,
+          "textWords": 1095
+        },
+        "SEhoJU8Vd4OY": {
+          "hits": 1,
+          "textWords": 1095
+        },
+        "le_-kTULPwfi": {
+          "hits": 0,
+          "textWords": 1095
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "2RTWrl8moajg",
+      "address": "https://www.welt.de/",
+      "title": "WELT - Aktuelle Nachrichten, News, Hintergründe \u0026 Videos",
+      "snippet": "WELT TV\nWeltplus Artikel\nSachsen-Anhalt\nWarum jetzt alles auf Neuwahlen hinausläuft\nDie Wahl in Sachsen-Anhalt hat klare Machtverhältnisse geschaffen, aber keine regierungsfähige Mehrheit. Drei Szenarien sind jetzt wahrscheinlich.\nWeltplus Artikel\nIslamisierung\nWarten auf das Kinderkopftuch",
+      "matchedWords": {
+        "65rGEicCRUgV": {
+          "hits": 0,
+          "textWords": 1230
+        },
+        "SEhoJU8Vd4OY": {
+          "hits": 0,
+          "textWords": 1230
+        },
+        "le_-kTULPwfi": {
+          "hits": 0,
+          "textWords": 1230
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "6BzIDjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Eastern_Bloc",
+      "title": "Eastern Bloc - Wikipedia",
+      "snippet": "↑ Hilde Szabo: Die Berliner Mauer begann im Burgenland zu bröckeln (The Berlin Wall began to crumble in Burgenland – German), in Wiener Zeitung 16 August 1999; Otmar Lahodynsky: Paneuropäisches Picknick: Die Generalprobe für den Mauerfall (Pan-European picnic: the dress rehearsal for the fall of",
+      "matchedWords": {
+        "65rGEicCRUgV": {
+          "hits": 1,
+          "textWords": 24285
+        },
+        "SEhoJU8Vd4OY": {
+          "hits": 1,
+          "textWords": 24285
+        },
+        "le_-kTULPwfi": {
+          "hits": 1,
+          "textWords": 24285
+        }
+      },
+      "queryPhraseHits": 1
+    },
+    {
+      "hash": "LA9XAhoLWSig",
+      "address": "https://www.berlin.de/landesdenkmalamt/veranstaltungen/tag-des-offenen-denkmals/",
+      "title": "Tag des offenen Denkmals - Berlin.de",
+      "snippet": "Privatpersonen, Vereine, Institutionen und viele mehr beteiligen sich am Denkmalwochenende\n45.000 Besucher:innen\nDas Denkmalwochenende steht nicht nur bei Berliner:innen sondern auch bei vielen Tourist:innen fest im Kalender\nZum Onlineprogramm\nProgrammsuche",
+      "matchedWords": {
+        "65rGEicCRUgV": {
+          "hits": 3,
+          "textWords": 511
+        },
+        "SEhoJU8Vd4OY": {
+          "hits": 0,
+          "textWords": 511
+        },
+        "le_-kTULPwfi": {
+          "hits": 0,
+          "textWords": 511
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "vysDFN5ARWyg",
+      "address": "https://www.spiegel.de/thema/spiegel-tv/",
+      "title": "SPIEGEL TV - DER SPIEGEL",
+      "snippet": "SPIEGEL TV\nSPIEGEL TV True Crime\nSPIEGEL TV für ARTE Re:\nGeschichte-Dokus\n54 Min\n44 Min\n44 Min\n44 Min\n44 Min\n45 Min\n44 Min\n45 Min\n44 Min\n42 Min\n44 Min\n43 Min\n43 Min\n42 Min\n43 Min\n42 Min\n42 Min\n42 Min\n43 Min\n43 Min\n44 Min\n44 Min\n44 Min\n47 Min\n23 Min\n40 Min\n46 Min\n44 Min\n46 Min\n42 Min\n44 Min\n42 Min",
+      "matchedWords": {
+        "65rGEicCRUgV": {
+          "hits": 0,
+          "textWords": 128
+        },
+        "SEhoJU8Vd4OY": {
+          "hits": 1,
+          "textWords": 128
+        },
+        "le_-kTULPwfi": {
+          "hits": 0,
+          "textWords": 128
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "68MPWl8moajg",
+      "address": "https://www.welt.de/videos/",
+      "title": "WELT Videos: Aktuelle News \u0026 Nachrichten-Videos",
+      "snippet": "Pfadnavigation\nHome\nArtikeltyp:VideoPutins Krieg\n„Moskau will die Ukraine beherrschen“\nIm WELT-Gespräch analysiert Sicherheitsexperte Nico Lange die Verhandlungspositionen im Ukraine-Krieg und Putins Auftreten in Neu-Delhi.\nArtikeltyp:VideoDrohung an den Westen",
+      "matchedWords": {
+        "65rGEicCRUgV": {
+          "hits": 0,
+          "textWords": 857
+        },
+        "SEhoJU8Vd4OY": {
+          "hits": 0,
+          "textWords": 857
+        },
+        "le_-kTULPwfi": {
+          "hits": 0,
+          "textWords": 857
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "O_W7sdFO6r_x",
+      "address": "https://de.wikipedia.org/wiki/Wikipedia:Exzellente_Artikel",
+      "title": "Wikipedia:Exzellente Artikel – Wikipedia",
+      "snippet": "U-Bahn: Geschichte der Berliner U-Bahn · London Underground · Metro Bilbao · Metró Budapest · Metro Madrid · Metro Moskau · Metropolitan Railway · Metro Prag · Metro Rotterdam · Oslo T-bane · U-Bahn Berlin · U-Bahn Frankfurt · U-Bahn München · U-Bahn Nürnberg · U-Bahn-Linie U2 (Berlin)",
+      "matchedWords": {
+        "65rGEicCRUgV": {
+          "hits": 7,
+          "textWords": 3105
+        },
+        "SEhoJU8Vd4OY": {
+          "hits": 3,
+          "textWords": 3105
+        },
+        "le_-kTULPwfi": {
+          "hits": 0,
+          "textWords": 3105
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "QrcPgdFO6r_x",
+      "address": "https://de.wikipedia.org/wiki/Klassizismus",
+      "title": "Klassizismus – Wikipedia",
+      "snippet": "Zu Rauchs Hauptwerken gehören das Berliner Grabmal für Königin Luise von Preußen (1814), das Scharnhorst-Denkmal (1822), das Blücher-Denkmal (1826), das Münchner Max-Joseph-Denkmal (1835), das Nürnberger Dürer-Denkmal (1840), die Kranzwerfende Viktoria (1841) und das Berliner Denkmal für Friedrich",
+      "matchedWords": {
+        "65rGEicCRUgV": {
+          "hits": 6,
+          "textWords": 6889
+        },
+        "SEhoJU8Vd4OY": {
+          "hits": 3,
+          "textWords": 6889
+        },
+        "le_-kTULPwfi": {
+          "hits": 0,
+          "textWords": 6889
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "0jbQd7KDFhNg",
+      "address": "https://www.bpb.de/themen/deutschlandarchiv/550520/neugablonz-vom-truemmergelaende-zur-vertriebenensiedlung/",
+      "title": "Neugablonz - vom Trümmergelände zur Vertriebenensiedlung | Deutschland Archiv | bpb.de",
+      "snippet": "",
+      "matchedWords": {
+        "65rGEicCRUgV": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "SEhoJU8Vd4OY": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "le_-kTULPwfi": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "1dN9D7KDFhNg",
+      "address": "https://www.bpb.de/themen/deutschlandarchiv/294350/die-aufarbeitung-der-aufarbeitung-welche-zukunft-hat-die-ddr-geschichte/",
+      "title": "Die Aufarbeitung der Aufarbeitung - Welche Zukunft hat die DDR-Geschichte? | Deutschland Archiv | bpb.de",
+      "snippet": "Das war oft schwer zu glauben. Dahinter verbarg sich aber etwas anderes: Diese Geschichte von Leid, Opfern, Unterdrückung und Widerstand erreichte die Gesellschaft nicht, sie war nicht ihre Geschichte; noch schlimmer sogar: Sie wurde nicht ihre Geschichte.",
+      "matchedWords": {
+        "65rGEicCRUgV": {
+          "hits": 1,
+          "textWords": 3271
+        },
+        "SEhoJU8Vd4OY": {
+          "hits": 15,
+          "textWords": 3271
+        },
+        "le_-kTULPwfi": {
+          "hits": 0,
+          "textWords": 3271
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "1f_Ai7KDFhNg",
+      "address": "https://www.bpb.de/themen/deutschlandarchiv/324915/die-durchlaufene-mauer/",
+      "title": "Die durchlaufene Mauer | Deutschland Archiv | bpb.de",
+      "snippet": "Deshalb entschieden wir uns, es für unwahrscheinlich, aber denkbar zu halten. Wir verabredeten, uns am Abend noch einmal zu treffen, er weiter Nachrichten sehen und uns informieren solle. Wenn die Grenze tatsächlich geöffnet werden sollte, wollten wir unbedingt zur Berliner Mauer fahren.",
+      "matchedWords": {
+        "65rGEicCRUgV": {
+          "hits": 4,
+          "textWords": 4902
+        },
+        "SEhoJU8Vd4OY": {
+          "hits": 7,
+          "textWords": 4902
+        },
+        "le_-kTULPwfi": {
+          "hits": 11,
+          "textWords": 4902
+        }
+      },
+      "queryPhraseHits": 1
+    },
+    {
+      "hash": "14BQC7KDFhNg",
+      "address": "https://www.bpb.de/themen/deutschlandarchiv/297811/die-maueroeffner/",
+      "title": "Die Maueröffner | Deutschland Archiv | bpb.de",
+      "snippet": "",
+      "matchedWords": {
+        "65rGEicCRUgV": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "SEhoJU8Vd4OY": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "le_-kTULPwfi": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "2AnHz7KDFhNg",
+      "address": "https://www.bpb.de/themen/deutschlandarchiv/344484/eliten-im-osten-ein-anhaltendes-defizit/",
+      "title": "Eliten im Osten - ein anhaltendes Defizit? | Deutschland Archiv | bpb.de",
+      "snippet": "",
+      "matchedWords": {
+        "65rGEicCRUgV": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "SEhoJU8Vd4OY": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "le_-kTULPwfi": {
+          "hits": 0,
+          "textWords": 0
         }
       },
       "queryPhraseHits": 0
@@ -3496,6 +4078,27 @@
       "queryPhraseHits": 0
     },
     {
+      "hash": "ATIMylhl_5qi",
+      "address": "https://www.deutschlandfunk.de/sendungen",
+      "title": "Alle Sendungen",
+      "snippet": "Kalenderblatt\nErstsendung: Montag bis Freitag • 01:05 und 03:52 Uhr, zusätzlich Montag bis Sonntag • 9:05 Uhr\nHier wird Geschichte zum Leben erweckt: Das „Kalenderblatt“ von Deutschlandfunk lädt zum Entdecken bedeutender und außergewöhnlicher Menschen und Ereignisse ein.\nKlassik-Pop-et cetera",
+      "matchedWords": {
+        "65rGEicCRUgV": {
+          "hits": 1,
+          "textWords": 3639
+        },
+        "SEhoJU8Vd4OY": {
+          "hits": 4,
+          "textWords": 3639
+        },
+        "le_-kTULPwfi": {
+          "hits": 0,
+          "textWords": 3639
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
       "hash": "TQ5QsllA2Rig",
       "address": "https://www.n-tv.de/",
       "title": "Nachrichten, aktuelle Schlagzeilen und Videos - n-tv.de",
@@ -3512,6 +4115,27 @@
         "le_-kTULPwfi": {
           "hits": 0,
           "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "2RTWrl8moajg",
+      "address": "https://www.welt.de/",
+      "title": "WELT - Aktuelle Nachrichten, News, Hintergründe \u0026 Videos",
+      "snippet": "WELT TV\nWeltplus Artikel\nSachsen-Anhalt\nWarum jetzt alles auf Neuwahlen hinausläuft\nDie Wahl in Sachsen-Anhalt hat klare Machtverhältnisse geschaffen, aber keine regierungsfähige Mehrheit. Drei Szenarien sind jetzt wahrscheinlich.\nWeltplus Artikel\nIslamisierung\nWarten auf das Kinderkopftuch",
+      "matchedWords": {
+        "65rGEicCRUgV": {
+          "hits": 0,
+          "textWords": 1230
+        },
+        "SEhoJU8Vd4OY": {
+          "hits": 0,
+          "textWords": 1230
+        },
+        "le_-kTULPwfi": {
+          "hits": 0,
+          "textWords": 1230
         }
       },
       "queryPhraseHits": 0
@@ -3539,8 +4163,8 @@
     }
   ],
   "documentsHeldPerQueryWord": {
-    "65rGEicCRUgV": 74938,
-    "SEhoJU8Vd4OY": 248808,
-    "le_-kTULPwfi": 14821
+    "65rGEicCRUgV": 69148,
+    "SEhoJU8Vd4OY": 244934,
+    "le_-kTULPwfi": 15632
   }
 }

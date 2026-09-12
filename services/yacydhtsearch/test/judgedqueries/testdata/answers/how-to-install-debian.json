@@ -1,7 +1,147 @@
 {
   "query": "how to install debian",
-  "recordedAt": "2026-09-12T10:15:27Z",
+  "recordedAt": "2026-09-12T11:25:20Z",
   "itemsInTheOrderOfEachAnswer": [
+    [
+      {
+        "hash": "zviPwZBP-b24",
+        "address": "https://docs.vultr.com/how-to-install-docker-ce-on-debian-11",
+        "title": "How to Install Docker CE on Debian 11 | Vultr Docs",
+        "snippet": "Over 80,000,000 Cloud Servers Launched",
+        "matchedWords": {
+          "Ga2JvD48nX72": {
+            "hits": 0,
+            "textWords": 7
+          },
+          "bpVSyb2OYcjy": {
+            "hits": 0,
+            "textWords": 7
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "873esEEsDqy5",
+        "address": "https://www.cyberciti.biz/howto/debian-linux/updated-debian-linux-12-x-released/",
+        "title": "Debian Linux 12.1 released with Security Updates - nixCraft",
+        "snippet": "",
+        "matchedWords": {
+          "Ga2JvD48nX72": {
+            "hits": 0,
+            "textWords": 0
+          },
+          "bpVSyb2OYcjy": {
+            "hits": 20,
+            "textWords": 703
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "M_UYiL1nrxbw",
+        "address": "https://www.debian.org/intro/index",
+        "title": "Debian -- Introduction to Debian",
+        "snippet": "Debian is an Operating System\nDebian is a free operating system, developed and maintained by the Debian project. A free Linux distribution with thousands of applications to meet our users' needs.\nDownload: Where to get Debian\nWhy Debian: Reasons to choose Debian\nSupport: Where to find help",
+        "matchedWords": {
+          "Ga2JvD48nX72": {
+            "hits": 0,
+            "textWords": 132
+          },
+          "bpVSyb2OYcjy": {
+            "hits": 12,
+            "textWords": 132
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "q03Sr2QlA5B4",
+        "address": "https://miniflux.app/docs/debian.html",
+        "title": "Debian Installation",
+        "snippet": "Make sure to install and configure PostgreSQL before installing Miniflux.\nInstalling Miniflux with the Debian package ¶\nDownload the Debian package from the GitHub Releases page.\nInstall the Debian package: dpkg -i miniflux_2.0.13_amd64.deb.\nInstalling Miniflux from the APT Repository ¶",
+        "matchedWords": {
+          "Ga2JvD48nX72": {
+            "hits": 5,
+            "textWords": 318
+          },
+          "bpVSyb2OYcjy": {
+            "hits": 8,
+            "textWords": 318
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "eKmk8ZFFVuw4",
+        "address": "https://www.passbolt.com/ce/debian",
+        "title": "Install Community Edition on Debian: Passbolt Install Guide",
+        "snippet": "Install natively\nDocker\nDocker\nKubernetes\nKubernetes\nUbuntu\nUbuntu\nDebian\nDebian\nRed Hat\nRedhat\nRaspberry Pi\nRaspberry\nRocky Linux\nRockyLinux\nAlmaLinux\nAlmaLinux\nOracle\nOracleLinux\nopenSUSE\nopenSUSE\nSUSE\nSUSE Linux Enterprise Server\nDeploy on your favorite cloud provider\nAmazon Web Services\nAWS",
+        "matchedWords": {
+          "Ga2JvD48nX72": {
+            "hits": 4,
+            "textWords": 223
+          },
+          "bpVSyb2OYcjy": {
+            "hits": 3,
+            "textWords": 223
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "yp2SBE9Ojva4",
+        "address": "https://docs.docker.com/engine/install/debian/",
+        "title": "Debian | Docker Docs",
+        "snippet": "# Add Docker's official GPG key: sudo apt update sudo apt install ca-certificates curl sudo install -m 0755 -d /etc/apt/keyrings sudo curl -fsSL https://download.docker.com/linux/debian/gpg -o /etc/apt/keyrings/docker.asc sudo chmod a+r /etc/apt/keyrings/docker.asc # Add the repository to Apt",
+        "matchedWords": {
+          "Ga2JvD48nX72": {
+            "hits": 42,
+            "textWords": 1910
+          },
+          "bpVSyb2OYcjy": {
+            "hits": 15,
+            "textWords": 1910
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "vkZ39WzhkODg",
+        "address": "https://soloconlinux.org.es/debian-13-6-point-release/",
+        "title": "Debian 13.6 (point release)",
+        "snippet": "¿Necesito reiniciar?\nSi quieres saber si tras estas actualizaciones necesitas reiniciar algun servicio o el sistema completo (por cambios de Kernel) puedes instalar el comando:\n# Paquete Debian para comprobar necesidad de reinicio (servicio o SO) sudo apt -y install needrestart",
+        "matchedWords": {
+          "Ga2JvD48nX72": {
+            "hits": 1,
+            "textWords": 448
+          },
+          "bpVSyb2OYcjy": {
+            "hits": 11,
+            "textWords": 448
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "S6BIcp65jyZQ",
+        "address": "http://neuro.debian.net/",
+        "title": "The Ultimate Neuroscience Software Platform — Debian Neuroscience Package Repository",
+        "snippet": "Contacts\nMailing lists\nOpenHatch\nIdenti.ca\nTwitter\nGoogle+\nYouTube\nGitHub\nRelated\nDebian\nDebian Med\nINCF\nNITRC\nComments\nblog comments powered by",
+        "matchedWords": {
+          "Ga2JvD48nX72": {
+            "hits": 2,
+            "textWords": 504
+          },
+          "bpVSyb2OYcjy": {
+            "hits": 6,
+            "textWords": 504
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
     [
       {
         "hash": "It5EdL1nrxbw",
@@ -9,14 +149,6 @@
         "title": "Debian -- About Debian",
         "snippet": "We hope you'll appreciate our honesty and frankness.\nHow do I get Debian?\nIt's most popular to install Debian from a CD which you can buy for the price of the media at one of our many CD vendors. If you have good Internet access, you can download and install Debian over the Internet.",
         "matchedWords": {
-          "24igJXwiDb_d": {
-            "hits": 0,
-            "textWords": 1618
-          },
-          "AbbiA0S2iDXF": {
-            "hits": 0,
-            "textWords": 1618
-          },
           "Ga2JvD48nX72": {
             "hits": 4,
             "textWords": 1618
@@ -27,30 +159,232 @@
           }
         },
         "queryPhraseHits": 2
+      },
+      {
+        "hash": "KPZ7Fug2aLVh",
+        "address": "https://community.searchlab.eu/t/install-konfig-yacy-mit-debian/2574",
+        "title": "Install / konfig yacy mit debian - YaCy - Searchlab Community",
+        "snippet": "",
+        "matchedWords": {
+          "Ga2JvD48nX72": {
+            "hits": 0,
+            "textWords": 0
+          },
+          "bpVSyb2OYcjy": {
+            "hits": 2,
+            "textWords": 844
+          }
+        },
+        "queryPhraseHits": 0
       }
     ],
     [
       {
-        "hash": "NweMal1nrxbw",
-        "address": "https://www.debian.org/social_contract",
-        "title": "Debian Social Contract",
-        "snippet": "The Debian official media may include firmware that is otherwise not part of the Debian system to enable use of Debian with hardware that requires such firmware.\nThe Debian Free Software Guidelines (DFSG)\nFree Redistribution",
+        "hash": "QEGeKX2Yfep5",
+        "address": "https://learn.microsoft.com/en-us/azure/developer/github-copilot-app-modernization/modernization-agent/quickstart",
+        "title": "Quickstart: Install and Use the GitHub Copilot Modernization Agent | Microsoft Learn",
+        "snippet": "",
         "matchedWords": {
-          "24igJXwiDb_d": {
-            "hits": 0,
-            "textWords": 1027
-          },
-          "AbbiA0S2iDXF": {
-            "hits": 0,
-            "textWords": 1027
-          },
           "Ga2JvD48nX72": {
-            "hits": 0,
-            "textWords": 1027
+            "hits": 10,
+            "textWords": 1339
           },
           "bpVSyb2OYcjy": {
-            "hits": 32,
-            "textWords": 1027
+            "hits": 0,
+            "textWords": 0
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "T2EF52bypRQw",
+        "address": "https://forgejo.org/docs/latest/user/packages/debian/",
+        "title": "Debian Package Registry | Forgejo – Beyond coding. We forge.",
+        "snippet": "The package or file was not found.\nInstall a package\nTo install a package from the Debian registry, execute the following commands:\n# use latest version apt install {package_name} # use specific version apt install {package_name}={package_version}",
+        "matchedWords": {
+          "Ga2JvD48nX72": {
+            "hits": 4,
+            "textWords": 530
+          },
+          "bpVSyb2OYcjy": {
+            "hits": 15,
+            "textWords": 530
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "R5pe_l1nrxbw",
+        "address": "https://www.debian.org/News/",
+        "title": "Debian -- Latest News",
+        "snippet": "[11 Jul 2026]\nUpdated Debian 12: 12.15 released\n[16 May 2026]\nUpdated Debian 13: 13.5 released\n[16 May 2026]\nUpdated Debian 12: 12.14 released\n[14 Mar 2026]\nUpdated Debian 13: 13.4 released\n[10 Jan 2026]\nUpdated Debian 13: 13.3 released\n[10 Jan 2026]\nUpdated Debian 12: 12.13 released\n[15 Nov 2025]",
+        "matchedWords": {
+          "Ga2JvD48nX72": {
+            "hits": 0,
+            "textWords": 315
+          },
+          "bpVSyb2OYcjy": {
+            "hits": 30,
+            "textWords": 315
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "Qz_7APS6MKD4",
+        "address": "https://github.com/discourse/discourse",
+        "title": "GitHub - discourse/discourse: A platform for community discussion. Free, open, simple. · GitHub",
+        "snippet": "",
+        "matchedWords": {
+          "Ga2JvD48nX72": {
+            "hits": 0,
+            "textWords": 0
+          },
+          "bpVSyb2OYcjy": {
+            "hits": 1,
+            "textWords": 1866
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "SV9QKjhVvkiw",
+        "address": "https://dianne.skoll.ca/projects/remind/",
+        "title": "Dianne Skoll's Web Site - Remind - Software Projects",
+        "snippet": "",
+        "matchedWords": {
+          "Ga2JvD48nX72": {
+            "hits": 0,
+            "textWords": 0
+          },
+          "bpVSyb2OYcjy": {
+            "hits": 1,
+            "textWords": 1045
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "SL3yxl1nrxbw",
+        "address": "https://www.debian.org/blends/",
+        "title": "Debian Pure Blends",
+        "snippet": "The goal of Debian Games is to provide games in Debian from arcade and adventure to simulation and strategy.\nMetapackages\nDebian GIS\nThe goal of Debian GIS is to develop Debian into the best distribution for Geographical Information System applications and users.\nMetapackages\nDebian Junior",
+        "matchedWords": {
+          "Ga2JvD48nX72": {
+            "hits": 0,
+            "textWords": 504
+          },
+          "bpVSyb2OYcjy": {
+            "hits": 34,
+            "textWords": 504
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "0wub2ZIOYuRw",
+        "address": "https://chronicles.debian.org/www/News/2008/",
+        "title": "Debian -- News from 2008",
+        "snippet": "See our contact page to get in touch. Web site source code is available.\nLast Modified: Fri, Jul 18 15:38:06 UTC 2025 Last Built: Mon, Jul 28 12:02:34 UTC 2025\nCopyright © 2008-2025 SPI and others; See license terms\nDebian is a registered trademark of Software in the Public Interest, Inc.",
+        "matchedWords": {
+          "Ga2JvD48nX72": {
+            "hits": 0,
+            "textWords": 54
+          },
+          "bpVSyb2OYcjy": {
+            "hits": 1,
+            "textWords": 54
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "-0XzPobrsZjx",
+        "address": "https://www.mediawiki.org/wiki/Debian_packages",
+        "title": "Debian packages - MediaWiki",
+        "snippet": "If you believe you have found a bug specific to the package or in the packaging itself, please file a bug in the MediaWiki-Debian Phabricator project. Bugs experienced on Debian may also be reported in the Debian bug tracker.",
+        "matchedWords": {
+          "Ga2JvD48nX72": {
+            "hits": 7,
+            "textWords": 730
+          },
+          "bpVSyb2OYcjy": {
+            "hits": 10,
+            "textWords": 730
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "Bc4mj0ruEU54",
+        "address": "https://www.cyrius.com/debian/nslu2/unpack/",
+        "title": "Debian tar ball for Linksys NSLU2 | Martin Michlmayr",
+        "snippet": "While it's still possible to install Debian on the NSLU2 using the manual method described on this page, I suggest you upgrade to a more modern device. Support for the Linksys NSLU2 was dropped in Debian 9 (stretch).",
+        "matchedWords": {
+          "Ga2JvD48nX72": {
+            "hits": 3,
+            "textWords": 1096
+          },
+          "bpVSyb2OYcjy": {
+            "hits": 24,
+            "textWords": 1096
+          }
+        },
+        "queryPhraseHits": 1
+      },
+      {
+        "hash": "f2gAZmwYpnl5",
+        "address": "https://protonvpn.com/support/linux-vpn-debian-ubuntu",
+        "title": "How to install Proton VPN on Debian and Ubuntu | Proton VPN",
+        "snippet": "In this support guide, we show you how to install Proton VPN on Debian and Ubuntu using our official repositories. These instructions install both the Linux GUI app and Linux CLI. Note that you can’t run the GUI app and the CLI at the same time.\nHow to install Proton VPN",
+        "matchedWords": {
+          "Ga2JvD48nX72": {
+            "hits": 17,
+            "textWords": 947
+          },
+          "bpVSyb2OYcjy": {
+            "hits": 9,
+            "textWords": 947
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "xRhGhzDGa7S6",
+        "address": "https://raphaelhertzog.com/2026/08/26/debians-general-resolution-on-ai-and-llm/",
+        "title": "Debian’s General Resolution on AI and LLM",
+        "snippet": "You are here: Home\n/ Random\n/ Opinions\n/ Debian’s General Resolution on AI and LLM\nAs a Debian developer, I have had to cast a vote for the General Resolution named LLM usage in Debian (progress report here). This was not an easy task for me…",
+        "matchedWords": {
+          "Ga2JvD48nX72": {
+            "hits": 0,
+            "textWords": 753
+          },
+          "bpVSyb2OYcjy": {
+            "hits": 16,
+            "textWords": 753
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "fpiTEk9xSLDY",
+        "address": "http://search.osakos.com/cache.php?key=c0792b69d674164f3134f6a4d8b0fd4b\u0026uri=http%3A%2F%2Fpenzu.com%2Fp%2F9114926c6b6601e3",
+        "title": "LDAP/NSS - Debian Wiki",
+        "snippet": "You may consider tuning the time-to-live values of the cache in /etc/nscd.conf\nif you need to pick up changes in the LDAP directory quickly (through the defaults are fine in most circumstances).\nNSS Setup with libnss-ldap\nInstall the package:\n# apt-get install libnss-ldap",
+        "matchedWords": {
+          "Ga2JvD48nX72": {
+            "hits": 5,
+            "textWords": 1405
+          },
+          "bpVSyb2OYcjy": {
+            "hits": 3,
+            "textWords": 1405
           }
         },
         "queryPhraseHits": 0
@@ -63,14 +397,6 @@
         "title": "Install Docker Engine on Ubuntu | Docker Docs",
         "snippet": "$ curl -fsSL https://get.docker.com -o get-docker.sh $ sudo sh get-docker.sh Executing docker install script, commit: 7cae5f8b0decc17d6571f9f52eb840fbc13b2737 \u003c...\u003e\nYou have now successfully installed and started Docker Engine. The docker service starts automatically on Debian based distributions.",
         "matchedWords": {
-          "24igJXwiDb_d": {
-            "hits": 0,
-            "textWords": 1900
-          },
-          "AbbiA0S2iDXF": {
-            "hits": 0,
-            "textWords": 1900
-          },
           "Ga2JvD48nX72": {
             "hits": 42,
             "textWords": 1900
@@ -85,19 +411,801 @@
     ],
     [
       {
+        "hash": "_vBCkt1nrxbw",
+        "address": "https://www.debian.org/CD/http-ftp/",
+        "title": "Downloading Debian USB/CD/DVD images via HTTP/FTP",
+        "snippet": "For images of the testing release, see the Debian-Installer page.\nOfficial USB/CD/DVD images of the stable release\nTo install Debian on a machine without an Internet connection, it's possible to use CD/USB images (700 MB each) or DVD/USB images (4.7 GB each).",
+        "matchedWords": {
+          "Ga2JvD48nX72": {
+            "hits": 5,
+            "textWords": 832
+          },
+          "bpVSyb2OYcjy": {
+            "hits": 43,
+            "textWords": 832
+          }
+        },
+        "queryPhraseHits": 1
+      },
+      {
+        "hash": "SJVoVZIOYuRw",
+        "address": "https://chronicles.debian.org/www/News/2020/",
+        "title": "Debian -- News from 2020",
+        "snippet": "See our contact page to get in touch. Web site source code is available.\nLast Modified: Fri, Jul 18 15:38:06 UTC 2025 Last Built: Mon, Jul 28 12:03:18 UTC 2025\nCopyright © 2020-2025 SPI and others; See license terms\nDebian is a registered trademark of Software in the Public Interest, Inc.",
+        "matchedWords": {
+          "Ga2JvD48nX72": {
+            "hits": 0,
+            "textWords": 54
+          },
+          "bpVSyb2OYcjy": {
+            "hits": 1,
+            "textWords": 54
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "lYmRuy1nrxbw",
+        "address": "https://www.debian.org/releases/etch/",
+        "title": "Debian -- Debian “etch” Release Information",
+        "snippet": "Security updates have been discontinued as of the end of February 2010.\nTo obtain and install Debian GNU/Linux, see installation information page and the Installation Guide. To upgrade from an older Debian release, see the instructions in the Release Notes.",
+        "matchedWords": {
+          "Ga2JvD48nX72": {
+            "hits": 1,
+            "textWords": 159
+          },
+          "bpVSyb2OYcjy": {
+            "hits": 6,
+            "textWords": 159
+          }
+        },
+        "queryPhraseHits": 1
+      }
+    ],
+    [
+      {
+        "hash": "oS68c3PBIxVw",
+        "address": "https://www.getzola.org/documentation/getting-started/installation/",
+        "title": "Installation | Zola",
+        "snippet": "",
+        "matchedWords": {
+          "Ga2JvD48nX72": {
+            "hits": 0,
+            "textWords": 0
+          },
+          "bpVSyb2OYcjy": {
+            "hits": 2,
+            "textWords": 785
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "u9uop3LPgkVw",
+        "address": "https://tails.net/install/index.en.html",
+        "title": "Tails - Install Tails",
+        "snippet": "",
+        "matchedWords": {
+          "Ga2JvD48nX72": {
+            "hits": 8,
+            "textWords": 294
+          },
+          "bpVSyb2OYcjy": {
+            "hits": 0,
+            "textWords": 0
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "tIQf82Tusnf4",
+        "address": "https://blackduck.skilljar.com/page/seeker-from-install-to-results",
+        "title": "Seeker From Install to results",
+        "snippet": "",
+        "matchedWords": {
+          "Ga2JvD48nX72": {
+            "hits": 27,
+            "textWords": 15039
+          },
+          "bpVSyb2OYcjy": {
+            "hits": 0,
+            "textWords": 0
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "xCnp1G1nrxbw",
+        "address": "https://www.debian.org/vote/2007/vote_003",
+        "title": "General Resolution: Endorse the concept of Debian Maintainers",
+        "snippet": "Raphael Hertzog [hertzog@debian.org]\nAntti-Juhani Kaijanaho [ajk@debian.org]\nGuilherme de S. Pastore [gpastore@debian.org]\nEnrico Zini [enrico@debian.org]\nAlexander Schmehl [tolimar@debian.org]\nAnibal Monsalve Salazar [anibal@debian.org]\nText\nChoice 1.",
+        "matchedWords": {
+          "Ga2JvD48nX72": {
+            "hits": 0,
+            "textWords": 1291
+          },
+          "bpVSyb2OYcjy": {
+            "hits": 50,
+            "textWords": 1291
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "z3R1oo8zaRUY",
+        "address": "http://www.hungry.com/~pere/blog/How_to_transform_a_Debian_based_system_to_a_Debian_Edu_installation.html",
+        "title": "How to transform a Debian based system to a Debian Edu installation",
+        "snippet": "Install debian-edu-install to load preseeding values and pull in our configuration.\nPreseed debconf database with profile setup in /etc/debian-edu/config, and run tasksel to install packages according to the profile specified in the config above, overriding some of the Debian automation machinery.",
+        "matchedWords": {
+          "Ga2JvD48nX72": {
+            "hits": 4,
+            "textWords": 404
+          },
+          "bpVSyb2OYcjy": {
+            "hits": 21,
+            "textWords": 404
+          }
+        },
+        "queryPhraseHits": 1
+      },
+      {
+        "hash": "xF2NUewYMOkg",
+        "address": "https://www.indymedia.org.uk/",
+        "title": "UK Indymedia",
+        "snippet": "",
+        "matchedWords": {
+          "Ga2JvD48nX72": {
+            "hits": 0,
+            "textWords": 0
+          },
+          "bpVSyb2OYcjy": {
+            "hits": 1,
+            "textWords": 4367
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "f2gAZmwYpnl5",
+        "address": "https://protonvpn.com/support/linux-vpn-debian-ubuntu",
+        "title": "How to install Proton VPN on Debian and Ubuntu | Proton VPN",
+        "snippet": "In this support guide, we show you how to install Proton VPN on Debian and Ubuntu using our official repositories. These instructions install both the Linux GUI app and Linux CLI. Note that you can’t run the GUI app and the CLI at the same time.\nHow to install Proton VPN",
+        "matchedWords": {
+          "Ga2JvD48nX72": {
+            "hits": 17,
+            "textWords": 947
+          },
+          "bpVSyb2OYcjy": {
+            "hits": 9,
+            "textWords": 947
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "iaso0m0h8sSw",
+        "address": "https://tracker.debian.org/pkg/debian-installer",
+        "title": "debian-installer - Debian Package Tracker",
+        "snippet": "Alternatively the Vcs-Git field in debian/control can contain a \"-b \u003cbranch-name\u003e\" suffix to indicate what branch is used for the Debian packaging.",
+        "matchedWords": {
+          "Ga2JvD48nX72": {
+            "hits": 0,
+            "textWords": 345
+          },
+          "bpVSyb2OYcjy": {
+            "hits": 7,
+            "textWords": 345
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "XFmAGZIOYuRw",
+        "address": "https://chronicles.debian.org/www/News/2022/",
+        "title": "Debian -- News from 2022",
+        "snippet": "See our contact page to get in touch. Web site source code is available.\nLast Modified: Sun, Jul 20 18:57:24 UTC 2025 Last Built: Mon, Dec 8 10:49:28 UTC 2025\nCopyright © 2022-2025 SPI and others; See license terms\nDebian is a registered trademark of Software in the Public Interest, Inc.",
+        "matchedWords": {
+          "Ga2JvD48nX72": {
+            "hits": 0,
+            "textWords": 53
+          },
+          "bpVSyb2OYcjy": {
+            "hits": 1,
+            "textWords": 53
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "_NH8h31nrxbw",
+        "address": "https://www.debian.org/News/2026/2026011002",
+        "title": "Debian -- News -- Updated Debian 12: 12.13 released",
+        "snippet": "After installation, packages can be upgraded to the current versions using an up-to-date Debian mirror.\nThose who frequently install updates from security.debian.org won't have to update many packages, and most such updates are included in the point release.",
+        "matchedWords": {
+          "Ga2JvD48nX72": {
+            "hits": 1,
+            "textWords": 1781
+          },
+          "bpVSyb2OYcjy": {
+            "hits": 16,
+            "textWords": 1781
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "-32vwSSLTmwg",
+        "address": "https://blog.entek.org.uk/notes/2024/01/12/orchestrating-debian-install-and-automated-post-install-configuration-with-ansible.html",
+        "title": "Orchestrating Debian install and automated post-install configuration with Ansible | Laurence’s Blog",
+        "snippet": "- name: Python is available hosts: '{{ BOOTSTRAP_HOSTS }}' # Fact gathering will fail if no python on remote host gather_facts: false tags: root vars: ansible_become_method: su # Keys should let us in as root - ssh password auth will be # disabled by default. ansible_user: root tasks: - name:",
+        "matchedWords": {
+          "Ga2JvD48nX72": {
+            "hits": 63,
+            "textWords": 6733
+          },
+          "bpVSyb2OYcjy": {
+            "hits": 15,
+            "textWords": 6733
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "_BwQ1GNQlu2w",
+        "address": "https://bits.debian.org/",
+        "title": "Bits from Debian - Blog from the Debian Project",
+        "snippet": "The conference was preceded by the annual DebCamp hacking session held 13 through 19 July where Debian Developers and Contributors convened to focus on their individual Debian-related projects or work in team sprints geared toward in-person collaboration in developing Debian.",
+        "matchedWords": {
+          "Ga2JvD48nX72": {
+            "hits": 0,
+            "textWords": 1224
+          },
+          "bpVSyb2OYcjy": {
+            "hits": 23,
+            "textWords": 1224
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "_4UICZBP-b24",
+        "address": "https://docs.vultr.com/install-docker-ce-on-ubuntu-18-04",
+        "title": "Install Docker CE on Ubuntu 18.04 - 20.04 | Vultr Docs",
+        "snippet": "",
+        "matchedWords": {
+          "Ga2JvD48nX72": {
+            "hits": 14,
+            "textWords": 952
+          },
+          "bpVSyb2OYcjy": {
+            "hits": 0,
+            "textWords": 0
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "xa2aVLlzFbc4",
+        "address": "https://developer.konghq.com/gateway/install/",
+        "title": "Install Kong Gateway - Kong Gateway | Kong Docs",
+        "snippet": "",
+        "matchedWords": {
+          "Ga2JvD48nX72": {
+            "hits": 18,
+            "textWords": 1193
+          },
+          "bpVSyb2OYcjy": {
+            "hits": 0,
+            "textWords": 0
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "kJJEXrJIGfOw",
+        "address": "https://docs.castopod.org/main/en/getting-started/install/",
+        "title": "How to install Castopod? | Castopod Docs",
+        "snippet": "",
+        "matchedWords": {
+          "Ga2JvD48nX72": {
+            "hits": 24,
+            "textWords": 1154
+          },
+          "bpVSyb2OYcjy": {
+            "hits": 0,
+            "textWords": 0
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "L1CCksNHnqQw",
+        "address": "https://esphome.io/install/",
+        "title": "Install ESPHome - ESPHome - Smart Home Made Simple",
+        "snippet": "",
+        "matchedWords": {
+          "Ga2JvD48nX72": {
+            "hits": 22,
+            "textWords": 4080
+          },
+          "bpVSyb2OYcjy": {
+            "hits": 0,
+            "textWords": 0
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "KVaqnsLPgkVw",
+        "address": "https://tails.net/",
+        "title": "Tails - Home",
+        "snippet": "",
+        "matchedWords": {
+          "Ga2JvD48nX72": {
+            "hits": 0,
+            "textWords": 0
+          },
+          "bpVSyb2OYcjy": {
+            "hits": 1,
+            "textWords": 609
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "8jY7QKS6MKD4",
+        "address": "https://github.com/ProtonVPN/proton-vpn-daemon",
+        "title": "GitHub - ProtonVPN/proton-vpn-daemon · GitHub",
+        "snippet": "",
+        "matchedWords": {
+          "Ga2JvD48nX72": {
+            "hits": 0,
+            "textWords": 0
+          },
+          "bpVSyb2OYcjy": {
+            "hits": 2,
+            "textWords": 837
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "ADWyLg7Yxvhx",
+        "address": "https://www.postgresql.org/download/linux/",
+        "title": "PostgreSQL: Linux downloads (other)",
+        "snippet": "",
+        "matchedWords": {
+          "Ga2JvD48nX72": {
+            "hits": 0,
+            "textWords": 0
+          },
+          "bpVSyb2OYcjy": {
+            "hits": 1,
+            "textWords": 206
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "gCVBNZ3WSkX4",
+        "address": "https://docs.ovhcloud.com/en/",
+        "title": "OVHcloud Documentation",
+        "snippet": "",
+        "matchedWords": {
+          "Ga2JvD48nX72": {
+            "hits": 0,
+            "textWords": 0
+          },
+          "bpVSyb2OYcjy": {
+            "hits": 8,
+            "textWords": 16107
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "F6BVMoS6MKD4",
+        "address": "https://github.com/AidanPark/openclaw-android",
+        "title": "GitHub - AidanPark/openclaw-android: Run OpenClaw on Android with a single command — no proot, no Linux · GitHub",
+        "snippet": "",
+        "matchedWords": {
+          "Ga2JvD48nX72": {
+            "hits": 0,
+            "textWords": 0
+          },
+          "bpVSyb2OYcjy": {
+            "hits": 1,
+            "textWords": 4402
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "FokFL2jw1Zlx",
+        "address": "https://kubernetes.io/docs/reference/generated/kubectl/kubectl-commands",
+        "title": "Kubectl Reference Docs",
+        "snippet": "",
+        "matchedWords": {
+          "Ga2JvD48nX72": {
+            "hits": 0,
+            "textWords": 0
+          },
+          "bpVSyb2OYcjy": {
+            "hits": 1,
+            "textWords": 32728
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "G8OmctS6MKD4",
+        "address": "https://github.com/trending/powershell?since=daily",
+        "title": "Trending PowerShell repositories on GitHub today · GitHub",
+        "snippet": "",
+        "matchedWords": {
+          "Ga2JvD48nX72": {
+            "hits": 0,
+            "textWords": 0
+          },
+          "bpVSyb2OYcjy": {
+            "hits": 1,
+            "textWords": 2529
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "It5EdL1nrxbw",
+        "address": "https://www.debian.org/intro/about",
+        "title": "Debian -- About Debian",
+        "snippet": "We hope you'll appreciate our honesty and frankness.\nHow do I get Debian?\nIt's most popular to install Debian from a CD which you can buy for the price of the media at one of our many CD vendors. If you have good Internet access, you can download and install Debian over the Internet.",
+        "matchedWords": {
+          "Ga2JvD48nX72": {
+            "hits": 4,
+            "textWords": 1618
+          },
+          "bpVSyb2OYcjy": {
+            "hits": 50,
+            "textWords": 1618
+          }
+        },
+        "queryPhraseHits": 2
+      },
+      {
+        "hash": "KPZ7Fug2aLVh",
+        "address": "https://community.searchlab.eu/t/install-konfig-yacy-mit-debian/2574",
+        "title": "Install / konfig yacy mit debian - YaCy - Searchlab Community",
+        "snippet": "",
+        "matchedWords": {
+          "Ga2JvD48nX72": {
+            "hits": 0,
+            "textWords": 0
+          },
+          "bpVSyb2OYcjy": {
+            "hits": 2,
+            "textWords": 844
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "4SIJYl1nrxbw",
+        "address": "https://www.debian.org/distrib/",
+        "title": "Download Debian",
+        "snippet": "Buy a computer with Debian pre-installed\nThere are a number of advantages to this:\nYou don't have to install Debian.\nThe installation is pre-configured to match the hardware.\nThe vendor may provide technical support.\nUse a Debian cloud image",
+        "matchedWords": {
+          "Ga2JvD48nX72": {
+            "hits": 4,
+            "textWords": 305
+          },
+          "bpVSyb2OYcjy": {
+            "hits": 10,
+            "textWords": 305
+          }
+        },
+        "queryPhraseHits": 2
+      },
+      {
+        "hash": "T2EF52bypRQw",
+        "address": "https://forgejo.org/docs/latest/user/packages/debian/",
+        "title": "Debian Package Registry | Forgejo – Beyond coding. We forge.",
+        "snippet": "The package or file was not found.\nInstall a package\nTo install a package from the Debian registry, execute the following commands:\n# use latest version apt install {package_name} # use specific version apt install {package_name}={package_version}",
+        "matchedWords": {
+          "Ga2JvD48nX72": {
+            "hits": 4,
+            "textWords": 530
+          },
+          "bpVSyb2OYcjy": {
+            "hits": 15,
+            "textWords": 530
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "NNK8wg7Yxvhx",
+        "address": "https://www.postgresql.org/download/linux/debian/",
+        "title": "PostgreSQL: Linux downloads (Debian)",
+        "snippet": "Included in Distribution\nDebian includes PostgreSQL by default. To install PostgreSQL on Debian, use the apt (or other apt-driving) command:\napt install postgresql\nPostgreSQL Apt Repository",
+        "matchedWords": {
+          "Ga2JvD48nX72": {
+            "hits": 7,
+            "textWords": 358
+          },
+          "bpVSyb2OYcjy": {
+            "hits": 7,
+            "textWords": 358
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "lp940TlsIQEw",
+        "address": "https://people.debian.org/~nthykier/blog/",
+        "title": "Things that I work on in Debian -",
+        "snippet": "$ apt satisfy 'dh-debputy (\u003e= 0.1.43~), debhelper (\u003e= 13.16~), python3-lsprotocol, python3-levenshtein' # For demo purposes, pull two known repos (feel free to use your own packages here) $ git clone https://salsa.debian.org/debian/debhelper.git -b debian/13.16 $ git clone",
+        "matchedWords": {
+          "Ga2JvD48nX72": {
+            "hits": 103,
+            "textWords": 24660
+          },
+          "bpVSyb2OYcjy": {
+            "hits": 256,
+            "textWords": 24660
+          }
+        },
+        "queryPhraseHits": 1
+      },
+      {
+        "hash": "ZxC-zgF4yQrw",
+        "address": "https://sylvain.le-gall.net/blog/index.php?",
+        "title": "Blog of Sylvain Le Gall",
+        "snippet": "",
+        "matchedWords": {
+          "Ga2JvD48nX72": {
+            "hits": 0,
+            "textWords": 0
+          },
+          "bpVSyb2OYcjy": {
+            "hits": 28,
+            "textWords": 10985
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "ALdUosH8M7Hx",
+        "address": "https://snapcraft.io/telegram-desktop",
+        "title": "Install Telegram on Linux | Snap Store",
+        "snippet": "Description\nSecurity\nNew era of messaging\nPure instant messaging — simple, fast, secure, and synced across all your devices. One of the world's top 10 most downloaded apps with over 500 million active users.",
+        "matchedWords": {
+          "Ga2JvD48nX72": {
+            "hits": 0,
+            "textWords": 454
+          },
+          "bpVSyb2OYcjy": {
+            "hits": 0,
+            "textWords": 454
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "ZtizaYS6MKD4",
+        "address": "https://github.com/HirbodBehnam/MTProtoProxyInstaller",
+        "title": "GitHub - HirbodBehnam/MTProtoProxyInstaller: One-click script to install MTProto Proxy server on CentOS, Ubuntu and Debian",
+        "snippet": "Thanks to @seriyps creator of the Erlang Proxy you can now install the Erlang proxy with a script.\nNote: This script works on Ubuntu 18/19 , Debian 9/10 and Centos 7.\ncurl -L -o mtp_install.sh https://git.io/fj5ru \u0026\u0026 bash mtp_install.sh",
+        "matchedWords": {
+          "Ga2JvD48nX72": {
+            "hits": 15,
+            "textWords": 1298
+          },
+          "bpVSyb2OYcjy": {
+            "hits": 2,
+            "textWords": 1298
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "e0hrdtlTdLA5",
+        "address": "https://blog.mmakowski.com/technology/debian-unattended-upgrades/",
+        "title": "Debian Unattended Upgrades | The Eternal Beginner",
+        "snippet": "That script reads its config from Unattended-Upgrade:: APT settings, which, by convention, are defined in /etc/apt/apt.conf.d/50unattended-upgrades.\nThe Runbook\nBelow are the steps to execute on a fresh install of Debian (Trixie; other releases might differ).\nInstall the required packages",
+        "matchedWords": {
+          "Ga2JvD48nX72": {
+            "hits": 5,
+            "textWords": 795
+          },
+          "bpVSyb2OYcjy": {
+            "hits": 6,
+            "textWords": 795
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "gZzFUHWhP36w",
+        "address": "https://matrix-team.pages.debian.net/blogue/",
+        "title": "Matrix on Debian blog",
+        "snippet": "This is an update on the state of Matrix-related software in Debian.\nSynapse\nUnfortunately, the recently published Synapse 1.0 didn’t make it into Debian Buster, which is due to be released next week, so if you install 0.99.2 from Buster, you need to update to a …",
+        "matchedWords": {
+          "Ga2JvD48nX72": {
+            "hits": 1,
+            "textWords": 45
+          },
+          "bpVSyb2OYcjy": {
+            "hits": 2,
+            "textWords": 45
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "jhc0hTB-MEAg",
+        "address": "https://tanguy.ortolo.eu/blog/categorie2/debian",
+        "title": "Tanguy Ortolo - Debian",
+        "snippet": "I am therefore considering to remove sam2p from Debian, unless someone has a very good reason to keep it and is able and willing to maintain it.\nRead more Removing sam2p from Debian",
+        "matchedWords": {
+          "Ga2JvD48nX72": {
+            "hits": 0,
+            "textWords": 506
+          },
+          "bpVSyb2OYcjy": {
+            "hits": 6,
+            "textWords": 506
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "my3jOE9Ojva4",
+        "address": "https://docs.docker.com/engine/install/ubuntu/",
+        "title": "Install Docker Engine on Ubuntu | Docker Docs",
+        "snippet": "$ curl -fsSL https://get.docker.com -o get-docker.sh $ sudo sh get-docker.sh Executing docker install script, commit: 7cae5f8b0decc17d6571f9f52eb840fbc13b2737 \u003c...\u003e\nYou have now successfully installed and started Docker Engine. The docker service starts automatically on Debian based distributions.",
+        "matchedWords": {
+          "Ga2JvD48nX72": {
+            "hits": 42,
+            "textWords": 1900
+          },
+          "bpVSyb2OYcjy": {
+            "hits": 1,
+            "textWords": 1900
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "tIQf82Tusnf4",
+        "address": "https://blackduck.skilljar.com/page/seeker-from-install-to-results",
+        "title": "Seeker From Install to results",
+        "snippet": "",
+        "matchedWords": {
+          "Ga2JvD48nX72": {
+            "hits": 27,
+            "textWords": 15039
+          },
+          "bpVSyb2OYcjy": {
+            "hits": 0,
+            "textWords": 0
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "yp2SBE9Ojva4",
+        "address": "https://docs.docker.com/engine/install/debian/",
+        "title": "Debian | Docker Docs",
+        "snippet": "# Add Docker's official GPG key: sudo apt update sudo apt install ca-certificates curl sudo install -m 0755 -d /etc/apt/keyrings sudo curl -fsSL https://download.docker.com/linux/debian/gpg -o /etc/apt/keyrings/docker.asc sudo chmod a+r /etc/apt/keyrings/docker.asc # Add the repository to Apt",
+        "matchedWords": {
+          "Ga2JvD48nX72": {
+            "hits": 42,
+            "textWords": 1910
+          },
+          "bpVSyb2OYcjy": {
+            "hits": 15,
+            "textWords": 1910
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "3ePeGt0wUTHg",
+        "address": "https://blog.ganneff.de/",
+        "title": "Ganneff’s Little Blog | Thoughts of a small and very unimportant Debian Developer",
+        "snippet": "But it is clear OL7 doing something extra for everything that bash spawns.)\nDebian NEW Queue, Rust packaging\nDebian NEW Queue\nSo for some reason I got myself motivated again to deal with some packages in Debians NEW Queue.",
+        "matchedWords": {
+          "Ga2JvD48nX72": {
+            "hits": 2,
+            "textWords": 8552
+          },
+          "bpVSyb2OYcjy": {
+            "hits": 8,
+            "textWords": 8552
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "-32vwSSLTmwg",
+        "address": "https://blog.entek.org.uk/notes/2024/01/12/orchestrating-debian-install-and-automated-post-install-configuration-with-ansible.html",
+        "title": "Orchestrating Debian install and automated post-install configuration with Ansible | Laurence’s Blog",
+        "snippet": "- name: Python is available hosts: '{{ BOOTSTRAP_HOSTS }}' # Fact gathering will fail if no python on remote host gather_facts: false tags: root vars: ansible_become_method: su # Keys should let us in as root - ssh password auth will be # disabled by default. ansible_user: root tasks: - name:",
+        "matchedWords": {
+          "Ga2JvD48nX72": {
+            "hits": 63,
+            "textWords": 6733
+          },
+          "bpVSyb2OYcjy": {
+            "hits": 15,
+            "textWords": 6733
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "9bBlhjRvmBbx",
+        "address": "https://en.wikipedia.org/wiki/Debian",
+        "title": "Debian - Wikipedia",
+        "snippet": "It is possible to install Debian with 170MB of RAM for x86-64; the installer will run in low memory mode and it is recommended to create a swap partition.[123] The installer for z/Architecture requires about 20MB of RAM, but relies on network hardware.[",
+        "matchedWords": {
+          "Ga2JvD48nX72": {
+            "hits": 17,
+            "textWords": 12300
+          },
+          "bpVSyb2OYcjy": {
+            "hits": 551,
+            "textWords": 12300
+          }
+        },
+        "queryPhraseHits": 1
+      }
+    ],
+    [
+      {
         "hash": "D4lABzaS0qdw",
         "address": "https://planet.debian.org/",
         "title": "Planet Debian",
         "snippet": "Background: Why does DCS need a fast Integer Codec?\nDebian Code Search (DCS) is a search engine that allows searching all the Open Source source code within Debian, with either literal search expressions or regular expression search queries.",
         "matchedWords": {
-          "24igJXwiDb_d": {
-            "hits": 0,
-            "textWords": 8109
-          },
-          "AbbiA0S2iDXF": {
-            "hits": 0,
-            "textWords": 8109
-          },
           "Ga2JvD48nX72": {
             "hits": 0,
             "textWords": 8109
@@ -113,77 +1221,32 @@
         "hash": "CjgsxsIyoLTx",
         "address": "https://planetpython.org/",
         "title": "Planet Python",
-        "snippet": "$ pip install \"wrapture[otel]\"\nA plain install pays nothing for this, since nothing in base wrapture imports the subpackage until a config asks for it.\nOne table\nExport is switched on by a top-level [otel] table in the same config file the Flask shop has been using.",
+        "snippet": "",
         "matchedWords": {
-          "24igJXwiDb_d": {
-            "hits": 0,
-            "textWords": 30728
-          },
-          "AbbiA0S2iDXF": {
-            "hits": 0,
-            "textWords": 30728
-          },
           "Ga2JvD48nX72": {
-            "hits": 3,
-            "textWords": 30728
-          },
-          "bpVSyb2OYcjy": {
             "hits": 0,
-            "textWords": 30728
-          }
-        },
-        "queryPhraseHits": 0
-      }
-    ],
-    [
-      {
-        "hash": "It5EdL1nrxbw",
-        "address": "https://www.debian.org/intro/about",
-        "title": "Debian -- About Debian",
-        "snippet": "We hope you'll appreciate our honesty and frankness.\nHow do I get Debian?\nIt's most popular to install Debian from a CD which you can buy for the price of the media at one of our many CD vendors. If you have good Internet access, you can download and install Debian over the Internet.",
-        "matchedWords": {
-          "24igJXwiDb_d": {
-            "hits": 0,
-            "textWords": 1618
-          },
-          "AbbiA0S2iDXF": {
-            "hits": 0,
-            "textWords": 1618
-          },
-          "Ga2JvD48nX72": {
-            "hits": 4,
-            "textWords": 1618
-          },
-          "bpVSyb2OYcjy": {
-            "hits": 50,
-            "textWords": 1618
-          }
-        },
-        "queryPhraseHits": 2
-      }
-    ],
-    [
-      {
-        "hash": "my3jOE9Ojva4",
-        "address": "https://docs.docker.com/engine/install/ubuntu/",
-        "title": "Install Docker Engine on Ubuntu | Docker Docs",
-        "snippet": "$ curl -fsSL https://get.docker.com -o get-docker.sh $ sudo sh get-docker.sh Executing docker install script, commit: 7cae5f8b0decc17d6571f9f52eb840fbc13b2737 \u003c...\u003e\nYou have now successfully installed and started Docker Engine. The docker service starts automatically on Debian based distributions.",
-        "matchedWords": {
-          "24igJXwiDb_d": {
-            "hits": 0,
-            "textWords": 1900
-          },
-          "AbbiA0S2iDXF": {
-            "hits": 0,
-            "textWords": 1900
-          },
-          "Ga2JvD48nX72": {
-            "hits": 42,
-            "textWords": 1900
+            "textWords": 0
           },
           "bpVSyb2OYcjy": {
             "hits": 1,
-            "textWords": 1900
+            "textWords": 18982
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "AbY6mss9H12w",
+        "address": "https://jrs-s.net/",
+        "title": "JRS Systems: the blog – technomancy made simple",
+        "snippet": "",
+        "matchedWords": {
+          "Ga2JvD48nX72": {
+            "hits": 0,
+            "textWords": 0
+          },
+          "bpVSyb2OYcjy": {
+            "hits": 2,
+            "textWords": 6527
           }
         },
         "queryPhraseHits": 0
@@ -191,26 +1254,18 @@
     ],
     [
       {
-        "hash": "D4lABzaS0qdw",
-        "address": "https://planet.debian.org/",
-        "title": "Planet Debian",
-        "snippet": "Background: Why does DCS need a fast Integer Codec?\nDebian Code Search (DCS) is a search engine that allows searching all the Open Source source code within Debian, with either literal search expressions or regular expression search queries.",
+        "hash": "HpCyvVSLTmwg",
+        "address": "https://blog.entek.org.uk/technical/2020/05/28/debian-system-updates.html",
+        "title": "Debian system updates | Laurence’s Blog",
+        "snippet": "I have automated monitoring (via Icinga2) of the update status of my various servers, all of which currently run Debian.",
         "matchedWords": {
-          "24igJXwiDb_d": {
-            "hits": 0,
-            "textWords": 8109
-          },
-          "AbbiA0S2iDXF": {
-            "hits": 0,
-            "textWords": 8109
-          },
           "Ga2JvD48nX72": {
-            "hits": 0,
-            "textWords": 8109
+            "hits": 8,
+            "textWords": 1119
           },
           "bpVSyb2OYcjy": {
-            "hits": 26,
-            "textWords": 8109
+            "hits": 3,
+            "textWords": 1119
           }
         },
         "queryPhraseHits": 0
@@ -218,26 +1273,35 @@
     ],
     [
       {
-        "hash": "D4lABzaS0qdw",
-        "address": "https://planet.debian.org/",
-        "title": "Planet Debian",
-        "snippet": "Background: Why does DCS need a fast Integer Codec?\nDebian Code Search (DCS) is a search engine that allows searching all the Open Source source code within Debian, with either literal search expressions or regular expression search queries.",
+        "hash": "Qz_7APS6MKD4",
+        "address": "https://github.com/discourse/discourse",
+        "title": "GitHub - discourse/discourse: A platform for community discussion. Free, open, simple. · GitHub",
+        "snippet": "",
         "matchedWords": {
-          "24igJXwiDb_d": {
-            "hits": 0,
-            "textWords": 8109
-          },
-          "AbbiA0S2iDXF": {
-            "hits": 0,
-            "textWords": 8109
-          },
           "Ga2JvD48nX72": {
             "hits": 0,
-            "textWords": 8109
+            "textWords": 0
           },
           "bpVSyb2OYcjy": {
-            "hits": 26,
-            "textWords": 8109
+            "hits": 1,
+            "textWords": 1718
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "SOAt4sWMnAPx",
+        "address": "https://fedoraplanet.org/",
+        "title": "Fedora People",
+        "snippet": "",
+        "matchedWords": {
+          "Ga2JvD48nX72": {
+            "hits": 0,
+            "textWords": 0
+          },
+          "bpVSyb2OYcjy": {
+            "hits": 17,
+            "textWords": 52164
           }
         },
         "queryPhraseHits": 0
@@ -245,26 +1309,202 @@
     ],
     [
       {
-        "hash": "D4lABzaS0qdw",
-        "address": "https://planet.debian.org/",
-        "title": "Planet Debian",
-        "snippet": "Background: Why does DCS need a fast Integer Codec?\nDebian Code Search (DCS) is a search engine that allows searching all the Open Source source code within Debian, with either literal search expressions or regular expression search queries.",
+        "hash": "TAU517sX4qR4",
+        "address": "https://discourse.ubuntu.com/t/jammy-jellyfish-release-notes/24668",
+        "title": "Jammy Jellyfish Release Notes - Release - Ubuntu Community Hub",
+        "snippet": "",
         "matchedWords": {
-          "24igJXwiDb_d": {
-            "hits": 0,
-            "textWords": 8109
-          },
-          "AbbiA0S2iDXF": {
-            "hits": 0,
-            "textWords": 8109
-          },
           "Ga2JvD48nX72": {
-            "hits": 0,
-            "textWords": 8109
+            "hits": 117,
+            "textWords": 7811
           },
           "bpVSyb2OYcjy": {
-            "hits": 26,
-            "textWords": 8109
+            "hits": 0,
+            "textWords": 0
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "T2EF52bypRQw",
+        "address": "https://forgejo.org/docs/latest/user/packages/debian/",
+        "title": "Debian Package Registry | Forgejo – Beyond coding. We forge.",
+        "snippet": "The package or file was not found.\nInstall a package\nTo install a package from the Debian registry, execute the following commands:\n# use latest version apt install {package_name} # use specific version apt install {package_name}={package_version}",
+        "matchedWords": {
+          "Ga2JvD48nX72": {
+            "hits": 4,
+            "textWords": 530
+          },
+          "bpVSyb2OYcjy": {
+            "hits": 15,
+            "textWords": 530
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "QX8MPKUFabq4",
+        "address": "https://blog.cihar.com/archives/debian/?page=2",
+        "title": "Blog Archives for Debian - Michal Čihař",
+        "snippet": "Add install_addon management command for automated addon installation.\nAllow more fine grained ratelimit settings.\nAdded support for export and import of Excel files.\nImprove component cleanup in case of multiple component discovery addons.",
+        "matchedWords": {
+          "Ga2JvD48nX72": {
+            "hits": 1,
+            "textWords": 1931
+          },
+          "bpVSyb2OYcjy": {
+            "hits": 0,
+            "textWords": 1931
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "bAimuE9Ojva4",
+        "address": "https://docs.docker.com/engine/install/",
+        "title": "Install Docker Engine | Docker Docs",
+        "snippet": "",
+        "matchedWords": {
+          "Ga2JvD48nX72": {
+            "hits": 9,
+            "textWords": 2687
+          },
+          "bpVSyb2OYcjy": {
+            "hits": 0,
+            "textWords": 0
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "YAZ8YE1nrxbw",
+        "address": "https://www.debian.org/users/com/one_eighty_out",
+        "title": "Debian -- One-Eighty Out, Incorporated, Colorado Springs, Colorado, USA",
+        "snippet": "We keep things in sync with Unison and utilize LuckyBackup for backups.\nWe chose Debian because we find it to be more flexible than Windows for meeting our needs. We also value Debian's stability.",
+        "matchedWords": {
+          "Ga2JvD48nX72": {
+            "hits": 0,
+            "textWords": 154
+          },
+          "bpVSyb2OYcjy": {
+            "hits": 5,
+            "textWords": 154
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "ZtizaYS6MKD4",
+        "address": "https://github.com/HirbodBehnam/MTProtoProxyInstaller",
+        "title": "GitHub - HirbodBehnam/MTProtoProxyInstaller: One-click script to install MTProto Proxy server on CentOS, Ubuntu and Debian",
+        "snippet": "Thanks to @seriyps creator of the Erlang Proxy you can now install the Erlang proxy with a script.\nNote: This script works on Ubuntu 18/19 , Debian 9/10 and Centos 7.\ncurl -L -o mtp_install.sh https://git.io/fj5ru \u0026\u0026 bash mtp_install.sh",
+        "matchedWords": {
+          "Ga2JvD48nX72": {
+            "hits": 15,
+            "textWords": 1298
+          },
+          "bpVSyb2OYcjy": {
+            "hits": 2,
+            "textWords": 1298
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "3VHCVsOEIUyr",
+        "address": "https://simerdupolresbatang.id/",
+        "title": "simerdupolresbatangid",
+        "snippet": "",
+        "matchedWords": {
+          "Ga2JvD48nX72": {
+            "hits": 0,
+            "textWords": 0
+          },
+          "bpVSyb2OYcjy": {
+            "hits": 3,
+            "textWords": 15502
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "I8CU8CppYNKx",
+        "address": "https://adguard-dns.io/en/public-dns.html",
+        "title": "Connect to public AdGuard DNS server",
+        "snippet": "",
+        "matchedWords": {
+          "Ga2JvD48nX72": {
+            "hits": 0,
+            "textWords": 0
+          },
+          "bpVSyb2OYcjy": {
+            "hits": 1,
+            "textWords": 5030
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "iq8yZwAl9Ia5",
+        "address": "https://developer.hashicorp.com/boundary/tutorials/get-started-hcp/hcp-getting-started-install",
+        "title": "Install Boundary clients | Boundary | HashiCorp Developer",
+        "snippet": "",
+        "matchedWords": {
+          "Ga2JvD48nX72": {
+            "hits": 47,
+            "textWords": 2645
+          },
+          "bpVSyb2OYcjy": {
+            "hits": 0,
+            "textWords": 0
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "u9uop3LPgkVw",
+        "address": "https://tails.net/install/index.en.html",
+        "title": "Tails - Install Tails",
+        "snippet": "",
+        "matchedWords": {
+          "Ga2JvD48nX72": {
+            "hits": 8,
+            "textWords": 293
+          },
+          "bpVSyb2OYcjy": {
+            "hits": 0,
+            "textWords": 0
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "wy2HUX2Yfep5",
+        "address": "https://learn.microsoft.com/en-us/windows/wsl/install",
+        "title": "Install WSL | Microsoft Learn",
+        "snippet": "",
+        "matchedWords": {
+          "Ga2JvD48nX72": {
+            "hits": 22,
+            "textWords": 1883
+          },
+          "bpVSyb2OYcjy": {
+            "hits": 0,
+            "textWords": 0
           }
         },
         "queryPhraseHits": 0
@@ -277,14 +1517,6 @@
         "title": "Debian -- Contribute: How you can help Debian",
         "snippet": "We're constantly looking for mirrors worldwide.\nFor our Debian ports, we rely on our autobuilder network.\nUse Debian and talk about it\nSpread the word and tell others about Debian and the Debian community. Recommend the operating system to other users, and show them how to install it.",
         "matchedWords": {
-          "24igJXwiDb_d": {
-            "hits": 0,
-            "textWords": 1205
-          },
-          "AbbiA0S2iDXF": {
-            "hits": 0,
-            "textWords": 1205
-          },
           "Ga2JvD48nX72": {
             "hits": 2,
             "textWords": 1205
@@ -297,19 +1529,28 @@
         "queryPhraseHits": 0
       },
       {
+        "hash": "z3R1oo8zaRUY",
+        "address": "http://www.hungry.com/~pere/blog/How_to_transform_a_Debian_based_system_to_a_Debian_Edu_installation.html",
+        "title": "How to transform a Debian based system to a Debian Edu installation",
+        "snippet": "Install debian-edu-install to load preseeding values and pull in our configuration.\nPreseed debconf database with profile setup in /etc/debian-edu/config, and run tasksel to install packages according to the profile specified in the config above, overriding some of the Debian automation machinery.",
+        "matchedWords": {
+          "Ga2JvD48nX72": {
+            "hits": 4,
+            "textWords": 404
+          },
+          "bpVSyb2OYcjy": {
+            "hits": 21,
+            "textWords": 404
+          }
+        },
+        "queryPhraseHits": 1
+      },
+      {
         "hash": "yBMaQL1nrxbw",
         "address": "https://www.debian.org/intro/free",
         "title": "Debian -- What does free mean?",
         "snippet": "The Debian project and its members are strong supporters of free software. We've compiled the Debian Free Software Guidelines (DFSG) to come up with a reasonable definition of what constitutes free software in our opinion.",
         "matchedWords": {
-          "24igJXwiDb_d": {
-            "hits": 0,
-            "textWords": 776
-          },
-          "AbbiA0S2iDXF": {
-            "hits": 0,
-            "textWords": 776
-          },
           "Ga2JvD48nX72": {
             "hits": 1,
             "textWords": 776
@@ -322,26 +1563,145 @@
         "queryPhraseHits": 0
       },
       {
-        "hash": "uaEnGzTwnifx",
-        "address": "https://planet.wordpress.org/",
-        "title": "Planet — WordPress.org",
-        "snippet": "Transcript [00:00:19] Nathan Wrigley: Welcome to the Jukebox Podcast from WP Tavern. My name is Nathan Wrigley.\nJukebox is a podcast which is dedicated to all things WordPress.",
+        "hash": "xF2NUewYMOkg",
+        "address": "https://www.indymedia.org.uk/",
+        "title": "UK Indymedia",
+        "snippet": "",
         "matchedWords": {
-          "24igJXwiDb_d": {
-            "hits": 0,
-            "textWords": 9047
-          },
-          "AbbiA0S2iDXF": {
-            "hits": 0,
-            "textWords": 9047
-          },
           "Ga2JvD48nX72": {
             "hits": 0,
-            "textWords": 9047
+            "textWords": 0
+          },
+          "bpVSyb2OYcjy": {
+            "hits": 1,
+            "textWords": 4367
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "bA4VvlTg2KM4",
+        "address": "https://www.wikihow.com/Install-Linux",
+        "title": "How to Easily Install Any Linux Distribution",
+        "snippet": "",
+        "matchedWords": {
+          "Ga2JvD48nX72": {
+            "hits": 29,
+            "textWords": 5029
           },
           "bpVSyb2OYcjy": {
             "hits": 0,
-            "textWords": 9047
+            "textWords": 0
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "0mLwnJexqsOx",
+        "address": "https://docs.opensearch.org/latest/reporting/rep-cli-install/",
+        "title": "Download and install the Reporting CLI tool | OpenSearch Documentation",
+        "snippet": "",
+        "matchedWords": {
+          "Ga2JvD48nX72": {
+            "hits": 9,
+            "textWords": 3959
+          },
+          "bpVSyb2OYcjy": {
+            "hits": 0,
+            "textWords": 0
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "4lWriEAl9Ia5",
+        "address": "https://developer.hashicorp.com/vagrant/install",
+        "title": "Install | Vagrant | HashiCorp Developer",
+        "snippet": "",
+        "matchedWords": {
+          "Ga2JvD48nX72": {
+            "hits": 16,
+            "textWords": 792
+          },
+          "bpVSyb2OYcjy": {
+            "hits": 0,
+            "textWords": 0
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "SYG9YlFtgzDw",
+        "address": "https://www.devuan.org/",
+        "title": "Welcome to devuan.org | Devuan GNU+Linux Free Operating System",
+        "snippet": "",
+        "matchedWords": {
+          "Ga2JvD48nX72": {
+            "hits": 0,
+            "textWords": 0
+          },
+          "bpVSyb2OYcjy": {
+            "hits": 4,
+            "textWords": 469
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "-32vwSSLTmwg",
+        "address": "https://blog.entek.org.uk/notes/2024/01/12/orchestrating-debian-install-and-automated-post-install-configuration-with-ansible.html",
+        "title": "Orchestrating Debian install and automated post-install configuration with Ansible | Laurence’s Blog",
+        "snippet": "- name: Python is available hosts: '{{ BOOTSTRAP_HOSTS }}' # Fact gathering will fail if no python on remote host gather_facts: false tags: root vars: ansible_become_method: su # Keys should let us in as root - ssh password auth will be # disabled by default. ansible_user: root tasks: - name:",
+        "matchedWords": {
+          "Ga2JvD48nX72": {
+            "hits": 63,
+            "textWords": 6733
+          },
+          "bpVSyb2OYcjy": {
+            "hits": 15,
+            "textWords": 6733
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "_8ITH_nMM_j5",
+        "address": "https://grokipedia.com/page/Raspberry_Pi",
+        "title": "Raspberry Pi",
+        "snippet": "",
+        "matchedWords": {
+          "Ga2JvD48nX72": {
+            "hits": 0,
+            "textWords": 0
+          },
+          "bpVSyb2OYcjy": {
+            "hits": 4,
+            "textWords": 15560
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "LylEpsWxlFmw",
+        "address": "https://thonny.org/",
+        "title": "Thonny, Python IDE for beginners",
+        "snippet": "",
+        "matchedWords": {
+          "Ga2JvD48nX72": {
+            "hits": 0,
+            "textWords": 0
+          },
+          "bpVSyb2OYcjy": {
+            "hits": 1,
+            "textWords": 1082
           }
         },
         "queryPhraseHits": 0
@@ -350,126 +1710,35 @@
   ],
   "itemsInNoOrder": [
     {
-      "hash": "t2b3Ag1nrxbw",
-      "address": "https://www.debian.org/distrib/packages",
-      "title": "Debian -- Packages",
-      "snippet": "Introductory notes\nView package lists\nSearch package directories\nSearch the contents of packages\nIntroductory notes\nAll packages that are included in the official Debian distribution are free according to the Debian Free Software Guidelines.",
+      "hash": "NweMal1nrxbw",
+      "address": "https://www.debian.org/social_contract",
+      "title": "Debian Social Contract",
+      "snippet": "The Debian official media may include firmware that is otherwise not part of the Debian system to enable use of Debian with hardware that requires such firmware.\nThe Debian Free Software Guidelines (DFSG)\nFree Redistribution",
       "matchedWords": {
-        "24igJXwiDb_d": {
-          "hits": 0,
-          "textWords": 485
-        },
-        "AbbiA0S2iDXF": {
-          "hits": 0,
-          "textWords": 485
-        },
         "Ga2JvD48nX72": {
           "hits": 0,
-          "textWords": 485
+          "textWords": 1027
         },
         "bpVSyb2OYcjy": {
-          "hits": 10,
-          "textWords": 485
+          "hits": 32,
+          "textWords": 1027
         }
       },
       "queryPhraseHits": 0
     },
     {
-      "hash": "wGCbVt1nrxbw",
-      "address": "https://www.debian.org/CD/verify",
-      "title": "Verifying authenticity of Debian images",
-      "snippet": "pub rsa4096/988021A964E6EA7D 2009-10-03 Key fingerprint = 1046 0DAD 7616 5AD8 1FBC 0CE9 9880 21A9 64E6 EA7D uid Debian CD signing key \u003cdebian-cd@lists.debian.org\u003e pub rsa4096/DA87E80D6294BE9B 2011-01-05 [SC] Key fingerprint = DF9B 9C49 EAA9 2984 3258 9D76 DA87 E80D 6294 BE9B uid Debian CD signing",
+      "hash": "AWqW3s83Rt50",
+      "address": "https://brew.sh/",
+      "title": "Homebrew: The Package Manager for Everywhere",
+      "snippet": "",
       "matchedWords": {
-        "24igJXwiDb_d": {
-          "hits": 0,
-          "textWords": 336
-        },
-        "AbbiA0S2iDXF": {
-          "hits": 0,
-          "textWords": 336
-        },
         "Ga2JvD48nX72": {
           "hits": 0,
-          "textWords": 336
+          "textWords": 0
         },
         "bpVSyb2OYcjy": {
-          "hits": 16,
-          "textWords": 336
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "xOYgTl1nrxbw",
-      "address": "https://www.debian.org/events/",
-      "title": "Events related to Debian",
-      "snippet": "The major event of Debian is the annual Debian Conference called DebConf. There are also several MiniDebConfs which are local meetings organized by Debian project member.\nThe events Team gives out help and advice in organizing debian presence.",
-      "matchedWords": {
-        "24igJXwiDb_d": {
           "hits": 0,
-          "textWords": 97
-        },
-        "AbbiA0S2iDXF": {
-          "hits": 0,
-          "textWords": 97
-        },
-        "Ga2JvD48nX72": {
-          "hits": 0,
-          "textWords": 97
-        },
-        "bpVSyb2OYcjy": {
-          "hits": 9,
-          "textWords": 97
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "941WA31nrxbw",
-      "address": "https://www.debian.org/News/weekly/",
-      "title": "Debian Project News - Index",
-      "snippet": "05 Aug 2023 Welcome to the inaugural issue of Debian Project Bits!, Debian Day, DebConf23, News on Debian releases, Popular packages, Calls for help\nHow to contribute to Debian Project News.\nOlder news are available on the debian-news mailing list",
-      "matchedWords": {
-        "24igJXwiDb_d": {
-          "hits": 0,
-          "textWords": 68
-        },
-        "AbbiA0S2iDXF": {
-          "hits": 0,
-          "textWords": 68
-        },
-        "Ga2JvD48nX72": {
-          "hits": 0,
-          "textWords": 68
-        },
-        "bpVSyb2OYcjy": {
-          "hits": 8,
-          "textWords": 68
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "8q_7kd8zMi84",
-      "address": "https://docs.cloud.google.com/release-notes",
-      "title": "Google Cloud release notes | Google Cloud Documentation",
-      "snippet": "The last Batch Debian 11 images—any image versions with the batch-debian-11-official prefix—are only supported until August 31, 2026. Before then, migrate any job that uses a Batch Debian 11 image to a Batch Debian 12 image (or other image) as follows:",
-      "matchedWords": {
-        "24igJXwiDb_d": {
-          "hits": 0,
-          "textWords": 93126
-        },
-        "AbbiA0S2iDXF": {
-          "hits": 0,
-          "textWords": 93126
-        },
-        "Ga2JvD48nX72": {
-          "hits": 13,
-          "textWords": 93126
-        },
-        "bpVSyb2OYcjy": {
-          "hits": 16,
-          "textWords": 93126
+          "textWords": 0
         }
       },
       "queryPhraseHits": 0
@@ -478,166 +1747,8 @@
       "hash": "mKjEVzAa-Sqx",
       "address": "https://planet.freedesktop.org/",
       "title": "planet.freedesktop.org",
-      "snippet": "$ pkgcli search editor Querying [████████████████████████████████████████] 100% ▣ ace-of-penguins 1.5~rc2-7.amd64 [debian-testing-main] ▣ acorn-fdisk 3.0.6-14.amd64 [debian-testing-main] ▣ ardour 1:9.2.0+ds-1.amd64 [debian-testing-main] ✔ audacity 3.7.7+dfsg-1.amd64 [manual:debian-testing-main] ✔",
-      "matchedWords": {
-        "24igJXwiDb_d": {
-          "hits": 0,
-          "textWords": 71870
-        },
-        "AbbiA0S2iDXF": {
-          "hits": 0,
-          "textWords": 71870
-        },
-        "Ga2JvD48nX72": {
-          "hits": 13,
-          "textWords": 71870
-        },
-        "bpVSyb2OYcjy": {
-          "hits": 45,
-          "textWords": 71870
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "W-eXqzF3--Qw",
-      "address": "https://planet.mozilla.org/",
-      "title": "Planet Mozilla",
-      "snippet": "sysknife - Split the Ubuntu-only actions out of DEBIAN_ONLY_ACTIONS\nsysknife - Make Debian eligible: a version floor of 12, and a reason in is_supported\nsysknife - Debian's default firewall is nftables, and the catalogue has no nftables vocabulary",
-      "matchedWords": {
-        "24igJXwiDb_d": {
-          "hits": 0,
-          "textWords": 66162
-        },
-        "AbbiA0S2iDXF": {
-          "hits": 0,
-          "textWords": 66162
-        },
-        "Ga2JvD48nX72": {
-          "hits": 14,
-          "textWords": 66162
-        },
-        "bpVSyb2OYcjy": {
-          "hits": 3,
-          "textWords": 66162
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "Rx8AIs_tHst4",
-      "address": "https://dwheeler.com/oss_fs_why.html",
-      "title": "Why Open Source Software / Free Software (OSS/FS, FOSS, or FLOSS)? Look at the Numbers!",
-      "snippet": "He then applied this to two FLOSS systems (Debian and OpenBSD) and one proprietary system (Solaris, which at the time was proprietary); all are Unix-based operating systems. The following table summarizes the results:\nDebian\nSolaris\nOpenBSD\nNumber of Features:\n15\n11\n18\nFeatures score:\n6.42\n5.92",
-      "matchedWords": {
-        "24igJXwiDb_d": {
-          "hits": 0,
-          "textWords": 92275
-        },
-        "AbbiA0S2iDXF": {
-          "hits": 0,
-          "textWords": 92275
-        },
-        "Ga2JvD48nX72": {
-          "hits": 11,
-          "textWords": 92275
-        },
-        "bpVSyb2OYcjy": {
-          "hits": 23,
-          "textWords": 92275
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "-p2w3taoSn1x",
-      "address": "https://en.planet.wikimedia.org/",
-      "title": "en.planet.wikimedia.org",
-      "snippet": "This July, the City of Light welcomed Wikimedians from all over the world. Some 1,250 attendees joined in person in Paris, while nearly 2000 joined Wikimania 2026 online.",
-      "matchedWords": {
-        "24igJXwiDb_d": {
-          "hits": 0,
-          "textWords": 16720
-        },
-        "AbbiA0S2iDXF": {
-          "hits": 0,
-          "textWords": 16720
-        },
-        "Ga2JvD48nX72": {
-          "hits": 0,
-          "textWords": 16720
-        },
-        "bpVSyb2OYcjy": {
-          "hits": 0,
-          "textWords": 16720
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "8vgIrobrsZjx",
-      "address": "https://www.mediawiki.org/wiki/Download",
-      "title": "Download - MediaWiki",
-      "snippet": "Repositories of some Linux distributions also increasingly offer packages for MediaWiki, with different degrees of frequency and extensions coverage e.g. Debian (including derivatives like Ubuntu), Fedora, Gentoo.\nSecurity and update announcements",
-      "matchedWords": {
-        "24igJXwiDb_d": {
-          "hits": 0,
-          "textWords": 475
-        },
-        "AbbiA0S2iDXF": {
-          "hits": 0,
-          "textWords": 475
-        },
-        "Ga2JvD48nX72": {
-          "hits": 0,
-          "textWords": 475
-        },
-        "bpVSyb2OYcjy": {
-          "hits": 1,
-          "textWords": 475
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "2ZqdVzfOEiDw",
-      "address": "https://planet.gnome.org/",
-      "title": "Planet GNOME",
-      "snippet": "This currently makes JXL enablement only possible when you know that your clients can support it. This is the case for me in Debian Unstable and Debian 14, which are using JXL images for a few weeks now, but not for any older releases.",
-      "matchedWords": {
-        "24igJXwiDb_d": {
-          "hits": 0,
-          "textWords": 2681
-        },
-        "AbbiA0S2iDXF": {
-          "hits": 0,
-          "textWords": 2681
-        },
-        "Ga2JvD48nX72": {
-          "hits": 1,
-          "textWords": 2681
-        },
-        "bpVSyb2OYcjy": {
-          "hits": 8,
-          "textWords": 2681
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "cw0xkbg2aLVh",
-      "address": "https://community.searchlab.eu/",
-      "title": "Searchlab Community - Search Engine Technology Laboratory",
       "snippet": "",
       "matchedWords": {
-        "24igJXwiDb_d": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "AbbiA0S2iDXF": {
-          "hits": 0,
-          "textWords": 0
-        },
         "Ga2JvD48nX72": {
           "hits": 0,
           "textWords": 0
@@ -645,381 +1756,6 @@
         "bpVSyb2OYcjy": {
           "hits": 0,
           "textWords": 0
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "MocmU2sEYJ15",
-      "address": "https://tailscale.com/docs/reference/tailscale-cli",
-      "title": "Tailscale CLI · Tailscale Docs",
-      "snippet": "When a certificate is delivered as files on disk which you then move to an install location, such as when using tailscale cert, the tailscaled daemon doesn't know where to place a renewed certificate or how to install it.",
-      "matchedWords": {
-        "24igJXwiDb_d": {
-          "hits": 0,
-          "textWords": 6012
-        },
-        "AbbiA0S2iDXF": {
-          "hits": 0,
-          "textWords": 6012
-        },
-        "Ga2JvD48nX72": {
-          "hits": 5,
-          "textWords": 6012
-        },
-        "bpVSyb2OYcjy": {
-          "hits": 1,
-          "textWords": 6012
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "ufEmuitD2jQw",
-      "address": "https://docs.python.org/3/whatsnew/2.0.html",
-      "title": "What’s New in Python 2.0 — Python 3.14.6 documentation",
-      "snippet": "A wrapper API was added for Unix-style signal handlers. PyOS_getsig() gets a signal handler and PyOS_setsig() will set a new handler.\nDistutils: Making Modules Easy to Install¶",
-      "matchedWords": {
-        "24igJXwiDb_d": {
-          "hits": 0,
-          "textWords": 8187
-        },
-        "AbbiA0S2iDXF": {
-          "hits": 0,
-          "textWords": 8187
-        },
-        "Ga2JvD48nX72": {
-          "hits": 3,
-          "textWords": 8187
-        },
-        "bpVSyb2OYcjy": {
-          "hits": 1,
-          "textWords": 8187
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "Q357ixtQ-zSx",
-      "address": "https://wiki.archlinux.org/title/ArchWiki_talk:Requests",
-      "title": "ArchWiki talk:Requests - ArchWiki",
-      "snippet": "(b) I understand these explanations exist elsewhere on the internet but that could probably be said about many pages on the Archwiki. It would still be nice to have an explanation. Stuff you could put on there might be: where to get debian packages from, unarchiving steps, etc.",
-      "matchedWords": {
-        "24igJXwiDb_d": {
-          "hits": 0,
-          "textWords": 5201
-        },
-        "AbbiA0S2iDXF": {
-          "hits": 0,
-          "textWords": 5201
-        },
-        "Ga2JvD48nX72": {
-          "hits": 1,
-          "textWords": 5201
-        },
-        "bpVSyb2OYcjy": {
-          "hits": 2,
-          "textWords": 5201
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "-8IONxtQ-zSx",
-      "address": "https://wiki.archlinux.org/title/Arch_compared_to_other_distributions",
-      "title": "Arch compared to other distributions - ArchWiki",
-      "snippet": "The Arch installation system only offers a minimal base, transparently exposed during system configuration, whereas Debian's methods, such as the use of apt tasks to install pre-selected groups of packages, offer a more automatically configured approach as well as several alternative methods of",
-      "matchedWords": {
-        "24igJXwiDb_d": {
-          "hits": 0,
-          "textWords": 2706
-        },
-        "AbbiA0S2iDXF": {
-          "hits": 0,
-          "textWords": 2706
-        },
-        "Ga2JvD48nX72": {
-          "hits": 3,
-          "textWords": 2706
-        },
-        "bpVSyb2OYcjy": {
-          "hits": 16,
-          "textWords": 2706
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "aEjYq2u0AVBw",
-      "address": "https://build.slashdot.org/",
-      "title": "Build News | Slashdot",
-      "snippet": "TechCrunch offers some caveats about jailbreaking: This process allows users to install custom fonts, new screensavers, alternative reading apps, and even third-party tools that expand the Kindle's functionality...",
-      "matchedWords": {
-        "24igJXwiDb_d": {
-          "hits": 0,
-          "textWords": 5532
-        },
-        "AbbiA0S2iDXF": {
-          "hits": 0,
-          "textWords": 5532
-        },
-        "Ga2JvD48nX72": {
-          "hits": 1,
-          "textWords": 5532
-        },
-        "bpVSyb2OYcjy": {
-          "hits": 3,
-          "textWords": 5532
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "OYZdJl1nrxbw",
-      "address": "https://www.debian.org/support",
-      "title": "Debian -- User Support",
-      "snippet": "You can also use a search engine to check for Debian-related channels.\nIRC Clients\nTo connect to the IRC network, you can either use OFTC's WebChat in your preferred web browser or install a client on your computer.",
-      "matchedWords": {
-        "24igJXwiDb_d": {
-          "hits": 0,
-          "textWords": 634
-        },
-        "AbbiA0S2iDXF": {
-          "hits": 0,
-          "textWords": 634
-        },
-        "Ga2JvD48nX72": {
-          "hits": 1,
-          "textWords": 634
-        },
-        "bpVSyb2OYcjy": {
-          "hits": 24,
-          "textWords": 634
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "Q6EQky1nrxbw",
-      "address": "https://www.debian.org/releases/trixie/installmanual",
-      "title": "Debian trixie -- Installation Guide",
-      "snippet": "Installation instructions, along with downloadable files, are available for each of the supported architectures:\nInstallation Guide for 64-bit PC (amd64)\nInstallation Guide for 64-bit ARM (AArch64)\nInstallation Guide for Hard Float ABI ARM (armhf)\nInstallation Guide for POWER Processors",
-      "matchedWords": {
-        "24igJXwiDb_d": {
-          "hits": 0,
-          "textWords": 93
-        },
-        "AbbiA0S2iDXF": {
-          "hits": 0,
-          "textWords": 93
-        },
-        "Ga2JvD48nX72": {
-          "hits": 0,
-          "textWords": 93
-        },
-        "bpVSyb2OYcjy": {
-          "hits": 0,
-          "textWords": 93
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "R5pe_l1nrxbw",
-      "address": "https://www.debian.org/News/",
-      "title": "Debian -- Latest News",
-      "snippet": "[16 May 2026]\nUpdated Debian 13: 13.5 released\n[16 May 2026]\nUpdated Debian 12: 12.14 released\n[14 Mar 2026]\nUpdated Debian 13: 13.4 released\n[10 Jan 2026]\nUpdated Debian 13: 13.3 released\n[10 Jan 2026]\nUpdated Debian 12: 12.13 released\n[15 Nov 2025]\nUpdated Debian 13: 13.2 released\n[06 Sep 2025]",
-      "matchedWords": {
-        "24igJXwiDb_d": {
-          "hits": 0,
-          "textWords": 307
-        },
-        "AbbiA0S2iDXF": {
-          "hits": 0,
-          "textWords": 307
-        },
-        "Ga2JvD48nX72": {
-          "hits": 0,
-          "textWords": 307
-        },
-        "bpVSyb2OYcjy": {
-          "hits": 29,
-          "textWords": 307
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "SL3yxl1nrxbw",
-      "address": "https://www.debian.org/blends/",
-      "title": "Debian Pure Blends",
-      "snippet": "The goal of Debian Games is to provide games in Debian from arcade and adventure to simulation and strategy.\nMetapackages\nDebian GIS\nThe goal of Debian GIS is to develop Debian into the best distribution for Geographical Information System applications and users.\nMetapackages\nDebian Junior",
-      "matchedWords": {
-        "24igJXwiDb_d": {
-          "hits": 0,
-          "textWords": 504
-        },
-        "AbbiA0S2iDXF": {
-          "hits": 0,
-          "textWords": 504
-        },
-        "Ga2JvD48nX72": {
-          "hits": 0,
-          "textWords": 504
-        },
-        "bpVSyb2OYcjy": {
-          "hits": 34,
-          "textWords": 504
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "gmhRVl1nrxbw",
-      "address": "https://www.debian.org/devel/",
-      "title": "Debian -- Debian Developers' Corner",
-      "snippet": "Developers should use it before every upload.\nDebian ‘Experimental’\nThe ‘experimental’ distribution is used as a temporary staging area for highly experimental software. Please install the experimental packages only if you already know how to use ‘unstable’.\nDebian Wiki",
-      "matchedWords": {
-        "24igJXwiDb_d": {
-          "hits": 0,
-          "textWords": 698
-        },
-        "AbbiA0S2iDXF": {
-          "hits": 0,
-          "textWords": 698
-        },
-        "Ga2JvD48nX72": {
-          "hits": 1,
-          "textWords": 698
-        },
-        "bpVSyb2OYcjy": {
-          "hits": 38,
-          "textWords": 698
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "4SIJYl1nrxbw",
-      "address": "https://www.debian.org/distrib/",
-      "title": "Download Debian",
-      "snippet": "Buy a computer with Debian pre-installed\nThere are a number of advantages to this:\nYou don't have to install Debian.\nThe installation is pre-configured to match the hardware.\nThe vendor may provide technical support.\nUse a Debian cloud image",
-      "matchedWords": {
-        "24igJXwiDb_d": {
-          "hits": 0,
-          "textWords": 305
-        },
-        "AbbiA0S2iDXF": {
-          "hits": 0,
-          "textWords": 305
-        },
-        "Ga2JvD48nX72": {
-          "hits": 4,
-          "textWords": 305
-        },
-        "bpVSyb2OYcjy": {
-          "hits": 10,
-          "textWords": 305
-        }
-      },
-      "queryPhraseHits": 2
-    },
-    {
-      "hash": "8q_7kd8zMi84",
-      "address": "https://docs.cloud.google.com/release-notes",
-      "title": "Google Cloud release notes | Google Cloud Documentation",
-      "snippet": "The last Batch Debian 11 images—any image versions with the batch-debian-11-official prefix—are only supported until August 31, 2026. Before then, migrate any job that uses a Batch Debian 11 image to a Batch Debian 12 image (or other image) as follows:",
-      "matchedWords": {
-        "24igJXwiDb_d": {
-          "hits": 0,
-          "textWords": 93126
-        },
-        "AbbiA0S2iDXF": {
-          "hits": 0,
-          "textWords": 93126
-        },
-        "Ga2JvD48nX72": {
-          "hits": 13,
-          "textWords": 93126
-        },
-        "bpVSyb2OYcjy": {
-          "hits": 16,
-          "textWords": 93126
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "QETWOeFEcjUx",
-      "address": "https://docs.confluent.io/platform/current/streams/microservices-orders.html",
-      "title": "Tutorial: Streaming Application Development Basics on Confluent Platform | Confluent Documentation",
-      "snippet": "Local install of Confluent CLI v3.0.0 or later\nDocker version \u003e= 19.03\nDocker Compose version \u003e= 1.25.0 with Docker Compose file format 3\nIn Docker’s advanced settings, increase the memory dedicated to Docker to at least 6 GB (default is 2 GB)\nTutorial\nSet up the tutorial",
-      "matchedWords": {
-        "24igJXwiDb_d": {
-          "hits": 0,
-          "textWords": 3965
-        },
-        "AbbiA0S2iDXF": {
-          "hits": 0,
-          "textWords": 3965
-        },
-        "Ga2JvD48nX72": {
-          "hits": 1,
-          "textWords": 3965
-        },
-        "bpVSyb2OYcjy": {
-          "hits": 0,
-          "textWords": 3965
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "QLafoeFEcjUx",
-      "address": "https://docs.confluent.io/platform/current/streams/developer-guide/write-streams.html",
-      "title": "Write a Kafka Streams Application for Confluent Platform | Confluent Documentation",
-      "snippet": "Any Java application that makes use of the Kafka Streams library is considered a Kafka Streams application. The computational logic of a Kafka Streams application is defined as a processor topology, which is a graph of stream processors (nodes) and streams (edges).",
-      "matchedWords": {
-        "24igJXwiDb_d": {
-          "hits": 0,
-          "textWords": 971
-        },
-        "AbbiA0S2iDXF": {
-          "hits": 0,
-          "textWords": 971
-        },
-        "Ga2JvD48nX72": {
-          "hits": 0,
-          "textWords": 971
-        },
-        "bpVSyb2OYcjy": {
-          "hits": 0,
-          "textWords": 971
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "SChoGeFEcjUx",
-      "address": "https://docs.confluent.io/platform/current/clients/examples/kotlin.html",
-      "title": "Create a Kafka Client App for Kotlin for Use With Confluent Platform | Confluent Documentation",
-      "snippet": "In this tutorial, you will run a Kotlin client application that produces messages to and consumes messages from an Apache Kafka® cluster.\nAfter you run the tutorial, use the provided source code as a reference to develop your own Kafka client application.\nPrerequisites\nClient",
-      "matchedWords": {
-        "24igJXwiDb_d": {
-          "hits": 0,
-          "textWords": 968
-        },
-        "AbbiA0S2iDXF": {
-          "hits": 0,
-          "textWords": 968
-        },
-        "Ga2JvD48nX72": {
-          "hits": 0,
-          "textWords": 968
-        },
-        "bpVSyb2OYcjy": {
-          "hits": 0,
-          "textWords": 968
         }
       },
       "queryPhraseHits": 0
@@ -1028,548 +1764,66 @@
       "hash": "TC82-eFEcjUx",
       "address": "https://docs.confluent.io/platform/current/streams/developer-guide/processor-api.html",
       "title": "Kafka Streams Processor API for Confluent Platform | Confluent Documentation",
-      "snippet": "The Processor API allows developers to define and connect custom processors and to interact with state stores.",
+      "snippet": "",
       "matchedWords": {
-        "24igJXwiDb_d": {
-          "hits": 0,
-          "textWords": 4569
-        },
-        "AbbiA0S2iDXF": {
-          "hits": 0,
-          "textWords": 4569
-        },
         "Ga2JvD48nX72": {
           "hits": 0,
-          "textWords": 4569
+          "textWords": 0
         },
         "bpVSyb2OYcjy": {
           "hits": 0,
-          "textWords": 4569
+          "textWords": 0
         }
       },
       "queryPhraseHits": 0
     },
     {
-      "hash": "O2B7wWSMo4M4",
-      "address": "https://www.zdnet.com/home-and-office/work-life/this-linux-and-windows-app-makes-managing-all-of-your-documents-easier/",
-      "title": "This Linux and Windows app makes managing all your documents easier - ZDNET",
-      "snippet": "Arch – sudo pacman -S paperwork \u0026\u0026 paperwork-gtk chkdep\nDebian/Ubuntu – sudo apt install paperwork-gtk paperwork-gtk-l10n-[your language] paperwork-shell -y (where your language is the language you intend to use for the app).\nFedora – sudo dnf install paperwork -y \u0026\u0026 paperwork-gtk chkdeps",
+      "hash": "3qIXasH8M7Hx",
+      "address": "https://snapcraft.io/",
+      "title": "Snapcraft - Snaps are universal Linux packages",
+      "snippet": "",
       "matchedWords": {
-        "24igJXwiDb_d": {
-          "hits": 0,
-          "textWords": 1078
-        },
-        "AbbiA0S2iDXF": {
-          "hits": 0,
-          "textWords": 1078
-        },
         "Ga2JvD48nX72": {
-          "hits": 9,
-          "textWords": 1078
+          "hits": 0,
+          "textWords": 0
         },
         "bpVSyb2OYcjy": {
-          "hits": 1,
-          "textWords": 1078
+          "hits": 0,
+          "textWords": 0
         }
       },
       "queryPhraseHits": 0
     },
     {
-      "hash": "-p2w3taoSn1x",
-      "address": "https://en.planet.wikimedia.org/",
-      "title": "en.planet.wikimedia.org",
-      "snippet": "This July, the City of Light welcomed Wikimedians from all over the world. Some 1,250 attendees joined in person in Paris, while nearly 2000 joined Wikimania 2026 online.",
+      "hash": "gvDDDlKqlBA4",
+      "address": "https://www.phoronix.com/",
+      "title": "Linux Hardware Reviews \u0026 Performance Benchmarks, Open-Source News - Phoronix",
+      "snippet": "",
       "matchedWords": {
-        "24igJXwiDb_d": {
-          "hits": 0,
-          "textWords": 16720
-        },
-        "AbbiA0S2iDXF": {
-          "hits": 0,
-          "textWords": 16720
-        },
         "Ga2JvD48nX72": {
           "hits": 0,
-          "textWords": 16720
+          "textWords": 0
         },
         "bpVSyb2OYcjy": {
           "hits": 0,
-          "textWords": 16720
+          "textWords": 0
         }
       },
       "queryPhraseHits": 0
     },
     {
-      "hash": "8vgIrobrsZjx",
-      "address": "https://www.mediawiki.org/wiki/Download",
-      "title": "Download - MediaWiki",
-      "snippet": "Repositories of some Linux distributions also increasingly offer packages for MediaWiki, with different degrees of frequency and extensions coverage e.g. Debian (including derivatives like Ubuntu), Fedora, Gentoo.\nSecurity and update announcements",
+      "hash": "ZSxO7kRFf6Bx",
+      "address": "https://wikitech.wikimedia.org/wiki/Help:Cloud_Services_introduction",
+      "title": "Help:Cloud Services introduction - Wikitech",
+      "snippet": "",
       "matchedWords": {
-        "24igJXwiDb_d": {
-          "hits": 0,
-          "textWords": 475
-        },
-        "AbbiA0S2iDXF": {
-          "hits": 0,
-          "textWords": 475
-        },
         "Ga2JvD48nX72": {
           "hits": 0,
-          "textWords": 475
-        },
-        "bpVSyb2OYcjy": {
-          "hits": 1,
-          "textWords": 475
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "wGCbVt1nrxbw",
-      "address": "https://www.debian.org/CD/verify",
-      "title": "Verifying authenticity of Debian images",
-      "snippet": "pub rsa4096/988021A964E6EA7D 2009-10-03 Key fingerprint = 1046 0DAD 7616 5AD8 1FBC 0CE9 9880 21A9 64E6 EA7D uid Debian CD signing key \u003cdebian-cd@lists.debian.org\u003e pub rsa4096/DA87E80D6294BE9B 2011-01-05 [SC] Key fingerprint = DF9B 9C49 EAA9 2984 3258 9D76 DA87 E80D 6294 BE9B uid Debian CD signing",
-      "matchedWords": {
-        "24igJXwiDb_d": {
-          "hits": 0,
-          "textWords": 336
-        },
-        "AbbiA0S2iDXF": {
-          "hits": 0,
-          "textWords": 336
-        },
-        "Ga2JvD48nX72": {
-          "hits": 0,
-          "textWords": 336
-        },
-        "bpVSyb2OYcjy": {
-          "hits": 16,
-          "textWords": 336
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "xOYgTl1nrxbw",
-      "address": "https://www.debian.org/events/",
-      "title": "Events related to Debian",
-      "snippet": "The major event of Debian is the annual Debian Conference called DebConf. There are also several MiniDebConfs which are local meetings organized by Debian project member.\nThe events Team gives out help and advice in organizing debian presence.",
-      "matchedWords": {
-        "24igJXwiDb_d": {
-          "hits": 0,
-          "textWords": 97
-        },
-        "AbbiA0S2iDXF": {
-          "hits": 0,
-          "textWords": 97
-        },
-        "Ga2JvD48nX72": {
-          "hits": 0,
-          "textWords": 97
-        },
-        "bpVSyb2OYcjy": {
-          "hits": 9,
-          "textWords": 97
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "wJjmaeFEcjUx",
-      "address": "https://docs.confluent.io/platform/current/clients/confluent-plugin-for-jetbrains-ides.html",
-      "title": "Confluent Plugin for JetBrains IDEs for Confluent Platform | Confluent Documentation",
-      "snippet": "Use SSH tunneling and SSL connections\nIntegrate with Spring Boot for Kafka connections\nThe plugin provides a dedicated tool window with an intuitive UI for interacting with Kafka clusters, making it easier to develop and test Kafka-based applications.\nInstall in IntelliJ IDEA",
-      "matchedWords": {
-        "24igJXwiDb_d": {
-          "hits": 0,
-          "textWords": 622
-        },
-        "AbbiA0S2iDXF": {
-          "hits": 0,
-          "textWords": 622
-        },
-        "Ga2JvD48nX72": {
-          "hits": 3,
-          "textWords": 622
+          "textWords": 0
         },
         "bpVSyb2OYcjy": {
           "hits": 0,
-          "textWords": 622
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "wTGvueFEcjUx",
-      "address": "https://docs.confluent.io/platform/current/clients/examples/rust.html",
-      "title": "Create a Kafka Client App for Rust for Use With Confluent Platform | Confluent Documentation",
-      "snippet": "In this tutorial, you will run a Rust client application that produces messages to and consumes messages from an Apache Kafka® cluster.\nAfter you run the tutorial, use the provided source code as a reference to develop your own Kafka client application.\nPrerequisites\nClient",
-      "matchedWords": {
-        "24igJXwiDb_d": {
-          "hits": 0,
-          "textWords": 798
-        },
-        "AbbiA0S2iDXF": {
-          "hits": 0,
-          "textWords": 798
-        },
-        "Ga2JvD48nX72": {
-          "hits": 0,
-          "textWords": 798
-        },
-        "bpVSyb2OYcjy": {
-          "hits": 0,
-          "textWords": 798
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "xwlXNeFEcjUx",
-      "address": "https://docs.confluent.io/platform/current/clients/client-configs.html",
-      "title": "Client Producer and Consumer Configuration Recommendations for Confluent Platform | Confluent Documentation",
-      "snippet": "You can configure your Kafka Producer and Consumer clients to optimize client performance based on your workload.\nRecommendations\nConsider the following client configuration recommendations:\nAlways use current, supported clients.",
-      "matchedWords": {
-        "24igJXwiDb_d": {
-          "hits": 0,
-          "textWords": 1756
-        },
-        "AbbiA0S2iDXF": {
-          "hits": 0,
-          "textWords": 1756
-        },
-        "Ga2JvD48nX72": {
-          "hits": 0,
-          "textWords": 1756
-        },
-        "bpVSyb2OYcjy": {
-          "hits": 0,
-          "textWords": 1756
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "yUw0FeFEcjUx",
-      "address": "https://docs.confluent.io/platform/current/kafka-mqtt/intro.html",
-      "title": "MQTT Proxy for Confluent Platform | Confluent Documentation",
-      "snippet": "Install MQTT client\nDepending on your operating system, you may choose to install mosquitto as follows:\nMacOS:\nbrew install mosquitto\nUbuntu 16:",
-      "matchedWords": {
-        "24igJXwiDb_d": {
-          "hits": 0,
-          "textWords": 635
-        },
-        "AbbiA0S2iDXF": {
-          "hits": 0,
-          "textWords": 635
-        },
-        "Ga2JvD48nX72": {
-          "hits": 7,
-          "textWords": 635
-        },
-        "bpVSyb2OYcjy": {
-          "hits": 0,
-          "textWords": 635
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "wAnYgnLU2GSx",
-      "address": "https://blog.k0sproject.io/posts/k0s-multi-arch-kubernetes-cluster/",
-      "title": "k0s Multi Architectures Kubernetes Cluster AMD/ARM/RISC-V | The Zero Friction Kubernetes Blog",
-      "snippet": "$ kubectl get nodes -o wide NAME STATUS ROLES AGE VERSION INTERNAL-IP EXTERNAL-IP OS-IMAGE KERNEL-VERSION CONTAINER-RUNTIME nuc Ready \u003cnone\u003e 3h57m v1.35.2+k0s 192.168.8.13 \u003cnone\u003e Debian GNU/Linux 13 (trixie) 6.12.74+deb13+1-amd64 containerd://1.7.30 rp3b Ready control-plane 3d4h v1.35.2+k0s",
-      "matchedWords": {
-        "24igJXwiDb_d": {
-          "hits": 0,
-          "textWords": 1690
-        },
-        "AbbiA0S2iDXF": {
-          "hits": 0,
-          "textWords": 1690
-        },
-        "Ga2JvD48nX72": {
-          "hits": 1,
-          "textWords": 1690
-        },
-        "bpVSyb2OYcjy": {
-          "hits": 7,
-          "textWords": 1690
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "t2b3Ag1nrxbw",
-      "address": "https://www.debian.org/distrib/packages",
-      "title": "Debian -- Packages",
-      "snippet": "Introductory notes\nView package lists\nSearch package directories\nSearch the contents of packages\nIntroductory notes\nAll packages that are included in the official Debian distribution are free according to the Debian Free Software Guidelines.",
-      "matchedWords": {
-        "24igJXwiDb_d": {
-          "hits": 0,
-          "textWords": 485
-        },
-        "AbbiA0S2iDXF": {
-          "hits": 0,
-          "textWords": 485
-        },
-        "Ga2JvD48nX72": {
-          "hits": 0,
-          "textWords": 485
-        },
-        "bpVSyb2OYcjy": {
-          "hits": 10,
-          "textWords": 485
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "sPfvHeFEcjUx",
-      "address": "https://docs.confluent.io/platform/current/clients/examples.html",
-      "title": "Kafka Client Examples for Confluent Platform | Confluent Documentation",
-      "snippet": "Terms \u0026 Conditions | Privacy Policy | Do Not Sell My Information | Modern Slavery Policy | Cookie Settings | Feedback\nCopyright © Confluent, Inc.",
-      "matchedWords": {
-        "24igJXwiDb_d": {
-          "hits": 0,
-          "textWords": 42
-        },
-        "AbbiA0S2iDXF": {
-          "hits": 0,
-          "textWords": 42
-        },
-        "Ga2JvD48nX72": {
-          "hits": 0,
-          "textWords": 42
-        },
-        "bpVSyb2OYcjy": {
-          "hits": 0,
-          "textWords": 42
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "tO5gNeFEcjUx",
-      "address": "https://docs.confluent.io/platform/current/clients/examples/groovy.html",
-      "title": "Create a Kafka Client App for Groovy for Use With Confluent Platform | Confluent Documentation",
-      "snippet": "In this tutorial, you will run a Groovy client application that produces messages to and consumes messages from an Apache Kafka® cluster.\nAfter you run the tutorial, use the provided source code as a reference to develop your own Kafka client application.\nPrerequisites\nClient",
-      "matchedWords": {
-        "24igJXwiDb_d": {
-          "hits": 0,
-          "textWords": 972
-        },
-        "AbbiA0S2iDXF": {
-          "hits": 0,
-          "textWords": 972
-        },
-        "Ga2JvD48nX72": {
-          "hits": 0,
-          "textWords": 972
-        },
-        "bpVSyb2OYcjy": {
-          "hits": 0,
-          "textWords": 972
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "tdfcWeFEcjUx",
-      "address": "https://docs.confluent.io/platform/current/streams/developer-guide/interactive-queries.html",
-      "title": "Kafka Streams Interactive Queries for Confluent Platform | Confluent Documentation",
-      "snippet": "Interactive Queries allow you to use the state of your application from outside your application. The Kafka Streams API enables your applications to be queryable.",
-      "matchedWords": {
-        "24igJXwiDb_d": {
-          "hits": 0,
-          "textWords": 4400
-        },
-        "AbbiA0S2iDXF": {
-          "hits": 0,
-          "textWords": 4400
-        },
-        "Ga2JvD48nX72": {
-          "hits": 0,
-          "textWords": 4400
-        },
-        "bpVSyb2OYcjy": {
-          "hits": 0,
-          "textWords": 4400
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "-p2w3taoSn1x",
-      "address": "https://en.planet.wikimedia.org/",
-      "title": "en.planet.wikimedia.org",
-      "snippet": "This July, the City of Light welcomed Wikimedians from all over the world. Some 1,250 attendees joined in person in Paris, while nearly 2000 joined Wikimania 2026 online.",
-      "matchedWords": {
-        "24igJXwiDb_d": {
-          "hits": 0,
-          "textWords": 16720
-        },
-        "AbbiA0S2iDXF": {
-          "hits": 0,
-          "textWords": 16720
-        },
-        "Ga2JvD48nX72": {
-          "hits": 0,
-          "textWords": 16720
-        },
-        "bpVSyb2OYcjy": {
-          "hits": 0,
-          "textWords": 16720
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "ufEmuitD2jQw",
-      "address": "https://docs.python.org/3/whatsnew/2.0.html",
-      "title": "What’s New in Python 2.0 — Python 3.14.6 documentation",
-      "snippet": "A wrapper API was added for Unix-style signal handlers. PyOS_getsig() gets a signal handler and PyOS_setsig() will set a new handler.\nDistutils: Making Modules Easy to Install¶",
-      "matchedWords": {
-        "24igJXwiDb_d": {
-          "hits": 0,
-          "textWords": 8187
-        },
-        "AbbiA0S2iDXF": {
-          "hits": 0,
-          "textWords": 8187
-        },
-        "Ga2JvD48nX72": {
-          "hits": 3,
-          "textWords": 8187
-        },
-        "bpVSyb2OYcjy": {
-          "hits": 1,
-          "textWords": 8187
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "mKjEVzAa-Sqx",
-      "address": "https://planet.freedesktop.org/",
-      "title": "planet.freedesktop.org",
-      "snippet": "$ pkgcli search editor Querying [████████████████████████████████████████] 100% ▣ ace-of-penguins 1.5~rc2-7.amd64 [debian-testing-main] ▣ acorn-fdisk 3.0.6-14.amd64 [debian-testing-main] ▣ ardour 1:9.2.0+ds-1.amd64 [debian-testing-main] ✔ audacity 3.7.7+dfsg-1.amd64 [manual:debian-testing-main] ✔",
-      "matchedWords": {
-        "24igJXwiDb_d": {
-          "hits": 0,
-          "textWords": 71870
-        },
-        "AbbiA0S2iDXF": {
-          "hits": 0,
-          "textWords": 71870
-        },
-        "Ga2JvD48nX72": {
-          "hits": 13,
-          "textWords": 71870
-        },
-        "bpVSyb2OYcjy": {
-          "hits": 45,
-          "textWords": 71870
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "_8ITH_nMM_j5",
-      "address": "https://grokipedia.com/page/Raspberry_Pi",
-      "title": "Raspberry Pi — Grokipedia",
-      "snippet": "To resolve this, install the firmware-iwlwifi package (sudo apt update \u0026\u0026 sudo apt install firmware-iwlwifi), add dtparam=pciex1_gen=3 to /boot/config.txt to enable PCIe Gen3, reboot, and verify detection using lspci | grep -i network (should show the Intel AX210) and dmesg | grep iwlwifi (should",
-      "matchedWords": {
-        "24igJXwiDb_d": {
-          "hits": 0,
-          "textWords": 14229
-        },
-        "AbbiA0S2iDXF": {
-          "hits": 0,
-          "textWords": 14229
-        },
-        "Ga2JvD48nX72": {
-          "hits": 3,
-          "textWords": 14229
-        },
-        "bpVSyb2OYcjy": {
-          "hits": 5,
-          "textWords": 14229
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "gmhRVl1nrxbw",
-      "address": "https://www.debian.org/devel/",
-      "title": "Debian -- Debian Developers' Corner",
-      "snippet": "Developers should use it before every upload.\nDebian ‘Experimental’\nThe ‘experimental’ distribution is used as a temporary staging area for highly experimental software. Please install the experimental packages only if you already know how to use ‘unstable’.\nDebian Wiki",
-      "matchedWords": {
-        "24igJXwiDb_d": {
-          "hits": 0,
-          "textWords": 698
-        },
-        "AbbiA0S2iDXF": {
-          "hits": 0,
-          "textWords": 698
-        },
-        "Ga2JvD48nX72": {
-          "hits": 1,
-          "textWords": 698
-        },
-        "bpVSyb2OYcjy": {
-          "hits": 38,
-          "textWords": 698
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "i98NBeFEcjUx",
-      "address": "https://docs.confluent.io/platform/current/clients/producer.html",
-      "title": "Kafka Producer for Confluent Platform | Confluent Documentation",
-      "snippet": "An Apache Kafka® Producer is a client application that publishes (writes) events to a Kafka cluster. This section gives an overview of the Kafka producer and an introduction to the configuration settings for tuning.",
-      "matchedWords": {
-        "24igJXwiDb_d": {
-          "hits": 0,
-          "textWords": 1195
-        },
-        "AbbiA0S2iDXF": {
-          "hits": 0,
-          "textWords": 1195
-        },
-        "Ga2JvD48nX72": {
-          "hits": 0,
-          "textWords": 1195
-        },
-        "bpVSyb2OYcjy": {
-          "hits": 0,
-          "textWords": 1195
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "jaHe6eFEcjUx",
-      "address": "https://docs.confluent.io/platform/current/installation/upgrade.html",
-      "title": "Upgrade Confluent Platform | Confluent Documentation",
-      "snippet": "# Install the latest version of the full platform sudo apt-get install confluent-platform # Or, install a specific component like Kafka sudo apt-get install confluent-kafka\nInstall a specific version on Debian or Ubuntu",
-      "matchedWords": {
-        "24igJXwiDb_d": {
-          "hits": 0,
-          "textWords": 5035
-        },
-        "AbbiA0S2iDXF": {
-          "hits": 0,
-          "textWords": 5035
-        },
-        "Ga2JvD48nX72": {
-          "hits": 36,
-          "textWords": 5035
-        },
-        "bpVSyb2OYcjy": {
-          "hits": 12,
-          "textWords": 5035
+          "textWords": 0
         }
       },
       "queryPhraseHits": 0
@@ -1578,41 +1832,144 @@
       "hash": "Tw2WTjRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Google_Chrome",
       "title": "Google Chrome - Wikipedia",
-      "snippet": "79] Starting with Google Chrome 3.0, users can install themes to alter the appearance of the browser.[80] Many free third-party themes are provided in an online gallery,[81] accessible through a \"Get themes\" button in Chrome's options.[82]",
+      "snippet": "",
       "matchedWords": {
-        "24igJXwiDb_d": {
-          "hits": 0,
-          "textWords": 19993
-        },
-        "AbbiA0S2iDXF": {
-          "hits": 0,
-          "textWords": 19993
-        },
         "Ga2JvD48nX72": {
-          "hits": 7,
-          "textWords": 19993
+          "hits": 0,
+          "textWords": 0
         },
         "bpVSyb2OYcjy": {
-          "hits": 4,
-          "textWords": 19993
+          "hits": 0,
+          "textWords": 0
         }
       },
       "queryPhraseHits": 0
     },
     {
-      "hash": "Df17UPS6MKD4",
-      "address": "https://github.com/koalaman/shellcheck",
-      "title": "GitHub - koalaman/shellcheck: ShellCheck, a static analysis tool for shell scripts · GitHub",
+      "hash": "H6Zz4sS6MKD4",
+      "address": "https://github.com/trending",
+      "title": "Trending repositories on GitHub today · GitHub",
       "snippet": "",
       "matchedWords": {
-        "24igJXwiDb_d": {
+        "Ga2JvD48nX72": {
           "hits": 0,
           "textWords": 0
         },
-        "AbbiA0S2iDXF": {
+        "bpVSyb2OYcjy": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "T8ZB7sS6MKD4",
+      "address": "https://github.com/yacy/yacy_search_server",
+      "title": "GitHub - yacy/yacy_search_server: Distributed Peer-to-Peer Web Search Engine and Intranet Search Appliance",
+      "snippet": "",
+      "matchedWords": {
+        "Ga2JvD48nX72": {
           "hits": 0,
           "textWords": 0
         },
+        "bpVSyb2OYcjy": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "_6xF-tS6MKD4",
+      "address": "https://github.com/trending/gdscript?since=daily",
+      "title": "Trending GDScript repositories on GitHub today · GitHub",
+      "snippet": "",
+      "matchedWords": {
+        "Ga2JvD48nX72": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "bpVSyb2OYcjy": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "OgXnxsTGcoY5",
+      "address": "https://ublockorigin.com/",
+      "title": "uBlock Origin - Free, open-source ad blocker extension",
+      "snippet": "",
+      "matchedWords": {
+        "Ga2JvD48nX72": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "bpVSyb2OYcjy": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "J6LFIsYyzH0z",
+      "address": "https://awesome-selfhosted.net/",
+      "title": "awesome-selfhosted",
+      "snippet": "",
+      "matchedWords": {
+        "Ga2JvD48nX72": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "bpVSyb2OYcjy": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "CtErps_REEpw",
+      "address": "https://0pointer.net/blog/",
+      "title": "Pid Eins",
+      "snippet": "",
+      "matchedWords": {
+        "Ga2JvD48nX72": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "bpVSyb2OYcjy": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "-p2w3taoSn1x",
+      "address": "https://en.planet.wikimedia.org/",
+      "title": "en.planet.wikimedia.org",
+      "snippet": "",
+      "matchedWords": {
+        "Ga2JvD48nX72": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "bpVSyb2OYcjy": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "2DBZIobrsZjx",
+      "address": "https://www.mediawiki.org/wiki/Extension:TimedMediaHandler",
+      "title": "Extension:TimedMediaHandler - MediaWiki",
+      "snippet": "",
+      "matchedWords": {
         "Ga2JvD48nX72": {
           "hits": 0,
           "textWords": 0
@@ -1630,14 +1987,6 @@
       "title": "Extension:Cite - MediaWiki",
       "snippet": "",
       "matchedWords": {
-        "24igJXwiDb_d": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "AbbiA0S2iDXF": {
-          "hits": 0,
-          "textWords": 0
-        },
         "Ga2JvD48nX72": {
           "hits": 0,
           "textWords": 0
@@ -1645,131 +1994,6 @@
         "bpVSyb2OYcjy": {
           "hits": 0,
           "textWords": 0
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "gfCz2_nMM_j5",
-      "address": "https://grokipedia.com/page/Linux",
-      "title": "Linux — Grokipedia",
-      "snippet": "",
-      "matchedWords": {
-        "24igJXwiDb_d": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "AbbiA0S2iDXF": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "Ga2JvD48nX72": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "bpVSyb2OYcjy": {
-          "hits": 0,
-          "textWords": 0
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "OYZdJl1nrxbw",
-      "address": "https://www.debian.org/support",
-      "title": "Debian -- User Support",
-      "snippet": "You can also use a search engine to check for Debian-related channels.\nIRC Clients\nTo connect to the IRC network, you can either use OFTC's WebChat in your preferred web browser or install a client on your computer.",
-      "matchedWords": {
-        "24igJXwiDb_d": {
-          "hits": 0,
-          "textWords": 634
-        },
-        "AbbiA0S2iDXF": {
-          "hits": 0,
-          "textWords": 634
-        },
-        "Ga2JvD48nX72": {
-          "hits": 1,
-          "textWords": 634
-        },
-        "bpVSyb2OYcjy": {
-          "hits": 24,
-          "textWords": 634
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "PTN14S79y8n4",
-      "address": "https://mm-dev.rocks/series/decapitating-macbook-an-odyssey/",
-      "title": "",
-      "snippet": "",
-      "matchedWords": {
-        "24igJXwiDb_d": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "AbbiA0S2iDXF": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "Ga2JvD48nX72": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "bpVSyb2OYcjy": {
-          "hits": 0,
-          "textWords": 0
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "O2B7wWSMo4M4",
-      "address": "https://www.zdnet.com/home-and-office/work-life/this-linux-and-windows-app-makes-managing-all-of-your-documents-easier/",
-      "title": "This Linux and Windows app makes managing all your documents easier - ZDNET",
-      "snippet": "Arch – sudo pacman -S paperwork \u0026\u0026 paperwork-gtk chkdep\nDebian/Ubuntu – sudo apt install paperwork-gtk paperwork-gtk-l10n-[your language] paperwork-shell -y (where your language is the language you intend to use for the app).\nFedora – sudo dnf install paperwork -y \u0026\u0026 paperwork-gtk chkdeps",
-      "matchedWords": {
-        "24igJXwiDb_d": {
-          "hits": 0,
-          "textWords": 1078
-        },
-        "AbbiA0S2iDXF": {
-          "hits": 0,
-          "textWords": 1078
-        },
-        "Ga2JvD48nX72": {
-          "hits": 9,
-          "textWords": 1078
-        },
-        "bpVSyb2OYcjy": {
-          "hits": 1,
-          "textWords": 1078
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "MocmU2sEYJ15",
-      "address": "https://tailscale.com/docs/reference/tailscale-cli",
-      "title": "Tailscale CLI · Tailscale Docs",
-      "snippet": "When a certificate is delivered as files on disk which you then move to an install location, such as when using tailscale cert, the tailscaled daemon doesn't know where to place a renewed certificate or how to install it.",
-      "matchedWords": {
-        "24igJXwiDb_d": {
-          "hits": 0,
-          "textWords": 6012
-        },
-        "AbbiA0S2iDXF": {
-          "hits": 0,
-          "textWords": 6012
-        },
-        "Ga2JvD48nX72": {
-          "hits": 5,
-          "textWords": 6012
-        },
-        "bpVSyb2OYcjy": {
-          "hits": 1,
-          "textWords": 6012
         }
       },
       "queryPhraseHits": 0
@@ -1778,66 +2002,569 @@
       "hash": "8vgIrobrsZjx",
       "address": "https://www.mediawiki.org/wiki/Download",
       "title": "Download - MediaWiki",
-      "snippet": "Repositories of some Linux distributions also increasingly offer packages for MediaWiki, with different degrees of frequency and extensions coverage e.g. Debian (including derivatives like Ubuntu), Fedora, Gentoo.\nSecurity and update announcements",
+      "snippet": "",
       "matchedWords": {
-        "24igJXwiDb_d": {
-          "hits": 0,
-          "textWords": 475
-        },
-        "AbbiA0S2iDXF": {
-          "hits": 0,
-          "textWords": 475
-        },
         "Ga2JvD48nX72": {
           "hits": 0,
-          "textWords": 475
+          "textWords": 0
         },
         "bpVSyb2OYcjy": {
-          "hits": 1,
-          "textWords": 475
+          "hits": 0,
+          "textWords": 0
         }
       },
       "queryPhraseHits": 0
     },
     {
-      "hash": "FevfV2gYLBO5",
-      "address": "https://caddyserver.com/docs/install",
-      "title": "Install — Caddy Documentation",
-      "snippet": "sudo apt install -y debian-keyring debian-archive-keyring apt-transport-https curl curl -1sLf 'https://dl.cloudsmith.io/public/caddy/stable/gpg.key' | sudo gpg --dearmor -o /usr/share/keyrings/caddy-stable-archive-keyring.gpg curl -1sLf 'https://dl.cloudsmith.io/public/caddy/stable/debian.deb.txt'",
+      "hash": "NhcFflcXaqm5",
+      "address": "https://www.linuxmint.com/",
+      "title": "Home - Linux Mint",
+      "snippet": "",
       "matchedWords": {
-        "24igJXwiDb_d": {
-          "hits": 0,
-          "textWords": 894
-        },
-        "AbbiA0S2iDXF": {
-          "hits": 0,
-          "textWords": 894
-        },
         "Ga2JvD48nX72": {
-          "hits": 17,
-          "textWords": 894
+          "hits": 0,
+          "textWords": 0
+        },
+        "bpVSyb2OYcjy": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "2ZqdVzfOEiDw",
+      "address": "https://planet.gnome.org/",
+      "title": "Planet GNOME",
+      "snippet": "",
+      "matchedWords": {
+        "Ga2JvD48nX72": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "bpVSyb2OYcjy": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "m6aY6shj_LMw",
+      "address": "https://nmap.org/",
+      "title": "Nmap: the Network Mapper - Free Security Scanner",
+      "snippet": "",
+      "matchedWords": {
+        "Ga2JvD48nX72": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "bpVSyb2OYcjy": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "Jh0CDss7j0L4",
+      "address": "https://dietpi.com/",
+      "title": "DietPi - Lightweight justice for your SBC!",
+      "snippet": "",
+      "matchedWords": {
+        "Ga2JvD48nX72": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "bpVSyb2OYcjy": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "Gab0Essyhcfx",
+      "address": "https://archlinux.org/",
+      "title": "Arch Linux",
+      "snippet": "",
+      "matchedWords": {
+        "Ga2JvD48nX72": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "bpVSyb2OYcjy": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "nv_XnjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/MediaWiki",
+      "title": "MediaWiki - Wikipedia",
+      "snippet": "",
+      "matchedWords": {
+        "Ga2JvD48nX72": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "bpVSyb2OYcjy": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "uaEnGzTwnifx",
+      "address": "https://planet.wordpress.org/",
+      "title": "Planet \u0026mdash; WordPress.org",
+      "snippet": "",
+      "matchedWords": {
+        "Ga2JvD48nX72": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "bpVSyb2OYcjy": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "Q357ixtQ-zSx",
+      "address": "https://wiki.archlinux.org/title/ArchWiki_talk:Requests",
+      "title": "ArchWiki talk:Requests - ArchWiki",
+      "snippet": "",
+      "matchedWords": {
+        "Ga2JvD48nX72": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "bpVSyb2OYcjy": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "Q6EQky1nrxbw",
+      "address": "https://www.debian.org/releases/trixie/installmanual",
+      "title": "Debian trixie -- Installation Guide",
+      "snippet": "Installation instructions, along with downloadable files, are available for each of the supported architectures:\nInstallation Guide for 64-bit PC (amd64)\nInstallation Guide for 64-bit ARM (AArch64)\nInstallation Guide for Hard Float ABI ARM (armhf)\nInstallation Guide for POWER Processors",
+      "matchedWords": {
+        "Ga2JvD48nX72": {
+          "hits": 0,
+          "textWords": 93
+        },
+        "bpVSyb2OYcjy": {
+          "hits": 0,
+          "textWords": 93
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "QETWOeFEcjUx",
+      "address": "https://docs.confluent.io/platform/current/streams/microservices-orders.html",
+      "title": "Tutorial: Streaming Application Development Basics on Confluent Platform | Confluent Documentation",
+      "snippet": "",
+      "matchedWords": {
+        "Ga2JvD48nX72": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "bpVSyb2OYcjy": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "SChoGeFEcjUx",
+      "address": "https://docs.confluent.io/platform/current/clients/examples/kotlin.html",
+      "title": "Create a Kafka Client App for Kotlin for Use With Confluent Platform | Confluent Documentation",
+      "snippet": "",
+      "matchedWords": {
+        "Ga2JvD48nX72": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "bpVSyb2OYcjy": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "TC82-eFEcjUx",
+      "address": "https://docs.confluent.io/platform/current/streams/developer-guide/processor-api.html",
+      "title": "Kafka Streams Processor API for Confluent Platform | Confluent Documentation",
+      "snippet": "",
+      "matchedWords": {
+        "Ga2JvD48nX72": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "bpVSyb2OYcjy": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "TJG_XeFEcjUx",
+      "address": "https://docs.confluent.io/platform/current/clients/guides.html",
+      "title": "Kafka Client Guides for Confluent Platform | Confluent Documentation",
+      "snippet": "",
+      "matchedWords": {
+        "Ga2JvD48nX72": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "bpVSyb2OYcjy": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "KcOO0CMD0VOi",
+      "address": "https://unlimitedworld.de/threads/unlimitedworld.19504/",
+      "title": "Unlimitedworld | Unlimitedworld",
+      "snippet": "",
+      "matchedWords": {
+        "Ga2JvD48nX72": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "bpVSyb2OYcjy": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "Xu0QIjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Proprietary_software",
+      "title": "Proprietary software - Wikipedia",
+      "snippet": "",
+      "matchedWords": {
+        "Ga2JvD48nX72": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "bpVSyb2OYcjy": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "H6Zz4sS6MKD4",
+      "address": "https://github.com/trending",
+      "title": "Trending repositories on GitHub today · GitHub",
+      "snippet": "",
+      "matchedWords": {
+        "Ga2JvD48nX72": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "bpVSyb2OYcjy": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "QxKVZMS6MKD4",
+      "address": "https://github.com/ggml-org/whisper.cpp",
+      "title": "GitHub - ggml-org/whisper.cpp: Port of OpenAI's Whisper model in C/C++ · GitHub",
+      "snippet": "",
+      "matchedWords": {
+        "Ga2JvD48nX72": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "bpVSyb2OYcjy": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "Re7a6xS6MKD4",
+      "address": "https://github.com/RSS-Bridge/rss-bridge",
+      "title": "GitHub - RSS-Bridge/rss-bridge: The RSS feed for websites missing it · GitHub",
+      "snippet": "",
+      "matchedWords": {
+        "Ga2JvD48nX72": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "bpVSyb2OYcjy": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "R5v3OeS6MKD4",
+      "address": "https://github.com/ArchiveBox/ArchiveBox",
+      "title": "GitHub - ArchiveBox/ArchiveBox: 🗃 Open source self-hosted web archiving. Takes URLs/browser history/bookmarks/Pocket/Pinboard/etc., saves HTML, JS, PDFs, media, and more... · GitHub",
+      "snippet": "",
+      "matchedWords": {
+        "Ga2JvD48nX72": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "bpVSyb2OYcjy": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "SY_CB6S6MKD4",
+      "address": "https://github.com/opencontainers/runc",
+      "title": "GitHub - opencontainers/runc: CLI tool for spawning and running containers according to the OCI specification",
+      "snippet": "",
+      "matchedWords": {
+        "Ga2JvD48nX72": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "bpVSyb2OYcjy": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "T8ZB7sS6MKD4",
+      "address": "https://github.com/yacy/yacy_search_server",
+      "title": "GitHub - yacy/yacy_search_server: Distributed Peer-to-Peer Web Search Engine and Intranet Search Appliance · GitHub",
+      "snippet": "",
+      "matchedWords": {
+        "Ga2JvD48nX72": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "bpVSyb2OYcjy": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "ioqYhobrsZjx",
+      "address": "https://www.mediawiki.org/wiki/Extension:AbuseFilter",
+      "title": "Extension:AbuseFilter - MediaWiki",
+      "snippet": "",
+      "matchedWords": {
+        "Ga2JvD48nX72": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "bpVSyb2OYcjy": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "PwIa8mAUFAfQ",
+      "address": "http://www.iana.org/assignments/media-types",
+      "title": "Media Types",
+      "snippet": "",
+      "matchedWords": {
+        "Ga2JvD48nX72": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "bpVSyb2OYcjy": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "ZSxO7kRFf6Bx",
+      "address": "https://wikitech.wikimedia.org/wiki/Help:Cloud_Services_introduction",
+      "title": "Help:Cloud Services introduction - Wikitech",
+      "snippet": "",
+      "matchedWords": {
+        "Ga2JvD48nX72": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "bpVSyb2OYcjy": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "Xu0QIjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Proprietary_software",
+      "title": "Proprietary software - Wikipedia",
+      "snippet": "",
+      "matchedWords": {
+        "Ga2JvD48nX72": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "bpVSyb2OYcjy": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "H6Zz4sS6MKD4",
+      "address": "https://github.com/trending",
+      "title": "Trending repositories on GitHub today · GitHub",
+      "snippet": "",
+      "matchedWords": {
+        "Ga2JvD48nX72": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "bpVSyb2OYcjy": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "TKQQYyS6MKD4",
+      "address": "https://github.com/blindglobe/common-lisp-stat",
+      "title": "GitHub - blindglobe/common-lisp-stat: Common Lisp Statistics -- based on LispStat (Tierney) but updated for Common Lisp and incorporating lessons from R (http://www.r-project.",
+      "snippet": "",
+      "matchedWords": {
+        "Ga2JvD48nX72": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "bpVSyb2OYcjy": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "T8ZB7sS6MKD4",
+      "address": "https://github.com/yacy/yacy_search_server",
+      "title": "GitHub - yacy/yacy_search_server: Distributed Peer-to-Peer Web Search Engine and Intranet Search Appliance · GitHub",
+      "snippet": "",
+      "matchedWords": {
+        "Ga2JvD48nX72": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "bpVSyb2OYcjy": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "2DBZIobrsZjx",
+      "address": "https://www.mediawiki.org/wiki/Extension:TimedMediaHandler",
+      "title": "Extension:TimedMediaHandler - MediaWiki",
+      "snippet": "",
+      "matchedWords": {
+        "Ga2JvD48nX72": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "bpVSyb2OYcjy": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "JmyAFmwYpnl5",
+      "address": "https://protonvpn.com/support/linux-vpn-setup",
+      "title": "Proton VPN on Linux | Proton VPN",
+      "snippet": "",
+      "matchedWords": {
+        "Ga2JvD48nX72": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "bpVSyb2OYcjy": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "NweMal1nrxbw",
+      "address": "https://www.debian.org/social_contract",
+      "title": "Debian Social Contract",
+      "snippet": "The Debian official media may include firmware that is otherwise not part of the Debian system to enable use of Debian with hardware that requires such firmware.\nThe Debian Free Software Guidelines (DFSG)\nFree Redistribution",
+      "matchedWords": {
+        "Ga2JvD48nX72": {
+          "hits": 0,
+          "textWords": 1027
+        },
+        "bpVSyb2OYcjy": {
+          "hits": 32,
+          "textWords": 1027
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "941WA31nrxbw",
+      "address": "https://www.debian.org/News/weekly/",
+      "title": "Debian Project News - Index",
+      "snippet": "05 Aug 2023 Welcome to the inaugural issue of Debian Project Bits!, Debian Day, DebConf23, News on Debian releases, Popular packages, Calls for help\nHow to contribute to Debian Project News.\nOlder news are available on the debian-news mailing list",
+      "matchedWords": {
+        "Ga2JvD48nX72": {
+          "hits": 0,
+          "textWords": 68
         },
         "bpVSyb2OYcjy": {
           "hits": 8,
-          "textWords": 894
+          "textWords": 68
         }
       },
-      "queryPhraseHits": 2
+      "queryPhraseHits": 0
     },
     {
-      "hash": "HYOfTitD2jQw",
-      "address": "https://docs.python.org/3/whatsnew/3.7.html",
-      "title": "What’s New In Python 3.7 — Python 3.14.7 documentation",
+      "hash": "AWqW3s83Rt50",
+      "address": "https://brew.sh/",
+      "title": "Homebrew: The Package Manager for Everywhere",
       "snippet": "",
       "matchedWords": {
-        "24igJXwiDb_d": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "AbbiA0S2iDXF": {
-          "hits": 0,
-          "textWords": 0
-        },
         "Ga2JvD48nX72": {
           "hits": 0,
           "textWords": 0
@@ -1853,23 +2580,202 @@
       "hash": "mKjEVzAa-Sqx",
       "address": "https://planet.freedesktop.org/",
       "title": "planet.freedesktop.org",
-      "snippet": "$ pkgcli search editor Querying [████████████████████████████████████████] 100% ▣ ace-of-penguins 1.5~rc2-7.amd64 [debian-testing-main] ▣ acorn-fdisk 3.0.6-14.amd64 [debian-testing-main] ▣ ardour 1:9.2.0+ds-1.amd64 [debian-testing-main] ✔ audacity 3.7.7+dfsg-1.amd64 [manual:debian-testing-main] ✔",
+      "snippet": "",
       "matchedWords": {
-        "24igJXwiDb_d": {
-          "hits": 0,
-          "textWords": 71870
-        },
-        "AbbiA0S2iDXF": {
-          "hits": 0,
-          "textWords": 71870
-        },
         "Ga2JvD48nX72": {
-          "hits": 13,
-          "textWords": 71870
+          "hits": 0,
+          "textWords": 0
         },
         "bpVSyb2OYcjy": {
-          "hits": 45,
-          "textWords": 71870
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "3qIXasH8M7Hx",
+      "address": "https://snapcraft.io/",
+      "title": "Snapcraft - Snaps are universal Linux packages",
+      "snippet": "",
+      "matchedWords": {
+        "Ga2JvD48nX72": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "bpVSyb2OYcjy": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "K5flrZIOYuRw",
+      "address": "https://chronicles.debian.org/www/News/2021/",
+      "title": "Debian -- News from 2021",
+      "snippet": "See our contact page to get in touch. Web site source code is available.\nLast Modified: Fri, Jul 18 15:38:06 UTC 2025 Last Built: Mon, Jul 28 12:03:21 UTC 2025\nCopyright © 2021-2025 SPI and others; See license terms\nDebian is a registered trademark of Software in the Public Interest, Inc.",
+      "matchedWords": {
+        "Ga2JvD48nX72": {
+          "hits": 0,
+          "textWords": 54
+        },
+        "bpVSyb2OYcjy": {
+          "hits": 1,
+          "textWords": 54
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "ZSxO7kRFf6Bx",
+      "address": "https://wikitech.wikimedia.org/wiki/Help:Cloud_Services_introduction",
+      "title": "Help:Cloud Services introduction - Wikitech",
+      "snippet": "",
+      "matchedWords": {
+        "Ga2JvD48nX72": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "bpVSyb2OYcjy": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "Xu0QIjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Proprietary_software",
+      "title": "Proprietary software - Wikipedia",
+      "snippet": "",
+      "matchedWords": {
+        "Ga2JvD48nX72": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "bpVSyb2OYcjy": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "OgXnxsTGcoY5",
+      "address": "https://ublockorigin.com/",
+      "title": "uBlock Origin - Free, open-source ad blocker extension",
+      "snippet": "",
+      "matchedWords": {
+        "Ga2JvD48nX72": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "bpVSyb2OYcjy": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "0tcC9tTJaYK7",
+      "address": "https://blog.hansenpartnership.com/",
+      "title": "James Bottomley's random Pages | A collection of information",
+      "snippet": "",
+      "matchedWords": {
+        "Ga2JvD48nX72": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "bpVSyb2OYcjy": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "J6LFIsYyzH0z",
+      "address": "https://awesome-selfhosted.net/",
+      "title": "awesome-selfhosted",
+      "snippet": "",
+      "matchedWords": {
+        "Ga2JvD48nX72": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "bpVSyb2OYcjy": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "-p2w3taoSn1x",
+      "address": "https://en.planet.wikimedia.org/",
+      "title": "en.planet.wikimedia.org",
+      "snippet": "",
+      "matchedWords": {
+        "Ga2JvD48nX72": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "bpVSyb2OYcjy": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "2DBZIobrsZjx",
+      "address": "https://www.mediawiki.org/wiki/Extension:TimedMediaHandler",
+      "title": "Extension:TimedMediaHandler - MediaWiki",
+      "snippet": "",
+      "matchedWords": {
+        "Ga2JvD48nX72": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "bpVSyb2OYcjy": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "8vgIrobrsZjx",
+      "address": "https://www.mediawiki.org/wiki/Download",
+      "title": "Download - MediaWiki",
+      "snippet": "",
+      "matchedWords": {
+        "Ga2JvD48nX72": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "bpVSyb2OYcjy": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "NhcFflcXaqm5",
+      "address": "https://www.linuxmint.com/",
+      "title": "Home - Linux Mint",
+      "snippet": "",
+      "matchedWords": {
+        "Ga2JvD48nX72": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "bpVSyb2OYcjy": {
+          "hits": 0,
+          "textWords": 0
         }
       },
       "queryPhraseHits": 0
@@ -1878,41 +2784,8 @@
       "hash": "2ZqdVzfOEiDw",
       "address": "https://planet.gnome.org/",
       "title": "Planet GNOME",
-      "snippet": "This currently makes JXL enablement only possible when you know that your clients can support it. This is the case for me in Debian Unstable and Debian 14, which are using JXL images for a few weeks now, but not for any older releases.",
-      "matchedWords": {
-        "24igJXwiDb_d": {
-          "hits": 0,
-          "textWords": 2681
-        },
-        "AbbiA0S2iDXF": {
-          "hits": 0,
-          "textWords": 2681
-        },
-        "Ga2JvD48nX72": {
-          "hits": 1,
-          "textWords": 2681
-        },
-        "bpVSyb2OYcjy": {
-          "hits": 8,
-          "textWords": 2681
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "0L8HEsgJoQyx",
-      "address": "https://grapheneos.org/build",
-      "title": "Build | GrapheneOS",
       "snippet": "",
       "matchedWords": {
-        "24igJXwiDb_d": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "AbbiA0S2iDXF": {
-          "hits": 0,
-          "textWords": 0
-        },
         "Ga2JvD48nX72": {
           "hits": 0,
           "textWords": 0
@@ -1925,219 +2798,11 @@
       "queryPhraseHits": 0
     },
     {
-      "hash": "wGCbVt1nrxbw",
-      "address": "https://www.debian.org/CD/verify",
-      "title": "Verifying authenticity of Debian images",
-      "snippet": "pub rsa4096/988021A964E6EA7D 2009-10-03 Key fingerprint = 1046 0DAD 7616 5AD8 1FBC 0CE9 9880 21A9 64E6 EA7D uid Debian CD signing key \u003cdebian-cd@lists.debian.org\u003e pub rsa4096/DA87E80D6294BE9B 2011-01-05 [SC] Key fingerprint = DF9B 9C49 EAA9 2984 3258 9D76 DA87 E80D 6294 BE9B uid Debian CD signing",
-      "matchedWords": {
-        "24igJXwiDb_d": {
-          "hits": 0,
-          "textWords": 336
-        },
-        "AbbiA0S2iDXF": {
-          "hits": 0,
-          "textWords": 336
-        },
-        "Ga2JvD48nX72": {
-          "hits": 0,
-          "textWords": 336
-        },
-        "bpVSyb2OYcjy": {
-          "hits": 16,
-          "textWords": 336
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "xOYgTl1nrxbw",
-      "address": "https://www.debian.org/events/",
-      "title": "Events related to Debian",
-      "snippet": "The major event of Debian is the annual Debian Conference called DebConf. There are also several MiniDebConfs which are local meetings organized by Debian project member.\nThe events Team gives out help and advice in organizing debian presence.",
-      "matchedWords": {
-        "24igJXwiDb_d": {
-          "hits": 0,
-          "textWords": 97
-        },
-        "AbbiA0S2iDXF": {
-          "hits": 0,
-          "textWords": 97
-        },
-        "Ga2JvD48nX72": {
-          "hits": 0,
-          "textWords": 97
-        },
-        "bpVSyb2OYcjy": {
-          "hits": 9,
-          "textWords": 97
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "wJjmaeFEcjUx",
-      "address": "https://docs.confluent.io/platform/current/clients/confluent-plugin-for-jetbrains-ides.html",
-      "title": "Confluent Plugin for JetBrains IDEs for Confluent Platform | Confluent Documentation",
-      "snippet": "Use SSH tunneling and SSL connections\nIntegrate with Spring Boot for Kafka connections\nThe plugin provides a dedicated tool window with an intuitive UI for interacting with Kafka clusters, making it easier to develop and test Kafka-based applications.\nInstall in IntelliJ IDEA",
-      "matchedWords": {
-        "24igJXwiDb_d": {
-          "hits": 0,
-          "textWords": 622
-        },
-        "AbbiA0S2iDXF": {
-          "hits": 0,
-          "textWords": 622
-        },
-        "Ga2JvD48nX72": {
-          "hits": 3,
-          "textWords": 622
-        },
-        "bpVSyb2OYcjy": {
-          "hits": 0,
-          "textWords": 622
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "wTGvueFEcjUx",
-      "address": "https://docs.confluent.io/platform/current/clients/examples/rust.html",
-      "title": "Create a Kafka Client App for Rust for Use With Confluent Platform | Confluent Documentation",
-      "snippet": "In this tutorial, you will run a Rust client application that produces messages to and consumes messages from an Apache Kafka® cluster.\nAfter you run the tutorial, use the provided source code as a reference to develop your own Kafka client application.\nPrerequisites\nClient",
-      "matchedWords": {
-        "24igJXwiDb_d": {
-          "hits": 0,
-          "textWords": 798
-        },
-        "AbbiA0S2iDXF": {
-          "hits": 0,
-          "textWords": 798
-        },
-        "Ga2JvD48nX72": {
-          "hits": 0,
-          "textWords": 798
-        },
-        "bpVSyb2OYcjy": {
-          "hits": 0,
-          "textWords": 798
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "xInASeFEcjUx",
-      "address": "https://docs.confluent.io/platform/current/installation/installing_cp/rhel-centos.html",
-      "title": "Install Confluent Platform using Systemd on RHEL, CentOS, and Fedora-based Linux | Confluent Documentation",
-      "snippet": "Install Confluent Platform using Systemd on Ubuntu and Debian\nInstall Confluent Platform using ZIP and TAR Archives\nInstall Confluent Platform Using Docker",
-      "matchedWords": {
-        "24igJXwiDb_d": {
-          "hits": 0,
-          "textWords": 1520
-        },
-        "AbbiA0S2iDXF": {
-          "hits": 0,
-          "textWords": 1520
-        },
-        "Ga2JvD48nX72": {
-          "hits": 15,
-          "textWords": 1520
-        },
-        "bpVSyb2OYcjy": {
-          "hits": 2,
-          "textWords": 1520
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "xwlXNeFEcjUx",
-      "address": "https://docs.confluent.io/platform/current/clients/client-configs.html",
-      "title": "Client Producer and Consumer Configuration Recommendations for Confluent Platform | Confluent Documentation",
-      "snippet": "You can configure your Kafka Producer and Consumer clients to optimize client performance based on your workload.\nRecommendations\nConsider the following client configuration recommendations:\nAlways use current, supported clients.",
-      "matchedWords": {
-        "24igJXwiDb_d": {
-          "hits": 0,
-          "textWords": 1756
-        },
-        "AbbiA0S2iDXF": {
-          "hits": 0,
-          "textWords": 1756
-        },
-        "Ga2JvD48nX72": {
-          "hits": 0,
-          "textWords": 1756
-        },
-        "bpVSyb2OYcjy": {
-          "hits": 0,
-          "textWords": 1756
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "yUw0FeFEcjUx",
-      "address": "https://docs.confluent.io/platform/current/kafka-mqtt/intro.html",
-      "title": "MQTT Proxy for Confluent Platform | Confluent Documentation",
-      "snippet": "Install MQTT client\nDepending on your operating system, you may choose to install mosquitto as follows:\nMacOS:\nbrew install mosquitto\nUbuntu 16:",
-      "matchedWords": {
-        "24igJXwiDb_d": {
-          "hits": 0,
-          "textWords": 635
-        },
-        "AbbiA0S2iDXF": {
-          "hits": 0,
-          "textWords": 635
-        },
-        "Ga2JvD48nX72": {
-          "hits": 7,
-          "textWords": 635
-        },
-        "bpVSyb2OYcjy": {
-          "hits": 0,
-          "textWords": 635
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "wAnYgnLU2GSx",
-      "address": "https://blog.k0sproject.io/posts/k0s-multi-arch-kubernetes-cluster/",
-      "title": "k0s Multi Architectures Kubernetes Cluster AMD/ARM/RISC-V | The Zero Friction Kubernetes Blog",
-      "snippet": "$ kubectl get nodes -o wide NAME STATUS ROLES AGE VERSION INTERNAL-IP EXTERNAL-IP OS-IMAGE KERNEL-VERSION CONTAINER-RUNTIME nuc Ready \u003cnone\u003e 3h57m v1.35.2+k0s 192.168.8.13 \u003cnone\u003e Debian GNU/Linux 13 (trixie) 6.12.74+deb13+1-amd64 containerd://1.7.30 rp3b Ready control-plane 3d4h v1.35.2+k0s",
-      "matchedWords": {
-        "24igJXwiDb_d": {
-          "hits": 0,
-          "textWords": 1690
-        },
-        "AbbiA0S2iDXF": {
-          "hits": 0,
-          "textWords": 1690
-        },
-        "Ga2JvD48nX72": {
-          "hits": 1,
-          "textWords": 1690
-        },
-        "bpVSyb2OYcjy": {
-          "hits": 7,
-          "textWords": 1690
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "8mnnr49Ojva4",
-      "address": "https://docs.docker.com/build/building/best-practices/",
-      "title": "Building best practices | Docker Docs",
+      "hash": "m6aY6shj_LMw",
+      "address": "https://nmap.org/",
+      "title": "Nmap: the Network Mapper - Free Security Scanner",
       "snippet": "",
       "matchedWords": {
-        "24igJXwiDb_d": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "AbbiA0S2iDXF": {
-          "hits": 0,
-          "textWords": 0
-        },
         "Ga2JvD48nX72": {
           "hits": 0,
           "textWords": 0
@@ -2150,19 +2815,11 @@
       "queryPhraseHits": 0
     },
     {
-      "hash": "53OU7eFEcjUx",
-      "address": "https://docs.confluent.io/platform/current/streams/developer-guide/app-reset-tool.html",
-      "title": "Reset Kafka Streams Applications in Confluent Platform | Confluent Documentation",
+      "hash": "Jh0CDss7j0L4",
+      "address": "https://dietpi.com/",
+      "title": "DietPi - Lightweight justice for your SBC!",
       "snippet": "",
       "matchedWords": {
-        "24igJXwiDb_d": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "AbbiA0S2iDXF": {
-          "hits": 0,
-          "textWords": 0
-        },
         "Ga2JvD48nX72": {
           "hits": 0,
           "textWords": 0
@@ -2175,19 +2832,11 @@
       "queryPhraseHits": 0
     },
     {
-      "hash": "0L8HEsgJoQyx",
-      "address": "https://grapheneos.org/build",
-      "title": "Build | GrapheneOS",
+      "hash": "M-XHSxtQ-zSx",
+      "address": "https://wiki.archlinux.org/title/Getting_involved",
+      "title": "Getting involved - ArchWiki",
       "snippet": "",
       "matchedWords": {
-        "24igJXwiDb_d": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "AbbiA0S2iDXF": {
-          "hits": 0,
-          "textWords": 0
-        },
         "Ga2JvD48nX72": {
           "hits": 0,
           "textWords": 0
@@ -2200,85 +2849,127 @@
       "queryPhraseHits": 0
     },
     {
-      "hash": "W-eXqzF3--Qw",
-      "address": "https://planet.mozilla.org/",
-      "title": "Planet Mozilla",
-      "snippet": "sysknife - Split the Ubuntu-only actions out of DEBIAN_ONLY_ACTIONS\nsysknife - Make Debian eligible: a version floor of 12, and a reason in is_supported\nsysknife - Debian's default firewall is nftables, and the catalogue has no nftables vocabulary",
+      "hash": "Q357ixtQ-zSx",
+      "address": "https://wiki.archlinux.org/title/ArchWiki_talk:Requests",
+      "title": "ArchWiki talk:Requests - ArchWiki",
+      "snippet": "",
       "matchedWords": {
-        "24igJXwiDb_d": {
-          "hits": 0,
-          "textWords": 66162
-        },
-        "AbbiA0S2iDXF": {
-          "hits": 0,
-          "textWords": 66162
-        },
         "Ga2JvD48nX72": {
-          "hits": 14,
-          "textWords": 66162
+          "hits": 0,
+          "textWords": 0
         },
         "bpVSyb2OYcjy": {
-          "hits": 3,
-          "textWords": 66162
+          "hits": 0,
+          "textWords": 0
         }
       },
       "queryPhraseHits": 0
     },
     {
-      "hash": "O2B7wWSMo4M4",
-      "address": "https://www.zdnet.com/home-and-office/work-life/this-linux-and-windows-app-makes-managing-all-of-your-documents-easier/",
-      "title": "This Linux and Windows app makes managing all your documents easier - ZDNET",
-      "snippet": "Arch – sudo pacman -S paperwork \u0026\u0026 paperwork-gtk chkdep\nDebian/Ubuntu – sudo apt install paperwork-gtk paperwork-gtk-l10n-[your language] paperwork-shell -y (where your language is the language you intend to use for the app).\nFedora – sudo dnf install paperwork -y \u0026\u0026 paperwork-gtk chkdeps",
+      "hash": "AWqW3s83Rt50",
+      "address": "https://brew.sh/",
+      "title": "Homebrew — The Missing Package Manager for macOS (or Linux)",
+      "snippet": "",
       "matchedWords": {
-        "24igJXwiDb_d": {
-          "hits": 0,
-          "textWords": 1078
-        },
-        "AbbiA0S2iDXF": {
-          "hits": 0,
-          "textWords": 1078
-        },
         "Ga2JvD48nX72": {
-          "hits": 9,
-          "textWords": 1078
+          "hits": 0,
+          "textWords": 0
         },
         "bpVSyb2OYcjy": {
-          "hits": 1,
-          "textWords": 1078
+          "hits": 0,
+          "textWords": 0
         }
       },
       "queryPhraseHits": 0
     },
     {
-      "hash": "2ZqdVzfOEiDw",
-      "address": "https://planet.gnome.org/",
-      "title": "Planet GNOME",
-      "snippet": "This currently makes JXL enablement only possible when you know that your clients can support it. This is the case for me in Debian Unstable and Debian 14, which are using JXL images for a few weeks now, but not for any older releases.",
+      "hash": "-g3sUcS6MKD4",
+      "address": "https://github.com/cloudflare/workerd",
+      "title": "GitHub - cloudflare/workerd: The JavaScript / Wasm runtime that powers Cloudflare Workers",
+      "snippet": "",
       "matchedWords": {
-        "24igJXwiDb_d": {
-          "hits": 0,
-          "textWords": 2681
-        },
-        "AbbiA0S2iDXF": {
-          "hits": 0,
-          "textWords": 2681
-        },
         "Ga2JvD48nX72": {
-          "hits": 1,
-          "textWords": 2681
+          "hits": 0,
+          "textWords": 0
         },
         "bpVSyb2OYcjy": {
-          "hits": 8,
-          "textWords": 2681
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "_6xF-tS6MKD4",
+      "address": "https://github.com/trending/gdscript?since=daily",
+      "title": "Trending GDScript repositories on GitHub today · GitHub",
+      "snippet": "",
+      "matchedWords": {
+        "Ga2JvD48nX72": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "bpVSyb2OYcjy": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "8vgIrobrsZjx",
+      "address": "https://www.mediawiki.org/wiki/Download",
+      "title": "Download - MediaWiki",
+      "snippet": "",
+      "matchedWords": {
+        "Ga2JvD48nX72": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "bpVSyb2OYcjy": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "9hiyb2bypRQw",
+      "address": "https://forgejo.org/docs/latest/admin/actions/configuration/",
+      "title": "Forgejo Runner Configuration | Forgejo – Beyond coding. We forge.",
+      "snippet": "",
+      "matchedWords": {
+        "Ga2JvD48nX72": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "bpVSyb2OYcjy": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "8r1wn2jw1Zlx",
+      "address": "https://kubernetes.io/docs/concepts/architecture/cgroups/",
+      "title": "About cgroup v2 | Kubernetes",
+      "snippet": "",
+      "matchedWords": {
+        "Ga2JvD48nX72": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "bpVSyb2OYcjy": {
+          "hits": 0,
+          "textWords": 0
         }
       },
       "queryPhraseHits": 0
     }
   ],
   "documentsHeldPerQueryWord": {
-    "24igJXwiDb_d": 712725,
-    "AbbiA0S2iDXF": 1404025,
-    "Ga2JvD48nX72": 207797,
-    "bpVSyb2OYcjy": 88859
+    "Ga2JvD48nX72": 308573,
+    "bpVSyb2OYcjy": 38133
   }
 }

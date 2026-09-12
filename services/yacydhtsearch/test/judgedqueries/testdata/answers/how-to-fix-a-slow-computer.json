@@ -1,33 +1,67 @@
 {
   "query": "how to fix a slow computer",
-  "recordedAt": "2026-09-12T10:15:27Z",
+  "recordedAt": "2026-09-12T11:25:20Z",
   "itemsInTheOrderOfEachAnswer": [
     [
       {
-        "hash": "CTQ-Yj-JVcyx",
-        "address": "https://en.wikiquote.org/wiki/Mystery_Science_Theater_3000",
-        "title": "Mystery Science Theater 3000 - Wikiquote",
-        "snippet": "Way hey, slow the plot down!\nWe'll scuttle the story and run her aground.\nWe'll try so hard to slow the plot down!\nOhhh, we'll make you a movie that's long and immense.\nWay hey, slow the plot down!\nJust give us a script that makes no friggin' sense!\nWe'll try so hard to slow the plot down!",
+        "hash": "TVHXbQXx1HRZ",
+        "address": "http://www.dailystirrer.com/2012-april.shtml",
+        "title": "the_daily_stirrer-2012-april-opinion-comment-controversy-news-events-politics",
+        "snippet": "The day after a fix was announched for the Greek economy that incouded private investors including pension funds, schemes for small investors and banks in which people's saving are held, writing off a huge slice of Greek debt, The Daily Stirrer told you the so called fix, hailed by politicians and",
         "matchedWords": {
-          "24igJXwiDb_d": {
-            "hits": 0,
-            "textWords": 143064
-          },
           "31PKJoJAynZn": {
-            "hits": 15,
-            "textWords": 143064
-          },
-          "AbbiA0S2iDXF": {
-            "hits": 0,
-            "textWords": 143064
+            "hits": 1,
+            "textWords": 39302
           },
           "T-nf54SiviXd": {
-            "hits": 21,
-            "textWords": 143064
+            "hits": 4,
+            "textWords": 39302
           },
           "irh9T7NgDMU_": {
-            "hits": 9,
-            "textWords": 143064
+            "hits": 3,
+            "textWords": 39302
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "XTPIBlptNsG4",
+        "address": "https://www.akdart.com/hijrah.html",
+        "title": "Islamic invasion disguised as the displacement and acceptance of refugees",
+        "snippet": "Americans know that Europe's un-sustainable socio-economic model — bureaucratized economies, social welfare, and demographic decline — is a warning to us. Increasingly, we have imitated that model, assuming that the decline would be slow and graceful.",
+        "matchedWords": {
+          "31PKJoJAynZn": {
+            "hits": 1,
+            "textWords": 405419
+          },
+          "T-nf54SiviXd": {
+            "hits": 14,
+            "textWords": 405419
+          },
+          "irh9T7NgDMU_": {
+            "hits": 8,
+            "textWords": 405419
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "D4lABzaS0qdw",
+        "address": "https://planet.debian.org/",
+        "title": "Planet Debian",
+        "snippet": "Once you identified the slow part of a program, how do you know why it’s slow?\nTo learn more about the specific bottlenecks your program encounters, you can consult your CPU’s hardware performance counters.",
+        "matchedWords": {
+          "31PKJoJAynZn": {
+            "hits": 0,
+            "textWords": 8109
+          },
+          "T-nf54SiviXd": {
+            "hits": 7,
+            "textWords": 8109
+          },
+          "irh9T7NgDMU_": {
+            "hits": 2,
+            "textWords": 8109
           }
         },
         "queryPhraseHits": 0
@@ -35,241 +69,288 @@
     ],
     [
       {
-        "hash": "-b3sxspKNBr4",
-        "address": "https://rense.com/",
-        "title": "rense.com",
-        "snippet": "Orbit as Shanghai Opens Space Computing Hub\nPentagon Deployed Grok on GenAI.mil After\nEngineers Said CSAM Has No Reliable Fix\nOpenAI’s Astra model is on the way — and very\ngood at breaking into computer systems\nX says attackers are targeting user accounts\nafter the launch of X Money",
+        "hash": "GaarY_QzrsJ5",
+        "address": "https://thestingofthescorpion.wordpress.com/tag/science/",
+        "title": "Science | The Sting Of The Scorpion Blog (T.S.O.T.S.B.)",
+        "snippet": "Y’all keep up the good work, soon enough some of y’all will begin seeing your stories here. I know, let the confetti cannons thunder on in a downpour of tiny slivers of paper.\nIn a curious way I ask, what games do y’all play on your phone, tablet, or computer?",
         "matchedWords": {
-          "24igJXwiDb_d": {
-            "hits": 0,
-            "textWords": 85916
-          },
           "31PKJoJAynZn": {
-            "hits": 12,
-            "textWords": 85916
-          },
-          "AbbiA0S2iDXF": {
-            "hits": 0,
-            "textWords": 85916
+            "hits": 1,
+            "textWords": 10666
           },
           "T-nf54SiviXd": {
-            "hits": 5,
-            "textWords": 85916
+            "hits": 0,
+            "textWords": 10666
           },
           "irh9T7NgDMU_": {
-            "hits": 11,
-            "textWords": 85916
+            "hits": 1,
+            "textWords": 10666
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "xmHvB_QzrsJ5",
+        "address": "https://thestingofthescorpion.wordpress.com/tag/cards/",
+        "title": "Cards | The Sting Of The Scorpion Blog (T.S.O.T.S.B.)",
+        "snippet": "It was recently bought to my personal attention by a very eager contributor to The Scorpion Army that I skipped anything about Valentine’s Day yet another year. It’s true, I do skip it, it’s a stupid “holiday” in my opinion.",
+        "matchedWords": {
+          "31PKJoJAynZn": {
+            "hits": 0,
+            "textWords": 415
+          },
+          "T-nf54SiviXd": {
+            "hits": 0,
+            "textWords": 415
+          },
+          "irh9T7NgDMU_": {
+            "hits": 0,
+            "textWords": 415
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "B9VWfKsrSOQw",
+        "address": "https://arxiv.org/list/cs.CV/new",
+        "title": "Computer Vision and Pattern Recognition",
+        "snippet": "New submissions\nCross-lists\nReplacements\nSee recent articles\nShowing new listings for Friday, 11 September 2026\nTotal of 158 entries\nShowing up to 2000 entries per page: fewer | more | all\nNew submissions (showing 75 of 75 entries)\n[1] arXiv:2609.10572 [pdf, html, other]",
+        "matchedWords": {
+          "31PKJoJAynZn": {
+            "hits": 0,
+            "textWords": 1289
+          },
+          "T-nf54SiviXd": {
+            "hits": 0,
+            "textWords": 1289
+          },
+          "irh9T7NgDMU_": {
+            "hits": 0,
+            "textWords": 1289
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "GaarY_QzrsJ5",
+        "address": "https://thestingofthescorpion.wordpress.com/tag/science/",
+        "title": "Science | The Sting Of The Scorpion Blog (T.S.O.T.S.B.)",
+        "snippet": "Y’all keep up the good work, soon enough some of y’all will begin seeing your stories here. I know, let the confetti cannons thunder on in a downpour of tiny slivers of paper.\nIn a curious way I ask, what games do y’all play on your phone, tablet, or computer?",
+        "matchedWords": {
+          "31PKJoJAynZn": {
+            "hits": 1,
+            "textWords": 10666
+          },
+          "T-nf54SiviXd": {
+            "hits": 0,
+            "textWords": 10666
+          },
+          "irh9T7NgDMU_": {
+            "hits": 1,
+            "textWords": 10666
           }
         },
         "queryPhraseHits": 0
       },
       {
-        "hash": "pYw3_AHucLY4",
-        "address": "https://adrienalfiste.vip-blog.com/",
-        "title": "adrienalfiste blog : Le blog d'Adri (83)",
+        "hash": "8st5vj-JVcyx",
+        "address": "https://en.wikiquote.org/wiki/User:CensoredScribe",
+        "title": "User:CensoredScribe - Wikiquote",
+        "snippet": "To an outsider, the most significant innovation in the global warming controversy is the overt reliance that is being placed on models. Back in the days of nuclear winter, computer models were invoked to add weight to a conclusion: \"These results are derived with the help of a computer model.\"",
+        "matchedWords": {
+          "31PKJoJAynZn": {
+            "hits": 19,
+            "textWords": 224604
+          },
+          "T-nf54SiviXd": {
+            "hits": 7,
+            "textWords": 224604
+          },
+          "irh9T7NgDMU_": {
+            "hits": 1,
+            "textWords": 224604
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "Px1tIsqACCJ5",
+        "address": "https://reinic-sarl.com/hello-world/",
+        "title": "Hello world! - reinic-sarl",
         "snippet": "",
         "matchedWords": {
-          "24igJXwiDb_d": {
-            "hits": 0,
-            "textWords": 0
-          },
           "31PKJoJAynZn": {
-            "hits": 41,
-            "textWords": 15695
-          },
-          "AbbiA0S2iDXF": {
             "hits": 0,
             "textWords": 0
           },
           "T-nf54SiviXd": {
-            "hits": 0,
-            "textWords": 0
+            "hits": 147,
+            "textWords": 4584
           },
           "irh9T7NgDMU_": {
             "hits": 0,
             "textWords": 0
-          }
-        },
-        "queryPhraseHits": 0
-      }
-    ],
-    [
-      {
-        "hash": "AWq9VQXx1HRZ",
-        "address": "http://www.dailystirrer.com/2012-october.shtml",
-        "title": "the_daily_stirrer-2012-june-opinion-comment-controversy-news-events-politics",
-        "snippet": "Forty years ago, when I was an idealistic young computer programmer / operator, while I foresaw a day when computer controlled processes would free humans from the drudgery of work I had the good sense to scoff at those who rarely ventured off the university campus to sample life in the real world",
-        "matchedWords": {
-          "24igJXwiDb_d": {
-            "hits": 0,
-            "textWords": 35334
-          },
-          "31PKJoJAynZn": {
-            "hits": 4,
-            "textWords": 35334
-          },
-          "AbbiA0S2iDXF": {
-            "hits": 0,
-            "textWords": 35334
-          },
-          "T-nf54SiviXd": {
-            "hits": 2,
-            "textWords": 35334
-          },
-          "irh9T7NgDMU_": {
-            "hits": 1,
-            "textWords": 35334
           }
         },
         "queryPhraseHits": 0
       },
       {
-        "hash": "-b3sxspKNBr4",
-        "address": "https://rense.com/",
-        "title": "rense.com",
-        "snippet": "Orbit as Shanghai Opens Space Computing Hub\nPentagon Deployed Grok on GenAI.mil After\nEngineers Said CSAM Has No Reliable Fix\nOpenAI’s Astra model is on the way — and very\ngood at breaking into computer systems\nX says attackers are targeting user accounts\nafter the launch of X Money",
+        "hash": "eLmkms1RdaZ5",
+        "address": "https://jastgogogo.com/hello-world/",
+        "title": "Hello world! | I'll be your light",
+        "snippet": "",
         "matchedWords": {
-          "24igJXwiDb_d": {
-            "hits": 0,
-            "textWords": 85916
-          },
           "31PKJoJAynZn": {
-            "hits": 12,
-            "textWords": 85916
-          },
-          "AbbiA0S2iDXF": {
             "hits": 0,
-            "textWords": 85916
+            "textWords": 0
           },
           "T-nf54SiviXd": {
-            "hits": 5,
-            "textWords": 85916
+            "hits": 38,
+            "textWords": 15627
           },
           "irh9T7NgDMU_": {
-            "hits": 11,
-            "textWords": 85916
-          }
-        },
-        "queryPhraseHits": 0
-      }
-    ],
-    [
-      {
-        "hash": "5VLLBs6GdY-4",
-        "address": "https://danluu.com/hn-comments/",
-        "title": "HN: comments are underrated",
-        "snippet": "My desktop computer was on behind my laptop so I turned off my computer (I don't remember if I offered to or if they asked me to) but they also asked me to cover my monitors up with something which I thought was silly after I turned them off so I covered them with a towel.",
-        "matchedWords": {
-          "24igJXwiDb_d": {
             "hits": 0,
-            "textWords": 17317
-          },
-          "31PKJoJAynZn": {
-            "hits": 4,
-            "textWords": 17317
-          },
-          "AbbiA0S2iDXF": {
-            "hits": 0,
-            "textWords": 17317
-          },
-          "T-nf54SiviXd": {
-            "hits": 4,
-            "textWords": 17317
-          },
-          "irh9T7NgDMU_": {
-            "hits": 2,
-            "textWords": 17317
-          }
-        },
-        "queryPhraseHits": 0
-      }
-    ],
-    [
-      {
-        "hash": "atffDjRvmBbx",
-        "address": "https://en.wikipedia.org/wiki/Template_talk:Did_you_know",
-        "title": "Template talk:Did you know - Wikipedia",
-        "snippet": "Lynch44 16:55, 25 August 2026 (UTC)Reply\nFixed source; I can’t help with that since Im still dyslexic for reading in English (despite logomanic). Im calling Vitorperrut555 can you help us with grammer reviewing and fix that tag? thnx. Dudzcar (talk) 04:47, 27 August 2026 (UTC)Reply",
-        "matchedWords": {
-          "24igJXwiDb_d": {
-            "hits": 0,
-            "textWords": 53400
-          },
-          "31PKJoJAynZn": {
-            "hits": 1,
-            "textWords": 53400
-          },
-          "AbbiA0S2iDXF": {
-            "hits": 0,
-            "textWords": 53400
-          },
-          "T-nf54SiviXd": {
-            "hits": 0,
-            "textWords": 53400
-          },
-          "irh9T7NgDMU_": {
-            "hits": 5,
-            "textWords": 53400
-          }
-        },
-        "queryPhraseHits": 0
-      }
-    ],
-    [
-      {
-        "hash": "xRnvSjRvmBbx",
-        "address": "https://en.wikipedia.org/wiki/Wikipedia:Featured_articles_(linked_from_TFAfooter)",
-        "title": "Wikipedia:Featured articles - Wikipedia",
-        "snippet": "African striped weasel – Akodon spegazzinii – Alcathoe bat – Alpine ibex – Ambondro mahabo – Ambulocetus – American Cream Draft – Andalusian horse – Appaloosa – Archaeoindris – Babakotia – Baleen whale – Banker horse – Bat – Beaver – Beringian wolf – Bharattherium – Bluebuck – Blue whale – Bobcat –",
-        "matchedWords": {
-          "24igJXwiDb_d": {
-            "hits": 0,
-            "textWords": 21232
-          },
-          "31PKJoJAynZn": {
-            "hits": 2,
-            "textWords": 21232
-          },
-          "AbbiA0S2iDXF": {
-            "hits": 0,
-            "textWords": 21232
-          },
-          "T-nf54SiviXd": {
-            "hits": 3,
-            "textWords": 21232
-          },
-          "irh9T7NgDMU_": {
-            "hits": 1,
-            "textWords": 21232
+            "textWords": 0
           }
         },
         "queryPhraseHits": 0
       },
       {
-        "hash": "-b3sxspKNBr4",
-        "address": "https://rense.com/",
-        "title": "rense.com",
-        "snippet": "Orbit as Shanghai Opens Space Computing Hub\nPentagon Deployed Grok on GenAI.mil After\nEngineers Said CSAM Has No Reliable Fix\nOpenAI’s Astra model is on the way — and very\ngood at breaking into computer systems\nX says attackers are targeting user accounts\nafter the launch of X Money",
+        "hash": "w43Q7CTqCv74",
+        "address": "https://ker-mer.com/en/stella-pardo/",
+        "title": "Stella Pardo – KER MER",
+        "snippet": "",
         "matchedWords": {
-          "24igJXwiDb_d": {
-            "hits": 0,
-            "textWords": 85916
-          },
           "31PKJoJAynZn": {
+            "hits": 0,
+            "textWords": 0
+          },
+          "T-nf54SiviXd": {
+            "hits": 233,
+            "textWords": 36649
+          },
+          "irh9T7NgDMU_": {
+            "hits": 0,
+            "textWords": 0
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "T1a1C2SUzPKY",
+        "address": "http://stuckinmassachusetts.blogspot.com/",
+        "title": "MArooned",
+        "snippet": "Mind you, this is for a guy who sat at a computer for 8 hours a day, not someone climbing up and down ladders painting houses or walking miles and miles mowing lawns.\nAfter getting an idea how much I was taking in, I decided to slowly cut back.",
+        "matchedWords": {
+          "31PKJoJAynZn": {
+            "hits": 1,
+            "textWords": 1454
+          },
+          "T-nf54SiviXd": {
+            "hits": 0,
+            "textWords": 1454
+          },
+          "irh9T7NgDMU_": {
+            "hits": 0,
+            "textWords": 1454
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "2MFHBtYEKFwx",
+        "address": "https://blog.torproject.org/did-fbi-pay-university-attack-tor-users/",
+        "title": "Did the FBI Pay a University to Attack Tor Users? | The Tor Project",
+        "snippet": "Apparently these researchers were paid by the FBI to attack hidden services users in a broad sweep, and then sift through their data to find people whom they could accuse of crimes. We publicized the attack last year, along with the steps we took to slow down or stop such an attack in the future:",
+        "matchedWords": {
+          "31PKJoJAynZn": {
+            "hits": 0,
+            "textWords": 444
+          },
+          "T-nf54SiviXd": {
+            "hits": 1,
+            "textWords": 444
+          },
+          "irh9T7NgDMU_": {
+            "hits": 0,
+            "textWords": 444
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "6Ynx5jRvmBbx",
+        "address": "https://en.wikipedia.org/wiki/Rich_Communication_Services",
+        "title": "Rich Communication Services - Wikipedia",
+        "snippet": "4] The steering committee specified the definition, testing, and integration of the services in the application suite.[58][59][60]\nBy 2010, RCS had released Version 4 of its specification, however progress was slow and it had yet to be deployed on commercial subscriber services.[",
+        "matchedWords": {
+          "31PKJoJAynZn": {
+            "hits": 1,
+            "textWords": 9363
+          },
+          "T-nf54SiviXd": {
+            "hits": 1,
+            "textWords": 9363
+          },
+          "irh9T7NgDMU_": {
+            "hits": 1,
+            "textWords": 9363
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "WH9FTj-JVcyx",
+        "address": "https://en.wikiquote.org/wiki/User:Allixpeeke",
+        "title": "User:Allixpeeke - Wikiquote",
+        "snippet": "…nothing is more uncommon than a very large or a very small man; and this applies generally to all extremes, whether of great and small, or swift and slow, or fair and foul, or black and white; and whether the instances you select be man or dogs or anything else, few are the extremes, but many are",
+        "matchedWords": {
+          "31PKJoJAynZn": {
+            "hits": 1,
+            "textWords": 54681
+          },
+          "T-nf54SiviXd": {
+            "hits": 7,
+            "textWords": 54681
+          },
+          "irh9T7NgDMU_": {
+            "hits": 2,
+            "textWords": 54681
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "uj5W6tIIL7ew",
+        "address": "https://stallman.org/archives/2024-jul-oct.html",
+        "title": "2024: July - October Political Notes",
+        "snippet": "They have been warning us for decades now that this would happen.\n16 July 2024 (Nonfree computer \"games\" manipulation) Some nonfree computer \"games\" today are really just veiled marketing for real products using real brands -- aimed mainly at children.",
+        "matchedWords": {
+          "31PKJoJAynZn": {
+            "hits": 10,
+            "textWords": 69487
+          },
+          "T-nf54SiviXd": {
+            "hits": 8,
+            "textWords": 69487
+          },
+          "irh9T7NgDMU_": {
             "hits": 12,
-            "textWords": 85916
-          },
-          "AbbiA0S2iDXF": {
-            "hits": 0,
-            "textWords": 85916
-          },
-          "T-nf54SiviXd": {
-            "hits": 5,
-            "textWords": 85916
-          },
-          "irh9T7NgDMU_": {
-            "hits": 11,
-            "textWords": 85916
+            "textWords": 69487
           }
         },
         "queryPhraseHits": 0
@@ -277,30 +358,22 @@
     ],
     [
       {
-        "hash": "D4lABzaS0qdw",
-        "address": "https://planet.debian.org/",
-        "title": "Planet Debian",
-        "snippet": "Once you identified the slow part of a program, how do you know why it’s slow?\nTo learn more about the specific bottlenecks your program encounters, you can consult your CPU’s hardware performance counters.",
+        "hash": "DlNazFi50lMs",
+        "address": "https://pppsb.org.pk/2020/03/01/ghinwa-bhutto-sends-message-for-aurat-march-video/",
+        "title": "Ghinwa Bhutto sends message for Aurat March: Video – PPP-SB",
+        "snippet": "",
         "matchedWords": {
-          "24igJXwiDb_d": {
-            "hits": 0,
-            "textWords": 8109
-          },
           "31PKJoJAynZn": {
             "hits": 0,
-            "textWords": 8109
-          },
-          "AbbiA0S2iDXF": {
-            "hits": 0,
-            "textWords": 8109
+            "textWords": 0
           },
           "T-nf54SiviXd": {
-            "hits": 7,
-            "textWords": 8109
+            "hits": 80,
+            "textWords": 52746
           },
           "irh9T7NgDMU_": {
-            "hits": 2,
-            "textWords": 8109
+            "hits": 0,
+            "textWords": 0
           }
         },
         "queryPhraseHits": 0
@@ -308,52 +381,57 @@
     ],
     [
       {
-        "hash": "D4lABzaS0qdw",
-        "address": "https://planet.debian.org/",
-        "title": "Planet Debian",
-        "snippet": "Once you identified the slow part of a program, how do you know why it’s slow?\nTo learn more about the specific bottlenecks your program encounters, you can consult your CPU’s hardware performance counters.",
+        "hash": "kaxjOD_7CIb5",
+        "address": "https://aretekitchen.com/2025/09/26/balloon-de-smartsoft-guia-esencial-para-jugar-y-descargar-en-chile/",
+        "title": "Balloon de SmartSoft: Guía Esencial para Jugar y Descargar en Chile – Arete Kitchen",
+        "snippet": "",
         "matchedWords": {
-          "24igJXwiDb_d": {
-            "hits": 0,
-            "textWords": 8109
-          },
           "31PKJoJAynZn": {
             "hits": 0,
-            "textWords": 8109
-          },
-          "AbbiA0S2iDXF": {
-            "hits": 0,
-            "textWords": 8109
+            "textWords": 0
           },
           "T-nf54SiviXd": {
-            "hits": 7,
-            "textWords": 8109
+            "hits": 193,
+            "textWords": 400
           },
           "irh9T7NgDMU_": {
-            "hits": 2,
-            "textWords": 8109
+            "hits": 0,
+            "textWords": 0
           }
         },
         "queryPhraseHits": 0
       }
     ],
     [
+      {
+        "hash": "T1a1C2SUzPKY",
+        "address": "http://stuckinmassachusetts.blogspot.com/",
+        "title": "MArooned",
+        "snippet": "Mind you, this is for a guy who sat at a computer for 8 hours a day, not someone climbing up and down ladders painting houses or walking miles and miles mowing lawns.\nAfter getting an idea how much I was taking in, I decided to slowly cut back.",
+        "matchedWords": {
+          "31PKJoJAynZn": {
+            "hits": 1,
+            "textWords": 1454
+          },
+          "T-nf54SiviXd": {
+            "hits": 0,
+            "textWords": 1454
+          },
+          "irh9T7NgDMU_": {
+            "hits": 0,
+            "textWords": 1454
+          }
+        },
+        "queryPhraseHits": 0
+      },
       {
         "hash": "yJuijsCG40j4",
         "address": "https://tantek.com/",
         "title": "Tantek Çelik",
         "snippet": "Why are there two pentagons in the otherwise hex-tiled American continents displayed in TRON: Legacy’s Rectifier Globe computer graphics?",
         "matchedWords": {
-          "24igJXwiDb_d": {
-            "hits": 0,
-            "textWords": 10682
-          },
           "31PKJoJAynZn": {
             "hits": 2,
-            "textWords": 10682
-          },
-          "AbbiA0S2iDXF": {
-            "hits": 0,
             "textWords": 10682
           },
           "T-nf54SiviXd": {
@@ -370,30 +448,135 @@
     ],
     [
       {
-        "hash": "xRnvSjRvmBbx",
-        "address": "https://en.wikipedia.org/wiki/Wikipedia:Featured_articles_(linked_from_TFAfooter)",
-        "title": "Wikipedia:Featured articles - Wikipedia",
-        "snippet": "African striped weasel – Akodon spegazzinii – Alcathoe bat – Alpine ibex – Ambondro mahabo – Ambulocetus – American Cream Draft – Andalusian horse – Appaloosa – Archaeoindris – Babakotia – Baleen whale – Banker horse – Bat – Beaver – Beringian wolf – Bharattherium – Bluebuck – Blue whale – Bobcat –",
+        "hash": "iLQO1sN0ip-w",
+        "address": "https://m-reform.net/",
+        "title": "replica football shirts",
+        "snippet": "The idents were based mostly on a filmed mannequin however the composited and enhanced on a computer.",
         "matchedWords": {
-          "24igJXwiDb_d": {
-            "hits": 0,
-            "textWords": 21232
-          },
           "31PKJoJAynZn": {
-            "hits": 2,
-            "textWords": 21232
-          },
-          "AbbiA0S2iDXF": {
-            "hits": 0,
-            "textWords": 21232
+            "hits": 23,
+            "textWords": 230924
           },
           "T-nf54SiviXd": {
             "hits": 3,
-            "textWords": 21232
+            "textWords": 230924
           },
           "irh9T7NgDMU_": {
             "hits": 1,
-            "textWords": 21232
+            "textWords": 230924
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "pYT9fjRvmBbx",
+        "address": "https://en.wikipedia.org/wiki/MacOS",
+        "title": "macOS - Wikipedia",
+        "snippet": "29] Ars Technica columnist John Siracusa, who reviewed every major OS X release up to 10.10, described the early releases in retrospect as \"dog-slow, feature poor\" and Aqua as \"unbearably slow and a huge resource hog\".[28][30][31]\nApple rapidly developed several new releases of Mac OS X.[",
+        "matchedWords": {
+          "31PKJoJAynZn": {
+            "hits": 5,
+            "textWords": 17664
+          },
+          "T-nf54SiviXd": {
+            "hits": 5,
+            "textWords": 17664
+          },
+          "irh9T7NgDMU_": {
+            "hits": 3,
+            "textWords": 17664
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "pGRD67yp6WtY",
+        "address": "http://tantek.com/",
+        "title": "Tantek Çelik",
+        "snippet": "Why are there two pentagons in the otherwise hex-tiled American continents displayed in TRON: Legacy’s Rectifier Globe computer graphics?",
+        "matchedWords": {
+          "31PKJoJAynZn": {
+            "hits": 2,
+            "textWords": 10682
+          },
+          "T-nf54SiviXd": {
+            "hits": 0,
+            "textWords": 10682
+          },
+          "irh9T7NgDMU_": {
+            "hits": 8,
+            "textWords": 10682
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "xso8yzNk72Mw",
+        "address": "https://planet.lisp.org/",
+        "title": "Planet Lisp",
+        "snippet": "CLOS slot access is really slow.\nWhat is less obvious but almost certainly true2\nThis is not because multiple inheritance is inherently slow: it’s because the design of CLOS, especially if you want to take the AMOP MOP seriously, implies crappy performance.\nCan this be fixed?",
+        "matchedWords": {
+          "31PKJoJAynZn": {
+            "hits": 2,
+            "textWords": 30066
+          },
+          "T-nf54SiviXd": {
+            "hits": 14,
+            "textWords": 30066
+          },
+          "irh9T7NgDMU_": {
+            "hits": 3,
+            "textWords": 30066
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "x75y-slzY_Gk",
+        "address": "https://danwang.co/",
+        "title": "Dan Wang | The secure transport of light",
+        "snippet": "Genesis and Exodus in particular need to be read with care, and having illustrations with every other sentence forces the reader to slow down. When I previously read Genesis, I had too quickly passed over, for example, Noah’s covenant.",
+        "matchedWords": {
+          "31PKJoJAynZn": {
+            "hits": 0,
+            "textWords": 64935
+          },
+          "T-nf54SiviXd": {
+            "hits": 9,
+            "textWords": 64935
+          },
+          "irh9T7NgDMU_": {
+            "hits": 5,
+            "textWords": 64935
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "GaarY_QzrsJ5",
+        "address": "https://thestingofthescorpion.wordpress.com/tag/science/",
+        "title": "Science | The Sting Of The Scorpion Blog (T.S.O.T.S.B.)",
+        "snippet": "Y’all keep up the good work, soon enough some of y’all will begin seeing your stories here. I know, let the confetti cannons thunder on in a downpour of tiny slivers of paper.\nIn a curious way I ask, what games do y’all play on your phone, tablet, or computer?",
+        "matchedWords": {
+          "31PKJoJAynZn": {
+            "hits": 1,
+            "textWords": 10666
+          },
+          "T-nf54SiviXd": {
+            "hits": 0,
+            "textWords": 10666
+          },
+          "irh9T7NgDMU_": {
+            "hits": 1,
+            "textWords": 10666
           }
         },
         "queryPhraseHits": 0
@@ -402,146 +585,505 @@
   ],
   "itemsInNoOrder": [
     {
-      "hash": "uUrcqO1SKU15",
-      "address": "https://www.goodreads.com/book/show/960.Angels_Demons",
-      "title": "Angels \u0026 Demons (Robert Langdon, #1) by Dan Brown | Goodreads",
-      "snippet": "But as I know publishing houses, they probably still haven´t invested the money to fix the bugs, even in a multi million copies world bestseller, that uses the intentionally produced good old catholic church and JC controversies like no series before.",
+      "hash": "CTQ-Yj-JVcyx",
+      "address": "https://en.wikiquote.org/wiki/Mystery_Science_Theater_3000",
+      "title": "Mystery Science Theater 3000 - Wikiquote",
+      "snippet": "Way hey, slow the plot down!\nWe'll scuttle the story and run her aground.\nWe'll try so hard to slow the plot down!\nOhhh, we'll make you a movie that's long and immense.\nWay hey, slow the plot down!\nJust give us a script that makes no friggin' sense!\nWe'll try so hard to slow the plot down!",
       "matchedWords": {
-        "24igJXwiDb_d": {
-          "hits": 0,
-          "textWords": 8009
-        },
         "31PKJoJAynZn": {
-          "hits": 1,
-          "textWords": 8009
-        },
-        "AbbiA0S2iDXF": {
-          "hits": 0,
-          "textWords": 8009
+          "hits": 15,
+          "textWords": 143064
         },
         "T-nf54SiviXd": {
-          "hits": 2,
-          "textWords": 8009
+          "hits": 21,
+          "textWords": 143064
         },
         "irh9T7NgDMU_": {
-          "hits": 1,
-          "textWords": 8009
+          "hits": 9,
+          "textWords": 143064
         }
       },
       "queryPhraseHits": 0
     },
     {
-      "hash": "8q_7kd8zMi84",
-      "address": "https://docs.cloud.google.com/release-notes",
-      "title": "Google Cloud release notes | Google Cloud Documentation",
-      "snippet": "Fixed a security issue in the MessageValidation policy.\n535928530\nSecurity fix for Apigee. Fixed a security issue in the OAuthV2 policy.\n535683286\nSecurity fix for Apigee. Fixed a security issue in HTTP target interim-response handling.\nN/A\nSecurity fix for Apigee infrastructure.",
+      "hash": "hNrcdJ-bwreQ",
+      "address": "http://ace.mu.nu/",
+      "title": "Ace of Spades HQ",
+      "snippet": "I have Open Threads for both days and I will post if big news breaks, but if it doesn't -- and it probably won't, news is slow before a holiday weekend -- I'm going to take a four day weekend.\nSh0eOnHead discusses the Psychotic Cult of Lindsay\nReal quotes:",
       "matchedWords": {
-        "24igJXwiDb_d": {
-          "hits": 0,
-          "textWords": 93126
-        },
         "31PKJoJAynZn": {
-          "hits": 2,
-          "textWords": 93126
-        },
-        "AbbiA0S2iDXF": {
           "hits": 0,
-          "textWords": 93126
+          "textWords": 12885
         },
         "T-nf54SiviXd": {
           "hits": 1,
-          "textWords": 93126
+          "textWords": 12885
         },
         "irh9T7NgDMU_": {
-          "hits": 44,
-          "textWords": 93126
+          "hits": 0,
+          "textWords": 12885
         }
       },
       "queryPhraseHits": 0
     },
     {
-      "hash": "mKjEVzAa-Sqx",
-      "address": "https://planet.freedesktop.org/",
-      "title": "planet.freedesktop.org",
-      "snippet": "While I was head down on fixing this, the bug trickled up into a few other places and I had complaints from a laptop vendor and RH internal QA all lined up when I found the fix. The fix is now in drm-misc-fixes.",
+      "hash": "2HPybK0C6gHw",
+      "address": "https://about.muse.jhu.edu/muse/open-access-overview/",
+      "title": "Open Access",
+      "snippet": "Advancing Educational Equity in Computer Science\nAdvancing Environmental Education Practice\nAdvancing Equity Planning Now\nAdvancing U.S. Latino Entrepreneurship: A New National Economic Imperative\nAdventures in Paradox: Don Quixote and the Western Tradition\nAdventures in Sustainable Urbanism",
       "matchedWords": {
-        "24igJXwiDb_d": {
-          "hits": 0,
-          "textWords": 71870
-        },
         "31PKJoJAynZn": {
-          "hits": 8,
-          "textWords": 71870
-        },
-        "AbbiA0S2iDXF": {
-          "hits": 0,
-          "textWords": 71870
-        },
-        "T-nf54SiviXd": {
-          "hits": 7,
-          "textWords": 71870
-        },
-        "irh9T7NgDMU_": {
-          "hits": 45,
-          "textWords": 71870
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "S9YMJzCJVaIz",
-      "address": "https://planet.documentfoundation.org/",
-      "title": "The Document Foundation Planet",
-      "snippet": "sd doc model dump: allow invoking this from outside sd/ in a debugger\nsd doc model xml dump: show styles\ntdf#168559 PPTX imp: fix missing custom level list style for outline shapes\ntdf#168559 PPTX imp: fix missing list style for outline shapes on master pages",
-      "matchedWords": {
-        "24igJXwiDb_d": {
-          "hits": 0,
-          "textWords": 13459
-        },
-        "31PKJoJAynZn": {
-          "hits": 1,
-          "textWords": 13459
-        },
-        "AbbiA0S2iDXF": {
-          "hits": 0,
-          "textWords": 13459
-        },
-        "T-nf54SiviXd": {
           "hits": 5,
-          "textWords": 13459
+          "textWords": 77609
+        },
+        "T-nf54SiviXd": {
+          "hits": 1,
+          "textWords": 77609
         },
         "irh9T7NgDMU_": {
-          "hits": 16,
-          "textWords": 13459
+          "hits": 3,
+          "textWords": 77609
         }
       },
       "queryPhraseHits": 0
     },
     {
-      "hash": "9bx18zEA9mkx",
-      "address": "https://or.wikipedia.org/wiki/%E0%AC%89%E0%AC%87%E0%AC%95%E0%AC%BF%E0%AC%AA%E0%AC%BF%E0%AC%A1%E0%AC%BC%E0%AC%BF%E0%AC%86:%E0%AC%89%E0%AC%87%E0%AC%95%E0%AC%BF%E0%AC%AA%E0%AC%BF%E0%AC%A1%E0%AC%BC%E0%AC%BF%E0%AC%86_%E0%AC%AC%E0%AC%BE%E0%AC%AC%E0%AC%A6%E0%AC%B0%E0%AD%87",
-      "title": "ଉଇକିପିଡ଼ିଆ:ଉଇକିପିଡ଼ିଆ ବାବଦରେ - ଉଇକିପିଡ଼ିଆ",
-      "snippet": "Nupedia had an elaborate system of peer review and required highly qualified contributors, but the writing of articles was slow.",
+      "hash": "gCVBNZ3WSkX4",
+      "address": "https://docs.ovhcloud.com/en/",
+      "title": "OVHcloud Documentation",
+      "snippet": "For AI agents: the complete documentation index is available at https://docs.ovhcloud.com/en/llms.txt, the full documentation bundle is available at https://docs.ovhcloud.com/en/llms-full.txt, and this page is available as Markdown at https://docs.ovhcloud.com/en/index.md.\nWebmail\nMy account",
       "matchedWords": {
-        "24igJXwiDb_d": {
-          "hits": 0,
-          "textWords": 5215
-        },
         "31PKJoJAynZn": {
-          "hits": 1,
-          "textWords": 5215
-        },
-        "AbbiA0S2iDXF": {
           "hits": 0,
-          "textWords": 5215
+          "textWords": 301
         },
         "T-nf54SiviXd": {
+          "hits": 0,
+          "textWords": 301
+        },
+        "irh9T7NgDMU_": {
+          "hits": 0,
+          "textWords": 301
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "Jb4XHs5IzNm6",
+      "address": "https://citizenfreepress.com/",
+      "title": "CITIZEN FREE PRESS",
+      "snippet": "AI computer virus could (easily) hack one billion user accounts on WeChat.\nGutfeld loses friend to cold blooded murder.\nTragic details, senseless murder in Austin.\nWash Post reporters find new home.\nJoe Kernen gets testy with Andrew Ross Sorkin.\nCrowd loves this one from JD Vance.",
+      "matchedWords": {
+        "31PKJoJAynZn": {
           "hits": 1,
-          "textWords": 5215
+          "textWords": 11215
+        },
+        "T-nf54SiviXd": {
+          "hits": 2,
+          "textWords": 11215
+        },
+        "irh9T7NgDMU_": {
+          "hits": 3,
+          "textWords": 11215
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "TKYymjGG7ou5",
+      "address": "https://kingnorth.wordpress.com/",
+      "title": "kingnorth | King North is the 8th King World Government",
+      "snippet": "",
+      "matchedWords": {
+        "31PKJoJAynZn": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "T-nf54SiviXd": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "irh9T7NgDMU_": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "pYw3_AHucLY4",
+      "address": "https://adrienalfiste.vip-blog.com/",
+      "title": "adrienalfiste blog : Le blog d'Adri (83)",
+      "snippet": "",
+      "matchedWords": {
+        "31PKJoJAynZn": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "T-nf54SiviXd": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "irh9T7NgDMU_": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "4fG2R7NM0dIB",
+      "address": "http://cleanpart.ru/placeholder/",
+      "title": "placeholder | Cleanpart.RU",
+      "snippet": "",
+      "matchedWords": {
+        "31PKJoJAynZn": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "T-nf54SiviXd": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "irh9T7NgDMU_": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "O3HC1mVUrQm6",
+      "address": "https://earthnewspaper.com/mark-r-elsis/december-8-1980-by-mark-r-elsis/",
+      "title": "December 8, 1980 by Mark R. Elsis – EarthNewspaper.com – All The Honest News Fit To Publish",
+      "snippet": "",
+      "matchedWords": {
+        "31PKJoJAynZn": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "T-nf54SiviXd": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "irh9T7NgDMU_": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "GMKmQscJYL54",
+      "address": "https://gizmodo.com/",
+      "title": "Gizmodo | The Future Is Here",
+      "snippet": "",
+      "matchedWords": {
+        "31PKJoJAynZn": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "T-nf54SiviXd": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "irh9T7NgDMU_": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "0wShxleNx09w",
+      "address": "https://www.acreol.org/Prof-Deo-S-Mbonyinkebe-PhD",
+      "title": "Prof. Deo S. Mbonyinkebe, PhD - ACREOL Global",
+      "snippet": "",
+      "matchedWords": {
+        "31PKJoJAynZn": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "T-nf54SiviXd": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "irh9T7NgDMU_": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "gK0yJsjsdFw4",
+      "address": "https://akdart.com/med21.html",
+      "title": "News Media Sensationalism and Dishonesty",
+      "snippet": "",
+      "matchedWords": {
+        "31PKJoJAynZn": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "T-nf54SiviXd": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "irh9T7NgDMU_": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "3jF9E3khua85",
+      "address": "https://jwupdate.wordpress.com/",
+      "title": "JWUpdate | JW Current Apostate Status and Final Temple Judgment – Web Witnessing Record; The Bethel Apostasy is Prophecy",
+      "snippet": "",
+      "matchedWords": {
+        "31PKJoJAynZn": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "T-nf54SiviXd": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "irh9T7NgDMU_": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "EyjETIl7OZJE",
+      "address": "http://www.kursaal.com.ar/web/post-without-sidebar/",
+      "title": "Post Without Sidebar",
+      "snippet": "",
+      "matchedWords": {
+        "31PKJoJAynZn": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "T-nf54SiviXd": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "irh9T7NgDMU_": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "190N3snp_33z",
+      "address": "https://globalkleptocracy.net/",
+      "title": "GLOBAL KLEPTOCRACY - GLOBAL ELITE, RULING ELITE, GLOBAL OLIGARCHY, DEEP STATE, GLOBALISM, DYNASTIC ELITE, MONOPOLY CAPITALISM, CORPORATOCRACY, PLUTOCRACY, MONEY LAUNDERING, DRUG",
+      "snippet": "COMMUNICATONS, SURVEILLANCE AND COMPUTER SPECIALISTS\nPROPAGANDISTS - SELL THE SYSTEM TO THE PUBLIC\nPOLITICIANS, CELEBRITY ELITE, PUNDITS, JOURNALISTS, EDITORS, PRODUCERS, MEDIA OWNERS\nENFORCERS - PROTECT THE SYSTEM\nPENTAGON, POLICE, HOMELAND SECURITY, FBI, NSA, CIA, SURVEILLANCE SPECIALISTS",
+      "matchedWords": {
+        "31PKJoJAynZn": {
+          "hits": 3,
+          "textWords": 73961
+        },
+        "T-nf54SiviXd": {
+          "hits": 2,
+          "textWords": 73961
         },
         "irh9T7NgDMU_": {
           "hits": 1,
-          "textWords": 5215
+          "textWords": 73961
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "Py3mzspKNBr4",
+      "address": "https://rense.com/headlines2026.htm",
+      "title": "Headlines 2026",
+      "snippet": "",
+      "matchedWords": {
+        "31PKJoJAynZn": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "T-nf54SiviXd": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "irh9T7NgDMU_": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "-b3sxspKNBr4",
+      "address": "https://rense.com/",
+      "title": "rense.com",
+      "snippet": "",
+      "matchedWords": {
+        "31PKJoJAynZn": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "T-nf54SiviXd": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "irh9T7NgDMU_": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "Qy5lgspN1dF5",
+      "address": "https://cirosantilli.com/china-dictatorship/",
+      "title": "China Dictatorship 中国独裁统治",
+      "snippet": "https://jsfiddle.net/cirosantilli/0tL3ckqb/ very slow to load, but eventually does\nhttps://jsbin.com/ HTML too long\nhttps://codepen.io/ 1MB limit\n3.1. Software package mirrors (软件包管理器镜像)\nnpm i -g china-dictatorship china-dictatorship \u003e README.html",
+      "matchedWords": {
+        "31PKJoJAynZn": {
+          "hits": 6,
+          "textWords": 149170
+        },
+        "T-nf54SiviXd": {
+          "hits": 3,
+          "textWords": 149170
+        },
+        "irh9T7NgDMU_": {
+          "hits": 1,
+          "textWords": 149170
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "U775WcsBuKK5",
+      "address": "https://templelijah.wordpress.com/",
+      "title": "templelijah – 8th King King North World Government completion triggers the Christ Arrival!",
+      "snippet": "",
+      "matchedWords": {
+        "31PKJoJAynZn": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "T-nf54SiviXd": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "irh9T7NgDMU_": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "ICjA6esrSOQw",
+      "address": "https://arxiv.org/pdf/2404.14507",
+      "title": "Align Your Steps: Optimizing Sampling Schedules in Diffusion Models",
+      "snippet": "",
+      "matchedWords": {
+        "31PKJoJAynZn": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "T-nf54SiviXd": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "irh9T7NgDMU_": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "W5uqHs-D33u5",
+      "address": "https://instapundit.com/",
+      "title": "Instapundit",
+      "snippet": "OPEN THREAD: Ring in the weekend.\nLINDSAY CLANCY FAN FINDING OUT HOLDOUT JUROR IS ‘BLACK’ MAY BE THE GREATEST THING ON THE INTERNET:\nThere are those watershed moments in internet history when it makes journalisming all worth it.",
+      "matchedWords": {
+        "31PKJoJAynZn": {
+          "hits": 0,
+          "textWords": 1063
+        },
+        "T-nf54SiviXd": {
+          "hits": 0,
+          "textWords": 1063
+        },
+        "irh9T7NgDMU_": {
+          "hits": 0,
+          "textWords": 1063
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "sX9EVn7YLxR5",
+      "address": "https://thedailymessenger.wordpress.com/",
+      "title": "The Daily Messenger (mirror) | Revealing that which is concealed. Learning about anything that resembles real freedom.",
+      "snippet": "Q always asks us to pray…only a decent soul would consistently encourage a connection to Yeshua and the Most High.\nhttps://www.qanon.pub/\nI never joined FaceCIAfarce, Twitts, or any of that Satanic spy stuff that passes as social media.",
+      "matchedWords": {
+        "31PKJoJAynZn": {
+          "hits": 0,
+          "textWords": 2428
+        },
+        "T-nf54SiviXd": {
+          "hits": 0,
+          "textWords": 2428
+        },
+        "irh9T7NgDMU_": {
+          "hits": 0,
+          "textWords": 2428
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "nL-trz8CAV45",
+      "address": "https://www.encyclopedia.com/social-sciences-and-law/political-science-and-government/us-government/education",
+      "title": "Education | Encyclopedia.com",
+      "snippet": "They must be planning to attend college to prepare for a career in business, business education, computer science, computer information systems, or a related field.",
+      "matchedWords": {
+        "31PKJoJAynZn": {
+          "hits": 26,
+          "textWords": 156851
+        },
+        "T-nf54SiviXd": {
+          "hits": 2,
+          "textWords": 156851
+        },
+        "irh9T7NgDMU_": {
+          "hits": 1,
+          "textWords": 156851
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "8L_aSlESuha4",
+      "address": "https://www.leagle.com/featureddecisions",
+      "title": "Featured Decisions | Leagle.com | The place to find U. S. Law, Lawyers and Opinions",
+      "snippet": "",
+      "matchedWords": {
+        "31PKJoJAynZn": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "T-nf54SiviXd": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "irh9T7NgDMU_": {
+          "hits": 0,
+          "textWords": 0
         }
       },
       "queryPhraseHits": 0
@@ -552,16 +1094,8 @@
       "title": "Planet Mozilla",
       "snippet": "fix unsafeck of \u0026raw *\nfix panic on accessing numeric fields in unions\nfix panic on deref of unresolved aliases\nfix panic when computing extract_variable with macros\nfix panic when hovering a dyn trait with a binder\nprint the ABI for fn pointers (if not the default)",
       "matchedWords": {
-        "24igJXwiDb_d": {
-          "hits": 0,
-          "textWords": 66162
-        },
         "31PKJoJAynZn": {
           "hits": 4,
-          "textWords": 66162
-        },
-        "AbbiA0S2iDXF": {
-          "hits": 0,
           "textWords": 66162
         },
         "T-nf54SiviXd": {
@@ -576,59 +1110,463 @@
       "queryPhraseHits": 0
     },
     {
-      "hash": "CjgsxsIyoLTx",
-      "address": "https://planetpython.org/",
-      "title": "Planet Python",
-      "snippet": "The ledger accounts for essentially all of the service, which accounts for essentially all of the view. The service and the view are slow because of what they call. The ledger is slow in its own right.",
+      "hash": "9d0zQJOC4JVg",
+      "address": "https://www.gifts4u.gr/blog/season-essentials",
+      "title": "",
+      "snippet": "",
       "matchedWords": {
-        "24igJXwiDb_d": {
-          "hits": 0,
-          "textWords": 30728
-        },
         "31PKJoJAynZn": {
-          "hits": 8,
-          "textWords": 30728
-        },
-        "AbbiA0S2iDXF": {
           "hits": 0,
-          "textWords": 30728
+          "textWords": 0
         },
         "T-nf54SiviXd": {
-          "hits": 10,
-          "textWords": 30728
+          "hits": 0,
+          "textWords": 0
         },
         "irh9T7NgDMU_": {
-          "hits": 3,
-          "textWords": 30728
+          "hits": 0,
+          "textWords": 0
         }
       },
       "queryPhraseHits": 0
     },
     {
-      "hash": "7eYSusLVkley",
-      "address": "https://daringfireball.net/",
-      "title": "Daring Fireball",
-      "snippet": "Running After Dark modules in the present day has involved fussy configuration of Mac OS emulators or vintage hardware. Even then, no single emulator or vintage computer can faithfully run every module: some animate too fast, some too slow.",
+      "hash": "R5vzYsOocYRx",
+      "address": "https://murdoconline.net/",
+      "title": "MURDOCONLINE - Situs Kumpulan Game Online Terbaik Paling Populer",
+      "snippet": "",
       "matchedWords": {
-        "24igJXwiDb_d": {
-          "hits": 0,
-          "textWords": 13047
-        },
         "31PKJoJAynZn": {
-          "hits": 3,
-          "textWords": 13047
-        },
-        "AbbiA0S2iDXF": {
           "hits": 0,
-          "textWords": 13047
+          "textWords": 0
         },
         "T-nf54SiviXd": {
-          "hits": 3,
-          "textWords": 13047
+          "hits": 0,
+          "textWords": 0
         },
         "irh9T7NgDMU_": {
           "hits": 0,
-          "textWords": 13047
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "uaEnGzTwnifx",
+      "address": "https://planet.wordpress.org/",
+      "title": "Planet — WordPress.org",
+      "snippet": "Most of them are trained to be helpful. But they’re still computers, and when I tell a computer to do a thing, it’s going to do specifically that thing.\nThe thing about LLMs is it’s non-deterministic, so you never really know the path that it goes on to do that thing.",
+      "matchedWords": {
+        "31PKJoJAynZn": {
+          "hits": 2,
+          "textWords": 9047
+        },
+        "T-nf54SiviXd": {
+          "hits": 0,
+          "textWords": 9047
+        },
+        "irh9T7NgDMU_": {
+          "hits": 2,
+          "textWords": 9047
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "3zNNPsUPWR96",
+      "address": "https://realitybloger.com/",
+      "title": "REALITY BLOG",
+      "snippet": "",
+      "matchedWords": {
+        "31PKJoJAynZn": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "T-nf54SiviXd": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "irh9T7NgDMU_": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "Tm8vbiVUrQm6",
+      "address": "https://earthnewspaper.com/2022-news/24-7-news-october-2022/",
+      "title": "24/7 News October 2022 – EarthNewspaper.com – All The Honest News Fit To Publish",
+      "snippet": "",
+      "matchedWords": {
+        "31PKJoJAynZn": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "T-nf54SiviXd": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "irh9T7NgDMU_": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "AWq9VQXx1HRZ",
+      "address": "http://www.dailystirrer.com/2012-october.shtml",
+      "title": "the_daily_stirrer-2012-june-opinion-comment-controversy-news-events-politics",
+      "snippet": "",
+      "matchedWords": {
+        "31PKJoJAynZn": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "T-nf54SiviXd": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "irh9T7NgDMU_": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "0BZyCsY-tUi5",
+      "address": "https://moralparty.com/ai/",
+      "title": "AI – MoralParty.com",
+      "snippet": "",
+      "matchedWords": {
+        "31PKJoJAynZn": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "T-nf54SiviXd": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "irh9T7NgDMU_": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "Jfiuj0aGfG25",
+      "address": "https://feeds.simplecast.com/BqbsxVfO",
+      "title": "",
+      "snippet": "",
+      "matchedWords": {
+        "31PKJoJAynZn": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "T-nf54SiviXd": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "irh9T7NgDMU_": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "GNfYVQhivb2Y",
+      "address": "http://www.akdart.com/abu7.html",
+      "title": "Money Down the Drain",
+      "snippet": "",
+      "matchedWords": {
+        "31PKJoJAynZn": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "T-nf54SiviXd": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "irh9T7NgDMU_": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "jI-jjsjsdFw4",
+      "address": "https://akdart.com/lib73.html",
+      "title": "Which party promotes hate speech and violence?",
+      "snippet": "",
+      "matchedWords": {
+        "31PKJoJAynZn": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "T-nf54SiviXd": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "irh9T7NgDMU_": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "CpMPuPoT35q6",
+      "address": "https://uptimeinstitute.com/about-ui/news-media",
+      "title": "News \u0026 Media | Latest Updates - Uptime Institute",
+      "snippet": "",
+      "matchedWords": {
+        "31PKJoJAynZn": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "T-nf54SiviXd": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "irh9T7NgDMU_": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "GtLjhloUbV15",
+      "address": "https://www.whatfinger.com/",
+      "title": "Whatfinger News® – Unfiltered Truth. America’s News Feed",
+      "snippet": "",
+      "matchedWords": {
+        "31PKJoJAynZn": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "T-nf54SiviXd": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "irh9T7NgDMU_": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "3vAxx7pUDhRC",
+      "address": "http://makeup-by-sandra.de/hello-world/",
+      "title": "Hello world! – Makeup by Sandra",
+      "snippet": "",
+      "matchedWords": {
+        "31PKJoJAynZn": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "T-nf54SiviXd": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "irh9T7NgDMU_": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "FzYmTlptNsG4",
+      "address": "https://www.akdart.com/sports.html",
+      "title": "The Sports Page: Corporate Welfare, Publicly Funded Stadiums",
+      "snippet": "",
+      "matchedWords": {
+        "31PKJoJAynZn": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "T-nf54SiviXd": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "irh9T7NgDMU_": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "7Nac2lptNsG4",
+      "address": "https://www.akdart.com/lib9.html",
+      "title": "Socialist Democrats are out of step with America",
+      "snippet": "",
+      "matchedWords": {
+        "31PKJoJAynZn": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "T-nf54SiviXd": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "irh9T7NgDMU_": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "nA0ugsw4UVk6",
+      "address": "https://paydayloansforus.com/",
+      "title": "Paydayloansforus -",
+      "snippet": "",
+      "matchedWords": {
+        "31PKJoJAynZn": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "T-nf54SiviXd": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "irh9T7NgDMU_": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "1lGoBsyuNlT5",
+      "address": "https://alt-webring.com/",
+      "title": "alt-webring | The (former) alternative webring system",
+      "snippet": "",
+      "matchedWords": {
+        "31PKJoJAynZn": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "T-nf54SiviXd": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "irh9T7NgDMU_": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "CTQ-Yj-JVcyx",
+      "address": "https://en.wikiquote.org/wiki/Mystery_Science_Theater_3000",
+      "title": "Mystery Science Theater 3000 - Wikiquote",
+      "snippet": "Way hey, slow the plot down!\nWe'll scuttle the story and run her aground.\nWe'll try so hard to slow the plot down!\nOhhh, we'll make you a movie that's long and immense.\nWay hey, slow the plot down!\nJust give us a script that makes no friggin' sense!\nWe'll try so hard to slow the plot down!",
+      "matchedWords": {
+        "31PKJoJAynZn": {
+          "hits": 15,
+          "textWords": 143064
+        },
+        "T-nf54SiviXd": {
+          "hits": 21,
+          "textWords": 143064
+        },
+        "irh9T7NgDMU_": {
+          "hits": 9,
+          "textWords": 143064
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "hNrcdJ-bwreQ",
+      "address": "http://ace.mu.nu/",
+      "title": "Ace of Spades HQ",
+      "snippet": "I have Open Threads for both days and I will post if big news breaks, but if it doesn't -- and it probably won't, news is slow before a holiday weekend -- I'm going to take a four day weekend.\nSh0eOnHead discusses the Psychotic Cult of Lindsay\nReal quotes:",
+      "matchedWords": {
+        "31PKJoJAynZn": {
+          "hits": 0,
+          "textWords": 12885
+        },
+        "T-nf54SiviXd": {
+          "hits": 1,
+          "textWords": 12885
+        },
+        "irh9T7NgDMU_": {
+          "hits": 0,
+          "textWords": 12885
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "sX9EVn7YLxR5",
+      "address": "https://thedailymessenger.wordpress.com/",
+      "title": "The Daily Messenger (mirror) | Revealing that which is concealed. Learning about anything that resembles real freedom.",
+      "snippet": "Q always asks us to pray…only a decent soul would consistently encourage a connection to Yeshua and the Most High.\nhttps://www.qanon.pub/\nI never joined FaceCIAfarce, Twitts, or any of that Satanic spy stuff that passes as social media.",
+      "matchedWords": {
+        "31PKJoJAynZn": {
+          "hits": 0,
+          "textWords": 2428
+        },
+        "T-nf54SiviXd": {
+          "hits": 0,
+          "textWords": 2428
+        },
+        "irh9T7NgDMU_": {
+          "hits": 0,
+          "textWords": 2428
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "TKYymjGG7ou5",
+      "address": "https://kingnorth.wordpress.com/",
+      "title": "kingnorth | King North is the 8th King World Government",
+      "snippet": "",
+      "matchedWords": {
+        "31PKJoJAynZn": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "T-nf54SiviXd": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "irh9T7NgDMU_": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "9d0zQJOC4JVg",
+      "address": "https://www.gifts4u.gr/blog/season-essentials",
+      "title": "",
+      "snippet": "",
+      "matchedWords": {
+        "31PKJoJAynZn": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "T-nf54SiviXd": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "irh9T7NgDMU_": {
+          "hits": 0,
+          "textWords": 0
         }
       },
       "queryPhraseHits": 0
@@ -637,259 +1575,418 @@
       "hash": "-S1qcjRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Wikipedia:Community_portal",
       "title": "Wikipedia:Community portal - Wikipedia",
-      "snippet": "From Wikipedia, the free encyclopedia\nCommunity portal\nDashboard\nDepartments\nMaintenance Tasks\nDiscord\nIRC\nMatrix.org\nMeetups\nDirectories (Protocols\nEssays\nHow-to\nIndex\nNoticeboards\nAI\nWikiProjects)\nInteract more\nFor a listing of ongoing discussions and current requests, see the Dashboard.",
+      "snippet": "",
       "matchedWords": {
-        "24igJXwiDb_d": {
-          "hits": 0,
-          "textWords": 1362
-        },
         "31PKJoJAynZn": {
           "hits": 0,
-          "textWords": 1362
-        },
-        "AbbiA0S2iDXF": {
-          "hits": 0,
-          "textWords": 1362
+          "textWords": 0
         },
         "T-nf54SiviXd": {
           "hits": 0,
-          "textWords": 1362
+          "textWords": 0
         },
         "irh9T7NgDMU_": {
           "hits": 0,
-          "textWords": 1362
+          "textWords": 0
         }
       },
       "queryPhraseHits": 0
     },
     {
-      "hash": "uaEnGzTwnifx",
-      "address": "https://planet.wordpress.org/",
-      "title": "Planet — WordPress.org",
-      "snippet": "Most of them are trained to be helpful. But they’re still computers, and when I tell a computer to do a thing, it’s going to do specifically that thing.\nThe thing about LLMs is it’s non-deterministic, so you never really know the path that it goes on to do that thing.",
+      "hash": "O3HC1mVUrQm6",
+      "address": "https://earthnewspaper.com/mark-r-elsis/december-8-1980-by-mark-r-elsis/",
+      "title": "December 8, 1980 by Mark R. Elsis – EarthNewspaper.com – All The Honest News Fit To Publish",
+      "snippet": "",
       "matchedWords": {
-        "24igJXwiDb_d": {
-          "hits": 0,
-          "textWords": 9047
-        },
         "31PKJoJAynZn": {
-          "hits": 2,
-          "textWords": 9047
-        },
-        "AbbiA0S2iDXF": {
           "hits": 0,
-          "textWords": 9047
+          "textWords": 0
         },
         "T-nf54SiviXd": {
           "hits": 0,
-          "textWords": 9047
+          "textWords": 0
         },
         "irh9T7NgDMU_": {
-          "hits": 2,
-          "textWords": 9047
+          "hits": 0,
+          "textWords": 0
         }
       },
       "queryPhraseHits": 0
     },
     {
-      "hash": "qqIgmqWU7_zx",
-      "address": "https://rw.wikipedia.org/wiki/Wikipedia:Community_Portal",
-      "title": "Wikipedia:Community Portal - Wikipedia",
-      "snippet": "Please visit https://meta.wikimedia.org/wiki/Wikimedia_Fellowships for more information.\nThanks!\n--Siko Bouterse, Head of Community Fellowships, Wikimedia Foundation 03:03, 22 December 2011 (UTC)\nDistributed via Global message delivery. (Wrong page? Fix here.)",
+      "hash": "AWq9VQXx1HRZ",
+      "address": "http://www.dailystirrer.com/2012-october.shtml",
+      "title": "the_daily_stirrer-2012-june-opinion-comment-controversy-news-events-politics",
+      "snippet": "",
       "matchedWords": {
-        "24igJXwiDb_d": {
-          "hits": 0,
-          "textWords": 82796
-        },
         "31PKJoJAynZn": {
-          "hits": 2,
-          "textWords": 82796
-        },
-        "AbbiA0S2iDXF": {
           "hits": 0,
-          "textWords": 82796
+          "textWords": 0
         },
         "T-nf54SiviXd": {
-          "hits": 2,
-          "textWords": 82796
+          "hits": 0,
+          "textWords": 0
         },
         "irh9T7NgDMU_": {
-          "hits": 30,
-          "textWords": 82796
+          "hits": 0,
+          "textWords": 0
         }
       },
       "queryPhraseHits": 0
     },
     {
-      "hash": "0BZyCsY-tUi5",
-      "address": "https://moralparty.com/ai/",
-      "title": "AI – MoralParty.com",
-      "snippet": "The feature, called Computer History, lets ChatGPT “learn from everything you do on your computer,” said Ari Weinstein, an OpenAI product and engineering manager, on X.",
+      "hash": "7mhoBxeeomt4",
+      "address": "https://hackaday.com/2013/12/09/guest-post-the-real-story-of-hacking-together-the-commodore-c128/",
+      "title": "Guest Post: The Real Story Of Hacking Together The Commodore C128 | Hackaday",
+      "snippet": "",
       "matchedWords": {
-        "24igJXwiDb_d": {
-          "hits": 0,
-          "textWords": 63075
-        },
         "31PKJoJAynZn": {
-          "hits": 33,
-          "textWords": 63075
-        },
-        "AbbiA0S2iDXF": {
           "hits": 0,
-          "textWords": 63075
+          "textWords": 0
         },
         "T-nf54SiviXd": {
-          "hits": 7,
-          "textWords": 63075
+          "hits": 0,
+          "textWords": 0
         },
         "irh9T7NgDMU_": {
-          "hits": 7,
-          "textWords": 63075
+          "hits": 0,
+          "textWords": 0
         }
       },
       "queryPhraseHits": 0
     },
     {
-      "hash": "Rx8AIs_tHst4",
-      "address": "https://dwheeler.com/oss_fs_why.html",
-      "title": "Why Open Source Software / Free Software (OSS/FS, FOSS, or FLOSS)? Look at the Numbers!",
-      "snippet": "Microsoft had 982 recess days on 61 advisories, averaging 16.10 days from bug to patch. Sun proved itself to be very slow, although having only 8 advisories it accumulated 716 recess days, a whopping three months to fix each bug on average.",
+      "hash": "-b3sxspKNBr4",
+      "address": "https://rense.com/",
+      "title": "rense.com",
+      "snippet": "",
       "matchedWords": {
-        "24igJXwiDb_d": {
-          "hits": 0,
-          "textWords": 92275
-        },
         "31PKJoJAynZn": {
-          "hits": 83,
-          "textWords": 92275
-        },
-        "AbbiA0S2iDXF": {
           "hits": 0,
-          "textWords": 92275
+          "textWords": 0
         },
         "T-nf54SiviXd": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "irh9T7NgDMU_": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "Qy5lgspN1dF5",
+      "address": "https://cirosantilli.com/china-dictatorship/",
+      "title": "China Dictatorship 中国独裁统治",
+      "snippet": "https://jsfiddle.net/cirosantilli/0tL3ckqb/ very slow to load, but eventually does\nhttps://jsbin.com/ HTML too long\nhttps://codepen.io/ 1MB limit\n3.1. Software package mirrors (软件包管理器镜像)\nnpm i -g china-dictatorship china-dictatorship \u003e README.html",
+      "matchedWords": {
+        "31PKJoJAynZn": {
           "hits": 6,
-          "textWords": 92275
-        },
-        "irh9T7NgDMU_": {
-          "hits": 38,
-          "textWords": 92275
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "6Y1NupaaTUr5",
-      "address": "https://www.techradar.com/audio/turntables/the-best-turntables",
-      "title": "The best turntables: top record players for all budgets, all tested and TechRadar-approved | TechRadar",
-      "snippet": "First, you’ll need to attach the drive belt, balance the tone arm, and attach the anti-skate weight. Then you need to put the platter on. That’s the turntable done. Now you need to fix the speaker cables into the binding posts on the back of the turntable and the speakers.",
-      "matchedWords": {
-        "24igJXwiDb_d": {
-          "hits": 0,
-          "textWords": 4233
-        },
-        "31PKJoJAynZn": {
-          "hits": 0,
-          "textWords": 4233
-        },
-        "AbbiA0S2iDXF": {
-          "hits": 0,
-          "textWords": 4233
+          "textWords": 149170
         },
         "T-nf54SiviXd": {
-          "hits": 0,
-          "textWords": 4233
+          "hits": 3,
+          "textWords": 149170
         },
         "irh9T7NgDMU_": {
           "hits": 1,
-          "textWords": 4233
+          "textWords": 149170
         }
       },
       "queryPhraseHits": 0
     },
     {
-      "hash": "-p2w3taoSn1x",
-      "address": "https://en.planet.wikimedia.org/",
-      "title": "en.planet.wikimedia.org",
-      "snippet": "This July, the City of Light welcomed Wikimedians from all over the world. Some 1,250 attendees joined in person in Paris, while nearly 2000 joined Wikimania 2026 online.",
+      "hash": "nA0ugsw4UVk6",
+      "address": "https://paydayloansforus.com/",
+      "title": "Paydayloansforus -",
+      "snippet": "",
       "matchedWords": {
-        "24igJXwiDb_d": {
-          "hits": 0,
-          "textWords": 16720
-        },
         "31PKJoJAynZn": {
           "hits": 0,
-          "textWords": 16720
-        },
-        "AbbiA0S2iDXF": {
-          "hits": 0,
-          "textWords": 16720
+          "textWords": 0
         },
         "T-nf54SiviXd": {
           "hits": 0,
-          "textWords": 16720
+          "textWords": 0
         },
         "irh9T7NgDMU_": {
           "hits": 0,
-          "textWords": 16720
+          "textWords": 0
         }
       },
       "queryPhraseHits": 0
     },
     {
-      "hash": "3ElXGjc4UIAx",
-      "address": "https://en.wikivoyage.org/wiki/Wikivoyage:Travellers%27_pub",
-      "title": "Wikivoyage:Travellers' pub – Travel guide at Wikivoyage",
-      "snippet": "Saroj (talk) 09:37, 29 August 2026 (UTC)Reply\nधन्यवाद. ―Justin (koavf)❤T☮C☺M☯ 09:51, 29 August 2026 (UTC)Reply Ooh, this sounds like a much easier fix for this issue I raised a few days ago. //shb (t | c | m) 11:02, 29 August 2026 (UTC)Reply\nThank you!",
+      "hash": "nL-trz8CAV45",
+      "address": "https://www.encyclopedia.com/social-sciences-and-law/political-science-and-government/us-government/education",
+      "title": "Education | Encyclopedia.com",
+      "snippet": "They must be planning to attend college to prepare for a career in business, business education, computer science, computer information systems, or a related field.",
       "matchedWords": {
-        "24igJXwiDb_d": {
-          "hits": 0,
-          "textWords": 9998
-        },
         "31PKJoJAynZn": {
-          "hits": 0,
-          "textWords": 9998
-        },
-        "AbbiA0S2iDXF": {
-          "hits": 0,
-          "textWords": 9998
+          "hits": 26,
+          "textWords": 156851
         },
         "T-nf54SiviXd": {
-          "hits": 0,
-          "textWords": 9998
+          "hits": 2,
+          "textWords": 156851
         },
         "irh9T7NgDMU_": {
-          "hits": 5,
-          "textWords": 9998
+          "hits": 1,
+          "textWords": 156851
         }
       },
       "queryPhraseHits": 0
     },
     {
-      "hash": "2ZqdVzfOEiDw",
-      "address": "https://planet.gnome.org/",
-      "title": "Planet GNOME",
-      "snippet": "Two weeks ago, I released AppStream 1.2.0. This release contains a lot of great changes, but one of the most important ones concerns how media are being handled, and AppStream’s default image export format.\nAppStream is a Freedesktop metadata standard to describe software components.",
+      "hash": "8L_aSlESuha4",
+      "address": "https://www.leagle.com/featureddecisions",
+      "title": "Featured Decisions | Leagle.com | The place to find U. S. Law, Lawyers and Opinions",
+      "snippet": "",
       "matchedWords": {
-        "24igJXwiDb_d": {
-          "hits": 0,
-          "textWords": 2681
-        },
         "31PKJoJAynZn": {
           "hits": 0,
-          "textWords": 2681
-        },
-        "AbbiA0S2iDXF": {
-          "hits": 0,
-          "textWords": 2681
+          "textWords": 0
         },
         "T-nf54SiviXd": {
           "hits": 0,
-          "textWords": 2681
+          "textWords": 0
         },
         "irh9T7NgDMU_": {
           "hits": 0,
-          "textWords": 2681
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "pYw3_AHucLY4",
+      "address": "https://adrienalfiste.vip-blog.com/",
+      "title": "adrienalfiste blog : Le blog d'Adri (83)",
+      "snippet": "",
+      "matchedWords": {
+        "31PKJoJAynZn": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "T-nf54SiviXd": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "irh9T7NgDMU_": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "4fG2R7NM0dIB",
+      "address": "http://cleanpart.ru/placeholder/",
+      "title": "placeholder | Cleanpart.RU",
+      "snippet": "",
+      "matchedWords": {
+        "31PKJoJAynZn": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "T-nf54SiviXd": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "irh9T7NgDMU_": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "HrKyXWOXoHMQ",
+      "address": "http://acecomments.mu.nu/?post=391252",
+      "title": "Cutting The Cord [Joe Mannix (not a cop)]",
+      "snippet": "",
+      "matchedWords": {
+        "31PKJoJAynZn": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "T-nf54SiviXd": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "irh9T7NgDMU_": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "R5vzYsOocYRx",
+      "address": "https://murdoconline.net/",
+      "title": "MURDOCONLINE - Situs Kumpulan Game Online Terbaik Paling Populer",
+      "snippet": "",
+      "matchedWords": {
+        "31PKJoJAynZn": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "T-nf54SiviXd": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "irh9T7NgDMU_": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "3zNNPsUPWR96",
+      "address": "https://realitybloger.com/",
+      "title": "REALITY BLOG",
+      "snippet": "",
+      "matchedWords": {
+        "31PKJoJAynZn": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "T-nf54SiviXd": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "irh9T7NgDMU_": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "2T0UisUhsCbg",
+      "address": "https://samsuns.eu/business-strategy-plan-2022-from-the-usa/",
+      "title": "Business Strategy Plan 2022 From the USA - Wir verbinden Sie mit der Welt",
+      "snippet": "",
+      "matchedWords": {
+        "31PKJoJAynZn": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "T-nf54SiviXd": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "irh9T7NgDMU_": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "GNfYVQhivb2Y",
+      "address": "http://www.akdart.com/abu7.html",
+      "title": "Money Down the Drain",
+      "snippet": "",
+      "matchedWords": {
+        "31PKJoJAynZn": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "T-nf54SiviXd": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "irh9T7NgDMU_": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "jI-jjsjsdFw4",
+      "address": "https://akdart.com/lib73.html",
+      "title": "Which party promotes hate speech and violence?",
+      "snippet": "",
+      "matchedWords": {
+        "31PKJoJAynZn": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "T-nf54SiviXd": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "irh9T7NgDMU_": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "EyjETIl7OZJE",
+      "address": "http://www.kursaal.com.ar/web/post-without-sidebar/",
+      "title": "Post Without Sidebar",
+      "snippet": "",
+      "matchedWords": {
+        "31PKJoJAynZn": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "T-nf54SiviXd": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "irh9T7NgDMU_": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "190N3snp_33z",
+      "address": "https://globalkleptocracy.net/",
+      "title": "GLOBAL KLEPTOCRACY - GLOBAL ELITE, RULING ELITE, GLOBAL OLIGARCHY, DEEP STATE, GLOBALISM, DYNASTIC ELITE, MONOPOLY CAPITALISM, CORPORATOCRACY, PLUTOCRACY, MONEY LAUNDERING, DRUG",
+      "snippet": "COMMUNICATONS, SURVEILLANCE AND COMPUTER SPECIALISTS\nPROPAGANDISTS - SELL THE SYSTEM TO THE PUBLIC\nPOLITICIANS, CELEBRITY ELITE, PUNDITS, JOURNALISTS, EDITORS, PRODUCERS, MEDIA OWNERS\nENFORCERS - PROTECT THE SYSTEM\nPENTAGON, POLICE, HOMELAND SECURITY, FBI, NSA, CIA, SURVEILLANCE SPECIALISTS",
+      "matchedWords": {
+        "31PKJoJAynZn": {
+          "hits": 3,
+          "textWords": 73961
+        },
+        "T-nf54SiviXd": {
+          "hits": 2,
+          "textWords": 73961
+        },
+        "irh9T7NgDMU_": {
+          "hits": 1,
+          "textWords": 73961
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "CpMPuPoT35q6",
+      "address": "https://uptimeinstitute.com/about-ui/news-media",
+      "title": "News \u0026 Media | Latest Updates - Uptime Institute",
+      "snippet": "",
+      "matchedWords": {
+        "31PKJoJAynZn": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "T-nf54SiviXd": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "irh9T7NgDMU_": {
+          "hits": 0,
+          "textWords": 0
         }
       },
       "queryPhraseHits": 0
@@ -898,1525 +1995,9 @@
       "hash": "GtLjhloUbV15",
       "address": "https://www.whatfinger.com/",
       "title": "Whatfinger News® – Unfiltered Truth. America’s News Feed",
-      "snippet": "Whatfinger – 🛑 Features, Red-pill blasts, takedowns, hits, deep state reveals, and savage roasts that’ll make you say ‘DAMN!’ No safe spaces. (use arrows) – Sgt Pat, Beth, Ben, Sgt K\n🛑Headline Hurricane: 40 Top Stories Across All Beats (use arrows) – Sgt Pat, Ben, Luke",
-      "matchedWords": {
-        "24igJXwiDb_d": {
-          "hits": 0,
-          "textWords": 157
-        },
-        "31PKJoJAynZn": {
-          "hits": 0,
-          "textWords": 157
-        },
-        "AbbiA0S2iDXF": {
-          "hits": 0,
-          "textWords": 157
-        },
-        "T-nf54SiviXd": {
-          "hits": 0,
-          "textWords": 157
-        },
-        "irh9T7NgDMU_": {
-          "hits": 0,
-          "textWords": 157
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "wl2ImxtQ-zSx",
-      "address": "https://wiki.archlinux.org/title/Frequently_asked_questions",
-      "title": "Frequently asked questions - ArchWiki",
-      "snippet": "If you use a computer with an integrated GPU, less memory will be available due to the RAM reserved to the graphic chipset.\nArch needs an installer. Maybe a GUI installer?\nA guided installer with a text-based user interface is available. See archinstall for details.",
-      "matchedWords": {
-        "24igJXwiDb_d": {
-          "hits": 0,
-          "textWords": 2662
-        },
-        "31PKJoJAynZn": {
-          "hits": 2,
-          "textWords": 2662
-        },
-        "AbbiA0S2iDXF": {
-          "hits": 0,
-          "textWords": 2662
-        },
-        "T-nf54SiviXd": {
-          "hits": 1,
-          "textWords": 2662
-        },
-        "irh9T7NgDMU_": {
-          "hits": 2,
-          "textWords": 2662
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "S5wlF7yp6WtY",
-      "address": "http://tantek.com/?skin=trn",
-      "title": "Tantek Çelik",
-      "snippet": "Why are there two pentagons in the otherwise hex-tiled American continents displayed in TRON: Legacy’s Rectifier Globe computer graphics?",
-      "matchedWords": {
-        "24igJXwiDb_d": {
-          "hits": 0,
-          "textWords": 10682
-        },
-        "31PKJoJAynZn": {
-          "hits": 2,
-          "textWords": 10682
-        },
-        "AbbiA0S2iDXF": {
-          "hits": 0,
-          "textWords": 10682
-        },
-        "T-nf54SiviXd": {
-          "hits": 0,
-          "textWords": 10682
-        },
-        "irh9T7NgDMU_": {
-          "hits": 8,
-          "textWords": 10682
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "pGRD67yp6WtY",
-      "address": "http://tantek.com/",
-      "title": "Tantek Çelik",
-      "snippet": "Why are there two pentagons in the otherwise hex-tiled American continents displayed in TRON: Legacy’s Rectifier Globe computer graphics?",
-      "matchedWords": {
-        "24igJXwiDb_d": {
-          "hits": 0,
-          "textWords": 10682
-        },
-        "31PKJoJAynZn": {
-          "hits": 2,
-          "textWords": 10682
-        },
-        "AbbiA0S2iDXF": {
-          "hits": 0,
-          "textWords": 10682
-        },
-        "T-nf54SiviXd": {
-          "hits": 0,
-          "textWords": 10682
-        },
-        "irh9T7NgDMU_": {
-          "hits": 8,
-          "textWords": 10682
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "b08TwlDZkUL4",
-      "address": "https://www.cnet.com/",
-      "title": "CNET: Product reviews, advice, how-tos and the latest news - CNET",
-      "snippet": "Our Expertise\nFor more than 25 years, CNET has built a reputation as the premier source for trustworthy, no-nonsense reviews on everything tech – from phones to TVs to laptops to tablets to streaming services.",
-      "matchedWords": {
-        "24igJXwiDb_d": {
-          "hits": 0,
-          "textWords": 59
-        },
-        "31PKJoJAynZn": {
-          "hits": 0,
-          "textWords": 59
-        },
-        "AbbiA0S2iDXF": {
-          "hits": 0,
-          "textWords": 59
-        },
-        "T-nf54SiviXd": {
-          "hits": 0,
-          "textWords": 59
-        },
-        "irh9T7NgDMU_": {
-          "hits": 0,
-          "textWords": 59
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "GxTNgsF20Rww",
-      "address": "https://ma.tt/",
-      "title": "Matt Mullenweg | Unlucky in Cards",
-      "snippet": "I know everyone has been waiting to hear what’s been going on behind the scenes, so I’m just going to lay it out: I’ve made an offer to buy Ryan Phelan and Stewart Brand’s houseboat Mirene.",
-      "matchedWords": {
-        "24igJXwiDb_d": {
-          "hits": 0,
-          "textWords": 2499
-        },
-        "31PKJoJAynZn": {
-          "hits": 0,
-          "textWords": 2499
-        },
-        "AbbiA0S2iDXF": {
-          "hits": 0,
-          "textWords": 2499
-        },
-        "T-nf54SiviXd": {
-          "hits": 0,
-          "textWords": 2499
-        },
-        "irh9T7NgDMU_": {
-          "hits": 0,
-          "textWords": 2499
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "SH9s9zTnALtw",
-      "address": "https://planet.gentoo.org/",
-      "title": "Planet Gentoo",
-      "snippet": "Gentoo aims to be stable\nGentoo might not be the easiest distribution to start with, but once you set it up, it is surprisingly stable. Of course, mishaps do happen; but when they do, you can usually fix them without having to reinstall the system.",
-      "matchedWords": {
-        "24igJXwiDb_d": {
-          "hits": 0,
-          "textWords": 3218
-        },
-        "31PKJoJAynZn": {
-          "hits": 1,
-          "textWords": 3218
-        },
-        "AbbiA0S2iDXF": {
-          "hits": 0,
-          "textWords": 3218
-        },
-        "T-nf54SiviXd": {
-          "hits": 0,
-          "textWords": 3218
-        },
-        "irh9T7NgDMU_": {
-          "hits": 4,
-          "textWords": 3218
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "89Pocs6GdY-4",
-      "address": "https://danluu.com/diseconomies-scale/",
-      "title": "Diseconomies of scale in fraud, spam, support, and moderation",
-      "snippet": "Keeley asked support why that would fix it and the answer was basically, there's no particular reason to think that it might fix it, but it might also just work to re-upload the video. Another time, Keeley got \"hacked\" and went to support.",
-      "matchedWords": {
-        "24igJXwiDb_d": {
-          "hits": 0,
-          "textWords": 54155
-        },
-        "31PKJoJAynZn": {
-          "hits": 5,
-          "textWords": 54155
-        },
-        "AbbiA0S2iDXF": {
-          "hits": 0,
-          "textWords": 54155
-        },
-        "T-nf54SiviXd": {
-          "hits": 6,
-          "textWords": 54155
-        },
-        "irh9T7NgDMU_": {
-          "hits": 24,
-          "textWords": 54155
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "mKjEVzAa-Sqx",
-      "address": "https://planet.freedesktop.org/",
-      "title": "planet.freedesktop.org",
-      "snippet": "While I was head down on fixing this, the bug trickled up into a few other places and I had complaints from a laptop vendor and RH internal QA all lined up when I found the fix. The fix is now in drm-misc-fixes.",
-      "matchedWords": {
-        "24igJXwiDb_d": {
-          "hits": 0,
-          "textWords": 71870
-        },
-        "31PKJoJAynZn": {
-          "hits": 8,
-          "textWords": 71870
-        },
-        "AbbiA0S2iDXF": {
-          "hits": 0,
-          "textWords": 71870
-        },
-        "T-nf54SiviXd": {
-          "hits": 7,
-          "textWords": 71870
-        },
-        "irh9T7NgDMU_": {
-          "hits": 45,
-          "textWords": 71870
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "0BZyCsY-tUi5",
-      "address": "https://moralparty.com/ai/",
-      "title": "AI – MoralParty.com",
-      "snippet": "The feature, called Computer History, lets ChatGPT “learn from everything you do on your computer,” said Ari Weinstein, an OpenAI product and engineering manager, on X.",
-      "matchedWords": {
-        "24igJXwiDb_d": {
-          "hits": 0,
-          "textWords": 63075
-        },
-        "31PKJoJAynZn": {
-          "hits": 33,
-          "textWords": 63075
-        },
-        "AbbiA0S2iDXF": {
-          "hits": 0,
-          "textWords": 63075
-        },
-        "T-nf54SiviXd": {
-          "hits": 7,
-          "textWords": 63075
-        },
-        "irh9T7NgDMU_": {
-          "hits": 7,
-          "textWords": 63075
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "GtLjhloUbV15",
-      "address": "https://www.whatfinger.com/",
-      "title": "Whatfinger News™ – Unfiltered Truth. America’s News Feed",
-      "snippet": "Whatfinger – 🛑 Features, Red-pill blasts, takedowns, hits, deep state reveals, and savage roasts that’ll make you say ‘DAMN!’ No safe spaces. (use arrows) – Sgt Pat, Beth, Ben, Sgt K\n🛑Headline Hurricane: 40 Top Stories Across All Beats (use arrows) – Sgt Pat, Ben, Luke",
-      "matchedWords": {
-        "24igJXwiDb_d": {
-          "hits": 0,
-          "textWords": 157
-        },
-        "31PKJoJAynZn": {
-          "hits": 0,
-          "textWords": 157
-        },
-        "AbbiA0S2iDXF": {
-          "hits": 0,
-          "textWords": 157
-        },
-        "T-nf54SiviXd": {
-          "hits": 0,
-          "textWords": 157
-        },
-        "irh9T7NgDMU_": {
-          "hits": 0,
-          "textWords": 157
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "tTApqs6GdY-4",
-      "address": "https://danluu.com/why-benchmark/",
-      "title": "Measurement, benchmarking, and data analysis are underrated",
-      "snippet": "That's one particular example, but I find that it's generally true that, in areas where no one is publishing measurements/benchmarks of products, the products are generally sub-optimal, often in ways that are relatively straightforward to fix once measured. Here are a few examples:",
-      "matchedWords": {
-        "24igJXwiDb_d": {
-          "hits": 0,
-          "textWords": 5960
-        },
-        "31PKJoJAynZn": {
-          "hits": 3,
-          "textWords": 5960
-        },
-        "AbbiA0S2iDXF": {
-          "hits": 0,
-          "textWords": 5960
-        },
-        "T-nf54SiviXd": {
-          "hits": 2,
-          "textWords": 5960
-        },
-        "irh9T7NgDMU_": {
-          "hits": 1,
-          "textWords": 5960
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "t-vTMs6GdY-4",
-      "address": "https://danluu.com/ftc-google-antitrust/",
-      "title": "What the FTC got wrong in the Google antitrust investigation",
-      "snippet": "If you have a suggestion to fix this, I'll try it, otherwise I'll try to fix it when I switch away from Hugo.\n[return]",
-      "matchedWords": {
-        "24igJXwiDb_d": {
-          "hits": 0,
-          "textWords": 30944
-        },
-        "31PKJoJAynZn": {
-          "hits": 2,
-          "textWords": 30944
-        },
-        "AbbiA0S2iDXF": {
-          "hits": 0,
-          "textWords": 30944
-        },
-        "T-nf54SiviXd": {
-          "hits": 0,
-          "textWords": 30944
-        },
-        "irh9T7NgDMU_": {
-          "hits": 2,
-          "textWords": 30944
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "5lFlls6GdY-4",
-      "address": "https://danluu.com/tech-discrimination/",
-      "title": "Markets, discrimination, and \"lowering the bar\"",
-      "snippet": "We can fix this, if we stop assuming the market will fix it for us.\nPeople literally read the opposite result into studies they look at",
-      "matchedWords": {
-        "24igJXwiDb_d": {
-          "hits": 0,
-          "textWords": 3239
-        },
-        "31PKJoJAynZn": {
-          "hits": 2,
-          "textWords": 3239
-        },
-        "AbbiA0S2iDXF": {
-          "hits": 0,
-          "textWords": 3239
-        },
-        "T-nf54SiviXd": {
-          "hits": 1,
-          "textWords": 3239
-        },
-        "irh9T7NgDMU_": {
-          "hits": 2,
-          "textWords": 3239
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "6--H5s6GdY-4",
-      "address": "https://danluu.com/cruise-report/",
-      "title": "Notes on Cruise's pedestrian accident",
-      "snippet": "Another comment from the exec is that, while a human might react to the collision at -2.9s and slow down or stop, \"scene understanding\" as a human might do it is non-existent in most or perhaps all AVs, so it's unsurprising that the AV doesn't react until the pedestrian is in the AV's path, whereas",
-      "matchedWords": {
-        "24igJXwiDb_d": {
-          "hits": 0,
-          "textWords": 9837
-        },
-        "31PKJoJAynZn": {
-          "hits": 2,
-          "textWords": 9837
-        },
-        "AbbiA0S2iDXF": {
-          "hits": 0,
-          "textWords": 9837
-        },
-        "T-nf54SiviXd": {
-          "hits": 4,
-          "textWords": 9837
-        },
-        "irh9T7NgDMU_": {
-          "hits": 1,
-          "textWords": 9837
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "76LUts6GdY-4",
-      "address": "https://danluu.com/julialang/",
-      "title": "A review of the Julia language",
-      "snippet": "It's backed by git in a clever way that lets people do all sorts of things I never do. The result of all that is that it needs to do git status on each package when I run Pkg.status(), which makes it horribly slow; most other Pkg operations I care about are also slow for a similar reason.",
-      "matchedWords": {
-        "24igJXwiDb_d": {
-          "hits": 0,
-          "textWords": 5872
-        },
-        "31PKJoJAynZn": {
-          "hits": 1,
-          "textWords": 5872
-        },
-        "AbbiA0S2iDXF": {
-          "hits": 0,
-          "textWords": 5872
-        },
-        "T-nf54SiviXd": {
-          "hits": 6,
-          "textWords": 5872
-        },
-        "irh9T7NgDMU_": {
-          "hits": 6,
-          "textWords": 5872
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "Yc__bsAbx4Yw",
-      "address": "https://sqlite.org/wal.html",
-      "title": "Write-Ahead Logging",
-      "snippet": "All processes using a database must be on the same host computer; WAL does not work over a network filesystem. This is because WAL requires all processes to share a small amount of memory and processes on separate host machines obviously cannot share memory with each other.",
-      "matchedWords": {
-        "24igJXwiDb_d": {
-          "hits": 0,
-          "textWords": 5022
-        },
-        "31PKJoJAynZn": {
-          "hits": 1,
-          "textWords": 5022
-        },
-        "AbbiA0S2iDXF": {
-          "hits": 0,
-          "textWords": 5022
-        },
-        "T-nf54SiviXd": {
-          "hits": 1,
-          "textWords": 5022
-        },
-        "irh9T7NgDMU_": {
-          "hits": 1,
-          "textWords": 5022
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "S9YMJzCJVaIz",
-      "address": "https://planet.documentfoundation.org/",
-      "title": "The Document Foundation Planet",
-      "snippet": "sd doc model dump: allow invoking this from outside sd/ in a debugger\nsd doc model xml dump: show styles\ntdf#168559 PPTX imp: fix missing custom level list style for outline shapes\ntdf#168559 PPTX imp: fix missing list style for outline shapes on master pages",
-      "matchedWords": {
-        "24igJXwiDb_d": {
-          "hits": 0,
-          "textWords": 13459
-        },
-        "31PKJoJAynZn": {
-          "hits": 1,
-          "textWords": 13459
-        },
-        "AbbiA0S2iDXF": {
-          "hits": 0,
-          "textWords": 13459
-        },
-        "T-nf54SiviXd": {
-          "hits": 5,
-          "textWords": 13459
-        },
-        "irh9T7NgDMU_": {
-          "hits": 16,
-          "textWords": 13459
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "GxTNgsF20Rww",
-      "address": "https://ma.tt/",
-      "title": "Matt Mullenweg | Unlucky in Cards",
-      "snippet": "I know everyone has been waiting to hear what’s been going on behind the scenes, so I’m just going to lay it out: I’ve made an offer to buy Ryan Phelan and Stewart Brand’s houseboat Mirene.",
-      "matchedWords": {
-        "24igJXwiDb_d": {
-          "hits": 0,
-          "textWords": 2499
-        },
-        "31PKJoJAynZn": {
-          "hits": 0,
-          "textWords": 2499
-        },
-        "AbbiA0S2iDXF": {
-          "hits": 0,
-          "textWords": 2499
-        },
-        "T-nf54SiviXd": {
-          "hits": 0,
-          "textWords": 2499
-        },
-        "irh9T7NgDMU_": {
-          "hits": 0,
-          "textWords": 2499
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "CjgsxsIyoLTx",
-      "address": "https://planetpython.org/",
-      "title": "Planet Python",
-      "snippet": "The ledger accounts for essentially all of the service, which accounts for essentially all of the view. The service and the view are slow because of what they call. The ledger is slow in its own right.",
-      "matchedWords": {
-        "24igJXwiDb_d": {
-          "hits": 0,
-          "textWords": 30728
-        },
-        "31PKJoJAynZn": {
-          "hits": 8,
-          "textWords": 30728
-        },
-        "AbbiA0S2iDXF": {
-          "hits": 0,
-          "textWords": 30728
-        },
-        "T-nf54SiviXd": {
-          "hits": 10,
-          "textWords": 30728
-        },
-        "irh9T7NgDMU_": {
-          "hits": 3,
-          "textWords": 30728
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "7eYSusLVkley",
-      "address": "https://daringfireball.net/",
-      "title": "Daring Fireball",
-      "snippet": "Running After Dark modules in the present day has involved fussy configuration of Mac OS emulators or vintage hardware. Even then, no single emulator or vintage computer can faithfully run every module: some animate too fast, some too slow.",
-      "matchedWords": {
-        "24igJXwiDb_d": {
-          "hits": 0,
-          "textWords": 13047
-        },
-        "31PKJoJAynZn": {
-          "hits": 3,
-          "textWords": 13047
-        },
-        "AbbiA0S2iDXF": {
-          "hits": 0,
-          "textWords": 13047
-        },
-        "T-nf54SiviXd": {
-          "hits": 3,
-          "textWords": 13047
-        },
-        "irh9T7NgDMU_": {
-          "hits": 0,
-          "textWords": 13047
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "SH9s9zTnALtw",
-      "address": "https://planet.gentoo.org/",
-      "title": "Planet Gentoo",
-      "snippet": "Gentoo aims to be stable\nGentoo might not be the easiest distribution to start with, but once you set it up, it is surprisingly stable. Of course, mishaps do happen; but when they do, you can usually fix them without having to reinstall the system.",
-      "matchedWords": {
-        "24igJXwiDb_d": {
-          "hits": 0,
-          "textWords": 3218
-        },
-        "31PKJoJAynZn": {
-          "hits": 1,
-          "textWords": 3218
-        },
-        "AbbiA0S2iDXF": {
-          "hits": 0,
-          "textWords": 3218
-        },
-        "T-nf54SiviXd": {
-          "hits": 0,
-          "textWords": 3218
-        },
-        "irh9T7NgDMU_": {
-          "hits": 4,
-          "textWords": 3218
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "Rx8AIs_tHst4",
-      "address": "https://dwheeler.com/oss_fs_why.html",
-      "title": "Why Open Source Software / Free Software (OSS/FS, FOSS, or FLOSS)? Look at the Numbers!",
-      "snippet": "Microsoft had 982 recess days on 61 advisories, averaging 16.10 days from bug to patch. Sun proved itself to be very slow, although having only 8 advisories it accumulated 716 recess days, a whopping three months to fix each bug on average.",
-      "matchedWords": {
-        "24igJXwiDb_d": {
-          "hits": 0,
-          "textWords": 92275
-        },
-        "31PKJoJAynZn": {
-          "hits": 83,
-          "textWords": 92275
-        },
-        "AbbiA0S2iDXF": {
-          "hits": 0,
-          "textWords": 92275
-        },
-        "T-nf54SiviXd": {
-          "hits": 6,
-          "textWords": 92275
-        },
-        "irh9T7NgDMU_": {
-          "hits": 38,
-          "textWords": 92275
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "6Y1NupaaTUr5",
-      "address": "https://www.techradar.com/audio/turntables/the-best-turntables",
-      "title": "The best turntables: top record players for all budgets, all tested and TechRadar-approved | TechRadar",
-      "snippet": "First, you’ll need to attach the drive belt, balance the tone arm, and attach the anti-skate weight. Then you need to put the platter on. That’s the turntable done. Now you need to fix the speaker cables into the binding posts on the back of the turntable and the speakers.",
-      "matchedWords": {
-        "24igJXwiDb_d": {
-          "hits": 0,
-          "textWords": 4233
-        },
-        "31PKJoJAynZn": {
-          "hits": 0,
-          "textWords": 4233
-        },
-        "AbbiA0S2iDXF": {
-          "hits": 0,
-          "textWords": 4233
-        },
-        "T-nf54SiviXd": {
-          "hits": 0,
-          "textWords": 4233
-        },
-        "irh9T7NgDMU_": {
-          "hits": 1,
-          "textWords": 4233
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "ww-gf8cZd9Fw",
-      "address": "https://hackage.haskell.org/packages/",
-      "title": "packages by category | Hackage",
-      "snippet": "marching-cubes2 library: Marching Cubes\nComputer Algebra\ncash library: the Computer Algebra SHell\nConcourse\ndhall-fly library, program and test: Translate concourse config from Dhall to YAML\nConcurrency\naccelerate library, programs and tests: An embedded language for accelerated array processing",
-      "matchedWords": {
-        "24igJXwiDb_d": {
-          "hits": 0,
-          "textWords": 267877
-        },
-        "31PKJoJAynZn": {
-          "hits": 23,
-          "textWords": 267877
-        },
-        "AbbiA0S2iDXF": {
-          "hits": 0,
-          "textWords": 267877
-        },
-        "T-nf54SiviXd": {
-          "hits": 4,
-          "textWords": 267877
-        },
-        "irh9T7NgDMU_": {
-          "hits": 25,
-          "textWords": 267877
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "2ZqdVzfOEiDw",
-      "address": "https://planet.gnome.org/",
-      "title": "Planet GNOME",
-      "snippet": "Two weeks ago, I released AppStream 1.2.0. This release contains a lot of great changes, but one of the most important ones concerns how media are being handled, and AppStream’s default image export format.\nAppStream is a Freedesktop metadata standard to describe software components.",
-      "matchedWords": {
-        "24igJXwiDb_d": {
-          "hits": 0,
-          "textWords": 2681
-        },
-        "31PKJoJAynZn": {
-          "hits": 0,
-          "textWords": 2681
-        },
-        "AbbiA0S2iDXF": {
-          "hits": 0,
-          "textWords": 2681
-        },
-        "T-nf54SiviXd": {
-          "hits": 0,
-          "textWords": 2681
-        },
-        "irh9T7NgDMU_": {
-          "hits": 0,
-          "textWords": 2681
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "pGRD67yp6WtY",
-      "address": "http://tantek.com/",
-      "title": "Tantek Çelik",
-      "snippet": "Why are there two pentagons in the otherwise hex-tiled American continents displayed in TRON: Legacy’s Rectifier Globe computer graphics?",
-      "matchedWords": {
-        "24igJXwiDb_d": {
-          "hits": 0,
-          "textWords": 10682
-        },
-        "31PKJoJAynZn": {
-          "hits": 2,
-          "textWords": 10682
-        },
-        "AbbiA0S2iDXF": {
-          "hits": 0,
-          "textWords": 10682
-        },
-        "T-nf54SiviXd": {
-          "hits": 0,
-          "textWords": 10682
-        },
-        "irh9T7NgDMU_": {
-          "hits": 8,
-          "textWords": 10682
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "N_giTs2xL7A6",
-      "address": "https://corbettreport.com/september-open-thread-2/",
-      "title": "September Open Thread | The Corbett Report",
-      "snippet": "So, here we are. Another month, another open thread. And, as always, there’s a lot to discuss.\nPerhaps you want to discuss the truckie blockade that wasn’t.\nOr the right-on-queue new terror threat popping up in New Zealand.\nOr how to order your new Bovid-84 bot.",
-      "matchedWords": {
-        "24igJXwiDb_d": {
-          "hits": 0,
-          "textWords": 123
-        },
-        "31PKJoJAynZn": {
-          "hits": 0,
-          "textWords": 123
-        },
-        "AbbiA0S2iDXF": {
-          "hits": 0,
-          "textWords": 123
-        },
-        "T-nf54SiviXd": {
-          "hits": 0,
-          "textWords": 123
-        },
-        "irh9T7NgDMU_": {
-          "hits": 0,
-          "textWords": 123
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "8q_7kd8zMi84",
-      "address": "https://docs.cloud.google.com/release-notes",
-      "title": "Google Cloud release notes | Google Cloud Documentation",
-      "snippet": "Fixed a security issue in the MessageValidation policy.\n535928530\nSecurity fix for Apigee. Fixed a security issue in the OAuthV2 policy.\n535683286\nSecurity fix for Apigee. Fixed a security issue in HTTP target interim-response handling.\nN/A\nSecurity fix for Apigee infrastructure.",
-      "matchedWords": {
-        "24igJXwiDb_d": {
-          "hits": 0,
-          "textWords": 93126
-        },
-        "31PKJoJAynZn": {
-          "hits": 2,
-          "textWords": 93126
-        },
-        "AbbiA0S2iDXF": {
-          "hits": 0,
-          "textWords": 93126
-        },
-        "T-nf54SiviXd": {
-          "hits": 1,
-          "textWords": 93126
-        },
-        "irh9T7NgDMU_": {
-          "hits": 44,
-          "textWords": 93126
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "b08TwlDZkUL4",
-      "address": "https://www.cnet.com/",
-      "title": "CNET: Product reviews, advice, how-tos and the latest news",
-      "snippet": "Our Expertise\nFor more than 25 years, CNET has built a reputation as the premier source for trustworthy, no-nonsense reviews on everything tech – from phones to TVs to laptops to tablets to streaming services.",
-      "matchedWords": {
-        "24igJXwiDb_d": {
-          "hits": 0,
-          "textWords": 59
-        },
-        "31PKJoJAynZn": {
-          "hits": 0,
-          "textWords": 59
-        },
-        "AbbiA0S2iDXF": {
-          "hits": 0,
-          "textWords": 59
-        },
-        "T-nf54SiviXd": {
-          "hits": 0,
-          "textWords": 59
-        },
-        "irh9T7NgDMU_": {
-          "hits": 0,
-          "textWords": 59
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "9bx18zEA9mkx",
-      "address": "https://or.wikipedia.org/wiki/%E0%AC%89%E0%AC%87%E0%AC%95%E0%AC%BF%E0%AC%AA%E0%AC%BF%E0%AC%A1%E0%AC%BC%E0%AC%BF%E0%AC%86:%E0%AC%89%E0%AC%87%E0%AC%95%E0%AC%BF%E0%AC%AA%E0%AC%BF%E0%AC%A1%E0%AC%BC%E0%AC%BF%E0%AC%86_%E0%AC%AC%E0%AC%BE%E0%AC%AC%E0%AC%A6%E0%AC%B0%E0%AD%87",
-      "title": "ଉଇକିପିଡ଼ିଆ:ଉଇକିପିଡ଼ିଆ ବାବଦରେ - ଉଇକିପିଡ଼ିଆ",
-      "snippet": "Nupedia had an elaborate system of peer review and required highly qualified contributors, but the writing of articles was slow.",
-      "matchedWords": {
-        "24igJXwiDb_d": {
-          "hits": 0,
-          "textWords": 5215
-        },
-        "31PKJoJAynZn": {
-          "hits": 1,
-          "textWords": 5215
-        },
-        "AbbiA0S2iDXF": {
-          "hits": 0,
-          "textWords": 5215
-        },
-        "T-nf54SiviXd": {
-          "hits": 1,
-          "textWords": 5215
-        },
-        "irh9T7NgDMU_": {
-          "hits": 1,
-          "textWords": 5215
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "AuYI3jRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Wikipedia:Glossary",
-      "title": "Wikipedia:Glossary - Wikipedia",
-      "snippet": "Used as an edit summary when correcting typos. See also Wikipedia:typo.\nTypofix\nA contraction of typo and fix. Any other word may be used in the place of typo to form -fix words.\nU\nUAA\nUsernames for Administrator Attention.",
-      "matchedWords": {
-        "24igJXwiDb_d": {
-          "hits": 0,
-          "textWords": 19540
-        },
-        "31PKJoJAynZn": {
-          "hits": 5,
-          "textWords": 19540
-        },
-        "AbbiA0S2iDXF": {
-          "hits": 0,
-          "textWords": 19540
-        },
-        "T-nf54SiviXd": {
-          "hits": 0,
-          "textWords": 19540
-        },
-        "irh9T7NgDMU_": {
-          "hits": 5,
-          "textWords": 19540
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "BKtg8jRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Taiwan",
-      "title": "Taiwan - Wikipedia",
-      "snippet": "Indigenous land loss under the Qing occurred at a relatively slow pace due to the absence of state-sponsored land deprivation for the majority of Qing rule.[158][159]\nJapanese rule (1895–1945)",
-      "matchedWords": {
-        "24igJXwiDb_d": {
-          "hits": 0,
-          "textWords": 32556
-        },
-        "31PKJoJAynZn": {
-          "hits": 1,
-          "textWords": 32556
-        },
-        "AbbiA0S2iDXF": {
-          "hits": 0,
-          "textWords": 32556
-        },
-        "T-nf54SiviXd": {
-          "hits": 2,
-          "textWords": 32556
-        },
-        "irh9T7NgDMU_": {
-          "hits": 1,
-          "textWords": 32556
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "BXUMpjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/India",
-      "title": "India - Wikipedia",
-      "snippet": "Although equality before the law promised to Indians was slow to materialise,[47][48] technological changes were introduced[49] while modern education and the public life took root.[50][51] A nationalist movement emerged in India, the first in the non-European British Empire.[",
-      "matchedWords": {
-        "24igJXwiDb_d": {
-          "hits": 0,
-          "textWords": 31865
-        },
-        "31PKJoJAynZn": {
-          "hits": 1,
-          "textWords": 31865
-        },
-        "AbbiA0S2iDXF": {
-          "hits": 0,
-          "textWords": 31865
-        },
-        "T-nf54SiviXd": {
-          "hits": 4,
-          "textWords": 31865
-        },
-        "irh9T7NgDMU_": {
-          "hits": 1,
-          "textWords": 31865
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "jP69XjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Coordinated_Universal_Time",
-      "title": "Coordinated Universal Time - Wikipedia",
-      "snippet": "A study published in March 2024 in Nature found that accelerated melting of ice in Greenland and Antarctica due to climate change has slowed Earth's rotation enough to delay the next negative leap-second adjustment to UTC, postponing problems for computer systems.[50]\nRationale",
-      "matchedWords": {
-        "24igJXwiDb_d": {
-          "hits": 0,
-          "textWords": 6041
-        },
-        "31PKJoJAynZn": {
-          "hits": 1,
-          "textWords": 6041
-        },
-        "AbbiA0S2iDXF": {
-          "hits": 0,
-          "textWords": 6041
-        },
-        "T-nf54SiviXd": {
-          "hits": 2,
-          "textWords": 6041
-        },
-        "irh9T7NgDMU_": {
-          "hits": 2,
-          "textWords": 6041
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "qqIgmqWU7_zx",
-      "address": "https://rw.wikipedia.org/wiki/Wikipedia:Community_Portal",
-      "title": "Wikipedia:Community Portal - Wikipedia",
-      "snippet": "Please visit https://meta.wikimedia.org/wiki/Wikimedia_Fellowships for more information.\nThanks!\n--Siko Bouterse, Head of Community Fellowships, Wikimedia Foundation 03:03, 22 December 2011 (UTC)\nDistributed via Global message delivery. (Wrong page? Fix here.)",
-      "matchedWords": {
-        "24igJXwiDb_d": {
-          "hits": 0,
-          "textWords": 82796
-        },
-        "31PKJoJAynZn": {
-          "hits": 2,
-          "textWords": 82796
-        },
-        "AbbiA0S2iDXF": {
-          "hits": 0,
-          "textWords": 82796
-        },
-        "T-nf54SiviXd": {
-          "hits": 2,
-          "textWords": 82796
-        },
-        "irh9T7NgDMU_": {
-          "hits": 30,
-          "textWords": 82796
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "0BZyCsY-tUi5",
-      "address": "https://moralparty.com/ai/",
-      "title": "AI – MoralParty.com",
-      "snippet": "The feature, called Computer History, lets ChatGPT “learn from everything you do on your computer,” said Ari Weinstein, an OpenAI product and engineering manager, on X.",
-      "matchedWords": {
-        "24igJXwiDb_d": {
-          "hits": 0,
-          "textWords": 63075
-        },
-        "31PKJoJAynZn": {
-          "hits": 33,
-          "textWords": 63075
-        },
-        "AbbiA0S2iDXF": {
-          "hits": 0,
-          "textWords": 63075
-        },
-        "T-nf54SiviXd": {
-          "hits": 7,
-          "textWords": 63075
-        },
-        "irh9T7NgDMU_": {
-          "hits": 7,
-          "textWords": 63075
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "-p2w3taoSn1x",
-      "address": "https://en.planet.wikimedia.org/",
-      "title": "en.planet.wikimedia.org",
-      "snippet": "This July, the City of Light welcomed Wikimedians from all over the world. Some 1,250 attendees joined in person in Paris, while nearly 2000 joined Wikimania 2026 online.",
-      "matchedWords": {
-        "24igJXwiDb_d": {
-          "hits": 0,
-          "textWords": 16720
-        },
-        "31PKJoJAynZn": {
-          "hits": 0,
-          "textWords": 16720
-        },
-        "AbbiA0S2iDXF": {
-          "hits": 0,
-          "textWords": 16720
-        },
-        "T-nf54SiviXd": {
-          "hits": 0,
-          "textWords": 16720
-        },
-        "irh9T7NgDMU_": {
-          "hits": 0,
-          "textWords": 16720
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "3ElXGjc4UIAx",
-      "address": "https://en.wikivoyage.org/wiki/Wikivoyage:Travellers%27_pub",
-      "title": "Wikivoyage:Travellers' pub – Travel guide at Wikivoyage",
-      "snippet": "Saroj (talk) 09:37, 29 August 2026 (UTC)Reply\nधन्यवाद. ―Justin (koavf)❤T☮C☺M☯ 09:51, 29 August 2026 (UTC)Reply Ooh, this sounds like a much easier fix for this issue I raised a few days ago. //shb (t | c | m) 11:02, 29 August 2026 (UTC)Reply\nThank you!",
-      "matchedWords": {
-        "24igJXwiDb_d": {
-          "hits": 0,
-          "textWords": 9998
-        },
-        "31PKJoJAynZn": {
-          "hits": 0,
-          "textWords": 9998
-        },
-        "AbbiA0S2iDXF": {
-          "hits": 0,
-          "textWords": 9998
-        },
-        "T-nf54SiviXd": {
-          "hits": 0,
-          "textWords": 9998
-        },
-        "irh9T7NgDMU_": {
-          "hits": 5,
-          "textWords": 9998
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "GtLjhloUbV15",
-      "address": "https://www.whatfinger.com/",
-      "title": "Whatfinger News™ – Unfiltered Truth. America’s News Feed",
-      "snippet": "Whatfinger – 🛑 Features, Red-pill blasts, takedowns, hits, deep state reveals, and savage roasts that’ll make you say ‘DAMN!’ No safe spaces. (use arrows) – Sgt Pat, Beth, Ben, Sgt K\n🛑Headline Hurricane: 40 Top Stories Across All Beats (use arrows) – Sgt Pat, Ben, Luke",
-      "matchedWords": {
-        "24igJXwiDb_d": {
-          "hits": 0,
-          "textWords": 157
-        },
-        "31PKJoJAynZn": {
-          "hits": 0,
-          "textWords": 157
-        },
-        "AbbiA0S2iDXF": {
-          "hits": 0,
-          "textWords": 157
-        },
-        "T-nf54SiviXd": {
-          "hits": 0,
-          "textWords": 157
-        },
-        "irh9T7NgDMU_": {
-          "hits": 0,
-          "textWords": 157
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "mHyFhKsrSOQw",
-      "address": "https://arxiv.org/list/cs.AI/new",
-      "title": "Artificial Intelligence",
-      "snippet": "New submissions\nCross-lists\nReplacements\nSee recent articles\nShowing new listings for Friday, 11 September 2026\nTotal of 273 entries\nShowing up to 2000 entries per page: fewer | more | all\nNew submissions (showing 77 of 77 entries)\n[1] arXiv:2609.10584 [pdf, html, other]",
-      "matchedWords": {
-        "24igJXwiDb_d": {
-          "hits": 0,
-          "textWords": 2520
-        },
-        "31PKJoJAynZn": {
-          "hits": 0,
-          "textWords": 2520
-        },
-        "AbbiA0S2iDXF": {
-          "hits": 0,
-          "textWords": 2520
-        },
-        "T-nf54SiviXd": {
-          "hits": 0,
-          "textWords": 2520
-        },
-        "irh9T7NgDMU_": {
-          "hits": 0,
-          "textWords": 2520
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "S5wlF7yp6WtY",
-      "address": "http://tantek.com/?skin=trn",
-      "title": "Tantek Çelik",
-      "snippet": "Why are there two pentagons in the otherwise hex-tiled American continents displayed in TRON: Legacy’s Rectifier Globe computer graphics?",
-      "matchedWords": {
-        "24igJXwiDb_d": {
-          "hits": 0,
-          "textWords": 10682
-        },
-        "31PKJoJAynZn": {
-          "hits": 2,
-          "textWords": 10682
-        },
-        "AbbiA0S2iDXF": {
-          "hits": 0,
-          "textWords": 10682
-        },
-        "T-nf54SiviXd": {
-          "hits": 0,
-          "textWords": 10682
-        },
-        "irh9T7NgDMU_": {
-          "hits": 8,
-          "textWords": 10682
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "pGRD67yp6WtY",
-      "address": "http://tantek.com/",
-      "title": "Tantek Çelik",
-      "snippet": "Why are there two pentagons in the otherwise hex-tiled American continents displayed in TRON: Legacy’s Rectifier Globe computer graphics?",
-      "matchedWords": {
-        "24igJXwiDb_d": {
-          "hits": 0,
-          "textWords": 10682
-        },
-        "31PKJoJAynZn": {
-          "hits": 2,
-          "textWords": 10682
-        },
-        "AbbiA0S2iDXF": {
-          "hits": 0,
-          "textWords": 10682
-        },
-        "T-nf54SiviXd": {
-          "hits": 0,
-          "textWords": 10682
-        },
-        "irh9T7NgDMU_": {
-          "hits": 8,
-          "textWords": 10682
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "sNuODs6GdY-4",
-      "address": "https://danluu.com/zitron/",
-      "title": "Ed Zitron's AI prediction track record",
-      "snippet": "For Google, he cites Prabhakar Raghavan, who he calls truly evil and \"a computer scientist class traitor that sided with the management consultancy sect\", as having done some kind of grievous damage to Google search.",
-      "matchedWords": {
-        "24igJXwiDb_d": {
-          "hits": 0,
-          "textWords": 12399
-        },
-        "31PKJoJAynZn": {
-          "hits": 2,
-          "textWords": 12399
-        },
-        "AbbiA0S2iDXF": {
-          "hits": 0,
-          "textWords": 12399
-        },
-        "T-nf54SiviXd": {
-          "hits": 1,
-          "textWords": 12399
-        },
-        "irh9T7NgDMU_": {
-          "hits": 2,
-          "textWords": 12399
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "tTApqs6GdY-4",
-      "address": "https://danluu.com/why-benchmark/",
-      "title": "Some reasons to measure",
-      "snippet": "That's one particular example, but I find that it's generally true that, in areas where no one is publishing measurements/benchmarks of products, the products are generally sub-optimal, often in ways that are relatively straightforward to fix once measured. Here are a few examples:",
-      "matchedWords": {
-        "24igJXwiDb_d": {
-          "hits": 0,
-          "textWords": 5960
-        },
-        "31PKJoJAynZn": {
-          "hits": 3,
-          "textWords": 5960
-        },
-        "AbbiA0S2iDXF": {
-          "hits": 0,
-          "textWords": 5960
-        },
-        "T-nf54SiviXd": {
-          "hits": 2,
-          "textWords": 5960
-        },
-        "irh9T7NgDMU_": {
-          "hits": 1,
-          "textWords": 5960
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "t-vTMs6GdY-4",
-      "address": "https://danluu.com/ftc-google-antitrust/",
-      "title": "What the FTC got wrong in the Google antitrust investigation",
-      "snippet": "If you have a suggestion to fix this, I'll try it, otherwise I'll try to fix it when I switch away from Hugo.\n[return]",
-      "matchedWords": {
-        "24igJXwiDb_d": {
-          "hits": 0,
-          "textWords": 30944
-        },
-        "31PKJoJAynZn": {
-          "hits": 2,
-          "textWords": 30944
-        },
-        "AbbiA0S2iDXF": {
-          "hits": 0,
-          "textWords": 30944
-        },
-        "T-nf54SiviXd": {
-          "hits": 0,
-          "textWords": 30944
-        },
-        "irh9T7NgDMU_": {
-          "hits": 2,
-          "textWords": 30944
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "b08TwlDZkUL4",
-      "address": "https://www.cnet.com/",
-      "title": "CNET: Product reviews, advice, how-tos and the latest news - CNET",
-      "snippet": "Our Expertise\nFor more than 25 years, CNET has built a reputation as the premier source for trustworthy, no-nonsense reviews on everything tech – from phones to TVs to laptops to tablets to streaming services.",
-      "matchedWords": {
-        "24igJXwiDb_d": {
-          "hits": 0,
-          "textWords": 59
-        },
-        "31PKJoJAynZn": {
-          "hits": 0,
-          "textWords": 59
-        },
-        "AbbiA0S2iDXF": {
-          "hits": 0,
-          "textWords": 59
-        },
-        "T-nf54SiviXd": {
-          "hits": 0,
-          "textWords": 59
-        },
-        "irh9T7NgDMU_": {
-          "hits": 0,
-          "textWords": 59
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "GxTNgsF20Rww",
-      "address": "https://ma.tt/",
-      "title": "Matt Mullenweg | Unlucky in Cards",
-      "snippet": "I know everyone has been waiting to hear what’s been going on behind the scenes, so I’m just going to lay it out: I’ve made an offer to buy Ryan Phelan and Stewart Brand’s houseboat Mirene.",
-      "matchedWords": {
-        "24igJXwiDb_d": {
-          "hits": 0,
-          "textWords": 2499
-        },
-        "31PKJoJAynZn": {
-          "hits": 0,
-          "textWords": 2499
-        },
-        "AbbiA0S2iDXF": {
-          "hits": 0,
-          "textWords": 2499
-        },
-        "T-nf54SiviXd": {
-          "hits": 0,
-          "textWords": 2499
-        },
-        "irh9T7NgDMU_": {
-          "hits": 0,
-          "textWords": 2499
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "CjgsxsIyoLTx",
-      "address": "https://planetpython.org/",
-      "title": "Planet Python",
-      "snippet": "The ledger accounts for essentially all of the service, which accounts for essentially all of the view. The service and the view are slow because of what they call. The ledger is slow in its own right.",
-      "matchedWords": {
-        "24igJXwiDb_d": {
-          "hits": 0,
-          "textWords": 30728
-        },
-        "31PKJoJAynZn": {
-          "hits": 8,
-          "textWords": 30728
-        },
-        "AbbiA0S2iDXF": {
-          "hits": 0,
-          "textWords": 30728
-        },
-        "T-nf54SiviXd": {
-          "hits": 10,
-          "textWords": 30728
-        },
-        "irh9T7NgDMU_": {
-          "hits": 3,
-          "textWords": 30728
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "7eYSusLVkley",
-      "address": "https://daringfireball.net/",
-      "title": "Daring Fireball",
-      "snippet": "Running After Dark modules in the present day has involved fussy configuration of Mac OS emulators or vintage hardware. Even then, no single emulator or vintage computer can faithfully run every module: some animate too fast, some too slow.",
-      "matchedWords": {
-        "24igJXwiDb_d": {
-          "hits": 0,
-          "textWords": 13047
-        },
-        "31PKJoJAynZn": {
-          "hits": 3,
-          "textWords": 13047
-        },
-        "AbbiA0S2iDXF": {
-          "hits": 0,
-          "textWords": 13047
-        },
-        "T-nf54SiviXd": {
-          "hits": 3,
-          "textWords": 13047
-        },
-        "irh9T7NgDMU_": {
-          "hits": 0,
-          "textWords": 13047
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "BXUMpjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/India",
-      "title": "India - Wikipedia",
-      "snippet": "Although equality before the law promised to Indians was slow to materialise,[47][48] technological changes were introduced[49] while modern education and the public life took root.[50][51] A nationalist movement emerged in India, the first in the non-European British Empire.[",
-      "matchedWords": {
-        "24igJXwiDb_d": {
-          "hits": 0,
-          "textWords": 31865
-        },
-        "31PKJoJAynZn": {
-          "hits": 1,
-          "textWords": 31865
-        },
-        "AbbiA0S2iDXF": {
-          "hits": 0,
-          "textWords": 31865
-        },
-        "T-nf54SiviXd": {
-          "hits": 4,
-          "textWords": 31865
-        },
-        "irh9T7NgDMU_": {
-          "hits": 1,
-          "textWords": 31865
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "lXoJ7jRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Nintendo_Switch",
-      "title": "Nintendo Switch - Wikipedia",
-      "snippet": "Ultimate.[133][134][135][136] USB computer keyboards are supported for certain tasks, such as text entry.\nA Nintendo Labo kit simulating a fishing rod and reel",
-      "matchedWords": {
-        "24igJXwiDb_d": {
-          "hits": 0,
-          "textWords": 33495
-        },
-        "31PKJoJAynZn": {
-          "hits": 1,
-          "textWords": 33495
-        },
-        "AbbiA0S2iDXF": {
-          "hits": 0,
-          "textWords": 33495
-        },
-        "T-nf54SiviXd": {
-          "hits": 2,
-          "textWords": 33495
-        },
-        "irh9T7NgDMU_": {
-          "hits": 2,
-          "textWords": 33495
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "oOVv2jRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Wikipedia:Featured_article_candidates",
-      "title": "Wikipedia:Featured article candidates - Wikipedia",
       "snippet": "",
       "matchedWords": {
-        "24igJXwiDb_d": {
-          "hits": 0,
-          "textWords": 0
-        },
         "31PKJoJAynZn": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "AbbiA0S2iDXF": {
           "hits": 0,
           "textWords": 0
         },
@@ -2432,49 +2013,12 @@
       "queryPhraseHits": 0
     },
     {
-      "hash": "uaEnGzTwnifx",
-      "address": "https://planet.wordpress.org/",
-      "title": "Planet — WordPress.org",
-      "snippet": "Most of them are trained to be helpful. But they’re still computers, and when I tell a computer to do a thing, it’s going to do specifically that thing.\nThe thing about LLMs is it’s non-deterministic, so you never really know the path that it goes on to do that thing.",
-      "matchedWords": {
-        "24igJXwiDb_d": {
-          "hits": 0,
-          "textWords": 9047
-        },
-        "31PKJoJAynZn": {
-          "hits": 2,
-          "textWords": 9047
-        },
-        "AbbiA0S2iDXF": {
-          "hits": 0,
-          "textWords": 9047
-        },
-        "T-nf54SiviXd": {
-          "hits": 0,
-          "textWords": 9047
-        },
-        "irh9T7NgDMU_": {
-          "hits": 2,
-          "textWords": 9047
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "sjywP7XxSRFx",
-      "address": "https://www.rfc-editor.org/info/rfc2616/",
-      "title": "RFC 2616: Hypertext Transfer Protocol -- HTTP/1.1 | RFC Editor",
+      "hash": "Py3mzspKNBr4",
+      "address": "https://rense.com/headlines2026.htm",
+      "title": "Headlines 2026",
       "snippet": "",
       "matchedWords": {
-        "24igJXwiDb_d": {
-          "hits": 0,
-          "textWords": 0
-        },
         "31PKJoJAynZn": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "AbbiA0S2iDXF": {
           "hits": 0,
           "textWords": 0
         },
@@ -2490,194 +2034,12 @@
       "queryPhraseHits": 0
     },
     {
-      "hash": "0BZyCsY-tUi5",
-      "address": "https://moralparty.com/ai/",
-      "title": "AI – MoralParty.com",
-      "snippet": "The feature, called Computer History, lets ChatGPT “learn from everything you do on your computer,” said Ari Weinstein, an OpenAI product and engineering manager, on X.",
-      "matchedWords": {
-        "24igJXwiDb_d": {
-          "hits": 0,
-          "textWords": 63075
-        },
-        "31PKJoJAynZn": {
-          "hits": 33,
-          "textWords": 63075
-        },
-        "AbbiA0S2iDXF": {
-          "hits": 0,
-          "textWords": 63075
-        },
-        "T-nf54SiviXd": {
-          "hits": 7,
-          "textWords": 63075
-        },
-        "irh9T7NgDMU_": {
-          "hits": 7,
-          "textWords": 63075
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "Rx8AIs_tHst4",
-      "address": "https://dwheeler.com/oss_fs_why.html",
-      "title": "Why Open Source Software / Free Software (OSS/FS, FOSS, or FLOSS)? Look at the Numbers!",
-      "snippet": "Microsoft had 982 recess days on 61 advisories, averaging 16.10 days from bug to patch. Sun proved itself to be very slow, although having only 8 advisories it accumulated 716 recess days, a whopping three months to fix each bug on average.",
-      "matchedWords": {
-        "24igJXwiDb_d": {
-          "hits": 0,
-          "textWords": 92275
-        },
-        "31PKJoJAynZn": {
-          "hits": 83,
-          "textWords": 92275
-        },
-        "AbbiA0S2iDXF": {
-          "hits": 0,
-          "textWords": 92275
-        },
-        "T-nf54SiviXd": {
-          "hits": 6,
-          "textWords": 92275
-        },
-        "irh9T7NgDMU_": {
-          "hits": 38,
-          "textWords": 92275
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "GtLjhloUbV15",
-      "address": "https://www.whatfinger.com/",
-      "title": "Whatfinger News™ – Unfiltered Truth. America’s News Feed",
-      "snippet": "Whatfinger – 🛑 Features, Red-pill blasts, takedowns, hits, deep state reveals, and savage roasts that’ll make you say ‘DAMN!’ No safe spaces. (use arrows) – Sgt Pat, Beth, Ben, Sgt K\n🛑Headline Hurricane: 40 Top Stories Across All Beats (use arrows) – Sgt Pat, Ben, Luke",
-      "matchedWords": {
-        "24igJXwiDb_d": {
-          "hits": 0,
-          "textWords": 157
-        },
-        "31PKJoJAynZn": {
-          "hits": 0,
-          "textWords": 157
-        },
-        "AbbiA0S2iDXF": {
-          "hits": 0,
-          "textWords": 157
-        },
-        "T-nf54SiviXd": {
-          "hits": 0,
-          "textWords": 157
-        },
-        "irh9T7NgDMU_": {
-          "hits": 0,
-          "textWords": 157
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "mHyFhKsrSOQw",
-      "address": "https://arxiv.org/list/cs.AI/new",
-      "title": "Artificial Intelligence",
-      "snippet": "New submissions\nCross-lists\nReplacements\nSee recent articles\nShowing new listings for Friday, 11 September 2026\nTotal of 273 entries\nShowing up to 2000 entries per page: fewer | more | all\nNew submissions (showing 77 of 77 entries)\n[1] arXiv:2609.10584 [pdf, html, other]",
-      "matchedWords": {
-        "24igJXwiDb_d": {
-          "hits": 0,
-          "textWords": 2520
-        },
-        "31PKJoJAynZn": {
-          "hits": 0,
-          "textWords": 2520
-        },
-        "AbbiA0S2iDXF": {
-          "hits": 0,
-          "textWords": 2520
-        },
-        "T-nf54SiviXd": {
-          "hits": 0,
-          "textWords": 2520
-        },
-        "irh9T7NgDMU_": {
-          "hits": 0,
-          "textWords": 2520
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "pGRD67yp6WtY",
-      "address": "http://tantek.com/",
-      "title": "Tantek Çelik",
-      "snippet": "Why are there two pentagons in the otherwise hex-tiled American continents displayed in TRON: Legacy’s Rectifier Globe computer graphics?",
-      "matchedWords": {
-        "24igJXwiDb_d": {
-          "hits": 0,
-          "textWords": 10682
-        },
-        "31PKJoJAynZn": {
-          "hits": 2,
-          "textWords": 10682
-        },
-        "AbbiA0S2iDXF": {
-          "hits": 0,
-          "textWords": 10682
-        },
-        "T-nf54SiviXd": {
-          "hits": 0,
-          "textWords": 10682
-        },
-        "irh9T7NgDMU_": {
-          "hits": 8,
-          "textWords": 10682
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "b08TwlDZkUL4",
-      "address": "https://www.cnet.com/",
-      "title": "CNET: Product reviews, advice, how-tos and the latest news",
-      "snippet": "Our Expertise\nFor more than 25 years, CNET has built a reputation as the premier source for trustworthy, no-nonsense reviews on everything tech – from phones to TVs to laptops to tablets to streaming services.",
-      "matchedWords": {
-        "24igJXwiDb_d": {
-          "hits": 0,
-          "textWords": 59
-        },
-        "31PKJoJAynZn": {
-          "hits": 0,
-          "textWords": 59
-        },
-        "AbbiA0S2iDXF": {
-          "hits": 0,
-          "textWords": 59
-        },
-        "T-nf54SiviXd": {
-          "hits": 0,
-          "textWords": 59
-        },
-        "irh9T7NgDMU_": {
-          "hits": 0,
-          "textWords": 59
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "dof4MjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/File_system",
-      "title": "File system - Wikipedia",
+      "hash": "FzYmTlptNsG4",
+      "address": "https://www.akdart.com/sports.html",
+      "title": "The Sports Page: Corporate Welfare, Publicly Funded Stadiums",
       "snippet": "",
       "matchedWords": {
-        "24igJXwiDb_d": {
-          "hits": 0,
-          "textWords": 0
-        },
         "31PKJoJAynZn": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "AbbiA0S2iDXF": {
           "hits": 0,
           "textWords": 0
         },
@@ -2693,78 +2055,12 @@
       "queryPhraseHits": 0
     },
     {
-      "hash": "0BZyCsY-tUi5",
-      "address": "https://moralparty.com/ai/",
-      "title": "AI – MoralParty.com",
-      "snippet": "The feature, called Computer History, lets ChatGPT “learn from everything you do on your computer,” said Ari Weinstein, an OpenAI product and engineering manager, on X.",
-      "matchedWords": {
-        "24igJXwiDb_d": {
-          "hits": 0,
-          "textWords": 63075
-        },
-        "31PKJoJAynZn": {
-          "hits": 33,
-          "textWords": 63075
-        },
-        "AbbiA0S2iDXF": {
-          "hits": 0,
-          "textWords": 63075
-        },
-        "T-nf54SiviXd": {
-          "hits": 7,
-          "textWords": 63075
-        },
-        "irh9T7NgDMU_": {
-          "hits": 7,
-          "textWords": 63075
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "GtLjhloUbV15",
-      "address": "https://www.whatfinger.com/",
-      "title": "Whatfinger News® – Unfiltered Truth. America’s News Feed",
-      "snippet": "Whatfinger – 🛑 Features, Red-pill blasts, takedowns, hits, deep state reveals, and savage roasts that’ll make you say ‘DAMN!’ No safe spaces. (use arrows) – Sgt Pat, Beth, Ben, Sgt K\n🛑Headline Hurricane: 40 Top Stories Across All Beats (use arrows) – Sgt Pat, Ben, Luke",
-      "matchedWords": {
-        "24igJXwiDb_d": {
-          "hits": 0,
-          "textWords": 157
-        },
-        "31PKJoJAynZn": {
-          "hits": 0,
-          "textWords": 157
-        },
-        "AbbiA0S2iDXF": {
-          "hits": 0,
-          "textWords": 157
-        },
-        "T-nf54SiviXd": {
-          "hits": 0,
-          "textWords": 157
-        },
-        "irh9T7NgDMU_": {
-          "hits": 0,
-          "textWords": 157
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "YmlKhs6GdY-4",
-      "address": "https://danluu.com/talent/",
-      "title": "Misidentifying talent",
+      "hash": "7Nac2lptNsG4",
+      "address": "https://www.akdart.com/lib9.html",
+      "title": "Socialist Democrats are out of step with America",
       "snippet": "",
       "matchedWords": {
-        "24igJXwiDb_d": {
-          "hits": 0,
-          "textWords": 0
-        },
         "31PKJoJAynZn": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "AbbiA0S2iDXF": {
           "hits": 0,
           "textWords": 0
         },
@@ -2780,223 +2076,12 @@
       "queryPhraseHits": 0
     },
     {
-      "hash": "Yc__bsAbx4Yw",
-      "address": "https://sqlite.org/wal.html",
-      "title": "Write-Ahead Logging",
-      "snippet": "All processes using a database must be on the same host computer; WAL does not work over a network filesystem. This is because WAL requires all processes to share a small amount of memory and processes on separate host machines obviously cannot share memory with each other.",
-      "matchedWords": {
-        "24igJXwiDb_d": {
-          "hits": 0,
-          "textWords": 5022
-        },
-        "31PKJoJAynZn": {
-          "hits": 1,
-          "textWords": 5022
-        },
-        "AbbiA0S2iDXF": {
-          "hits": 0,
-          "textWords": 5022
-        },
-        "T-nf54SiviXd": {
-          "hits": 1,
-          "textWords": 5022
-        },
-        "irh9T7NgDMU_": {
-          "hits": 1,
-          "textWords": 5022
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "BKtg8jRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Taiwan",
-      "title": "Taiwan - Wikipedia",
-      "snippet": "Indigenous land loss under the Qing occurred at a relatively slow pace due to the absence of state-sponsored land deprivation for the majority of Qing rule.[158][159]\nJapanese rule (1895–1945)",
-      "matchedWords": {
-        "24igJXwiDb_d": {
-          "hits": 0,
-          "textWords": 32556
-        },
-        "31PKJoJAynZn": {
-          "hits": 1,
-          "textWords": 32556
-        },
-        "AbbiA0S2iDXF": {
-          "hits": 0,
-          "textWords": 32556
-        },
-        "T-nf54SiviXd": {
-          "hits": 2,
-          "textWords": 32556
-        },
-        "irh9T7NgDMU_": {
-          "hits": 1,
-          "textWords": 32556
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "uUrcqO1SKU15",
-      "address": "https://www.goodreads.com/book/show/960.Angels_Demons",
-      "title": "Angels \u0026 Demons (Robert Langdon, #1) by Dan Brown | Goodreads",
-      "snippet": "But as I know publishing houses, they probably still haven´t invested the money to fix the bugs, even in a multi million copies world bestseller, that uses the intentionally produced good old catholic church and JC controversies like no series before.",
-      "matchedWords": {
-        "24igJXwiDb_d": {
-          "hits": 0,
-          "textWords": 8009
-        },
-        "31PKJoJAynZn": {
-          "hits": 1,
-          "textWords": 8009
-        },
-        "AbbiA0S2iDXF": {
-          "hits": 0,
-          "textWords": 8009
-        },
-        "T-nf54SiviXd": {
-          "hits": 2,
-          "textWords": 8009
-        },
-        "irh9T7NgDMU_": {
-          "hits": 1,
-          "textWords": 8009
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "sNuODs6GdY-4",
-      "address": "https://danluu.com/zitron/",
-      "title": "Ed Zitron's AI prediction track record",
-      "snippet": "For Google, he cites Prabhakar Raghavan, who he calls truly evil and \"a computer scientist class traitor that sided with the management consultancy sect\", as having done some kind of grievous damage to Google search.",
-      "matchedWords": {
-        "24igJXwiDb_d": {
-          "hits": 0,
-          "textWords": 12399
-        },
-        "31PKJoJAynZn": {
-          "hits": 2,
-          "textWords": 12399
-        },
-        "AbbiA0S2iDXF": {
-          "hits": 0,
-          "textWords": 12399
-        },
-        "T-nf54SiviXd": {
-          "hits": 1,
-          "textWords": 12399
-        },
-        "irh9T7NgDMU_": {
-          "hits": 2,
-          "textWords": 12399
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "tTApqs6GdY-4",
-      "address": "https://danluu.com/why-benchmark/",
-      "title": "Measurement, benchmarking, and data analysis are underrated",
-      "snippet": "That's one particular example, but I find that it's generally true that, in areas where no one is publishing measurements/benchmarks of products, the products are generally sub-optimal, often in ways that are relatively straightforward to fix once measured. Here are a few examples:",
-      "matchedWords": {
-        "24igJXwiDb_d": {
-          "hits": 0,
-          "textWords": 5960
-        },
-        "31PKJoJAynZn": {
-          "hits": 3,
-          "textWords": 5960
-        },
-        "AbbiA0S2iDXF": {
-          "hits": 0,
-          "textWords": 5960
-        },
-        "T-nf54SiviXd": {
-          "hits": 2,
-          "textWords": 5960
-        },
-        "irh9T7NgDMU_": {
-          "hits": 1,
-          "textWords": 5960
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "t-vTMs6GdY-4",
-      "address": "https://danluu.com/ftc-google-antitrust/",
-      "title": "What the FTC got wrong in the Google antitrust investigation",
-      "snippet": "If you have a suggestion to fix this, I'll try it, otherwise I'll try to fix it when I switch away from Hugo.\n[return]",
-      "matchedWords": {
-        "24igJXwiDb_d": {
-          "hits": 0,
-          "textWords": 30944
-        },
-        "31PKJoJAynZn": {
-          "hits": 2,
-          "textWords": 30944
-        },
-        "AbbiA0S2iDXF": {
-          "hits": 0,
-          "textWords": 30944
-        },
-        "T-nf54SiviXd": {
-          "hits": 0,
-          "textWords": 30944
-        },
-        "irh9T7NgDMU_": {
-          "hits": 2,
-          "textWords": 30944
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "89Pocs6GdY-4",
-      "address": "https://danluu.com/diseconomies-scale/",
-      "title": "Diseconomies of scale in fraud, spam, support, and moderation",
-      "snippet": "Keeley asked support why that would fix it and the answer was basically, there's no particular reason to think that it might fix it, but it might also just work to re-upload the video. Another time, Keeley got \"hacked\" and went to support.",
-      "matchedWords": {
-        "24igJXwiDb_d": {
-          "hits": 0,
-          "textWords": 54155
-        },
-        "31PKJoJAynZn": {
-          "hits": 5,
-          "textWords": 54155
-        },
-        "AbbiA0S2iDXF": {
-          "hits": 0,
-          "textWords": 54155
-        },
-        "T-nf54SiviXd": {
-          "hits": 6,
-          "textWords": 54155
-        },
-        "irh9T7NgDMU_": {
-          "hits": 24,
-          "textWords": 54155
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "uyOcMlMA19g4",
-      "address": "https://www.pcworld.com/",
-      "title": "PCWorld",
+      "hash": "1lGoBsyuNlT5",
+      "address": "https://alt-webring.com/",
+      "title": "alt-webring | The (former) alternative webring system",
       "snippet": "",
       "matchedWords": {
-        "24igJXwiDb_d": {
-          "hits": 0,
-          "textWords": 0
-        },
         "31PKJoJAynZn": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "AbbiA0S2iDXF": {
           "hits": 0,
           "textWords": 0
         },
@@ -3012,127 +2097,135 @@
       "queryPhraseHits": 0
     },
     {
-      "hash": "uaEnGzTwnifx",
-      "address": "https://planet.wordpress.org/",
-      "title": "Planet — WordPress.org",
-      "snippet": "Most of them are trained to be helpful. But they’re still computers, and when I tell a computer to do a thing, it’s going to do specifically that thing.\nThe thing about LLMs is it’s non-deterministic, so you never really know the path that it goes on to do that thing.",
+      "hash": "BO-rvsGYFcLw",
+      "address": "https://sentry.io/welcome/",
+      "title": "Application Performance Monitoring \u0026 Error Tracking Software | Sentry",
+      "snippet": "",
       "matchedWords": {
-        "24igJXwiDb_d": {
-          "hits": 0,
-          "textWords": 9047
-        },
         "31PKJoJAynZn": {
-          "hits": 2,
-          "textWords": 9047
-        },
-        "AbbiA0S2iDXF": {
           "hits": 0,
-          "textWords": 9047
+          "textWords": 0
         },
         "T-nf54SiviXd": {
           "hits": 0,
-          "textWords": 9047
+          "textWords": 0
         },
         "irh9T7NgDMU_": {
-          "hits": 2,
-          "textWords": 9047
+          "hits": 0,
+          "textWords": 0
         }
       },
       "queryPhraseHits": 0
     },
     {
-      "hash": "0BZyCsY-tUi5",
-      "address": "https://moralparty.com/ai/",
-      "title": "AI – MoralParty.com",
-      "snippet": "The feature, called Computer History, lets ChatGPT “learn from everything you do on your computer,” said Ari Weinstein, an OpenAI product and engineering manager, on X.",
+      "hash": "pYw3_AHucLY4",
+      "address": "https://adrienalfiste.vip-blog.com/",
+      "title": "adrienalfiste blog : Le blog d'Adri (83)",
+      "snippet": "",
       "matchedWords": {
-        "24igJXwiDb_d": {
-          "hits": 0,
-          "textWords": 63075
-        },
         "31PKJoJAynZn": {
-          "hits": 33,
-          "textWords": 63075
-        },
-        "AbbiA0S2iDXF": {
           "hits": 0,
-          "textWords": 63075
+          "textWords": 0
         },
         "T-nf54SiviXd": {
-          "hits": 7,
-          "textWords": 63075
+          "hits": 0,
+          "textWords": 0
         },
         "irh9T7NgDMU_": {
-          "hits": 7,
-          "textWords": 63075
+          "hits": 0,
+          "textWords": 0
         }
       },
       "queryPhraseHits": 0
     },
     {
-      "hash": "GtLjhloUbV15",
-      "address": "https://www.whatfinger.com/",
-      "title": "Whatfinger News® – Unfiltered Truth. America’s News Feed",
-      "snippet": "Whatfinger – 🛑 Features, Red-pill blasts, takedowns, hits, deep state reveals, and savage roasts that’ll make you say ‘DAMN!’ No safe spaces. (use arrows) – Sgt Pat, Beth, Ben, Sgt K\n🛑Headline Hurricane: 40 Top Stories Across All Beats (use arrows) – Sgt Pat, Ben, Luke",
+      "hash": "jnOi_jRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Wikipedia:Link_rot",
+      "title": "Wikipedia:Link rot - Wikipedia",
+      "snippet": "",
       "matchedWords": {
-        "24igJXwiDb_d": {
-          "hits": 0,
-          "textWords": 157
-        },
         "31PKJoJAynZn": {
           "hits": 0,
-          "textWords": 157
-        },
-        "AbbiA0S2iDXF": {
-          "hits": 0,
-          "textWords": 157
+          "textWords": 0
         },
         "T-nf54SiviXd": {
           "hits": 0,
-          "textWords": 157
+          "textWords": 0
         },
         "irh9T7NgDMU_": {
           "hits": 0,
-          "textWords": 157
+          "textWords": 0
         }
       },
       "queryPhraseHits": 0
     },
     {
-      "hash": "AuYI3jRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Wikipedia:Glossary",
-      "title": "Wikipedia:Glossary - Wikipedia",
-      "snippet": "Used as an edit summary when correcting typos. See also Wikipedia:typo.\nTypofix\nA contraction of typo and fix. Any other word may be used in the place of typo to form -fix words.\nU\nUAA\nUsernames for Administrator Attention.",
+      "hash": "xRnvSjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Wikipedia:Featured_articles_(linked_from_TFAfooter)",
+      "title": "Wikipedia:Featured articles - Wikipedia",
+      "snippet": "",
       "matchedWords": {
-        "24igJXwiDb_d": {
-          "hits": 0,
-          "textWords": 19540
-        },
         "31PKJoJAynZn": {
-          "hits": 5,
-          "textWords": 19540
-        },
-        "AbbiA0S2iDXF": {
           "hits": 0,
-          "textWords": 19540
+          "textWords": 0
         },
         "T-nf54SiviXd": {
           "hits": 0,
-          "textWords": 19540
+          "textWords": 0
         },
         "irh9T7NgDMU_": {
-          "hits": 5,
-          "textWords": 19540
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "AWq9VQXx1HRZ",
+      "address": "http://www.dailystirrer.com/2012-october.shtml",
+      "title": "the_daily_stirrer-2012-june-opinion-comment-controversy-news-events-politics",
+      "snippet": "",
+      "matchedWords": {
+        "31PKJoJAynZn": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "T-nf54SiviXd": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "irh9T7NgDMU_": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "-b3sxspKNBr4",
+      "address": "https://rense.com/",
+      "title": "rense.com",
+      "snippet": "",
+      "matchedWords": {
+        "31PKJoJAynZn": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "T-nf54SiviXd": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "irh9T7NgDMU_": {
+          "hits": 0,
+          "textWords": 0
         }
       },
       "queryPhraseHits": 0
     }
   ],
   "documentsHeldPerQueryWord": {
-    "24igJXwiDb_d": 669168,
-    "31PKJoJAynZn": 223827,
-    "AbbiA0S2iDXF": 1404025,
-    "T-nf54SiviXd": 301126,
-    "irh9T7NgDMU_": 527887
+    "31PKJoJAynZn": 207824,
+    "T-nf54SiviXd": 184311,
+    "irh9T7NgDMU_": 606673
   }
 }

@@ -1,6 +1,6 @@
 {
   "query": "programmazione funzionale",
-  "recordedAt": "2026-09-12T10:15:30Z",
+  "recordedAt": "2026-09-12T11:25:31Z",
   "itemsInTheOrderOfEachAnswer": [
     [
       {
@@ -16,44 +16,6 @@
           "NqMNRJUSyBn1": {
             "hits": 14,
             "textWords": 4836
-          }
-        },
-        "queryPhraseHits": 0
-      }
-    ],
-    [
-      {
-        "hash": "W9B-bFtsxhzg",
-        "address": "https://www.camera.it/leg18/1058?idLegislatura=18\u0026tipologia=audiz1\u0026sottotipologia=\u0026anno=2018\u0026mese=11\u0026giorno=09\u0026idCommissione=05c05\u0026numero=0001\u0026file=indice_stenografico",
-        "title": "XVIII Legislatura - Lavori - Resoconti delle Giunte e Commissioni",
-        "snippet": "",
-        "matchedWords": {
-          "LJfIul09S28e": {
-            "hits": 0,
-            "textWords": 0
-          },
-          "NqMNRJUSyBn1": {
-            "hits": 3,
-            "textWords": 51285
-          }
-        },
-        "queryPhraseHits": 0
-      }
-    ],
-    [
-      {
-        "hash": "OJwy3wUl8GVi",
-        "address": "https://www.radioradicale.it/scheda/632378/le-primavere-arabe-10-anni-dopo-dalle-speranze-alla-disillusione",
-        "title": "Le primavere arabe 10 anni dopo: dalle speranze alla disillusione (24.03.2021)",
-        "snippet": "Promosso nell'ambito del decimo anniversario delle Primavere arabe. Registrazione video del dibattito dal titolo \"Le primavere arabe 10 anni dopo: dalle speranze alla disillusione\", registrato a Facebook mercoledì 24 marzo 2021 alle 17:00.",
-        "matchedWords": {
-          "LJfIul09S28e": {
-            "hits": 0,
-            "textWords": 149
-          },
-          "NqMNRJUSyBn1": {
-            "hits": 0,
-            "textWords": 149
           }
         },
         "queryPhraseHits": 0
@@ -81,15 +43,15 @@
         "hash": "W9B-bFtsxhzg",
         "address": "https://www.camera.it/leg18/1058?idLegislatura=18\u0026tipologia=audiz1\u0026sottotipologia=\u0026anno=2018\u0026mese=11\u0026giorno=09\u0026idCommissione=05c05\u0026numero=0001\u0026file=indice_stenografico",
         "title": "XVIII Legislatura - Lavori - Resoconti delle Giunte e Commissioni",
-        "snippet": "",
+        "snippet": "Tale azione è funzionale alla realizzazione di un obiettivo di crescita addizionale, che consenta di ridurre progressivamente e colmare il gap di crescita che ci separa dal resto dell'Europa.",
         "matchedWords": {
           "LJfIul09S28e": {
             "hits": 4,
-            "textWords": 51285
+            "textWords": 49658
           },
           "NqMNRJUSyBn1": {
-            "hits": 0,
-            "textWords": 0
+            "hits": 3,
+            "textWords": 49658
           }
         },
         "queryPhraseHits": 0
@@ -154,18 +116,18 @@
     ],
     [
       {
-        "hash": "W9B-bFtsxhzg",
-        "address": "https://www.camera.it/leg18/1058?idLegislatura=18\u0026tipologia=audiz1\u0026sottotipologia=\u0026anno=2018\u0026mese=11\u0026giorno=09\u0026idCommissione=05c05\u0026numero=0001\u0026file=indice_stenografico",
-        "title": "XVIII Legislatura - Lavori - Resoconti delle Giunte e Commissioni",
-        "snippet": "",
+        "hash": "aEigqOnsHw9g",
+        "address": "https://www.treccani.it/enciclopedia/offerta/",
+        "title": "Offerta - Enciclopedia - Treccani",
+        "snippet": "La teoria dell’o. da relazione funzionale tra quantità offerte e prezzi si è venuta così trasformando in una teoria di quantità prodotte ai vari costi.",
         "matchedWords": {
           "LJfIul09S28e": {
-            "hits": 0,
-            "textWords": 0
+            "hits": 1,
+            "textWords": 2293
           },
           "NqMNRJUSyBn1": {
-            "hits": 3,
-            "textWords": 51285
+            "hits": 1,
+            "textWords": 2293
           }
         },
         "queryPhraseHits": 0
@@ -174,18 +136,86 @@
   ],
   "itemsInNoOrder": [
     {
+      "hash": "s0im2v7fOGSg",
+      "address": "https://www.regione.veneto.it/",
+      "title": "Home - Regione del Veneto",
+      "snippet": "Programmazione regionale e comunitaria Programmazione generale, PRA, Programmazione negoziata, FSC (Fondo di Sviluppo e coesione), PSC, SNAI, FESR, CTE/Interreg (Cooperazione territoriale europea), Interreg V-A Italia-Croazia, FSE, PSR (Piano di Sviluppo Rurale), FEAMP.",
+      "matchedWords": {
+        "LJfIul09S28e": {
+          "hits": 0,
+          "textWords": 86
+        },
+        "NqMNRJUSyBn1": {
+          "hits": 4,
+          "textWords": 86
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "STL-FgM-i-mx",
+      "address": "https://it.wikipedia.org/wiki/Unione_europea",
+      "title": "Unione europea - Wikipedia",
+      "snippet": "Alloggio, gioventù, infanzia, diversità funzionale o assistenza agli anziani sono competenze di supporto dell'Unione europea e possono essere finanziate dal Fondo sociale europeo.\nI fondi strutturali e i fondi di coesione stanno sostenendo lo sviluppo delle regioni sottosviluppate dell'UE.",
+      "matchedWords": {
+        "LJfIul09S28e": {
+          "hits": 2,
+          "textWords": 30085
+        },
+        "NqMNRJUSyBn1": {
+          "hits": 2,
+          "textWords": 30085
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
       "hash": "NNO_NwUl8GVi",
       "address": "https://www.radioradicale.it/scheda/40712/processo-alfredo-bono",
       "title": "Processo Alfredo Bono (1.03.1991)",
-      "snippet": "palinsesto\nriascolta\narchivio\nrubriche\ndirette\nagenda\nLa programmazione di Venerdì 11 Settembre 2026 Palinsesto\n06:45 Critica e militanti, a cura di Matteo Marchesini\n06:50 A che punto è la notte?, a cura di Roberto Sommella, direttore di Milano Finanza",
+      "snippet": "palinsesto\nriascolta\narchivio\nrubriche\ndirette\nagenda\nLa programmazione di Sabato 12 Settembre 2026 Palinsesto\n06:45 Rassegna di geopolitica, a cura di Lorenzo Rendi\n06:55 Rassegna stampa Internazionale a cura di David Carretta\n07:10 Spazio Transnazionale, a cura di Francesco De Leo",
       "matchedWords": {
         "LJfIul09S28e": {
           "hits": 1,
-          "textWords": 4005
+          "textWords": 4324
         },
         "NqMNRJUSyBn1": {
-          "hits": 1,
-          "textWords": 4005
+          "hits": 2,
+          "textWords": 4324
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "OJwy3wUl8GVi",
+      "address": "https://www.radioradicale.it/scheda/632378/le-primavere-arabe-10-anni-dopo-dalle-speranze-alla-disillusione",
+      "title": "Le primavere arabe 10 anni dopo: dalle speranze alla disillusione (24.03.2021)",
+      "snippet": "Promosso nell'ambito del decimo anniversario delle Primavere arabe. Registrazione video del dibattito dal titolo \"Le primavere arabe 10 anni dopo: dalle speranze alla disillusione\", registrato a Facebook mercoledì 24 marzo 2021 alle 17:00.",
+      "matchedWords": {
+        "LJfIul09S28e": {
+          "hits": 0,
+          "textWords": 149
+        },
+        "NqMNRJUSyBn1": {
+          "hits": 0,
+          "textWords": 149
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "ZImYYwUl8GVi",
+      "address": "https://www.radioradicale.it/scheda/566126/partito-radicale-la-parola-agli-iscritti",
+      "title": "Partito Radicale: la parola agli iscritti (16.02.2019)",
+      "snippet": "Trasmissione sul Congresso del Partito Radicale con Laura Arconti.",
+      "matchedWords": {
+        "LJfIul09S28e": {
+          "hits": 0,
+          "textWords": 95
+        },
+        "NqMNRJUSyBn1": {
+          "hits": 0,
+          "textWords": 95
         }
       },
       "queryPhraseHits": 0
@@ -259,23 +289,6 @@
       "queryPhraseHits": 0
     },
     {
-      "hash": "6KgxngHGY7xx",
-      "address": "https://it.wikiversity.org/wiki/La_Riforma_Costituzionale_del_Governo_Renzi",
-      "title": "La Riforma Costituzionale del Governo Renzi - Wikiversità",
-      "snippet": "Permangono poi la possibilità delle camere di prevedere sedute segrete e le norme sui requisiti numerici per le delibere (quindi maggioranza dei componenti per il quorum strutturale, maggioranza dei votanti per il quorum funzionale).",
-      "matchedWords": {
-        "LJfIul09S28e": {
-          "hits": 2,
-          "textWords": 15892
-        },
-        "NqMNRJUSyBn1": {
-          "hits": 4,
-          "textWords": 15892
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
       "hash": "STL-FgM-i-mx",
       "address": "https://it.wikipedia.org/wiki/Unione_europea",
       "title": "Unione europea - Wikipedia",
@@ -310,26 +323,9 @@
       "queryPhraseHits": 0
     },
     {
-      "hash": "_cKrZgM-i-mx",
-      "address": "https://it.wikipedia.org/wiki/Intelligenza_artificiale",
-      "title": "Intelligenza artificiale - Wikipedia",
-      "snippet": "In particolare il time-sharing, l'interprete (informatica), l'interfaccia grafica, il mouse, la struttura dati lista concatenata, la programmazione funzionale, la programmazione simbolica, la programmazione dinamica e la programmazione orientata agli oggetti.[45]",
-      "matchedWords": {
-        "LJfIul09S28e": {
-          "hits": 1,
-          "textWords": 14839
-        },
-        "NqMNRJUSyBn1": {
-          "hits": 6,
-          "textWords": 14839
-        }
-      },
-      "queryPhraseHits": 1
-    },
-    {
-      "hash": "MDRIG-VGfHag",
-      "address": "https://www.vatican.va/archive/aas/documents/AAS-61-1969-ocr.pdf",
-      "title": "AAS-61-1969-ocr.pdf",
+      "hash": "7a1GH--zFb6h",
+      "address": "https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:legge:1995-12-28;549~art3-com130=",
+      "title": "LEGGE 28 dicembre 1995, n. 549 - Normattiva",
       "snippet": "",
       "matchedWords": {
         "LJfIul09S28e": {
@@ -344,52 +340,18 @@
       "queryPhraseHits": 0
     },
     {
-      "hash": "pWyxHOnsHw9g",
-      "address": "https://www.treccani.it/enciclopedia/giappone_res-7d55b1cf-87e9-11dc-8e9d-0016357eee51_(Enciclopedia-Italiana)/",
-      "title": "Giappone - Enciclopedia - Treccani",
-      "snippet": "Tokyo riassume in sé le caratteristiche delle altre grandi città giapponesi (di cui ben sei superano abbondantemente il milione di abitanti), con una spiccata differenziazione funzionale dei vari quartieri (da ricordare, per es., la Ginza, quartiere degli affari), ma ha aspetti originalissimi che",
-      "matchedWords": {
-        "LJfIul09S28e": {
-          "hits": 2,
-          "textWords": 15480
-        },
-        "NqMNRJUSyBn1": {
-          "hits": 2,
-          "textWords": 15480
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "7a1GH--zFb6h",
-      "address": "https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:legge:1995-12-28;549~art3-com130=",
-      "title": "LEGGE 28 dicembre 1995, n. 549 - Normattiva",
-      "snippet": "A decorrere dall'anno 1997, è istituito nello stato di previsione del Ministero del tesoro un fondo perequativo per la corresponsione in favore delle regioni di un importo pari alla differenza tra l'ammontare del gettito realizzato nell'anno 1996 ai sensi dei commi da 12 a 14 del presente articolo",
-      "matchedWords": {
-        "LJfIul09S28e": {
-          "hits": 0,
-          "textWords": 23835
-        },
-        "NqMNRJUSyBn1": {
-          "hits": 3,
-          "textWords": 23835
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
       "hash": "NNO_NwUl8GVi",
       "address": "https://www.radioradicale.it/scheda/40712/processo-alfredo-bono",
       "title": "Processo Alfredo Bono (1.03.1991)",
-      "snippet": "palinsesto\nriascolta\narchivio\nrubriche\ndirette\nagenda\nLa programmazione di Venerdì 11 Settembre 2026 Palinsesto\n06:45 Critica e militanti, a cura di Matteo Marchesini\n06:50 A che punto è la notte?, a cura di Roberto Sommella, direttore di Milano Finanza",
+      "snippet": "palinsesto\nriascolta\narchivio\nrubriche\ndirette\nagenda\nLa programmazione di Sabato 12 Settembre 2026 Palinsesto\n06:45 Rassegna di geopolitica, a cura di Lorenzo Rendi\n06:55 Rassegna stampa Internazionale a cura di David Carretta\n07:10 Spazio Transnazionale, a cura di Francesco De Leo",
       "matchedWords": {
         "LJfIul09S28e": {
           "hits": 1,
-          "textWords": 4005
+          "textWords": 4324
         },
         "NqMNRJUSyBn1": {
-          "hits": 1,
-          "textWords": 4005
+          "hits": 2,
+          "textWords": 4324
         }
       },
       "queryPhraseHits": 0
@@ -432,15 +394,15 @@
       "hash": "4VEprwUl8GVi",
       "address": "https://www.radioradicale.it/scheda/17250/torino-lo-scandalo-delle-tangenti",
       "title": "Torino: lo \"scandalo delle tangenti\" (30.01.1985)",
-      "snippet": "palinsesto\nriascolta\narchivio\nrubriche\ndirette\nagenda\nLa programmazione di Venerdì 11 Settembre 2026 Palinsesto\n06:45 Critica e militanti, a cura di Matteo Marchesini\n06:50 A che punto è la notte?, a cura di Roberto Sommella, direttore di Milano Finanza",
+      "snippet": "palinsesto\nriascolta\narchivio\nrubriche\ndirette\nagenda\nLa programmazione di Sabato 12 Settembre 2026 Palinsesto\n06:45 Rassegna di geopolitica, a cura di Lorenzo Rendi\n06:55 Rassegna stampa Internazionale a cura di David Carretta\n07:10 Spazio Transnazionale, a cura di Francesco De Leo",
       "matchedWords": {
         "LJfIul09S28e": {
           "hits": 1,
-          "textWords": 12884
+          "textWords": 13205
         },
         "NqMNRJUSyBn1": {
-          "hits": 1,
-          "textWords": 12884
+          "hits": 2,
+          "textWords": 13205
         }
       },
       "queryPhraseHits": 0
@@ -483,15 +445,15 @@
       "hash": "7a1GH--zFb6h",
       "address": "https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:legge:1995-12-28;549~art3-com130=",
       "title": "LEGGE 28 dicembre 1995, n. 549 - Normattiva",
-      "snippet": "A decorrere dall'anno 1997, è istituito nello stato di previsione del Ministero del tesoro un fondo perequativo per la corresponsione in favore delle regioni di un importo pari alla differenza tra l'ammontare del gettito realizzato nell'anno 1996 ai sensi dei commi da 12 a 14 del presente articolo",
+      "snippet": "",
       "matchedWords": {
         "LJfIul09S28e": {
           "hits": 0,
-          "textWords": 23835
+          "textWords": 0
         },
         "NqMNRJUSyBn1": {
-          "hits": 3,
-          "textWords": 23835
+          "hits": 0,
+          "textWords": 0
         }
       },
       "queryPhraseHits": 0
@@ -500,66 +462,15 @@
       "hash": "NNO_NwUl8GVi",
       "address": "https://www.radioradicale.it/scheda/40712/processo-alfredo-bono",
       "title": "Processo Alfredo Bono (1.03.1991)",
-      "snippet": "palinsesto\nriascolta\narchivio\nrubriche\ndirette\nagenda\nLa programmazione di Venerdì 11 Settembre 2026 Palinsesto\n06:45 Critica e militanti, a cura di Matteo Marchesini\n06:50 A che punto è la notte?, a cura di Roberto Sommella, direttore di Milano Finanza",
+      "snippet": "palinsesto\nriascolta\narchivio\nrubriche\ndirette\nagenda\nLa programmazione di Sabato 12 Settembre 2026 Palinsesto\n06:45 Rassegna di geopolitica, a cura di Lorenzo Rendi\n06:55 Rassegna stampa Internazionale a cura di David Carretta\n07:10 Spazio Transnazionale, a cura di Francesco De Leo",
       "matchedWords": {
         "LJfIul09S28e": {
           "hits": 1,
-          "textWords": 4005
+          "textWords": 4324
         },
         "NqMNRJUSyBn1": {
-          "hits": 1,
-          "textWords": 4005
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "aaSEMBxYdD3g",
-      "address": "https://www.ecb.europa.eu/pub/pdf/annrep/ar2003it.pdf",
-      "title": "Rapporto annuale 2003",
-      "snippet": "",
-      "matchedWords": {
-        "LJfIul09S28e": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "NqMNRJUSyBn1": {
-          "hits": 0,
-          "textWords": 0
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "3az_rBxYdD3g",
-      "address": "https://www.ecb.europa.eu/pub/pdf/annrep/ar2007it.pdf",
-      "title": "RAPPORTO ANNUALE 2007",
-      "snippet": "",
-      "matchedWords": {
-        "LJfIul09S28e": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "NqMNRJUSyBn1": {
-          "hits": 0,
-          "textWords": 0
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "5Zz5OBxYdD3g",
-      "address": "https://www.ecb.europa.eu/pub/pdf/annrep/ar2010it.pdf",
-      "title": "RAPPORTO ANNUALE 2010",
-      "snippet": "",
-      "matchedWords": {
-        "LJfIul09S28e": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "NqMNRJUSyBn1": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 2,
+          "textWords": 4324
         }
       },
       "queryPhraseHits": 0
@@ -580,197 +491,10 @@
         }
       },
       "queryPhraseHits": 0
-    },
-    {
-      "hash": "ZImYYwUl8GVi",
-      "address": "https://www.radioradicale.it/scheda/566126/partito-radicale-la-parola-agli-iscritti",
-      "title": "Partito Radicale: la parola agli iscritti (16.02.2019)",
-      "snippet": "Trasmissione sul Congresso del Partito Radicale con Laura Arconti.",
-      "matchedWords": {
-        "LJfIul09S28e": {
-          "hits": 0,
-          "textWords": 95
-        },
-        "NqMNRJUSyBn1": {
-          "hits": 0,
-          "textWords": 95
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "J9mios1Nvqow",
-      "address": "https://ocaml.org/books",
-      "title": "OCaml Books",
-      "snippet": "The concepts presented therein and illustrated in OCaml easily transpose to other programming languages.\nBeginner\nIntroduzione alla programmazione funzionale\nCarla Limongelli, Marta Cialdea\nFREE\nIntermediate",
-      "matchedWords": {
-        "LJfIul09S28e": {
-          "hits": 1,
-          "textWords": 2054
-        },
-        "NqMNRJUSyBn1": {
-          "hits": 1,
-          "textWords": 2054
-        }
-      },
-      "queryPhraseHits": 1
-    },
-    {
-      "hash": "ioA26i5DCs35",
-      "address": "https://wordpress.com/it/costruttore-di-siti-ia/",
-      "title": "Costruttore di siti web con IA | Crea un sito WordPress.com in pochi minuti",
-      "snippet": "Basta digitare ciò che ti serve, rispondere ad alcune domande e l’IA si occuperà della grafica e del testo. Non è necessaria alcuna esperienza di programmazione o progettazione.\nQual è la differenza tra un costruttore di siti con IA e un normale costruttore di siti web?",
-      "matchedWords": {
-        "LJfIul09S28e": {
-          "hits": 0,
-          "textWords": 1687
-        },
-        "NqMNRJUSyBn1": {
-          "hits": 1,
-          "textWords": 1687
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "ofsSoRCW9XLA",
-      "address": "http://www.pluto.it/ildp/doc-it",
-      "title": "Altri documenti | PLUTO Project",
-      "snippet": "Il documento descrive come effettuare in modo rapido lo shutdown ed il reboot di un sistema Linux premendo pochi tasti.\nAutore:\nOttavio Campana\nVersione:\n1 settembre 2004\nDescrizione:\nDomande frequenti sulla programmazione sotto GNU/Linux.\nAutore:\nSalvo Fresta\nVersione:\n1\nDescrizione:",
-      "matchedWords": {
-        "LJfIul09S28e": {
-          "hits": 0,
-          "textWords": 526
-        },
-        "NqMNRJUSyBn1": {
-          "hits": 1,
-          "textWords": 526
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "1N3TURCW9XLA",
-      "address": "http://www.pluto.it/ildp/howto.html?page=2",
-      "title": "HOWTO | PLUTO Project",
-      "snippet": "Introduce l'architettura di supercomputer Beowulf e fornisce informazioni basilari sulla programmazione parallela, inclusi link a altri documenti più specifici.\nTraduttore:\nFederico Lucifredi\nRevisore:\nClaudio Cattazzo\nVersione:\nv36\nStato:\nda aggiornare\nDescrizione:",
-      "matchedWords": {
-        "LJfIul09S28e": {
-          "hits": 0,
-          "textWords": 418
-        },
-        "NqMNRJUSyBn1": {
-          "hits": 1,
-          "textWords": 418
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "-nsijhCW9XLA",
-      "address": "http://www.pluto.it/journal/rubriche",
-      "title": "Rubriche del PLUTO Journal | PLUTO Project",
-      "snippet": "PLUTO Ware\nResponsabile: Simone Stevanin, simone(at)pluto.it\nVengono inseriti in PLUTO Ware articoli riguardanti la programmazione in generale (come un articolo sulla creazione di Makefile) oppure su un programma creato da voi.",
-      "matchedWords": {
-        "LJfIul09S28e": {
-          "hits": 0,
-          "textWords": 296
-        },
-        "NqMNRJUSyBn1": {
-          "hits": 2,
-          "textWords": 296
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "6KgxngHGY7xx",
-      "address": "https://it.wikiversity.org/wiki/La_Riforma_Costituzionale_del_Governo_Renzi",
-      "title": "La Riforma Costituzionale del Governo Renzi - Wikiversità",
-      "snippet": "Permangono poi la possibilità delle camere di prevedere sedute segrete e le norme sui requisiti numerici per le delibere (quindi maggioranza dei componenti per il quorum strutturale, maggioranza dei votanti per il quorum funzionale).",
-      "matchedWords": {
-        "LJfIul09S28e": {
-          "hits": 2,
-          "textWords": 15892
-        },
-        "NqMNRJUSyBn1": {
-          "hits": 4,
-          "textWords": 15892
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "s8F_ola5eoug",
-      "address": "https://www.wikihow.it/Esperti",
-      "title": "Esperti wikiHow",
-      "snippet": "Candace Gasper\nConsulente Specializzata in Social Media e Marketing Digitale\nCandace Gasper è una consulente esperta di social media e marketing digitale, titolare di Digital Candy, un'agenzia di social media.",
-      "matchedWords": {
-        "LJfIul09S28e": {
-          "hits": 0,
-          "textWords": 43271
-        },
-        "NqMNRJUSyBn1": {
-          "hits": 0,
-          "textWords": 43271
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "xbdtygkABAWx",
-      "address": "https://it.wikibooks.org/wiki/Wikibooks:Bar/Archivio9",
-      "title": "Wikibooks:Bar/Archivio9 - Wikibooks, manuali e libri di testo liberi",
-      "snippet": "E' da un po' di giorni che contribuisco di meno, ma anche se non sembrerebbe proprio in questi giorni la mia presenza è più significativa :D. Mi sto dedicando all'uso di Wikibooks, ossia sto cercando di capire se la nostra impostazioni così com'è è corretta, e funzionale.",
-      "matchedWords": {
-        "LJfIul09S28e": {
-          "hits": 1,
-          "textWords": 18360
-        },
-        "NqMNRJUSyBn1": {
-          "hits": 1,
-          "textWords": 18360
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "-UvQngkABAWx",
-      "address": "https://it.wikibooks.org/wiki/Wikibooks:Bar/Archivio6",
-      "title": "Wikibooks:Bar/Archivio6 - Wikibooks, manuali e libri di testo liberi",
-      "snippet": "Chiedo se è possibile che Filosofia sia inserita in una apposita facoltà e che non sia invece solo un cors attivato della Facoltà di Lettere e Filosofia. In primo luogo perché sarebbe più funzionale il dotarsi di uno statuto autonomo differente da quello di Lettere.",
-      "matchedWords": {
-        "LJfIul09S28e": {
-          "hits": 4,
-          "textWords": 15538
-        },
-        "NqMNRJUSyBn1": {
-          "hits": 2,
-          "textWords": 15538
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "2j7WUOnsHw9g",
-      "address": "https://www.treccani.it/enciclopedia/francia/",
-      "title": "Francia nell'Enciclopedia Treccani",
-      "snippet": "L’effetto ‘magnete’ dell’agglomerazione parigina, invece, si va lentamente attenuando, il che tuttavia non limita, se non in misura marginalissima, il suo ruolo di città primate e la sua assoluta predominanza demografica, economica e funzionale rispetto al resto del paese.",
-      "matchedWords": {
-        "LJfIul09S28e": {
-          "hits": 1,
-          "textWords": 20419
-        },
-        "NqMNRJUSyBn1": {
-          "hits": 2,
-          "textWords": 20419
-        }
-      },
-      "queryPhraseHits": 0
     }
   ],
   "documentsHeldPerQueryWord": {
-    "LJfIul09S28e": 2385,
-    "NqMNRJUSyBn1": 11276
+    "LJfIul09S28e": 772,
+    "NqMNRJUSyBn1": 11374
   }
 }

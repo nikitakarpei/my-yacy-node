@@ -2,10 +2,22 @@
   "query": "recette crêpes",
   "judgedDocuments": [
     {
-      "hash": "05P_mCKCIhSg",
-      "address": "https://madame.lefigaro.fr/recettes/nems-crevettes-221206-5867",
-      "title": "Nems aux crevettes faciles",
+      "hash": "Lg_KaCKCIhSg",
+      "address": "https://madame.lefigaro.fr/recettes/pate-crepes-sucree-171000-198865",
+      "title": "Pâte à crêpes sucrée facile et rapide",
+      "grade": 2
+    },
+    {
+      "hash": "smyaiTKCIhSg",
+      "address": "https://madame.lefigaro.fr/",
+      "title": "Mode, Beauté, Recettes, Société, Horoscope, Célébrités",
       "grade": 0
+    },
+    {
+      "hash": "JhYEx2KCIhSg",
+      "address": "https://madame.lefigaro.fr/tag/rebecca-zlotowski",
+      "title": "Rebecca Zlotowski",
+      "grade": null
     },
     {
       "hash": "PDErLCKCIhSg",
@@ -14,10 +26,34 @@
       "grade": 1
     },
     {
-      "hash": "9_VEXsKCIhSg",
-      "address": "https://madame.lefigaro.fr/bien-etre/nutrition",
-      "title": "Conseils diététiques et astuces pour bien manger",
-      "grade": 0
+      "hash": "aXyYXdKCIhSg",
+      "address": "https://madame.lefigaro.fr/celebrites/actu-people/en-video-jake-gyllenhaal-affiche-ses-abdos-lors-d-une-vraie-competition-d-arts-martiaux-20230307",
+      "title": "L'acteur Jake Gyllenhaal affiche son impressionnante musculature lors d'une compétition d'arts martiaux",
+      "grade": null
+    },
+    {
+      "hash": "y09tFdKCIhSg",
+      "address": "https://madame.lefigaro.fr/celebrites/culture/romans-polars-bd-les-10-livres-qui-vont-faire-votre-ete-20260714",
+      "title": "Romans, polars, BD... les 10 livres qui vont faire votre été",
+      "grade": null
+    },
+    {
+      "hash": "YQv1aCKCIhSg",
+      "address": "https://madame.lefigaro.fr/recettes/helene-darroze-merlu-de-ligne-de-saint-jean-de-luz-et-bagna-cauda-070619-165474",
+      "title": "Merlu de ligne de Saint-Jean-de-Luz et bagna cauda",
+      "grade": null
+    },
+    {
+      "hash": "BSpvEQKCIhSg",
+      "address": "https://madame.lefigaro.fr/bijoux-et-montres/ariana-grande-pour-swarovski-une-collection-de-bijoux-inspiree-par-la-musique-20250128",
+      "title": "Ariana Grande pour Swarovski, une collection de bijoux inspirée par la musique",
+      "grade": null
+    },
+    {
+      "hash": "jyxCbsKCIhSg",
+      "address": "https://madame.lefigaro.fr/bien-etre/psycho/j-ai-demande-des-conseils-amoureux-a-l-ia-et-voici-ce-qu-elle-m-a-repondu-20260804",
+      "title": "J’ai demandé des conseils amoureux à l’IA et voici ce qu’elle m’a répondu",
+      "grade": null
     },
     {
       "hash": "l8sIEloySBog",
@@ -26,21 +62,33 @@
       "grade": 0
     },
     {
+      "hash": "N5_8O2KCIhSg",
+      "address": "https://madame.lefigaro.fr/tag/bande-annonce",
+      "title": "Bande-annonce",
+      "grade": null
+    },
+    {
       "hash": "12oGL2KCIhSg",
       "address": "https://madame.lefigaro.fr/tag/gainage",
       "title": "Gainage",
       "grade": 0
     },
     {
-      "hash": "Lg_KaCKCIhSg",
-      "address": "https://madame.lefigaro.fr/recettes/pate-crepes-sucree-171000-198865",
-      "title": "Pâte à crêpes sucrée facile et rapide",
-      "grade": 2
+      "hash": "75bMgCKCIhSg",
+      "address": "https://madame.lefigaro.fr/recettes/ingredients/boeuf-0",
+      "title": "Bœuf recettes traditionnelles : sublimez vos plats",
+      "grade": null
     },
     {
-      "hash": "UDv4zCKCIhSg",
-      "address": "https://madame.lefigaro.fr/recettes/ingredients/huitre-0",
-      "title": "Huître recettes traditionnelles : sublimez vos plats",
+      "hash": "BUDN0rKCIhSg",
+      "address": "https://madame.lefigaro.fr/beaute/parfum/en-exclusivite-anya-taylor-joy-s-avance-en-reine-des-neiges-enchanteresse-pour-dior-parfums-20231020",
+      "title": "En exclusivité, Anya Taylor-Joy s’avance en reine des neiges enchanteresse pour Dior parfums",
+      "grade": null
+    },
+    {
+      "hash": "9_VEXsKCIhSg",
+      "address": "https://madame.lefigaro.fr/bien-etre/nutrition",
+      "title": "Conseils diététiques et astuces pour bien manger",
       "grade": 0
     },
     {
@@ -50,232 +98,118 @@
       "grade": 1
     },
     {
-      "hash": "Wk2hT2KCIhSg",
-      "address": "https://madame.lefigaro.fr/tag/judi-dench",
-      "title": "Judi Dench",
+      "hash": "KQ5uDlKCIhSg",
+      "address": "https://madame.lefigaro.fr/mariage/tendances",
+      "title": "Tendances mariage : Nos idées pour votre jour j",
+      "grade": null
+    },
+    {
+      "hash": "xNH_c_KCIhSg",
+      "address": "https://madame.lefigaro.fr/royaute/le-prince-harry-retourne-au-tribunal-pour-soutenir-elizabeth-hurley-20260123",
+      "title": "Le prince Harry retourne au tribunal pour soutenir Elizabeth Hurley",
+      "grade": null
+    },
+    {
+      "hash": "r2lvPCKCIhSg",
+      "address": "https://madame.lefigaro.fr/recettes/100-chocolat-100511-202685",
+      "title": "Le 100% chocolat",
+      "grade": null
+    },
+    {
+      "hash": "aV9pJCKCIhSg",
+      "address": "https://madame.lefigaro.fr/recettes/macarons-sans-amande-ultra-chocolat-081107-6668",
+      "title": "Macarons sans amande ultra-chocolat",
+      "grade": null
+    },
+    {
+      "hash": "gOIJ8sKCIhSg",
+      "address": "https://madame.lefigaro.fr/bien-etre/forme-detente/les-conseils-du-coach-de-jennifer-lopez-pour-des-seances-de-sport-efficaces-20220228",
+      "title": "Les conseils et exercices du coach de Jennifer Lopez pour des séances de sport efficaces",
+      "grade": null
+    },
+    {
+      "hash": "qV8l-0KCIhSg",
+      "address": "https://madame.lefigaro.fr/societe/actu/nager-dans-la-seine-est-ce-bien-raisonnable-20260623",
+      "title": "Nager dans le Canal Saint-Martin, est-ce bien raisonnable ?",
+      "grade": null
+    },
+    {
+      "hash": "4k-h0dKCIhSg",
+      "address": "https://madame.lefigaro.fr/celebrites/culture/luz-depuis-plus-de-dix-ans-chacune-de-mes-bd-porte-en-elle-le-stigmate-de-2015-20260905",
+      "title": "Luz : «Depuis plus de dix ans, chacune de mes BD porte en elle le stigmate de 2015»",
+      "grade": null
+    },
+    {
+      "hash": "DQiReCKCIhSg",
+      "address": "https://madame.lefigaro.fr/recettes/trois-rouleaux-farcis-221206-5864",
+      "title": "Rouleaux farcis au poulet, tomate et jambon",
+      "grade": null
+    },
+    {
+      "hash": "zFBYcsKCIhSg",
+      "address": "https://madame.lefigaro.fr/bien-etre/nutrition/quel-est-le-petit-dejeuner-ideal-pour-notre-cerveau-20251215",
+      "title": "Petit déjeuner : voici le menu idéal pour le bon fonctionnement de notre cerveau",
+      "grade": null
+    },
+    {
+      "hash": "6SSBSCKCIhSg",
+      "address": "https://madame.lefigaro.fr/recettes/terrine-de-lapin-de-garrigue-200914-936802",
+      "title": "Terrine de lapin",
+      "grade": null
+    },
+    {
+      "hash": "jPEb-sKCIhSg",
+      "address": "https://madame.lefigaro.fr/bien-etre/forme-detente/vinaigre-de-cidre-au-reveil-deux-seances-de-sport-chaque-matin-la-routine-extreme-de-victoria-beckham-20220704",
+      "title": "Vinaigre de cidre au réveil, deux séances de sport chaque matin… La routine extrême de Victoria Beckham",
+      "grade": null
+    },
+    {
+      "hash": "oPN_QdKCIhSg",
+      "address": "https://madame.lefigaro.fr/celebrites/culture/faut-il-lire-le-premier-roman-de-tom-hanks-20260109",
+      "title": "Faut-il lire le premier roman de Tom Hanks ?",
+      "grade": null
+    },
+    {
+      "hash": "5MuGc0KCIhSg",
+      "address": "https://madame.lefigaro.fr/societe/actu/on-a-tous-cet-ami-qui-adore-faire-les-courses-en-vacances-les-secrets-derriere-le-tourisme-de-supermarche-20260803",
+      "title": "On a tous cet ami qui adore faire les courses en vacances : les secrets derrière le «tourisme de supermarché»",
+      "grade": null
+    },
+    {
+      "hash": "mMk2xCKCIhSg",
+      "address": "https://madame.lefigaro.fr/recettes/foie-gras-zeste-de-citron-vert-confit-de-dattes-181109-201952",
+      "title": "Foie gras au zeste de citron vert, confit de dattes",
+      "grade": null
+    },
+    {
+      "hash": "A6PjT2KCIhSg",
+      "address": "https://madame.lefigaro.fr/tag/brigitte-macron",
+      "title": "Brigitte Macron",
       "grade": 0
     },
     {
-      "hash": "tk0fmCKCIhSg",
-      "address": "https://madame.lefigaro.fr/recettes/ingredients/encornet",
-      "title": "Encornet recettes traditionnelles : sublimez vos plats",
+      "hash": "Bn6FoTKCIhSg",
+      "address": "https://madame.lefigaro.fr/mariage",
+      "title": "Guide du mariage : tout pour un mariage de rêve",
       "grade": 0
     },
     {
-      "hash": "K2WdICKCIhSg",
-      "address": "https://madame.lefigaro.fr/recettes/ceviche-de-bar-a-la-forestiere-20230503",
-      "title": "Ceviche de bar à la forestière",
-      "grade": 0
+      "hash": "Eefa2CKCIhSg",
+      "address": "https://madame.lefigaro.fr/recettes/idees-menus/aperitif-dinatoire-0",
+      "title": "Recettes Apéro dînatoire : faciles et originales",
+      "grade": null
     },
     {
-      "hash": "etgHsCKCIhSg",
-      "address": "https://madame.lefigaro.fr/recettes/ingredients/ble",
-      "title": "Blé recettes traditionnelles : sublimez vos plats",
-      "grade": 0
+      "hash": "Ip_fpTKCIhSg",
+      "address": "https://madame.lefigaro.fr/cuisine",
+      "title": "Cuisine et Recettes faciles et rapides du monde",
+      "grade": null
     },
     {
-      "hash": "Ss7MJ2KCIhSg",
-      "address": "https://madame.lefigaro.fr/tag/amanda-seyfried",
-      "title": "Amanda Seyfried",
-      "grade": 0
-    },
-    {
-      "hash": "pRl9CHqMmHqh",
-      "address": "https://www.lindependant.fr/articles/2019/01/31/",
-      "title": "Articles du 31/01/2019 - lindependant.fr",
-      "grade": 1
-    },
-    {
-      "hash": "DHdLtCKCIhSg",
-      "address": "https://madame.lefigaro.fr/recettes/terrine-de-foie-gras-de-canard-au-vin-des-dieux-20221212",
-      "title": "Terrine de foie gras de canard au vin des dieux",
-      "grade": 0
-    },
-    {
-      "hash": "XdkO_mKCIhSg",
-      "address": "https://madame.lefigaro.fr/le-petit-club/madamelove-tentez-de-gagner-une-bague-tityaravy-20240208",
-      "title": "#MadameLove : tentez de gagner une bague Tityaravy",
-      "grade": 0
-    },
-    {
-      "hash": "l7WpW2KCIhSg",
-      "address": "https://madame.lefigaro.fr/tag/meghan-markle",
-      "title": "Meghan Markle",
-      "grade": 0
-    },
-    {
-      "hash": "ntMeYdKCIhSg",
-      "address": "https://madame.lefigaro.fr/celebrites/jennifer-lawrence-muse-de-hollywood-151113-630012",
-      "title": "Jennifer Lawrence, la muse de Hollywood",
-      "grade": 0
-    },
-    {
-      "hash": "AGn43dKCIhSg",
-      "address": "https://madame.lefigaro.fr/celebrites/soirees/nicolas-mathieu-rima-abdul-malak-anne-berest-en-photos-le-diner-des-primo-romanciers-2023-du-cnl-20231120",
-      "title": "Nicolas Mathieu, Rima Abdul-Malak, Anne Berest... En photos, le dîner des primo-romanciers 2023 du Centre national du livre (CNL)",
-      "grade": 0
-    },
-    {
-      "hash": "B7jLHCKCIhSg",
-      "address": "https://madame.lefigaro.fr/recettes/carpaccio-de-saint-jacques-sur-tarte-fine-261111-186543",
-      "title": "Carpaccio de Saint-Jacques sur tarte fine",
-      "grade": 0
-    },
-    {
-      "hash": "B-xbKYKCIhSg",
-      "address": "https://madame.lefigaro.fr/cuisine/le-tour-de-france-gourmand-de-plats-regionaux-en-boissons-typique-290617-133046",
-      "title": "Tour de France gourmand : une région, une spécialité",
-      "grade": 0
-    },
-    {
-      "hash": "CMWLQCKCIhSg",
-      "address": "https://madame.lefigaro.fr/recettes/coquilles-saint-jacques-curry-240101-200348",
-      "title": "Coquilles Saint-Jacques au curry",
-      "grade": 0
-    },
-    {
-      "hash": "DgVdfmKCIhSg",
-      "address": "https://madame.lefigaro.fr/le-petit-club/le-grand-palais-rouvre-ses-portes-pour-art-basel-paris-participez-a-une-visite-exclusive-20240925",
-      "title": "Plus que quelques jours pour réserver votre Visite Exclusive avec Madame Figaro !",
-      "grade": 0
-    },
-    {
-      "hash": "EVF3ImKCIhSg",
-      "address": "https://madame.lefigaro.fr/le-petit-club/cinq-mondes-vous-offre-son-onguent-de-jeunesse-pour-hydrater-votre-peau-et-prevenir-les-rides-de-deshydratation-20231211",
-      "title": "Dernière surprise de l'année : un soin révolutionnaire Cinq Mondes à gagner",
-      "grade": 0
-    },
-    {
-      "hash": "FQPmQiKCIhSg",
-      "address": "https://madame.lefigaro.fr/deco-design/fauteuil-doudou-le-nouveau-cool-20250413",
-      "title": "Fauteuil doudou : on fond pour les formes rondes et enveloppantes, dehors comme dedans",
-      "grade": 0
-    },
-    {
-      "hash": "FokeUdKCIhSg",
-      "address": "https://madame.lefigaro.fr/celebrites/culture/en-photos-la-soiree-de-recompenses-du-grand-prix-de-l-heroine-madame-figaro-2025-20250613",
-      "title": "En photos : la soirée de récompenses du Grand Prix de l’Héroïne Madame Figaro 2025",
-      "grade": 0
-    },
-    {
-      "hash": "GuOBHCKCIhSg",
-      "address": "https://madame.lefigaro.fr/recettes/tatin-de-saint-jacques-deric-guerin-151213-634624",
-      "title": "Tatin de Saint-Jacques",
-      "grade": 0
-    },
-    {
-      "hash": "KtqtjCKCIhSg",
-      "address": "https://madame.lefigaro.fr/recettes/carpaccio-de-saint-jacques-mandarine-210807-6606",
-      "title": "Carpaccio de Saint-Jacques à la mandarine",
-      "grade": 0
-    },
-    {
-      "hash": "MukKRCKCIhSg",
-      "address": "https://madame.lefigaro.fr/recettes/carpaccio-de-saint-jacques-jus-de-mangue-epices-281211-207011",
-      "title": "Carpaccio de Saint-Jacques au jus de mangue et épices",
-      "grade": 0
-    },
-    {
-      "hash": "SoZ9oCKCIhSg",
-      "address": "https://madame.lefigaro.fr/recettes/ravioles-de-saint-jacques-030107-6060",
-      "title": "Ravioles de Saint-Jacques",
-      "grade": 0
-    },
-    {
-      "hash": "S9VUp2KCIhSg",
-      "address": "https://madame.lefigaro.fr/tag/francois-henri-pinault",
-      "title": "François-Henri Pinault",
-      "grade": 0
-    },
-    {
-      "hash": "Vy07QdKCIhSg",
-      "address": "https://madame.lefigaro.fr/celebrites/retour-sur-une-soiree-exceptionnelle-autour-du-droit-des-femmes-171121-199177",
-      "title": "Retour sur une soirée exceptionnelle autour du droit des femmes",
-      "grade": 0
-    },
-    {
-      "hash": "XCaFRmKCIhSg",
-      "address": "https://madame.lefigaro.fr/le-petit-club/devenez-juree-du-prix-des-lectrices-feel-good-madame-figaro-2024-20240723",
-      "title": "Devenez jurée du Prix des lectrices Feel Good Madame Figaro 2024",
-      "grade": 0
-    },
-    {
-      "hash": "YfylidKCIhSg",
-      "address": "https://madame.lefigaro.fr/celebrites/culture/quelles-sont-les-images-qui-nous-ont-marques-lors-de-la-premiere-semaine-des-rencontres-photographiques-d-arles-20260813",
-      "title": "Quelles sont les images qui nous ont marqués lors de la première semaine des Rencontres photographiques d’Arles ?",
-      "grade": 0
-    },
-    {
-      "hash": "ZJyIlCKCIhSg",
-      "address": "https://madame.lefigaro.fr/recettes/gratin-dhuitres-saint-jacques-magret-fume-170609-202186",
-      "title": "Gratin d'huîtres et Saint-Jacques au magret fumé",
-      "grade": 0
-    },
-    {
-      "hash": "0e61_dKCIhSg",
-      "address": "https://madame.lefigaro.fr/celebrites/actu-people/meghan-markle-pourrait-faire-son-retour-en-tant-qu-actrice-dans-une-serie-d-action-sur-netflix-20260822",
-      "title": "Meghan Markle pourrait faire son retour en tant qu’actrice dans une série d’action sur Netflix",
-      "grade": 0
-    },
-    {
-      "hash": "6ZpNwCKCIhSg",
-      "address": "https://madame.lefigaro.fr/recettes/coquilles-saint-jacques-au-the-fume-111210-112190",
-      "title": "Coquilles Saint-Jacques au thé fumé",
-      "grade": 0
-    },
-    {
-      "hash": "6l4R4mKCIhSg",
-      "address": "https://madame.lefigaro.fr/le-petit-club/mid-season-sale-la-veste-en-cuir-claudie-pierlot-le-bestseller-de-la-marque-est-remisee-20240517",
-      "title": "Mid Season Sale : La veste en cuir Claudie Pierlot, le bestseller de la marque, est remisée",
-      "grade": 0
-    },
-    {
-      "hash": "6p8FNCKCIhSg",
-      "address": "https://madame.lefigaro.fr/recettes/saint-jacques-lemulsion-de-mache-030107-6064",
-      "title": "Saint-Jacques à l'émulsion de mâche",
-      "grade": 0
-    },
-    {
-      "hash": "6s-3imKCIhSg",
-      "address": "https://madame.lefigaro.fr/le-petit-club/deux-attentions-beaute-a-decouvrir-avec-votre-nouveau-numero-madame-figaro-20260529",
-      "title": "Deux attentions beauté à découvrir avec votre nouveau numéro Madame Figaro",
-      "grade": 0
-    },
-    {
-      "hash": "8qCPUCKCIhSg",
-      "address": "https://madame.lefigaro.fr/recettes/coquilles-saint-jacques-gratinees-four-260808-200824",
-      "title": "Coquilles Saint-Jacques gratinées au four",
-      "grade": 0
-    },
-    {
-      "hash": "-uC6FdKCIhSg",
-      "address": "https://madame.lefigaro.fr/celebrites/soirees/happy-mandarin-oriental-lutetia-20251217",
-      "title": "Les 115 ans du Mandarin Oriental Lutetia : une nuit rive gauche avec les stars de l’art et du cinéma",
-      "grade": 0
-    },
-    {
-      "hash": "Zj6fIsKCIhSg",
-      "address": "https://madame.lefigaro.fr/bien-etre/forme-detente/comment-muscler-et-dessiner-ses-bras-sans-poids-ni-halteres-20220426",
-      "title": "Comment muscler et dessiner ses bras sans poids ni haltères",
-      "grade": 0
-    },
-    {
-      "hash": "ThzD9lzvQPgh",
-      "address": "https://www.radiofrance.fr/",
-      "title": "Radio France | Écoutez en ligne vos radios",
-      "grade": 0
-    },
-    {
-      "hash": "JbsvwdKCIhSg",
-      "address": "https://madame.lefigaro.fr/celebrites/actu-people/ian-wace-ce-mysterieux-milliardaire-qui-aurait-aide-meghan-markle-et-le-prince-harry-a-financer-leur-demenagement-au-royaume-uni-20260829",
-      "title": "Ian Wace, ce mystérieux milliardaire qui aurait aidé Meghan Markle et le prince Harry à financer leur déménagement au Royaume-Uni",
-      "grade": 0
-    },
-    {
-      "hash": "smyaiTKCIhSg",
-      "address": "https://madame.lefigaro.fr/",
-      "title": "Mode, Beauté, Recettes, Société, Horoscope, Célébrités",
-      "grade": 0
+      "hash": "LzJ_wQKCIhSg",
+      "address": "https://madame.lefigaro.fr/bijoux-et-montres/tendances-bijoux",
+      "title": "Tendances bijoux - Madame Figaro",
+      "grade": null
     },
     {
       "hash": "Sw5E4jKCIhSg",
@@ -290,16 +224,82 @@
       "grade": 0
     },
     {
-      "hash": "A6PjT2KCIhSg",
-      "address": "https://madame.lefigaro.fr/tag/brigitte-macron",
-      "title": "Brigitte Macron : Dernières infos et biographie",
+      "hash": "FaFCxdKCIhSg",
+      "address": "https://madame.lefigaro.fr/celebrites/culture/nathacha-appanah-ecrire-c-est-l-histoire-de-ma-vie-depuis-que-j-ai-14-ans-20260125",
+      "title": "Nathacha Appanah : «Écrire c’est l’histoire de ma vie, depuis que j’ai 14 ans»",
+      "grade": null
+    },
+    {
+      "hash": "F33ef9KCIhSg",
+      "address": "https://madame.lefigaro.fr/style/news/le-costume-de-virginie-efira-les-paillettes-d-isabelle-huppert-la-couette-de-demi-moore-le-dernier-tapis-rouge-du-79e-festival-de-cannes-20260523",
+      "title": "Virginie Efira, Isabelle Huppert, Demi Moore, une couette, des ballerines de danse… À quoi a ressemblé le dernier tapis rouge du 79e Festival de Cannes ?",
+      "grade": null
+    },
+    {
+      "hash": "HfLo5sKCIhSg",
+      "address": "https://madame.lefigaro.fr/bien-etre/forme-detente/les-sept-salles-de-sport-les-plus-cool-de-paris-20221014",
+      "title": "Concepts innovants, cours attrayants, espaces bien pensés... Les salles de sport les plus tendances de Paris",
+      "grade": null
+    },
+    {
+      "hash": "l7WpW2KCIhSg",
+      "address": "https://madame.lefigaro.fr/tag/meghan-markle",
+      "title": "Meghan Markle",
       "grade": 0
     },
     {
-      "hash": "Bn6FoTKCIhSg",
-      "address": "https://madame.lefigaro.fr/mariage",
-      "title": "Guide du mariage : tout pour un mariage de rêve",
+      "hash": "ntMeYdKCIhSg",
+      "address": "https://madame.lefigaro.fr/celebrites/jennifer-lawrence-muse-de-hollywood-151113-630012",
+      "title": "Jennifer Lawrence, la muse de Hollywood",
       "grade": 0
+    },
+    {
+      "hash": "KQ6pNQKCIhSg",
+      "address": "https://madame.lefigaro.fr/bijoux-et-montres/ces-10-choses-sont-a-proscrire-avec-sa-bague-de-fiancailles-en-diamant-20250417",
+      "title": "Ces 10 choses sont à proscrire avec sa bague de fiançailles en diamant",
+      "grade": null
+    },
+    {
+      "hash": "KnOaDsKCIhSg",
+      "address": "https://madame.lefigaro.fr/bien-etre/forme-detente/sport-six-fois-par-semaine-jeune-intermittent-meditation-la-routine-bien-etre-de-halle-berry-20220301",
+      "title": "Sport six fois par semaine, jeûne intermittent, méditation... La routine bien-être de Halle Berry",
+      "grade": null
+    },
+    {
+      "hash": "0e61_dKCIhSg",
+      "address": "https://madame.lefigaro.fr/celebrites/actu-people/meghan-markle-pourrait-faire-son-retour-en-tant-qu-actrice-dans-une-serie-d-action-sur-netflix-20260822",
+      "title": "Meghan Markle pourrait faire son retour en tant qu’actrice dans une série d’action sur Netflix",
+      "grade": 0
+    },
+    {
+      "hash": "Zj6fIsKCIhSg",
+      "address": "https://madame.lefigaro.fr/bien-etre/forme-detente/comment-muscler-et-dessiner-ses-bras-sans-poids-ni-halteres-20220426",
+      "title": "Comment muscler et dessiner ses bras sans poids ni haltères",
+      "grade": 0
+    },
+    {
+      "hash": "Nj4TPrKCIhSg",
+      "address": "https://madame.lefigaro.fr/beaute/parfum/chanel-n05-la-vie-est-belle-angel-pourquoi-les-parfums-cultes-n-ont-jamais-ete-aussi-modernes-20260522",
+      "title": "Chanel N°5, La Vie est Belle, Angel… Pourquoi les parfums cultes n’ont jamais été aussi modernes ?",
+      "grade": null
+    },
+    {
+      "hash": "ThzD9lzvQPgh",
+      "address": "https://www.radiofrance.fr/",
+      "title": "Radio France | Écoutez en ligne vos radios",
+      "grade": 0
+    },
+    {
+      "hash": "JbsvwdKCIhSg",
+      "address": "https://madame.lefigaro.fr/celebrites/actu-people/ian-wace-ce-mysterieux-milliardaire-qui-aurait-aide-meghan-markle-et-le-prince-harry-a-financer-leur-demenagement-au-royaume-uni-20260829",
+      "title": "Ian Wace, ce mystérieux milliardaire qui aurait aidé Meghan Markle et le prince Harry à financer leur déménagement au Royaume-Uni",
+      "grade": 0
+    },
+    {
+      "hash": "Ui5X3rKCIhSg",
+      "address": "https://madame.lefigaro.fr/beaute/quels-sont-les-parfums-recommandes-par-les-redactrices-de-madame-figaro-20260527",
+      "title": "Fête des mères : les parfums fétiches des rédactrices de Madame Figaro qui pourraient vous inspirer",
+      "grade": null
     }
   ]
 }

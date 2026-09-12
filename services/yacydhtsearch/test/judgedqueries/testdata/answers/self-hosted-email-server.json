@@ -1,34 +1,7 @@
 {
   "query": "self hosted email server",
-  "recordedAt": "2026-09-12T10:15:31Z",
+  "recordedAt": "2026-09-12T11:25:36Z",
   "itemsInTheOrderOfEachAnswer": [
-    [
-      {
-        "hash": "9Gfi7KsrSOQw",
-        "address": "https://arxiv.org/list/cs/new",
-        "title": "Computer Science",
-        "snippet": "New submissions\nCross-lists\nReplacements\nSee recent articles\nShowing new listings for Friday, 11 September 2026\nTotal of 1033 entries\nShowing up to 2000 entries per page: fewer | more | all\nNew submissions (showing 581 of 581 entries)\n[1] arXiv:2609.10542 [pdf, html, other]",
-        "matchedWords": {
-          "DIP1fHhqC0o5": {
-            "hits": 0,
-            "textWords": 7988
-          },
-          "WQ9T6GmYF8b6": {
-            "hits": 0,
-            "textWords": 7988
-          },
-          "c00wMP9yrY2W": {
-            "hits": 0,
-            "textWords": 7988
-          },
-          "zx6MFOVFBfYK": {
-            "hits": 0,
-            "textWords": 7988
-          }
-        },
-        "queryPhraseHits": 0
-      }
-    ],
     [
       {
         "hash": "1lGoBsyuNlT5",
@@ -57,6 +30,31 @@
       }
     ],
     [
+      {
+        "hash": "m1yAxlpyxNCY",
+        "address": "http://dailymessenger.blogspot.com/2026/07/mayor-of-town-in-ny-declares-emergency.html?m=0",
+        "title": "The Daily Messenger: Mayor of town in NY 'declares emergency' to overrule vote that would have removed Flock cams",
+        "snippet": "7-27-26\nIt really does feel like the state is just going full mask-off at this point, and waging open warfare against the people.\nThey lied to us. They said it was only for car plates. Deal's off, even though there was no deal to begin with.",
+        "matchedWords": {
+          "DIP1fHhqC0o5": {
+            "hits": 0,
+            "textWords": 374
+          },
+          "WQ9T6GmYF8b6": {
+            "hits": 0,
+            "textWords": 374
+          },
+          "c00wMP9yrY2W": {
+            "hits": 0,
+            "textWords": 374
+          },
+          "zx6MFOVFBfYK": {
+            "hits": 0,
+            "textWords": 374
+          }
+        },
+        "queryPhraseHits": 0
+      },
       {
         "hash": "nxDmxsVAXty7",
         "address": "https://trendingpoliticsnews.com/sitemap/",
@@ -112,9 +110,9 @@
     ],
     [
       {
-        "hash": "Ppfmwa4tY0i5",
-        "address": "https://talukadapoli.com/travel/listing/aadimaa/",
-        "title": "Aadimaa - Taluka Dapoli Travel",
+        "hash": "9d0zQJOC4JVg",
+        "address": "https://www.gifts4u.gr/blog/season-essentials",
+        "title": "Season Essentials",
         "snippet": "",
         "matchedWords": {
           "DIP1fHhqC0o5": {
@@ -122,8 +120,8 @@
             "textWords": 0
           },
           "WQ9T6GmYF8b6": {
-            "hits": 23,
-            "textWords": 991
+            "hits": 35,
+            "textWords": 1265
           },
           "c00wMP9yrY2W": {
             "hits": 0,
@@ -132,6 +130,85 @@
           "zx6MFOVFBfYK": {
             "hits": 0,
             "textWords": 0
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "iLQO1sN0ip-w",
+        "address": "https://m-reform.net/",
+        "title": "replica football shirts",
+        "snippet": "The Google File System relies on grasp servers to coordinate data requests — every cluster has a single master server. The grasp server tells the shopper the placement of all replica chunkservers storing your file.",
+        "matchedWords": {
+          "DIP1fHhqC0o5": {
+            "hits": 7,
+            "textWords": 230924
+          },
+          "WQ9T6GmYF8b6": {
+            "hits": 14,
+            "textWords": 230924
+          },
+          "c00wMP9yrY2W": {
+            "hits": 22,
+            "textWords": 230924
+          },
+          "zx6MFOVFBfYK": {
+            "hits": 4,
+            "textWords": 230924
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "9d0zQJOC4JVg",
+        "address": "https://www.gifts4u.gr/blog/season-essentials",
+        "title": "",
+        "snippet": "",
+        "matchedWords": {
+          "DIP1fHhqC0o5": {
+            "hits": 0,
+            "textWords": 0
+          },
+          "WQ9T6GmYF8b6": {
+            "hits": 0,
+            "textWords": 0
+          },
+          "c00wMP9yrY2W": {
+            "hits": 0,
+            "textWords": 0
+          },
+          "zx6MFOVFBfYK": {
+            "hits": 81,
+            "textWords": 1265
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "Xg2H2ZPqQlSw",
+        "address": "https://pip.pypa.io/en/stable/news/",
+        "title": "Changelog - pip documentation v21.1",
+        "snippet": "BACKWARD INCOMPATIBLE pip no longer will scrape insecure external urls by default nor will it install externally hosted files by default. Users may opt into installing externally hosted or insecure files or urls using --allow-external PROJECT and --allow-unverified PROJECT. (#1055)",
+        "matchedWords": {
+          "DIP1fHhqC0o5": {
+            "hits": 2,
+            "textWords": 28878
+          },
+          "WQ9T6GmYF8b6": {
+            "hits": 10,
+            "textWords": 28878
+          },
+          "c00wMP9yrY2W": {
+            "hits": 5,
+            "textWords": 28878
+          },
+          "zx6MFOVFBfYK": {
+            "hits": 6,
+            "textWords": 28878
           }
         },
         "queryPhraseHits": 0
@@ -166,6 +243,631 @@
     ]
   ],
   "itemsInNoOrder": [
+    {
+      "hash": "w9hZqs6S8oY5",
+      "address": "https://shoptalkshow.com/episodes/",
+      "title": "Episodes – ShopTalk",
+      "snippet": "Special Jun 25, 2013\nLive from Front-End Conf\nThis episode of Shop Talk was filmed before a live studio audience. Thanks to Dan \u0026 Cherrie Denney for inviting us down to Front-End Design Conference in St. Petersburg, Florida. Chris played the banjo a bit and Dave wore a Floridian shirt.",
+      "matchedWords": {
+        "DIP1fHhqC0o5": {
+          "hits": 0,
+          "textWords": 631
+        },
+        "WQ9T6GmYF8b6": {
+          "hits": 0,
+          "textWords": 631
+        },
+        "c00wMP9yrY2W": {
+          "hits": 0,
+          "textWords": 631
+        },
+        "zx6MFOVFBfYK": {
+          "hits": 0,
+          "textWords": 631
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "8q_7kd8zMi84",
+      "address": "https://docs.cloud.google.com/release-notes",
+      "title": "Google Cloud release notes | Google Cloud Documentation",
+      "snippet": "This issue has already been mitigated for Looker-hosted instances.\nWhat should I do?\nFor Looker-hosted instances, no action is required.\nFor self-hosted Looker instances, update your Looker instances as soon as possible.",
+      "matchedWords": {
+        "DIP1fHhqC0o5": {
+          "hits": 63,
+          "textWords": 82922
+        },
+        "WQ9T6GmYF8b6": {
+          "hits": 17,
+          "textWords": 82922
+        },
+        "c00wMP9yrY2W": {
+          "hits": 11,
+          "textWords": 82922
+        },
+        "zx6MFOVFBfYK": {
+          "hits": 77,
+          "textWords": 82922
+        }
+      },
+      "queryPhraseHits": 3
+    },
+    {
+      "hash": "cWZdmz9qXMBw",
+      "address": "https://planet.kernel.org/",
+      "title": "Kernel Planet",
+      "snippet": "Because I am bad at giving up on things, I’ve been running my own email server for over 20 years. Some of that time it’s been a PC at the end of a DSL line, some of that time it’s been a Mac Mini in a data centre, and some of that time it’s been a hosted VM.",
+      "matchedWords": {
+        "DIP1fHhqC0o5": {
+          "hits": 13,
+          "textWords": 36724
+        },
+        "WQ9T6GmYF8b6": {
+          "hits": 6,
+          "textWords": 36724
+        },
+        "c00wMP9yrY2W": {
+          "hits": 3,
+          "textWords": 36724
+        },
+        "zx6MFOVFBfYK": {
+          "hits": 9,
+          "textWords": 36724
+        }
+      },
+      "queryPhraseHits": 2
+    },
+    {
+      "hash": "8CJLrjAL9Tgx",
+      "address": "https://en.wikisource.org/wiki/Wikisource:Scriptorium",
+      "title": "Wikisource:Scriptorium - Wikisource, the free online library",
+      "snippet": "I'm not really sure how to represent the Standard Works as a kind of collective work here: I don't think that {{disambiguation}} or {{versions}} really makes sense, so I'm leaning toward a Portal page that represents what works we have hosted or scans on c: as well as listing how different groups",
+      "matchedWords": {
+        "DIP1fHhqC0o5": {
+          "hits": 0,
+          "textWords": 10734
+        },
+        "WQ9T6GmYF8b6": {
+          "hits": 0,
+          "textWords": 10734
+        },
+        "c00wMP9yrY2W": {
+          "hits": 4,
+          "textWords": 10734
+        },
+        "zx6MFOVFBfYK": {
+          "hits": 0,
+          "textWords": 10734
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "mKjEVzAa-Sqx",
+      "address": "https://planet.freedesktop.org/",
+      "title": "planet.freedesktop.org",
+      "snippet": "static DexFuture * foobar (gpointer user_data) { /* g_weak_ref_init in the caller somewhere */ GWeakRef *self_wr = user_data; for (;;) { g_autoptr(GBytes) bytes = NULL; bytes = dex_await_boxed (my_other_thing_bar (other, foo), NULL); { g_autoptr(MyThing) self = g_weak_ref_get (\u0026self_wr); if (!",
+      "matchedWords": {
+        "DIP1fHhqC0o5": {
+          "hits": 1,
+          "textWords": 71870
+        },
+        "WQ9T6GmYF8b6": {
+          "hits": 10,
+          "textWords": 71870
+        },
+        "c00wMP9yrY2W": {
+          "hits": 0,
+          "textWords": 71870
+        },
+        "zx6MFOVFBfYK": {
+          "hits": 16,
+          "textWords": 71870
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "Fl-YxlDOAHJg",
+      "address": "https://www.heise.de/",
+      "title": "heise online - IT-News, Nachrichten und Hintergründe | heise online",
+      "snippet": "Statt analoger Schaltung simulieren wir es per Mikroprozessor und zeigen es auf dem Oszilloskop an.\niX-Workshop: Windows Server absichern und härten",
+      "matchedWords": {
+        "DIP1fHhqC0o5": {
+          "hits": 0,
+          "textWords": 1224
+        },
+        "WQ9T6GmYF8b6": {
+          "hits": 0,
+          "textWords": 1224
+        },
+        "c00wMP9yrY2W": {
+          "hits": 0,
+          "textWords": 1224
+        },
+        "zx6MFOVFBfYK": {
+          "hits": 2,
+          "textWords": 1224
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "W-eXqzF3--Qw",
+      "address": "https://planet.mozilla.org/",
+      "title": "Planet Mozilla",
+      "snippet": "We’re also looking into a key complaint: setting up notifications and “push” (IMAP Idle) notifications is just too difficult. We don’t make it easy enough for users to set up their notifications and ensure they get email notifications when their email server reports updates.",
+      "matchedWords": {
+        "DIP1fHhqC0o5": {
+          "hits": 27,
+          "textWords": 66162
+        },
+        "WQ9T6GmYF8b6": {
+          "hits": 30,
+          "textWords": 66162
+        },
+        "c00wMP9yrY2W": {
+          "hits": 11,
+          "textWords": 66162
+        },
+        "zx6MFOVFBfYK": {
+          "hits": 8,
+          "textWords": 66162
+        }
+      },
+      "queryPhraseHits": 3
+    },
+    {
+      "hash": "bvZ6nIG-ATF4",
+      "address": "https://podcasts.apple.com/bs/new",
+      "title": "Apple Podcasts (BS) - Web Player",
+      "snippet": "Copyright © 2026 Apple Inc. All rights reserved.\nInternet Service Terms\nApple Podcasts web player \u0026 Privacy\nCookie Warning\nSupport\nFeedback",
+      "matchedWords": {
+        "DIP1fHhqC0o5": {
+          "hits": 0,
+          "textWords": 19
+        },
+        "WQ9T6GmYF8b6": {
+          "hits": 0,
+          "textWords": 19
+        },
+        "c00wMP9yrY2W": {
+          "hits": 0,
+          "textWords": 19
+        },
+        "zx6MFOVFBfYK": {
+          "hits": 0,
+          "textWords": 19
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "CjgsxsIyoLTx",
+      "address": "https://planetpython.org/",
+      "title": "Planet Python",
+      "snippet": "QtWidgets import ( QApplication, QLabel, QMainWindow, QScrollArea, QVBoxLayout, QWidget, ) class WorkerSignals(QObject): frame_ready = pyqtSignal(QImage) finished = pyqtSignal() class VideoWorker(QRunnable): def __init__(self): super().__init__() self.signals = WorkerSignals() self.running = True",
+      "matchedWords": {
+        "DIP1fHhqC0o5": {
+          "hits": 2,
+          "textWords": 28843
+        },
+        "WQ9T6GmYF8b6": {
+          "hits": 211,
+          "textWords": 28843
+        },
+        "c00wMP9yrY2W": {
+          "hits": 6,
+          "textWords": 28843
+        },
+        "zx6MFOVFBfYK": {
+          "hits": 25,
+          "textWords": 28843
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "7eYSusLVkley",
+      "address": "https://daringfireball.net/",
+      "title": "Daring Fireball",
+      "snippet": "Visually, the interface is all new. That took some getting used to, but not much. It didn’t take long for me to see how the new UI is better in every way. The style of presentation is new and modern, but the core idea remains the same: the interface of SuperDuper is self-explanatory.",
+      "matchedWords": {
+        "DIP1fHhqC0o5": {
+          "hits": 1,
+          "textWords": 13248
+        },
+        "WQ9T6GmYF8b6": {
+          "hits": 3,
+          "textWords": 13248
+        },
+        "c00wMP9yrY2W": {
+          "hits": 0,
+          "textWords": 13248
+        },
+        "zx6MFOVFBfYK": {
+          "hits": 0,
+          "textWords": 13248
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "R5vzYsOocYRx",
+      "address": "https://murdoconline.net/",
+      "title": "MURDOCONLINE - Situs Kumpulan Game Online Terbaik Paling Populer",
+      "snippet": "",
+      "matchedWords": {
+        "DIP1fHhqC0o5": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "WQ9T6GmYF8b6": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "c00wMP9yrY2W": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "zx6MFOVFBfYK": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "GUrZK6QzbYgx",
+      "address": "https://wikisource.org/wiki/Wikisource:Scriptorium",
+      "title": "Wikisource:Scriptorium - Wikisource",
+      "snippet": "On several wikis, logged-in editors who haven't confirmed their email addresses can now see a banner encouraging them to do so. Having the email address confirmed allows a user to restore access to the account if they lose it. Learn more. [12]",
+      "matchedWords": {
+        "DIP1fHhqC0o5": {
+          "hits": 4,
+          "textWords": 18265
+        },
+        "WQ9T6GmYF8b6": {
+          "hits": 1,
+          "textWords": 18265
+        },
+        "c00wMP9yrY2W": {
+          "hits": 0,
+          "textWords": 18265
+        },
+        "zx6MFOVFBfYK": {
+          "hits": 4,
+          "textWords": 18265
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "rExjvjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Archive_of_Our_Own",
+      "title": "Archive of Our Own - Wikipedia",
+      "snippet": "‡ 4] In 2022, AO3's expenses were $290,688, most of which was used for server hosting and maintenance, and revenue from fundraising efforts reached a reported $512,359.[‡ 5][‡ 6]\nFunds for the platform are raised in various ways.",
+      "matchedWords": {
+        "DIP1fHhqC0o5": {
+          "hits": 1,
+          "textWords": 3793
+        },
+        "WQ9T6GmYF8b6": {
+          "hits": 0,
+          "textWords": 3793
+        },
+        "c00wMP9yrY2W": {
+          "hits": 3,
+          "textWords": 3793
+        },
+        "zx6MFOVFBfYK": {
+          "hits": 1,
+          "textWords": 3793
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "uaEnGzTwnifx",
+      "address": "https://planet.wordpress.org/",
+      "title": "Planet — WordPress.org",
+      "snippet": "And I know nothing about Next.js, so I’m going to have Claude vibe code my personal website in Next.js hosted on Pantheon, and use as an experiment both to learn about Next.js, but also to learn about how Claude works.",
+      "matchedWords": {
+        "DIP1fHhqC0o5": {
+          "hits": 0,
+          "textWords": 9047
+        },
+        "WQ9T6GmYF8b6": {
+          "hits": 0,
+          "textWords": 9047
+        },
+        "c00wMP9yrY2W": {
+          "hits": 1,
+          "textWords": 9047
+        },
+        "zx6MFOVFBfYK": {
+          "hits": 0,
+          "textWords": 9047
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "IF33ltWGQgu4",
+      "address": "https://nymag.com/newyork/privacy.html",
+      "title": "New York Media Privacy Notice",
+      "snippet": "We do not retain telephone numbers or email addresses collected for these purposes after sending the SMS text message or email;\n- to receive and process job applications for jobs with us;",
+      "matchedWords": {
+        "DIP1fHhqC0o5": {
+          "hits": 24,
+          "textWords": 11722
+        },
+        "WQ9T6GmYF8b6": {
+          "hits": 0,
+          "textWords": 11722
+        },
+        "c00wMP9yrY2W": {
+          "hits": 1,
+          "textWords": 11722
+        },
+        "zx6MFOVFBfYK": {
+          "hits": 2,
+          "textWords": 11722
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "J6LFIsYyzH0z",
+      "address": "https://awesome-selfhosted.net/",
+      "title": "awesome-selfhosted",
+      "snippet": "",
+      "matchedWords": {
+        "DIP1fHhqC0o5": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "WQ9T6GmYF8b6": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "c00wMP9yrY2W": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "zx6MFOVFBfYK": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "D4lABzaS0qdw",
+      "address": "https://planet.debian.org/",
+      "title": "Planet Debian",
+      "snippet": "For literal queries (78.2% of DCS queries), querying the positional index on disk is faster than querying the non-positional index in RAM.\nThe efficient encoding of the TurboPFor format makes it possible to fit such an index on a mid-sized Hetzner server, which I rent with two 1 TB SSD disks.",
+      "matchedWords": {
+        "DIP1fHhqC0o5": {
+          "hits": 0,
+          "textWords": 8109
+        },
+        "WQ9T6GmYF8b6": {
+          "hits": 0,
+          "textWords": 8109
+        },
+        "c00wMP9yrY2W": {
+          "hits": 0,
+          "textWords": 8109
+        },
+        "zx6MFOVFBfYK": {
+          "hits": 2,
+          "textWords": 8109
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "-p2w3taoSn1x",
+      "address": "https://en.planet.wikimedia.org/",
+      "title": "en.planet.wikimedia.org",
+      "snippet": "It is a good idea — but given that in Korea essentially every activity runs through Wikimedia Korea itself, expecting the kind of self-starting organization you see in Japan seemed unrealistic. At least for now.",
+      "matchedWords": {
+        "DIP1fHhqC0o5": {
+          "hits": 3,
+          "textWords": 16305
+        },
+        "WQ9T6GmYF8b6": {
+          "hits": 4,
+          "textWords": 16305
+        },
+        "c00wMP9yrY2W": {
+          "hits": 2,
+          "textWords": 16305
+        },
+        "zx6MFOVFBfYK": {
+          "hits": 7,
+          "textWords": 16305
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "Hg3f-scTylu4",
+      "address": "https://omnivere.com/",
+      "title": "Omnivere -",
+      "snippet": "Carilah server yang menyediakan berbagai saluran kontak seperti live chat, email, atau telepon untuk memastikan Anda dapat dengan mudah mendapatkan bantuan kapan saja diperlukan.",
+      "matchedWords": {
+        "DIP1fHhqC0o5": {
+          "hits": 74,
+          "textWords": 268128
+        },
+        "WQ9T6GmYF8b6": {
+          "hits": 42,
+          "textWords": 268128
+        },
+        "c00wMP9yrY2W": {
+          "hits": 2,
+          "textWords": 268128
+        },
+        "zx6MFOVFBfYK": {
+          "hits": 162,
+          "textWords": 268128
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "2ZqdVzfOEiDw",
+      "address": "https://planet.gnome.org/",
+      "title": "Planet GNOME",
+      "snippet": "AppStream’s original design however comes from the perspective of Linux distributions in 2011, where you may want to browse the software catalog offline, without delay, and without pinging an external server (which could be a privacy concern).",
+      "matchedWords": {
+        "DIP1fHhqC0o5": {
+          "hits": 0,
+          "textWords": 2681
+        },
+        "WQ9T6GmYF8b6": {
+          "hits": 0,
+          "textWords": 2681
+        },
+        "c00wMP9yrY2W": {
+          "hits": 0,
+          "textWords": 2681
+        },
+        "zx6MFOVFBfYK": {
+          "hits": 2,
+          "textWords": 2681
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "G2Nk1si1vot6",
+      "address": "https://missclaireshay.com/",
+      "title": "missclaireshay -",
+      "snippet": "Dengan pendekatan ini, Anda tidak hanya akan menemukan keseruan, tetapi juga meningkatkan peluang kemenangan di Slot Server Thailand Super Gacor.\nKeunggulan Slot Server Thailand\nSlot Server Thailand menawarkan pengalaman bermain yang tidak tertandingi bagi para penggemar permainan slot.",
+      "matchedWords": {
+        "DIP1fHhqC0o5": {
+          "hits": 117,
+          "textWords": 397030
+        },
+        "WQ9T6GmYF8b6": {
+          "hits": 77,
+          "textWords": 397030
+        },
+        "c00wMP9yrY2W": {
+          "hits": 3,
+          "textWords": 397030
+        },
+        "zx6MFOVFBfYK": {
+          "hits": 158,
+          "textWords": 397030
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "7ahdAsiYYWG6",
+      "address": "https://cedarcafeonline.com/",
+      "title": "cedarcafeonline -",
+      "snippet": "In addition, some sites have self-exclusion features to prevent those with gambling disorders from playing.\nAnother way that online gambling sites promote responsibility is by offering support to problem gamblers. This can be in the form of anonymous help lines, chat rooms, or email support.",
+      "matchedWords": {
+        "DIP1fHhqC0o5": {
+          "hits": 119,
+          "textWords": 377950
+        },
+        "WQ9T6GmYF8b6": {
+          "hits": 60,
+          "textWords": 377950
+        },
+        "c00wMP9yrY2W": {
+          "hits": 7,
+          "textWords": 377950
+        },
+        "zx6MFOVFBfYK": {
+          "hits": 163,
+          "textWords": 377950
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "FMD4sitD2jQw",
+      "address": "https://docs.python.org/3/library/typing.html",
+      "title": "typing — Support for type hints — Python 3.14.7 documentation",
+      "snippet": "from logging import Logger class LoggedVar[T]: def __init__(self, value: T, name: str, logger: Logger) -\u003e None: self.name = name self.logger = logger self.value = value def set(self, new: T) -\u003e None: self.log('Set ' + repr(self.value)) self.value = new def get(self) -\u003e T: self.log('Get ' +",
+      "matchedWords": {
+        "DIP1fHhqC0o5": {
+          "hits": 1,
+          "textWords": 16346
+        },
+        "WQ9T6GmYF8b6": {
+          "hits": 66,
+          "textWords": 16346
+        },
+        "c00wMP9yrY2W": {
+          "hits": 1,
+          "textWords": 16346
+        },
+        "zx6MFOVFBfYK": {
+          "hits": 2,
+          "textWords": 16346
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "n1F03swUSuo5",
+      "address": "https://nextcloud.com/",
+      "title": "Nextcloud - Open source content collaboration platform",
+      "snippet": "Unique protection\nAvoid data leaks\nTeam planning\nEmail made easy\nEasy access, anywhere\nUse your existing apps\nSelf-hosted online office\nView and reply to comments\nChat or have a call while editing\ndocx/pptx/xlsx support\nContext Write to create content based on existing documents and data",
+      "matchedWords": {
+        "DIP1fHhqC0o5": {
+          "hits": 1,
+          "textWords": 706
+        },
+        "WQ9T6GmYF8b6": {
+          "hits": 3,
+          "textWords": 706
+        },
+        "c00wMP9yrY2W": {
+          "hits": 3,
+          "textWords": 706
+        },
+        "zx6MFOVFBfYK": {
+          "hits": 0,
+          "textWords": 706
+        }
+      },
+      "queryPhraseHits": 3
+    },
+    {
+      "hash": "qzl9gsz2n4h5",
+      "address": "https://limras-india.com/",
+      "title": "limras-india.com -",
+      "snippet": "These representatives can be contacted via telephone, email, or live chat. They can help with problems or questions about deposits, withdrawals, game rules, and more. They can also help players set loss limits and self-exclude from the site if needed.",
+      "matchedWords": {
+        "DIP1fHhqC0o5": {
+          "hits": 135,
+          "textWords": 412759
+        },
+        "WQ9T6GmYF8b6": {
+          "hits": 57,
+          "textWords": 412759
+        },
+        "c00wMP9yrY2W": {
+          "hits": 3,
+          "textWords": 412759
+        },
+        "zx6MFOVFBfYK": {
+          "hits": 188,
+          "textWords": 412759
+        }
+      },
+      "queryPhraseHits": 0
+    },
     {
       "hash": "gCVBNZ3WSkX4",
       "address": "https://docs.ovhcloud.com/en/",
@@ -217,26 +919,26 @@
       "queryPhraseHits": 2
     },
     {
-      "hash": "mKjEVzAa-Sqx",
-      "address": "https://planet.freedesktop.org/",
-      "title": "planet.freedesktop.org",
-      "snippet": "static DexFuture * foobar (gpointer user_data) { /* g_weak_ref_init in the caller somewhere */ GWeakRef *self_wr = user_data; for (;;) { g_autoptr(GBytes) bytes = NULL; bytes = dex_await_boxed (my_other_thing_bar (other, foo), NULL); { g_autoptr(MyThing) self = g_weak_ref_get (\u0026self_wr); if (!",
+      "hash": "6hCUPaD6WJF7",
+      "address": "https://www.theautomaticearth.com/tag/ratcliffe/",
+      "title": "Ratcliffe Archives - The Automatic Earth",
+      "snippet": "I don’t understand how we’re still taking at face value that there was an actual breaking into the DNC/Podesta server/email. The “break-in” is too convenient \u0026 seems to be part \u0026 parcel of the whole scheme (the Russia collusion b.s.)\nThe FBI never examined the DNC server.",
       "matchedWords": {
         "DIP1fHhqC0o5": {
-          "hits": 1,
-          "textWords": 71870
+          "hits": 2,
+          "textWords": 69245
         },
         "WQ9T6GmYF8b6": {
-          "hits": 10,
-          "textWords": 71870
+          "hits": 15,
+          "textWords": 69245
         },
         "c00wMP9yrY2W": {
-          "hits": 0,
-          "textWords": 71870
+          "hits": 1,
+          "textWords": 69245
         },
         "zx6MFOVFBfYK": {
-          "hits": 16,
-          "textWords": 71870
+          "hits": 2,
+          "textWords": 69245
         }
       },
       "queryPhraseHits": 0
@@ -270,31 +972,6 @@
       "hash": "4fG2R7NM0dIB",
       "address": "http://cleanpart.ru/placeholder/",
       "title": "placeholder | Cleanpart.RU",
-      "snippet": "",
-      "matchedWords": {
-        "DIP1fHhqC0o5": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "WQ9T6GmYF8b6": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "c00wMP9yrY2W": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "zx6MFOVFBfYK": {
-          "hits": 0,
-          "textWords": 0
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "R5vzYsOocYRx",
-      "address": "https://murdoconline.net/",
-      "title": "MURDOCONLINE - Situs Kumpulan Game Online Terbaik Paling Populer",
       "snippet": "",
       "matchedWords": {
         "DIP1fHhqC0o5": {
@@ -367,306 +1044,6 @@
       "queryPhraseHits": 0
     },
     {
-      "hash": "9PdxLzW61vZ4",
-      "address": "https://handbook.gitlab.com/handbook/legal/modern-slavery-act-transparency-statement/",
-      "title": "GitLab's Modern Slavery Act Transparency Statement | The GitLab Handbook",
-      "snippet": "This is the current Modern Slavery Act Transparency Statement\nGitLab’s Modern Slavery Act Transparency Statement\nLast modified April 15, 2026: Replace FY25 Modern Slavery Statement with FY26 Version (a1ab21a2)\nView page source - Edit this page - please contribute.",
-      "matchedWords": {
-        "DIP1fHhqC0o5": {
-          "hits": 0,
-          "textWords": 37
-        },
-        "WQ9T6GmYF8b6": {
-          "hits": 0,
-          "textWords": 37
-        },
-        "c00wMP9yrY2W": {
-          "hits": 0,
-          "textWords": 37
-        },
-        "zx6MFOVFBfYK": {
-          "hits": 0,
-          "textWords": 37
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "D4lABzaS0qdw",
-      "address": "https://planet.debian.org/",
-      "title": "Planet Debian",
-      "snippet": "For literal queries (78.2% of DCS queries), querying the positional index on disk is faster than querying the non-positional index in RAM.\nThe efficient encoding of the TurboPFor format makes it possible to fit such an index on a mid-sized Hetzner server, which I rent with two 1 TB SSD disks.",
-      "matchedWords": {
-        "DIP1fHhqC0o5": {
-          "hits": 0,
-          "textWords": 8109
-        },
-        "WQ9T6GmYF8b6": {
-          "hits": 0,
-          "textWords": 8109
-        },
-        "c00wMP9yrY2W": {
-          "hits": 0,
-          "textWords": 8109
-        },
-        "zx6MFOVFBfYK": {
-          "hits": 2,
-          "textWords": 8109
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "YZDSAsdTeyA4",
-      "address": "https://github.blog/changelog/",
-      "title": "GitHub Changelog",
-      "snippet": "Subscribe to our developer newsletter\nDiscover tips, technical guides, and best practices in our biweekly newsletter just for devs.\nEnter your email*",
-      "matchedWords": {
-        "DIP1fHhqC0o5": {
-          "hits": 1,
-          "textWords": 50
-        },
-        "WQ9T6GmYF8b6": {
-          "hits": 0,
-          "textWords": 50
-        },
-        "c00wMP9yrY2W": {
-          "hits": 0,
-          "textWords": 50
-        },
-        "zx6MFOVFBfYK": {
-          "hits": 0,
-          "textWords": 50
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "2ZqdVzfOEiDw",
-      "address": "https://planet.gnome.org/",
-      "title": "Planet GNOME",
-      "snippet": "AppStream’s original design however comes from the perspective of Linux distributions in 2011, where you may want to browse the software catalog offline, without delay, and without pinging an external server (which could be a privacy concern).",
-      "matchedWords": {
-        "DIP1fHhqC0o5": {
-          "hits": 0,
-          "textWords": 2681
-        },
-        "WQ9T6GmYF8b6": {
-          "hits": 0,
-          "textWords": 2681
-        },
-        "c00wMP9yrY2W": {
-          "hits": 0,
-          "textWords": 2681
-        },
-        "zx6MFOVFBfYK": {
-          "hits": 2,
-          "textWords": 2681
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "EyjETIl7OZJE",
-      "address": "http://www.kursaal.com.ar/web/post-without-sidebar/",
-      "title": "Post Without Sidebar",
-      "snippet": "",
-      "matchedWords": {
-        "DIP1fHhqC0o5": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "WQ9T6GmYF8b6": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "c00wMP9yrY2W": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "zx6MFOVFBfYK": {
-          "hits": 0,
-          "textWords": 0
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "2i-X_sofUy-5",
-      "address": "https://duckduckgo.com/bang_lite.html",
-      "title": "DuckDuckGo !Bang",
-      "snippet": "wort !wortschatz !wox !wpplugs !wrden !wtbr !wte !wul !wus !wwtr !xmpprooms !y !yacy !yahoo !yahoo (!y !yjp) !yandex (!ya !yaen !yandexm) !yaslovari !yat !yatr !ydd !yde !yeahway !yeggi !yi !yippy !yjisho !ymg !yn !yop.email !yp !yri !yubnub !zabasearch !zapmeta !zetawiki !zetax !zivefirmy !zomato !",
-      "matchedWords": {
-        "DIP1fHhqC0o5": {
-          "hits": 3,
-          "textWords": 58551
-        },
-        "WQ9T6GmYF8b6": {
-          "hits": 1,
-          "textWords": 58551
-        },
-        "c00wMP9yrY2W": {
-          "hits": 2,
-          "textWords": 58551
-        },
-        "zx6MFOVFBfYK": {
-          "hits": 5,
-          "textWords": 58551
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "XTPIBlptNsG4",
-      "address": "https://www.akdart.com/hijrah.html",
-      "title": "Islamic invasion disguised as the displacement and acceptance of refugees",
-      "snippet": "The man is obsessed with Islam. Westminster has hosted Iftar and my own Hull City Council recently hosted a civic Grand Iftar in our City Hall.",
-      "matchedWords": {
-        "DIP1fHhqC0o5": {
-          "hits": 11,
-          "textWords": 405419
-        },
-        "WQ9T6GmYF8b6": {
-          "hits": 88,
-          "textWords": 405419
-        },
-        "c00wMP9yrY2W": {
-          "hits": 15,
-          "textWords": 405419
-        },
-        "zx6MFOVFBfYK": {
-          "hits": 1,
-          "textWords": 405419
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "hNrcdJ-bwreQ",
-      "address": "http://ace.mu.nu/",
-      "title": "Ace of Spades HQ",
-      "snippet": "Also to share links to potential publishing outlets, writing help sites, and videos posting tips to get published. Contact OrangeEnt for info:\nmaildrop62 at proton dot me\nCutting The Cord And Email Security\nMoron Meet-Ups\nSeptember 11, 2026\nOmnibus Cafe\n—Disinformation Expert Ace",
-      "matchedWords": {
-        "DIP1fHhqC0o5": {
-          "hits": 1,
-          "textWords": 14271
-        },
-        "WQ9T6GmYF8b6": {
-          "hits": 5,
-          "textWords": 14271
-        },
-        "c00wMP9yrY2W": {
-          "hits": 1,
-          "textWords": 14271
-        },
-        "zx6MFOVFBfYK": {
-          "hits": 0,
-          "textWords": 14271
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "xIkDby3WSkX4",
-      "address": "https://docs.ovhcloud.com/en/guides/web-cloud/domains/overview",
-      "title": "Domains - OVHcloud Documentation",
-      "snippet": "Adding your email account to an existing email service\nEmail Pro\nGetting started\nSetting up an email application on your computer\nSetting up an email application on your mobile device\nAdding your email account to an existing email service\nAdditional resources\nMicrosoft Exchange\nGetting started",
-      "matchedWords": {
-        "DIP1fHhqC0o5": {
-          "hits": 16,
-          "textWords": 1111
-        },
-        "WQ9T6GmYF8b6": {
-          "hits": 0,
-          "textWords": 1111
-        },
-        "c00wMP9yrY2W": {
-          "hits": 2,
-          "textWords": 1111
-        },
-        "zx6MFOVFBfYK": {
-          "hits": 2,
-          "textWords": 1111
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "zPdIps8BaC94",
-      "address": "https://brave.com/podcast/",
-      "title": "The Brave Technologist | Brave",
-      "snippet": "Subscribe now to “The Brave Technologist” and get ready to unlock the potential of AI, and become a part of the transformation shaping our world.\nHosted by Luke Mulks\nVP, Business Operations at Brave",
-      "matchedWords": {
-        "DIP1fHhqC0o5": {
-          "hits": 0,
-          "textWords": 13932
-        },
-        "WQ9T6GmYF8b6": {
-          "hits": 4,
-          "textWords": 13932
-        },
-        "c00wMP9yrY2W": {
-          "hits": 3,
-          "textWords": 13932
-        },
-        "zx6MFOVFBfYK": {
-          "hits": 0,
-          "textWords": 13932
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "2BUdOKKwilRR",
-      "address": "http://microformats.org/wiki/microformats2",
-      "title": "microformats2 - Microformats Wiki",
-      "snippet": "rel=\"self bookmark\" - parse as u-url. note that rel attribute value is treated as a space separated set, thus any presence of \"self\" and \"bookmark\" within such a set in a rel value is accepted.",
-      "matchedWords": {
-        "DIP1fHhqC0o5": {
-          "hits": 3,
-          "textWords": 7443
-        },
-        "WQ9T6GmYF8b6": {
-          "hits": 6,
-          "textWords": 7443
-        },
-        "c00wMP9yrY2W": {
-          "hits": 1,
-          "textWords": 7443
-        },
-        "zx6MFOVFBfYK": {
-          "hits": 1,
-          "textWords": 7443
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "iLQO1sN0ip-w",
-      "address": "https://m-reform.net/",
-      "title": "replica football shirts",
-      "snippet": "",
-      "matchedWords": {
-        "DIP1fHhqC0o5": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "WQ9T6GmYF8b6": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "c00wMP9yrY2W": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "zx6MFOVFBfYK": {
-          "hits": 0,
-          "textWords": 0
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
       "hash": "f0SNutRe8955",
       "address": "https://blog.krtraining.com/",
       "title": "Notes from KR - this time, it's personal",
@@ -687,6 +1064,31 @@
         "zx6MFOVFBfYK": {
           "hits": 1,
           "textWords": 25226
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "A6sCyjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Wikipedia:Village_pump_(all)",
+      "title": "Wikipedia:Village pump (all) - Wikipedia",
+      "snippet": "",
+      "matchedWords": {
+        "DIP1fHhqC0o5": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "WQ9T6GmYF8b6": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "c00wMP9yrY2W": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "zx6MFOVFBfYK": {
+          "hits": 0,
+          "textWords": 0
         }
       },
       "queryPhraseHits": 0
@@ -792,81 +1194,6 @@
       "queryPhraseHits": 0
     },
     {
-      "hash": "qqIgmqWU7_zx",
-      "address": "https://rw.wikipedia.org/wiki/Wikipedia:Community_Portal",
-      "title": "Wikipedia:Community Portal - Wikipedia",
-      "snippet": "Further details and educational materials will be available shortly. The referendum is scheduled for 12-27 August, 2011, and will be conducted on servers hosted by a neutral third party.",
-      "matchedWords": {
-        "DIP1fHhqC0o5": {
-          "hits": 20,
-          "textWords": 82796
-        },
-        "WQ9T6GmYF8b6": {
-          "hits": 4,
-          "textWords": 82796
-        },
-        "c00wMP9yrY2W": {
-          "hits": 11,
-          "textWords": 82796
-        },
-        "zx6MFOVFBfYK": {
-          "hits": 0,
-          "textWords": 82796
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "jh1R77XxSRFx",
-      "address": "https://www.rfc-editor.org/info/rfc6125/",
-      "title": "RFC 6125: Representation and Verification of Domain-Based Application Service Identity within Internet Public Key Infrastructure Using X.509 (PKIX) Certificates in the Context of Transport Layer Security (TLS) | RFC Editor",
-      "snippet": "Consider an IMAP-accessible email server at the host \"mail.example.net\" servicing email addresses of the form \"user@example.net\" and discoverable via DNS SRV lookups on the application service name of \"example.net\".",
-      "matchedWords": {
-        "DIP1fHhqC0o5": {
-          "hits": 19,
-          "textWords": 17272
-        },
-        "WQ9T6GmYF8b6": {
-          "hits": 4,
-          "textWords": 17272
-        },
-        "c00wMP9yrY2W": {
-          "hits": 1,
-          "textWords": 17272
-        },
-        "zx6MFOVFBfYK": {
-          "hits": 151,
-          "textWords": 17272
-        }
-      },
-      "queryPhraseHits": 1
-    },
-    {
-      "hash": "2MFHBtYEKFwx",
-      "address": "https://blog.torproject.org/did-fbi-pay-university-attack-tor-users/",
-      "title": "Did the FBI Pay a University to Attack Tor Users? | The Tor Project",
-      "snippet": "The Tor Project has learned more about last year's attack by Carnegie Mellon researchers on the hidden service subsystem.",
-      "matchedWords": {
-        "DIP1fHhqC0o5": {
-          "hits": 0,
-          "textWords": 444
-        },
-        "WQ9T6GmYF8b6": {
-          "hits": 0,
-          "textWords": 444
-        },
-        "c00wMP9yrY2W": {
-          "hits": 0,
-          "textWords": 444
-        },
-        "zx6MFOVFBfYK": {
-          "hits": 0,
-          "textWords": 444
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
       "hash": "J6LFIsYyzH0z",
       "address": "https://awesome-selfhosted.net/",
       "title": "awesome-selfhosted",
@@ -892,34 +1219,59 @@
       "queryPhraseHits": 0
     },
     {
-      "hash": "azENEsgbSIuz",
-      "address": "https://geoengineeringwatch.org/flaming-arrow-package/",
-      "title": "Climate Engineering Introduction Letter - Geoengineering Watch",
-      "snippet": "Dane are you aware of this? The offer of having ‘a suggested email letter and links for introducing people’ to information about weather manipulation is good BUT there is NO suggested email available! Please respond.\nOpen it in Wordpad…\nJames\nAdd this to the package.",
+      "hash": "D4lABzaS0qdw",
+      "address": "https://planet.debian.org/",
+      "title": "Planet Debian",
+      "snippet": "For literal queries (78.2% of DCS queries), querying the positional index on disk is faster than querying the non-positional index in RAM.\nThe efficient encoding of the TurboPFor format makes it possible to fit such an index on a mid-sized Hetzner server, which I rent with two 1 TB SSD disks.",
       "matchedWords": {
         "DIP1fHhqC0o5": {
-          "hits": 7,
-          "textWords": 12820
+          "hits": 0,
+          "textWords": 8109
         },
         "WQ9T6GmYF8b6": {
-          "hits": 1,
-          "textWords": 12820
+          "hits": 0,
+          "textWords": 8109
         },
         "c00wMP9yrY2W": {
-          "hits": 1,
-          "textWords": 12820
+          "hits": 0,
+          "textWords": 8109
         },
         "zx6MFOVFBfYK": {
-          "hits": 0,
-          "textWords": 12820
+          "hits": 2,
+          "textWords": 8109
         }
       },
       "queryPhraseHits": 0
     },
     {
-      "hash": "gK0yJsjsdFw4",
-      "address": "https://akdart.com/med21.html",
-      "title": "News Media Sensationalism and Dishonesty",
+      "hash": "0xYK4Jbk4R1h",
+      "address": "https://lybystrand.dk/author/admin",
+      "title": "admin – LYBYSTRAND",
+      "snippet": "",
+      "matchedWords": {
+        "DIP1fHhqC0o5": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "WQ9T6GmYF8b6": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "c00wMP9yrY2W": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "zx6MFOVFBfYK": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "EyjETIl7OZJE",
+      "address": "http://www.kursaal.com.ar/web/post-without-sidebar/",
+      "title": "Post Without Sidebar",
       "snippet": "",
       "matchedWords": {
         "DIP1fHhqC0o5": {
@@ -967,6 +1319,31 @@
       "queryPhraseHits": 0
     },
     {
+      "hash": "2i-X_sofUy-5",
+      "address": "https://duckduckgo.com/bang_lite.html",
+      "title": "DuckDuckGo !Bang",
+      "snippet": "wort !wortschatz !wox !wpplugs !wrden !wtbr !wte !wul !wus !wwtr !xmpprooms !y !yacy !yahoo !yahoo (!y !yjp) !yandex (!ya !yaen !yandexm) !yaslovari !yat !yatr !ydd !yde !yeahway !yeggi !yi !yippy !yjisho !ymg !yn !yop.email !yp !yri !yubnub !zabasearch !zapmeta !zetawiki !zetax !zivefirmy !zomato !",
+      "matchedWords": {
+        "DIP1fHhqC0o5": {
+          "hits": 3,
+          "textWords": 58551
+        },
+        "WQ9T6GmYF8b6": {
+          "hits": 1,
+          "textWords": 58551
+        },
+        "c00wMP9yrY2W": {
+          "hits": 2,
+          "textWords": 58551
+        },
+        "zx6MFOVFBfYK": {
+          "hits": 5,
+          "textWords": 58551
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
       "hash": "5yRkjupSnYMg",
       "address": "https://www.medom.pl/meble/apartamenty/medom-apartament-01-2/",
       "title": "Medom - Producent mebli Kuchennych - Medom - Kuchnie i Wnętrza",
@@ -974,19 +1351,19 @@
       "matchedWords": {
         "DIP1fHhqC0o5": {
           "hits": 36,
-          "textWords": 202917
+          "textWords": 202958
         },
         "WQ9T6GmYF8b6": {
           "hits": 25,
-          "textWords": 202917
+          "textWords": 202958
         },
         "c00wMP9yrY2W": {
           "hits": 3,
-          "textWords": 202917
+          "textWords": 202958
         },
         "zx6MFOVFBfYK": {
           "hits": 1,
-          "textWords": 202917
+          "textWords": 202958
         }
       },
       "queryPhraseHits": 0
@@ -1017,101 +1394,51 @@
       "queryPhraseHits": 1
     },
     {
-      "hash": "Fl-YxlDOAHJg",
-      "address": "https://www.heise.de/",
-      "title": "heise online - IT-News, Nachrichten und Hintergründe | heise online",
-      "snippet": "Anzeige\nAnzeige\nEigenwerbung\nImmer neue Projekte am Start!\nDann bist du bei uns genau richtig:\nÜber 1000 DIY-Ideen und Inspirationen\n2 Ausgaben mit 30 % Rabatt\nMit exklusiver Prämie z.B. Make: Tasse\nJetzt sichern!\nAnzeige\nAnzeige\nmeistgelesen\nbeliebt bei Abonnenten\nmeistkommentiert",
+      "hash": "XTPIBlptNsG4",
+      "address": "https://www.akdart.com/hijrah.html",
+      "title": "Islamic invasion disguised as the displacement and acceptance of refugees",
+      "snippet": "The man is obsessed with Islam. Westminster has hosted Iftar and my own Hull City Council recently hosted a civic Grand Iftar in our City Hall.",
       "matchedWords": {
         "DIP1fHhqC0o5": {
-          "hits": 0,
-          "textWords": 980
+          "hits": 11,
+          "textWords": 405419
         },
         "WQ9T6GmYF8b6": {
-          "hits": 0,
-          "textWords": 980
+          "hits": 88,
+          "textWords": 405419
         },
         "c00wMP9yrY2W": {
-          "hits": 0,
-          "textWords": 980
+          "hits": 15,
+          "textWords": 405419
         },
         "zx6MFOVFBfYK": {
-          "hits": 0,
-          "textWords": 980
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "2MFHBtYEKFwx",
-      "address": "https://blog.torproject.org/did-fbi-pay-university-attack-tor-users/",
-      "title": "Did the FBI Pay a University to Attack Tor Users? | The Tor Project",
-      "snippet": "The Tor Project has learned more about last year's attack by Carnegie Mellon researchers on the hidden service subsystem.",
-      "matchedWords": {
-        "DIP1fHhqC0o5": {
-          "hits": 0,
-          "textWords": 444
-        },
-        "WQ9T6GmYF8b6": {
-          "hits": 0,
-          "textWords": 444
-        },
-        "c00wMP9yrY2W": {
-          "hits": 0,
-          "textWords": 444
-        },
-        "zx6MFOVFBfYK": {
-          "hits": 0,
-          "textWords": 444
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "EyjETIl7OZJE",
-      "address": "http://www.kursaal.com.ar/web/post-without-sidebar/",
-      "title": "Post Without Sidebar",
-      "snippet": "",
-      "matchedWords": {
-        "DIP1fHhqC0o5": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "WQ9T6GmYF8b6": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "c00wMP9yrY2W": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "zx6MFOVFBfYK": {
-          "hits": 0,
-          "textWords": 0
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "FMD4sitD2jQw",
-      "address": "https://docs.python.org/3/library/typing.html",
-      "title": "26.1. typing — Support for type hints \u0026mdash; Python 3.5.0 documentation",
-      "snippet": "from logging import Logger class LoggedVar[T]: def __init__(self, value: T, name: str, logger: Logger) -\u003e None: self.name = name self.logger = logger self.value = value def set(self, new: T) -\u003e None: self.log('Set ' + repr(self.value)) self.value = new def get(self) -\u003e T: self.log('Get ' +",
-      "matchedWords": {
-        "DIP1fHhqC0o5": {
           "hits": 1,
-          "textWords": 16346
+          "textWords": 405419
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "gCVBNZ3WSkX4",
+      "address": "https://docs.ovhcloud.com/en/",
+      "title": "OVHcloud Documentation",
+      "snippet": "Domain NamesGet started with domain names\nWeb HostingDeploy your first website\nEmailsSet up your email addresses\nZimbraGet started with Zimbra\nEmail ProGet started with Email Pro\nMicrosoft ExchangeGet started with Microsoft Exchange\nManaged HostingGet started with managed hosting",
+      "matchedWords": {
+        "DIP1fHhqC0o5": {
+          "hits": 4,
+          "textWords": 301
         },
         "WQ9T6GmYF8b6": {
-          "hits": 66,
-          "textWords": 16346
+          "hits": 0,
+          "textWords": 301
         },
         "c00wMP9yrY2W": {
-          "hits": 1,
-          "textWords": 16346
+          "hits": 0,
+          "textWords": 301
         },
         "zx6MFOVFBfYK": {
-          "hits": 2,
-          "textWords": 16346
+          "hits": 1,
+          "textWords": 301
         }
       },
       "queryPhraseHits": 0
@@ -1123,28 +1450,78 @@
       "snippet": "Fæ (talk) 19:15, 23 August 2026 (UTC)Reply No email is sent back, so there is nothing for WMF to keep. The way this works is that WMF send you an email with a code, and then you use the code during login.",
       "matchedWords": {
         "DIP1fHhqC0o5": {
-          "hits": 14,
-          "textWords": 20429
+          "hits": 15,
+          "textWords": 19993
         },
         "WQ9T6GmYF8b6": {
           "hits": 1,
-          "textWords": 20429
+          "textWords": 19993
         },
         "c00wMP9yrY2W": {
           "hits": 2,
-          "textWords": 20429
+          "textWords": 19993
         },
         "zx6MFOVFBfYK": {
+          "hits": 0,
+          "textWords": 19993
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "zPdIps8BaC94",
+      "address": "https://brave.com/podcast/",
+      "title": "The Brave Technologist | Brave",
+      "snippet": "Subscribe now to “The Brave Technologist” and get ready to unlock the potential of AI, and become a part of the transformation shaping our world.\nHosted by Luke Mulks\nVP, Business Operations at Brave",
+      "matchedWords": {
+        "DIP1fHhqC0o5": {
+          "hits": 0,
+          "textWords": 13932
+        },
+        "WQ9T6GmYF8b6": {
+          "hits": 4,
+          "textWords": 13932
+        },
+        "c00wMP9yrY2W": {
+          "hits": 3,
+          "textWords": 13932
+        },
+        "zx6MFOVFBfYK": {
+          "hits": 0,
+          "textWords": 13932
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "cWZdmz9qXMBw",
+      "address": "https://planet.kernel.org/",
+      "title": "Kernel Planet",
+      "snippet": "Because I am bad at giving up on things, I’ve been running my own email server for over 20 years. Some of that time it’s been a PC at the end of a DSL line, some of that time it’s been a Mac Mini in a data centre, and some of that time it’s been a hosted VM.",
+      "matchedWords": {
+        "DIP1fHhqC0o5": {
+          "hits": 13,
+          "textWords": 36724
+        },
+        "WQ9T6GmYF8b6": {
           "hits": 6,
-          "textWords": 20429
+          "textWords": 36724
+        },
+        "c00wMP9yrY2W": {
+          "hits": 3,
+          "textWords": 36724
+        },
+        "zx6MFOVFBfYK": {
+          "hits": 9,
+          "textWords": 36724
         }
       },
-      "queryPhraseHits": 0
+      "queryPhraseHits": 2
     },
     {
-      "hash": "XhM90s4so94h",
-      "address": "https://microclimat.bg/blog?journal_blog_post_id=1",
-      "title": "Хладилен агент R32, климатици, Фреон ...",
+      "hash": "sC0kMlDOAHJg",
+      "address": "https://www.heise.de/en",
+      "title": "heise online – IT news, guides and background information | heise online",
       "snippet": "",
       "matchedWords": {
         "DIP1fHhqC0o5": {
@@ -1167,9 +1544,9 @@
       "queryPhraseHits": 0
     },
     {
-      "hash": "iLQO1sN0ip-w",
-      "address": "https://m-reform.net/",
-      "title": "replica football shirts",
+      "hash": "rLCvt_RV1YYA",
+      "address": "http://old.t-sborki.ru/articles/sotsialnaya-realizatsiya-po-zhenski",
+      "title": "Социальная реализация по-женски - Точка Сборки",
       "snippet": "",
       "matchedWords": {
         "DIP1fHhqC0o5": {
@@ -1192,9 +1569,84 @@
       "queryPhraseHits": 0
     },
     {
-      "hash": "R5vzYsOocYRx",
-      "address": "https://murdoconline.net/",
-      "title": "MURDOCONLINE - Situs Kumpulan Game Online Terbaik Paling Populer",
+      "hash": "OIjuydS6MKD4",
+      "address": "https://github.com/HKUDS/Vibe-Trading",
+      "title": "GitHub - HKUDS/Vibe-Trading: \"Vibe-Trading: Your Personal Trading Agent\" · GitHub",
+      "snippet": "",
+      "matchedWords": {
+        "DIP1fHhqC0o5": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "WQ9T6GmYF8b6": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "c00wMP9yrY2W": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "zx6MFOVFBfYK": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "Mb7ip0SWekJ4",
+      "address": "https://thangs.com/resources/blog",
+      "title": "Blog",
+      "snippet": "If you haven’t yet ventured into the world of Discord, think about setting up a server to stay connected with your members. It offers a relaxed and informal channel for interacting with your followers and community.\nMemberships Email Relay\nCommunicate with your members at least once a week.",
+      "matchedWords": {
+        "DIP1fHhqC0o5": {
+          "hits": 53,
+          "textWords": 50875
+        },
+        "WQ9T6GmYF8b6": {
+          "hits": 3,
+          "textWords": 50875
+        },
+        "c00wMP9yrY2W": {
+          "hits": 1,
+          "textWords": 50875
+        },
+        "zx6MFOVFBfYK": {
+          "hits": 5,
+          "textWords": 50875
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "J6LFIsYyzH0z",
+      "address": "https://awesome-selfhosted.net/",
+      "title": "awesome-selfhosted",
+      "snippet": "",
+      "matchedWords": {
+        "DIP1fHhqC0o5": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "WQ9T6GmYF8b6": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "c00wMP9yrY2W": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "zx6MFOVFBfYK": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "YZDSAsdTeyA4",
+      "address": "https://github.blog/changelog/",
+      "title": "GitHub Changelog",
       "snippet": "",
       "matchedWords": {
         "DIP1fHhqC0o5": {
@@ -1242,9 +1694,159 @@
       "queryPhraseHits": 0
     },
     {
-      "hash": "gK0yJsjsdFw4",
-      "address": "https://akdart.com/med21.html",
-      "title": "News Media Sensationalism and Dishonesty",
+      "hash": "2i-X_sofUy-5",
+      "address": "https://duckduckgo.com/bang_lite.html",
+      "title": "DuckDuckGo !Bang",
+      "snippet": "wort !wortschatz !wox !wpplugs !wrden !wtbr !wte !wul !wus !wwtr !xmpprooms !y !yacy !yahoo !yahoo (!y !yjp) !yandex (!ya !yaen !yandexm) !yaslovari !yat !yatr !ydd !yde !yeahway !yeggi !yi !yippy !yjisho !ymg !yn !yop.email !yp !yri !yubnub !zabasearch !zapmeta !zetawiki !zetax !zivefirmy !zomato !",
+      "matchedWords": {
+        "DIP1fHhqC0o5": {
+          "hits": 3,
+          "textWords": 58551
+        },
+        "WQ9T6GmYF8b6": {
+          "hits": 1,
+          "textWords": 58551
+        },
+        "c00wMP9yrY2W": {
+          "hits": 2,
+          "textWords": 58551
+        },
+        "zx6MFOVFBfYK": {
+          "hits": 5,
+          "textWords": 58551
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "ClTOilptNsG4",
+      "address": "https://www.akdart.com/obama11.html",
+      "title": "The Obama Presidency : Narcissism and Bad Decisions",
+      "snippet": "In 2015, President Obama told CBS news that former Secretary of State Hillary Clinton's use of an unsecured private email server for her official communications may have been a \"mistake,\" but added: \"I don't think it posed a national security problem.\"",
+      "matchedWords": {
+        "DIP1fHhqC0o5": {
+          "hits": 11,
+          "textWords": 95784
+        },
+        "WQ9T6GmYF8b6": {
+          "hits": 17,
+          "textWords": 95784
+        },
+        "c00wMP9yrY2W": {
+          "hits": 5,
+          "textWords": 95784
+        },
+        "zx6MFOVFBfYK": {
+          "hits": 1,
+          "textWords": 95784
+        }
+      },
+      "queryPhraseHits": 1
+    },
+    {
+      "hash": "XTPIBlptNsG4",
+      "address": "https://www.akdart.com/hijrah.html",
+      "title": "Islamic invasion disguised as the displacement and acceptance of refugees",
+      "snippet": "The man is obsessed with Islam. Westminster has hosted Iftar and my own Hull City Council recently hosted a civic Grand Iftar in our City Hall.",
+      "matchedWords": {
+        "DIP1fHhqC0o5": {
+          "hits": 11,
+          "textWords": 405419
+        },
+        "WQ9T6GmYF8b6": {
+          "hits": 88,
+          "textWords": 405419
+        },
+        "c00wMP9yrY2W": {
+          "hits": 15,
+          "textWords": 405419
+        },
+        "zx6MFOVFBfYK": {
+          "hits": 1,
+          "textWords": 405419
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "n1F03swUSuo5",
+      "address": "https://nextcloud.com/",
+      "title": "Nextcloud - Open source content collaboration platform",
+      "snippet": "Unique protection\nAvoid data leaks\nTeam planning\nEmail made easy\nEasy access, anywhere\nUse your existing apps\nSelf-hosted online office\nView and reply to comments\nChat or have a call while editing\ndocx/pptx/xlsx support\nContext Write to create content based on existing documents and data",
+      "matchedWords": {
+        "DIP1fHhqC0o5": {
+          "hits": 1,
+          "textWords": 706
+        },
+        "WQ9T6GmYF8b6": {
+          "hits": 3,
+          "textWords": 706
+        },
+        "c00wMP9yrY2W": {
+          "hits": 3,
+          "textWords": 706
+        },
+        "zx6MFOVFBfYK": {
+          "hits": 0,
+          "textWords": 706
+        }
+      },
+      "queryPhraseHits": 3
+    },
+    {
+      "hash": "xIkDby3WSkX4",
+      "address": "https://docs.ovhcloud.com/en/guides/web-cloud/domains/overview",
+      "title": "Domains - OVHcloud Documentation",
+      "snippet": "",
+      "matchedWords": {
+        "DIP1fHhqC0o5": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "WQ9T6GmYF8b6": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "c00wMP9yrY2W": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "zx6MFOVFBfYK": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "H6Zz4sS6MKD4",
+      "address": "https://github.com/trending",
+      "title": "Trending repositories on GitHub today · GitHub",
+      "snippet": "",
+      "matchedWords": {
+        "DIP1fHhqC0o5": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "WQ9T6GmYF8b6": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "c00wMP9yrY2W": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "zx6MFOVFBfYK": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "EyjETIl7OZJE",
+      "address": "http://www.kursaal.com.ar/web/post-without-sidebar/",
+      "title": "Post Without Sidebar",
       "snippet": "",
       "matchedWords": {
         "DIP1fHhqC0o5": {
@@ -1292,54 +1894,54 @@
       "queryPhraseHits": 0
     },
     {
-      "hash": "XTPIBlptNsG4",
-      "address": "https://www.akdart.com/hijrah.html",
-      "title": "Islamic invasion disguised as the displacement and acceptance of refugees",
-      "snippet": "The man is obsessed with Islam. Westminster has hosted Iftar and my own Hull City Council recently hosted a civic Grand Iftar in our City Hall.",
+      "hash": "gCVBNZ3WSkX4",
+      "address": "https://docs.ovhcloud.com/en/",
+      "title": "OVHcloud Documentation",
+      "snippet": "Domain NamesGet started with domain names\nWeb HostingDeploy your first website\nEmailsSet up your email addresses\nZimbraGet started with Zimbra\nEmail ProGet started with Email Pro\nMicrosoft ExchangeGet started with Microsoft Exchange\nManaged HostingGet started with managed hosting",
       "matchedWords": {
         "DIP1fHhqC0o5": {
-          "hits": 11,
-          "textWords": 405419
+          "hits": 4,
+          "textWords": 301
         },
         "WQ9T6GmYF8b6": {
-          "hits": 88,
-          "textWords": 405419
+          "hits": 0,
+          "textWords": 301
         },
         "c00wMP9yrY2W": {
-          "hits": 15,
-          "textWords": 405419
+          "hits": 0,
+          "textWords": 301
         },
         "zx6MFOVFBfYK": {
           "hits": 1,
-          "textWords": 405419
+          "textWords": 301
         }
       },
       "queryPhraseHits": 0
     },
     {
-      "hash": "8q_7kd8zMi84",
-      "address": "https://docs.cloud.google.com/release-notes",
-      "title": "Google Cloud release notes | Google Cloud Documentation",
-      "snippet": "This issue has already been mitigated for Looker-hosted instances.\nWhat should I do?\nFor Looker-hosted instances, no action is required.\nFor self-hosted Looker instances, update your Looker instances as soon as possible.",
+      "hash": "Z5FWhh3e0QFx",
+      "address": "https://commons.wikimedia.org/wiki/Commons:Village_pump",
+      "title": "Commons:Village pump - Wikimedia Commons",
+      "snippet": "Fæ (talk) 19:15, 23 August 2026 (UTC)Reply No email is sent back, so there is nothing for WMF to keep. The way this works is that WMF send you an email with a code, and then you use the code during login.",
       "matchedWords": {
         "DIP1fHhqC0o5": {
-          "hits": 63,
-          "textWords": 93126
+          "hits": 15,
+          "textWords": 19993
         },
         "WQ9T6GmYF8b6": {
-          "hits": 17,
-          "textWords": 93126
+          "hits": 1,
+          "textWords": 19993
         },
         "c00wMP9yrY2W": {
-          "hits": 11,
-          "textWords": 93126
+          "hits": 2,
+          "textWords": 19993
         },
         "zx6MFOVFBfYK": {
-          "hits": 77,
-          "textWords": 93126
+          "hits": 0,
+          "textWords": 19993
         }
       },
-      "queryPhraseHits": 3
+      "queryPhraseHits": 0
     },
     {
       "hash": "cWZdmz9qXMBw",
@@ -1367,81 +1969,6 @@
       "queryPhraseHits": 2
     },
     {
-      "hash": "8CJLrjAL9Tgx",
-      "address": "https://en.wikisource.org/wiki/Wikisource:Scriptorium",
-      "title": "Wikisource:Scriptorium - Wikisource, the free online library",
-      "snippet": "I'm not really sure how to represent the Standard Works as a kind of collective work here: I don't think that {{disambiguation}} or {{versions}} really makes sense, so I'm leaning toward a Portal page that represents what works we have hosted or scans on c: as well as listing how different groups",
-      "matchedWords": {
-        "DIP1fHhqC0o5": {
-          "hits": 0,
-          "textWords": 10932
-        },
-        "WQ9T6GmYF8b6": {
-          "hits": 0,
-          "textWords": 10932
-        },
-        "c00wMP9yrY2W": {
-          "hits": 4,
-          "textWords": 10932
-        },
-        "zx6MFOVFBfYK": {
-          "hits": 0,
-          "textWords": 10932
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "mKjEVzAa-Sqx",
-      "address": "https://planet.freedesktop.org/",
-      "title": "planet.freedesktop.org",
-      "snippet": "static DexFuture * foobar (gpointer user_data) { /* g_weak_ref_init in the caller somewhere */ GWeakRef *self_wr = user_data; for (;;) { g_autoptr(GBytes) bytes = NULL; bytes = dex_await_boxed (my_other_thing_bar (other, foo), NULL); { g_autoptr(MyThing) self = g_weak_ref_get (\u0026self_wr); if (!",
-      "matchedWords": {
-        "DIP1fHhqC0o5": {
-          "hits": 1,
-          "textWords": 71870
-        },
-        "WQ9T6GmYF8b6": {
-          "hits": 10,
-          "textWords": 71870
-        },
-        "c00wMP9yrY2W": {
-          "hits": 0,
-          "textWords": 71870
-        },
-        "zx6MFOVFBfYK": {
-          "hits": 16,
-          "textWords": 71870
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "Fl-YxlDOAHJg",
-      "address": "https://www.heise.de/",
-      "title": "heise online - IT-News, Nachrichten und Hintergründe | heise online",
-      "snippet": "Anzeige\nAnzeige\nEigenwerbung\nImmer neue Projekte am Start!\nDann bist du bei uns genau richtig:\nÜber 1000 DIY-Ideen und Inspirationen\n2 Ausgaben mit 30 % Rabatt\nMit exklusiver Prämie z.B. Make: Tasse\nJetzt sichern!\nAnzeige\nAnzeige\nmeistgelesen\nbeliebt bei Abonnenten\nmeistkommentiert",
-      "matchedWords": {
-        "DIP1fHhqC0o5": {
-          "hits": 0,
-          "textWords": 980
-        },
-        "WQ9T6GmYF8b6": {
-          "hits": 0,
-          "textWords": 980
-        },
-        "c00wMP9yrY2W": {
-          "hits": 0,
-          "textWords": 980
-        },
-        "zx6MFOVFBfYK": {
-          "hits": 0,
-          "textWords": 980
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
       "hash": "W-eXqzF3--Qw",
       "address": "https://planet.mozilla.org/",
       "title": "Planet Mozilla",
@@ -1467,81 +1994,6 @@
       "queryPhraseHits": 3
     },
     {
-      "hash": "bvZ6nIG-ATF4",
-      "address": "https://podcasts.apple.com/bs/new",
-      "title": "Apple Podcasts (BS) - Web Player",
-      "snippet": "Copyright © 2026 Apple Inc. All rights reserved.\nInternet Service Terms\nApple Podcasts web player \u0026 Privacy\nCookie Warning\nSupport\nFeedback",
-      "matchedWords": {
-        "DIP1fHhqC0o5": {
-          "hits": 0,
-          "textWords": 19
-        },
-        "WQ9T6GmYF8b6": {
-          "hits": 0,
-          "textWords": 19
-        },
-        "c00wMP9yrY2W": {
-          "hits": 0,
-          "textWords": 19
-        },
-        "zx6MFOVFBfYK": {
-          "hits": 0,
-          "textWords": 19
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "CjgsxsIyoLTx",
-      "address": "https://planetpython.org/",
-      "title": "Planet Python",
-      "snippet": "QtWidgets import ( QApplication, QLabel, QMainWindow, QScrollArea, QVBoxLayout, QWidget, ) class WorkerSignals(QObject): frame_ready = pyqtSignal(QImage) finished = pyqtSignal() class VideoWorker(QRunnable): def __init__(self): super().__init__() self.signals = WorkerSignals() self.running = True",
-      "matchedWords": {
-        "DIP1fHhqC0o5": {
-          "hits": 2,
-          "textWords": 30728
-        },
-        "WQ9T6GmYF8b6": {
-          "hits": 231,
-          "textWords": 30728
-        },
-        "c00wMP9yrY2W": {
-          "hits": 5,
-          "textWords": 30728
-        },
-        "zx6MFOVFBfYK": {
-          "hits": 24,
-          "textWords": 30728
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "2BUdOKKwilRR",
-      "address": "http://microformats.org/wiki/microformats2",
-      "title": "microformats2 - Microformats Wiki",
-      "snippet": "rel=\"self bookmark\" - parse as u-url. note that rel attribute value is treated as a space separated set, thus any presence of \"self\" and \"bookmark\" within such a set in a rel value is accepted.",
-      "matchedWords": {
-        "DIP1fHhqC0o5": {
-          "hits": 3,
-          "textWords": 7443
-        },
-        "WQ9T6GmYF8b6": {
-          "hits": 6,
-          "textWords": 7443
-        },
-        "c00wMP9yrY2W": {
-          "hits": 1,
-          "textWords": 7443
-        },
-        "zx6MFOVFBfYK": {
-          "hits": 1,
-          "textWords": 7443
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
       "hash": "7eYSusLVkley",
       "address": "https://daringfireball.net/",
       "title": "Daring Fireball",
@@ -1549,27 +2001,27 @@
       "matchedWords": {
         "DIP1fHhqC0o5": {
           "hits": 1,
-          "textWords": 13247
+          "textWords": 13248
         },
         "WQ9T6GmYF8b6": {
           "hits": 3,
-          "textWords": 13247
+          "textWords": 13248
         },
         "c00wMP9yrY2W": {
           "hits": 0,
-          "textWords": 13247
+          "textWords": 13248
         },
         "zx6MFOVFBfYK": {
           "hits": 0,
-          "textWords": 13247
+          "textWords": 13248
         }
       },
       "queryPhraseHits": 0
     },
     {
-      "hash": "R5vzYsOocYRx",
-      "address": "https://murdoconline.net/",
-      "title": "MURDOCONLINE - Situs Kumpulan Game Online Terbaik Paling Populer",
+      "hash": "i9KK8lLsqSPh",
+      "address": "https://www.lara-delis.de/paraphrasing-is-expressing-the-that-means-of-somebody-elses-words-and-phrases-on-your-own-text-rather-then-quoting-directly/",
+      "title": "Paraphrasing is expressing the that means of somebody else?s words and phrases on your own text rather then quoting directly - Lara de Lis — Официальный сайт",
       "snippet": "",
       "matchedWords": {
         "DIP1fHhqC0o5": {
@@ -1592,51 +2044,101 @@
       "queryPhraseHits": 0
     },
     {
-      "hash": "GUrZK6QzbYgx",
-      "address": "https://wikisource.org/wiki/Wikisource:Scriptorium",
-      "title": "Wikisource:Scriptorium - Wikisource",
-      "snippet": "On several wikis, logged-in editors who haven't confirmed their email addresses can now see a banner encouraging them to do so. Having the email address confirmed allows a user to restore access to the account if they lose it. Learn more. [12]",
+      "hash": "4fG2R7NM0dIB",
+      "address": "http://cleanpart.ru/placeholder/",
+      "title": "placeholder | Cleanpart.RU",
+      "snippet": "",
       "matchedWords": {
         "DIP1fHhqC0o5": {
-          "hits": 4,
-          "textWords": 18265
+          "hits": 0,
+          "textWords": 0
         },
         "WQ9T6GmYF8b6": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "c00wMP9yrY2W": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "zx6MFOVFBfYK": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "rLCvt_RV1YYA",
+      "address": "http://old.t-sborki.ru/articles/sotsialnaya-realizatsiya-po-zhenski",
+      "title": "Социальная реализация по-женски - Точка Сборки",
+      "snippet": "",
+      "matchedWords": {
+        "DIP1fHhqC0o5": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "WQ9T6GmYF8b6": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "c00wMP9yrY2W": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "zx6MFOVFBfYK": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "f0SNutRe8955",
+      "address": "https://blog.krtraining.com/",
+      "title": "Notes from KR - this time, it's personal",
+      "snippet": "Wednesday Wisdom 18 Feb (Sensible Self Defense)\nThe 20 Gauge Beretta A300 Ultima Patrol (Sensible Self Defense)\nWednesday Wisdom 11 Feb (Sensible Self Defense)\nWednesday Wisdom 4 Feb (Sensible Self Defense)\nSecuring Backyard Fences (Active Response Training)",
+      "matchedWords": {
+        "DIP1fHhqC0o5": {
+          "hits": 48,
+          "textWords": 25226
+        },
+        "WQ9T6GmYF8b6": {
+          "hits": 46,
+          "textWords": 25226
+        },
+        "c00wMP9yrY2W": {
+          "hits": 5,
+          "textWords": 25226
+        },
+        "zx6MFOVFBfYK": {
           "hits": 1,
-          "textWords": 18265
-        },
-        "c00wMP9yrY2W": {
-          "hits": 0,
-          "textWords": 18265
-        },
-        "zx6MFOVFBfYK": {
-          "hits": 4,
-          "textWords": 18265
+          "textWords": 25226
         }
       },
       "queryPhraseHits": 0
     },
     {
-      "hash": "rExjvjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Archive_of_Our_Own",
-      "title": "Archive of Our Own - Wikipedia",
-      "snippet": "",
+      "hash": "Mb7ip0SWekJ4",
+      "address": "https://thangs.com/resources/blog",
+      "title": "Blog",
+      "snippet": "If you haven’t yet ventured into the world of Discord, think about setting up a server to stay connected with your members. It offers a relaxed and informal channel for interacting with your followers and community.\nMemberships Email Relay\nCommunicate with your members at least once a week.",
       "matchedWords": {
         "DIP1fHhqC0o5": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 53,
+          "textWords": 50875
         },
         "WQ9T6GmYF8b6": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 3,
+          "textWords": 50875
         },
         "c00wMP9yrY2W": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 1,
+          "textWords": 50875
         },
         "zx6MFOVFBfYK": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 5,
+          "textWords": 50875
         }
       },
       "queryPhraseHits": 0
@@ -1692,31 +2194,6 @@
       "queryPhraseHits": 0
     },
     {
-      "hash": "qqIgmqWU7_zx",
-      "address": "https://rw.wikipedia.org/wiki/Wikipedia:Community_Portal",
-      "title": "Wikipedia:Community Portal - Wikipedia",
-      "snippet": "Further details and educational materials will be available shortly. The referendum is scheduled for 12-27 August, 2011, and will be conducted on servers hosted by a neutral third party.",
-      "matchedWords": {
-        "DIP1fHhqC0o5": {
-          "hits": 20,
-          "textWords": 82796
-        },
-        "WQ9T6GmYF8b6": {
-          "hits": 4,
-          "textWords": 82796
-        },
-        "c00wMP9yrY2W": {
-          "hits": 11,
-          "textWords": 82796
-        },
-        "zx6MFOVFBfYK": {
-          "hits": 0,
-          "textWords": 82796
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
       "hash": "J6LFIsYyzH0z",
       "address": "https://awesome-selfhosted.net/",
       "title": "awesome-selfhosted",
@@ -1767,9 +2244,59 @@
       "queryPhraseHits": 0
     },
     {
-      "hash": "-p2w3taoSn1x",
-      "address": "https://en.planet.wikimedia.org/",
-      "title": "en.planet.wikimedia.org",
+      "hash": "Hg3f-scTylu4",
+      "address": "https://omnivere.com/",
+      "title": "Omnivere -",
+      "snippet": "Carilah server yang menyediakan berbagai saluran kontak seperti live chat, email, atau telepon untuk memastikan Anda dapat dengan mudah mendapatkan bantuan kapan saja diperlukan.",
+      "matchedWords": {
+        "DIP1fHhqC0o5": {
+          "hits": 74,
+          "textWords": 268128
+        },
+        "WQ9T6GmYF8b6": {
+          "hits": 42,
+          "textWords": 268128
+        },
+        "c00wMP9yrY2W": {
+          "hits": 2,
+          "textWords": 268128
+        },
+        "zx6MFOVFBfYK": {
+          "hits": 162,
+          "textWords": 268128
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "7ahdAsiYYWG6",
+      "address": "https://cedarcafeonline.com/",
+      "title": "cedarcafeonline -",
+      "snippet": "In addition, some sites have self-exclusion features to prevent those with gambling disorders from playing.\nAnother way that online gambling sites promote responsibility is by offering support to problem gamblers. This can be in the form of anonymous help lines, chat rooms, or email support.",
+      "matchedWords": {
+        "DIP1fHhqC0o5": {
+          "hits": 119,
+          "textWords": 377950
+        },
+        "WQ9T6GmYF8b6": {
+          "hits": 60,
+          "textWords": 377950
+        },
+        "c00wMP9yrY2W": {
+          "hits": 7,
+          "textWords": 377950
+        },
+        "zx6MFOVFBfYK": {
+          "hits": 163,
+          "textWords": 377950
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "EyjETIl7OZJE",
+      "address": "http://www.kursaal.com.ar/web/post-without-sidebar/",
+      "title": "Post Without Sidebar",
       "snippet": "",
       "matchedWords": {
         "DIP1fHhqC0o5": {
@@ -1792,385 +2319,85 @@
       "queryPhraseHits": 0
     },
     {
-      "hash": "2ZqdVzfOEiDw",
-      "address": "https://planet.gnome.org/",
-      "title": "Planet GNOME",
-      "snippet": "AppStream’s original design however comes from the perspective of Linux distributions in 2011, where you may want to browse the software catalog offline, without delay, and without pinging an external server (which could be a privacy concern).",
+      "hash": "5yRkjupSnYMg",
+      "address": "https://www.medom.pl/meble/apartamenty/medom-apartament-01-2/",
+      "title": "Medom - Producent mebli Kuchennych - Medom - Kuchnie i Wnętrza",
+      "snippet": "Well I’m adding this RSS to my email and can look out for much more of\nyour respective exciting content. Make sure\nyou update this again soon.. Escape rooms hub\nI was reading some of your blog posts on this website and I conceive this internet site is\nvery informative! Keep on putting up.?",
       "matchedWords": {
         "DIP1fHhqC0o5": {
-          "hits": 0,
-          "textWords": 2681
+          "hits": 36,
+          "textWords": 202958
         },
         "WQ9T6GmYF8b6": {
-          "hits": 0,
-          "textWords": 2681
-        },
-        "c00wMP9yrY2W": {
-          "hits": 0,
-          "textWords": 2681
-        },
-        "zx6MFOVFBfYK": {
-          "hits": 2,
-          "textWords": 2681
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "FMD4sitD2jQw",
-      "address": "https://docs.python.org/3/library/typing.html",
-      "title": "typing — Support for type hints — Python 3.14.7 documentation",
-      "snippet": "from logging import Logger class LoggedVar[T]: def __init__(self, value: T, name: str, logger: Logger) -\u003e None: self.name = name self.logger = logger self.value = value def set(self, new: T) -\u003e None: self.log('Set ' + repr(self.value)) self.value = new def get(self) -\u003e T: self.log('Get ' +",
-      "matchedWords": {
-        "DIP1fHhqC0o5": {
-          "hits": 1,
-          "textWords": 16346
-        },
-        "WQ9T6GmYF8b6": {
-          "hits": 66,
-          "textWords": 16346
-        },
-        "c00wMP9yrY2W": {
-          "hits": 1,
-          "textWords": 16346
-        },
-        "zx6MFOVFBfYK": {
-          "hits": 2,
-          "textWords": 16346
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "gCVBNZ3WSkX4",
-      "address": "https://docs.ovhcloud.com/en/",
-      "title": "OVHcloud Documentation",
-      "snippet": "Domain NamesGet started with domain names\nWeb HostingDeploy your first website\nEmailsSet up your email addresses\nZimbraGet started with Zimbra\nEmail ProGet started with Email Pro\nMicrosoft ExchangeGet started with Microsoft Exchange\nManaged HostingGet started with managed hosting",
-      "matchedWords": {
-        "DIP1fHhqC0o5": {
-          "hits": 4,
-          "textWords": 301
-        },
-        "WQ9T6GmYF8b6": {
-          "hits": 0,
-          "textWords": 301
-        },
-        "c00wMP9yrY2W": {
-          "hits": 0,
-          "textWords": 301
-        },
-        "zx6MFOVFBfYK": {
-          "hits": 1,
-          "textWords": 301
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "8q_7kd8zMi84",
-      "address": "https://docs.cloud.google.com/release-notes",
-      "title": "Google Cloud release notes | Google Cloud Documentation",
-      "snippet": "This issue has already been mitigated for Looker-hosted instances.\nWhat should I do?\nFor Looker-hosted instances, no action is required.\nFor self-hosted Looker instances, update your Looker instances as soon as possible.",
-      "matchedWords": {
-        "DIP1fHhqC0o5": {
-          "hits": 63,
-          "textWords": 93126
-        },
-        "WQ9T6GmYF8b6": {
-          "hits": 17,
-          "textWords": 93126
-        },
-        "c00wMP9yrY2W": {
-          "hits": 11,
-          "textWords": 93126
-        },
-        "zx6MFOVFBfYK": {
-          "hits": 77,
-          "textWords": 93126
-        }
-      },
-      "queryPhraseHits": 3
-    },
-    {
-      "hash": "cWZdmz9qXMBw",
-      "address": "https://planet.kernel.org/",
-      "title": "Kernel Planet",
-      "snippet": "Because I am bad at giving up on things, I’ve been running my own email server for over 20 years. Some of that time it’s been a PC at the end of a DSL line, some of that time it’s been a Mac Mini in a data centre, and some of that time it’s been a hosted VM.",
-      "matchedWords": {
-        "DIP1fHhqC0o5": {
-          "hits": 13,
-          "textWords": 36724
-        },
-        "WQ9T6GmYF8b6": {
-          "hits": 6,
-          "textWords": 36724
+          "hits": 25,
+          "textWords": 202958
         },
         "c00wMP9yrY2W": {
           "hits": 3,
-          "textWords": 36724
-        },
-        "zx6MFOVFBfYK": {
-          "hits": 9,
-          "textWords": 36724
-        }
-      },
-      "queryPhraseHits": 2
-    },
-    {
-      "hash": "8CJLrjAL9Tgx",
-      "address": "https://en.wikisource.org/wiki/Wikisource:Scriptorium",
-      "title": "Wikisource:Scriptorium - Wikisource, the free online library",
-      "snippet": "I'm not really sure how to represent the Standard Works as a kind of collective work here: I don't think that {{disambiguation}} or {{versions}} really makes sense, so I'm leaning toward a Portal page that represents what works we have hosted or scans on c: as well as listing how different groups",
-      "matchedWords": {
-        "DIP1fHhqC0o5": {
-          "hits": 0,
-          "textWords": 10932
-        },
-        "WQ9T6GmYF8b6": {
-          "hits": 0,
-          "textWords": 10932
-        },
-        "c00wMP9yrY2W": {
-          "hits": 4,
-          "textWords": 10932
-        },
-        "zx6MFOVFBfYK": {
-          "hits": 0,
-          "textWords": 10932
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "W-eXqzF3--Qw",
-      "address": "https://planet.mozilla.org/",
-      "title": "Planet Mozilla",
-      "snippet": "We’re also looking into a key complaint: setting up notifications and “push” (IMAP Idle) notifications is just too difficult. We don’t make it easy enough for users to set up their notifications and ensure they get email notifications when their email server reports updates.",
-      "matchedWords": {
-        "DIP1fHhqC0o5": {
-          "hits": 27,
-          "textWords": 66162
-        },
-        "WQ9T6GmYF8b6": {
-          "hits": 30,
-          "textWords": 66162
-        },
-        "c00wMP9yrY2W": {
-          "hits": 11,
-          "textWords": 66162
-        },
-        "zx6MFOVFBfYK": {
-          "hits": 8,
-          "textWords": 66162
-        }
-      },
-      "queryPhraseHits": 3
-    },
-    {
-      "hash": "bvZ6nIG-ATF4",
-      "address": "https://podcasts.apple.com/bs/new",
-      "title": "Apple Podcasts (BS) - Web Player",
-      "snippet": "Copyright © 2026 Apple Inc. All rights reserved.\nInternet Service Terms\nApple Podcasts web player \u0026 Privacy\nCookie Warning\nSupport\nFeedback",
-      "matchedWords": {
-        "DIP1fHhqC0o5": {
-          "hits": 0,
-          "textWords": 19
-        },
-        "WQ9T6GmYF8b6": {
-          "hits": 0,
-          "textWords": 19
-        },
-        "c00wMP9yrY2W": {
-          "hits": 0,
-          "textWords": 19
-        },
-        "zx6MFOVFBfYK": {
-          "hits": 0,
-          "textWords": 19
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "R5vzYsOocYRx",
-      "address": "https://murdoconline.net/",
-      "title": "MURDOCONLINE - Situs Kumpulan Game Online Terbaik Paling Populer",
-      "snippet": "",
-      "matchedWords": {
-        "DIP1fHhqC0o5": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "WQ9T6GmYF8b6": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "c00wMP9yrY2W": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "zx6MFOVFBfYK": {
-          "hits": 0,
-          "textWords": 0
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "f0SNutRe8955",
-      "address": "https://blog.krtraining.com/",
-      "title": "Notes from KR - this time, it's personal",
-      "snippet": "Wednesday Wisdom 18 Feb (Sensible Self Defense)\nThe 20 Gauge Beretta A300 Ultima Patrol (Sensible Self Defense)\nWednesday Wisdom 11 Feb (Sensible Self Defense)\nWednesday Wisdom 4 Feb (Sensible Self Defense)\nSecuring Backyard Fences (Active Response Training)",
-      "matchedWords": {
-        "DIP1fHhqC0o5": {
-          "hits": 48,
-          "textWords": 25226
-        },
-        "WQ9T6GmYF8b6": {
-          "hits": 46,
-          "textWords": 25226
-        },
-        "c00wMP9yrY2W": {
-          "hits": 5,
-          "textWords": 25226
+          "textWords": 202958
         },
         "zx6MFOVFBfYK": {
           "hits": 1,
-          "textWords": 25226
+          "textWords": 202958
         }
       },
       "queryPhraseHits": 0
     },
     {
-      "hash": "qqIgmqWU7_zx",
-      "address": "https://rw.wikipedia.org/wiki/Wikipedia:Community_Portal",
-      "title": "Wikipedia:Community Portal - Wikipedia",
-      "snippet": "Further details and educational materials will be available shortly. The referendum is scheduled for 12-27 August, 2011, and will be conducted on servers hosted by a neutral third party.",
+      "hash": "7fHMpqwMR4F5",
+      "address": "https://originalboggartblog.wordpress.com/tag/nhs/",
+      "title": "nhs | The Original Boggart Blog",
+      "snippet": "",
       "matchedWords": {
         "DIP1fHhqC0o5": {
-          "hits": 20,
-          "textWords": 82796
+          "hits": 0,
+          "textWords": 0
         },
         "WQ9T6GmYF8b6": {
-          "hits": 4,
-          "textWords": 82796
+          "hits": 0,
+          "textWords": 0
         },
         "c00wMP9yrY2W": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "zx6MFOVFBfYK": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "XTPIBlptNsG4",
+      "address": "https://www.akdart.com/hijrah.html",
+      "title": "Islamic invasion disguised as the displacement and acceptance of refugees",
+      "snippet": "The man is obsessed with Islam. Westminster has hosted Iftar and my own Hull City Council recently hosted a civic Grand Iftar in our City Hall.",
+      "matchedWords": {
+        "DIP1fHhqC0o5": {
           "hits": 11,
-          "textWords": 82796
-        },
-        "zx6MFOVFBfYK": {
-          "hits": 0,
-          "textWords": 82796
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "D4lABzaS0qdw",
-      "address": "https://planet.debian.org/",
-      "title": "Planet Debian",
-      "snippet": "For literal queries (78.2% of DCS queries), querying the positional index on disk is faster than querying the non-positional index in RAM.\nThe efficient encoding of the TurboPFor format makes it possible to fit such an index on a mid-sized Hetzner server, which I rent with two 1 TB SSD disks.",
-      "matchedWords": {
-        "DIP1fHhqC0o5": {
-          "hits": 0,
-          "textWords": 8109
+          "textWords": 405419
         },
         "WQ9T6GmYF8b6": {
-          "hits": 0,
-          "textWords": 8109
+          "hits": 88,
+          "textWords": 405419
         },
         "c00wMP9yrY2W": {
-          "hits": 0,
-          "textWords": 8109
+          "hits": 15,
+          "textWords": 405419
         },
         "zx6MFOVFBfYK": {
-          "hits": 2,
-          "textWords": 8109
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "-p2w3taoSn1x",
-      "address": "https://en.planet.wikimedia.org/",
-      "title": "en.planet.wikimedia.org",
-      "snippet": "",
-      "matchedWords": {
-        "DIP1fHhqC0o5": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "WQ9T6GmYF8b6": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "c00wMP9yrY2W": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "zx6MFOVFBfYK": {
-          "hits": 0,
-          "textWords": 0
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "ku8ESjjEZfvx",
-      "address": "https://en.wiktionary.org/wiki/Wiktionary:Beer_parlour",
-      "title": "Wiktionary:Beer parlour - Wiktionary, the free dictionary",
-      "snippet": "",
-      "matchedWords": {
-        "DIP1fHhqC0o5": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "WQ9T6GmYF8b6": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "c00wMP9yrY2W": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "zx6MFOVFBfYK": {
-          "hits": 0,
-          "textWords": 0
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "zPzQLs6GdY-4",
-      "address": "https://danluu.com/ai-coding/",
-      "title": "Agentic test processes, LLM benchmarks, and other notes on agentic coding from Galapagos Island",
-      "snippet": "",
-      "matchedWords": {
-        "DIP1fHhqC0o5": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "WQ9T6GmYF8b6": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "c00wMP9yrY2W": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "zx6MFOVFBfYK": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 1,
+          "textWords": 405419
         }
       },
       "queryPhraseHits": 0
     }
   ],
   "documentsHeldPerQueryWord": {
-    "DIP1fHhqC0o5": 2542660,
-    "WQ9T6GmYF8b6": 184139,
-    "c00wMP9yrY2W": 269654,
-    "zx6MFOVFBfYK": 371222
+    "DIP1fHhqC0o5": 818568,
+    "WQ9T6GmYF8b6": 513765,
+    "c00wMP9yrY2W": 208661,
+    "zx6MFOVFBfYK": 190391
   }
 }

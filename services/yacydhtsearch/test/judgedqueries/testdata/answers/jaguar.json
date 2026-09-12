@@ -1,6 +1,6 @@
 {
   "query": "jaguar",
-  "recordedAt": "2026-09-12T10:15:27Z",
+  "recordedAt": "2026-09-12T11:25:27Z",
   "itemsInTheOrderOfEachAnswer": [
     [
       {
@@ -17,14 +17,14 @@
         "queryPhraseHits": 0
       },
       {
-        "hash": "4IAwhF0Z7fE5",
-        "address": "https://www.insurance.com/vehicles/jaguar-insurance/jaguar-xf-car-insurance",
-        "title": "Jaguar XF car insurance: Car insurance rates by model year",
-        "snippet": "For example, the 2024 Jaguar XF costs $3,555, whereas the 2023 Jaguar XF costs $3,291 annually. This is $264 less than the 2024 rates.\nNationwide offers the cheapest annual rate for 2024 Jaguar XF at $2,825 per year.\nBelow, we'll look at Jaguar XF insurance rates and show you how to save.",
+        "hash": "sSyKaF0Z7fE5",
+        "address": "https://www.insurance.com/vehicles/jaguar-insurance/jaguar-f-type-car-insurance",
+        "title": "Jaguar F-TYPE car insurance: Car insurance rates by model year",
+        "snippet": "For example, the 2024 Jaguar F-Type costs $4,451, whereas the 2023 Jaguar F-Type costs $4,329 annually. This is $122 less than the 2024 rates.\nState Farm offers the cheapest annual rate for 2024 Jaguar F-Type at $3,606 per year.",
         "matchedWords": {
           "uUcFyBewnyh-": {
             "hits": 17,
-            "textWords": 925
+            "textWords": 913
           }
         },
         "queryPhraseHits": 0
@@ -214,19 +214,6 @@
         "queryPhraseHits": 0
       },
       {
-        "hash": "ANDSlUPs7dVg",
-        "address": "https://ludzie.fakt.pl/archiwum/2026-07-01",
-        "title": "1 lip 2026 | Archiwum - Fakt.pl – Wiadomości, Wydarzenia, Informacje",
-        "snippet": "",
-        "matchedWords": {
-          "uUcFyBewnyh-": {
-            "hits": 1,
-            "textWords": 2372
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
         "hash": "e5pjVjRvmBbx",
         "address": "https://en.wikipedia.org/wiki/Frankfurt",
         "title": "Frankfurt - Wikipedia",
@@ -240,27 +227,40 @@
         "queryPhraseHits": 0
       },
       {
-        "hash": "Y4m0HHsNgbb4",
-        "address": "https://music.apple.com/vg/artist/victoria-mon%C3%A9t/540070252",
-        "title": "‎Victoria Monét - Apple Music",
+        "hash": "ANDSlUPs7dVg",
+        "address": "https://ludzie.fakt.pl/archiwum/2026-07-01",
+        "title": "1 lip 2026 | Archiwum - Fakt.pl – Wiadomości, Wydarzenia, Informacje",
         "snippet": "",
         "matchedWords": {
           "uUcFyBewnyh-": {
-            "hits": 9,
-            "textWords": 1590
+            "hits": 1,
+            "textWords": 2372
           }
         },
         "queryPhraseHits": 0
       },
       {
-        "hash": "g4nx71kOeI80",
-        "address": "https://www.digger.co.ke/",
-        "title": "Discover top jobs, real estate, cars, and online shopping in Kenya and worldwide - Digger Classifieds.",
+        "hash": "J8TYrlFZc5Lg",
+        "address": "https://www.elmundo.es/motor.html",
+        "title": "Motor | EL MUNDO",
+        "snippet": "",
+        "matchedWords": {
+          "uUcFyBewnyh-": {
+            "hits": 2,
+            "textWords": 4961
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "fdoq7ahxYGZg",
+        "address": "https://www.dnes.bg/author/312/inna-angelova",
+        "title": "Статии от Инна Ангелова - Новини от Dnes.bg",
         "snippet": "",
         "matchedWords": {
           "uUcFyBewnyh-": {
             "hits": 1,
-            "textWords": 347
+            "textWords": 3918
           }
         },
         "queryPhraseHits": 0
@@ -268,131 +268,131 @@
     ],
     [
       {
-        "hash": "KbS9NTkhwh86",
-        "address": "https://www.vintagecomputing.com/index.php/archives/date/2016/04",
-        "title": "VC\u0026G | » 2016 » April",
+        "hash": "KgfvE2mfexI4",
+        "address": "https://ctrl-c.club/~nodisc/compartido/pamplonaswing.es/index.html%3Fp=848.html",
+        "title": "PNA Swing! en Telenavarra | Pamplona Swing",
         "snippet": "",
         "matchedWords": {
           "uUcFyBewnyh-": {
             "hits": 1,
-            "textWords": 697
+            "textWords": 743
           }
         },
         "queryPhraseHits": 0
       },
       {
-        "hash": "BFXCHD0_Eoq4",
-        "address": "https://www.cityam.com/people-and-organizations/labour/",
-        "title": "Labour Archives - City AM",
+        "hash": "jasMW30M4T84",
+        "address": "https://tilde.club/~peron/blog/",
+        "title": "~peron en TTBP",
         "snippet": "",
         "matchedWords": {
           "uUcFyBewnyh-": {
             "hits": 1,
-            "textWords": 1334
+            "textWords": 158
           }
         },
         "queryPhraseHits": 0
       },
       {
-        "hash": "fX85ZlbyNWI6",
-        "address": "https://www.notebookcheck-ru.com/Ispolzujushchiisja-v-PlayStation-5-audio-dvizhok-Tempest-3D-nastolko-revoljucionnyi-chto-ispolzuet-snimki-ushei-vladelcev-dlja-uluchshenija-zvukovoi-sostavljajushchei.458519.0.html",
-        "title": "Использующийся в PlayStation 5 аудио движок Tempest 3D настолько революционный, что использует снимки ушей владельцев для улучшения звуковой составляющей - Notebookcheck-ru.com",
+        "hash": "2kcJtiIOcPxY",
+        "address": "http://tilde.club/~peron/blog/",
+        "title": "~peron en TTBP",
         "snippet": "",
         "matchedWords": {
           "uUcFyBewnyh-": {
             "hits": 1,
-            "textWords": 1862
+            "textWords": 158
           }
         },
         "queryPhraseHits": 0
       },
       {
-        "hash": "UMPGhPMylZZ5",
-        "address": "https://www.slideserve.com/sweetjenifer24/luxury-spa-resort",
-        "title": "PPT - Luxury Spa \u0026 Resort PowerPoint Presentation, free download - ID:73022",
-        "snippet": "",
-        "matchedWords": {
-          "uUcFyBewnyh-": {
-            "hits": 3,
-            "textWords": 2001
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "JUS5AlS4kZE6",
-        "address": "https://www.arcade-history.com/index.php?page=database\u0026listtypes=137\u0026position=1\u0026nongame=1",
-        "title": "The coin-op and global gaming database",
+        "hash": "9fZh_UT7sn3x",
+        "address": "https://cobradile.neocities.org/gamedevtools",
+        "title": "Game Dev Tools",
         "snippet": "",
         "matchedWords": {
           "uUcFyBewnyh-": {
             "hits": 7,
-            "textWords": 430
+            "textWords": 1357
           }
         },
         "queryPhraseHits": 0
       },
       {
-        "hash": "CIcugCYpvD27",
-        "address": "https://models.spriters-resource.com/xbox/spidermanthemovie/asset/344264/",
-        "title": "Spider-Man - Spider-Man: The Movie - Xbox - The Models Resource",
+        "hash": "ntFau9ii2v7x",
+        "address": "https://mycie.neocities.org/",
+        "title": "mycie's site",
         "snippet": "",
         "matchedWords": {
           "uUcFyBewnyh-": {
             "hits": 1,
-            "textWords": 581
+            "textWords": 10576
           }
         },
         "queryPhraseHits": 0
       },
       {
-        "hash": "76vDyGo-P9Ew",
-        "address": "https://bayvista-es.pcsb.org/",
-        "title": "Home - Bay Vista Fundamental",
-        "snippet": "",
-        "matchedWords": {
-          "uUcFyBewnyh-": {
-            "hits": 5,
-            "textWords": 2294
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "LdRTeqlaN2eg",
-        "address": "https://www.larousse.fr/encyclopedie/divers/documentaire/44253",
-        "title": "documentaire - LAROUSSE",
+        "hash": "xzKCgICKBHkx",
+        "address": "https://noxoozie.neocities.org/",
+        "title": "noxturnals",
         "snippet": "",
         "matchedWords": {
           "uUcFyBewnyh-": {
             "hits": 1,
-            "textWords": 995
+            "textWords": 331
           }
         },
         "queryPhraseHits": 0
       },
       {
-        "hash": "PM7eVjRvmBbx",
-        "address": "https://en.wikipedia.org/wiki/Video_game_console",
-        "title": "Video game console - Wikipedia",
-        "snippet": "",
-        "matchedWords": {
-          "uUcFyBewnyh-": {
-            "hits": 3,
-            "textWords": 13076
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "4K4nuh3e0QFx",
-        "address": "https://commons.wikimedia.org/wiki/Category:Beverages?uselang=bs",
-        "title": "Category:Beverages - Wikimedia Commons",
+        "hash": "GnI7qDUlZFOx",
+        "address": "https://tonicfunk.neocities.org/",
+        "title": "tonicfunk dot com",
         "snippet": "",
         "matchedWords": {
           "uUcFyBewnyh-": {
             "hits": 1,
-            "textWords": 13034
+            "textWords": 472
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "DvMonQzmo8j4",
+        "address": "https://tilde.town/~lucidiot/itsb/feeds/_echo/rnsa-road.xml",
+        "title": "",
+        "snippet": "",
+        "matchedWords": {
+          "uUcFyBewnyh-": {
+            "hits": 1,
+            "textWords": 16346
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "5jROHPXcOmMx",
+        "address": "https://neocities.org/site/ufk/stats",
+        "title": "Neocities - Site stats for ufk.neocities.org",
+        "snippet": "",
+        "matchedWords": {
+          "uUcFyBewnyh-": {
+            "hits": 1,
+            "textWords": 192
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "kxiO_WDfScjY",
+        "address": "http://www.tilde.club/~sethbar/help/unixprog.html",
+        "title": "The Least Worst for *nix Systems - Keep Grinding",
+        "snippet": "",
+        "matchedWords": {
+          "uUcFyBewnyh-": {
+            "hits": 1,
+            "textWords": 853
           }
         },
         "queryPhraseHits": 0
@@ -532,105 +532,27 @@
     ],
     [
       {
-        "hash": "I0A8l2vudLo4",
-        "address": "https://www.jaguar.com/de-ch/jdx/jaguar-range/f-type/index.html",
-        "title": "Jaguar F-TYPE | Luxussportwagen | Jaguar",
-        "snippet": "Handschuhfachtaste mit Schriftzug und geprägten Jaguar Leaper auf den Performance-Sitzen in Windsor-Leder.\nAUSSTATTUNG\nDer Jaguar F-TYPE wird durch innovative Technologien angetrieben, die den Kraftstoffverbrauch und die CO2‑Emissionen senken, ohne Kompromisse bei der Leistung einzugehen.",
+        "hash": "TwtFpG6zBvzh",
+        "address": "https://auto.kreiszeitung.de/auto/jaguar",
+        "title": "Jaguar - kaufen \u0026 verkaufen | Kreiszeitung.de | News aus Bremen und Niedersachsen sowie die besten Tipps für Verbraucher",
+        "snippet": "Auto\n\u003e Jaguar\nFilter\n31 Angebote für Auto Jaguar\nJaguar E-Type V12 Coupe Serie 3 Schaltgetriebe, Gebrauchtwagen\nEZ\n6/1972\nLaufleistung\n32.520 km\nKraftstoffart\nBenzin\n€ 64.990,00\nBrückner \u0026 Hofmann GmbH\n97076 Würzburg\nJaguar E-Type Coupé 4.2 Serie 1 **einmaliger Zustand**, Oldtimer\nEZ\n5/1965",
         "matchedWords": {
           "uUcFyBewnyh-": {
-            "hits": 6,
-            "textWords": 399
+            "hits": 22,
+            "textWords": 664
           }
         },
         "queryPhraseHits": 0
       },
       {
-        "hash": "9it7Il5nieX5",
-        "address": "https://www.miningfeeds.com/",
-        "title": "MiningFeeds | Mining Companies | Mining Stocks Lists (Gold, Silver, Copper, Uranium, Diamonds, Rare Earths, Base Metals) - MiningFeeds",
+        "hash": "0KKpJlFfBrw4",
+        "address": "https://www.b2uco.com/",
+        "title": "B2U Storage Solutions",
         "snippet": "",
         "matchedWords": {
           "uUcFyBewnyh-": {
             "hits": 1,
-            "textWords": 2534
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "mrZm4XOikvd5",
-        "address": "https://misteraddons.com/products/in-line-power-switch",
-        "title": "MiSTer FPGA Power Splitter + Switch | MiSTer Addons",
-        "snippet": "",
-        "matchedWords": {
-          "uUcFyBewnyh-": {
-            "hits": 4,
-            "textWords": 758
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "mNkH8gh20iqw",
-        "address": "https://www.last.fm/music/Iron+Curtain/+wiki",
-        "title": "Iron Curtain biography | Last.fm",
-        "snippet": "",
-        "matchedWords": {
-          "uUcFyBewnyh-": {
-            "hits": 1,
-            "textWords": 922
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "fHKbFdFO6r_x",
-        "address": "https://de.wikipedia.org/wiki/Portugiesische_Sprache",
-        "title": "Portugiesische Sprache – Wikipedia",
-        "snippet": "",
-        "matchedWords": {
-          "uUcFyBewnyh-": {
-            "hits": 2,
-            "textWords": 11409
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "ZKTC8l8BDehg",
-        "address": "https://www.mexicolore.co.uk/aztecs/gods/virgin-of-guadalupe-and-tonantzin",
-        "title": "The Virgin of Guadalupe and Tonantzin",
-        "snippet": "",
-        "matchedWords": {
-          "uUcFyBewnyh-": {
-            "hits": 1,
-            "textWords": 4446
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "WrMYGlftoAS5",
-        "address": "https://www.rodtempero.com/",
-        "title": "Rod Tempero Motor Body Builder LTD",
-        "snippet": "",
-        "matchedWords": {
-          "uUcFyBewnyh-": {
-            "hits": 4,
-            "textWords": 504
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "rqL_MyQC0gXw",
-        "address": "https://pi-news.net/2019/07/duh-darf-weiter-abmahnen-stuttgarter-autohaendler-verliert-prozess/",
-        "title": "Stuttgarter Autohändler verliert Prozess: DUH darf weiter abmahnen - PI-NEWS",
-        "snippet": "",
-        "matchedWords": {
-          "uUcFyBewnyh-": {
-            "hits": 1,
-            "textWords": 11473
+            "textWords": 1016
           }
         },
         "queryPhraseHits": 0
@@ -649,6 +571,32 @@
         "queryPhraseHits": 0
       },
       {
+        "hash": "9it7Il5nieX5",
+        "address": "https://www.miningfeeds.com/",
+        "title": "MiningFeeds | Mining Companies | Mining Stocks Lists (Gold, Silver, Copper, Uranium, Diamonds, Rare Earths, Base Metals) - MiningFeeds",
+        "snippet": "",
+        "matchedWords": {
+          "uUcFyBewnyh-": {
+            "hits": 1,
+            "textWords": 2534
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "q3D0Rrx2tajw",
+        "address": "https://tvtropes.org/pmwiki/pmwiki.php/Main/AprilFoolsDay",
+        "title": "April Fools' Day - TV Tropes",
+        "snippet": "",
+        "matchedWords": {
+          "uUcFyBewnyh-": {
+            "hits": 1,
+            "textWords": 20765
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
         "hash": "QXbaof6EqgPw",
         "address": "https://acecomments.mu.nu/?post=421322",
         "title": "The Week In Woke",
@@ -660,135 +608,187 @@
           }
         },
         "queryPhraseHits": 0
+      },
+      {
+        "hash": "o54Wd4yWX-XQ",
+        "address": "http://redump.org/discs/system/3do/region/As/sort/added/dir/asc/",
+        "title": "redump.org • Discs",
+        "snippet": "",
+        "matchedWords": {
+          "uUcFyBewnyh-": {
+            "hits": 1,
+            "textWords": 1350
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "Qht6BsUFmc2k",
+        "address": "https://electrek.co/guides/mazda/",
+        "title": "Mazda | Electrek",
+        "snippet": "",
+        "matchedWords": {
+          "uUcFyBewnyh-": {
+            "hits": 1,
+            "textWords": 3453
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "VSp11gh20iqw",
+        "address": "https://www.last.fm/music/Ponderosa/+wiki",
+        "title": "Ponderosa hometown, lineup, biography | Last.fm",
+        "snippet": "",
+        "matchedWords": {
+          "uUcFyBewnyh-": {
+            "hits": 1,
+            "textWords": 1228
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "C_0wqaqhZw6h",
+        "address": "https://www.meinbezirk.at/tag/neunkirchen/141",
+        "title": "Neunkirchen - Thema auf meinbezirk.at - Seite 141",
+        "snippet": "",
+        "matchedWords": {
+          "uUcFyBewnyh-": {
+            "hits": 1,
+            "textWords": 2404
+          }
+        },
+        "queryPhraseHits": 0
       }
     ],
     [
       {
-        "hash": "nvcEtwmo6_9w",
-        "address": "https://centaurus.com.au/site/investor-centre/top-20-shareholders",
-        "title": "Investor Centre | Centaurus Metals Limited",
-        "snippet": "",
-        "matchedWords": {
-          "uUcFyBewnyh-": {
-            "hits": 1,
-            "textWords": 464
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "JqP7Q8kx_Vj4",
-        "address": "https://susunweed.podbean.com/e/ask-herbal-health-expert-susun-weed-with-guest-nan-akasha/",
-        "title": "Ask Herbal Health Expert Susun Weed with guest Nan Akasha",
-        "snippet": "",
-        "matchedWords": {
-          "uUcFyBewnyh-": {
-            "hits": 1,
-            "textWords": 237
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "Qmg_mACmeoB6",
-        "address": "https://sportsmaniausa.com/collections/clearance",
-        "title": "Clearance — Officially Licensed Team Gear Markdowns | Sports Mania – SportsManiaUSA.com",
-        "snippet": "",
-        "matchedWords": {
-          "uUcFyBewnyh-": {
-            "hits": 8,
-            "textWords": 2111
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "VWrPII55Qxow",
-        "address": "https://yacy.net/operation/search-parameters/",
-        "title": "Using Advanced Search Parameters - YaCy",
-        "snippet": "",
-        "matchedWords": {
-          "uUcFyBewnyh-": {
-            "hits": 2,
-            "textWords": 723
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "_V9n8o-2GNbg",
-        "address": "https://www.landrover.co.uk/build-your-own/index.html",
-        "title": "Build Your Land Rover | Land Rover Car Configurator",
-        "snippet": "",
+        "hash": "7g8UZmSPYuFg",
+        "address": "https://hvg.hu/cegauto/20260907_tobb-ezer-dolgozot-kuldhet-el-jaguar-land-rover",
+        "title": "Autó: Több ezer állást szüntethet meg a Jaguar Land Rover",
+        "snippet": "Jelentős létszámleépítésre készül a Jaguar Land Rover miután a vállalat költségcsökkentésre kényszerül, mert a nyeresége drasztikusan visszaesett.\nA Sunday Times értesülése szerint a következő két évben akár négyezer állás is megszűnhet, bár ezt a számot a vállalat egyelőre nem erősítette meg.",
         "matchedWords": {
           "uUcFyBewnyh-": {
             "hits": 3,
-            "textWords": 1209
+            "textWords": 207
           }
         },
         "queryPhraseHits": 0
       },
       {
-        "hash": "H5nR9SKzrRAY",
-        "address": "http://loqueleoloqueleo.blogspot.com/",
-        "title": "LO QUE LEO",
+        "hash": "nvPkBYs2_Qq5",
+        "address": "https://asfmservices.com/2024/06/16/the-role-of-financial-advisors-what-you-need-to-know/",
+        "title": "The Role of Financial Advisors: What You Need to Know – ALFA SHUKRAN FACILITIES MANAGEMENT",
+        "snippet": "",
+        "matchedWords": {
+          "uUcFyBewnyh-": {
+            "hits": 253,
+            "textWords": 63316
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "YIQOVP1UCvo4",
+        "address": "https://redstate.com/bonchie/2024/11/19/jaguar-decides-to-burn-its-brand-to-the-ground-with-insane-new-ad-campaign-n2182177",
+        "title": "Jaguar Decides to Burn Its Brand to the Ground With New Confusingly Woke Ad Campaign – RedState",
+        "snippet": "Jaguar responded to some of those asking what the heck was happening. Their answers were just as vague as the original ad.\nThe future.\n— Jaguar (@Jaguar) November 19, 2024\nThink of this as a declaration of intent.\n— Jaguar (@Jaguar) November 19, 2024\nWho exactly is this appealing to?",
+        "matchedWords": {
+          "uUcFyBewnyh-": {
+            "hits": 11,
+            "textWords": 403
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "oRaHKBKlvN85",
+        "address": "https://arstechnica.com/cars/2018/02/jaguars-latest-sports-car-is-a-d-type-le-mans-racer-from-the-1950s/",
+        "title": "62 years later Jaguar is building the final 25, million-dollar D-Types - Ars Technica",
+        "snippet": "The D-Type racer from the mid-1950s is the latest old Jaguar to get a new production run.\nJaguar\nThe D-Type racer from the mid-1950s is the latest old Jaguar to get a new production run. Jaguar\nThe E-Type is better known, but only because the company made so many more of them.\nJaguar",
+        "matchedWords": {
+          "uUcFyBewnyh-": {
+            "hits": 19,
+            "textWords": 396
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "4s_HggRcz1M4",
+        "address": "https://media.jlr.com/corporate/en",
+        "title": "JLR Corporate Homepage International",
+        "snippet": "",
+        "matchedWords": {
+          "uUcFyBewnyh-": {
+            "hits": 5,
+            "textWords": 1520
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "iNj-4lut7AB4",
+        "address": "https://www.jlr.com/results-centre",
+        "title": "Results Centre | JLR Corporate Website",
+        "snippet": "",
+        "matchedWords": {
+          "uUcFyBewnyh-": {
+            "hits": 4,
+            "textWords": 1591
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "UhxTHjRvmBbx",
+        "address": "https://en.wikipedia.org/wiki/Polymorphism_(biology)",
+        "title": "Polymorphism (biology) - Wikipedia",
+        "snippet": "",
+        "matchedWords": {
+          "uUcFyBewnyh-": {
+            "hits": 4,
+            "textWords": 5429
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "UsNrungCrj65",
+        "address": "https://javajaguar.mattslawblog.com/?comic=java-450",
+        "title": "Java 450",
         "snippet": "",
         "matchedWords": {
           "uUcFyBewnyh-": {
             "hits": 1,
-            "textWords": 8093
+            "textWords": 103
           }
         },
         "queryPhraseHits": 0
       },
       {
-        "hash": "XmfrQH4XUk-4",
-        "address": "https://advertising.nytimes.com/",
-        "title": "New York Times Advertising",
+        "hash": "Om8yCxmb8AQg",
+        "address": "https://www.di.se/bil/har-ar-insidan-pa-jaguars-omdiskuterade-elbil/",
+        "title": "Här är insidan på Jaguars omdiskuterade Type 01",
+        "snippet": "",
+        "matchedWords": {
+          "uUcFyBewnyh-": {
+            "hits": 5,
+            "textWords": 1704
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "b7rxswC_1CWw",
+        "address": "https://www.cspi.org/article/peters-memo-make-supplements-safer",
+        "title": "Peter’s Memo: Make supplements safer",
         "snippet": "",
         "matchedWords": {
           "uUcFyBewnyh-": {
             "hits": 1,
-            "textWords": 1424
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "FjTOg8FenAkx",
-        "address": "https://www.whitegauges.net/categories/Lincoln/",
-        "title": "Lincoln - Whitegauges.net",
-        "snippet": "",
-        "matchedWords": {
-          "uUcFyBewnyh-": {
-            "hits": 2,
-            "textWords": 1007
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "uTKv6GJNMblg",
-        "address": "https://www.rmtoys.co.uk/collections/budgie",
-        "title": "Budgie — R.M.Toys Ltd",
-        "snippet": "",
-        "matchedWords": {
-          "uUcFyBewnyh-": {
-            "hits": 2,
-            "textWords": 1763
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "JXV67lv-tuV2",
-        "address": "https://www.oneclickdrive.ma/agadir",
-        "title": "Rent a Car Agadir MAD 200/day | 250+ Rental Cars",
-        "snippet": "",
-        "matchedWords": {
-          "uUcFyBewnyh-": {
-            "hits": 2,
-            "textWords": 6696
+            "textWords": 1229
           }
         },
         "queryPhraseHits": 0
@@ -1006,19 +1006,6 @@
         "queryPhraseHits": 0
       },
       {
-        "hash": "7UpBxlS4kZE6",
-        "address": "https://www.arcade-history.com/index.php?page=database\u0026editeur=4649\u0026nongame=0",
-        "title": "The coin-op and global gaming database",
-        "snippet": "",
-        "matchedWords": {
-          "uUcFyBewnyh-": {
-            "hits": 6,
-            "textWords": 887
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
         "hash": "buLTtlqnM7z4",
         "address": "https://www.lasac.info/",
         "title": "Language Academy of Sacramento - Home",
@@ -1032,14 +1019,14 @@
         "queryPhraseHits": 0
       },
       {
-        "hash": "yE2-5sAqGd-w",
-        "address": "https://abware.net/index.pl?game=112012",
-        "title": "Yo Frankie! - Robot Ring",
+        "hash": "7UpBxlS4kZE6",
+        "address": "https://www.arcade-history.com/index.php?page=database\u0026editeur=4649\u0026nongame=0",
+        "title": "The coin-op and global gaming database",
         "snippet": "",
         "matchedWords": {
           "uUcFyBewnyh-": {
-            "hits": 1,
-            "textWords": 324
+            "hits": 6,
+            "textWords": 887
           }
         },
         "queryPhraseHits": 0
@@ -1056,6 +1043,19 @@
           }
         },
         "queryPhraseHits": 0
+      },
+      {
+        "hash": "41xDizUFmc2k",
+        "address": "https://electrek.co/2026/06/16/waymo-taps-fleet-giant-element-to-scale-its-robotaxi-service/?extended-comments=1",
+        "title": "Waymo taps fleet giant Element to scale its robotaxi service | Electrek",
+        "snippet": "",
+        "matchedWords": {
+          "uUcFyBewnyh-": {
+            "hits": 1,
+            "textWords": 1193
+          }
+        },
+        "queryPhraseHits": 0
       }
     ],
     [
@@ -1068,6 +1068,19 @@
           "uUcFyBewnyh-": {
             "hits": 4,
             "textWords": 4474
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "cV2dR6XsCtxg",
+        "address": "https://www.eesc.europa.eu/sites/default/files/2024-03/qe-04-23-955-en-n_1.pdf",
+        "title": "",
+        "snippet": "",
+        "matchedWords": {
+          "uUcFyBewnyh-": {
+            "hits": 1,
+            "textWords": 45841
           }
         },
         "queryPhraseHits": 0
@@ -1205,19 +1218,6 @@
         "queryPhraseHits": 0
       },
       {
-        "hash": "vwMUhQP3ZmLY",
-        "address": "http://www.sfadb.com/World_Fantasy_Awards_Winners_By_Year",
-        "title": "sfadb : World Fantasy Awards Winners By Year",
-        "snippet": "",
-        "matchedWords": {
-          "uUcFyBewnyh-": {
-            "hits": 1,
-            "textWords": 8512
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
         "hash": "5jxwG_kTn1Sh",
         "address": "https://greenpeace.at/petitionen/gran-chaco-waldzerstoerung/",
         "title": "Petition: Genug abgefackelt – Rettet den Gran Chaco! | Greenpeace",
@@ -1226,6 +1226,19 @@
           "uUcFyBewnyh-": {
             "hits": 1,
             "textWords": 709
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "vwMUhQP3ZmLY",
+        "address": "http://www.sfadb.com/World_Fantasy_Awards_Winners_By_Year",
+        "title": "sfadb : World Fantasy Awards Winners By Year",
+        "snippet": "",
+        "matchedWords": {
+          "uUcFyBewnyh-": {
+            "hits": 1,
+            "textWords": 8512
           }
         },
         "queryPhraseHits": 0
@@ -1298,19 +1311,6 @@
         "queryPhraseHits": 0
       },
       {
-        "hash": "pOYLhvXdnl95",
-        "address": "https://www.carandbike.com/news/bengaluru-enforces-ban-on-non-isi-certified-helmets-1796222",
-        "title": "Bengaluru Enforces Ban On Non ISI Certified Helmets",
-        "snippet": "",
-        "matchedWords": {
-          "uUcFyBewnyh-": {
-            "hits": 1,
-            "textWords": 5926
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
         "hash": "rlx09eMcq6Ew",
         "address": "https://web.archive.org/web/20100926111053/http:/hww.ca/hww2.asp?id=87",
         "title": "Hinterland Who's Who - Cougar",
@@ -1324,8 +1324,21 @@
         "queryPhraseHits": 0
       },
       {
-        "hash": "oRnQwlrpMEpx",
-        "address": "https://sco.wikipedia.org/wiki/.fr",
+        "hash": "pOYLhvXdnl95",
+        "address": "https://www.carandbike.com/news/bengaluru-enforces-ban-on-non-isi-certified-helmets-1796222",
+        "title": "Bengaluru Enforces Ban On Non ISI Certified Helmets",
+        "snippet": "",
+        "matchedWords": {
+          "uUcFyBewnyh-": {
+            "hits": 1,
+            "textWords": 5926
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "rXwlplrpMEpx",
+        "address": "https://sco.wikipedia.org/wiki/.gp",
         "title": "Tap-level domain - Wikipedia",
         "snippet": "",
         "matchedWords": {
@@ -1363,8 +1376,8 @@
         "queryPhraseHits": 0
       },
       {
-        "hash": "rXwlplrpMEpx",
-        "address": "https://sco.wikipedia.org/wiki/.gp",
+        "hash": "oRnQwlrpMEpx",
+        "address": "https://sco.wikipedia.org/wiki/.fr",
         "title": "Tap-level domain - Wikipedia",
         "snippet": "",
         "matchedWords": {
@@ -1432,6 +1445,19 @@
         "queryPhraseHits": 0
       },
       {
+        "hash": "JnPiATkhwh86",
+        "address": "https://www.vintagecomputing.com/index.php/archives/date/2013/01",
+        "title": "VC\u0026G | » 2013 » January",
+        "snippet": "",
+        "matchedWords": {
+          "uUcFyBewnyh-": {
+            "hits": 1,
+            "textWords": 2770
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
         "hash": "cQVlBcEW6TNa",
         "address": "http://www.vintagecomputing.com/index.php/archives/84",
         "title": "VC\u0026G | » Captain Hamfest and the Tale of the Infamous Nail-to-Ground Commodore 64 Hack",
@@ -1440,45 +1466,6 @@
           "uUcFyBewnyh-": {
             "hits": 1,
             "textWords": 2065
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "SJ2hiTkhwh86",
-        "address": "https://www.vintagecomputing.com/index.php/archives/date/2007/10",
-        "title": "VC\u0026G | » 2007 » October",
-        "snippet": "",
-        "matchedWords": {
-          "uUcFyBewnyh-": {
-            "hits": 1,
-            "textWords": 2001
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "UTLmhjRvmBbx",
-        "address": "https://en.wikipedia.org/wiki/Bash_(Unix_shell)",
-        "title": "Bash (Unix shell) - Wikipedia",
-        "snippet": "",
-        "matchedWords": {
-          "uUcFyBewnyh-": {
-            "hits": 1,
-            "textWords": 15535
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "jhBgpi2QDkXY",
-        "address": "http://newportcity.blogspot.com/",
-        "title": "The Lone Voice",
-        "snippet": "",
-        "matchedWords": {
-          "uUcFyBewnyh-": {
-            "hits": 1,
-            "textWords": 20099
           }
         },
         "queryPhraseHits": 0
@@ -1497,27 +1484,14 @@
         "queryPhraseHits": 0
       },
       {
-        "hash": "FWIjpjyMse4g",
-        "address": "https://www.carmagazine.co.uk/car-reviews/pagani/",
-        "title": "Pagani Car reviews",
-        "snippet": "",
-        "matchedWords": {
-          "uUcFyBewnyh-": {
-            "hits": 2,
-            "textWords": 1046
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "CDbQIIhxYGZg",
-        "address": "https://www.dnes.bg/t/%D0%A1%D0%90%D0%A9",
-        "title": "Таг САЩ - Dnes.bg",
+        "hash": "QSPhWm4kM6j4",
+        "address": "https://bornlosersrecords.bandcamp.com/?from=btl",
+        "title": "Music | Born Losers Records",
         "snippet": "",
         "matchedWords": {
           "uUcFyBewnyh-": {
             "hits": 1,
-            "textWords": 3316
+            "textWords": 359
           }
         },
         "queryPhraseHits": 0
@@ -1536,20 +1510,190 @@
         "queryPhraseHits": 0
       },
       {
-        "hash": "jL40IlKpstDk",
-        "address": "https://www.turitren.mx/en",
-        "title": "Maya Train",
+        "hash": "TVceNln6S8yx",
+        "address": "https://www.flashcarts.net/",
+        "title": "Flashcarts Wiki | The Flashcarts Wiki",
+        "snippet": "",
+        "matchedWords": {
+          "uUcFyBewnyh-": {
+            "hits": 1,
+            "textWords": 189
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "FWIjpjyMse4g",
+        "address": "https://www.carmagazine.co.uk/car-reviews/pagani/",
+        "title": "Pagani Car reviews",
         "snippet": "",
         "matchedWords": {
           "uUcFyBewnyh-": {
             "hits": 2,
-            "textWords": 2944
+            "textWords": 1046
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "IlhukjRvmBbx",
+        "address": "https://en.wikipedia.org/wiki/AIR_Index",
+        "title": "AIR Index - Wikipedia",
+        "snippet": "",
+        "matchedWords": {
+          "uUcFyBewnyh-": {
+            "hits": 2,
+            "textWords": 1086
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "CDbQIIhxYGZg",
+        "address": "https://www.dnes.bg/t/%D0%A1%D0%90%D0%A9",
+        "title": "Таг САЩ - Dnes.bg",
+        "snippet": "",
+        "matchedWords": {
+          "uUcFyBewnyh-": {
+            "hits": 1,
+            "textWords": 3316
           }
         },
         "queryPhraseHits": 0
       }
     ],
-    [],
+    [
+      {
+        "hash": "JNtyumSMVqKg",
+        "address": "https://www.autoxy.it/offerte/jaguar",
+        "title": "Prezzi Jaguar nuove, km 0 e usate - AutoXY",
+        "snippet": "Vasta è la gamma di modelli attualmente in produzione e disponibili in concessionaria. Tra i modelli più diffusi ci sono: Jaguar F-Pace, Jaguar E-Pace, Jaguar I-Pace, Jaguar F-Type, Nuova Jaguar XE, Jaguar XF, Jaguar XJ e i diversi modelli della divisione sportiva SVO.\nOfferte per i modelli Jaguar",
+        "matchedWords": {
+          "uUcFyBewnyh-": {
+            "hits": 15,
+            "textWords": 339
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "B7J0Wl0_Eoq4",
+        "address": "https://www.cityam.com/jaguar-reveals-the-type-01s-screen-free-interior/",
+        "title": "Jaguar reveals the Type 01's screen-free interior",
+        "snippet": "The Type 01 is expected to become the first production model of Jaguar’s electric reinvention, which makes its launch one of the more significant moments in the company’s modern history.\nJaguar Type 01 verdict\nJaguar is taking a considerable gamble with the Type 01.",
+        "matchedWords": {
+          "uUcFyBewnyh-": {
+            "hits": 29,
+            "textWords": 972
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "zDVzugHZhW94",
+        "address": "https://pjmedia.com/vodkapundit/2025/07/01/forget-go-woke-go-broke-jaguar-went-stupd-n4941331",
+        "title": "Forget 'Go Woke, Go Broke' — Jaguar Went Stupid Instead – PJ Media",
+        "snippet": "Pity poor Jaguar. The British-based luxury and performance carmaker has had a rough go of it this century, but nothing could prepare anyone for the most bone-headed move in corporate history — and I don't mean Jaguar's woke \"Reimagine\" ad from late last year.\nLet me bring you up to speed.",
+        "matchedWords": {
+          "uUcFyBewnyh-": {
+            "hits": 10,
+            "textWords": 653
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "d7LW-y1-KQh5",
+        "address": "https://www.revistagq.com/la-buena-vida/articulo/mourinho-coches-ferrari-jaguar-aston-martin",
+        "title": "Los coches de José Mourinho conforman un mapa de su trayectoria profesional | GQ España",
+        "snippet": "",
+        "matchedWords": {
+          "uUcFyBewnyh-": {
+            "hits": 9,
+            "textWords": 1827
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "8D6vVlIEe2I4",
+        "address": "https://www.atariage.com/",
+        "title": "AtariAge - Have You Played Atari Today?",
+        "snippet": "",
+        "matchedWords": {
+          "uUcFyBewnyh-": {
+            "hits": 16,
+            "textWords": 3451
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "8C3zncEW6TNa",
+        "address": "http://www.vintagecomputing.com/index.php/archives/1218",
+        "title": "VC\u0026G | » The VC\u0026G Christmas Collection (2016 Edition)",
+        "snippet": "",
+        "matchedWords": {
+          "uUcFyBewnyh-": {
+            "hits": 1,
+            "textWords": 1150
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "mhDWTTkhwh86",
+        "address": "https://www.vintagecomputing.com/index.php/archives/date/2021/12",
+        "title": "VC\u0026G | » 2021 » December",
+        "snippet": "",
+        "matchedWords": {
+          "uUcFyBewnyh-": {
+            "hits": 1,
+            "textWords": 860
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "6zDywvOpC_C5",
+        "address": "https://www.sciencedaily.com/news/plants_animals/cats/",
+        "title": "Cats News -- ScienceDaily",
+        "snippet": "",
+        "matchedWords": {
+          "uUcFyBewnyh-": {
+            "hits": 1,
+            "textWords": 4350
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "B1X5TEgRDPpg",
+        "address": "https://3dnews.ru/1147837/elektricheskiy-vnedorognik-range-rover-electric-nakonets-postupit-v-prodagu-posle-dvuhletney-zadergki?from=related-slider\u0026from-source=1147185",
+        "title": "Электрический внедорожник Range Rover Electric наконец поступит в продажу после двухлетней задержки",
+        "snippet": "",
+        "matchedWords": {
+          "uUcFyBewnyh-": {
+            "hits": 2,
+            "textWords": 2088
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "1tzngjRvmBbx",
+        "address": "https://en.wikipedia.org/wiki/Mountain_lion",
+        "title": "Cougar - Wikipedia",
+        "snippet": "",
+        "matchedWords": {
+          "uUcFyBewnyh-": {
+            "hits": 13,
+            "textWords": 13929
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
     [],
     [
       {
@@ -1686,66 +1830,53 @@
     [],
     [
       {
-        "hash": "2Jty834rLgqw",
-        "address": "https://www.zophar.net/utilities/jaguar.html",
-        "title": "Jaguar Utilities - Zophar's Domain",
+        "hash": "rNKIoluTOn9h",
+        "address": "https://www.sachverst.de/",
+        "title": "KFZ - Gutachter in Dresden: Zuerst Gutachter anrufen, dann Versicherung informieren!",
         "snippet": "",
         "matchedWords": {
           "uUcFyBewnyh-": {
-            "hits": 3,
-            "textWords": 133
+            "hits": 1,
+            "textWords": 259
           }
         },
         "queryPhraseHits": 0
       },
       {
-        "hash": "6IPH-ofqWc9w",
-        "address": "https://digitalcommons.unf.edu/ed_gamble/833/",
-        "title": "\"I'm Hungry Again! What Say We Really Pig Out On Steak, Potatoes, Doubl\" by Ed Gamble",
+        "hash": "xsyuaCyWX-XQ",
+        "address": "http://redump.org/disc/70741/",
+        "title": "redump.org • The Games Machine: PC CD-ROM Vol. 89: Agosto 2000",
         "snippet": "",
         "matchedWords": {
           "uUcFyBewnyh-": {
             "hits": 1,
-            "textWords": 557
+            "textWords": 662
           }
         },
         "queryPhraseHits": 0
       },
       {
-        "hash": "_ukfGA4QbcCg",
-        "address": "https://zaguan.unizar.es/record/62848",
-        "title": "A characterization of EM coupling in a fully electric 4-wheel drive vehicle - Universidad de Zaragoza Repository",
+        "hash": "14DiQ0GycJ55",
+        "address": "https://www.mobygames.com/game/1510/baldies/covers/group-36315/",
+        "title": "Baldies box covers - MobyGames",
         "snippet": "",
         "matchedWords": {
           "uUcFyBewnyh-": {
             "hits": 1,
-            "textWords": 727
+            "textWords": 266
           }
         },
         "queryPhraseHits": 0
       },
       {
-        "hash": "lWSJHWOHl-qg",
-        "address": "https://www.hertz.de/p/mietwagen",
-        "title": "Mietwagen | Hertz Autovermietung",
+        "hash": "H07R-sst30L4",
+        "address": "https://coolrom.com/roms/ps2/41799/DragonBall_Z_-_Budokai_Tenkaichi_3.php",
+        "title": "DragonBall Z - Budokai Tenkaichi 3 ROM (ISO) Download for Sony Playstation 2 / PS2 - CoolROM.com",
         "snippet": "",
         "matchedWords": {
           "uUcFyBewnyh-": {
-            "hits": 1,
-            "textWords": 2390
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "zGuSDCyWX-XQ",
-        "address": "http://redump.org/disc/64164/",
-        "title": "redump.org • Baldies • ボールディランド",
-        "snippet": "",
-        "matchedWords": {
-          "uUcFyBewnyh-": {
-            "hits": 1,
-            "textWords": 775
+            "hits": 2,
+            "textWords": 623
           }
         },
         "queryPhraseHits": 0
@@ -1777,172 +1908,186 @@
         "queryPhraseHits": 0
       },
       {
-        "hash": "XmEOJlSRV4T4",
-        "address": "https://www.arenaev.com/tesla_offers_deep_discounts_and_perks_to_move_cybertruck_inventory-news-4633.php",
-        "title": "Tesla offers deep discounts and perks to move Cybertruck inventory - ArenaEV",
-        "snippet": "",
-        "matchedWords": {
-          "uUcFyBewnyh-": {
-            "hits": 1,
-            "textWords": 1258
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "2zSXm3lMqYb5",
-        "address": "https://freerepublic.com/focus/f-news/3000555/posts",
-        "title": "Freeper Doctor Raoul Has Died",
-        "snippet": "",
-        "matchedWords": {
-          "uUcFyBewnyh-": {
-            "hits": 1,
-            "textWords": 1060
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "W3GzrCyWX-XQ",
-        "address": "http://redump.org/disc/17872/",
-        "title": "redump.org • War Gods",
-        "snippet": "",
-        "matchedWords": {
-          "uUcFyBewnyh-": {
-            "hits": 1,
-            "textWords": 1336
-          }
-        },
-        "queryPhraseHits": 0
-      }
-    ],
-    [
-      {
-        "hash": "Xt76rWvudLo4",
-        "address": "https://www.jaguar.com/en-gb/jdx/privacy-policy/index.html",
-        "title": "Jaguar Privacy Policy \u0026 Cookies | Jaguar UK",
-        "snippet": "If you would like to get in touch on a website related query, Jaguar Land Rover Customer Relationship Centre contact details are accessible from these web pages:\nQueries in relation to Jaguar: https://www.jaguar.com/en-gb/jdx/contact-us/index.html",
-        "matchedWords": {
-          "uUcFyBewnyh-": {
-            "hits": 35,
-            "textWords": 5809
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "JyiSsTkhwh86",
-        "address": "https://www.vintagecomputing.com/index.php/archives/date/2016/12",
-        "title": "VC\u0026G | » 2016 » December",
-        "snippet": "",
-        "matchedWords": {
-          "uUcFyBewnyh-": {
-            "hits": 1,
-            "textWords": 1100
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "rF8Nd5UQvMyg",
-        "address": "https://www.business-live.co.uk/incoming/data-analysis-value-west-midlands-6289037",
-        "title": "Data analysis: The value of West Midlands business | Business Live",
+        "hash": "XvnKBABm28T4",
+        "address": "https://scaruffi.com/avant/williams.html",
+        "title": "Avantgarde Music. Anne Williams: biography, discography, reviews, best albums, ratings",
         "snippet": "",
         "matchedWords": {
           "uUcFyBewnyh-": {
             "hits": 2,
-            "textWords": 963
+            "textWords": 245
           }
         },
         "queryPhraseHits": 0
       },
       {
-        "hash": "D5zoMWvudLo4",
-        "address": "https://www.jaguar.com/en-gb/jdx/ownership/accessories/index.html",
-        "title": "Jaguar Accessories | Ownership | Jaguar UK",
-        "snippet": "Step up in style and aid effortless entry into your Jaguar’s cabin.\nJAGUAR PET ACCESSORIES\nOur Pet Pack accessories keep your pets comfy and safe, while protecting their owner's vehicle.\nCLASSIC GENUINE PARTS\nManufactured to precise specifications. Maintain the unique spirit of Jaguar’s heritage.",
-        "matchedWords": {
-          "uUcFyBewnyh-": {
-            "hits": 7,
-            "textWords": 196
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "C5NJyTkhwh86",
-        "address": "https://www.vintagecomputing.com/index.php/archives/date/2008/10",
-        "title": "VC\u0026G | » 2008 » October",
+        "hash": "qQOrIQMSVW5S",
+        "address": "http://www.naval-history.net/xDKWD-HFRosyth1939.htm",
+        "title": "Rosyth Command, Admiralty War Diary 1939",
         "snippet": "",
         "matchedWords": {
           "uUcFyBewnyh-": {
             "hits": 1,
-            "textWords": 1984
+            "textWords": 1850
           }
         },
         "queryPhraseHits": 0
       },
       {
-        "hash": "Ll5qqUUvSkqw",
-        "address": "https://vimm.net/vault/16706",
-        "title": "The Vault: Dino Crisis (Dreamcast)",
+        "hash": "T4-CxCljZ1i4",
+        "address": "https://artsakh.news/en/news/193211",
+        "title": "''I haven’t ask to be Armenian, I just got lucky'': Kim Kardashyan ‹ ARTSAKH NEWS",
+        "snippet": "",
+        "matchedWords": {
+          "uUcFyBewnyh-": {
+            "hits": 1,
+            "textWords": 1947
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "SgHitsUvSkqw",
+        "address": "https://vimm.net/vault/?p=rating\u0026id=5811",
+        "title": "Vimm's Lair: GBA Reviews - Tak 2: The Staff of Dreams",
         "snippet": "",
         "matchedWords": {
           "uUcFyBewnyh-": {
             "hits": 6,
-            "textWords": 381
+            "textWords": 396
           }
         },
         "queryPhraseHits": 0
-      },
+      }
+    ],
+    [],
+    [
       {
-        "hash": "Xl41Csa3HHg4",
-        "address": "https://aem-x.com/",
-        "title": "aem-x.com - Situs Slot Online Terpercaya dengan Slot Gacor dan E-Wallet",
+        "hash": "o1cKE4nmxjHw",
+        "address": "https://hgdownload.gi.ucsc.edu/hubs/mammals/trackData.html",
+        "title": "Mammals genomes assembly hubs, track statistics",
         "snippet": "",
         "matchedWords": {
           "uUcFyBewnyh-": {
-            "hits": 3,
-            "textWords": 1727
+            "hits": 8,
+            "textWords": 52367
           }
         },
         "queryPhraseHits": 0
       },
       {
-        "hash": "LIK-UjRvmBbx",
-        "address": "https://en.wikipedia.org/wiki/CD-i",
-        "title": "CD-i - Wikipedia",
-        "snippet": "",
-        "matchedWords": {
-          "uUcFyBewnyh-": {
-            "hits": 2,
-            "textWords": 8543
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "Skp3k7sNgbb4",
-        "address": "https://music.apple.com/sg/artist/victoria-mon%C3%A9t/540070252",
+        "hash": "NN7A-VsNgbb4",
+        "address": "https://music.apple.com/be/artist/victoria-mon%C3%A9t/540070252",
         "title": "‎Victoria Monét - Apple Music",
         "snippet": "",
         "matchedWords": {
           "uUcFyBewnyh-": {
-            "hits": 12,
-            "textWords": 1578
+            "hits": 11,
+            "textWords": 1648
           }
         },
         "queryPhraseHits": 0
       },
       {
-        "hash": "3VHCVsOEIUyr",
-        "address": "https://simerdupolresbatang.id/",
-        "title": "simerdupolresbatangid",
+        "hash": "i82ezKUPgqQw",
+        "address": "https://aha.aps.edu/",
+        "title": "Home - Atrisco Heritage Academy High School",
+        "snippet": "",
+        "matchedWords": {
+          "uUcFyBewnyh-": {
+            "hits": 2,
+            "textWords": 1538
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "9mLnQljKGpvw",
+        "address": "https://www.wjhsd.net/",
+        "title": "Home - West Jefferson Hills School District",
+        "snippet": "",
+        "matchedWords": {
+          "uUcFyBewnyh-": {
+            "hits": 4,
+            "textWords": 1348
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "Im-djdUX297w",
+        "address": "https://help.unhcr.org/mexico/en/",
+        "title": "UNHCR Mexico - Help for refugees and asylum-seekers",
         "snippet": "",
         "matchedWords": {
           "uUcFyBewnyh-": {
             "hits": 1,
-            "textWords": 17773
+            "textWords": 287
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "fbZCyJpGZXcw",
+        "address": "https://hep.physics.illinois.edu/home/g-gollin/pigeons/",
+        "title": "Information concerning unaccredited universities",
+        "snippet": "",
+        "matchedWords": {
+          "uUcFyBewnyh-": {
+            "hits": 2,
+            "textWords": 58778
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "P8noQssOpeUw",
+        "address": "https://lutris.net/games",
+        "title": "Games | Lutris",
+        "snippet": "",
+        "matchedWords": {
+          "uUcFyBewnyh-": {
+            "hits": 1,
+            "textWords": 710
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "3YtBblm58dg6",
+        "address": "https://www.emanualonline.com/",
+        "title": "Repair Manuals Online, Buy Workshop Manuals, DIY Service Manuals",
+        "snippet": "",
+        "matchedWords": {
+          "uUcFyBewnyh-": {
+            "hits": 1,
+            "textWords": 602
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "9wmB-WmB1XX5",
+        "address": "https://headlineusa.com/tag/electric-vehicles/",
+        "title": "electric vehicles Archives | Headline USA",
+        "snippet": "",
+        "matchedWords": {
+          "uUcFyBewnyh-": {
+            "hits": 1,
+            "textWords": 958
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "ufqcO_jiz-x5",
+        "address": "https://here.navigation.com/home/en_US/HERENA/USD",
+        "title": "Navigation Map Update | GPS Navigation System | HERE Technologies",
+        "snippet": "",
+        "matchedWords": {
+          "uUcFyBewnyh-": {
+            "hits": 2,
+            "textWords": 921
           }
         },
         "queryPhraseHits": 0
@@ -1950,263 +2095,131 @@
     ],
     [
       {
-        "hash": "KbY2al0_Eoq4",
-        "address": "https://www.cityam.com/opinion-2/",
-        "title": "Opinion",
+        "hash": "8-5H4AgmDX26",
+        "address": "https://www.snafu-solomon.com/2018/10/interesting-view-of-belgian-jaguar.html?m=1",
+        "title": "SNAFU!: Interesting view of the Belgian \"Jaguar\" Recon/Fighting Vehicle...",
         "snippet": "",
         "matchedWords": {
           "uUcFyBewnyh-": {
             "hits": 2,
-            "textWords": 702
+            "textWords": 346
           }
         },
         "queryPhraseHits": 0
       },
       {
-        "hash": "a4jMysEfrOX5",
-        "address": "https://petescully.com/",
-        "title": "petescully – postcards of the hanging",
+        "hash": "UsNrungCrj65",
+        "address": "https://javajaguar.mattslawblog.com/?comic=java-450",
+        "title": "Java 450",
         "snippet": "",
         "matchedWords": {
           "uUcFyBewnyh-": {
             "hits": 1,
-            "textWords": 10566
+            "textWords": 103
           }
         },
         "queryPhraseHits": 0
       },
       {
-        "hash": "sGAfYCd6OB24",
-        "address": "https://habr.com/en/users/azproduction/articles/",
-        "title": "Articles / Profile of azproduction / Habr",
+        "hash": "2kIkDs_NBOlw",
+        "address": "https://siol.net/avtomoto",
+        "title": "Avtomoto - siol.net",
+        "snippet": "",
+        "matchedWords": {
+          "uUcFyBewnyh-": {
+            "hits": 1,
+            "textWords": 3816
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "3DIOhgdCVQzZ",
+        "address": "http://shows.autospies.com/gallery/photo.aspx?imageId=311964\u0026galleryId=1417",
+        "title": "AutoSpies.com Photo Gallery",
+        "snippet": "",
+        "matchedWords": {
+          "uUcFyBewnyh-": {
+            "hits": 1,
+            "textWords": 239
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "lueV02aeKiZ6",
+        "address": "https://semiengineering.com/entities/first-earth-ltd/",
+        "title": "First Earth Ltd. - Semiconductor Engineering",
+        "snippet": "",
+        "matchedWords": {
+          "uUcFyBewnyh-": {
+            "hits": 1,
+            "textWords": 587
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "P4XCtTkhwh86",
+        "address": "https://www.vintagecomputing.com/index.php/archives/tag/munch-man",
+        "title": "VC\u0026G | » Munch Man",
+        "snippet": "",
+        "matchedWords": {
+          "uUcFyBewnyh-": {
+            "hits": 1,
+            "textWords": 648
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "qZnZy8NqrmYx",
+        "address": "https://www.worldhistory.org/image/2129/cocijo/",
+        "title": "Cocijo - World History Encyclopedia",
+        "snippet": "",
+        "matchedWords": {
+          "uUcFyBewnyh-": {
+            "hits": 1,
+            "textWords": 927
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "-b3sxspKNBr4",
+        "address": "https://rense.com/",
+        "title": "rense.com",
+        "snippet": "",
+        "matchedWords": {
+          "uUcFyBewnyh-": {
+            "hits": 103,
+            "textWords": 8752
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "VO89WjRvmBbx",
+        "address": "https://en.wikipedia.org/wiki/Leptailurus",
+        "title": "Serval - Wikipedia",
+        "snippet": "",
+        "matchedWords": {
+          "uUcFyBewnyh-": {
+            "hits": 1,
+            "textWords": 7110
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "8ycUnllwv7x4",
+        "address": "https://www.freeroms.com/cps2.htm",
+        "title": "Download CPS2 ROMs \u0026 Emulators for PC, Mac \u0026 Mobile | FreeROMs.com",
         "snippet": "",
         "matchedWords": {
           "uUcFyBewnyh-": {
             "hits": 2,
-            "textWords": 3800
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "ZEmrYYvqZRcg",
-        "address": "https://john-skinner.co.uk/",
-        "title": "Interior Trim \u0026 Upholstery Specialists for Classic Cars - John Skinner Ltd",
-        "snippet": "",
-        "matchedWords": {
-          "uUcFyBewnyh-": {
-            "hits": 5,
-            "textWords": 1755
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "v1xaZzW61vZ4",
-        "address": "https://handbook.gitlab.com/handbook/sales/command-of-the-message/proof-points/",
-        "title": "Proof Points | The GitLab Handbook",
-        "snippet": "",
-        "matchedWords": {
-          "uUcFyBewnyh-": {
-            "hits": 1,
-            "textWords": 17019
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "fw_hA3idsvCA",
-        "address": "http://www.pascalepetit.co.uk/?f=data_home\u0026a=0",
-        "title": "Pascale Petit - Welcome to Pascale Petit's websitePascale Petit | Welcome to Pascale Petit's website",
-        "snippet": "",
-        "matchedWords": {
-          "uUcFyBewnyh-": {
-            "hits": 1,
-            "textWords": 2704
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "9C9r68gMizrx",
-        "address": "https://precastcma.org/project/cole-park-pier/",
-        "title": "Beautiful Cole Park Pier And Plaza - 2021 Awards - PCMA",
-        "snippet": "",
-        "matchedWords": {
-          "uUcFyBewnyh-": {
-            "hits": 1,
-            "textWords": 1831
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "ppj3_vT43mD5",
-        "address": "https://equinoxio21.wordpress.com/2026/02/",
-        "title": "February | 2026 | Equinoxio",
-        "snippet": "",
-        "matchedWords": {
-          "uUcFyBewnyh-": {
-            "hits": 2,
-            "textWords": 1041
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "nsH_IMiBuL16",
-        "address": "https://www.versionmuseum.com/history-of/mac-os-x",
-        "title": "25 Years of Mac OS X Design History - 59 Images - Version Museum",
-        "snippet": "",
-        "matchedWords": {
-          "uUcFyBewnyh-": {
-            "hits": 2,
-            "textWords": 3059
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "3WHaCPsNgbb4",
-        "address": "https://music.apple.com/to/new",
-        "title": "‎Apple Music - Web Player",
-        "snippet": "",
-        "matchedWords": {
-          "uUcFyBewnyh-": {
-            "hits": 1,
-            "textWords": 1803
-          }
-        },
-        "queryPhraseHits": 0
-      }
-    ],
-    [
-      {
-        "hash": "V0mEHbBPK4Vw",
-        "address": "https://lambertville-nj.opendi.us/887374.html",
-        "title": "Don's Jaguar Service in Lambertville, 1218 Route 179 - Used Car Dealers in Lambertville - Opendi Lambertville",
-        "snippet": "Address\n1218 Route 179\nPlace\nLambertville , NJ 08530-3501\nLandline\n(609) 773-0040\nNew Jersey Business Pages Lambertville Nj Categories With U Used Car Dealers In Lambertville Nj Don's Jaguar Service\nDescription\nDon's Jaguar Service can be found at 1218 Route 179 .",
-        "matchedWords": {
-          "uUcFyBewnyh-": {
-            "hits": 3,
-            "textWords": 93
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "WDWpsz4nScL4",
-        "address": "https://www.wired.com/story/range-rover-has-an-entirely-new-electric-car-range-rover-gt/",
-        "title": "Is the All-New Range Rover GT Stepping on Jaguar’s Tail? | WIRED",
-        "snippet": "Range Rover will likely take pains in the coming months explaining how this new all-electric grand tourer isn't a direct competitor to Jaguar's new all-electric grand tourer, the hugely anticipated and polarizing Type 01, intended to signify a complete reset for Jaguar, also arriving in 2027.",
-        "matchedWords": {
-          "uUcFyBewnyh-": {
-            "hits": 13,
-            "textWords": 863
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "Xl41Csa3HHg4",
-        "address": "https://aem-x.com/",
-        "title": "aem-x.com - Situs Slot Online Terpercaya dengan Slot Gacor dan E-Wallet",
-        "snippet": "",
-        "matchedWords": {
-          "uUcFyBewnyh-": {
-            "hits": 3,
-            "textWords": 58133
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "Utb16s471nI5",
-        "address": "https://dantella6.com/",
-        "title": "dantella6.com - Slot Gacor Hari Ini dari PG Soft, Dapatkan Maxwin Besar Tanpa Deposit",
-        "snippet": "",
-        "matchedWords": {
-          "uUcFyBewnyh-": {
-            "hits": 1,
-            "textWords": 34112
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "WYN_asRGbVJx",
-        "address": "https://kipooglecouk.us/",
-        "title": "kipooglecouk.us - Main Judi Slot 88 Online Di Situs judi Terpercaya",
-        "snippet": "",
-        "matchedWords": {
-          "uUcFyBewnyh-": {
-            "hits": 3,
-            "textWords": 41753
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "Wk2MfQIiQOuY",
-        "address": "http://smallscaleoperations.blogspot.com/",
-        "title": "SmallScaleOperations - Wargaming Moderns, Historical and Sci-Fi with 15mm, 20mm and 28mm Miniatures",
-        "snippet": "",
-        "matchedWords": {
-          "uUcFyBewnyh-": {
-            "hits": 1,
-            "textWords": 5281
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "UJpAb5czIpbg",
-        "address": "https://www.chilloutgames.co.uk/GameCube/Nintendo_GameCube_Games.aspx",
-        "title": "Bestselling GameCube Games",
-        "snippet": "",
-        "matchedWords": {
-          "uUcFyBewnyh-": {
-            "hits": 12,
-            "textWords": 1171
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "WDwIasI8EFRx",
-        "address": "https://bezopasnik.org/",
-        "title": "bezopasnik.org - Slot Gacor di Situs Judi Terpercaya dengan Deposit Pulsa GoPay",
-        "snippet": "",
-        "matchedWords": {
-          "uUcFyBewnyh-": {
-            "hits": 3,
-            "textWords": 30596
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "W7DsA78UoIQY",
-        "address": "http://gray318.com/",
-        "title": "gray318",
-        "snippet": "",
-        "matchedWords": {
-          "uUcFyBewnyh-": {
-            "hits": 1,
-            "textWords": 3090
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "UDZhj9aBf7t4",
-        "address": "https://pt.frwiki.wiki/wiki/Linux",
-        "title": "Linux - frwiki.wiki",
-        "snippet": "",
-        "matchedWords": {
-          "uUcFyBewnyh-": {
-            "hits": 1,
-            "textWords": 10616
+            "textWords": 358
           }
         },
         "queryPhraseHits": 0
@@ -2253,40 +2266,27 @@
         "queryPhraseHits": 0
       },
       {
-        "hash": "0EOAyjRvmBbx",
-        "address": "https://en.wikipedia.org/wiki/Tiger",
-        "title": "Tiger - Wikipedia",
-        "snippet": "",
-        "matchedWords": {
-          "uUcFyBewnyh-": {
-            "hits": 4,
-            "textWords": 20729
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "8sV-LNzS9214",
-        "address": "https://oto.detik.com/tips-dan-trik",
-        "title": "Tips and Tricks Otomotif",
-        "snippet": "",
-        "matchedWords": {
-          "uUcFyBewnyh-": {
-            "hits": 1,
-            "textWords": 2161
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "eIpPF0hsfBL4",
-        "address": "https://discuss.online/c/photography",
-        "title": "Photography - Discuss Online",
+        "hash": "QJy8Zsz1jjyw",
+        "address": "https://listed.to/@Censurado",
+        "title": "Los Censurados — México ya no es un país democrático, y a tod...",
         "snippet": "",
         "matchedWords": {
           "uUcFyBewnyh-": {
             "hits": 2,
-            "textWords": 1740
+            "textWords": 389
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "vRl-VjRvmBbx",
+        "address": "https://en.wikipedia.org/wiki/TvOS",
+        "title": "tvOS - Wikipedia",
+        "snippet": "",
+        "matchedWords": {
+          "uUcFyBewnyh-": {
+            "hits": 3,
+            "textWords": 14325
           }
         },
         "queryPhraseHits": 0
@@ -2305,27 +2305,14 @@
         "queryPhraseHits": 0
       },
       {
-        "hash": "oOw0oh3e0QFx",
-        "address": "https://commons.wikimedia.org/wiki/Argentina",
-        "title": "Argentina - Wikimedia Commons",
+        "hash": "eIpPF0hsfBL4",
+        "address": "https://discuss.online/c/photography",
+        "title": "Photography - Discuss Online",
         "snippet": "",
         "matchedWords": {
           "uUcFyBewnyh-": {
-            "hits": 1,
-            "textWords": 19232
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "-vQR-qaaLIig",
-        "address": "https://byznys.hn.cz/tagy/Debaty-HN-354813",
-        "title": "Téma: Debaty HN - Hospodářské noviny (HN.cz)",
-        "snippet": "",
-        "matchedWords": {
-          "uUcFyBewnyh-": {
-            "hits": 1,
-            "textWords": 1905
+            "hits": 2,
+            "textWords": 1740
           }
         },
         "queryPhraseHits": 0
@@ -2342,9 +2329,34 @@
           }
         },
         "queryPhraseHits": 0
+      },
+      {
+        "hash": "8sV-LNzS9214",
+        "address": "https://oto.detik.com/tips-dan-trik",
+        "title": "Tips and Tricks Otomotif",
+        "snippet": "",
+        "matchedWords": {
+          "uUcFyBewnyh-": {
+            "hits": 1,
+            "textWords": 2161
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "K3MYas-yZrhg",
+        "address": "https://vc.ru/transport",
+        "title": "Транспорт (@transport) — Сообщество на vc.ru",
+        "snippet": "",
+        "matchedWords": {
+          "uUcFyBewnyh-": {
+            "hits": 2,
+            "textWords": 1571
+          }
+        },
+        "queryPhraseHits": 0
       }
     ],
-    [],
     [],
     [
       {
@@ -2387,6 +2399,19 @@
         "queryPhraseHits": 0
       },
       {
+        "hash": "L3tPgs5D-QSg",
+        "address": "https://snl.no/kattefamilien",
+        "title": "kattefamilien – Store norske leksikon",
+        "snippet": "",
+        "matchedWords": {
+          "uUcFyBewnyh-": {
+            "hits": 2,
+            "textWords": 2007
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
         "hash": "blwy4opg4UCw",
         "address": "https://www.wikidata.org/wiki/Q14116",
         "title": "macOS - Wikidata",
@@ -2413,14 +2438,27 @@
         "queryPhraseHits": 0
       },
       {
-        "hash": "L3tPgs5D-QSg",
-        "address": "https://snl.no/kattefamilien",
-        "title": "kattefamilien – Store norske leksikon",
+        "hash": "a-3GPW8s6l2g",
+        "address": "https://support.wwf.org.uk/adopt-an-animal",
+        "title": "Adopt an Animal with WWF | WWF UK",
         "snippet": "",
         "matchedWords": {
           "uUcFyBewnyh-": {
             "hits": 2,
-            "textWords": 2007
+            "textWords": 1091
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "PaLddxP7hn-4",
+        "address": "https://www.wafb.com/sports/ncaa/southern-university/",
+        "title": "Southern",
+        "snippet": "",
+        "matchedWords": {
+          "uUcFyBewnyh-": {
+            "hits": 2,
+            "textWords": 4531
           }
         },
         "queryPhraseHits": 0
@@ -2450,61 +2488,9 @@
           }
         },
         "queryPhraseHits": 0
-      },
-      {
-        "hash": "-emFolkVpUp6",
-        "address": "https://www.popularmechanics.com/features/",
-        "title": "Popular Mechanics Features",
-        "snippet": "",
-        "matchedWords": {
-          "uUcFyBewnyh-": {
-            "hits": 1,
-            "textWords": 2085
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "EyUfSJQfOkew",
-        "address": "https://www.der.org/jean-rouch/content/index.php?id=about",
-        "title": "Jean Rouch: A Tribute",
-        "snippet": "",
-        "matchedWords": {
-          "uUcFyBewnyh-": {
-            "hits": 1,
-            "textWords": 575
-          }
-        },
-        "queryPhraseHits": 0
       }
     ],
     [
-      {
-        "hash": "8bxMXhb1w6E6",
-        "address": "https://www.lloydmotorgroup.com/Jaguar/Servicing",
-        "title": "Jaguar Servicing | MOTs, Servicing, Parts, Tyres | Lloyd Jaguar",
-        "snippet": "Browse Servicing\nJaguar MOT\nAll Jaguar vehicles over 3 years old require an MOT test. Book your MOT test with Lloyd Jaguar today.\nBROWSE MOT\nJaguar Parts\nKeep your Jaguar 100% Jaguar with Genuine Parts.\nBrowse Parts\nJaguar Accessories",
-        "matchedWords": {
-          "uUcFyBewnyh-": {
-            "hits": 96,
-            "textWords": 1421
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "_dQ38goHqqd4",
-        "address": "https://autos.yahoo.com/classic-and-collector/articles/jaguar-classic-lists-2-656-190008005.html",
-        "title": "Jaguar Classic Lists a 2,656-Mile Ex-Brunei XJ220, and the Paperwork Might Be the Real Story",
-        "snippet": "The current owner has held the car since 2018, and Jaguar Classic has maintained it throughout that ownership. True to form for cars at this end of the market, the asking price is listed only as available on request.\nEven Jaguar's own paperwork can't settle how many XJ220s actually exist.",
-        "matchedWords": {
-          "uUcFyBewnyh-": {
-            "hits": 9,
-            "textWords": 811
-          }
-        },
-        "queryPhraseHits": 0
-      },
       {
         "hash": "_4cFNCOpC_C5",
         "address": "https://www.sciencedaily.com/terms/jaguar.htm",
@@ -2519,92 +2505,118 @@
         "queryPhraseHits": 0
       },
       {
-        "hash": "9x-Wy2xHMQI4",
-        "address": "https://cnnespanol.cnn.com/2025/09/17/latinoamerica/esperanza-jaguar-america-cte-llamado-tierra",
-        "title": "Esperanza para el jaguar en América: aumenta la población de estos imponentes felinos en México y Argentina | CNN",
-        "snippet": "Es nocturno, solitario y territorial. Sus manchas son como las huellas dactilares de los humanos, únicas en cada ejemplar.\nActualmente, el jaguar está prácticamente extinto en Estados Unidos y totalmente extinto en El Salvador y Uruguay, según la Alianza de Conservación del Jaguar y WWF.",
+        "hash": "ro2UIPnct7tg",
+        "address": "https://www.novinky.cz/clanek/auto-jaguar-xk-uz-i-v-cesku-40118382?noredirect=1",
+        "title": "Jaguar XK už i v Česku - Novinky",
+        "snippet": "",
+        "matchedWords": {
+          "uUcFyBewnyh-": {
+            "hits": 1,
+            "textWords": 108
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "ztECeC8moajg",
+        "address": "https://www.welt.de/motor/modelle/article185185648/Prinz-Pi-Der-Jaguar-I-Pace-ist-eine-elektrische-Bulldogge.html",
+        "title": "Prinz Pi: Der Jaguar I-Pace ist eine elektrische Bulldogge - WELT",
+        "snippet": "Pfadnavigation\nHome\nPS WELT\nModelle\nPrinz Pi im Elektro-SUV\nDer Jaguar I-Pace ist eine elektrische Bulldogge\nVon Prinz Pi\nVeröffentlicht am 08.12.2018Lesedauer: 7 Minuten\nPrinz Pi mit neuen Jaguar I-Pace in Berlin-Tempelhof\nQuelle: Marlene Gawrisch / WELT",
         "matchedWords": {
           "uUcFyBewnyh-": {
             "hits": 14,
-            "textWords": 1246
+            "textWords": 1413
           }
         },
         "queryPhraseHits": 0
       },
       {
-        "hash": "8vm_2mcFqKJh",
-        "address": "https://www.holidaycheck.de/hi/jaguar-hotel/0e3d5e46-c94f-4e9b-971d-f9d14d8f83d8",
-        "title": "Jaguar Hotel (Kampala): Alle Infos zum Hotel",
-        "snippet": "Das Hotel allgemein\nDas Jaguar Hotel Kampala bietet Ihnen einen angenehmen Aufenthalt in Kampala, mit einem Restaurant, einer Bar und komfortablen Zimmern. Die zentrale Lage in der Nähe des Busbahnhofs und des Taxistands ermöglicht Ihnen eine bequeme Anreise und eine gute Anbindung an die Stadt.",
-        "matchedWords": {
-          "uUcFyBewnyh-": {
-            "hits": 4,
-            "textWords": 288
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "r1-9bD_EmcAg",
-        "address": "https://web.de/magazine/auto/rekord-jaguar-xe-sv-project-8-schnellste-serien-limousine-ring-32661920",
-        "title": "Rekord: Jaguar XE SV Project 8 ist die schnellste Serien-Limousine auf dem Ring | WEB.DE",
-        "snippet": "Auto \u0026 Mobilität\nAktualisiert am 04.12.2017, 12:59 Uhr\nRakete auf dem Ring: Der Jaguar XE SV Project 8 ist offiziell die schnellste Serien-Limousine auf der Nordschleife. © Jaguar",
-        "matchedWords": {
-          "uUcFyBewnyh-": {
-            "hits": 10,
-            "textWords": 394
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "4iOcc1zKgaa4",
-        "address": "https://picclick.com/Popular/jaguar-accessories",
-        "title": "Jaguar Accessories FOR SALE! - PicClick",
-        "snippet": "",
-        "matchedWords": {
-          "uUcFyBewnyh-": {
-            "hits": 3,
-            "textWords": 3634
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "uEsC31uNWVxw",
-        "address": "https://linuxfr.org/users/vendrediouletrollsauvage/liens/linux-sur-un-atari-jaguar",
-        "title": "Linux sur un Atari Jaguar",
-        "snippet": "",
-        "matchedWords": {
-          "uUcFyBewnyh-": {
-            "hits": 2,
-            "textWords": 299
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "9UbuFXRmGDox",
-        "address": "https://www.cyberdaily.au/security/12590-jaguar-land-rover-takes-systems-offline-following-cyber-incident",
-        "title": "Jaguar Land Rover takes systems offline following cyber incident - Cyber Daily",
+        "hash": "3C76O9j0DjN5",
+        "address": "https://www.mercurynews.com/2026/09/05/happy-hollows-new-jaguar-making-himself-at-home-in-san-jose/",
+        "title": "Happy Hollow's new jaguar making himself at home in San Jose",
         "snippet": "",
         "matchedWords": {
           "uUcFyBewnyh-": {
             "hits": 8,
-            "textWords": 1396
+            "textWords": 2461
           }
         },
         "queryPhraseHits": 0
       },
       {
-        "hash": "tSgMwljHkxQj",
-        "address": "https://detiendasporelmundo.es/juegos/tragaperras/lucky-jaguar",
-        "title": "Lucky Jaguar Casino con Dinero Real | Jugar Online España 2026",
-        "snippet": "Juegos\nTragaperras\nLucky Jaguar\nJugar Demo\nLucky Jaguar\nRTP96.34%\nMax Win4,500x\nCasinos para Jugar Lucky Jaguar con Dinero Real\nAlf\n4.5/5Casino Guru\nHasta Bono 800€ + 250 Giros Gratis\nJugar con Dinero Real\nGamble Aware\nMafia\n4.6/5Casino Guru\n100% Hasta Bono 500€ + 200 Giros Gratis",
+        "hash": "y2y-7IHjdLqg",
+        "address": "https://www.focus.de/auto/500-tage-auf-dem-hof-warum-kaeufer-den-letzten-benzinbetriebenen-jaguar-nicht-anfassen-wollen_711e5e15-edb4-4ed8-86df-cbcd7c31bc08.html",
+        "title": "500 Tage auf dem Hof: Warum Käufer den letzten benzinbetriebenen Jaguar nicht anfassen wollen - FOCUS online",
+        "snippet": "",
+        "matchedWords": {
+          "uUcFyBewnyh-": {
+            "hits": 9,
+            "textWords": 1273
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "vsqxz0tS9rV5",
+        "address": "https://www.zerohedge.com/markets/europes-auto-bloodbath-deepens-jaguar-land-rover-axe-4000-jobs-after-vw-targets-50000-more",
+        "title": "Europe's Auto Bloodbath Deepens: Jaguar Land Rover To Axe 4,000 Jobs After VW Targets 50,000 More Job Cuts",
+        "snippet": "",
+        "matchedWords": {
+          "uUcFyBewnyh-": {
+            "hits": 1,
+            "textWords": 677
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "8bxMXhb1w6E6",
+        "address": "https://www.lloydmotorgroup.com/Jaguar/Servicing",
+        "title": "Jaguar Servicing | MOTs, Servicing, Parts, Tyres | Lloyd Jaguar",
+        "snippet": "Browse Servicing\nJaguar MOT\nAll Jaguar vehicles over 3 years old require an MOT test. Book your MOT test with Lloyd Jaguar today.\nBROWSE MOT\nJaguar Parts\nKeep your Jaguar 100% Jaguar with Genuine Parts.\nBrowse Parts\nJaguar Accessories",
+        "matchedWords": {
+          "uUcFyBewnyh-": {
+            "hits": 95,
+            "textWords": 1366
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "qnwTos6JlDf5",
+        "address": "https://wallpapers.com/jaguar-pictures",
+        "title": "[100+] Jaguar Pictures | Wallpapers.com",
+        "snippet": "Showing 1–60 of 255 wallpapers\nFrequently asked questions\nDo I need to log in for these Jaguar Pictures?\nThey are free, all of them. No sign-up is required. The large sizes are not held back behind a paywall.\nHow many Jaguar Pictures are available to download?\n255 of them, at the last count.",
         "matchedWords": {
           "uUcFyBewnyh-": {
             "hits": 5,
-            "textWords": 337
+            "textWords": 123
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "p7aEzMrA8NUw",
+        "address": "https://mrc.org/conservatives-fight-back/advertiser/jaguar",
+        "title": "Jaguar | Media Research Center",
+        "snippet": "",
+        "matchedWords": {
+          "uUcFyBewnyh-": {
+            "hits": 4,
+            "textWords": 97
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "Adcr3LvudLo4",
+        "address": "https://www.jaguar.com/en-us/jdx/index.html",
+        "title": "Jaguar | Inspire Like No Other | Challenge Convention",
+        "snippet": "© 2026 Jaguar Land Rover North America, LLC\n1. Starting at price shown is the current Manufacturer’s Suggested Retail Price and subject to change.",
+        "matchedWords": {
+          "uUcFyBewnyh-": {
+            "hits": 4,
+            "textWords": 244
           }
         },
         "queryPhraseHits": 0
@@ -2619,20 +2631,7 @@
         "matchedWords": {
           "uUcFyBewnyh-": {
             "hits": 24,
-            "textWords": 520
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "fjFFHS3xrm1g",
-        "address": "https://www.wwf.org.uk/learn/wildlife/jaguars",
-        "title": "Jaguar | WWF",
-        "snippet": "We also recommend\n10 Facts about jaguars\nDiscover our top 10 interesting facts about jaguars.\nTake a jaguar quiz\nSee how much of a jaguars expert you are by taking our short quiz.\nInternational jaguar day – 29 November\nCelebrate world International jaguar day.\nGo Wild – WWF’s Club for Kids",
-        "matchedWords": {
-          "uUcFyBewnyh-": {
-            "hits": 18,
-            "textWords": 925
+            "textWords": 518
           }
         },
         "queryPhraseHits": 0
@@ -2651,6 +2650,19 @@
         "queryPhraseHits": 0
       },
       {
+        "hash": "fjFFHS3xrm1g",
+        "address": "https://www.wwf.org.uk/learn/wildlife/jaguars",
+        "title": "Jaguar | WWF",
+        "snippet": "We also recommend\n10 Facts about jaguars\nDiscover our top 10 interesting facts about jaguars.\nTake a jaguar quiz\nSee how much of a jaguars expert you are by taking our short quiz.\nInternational jaguar day – 29 November\nCelebrate world International jaguar day.\nGo Wild – WWF’s Club for Kids",
+        "matchedWords": {
+          "uUcFyBewnyh-": {
+            "hits": 18,
+            "textWords": 925
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
         "hash": "rzuDPQk3h2Z6",
         "address": "https://www.siliconrepublic.com/machines/formula-e-evs-racing-jaguar-tcs-digital-twins-ai",
         "title": "What’s under the hood of Formula E racing?",
@@ -2659,6 +2671,19 @@
           "uUcFyBewnyh-": {
             "hits": 12,
             "textWords": 2874
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "ddV94Tkhwh86",
+        "address": "https://www.vintagecomputing.com/index.php/archives/category/computers",
+        "title": "VC\u0026G | » Vintage Computing",
+        "snippet": "",
+        "matchedWords": {
+          "uUcFyBewnyh-": {
+            "hits": 1,
+            "textWords": 199
           }
         },
         "queryPhraseHits": 0
@@ -2690,19 +2715,6 @@
         "queryPhraseHits": 0
       },
       {
-        "hash": "ddV94Tkhwh86",
-        "address": "https://www.vintagecomputing.com/index.php/archives/category/computers",
-        "title": "VC\u0026G | » Vintage Computing",
-        "snippet": "",
-        "matchedWords": {
-          "uUcFyBewnyh-": {
-            "hits": 1,
-            "textWords": 199
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
         "hash": "Wad8xk7dUTJ4",
         "address": "https://www.cio.com/award/459055/uk-cio-100-award-12-2014.html",
         "title": "CIO 100 Award UK 2014 2014 - CIO",
@@ -2716,164 +2728,33 @@
         "queryPhraseHits": 0
       },
       {
-        "hash": "-fwqCWClueuw",
-        "address": "https://bukvy.org/tag/ekoaktyvistka/",
-        "title": "екоактивістка - Букви",
+        "hash": "_cjr8s9tEVQ5",
+        "address": "https://hypeauditor.com/top-instagram-cars-motorbikes-france/",
+        "title": "Top Cars \u0026 Motorbikes Influencers on Instagram in France | HypeAuditor Instagram Ranking",
         "snippet": "",
         "matchedWords": {
           "uUcFyBewnyh-": {
-            "hits": 1,
-            "textWords": 684
+            "hits": 2,
+            "textWords": 2691
           }
         },
         "queryPhraseHits": 0
       },
       {
-        "hash": "y88IHXX11U8g",
-        "address": "https://www.jbs.cam.ac.uk/recruiters-organisations/student-projects/mphil-in-management-consulting-project/",
-        "title": "MPhil in Management Consulting Project - Student consultancy projects - Cambridge Judge Business School",
+        "hash": "u9yc4RK0wXyw",
+        "address": "https://jackson.usd259.org/",
+        "title": "Home - Jackson Elementary School",
         "snippet": "",
         "matchedWords": {
           "uUcFyBewnyh-": {
             "hits": 4,
-            "textWords": 2145
+            "textWords": 1573
           }
         },
         "queryPhraseHits": 0
       }
     ],
-    [
-      {
-        "hash": "yqMQhlSRV4T4",
-        "address": "https://www.arenaev.com/jaguar_type01_uses_architectural_drama_to_escape_the_ev_appliance_trap-news-6145.php",
-        "title": "Jaguar Type-01 uses architectural drama to escape the EV appliance trap - ArenaEV",
-        "snippet": "To make things even more interesting, the spine gets signature art pieces with the iconic leaping Jaguar framed by materials inspired by travertine stone and artisan fabrics.\nBut the really interesting choice is what Jaguar left out of the cabin.",
-        "matchedWords": {
-          "uUcFyBewnyh-": {
-            "hits": 15,
-            "textWords": 886
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "xnWjMPnct7tg",
-        "address": "https://www.novinky.cz/clanek/auto-jaguar-land-rover-a-volkswagen-pred-soud-nepujdou-automobilky-dosahly-dohody-40373788?noredirect=1",
-        "title": "Jaguar Land Rover a Volkswagen před soud nepůjdou, automobilky dosáhly dohody - Novinky",
-        "snippet": "U crossoverů a SUV je dnes normální, že nabízejí různé jízdní režimy pro jízdu mimo asfalt. Rozdíly jsou v chování pohonu všech kol, protiprokluzu nebo třeba zásazích ABS. Koncern Volkswagen takové režimy nabízí samozřejmě i v Bentley Bentayga – a s tím měla automobilka Jaguar Land Rover problém.",
-        "matchedWords": {
-          "uUcFyBewnyh-": {
-            "hits": 1,
-            "textWords": 113
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "yDnsqFl1HgUa",
-        "address": "http://www.how2drawanimals.com/8-animals/538-draw-jaguar-head",
-        "title": "How to Draw a Jaguar (Head Detail) VIDEO \u0026 Step-by-Step Pictures",
-        "snippet": "Page 1 of 4\nIn this free art lesson, you'll learn how to draw the head detail of a Jaguar step-by-step.\nStay tuned for more free drawing lessons by:\nLiking us on Facebook\u003e\u003e\nSubscribing on YouTube.com\u003e\u003e\nFollowing us on Instagram\u003e\u003e",
-        "matchedWords": {
-          "uUcFyBewnyh-": {
-            "hits": 7,
-            "textWords": 537
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "xCpDzWyjgc60",
-        "address": "https://www.timeslive.co.za/motoring/motorsport/2023-02-24-cape-town-eprix-six-questions-with-jaguar-tcs-racings-mitch-evans/",
-        "title": "Cape Town ePrix | Six questions with Jaguar TCS Racing's Mitch Evans",
-        "snippet": "South Africa's first ever Formula E race is taking place in Cape Town this weekend and TimesLIVE Motoring is attending the event with Jaguar TCS Racing.",
-        "matchedWords": {
-          "uUcFyBewnyh-": {
-            "hits": 2,
-            "textWords": 1094
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "yeS2u_A4psi4",
-        "address": "https://www.theverge.com/2017/9/7/16265888/jaguar-e-type-zero-electric-car-announced",
-        "title": "Jaguar’s E-type Zero is the most beautiful electric car yet | The Verge",
-        "snippet": "Jaguar is showing off the E-type Zero at the JLR Tech Fest event in London, which is open to the public between September 8th and 10th.\n1/12\nJaguar E-type Zero\nPhoto: Jaguar Land Rover\nUpdate: Check out some first-hand photos and impressions of the Jaguar E-type Zero from its London debut.",
-        "matchedWords": {
-          "uUcFyBewnyh-": {
-            "hits": 7,
-            "textWords": 348
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "wMGm9e-Bw-Xg",
-        "address": "https://www.blisty.cz/art/92571-pro-stoupence-czexitu-ohrozeny-jsou-desetitisice-pracovnich-mist-varuje-sef-automobilky-jaguar-land-rover-britskou-premierku",
-        "title": "Pro stoupence Czexitu: \"Ohroženy jsou desetitisíce pracovních míst,\" varuje šéf automobilky Jaguar Land Rover britskou premiérku | 11. 9. 2018 | Britské listy",
-        "snippet": "11. 9. 2018\nGenerální ředitel automobilky Ralf Speth sdělil premiérce, že si nemůže být jist, že by jakákoliv část jeho automobilky v Británii přežila po brexitu. Jaguar Land Rover zaměstnává v Británii 40 000 lidí.",
-        "matchedWords": {
-          "uUcFyBewnyh-": {
-            "hits": 2,
-            "textWords": 146
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "yrVP444LMaSg",
-        "address": "https://www.bbc.co.uk/news/uk-england-birmingham-21009882",
-        "title": "Jaguar Land Rover 'to keep UK factories buzzing' - BBC News",
-        "snippet": "",
-        "matchedWords": {
-          "uUcFyBewnyh-": {
-            "hits": 11,
-            "textWords": 2418
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "xXUOxn_cHr8g",
-        "address": "https://dennikn.sk/213128/socialny-balicek-v-znameni-selmy/",
-        "title": "Sociálny balíček v znamení šelmy – každá firma dá z eura na Jaguar 15 centov — Denník N",
-        "snippet": "",
-        "matchedWords": {
-          "uUcFyBewnyh-": {
-            "hits": 4,
-            "textWords": 875
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "yNN4BAAE_wv4",
-        "address": "https://www.vox.com/2018/3/28/17170792/apple-education-ipad-classroom-software-chromebook-zuckerberg-congress-analytica-waymo-jaguar",
-        "title": "Recode Daily: Apple focuses on creativity in education at its spring product launch event | Vox",
-        "snippet": "",
-        "matchedWords": {
-          "uUcFyBewnyh-": {
-            "hits": 3,
-            "textWords": 1806
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "zQDqg0lW9EDh",
-        "address": "https://www.aktuality.sk/clanok/358936/jaguar-zacne-s-hromadnym-naborom-na-buduci-rok-ostatne-firmy-budu-mat-problemy-s-novymi-zamestnancami/",
-        "title": "Jaguar začne s hromadným náborom na budúci rok. Iné firmy budú mať problémy s ľuďmi | Aktuality.sk",
-        "snippet": "Britská automobilka môže odlákať ľudí z už etablovaných firiem na Slovensku.\nBritská automobilka Jaguar Land Rover začne s hromadným náborom ľudí na budúci rok. Momentálne firma vyberá len zopár špecialistov.",
-        "matchedWords": {
-          "uUcFyBewnyh-": {
-            "hits": 3,
-            "textWords": 424
-          }
-        },
-        "queryPhraseHits": 0
-      }
-    ],
+    [],
     [
       {
         "hash": "OkRJPcEW6TNa",
@@ -2889,19 +2770,6 @@
         "queryPhraseHits": 0
       },
       {
-        "hash": "PflsOBsNgbb4",
-        "address": "https://music.apple.com/mv/artist/victoria-mon%C3%A9t/540070252",
-        "title": "‎Victoria Monét - Apple Music",
-        "snippet": "",
-        "matchedWords": {
-          "uUcFyBewnyh-": {
-            "hits": 8,
-            "textWords": 1593
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
         "hash": "egF4EsUFmc2k",
         "address": "https://electrek.co/guides/voyage/",
         "title": "Voyage | Electrek",
@@ -2910,6 +2778,19 @@
           "uUcFyBewnyh-": {
             "hits": 1,
             "textWords": 286
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "PflsOBsNgbb4",
+        "address": "https://music.apple.com/mv/artist/victoria-mon%C3%A9t/540070252",
+        "title": "‎Victoria Monét - Apple Music",
+        "snippet": "",
+        "matchedWords": {
+          "uUcFyBewnyh-": {
+            "hits": 8,
+            "textWords": 1593
           }
         },
         "queryPhraseHits": 0
@@ -2941,6 +2822,19 @@
         "queryPhraseHits": 0
       },
       {
+        "hash": "q2lvfn_mrejg",
+        "address": "https://www.skapiec.pl/dep/30/99999.490",
+        "title": "Okazje ELNINO PARFUM Ceny, Opinie, Sklepy - SKAPIEC.pl",
+        "snippet": "",
+        "matchedWords": {
+          "uUcFyBewnyh-": {
+            "hits": 1,
+            "textWords": 5836
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
         "hash": "ygoKLlSSehrh",
         "address": "https://www.gamereactor.se/",
         "title": "Speltrailers, livestream och intervjuer | Gamereactor Sverige",
@@ -2967,14 +2861,14 @@
         "queryPhraseHits": 0
       },
       {
-        "hash": "q2lvfn_mrejg",
-        "address": "https://www.skapiec.pl/dep/30/99999.490",
-        "title": "Okazje ELNINO PARFUM Ceny, Opinie, Sklepy - SKAPIEC.pl",
+        "hash": "5-rkkaSb1-8g",
+        "address": "https://www.capital.ro/tag/academia-crypto",
+        "title": "Știri și informaţii publicate cu eticheta Academia Crypto",
         "snippet": "",
         "matchedWords": {
           "uUcFyBewnyh-": {
             "hits": 1,
-            "textWords": 5836
+            "textWords": 1505
           }
         },
         "queryPhraseHits": 0
@@ -2988,19 +2882,6 @@
           "uUcFyBewnyh-": {
             "hits": 1,
             "textWords": 1385
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "5-rkkaSb1-8g",
-        "address": "https://www.capital.ro/tag/academia-crypto",
-        "title": "Știri și informaţii publicate cu eticheta Academia Crypto",
-        "snippet": "",
-        "matchedWords": {
-          "uUcFyBewnyh-": {
-            "hits": 1,
-            "textWords": 1505
           }
         },
         "queryPhraseHits": 0
@@ -3052,11 +2933,11 @@
         "hash": "5m6h3vYLAaI5",
         "address": "https://www.tomshardware.com/news/APU-Jaguar-PlayStation-Kabini-Temash,21229.html",
         "title": "AMD Elaborates on PS4's Custom ''Jaguar'' APU | Tom's Hardware",
-        "snippet": "",
+        "snippet": "AMD's \"Jaguar\" is the successor to \"Bobcat\" which powers current C- and E-Series low-power APUs. The company is expected to launch its first batch of Jaguar-based APUs during the middle of 2013, codenamed as Kabini and Temash.",
         "matchedWords": {
           "uUcFyBewnyh-": {
-            "hits": 6,
-            "textWords": 1908
+            "hits": 4,
+            "textWords": 535
           }
         },
         "queryPhraseHits": 0
@@ -3070,6 +2951,19 @@
           "uUcFyBewnyh-": {
             "hits": 1,
             "textWords": 101
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "dQRyL0t_IB06",
+        "address": "https://www.myabandonware.com/game/doom-1nd",
+        "title": "Doom - My Abandonware",
+        "snippet": "",
+        "matchedWords": {
+          "uUcFyBewnyh-": {
+            "hits": 4,
+            "textWords": 10395
           }
         },
         "queryPhraseHits": 0
@@ -3114,19 +3008,6 @@
         "queryPhraseHits": 0
       },
       {
-        "hash": "lD9z7lbBtGR5",
-        "address": "https://www.sgtreport.com/",
-        "title": "SGT Report | The Corporate Propaganda Antidote",
-        "snippet": "",
-        "matchedWords": {
-          "uUcFyBewnyh-": {
-            "hits": 6,
-            "textWords": 2213
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
         "hash": "ujqVwsAqGd-w",
         "address": "https://abware.net/index.pl?game=26805",
         "title": "Rasterscan - Robot Ring",
@@ -3140,27 +3021,27 @@
         "queryPhraseHits": 0
       },
       {
-        "hash": "pYT9fjRvmBbx",
-        "address": "https://en.wikipedia.org/wiki/MacOS",
-        "title": "macOS - Wikipedia",
+        "hash": "lD9z7lbBtGR5",
+        "address": "https://www.sgtreport.com/",
+        "title": "SGT Report | The Corporate Propaganda Antidote",
         "snippet": "",
         "matchedWords": {
           "uUcFyBewnyh-": {
-            "hits": 20,
-            "textWords": 21389
+            "hits": 6,
+            "textWords": 2213
           }
         },
         "queryPhraseHits": 0
       },
       {
-        "hash": "MirGG_DhxaDg",
-        "address": "https://www.rgcd.co.uk/2011/",
-        "title": "RGCD: 2011",
+        "hash": "j3k7Sllwv7x4",
+        "address": "https://www.freeroms.com/snes_rom.htm",
+        "title": "Download SNES ROMs \u0026 Emulators for PC, Mac \u0026 Mobile | FreeROMs.com",
         "snippet": "",
         "matchedWords": {
           "uUcFyBewnyh-": {
-            "hits": 6,
-            "textWords": 13131
+            "hits": 2,
+            "textWords": 582
           }
         },
         "queryPhraseHits": 0
@@ -3313,6 +3194,19 @@
         "queryPhraseHits": 0
       },
       {
+        "hash": "C1uOSTkhwh86",
+        "address": "https://www.vintagecomputing.com/index.php/archives/date/2008/08",
+        "title": "VC\u0026G | » 2008 » August",
+        "snippet": "",
+        "matchedWords": {
+          "uUcFyBewnyh-": {
+            "hits": 1,
+            "textWords": 2062
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
         "hash": "3WSVKbsNgbb4",
         "address": "https://music.apple.com/lu/artist/victoria-mon%C3%A9t/540070252",
         "title": "‎Victoria Monét - Apple Music",
@@ -3321,19 +3215,6 @@
           "uUcFyBewnyh-": {
             "hits": 10,
             "textWords": 1605
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "CX7XGEo8hrug",
-        "address": "https://shop.wwf.org.uk/collections/hot-drinks",
-        "title": "Hot Drinks",
-        "snippet": "",
-        "matchedWords": {
-          "uUcFyBewnyh-": {
-            "hits": 2,
-            "textWords": 796
           }
         },
         "queryPhraseHits": 0
@@ -3352,6 +3233,45 @@
         "queryPhraseHits": 0
       },
       {
+        "hash": "EZoW9QSMVqKg",
+        "address": "https://www.autoxy.it/auto-usate/umbria",
+        "title": "Auto usate, km 0 e nuove in vendita in Umbria - AutoXY",
+        "snippet": "",
+        "matchedWords": {
+          "uUcFyBewnyh-": {
+            "hits": 2,
+            "textWords": 1390
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "b_bo9aM-7_Gw",
+        "address": "https://home.nra.org/",
+        "title": "Home | National Rifle Association",
+        "snippet": "",
+        "matchedWords": {
+          "uUcFyBewnyh-": {
+            "hits": 1,
+            "textWords": 6598
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "AOxb4jRvmBbx",
+        "address": "https://en.wikipedia.org/wiki/Vastaamo_data_breach",
+        "title": "Vastaamo data breach - Wikipedia",
+        "snippet": "",
+        "matchedWords": {
+          "uUcFyBewnyh-": {
+            "hits": 1,
+            "textWords": 3133
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
         "hash": "037zZ0VjetJo",
         "address": "https://www.ecct.com.tw/",
         "title": "EUROPEAN CHAMBER OF COMMERCE TAIWAN – The European Chamber of Commerce TAIWAN is the foremost organisation championing European business interests in Taiwan by providing members",
@@ -3365,66 +3285,27 @@
         "queryPhraseHits": 0
       },
       {
-        "hash": "NQxasfGRBpq4",
-        "address": "https://www.grammy.com/awards/categories/best-rb-album/2015/",
-        "title": "Best R\u0026B Album 2015 Winners \u0026 Nominees",
+        "hash": "CX7XGEo8hrug",
+        "address": "https://shop.wwf.org.uk/collections/hot-drinks",
+        "title": "Hot Drinks",
         "snippet": "",
         "matchedWords": {
           "uUcFyBewnyh-": {
-            "hits": 1,
-            "textWords": 844
+            "hits": 2,
+            "textWords": 796
           }
         },
         "queryPhraseHits": 0
       },
       {
-        "hash": "uXYf5NzS9214",
-        "address": "https://oto.detik.com/mobil-listrik",
-        "title": "Berita dan Informasi Terbaru Seputar Mobil Listrik",
+        "hash": "UfYM9LtS10zg",
+        "address": "https://events.wired.co.uk/impact/",
+        "title": "WIRED Impact",
         "snippet": "",
         "matchedWords": {
           "uUcFyBewnyh-": {
             "hits": 1,
-            "textWords": 2312
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "D7oSFlPA_p6g",
-        "address": "https://www.lefigaro.fr/flash-actu",
-        "title": "Le Figaro - Le Flash Actu",
-        "snippet": "",
-        "matchedWords": {
-          "uUcFyBewnyh-": {
-            "hits": 1,
-            "textWords": 5423
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "RDzLPs5D-QSg",
-        "address": "https://snl.no/Honduras",
-        "title": "Honduras – les om historie, språk, politikk – Store norske leksikon",
-        "snippet": "",
-        "matchedWords": {
-          "uUcFyBewnyh-": {
-            "hits": 1,
-            "textWords": 3248
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "r9vLLjRvmBbx",
-        "address": "https://en.wikipedia.org/wiki/B1_Centauro",
-        "title": "Centauro (Tank destroyer) - Wikipedia",
-        "snippet": "",
-        "matchedWords": {
-          "uUcFyBewnyh-": {
-            "hits": 4,
-            "textWords": 4563
+            "textWords": 792
           }
         },
         "queryPhraseHits": 0
@@ -3432,14 +3313,131 @@
     ],
     [
       {
-        "hash": "NM95LD-NwKsx",
-        "address": "https://kirbymuseum.org/blogs/simonandkirby/archives/183",
-        "title": "The End of Simon \u0026 Kirby, Chapter 10, A Fly In The Mix | Simon and Kirby",
+        "hash": "BFXCHD0_Eoq4",
+        "address": "https://www.cityam.com/people-and-organizations/labour/",
+        "title": "Labour Archives - City AM",
         "snippet": "",
         "matchedWords": {
           "uUcFyBewnyh-": {
             "hits": 1,
-            "textWords": 3807
+            "textWords": 1334
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "KbS9NTkhwh86",
+        "address": "https://www.vintagecomputing.com/index.php/archives/date/2016/04",
+        "title": "VC\u0026G | » 2016 » April",
+        "snippet": "",
+        "matchedWords": {
+          "uUcFyBewnyh-": {
+            "hits": 1,
+            "textWords": 697
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "fX85ZlbyNWI6",
+        "address": "https://www.notebookcheck-ru.com/Ispolzujushchiisja-v-PlayStation-5-audio-dvizhok-Tempest-3D-nastolko-revoljucionnyi-chto-ispolzuet-snimki-ushei-vladelcev-dlja-uluchshenija-zvukovoi-sostavljajushchei.458519.0.html",
+        "title": "Использующийся в PlayStation 5 аудио движок Tempest 3D настолько революционный, что использует снимки ушей владельцев для улучшения звуковой составляющей - Notebookcheck-ru.com",
+        "snippet": "",
+        "matchedWords": {
+          "uUcFyBewnyh-": {
+            "hits": 1,
+            "textWords": 1862
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "JUS5AlS4kZE6",
+        "address": "https://www.arcade-history.com/index.php?page=database\u0026listtypes=137\u0026position=1\u0026nongame=1",
+        "title": "The coin-op and global gaming database",
+        "snippet": "",
+        "matchedWords": {
+          "uUcFyBewnyh-": {
+            "hits": 7,
+            "textWords": 430
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "76vDyGo-P9Ew",
+        "address": "https://bayvista-es.pcsb.org/",
+        "title": "Home - Bay Vista Fundamental",
+        "snippet": "",
+        "matchedWords": {
+          "uUcFyBewnyh-": {
+            "hits": 5,
+            "textWords": 2294
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "GHz7rjRvmBbx",
+        "address": "https://en.wikipedia.org/wiki/Atari_ST",
+        "title": "Atari ST - Wikipedia",
+        "snippet": "",
+        "matchedWords": {
+          "uUcFyBewnyh-": {
+            "hits": 5,
+            "textWords": 11631
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "4K4nuh3e0QFx",
+        "address": "https://commons.wikimedia.org/wiki/Category:Beverages?uselang=bs",
+        "title": "Category:Beverages - Wikimedia Commons",
+        "snippet": "",
+        "matchedWords": {
+          "uUcFyBewnyh-": {
+            "hits": 1,
+            "textWords": 13034
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "TQURgMUFlivx",
+        "address": "https://news.bgfashion.net/Young-designers/15",
+        "title": "Young designers News",
+        "snippet": "",
+        "matchedWords": {
+          "uUcFyBewnyh-": {
+            "hits": 1,
+            "textWords": 8982
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "qmLI7NHNzM2Y",
+        "address": "http://oinotna7.blogspot.com/",
+        "title": "Oinotna7's dvd collection",
+        "snippet": "",
+        "matchedWords": {
+          "uUcFyBewnyh-": {
+            "hits": 1,
+            "textWords": 8271
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "vhUDNlPA_p6g",
+        "address": "https://www.lefigaro.fr/flash-eco",
+        "title": "Le Figaro Economie - Flash Eco - Toute l'actualité économique",
+        "snippet": "",
+        "matchedWords": {
+          "uUcFyBewnyh-": {
+            "hits": 1,
+            "textWords": 4977
           }
         },
         "queryPhraseHits": 0
@@ -3579,131 +3577,291 @@
     ],
     [
       {
-        "hash": "7g8UZmSPYuFg",
-        "address": "https://hvg.hu/cegauto/20260907_tobb-ezer-dolgozot-kuldhet-el-jaguar-land-rover",
-        "title": "Autó: Több ezer állást szüntethet meg a Jaguar Land Rover",
-        "snippet": "Jelentős létszámleépítésre készül a Jaguar Land Rover miután a vállalat költségcsökkentésre kényszerül, mert a nyeresége drasztikusan visszaesett.\nA Sunday Times értesülése szerint a következő két évben akár négyezer állás is megszűnhet, bár ezt a számot a vállalat egyelőre nem erősítette meg.",
-        "matchedWords": {
-          "uUcFyBewnyh-": {
-            "hits": 3,
-            "textWords": 207
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "nvPkBYs2_Qq5",
-        "address": "https://asfmservices.com/2024/06/16/the-role-of-financial-advisors-what-you-need-to-know/",
-        "title": "The Role of Financial Advisors: What You Need to Know – ALFA SHUKRAN FACILITIES MANAGEMENT",
+        "hash": "Hc1EHT_qyJvh",
+        "address": "https://www.ardmediathek.de/tv-programm/6a55b4751a0f6d0eded8ef21",
+        "title": "Vorschau: Tierisch aufgeforstet • Am Rand des Regenwaldes",
         "snippet": "",
         "matchedWords": {
           "uUcFyBewnyh-": {
-            "hits": 253,
-            "textWords": 63316
+            "hits": 1,
+            "textWords": 814
           }
         },
         "queryPhraseHits": 0
       },
       {
-        "hash": "YIQOVP1UCvo4",
-        "address": "https://redstate.com/bonchie/2024/11/19/jaguar-decides-to-burn-its-brand-to-the-ground-with-insane-new-ad-campaign-n2182177",
-        "title": "Jaguar Decides to Burn Its Brand to the Ground With New Confusingly Woke Ad Campaign – RedState",
-        "snippet": "Jaguar responded to some of those asking what the heck was happening. Their answers were just as vague as the original ad.\nThe future.\n— Jaguar (@Jaguar) November 19, 2024\nThink of this as a declaration of intent.\n— Jaguar (@Jaguar) November 19, 2024\nWho exactly is this appealing to?",
+        "hash": "uD6PIT_qyJvh",
+        "address": "https://www.ardmediathek.de/tv-programm/6a69da3323bb626b24446c78",
+        "title": "Vorschau: Adam Dalgliesh, Scotland Yard (S02/E05) • Im Saal der Mörder - Teil 1 (Dalgliesh)",
+        "snippet": "",
+        "matchedWords": {
+          "uUcFyBewnyh-": {
+            "hits": 1,
+            "textWords": 693
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "ZToSRUYT9isx",
+        "address": "https://rush-leon.blogbright.net/the-top-jaguar-replacement-keys-tricks-to-change-your-life/",
+        "title": "The Top Jaguar Replacement Keys Tricks To Change Your Life",
+        "snippet": "",
+        "matchedWords": {
+          "uUcFyBewnyh-": {
+            "hits": 18,
+            "textWords": 1176
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "-Xc16sYl-sSi",
+        "address": "https://jaguarstandoff2.ru/",
+        "title": "Карьера в киберспорте и геймдеве — блог Jaguar",
+        "snippet": "",
+        "matchedWords": {
+          "uUcFyBewnyh-": {
+            "hits": 1,
+            "textWords": 697
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "ZgCcdsvmYP9o",
+        "address": "https://paste.jp/5f09c866/",
+        "title": "link | Paste.jp",
+        "snippet": "",
+        "matchedWords": {
+          "uUcFyBewnyh-": {
+            "hits": 1,
+            "textWords": 1743
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "hyIaaxQ0UUox",
+        "address": "https://te.wikipedia.org/wiki/%E0%B0%85%E0%B0%97%E0%B0%AE%E0%B1%8D%E0%B0%AF%E0%B0%BE%E0%B0%97%E0%B0%AE%E0%B0%A8%E0%B0%82",
+        "title": "అగమ్యాగమనం - వికీపీడియా",
+        "snippet": "",
+        "matchedWords": {
+          "uUcFyBewnyh-": {
+            "hits": 1,
+            "textWords": 707
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "yVzAisGFZiqg",
+        "address": "https://tachki.lv/",
+        "title": "Новости автомобилей в мире | tachki.lv",
+        "snippet": "",
+        "matchedWords": {
+          "uUcFyBewnyh-": {
+            "hits": 7,
+            "textWords": 1070
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "9NeGhj0li_S4",
+        "address": "https://layer7it.com/portfolio/spros2go-com/",
+        "title": "Spros2go.com – Layer7IT",
+        "snippet": "",
+        "matchedWords": {
+          "uUcFyBewnyh-": {
+            "hits": 1,
+            "textWords": 40666
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "J5Tg4784QmfB",
+        "address": "http://pinupstudio.pl/kreatura-2016-pin-up-studio/",
+        "title": "PIN-UP STUDIO | Kreatura 2016 – Pin-Up Studio",
+        "snippet": "",
+        "matchedWords": {
+          "uUcFyBewnyh-": {
+            "hits": 2,
+            "textWords": 22857
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "_rwBys11-9Xh",
+        "address": "https://pinupstudio.pl/kreatura-2016-pin-up-studio/",
+        "title": "PIN-UP STUDIO | Kreatura 2016 – Pin-Up Studio",
+        "snippet": "",
+        "matchedWords": {
+          "uUcFyBewnyh-": {
+            "hits": 2,
+            "textWords": 22869
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "p1UgFxymjh-k",
+        "address": "https://patholovers.com.br/retinoblastoma/",
+        "title": "Retinoblastoma – PathoLovers",
+        "snippet": "",
+        "matchedWords": {
+          "uUcFyBewnyh-": {
+            "hits": 17,
+            "textWords": 20049
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "Ns_XN7RFFowY",
+        "address": "http://usexport.info/oformlenie-viz-v-ssha/",
+        "title": "Оформление виз в США |",
+        "snippet": "",
+        "matchedWords": {
+          "uUcFyBewnyh-": {
+            "hits": 1,
+            "textWords": 57422
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "dZFzdcw63Csx",
+        "address": "https://fr.wikipedia.org/wiki/Jaguar_(automobile)",
+        "title": "Jaguar (entreprise) — Wikipédia",
+        "snippet": "Jaguar F-Pace (2016-2025)\nJaguar E-Pace (2017-2024)\nJaguar I-Pace (2018-2024)\nJaguar XK120\nJaguar XK140\nJaguar Type C (1951-1954)\nJaguar Type D (1954-1957)\nJaguar Type E\nJaguar SS\nJaguar E 2A\nJaguar Special\nJaguar XK-C\nJaguar XJS\nJaguar XJ12C\nJaguar HE\nJaguar XJR-5\nJaguar XJR-6\nJaguar XJR-7",
+        "matchedWords": {
+          "uUcFyBewnyh-": {
+            "hits": 187,
+            "textWords": 2928
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "-EX9FdFO6r_x",
+        "address": "https://de.wikipedia.org/wiki/Jaguar_R4",
+        "title": "Jaguar R4 – Wikipedia",
+        "snippet": "aus Wikipedia, der freien Enzyklopädie\nJaguar R4\nPizzonia im Jaguar R4 beim Großen Preis von Großbritannien 2003\nPizzonia im Jaguar R4 beim Großen Preis von Großbritannien 2003\nKonstrukteur:\nJaguar\nDesigner:\nBen Agathangelou\nVorgänger:\nJaguar R3\nNachfolger:\nJaguar R5\nTechnische Spezifikationen",
         "matchedWords": {
           "uUcFyBewnyh-": {
             "hits": 11,
-            "textWords": 403
+            "textWords": 142
           }
         },
         "queryPhraseHits": 0
       },
       {
-        "hash": "oRaHKBKlvN85",
-        "address": "https://arstechnica.com/cars/2018/02/jaguars-latest-sports-car-is-a-d-type-le-mans-racer-from-the-1950s/",
-        "title": "62 years later Jaguar is building the final 25, million-dollar D-Types - Ars Technica",
-        "snippet": "The D-Type racer from the mid-1950s is the latest old Jaguar to get a new production run.\nJaguar\nThe D-Type racer from the mid-1950s is the latest old Jaguar to get a new production run. Jaguar\nThe E-Type is better known, but only because the company made so many more of them.\nJaguar",
+        "hash": "8hW4TPnTPArx",
+        "address": "https://ru.wikipedia.org/wiki/Jaguar_XE",
+        "title": "Jaguar XE — Википедия",
+        "snippet": "441 кВт (592 л. с.)\n700 Н·м\n254 г/км\n322 км/ч\n3.7 сек.[29]\nAJ-V8, 2018—2024 (выпущено 300 автомобилей)\nXE S (интерьер)\nСтруктура Jaguar XE\nДвигатель Jaguar Land Rover Ingenium\nJaguar XE SV-Project 8\nJaguar XE SV Project 8\nJaguar XE Portfolio (Великобритания)\nВид сзади\nJaguar XE S (Великобритания)",
         "matchedWords": {
           "uUcFyBewnyh-": {
-            "hits": 19,
-            "textWords": 396
+            "hits": 47,
+            "textWords": 1092
           }
         },
         "queryPhraseHits": 0
       },
       {
-        "hash": "iNj-4lut7AB4",
-        "address": "https://www.jlr.com/results-centre",
-        "title": "Results Centre | JLR Corporate Website",
-        "snippet": "",
+        "hash": "4fVUWdFO6r_x",
+        "address": "https://de.wikipedia.org/wiki/Jaguar_(Jagdpanzer)",
+        "title": "Jaguar (Jagdpanzer) – Wikipedia",
+        "snippet": "Foss: Jane's Armour and Artillery 1988–89, Jane’s Information Group, London, 1988, ISBN 0-7106-0863-2.\nJagdpanzer der Bundeswehr\nJaguar 1 im Detail\nJaguar 2 im Detail\nFahrschulpanzer Jaguar (Wanne des Jaguar 1 und abgewandelte Fahrschulkabine des Leopard 1. Nur 6 Stk. gebaut)",
         "matchedWords": {
           "uUcFyBewnyh-": {
-            "hits": 4,
-            "textWords": 1591
+            "hits": 23,
+            "textWords": 670
           }
         },
         "queryPhraseHits": 0
       },
       {
-        "hash": "4s_HggRcz1M4",
-        "address": "https://media.jlr.com/corporate/en",
+        "hash": "AVfDveMcq6Ew",
+        "address": "https://web.archive.org/web/20131211030440/http:/www.anandtech.com/show/6976/amds-jaguar-architecture-the-cpu-powering-xbox-one-playstation-4-kabini-temash/4",
+        "title": "AnandTech Portal | AMD’s Jaguar Architecture: The CPU Powering Xbox One, PlayStation 4, Kabini \u0026 Temash",
+        "snippet": "The Wayback Machine - https://web.archive.org/web/20131211030440/http://www.anandtech.com/show/6976/amds-jaguar-architecture-the-cpu-powering-xbox-one-playstation-4-kabini-temash/4\nHome\u003e\nCPUs\nby Anand Lal Shimpi on May 23, 2013 12:00 AM EST\nPosted in\nCPUs\nAMD\nKabini: Mainstream APU for Notebooks",
+        "matchedWords": {
+          "uUcFyBewnyh-": {
+            "hits": 7,
+            "textWords": 571
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "7fRkUvRcz1M4",
+        "address": "https://media.jlr.com/corporate/",
         "title": "JLR Corporate Homepage International",
         "snippet": "",
         "matchedWords": {
           "uUcFyBewnyh-": {
             "hits": 5,
-            "textWords": 1520
+            "textWords": 1543
           }
         },
         "queryPhraseHits": 0
       },
       {
-        "hash": "UhxTHjRvmBbx",
-        "address": "https://en.wikipedia.org/wiki/Polymorphism_(biology)",
-        "title": "Polymorphism (biology) - Wikipedia",
-        "snippet": "",
-        "matchedWords": {
-          "uUcFyBewnyh-": {
-            "hits": 4,
-            "textWords": 5429
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "UsNrungCrj65",
-        "address": "https://javajaguar.mattslawblog.com/?comic=java-450",
-        "title": "Java 450",
+        "hash": "HXUYtldlxSX5",
+        "address": "https://www.madcowprod.com/",
+        "title": "MadCowNews | Investigative Reporting into Drug Trafficking, 9/11 \u0026 Terrorism",
         "snippet": "",
         "matchedWords": {
           "uUcFyBewnyh-": {
             "hits": 1,
-            "textWords": 103
+            "textWords": 2671
           }
         },
         "queryPhraseHits": 0
       },
       {
-        "hash": "90Zorr9aE3ky",
-        "address": "https://freshairarchive.org/segments/alan-rabinowitz",
-        "title": "Alan Rabinowitz | Fresh Air Archive: Interviews with Terry Gross",
-        "snippet": "",
-        "matchedWords": {
-          "uUcFyBewnyh-": {
-            "hits": 19,
-            "textWords": 9106
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "sSQeG7ujq9n4",
-        "address": "https://theorg.com/org/us-auto-trust?p=matt-kaiser",
-        "title": "US Auto Trust | The Org",
+        "hash": "qHvPFcEW6TNa",
+        "address": "http://www.vintagecomputing.com/index.php/archives/545",
+        "title": "VC\u0026G | » VC\u0026G Interview: Jerry Lawson, Black Video Game Pioneer",
         "snippet": "",
         "matchedWords": {
           "uUcFyBewnyh-": {
             "hits": 1,
-            "textWords": 560
+            "textWords": 16621
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "apspaTkhwh86",
+        "address": "https://www.vintagecomputing.com/index.php/archives/date/2010/08",
+        "title": "VC\u0026G | » 2010 » August",
+        "snippet": "",
+        "matchedWords": {
+          "uUcFyBewnyh-": {
+            "hits": 1,
+            "textWords": 2557
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "_6VDnlS4kZE6",
+        "address": "https://www.arcade-history.com/?page=detail\u0026id=3397",
+        "title": "Breakout (1976) - Arcade Video game by Atari, Inc.",
+        "snippet": "",
+        "matchedWords": {
+          "uUcFyBewnyh-": {
+            "hits": 1,
+            "textWords": 910
           }
         },
         "queryPhraseHits": 0
@@ -3776,6 +3934,19 @@
         "queryPhraseHits": 0
       },
       {
+        "hash": "KsSCsleJ_pZ4",
+        "address": "https://www.latimes.com/california",
+        "title": "California - Los Angeles Times",
+        "snippet": "",
+        "matchedWords": {
+          "uUcFyBewnyh-": {
+            "hits": 1,
+            "textWords": 9263
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
         "hash": "FEjvlwz8_hAx",
         "address": "https://af.wikipedia.org/wiki/MacOS",
         "title": "macOS - Wikipedia",
@@ -3797,19 +3968,6 @@
           "uUcFyBewnyh-": {
             "hits": 1,
             "textWords": 31399
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "KsSCsleJ_pZ4",
-        "address": "https://www.latimes.com/california",
-        "title": "California - Los Angeles Times",
-        "snippet": "",
-        "matchedWords": {
-          "uUcFyBewnyh-": {
-            "hits": 1,
-            "textWords": 9263
           }
         },
         "queryPhraseHits": 0
@@ -3908,6 +4066,32 @@
         "queryPhraseHits": 0
       },
       {
+        "hash": "x3YK1sSMRgWh",
+        "address": "https://www.emuparadise.me/biosfiles/bios.html",
+        "title": "Play classic video games on your computer or mobile device | Emuparadise",
+        "snippet": "",
+        "matchedWords": {
+          "uUcFyBewnyh-": {
+            "hits": 3,
+            "textWords": 1022
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "kxyw1W8s6l2g",
+        "address": "https://support.wwf.org.uk/?pc=ARG001001\u0026gclid=Cj0KCQjwz7rXBRD9ARIsABfBl81-oIeisIazN85PrpHjU1IH5tIUhbQvEQnOPRf_BWha0DRpXtpYm3oaAiW0EALw_wcB\u0026gclsrc=aw.ds",
+        "title": "Support WWF | Wildlife \u0026 Conservation Charity | WWF UK",
+        "snippet": "",
+        "matchedWords": {
+          "uUcFyBewnyh-": {
+            "hits": 5,
+            "textWords": 1841
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
         "hash": "8QrAjGoc6Io4",
         "address": "https://www.nndb.com/people/963/000025888/",
         "title": "Bridget Fonda",
@@ -3916,32 +4100,6 @@
           "uUcFyBewnyh-": {
             "hits": 1,
             "textWords": 539
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "yjT2ropg4UCw",
-        "address": "https://www.wikidata.org/wiki/Q14116?uselang=ku",
-        "title": "macOS - Wikidata",
-        "snippet": "",
-        "matchedWords": {
-          "uUcFyBewnyh-": {
-            "hits": 1,
-            "textWords": 4393
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "5dU3FjRvmBbx",
-        "address": "https://en.wikipedia.org/wiki/John_Legend",
-        "title": "John Legend - Wikipedia",
-        "snippet": "",
-        "matchedWords": {
-          "uUcFyBewnyh-": {
-            "hits": 2,
-            "textWords": 14844
           }
         },
         "queryPhraseHits": 0
@@ -3960,14 +4118,14 @@
         "queryPhraseHits": 0
       },
       {
-        "hash": "zjgGNAo8hrug",
-        "address": "https://shop.wwf.org.uk/products/keeleco-enchanted-world-giraffe",
-        "title": "Keeleco Enchanted World - Giraffe",
+        "hash": "yjT2ropg4UCw",
+        "address": "https://www.wikidata.org/wiki/Q14116?uselang=ku",
+        "title": "macOS - Wikidata",
         "snippet": "",
         "matchedWords": {
           "uUcFyBewnyh-": {
-            "hits": 2,
-            "textWords": 1457
+            "hits": 1,
+            "textWords": 4393
           }
         },
         "queryPhraseHits": 0
@@ -4001,19 +4159,6 @@
         "queryPhraseHits": 0
       },
       {
-        "hash": "ZT7oysRgOnj4",
-        "address": "https://wptavern.com/netropolitan-facebook-for-rich-people-is-powered-by-wordpress-and-buddypress",
-        "title": "Netropolitan “Facebook for Rich People” is Powered by WordPress and BuddyPress – WP Tavern",
-        "snippet": "",
-        "matchedWords": {
-          "uUcFyBewnyh-": {
-            "hits": 1,
-            "textWords": 2729
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
         "hash": "Z8i5GsRgOnj4",
         "address": "https://wptavern.com/graph-paper-press-offers-customers-wordpress-child-theme-generator",
         "title": "Graph Paper Press Offers Customers WordPress Child Theme Generator – WP Tavern",
@@ -4022,6 +4167,19 @@
           "uUcFyBewnyh-": {
             "hits": 1,
             "textWords": 1826
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "ZT7oysRgOnj4",
+        "address": "https://wptavern.com/netropolitan-facebook-for-rich-people-is-powered-by-wordpress-and-buddypress",
+        "title": "Netropolitan “Facebook for Rich People” is Powered by WordPress and BuddyPress – WP Tavern",
+        "snippet": "",
+        "matchedWords": {
+          "uUcFyBewnyh-": {
+            "hits": 1,
+            "textWords": 2729
           }
         },
         "queryPhraseHits": 0
@@ -4174,32 +4332,6 @@
         "queryPhraseHits": 0
       },
       {
-        "hash": "T0ukg49DR5L6",
-        "address": "https://www.futura-sciences.com/automobile/marques-automobiles/jaguar/",
-        "title": "Jaguar | Automobile",
-        "snippet": "Les derniers articles Jaguar\nExplorez le monde depuis chez vous !\nUne fois par jour, recevez toutes nos dernières actualités.\nRejoignez nos 4 millions de fans sur vos réseaux sociaux favoris :\nJaguar : histoire, design et héritage sportif",
-        "matchedWords": {
-          "uUcFyBewnyh-": {
-            "hits": 11,
-            "textWords": 617
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "VVyBotYmUuag",
-        "address": "https://www.cultura.gob.es/museodeamerica/coleccion/america-prehispanica/kero-jaguar.html",
-        "title": "Kero en forma de cabeza de jaguar - Museo de América | Ministerio de Cultura",
-        "snippet": "",
-        "matchedWords": {
-          "uUcFyBewnyh-": {
-            "hits": 4,
-            "textWords": 811
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
         "hash": "yDnsqFl1HgUa",
         "address": "http://www.how2drawanimals.com/8-animals/538-draw-jaguar-head",
         "title": "How to Draw a Jaguar (Head Detail) VIDEO \u0026 Step-by-Step Pictures",
@@ -4213,27 +4345,27 @@
         "queryPhraseHits": 0
       },
       {
-        "hash": "xnWjMPnct7tg",
-        "address": "https://www.novinky.cz/clanek/auto-jaguar-land-rover-a-volkswagen-pred-soud-nepujdou-automobilky-dosahly-dohody-40373788?noredirect=1",
-        "title": "Jaguar Land Rover a Volkswagen před soud nepůjdou, automobilky dosáhly dohody - Novinky",
-        "snippet": "U crossoverů a SUV je dnes normální, že nabízejí různé jízdní režimy pro jízdu mimo asfalt. Rozdíly jsou v chování pohonu všech kol, protiprokluzu nebo třeba zásazích ABS. Koncern Volkswagen takové režimy nabízí samozřejmě i v Bentley Bentayga – a s tím měla automobilka Jaguar Land Rover problém.",
+        "hash": "xCpDzWyjgc60",
+        "address": "https://www.timeslive.co.za/motoring/motorsport/2023-02-24-cape-town-eprix-six-questions-with-jaguar-tcs-racings-mitch-evans/",
+        "title": "Cape Town ePrix | Six questions with Jaguar TCS Racing's Mitch Evans",
+        "snippet": "",
         "matchedWords": {
           "uUcFyBewnyh-": {
-            "hits": 1,
-            "textWords": 113
+            "hits": 6,
+            "textWords": 2315
           }
         },
         "queryPhraseHits": 0
       },
       {
-        "hash": "xCpDzWyjgc60",
-        "address": "https://www.timeslive.co.za/motoring/motorsport/2023-02-24-cape-town-eprix-six-questions-with-jaguar-tcs-racings-mitch-evans/",
-        "title": "Cape Town ePrix | Six questions with Jaguar TCS Racing's Mitch Evans",
-        "snippet": "South Africa's first ever Formula E race is taking place in Cape Town this weekend and TimesLIVE Motoring is attending the event with Jaguar TCS Racing.",
+        "hash": "xnWjMPnct7tg",
+        "address": "https://www.novinky.cz/clanek/auto-jaguar-land-rover-a-volkswagen-pred-soud-nepujdou-automobilky-dosahly-dohody-40373788?noredirect=1",
+        "title": "Jaguar Land Rover a Volkswagen před soud nepůjdou, automobilky dosáhly dohody - Novinky",
+        "snippet": "",
         "matchedWords": {
           "uUcFyBewnyh-": {
-            "hits": 2,
-            "textWords": 1094
+            "hits": 1,
+            "textWords": 128
           }
         },
         "queryPhraseHits": 0
@@ -4255,11 +4387,24 @@
         "hash": "wMGm9e-Bw-Xg",
         "address": "https://www.blisty.cz/art/92571-pro-stoupence-czexitu-ohrozeny-jsou-desetitisice-pracovnich-mist-varuje-sef-automobilky-jaguar-land-rover-britskou-premierku",
         "title": "Pro stoupence Czexitu: \"Ohroženy jsou desetitisíce pracovních míst,\" varuje šéf automobilky Jaguar Land Rover britskou premiérku | 11. 9. 2018 | Britské listy",
-        "snippet": "11. 9. 2018\nGenerální ředitel automobilky Ralf Speth sdělil premiérce, že si nemůže být jist, že by jakákoliv část jeho automobilky v Británii přežila po brexitu. Jaguar Land Rover zaměstnává v Británii 40 000 lidí.",
+        "snippet": "",
         "matchedWords": {
           "uUcFyBewnyh-": {
-            "hits": 2,
-            "textWords": 146
+            "hits": 6,
+            "textWords": 4080
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "xA0ia44LMaSg",
+        "address": "https://www.bbc.co.uk/news/business-30772631",
+        "title": "Jaguar Land Rover to create 1,300 UK jobs to build SUV - BBC News",
+        "snippet": "Jaguar Land Rover says it will create 1,300 new jobs to build Jaguar's first sports utility vehicle (SUV) at its Solihull plant in the West Midlands.",
+        "matchedWords": {
+          "uUcFyBewnyh-": {
+            "hits": 5,
+            "textWords": 197
           }
         },
         "queryPhraseHits": 0
@@ -4278,33 +4423,33 @@
         "queryPhraseHits": 0
       },
       {
-        "hash": "zQDqg0lW9EDh",
-        "address": "https://www.aktuality.sk/clanok/358936/jaguar-zacne-s-hromadnym-naborom-na-buduci-rok-ostatne-firmy-budu-mat-problemy-s-novymi-zamestnancami/",
-        "title": "Jaguar začne s hromadným náborom na budúci rok. Iné firmy budú mať problémy s ľuďmi | Aktuality.sk",
-        "snippet": "Britská automobilka môže odlákať ľudí z už etablovaných firiem na Slovensku.\nBritská automobilka Jaguar Land Rover začne s hromadným náborom ľudí na budúci rok. Momentálne firma vyberá len zopár špecialistov.",
+        "hash": "yNN4BAAE_wv4",
+        "address": "https://www.vox.com/2018/3/28/17170792/apple-education-ipad-classroom-software-chromebook-zuckerberg-congress-analytica-waymo-jaguar",
+        "title": "Recode Daily: Apple focuses on creativity in education at its spring product launch event | Vox",
+        "snippet": "",
         "matchedWords": {
           "uUcFyBewnyh-": {
             "hits": 3,
-            "textWords": 424
+            "textWords": 1806
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "zQDqg0lW9EDh",
+        "address": "https://www.aktuality.sk/clanok/358936/jaguar-zacne-s-hromadnym-naborom-na-buduci-rok-ostatne-firmy-budu-mat-problemy-s-novymi-zamestnancami/",
+        "title": "Jaguar začne s hromadným náborom na budúci rok. Iné firmy budú mať problémy s ľuďmi | Aktuality.sk",
+        "snippet": "",
+        "matchedWords": {
+          "uUcFyBewnyh-": {
+            "hits": 1,
+            "textWords": 39
           }
         },
         "queryPhraseHits": 0
       }
     ],
     [
-      {
-        "hash": "c1aBgUzzoRFh",
-        "address": "https://www.autoscout24.de/lst/jaguar/f-type/bt_cabrio",
-        "title": "Jaguar F-Type Cabrio gebraucht kaufen - AutoScout24 Deutschland",
-        "snippet": "Jaguar F-Type Grün\nMehr Details\nJaguar E-Pace\nJaguar E-Type\nJaguar F-Pace\nJaguar S-Type\nGünstige SUVs\nCabrio\nFiat 124 Spider Cabrio\nFord Mustang Cabrio\nFord Thunderbird Cabrio\nJaguar gebraucht\nJaguar E-Type\nJaguar F-Type\nJaguar Oldtimer\nJaguar S-Type\nJaguar X-Type\nLamborghini Revuelto",
-        "matchedWords": {
-          "uUcFyBewnyh-": {
-            "hits": 17,
-            "textWords": 619
-          }
-        },
-        "queryPhraseHits": 0
-      },
       {
         "hash": "ct8aiUsNgbb4",
         "address": "https://music.apple.com/nz/artist/jaguar-jonze/1423033264",
@@ -4314,6 +4459,19 @@
           "uUcFyBewnyh-": {
             "hits": 2,
             "textWords": 79
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "c1aBgUzzoRFh",
+        "address": "https://www.autoscout24.de/lst/jaguar/f-type/bt_cabrio",
+        "title": "Jaguar F-Type Cabrio gebraucht kaufen - AutoScout24 Deutschland",
+        "snippet": "Jaguar F-Type Grün\nMehr Details\nJaguar E-Pace\nJaguar E-Type\nJaguar F-Pace\nJaguar S-Type\nGünstige SUVs\nCabrio\nFiat 124 Spider Cabrio\nFord Mustang Cabrio\nFord Thunderbird Cabrio\nJaguar gebraucht\nJaguar E-Type\nJaguar F-Type\nJaguar Oldtimer\nJaguar S-Type\nJaguar X-Type\nLamborghini Revuelto",
+        "matchedWords": {
+          "uUcFyBewnyh-": {
+            "hits": 17,
+            "textWords": 623
           }
         },
         "queryPhraseHits": 0
@@ -4371,59 +4529,72 @@
         "queryPhraseHits": 0
       },
       {
-        "hash": "DythzTkhwh86",
-        "address": "https://www.vintagecomputing.com/index.php/archives/date/2005/12",
-        "title": "VC\u0026G | » 2005 » December",
+        "hash": "UR33oTkhwh86",
+        "address": "https://www.vintagecomputing.com/index.php/archives/date/2015/12",
+        "title": "VC\u0026G | » 2015 » December",
         "snippet": "",
         "matchedWords": {
           "uUcFyBewnyh-": {
             "hits": 1,
-            "textWords": 6959
+            "textWords": 1539
           }
         },
         "queryPhraseHits": 0
       },
       {
-        "hash": "-r0bmjRvmBbx",
-        "address": "https://en.wikipedia.org/wiki/Webkit",
-        "title": "WebKit - Wikipedia",
+        "hash": "51vrMsUFmc2k",
+        "address": "https://electrek.co/guides/honda/",
+        "title": "Honda | Electrek",
         "snippet": "",
         "matchedWords": {
           "uUcFyBewnyh-": {
             "hits": 1,
-            "textWords": 5947
+            "textWords": 3288
           }
         },
         "queryPhraseHits": 0
       },
       {
-        "hash": "2erfKsAqGd-w",
-        "address": "https://abware.net/index.pl?game=93794",
-        "title": "Yep.Sir.Cr - Robot Ring",
+        "hash": "5J5kKWqNBMyx",
+        "address": "https://developers.llamaindex.ai/python/framework/integrations/llm/openvino-genai/",
+        "title": "OpenVINO GenAI LLMs | Developer Documentation",
         "snippet": "",
         "matchedWords": {
           "uUcFyBewnyh-": {
             "hits": 1,
-            "textWords": 329
+            "textWords": 2293
           }
         },
         "queryPhraseHits": 0
       },
       {
-        "hash": "3Hpn4yxLPlR4",
-        "address": "https://blackmarybestfriend.blogspot.com/2023/03/groove-mix-695-modern-rb-cool-by.html",
-        "title": "Blackmary Best Friend: Groove Mix 695 Modern RB Cool - [by blackmary]25032023",
+        "hash": "6_lCqlgIzQ5w",
+        "address": "https://www.ssusa.org/",
+        "title": "Shooting Sports USA | An NRA Shooting Sports Journal",
         "snippet": "",
         "matchedWords": {
           "uUcFyBewnyh-": {
-            "hits": 1,
-            "textWords": 3707
+            "hits": 3,
+            "textWords": 2003
           }
         },
         "queryPhraseHits": 0
       }
     ],
     [
+      {
+        "hash": "05ICRONKez-i",
+        "address": "https://www.lafeltrinelli.it/lego-icons-11381-jaguar-type-giocattolo-lego/e/5702018063620",
+        "title": "LEGO Icons (11381). Jaguar E-Type - LEGO - Icons - Set mattoncini - Giocattoli | Feltrinelli",
+        "snippet": "",
+        "matchedWords": {
+          "uUcFyBewnyh-": {
+            "hits": 6,
+            "textWords": 3602
+          }
+        },
+        "queryPhraseHits": 0
+      },
       {
         "hash": "0Of3OuhBrC_x",
         "address": "https://www.themoviedb.org/movie/80780-prey-of-the-jaguar",
@@ -4446,19 +4617,6 @@
           "uUcFyBewnyh-": {
             "hits": 253,
             "textWords": 63316
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "05ICRONKez-i",
-        "address": "https://www.lafeltrinelli.it/lego-icons-11381-jaguar-type-giocattolo-lego/e/5702018063620",
-        "title": "LEGO Icons (11381). Jaguar E-Type - LEGO - Icons - Set mattoncini - Giocattoli | Feltrinelli",
-        "snippet": "",
-        "matchedWords": {
-          "uUcFyBewnyh-": {
-            "hits": 6,
-            "textWords": 3602
           }
         },
         "queryPhraseHits": 0
@@ -4542,14 +4700,14 @@
         "queryPhraseHits": 0
       },
       {
-        "hash": "7jbrN1YpvD27",
-        "address": "https://models.spriters-resource.com/nintendo_64/spiderman/asset/301792/",
-        "title": "Symbiote Spider-Man - Spider-Man - Nintendo 64 - The Models Resource",
+        "hash": "1gdeLaG7YXZ5",
+        "address": "https://gojagsports.com/facilities/f-g-clark-activity-center/3",
+        "title": "F.G. Clark Activity Center - Facilities - Southern University",
         "snippet": "",
         "matchedWords": {
           "uUcFyBewnyh-": {
-            "hits": 1,
-            "textWords": 609
+            "hits": 6,
+            "textWords": 1881
           }
         },
         "queryPhraseHits": 0

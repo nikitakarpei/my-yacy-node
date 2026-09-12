@@ -2,10 +2,10 @@
   "query": "mercury",
   "judgedDocuments": [
     {
-      "hash": "kLHoUQe_9Kc4",
-      "address": "https://www.allmusic.com/album/party-tyme-rock-male-female-hits-1-karaoke-versions--mw0004301299",
-      "title": "Party Tyme Karaoke: Party Tym... Tracks \u0026 Reviews | AllMusic",
-      "grade": 0
+      "hash": "njhDmi4xOujw",
+      "address": "https://science.nasa.gov/mercury/",
+      "title": "Mercury",
+      "grade": null
     },
     {
       "hash": "SBknnd75SICx",
@@ -20,10 +20,10 @@
       "grade": 1
     },
     {
-      "hash": "22BaRsZpYVYh",
-      "address": "https://helloworld.uk/mercury/",
-      "title": "Hello World in Mercury | HelloWorld.uk",
-      "grade": 1
+      "hash": "HnCZ48wKrhA5",
+      "address": "https://herballure.com/HotTopics/MyMercuryStory.html",
+      "title": "My Mercury Story by Russ Tanner",
+      "grade": null
     },
     {
       "hash": "gwwJMsj5gZJ5",
@@ -41,12 +41,6 @@
       "hash": "Tz3ruLrVLaEw",
       "address": "https://cateee.net/lkddb/web-lkddb/MACH_MERCURY.html",
       "title": "Linux Kernel Driver DataBase: CONFIG_MACH_MERCURY: MStar/Sigmastar mercury SoC support",
-      "grade": 0
-    },
-    {
-      "hash": "F9cQBjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Diane_Craig",
-      "title": "Diane Craig - Wikipedia",
       "grade": 0
     },
     {
@@ -86,10 +80,10 @@
       "grade": 0
     },
     {
-      "hash": "_HS44A7XkvOh",
-      "address": "https://www.moviepilot.de/movies/das-mercury-puzzle/trailer/4681",
-      "title": "Das Mercury Puzzle | Moviepilot.de",
-      "grade": 1
+      "hash": "nYrn5mMylZZ5",
+      "address": "https://www.slideserve.com/jemma/freddie-mercury",
+      "title": "PPT - Freddie Mercury PowerPoint Presentation, free download - ID:1853715",
+      "grade": null
     },
     {
       "hash": "bdf1D8Zr0p16",
@@ -104,10 +98,10 @@
       "grade": 1
     },
     {
-      "hash": "__MMoE9yPAY5",
-      "address": "https://classiccardb.com/mercury/630956-1965-mercury-monterey-coupe-blue-rwd-automatic.html",
-      "title": "1965 Mercury Monterey Coupe Blue RWD Automatic for sale",
-      "grade": 1
+      "hash": "b1HB19mflev4",
+      "address": "https://drprem.com/ecoguide/mercury-in-fish-why-you-need-to-be-aware/",
+      "title": "Mercury in Fish: Why you need to be aware?",
+      "grade": null
     },
     {
       "hash": "2Myjnl6bFQy6",
@@ -128,15 +122,27 @@
       "grade": 2
     },
     {
+      "hash": "_HS44A7XkvOh",
+      "address": "https://www.moviepilot.de/movies/das-mercury-puzzle/trailer/4681",
+      "title": "Das Mercury Puzzle | Moviepilot.de",
+      "grade": 1
+    },
+    {
       "hash": "fWQ9ljRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Freddie_Mercury",
       "title": "Freddie Mercury - Wikipedia",
       "grade": 2
     },
     {
-      "hash": "Pbsz-sK56jFx",
-      "address": "https://nineplanets.org/mercury/",
-      "title": "Mercury Facts | Information, History, Location, Size \u0026 Definition",
+      "hash": "S0AFGdVLiZ-4",
+      "address": "https://www.ibdb.com/broadway-cast-staff/freddie-mercury-497998",
+      "title": "Freddie Mercury – Broadway Cast \u0026 Staff | IBDB",
+      "grade": null
+    },
+    {
+      "hash": "VEd6EjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Mercury_Browser",
+      "title": "Mercury Browser - Wikipedia",
       "grade": 2
     },
     {
@@ -146,28 +152,22 @@
       "grade": 2
     },
     {
-      "hash": "dxtFdHPvjQS5",
-      "address": "https://mercurytheme.com/article/how-to-install-the-mercury-theme/",
-      "title": "How to install the Mercury theme? - Mercury Theme",
-      "grade": 0
-    },
-    {
       "hash": "rAPUYjbowXug",
       "address": "https://kultura.onet.pl/muzyka/wywiady-i-artykuly/dobranoc-slodkich-snow-tak-pozegnal-sie-freddie-mercury/mr03hjg",
       "title": "\"Dobranoc, słodkich snów\". Tak pożegnał się Freddie Mercury",
       "grade": 1
     },
     {
+      "hash": "zR8g6lV9Rj3w",
+      "address": "https://www.epa.gov/mercury",
+      "title": "Mercury | US EPA",
+      "grade": null
+    },
+    {
       "hash": "zExjLM1Lq4Ox",
       "address": "https://acp.copernicus.org/articles/special_issue189.html",
       "title": "ACP – Special issue – Chemistry, Emission, and Transport of Atmospheric Mercury (CETAM)",
       "grade": 1
-    },
-    {
-      "hash": "bQ7UsVJtXge4",
-      "address": "https://mercury.wnba.com/",
-      "title": "The Official Website of the Phoenix Mercury | WNBA",
-      "grade": 2
     },
     {
       "hash": "tO5MhlrCDCu5",
@@ -188,21 +188,15 @@
       "grade": 0
     },
     {
-      "hash": "S910u2-Qfulg",
-      "address": "https://www.zdf.de/video/reportagen/aspekte-106/mercury-geburtstag-100",
-      "title": "Queen-Star und Pop-Ikone: Freddie Mercury zum 80. Geburtstag",
-      "grade": 1
+      "hash": "uqZ_4jRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Mercury_regulation_in_the_United_States",
+      "title": "Mercury regulation in the United States - Wikipedia",
+      "grade": null
     },
     {
       "hash": "h0ITxl6bFQy6",
       "address": "https://www.notebookcheck.com/Minisforum-Mercury-Series-EM680-mit-Ryzen-7-6800U-im-1-4L-Gehaeuse.729746.0.html",
       "title": "Minisforum Mercury Series EM680 mit Ryzen 7 6800U im 1/4L Gehäuse - Notebookcheck News",
-      "grade": 0
-    },
-    {
-      "hash": "7YpFW_1EL1u4",
-      "address": "https://xcafe.com/models/cadey-mercury/",
-      "title": "Cadey Mercury HD Porn Videos - xCafe",
       "grade": 0
     },
     {
@@ -212,21 +206,27 @@
       "grade": 2
     },
     {
+      "hash": "S910u2-Qfulg",
+      "address": "https://www.zdf.de/video/reportagen/aspekte-106/mercury-geburtstag-100",
+      "title": "Queen-Star und Pop-Ikone: Freddie Mercury zum 80. Geburtstag",
+      "grade": 1
+    },
+    {
       "hash": "LsE9hJJ1sIs5",
       "address": "https://www.davidbowie.com/blog/2019/4/25/the-mercury-demos-lp-box-due-in-june",
       "title": "The ‘Mercury’ Demos LP box due in June — David Bowie",
       "grade": 1
     },
     {
-      "hash": "EhD3s74xOujw",
-      "address": "https://science.nasa.gov/mercury/facts/",
-      "title": "Mercury: Facts",
-      "grade": 2
+      "hash": "t2plDlEdhU-5",
+      "address": "https://www.naturalnews.com/045705_flu_vaccine_mercury_heavy_metals.html",
+      "title": "Flu vaccine contains 25,000 times more mercury than is legally allowed in drinking water - NaturalNews.com",
+      "grade": null
     },
     {
-      "hash": "VEd6EjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Mercury_Browser",
-      "title": "Mercury Browser - Wikipedia",
+      "hash": "Pbsz-sK56jFx",
+      "address": "https://nineplanets.org/mercury/",
+      "title": "Mercury Facts | Information, History, Location, Size \u0026 Definition",
       "grade": 2
     },
     {
@@ -234,6 +234,12 @@
       "address": "https://spaceflightnow.com/2014/12/26/nasa-spacecraft-to-get-bonus-time-studying-mercury/",
       "title": "NASA spacecraft to get bonus time studying Mercury – Spaceflight Now",
       "grade": 1
+    },
+    {
+      "hash": "zACvU9CxRIa4",
+      "address": "https://www.space.com/astronomy/solar-system/mercury",
+      "title": "Mercury Coverage | Space",
+      "grade": null
     },
     {
       "hash": "1zg2198Ycw55",
@@ -254,10 +260,16 @@
       "grade": 1
     },
     {
-      "hash": "PI_8CMCWRxx6",
-      "address": "https://www.jesus-is-savior.com/Evils%20in%20America/Rock-n-Roll/freddie_mercury.htm",
-      "title": "The Tragic Life of Freddie Mercury",
-      "grade": 1
+      "hash": "NQOsoQq7ilPw",
+      "address": "https://eos.org/articles/antarctica-is-releasing-mercury-faster-than-ever-because-of-climate-change",
+      "title": "Antarctica Is Releasing Mercury Faster Than Ever Because of Climate Change - Eos",
+      "grade": null
+    },
+    {
+      "hash": "5O4KBs7qHGe4",
+      "address": "https://mercury.com/command",
+      "title": "Mercury Command — Drive Financial Work End to End with AI",
+      "grade": null
     },
     {
       "hash": "guQXEa9VB44Q",
@@ -266,34 +278,16 @@
       "grade": 1
     },
     {
-      "hash": "sPxGriYG32-5",
-      "address": "https://www.livescience.com/space/mercury/mercury-is-weird-because-of-a-hit-and-run-incident-in-its-youth",
-      "title": "Mercury suffered a glancing blow during a 'hit-and-run' with another protoplanet in its youth, scientists say | Live Science",
-      "grade": 1
-    },
-    {
-      "hash": "rgFkDshxctU7",
-      "address": "https://socialmediapornstars.com/pornstar-cadeymercury-eb55346ea4438a8d15bc17970b8cd4de1bc0ac9378e7184e1b2e774cfcba1cc7.html",
-      "title": "CADEY MERCURY - Find Pornstars on Social Media",
-      "grade": 0
-    },
-    {
       "hash": "kRVggjRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Mercury_(programming_language)",
       "title": "Mercury (programming language) - Wikipedia",
       "grade": 2
     },
     {
-      "hash": "_n_BzEePVzE7",
-      "address": "https://davidsclassiccars.com/mercury/576746-green-mercury-monterey-flathead-v8.html",
-      "title": "Green Mercury Monterey Flathead V8 for sale",
-      "grade": 1
-    },
-    {
-      "hash": "3-mBmsPvjQS5",
-      "address": "https://mercurytheme.com/mercury-theme-faqs-affiliate-wordpress-theme/",
-      "title": "Mercury Theme FAQs",
-      "grade": 0
+      "hash": "TJxSvjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Mercury-Redstone_BD",
+      "title": "Mercury-Redstone BD - Wikipedia",
+      "grade": null
     },
     {
       "hash": "sRhht5nm0pd5",
@@ -305,12 +299,6 @@
       "hash": "9d6FhlEdhU-5",
       "address": "https://www.naturalnews.com/048888_vaccine_adverse_events_autism_INFANRIX_Hexa.html",
       "title": "Italian court rules mercury and aluminum in vaccines cause autism: US media continues total blackout of medical truth - NaturalNews.com",
-      "grade": 1
-    },
-    {
-      "hash": "RH_HxjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Mercury-Atlas_10",
-      "title": "Mercury-Atlas 10 - Wikipedia",
       "grade": 1
     }
   ]

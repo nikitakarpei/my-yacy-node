@@ -1,6 +1,6 @@
 {
   "query": "how to remove a stripped screw",
-  "recordedAt": "2026-09-12T10:15:27Z",
+  "recordedAt": "2026-09-12T11:25:27Z",
   "itemsInTheOrderOfEachAnswer": [
     [
       {
@@ -9,14 +9,6 @@
         "title": "Planet Debian",
         "snippet": "We could use more SIMD instructions to remove all code that still processes one value at a time. For example, in my encoder’s encodeBitpackVBExc function. Or we could price all bit widths concurrently in encode. Or in the decoder’s exception apply code path.",
         "matchedWords": {
-          "24igJXwiDb_d": {
-            "hits": 0,
-            "textWords": 8109
-          },
-          "AbbiA0S2iDXF": {
-            "hits": 0,
-            "textWords": 8109
-          },
           "D2lp1wUtqSYe": {
             "hits": 1,
             "textWords": 8109
@@ -35,30 +27,91 @@
     ],
     [
       {
-        "hash": "-b3sxspKNBr4",
-        "address": "https://rense.com/",
-        "title": "rense.com",
-        "snippet": "History - Vile, Satanic General Eisenhower\nMURDERED Over 1 Million German POWS - This is\n100% True - Video\nDeath Toll From Israeli ‘Settler' Attacks\nSpirals in 'Most Violent' Year for West Bank\nIsrael ready to remove Gaza population if Trump\ngives approval - Minister",
+        "hash": "52E3_srpnHl6",
+        "address": "https://filmfreedonia.com/",
+        "title": "film freedonia | Film essays and commentary by Roderick Heath",
+        "snippet": "By Roderick Heath\nJump to review index\nJump to Favourite Films of 2025 List\nBoth personally and in cinematic terms, 2025 has been a very rough road, and perhaps the end of the line in general. As some of you have noticed, I stopped writing new film pieces this year.",
         "matchedWords": {
-          "24igJXwiDb_d": {
-            "hits": 0,
-            "textWords": 85916
-          },
-          "AbbiA0S2iDXF": {
-            "hits": 0,
-            "textWords": 85916
-          },
           "D2lp1wUtqSYe": {
+            "hits": 0,
+            "textWords": 40452
+          },
+          "EMqcilbCZmny": {
+            "hits": 0,
+            "textWords": 40452
+          },
+          "Z1j83A2gF1QN": {
+            "hits": 0,
+            "textWords": 40452
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "pIq__QZchFfZ",
+        "address": "http://www.greenteethmm.com/lawless-libya.shtml",
+        "title": "lawless-leaderless-libya-becoming-a-terror-hub-fukus-axis-war-islam",
+        "snippet": "The European Union having failed to completely remove the gas essential to all lifeforms, Carbon Dioxide from the atmosphere, is now setting itself up to remove another esstential gas, nitrogen - which accounts for 70% of the air we breathe.",
+        "matchedWords": {
+          "D2lp1wUtqSYe": {
+            "hits": 10,
+            "textWords": 76665
+          },
+          "EMqcilbCZmny": {
+            "hits": 2,
+            "textWords": 76665
+          },
+          "Z1j83A2gF1QN": {
+            "hits": 6,
+            "textWords": 76665
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "X9VcEj-JVcyx",
+        "address": "https://en.wikiquote.org/wiki/God",
+        "title": "God - Wikiquote",
+        "snippet": "The only mark of God in us is that we feel that we are not God. ~ Simone Weil\nWhen we consider what is our thought of God we find that it is our own soul stripped of all inferiority and carried out to perfection. ~ Ralph Waldo Emerson",
+        "matchedWords": {
+          "D2lp1wUtqSYe": {
+            "hits": 3,
+            "textWords": 40995
+          },
+          "EMqcilbCZmny": {
+            "hits": 2,
+            "textWords": 40995
+          },
+          "Z1j83A2gF1QN": {
+            "hits": 1,
+            "textWords": 40995
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "pZpCVQZchFfZ",
+        "address": "http://www.greenteethmm.com/politics-information-control.shtml",
+        "title": "how-mainstream-media-and-the-major-political-parties-are-making-sure-voters-do-not-hear-the-voicesof-mainstream-politics-most-powerful-critics",
+        "snippet": "The European Union having failed to completely remove the gas essential to all lifeforms, Carbon Dioxide from the atmosphere, is now setting itself up to remove another esstential gas, nitrogen - which accounts for 70% of the air we breathe.",
+        "matchedWords": {
+          "D2lp1wUtqSYe": {
+            "hits": 8,
+            "textWords": 81238
+          },
+          "EMqcilbCZmny": {
             "hits": 4,
-            "textWords": 85916
-          },
-          "EMqcilbCZmny": {
-            "hits": 0,
-            "textWords": 85916
+            "textWords": 81238
           },
           "Z1j83A2gF1QN": {
-            "hits": 0,
-            "textWords": 85916
+            "hits": 3,
+            "textWords": 81238
           }
         },
         "queryPhraseHits": 0
@@ -66,30 +119,22 @@
     ],
     [
       {
-        "hash": "-b3sxspKNBr4",
-        "address": "https://rense.com/",
-        "title": "rense.com",
-        "snippet": "History - Vile, Satanic General Eisenhower\nMURDERED Over 1 Million German POWS - This is\n100% True - Video\nDeath Toll From Israeli ‘Settler' Attacks\nSpirals in 'Most Violent' Year for West Bank\nIsrael ready to remove Gaza population if Trump\ngives approval - Minister",
+        "hash": "pIq__QZchFfZ",
+        "address": "http://www.greenteethmm.com/lawless-libya.shtml",
+        "title": "lawless-leaderless-libya-becoming-a-terror-hub-fukus-axis-war-islam",
+        "snippet": "The European Union having failed to completely remove the gas essential to all lifeforms, Carbon Dioxide from the atmosphere, is now setting itself up to remove another esstential gas, nitrogen - which accounts for 70% of the air we breathe.",
         "matchedWords": {
-          "24igJXwiDb_d": {
-            "hits": 0,
-            "textWords": 85916
-          },
-          "AbbiA0S2iDXF": {
-            "hits": 0,
-            "textWords": 85916
-          },
           "D2lp1wUtqSYe": {
-            "hits": 4,
-            "textWords": 85916
+            "hits": 10,
+            "textWords": 76665
           },
           "EMqcilbCZmny": {
-            "hits": 0,
-            "textWords": 85916
+            "hits": 2,
+            "textWords": 76665
           },
           "Z1j83A2gF1QN": {
-            "hits": 0,
-            "textWords": 85916
+            "hits": 6,
+            "textWords": 76665
           }
         },
         "queryPhraseHits": 0
@@ -97,61 +142,22 @@
     ],
     [
       {
-        "hash": "D4lABzaS0qdw",
-        "address": "https://planet.debian.org/",
-        "title": "Planet Debian",
-        "snippet": "We could use more SIMD instructions to remove all code that still processes one value at a time. For example, in my encoder’s encodeBitpackVBExc function. Or we could price all bit widths concurrently in encode. Or in the decoder’s exception apply code path.",
+        "hash": "1CyO9sQ3pQ46",
+        "address": "https://campfireshadows.com/",
+        "title": "campfireshadows « Western short stories, heritage and trail recipes.",
+        "snippet": "My Dad put up a stink until Sinclaire handed him a twenty dollar gold piece.”\n“I can imagine what happened next.”\n“Yeah, I woke up with Sinclaire trying to screw me.”\n“What did you do?”\n“I tore into him about as bad as I did you except all the ruckus woke up his wife.",
         "matchedWords": {
-          "24igJXwiDb_d": {
-            "hits": 0,
-            "textWords": 8109
-          },
-          "AbbiA0S2iDXF": {
-            "hits": 0,
-            "textWords": 8109
-          },
           "D2lp1wUtqSYe": {
+            "hits": 10,
+            "textWords": 165864
+          },
+          "EMqcilbCZmny": {
             "hits": 1,
-            "textWords": 8109
-          },
-          "EMqcilbCZmny": {
-            "hits": 0,
-            "textWords": 8109
+            "textWords": 165864
           },
           "Z1j83A2gF1QN": {
-            "hits": 0,
-            "textWords": 8109
-          }
-        },
-        "queryPhraseHits": 0
-      }
-    ],
-    [
-      {
-        "hash": "D4lABzaS0qdw",
-        "address": "https://planet.debian.org/",
-        "title": "Planet Debian",
-        "snippet": "We could use more SIMD instructions to remove all code that still processes one value at a time. For example, in my encoder’s encodeBitpackVBExc function. Or we could price all bit widths concurrently in encode. Or in the decoder’s exception apply code path.",
-        "matchedWords": {
-          "24igJXwiDb_d": {
-            "hits": 0,
-            "textWords": 8109
-          },
-          "AbbiA0S2iDXF": {
-            "hits": 0,
-            "textWords": 8109
-          },
-          "D2lp1wUtqSYe": {
-            "hits": 1,
-            "textWords": 8109
-          },
-          "EMqcilbCZmny": {
-            "hits": 0,
-            "textWords": 8109
-          },
-          "Z1j83A2gF1QN": {
-            "hits": 0,
-            "textWords": 8109
+            "hits": 3,
+            "textWords": 165864
           }
         },
         "queryPhraseHits": 0
@@ -160,30 +166,169 @@
   ],
   "itemsInNoOrder": [
     {
-      "hash": "W-eXqzF3--Qw",
-      "address": "https://planet.mozilla.org/",
-      "title": "Planet Mozilla",
-      "snippet": "🌟 mikey gough: Remove three unused devtools.debugger.file-search-* preferences\n🌟 Nathan Leuz: Remove unused legacy preference browser.translation.neverForLanguages\n🌟 Priyanshu[:0xanshu]: “Forget About This Site” dialog is cut off\n🌟 K: Disable breakpoints shortcut",
+      "hash": "G3BY9l-ZZJOw",
+      "address": "https://www.alternet.org/commentary/",
+      "title": "Commentary - Alternet.org",
+      "snippet": "Chicken and lamb still carry the label, but your hamburger doesn’t. The “mystery” in mystery meat was purchased by the industry a decade ago, setting up Trump’s desperate effort to lower beef costs (and screw our ranchers) before the election.",
       "matchedWords": {
-        "24igJXwiDb_d": {
-          "hits": 0,
-          "textWords": 66162
-        },
-        "AbbiA0S2iDXF": {
-          "hits": 0,
-          "textWords": 66162
-        },
         "D2lp1wUtqSYe": {
-          "hits": 29,
-          "textWords": 66162
+          "hits": 0,
+          "textWords": 10462
         },
         "EMqcilbCZmny": {
           "hits": 0,
-          "textWords": 66162
+          "textWords": 10462
+        },
+        "Z1j83A2gF1QN": {
+          "hits": 1,
+          "textWords": 10462
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "6i3Pdl1JkMew",
+      "address": "https://www.stallman.org/archives/2021-nov-feb.html",
+      "title": "2021: November - February Political Notes - Richard Stallman",
+      "snippet": "That is far more evidence than the trial gathered, and shows conclusively that the vaccine does considerable good and hardly any harm.\n25 December 2021 (Urgent: Remove racist Rep. Boebert's committee assignments) US citizens: call on the House to remove racist Rep. Boebert's committee assignments.",
+      "matchedWords": {
+        "D2lp1wUtqSYe": {
+          "hits": 19,
+          "textWords": 114366
+        },
+        "EMqcilbCZmny": {
+          "hits": 2,
+          "textWords": 114366
+        },
+        "Z1j83A2gF1QN": {
+          "hits": 2,
+          "textWords": 114366
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "Kx4NYs6QayH7",
+      "address": "https://frankolsonproject.com/",
+      "title": "Frank Olson Project",
+      "snippet": "Credit: The elegance, richness, and ease of navigation of this website owe to the labor, talent, and ingenuity of Dylan Simpson who worked unstintingly on a brilliant re-design of the original site.",
+      "matchedWords": {
+        "D2lp1wUtqSYe": {
+          "hits": 0,
+          "textWords": 97
+        },
+        "EMqcilbCZmny": {
+          "hits": 0,
+          "textWords": 97
         },
         "Z1j83A2gF1QN": {
           "hits": 0,
-          "textWords": 66162
+          "textWords": 97
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "2QmKhlA6suTY",
+      "address": "http://www.amnation.com/vfr/archives.html",
+      "title": "View from the Right Master Archive Index",
+      "snippet": "[How liberalism bans every type of discrimination, except for discrimination against non-liberals] [White man mobbed and stripped by blacks on an urban street—the full video record] [The guilt that liberals will never feel] [The victim in Sanford, Florida hammer attack is white] [Black America",
+      "matchedWords": {
+        "D2lp1wUtqSYe": {
+          "hits": 7,
+          "textWords": 159121
+        },
+        "EMqcilbCZmny": {
+          "hits": 4,
+          "textWords": 159121
+        },
+        "Z1j83A2gF1QN": {
+          "hits": 1,
+          "textWords": 159121
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "mju4GlBbCobw",
+      "address": "https://www.php.net/ChangeLog-4.php",
+      "title": "PHP: PHP 4 ChangeLog",
+      "snippet": "Fixed resource bug in LDAP extension. (Stig Venaas)\nFixed crash in output buffering when buffer is overwritten in a callback. (Yasuo)\nAdded output_add_rewrite_var() and output_remove_rewrite_var() to inject and remove variables from the URL-Rewriter. (Thies)",
+      "matchedWords": {
+        "D2lp1wUtqSYe": {
+          "hits": 10,
+          "textWords": 32230
+        },
+        "EMqcilbCZmny": {
+          "hits": 2,
+          "textWords": 32230
+        },
+        "Z1j83A2gF1QN": {
+          "hits": 1,
+          "textWords": 32230
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "1AnB2ZIRcMkY",
+      "address": "http://rigorousintuition.blogspot.com/2005/09/series-of-dreams.html",
+      "title": "Rigorous Intuition: Series of dreams",
+      "snippet": "I was thinking of a series of dreams,\nWhere nothing comes up to the top.\nEverything stays down where it's wounded,\nAnd comes to a permanent stop. - Bob Dylan\nYou've heard this before, I'm sure, from 1997:\nHello Art? Art? Hi. I don't have a whole lot of time. I was a former employee of Area 51.",
+      "matchedWords": {
+        "D2lp1wUtqSYe": {
+          "hits": 0,
+          "textWords": 902
+        },
+        "EMqcilbCZmny": {
+          "hits": 0,
+          "textWords": 902
+        },
+        "Z1j83A2gF1QN": {
+          "hits": 0,
+          "textWords": 902
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "Dpce0jRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/White_genocide_conspiracy_theory",
+      "title": "White genocide conspiracy theory - Wikipedia",
+      "snippet": "Pat Buchanan in 2008\nBlow has defined \"white extinction anxiety\" as the fear that white people will become a minority, stripped of their race-based privilege.[",
+      "matchedWords": {
+        "D2lp1wUtqSYe": {
+          "hits": 0,
+          "textWords": 22040
+        },
+        "EMqcilbCZmny": {
+          "hits": 1,
+          "textWords": 22040
+        },
+        "Z1j83A2gF1QN": {
+          "hits": 1,
+          "textWords": 22040
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "fxFR5jRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/BDSM",
+      "title": "BDSM - Wikipedia",
+      "snippet": "60][61] The author of the study, Bert Cutler, speculated that tops may be less often in the mood to play due to the increased demand for responsibility on their part: being aware of the safety of the situation and prepared to remove the bottom from a dangerous scenario, being conscious of the",
+      "matchedWords": {
+        "D2lp1wUtqSYe": {
+          "hits": 3,
+          "textWords": 22630
+        },
+        "EMqcilbCZmny": {
+          "hits": 1,
+          "textWords": 22630
+        },
+        "Z1j83A2gF1QN": {
+          "hits": 2,
+          "textWords": 22630
         }
       },
       "queryPhraseHits": 0
@@ -194,14 +339,6 @@
       "title": "Wikipedia:Featured article candidates - Wikipedia",
       "snippet": "",
       "matchedWords": {
-        "24igJXwiDb_d": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "AbbiA0S2iDXF": {
-          "hits": 0,
-          "textWords": 0
-        },
         "D2lp1wUtqSYe": {
           "hits": 0,
           "textWords": 0
@@ -213,6 +350,279 @@
         "Z1j83A2gF1QN": {
           "hits": 0,
           "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "-V_D1jRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Rifle",
+      "title": "Rifle - Wikipedia",
+      "snippet": "The increased velocity meant that new problems arose, and so bullets went from using soft lead to harder lead, then to copper-jacketed, in order to better engage the spiral grooves without \"stripping\" them in the same way that a screw or bolt thread would be stripped if subjected to extreme forces.[",
+      "matchedWords": {
+        "D2lp1wUtqSYe": {
+          "hits": 0,
+          "textWords": 5900
+        },
+        "EMqcilbCZmny": {
+          "hits": 1,
+          "textWords": 5900
+        },
+        "Z1j83A2gF1QN": {
+          "hits": 1,
+          "textWords": 5900
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "3zNNPsUPWR96",
+      "address": "https://realitybloger.com/",
+      "title": "REALITY BLOG",
+      "snippet": "",
+      "matchedWords": {
+        "D2lp1wUtqSYe": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "EMqcilbCZmny": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "Z1j83A2gF1QN": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "DJ5bCQZchFfZ",
+      "address": "http://www.greenteethmm.com/nanny-state-menu.shtml",
+      "title": "nanny-state-health-and-safety_menu",
+      "snippet": "The European Union having failed to completely remove the gas essential to all lifeforms, Carbon Dioxide from the atmosphere, is now setting itself up to remove another esstential gas, nitrogen - which accounts for 70% of the air we breathe.",
+      "matchedWords": {
+        "D2lp1wUtqSYe": {
+          "hits": 3,
+          "textWords": 33589
+        },
+        "EMqcilbCZmny": {
+          "hits": 1,
+          "textWords": 33589
+        },
+        "Z1j83A2gF1QN": {
+          "hits": 1,
+          "textWords": 33589
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "rkE9tQZchFfZ",
+      "address": "http://www.greenteethmm.com/latestposts.shtml",
+      "title": "reality-on-employment-prospects-for-graduates",
+      "snippet": "The European Union having failed to completely remove the gas essential to all lifeforms, Carbon Dioxide from the atmosphere, is now setting itself up to remove another esstential gas, nitrogen - which accounts for 70% of the air we breathe.",
+      "matchedWords": {
+        "D2lp1wUtqSYe": {
+          "hits": 11,
+          "textWords": 98213
+        },
+        "EMqcilbCZmny": {
+          "hits": 3,
+          "textWords": 98213
+        },
+        "Z1j83A2gF1QN": {
+          "hits": 3,
+          "textWords": 98213
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "wrXaeQZchFfZ",
+      "address": "http://www.greenteethmm.com/politics_economy.shtml",
+      "title": "politics_economy-government-political",
+      "snippet": "The European Union having failed to completely remove the gas essential to all lifeforms, Carbon Dioxide from the atmosphere, is now setting itself up to remove another esstential gas, nitrogen - which accounts for 70% of the air we breathe.",
+      "matchedWords": {
+        "D2lp1wUtqSYe": {
+          "hits": 3,
+          "textWords": 43392
+        },
+        "EMqcilbCZmny": {
+          "hits": 1,
+          "textWords": 43392
+        },
+        "Z1j83A2gF1QN": {
+          "hits": 1,
+          "textWords": 43392
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "z-sv4QZchFfZ",
+      "address": "http://www.greenteethmm.com/child-abuse-rotherham.shtml",
+      "title": "more-bad-news-for labour-as-rotherham-sex-abuse-scandal-grows",
+      "snippet": "The European Union having failed to completely remove the gas essential to all lifeforms, Carbon Dioxide from the atmosphere, is now setting itself up to remove another esstential gas, nitrogen - which accounts for 70% of the air we breathe.",
+      "matchedWords": {
+        "D2lp1wUtqSYe": {
+          "hits": 5,
+          "textWords": 55332
+        },
+        "EMqcilbCZmny": {
+          "hits": 3,
+          "textWords": 55332
+        },
+        "Z1j83A2gF1QN": {
+          "hits": 3,
+          "textWords": 55332
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "9vbG8QZchFfZ",
+      "address": "http://www.greenteethmm.com/feminist-poldark-sexist.shtml",
+      "title": "poldark-female-star-obsession-with-topless-aidan-turner-is-sexist-and-undermines-the-show-greenteeth-humor-satire",
+      "snippet": "The European Union having failed to completely remove the gas essential to all lifeforms, Carbon Dioxide from the atmosphere, is now setting itself up to remove another esstential gas, nitrogen - which accounts for 70% of the air we breathe.",
+      "matchedWords": {
+        "D2lp1wUtqSYe": {
+          "hits": 5,
+          "textWords": 39329
+        },
+        "EMqcilbCZmny": {
+          "hits": 1,
+          "textWords": 39329
+        },
+        "Z1j83A2gF1QN": {
+          "hits": 3,
+          "textWords": 39329
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "2ARlB8_4RGt5",
+      "address": "https://aftermathnews.wordpress.com/2007/10/01/blackwater-knights-of-malta-in-iraq/",
+      "title": "Comment on Blackwater: Knights of Malta in Iraq by HUEY P. NEWTON, A REAL PEOPLE’S HERO, CIA MK ULTRA, THRID REICH, NASA \u0026 BOBBY SEALE- A WHORE OF LUCIFER | In Search of Black Assassins",
+      "snippet": "“The Knights of Malta are the militia of the Pope, and are sworn to total obedience by a blood oath which is taken extremely seriously and to the death. The Pope as the head of the Vatican is also the head of a foreign national power.”",
+      "matchedWords": {
+        "D2lp1wUtqSYe": {
+          "hits": 0,
+          "textWords": 3862
+        },
+        "EMqcilbCZmny": {
+          "hits": 0,
+          "textWords": 3862
+        },
+        "Z1j83A2gF1QN": {
+          "hits": 0,
+          "textWords": 3862
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "aJD3bsakFVXw",
+      "address": "https://slashdot.org/",
+      "title": "Slashdot: News for nerds, stuff that matters, \u0026 software",
+      "snippet": "While the boy's condition looked ominous, the good news is that EAI is generally benign and reversible -- once you remove the heat source. For severe or long-term conditions, some pigmentation and scarring can remain.",
+      "matchedWords": {
+        "D2lp1wUtqSYe": {
+          "hits": 1,
+          "textWords": 4781
+        },
+        "EMqcilbCZmny": {
+          "hits": 0,
+          "textWords": 4781
+        },
+        "Z1j83A2gF1QN": {
+          "hits": 0,
+          "textWords": 4781
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "A255RJlxZ1N4",
+      "address": "https://www.rawstory.com/u/thom-hartmann",
+      "title": "Thom Hartmann - Raw Story",
+      "snippet": "Of course, it was Trump who gave the orders and created the environment for all this to help Putin and screw America. And his motivation may be even more disgusting than the simple treason that this Manchurian Candidate scenario seems to indicate.\nStart with the war.",
+      "matchedWords": {
+        "D2lp1wUtqSYe": {
+          "hits": 1,
+          "textWords": 22224
+        },
+        "EMqcilbCZmny": {
+          "hits": 1,
+          "textWords": 22224
+        },
+        "Z1j83A2gF1QN": {
+          "hits": 2,
+          "textWords": 22224
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "GtLjhloUbV15",
+      "address": "https://www.whatfinger.com/",
+      "title": "Whatfinger News™ – Unfiltered Truth. America’s News Feed",
+      "snippet": "Whatfinger – 🛑 Features, Red-pill blasts, takedowns, hits, deep state reveals, and savage roasts that’ll make you say ‘DAMN!’ No safe spaces. (use arrows) – Sgt Pat, Beth, Ben, Sgt K\n🛑Headline Hurricane: 40 Top Stories Across All Beats (use arrows) – Sgt Pat, Ben, Luke",
+      "matchedWords": {
+        "D2lp1wUtqSYe": {
+          "hits": 0,
+          "textWords": 157
+        },
+        "EMqcilbCZmny": {
+          "hits": 0,
+          "textWords": 157
+        },
+        "Z1j83A2gF1QN": {
+          "hits": 0,
+          "textWords": 157
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "mHiSRRpKMltY",
+      "address": "http://wheredangerlives.blogspot.com/",
+      "title": "Where Danger Lives",
+      "snippet": "Dig the violence: everyone here is swinging a pipe or a club, Neville Brand is wielding some sort of prison yard shank, while a Barney Fife-ish screw is desperately trying to call in some help at the top right.",
+      "matchedWords": {
+        "D2lp1wUtqSYe": {
+          "hits": 0,
+          "textWords": 20961
+        },
+        "EMqcilbCZmny": {
+          "hits": 1,
+          "textWords": 20961
+        },
+        "Z1j83A2gF1QN": {
+          "hits": 1,
+          "textWords": 20961
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "-b3sxspKNBr4",
+      "address": "https://rense.com/",
+      "title": "rense.com",
+      "snippet": "History - Vile, Satanic General Eisenhower\nMURDERED Over 1 Million German POWS - This is\n100% True - Video\nDeath Toll From Israeli ‘Settler' Attacks\nSpirals in 'Most Violent' Year for West Bank\nIsrael ready to remove Gaza population if Trump\ngives approval - Minister",
+      "matchedWords": {
+        "D2lp1wUtqSYe": {
+          "hits": 4,
+          "textWords": 85916
+        },
+        "EMqcilbCZmny": {
+          "hits": 0,
+          "textWords": 85916
+        },
+        "Z1j83A2gF1QN": {
+          "hits": 0,
+          "textWords": 85916
         }
       },
       "queryPhraseHits": 0
@@ -223,14 +633,6 @@
       "title": "the-editor-of-business-insider-fears-europe-is-coming-unglued-from-his-globalist-agenda",
       "snippet": "The European Union having failed to completely remove the gas essential to all lifeforms, Carbon Dioxide from the atmosphere, is now setting itself up to remove another esstential gas, nitrogen - which accounts for 70% of the air we breathe.",
       "matchedWords": {
-        "24igJXwiDb_d": {
-          "hits": 0,
-          "textWords": 39329
-        },
-        "AbbiA0S2iDXF": {
-          "hits": 0,
-          "textWords": 39329
-        },
         "D2lp1wUtqSYe": {
           "hits": 5,
           "textWords": 39329
@@ -247,19 +649,74 @@
       "queryPhraseHits": 0
     },
     {
-      "hash": "59FTtQZchFfZ",
-      "address": "http://www.greenteethmm.com/MH17-news-suppressed.shtml",
-      "title": "downed-malaysia-airlines-flight-mh17-news-developments-being-suppressed-by-mainstream-media.",
+      "hash": "rkE9tQZchFfZ",
+      "address": "http://www.greenteethmm.com/latestposts.shtml",
+      "title": "reality-on-employment-prospects-for-graduates",
       "snippet": "The European Union having failed to completely remove the gas essential to all lifeforms, Carbon Dioxide from the atmosphere, is now setting itself up to remove another esstential gas, nitrogen - which accounts for 70% of the air we breathe.",
       "matchedWords": {
-        "24igJXwiDb_d": {
-          "hits": 0,
-          "textWords": 39329
+        "D2lp1wUtqSYe": {
+          "hits": 11,
+          "textWords": 98213
         },
-        "AbbiA0S2iDXF": {
-          "hits": 0,
-          "textWords": 39329
+        "EMqcilbCZmny": {
+          "hits": 3,
+          "textWords": 98213
         },
+        "Z1j83A2gF1QN": {
+          "hits": 3,
+          "textWords": 98213
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "aJD3bsakFVXw",
+      "address": "https://slashdot.org/",
+      "title": "Slashdot: News for nerds, stuff that matters, \u0026 software",
+      "snippet": "While the boy's condition looked ominous, the good news is that EAI is generally benign and reversible -- once you remove the heat source. For severe or long-term conditions, some pigmentation and scarring can remain.",
+      "matchedWords": {
+        "D2lp1wUtqSYe": {
+          "hits": 1,
+          "textWords": 4781
+        },
+        "EMqcilbCZmny": {
+          "hits": 0,
+          "textWords": 4781
+        },
+        "Z1j83A2gF1QN": {
+          "hits": 0,
+          "textWords": 4781
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "-b3sxspKNBr4",
+      "address": "https://rense.com/",
+      "title": "rense.com",
+      "snippet": "History - Vile, Satanic General Eisenhower\nMURDERED Over 1 Million German POWS - This is\n100% True - Video\nDeath Toll From Israeli ‘Settler' Attacks\nSpirals in 'Most Violent' Year for West Bank\nIsrael ready to remove Gaza population if Trump\ngives approval - Minister",
+      "matchedWords": {
+        "D2lp1wUtqSYe": {
+          "hits": 4,
+          "textWords": 85916
+        },
+        "EMqcilbCZmny": {
+          "hits": 0,
+          "textWords": 85916
+        },
+        "Z1j83A2gF1QN": {
+          "hits": 0,
+          "textWords": 85916
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "AtnOjQZchFfZ",
+      "address": "http://www.greenteethmm.com/muslim-intolerance.shtml",
+      "title": "france-sees-dozens-of-anti-muslim-incidents",
+      "snippet": "The European Union having failed to completely remove the gas essential to all lifeforms, Carbon Dioxide from the atmosphere, is now setting itself up to remove another esstential gas, nitrogen - which accounts for 70% of the air we breathe.",
+      "matchedWords": {
         "D2lp1wUtqSYe": {
           "hits": 5,
           "textWords": 39329
@@ -276,40 +733,1080 @@
       "queryPhraseHits": 0
     },
     {
-      "hash": "GtLjhloUbV15",
-      "address": "https://www.whatfinger.com/",
-      "title": "Whatfinger News® – Unfiltered Truth. America’s News Feed",
-      "snippet": "Whatfinger – 🛑 Features, Red-pill blasts, takedowns, hits, deep state reveals, and savage roasts that’ll make you say ‘DAMN!’ No safe spaces. (use arrows) – Sgt Pat, Beth, Ben, Sgt K\n🛑Headline Hurricane: 40 Top Stories Across All Beats (use arrows) – Sgt Pat, Ben, Luke",
+      "hash": "CUqp1QZchFfZ",
+      "address": "http://www.greenteethmm.com/politically-correct-cross.shtml",
+      "title": "once-we-respected-red-cross-because-they-did-good-work-now-they-promote-politicallycorrect- tyranny-daily-stirrer-news-opinion-dailystirrer",
+      "snippet": "The European Union having failed to completely remove the gas essential to all lifeforms, Carbon Dioxide from the atmosphere, is now setting itself up to remove another esstential gas, nitrogen - which accounts for 70% of the air we breathe.",
       "matchedWords": {
-        "24igJXwiDb_d": {
-          "hits": 0,
-          "textWords": 157
-        },
-        "AbbiA0S2iDXF": {
-          "hits": 0,
-          "textWords": 157
-        },
         "D2lp1wUtqSYe": {
-          "hits": 0,
-          "textWords": 157
+          "hits": 5,
+          "textWords": 39329
         },
         "EMqcilbCZmny": {
-          "hits": 0,
-          "textWords": 157
+          "hits": 1,
+          "textWords": 39329
+        },
+        "Z1j83A2gF1QN": {
+          "hits": 3,
+          "textWords": 39329
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "DJ5bCQZchFfZ",
+      "address": "http://www.greenteethmm.com/nanny-state-menu.shtml",
+      "title": "nanny-state-health-and-safety_menu",
+      "snippet": "The European Union having failed to completely remove the gas essential to all lifeforms, Carbon Dioxide from the atmosphere, is now setting itself up to remove another esstential gas, nitrogen - which accounts for 70% of the air we breathe.",
+      "matchedWords": {
+        "D2lp1wUtqSYe": {
+          "hits": 3,
+          "textWords": 33589
+        },
+        "EMqcilbCZmny": {
+          "hits": 1,
+          "textWords": 33589
+        },
+        "Z1j83A2gF1QN": {
+          "hits": 1,
+          "textWords": 33589
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "DWMPSQZchFfZ",
+      "address": "http://www.greenteethmm.com/science-lying-swine.shtml",
+      "title": "new-regimes-r-us-ukraine-and-venezuela-up-for-new -world-order-style-destabilisation-world-politcs-daily-stirrer-dailystirrer",
+      "snippet": "The European Union having failed to completely remove the gas essential to all lifeforms, Carbon Dioxide from the atmosphere, is now setting itself up to remove another esstential gas, nitrogen - which accounts for 70% of the air we breathe.",
+      "matchedWords": {
+        "D2lp1wUtqSYe": {
+          "hits": 5,
+          "textWords": 39329
+        },
+        "EMqcilbCZmny": {
+          "hits": 1,
+          "textWords": 39329
+        },
+        "Z1j83A2gF1QN": {
+          "hits": 3,
+          "textWords": 39329
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "JAL_6QZchFfZ",
+      "address": "http://www.greenteethmm.com/ukip-immigration.shtml",
+      "title": "ukip-takes-on-free-market-corporatists-britains-immigration-debate-gets-interesting-daily-stirrer-dailystirrer",
+      "snippet": "The European Union having failed to completely remove the gas essential to all lifeforms, Carbon Dioxide from the atmosphere, is now setting itself up to remove another esstential gas, nitrogen - which accounts for 70% of the air we breathe.",
+      "matchedWords": {
+        "D2lp1wUtqSYe": {
+          "hits": 5,
+          "textWords": 39329
+        },
+        "EMqcilbCZmny": {
+          "hits": 1,
+          "textWords": 39329
+        },
+        "Z1j83A2gF1QN": {
+          "hits": 3,
+          "textWords": 39329
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "Ju6qkQZchFfZ",
+      "address": "http://www.greenteethmm.com/immigration-composite.shtml",
+      "title": "immigration--composite-post-covering-all-aspects-of the-uk-problem-with-reports-from-other-e-u-nations",
+      "snippet": "The European Union having failed to completely remove the gas essential to all lifeforms, Carbon Dioxide from the atmosphere, is now setting itself up to remove another esstential gas, nitrogen - which accounts for 70% of the air we breathe.",
+      "matchedWords": {
+        "D2lp1wUtqSYe": {
+          "hits": 7,
+          "textWords": 68844
+        },
+        "EMqcilbCZmny": {
+          "hits": 1,
+          "textWords": 68844
+        },
+        "Z1j83A2gF1QN": {
+          "hits": 3,
+          "textWords": 68844
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "Mlk_jQZchFfZ",
+      "address": "http://www.greenteethmm.com/war-on-cash-guide.shtml",
+      "title": "war-on-cash-guide",
+      "snippet": "The European Union having failed to completely remove the gas essential to all lifeforms, Carbon Dioxide from the atmosphere, is now setting itself up to remove another esstential gas, nitrogen - which accounts for 70% of the air we breathe.",
+      "matchedWords": {
+        "D2lp1wUtqSYe": {
+          "hits": 5,
+          "textWords": 40862
+        },
+        "EMqcilbCZmny": {
+          "hits": 1,
+          "textWords": 40862
+        },
+        "Z1j83A2gF1QN": {
+          "hits": 3,
+          "textWords": 40862
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "RGcTwQZchFfZ",
+      "address": "http://www.greenteethmm.com/health-saturated-fat.shtml",
+      "title": "saturated-fat-is-healthy-for-us-but-not-for-food-industry-profits",
+      "snippet": "The European Union having failed to completely remove the gas essential to all lifeforms, Carbon Dioxide from the atmosphere, is now setting itself up to remove another esstential gas, nitrogen - which accounts for 70% of the air we breathe.",
+      "matchedWords": {
+        "D2lp1wUtqSYe": {
+          "hits": 5,
+          "textWords": 39329
+        },
+        "EMqcilbCZmny": {
+          "hits": 1,
+          "textWords": 39329
+        },
+        "Z1j83A2gF1QN": {
+          "hits": 3,
+          "textWords": 39329
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "Yn8U5QZchFfZ",
+      "address": "http://www.greenteethmm.com/brexit-grexit-truth.shtml",
+      "title": "brexit-grexit-the-truth-about-the-european-union-and-how-it-treats-members-daily-stirrer-",
+      "snippet": "If at any time during the chaos the past eighteen months you have wondered what kind of idiots are running the world and have gleefully trashed economies, disrupted social and commercial life and stripped citizens of their rights and liberties only to bring us, in late October 2021, right back to",
+      "matchedWords": {
+        "D2lp1wUtqSYe": {
+          "hits": 2,
+          "textWords": 24536
+        },
+        "EMqcilbCZmny": {
+          "hits": 1,
+          "textWords": 24536
+        },
+        "Z1j83A2gF1QN": {
+          "hits": 3,
+          "textWords": 24536
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "igYfrQZchFfZ",
+      "address": "http://www.greenteethmm.com/technology-virtual-id.shtml",
+      "title": "virtual-id-technology-has-arrived–why-you-should-resist-taking-it-up-daily-stirrer",
+      "snippet": "The European Union having failed to completely remove the gas essential to all lifeforms, Carbon Dioxide from the atmosphere, is now setting itself up to remove another esstential gas, nitrogen - which accounts for 70% of the air we breathe.",
+      "matchedWords": {
+        "D2lp1wUtqSYe": {
+          "hits": 5,
+          "textWords": 39313
+        },
+        "EMqcilbCZmny": {
+          "hits": 1,
+          "textWords": 39313
+        },
+        "Z1j83A2gF1QN": {
+          "hits": 3,
+          "textWords": 39313
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "n8m5ZQZchFfZ",
+      "address": "http://www.greenteethmm.com/lwtc.shtml",
+      "title": "living-within-the-conspiracy-government-science-technology-media-finance-money-sceptic-libertarian",
+      "snippet": "The European Union having failed to completely remove the gas essential to all lifeforms, Carbon Dioxide from the atmosphere, is now setting itself up to remove another esstential gas, nitrogen - which accounts for 70% of the air we breathe.",
+      "matchedWords": {
+        "D2lp1wUtqSYe": {
+          "hits": 6,
+          "textWords": 51683
+        },
+        "EMqcilbCZmny": {
+          "hits": 1,
+          "textWords": 51683
+        },
+        "Z1j83A2gF1QN": {
+          "hits": 3,
+          "textWords": 51683
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "wrXaeQZchFfZ",
+      "address": "http://www.greenteethmm.com/politics_economy.shtml",
+      "title": "politics_economy-government-political",
+      "snippet": "The European Union having failed to completely remove the gas essential to all lifeforms, Carbon Dioxide from the atmosphere, is now setting itself up to remove another esstential gas, nitrogen - which accounts for 70% of the air we breathe.",
+      "matchedWords": {
+        "D2lp1wUtqSYe": {
+          "hits": 3,
+          "textWords": 43392
+        },
+        "EMqcilbCZmny": {
+          "hits": 1,
+          "textWords": 43392
+        },
+        "Z1j83A2gF1QN": {
+          "hits": 1,
+          "textWords": 43392
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "xO2m2QZchFfZ",
+      "address": "http://www.greenteethmm.com/germany-islam.shtml",
+      "title": "merkel-hit-by-german-citizens-backlash-as-her-anti-german-pro-immigration-policy-fails-daily-stirrer",
+      "snippet": "The log jam has developed because of the failure to remove assad in Syria and the resolute support of Russia, China and Iran for their ally.\nWar On Syria: Standoff Shows America Is No Longer The Global Superpower\nSo what's happening in Syria you might well ask?",
+      "matchedWords": {
+        "D2lp1wUtqSYe": {
+          "hits": 1,
+          "textWords": 15694
+        },
+        "EMqcilbCZmny": {
+          "hits": 1,
+          "textWords": 15694
         },
         "Z1j83A2gF1QN": {
           "hits": 0,
-          "textWords": 157
+          "textWords": 15694
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "K99Gbsomo4j7",
+      "address": "https://fatherlyadviceandrants.com/2026-conservative-article-reference-list-archives/",
+      "title": "2026 Conservative Article Reference List Archives – Fatherly Advice and Rants",
+      "snippet": "Red State: The White House Slams Raskin Over His Latest 25th Amendment Scheme: – It’s the third time Raskin has tried using the 25th to remove Trump from office, demonstrating once again that the Democrat party has remained consistently devoid of any ideas to help the American people, and their",
+      "matchedWords": {
+        "D2lp1wUtqSYe": {
+          "hits": 22,
+          "textWords": 381889
+        },
+        "EMqcilbCZmny": {
+          "hits": 7,
+          "textWords": 381889
+        },
+        "Z1j83A2gF1QN": {
+          "hits": 4,
+          "textWords": 381889
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "jhBgpi2QDkXY",
+      "address": "http://newportcity.blogspot.com/",
+      "title": "The Lone Voice",
+      "snippet": "So this is how the £122K a year champagne socialist acts, supporting an aged mass killer.\nThe boss of the trade union behind the British Airways strike was 'unavailable' for talks because he was in Cuba celebrating the revolution, it was claimed yesterday.",
+      "matchedWords": {
+        "D2lp1wUtqSYe": {
+          "hits": 0,
+          "textWords": 2250
+        },
+        "EMqcilbCZmny": {
+          "hits": 0,
+          "textWords": 2250
+        },
+        "Z1j83A2gF1QN": {
+          "hits": 0,
+          "textWords": 2250
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "oOVv2jRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Wikipedia:Featured_article_candidates",
+      "title": "Wikipedia:Featured article candidates - Wikipedia",
+      "snippet": "",
+      "matchedWords": {
+        "D2lp1wUtqSYe": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "EMqcilbCZmny": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "Z1j83A2gF1QN": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "-V_D1jRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Rifle",
+      "title": "Rifle - Wikipedia",
+      "snippet": "The increased velocity meant that new problems arose, and so bullets went from using soft lead to harder lead, then to copper-jacketed, in order to better engage the spiral grooves without \"stripping\" them in the same way that a screw or bolt thread would be stripped if subjected to extreme forces.[",
+      "matchedWords": {
+        "D2lp1wUtqSYe": {
+          "hits": 0,
+          "textWords": 5900
+        },
+        "EMqcilbCZmny": {
+          "hits": 1,
+          "textWords": 5900
+        },
+        "Z1j83A2gF1QN": {
+          "hits": 1,
+          "textWords": 5900
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "EWeFEQZchFfZ",
+      "address": "http://www.greenteethmm.com/iraq-war-three.shtml",
+      "title": "the-third-gulf-war-has-started-should-britain-be-involved-daily-stirrer-dailystirrer",
+      "snippet": "The European Union having failed to completely remove the gas essential to all lifeforms, Carbon Dioxide from the atmosphere, is now setting itself up to remove another esstential gas, nitrogen - which accounts for 70% of the air we breathe.",
+      "matchedWords": {
+        "D2lp1wUtqSYe": {
+          "hits": 5,
+          "textWords": 39329
+        },
+        "EMqcilbCZmny": {
+          "hits": 1,
+          "textWords": 39329
+        },
+        "Z1j83A2gF1QN": {
+          "hits": 3,
+          "textWords": 39329
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "G7frLQZchFfZ",
+      "address": "http://www.greenteethmm.com/climate-psychological-malware.shtml",
+      "title": "climate-change-and-leftist-psychological-malware-daily-stirrer-dailystirrer",
+      "snippet": "The European Union having failed to completely remove the gas essential to all lifeforms, Carbon Dioxide from the atmosphere, is now setting itself up to remove another esstential gas, nitrogen - which accounts for 70% of the air we breathe.",
+      "matchedWords": {
+        "D2lp1wUtqSYe": {
+          "hits": 5,
+          "textWords": 39329
+        },
+        "EMqcilbCZmny": {
+          "hits": 1,
+          "textWords": 39329
+        },
+        "Z1j83A2gF1QN": {
+          "hits": 3,
+          "textWords": 39329
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "HqxJhQZchFfZ",
+      "address": "http://www.greenteethmm.com/europe-unglued.shtml",
+      "title": "the-editor-of-business-insider-fears-europe-is-coming-unglued-from-his-globalist-agenda",
+      "snippet": "The European Union having failed to completely remove the gas essential to all lifeforms, Carbon Dioxide from the atmosphere, is now setting itself up to remove another esstential gas, nitrogen - which accounts for 70% of the air we breathe.",
+      "matchedWords": {
+        "D2lp1wUtqSYe": {
+          "hits": 5,
+          "textWords": 39329
+        },
+        "EMqcilbCZmny": {
+          "hits": 1,
+          "textWords": 39329
+        },
+        "Z1j83A2gF1QN": {
+          "hits": 3,
+          "textWords": 39329
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "Mlk_jQZchFfZ",
+      "address": "http://www.greenteethmm.com/war-on-cash-guide.shtml",
+      "title": "war-on-cash-guide",
+      "snippet": "The European Union having failed to completely remove the gas essential to all lifeforms, Carbon Dioxide from the atmosphere, is now setting itself up to remove another esstential gas, nitrogen - which accounts for 70% of the air we breathe.",
+      "matchedWords": {
+        "D2lp1wUtqSYe": {
+          "hits": 5,
+          "textWords": 40862
+        },
+        "EMqcilbCZmny": {
+          "hits": 1,
+          "textWords": 40862
+        },
+        "Z1j83A2gF1QN": {
+          "hits": 3,
+          "textWords": 40862
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "n8m5ZQZchFfZ",
+      "address": "http://www.greenteethmm.com/lwtc.shtml",
+      "title": "living-within-the-conspiracy-government-science-technology-media-finance-money-sceptic-libertarian",
+      "snippet": "The European Union having failed to completely remove the gas essential to all lifeforms, Carbon Dioxide from the atmosphere, is now setting itself up to remove another esstential gas, nitrogen - which accounts for 70% of the air we breathe.",
+      "matchedWords": {
+        "D2lp1wUtqSYe": {
+          "hits": 6,
+          "textWords": 51683
+        },
+        "EMqcilbCZmny": {
+          "hits": 1,
+          "textWords": 51683
+        },
+        "Z1j83A2gF1QN": {
+          "hits": 3,
+          "textWords": 51683
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "rkE9tQZchFfZ",
+      "address": "http://www.greenteethmm.com/latestposts.shtml",
+      "title": "reality-on-employment-prospects-for-graduates",
+      "snippet": "The European Union having failed to completely remove the gas essential to all lifeforms, Carbon Dioxide from the atmosphere, is now setting itself up to remove another esstential gas, nitrogen - which accounts for 70% of the air we breathe.",
+      "matchedWords": {
+        "D2lp1wUtqSYe": {
+          "hits": 11,
+          "textWords": 98213
+        },
+        "EMqcilbCZmny": {
+          "hits": 3,
+          "textWords": 98213
+        },
+        "Z1j83A2gF1QN": {
+          "hits": 3,
+          "textWords": 98213
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "952kHQZchFfZ",
+      "address": "http://www.greenteethmm.com/health-ebola-scare.shtml",
+      "title": "ebola-and-the-absent-humanitarians-africa-health-disease-humanitarian-dailystirrer",
+      "snippet": "The European Union having failed to completely remove the gas essential to all lifeforms, Carbon Dioxide from the atmosphere, is now setting itself up to remove another esstential gas, nitrogen - which accounts for 70% of the air we breathe.",
+      "matchedWords": {
+        "D2lp1wUtqSYe": {
+          "hits": 5,
+          "textWords": 39313
+        },
+        "EMqcilbCZmny": {
+          "hits": 1,
+          "textWords": 39313
+        },
+        "Z1j83A2gF1QN": {
+          "hits": 3,
+          "textWords": 39313
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "-b3sxspKNBr4",
+      "address": "https://rense.com/",
+      "title": "rense.com",
+      "snippet": "History - Vile, Satanic General Eisenhower\nMURDERED Over 1 Million German POWS - This is\n100% True - Video\nDeath Toll From Israeli ‘Settler' Attacks\nSpirals in 'Most Violent' Year for West Bank\nIsrael ready to remove Gaza population if Trump\ngives approval - Minister",
+      "matchedWords": {
+        "D2lp1wUtqSYe": {
+          "hits": 4,
+          "textWords": 85916
+        },
+        "EMqcilbCZmny": {
+          "hits": 0,
+          "textWords": 85916
+        },
+        "Z1j83A2gF1QN": {
+          "hits": 0,
+          "textWords": 85916
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "I-6nyQZchFfZ",
+      "address": "http://www.greenteethmm.com/brexit-europe.shtml",
+      "title": "eu-brexit-britain-decides-if-the-ftuture-lies-in-or-outside-the-european-union-index",
+      "snippet": "Brussels has come under pressure from the more economically powerful members to remove such obstacles.",
+      "matchedWords": {
+        "D2lp1wUtqSYe": {
+          "hits": 1,
+          "textWords": 15267
+        },
+        "EMqcilbCZmny": {
+          "hits": 0,
+          "textWords": 15267
+        },
+        "Z1j83A2gF1QN": {
+          "hits": 1,
+          "textWords": 15267
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "JAL_6QZchFfZ",
+      "address": "http://www.greenteethmm.com/ukip-immigration.shtml",
+      "title": "ukip-takes-on-free-market-corporatists-britains-immigration-debate-gets-interesting-daily-stirrer-dailystirrer",
+      "snippet": "The European Union having failed to completely remove the gas essential to all lifeforms, Carbon Dioxide from the atmosphere, is now setting itself up to remove another esstential gas, nitrogen - which accounts for 70% of the air we breathe.",
+      "matchedWords": {
+        "D2lp1wUtqSYe": {
+          "hits": 5,
+          "textWords": 39329
+        },
+        "EMqcilbCZmny": {
+          "hits": 1,
+          "textWords": 39329
+        },
+        "Z1j83A2gF1QN": {
+          "hits": 3,
+          "textWords": 39329
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "LElWNQZchFfZ",
+      "address": "http://www.greenteethmm.com/child-abuse-elite.shtml",
+      "title": "decades-long-cover-up-of-child-abuse-by-political-elite-uk-politics-news-opinion-controversy",
+      "snippet": "If at any time during the chaos the past eighteen months you have wondered what kind of idiots are running the world and have gleefully trashed economies, disrupted social and commercial life and stripped citizens of their rights and liberties only to bring us, in late October 2021, right back to",
+      "matchedWords": {
+        "D2lp1wUtqSYe": {
+          "hits": 2,
+          "textWords": 24528
+        },
+        "EMqcilbCZmny": {
+          "hits": 1,
+          "textWords": 24528
+        },
+        "Z1j83A2gF1QN": {
+          "hits": 3,
+          "textWords": 24528
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "JeSh3QZchFfZ",
+      "address": "http://www.greenteethmm.com/europe-fishing-policy.shtml",
+      "title": "another-reason-to-get-out-of-eu-ukip-mep-hits-out-at-fishing-policy-that-penalises-british-fishing-crews",
+      "snippet": "The European Union having failed to completely remove the gas essential to all lifeforms, Carbon Dioxide from the atmosphere, is now setting itself up to remove another esstential gas, nitrogen - which accounts for 70% of the air we breathe.",
+      "matchedWords": {
+        "D2lp1wUtqSYe": {
+          "hits": 5,
+          "textWords": 41120
+        },
+        "EMqcilbCZmny": {
+          "hits": 1,
+          "textWords": 41120
+        },
+        "Z1j83A2gF1QN": {
+          "hits": 3,
+          "textWords": 41120
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "Ju6qkQZchFfZ",
+      "address": "http://www.greenteethmm.com/immigration-composite.shtml",
+      "title": "immigration--composite-post-covering-all-aspects-of the-uk-problem-with-reports-from-other-e-u-nations",
+      "snippet": "The European Union having failed to completely remove the gas essential to all lifeforms, Carbon Dioxide from the atmosphere, is now setting itself up to remove another esstential gas, nitrogen - which accounts for 70% of the air we breathe.",
+      "matchedWords": {
+        "D2lp1wUtqSYe": {
+          "hits": 7,
+          "textWords": 68844
+        },
+        "EMqcilbCZmny": {
+          "hits": 1,
+          "textWords": 68844
+        },
+        "Z1j83A2gF1QN": {
+          "hits": 3,
+          "textWords": 68844
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "RGcTwQZchFfZ",
+      "address": "http://www.greenteethmm.com/health-saturated-fat.shtml",
+      "title": "saturated-fat-is-healthy-for-us-but-not-for-food-industry-profits",
+      "snippet": "The European Union having failed to completely remove the gas essential to all lifeforms, Carbon Dioxide from the atmosphere, is now setting itself up to remove another esstential gas, nitrogen - which accounts for 70% of the air we breathe.",
+      "matchedWords": {
+        "D2lp1wUtqSYe": {
+          "hits": 5,
+          "textWords": 39329
+        },
+        "EMqcilbCZmny": {
+          "hits": 1,
+          "textWords": 39329
+        },
+        "Z1j83A2gF1QN": {
+          "hits": 3,
+          "textWords": 39329
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "daW1ZQZchFfZ",
+      "address": "http://www.greenteethmm.com/transgenderr-ladies-first.shtml",
+      "title": "whether-tom-chivers-is-a-science-writer-a-hack-journalist-or-a-cunt-is-a-matter-of-semantics-daily-stirrer-dailystirrer",
+      "snippet": "The European Union having failed to completely remove the gas essential to all lifeforms, Carbon Dioxide from the atmosphere, is now setting itself up to remove another esstential gas, nitrogen - which accounts for 70% of the air we breathe.",
+      "matchedWords": {
+        "D2lp1wUtqSYe": {
+          "hits": 5,
+          "textWords": 44655
+        },
+        "EMqcilbCZmny": {
+          "hits": 2,
+          "textWords": 44655
+        },
+        "Z1j83A2gF1QN": {
+          "hits": 3,
+          "textWords": 44655
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "rkE9tQZchFfZ",
+      "address": "http://www.greenteethmm.com/latestposts.shtml",
+      "title": "reality-on-employment-prospects-for-graduates",
+      "snippet": "The European Union having failed to completely remove the gas essential to all lifeforms, Carbon Dioxide from the atmosphere, is now setting itself up to remove another esstential gas, nitrogen - which accounts for 70% of the air we breathe.",
+      "matchedWords": {
+        "D2lp1wUtqSYe": {
+          "hits": 11,
+          "textWords": 98213
+        },
+        "EMqcilbCZmny": {
+          "hits": 3,
+          "textWords": 98213
+        },
+        "Z1j83A2gF1QN": {
+          "hits": 3,
+          "textWords": 98213
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "xO2m2QZchFfZ",
+      "address": "http://www.greenteethmm.com/germany-islam.shtml",
+      "title": "merkel-hit-by-german-citizens-backlash-as-her-anti-german-pro-immigration-policy-fails-daily-stirrer",
+      "snippet": "The log jam has developed because of the failure to remove assad in Syria and the resolute support of Russia, China and Iran for their ally.\nWar On Syria: Standoff Shows America Is No Longer The Global Superpower\nSo what's happening in Syria you might well ask?",
+      "matchedWords": {
+        "D2lp1wUtqSYe": {
+          "hits": 1,
+          "textWords": 15694
+        },
+        "EMqcilbCZmny": {
+          "hits": 1,
+          "textWords": 15694
+        },
+        "Z1j83A2gF1QN": {
+          "hits": 0,
+          "textWords": 15694
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "952kHQZchFfZ",
+      "address": "http://www.greenteethmm.com/health-ebola-scare.shtml",
+      "title": "ebola-and-the-absent-humanitarians-africa-health-disease-humanitarian-dailystirrer",
+      "snippet": "The European Union having failed to completely remove the gas essential to all lifeforms, Carbon Dioxide from the atmosphere, is now setting itself up to remove another esstential gas, nitrogen - which accounts for 70% of the air we breathe.",
+      "matchedWords": {
+        "D2lp1wUtqSYe": {
+          "hits": 5,
+          "textWords": 39313
+        },
+        "EMqcilbCZmny": {
+          "hits": 1,
+          "textWords": 39313
+        },
+        "Z1j83A2gF1QN": {
+          "hits": 3,
+          "textWords": 39313
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "-d63GQZchFfZ",
+      "address": "http://www.greenteethmm.com/science-time-disapppearing.shtml",
+      "title": "science-time-disappearing-from-our-universe",
+      "snippet": "The European Union having failed to completely remove the gas essential to all lifeforms, Carbon Dioxide from the atmosphere, is now setting itself up to remove another esstential gas, nitrogen - which accounts for 70% of the air we breathe.",
+      "matchedWords": {
+        "D2lp1wUtqSYe": {
+          "hits": 5,
+          "textWords": 39329
+        },
+        "EMqcilbCZmny": {
+          "hits": 1,
+          "textWords": 39329
+        },
+        "Z1j83A2gF1QN": {
+          "hits": 3,
+          "textWords": 39329
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "-b3sxspKNBr4",
+      "address": "https://rense.com/",
+      "title": "rense.com",
+      "snippet": "History - Vile, Satanic General Eisenhower\nMURDERED Over 1 Million German POWS - This is\n100% True - Video\nDeath Toll From Israeli ‘Settler' Attacks\nSpirals in 'Most Violent' Year for West Bank\nIsrael ready to remove Gaza population if Trump\ngives approval - Minister",
+      "matchedWords": {
+        "D2lp1wUtqSYe": {
+          "hits": 4,
+          "textWords": 85916
+        },
+        "EMqcilbCZmny": {
+          "hits": 0,
+          "textWords": 85916
+        },
+        "Z1j83A2gF1QN": {
+          "hits": 0,
+          "textWords": 85916
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "W-eXqzF3--Qw",
+      "address": "https://planet.mozilla.org/",
+      "title": "Planet Mozilla",
+      "snippet": "",
+      "matchedWords": {
+        "D2lp1wUtqSYe": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "EMqcilbCZmny": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "Z1j83A2gF1QN": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "W-eXqzF3--Qw",
+      "address": "https://planet.mozilla.org/",
+      "title": "Planet Mozilla",
+      "snippet": "",
+      "matchedWords": {
+        "D2lp1wUtqSYe": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "EMqcilbCZmny": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "Z1j83A2gF1QN": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "1AnB2ZIRcMkY",
+      "address": "http://rigorousintuition.blogspot.com/2005/09/series-of-dreams.html",
+      "title": "Rigorous Intuition: Series of dreams",
+      "snippet": "I was thinking of a series of dreams,\nWhere nothing comes up to the top.\nEverything stays down where it's wounded,\nAnd comes to a permanent stop. - Bob Dylan\nYou've heard this before, I'm sure, from 1997:\nHello Art? Art? Hi. I don't have a whole lot of time. I was a former employee of Area 51.",
+      "matchedWords": {
+        "D2lp1wUtqSYe": {
+          "hits": 0,
+          "textWords": 902
+        },
+        "EMqcilbCZmny": {
+          "hits": 0,
+          "textWords": 902
+        },
+        "Z1j83A2gF1QN": {
+          "hits": 0,
+          "textWords": 902
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "3zNNPsUPWR96",
+      "address": "https://realitybloger.com/",
+      "title": "REALITY BLOG",
+      "snippet": "",
+      "matchedWords": {
+        "D2lp1wUtqSYe": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "EMqcilbCZmny": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "Z1j83A2gF1QN": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "DJ5bCQZchFfZ",
+      "address": "http://www.greenteethmm.com/nanny-state-menu.shtml",
+      "title": "nanny-state-health-and-safety_menu",
+      "snippet": "The European Union having failed to completely remove the gas essential to all lifeforms, Carbon Dioxide from the atmosphere, is now setting itself up to remove another esstential gas, nitrogen - which accounts for 70% of the air we breathe.",
+      "matchedWords": {
+        "D2lp1wUtqSYe": {
+          "hits": 3,
+          "textWords": 33589
+        },
+        "EMqcilbCZmny": {
+          "hits": 1,
+          "textWords": 33589
+        },
+        "Z1j83A2gF1QN": {
+          "hits": 1,
+          "textWords": 33589
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "DWMPSQZchFfZ",
+      "address": "http://www.greenteethmm.com/science-lying-swine.shtml",
+      "title": "new-regimes-r-us-ukraine-and-venezuela-up-for-new -world-order-style-destabilisation-world-politcs-daily-stirrer-dailystirrer",
+      "snippet": "The European Union having failed to completely remove the gas essential to all lifeforms, Carbon Dioxide from the atmosphere, is now setting itself up to remove another esstential gas, nitrogen - which accounts for 70% of the air we breathe.",
+      "matchedWords": {
+        "D2lp1wUtqSYe": {
+          "hits": 5,
+          "textWords": 39329
+        },
+        "EMqcilbCZmny": {
+          "hits": 1,
+          "textWords": 39329
+        },
+        "Z1j83A2gF1QN": {
+          "hits": 3,
+          "textWords": 39329
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "daW1ZQZchFfZ",
+      "address": "http://www.greenteethmm.com/transgenderr-ladies-first.shtml",
+      "title": "whether-tom-chivers-is-a-science-writer-a-hack-journalist-or-a-cunt-is-a-matter-of-semantics-daily-stirrer-dailystirrer",
+      "snippet": "The European Union having failed to completely remove the gas essential to all lifeforms, Carbon Dioxide from the atmosphere, is now setting itself up to remove another esstential gas, nitrogen - which accounts for 70% of the air we breathe.",
+      "matchedWords": {
+        "D2lp1wUtqSYe": {
+          "hits": 5,
+          "textWords": 44655
+        },
+        "EMqcilbCZmny": {
+          "hits": 2,
+          "textWords": 44655
+        },
+        "Z1j83A2gF1QN": {
+          "hits": 3,
+          "textWords": 44655
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "utCZ2QZchFfZ",
+      "address": "http://www.greenteethmm.com/european-dictator-schulz.shtml",
+      "title": "european-parliament-dictatorial-martin-schulz-dissolves-eefd-group-of-euro-sceptics-daily-stirrer-dailystirrer",
+      "snippet": "",
+      "matchedWords": {
+        "D2lp1wUtqSYe": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "EMqcilbCZmny": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "Z1j83A2gF1QN": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "-b3sxspKNBr4",
+      "address": "https://rense.com/",
+      "title": "rense.com",
+      "snippet": "History - Vile, Satanic General Eisenhower\nMURDERED Over 1 Million German POWS - This is\n100% True - Video\nDeath Toll From Israeli ‘Settler' Attacks\nSpirals in 'Most Violent' Year for West Bank\nIsrael ready to remove Gaza population if Trump\ngives approval - Minister",
+      "matchedWords": {
+        "D2lp1wUtqSYe": {
+          "hits": 4,
+          "textWords": 85916
+        },
+        "EMqcilbCZmny": {
+          "hits": 0,
+          "textWords": 85916
+        },
+        "Z1j83A2gF1QN": {
+          "hits": 0,
+          "textWords": 85916
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "_m50clptNsG4",
+      "address": "https://www.akdart.com/warming5.html",
+      "title": "Silencing the Global Warming Skeptics",
+      "snippet": "",
+      "matchedWords": {
+        "D2lp1wUtqSYe": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "EMqcilbCZmny": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "Z1j83A2gF1QN": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "Plfy7TpLJZV4",
+      "address": "https://github.github.com/gfm/",
+      "title": "GitHub Flavored Markdown Spec",
+      "snippet": "",
+      "matchedWords": {
+        "D2lp1wUtqSYe": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "EMqcilbCZmny": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "Z1j83A2gF1QN": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "daW1ZQZchFfZ",
+      "address": "http://www.greenteethmm.com/transgenderr-ladies-first.shtml",
+      "title": "whether-tom-chivers-is-a-science-writer-a-hack-journalist-or-a-cunt-is-a-matter-of-semantics-daily-stirrer-dailystirrer",
+      "snippet": "The European Union having failed to completely remove the gas essential to all lifeforms, Carbon Dioxide from the atmosphere, is now setting itself up to remove another esstential gas, nitrogen - which accounts for 70% of the air we breathe.",
+      "matchedWords": {
+        "D2lp1wUtqSYe": {
+          "hits": 5,
+          "textWords": 44655
+        },
+        "EMqcilbCZmny": {
+          "hits": 2,
+          "textWords": 44655
+        },
+        "Z1j83A2gF1QN": {
+          "hits": 3,
+          "textWords": 44655
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "Yn8U5QZchFfZ",
+      "address": "http://www.greenteethmm.com/brexit-grexit-truth.shtml",
+      "title": "brexit-grexit-the-truth-about-the-european-union-and-how-it-treats-members-daily-stirrer-",
+      "snippet": "If at any time during the chaos the past eighteen months you have wondered what kind of idiots are running the world and have gleefully trashed economies, disrupted social and commercial life and stripped citizens of their rights and liberties only to bring us, in late October 2021, right back to",
+      "matchedWords": {
+        "D2lp1wUtqSYe": {
+          "hits": 2,
+          "textWords": 24536
+        },
+        "EMqcilbCZmny": {
+          "hits": 1,
+          "textWords": 24536
+        },
+        "Z1j83A2gF1QN": {
+          "hits": 3,
+          "textWords": 24536
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "a-z2eQZchFfZ",
+      "address": "http://www.greenteethmm.com/climate-scam-real-agenda.shtml",
+      "title": "un-official-reveals-real-reason-behind-warming-scare-news-opinion-comment-daily-stirrer",
+      "snippet": "",
+      "matchedWords": {
+        "D2lp1wUtqSYe": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "EMqcilbCZmny": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "Z1j83A2gF1QN": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "aJD3bsakFVXw",
+      "address": "https://slashdot.org/",
+      "title": "Slashdot: News for nerds, stuff that matters",
+      "snippet": "While the boy's condition looked ominous, the good news is that EAI is generally benign and reversible -- once you remove the heat source. For severe or long-term conditions, some pigmentation and scarring can remain.",
+      "matchedWords": {
+        "D2lp1wUtqSYe": {
+          "hits": 1,
+          "textWords": 4781
+        },
+        "EMqcilbCZmny": {
+          "hits": 0,
+          "textWords": 4781
+        },
+        "Z1j83A2gF1QN": {
+          "hits": 0,
+          "textWords": 4781
         }
       },
       "queryPhraseHits": 0
     }
   ],
   "documentsHeldPerQueryWord": {
-    "24igJXwiDb_d": 721697,
-    "AbbiA0S2iDXF": 1404025,
-    "D2lp1wUtqSYe": 261141,
-    "EMqcilbCZmny": 63051,
-    "Z1j83A2gF1QN": 95083
+    "D2lp1wUtqSYe": 665923,
+    "EMqcilbCZmny": 49065,
+    "Z1j83A2gF1QN": 93636
   }
 }

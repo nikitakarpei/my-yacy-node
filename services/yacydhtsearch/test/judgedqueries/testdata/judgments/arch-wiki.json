@@ -8,16 +8,10 @@
       "grade": 0
     },
     {
-      "hash": "CyYF72bypRQw",
-      "address": "https://forgejo.org/docs/latest/user/wiki/",
-      "title": "Integrated Wiki | Forgejo – Beyond coding. We forge.",
-      "grade": 0
-    },
-    {
-      "hash": "KzvTGDr4UJf4",
-      "address": "https://we-do.wiki/books/csharp/page/net-core-first-steps",
-      "title": ".NET-Core - First steps | we-do.wiki",
-      "grade": 0
+      "hash": "5G5XeeSLKN4x",
+      "address": "https://bbs.archlinux.org/viewtopic.php?pid=189982",
+      "title": "howto become a arch developer? / Arch Discussion / Arch Linux Forums",
+      "grade": null
     },
     {
       "hash": "1kOALGsyhcfx",
@@ -50,10 +44,16 @@
       "grade": 0
     },
     {
-      "hash": "Yfz3rQsPPfbx",
-      "address": "https://lij.wikisource.org/wiki/P%C3%A0gina_prin%C3%A7ip%C3%A2",
-      "title": "Wikivivàgna",
-      "grade": 0
+      "hash": "xYnNBeSLKN4x",
+      "address": "https://bbs.archlinux.org/viewtopic.php?pid=409134",
+      "title": "/etc/issue \"2.0\" - My ASCII art version with Arch logo and text / Artwork and Screenshots / Arch Linux Forums",
+      "grade": null
+    },
+    {
+      "hash": "xyan1FuhndQx",
+      "address": "https://pkgs.alpinelinux.org/contents?name=evolution-etesync\u0026repo=testing\u0026branch=edge\u0026arch=x86_64",
+      "title": "Package index - Alpine Linux packages",
+      "grade": null
     },
     {
       "hash": "VDvsI5syhcfx",
@@ -68,22 +68,16 @@
       "grade": 2
     },
     {
-      "hash": "-zTXpAsyhcfx",
-      "address": "https://archlinux.org/groups/x86_64/kde-education/",
-      "title": "Arch Linux - kde-education (x86_64) - Group Details",
-      "grade": 1
+      "hash": "un8HSeSLKN4x",
+      "address": "https://bbs.archlinux.org/viewtopic.php?pid=285739",
+      "title": "Arch Leadership / Announcements, Package \u0026 Security Advisories / Arch Linux Forums",
+      "grade": null
     },
     {
-      "hash": "pJrTZ_JJheBx",
-      "address": "https://man.archlinux.org/man/rmdir.1.uk",
-      "title": "rmdir(1) — Arch manual pages",
-      "grade": 1
-    },
-    {
-      "hash": "JDV9fxtQ-zSx",
-      "address": "https://wiki.archlinux.org/title/Arch_terminology",
-      "title": "Arch terminology - ArchWiki",
-      "grade": 2
+      "hash": "IBItAsXcOmMx",
+      "address": "https://neocities.org/browse?tag=arch",
+      "title": "Neocities - Sites tagged arch",
+      "grade": null
     },
     {
       "hash": "n_BbL_JJheBx",
@@ -92,22 +86,16 @@
       "grade": 1
     },
     {
-      "hash": "2CAHw8uKjjbw",
-      "address": "https://wiki.gentoo.org/wiki/FAQ",
-      "title": "FAQ - Gentoo wiki",
-      "grade": 0
-    },
-    {
       "hash": "-pMpNeSLKN4x",
       "address": "https://bbs.archlinux.org/viewtopic.php?id=313893",
       "title": "[Solved] After \"makepkg -si\", rebuilding without re-downloading? / Creating \u0026 Modifying Packages / Arch Linux Forums",
       "grade": 1
     },
     {
-      "hash": "4JQXbxtQ-zSx",
-      "address": "https://wiki.archlinux.org/title/Category:About_Arch",
-      "title": "Category:About Arch - ArchWiki",
-      "grade": 2
+      "hash": "_8XRJjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Arch_Build_System",
+      "title": "Arch Linux - Wikipedia",
+      "grade": null
     },
     {
       "hash": "sFJf-jjEZfvx",
@@ -116,46 +104,16 @@
       "grade": 0
     },
     {
-      "hash": "o8Mxf2bypRQw",
-      "address": "https://forgejo.org/docs/latest/user/packages/arch/",
-      "title": "Arch Package Registry | Forgejo – Beyond coding. We forge.",
-      "grade": 0
+      "hash": "fMgRSGsyhcfx",
+      "address": "https://archlinux.org/mirrors/arch.mirror.winslow.cloud/",
+      "title": "Arch Linux - arch.mirror.winslow.cloud - Mirror Details",
+      "grade": null
     },
     {
-      "hash": "yNjyN5syhcfx",
-      "address": "https://archlinux.org/packages/extra/x86_64/inchi/",
-      "title": "Arch Linux - inchi 1.07.5-1 (x86_64)",
-      "grade": 1
-    },
-    {
-      "hash": "3r8tuTS6MKD4",
-      "address": "https://github.com/yt-dlp/yt-dlp/wiki/Installation",
-      "title": "Installation · yt-dlp/yt-dlp Wiki · GitHub",
-      "grade": 0
-    },
-    {
-      "hash": "rnRTljRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Arch_of_Titus",
-      "title": "Arch of Titus - Wikipedia",
-      "grade": 0
-    },
-    {
-      "hash": "Gab0Essyhcfx",
-      "address": "https://archlinux.org/",
-      "title": "Arch Linux",
-      "grade": 1
-    },
-    {
-      "hash": "DAj4_QiNWeQw",
-      "address": "https://wiki.cachyos.org/",
-      "title": "Welcome to the CachyOS Wiki | CachyOS",
-      "grade": 0
-    },
-    {
-      "hash": "oej5lsdsPYlw",
-      "address": "https://archhurd.org/",
-      "title": "Arch Hurd",
-      "grade": 0
+      "hash": "5LyX15syhcfx",
+      "address": "https://archlinux.org/packages/extra/x86_64/tgt/",
+      "title": "Arch Linux - tgt 1.0.97-2 (x86_64)",
+      "grade": null
     },
     {
       "hash": "_MvmMeSLKN4x",
@@ -164,10 +122,22 @@
       "grade": 1
     },
     {
-      "hash": "ycf-xeSLKN4x",
-      "address": "https://bbs.archlinux.org/",
-      "title": "Arch Linux Forums",
-      "grade": 1
+      "hash": "SIyLLv0lYtaw",
+      "address": "https://www.parabola.nu/news/from-arch-switch-to-the-base-devel-meta-package-requires-manual-intervention/",
+      "title": "Parabola GNU/Linux-libre - News: [From Arch] Switch to the base-devel meta package requires manual intervention",
+      "grade": null
+    },
+    {
+      "hash": "q_UUpeSLKN4x",
+      "address": "https://bbs.archlinux.org/viewtopic.php?pid=192666",
+      "title": "howto become a arch developer? / Arch Discussion / Arch Linux Forums",
+      "grade": null
+    },
+    {
+      "hash": "oej5lsdsPYlw",
+      "address": "https://archhurd.org/",
+      "title": "Arch Hurd",
+      "grade": 0
     },
     {
       "hash": "dCsvksKbUpYw",
@@ -188,21 +158,15 @@
       "grade": 0
     },
     {
-      "hash": "PhzCTeSLKN4x",
-      "address": "https://bbs.archlinux.org/viewtopic.php?pid=734447",
-      "title": "Downloadable Arch Wiki / Forum \u0026 Wiki discussion / Arch Linux Forums",
-      "grade": 1
+      "hash": "Pwe03ZDMrHS4",
+      "address": "https://gist.github.com/mattiaslundberg/8620837",
+      "title": "Minimal instructions for installing arch linux on an UEFI system with full system encryption using dm-crypt and luks · GitHub",
+      "grade": null
     },
     {
-      "hash": "z9WOd_syhcfx",
-      "address": "https://archlinux.org/news/debug-packages-and-debuginfod/",
-      "title": "Arch Linux - News: Debug packages and debuginfod",
-      "grade": 1
-    },
-    {
-      "hash": "G6MDmGsyhcfx",
-      "address": "https://archlinux.org/mirrors/purring.online/",
-      "title": "Arch Linux - purring.online - Mirror Details",
+      "hash": "Gab0Essyhcfx",
+      "address": "https://archlinux.org/",
+      "title": "Arch Linux",
       "grade": 1
     },
     {
@@ -212,22 +176,10 @@
       "grade": 0
     },
     {
-      "hash": "m2kA6lSmquRw",
-      "address": "https://bugs.gentoo.org/show_bug.cgi?id=431280",
-      "title": "431280 – app-arch/p7zip fails to cross-compile, hardcodes the target arch",
-      "grade": 0
-    },
-    {
-      "hash": "WbdU8h3e0QFx",
-      "address": "https://commons.wikimedia.org/wiki/Arch_of_Titus",
-      "title": "Arch of Titus - Wikimedia Commons",
-      "grade": 0
-    },
-    {
-      "hash": "4lSXW_JJheBx",
-      "address": "https://man.archlinux.org/man/strtod.3.en",
-      "title": "strtod(3) — Arch manual pages",
-      "grade": 1
+      "hash": "1eLp2eSLKN4x",
+      "address": "https://bbs.archlinux.org/viewtopic.php?pid=1759847",
+      "title": "[solved] /bin/init is in systemd-sysvcompat ? / Installation / Arch Linux Forums",
+      "grade": null
     },
     {
       "hash": "6g2ztAsyhcfx",
@@ -236,10 +188,22 @@
       "grade": 1
     },
     {
-      "hash": "fpnvOeSLKN4x",
-      "address": "https://bbs.archlinux.org/viewtopic.php?pid=846630",
+      "hash": "gemHpeSLKN4x",
+      "address": "https://bbs.archlinux.org/viewtopic.php?pid=850341",
       "title": "Wayland on Arch Linux? / AUR Issues, Discussion \u0026 PKGBUILD Requests / Arch Linux Forums",
-      "grade": 1
+      "grade": null
+    },
+    {
+      "hash": "m2kA6lSmquRw",
+      "address": "https://bugs.gentoo.org/show_bug.cgi?id=431280",
+      "title": "431280 – app-arch/p7zip fails to cross-compile, hardcodes the target arch",
+      "grade": 0
+    },
+    {
+      "hash": "rY1JPAsyhcfx",
+      "address": "https://archlinux.org/groups/x86_64/maui/",
+      "title": "Arch Linux - maui (x86_64) - Group Details",
+      "grade": null
     },
     {
       "hash": "CeYYAopg4UCw",
@@ -254,10 +218,10 @@
       "grade": 1
     },
     {
-      "hash": "zkSIteSLKN4x",
-      "address": "https://bbs.archlinux.org/viewtopic.php?id=310335",
-      "title": "Where to obtain Arch linux stickers / Artwork and Screenshots / Arch Linux Forums",
-      "grade": 1
+      "hash": "K6sibGsyhcfx",
+      "address": "https://archlinux.org/mirrors/owochle.app/",
+      "title": "Arch Linux - owochle.app - Mirror Details",
+      "grade": null
     },
     {
       "hash": "YFWL1h3e0QFx",
@@ -266,22 +230,34 @@
       "grade": 0
     },
     {
+      "hash": "_uCaIssyhcfx",
+      "address": "https://archlinux.org/packages/",
+      "title": "Arch Linux - Package Search",
+      "grade": null
+    },
+    {
+      "hash": "iCZLms98xLWx",
+      "address": "https://linuxreviews.org/Arch_Conf_2020",
+      "title": "Arch Conf 2020 - LinuxReviews",
+      "grade": null
+    },
+    {
       "hash": "bATU-TsmV515",
       "address": "https://kimberly.asgardius.company/",
       "title": "Kimberly GNU/Linux – Arch Linux Made Friendly",
       "grade": 0
     },
     {
-      "hash": "iKqpg_JJheBx",
-      "address": "https://man.archlinux.org/man/sshpass.1.en",
-      "title": "sshpass(1) — Arch manual pages",
-      "grade": 1
+      "hash": "zNid7eSLKN4x",
+      "address": "https://bbs.archlinux.org/viewtopic.php?id=53665\u0026p=12",
+      "title": "Project ARM :: Arch Rollback Machine (Page 12) / Community Contributions / Arch Linux Forums",
+      "grade": null
     },
     {
-      "hash": "GACSIssyhcfx",
-      "address": "https://archlinux.org/download/",
-      "title": "Arch Linux - Downloads",
-      "grade": 1
+      "hash": "o8Mxf2bypRQw",
+      "address": "https://forgejo.org/docs/latest/user/packages/arch/",
+      "title": "Arch Package Registry | Forgejo – Beyond coding. We forge.",
+      "grade": 0
     },
     {
       "hash": "XLhWdh3e0QFx",
@@ -290,22 +266,22 @@
       "grade": 0
     },
     {
-      "hash": "SfYMcxtQ-zSx",
-      "address": "https://wiki.archlinux.org/title/ArchWiki:Contributing",
-      "title": "ArchWiki:Contributing - ArchWiki",
-      "grade": 2
-    },
-    {
-      "hash": "wbNjbeSLKN4x",
-      "address": "https://bbs.archlinux.org/viewtopic.php?pid=779734",
-      "title": "Downloadable Arch Wiki / Forum \u0026 Wiki discussion / Arch Linux Forums",
+      "hash": "-zTXpAsyhcfx",
+      "address": "https://archlinux.org/groups/x86_64/kde-education/",
+      "title": "Arch Linux - kde-education (x86_64) - Group Details",
       "grade": 1
     },
     {
-      "hash": "2AGHgcw63Csx",
-      "address": "https://fr.wikipedia.org/wiki/Gateway_Arch",
-      "title": "Gateway Arch — Wikipédia",
-      "grade": 0
+      "hash": "yYtH-Asyhcfx",
+      "address": "https://archlinux.org/groups/x86_64/kde-network/",
+      "title": "Arch Linux - kde-network (x86_64) - Group Details",
+      "grade": null
+    },
+    {
+      "hash": "93M8veSLKN4x",
+      "address": "https://bbs.archlinux.org/viewtopic.php?pid=1648326",
+      "title": "[SOLVED] Xfce - PowerManager - Sleep on AC / Applications \u0026 Desktop Environments / Arch Linux Forums",
+      "grade": null
     },
     {
       "hash": "BKXNQo1ILRNx",

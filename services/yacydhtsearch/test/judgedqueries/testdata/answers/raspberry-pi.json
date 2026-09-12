@@ -1,59 +1,8 @@
 {
   "query": "raspberry pi",
-  "recordedAt": "2026-09-12T10:15:30Z",
+  "recordedAt": "2026-09-12T11:25:31Z",
   "itemsInTheOrderOfEachAnswer": [
     [
-      {
-        "hash": "O8Lb1wX-NDdg",
-        "address": "https://www.pcwelt.de/article/2217585/raspberry-pi-5-test.html",
-        "title": "Raspberry Pi 5 im Praxistest – PC-WELT",
-        "snippet": "Nach dem ersten Start von Raspberry-Pi-OS erledigen Sie bei Bedarf weitere Einstellungen im Programm „Raspberry Pi Konfiguration“ und führen ein erstes Update durch. Alles in allem ist die Inbetriebnahme eines Raspberry Pi inzwischen wirklich kinderleicht.\nNAS-Einsatz oder Mediacenter?",
-        "matchedWords": {
-          "cquK9WvdqzOy": {
-            "hits": 62,
-            "textWords": 2569
-          },
-          "uJdJUF4US1ZK": {
-            "hits": 52,
-            "textWords": 2569
-          }
-        },
-        "queryPhraseHits": 47
-      },
-      {
-        "hash": "BNDWYSYLAaI5",
-        "address": "https://www.tomshardware.com/best-picks/raspberry-pi-microsd-cards",
-        "title": "Best microSD Cards for Raspberry Pi 2025 | Tom's Hardware",
-        "snippet": "If you need the ultimate speed for your Raspberry Pi, then you need the flagship Raspberry Pi 5 and an M.2 HAT such as the Editor's Choice Pineboard HatDrive! Nano Pimoroni's NVMe Base, and the official Raspberry Pi M.2 HAT . We've got a guide on how to use an NVMe drive with your Raspberry Pi 5.",
-        "matchedWords": {
-          "cquK9WvdqzOy": {
-            "hits": 105,
-            "textWords": 3589
-          },
-          "uJdJUF4US1ZK": {
-            "hits": 87,
-            "textWords": 3589
-          }
-        },
-        "queryPhraseHits": 86
-      },
-      {
-        "hash": "K9jghwMA19g4",
-        "address": "https://www.pcworld.com/article/420028/10-practical-raspberry-pi-projects-anyone-can-do.html",
-        "title": "10 surprisingly practical Raspberry Pi projects anybody can do | PCWorld",
-        "snippet": "You’ll want to use a Raspberry Pi 2, 3, or 4, though—the original Pi and the Raspberry Pi Zero are just pokey enough to be frustrating for general tasks. With the right case, the Pi can look downright stylish in your home theater, too.",
-        "matchedWords": {
-          "cquK9WvdqzOy": {
-            "hits": 36,
-            "textWords": 1465
-          },
-          "uJdJUF4US1ZK": {
-            "hits": 32,
-            "textWords": 1465
-          }
-        },
-        "queryPhraseHits": 31
-      },
       {
         "hash": "BvDeqUYlAY74",
         "address": "https://ubuntu.com/blog/linux-gaming-tutorial-raspberry-pi-minecraft-server-on-ubuntu-desktop",
@@ -70,124 +19,22 @@
           }
         },
         "queryPhraseHits": 14
-      },
-      {
-        "hash": "GLKnMvDOAHJg",
-        "address": "https://www.heise.de/news/Raspberry-Pi-Mini-Tower-Gehaeuse-bekommt-Touchscreen-11206365.html",
-        "title": "Raspberry Pi: Mini-Tower-Gehäuse bekommt Touchscreen | heise online",
-        "snippet": "Der chinesische Hersteller Sunfounder stellt die dritte Variante seines Mini-Tower-Gehäuses für den Raspberry Pi 5 vor. Das Pironman 5 Pro Max erscheint mit zusätzlichen Erweiterungen; am auffälligsten ist der seitliche Touchscreen.",
-        "matchedWords": {
-          "cquK9WvdqzOy": {
-            "hits": 3,
-            "textWords": 300
-          },
-          "uJdJUF4US1ZK": {
-            "hits": 3,
-            "textWords": 300
-          }
-        },
-        "queryPhraseHits": 3
-      },
-      {
-        "hash": "BhvfBu9CdfCx",
-        "address": "https://ja.wikipedia.org/wiki/Raspberry_Pi",
-        "title": "Raspberry Pi - Wikipedia",
-        "snippet": "Raspberry Pi 3\nModel A+\nRaspberry Pi\nModel B\nRaspberry Pi 1\nModel B+\nRaspberry Pi 2\nModel B\nRaspberry Pi 2\nModel B V1.2\nRaspberry Pi 3\nModel B\nRaspberry Pi 3\nModel B+\nRaspberry Pi 4\nRaspberry Pi 5\nなお、Raspberry Pi 3は64ビットに対応した初のモデルだが、Raspberry Pi 4の発売まで公式OSであるRaspbianは32ビット版しかリリースされていなかった。",
-        "matchedWords": {
-          "cquK9WvdqzOy": {
-            "hits": 324,
-            "textWords": 3953
-          },
-          "uJdJUF4US1ZK": {
-            "hits": 307,
-            "textWords": 3953
-          }
-        },
-        "queryPhraseHits": 295
       }
     ],
     [
       {
-        "hash": "5aOF74eBOW2g",
-        "address": "https://www.phoscon.de/de/conbee2/install",
-        "title": "ConBee II Installation",
+        "hash": "G1s4LyEkAvow",
+        "address": "https://developer.mozilla.org/en-US/docs/Mozilla/Firefox/Releases/151",
+        "title": "Firefox 151 release notes for developers (Stable) - Mozilla | MDN",
         "snippet": "",
         "matchedWords": {
           "cquK9WvdqzOy": {
-            "hits": 0,
-            "textWords": 0
+            "hits": 1,
+            "textWords": 2036
           },
           "uJdJUF4US1ZK": {
-            "hits": 7,
-            "textWords": 1347
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "xr6iDzS6MKD4",
-        "address": "https://github.com/awesome-selfhosted/awesome-selfhosted",
-        "title": "GitHub - awesome-selfhosted/awesome-selfhosted: A list of Free Software network services and web applications which can be hosted on your own servers",
-        "snippet": "",
-        "matchedWords": {
-          "cquK9WvdqzOy": {
             "hits": 0,
             "textWords": 0
-          },
-          "uJdJUF4US1ZK": {
-            "hits": 4,
-            "textWords": 25449
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "Mex80Kf4Pib5",
-        "address": "https://code.visualstudio.com/docs/getstarted/telemetry",
-        "title": "Visual Studio Code Telemetry",
-        "snippet": "",
-        "matchedWords": {
-          "cquK9WvdqzOy": {
-            "hits": 0,
-            "textWords": 0
-          },
-          "uJdJUF4US1ZK": {
-            "hits": 2,
-            "textWords": 2837
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "fnb7D4eBOW2g",
-        "address": "https://www.phoscon.de/de/conbee2",
-        "title": "ConBee II Übersicht",
-        "snippet": "",
-        "matchedWords": {
-          "cquK9WvdqzOy": {
-            "hits": 0,
-            "textWords": 0
-          },
-          "uJdJUF4US1ZK": {
-            "hits": 2,
-            "textWords": 881
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "jwUs34eBOW2g",
-        "address": "https://www.phoscon.de/de/support",
-        "title": "Technischer Support",
-        "snippet": "",
-        "matchedWords": {
-          "cquK9WvdqzOy": {
-            "hits": 0,
-            "textWords": 0
-          },
-          "uJdJUF4US1ZK": {
-            "hits": 2,
-            "textWords": 2371
           }
         },
         "queryPhraseHits": 0
@@ -195,26 +42,9 @@
     ],
     [
       {
-        "hash": "uik3ku78zDE5",
-        "address": "https://www.xatakahome.com/trucos-y-bricolaje-smart/probamos-chromium-el-sistema-operativo-de-google-en-la-raspberry-pi-3",
-        "title": "Probamos Chromium, el sistema operativo de Google, en la Raspberry Pi 3",
-        "snippet": "Aunque Raspbian es un gran sistema operativo, si estás buscando un sistema operativo para utilizar tu Raspberry Pi 3 para navegar por internet y utilizar las aplicaciones de Google, puede que haya una alternativa mejor. Y ahora también puedes instalar Chromium en la Raspberry Pi 3.",
-        "matchedWords": {
-          "cquK9WvdqzOy": {
-            "hits": 13,
-            "textWords": 438
-          },
-          "uJdJUF4US1ZK": {
-            "hits": 14,
-            "textWords": 438
-          }
-        },
-        "queryPhraseHits": 12
-      },
-      {
-        "hash": "IU0OTl8bqxA4",
-        "address": "https://www.sparkfun.com/",
-        "title": "SparkFun Electronics - SparkFun Electronics",
+        "hash": "7qi9OOZ4S_O4",
+        "address": "https://www.ctrl-c.club/~timemachine/2020/09/24/adding-gitea-to-my-rasberry-pi/",
+        "title": "Adding Gitea To My Raspberry Pi",
         "snippet": "",
         "matchedWords": {
           "cquK9WvdqzOy": {
@@ -222,67 +52,33 @@
             "textWords": 0
           },
           "uJdJUF4US1ZK": {
-            "hits": 11,
-            "textWords": 5642
+            "hits": 10,
+            "textWords": 1565
           }
         },
         "queryPhraseHits": 0
       },
       {
-        "hash": "gji-djRvmBbx",
-        "address": "https://en.wikipedia.org/wiki/Dexter_Industries",
-        "title": "Dexter Industries - Wikipedia",
-        "snippet": "",
+        "hash": "dTAtytzmo8j4",
+        "address": "https://tilde.town/~diff/snippets/speedofpi.html",
+        "title": "401 ~Raspberry Pi FastBoot™ Tips",
+        "snippet": "And figure out how to use systemctl edit to edit an inappropriate dependency/ordering out of a systemd service. And if you figure that one out, shoot me a mail.\nConclusion\nPersonally I managed to get my Pi booting to a TTY in 3.3 seconds. A full second before my display can initialize itself.",
         "matchedWords": {
           "cquK9WvdqzOy": {
-            "hits": 0,
-            "textWords": 0
+            "hits": 1,
+            "textWords": 388
           },
           "uJdJUF4US1ZK": {
-            "hits": 26,
-            "textWords": 3758
+            "hits": 0,
+            "textWords": 388
           }
         },
         "queryPhraseHits": 0
       },
       {
-        "hash": "MaRThsRMLT-5",
-        "address": "https://canonical.com/",
-        "title": "Trusted open source for enterprises | Canonical",
-        "snippet": "",
-        "matchedWords": {
-          "cquK9WvdqzOy": {
-            "hits": 0,
-            "textWords": 0
-          },
-          "uJdJUF4US1ZK": {
-            "hits": 4,
-            "textWords": 5038
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "mt6MjstbkMiw",
-        "address": "https://mesa3d.org/",
-        "title": "Home — The Mesa 3D Graphics Library",
-        "snippet": "",
-        "matchedWords": {
-          "cquK9WvdqzOy": {
-            "hits": 0,
-            "textWords": 0
-          },
-          "uJdJUF4US1ZK": {
-            "hits": 2,
-            "textWords": 1277
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "LyoltOS6MKD4",
-        "address": "https://github.com/expressjs/session",
-        "title": "GitHub - expressjs/session: Simple session middleware for Express",
+        "hash": "Z0XHwyIOcPxY",
+        "address": "http://tilde.club/~gikiski/parts/older/2021-11-03.html",
+        "title": "2021-11-03 -- Raspberry Pi Robotics Kits",
         "snippet": "",
         "matchedWords": {
           "cquK9WvdqzOy": {
@@ -291,26 +87,24 @@
           },
           "uJdJUF4US1ZK": {
             "hits": 1,
-            "textWords": 7692
+            "textWords": 33
           }
         },
         "queryPhraseHits": 0
-      }
-    ],
-    [
+      },
       {
-        "hash": "jDfrOl8bqxA4",
-        "address": "https://www.sparkfun.com/raspberry-pi-ssd-256gb.html",
-        "title": "Raspberry Pi SSD - 256GB - SparkFun Electronics",
+        "hash": "KMarKyIOcPxY",
+        "address": "http://tilde.club/~gikiski/parts/older/2021-10-12.html",
+        "title": "2021-10-12 -- Building tiny Raspberry Pi Images",
         "snippet": "",
         "matchedWords": {
           "cquK9WvdqzOy": {
-            "hits": 25,
-            "textWords": 3545
-          },
-          "uJdJUF4US1ZK": {
             "hits": 0,
             "textWords": 0
+          },
+          "uJdJUF4US1ZK": {
+            "hits": 1,
+            "textWords": 32
           }
         },
         "queryPhraseHits": 0
@@ -350,153 +144,153 @@
           }
         },
         "queryPhraseHits": 0
-      },
-      {
-        "hash": "MWWnL_nMM_j5",
-        "address": "https://grokipedia.com/page/JavaScript",
-        "title": "JavaScript — Grokipedia",
-        "snippet": "",
-        "matchedWords": {
-          "cquK9WvdqzOy": {
-            "hits": 0,
-            "textWords": 0
-          },
-          "uJdJUF4US1ZK": {
-            "hits": 1,
-            "textWords": 12008
-          }
-        },
-        "queryPhraseHits": 0
       }
     ],
     [
       {
-        "hash": "HDt-ql8bqxA4",
-        "address": "https://www.sparkfun.com/raspberry-pi-4-model-b-1gb.html",
-        "title": "Raspberry Pi 4 Model B (1GB) - SparkFun Electronics",
-        "snippet": "",
+        "hash": "oZ1OMDVimsy4",
+        "address": "https://thepihut.com/blogs/raspberry-pi-tutorials/build-a-raspberry-pi-pico-robot-with-mecanum-wheels",
+        "title": "Build a Raspberry Pi Pico Robot with Mecanum Wheels",
+        "snippet": "We assume that you already know your way around a Raspberry Pi Pico and have installed Thonny on your computer, and set up your Pico with the current UF2.\nSome wire stripping and/or soldering skills may also be needed.\nYou will need:\nRaspberry Pi Pico with header pins",
         "matchedWords": {
           "cquK9WvdqzOy": {
-            "hits": 23,
-            "textWords": 3594
-          },
-          "uJdJUF4US1ZK": {
-            "hits": 0,
-            "textWords": 0
-          }
-        },
-        "queryPhraseHits": 0
-      }
-    ],
-    [
-      {
-        "hash": "Mc-49XVimsy4",
-        "address": "https://thepihut.com/products/letstrust-tpm-for-raspberry-pi",
-        "title": "LetsTrust TPM for Raspberry Pi - The Pi Hut",
-        "snippet": "LetsTrust TPM uses the SPI interface to communicate with the Raspberry Pi. It is compatible with all Raspberry Pi models.\nIt has a compact footprint, allowing the remaining GPIO pins to be used. 2x5 pins from pin 17 to pin 26 are occupied by LetsTrust.\nRaspberry Pi not included\nSpecifications",
-        "matchedWords": {
-          "cquK9WvdqzOy": {
-            "hits": 13,
-            "textWords": 440
+            "hits": 7,
+            "textWords": 1829
           },
           "uJdJUF4US1ZK": {
             "hits": 7,
-            "textWords": 440
+            "textWords": 1829
           }
         },
         "queryPhraseHits": 7
       },
       {
-        "hash": "2yk0DDVimsy4",
-        "address": "https://thepihut.com/blogs/raspberry-pi-roundup/what-you-need-to-get-started-with-the-raspberry-pi",
-        "title": "What you need to get started with the Raspberry Pi",
-        "snippet": "There are different bundles to fit all budgets, making getting started with the Raspberry Pi even easier!\nRaspberry Pi\nThere are several models of Raspberry Pi available on the market currently, however, the most current and up to date are the Raspberry Pi 3 and the Raspberry Pi Zero W.",
-        "matchedWords": {
-          "cquK9WvdqzOy": {
-            "hits": 34,
-            "textWords": 632
-          },
-          "uJdJUF4US1ZK": {
-            "hits": 30,
-            "textWords": 632
-          }
-        },
-        "queryPhraseHits": 30
-      },
-      {
-        "hash": "qJavYAVimsy4",
-        "address": "https://thepihut.com/collections/raspberry-pi-cooling",
-        "title": "Raspberry Pi Cooling - The Pi Hut",
-        "snippet": "Huge Range\nYour cart is empty\nHome\nRaspberry Pi Store\nRaspberry Pi Cooling\nWe stock a range of Raspberry Pi cooling accessories to help keep your favourite microcomputer running at peak performance.\nThe two best ways to keep a Raspberry Pi cool are using heatsinks or a fan (or both!).",
-        "matchedWords": {
-          "cquK9WvdqzOy": {
-            "hits": 10,
-            "textWords": 122
-          },
-          "uJdJUF4US1ZK": {
-            "hits": 9,
-            "textWords": 122
-          }
-        },
-        "queryPhraseHits": 9
-      },
-      {
-        "hash": "YT38mzS6MKD4",
-        "address": "https://github.com/topics/raspberry-pi",
-        "title": "raspberry-pi · GitHub Topics · GitHub",
-        "snippet": "Many variations of the Raspberry Pi exist, such as the Raspberry Pi Zero, which is smaller than the more powerful Raspberry Pi 4.\nHere are 25,137 public repositories matching this topic...\nCode\nIssues\nPull requests\n🏡 Open source home automation that puts local control and privacy first.",
-        "matchedWords": {
-          "cquK9WvdqzOy": {
-            "hits": 11,
-            "textWords": 550
-          },
-          "uJdJUF4US1ZK": {
-            "hits": 11,
-            "textWords": 550
-          }
-        },
-        "queryPhraseHits": 11
-      },
-      {
-        "hash": "aPSJXXVimsy4",
-        "address": "https://thepihut.com/products/remotepi-board-for-raspberry-pi-4",
-        "title": "RemotePi Board for Raspberry Pi 4 [Discontinued] - The Pi Hut",
-        "snippet": "The RemotePi can handle much higher currents than previous RemotePi Boards, more than enough for the full 3A current provided by the official USB-C power supply.\nCompatibility with previous Raspberry Pi models\nThe Remote Pi for Raspberry Pi 4 can be used with the Raspberry Pi 3,3B+,3A+,2,A+, B+.",
+        "hash": "1QNhwAVimsy4",
+        "address": "https://thepihut.com/collections/raspberry-pi-store?page=39",
+        "title": "Raspberry Pi Store - The Pi Hut – Page 39",
+        "snippet": "We sell all models of the Raspberry Pi including the latest Raspberry Pi 5 , Raspberry Pi 500+ and Raspberry Pi 500, alongside the Raspberry Pi 4, Raspberry Pi 400, Raspberry Pi Zero 2 and Raspberry Pi Pico 2 W.",
         "matchedWords": {
           "cquK9WvdqzOy": {
             "hits": 17,
-            "textWords": 620
+            "textWords": 181
           },
           "uJdJUF4US1ZK": {
-            "hits": 14,
-            "textWords": 620
+            "hits": 15,
+            "textWords": 181
           }
         },
-        "queryPhraseHits": 14
+        "queryPhraseHits": 15
       },
       {
-        "hash": "o_m_nAVimsy4",
-        "address": "https://thepihut.com/collections/raspberry-pi-power-supplies",
-        "title": "Raspberry Pi Power Supplies - The Pi Hut",
-        "snippet": "Huge Range\nYour cart is empty\nHome\nRaspberry Pi Store\nRaspberry Pi Power Supplies\nSave 50%\nSave 20%\nWhen it comes to powering your Raspberry Pi, we always recommend using an Official Raspberry Power Supply.",
+        "hash": "CeZ_0388E-7w",
+        "address": "https://www.pishop.ca/product-category/electronic-components/breakouts-modules/",
+        "title": "Electronic Components - Breakouts \u0026 Modules - PiShop.ca",
+        "snippet": "",
         "matchedWords": {
           "cquK9WvdqzOy": {
-            "hits": 7,
-            "textWords": 189
+            "hits": 0,
+            "textWords": 0
           },
           "uJdJUF4US1ZK": {
-            "hits": 8,
-            "textWords": 189
+            "hits": 32,
+            "textWords": 1623
           }
         },
-        "queryPhraseHits": 7
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "Ot6mnJuwPzox",
+        "address": "https://www.raspberrypi.org/blog/welcome-dave/",
+        "title": "Welcome Dave! - Raspberry Pi Foundation",
+        "snippet": "Not long after that I found the first blog post about the Raspberry Pi at the BBC by Rory Cellan Jones. I remember thinking it was going to be massive back then, and signed up to the website soon after.",
+        "matchedWords": {
+          "cquK9WvdqzOy": {
+            "hits": 5,
+            "textWords": 360
+          },
+          "uJdJUF4US1ZK": {
+            "hits": 2,
+            "textWords": 360
+          }
+        },
+        "queryPhraseHits": 2
+      },
+      {
+        "hash": "20Pc3luwPzox",
+        "address": "https://www.raspberrypi.org/donate/?utm_source=blog\u0026utm_medium=web\u0026utm_campaign=pi-day-2023",
+        "title": "Donate to the Raspberry Pi Foundation – Raspberry Pi",
+        "snippet": "Follow Raspberry Pi on Linkedin\nLike Raspberry Pi on Facebook\nFollow Raspberry Pi on X\nJoin us on Instagram\nSubscribe to the Raspberry Pi YouTube channel\nThe Raspberry Pi Foundation is a UK company limited by guarantee and a charity registered in England and Wales with number 1129409.",
+        "matchedWords": {
+          "cquK9WvdqzOy": {
+            "hits": 10,
+            "textWords": 101
+          },
+          "uJdJUF4US1ZK": {
+            "hits": 10,
+            "textWords": 101
+          }
+        },
+        "queryPhraseHits": 10
+      },
+      {
+        "hash": "CpllWAP6YXm4",
+        "address": "https://www.adafruit.com/category/1020",
+        "title": "Mechanical Keyboards Products Category on Adafruit Industries",
+        "snippet": "",
+        "matchedWords": {
+          "cquK9WvdqzOy": {
+            "hits": 0,
+            "textWords": 0
+          },
+          "uJdJUF4US1ZK": {
+            "hits": 11,
+            "textWords": 16468
+          }
+        },
+        "queryPhraseHits": 0
       }
     ],
     [
       {
-        "hash": "XlmWLvEndn4x",
-        "address": "https://cs.wikipedia.org/wiki/Linux",
-        "title": "Linux – Wikipedie",
+        "hash": "3E1W2tEMwriD",
+        "address": "http://macchineperidrocolonterapia.it/2018/01/14/ciao-mondo/",
+        "title": "News ed Articoli – Macchine per idrocolonterapia",
+        "snippet": "",
+        "matchedWords": {
+          "cquK9WvdqzOy": {
+            "hits": 187,
+            "textWords": 23742
+          },
+          "uJdJUF4US1ZK": {
+            "hits": 0,
+            "textWords": 0
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "ruDQwQy9F8gR",
+        "address": "http://www.cotswoldjam.org/",
+        "title": "Cotswold Raspberry Jam – Raspberry Pi computer enthusiast events in Cheltenham, Gloucestershire and beyond",
+        "snippet": "Raspberry Pi computer events for Gloucestershire and beyond\nDuring the pandemic, we are taking donated old laptops from the attics of Gloucestershire, refurbishing them and providing them for local children to keep forever, for remote learning during lockdown and isolation.\nLockdown Laptops",
+        "matchedWords": {
+          "cquK9WvdqzOy": {
+            "hits": 1,
+            "textWords": 42
+          },
+          "uJdJUF4US1ZK": {
+            "hits": 1,
+            "textWords": 42
+          }
+        },
+        "queryPhraseHits": 1
+      },
+      {
+        "hash": "EKcQrH78zDE5",
+        "address": "https://www.xatakahome.com/accesorios/kinivo-501bn-conmutador-hdmi-de-5-puertos",
+        "title": "Kinivo 501BN, conmutador HDMI de 5 puertos",
         "snippet": "",
         "matchedWords": {
           "cquK9WvdqzOy": {
@@ -505,32 +299,11 @@
           },
           "uJdJUF4US1ZK": {
             "hits": 1,
-            "textWords": 6629
+            "textWords": 1356
           }
         },
         "queryPhraseHits": 0
-      }
-    ],
-    [
-      {
-        "hash": "QdSoHUjw1Zlx",
-        "address": "https://kubernetes.io/blog/2015/12/creating-raspberry-pi-cluster-running/",
-        "title": "Creating a Raspberry Pi cluster running Kubernetes, the installation (Part 2) | Kubernetes",
-        "snippet": "At Devoxx Belgium and Devoxx Morocco, Ray Tsang and I (Arjen Wassink) showed a Raspberry Pi cluster we built at Quintor running HypriotOS, Docker and Kubernetes. While we received many compliments on the talk, the most common question was about how to build a Pi cluster themselves!",
-        "matchedWords": {
-          "cquK9WvdqzOy": {
-            "hits": 13,
-            "textWords": 1505
-          },
-          "uJdJUF4US1ZK": {
-            "hits": 3,
-            "textWords": 1505
-          }
-        },
-        "queryPhraseHits": 3
-      }
-    ],
-    [
+      },
       {
         "hash": "7b0gSsUQxb2x",
         "address": "https://join-lemmy.org/",
@@ -564,6 +337,40 @@
           }
         },
         "queryPhraseHits": 0
+      },
+      {
+        "hash": "An6PfcRDeEV0",
+        "address": "https://git.saf.sh/",
+        "title": "Gitea: Git with a cup of tea",
+        "snippet": "",
+        "matchedWords": {
+          "cquK9WvdqzOy": {
+            "hits": 0,
+            "textWords": 0
+          },
+          "uJdJUF4US1ZK": {
+            "hits": 1,
+            "textWords": 208
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "YJR31WgeUiP5",
+        "address": "https://robocraze.com/pages/nvidia-jetson",
+        "title": "Official NVIDIA Jetson Nano | Trusted Online Store – Robocraze",
+        "snippet": "",
+        "matchedWords": {
+          "cquK9WvdqzOy": {
+            "hits": 0,
+            "textWords": 0
+          },
+          "uJdJUF4US1ZK": {
+            "hits": 18,
+            "textWords": 2559
+          }
+        },
+        "queryPhraseHits": 0
       }
     ],
     [
@@ -571,18 +378,18 @@
         "hash": "qHotSl8bqxA4",
         "address": "https://www.sparkfun.com/raspberry-pi-poe-hat.html",
         "title": "Raspberry Pi PoE+ HAT - SparkFun Electronics",
-        "snippet": "",
+        "snippet": "The Raspberry Pi PoE+ HAT is fitted with a small fan that is controlled by the Raspberry Pi via I2C and will turn on and off automatically depending on the temperature of the main processor on your Pi.\nNote: There is no Raspberry Pi included with this product.",
         "matchedWords": {
           "cquK9WvdqzOy": {
-            "hits": 29,
-            "textWords": 3382
+            "hits": 11,
+            "textWords": 180
           },
           "uJdJUF4US1ZK": {
-            "hits": 0,
-            "textWords": 0
+            "hits": 8,
+            "textWords": 180
           }
         },
-        "queryPhraseHits": 0
+        "queryPhraseHits": 8
       }
     ],
     [
@@ -607,18 +414,18 @@
         "hash": "EJyw0l55Qxow",
         "address": "https://yacy.net/installation/raspberry_pi/",
         "title": "Raspberry pi - YaCy",
-        "snippet": "",
+        "snippet": "Set up Raspberry Pi with YaCy\nThe Raspberry Pi ('RPi') is a credit-card-sized single-board computer which can run Linux kernel-based operating systems. We consider the usage of a 'Model B' with 512 MB SDRAM.",
         "matchedWords": {
           "cquK9WvdqzOy": {
-            "hits": 15,
-            "textWords": 1421
+            "hits": 13,
+            "textWords": 1175
           },
           "uJdJUF4US1ZK": {
-            "hits": 0,
-            "textWords": 0
+            "hits": 5,
+            "textWords": 1175
           }
         },
-        "queryPhraseHits": 0
+        "queryPhraseHits": 4
       }
     ],
     [
@@ -674,23 +481,6 @@
         "queryPhraseHits": 0
       },
       {
-        "hash": "wOjCtsnRCfv4",
-        "address": "https://52pi.com/",
-        "title": "Raspberry Pi Products One Stop Shopping Mall – 52Pi Store",
-        "snippet": "Your cart is currently empty.\nSpecial instructions for seller\nCountry name\nZip/Postal Code\nCalculate",
-        "matchedWords": {
-          "cquK9WvdqzOy": {
-            "hits": 0,
-            "textWords": 15
-          },
-          "uJdJUF4US1ZK": {
-            "hits": 0,
-            "textWords": 15
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
         "hash": "uz0rrQ3yZjwC",
         "address": "http://www.freiesmagazin.de/160621_gewinner_scratch_arduino.html",
         "title": "Gewinner des Buchs „Faszinierende Elektronikprojekte mit Scratch, Raspberry Pi und Arduino” | freiesMagazin",
@@ -706,6 +496,23 @@
           }
         },
         "queryPhraseHits": 1
+      },
+      {
+        "hash": "wOjCtsnRCfv4",
+        "address": "https://52pi.com/",
+        "title": "Raspberry Pi Products One Stop Shopping Mall – 52Pi Store",
+        "snippet": "Your cart is currently empty.\nSpecial instructions for seller\nCountry name\nZip/Postal Code\nCalculate",
+        "matchedWords": {
+          "cquK9WvdqzOy": {
+            "hits": 0,
+            "textWords": 15
+          },
+          "uJdJUF4US1ZK": {
+            "hits": 0,
+            "textWords": 15
+          }
+        },
+        "queryPhraseHits": 0
       },
       {
         "hash": "ZvmputPCpqc4",
@@ -737,6 +544,93 @@
           "uJdJUF4US1ZK": {
             "hits": 28,
             "textWords": 2567
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "9o10-381wZfg",
+        "address": "https://www.cst.cam.ac.uk/",
+        "title": "Department of Computer Science and Technology |",
+        "snippet": "",
+        "matchedWords": {
+          "cquK9WvdqzOy": {
+            "hits": 0,
+            "textWords": 0
+          },
+          "uJdJUF4US1ZK": {
+            "hits": 1,
+            "textWords": 2080
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "pihAY0yupa8i",
+        "address": "https://social.linux-magazin.de/@csi",
+        "title": "Carina Schipper Reuß (@csi@social.linux-magazin.de) - social.linux-magazin.de",
+        "snippet": "",
+        "matchedWords": {
+          "cquK9WvdqzOy": {
+            "hits": 0,
+            "textWords": 0
+          },
+          "uJdJUF4US1ZK": {
+            "hits": 1,
+            "textWords": 70
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "ryUhvGS6MKD4",
+        "address": "https://github.com/veggiemonk/awesome-docker",
+        "title": "GitHub - veggiemonk/awesome-docker: :whale: A curated list of Docker resources and projects",
+        "snippet": "",
+        "matchedWords": {
+          "cquK9WvdqzOy": {
+            "hits": 0,
+            "textWords": 0
+          },
+          "uJdJUF4US1ZK": {
+            "hits": 3,
+            "textWords": 10421
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "rsWFmIf1Pcd5",
+        "address": "https://store.steampowered.com/mobile",
+        "title": "Steam, The Ultimate Online Game Platform",
+        "snippet": "",
+        "matchedWords": {
+          "cquK9WvdqzOy": {
+            "hits": 0,
+            "textWords": 0
+          },
+          "uJdJUF4US1ZK": {
+            "hits": 1,
+            "textWords": 754
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "pPAgRsIBa-Iw",
+        "address": "https://gearsix.net/",
+        "title": "gearsix.net",
+        "snippet": "",
+        "matchedWords": {
+          "cquK9WvdqzOy": {
+            "hits": 0,
+            "textWords": 0
+          },
+          "uJdJUF4US1ZK": {
+            "hits": 1,
+            "textWords": 358
           }
         },
         "queryPhraseHits": 0
@@ -780,25 +674,6 @@
     ],
     [
       {
-        "hash": "ikkiqvDOAHJg",
-        "address": "https://www.heise.de/news/Ein-kompletter-Arcade-Automat-fuer-350-Euro-c-t-3003-11227265.html",
-        "title": "Taugt ein Arcade-Automat für 350 Euro mit Raspberry Pi und Batocera? | c't 3003 | heise online",
-        "snippet": "Ein vollständiger Arcade-Automat für 350 Euro – mit Raspberry Pi 4, LC-Display und Batocera-Linux: Kann das was taugen? c't 3003 hat den Iconic Arcade von Medion aufgebaut, bespielt und auf Schwächen abgeklopft.",
-        "matchedWords": {
-          "cquK9WvdqzOy": {
-            "hits": 2,
-            "textWords": 2262
-          },
-          "uJdJUF4US1ZK": {
-            "hits": 2,
-            "textWords": 2262
-          }
-        },
-        "queryPhraseHits": 2
-      }
-    ],
-    [
-      {
         "hash": "S-BJJvYLAaI5",
         "address": "https://www.tomshardware.com/news/why-own-raspberry-pi,38809.html",
         "title": "Why Every Tech Geek Should Own a Raspberry Pi | Tom's Hardware",
@@ -819,18 +694,18 @@
         "hash": "l21Wyl8bqxA4",
         "address": "https://www.sparkfun.com/raspberry-pi-poe-injector.html",
         "title": "Raspberry Pi PoE+ Injector - SparkFun Electronics",
-        "snippet": "",
+        "snippet": "Product Overview\nA single port 30W PoE+ Injector enabling PoE supply to PoE enabled Raspberry Pi boards. This device can supply both 55V, 550mA and 10/100/1000 Mbps data rates to the Pi through a single ethernet cable connection. Power cable sold separately.",
         "matchedWords": {
           "cquK9WvdqzOy": {
-            "hits": 18,
-            "textWords": 3259
+            "hits": 4,
+            "textWords": 107
           },
           "uJdJUF4US1ZK": {
-            "hits": 0,
-            "textWords": 0
+            "hits": 4,
+            "textWords": 107
           }
         },
-        "queryPhraseHits": 0
+        "queryPhraseHits": 3
       }
     ],
     [
@@ -867,6 +742,40 @@
           }
         },
         "queryPhraseHits": 28
+      },
+      {
+        "hash": "1jWNOsOMezx5",
+        "address": "https://pimylifeup.com/raspberry-pi-obsidian/",
+        "title": "Easily Take Notes on your Raspberry Pi with Obsidian - Pi My Life Up",
+        "snippet": "Below is a list of equipment we used when setting up Obsidian on our Raspberry Pi.\nRecommended\nRaspberry Pi Amazon\nMicro SD Card Amazon\nPower Supply Amazon\nEthernet Cable Amazon or Wi-Fi Amazon\nHDMI Cable Amazon\nMonitor Amazon\nUSB Mouse Amazon\nUSB Keyboard Amazon\nOptional\nRaspberry Pi Case Amazon",
+        "matchedWords": {
+          "cquK9WvdqzOy": {
+            "hits": 23,
+            "textWords": 785
+          },
+          "uJdJUF4US1ZK": {
+            "hits": 23,
+            "textWords": 785
+          }
+        },
+        "queryPhraseHits": 23
+      },
+      {
+        "hash": "vdRFB2sEYJ15",
+        "address": "https://tailscale.com/docs/solutions/block-ads-all-devices-anywhere-using-raspberry-pi",
+        "title": "Block ads on all your devices from anywhere using a Raspberry Pi · Tailscale Docs",
+        "snippet": "An email account that uses a single sign-on (SSO) identity provider, such as Apple, Google, or Microsoft.\nA Raspberry Pi Model B or later, with a minimum of 2 GB of free space and 512 MB of RAM.\nRaspberry Pi OS (latest version) installed on your Raspberry Pi.",
+        "matchedWords": {
+          "cquK9WvdqzOy": {
+            "hits": 73,
+            "textWords": 1797
+          },
+          "uJdJUF4US1ZK": {
+            "hits": 37,
+            "textWords": 1797
+          }
+        },
+        "queryPhraseHits": 36
       }
     ],
     [
@@ -942,18 +851,18 @@
         "hash": "1gefTsOMezx5",
         "address": "https://pimylifeup.com/raspberry-pi-peanut/",
         "title": "Building a NUT Dashboard with PeaNUT on the Raspberry Pi - Pi My Life Up",
-        "snippet": "",
+        "snippet": "Below is a list of equipment you will need to set up a NUT web dashboard on your Raspberry Pi using PeaNUT.\nRecommended\nRaspberry Pi Amazon\nMicro SD Card Amazon\nPower Supply Amazon\nEthernet Cable Amazon or Wi-Fi Amazon\nUPS\nOptional\nRaspberry Pi Case Amazon\nUSB Mouse Amazon\nUSB Keyboard Amazon",
         "matchedWords": {
           "cquK9WvdqzOy": {
-            "hits": 38,
-            "textWords": 2065
+            "hits": 31,
+            "textWords": 1444
           },
           "uJdJUF4US1ZK": {
-            "hits": 0,
-            "textWords": 0
+            "hits": 26,
+            "textWords": 1444
           }
         },
-        "queryPhraseHits": 0
+        "queryPhraseHits": 26
       }
     ],
     [
@@ -994,21 +903,21 @@
     ],
     [
       {
-        "hash": "74tBuMYLAaI5",
-        "address": "https://www.tomshardware.com/raspberry-pi/page/7",
-        "title": "Raspberry Pi News, Analysis and Features - Page 7 | Tom's Hardware",
-        "snippet": "Stay On the Cutting Edge: Get the Tom's Hardware Newsletter\nGet Tom's Hardware's best news and in-depth reviews, straight to your inbox.\nContact me with news and offers from other Future brands\nReceive email from us on behalf of our trusted partners or sponsors",
+        "hash": "tGMz3l8bqxA4",
+        "address": "https://www.sparkfun.com/raspberry-pi-iqaudio-dac.html",
+        "title": "Raspberry Pi IQAudio DAC+ - SparkFun Electronics",
+        "snippet": "The IQaudIO Pi-DAC+ HAT Audio card for the Raspberry Pi delivers outstanding sonic performance and full-HD (24/192) audio capability with build-in hardware volume control through the standard Linux audio APIs (ALSA) using the Raspberry Pi’s I2S digital audio signals delivering much lower CPU usage",
         "matchedWords": {
           "cquK9WvdqzOy": {
-            "hits": 0,
-            "textWords": 45
+            "hits": 17,
+            "textWords": 291
           },
           "uJdJUF4US1ZK": {
-            "hits": 0,
-            "textWords": 45
+            "hits": 8,
+            "textWords": 291
           }
         },
-        "queryPhraseHits": 0
+        "queryPhraseHits": 8
       }
     ],
     [
@@ -1028,6 +937,25 @@
           }
         },
         "queryPhraseHits": 36
+      }
+    ],
+    [
+      {
+        "hash": "gUgNJl8bqxA4",
+        "address": "https://www.sparkfun.com/raspberry-pi-ai-camera.html",
+        "title": "Raspberry Pi AI Camera - SparkFun Electronics",
+        "snippet": "The PCB outline and mounting hole locations are identical to those of Raspberry Pi Camera Module 3, while the overall depth is greater to accommodate the larger IMX500 sensor and optical subassembly.\nIncludes:\nRaspberry Pi AI Camera Board\n200mm Camera Cable for Raspberry Pi 5 and Later",
+        "matchedWords": {
+          "cquK9WvdqzOy": {
+            "hits": 10,
+            "textWords": 219
+          },
+          "uJdJUF4US1ZK": {
+            "hits": 10,
+            "textWords": 219
+          }
+        },
+        "queryPhraseHits": 10
       }
     ],
     [
@@ -1068,23 +996,6 @@
     ],
     [
       {
-        "hash": "M8bKFlPCpqc4",
-        "address": "https://www.youtube.com/watch?v=o7cZsvTPL0Q",
-        "title": "New Products 7/8/2015 - YouTube",
-        "snippet": "",
-        "matchedWords": {
-          "cquK9WvdqzOy": {
-            "hits": 0,
-            "textWords": 0
-          },
-          "uJdJUF4US1ZK": {
-            "hits": 1,
-            "textWords": 160
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
         "hash": "-j7MN9g9bjtw",
         "address": "https://news.opensuse.org/category/arm",
         "title": "ARM - openSUSE News",
@@ -1100,28 +1011,30 @@
           }
         },
         "queryPhraseHits": 0
-      },
+      }
+    ],
+    [
       {
-        "hash": "RSnU6lRLBnS4",
-        "address": "https://www.seafile.com/en/download/",
-        "title": "Download - Seafile",
-        "snippet": "",
+        "hash": "cg_-JDFJZONx",
+        "address": "https://insinuator.net/2025/06/using-the-raspberry-pi-pico-w-as-a-bluetooth-dongle/",
+        "title": "Using the Raspberry Pi Pico W as a Bluetooth Dongle – Insinuator.net",
+        "snippet": "Inspired by the recent ESP32 Bluetooth research, we wondered whether we could turn our Raspberry Pi Pico Ws into a functioning Bluetooth dongle. We had a few lying around, and the advantage here is that we know exactly which Bluetooth controller it uses – the Infineon CYW43439.",
         "matchedWords": {
           "cquK9WvdqzOy": {
-            "hits": 0,
-            "textWords": 0
+            "hits": 2,
+            "textWords": 867
           },
           "uJdJUF4US1ZK": {
             "hits": 2,
-            "textWords": 542
+            "textWords": 867
           }
         },
-        "queryPhraseHits": 0
+        "queryPhraseHits": 2
       },
       {
-        "hash": "FSw_YxS6MKD4",
-        "address": "https://github.com/openITCOCKPIT/openITCOCKPIT",
-        "title": "GitHub - openITCOCKPIT/openITCOCKPIT: openITCOCKPIT is an Open Source system monitoring tool built for different monitoring engines like Nagios, Naemon and Prometheus.",
+        "hash": "3ek6HGVb5OAw",
+        "address": "https://btxx.org/posts/tech-purity/",
+        "title": "Thoughts on Technological Purity",
         "snippet": "",
         "matchedWords": {
           "cquK9WvdqzOy": {
@@ -1130,240 +1043,53 @@
           },
           "uJdJUF4US1ZK": {
             "hits": 1,
-            "textWords": 2538
+            "textWords": 730
           }
         },
         "queryPhraseHits": 0
       },
       {
-        "hash": "xrIUclP6YXm4",
-        "address": "https://www.adafruit.com/careers",
-        "title": "Careers at Adafruit",
+        "hash": "e6bpa_AJN7b6",
+        "address": "https://optimizedbyotto.com/post/ubuntu-pro-subscription-pay-for-linux/",
+        "title": "Ubuntu Pro subscription - should you pay to use Linux?",
         "snippet": "",
         "matchedWords": {
           "cquK9WvdqzOy": {
             "hits": 0,
             "textWords": 0
-          },
-          "uJdJUF4US1ZK": {
-            "hits": 2,
-            "textWords": 883
-          }
-        },
-        "queryPhraseHits": 0
-      }
-    ],
-    [
-      {
-        "hash": "5aOF74eBOW2g",
-        "address": "https://www.phoscon.de/de/conbee2/install",
-        "title": "ConBee II Installation",
-        "snippet": "",
-        "matchedWords": {
-          "cquK9WvdqzOy": {
-            "hits": 7,
-            "textWords": 1347
-          },
-          "uJdJUF4US1ZK": {
-            "hits": 0,
-            "textWords": 0
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "xr6iDzS6MKD4",
-        "address": "https://github.com/awesome-selfhosted/awesome-selfhosted",
-        "title": "GitHub - awesome-selfhosted/awesome-selfhosted: A list of Free Software network services and web applications which can be hosted on your own servers",
-        "snippet": "",
-        "matchedWords": {
-          "cquK9WvdqzOy": {
-            "hits": 2,
-            "textWords": 25449
-          },
-          "uJdJUF4US1ZK": {
-            "hits": 0,
-            "textWords": 0
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "Mex80Kf4Pib5",
-        "address": "https://code.visualstudio.com/docs/getstarted/telemetry",
-        "title": "Visual Studio Code Telemetry",
-        "snippet": "",
-        "matchedWords": {
-          "cquK9WvdqzOy": {
-            "hits": 2,
-            "textWords": 2837
-          },
-          "uJdJUF4US1ZK": {
-            "hits": 0,
-            "textWords": 0
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "fnb7D4eBOW2g",
-        "address": "https://www.phoscon.de/de/conbee2",
-        "title": "ConBee II Übersicht",
-        "snippet": "",
-        "matchedWords": {
-          "cquK9WvdqzOy": {
-            "hits": 2,
-            "textWords": 881
-          },
-          "uJdJUF4US1ZK": {
-            "hits": 0,
-            "textWords": 0
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "jwUs34eBOW2g",
-        "address": "https://www.phoscon.de/de/support",
-        "title": "Technischer Support",
-        "snippet": "",
-        "matchedWords": {
-          "cquK9WvdqzOy": {
-            "hits": 2,
-            "textWords": 2371
-          },
-          "uJdJUF4US1ZK": {
-            "hits": 0,
-            "textWords": 0
-          }
-        },
-        "queryPhraseHits": 0
-      }
-    ],
-    [
-      {
-        "hash": "BdNFVMs8l0-4",
-        "address": "https://www.clubic.com/raspberry-pi/article-891655-1-raspberry-pi-transformer-enceintes-airplay-spotify.html",
-        "title": "Comment transformer votre enceinte en enceinte connectée grâce à Balena Sound et un Raspberry Pi ?",
-        "snippet": "Pour résumer, il faut réunir :\nUn Raspberry Pi, au choix entre les versions Zero W ; 3A ; 3B et 3B+ et Pi 4 B. Dans notre cas nous avons utilisé un Raspberry Pi 3B+.\nVous trouverez de plus amples informations concernant le choix du Raspberry Pi en consultant notre article dédié.",
-        "matchedWords": {
-          "cquK9WvdqzOy": {
-            "hits": 53,
-            "textWords": 3537
-          },
-          "uJdJUF4US1ZK": {
-            "hits": 28,
-            "textWords": 3537
-          }
-        },
-        "queryPhraseHits": 28
-      },
-      {
-        "hash": "cR3HHu78zDE5",
-        "address": "https://www.xatakahome.com/trucos-y-bricolaje-smart/haz-una-camara-de-video-con-streaming-en-youtube-con-tu-raspberry-pi",
-        "title": "Haz una cámara de vídeo con streaming en YouTube con tu Raspberry Pi",
-        "snippet": "A lo mejor Papá Noel te ha traído una Raspberry Pi y andas rascándote la cabeza para saber qué vas a hacer con ella. ¿Sabes que puedes hacer un servicio de vídeo por streaming en YouTube con una Raspberry Pi? Puede ser un proyecto interesante para estas Navidades.",
-        "matchedWords": {
-          "cquK9WvdqzOy": {
-            "hits": 6,
-            "textWords": 187
-          },
-          "uJdJUF4US1ZK": {
-            "hits": 6,
-            "textWords": 187
-          }
-        },
-        "queryPhraseHits": 6
-      },
-      {
-        "hash": "GYGEOYgdaPmx",
-        "address": "https://buildhat.readthedocs.io/en/latest/buildhat/index.html",
-        "title": "Build HAT — Raspberry Pi Build HAT documentation",
-        "snippet": "Library¶\nThe Build HAT library has been created to support the Raspberry Pi Build HAT, an add-on board for the Raspberry Pi computer, which allows control of up to four LEGO® TECHNIC™ motors and sensors included in the SPIKE™ Portfolio.",
-        "matchedWords": {
-          "cquK9WvdqzOy": {
-            "hits": 4,
-            "textWords": 317
-          },
-          "uJdJUF4US1ZK": {
-            "hits": 4,
-            "textWords": 317
-          }
-        },
-        "queryPhraseHits": 4
-      },
-      {
-        "hash": "5NewuWJXhrGi",
-        "address": "https://www.sharpdisplays.eu/p/eeme/en/products/accessories/details/t/options/computing-solutions/rp/mpi5-kit.xhtml",
-        "title": "MPi5 Kit powered by Raspberry Pi - Sharp Display Solutions",
-        "snippet": "",
-        "matchedWords": {
-          "cquK9WvdqzOy": {
-            "hits": 0,
-            "textWords": 0
-          },
-          "uJdJUF4US1ZK": {
-            "hits": 8,
-            "textWords": 1946
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "3sLpLxk5tjlg",
-        "address": "https://register-of-charities.charitycommission.gov.uk/en/charity-search/-/charity-details/5002372/full-print",
-        "title": "RASPBERRY PI FOUNDATION - 1129409",
-        "snippet": "TO FURTHER THE ADVANCEMENT OF EDUCATION OF ADULTS AND CHILDREN, PARTICULARLY IN THE FIELD OF COMPUTERS, COMPUTER SCIENCE AND RELATED SUBJECTS.\nArea of benefit\nThe area the charity can operate in, as set out in its governing document.\nNOT DEFINED.\nContact information\nAddress:\nRASPBERRY PI FOUNDATION",
-        "matchedWords": {
-          "cquK9WvdqzOy": {
-            "hits": 1,
-            "textWords": 1403
           },
           "uJdJUF4US1ZK": {
             "hits": 1,
-            "textWords": 1403
+            "textWords": 2047
           }
         },
-        "queryPhraseHits": 1
-      },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
       {
-        "hash": "H3h_oJ5ESx75",
-        "address": "https://www.jeffgeerling.com/blog/2015/getting-gigabit-networking/",
-        "title": "Getting Gigabit Networking on a Raspberry Pi 2, 3 and B+ - Jeff Geerling",
-        "snippet": "tl;dr You can get Gigabit networking working on any current Raspberry Pi (A+, B+, Pi 2 model B, Pi 3 model B), and you can increase the throughput to at least 300+ Mbps (up from the standard 100 Mbps connection via built-in Ethernet).",
+        "hash": "jDfrOl8bqxA4",
+        "address": "https://www.sparkfun.com/raspberry-pi-ssd-256gb.html",
+        "title": "Raspberry Pi SSD - 256GB - SparkFun Electronics",
+        "snippet": "Product Overview\nOne of the most exciting aspects of the PCI-E compatibility of the Raspberry Pi 5 is the ability to use M.2 NVMe SSDs instead of a microSD card. Raspberry Pi has provided us with an approved SSD for use with the Raspberry Pi 5. This 256GB NVMe SSD comes to us from Raspberry Pi.",
         "matchedWords": {
           "cquK9WvdqzOy": {
-            "hits": 15,
-            "textWords": 696
+            "hits": 5,
+            "textWords": 101
           },
           "uJdJUF4US1ZK": {
-            "hits": 7,
-            "textWords": 696
+            "hits": 5,
+            "textWords": 101
           }
         },
-        "queryPhraseHits": 7
-      },
+        "queryPhraseHits": 5
+      }
+    ],
+    [
       {
-        "hash": "r3Krijh5j3y5",
-        "address": "https://investors.raspberrypi.com/leadership",
-        "title": "Leadership - Investor relations - Raspberry Pi",
-        "snippet": "Chris is an angel investor focused on deep tech. He is a venture partner at Entrepreneur First and a former trustee of the Raspberry Pi Foundation.",
-        "matchedWords": {
-          "cquK9WvdqzOy": {
-            "hits": 4,
-            "textWords": 2148
-          },
-          "uJdJUF4US1ZK": {
-            "hits": 4,
-            "textWords": 2148
-          }
-        },
-        "queryPhraseHits": 4
-      },
-      {
-        "hash": "lIRZUs_KmLMw",
-        "address": "https://astro-pi.org/",
-        "title": "Astro Pi | A free challenge where kids run their code in space",
+        "hash": "6dtY1lr2OnJ5",
+        "address": "https://www.slickedit.com/",
+        "title": "SlickEdit | code editor",
         "snippet": "",
         "matchedWords": {
           "cquK9WvdqzOy": {
@@ -1372,43 +1098,7 @@
           },
           "uJdJUF4US1ZK": {
             "hits": 2,
-            "textWords": 851
-          }
-        },
-        "queryPhraseHits": 0
-      }
-    ],
-    [
-      {
-        "hash": "ZupVVT78zDE5",
-        "address": "https://www.xatakahome.com/aplicaciones/retropie-3-no-pierdas-el-tiempo-e-instalalo-ya-en-tu-raspberry-pi",
-        "title": "RetroPie 3: no pierdas el tiempo e instálalo ya en tu Raspberry Pi",
-        "snippet": "",
-        "matchedWords": {
-          "cquK9WvdqzOy": {
-            "hits": 8,
-            "textWords": 1431
-          },
-          "uJdJUF4US1ZK": {
-            "hits": 0,
-            "textWords": 0
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "IU0OTl8bqxA4",
-        "address": "https://www.sparkfun.com/",
-        "title": "SparkFun Electronics - SparkFun Electronics",
-        "snippet": "",
-        "matchedWords": {
-          "cquK9WvdqzOy": {
-            "hits": 11,
-            "textWords": 5642
-          },
-          "uJdJUF4US1ZK": {
-            "hits": 0,
-            "textWords": 0
+            "textWords": 365
           }
         },
         "queryPhraseHits": 0
@@ -1435,21 +1125,21 @@
     ],
     [
       {
-        "hash": "1Zdo-AVimsy4",
-        "address": "https://thepihut.com/collections/raspberry-pi-gifts",
-        "title": "Raspberry Pi Gifts - The Pi Hut",
-        "snippet": "Huge Range\nYour cart is empty\nHome\nGifts\nRaspberry Pi Gifts\nSave 70%\nOur selection of Raspberry Pi Gift Ideas will help you find the perfect something for that perfect someone, be it for a birthday, Christmas, Father's Day, Mothers day or any other seasonal gifting event!",
+        "hash": "qqLWzXVimsy4",
+        "address": "https://thepihut.com/products/raspberry-pi-5",
+        "title": "Raspberry Pi 5 - The Pi Hut",
+        "snippet": "Raspberry Pi 5 Resources\nRaspberry Pi 5 announcement 16GB variant announcement\nEben Upton Raspberry Pi 5 introduction video\nRaspberry Pi 5 Product Brief\nRaspberry Pi 5 Mechanical Drawing\nCompliance Information\nRaspberry Pi Imager\nEAN: 1GB: 5056561803296\n2GB: 5056561803302\n4GB: 5056561803319",
         "matchedWords": {
           "cquK9WvdqzOy": {
-            "hits": 4,
-            "textWords": 125
+            "hits": 74,
+            "textWords": 1402
           },
           "uJdJUF4US1ZK": {
-            "hits": 3,
-            "textWords": 125
+            "hits": 73,
+            "textWords": 1402
           }
         },
-        "queryPhraseHits": 3
+        "queryPhraseHits": 73
       },
       {
         "hash": "lIRZUs_KmLMw",
@@ -1469,18 +1159,18 @@
         "queryPhraseHits": 0
       },
       {
-        "hash": "wWhN8MlnIma5",
-        "address": "https://www.waveshare.com/product/accessories/misc/raspberry-pi-cases.htm",
-        "title": "Raspberry Pi Cases, Protection Enclosures",
-        "snippet": "",
+        "hash": "siS8iMlnIma5",
+        "address": "https://www.waveshare.com/product/raspberry-pi/hats/versatile.htm",
+        "title": "Raspberry Pi Versatile HATs",
+        "snippet": "BE THE FIRST TO KNOW\nGet all the latest information, subscribe now.",
         "matchedWords": {
           "cquK9WvdqzOy": {
-            "hits": 79,
-            "textWords": 2595
+            "hits": 0,
+            "textWords": 12
           },
           "uJdJUF4US1ZK": {
             "hits": 0,
-            "textWords": 0
+            "textWords": 12
           }
         },
         "queryPhraseHits": 0
@@ -1545,6 +1235,61 @@
     ],
     [
       {
+        "hash": "gvuasl8bqxA4",
+        "address": "https://www.sparkfun.com/raspberry-pi-4-model-b-8-gb.html",
+        "title": "Raspberry Pi 4 Model B (8 GB) - SparkFun Electronics",
+        "snippet": "In addition to two USB2 ports, the Raspberry Pi 4 also has two USB 3 ports making data transfers that much quicker over USB.\nThe Raspberry Pi Model B line is a desktop computer in a package the size of a credit card.",
+        "matchedWords": {
+          "cquK9WvdqzOy": {
+            "hits": 7,
+            "textWords": 275
+          },
+          "uJdJUF4US1ZK": {
+            "hits": 4,
+            "textWords": 275
+          }
+        },
+        "queryPhraseHits": 4
+      },
+      {
+        "hash": "mAUzFKS6MKD4",
+        "address": "https://github.com/bublath/rpi-dht",
+        "title": "GitHub - bublath/rpi-dht: Perl module RPi::DHT to read temperature and humidity from DHT11/DHT22 sensors on a Raspberry Pi · GitHub",
+        "snippet": "",
+        "matchedWords": {
+          "cquK9WvdqzOy": {
+            "hits": 2,
+            "textWords": 710
+          },
+          "uJdJUF4US1ZK": {
+            "hits": 0,
+            "textWords": 0
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "qqLWzXVimsy4",
+        "address": "https://thepihut.com/products/raspberry-pi-5",
+        "title": "Raspberry Pi 5 - The Pi Hut",
+        "snippet": "Raspberry Pi 5 Resources\nRaspberry Pi 5 announcement 16GB variant announcement\nEben Upton Raspberry Pi 5 introduction video\nRaspberry Pi 5 Product Brief\nRaspberry Pi 5 Mechanical Drawing\nCompliance Information\nRaspberry Pi Imager\nEAN: 1GB: 5056561803296\n2GB: 5056561803302\n4GB: 5056561803319",
+        "matchedWords": {
+          "cquK9WvdqzOy": {
+            "hits": 74,
+            "textWords": 1402
+          },
+          "uJdJUF4US1ZK": {
+            "hits": 73,
+            "textWords": 1402
+          }
+        },
+        "queryPhraseHits": 73
+      }
+    ],
+    [
+      {
         "hash": "7uQD4VgsGuO5",
         "address": "https://www.cnx-software.com/2025/12/20/do-you-need-14-usb-ports-on-your-raspberry-pi-5/",
         "title": "Do you need 14 USB ports on your Raspberry Pi 5? - CNX Software",
@@ -1564,28 +1309,9 @@
     ],
     [
       {
-        "hash": "0P5oHjRvmBbx",
-        "address": "https://en.wikipedia.org/wiki/Raspbian",
-        "title": "Raspberry Pi OS - Wikipedia",
-        "snippet": "\"A new release of Raspberry Pi OS\". Raspberry Pi. Retrieved 28 May 2025.\n↑ Long, Simon (11 October 2023). \"Bookworm — the new version of Raspberry Pi OS\". Raspberry Pi. Retrieved 28 May 2025.\n↑ Long, Simon (7 May 2025). \"A new Raspberry Pi OS release\". Raspberry Pi. Retrieved 28 May 2025.",
-        "matchedWords": {
-          "cquK9WvdqzOy": {
-            "hits": 77,
-            "textWords": 1831
-          },
-          "uJdJUF4US1ZK": {
-            "hits": 72,
-            "textWords": 1831
-          }
-        },
-        "queryPhraseHits": 72
-      }
-    ],
-    [
-      {
-        "hash": "AdbcrsAJZXH0",
-        "address": "https://xon.sh/",
-        "title": "Xonsh — Python-powered shell for Linux, macOS, Windows, Android",
+        "hash": "9ezayCW63u4x",
+        "address": "https://veracrypt.io/en/Downloads.html",
+        "title": "VeraCrypt - Free Open source disk encryption with strong security for the Paranoid",
         "snippet": "",
         "matchedWords": {
           "cquK9WvdqzOy": {
@@ -1594,7 +1320,26 @@
           },
           "uJdJUF4US1ZK": {
             "hits": 1,
-            "textWords": 715
+            "textWords": 1419
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "RNe16ug2aLVh",
+        "address": "https://community.searchlab.eu/t/yacy-on-raspberry-pi/1790",
+        "title": "Yacy on raspberry Pi",
+        "snippet": "",
+        "matchedWords": {
+          "cquK9WvdqzOy": {
+            "hits": 0,
+            "textWords": 0
+          },
+          "uJdJUF4US1ZK": {
+            "hits": 3,
+            "textWords": 148
           }
         },
         "queryPhraseHits": 0
@@ -1605,18 +1350,18 @@
         "hash": "-vFO6sYLAaI5",
         "address": "https://www.tomshardware.com/how-to/create-ai-chatbot-server-on-raspberry-pi",
         "title": "How To Create Your Own AI Chatbot Server With Raspberry Pi 4 | Tom's Hardware",
-        "snippet": "",
+        "snippet": "Running LLaMA on Raspberry Pi 4\n(Image credit: Tom's Hardware)\nIn this final section I repeat the llama.cpp setup on the Raspberry Pi 4, then copy the models across using a USB drive. Then I load an interactive chat session and ask “Bob” a series of questions.",
         "matchedWords": {
           "cquK9WvdqzOy": {
-            "hits": 34,
-            "textWords": 3762
+            "hits": 13,
+            "textWords": 840
           },
           "uJdJUF4US1ZK": {
-            "hits": 0,
-            "textWords": 0
+            "hits": 12,
+            "textWords": 840
           }
         },
-        "queryPhraseHits": 0
+        "queryPhraseHits": 12
       }
     ],
     [
@@ -1640,113 +1385,62 @@
     ],
     [
       {
-        "hash": "TtXkJwSMo4M4",
-        "address": "https://www.zdnet.com/article/best-raspberry-pi-alternative/",
-        "title": "The best Raspberry Pi alternatives of 2026: Expert recommended | ZDNET",
-        "snippet": "At the time of writing, I haven’t noticed any substantial price rises that impact my favorite products, but this could change at any time.\nRaspberry Pi alternative FAQs\nWhat is Raspberry Pi?\nRaspberry Pi is a small computing system developed by the U.K.-based non-profit Raspberry Pi Foundation.",
+        "hash": "bvdN-lBjnZN4",
+        "address": "https://www.canakit.com/raspberry-pi-5",
+        "title": "Raspberry Pi 5",
+        "snippet": "Speedy Delivery\nExpress service available\nBusiness \u0026 Industrial\nWe service enterprise clients\nQuestions\nContact our friendly customer support\nSecure Online Payment\nWe possess SSL / Secure сertificate",
         "matchedWords": {
           "cquK9WvdqzOy": {
-            "hits": 77,
-            "textWords": 4143
-          },
-          "uJdJUF4US1ZK": {
-            "hits": 55,
-            "textWords": 4143
-          }
-        },
-        "queryPhraseHits": 55
-      },
-      {
-        "hash": "gRWIvhQCzJQg",
-        "address": "https://www.chip.de/downloads/Raspberry-Pi-OS-ehemals-Raspbian_56691903.html",
-        "title": "Raspberry Pi OS (ehemals Raspbian) - Download - CHIP",
-        "snippet": "",
-        "matchedWords": {
-          "cquK9WvdqzOy": {
-            "hits": 29,
-            "textWords": 1150
+            "hits": 0,
+            "textWords": 25
           },
           "uJdJUF4US1ZK": {
             "hits": 0,
-            "textWords": 0
+            "textWords": 25
           }
         },
         "queryPhraseHits": 0
       },
       {
-        "hash": "a-e4lwX-NDdg",
-        "address": "https://www.pcwelt.de/article/2247763/raspberry-pi-5-tipps-tricks.html",
-        "title": "Raspberry Pi 5: Die 6 besten Tipps, Tricks \u0026 Anwendungen für den Einplatinen-PC – PC-WELT",
+        "hash": "suYK1l8bqxA4",
+        "address": "https://www.sparkfun.com/raspberry-pi-build-hat.html",
+        "title": "Raspberry Pi Build HAT - SparkFun Electronics",
+        "snippet": "The Build HAT is the second Raspberry Pi product, after Raspberry Pi Pico, to be powered by the Raspberry Pi RP2040 microcontroller. It fits all Raspberry Pi boards with the 40 pin I/O header (though the Pi 400 needs a ribbon cable or our Qwiic pHAT Extension).",
+        "matchedWords": {
+          "cquK9WvdqzOy": {
+            "hits": 14,
+            "textWords": 281
+          },
+          "uJdJUF4US1ZK": {
+            "hits": 13,
+            "textWords": 281
+          }
+        },
+        "queryPhraseHits": 13
+      }
+    ],
+    [
+      {
+        "hash": "IU0OTl8bqxA4",
+        "address": "https://www.sparkfun.com/",
+        "title": "SparkFun Electronics - SparkFun Electronics",
         "snippet": "",
         "matchedWords": {
           "cquK9WvdqzOy": {
-            "hits": 40,
-            "textWords": 1854
-          },
-          "uJdJUF4US1ZK": {
             "hits": 0,
             "textWords": 0
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "K9jghwMA19g4",
-        "address": "https://www.pcworld.com/article/420028/10-practical-raspberry-pi-projects-anyone-can-do.html",
-        "title": "10 surprisingly practical Raspberry Pi projects anybody can do | PCWorld",
-        "snippet": "You’ll want to use a Raspberry Pi 2, 3, or 4, though—the original Pi and the Raspberry Pi Zero are just pokey enough to be frustrating for general tasks. With the right case, the Pi can look downright stylish in your home theater, too.",
-        "matchedWords": {
-          "cquK9WvdqzOy": {
-            "hits": 36,
-            "textWords": 1465
           },
           "uJdJUF4US1ZK": {
-            "hits": 32,
-            "textWords": 1465
-          }
-        },
-        "queryPhraseHits": 31
-      },
-      {
-        "hash": "i77Y4vDOAHJg",
-        "address": "https://www.heise.de/news/Raspberry-Pi-OS-Sanfte-Versionspflege-11340343.html",
-        "title": "Raspberry Pi OS: Sanfte Versionspflege | heise online",
-        "snippet": "",
-        "matchedWords": {
-          "cquK9WvdqzOy": {
             "hits": 11,
-            "textWords": 994
-          },
-          "uJdJUF4US1ZK": {
-            "hits": 0,
-            "textWords": 0
+            "textWords": 5642
           }
         },
         "queryPhraseHits": 0
       },
       {
-        "hash": "BNDWYSYLAaI5",
-        "address": "https://www.tomshardware.com/best-picks/raspberry-pi-microsd-cards",
-        "title": "Best microSD Cards for Raspberry Pi 2025 | Tom's Hardware",
-        "snippet": "If you need the ultimate speed for your Raspberry Pi, then you need the flagship Raspberry Pi 5 and an M.2 HAT such as the Editor's Choice Pineboard HatDrive! Nano Pimoroni's NVMe Base, and the official Raspberry Pi M.2 HAT . We've got a guide on how to use an NVMe drive with your Raspberry Pi 5.",
-        "matchedWords": {
-          "cquK9WvdqzOy": {
-            "hits": 105,
-            "textWords": 3589
-          },
-          "uJdJUF4US1ZK": {
-            "hits": 87,
-            "textWords": 3589
-          }
-        },
-        "queryPhraseHits": 86
-      }
-    ],
-    [
-      {
-        "hash": "7b0gSsUQxb2x",
-        "address": "https://join-lemmy.org/",
-        "title": "Lemmy - A decentralised discussion platform for communities",
+        "hash": "2sYYKsS6MKD4",
+        "address": "https://github.com/mayhem",
+        "title": "mayhem (Robert Kaye) · GitHub",
         "snippet": "",
         "matchedWords": {
           "cquK9WvdqzOy": {
@@ -1755,7 +1449,7 @@
           },
           "uJdJUF4US1ZK": {
             "hits": 1,
-            "textWords": 528
+            "textWords": 686
           }
         },
         "queryPhraseHits": 0
@@ -1763,69 +1457,14 @@
     ],
     [
       {
-        "hash": "M8bKFlPCpqc4",
-        "address": "https://www.youtube.com/watch?v=o7cZsvTPL0Q",
-        "title": "New Products 7/8/2015 - YouTube",
+        "hash": "7qi9OOZ4S_O4",
+        "address": "https://www.ctrl-c.club/~timemachine/2020/09/24/adding-gitea-to-my-rasberry-pi/",
+        "title": "Adding Gitea To My Raspberry Pi",
         "snippet": "",
         "matchedWords": {
           "cquK9WvdqzOy": {
-            "hits": 1,
-            "textWords": 160
-          },
-          "uJdJUF4US1ZK": {
-            "hits": 0,
-            "textWords": 0
-          }
-        },
-        "queryPhraseHits": 0
-      }
-    ],
-    [
-      {
-        "hash": "AVD5MlyMRhi5",
-        "address": "https://www.redshirtjeff.com/",
-        "title": "Red Shirt Jeff",
-        "snippet": "",
-        "matchedWords": {
-          "cquK9WvdqzOy": {
-            "hits": 0,
-            "textWords": 0
-          },
-          "uJdJUF4US1ZK": {
-            "hits": 1,
-            "textWords": 640
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "Cy0_boS6MKD4",
-        "address": "https://github.com/roboflow/inference",
-        "title": "GitHub - roboflow/inference: Turn any computer or edge device into a command center for your computer vision projects. · GitHub",
-        "snippet": "",
-        "matchedWords": {
-          "cquK9WvdqzOy": {
-            "hits": 0,
-            "textWords": 0
-          },
-          "uJdJUF4US1ZK": {
-            "hits": 1,
-            "textWords": 2844
-          }
-        },
-        "queryPhraseHits": 0
-      }
-    ],
-    [
-      {
-        "hash": "lIRZUs_KmLMw",
-        "address": "https://astro-pi.org/",
-        "title": "Astro Pi | A free challenge where kids run their code in space",
-        "snippet": "",
-        "matchedWords": {
-          "cquK9WvdqzOy": {
-            "hits": 10,
-            "textWords": 851
+            "hits": 14,
+            "textWords": 1565
           },
           "uJdJUF4US1ZK": {
             "hits": 0,
@@ -1835,125 +1474,21 @@
         "queryPhraseHits": 0
       },
       {
-        "hash": "BdNFVMs8l0-4",
-        "address": "https://www.clubic.com/raspberry-pi/article-891655-1-raspberry-pi-transformer-enceintes-airplay-spotify.html",
-        "title": "Comment transformer votre enceinte en enceinte connectée grâce à Balena Sound et un Raspberry Pi ?",
-        "snippet": "Pour résumer, il faut réunir :\nUn Raspberry Pi, au choix entre les versions Zero W ; 3A ; 3B et 3B+ et Pi 4 B. Dans notre cas nous avons utilisé un Raspberry Pi 3B+.\nVous trouverez de plus amples informations concernant le choix du Raspberry Pi en consultant notre article dédié.",
+        "hash": "f1Rj-Szmo8j4",
+        "address": "https://tilde.town/~kzimmermann/articles/30_days_on_a_pi.html",
+        "title": "Klaus Zimmermann's musings - 30 days on a Raspberry Pi",
+        "snippet": "I am certainly no stranger to using a Raspberry Pi as a desktop.",
         "matchedWords": {
           "cquK9WvdqzOy": {
-            "hits": 53,
-            "textWords": 3537
+            "hits": 32,
+            "textWords": 2509
           },
           "uJdJUF4US1ZK": {
-            "hits": 28,
-            "textWords": 3537
+            "hits": 9,
+            "textWords": 2509
           }
         },
-        "queryPhraseHits": 28
-      },
-      {
-        "hash": "cR3HHu78zDE5",
-        "address": "https://www.xatakahome.com/trucos-y-bricolaje-smart/haz-una-camara-de-video-con-streaming-en-youtube-con-tu-raspberry-pi",
-        "title": "Haz una cámara de vídeo con streaming en YouTube con tu Raspberry Pi",
-        "snippet": "A lo mejor Papá Noel te ha traído una Raspberry Pi y andas rascándote la cabeza para saber qué vas a hacer con ella. ¿Sabes que puedes hacer un servicio de vídeo por streaming en YouTube con una Raspberry Pi? Puede ser un proyecto interesante para estas Navidades.",
-        "matchedWords": {
-          "cquK9WvdqzOy": {
-            "hits": 6,
-            "textWords": 187
-          },
-          "uJdJUF4US1ZK": {
-            "hits": 6,
-            "textWords": 187
-          }
-        },
-        "queryPhraseHits": 6
-      },
-      {
-        "hash": "GYGEOYgdaPmx",
-        "address": "https://buildhat.readthedocs.io/en/latest/buildhat/index.html",
-        "title": "Build HAT — Raspberry Pi Build HAT documentation",
-        "snippet": "Library¶\nThe Build HAT library has been created to support the Raspberry Pi Build HAT, an add-on board for the Raspberry Pi computer, which allows control of up to four LEGO® TECHNIC™ motors and sensors included in the SPIKE™ Portfolio.",
-        "matchedWords": {
-          "cquK9WvdqzOy": {
-            "hits": 4,
-            "textWords": 317
-          },
-          "uJdJUF4US1ZK": {
-            "hits": 4,
-            "textWords": 317
-          }
-        },
-        "queryPhraseHits": 4
-      },
-      {
-        "hash": "3sLpLxk5tjlg",
-        "address": "https://register-of-charities.charitycommission.gov.uk/en/charity-search/-/charity-details/5002372/full-print",
-        "title": "RASPBERRY PI FOUNDATION - 1129409",
-        "snippet": "TO FURTHER THE ADVANCEMENT OF EDUCATION OF ADULTS AND CHILDREN, PARTICULARLY IN THE FIELD OF COMPUTERS, COMPUTER SCIENCE AND RELATED SUBJECTS.\nArea of benefit\nThe area the charity can operate in, as set out in its governing document.\nNOT DEFINED.\nContact information\nAddress:\nRASPBERRY PI FOUNDATION",
-        "matchedWords": {
-          "cquK9WvdqzOy": {
-            "hits": 1,
-            "textWords": 1403
-          },
-          "uJdJUF4US1ZK": {
-            "hits": 1,
-            "textWords": 1403
-          }
-        },
-        "queryPhraseHits": 1
-      },
-      {
-        "hash": "5NewuWJXhrGi",
-        "address": "https://www.sharpdisplays.eu/p/eeme/en/products/accessories/details/t/options/computing-solutions/rp/mpi5-kit.xhtml",
-        "title": "MPi5 Kit powered by Raspberry Pi - Sharp Display Solutions",
-        "snippet": "",
-        "matchedWords": {
-          "cquK9WvdqzOy": {
-            "hits": 8,
-            "textWords": 1946
-          },
-          "uJdJUF4US1ZK": {
-            "hits": 0,
-            "textWords": 0
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "H3h_oJ5ESx75",
-        "address": "https://www.jeffgeerling.com/blog/2015/getting-gigabit-networking/",
-        "title": "Getting Gigabit Networking on a Raspberry Pi 2, 3 and B+ - Jeff Geerling",
-        "snippet": "tl;dr You can get Gigabit networking working on any current Raspberry Pi (A+, B+, Pi 2 model B, Pi 3 model B), and you can increase the throughput to at least 300+ Mbps (up from the standard 100 Mbps connection via built-in Ethernet).",
-        "matchedWords": {
-          "cquK9WvdqzOy": {
-            "hits": 15,
-            "textWords": 696
-          },
-          "uJdJUF4US1ZK": {
-            "hits": 7,
-            "textWords": 696
-          }
-        },
-        "queryPhraseHits": 7
-      }
-    ],
-    [
-      {
-        "hash": "a2-ORsju47ez",
-        "address": "https://openenergymonitor.org/",
-        "title": "Home | OpenEnergyMonitor",
-        "snippet": "",
-        "matchedWords": {
-          "cquK9WvdqzOy": {
-            "hits": 0,
-            "textWords": 0
-          },
-          "uJdJUF4US1ZK": {
-            "hits": 2,
-            "textWords": 234
-          }
-        },
-        "queryPhraseHits": 0
+        "queryPhraseHits": 9
       }
     ],
     [
@@ -1994,23 +1529,6 @@
     ],
     [
       {
-        "hash": "qXmeJtiDDwz4",
-        "address": "https://sweasel.com/archives/30037",
-        "title": "Scarcity",
-        "snippet": "",
-        "matchedWords": {
-          "cquK9WvdqzOy": {
-            "hits": 0,
-            "textWords": 0
-          },
-          "uJdJUF4US1ZK": {
-            "hits": 1,
-            "textWords": 58
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
         "hash": "kh05NsYlAY74",
         "address": "https://ubuntu.com/download",
         "title": "Get Ubuntu | Download | Ubuntu",
@@ -2030,65 +1548,65 @@
     ],
     [
       {
-        "hash": "2yk0DDVimsy4",
-        "address": "https://thepihut.com/blogs/raspberry-pi-roundup/what-you-need-to-get-started-with-the-raspberry-pi",
-        "title": "What you need to get started with the Raspberry Pi",
-        "snippet": "There are different bundles to fit all budgets, making getting started with the Raspberry Pi even easier!\nRaspberry Pi\nThere are several models of Raspberry Pi available on the market currently, however, the most current and up to date are the Raspberry Pi 3 and the Raspberry Pi Zero W.",
-        "matchedWords": {
-          "cquK9WvdqzOy": {
-            "hits": 34,
-            "textWords": 632
-          },
-          "uJdJUF4US1ZK": {
-            "hits": 30,
-            "textWords": 632
-          }
-        },
-        "queryPhraseHits": 30
-      },
-      {
-        "hash": "aPSJXXVimsy4",
-        "address": "https://thepihut.com/products/remotepi-board-for-raspberry-pi-4",
-        "title": "RemotePi Board for Raspberry Pi 4 [Discontinued] - The Pi Hut",
-        "snippet": "The RemotePi can handle much higher currents than previous RemotePi Boards, more than enough for the full 3A current provided by the official USB-C power supply.\nCompatibility with previous Raspberry Pi models\nThe Remote Pi for Raspberry Pi 4 can be used with the Raspberry Pi 3,3B+,3A+,2,A+, B+.",
+        "hash": "1QNhwAVimsy4",
+        "address": "https://thepihut.com/collections/raspberry-pi-store?page=39",
+        "title": "Raspberry Pi Store - The Pi Hut – Page 39",
+        "snippet": "We sell all models of the Raspberry Pi including the latest Raspberry Pi 5 , Raspberry Pi 500+ and Raspberry Pi 500, alongside the Raspberry Pi 4, Raspberry Pi 400, Raspberry Pi Zero 2 and Raspberry Pi Pico 2 W.",
         "matchedWords": {
           "cquK9WvdqzOy": {
             "hits": 17,
-            "textWords": 620
+            "textWords": 181
           },
           "uJdJUF4US1ZK": {
-            "hits": 14,
-            "textWords": 620
+            "hits": 15,
+            "textWords": 181
           }
         },
-        "queryPhraseHits": 14
+        "queryPhraseHits": 15
       },
       {
-        "hash": "o_m_nAVimsy4",
-        "address": "https://thepihut.com/collections/raspberry-pi-power-supplies",
-        "title": "Raspberry Pi Power Supplies - The Pi Hut",
-        "snippet": "Huge Range\nYour cart is empty\nHome\nRaspberry Pi Store\nRaspberry Pi Power Supplies\nSave 50%\nSave 20%\nWhen it comes to powering your Raspberry Pi, we always recommend using an Official Raspberry Power Supply.",
+        "hash": "20Pc3luwPzox",
+        "address": "https://www.raspberrypi.org/donate/?utm_source=blog\u0026utm_medium=web\u0026utm_campaign=pi-day-2023",
+        "title": "Donate to the Raspberry Pi Foundation – Raspberry Pi",
+        "snippet": "Follow Raspberry Pi on Linkedin\nLike Raspberry Pi on Facebook\nFollow Raspberry Pi on X\nJoin us on Instagram\nSubscribe to the Raspberry Pi YouTube channel\nThe Raspberry Pi Foundation is a UK company limited by guarantee and a charity registered in England and Wales with number 1129409.",
+        "matchedWords": {
+          "cquK9WvdqzOy": {
+            "hits": 10,
+            "textWords": 101
+          },
+          "uJdJUF4US1ZK": {
+            "hits": 10,
+            "textWords": 101
+          }
+        },
+        "queryPhraseHits": 10
+      },
+      {
+        "hash": "oZ1OMDVimsy4",
+        "address": "https://thepihut.com/blogs/raspberry-pi-tutorials/build-a-raspberry-pi-pico-robot-with-mecanum-wheels",
+        "title": "Build a Raspberry Pi Pico Robot with Mecanum Wheels",
+        "snippet": "We assume that you already know your way around a Raspberry Pi Pico and have installed Thonny on your computer, and set up your Pico with the current UF2.\nSome wire stripping and/or soldering skills may also be needed.\nYou will need:\nRaspberry Pi Pico with header pins",
         "matchedWords": {
           "cquK9WvdqzOy": {
             "hits": 7,
-            "textWords": 189
+            "textWords": 1829
           },
           "uJdJUF4US1ZK": {
-            "hits": 8,
-            "textWords": 189
+            "hits": 7,
+            "textWords": 1829
           }
         },
         "queryPhraseHits": 7
       },
       {
-        "hash": "qGVGMXVimsy4",
-        "address": "https://thepihut.com/products/hatnet-2-5g-2-5-gigabit-ethernet-for-raspberry-pi-5",
-        "title": "HatNET! 2.5G (2.5 Gigabit Ethernet) for Raspberry Pi 5 - The Pi Hut",
+        "hash": "-otrOAVimsy4",
+        "address": "https://thepihut.com/collections/christmas-gift-ideas",
+        "title": "Christmas Themed Gift Ideas - The Pi Hut",
         "snippet": "",
         "matchedWords": {
           "cquK9WvdqzOy": {
-            "hits": 54,
-            "textWords": 2678
+            "hits": 43,
+            "textWords": 2777
           },
           "uJdJUF4US1ZK": {
             "hits": 0,
@@ -2098,14 +1616,14 @@
         "queryPhraseHits": 0
       },
       {
-        "hash": "oRlp3AVimsy4",
-        "address": "https://thepihut.com/collections/raspberry-pi-usb-accessories",
-        "title": "Raspberry Pi USB Accessories - The Pi Hut",
+        "hash": "or8BkXVimsy4",
+        "address": "https://thepihut.com/products/roundypi-rp2040-round-lcd-board",
+        "title": "RoundyPi - RP2040 Round LCD Board - The Pi Hut",
         "snippet": "",
         "matchedWords": {
           "cquK9WvdqzOy": {
-            "hits": 81,
-            "textWords": 5194
+            "hits": 30,
+            "textWords": 2098
           },
           "uJdJUF4US1ZK": {
             "hits": 0,
@@ -2115,31 +1633,14 @@
         "queryPhraseHits": 0
       },
       {
-        "hash": "qJavYAVimsy4",
-        "address": "https://thepihut.com/collections/raspberry-pi-cooling",
-        "title": "Raspberry Pi Cooling - The Pi Hut",
-        "snippet": "Huge Range\nYour cart is empty\nHome\nRaspberry Pi Store\nRaspberry Pi Cooling\nWe stock a range of Raspberry Pi cooling accessories to help keep your favourite microcomputer running at peak performance.\nThe two best ways to keep a Raspberry Pi cool are using heatsinks or a fan (or both!).",
-        "matchedWords": {
-          "cquK9WvdqzOy": {
-            "hits": 10,
-            "textWords": 122
-          },
-          "uJdJUF4US1ZK": {
-            "hits": 9,
-            "textWords": 122
-          }
-        },
-        "queryPhraseHits": 9
-      },
-      {
-        "hash": "2NmmpDVimsy4",
-        "address": "https://thepihut.com/blogs/raspberry-pi-roundup?page=5",
-        "title": "The Pi Hut Blog – Page 5",
+        "hash": "0HRd9XVimsy4",
+        "address": "https://thepihut.com/products/rubber-wheel-compatible-with-servo-motor",
+        "title": "Rubber Wheel (Compatible with Servo \u0026 Motor) [Discontinued] - The Pi Hut",
         "snippet": "",
         "matchedWords": {
           "cquK9WvdqzOy": {
-            "hits": 66,
-            "textWords": 2768
+            "hits": 27,
+            "textWords": 1969
           },
           "uJdJUF4US1ZK": {
             "hits": 0,
@@ -2149,14 +1650,31 @@
         "queryPhraseHits": 0
       },
       {
-        "hash": "0Jg4PDVimsy4",
-        "address": "https://thepihut.com/blogs/raspberry-pi-roundup?page=4",
-        "title": "The Pi Hut Blog – Page 4",
+        "hash": "reWFHXVimsy4",
+        "address": "https://thepihut.com/products/wire-connector-set",
+        "title": "Wire Connector Set - The Pi Hut",
         "snippet": "",
         "matchedWords": {
           "cquK9WvdqzOy": {
-            "hits": 54,
-            "textWords": 2740
+            "hits": 27,
+            "textWords": 1813
+          },
+          "uJdJUF4US1ZK": {
+            "hits": 0,
+            "textWords": 0
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "0SCCcXVimsy4",
+        "address": "https://thepihut.com/products/heavy-stainless-steel-pcb-holder",
+        "title": "Heavy Stainless Steel Circuit Board Holder - The Pi Hut",
+        "snippet": "",
+        "matchedWords": {
+          "cquK9WvdqzOy": {
+            "hits": 27,
+            "textWords": 2268
           },
           "uJdJUF4US1ZK": {
             "hits": 0,
@@ -2168,35 +1686,18 @@
     ],
     [
       {
-        "hash": "MxjWfSMAuxi4",
-        "address": "https://www.linkedin.com/learning/topics/hardware?trk=homepage-basic_learning-cta",
-        "title": "Hardware Online Training Courses | LinkedIn Learning, formerly Lynda.com",
-        "snippet": "",
+        "hash": "XwlZglBjnZN4",
+        "address": "https://www.canakit.com/",
+        "title": "Buy CanaKit Raspberry Pi Kits and Raspberry Pi Boards and Accessories",
+        "snippet": "Speedy Delivery\nExpress service available\nBusiness \u0026 Industrial\nWe service enterprise clients\nQuestions\nContact our friendly customer support\nSecure Online Payment\nWe possess SSL / Secure сertificate",
         "matchedWords": {
           "cquK9WvdqzOy": {
-            "hits": 4,
-            "textWords": 1236
+            "hits": 0,
+            "textWords": 25
           },
           "uJdJUF4US1ZK": {
             "hits": 0,
-            "textWords": 0
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "QqS8FSMAuxi4",
-        "address": "https://www.linkedin.com/learning/topics/hardware?trk=learning-serp_browsemap_link",
-        "title": "Hardware Online Training Courses | LinkedIn Learning, formerly Lynda.com",
-        "snippet": "",
-        "matchedWords": {
-          "cquK9WvdqzOy": {
-            "hits": 4,
-            "textWords": 1236
-          },
-          "uJdJUF4US1ZK": {
-            "hits": 0,
-            "textWords": 0
+            "textWords": 25
           }
         },
         "queryPhraseHits": 0
@@ -2204,38 +1705,21 @@
     ],
     [
       {
-        "hash": "dtRk1s_XwdU5",
-        "address": "https://endoflife.date/raspberry-pi",
-        "title": "Raspberry Pi | endoflife.date",
-        "snippet": "",
-        "matchedWords": {
-          "cquK9WvdqzOy": {
-            "hits": 9,
-            "textWords": 1421
-          },
-          "uJdJUF4US1ZK": {
-            "hits": 0,
-            "textWords": 0
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "JaC2SsYlAY74",
-        "address": "https://ubuntu.com/appliance",
-        "title": "Ubuntu Appliance | Ubuntu",
-        "snippet": "",
+        "hash": "ruDQwQy9F8gR",
+        "address": "http://www.cotswoldjam.org/",
+        "title": "Cotswold Raspberry Jam – Raspberry Pi computer enthusiast events in Cheltenham, Gloucestershire and beyond",
+        "snippet": "Raspberry Pi computer events for Gloucestershire and beyond\nDuring the pandemic, we are taking donated old laptops from the attics of Gloucestershire, refurbishing them and providing them for local children to keep forever, for remote learning during lockdown and isolation.\nLockdown Laptops",
         "matchedWords": {
           "cquK9WvdqzOy": {
             "hits": 1,
-            "textWords": 1178
+            "textWords": 42
           },
           "uJdJUF4US1ZK": {
-            "hits": 0,
-            "textWords": 0
+            "hits": 1,
+            "textWords": 42
           }
         },
-        "queryPhraseHits": 0
+        "queryPhraseHits": 1
       }
     ],
     [
@@ -2252,6 +1736,23 @@
           "uJdJUF4US1ZK": {
             "hits": 14,
             "textWords": 13027
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "x6HbtZG47xyw",
+        "address": "https://docs.tangled.org/",
+        "title": "Tangled docs",
+        "snippet": "",
+        "matchedWords": {
+          "cquK9WvdqzOy": {
+            "hits": 0,
+            "textWords": 0
+          },
+          "uJdJUF4US1ZK": {
+            "hits": 1,
+            "textWords": 539
           }
         },
         "queryPhraseHits": 0
@@ -2289,42 +1790,6 @@
           }
         },
         "queryPhraseHits": 0
-      },
-      {
-        "hash": "iquOFssBaPGy",
-        "address": "https://moonlight-stream.org/",
-        "title": "Moonlight Game Streaming: Play Your PC Games Remotely",
-        "snippet": "",
-        "matchedWords": {
-          "cquK9WvdqzOy": {
-            "hits": 0,
-            "textWords": 0
-          },
-          "uJdJUF4US1ZK": {
-            "hits": 3,
-            "textWords": 905
-          }
-        },
-        "queryPhraseHits": 0
-      }
-    ],
-    [
-      {
-        "hash": "gvuasl8bqxA4",
-        "address": "https://www.sparkfun.com/raspberry-pi-4-model-b-8-gb.html",
-        "title": "Raspberry Pi 4 Model B (8 GB) - SparkFun Electronics",
-        "snippet": "In addition to two USB2 ports, the Raspberry Pi 4 also has two USB 3 ports making data transfers that much quicker over USB.\nThe Raspberry Pi Model B line is a desktop computer in a package the size of a credit card.",
-        "matchedWords": {
-          "cquK9WvdqzOy": {
-            "hits": 7,
-            "textWords": 275
-          },
-          "uJdJUF4US1ZK": {
-            "hits": 4,
-            "textWords": 275
-          }
-        },
-        "queryPhraseHits": 4
       }
     ],
     [
@@ -2341,6 +1806,23 @@
           "uJdJUF4US1ZK": {
             "hits": 1,
             "textWords": 528
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "6ab2ysS6MKD4",
+        "address": "https://github.com/modcommunity",
+        "title": "The Modding Community · GitHub",
+        "snippet": "",
+        "matchedWords": {
+          "cquK9WvdqzOy": {
+            "hits": 0,
+            "textWords": 0
+          },
+          "uJdJUF4US1ZK": {
+            "hits": 1,
+            "textWords": 1105
           }
         },
         "queryPhraseHits": 0
@@ -2380,23 +1862,6 @@
           }
         },
         "queryPhraseHits": 1
-      },
-      {
-        "hash": "t3Gfs8uKjjbw",
-        "address": "https://wiki.gentoo.org/wiki/Raspberry_Pi",
-        "title": "Raspberry Pi - Gentoo wiki",
-        "snippet": "Raspberry PI 2b Before Ver 1.2\nBCM2709\nARM\nARMv7a stage 3\nRaspberry PI 2b Ver 1.2\nBCM2710\nARM/ARM64\nARMv7a stage 3 or arm64 stage3\nRaspberry PI 3b\nBCM2710\nARM/ARM64\nARMv7a stage 3 or arm64 stage3\nRaspberry PI 3b+\nBCM2710\nARM/ARM64\nARMv7a stage 3 or arm64 stage3\nRaspberry PI Zero 2\nBCM2710\nARM/ARM64",
-        "matchedWords": {
-          "cquK9WvdqzOy": {
-            "hits": 22,
-            "textWords": 398
-          },
-          "uJdJUF4US1ZK": {
-            "hits": 21,
-            "textWords": 398
-          }
-        },
-        "queryPhraseHits": 20
       },
       {
         "hash": "qGVRjYoiQ-vh",
@@ -2455,18 +1920,18 @@
         "hash": "fCwYYl8bqxA4",
         "address": "https://www.sparkfun.com/raspberry-pi-500-kit.html",
         "title": "Raspberry Pi 500 Kit - SparkFun Electronics",
-        "snippet": "",
+        "snippet": "in for improved thermal performance, your Raspberry Pi 500 will run fast and\nsmoothly even under heavy load, while delivering glorious dual 4K display output.\nFor those looking for the complete Raspberry Pi 500 setup, the Raspberry Pi 500",
         "matchedWords": {
           "cquK9WvdqzOy": {
-            "hits": 27,
-            "textWords": 3428
+            "hits": 8,
+            "textWords": 144
           },
           "uJdJUF4US1ZK": {
-            "hits": 0,
-            "textWords": 0
+            "hits": 7,
+            "textWords": 144
           }
         },
-        "queryPhraseHits": 0
+        "queryPhraseHits": 7
       }
     ],
     [
@@ -2486,23 +1951,6 @@
           }
         },
         "queryPhraseHits": 0
-      },
-      {
-        "hash": "uJFDOsRJxgxx",
-        "address": "https://octoprint.org/download/",
-        "title": "OctoPrint.org - Download \u0026 Setup OctoPrint",
-        "snippet": "",
-        "matchedWords": {
-          "cquK9WvdqzOy": {
-            "hits": 0,
-            "textWords": 0
-          },
-          "uJdJUF4US1ZK": {
-            "hits": 32,
-            "textWords": 3037
-          }
-        },
-        "queryPhraseHits": 0
       }
     ],
     [
@@ -2510,71 +1958,18 @@
         "hash": "yheYm9DZkUL4",
         "address": "https://www.cnet.com/tech/computing/1-million-raspberry-pi-computers-have-been-sold/",
         "title": "1 million Raspberry Pi computers have been sold - CNET",
-        "snippet": "",
+        "snippet": "And at a cost of $17.5 million (£10.8 million), customers could’ve bought 4,375,000 chocolate bars. But then a Raspberry Pi is far better for you.\nThe Raspberry Pi was one of the best tech stories of last year, and a real triumph of British engineering.",
         "matchedWords": {
           "cquK9WvdqzOy": {
-            "hits": 9,
-            "textWords": 1419
+            "hits": 7,
+            "textWords": 397
           },
           "uJdJUF4US1ZK": {
-            "hits": 0,
-            "textWords": 0
+            "hits": 7,
+            "textWords": 397
           }
         },
-        "queryPhraseHits": 0
-      }
-    ],
-    [
-      {
-        "hash": "wAnYgnLU2GSx",
-        "address": "https://blog.k0sproject.io/posts/k0s-multi-arch-kubernetes-cluster/",
-        "title": "k0s Multi Architectures Kubernetes Cluster AMD/ARM/RISC-V | The Zero Friction Kubernetes Blog",
-        "snippet": "",
-        "matchedWords": {
-          "cquK9WvdqzOy": {
-            "hits": 0,
-            "textWords": 0
-          },
-          "uJdJUF4US1ZK": {
-            "hits": 6,
-            "textWords": 1622
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "ymD-_5RMLT-5",
-        "address": "https://canonical.com/careers/company-culture",
-        "title": "Company Culture | Careers | Canonical",
-        "snippet": "",
-        "matchedWords": {
-          "cquK9WvdqzOy": {
-            "hits": 0,
-            "textWords": 0
-          },
-          "uJdJUF4US1ZK": {
-            "hits": 4,
-            "textWords": 2896
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "zmi772sEYJ15",
-        "address": "https://tailscale.com/docs/features/subnet-routers",
-        "title": "Subnet routers · Tailscale Docs",
-        "snippet": "",
-        "matchedWords": {
-          "cquK9WvdqzOy": {
-            "hits": 0,
-            "textWords": 0
-          },
-          "uJdJUF4US1ZK": {
-            "hits": 2,
-            "textWords": 4238
-          }
-        },
-        "queryPhraseHits": 0
+        "queryPhraseHits": 6
       }
     ],
     [
@@ -2582,25 +1977,25 @@
         "hash": "5eTOUl8bqxA4",
         "address": "https://www.sparkfun.com/raspberry-pi-touch-display-2.html",
         "title": "Raspberry Pi Touch Display 2 - SparkFun Electronics",
-        "snippet": "",
+        "snippet": "Only two connections are required to connect the 720 × 1280 display to your Raspberry Pi: power from the GPIO port and a ribbon cable that connects to the DSI port on all Raspberry Pi computers except for the Raspberry Pi Zero line.",
         "matchedWords": {
           "cquK9WvdqzOy": {
-            "hits": 11,
-            "textWords": 3317
+            "hits": 6,
+            "textWords": 97
           },
           "uJdJUF4US1ZK": {
-            "hits": 0,
-            "textWords": 0
+            "hits": 6,
+            "textWords": 97
           }
         },
-        "queryPhraseHits": 0
+        "queryPhraseHits": 6
       }
     ],
     [
       {
-        "hash": "2dpJeltl82z5",
-        "address": "https://www.w3schools.com/",
-        "title": "W3Schools Online Web Tutorials",
+        "hash": "AdbcrsAJZXH0",
+        "address": "https://xon.sh/",
+        "title": "Xonsh — Python-powered shell for Linux, macOS, Windows, Android",
         "snippet": "",
         "matchedWords": {
           "cquK9WvdqzOy": {
@@ -2608,25 +2003,8 @@
             "textWords": 0
           },
           "uJdJUF4US1ZK": {
-            "hits": 2,
-            "textWords": 2524
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "1F9IF_S6MKD4",
-        "address": "https://github.com/jtoy/awesome-tensorflow",
-        "title": "GitHub - jtoy/awesome-tensorflow: TensorFlow - A curated list of dedicated resources http://tensorflow.org",
-        "snippet": "",
-        "matchedWords": {
-          "cquK9WvdqzOy": {
-            "hits": 0,
-            "textWords": 0
-          },
-          "uJdJUF4US1ZK": {
-            "hits": 2,
-            "textWords": 3297
+            "hits": 1,
+            "textWords": 715
           }
         },
         "queryPhraseHits": 0
@@ -2683,25 +2061,6 @@
           }
         },
         "queryPhraseHits": 3
-      }
-    ],
-    [
-      {
-        "hash": "0KGSHl8bqxA4",
-        "address": "https://www.sparkfun.com/sparkfun-gps-rtk-dead-reckoning-phat-for-raspberry-pi-gps-21305.html",
-        "title": "SparkFun GPS-RTK Dead Reckoning pHAT for Raspberry Pi \u0026 NVIDIA Jetson Orin Nano - SparkFun Electronics",
-        "snippet": "",
-        "matchedWords": {
-          "cquK9WvdqzOy": {
-            "hits": 15,
-            "textWords": 3906
-          },
-          "uJdJUF4US1ZK": {
-            "hits": 0,
-            "textWords": 0
-          }
-        },
-        "queryPhraseHits": 0
       }
     ],
     [
@@ -2777,6 +2136,23 @@
       "queryPhraseHits": 0
     },
     {
+      "hash": "0n-6-s6UwhOw",
+      "address": "https://openclaw.ai/",
+      "title": "OpenClaw — Open-Source AI Assistant",
+      "snippet": "",
+      "matchedWords": {
+        "cquK9WvdqzOy": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "uJdJUF4US1ZK": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
       "hash": "5iBucd7BJw15",
       "address": "https://developers.googleblog.com/",
       "title": "Home - Google Developers Blog",
@@ -2797,6 +2173,23 @@
       "hash": "DEKXKM9Ojva4",
       "address": "https://docs.docker.com/desktop/setup/install/linux/",
       "title": "Linux | Docker Docs",
+      "snippet": "",
+      "matchedWords": {
+        "cquK9WvdqzOy": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "uJdJUF4US1ZK": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "5haVsE9Ojva4",
+      "address": "https://docs.docker.com/engine/install/linux-postinstall/",
+      "title": "Post-installation steps | Docker Docs",
       "snippet": "",
       "matchedWords": {
         "cquK9WvdqzOy": {
@@ -2879,9 +2272,43 @@
       "queryPhraseHits": 0
     },
     {
-      "hash": "C92zoAK-xyJ4",
-      "address": "https://go.dev/doc/go1.12",
-      "title": "Go 1.12 Release Notes - The Go Programming Language",
+      "hash": "XejNClKqlBA4",
+      "address": "https://www.phoronix.com/news",
+      "title": "Linux Performance, Benchmarks \u0026 Open-Source News - Phoronix",
+      "snippet": "",
+      "matchedWords": {
+        "cquK9WvdqzOy": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "uJdJUF4US1ZK": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "HrKyXWOXoHMQ",
+      "address": "http://acecomments.mu.nu/?post=391252",
+      "title": "Cutting The Cord [Joe Mannix (not a cop)]",
+      "snippet": "",
+      "matchedWords": {
+        "cquK9WvdqzOy": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "uJdJUF4US1ZK": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "pRjS_6QyStZ5",
+      "address": "https://www.brighttalk.com/webcast/6793/514263",
+      "title": "“Industrial Pi” Use Cases With Ubuntu and AMD",
       "snippet": "",
       "matchedWords": {
         "cquK9WvdqzOy": {
@@ -2913,9 +2340,9 @@
       "queryPhraseHits": 0
     },
     {
-      "hash": "BLqv9HRMLT-5",
-      "address": "https://canonical.com/legal/data-privacy",
-      "title": "Data privacy | Ubuntu and Canonical Legal | Canonical",
+      "hash": "BF23V5RMLT-5",
+      "address": "https://canonical.com/careers/commercial-operations",
+      "title": "Commercial Operations | Careers",
       "snippet": "",
       "matchedWords": {
         "cquK9WvdqzOy": {
@@ -2930,9 +2357,9 @@
       "queryPhraseHits": 0
     },
     {
-      "hash": "DoQJDWRMLT-5",
-      "address": "https://canonical.com/solutions/financial-services",
-      "title": "Open source for financial services | Canonical",
+      "hash": "BLqv9HRMLT-5",
+      "address": "https://canonical.com/legal/data-privacy",
+      "title": "Data privacy | Ubuntu and Canonical Legal | Canonical",
       "snippet": "",
       "matchedWords": {
         "cquK9WvdqzOy": {
@@ -2981,43 +2408,9 @@
       "queryPhraseHits": 0
     },
     {
-      "hash": "JfOrrWRMLT-5",
-      "address": "https://canonical.com/solutions/infrastructure",
-      "title": "Infrastructure solutions | Canonical",
-      "snippet": "",
-      "matchedWords": {
-        "cquK9WvdqzOy": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "uJdJUF4US1ZK": {
-          "hits": 0,
-          "textWords": 0
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "NJC84WRMLT-5",
-      "address": "https://canonical.com/solutions/iot-and-devices",
-      "title": "IoT and devices | Canonical",
-      "snippet": "",
-      "matchedWords": {
-        "cquK9WvdqzOy": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "uJdJUF4US1ZK": {
-          "hits": 0,
-          "textWords": 0
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "QRS_dsRMLT-5",
-      "address": "https://canonical.com/data",
-      "title": "Open source data platform solutions | Canonical",
+      "hash": "MaRThsRMLT-5",
+      "address": "https://canonical.com/",
+      "title": "Trusted open source for enterprises | Canonical",
       "snippet": "",
       "matchedWords": {
         "cquK9WvdqzOy": {
@@ -3035,57 +2428,6 @@
       "hash": "hAd92sRMLT-5",
       "address": "https://canonical.com/legal",
       "title": "Ubuntu legal terms and policies | Ubuntu and Canonical Legal | Canonical",
-      "snippet": "",
-      "matchedWords": {
-        "cquK9WvdqzOy": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "uJdJUF4US1ZK": {
-          "hits": 0,
-          "textWords": 0
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "0PoUFERMLT-5",
-      "address": "https://canonical.com/partners/isv-program",
-      "title": "ISV program",
-      "snippet": "",
-      "matchedWords": {
-        "cquK9WvdqzOy": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "uJdJUF4US1ZK": {
-          "hits": 0,
-          "textWords": 0
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "0P1g9sRMLT-5",
-      "address": "https://canonical.com/open-source-adoption",
-      "title": "Enterprise open source adoption",
-      "snippet": "",
-      "matchedWords": {
-        "cquK9WvdqzOy": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "uJdJUF4US1ZK": {
-          "hits": 0,
-          "textWords": 0
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "01UzZsRMLT-5",
-      "address": "https://canonical.com/solutions",
-      "title": "Open source solutions | Canonical",
       "snippet": "",
       "matchedWords": {
         "cquK9WvdqzOy": {
@@ -3270,9 +2612,9 @@
       "queryPhraseHits": 0
     },
     {
-      "hash": "Bx5NPwYlAY74",
-      "address": "https://ubuntu.com/desktop/developers",
-      "title": "Desktop for developers | Ubuntu",
+      "hash": "f_kaP0SMo4M4",
+      "address": "https://www.zdnet.com/topic/developer/",
+      "title": "Developer | ZDNET",
       "snippet": "",
       "matchedWords": {
         "cquK9WvdqzOy": {
@@ -3372,6 +2714,23 @@
       "queryPhraseHits": 0
     },
     {
+      "hash": "rlS7rcg_vK7w",
+      "address": "https://www.colino.net/wordpress/mastodon-for-apple-ii/",
+      "title": "Mastodon for Apple II (][+, //c, IIe, and IIgs) – colin@colino.net",
+      "snippet": "",
+      "matchedWords": {
+        "cquK9WvdqzOy": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "uJdJUF4US1ZK": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
       "hash": "sz4qlChhB9pg",
       "address": "https://shop.heise.de/zeitschriften-abo/",
       "title": "heise Abo-Übersicht: Magazine \u0026 heise+ | heise | heise shop",
@@ -3406,9 +2765,9 @@
       "queryPhraseHits": 0
     },
     {
-      "hash": "Or6SFCqN1Ufw",
-      "address": "https://flathub.org/en/setup",
-      "title": "Set Up Flathub | Flathub",
+      "hash": "_jRa_lmJ800w",
+      "address": "https://www.gentoo.org/downloads/",
+      "title": "Downloads – Gentoo Linux",
       "snippet": "",
       "matchedWords": {
         "cquK9WvdqzOy": {
@@ -3423,9 +2782,9 @@
       "queryPhraseHits": 0
     },
     {
-      "hash": "DlmlistSAQe4",
-      "address": "https://ai.google/societal-impact/",
-      "title": "Societal impact of AI and how it's helped society — Google AI",
+      "hash": "7ooYMZrZlEL4",
+      "address": "https://docs.gitea.com/",
+      "title": "What is Gitea? | Gitea Documentation",
       "snippet": "",
       "matchedWords": {
         "cquK9WvdqzOy": {
@@ -3440,26 +2799,9 @@
       "queryPhraseHits": 0
     },
     {
-      "hash": "4YiIqOxyFvIw",
-      "address": "https://forums.gentoo.org/viewforum.php?f=62",
-      "title": "Gentoo on ARM - Gentoo Forums",
-      "snippet": "",
-      "matchedWords": {
-        "cquK9WvdqzOy": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "uJdJUF4US1ZK": {
-          "hits": 0,
-          "textWords": 0
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "44hswOxyFvIw",
-      "address": "https://forums.gentoo.org/viewforum.php?f=38",
-      "title": "Duplicate Threads - Gentoo Forums",
+      "hash": "GWCeF8uKjjbw",
+      "address": "https://wiki.gentoo.org/wiki/Category:Server_and_Security",
+      "title": "Category:Server and Security - Gentoo wiki",
       "snippet": "",
       "matchedWords": {
         "cquK9WvdqzOy": {
@@ -3560,7 +2902,7 @@
     }
   ],
   "documentsHeldPerQueryWord": {
-    "cquK9WvdqzOy": 260188,
-    "uJdJUF4US1ZK": 154712
+    "cquK9WvdqzOy": 183211,
+    "uJdJUF4US1ZK": 157384
   }
 }

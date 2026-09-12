@@ -2,15 +2,51 @@
   "query": "como funciona internet",
   "judgedDocuments": [
     {
-      "hash": "OK28TZGhtXDw",
-      "address": "https://www.kff.org/interactive/2018-calculadora-del-mercado-de-seguros-medicos/",
-      "title": "2018 Calculadora del Mercado de Seguros Médicos | KFF",
-      "grade": 0
-    },
-    {
       "hash": "BDocSs5DCs35",
       "address": "https://wordpress.com/es/",
       "title": "WordPress.com: Todo lo que necesitas para crear tu web",
+      "grade": 0
+    },
+    {
+      "hash": "yi2P9sF9mEug",
+      "address": "https://eslemmy.es/",
+      "title": "Navegando hacia el Futuro Digital: Desafíos y Oportunidades",
+      "grade": null
+    },
+    {
+      "hash": "oGdiksxGbbDw",
+      "address": "https://getblogs.net/new-posts?5=",
+      "title": "Latest Posts page 5",
+      "grade": null
+    },
+    {
+      "hash": "xMKUjFiwa444",
+      "address": "https://apps.apple.com/us/iphone/story/id1825160725?l=es-MX",
+      "title": "‎Clasificaciones por edades - App Store",
+      "grade": null
+    },
+    {
+      "hash": "vEuKGtoJBRx4",
+      "address": "https://es.wikihow.com/Categor%C3%ADa:Internet",
+      "title": "Internet",
+      "grade": null
+    },
+    {
+      "hash": "608M0uwYpnl5",
+      "address": "https://protonvpn.com/es-es/features/wireguard",
+      "title": "Obtén conexiones más rápidas con el protocolo VPN WireGuard | Proton VPN",
+      "grade": null
+    },
+    {
+      "hash": "GFyr263wJSN4",
+      "address": "https://es-la.facebook.com/lite/",
+      "title": "APK de Facebook Lite para Android",
+      "grade": null
+    },
+    {
+      "hash": "R9JEPJ7raSJ4",
+      "address": "https://www.shopify.com/br/blog/o-que-e-shopify",
+      "title": "O que é a Shopify e como funciona? (2026) - Shopify Brasil",
       "grade": 0
     },
     {
@@ -20,27 +56,15 @@
       "grade": 0
     },
     {
-      "hash": "XDJFOFiwa444",
-      "address": "https://apps.apple.com/us/app/mastodon/id1571998974?l=es-MX",
-      "title": "‎App Mastodon - App Store",
-      "grade": 0
+      "hash": "ybc53sIcCCC6",
+      "address": "https://localdigitalkit.com/",
+      "title": "Local Digital Kit impulsa tu negocio en internet - LDK",
+      "grade": null
     },
     {
-      "hash": "kaxjOD_7CIb5",
-      "address": "https://aretekitchen.com/2025/09/26/balloon-de-smartsoft-guia-esencial-para-jugar-y-descargar-en-chile/",
-      "title": "Balloon de SmartSoft: Guía Esencial para Jugar y Descargar en Chile – Arete Kitchen",
-      "grade": 0
-    },
-    {
-      "hash": "R9JEPJ7raSJ4",
-      "address": "https://www.shopify.com/br/blog/o-que-e-shopify",
-      "title": "O que é a Shopify e como funciona? (2026) - Shopify Brasil",
-      "grade": 0
-    },
-    {
-      "hash": "9cdB_52XMQHg",
-      "address": "https://areapersonal.abc.es/gestion/ayuda.html",
-      "title": "Preguntas Frecuentes ABC",
+      "hash": "rJUS60JPlTDg",
+      "address": "https://europa.eu/youreurope/business/growing/protecting-intellectual-property/design-protection/index_es.htm",
+      "title": "Protección de dibujos y modelos en la UE - Your Europe",
       "grade": 0
     },
     {
@@ -50,45 +74,15 @@
       "grade": 0
     },
     {
-      "hash": "1wBlXgJPjR4x",
-      "address": "https://es.wikipedia.org/wiki/Internet_Archive",
-      "title": "Internet Archive - Wikipedia, la enciclopedia libre",
-      "grade": 0
-    },
-    {
-      "hash": "rJUS60JPlTDg",
-      "address": "https://europa.eu/youreurope/business/growing/protecting-intellectual-property/design-protection/index_es.htm",
-      "title": "Protección de dibujos y modelos en la UE - Your Europe",
-      "grade": 0
+      "hash": "LsNmTjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Association_football",
+      "title": "Association football - Wikipedia",
+      "grade": null
     },
     {
       "hash": "_D4pDlcT4xHy",
       "address": "https://www.notebookcheck.org/",
       "title": "Análisis y pruebas de ordenadores portátiles y móviles teléfonos - Notebookcheck.org",
-      "grade": 0
-    },
-    {
-      "hash": "g8feIsiwa444",
-      "address": "https://apps.apple.com/do/iphone/story/id1878691462",
-      "title": "‎Crea herramientas con Claude - App Store",
-      "grade": 0
-    },
-    {
-      "hash": "_TfV3lFZc5Lg",
-      "address": "https://www.elmundo.es/",
-      "title": "EL MUNDO - Diario online líder de información en español",
-      "grade": 0
-    },
-    {
-      "hash": "pkx88GFJWrz6",
-      "address": "https://spanish.christianpost.com/",
-      "title": "Christian Post Español | Noticias y Comentarios Cristianos",
-      "grade": 0
-    },
-    {
-      "hash": "Wsj95l6yPti4",
-      "address": "https://www.gfrmedia.com/politica-de-privacidad/",
-      "title": "Políticas de Privacidad - GFR Media",
       "grade": 0
     },
     {
@@ -98,22 +92,40 @@
       "grade": 0
     },
     {
-      "hash": "uK5b6ljMl7g4",
-      "address": "https://www.elcorreo.com/",
-      "title": "EL CORREO - Diario con las últimas noticias, fotos y vídeos de Bizkaia",
+      "hash": "C7wm7uwYpnl5",
+      "address": "https://protonvpn.com/es-es/support/increase-vpn-speeds",
+      "title": "Cómo entender y aumentar las velocidades de conexión de la VPN | Proton VPN",
+      "grade": null
+    },
+    {
+      "hash": "WRL-KH8WlvNx",
+      "address": "https://mwl.wikipedia.org/wiki/Biquip%C3%A9dia:Taberna",
+      "title": "Biquipédia:Taberna - Biquipédia",
+      "grade": null
+    },
+    {
+      "hash": "_TfV3lFZc5Lg",
+      "address": "https://www.elmundo.es/",
+      "title": "EL MUNDO - Diario online líder de información en español",
       "grade": 0
     },
     {
-      "hash": "PuB6EspDF1s6",
-      "address": "https://designertoblog.com/new-posts?2=",
-      "title": "Latest Posts page 2",
-      "grade": 0
+      "hash": "-5bDhgJPjR4x",
+      "address": "https://es.wikipedia.org/wiki/Wikipedia",
+      "title": "Wikipedia - Wikipedia, la enciclopedia libre",
+      "grade": null
     },
     {
-      "hash": "Q3OyIuwYpnl5",
-      "address": "https://protonvpn.com/es-es/internet-censorship-observatory",
-      "title": "Observatorio de Proton VPN (2026) | Proton VPN",
-      "grade": 0
+      "hash": "6cwPLIJTSRTx",
+      "address": "https://ro.wikipedia.org/wiki/Fotbal",
+      "title": "Fotbal - Wikipedia",
+      "grade": null
+    },
+    {
+      "hash": "IHdBWPMeDwQx",
+      "address": "https://foundation.wikimedia.org/wiki/Condi%C3%A7%C3%B5es_de_Uso",
+      "title": "Política:Termos de Uso - Wikimedia Foundation Governance Wiki",
+      "grade": null
     },
     {
       "hash": "VZtMbPMeDwQx",
@@ -122,10 +134,28 @@
       "grade": 0
     },
     {
-      "hash": "lb6anlFZc5Lg",
-      "address": "https://www.elmundo.es/salud.html",
-      "title": "Noticias de Salud | EL MUNDO",
-      "grade": 0
+      "hash": "oCI-o7YCxK9x",
+      "address": "https://lad.wikipedia.org/wiki/Vikipedya:La_Kavan%C3%A9",
+      "title": "Vikipedya:La Kavané - Vikipedya",
+      "grade": null
+    },
+    {
+      "hash": "Cw4HslsmV32x",
+      "address": "https://ca.wikipedia.org/wiki/Viquip%C3%A8dia:Quant_a_la_Viquip%C3%A8dia",
+      "title": "Viquipèdia:Quant a la Viquipèdia - Viquipèdia, l'enciclopèdia lliure",
+      "grade": null
+    },
+    {
+      "hash": "jGcVglsmV32x",
+      "address": "https://ca.wikipedia.org/wiki/Viquip%C3%A8dia",
+      "title": "Viquipèdia - Viquipèdia, l'enciclopèdia lliure",
+      "grade": null
+    },
+    {
+      "hash": "x-O4YOy7bMqx",
+      "address": "https://gn.wikipedia.org/wiki/Vikipet%C3%A3_myangek%C3%B5i:Tekohapegua",
+      "title": "Vikipetã myangekõi:Tekohapegua - Vikipetã",
+      "grade": null
     },
     {
       "hash": "6F7hMhMZd7e5",
@@ -134,33 +164,75 @@
       "grade": 0
     },
     {
-      "hash": "MK8DRgJPjR4x",
-      "address": "https://es.wikipedia.org/wiki/Universidad_de_Chile",
-      "title": "Universidad de Chile - Wikipedia, la enciclopedia libre",
+      "hash": "mzsmelewSht6",
+      "address": "https://www.notebookcheck.info/",
+      "title": "Análises e revisões de portáteis e celulares - Notebookcheck.info",
+      "grade": null
+    },
+    {
+      "hash": "1wBlXgJPjR4x",
+      "address": "https://es.wikipedia.org/wiki/Internet_Archive",
+      "title": "Internet Archive - Wikipedia, la enciclopedia libre",
       "grade": 0
     },
     {
-      "hash": "3rvOW-XSrpS4",
-      "address": "https://dees.abcdef.wiki/wiki/Commodore_64",
-      "title": "Comodoro 64 - abcdef.wiki",
-      "grade": 0
+      "hash": "yE_KZjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Colombia",
+      "title": "Colombia - Wikipedia",
+      "grade": null
     },
     {
-      "hash": "37nS5ToOoWS5",
-      "address": "https://automattic.com/es/privacy/",
-      "title": "Política de privacidad – Automattic",
-      "grade": 0
+      "hash": "avZLXl0i5eji",
+      "address": "https://www.businessinsider.es/",
+      "title": "Business Insider España: Actualidad económica, tendencias y mundo global",
+      "grade": null
     },
     {
-      "hash": "BNYAHV1nrxbw",
-      "address": "https://www.debian.org/doc/manuals/debian-handbook/index.pt-br.html",
-      "title": "O Manual do(a) Administrador(a) Debian",
-      "grade": 0
+      "hash": "84vzxd14cltk",
+      "address": "https://planet.python.org.br/",
+      "title": "Planeta PythonBrasil",
+      "grade": null
     },
     {
-      "hash": "QJNy2WG-ATF4",
-      "address": "https://podcasts.apple.com/co/new",
-      "title": "Reproductor web de Apple Podcasts (CO)",
+      "hash": "3xaeei8Gpikw",
+      "address": "https://www.ripe.net/membership/payment/ripe-ncc-billing-procedure-2026/",
+      "title": "RIPE NCC Billing Procedure 2026 — RIPE Network Coordination Centre",
+      "grade": null
+    },
+    {
+      "hash": "69P1PS8Gpikw",
+      "address": "https://www.ripe.net/manage-ips-and-asns/dns/dnssec/",
+      "title": "DNSSEC — RIPE Network Coordination Centre",
+      "grade": null
+    },
+    {
+      "hash": "6-LbKu8Gpikw",
+      "address": "https://www.ripe.net/analyse/archived-projects/rrcc/",
+      "title": "RRCC — RIPE Network Coordination Centre",
+      "grade": null
+    },
+    {
+      "hash": "6-mRJ_8Gpikw",
+      "address": "https://www.ripe.net/languages/ru/billing/",
+      "title": "Оформление счетов, взносы и платежи — RIPE Network Coordination Centre",
+      "grade": null
+    },
+    {
+      "hash": "RPA85pAPaXNk",
+      "address": "https://www.sensacine.com.co/",
+      "title": "SensaCine.com.co: Cine colombiano y series. Estrenos, películas en Cartelera, Streaming y últimos Trailers",
+      "grade": null
+    },
+    {
+      "hash": "A5oLTlFZc5Lg",
+      "address": "https://www.elmundo.es/tecnologia.html",
+      "title": "Tecnología - Píxel | EL MUNDO",
+      "grade": null
+    },
+    {
+      "hash": "lb6anlFZc5Lg",
+      "address": "https://www.elmundo.es/salud.html",
+      "title": "Noticias de Salud | EL MUNDO",
       "grade": 0
     },
     {
@@ -170,82 +242,10 @@
       "grade": 0
     },
     {
-      "hash": "sCAluZG-ATF4",
-      "address": "https://podcasts.apple.com/uy/new",
-      "title": "Apple Podcasts (UY) - Web Player",
-      "grade": 0
-    },
-    {
-      "hash": "oUGeo9dnKxjx",
-      "address": "https://pt.wikipedia.org/wiki/Estados_Unidos",
-      "title": "Estados Unidos – Wikipédia, a enciclopédia livre",
-      "grade": 0
-    },
-    {
-      "hash": "RDn8XTiKrgZ4",
-      "address": "https://vimeo.com/es/solutions/creative-professionals",
-      "title": "Herramientas de creación de videos para profesionales creativos",
-      "grade": 0
-    },
-    {
-      "hash": "zQKJt0qPfMBk",
-      "address": "https://www.forbes.com.py/",
-      "title": "Forbes Paraguay",
-      "grade": 0
-    },
-    {
-      "hash": "RpXFe7rTiP9w",
-      "address": "https://www.usa.gov/es/privacidad-seguridad",
-      "title": "Políticas de privacidad y seguridad de USAGov en Español | USAGov",
-      "grade": 0
-    },
-    {
-      "hash": "CZmZLjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Universidade_Estadual_de_Campinas",
-      "title": "State University of Campinas - Wikipedia",
-      "grade": 0
-    },
-    {
-      "hash": "JaQiOtfvgwV4",
-      "address": "https://www.hp.com/co-es/workstations/ai-workstations.html",
-      "title": "Workstations con IA | HP® Colombia",
-      "grade": 0
-    },
-    {
-      "hash": "45YFdGFbwuxx",
-      "address": "https://letsencrypt.org/pt-br/docs/faq/",
-      "title": "FAQ - Let's Encrypt",
-      "grade": 0
-    },
-    {
-      "hash": "4xxoN0JPlTDg",
-      "address": "https://europa.eu/youreurope/citizens/consumers/unfair-treatment/unfair-commercial-practices/index_es.htm",
-      "title": "Prácticas comerciales desleales y que están en la lista negra - Your Europe",
-      "grade": 0
-    },
-    {
-      "hash": "1xU9J8qPfMBk",
-      "address": "https://www.forbes.com.py/lifestyle/a-35-anos-ultima-grabacion-freddie-mercury-canto-final-lider-queen-una-marca-millonaria-n90928",
-      "title": "A 35 años de la última grabación de Freddie Mercury: del canto final del líder de Queen a una marca millonaria - Forbes Paraguay",
-      "grade": 0
-    },
-    {
-      "hash": "KLXDruvhHUEk",
-      "address": "https://www.forbes.com.ec/innovacion/sistemas-vulnerables-us-8-billones-juego-apuesta-llevar-ia-finanzas-publicas-estados-unidos-n95532",
-      "title": "Sistemas vulnerables y US$ 8 billones en juego: la apuesta por llevar IA a las finanzas públicas de Estados Unidos - Forbes Ecuador",
-      "grade": 0
-    },
-    {
-      "hash": "1BgVIYvhHUEk",
-      "address": "https://www.forbes.com.ec/money/larry-fink-megainversor-ceo-blackrock-anticipo-una-nueva-generacion-mercados-n95223",
-      "title": "Larry Fink, el megainversor CEO de BlackRock, anticipó una \"nueva generación de los mercados\" - Forbes Ecuador",
-      "grade": 0
-    },
-    {
-      "hash": "DVN2J0wYpnl5",
-      "address": "https://protonvpn.com/es-419/features/vpn-accelerator",
-      "title": "Aumente las velocidades de VPN hasta en un 400% con VPN Accelerator | Proton VPN",
-      "grade": 0
+      "hash": "o9u3VFG-ATF4",
+      "address": "https://podcasts.apple.com/cl/new",
+      "title": "Reproductor web de Apple Podcasts (CL)",
+      "grade": null
     }
   ]
 }

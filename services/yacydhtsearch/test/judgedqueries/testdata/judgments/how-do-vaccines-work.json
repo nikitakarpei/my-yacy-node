@@ -2,40 +2,40 @@
   "query": "how do vaccines work",
   "judgedDocuments": [
     {
+      "hash": "-b3sxspKNBr4",
+      "address": "https://rense.com/",
+      "title": "rense.com",
+      "grade": 0
+    },
+    {
       "hash": "wlOjtE1ze3b4",
       "address": "https://patient.info/travel-and-vaccinations/india",
       "title": "Travel health advice for India – vaccines and risks",
       "grade": 1
     },
     {
-      "hash": "CCo19JDZkUL4",
-      "address": "https://www.cnet.com/science/coronavirus-timeline-how-the-disease-spread-across-the-globe-december-2019-into-march-2020/",
-      "title": "Coronavirus timeline: How the disease spread across the globe from Dec. 2019 into March 2020 - CNET",
-      "grade": 0
+      "hash": "NNvETOC3Cosx",
+      "address": "https://www.feinberg.northwestern.edu/research/podcast/next-generation-COVID-vaccines-with-pablo-penaloza-macmaster-phD.html",
+      "title": "Next-Generation COVID Vaccines with Pablo Penaloza-MacMaster, PhD : Research: Feinberg School of Medicine",
+      "grade": null
     },
     {
-      "hash": "ERrwMBjtJZH4",
-      "address": "https://news.gallup.com/poll/648308/far-fewer-regard-childhood-vaccinations-important.aspx",
-      "title": "Far Fewer in U.S. Regard Childhood Vaccinations as Important",
-      "grade": 1
+      "hash": "I2ycpF7IPQv6",
+      "address": "https://rivercitymalone.com/health/cell-biologist-explains-why-mandatory-covid-vaccines-violate-scientific-clinical-evidence/",
+      "title": "Cell biologist explains why mandatory Covid vaccines violate scientific \u0026 clinical evidence – River City Malone",
+      "grade": null
     },
     {
-      "hash": "WXBfWE1ze3b4",
-      "address": "https://patient.info/travel-and-vaccinations/egypt",
-      "title": "Travel health advice for Egypt – vaccines and risks",
-      "grade": 1
+      "hash": "QvtX7lRdrJ76",
+      "address": "https://www.conferenceseries.com/vaccines-meetings",
+      "title": "Vaccines Conferences | Immunization Conferences | Meetings 2024",
+      "grade": null
     },
     {
-      "hash": "giQQfl1ze3b4",
-      "address": "https://patient.info/features/oral-dental-care/how-long-mouth-ulcer-heal",
-      "title": "How long do mouth ulcers take to heal?",
-      "grade": 0
-    },
-    {
-      "hash": "FczEQQZchFfZ",
-      "address": "http://www.greenteethmm.com/climate-change-mind.shtml",
-      "title": "what-if-man-made-climate-change-is-all-in-the-mind-daily-stirrer-dailystirrer",
-      "grade": 1
+      "hash": "jkQ3tzxDpRig",
+      "address": "https://www.giz.de/sites/default/files/media/pkb-document/2025-07/giz2021-backup-health-market-shaping-vaccines-market.pdf",
+      "title": "giz2021-backup-health-market-shaping-vaccines-market.pdf",
+      "grade": null
     },
     {
       "hash": "FVqhobiOAOJ5",
@@ -44,34 +44,58 @@
       "grade": 0
     },
     {
-      "hash": "OofqGpwMR4F5",
-      "address": "https://originalboggartblog.wordpress.com/2021/04/11/study-reveals-mrna-covid-vaccines-link-to-prion-disease-brain-degeneration/",
-      "title": "Study Reveals mRNA COVID Vaccines Link To Prion Disease \u0026 Brain Degeneration | The Original Boggart Blog",
+      "hash": "_qP1xQJ6ZD_x",
+      "address": "https://brownstone.org/articles/are-the-covid-mrna-vaccines-safe/",
+      "title": "Are the Covid mRNA Vaccines Safe?",
+      "grade": null
+    },
+    {
+      "hash": "pK29JIyOvbvy",
+      "address": "https://www.gatesfoundation.org/Ideas/Media-Center/Press-Releases/2010/12/Global-Health-Leaders-Launch-Decade-of-Vaccines-Collaboration",
+      "title": "Global Health Leaders Launch Decade of Vaccines Collaboration | Bill \u0026 Melinda Gates Foundation",
+      "grade": null
+    },
+    {
+      "hash": "WEHUWgmMQij4",
+      "address": "https://www.who.int/publications/m/item/recommended-composition-of-influenza-virus-vaccines-for-use-in-the-2026-southern-hemisphere-influenza-season",
+      "title": "Recommended composition of influenza virus vaccines for use in the 2026 southern hemisphere influenza season",
+      "grade": null
+    },
+    {
+      "hash": "ERrwMBjtJZH4",
+      "address": "https://news.gallup.com/poll/648308/far-fewer-regard-childhood-vaccinations-important.aspx",
+      "title": "Far Fewer in U.S. Regard Childhood Vaccinations as Important",
       "grade": 1
     },
     {
-      "hash": "qIsFZO05rw04",
-      "address": "https://www.unz.com/book/john_beaty__the-iron-curtain-over-america/",
-      "title": "THE IRON CURTAIN OVER AMERICA, by John Beaty - The Unz Review",
-      "grade": 0
+      "hash": "Rl9LTsgeELC6",
+      "address": "https://greatgameindia.com/flying-syringes-bill-gates-mosquitoes-vaccines/",
+      "title": "Flying Syringes - Bill Gates Wants To Release Genetically Modified Mosquitoes To Inject You With Vaccines | GreatGameIndia",
+      "grade": null
     },
     {
-      "hash": "2UwcpQZchFfZ",
-      "address": "http://www.greenteethmm.com/vaccine-outbreak.shtml",
-      "title": "measles-outbreak-traced-to-fully-vaccinated-patient-for-first-time-vaccine-big-pharma-doctors-propaganda-health-news",
-      "grade": 0
+      "hash": "VdnuQs1ze3b4",
+      "address": "https://patient.info/vaccines-and-immunisation",
+      "title": "Vaccines and immunisation",
+      "grade": null
     },
     {
-      "hash": "-59VQsKlvN85",
-      "address": "https://arstechnica.com/ai/",
-      "title": "Category: AI - Ars Technica",
-      "grade": 0
+      "hash": "9MxzzMZ7_Izz",
+      "address": "https://historyofvaccines.org/history/vaccine-timeline/overview/",
+      "title": "Vaccine Timeline | History of Vaccines",
+      "grade": null
     },
     {
-      "hash": "D5Sm4fpyxNCY",
-      "address": "http://dailymessenger.blogspot.com/2018/07/nasa-space-walks-use-fake-scuba-diving.html",
-      "title": "The Daily Messenger: NASA Space Walks Use Fake Scuba Diving AstroNOTS",
-      "grade": 0
+      "hash": "4Z4Szbx-aBuw",
+      "address": "https://www.cancer.org/cancer/risk-prevention/genetics/genetic-testing-for-cancer-risk/what-happens-during-genetic-testing-for-cancer.html",
+      "title": "What Happens During Genetic Testing for Cancer Risk? | American Cancer Society",
+      "grade": null
+    },
+    {
+      "hash": "ZLuAIzn6nv-5",
+      "address": "https://expose-news.com/2026/08/29/call-on-burnham-to-suspend-mrna-vaccines/",
+      "title": "Independent researchers call on Andy Burnham to suspend the use of mRNA vaccines - The Expose",
+      "grade": null
     },
     {
       "hash": "HU-zHUHrhW15",
@@ -80,9 +104,75 @@
       "grade": 1
     },
     {
-      "hash": "q_yYI2WPPAm6",
-      "address": "https://kirschsubstack.com/p/new-study-shows-vaccines-must-be",
-      "title": "New studies show that the COVID vaccines damage your immune system, likely permanently",
+      "hash": "CpKCjE1ze3b4",
+      "address": "https://patient.info/travel-and-vaccinations/japan",
+      "title": "Travel health advice for Japan – vaccines and risks",
+      "grade": 1
+    },
+    {
+      "hash": "DuszJs0aIdT4",
+      "address": "https://garynull.com/do-vaccines-cause-autism/",
+      "title": "Do Vaccines Cause Autism? - GaryNull.com",
+      "grade": 1
+    },
+    {
+      "hash": "ahZLqGM9rDb4",
+      "address": "https://builtin.com/awards/us/2024/best-places-to-work",
+      "title": "100 Best Places to Work in 2024 | Built In",
+      "grade": null
+    },
+    {
+      "hash": "c4S_VnuAbj3Z",
+      "address": "http://www.sciencedaily.com/news/health_medicine/vaccines/",
+      "title": "Vaccines News -- ScienceDaily",
+      "grade": null
+    },
+    {
+      "hash": "PolYna9VB44Q",
+      "address": "http://whale.to/vaccines/vax_autism_q.html",
+      "title": "VACCINES CAUSE AUTISM QUOTES",
+      "grade": null
+    },
+    {
+      "hash": "bq1uslIAZIfz",
+      "address": "https://www.worldcouncilforhealth.org/dna-contamination-covid-19-vaccines/",
+      "title": "WCH Expert Panel Finds Cancer-Promoting DNA Contamination in Covid-19 Vaccines - World Council for Health",
+      "grade": null
+    },
+    {
+      "hash": "8o94QjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Patent",
+      "title": "Patent - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "0fpeOzwMR4F5",
+      "address": "https://originalboggartblog.wordpress.com/2020/12/30/how-social-engineers-use-weaponized-psychology-to-push-unproven-vaccines/",
+      "title": "How Social Engineers Use Weaponized Psychology to Push Unproven Vaccines | The Original Boggart Blog",
+      "grade": null
+    },
+    {
+      "hash": "65Z8s0fQyD_5",
+      "address": "https://coronanews123.wordpress.com/2024/12/18/why-isnt-the-media-now-piling-on-rfk-jr-about-vaccines-asking-about-1-4-million-us-excess-deaths-since-the-covid-vaccine-roll-out/",
+      "title": "Why isn’t the media which is now piling on RFK Jr. about vaccines asking about 1.4 million US excess deaths since the COVID vaccine roll-out? | Coronavirus News",
+      "grade": null
+    },
+    {
+      "hash": "GA_FvWOxPsr6",
+      "address": "https://www.midwesterndoctor.com/p/adverse-reactions-to-covid-vaccines",
+      "title": "Adverse Reactions to COVID Vaccines I Came Across During Their First Year on the Market",
+      "grade": null
+    },
+    {
+      "hash": "ZuWZivHKIdig",
+      "address": "https://www.eeas.europa.eu/eeas/vaccinating-world%C2%A0-eu-doing-more-it-gets-credit_en",
+      "title": "Vaccinating the world: the EU is doing more than it gets credit for | EEAS",
+      "grade": null
+    },
+    {
+      "hash": "w4BkfQXx1HRZ",
+      "address": "http://www.dailystirrer.com/2021-july.shtml",
+      "title": "dailystirrer-2021-news-july-comment-opinion-controversy-contrarianism",
       "grade": 1
     },
     {
@@ -92,64 +182,52 @@
       "grade": 1
     },
     {
-      "hash": "THPLFiVUrQm6",
-      "address": "https://earthnewspaper.com/2022-news/24-7-news-november-2022/",
-      "title": "24/7 News November 2022 – EarthNewspaper.com – All The Honest News Fit To Publish",
-      "grade": 0
+      "hash": "i78pwh0u6ug6",
+      "address": "https://healthimpactnews.com/2021/study-governments-own-data-reveals-that-at-least-150000-probably-dead-in-u-s-following-covid-19-vaccines/",
+      "title": "STUDY: Government’s Own Data Reveals that at Least 150,000 Probably DEAD in U.S. Following COVID-19 Vaccines",
+      "grade": null
     },
     {
-      "hash": "5jQJLQZchFfZ",
-      "address": "http://www.greenteethmm.com/immigration-boat-people.shtml",
-      "title": "how-does-europe-deal-with-the mediterranean-migrant-boat-people-crisis-news-daily-stirrer",
-      "grade": 0
+      "hash": "5wt-6ufuTP36",
+      "address": "https://vaccineimpact.com/2022/75322-dead-5938318-injured-recorded-in-europe-and-usa-following-covid-vaccines-babies-and-toddlers-hallucinating-and-having-seizures-after-shots/",
+      "title": "75,322 Dead 5,938,318 Injured Recorded in Europe and USA Following COVID Vaccines – Babies and Toddlers Hallucinating and Having Seizures After Shots - Vaccine Impact",
+      "grade": null
     },
     {
-      "hash": "CpKCjE1ze3b4",
-      "address": "https://patient.info/travel-and-vaccinations/japan",
-      "title": "Travel health advice for Japan – vaccines and risks",
-      "grade": 1
+      "hash": "aBtqiu0u6ug6",
+      "address": "https://healthimpactnews.com/2022/official-government-data-record-74783-deaths-and-5830235-injuries-following-covid-19-vaccines-in-the-u-s-and-europe/",
+      "title": "Official Government Data Record 74,783 Deaths and 5,830,235 Injuries Following COVID-19 Vaccines in the U.S. and Europe",
+      "grade": null
     },
     {
-      "hash": "XTPIBlptNsG4",
-      "address": "https://www.akdart.com/hijrah.html",
-      "title": "Islamic invasion disguised as the displacement and acceptance of refugees",
-      "grade": 1
+      "hash": "1t2yldwe8aH4",
+      "address": "https://www.afro.who.int/health-topics/immunization",
+      "title": "Immunization | WHO | Regional Office for Africa",
+      "grade": null
     },
     {
-      "hash": "8o94QjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Patent",
-      "title": "Patent - Wikipedia",
-      "grade": 0
+      "hash": "kzSwqvISdjFg",
+      "address": "https://www.gov.uk/government/publications/mmr-vaccine-dispelling-myths",
+      "title": "Measles, mumps, rubella (MMR): use of combined vaccine instead of single vaccines - GOV.UK",
+      "grade": null
     },
     {
-      "hash": "a-z2eQZchFfZ",
-      "address": "http://www.greenteethmm.com/climate-scam-real-agenda.shtml",
-      "title": "un-official-reveals-real-reason-behind-warming-scare-news-opinion-comment-daily-stirrer",
-      "grade": 0
+      "hash": "Q_YAIvmMQij4",
+      "address": "https://www.who.int/news/item/13-09-2024-who-and-partners-establish-an-access-and-allocation-mechanism-for-mpox-vaccines--treatments--tests",
+      "title": "WHO and partners establish an access and allocation mechanism for mpox vaccines, treatments, tests",
+      "grade": null
     },
     {
-      "hash": "V97ecqwMR4F5",
-      "address": "https://originalboggartblog.wordpress.com/tag/death/",
-      "title": "death | The Original Boggart Blog",
-      "grade": 0
+      "hash": "9b3I_qwMR4F5",
+      "address": "https://originalboggartblog.wordpress.com/tag/covid-19/",
+      "title": "covid-19 | The Original Boggart Blog",
+      "grade": null
     },
     {
-      "hash": "w4BkfQXx1HRZ",
-      "address": "http://www.dailystirrer.com/2021-july.shtml",
-      "title": "dailystirrer-2021-news-july-comment-opinion-controversy-contrarianism",
-      "grade": 1
-    },
-    {
-      "hash": "bdKA42Tv_Dj5",
-      "address": "https://university.careers360.com/exams/cpget",
-      "title": "TS CPGET Exam 2026: Counselling (Soon), Cutoff, Result (Out) \u0026 Latest Updates",
-      "grade": 0
-    },
-    {
-      "hash": "1RtzzzT6fUdA",
-      "address": "http://www.greenteethmm.co.uk/age-timebomb.shtml",
-      "title": "life-expectancy-increases-by-44-days-health-science-age-ageing-longevity",
-      "grade": 0
+      "hash": "Bp0_LDKcJtq7",
+      "address": "https://healthnewsdisclosure.com/category/vaccines/",
+      "title": "vaccines – Health News Disclosure",
+      "grade": null
     },
     {
       "hash": "5DGFbQXx1HRZ",
@@ -158,118 +236,58 @@
       "grade": 0
     },
     {
-      "hash": "DuszJs0aIdT4",
-      "address": "https://garynull.com/do-vaccines-cause-autism/",
-      "title": "Do Vaccines Cause Autism? - GaryNull.com",
-      "grade": 1
+      "hash": "Q62SnuZm-l-z",
+      "address": "https://everydayconcerned.net/2022/02/07/all-vaccines-carry-dangerous-poisons-covid-vaccines-filled-with-mega-poisons-check-the-known-toxins-and-found-ingredients-both/",
+      "title": "All Vaccines Carry Dangerous Poisons, COVID Vaccines Filled with Mega Poisons: Check the Known Toxins and Found Ingredients Both | The Everyday Concerned Citizen",
+      "grade": null
     },
     {
-      "hash": "-b3sxspKNBr4",
-      "address": "https://rense.com/",
-      "title": "rense.com",
-      "grade": 0
+      "hash": "04gya2WPPAm6",
+      "address": "https://kirschsubstack.com/p/the-data-is-clear-the-more-vaccines",
+      "title": "The data is clear: the more vaccines you give your child, the more likely it is that they will develop chronic diseases including autism",
+      "grade": null
     },
     {
-      "hash": "-NlS_sVUrQm6",
-      "address": "https://earthnewspaper.com/Music/",
-      "title": "Featured Music – EarthNewspaper.com – All The Honest News Fit To Publish",
-      "grade": 0
+      "hash": "lj9u4VZ7_Izz",
+      "address": "https://historyofvaccines.org/getting-vaccinated/vaccine-faq/top-20-questions-about-vaccination/",
+      "title": "Top 20 Questions about Vaccination | History of Vaccines",
+      "grade": null
     },
     {
-      "hash": "U6C1vQZchFfZ",
-      "address": "http://www.greenteethmm.com/syria-index.shtml",
-      "title": "syria-conflict-all-our-posts-on-syria-kurdistan-and-regional-conflict",
-      "grade": 0
+      "hash": "8UghalNSuBCy",
+      "address": "https://www.operationrescue.org/whistleblowers-other-experts-warn-of-increased-risks-of-infertility-death-after-covid-19-vaccines/",
+      "title": "Whistleblowers, Other Experts Warn of Increased Risks of Infertility, Death after COVID-19 Vaccines - Operation Rescue",
+      "grade": null
     },
     {
-      "hash": "I5RxgQZchFfZ",
-      "address": "http://www.greenteethmm.com/facebook-evil-empire.shtml",
-      "title": "facebook-evil-empire-fourth-reigh-privacy-data-internet-security",
-      "grade": 1
+      "hash": "3yH8PhZm-l-z",
+      "address": "https://everydayconcerned.net/2021/02/05/the-mrna-covid-19-vaccines-need-to-be-halted-immediately-increasing-evidence-of-danger-to-public-health/",
+      "title": "The mRNA COVID-19 Vaccines Need to Be Halted Immediately: Increasing Evidence of Danger to Public Health | The Everyday Concerned Citizen",
+      "grade": null
     },
     {
-      "hash": "ot2p7qwMR4F5",
-      "address": "https://originalboggartblog.wordpress.com/tag/usa/",
-      "title": "usa | The Original Boggart Blog",
-      "grade": 0
+      "hash": "Vr0LLdNZHLO7",
+      "address": "https://influenza.infectiousconferences.com/2016/eposter/serological-methods-are-able-to-determine-how-well-influenza-vaccines-work-influneza-2016",
+      "title": "Serological methods are able to determine how well influenza vaccines work | Conference Series LLC LTD",
+      "grade": null
     },
     {
-      "hash": "-d63GQZchFfZ",
-      "address": "http://www.greenteethmm.com/science-time-disapppearing.shtml",
-      "title": "science-time-disappearing-from-our-universe",
-      "grade": 0
+      "hash": "4vCI7KDuT774",
+      "address": "https://edbutt.blogspot.com/2021/07/blood-doctor-releases-findings-showing.html",
+      "title": "Boggart Abroad: Blood doctor releases findings showing Moderna’s mRNA Covid vaccines change red blood cells",
+      "grade": null
     },
     {
-      "hash": "KIwbxzT6fUdA",
-      "address": "http://www.greenteethmm.co.uk/jobs-employment.shtml",
-      "title": "jobs-work-employment-menu-daily-stirrer-dailystirrrer-greenteethmm-greenteethmm",
-      "grade": 1
-    },
-    {
-      "hash": "89Pocs6GdY-4",
-      "address": "https://danluu.com/diseconomies-scale/",
-      "title": "Diseconomies of scale in fraud, spam, support, and moderation",
-      "grade": 0
-    },
-    {
-      "hash": "hNrcdJ-bwreQ",
-      "address": "http://ace.mu.nu/",
-      "title": "Ace of Spades HQ",
-      "grade": 0
+      "hash": "5NbE3W_oRa2x",
+      "address": "https://helenaglass.net/tag/walter-reed-vaccines/",
+      "title": "Walter Reed Vaccines",
+      "grade": null
     },
     {
       "hash": "Q4SEOs3rpWVz",
       "address": "https://inconvenienttruths.net/",
       "title": "INCONVENIEINCONVENIENT TRUTHS - DEEP STATE, JFK, GLOBAL FINANCIAL ELITE, POWER ELITE, PLUTOCRACY, MEDICAL MAFIA, VACCINES, FALSE FLAGS, GLOBALISM, CORPORATOCRACY, ZIONISM, MOSSAD",
       "grade": 1
-    },
-    {
-      "hash": "Jb4XHs5IzNm6",
-      "address": "https://citizenfreepress.com/",
-      "title": "CITIZEN FREE PRESS",
-      "grade": 1
-    },
-    {
-      "hash": "z0zNUs709vxy",
-      "address": "https://plutocracycartel.net/",
-      "title": "PLUTOCRACY CARTEL - GLOBAL ELITE, RULING ELITE, GLOBAL OLIGARCHY, FINANCIAL ELITE, DYNASTIC ELITE, DRUG TRAFFICKING, MONEY LAUNDERING, GLOBALISM, DEEP STATE, CORPORATOCRACY,",
-      "grade": 0
-    },
-    {
-      "hash": "r5LmqFDuT774",
-      "address": "https://edbutt.blogspot.com/",
-      "title": "Boggart Abroad",
-      "grade": 1
-    },
-    {
-      "hash": "BiYCIWOXoHMQ",
-      "address": "http://acecomments.mu.nu/?post=392880%3Futm_source=akdart",
-      "title": "The Morning Report — 9/ 2 /26Daily Tech News 2 September 2026Tuesday Overnight Open Thread - September 1, 2026Cats \u0026 Dogs CafeIranian-Descended Loudmouth Communist Moron Mark",
-      "grade": 0
-    },
-    {
-      "hash": "vR1W9jRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/London",
-      "title": "London - Wikipedia",
-      "grade": 0
-    },
-    {
-      "hash": "Tm8vbiVUrQm6",
-      "address": "https://earthnewspaper.com/2022-news/24-7-news-october-2022/",
-      "title": "24/7 News October 2022 – EarthNewspaper.com – All The Honest News Fit To Publish",
-      "grade": 0
-    },
-    {
-      "hash": "AWq9VQXx1HRZ",
-      "address": "http://www.dailystirrer.com/2012-october.shtml",
-      "title": "the_daily_stirrer-2012-june-opinion-comment-controversy-news-events-politics",
-      "grade": 0
-    },
-    {
-      "hash": "ELIe2QXx1HRZ",
-      "address": "http://www.dailystirrer.com/2021-may.shtml",
-      "title": "2021",
-      "grade": 0
     }
   ]
 }

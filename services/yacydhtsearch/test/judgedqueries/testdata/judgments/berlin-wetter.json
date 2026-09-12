@@ -2,27 +2,15 @@
   "query": "berlin wetter",
   "judgedDocuments": [
     {
-      "hash": "Eyuo0l_5-JKg",
-      "address": "https://www.mtwetter.de/regionales_mittel.php?par=mo_nfx12\u0026datum=09",
-      "title": "Wetter- und Klimakarten",
-      "grade": 1
+      "hash": "5Y0vTPSEx1zg",
+      "address": "https://wetter.welt.de/",
+      "title": "Das aktuelle Wetter und 5-Tage Wettervorhersage für Deutschland",
+      "grade": 2
     },
     {
-      "hash": "KKZkifbyotA5",
-      "address": "https://lovesunpeace.com/102/ping/wuppertal",
-      "title": "Wuppertal – Micro -!- News",
-      "grade": 0
-    },
-    {
-      "hash": "xK_P97yX5Qug",
-      "address": "https://www.t-online.de/themen/abgeordnetenhauswahl-berlin/",
-      "title": "Abgeordnetenhauswahl Berlin 2026: Aktuelle News \u0026 Infos",
-      "grade": 0
-    },
-    {
-      "hash": "dzGMpl3MiEig",
-      "address": "https://www.ndr.de/",
-      "title": "NDR.de - Das Beste am Norden - Radio - Fernsehen - Nachrichten | ndr.de",
+      "hash": "ySJH8lvSGqr4",
+      "address": "https://einarschlereth.blogspot.com/",
+      "title": "einartysken",
       "grade": 0
     },
     {
@@ -32,105 +20,21 @@
       "grade": 0
     },
     {
-      "hash": "l0gZGlXXOSAg",
-      "address": "https://www.rbb24.de/wetter/",
-      "title": "Wetter in Berlin und Brandenburg",
-      "grade": 2
-    },
-    {
       "hash": "EjISsl3kFhe4",
       "address": "https://www.wetter.com/",
       "title": "Wetter, Wettervorhersage \u0026 Wetterbericht | wetter.com",
       "grade": 1
     },
     {
-      "hash": "ySJH8lvSGqr4",
-      "address": "https://einarschlereth.blogspot.com/",
-      "title": "einartysken",
-      "grade": 0
+      "hash": "_2VMoQXXOSAg",
+      "address": "https://www.rbb24.de/kultur/beitrag/2026/06/berlin-open-air-veranstaltungen-genehmigung-fete-de-la-musique.html",
+      "title": "Weniger Hürden für Open-Airs in Berlin? Mitte wagt einen neuen Ansatz",
+      "grade": null
     },
     {
-      "hash": "KBS1M78moajg",
-      "address": "https://www.welt.de/themen/instagram/",
-      "title": "Instagram: Aktuelle News \u0026 Nachrichten zum sozialen Netzwerk - WELT",
-      "grade": 0
-    },
-    {
-      "hash": "pNr3KLfjI1Dh",
-      "address": "https://www.tagesschau.de/inland/innenpolitik/csd-berlin-anschlag-tatverdaechtiger-100.html",
-      "title": "Angriff auf CSD Berlin: Tatverdächtiger war polizeibekannter Islamist | tagesschau.de",
-      "grade": 0
-    },
-    {
-      "hash": "S_sNkHyX5Qug",
-      "address": "https://www.t-online.de/wetter/deutschland/berlin/jh518hs406/wetter-heute",
-      "title": "Wetter für Berlin | Vorhersage für heute",
-      "grade": 2
-    },
-    {
-      "hash": "KcN-yjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Kenya",
-      "title": "Kenya - Wikipedia",
-      "grade": 0
-    },
-    {
-      "hash": "gbZQsl9B6zzh",
-      "address": "https://www.morgenpost.de/berlin/",
-      "title": "Berlin - Aktuelle Nachrichten",
-      "grade": 0
-    },
-    {
-      "hash": "-5YtplfjI1Dh",
-      "address": "https://www.tagesschau.de/wetter",
-      "title": "Das tagesschau.de-Wetter | tagesschau.de",
-      "grade": 1
-    },
-    {
-      "hash": "DcJqWlFc3viw",
-      "address": "https://www.wetter.net/",
-      "title": "wetter.net | Wetter, Wetter aktuell, Wettervorhersage",
-      "grade": 1
-    },
-    {
-      "hash": "kuiLcaiZ7fSg",
-      "address": "https://verband.hockey.de/",
-      "title": "Deutscher Hockey-Bund - verband.hockey.de",
-      "grade": 0
-    },
-    {
-      "hash": "3-1XaUwm21Ng",
-      "address": "https://www.flixbus.ch/busverbindung/fernbus-berlin-stuttgart",
-      "title": "Bus Berlin nach Stuttgart - Günstig tickets buchen",
-      "grade": 0
-    },
-    {
-      "hash": "IsqY7XMCiH44",
-      "address": "https://www.xing.com/pages/gruenderzeit-zwickau",
-      "title": "GRÜNDERZEIT Zwickau: Information and Updates | XING",
-      "grade": 0
-    },
-    {
-      "hash": "LSS-floLWSig",
-      "address": "https://www.berlin.de/stadtplan/",
-      "title": "Stadtplan Berlin - Berlin.de",
-      "grade": 0
-    },
-    {
-      "hash": "r7SQ1PSEx1zg",
-      "address": "https://wetter.welt.de/europa/",
-      "title": "Das aktuelle Wetter und 5-Tage Wettervorhersage für Europa",
-      "grade": 1
-    },
-    {
-      "hash": "cB7iXX8moajg",
-      "address": "https://www.welt.de/politik/deutschland/plus6a8d85a1d8b561d6189714ba/berlin-wahlkampf-abriss-und-neubau-kostet-sehr-viel-co-wie-die-gruenen-stattdessen-wohnraum-schaffen-wollen.html",
-      "title": "Berlin-Wahlkampf: „Abriss und Neubau kostet sehr viel CO₂“ – wie die Grünen stattdessen Wohnraum schaffen wollen - WELT",
-      "grade": 0
-    },
-    {
-      "hash": "h-LXAjyX5Qug",
-      "address": "https://www.t-online.de/mobilitaet/reifen/",
-      "title": "Reifen: Autoreifen und Reifentest für Sommerreifen und Winterreifen",
+      "hash": "-gSHXofjI1Dh",
+      "address": "https://www.tagesschau.de/wahlarchiv/laenderparlamente/baden-wuerttemberg",
+      "title": "Wahlarchiv zur Landtagswahl Baden-Württemberg | tagesschau.de",
       "grade": 0
     },
     {
@@ -140,10 +44,52 @@
       "grade": 1
     },
     {
-      "hash": "qEpb6HfjI1Dh",
-      "address": "https://www.tagesschau.de/wetter/deutschland/wettervorhersage-deutschland-100.html",
-      "title": "Wetter Deutschland: Wolken, Temperaturen, Wind und Aussichten | tagesschau.de",
+      "hash": "SMcXIlvmeA6g",
+      "address": "https://www.wetter.at/",
+      "title": "Wetter in Österreich - wetter.at",
       "grade": 1
+    },
+    {
+      "hash": "n-pRzHfjI1Dh",
+      "address": "https://www.tagesschau.de/wetter/regenradar-deutschland/osten",
+      "title": "Regenradar Ostdeutschland: Aktueller Niederschlag | tagesschau.de",
+      "grade": null
+    },
+    {
+      "hash": "37f63My11Gbg",
+      "address": "https://berlin.t-online.de/region/berlin/",
+      "title": "Berlin: Nachrichten \u0026 News aus Berlin",
+      "grade": null
+    },
+    {
+      "hash": "-5YtplfjI1Dh",
+      "address": "https://www.tagesschau.de/wetter",
+      "title": "Das tagesschau.de-Wetter | tagesschau.de",
+      "grade": 1
+    },
+    {
+      "hash": "LSS-floLWSig",
+      "address": "https://www.berlin.de/stadtplan/",
+      "title": "Stadtplan Berlin - Berlin.de",
+      "grade": 0
+    },
+    {
+      "hash": "h-LXAjyX5Qug",
+      "address": "https://www.t-online.de/mobilitaet/reifen/",
+      "title": "Reifen: Autoreifen und Reifentest für Sommerreifen und Winterreifen",
+      "grade": 0
+    },
+    {
+      "hash": "FcrOSdR5Djcw",
+      "address": "https://de.wikinews.org/wiki/Hauptseite",
+      "title": "Wikinews, die freie Nachrichtenquelle",
+      "grade": null
+    },
+    {
+      "hash": "tR-1WXj5gZJ5",
+      "address": "https://wissenschaft3000.wordpress.com/tag/1913/",
+      "title": "1913 | Wissenschaft3000 ~ science3000",
+      "grade": null
     },
     {
       "hash": "-WvJtjRvmBbx",
@@ -152,16 +98,10 @@
       "grade": 0
     },
     {
-      "hash": "6BsM-HfjI1Dh",
-      "address": "https://www.tagesschau.de/wetter/regenradar-deutschland",
-      "title": "Regenradar Deutschland: Aktueller Niederschlag | tagesschau.de",
-      "grade": 1
-    },
-    {
-      "hash": "_VdxO_3sDtZg",
-      "address": "https://tini24.de/news/partytime-mit-culcha-candela-und-ueber-1-500-besuchern-beim-strandkonzert-in-niendorf-ostsee/",
-      "title": "Partytime mit Culcha Candela und über 1.500 Besuchern beim Strandkonzert in Niendorf/Ostsee - News | TiNi24",
-      "grade": 0
+      "hash": "4Its1HfjI1Dh",
+      "address": "https://www.tagesschau.de/wetter/europa-welt",
+      "title": "Wettervorhersage Europa: Wetterlage und Temperaturen | tagesschau.de",
+      "grade": null
     },
     {
       "hash": "Bhyw76Fs30aw",
@@ -182,64 +122,28 @@
       "grade": 0
     },
     {
-      "hash": "-gSHXofjI1Dh",
-      "address": "https://www.tagesschau.de/wahlarchiv/laenderparlamente/baden-wuerttemberg",
-      "title": "Wahlarchiv zur Landtagswahl Baden-Württemberg | tagesschau.de",
-      "grade": 0
-    },
-    {
-      "hash": "I-F3O0yX5Qug",
-      "address": "https://www.t-online.de/nachrichten/deutschland/innenpolitik/id_101360712/terroranschlag-auf-csd-berlin-ju-chef-spricht-von-kriegserklaerung-.html",
-      "title": "Terroranschlag auf CSD Berlin: JU-Chef spricht von \"Kriegserklärung\"",
-      "grade": 0
-    },
-    {
-      "hash": "SMcXIlvmeA6g",
-      "address": "https://www.wetter.at/",
-      "title": "Wetter in Österreich - wetter.at",
+      "hash": "DcJqWlFc3viw",
+      "address": "https://www.wetter.net/",
+      "title": "wetter.net | Wetter, Wetter aktuell, Wettervorhersage",
       "grade": 1
     },
     {
-      "hash": "sn5bqlXXOSAg",
-      "address": "https://www.rbb24.de/berlin/",
-      "title": "Berlin Nachrichten – Aktuelle News und Themen von rbb24.de",
-      "grade": 0
+      "hash": "xk2PwlWgkBXg",
+      "address": "https://www.wetter.de/",
+      "title": "Wetter - Wettervorhersage - Wetterbericht",
+      "grade": null
     },
     {
-      "hash": "hx8g6dFO6r_x",
-      "address": "https://de.wikipedia.org/wiki/M%C3%BCnchen",
-      "title": "München – Wikipedia",
-      "grade": 0
+      "hash": "hpNx6l0w__jw",
+      "address": "https://www.faz.net/aktuell/",
+      "title": "Aktuelle Nachrichten online - FAZ.NET",
+      "grade": null
     },
     {
-      "hash": "qrOEmeQdJjkg",
-      "address": "https://oesterreich.orf.at/",
-      "title": "oesterreich.ORF.at",
-      "grade": 0
-    },
-    {
-      "hash": "_eUMI50w__jw",
-      "address": "https://www.faz.net/aktuell/sport/fussball/",
-      "title": "Fußball: Aktuelle Nachrichten und Spielberichte | FAZ",
-      "grade": 0
-    },
-    {
-      "hash": "gqkBacw63Csx",
-      "address": "https://fr.wikipedia.org/wiki/Canicules_de_2026_en_Europe",
-      "title": "Canicules de 2026 en Europe — Wikipédia",
-      "grade": 1
-    },
-    {
-      "hash": "q7UDNl3ESnng",
-      "address": "https://www.br.de/index.html",
-      "title": "Bayerischer Rundfunk: Nachrichten von BR24, Highlights aus der BR Mediathek, Live Radio hören und BR.de-Specials - die Startseite für Bayern | BR.de",
-      "grade": 0
-    },
-    {
-      "hash": "rtQ-JluG0-bg",
-      "address": "https://www.fr.de/",
-      "title": "FR.de | News aus Politik, Wirtschaft, Sport, Frankfurt, Hessen und der Welt",
-      "grade": 0
+      "hash": "WLeSrl5ARWyg",
+      "address": "https://www.spiegel.de/",
+      "title": "DER SPIEGEL | Online-Nachrichten",
+      "grade": null
     },
     {
       "hash": "gt1Hms8_y8I6",
@@ -248,22 +152,142 @@
       "grade": 0
     },
     {
+      "hash": "YFg0eX8moajg",
+      "address": "https://www.welt.de/sonderthemen/medizin-der-zukunft/",
+      "title": "Medizin der Zukunft",
+      "grade": null
+    },
+    {
+      "hash": "zjc5Mm8moajg",
+      "address": "https://www.welt.de/sport/handball/",
+      "title": "Handball: Aktuelle News zu Bundesliga, DHB \u0026 Champions League",
+      "grade": null
+    },
+    {
+      "hash": "2RTWrl8moajg",
+      "address": "https://www.welt.de/",
+      "title": "WELT - Aktuelle Nachrichten, News, Hintergründe \u0026 Videos",
+      "grade": null
+    },
+    {
+      "hash": "--rz3C8moajg",
+      "address": "https://www.welt.de/regionales/sachsen-anhalt/",
+      "title": "Sachsen-Anhalt - Nachrichten \u0026 aktuelle News - WELT",
+      "grade": null
+    },
+    {
+      "hash": "_a84pW8moajg",
+      "address": "https://www.welt.de/reise/weltplus/",
+      "title": "WELTplus Reise - Qualitätsjournalismus für Abonnenten",
+      "grade": null
+    },
+    {
       "hash": "Fl-YxlDOAHJg",
       "address": "https://www.heise.de/",
       "title": "heise online - IT-News, Nachrichten und Hintergründe | heise online",
       "grade": 0
     },
     {
-      "hash": "a9ooXjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Berlin",
-      "title": "Berlin - Wikipedia",
-      "grade": 0
+      "hash": "oq1hJjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Cardiff",
+      "title": "Cardiff - Wikipedia",
+      "grade": null
     },
     {
-      "hash": "5Y0vTPSEx1zg",
-      "address": "https://wetter.welt.de/",
-      "title": "Das aktuelle Wetter und 5-Tage Wettervorhersage für Deutschland",
-      "grade": 2
+      "hash": "r7SQ1PSEx1zg",
+      "address": "https://wetter.welt.de/europa/",
+      "title": "Das aktuelle Wetter und 5-Tage Wettervorhersage für Europa",
+      "grade": 1
+    },
+    {
+      "hash": "TR9kflXXOSAg",
+      "address": "https://www.rbb24.de/",
+      "title": "rbb24 - Nachrichten aus Berlin und Brandenburg",
+      "grade": null
+    },
+    {
+      "hash": "I86iVlfjI1Dh",
+      "address": "https://www.tagesschau.de/investigativ",
+      "title": "Investigativ Berichterstattung und Reportagen | tagesschau.de",
+      "grade": null
+    },
+    {
+      "hash": "SH2v_lfjI1Dh",
+      "address": "https://www.tagesschau.de/ausland",
+      "title": "Internationale Nachrichten aus aller Welt | tagesschau.de",
+      "grade": null
+    },
+    {
+      "hash": "Sm8W4sfjI1Dh",
+      "address": "https://www.tagesschau.de/faktenfinder/kontext",
+      "title": "Kontext - Einordnung zu aktuellen Nachrichten | tagesschau.de",
+      "grade": null
+    },
+    {
+      "hash": "UEXwEofjI1Dh",
+      "address": "https://www.tagesschau.de/wahlarchiv/laenderparlamente/rheinland-pfalz",
+      "title": "Nachrichten und Hintergründe | tagesschau.de",
+      "grade": null
+    },
+    {
+      "hash": "UF5LEvfjI1Dh",
+      "address": "https://www.tagesschau.de/multimedia/bilder",
+      "title": "Bilder des Tages | tagesschau.de",
+      "grade": null
+    },
+    {
+      "hash": "V93UbofjI1Dh",
+      "address": "https://www.tagesschau.de/wahlarchiv/laenderparlamente/thueringen",
+      "title": "Nachrichten und Hintergründe | tagesschau.de",
+      "grade": null
+    },
+    {
+      "hash": "XCS0EofjI1Dh",
+      "address": "https://www.tagesschau.de/wahlarchiv/laenderparlamente",
+      "title": "Nachrichten und Hintergründe | tagesschau.de",
+      "grade": null
+    },
+    {
+      "hash": "k1dSkZfjI1Dh",
+      "address": "https://www.tagesschau.de/wirtschaft/verbraucher",
+      "title": "Nachrichten zu Verbraucher-Themen | tagesschau.de",
+      "grade": null
+    },
+    {
+      "hash": "ng9PTlfjI1Dh",
+      "address": "https://www.tagesschau.de/",
+      "title": "tagesschau.de - die erste Adresse für Nachrichten und Information | tagesschau.de",
+      "grade": null
+    },
+    {
+      "hash": "sII4cofjI1Dh",
+      "address": "https://www.tagesschau.de/wahlarchiv/laenderparlamente/brandenburg",
+      "title": "Nachrichten und Hintergründe | tagesschau.de",
+      "grade": null
+    },
+    {
+      "hash": "tHnWBhfjI1Dh",
+      "address": "https://www.tagesschau.de/ausland/europa",
+      "title": "Aktuelle Nachrichten aus Europa | tagesschau.de",
+      "grade": null
+    },
+    {
+      "hash": "uj2IelfjI1Dh",
+      "address": "https://www.tagesschau.de/inland",
+      "title": "Aktuelle Nachrichten aus Deutschland | tagesschau.de",
+      "grade": null
+    },
+    {
+      "hash": "0s4GelfjI1Dh",
+      "address": "https://www.tagesschau.de/thema",
+      "title": "Nachrichten-Themen | tagesschau.de",
+      "grade": null
+    },
+    {
+      "hash": "1_T-KZfjI1Dh",
+      "address": "https://www.tagesschau.de/wirtschaft/digitales",
+      "title": "Digitales aktuell | tagesschau.de",
+      "grade": null
     }
   ]
 }

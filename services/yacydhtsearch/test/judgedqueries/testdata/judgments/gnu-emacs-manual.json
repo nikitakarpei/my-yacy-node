@@ -8,10 +8,22 @@
       "grade": 0
     },
     {
-      "hash": "UTLmhjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Bash_(Unix_shell)",
-      "title": "Bash (Unix shell) - Wikipedia",
+      "hash": "2ZqdVzfOEiDw",
+      "address": "https://planet.gnome.org/",
+      "title": "Planet GNOME",
       "grade": 0
+    },
+    {
+      "hash": "QSl7VQjpmq6Q",
+      "address": "http://www.gnu.org/home.zh-cn.html",
+      "title": "GNU 操作系统和自由软件运动",
+      "grade": null
+    },
+    {
+      "hash": "je0ycX3rJRBw",
+      "address": "https://ftp.gnu.org/gnu/",
+      "title": "Index of /gnu",
+      "grade": null
     },
     {
       "hash": "w_9jmzX55GGw",
@@ -20,99 +32,21 @@
       "grade": 0
     },
     {
-      "hash": "72qrVWVFEEow",
-      "address": "https://guix.gnu.org/manual/1.5.0/en/html_node/Substitute-Server-Authorization.html",
-      "title": "Substitute Server Authorization (GNU Guix Reference Manual)",
+      "hash": "5qBCujRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/GNU_Free_Documentation_License",
+      "title": "GNU Free Documentation License - Wikipedia",
       "grade": 0
     },
     {
-      "hash": "F1-5sjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Richard_Stallman",
-      "title": "Richard Stallman - Wikipedia",
-      "grade": 1
-    },
-    {
-      "hash": "OaBXNitD2jQw",
-      "address": "https://docs.python.org/3/whatsnew/2.6.html",
-      "title": "What’s New in Python 2.6 — Python 3.14.6 documentation",
-      "grade": 0
-    },
-    {
-      "hash": "D4lABzaS0qdw",
-      "address": "https://planet.debian.org/",
-      "title": "Planet Debian",
-      "grade": 0
-    },
-    {
-      "hash": "vFfDURrrnsyQ",
-      "address": "http://planet.gnu.org/rss20.xml",
-      "title": "",
-      "grade": 0
-    },
-    {
-      "hash": "84FlxRrrnsyQ",
-      "address": "http://planet.gnu.org/",
-      "title": "Planet GNU",
-      "grade": 0
-    },
-    {
-      "hash": "RnRgX8-xq5l4",
-      "address": "https://cygwin.com/faq/faq.html",
-      "title": "Cygwin FAQ",
-      "grade": 0
-    },
-    {
-      "hash": "VJM4o7R6-xlR",
-      "address": "http://zackmdavis.net/blog/",
-      "title": "An Algorithmic Lucidity",
-      "grade": 0
+      "hash": "rAcGdsyV5lzw",
+      "address": "https://orgmode.org/",
+      "title": "Org mode for GNU Emacs",
+      "grade": null
     },
     {
       "hash": "gloktjRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Free_software",
       "title": "Free software - Wikipedia",
-      "grade": 0
-    },
-    {
-      "hash": "-t3HAjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Firefox",
-      "title": "Firefox - Wikipedia",
-      "grade": 0
-    },
-    {
-      "hash": "AonnkjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Perl",
-      "title": "Perl - Wikipedia",
-      "grade": 0
-    },
-    {
-      "hash": "73Hl4TCAF_G4",
-      "address": "https://files.spritely.institute/papers/scheme-primer.html",
-      "title": "A Scheme Primer",
-      "grade": 0
-    },
-    {
-      "hash": "QnfPVsI9I2Th",
-      "address": "https://karl-voit.at/",
-      "title": "public voit - Homepage of Karl Voit",
-      "grade": 0
-    },
-    {
-      "hash": "KGUVEjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Man_page",
-      "title": "man page - Wikipedia",
-      "grade": 0
-    },
-    {
-      "hash": "QdW-xjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/GNU_General_Public_License",
-      "title": "GNU General Public License - Wikipedia",
-      "grade": 0
-    },
-    {
-      "hash": "aXRLMlZyJMFx",
-      "address": "https://www.free-soft.org/gpl_history/",
-      "title": "The History of the GNU General Public License",
       "grade": 0
     },
     {
@@ -122,15 +56,147 @@
       "grade": 0
     },
     {
-      "hash": "2ZqdVzfOEiDw",
-      "address": "https://planet.gnome.org/",
-      "title": "Planet GNOME",
+      "hash": "D4lABzaS0qdw",
+      "address": "https://planet.debian.org/",
+      "title": "Planet Debian",
       "grade": 0
     },
     {
-      "hash": "SV9QKjhVvkiw",
-      "address": "https://dianne.skoll.ca/projects/remind/",
-      "title": "Dianne Skoll's Web Site - Remind - Software Projects",
+      "hash": "-t3HAjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Firefox",
+      "title": "Firefox - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "0WCDDjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Conkeror",
+      "title": "Conkeror - Wikipedia",
+      "grade": null
+    },
+    {
+      "hash": "QriquAK-xyJ4",
+      "address": "https://go.dev/doc/devel/weekly",
+      "title": "Weekly Snapshot History - The Go Programming Language",
+      "grade": 0
+    },
+    {
+      "hash": "VJM4o7R6-xlR",
+      "address": "http://zackmdavis.net/blog/",
+      "title": "An Algorithmic Lucidity",
+      "grade": 0
+    },
+    {
+      "hash": "KGUVEjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Man_page",
+      "title": "man page - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "F1-5sjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Richard_Stallman",
+      "title": "Richard Stallman - Wikipedia",
+      "grade": 1
+    },
+    {
+      "hash": "C1Wyrs1_farg",
+      "address": "https://ar.al/",
+      "title": "Aral Balkan",
+      "grade": null
+    },
+    {
+      "hash": "AonnkjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Perl",
+      "title": "Perl - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "DEUnajRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/List_of_programming_languages_by_type",
+      "title": "List of programming languages by type - Wikipedia",
+      "grade": null
+    },
+    {
+      "hash": "rBG8Oh3e0QFx",
+      "address": "https://commons.wikimedia.org/wiki/Category:Web_browsers",
+      "title": "Category:Web browsers - Wikimedia Commons",
+      "grade": null
+    },
+    {
+      "hash": "HiNfCs5tr8M4",
+      "address": "https://leanpub.com/",
+      "title": "Leanpub: Publish Early, Publish Often",
+      "grade": null
+    },
+    {
+      "hash": "ILpP4B69iSD4",
+      "address": "https://nicholas.carlini.com/writing/2024/how-i-use-ai.html",
+      "title": "How I Use \"AI\"",
+      "grade": null
+    },
+    {
+      "hash": "Kmk49sMaUr46",
+      "address": "https://gnuworldorder.info/",
+      "title": "Gnu World Order",
+      "grade": null
+    },
+    {
+      "hash": "lN9DCbR2NVbw",
+      "address": "https://devguide.python.org/documentation/markup/",
+      "title": "reStructuredText markup",
+      "grade": 0
+    },
+    {
+      "hash": "QdW-xjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/GNU_General_Public_License",
+      "title": "GNU General Public License - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "zPsYJjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Linux",
+      "title": "Linux - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "LRfNwzmvZD7w",
+      "address": "https://planet.opensuse.org/",
+      "title": "Global - openSUSE Planet",
+      "grade": null
+    },
+    {
+      "hash": "FIRH00oB9UFw",
+      "address": "https://docs-archive.freebsd.org/44doc/",
+      "title": "4.4BSD Documents",
+      "grade": null
+    },
+    {
+      "hash": "GvUBmisE1LOw",
+      "address": "https://devmanual.gentoo.org/",
+      "title": "Master index – Gentoo Development Guide",
+      "grade": null
+    },
+    {
+      "hash": "eE-MAxtQ-zSx",
+      "address": "https://wiki.archlinux.org/title/Systemd",
+      "title": "systemd - ArchWiki",
+      "grade": null
+    },
+    {
+      "hash": "zTCfkxtQ-zSx",
+      "address": "https://wiki.archlinux.org/title/List_of_applications/Internet",
+      "title": "List of applications/Internet - ArchWiki",
+      "grade": 0
+    },
+    {
+      "hash": "QnfPVsI9I2Th",
+      "address": "https://karl-voit.at/",
+      "title": "public voit - Homepage of Karl Voit",
+      "grade": 0
+    },
+    {
+      "hash": "aXRLMlZyJMFx",
+      "address": "https://www.free-soft.org/gpl_history/",
+      "title": "The History of the GNU General Public License",
       "grade": 0
     },
     {
@@ -146,27 +212,9 @@
       "grade": 0
     },
     {
-      "hash": "zTCfkxtQ-zSx",
-      "address": "https://wiki.archlinux.org/title/List_of_applications/Internet",
-      "title": "List of applications/Internet - ArchWiki",
-      "grade": 0
-    },
-    {
       "hash": "_uUfZV1nrxbw",
       "address": "https://www.debian.org/doc/debian-policy/upgrading-checklist.html",
       "title": "10. Upgrading checklist — Debian Policy Manual v4.7.4.1",
-      "grade": 0
-    },
-    {
-      "hash": "zPsYJjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Linux",
-      "title": "Linux - Wikipedia",
-      "grade": 0
-    },
-    {
-      "hash": "QriquAK-xyJ4",
-      "address": "https://go.dev/doc/devel/weekly",
-      "title": "Weekly Snapshot History - The Go Programming Language",
       "grade": 0
     },
     {
@@ -176,15 +224,9 @@
       "grade": 0
     },
     {
-      "hash": "BjVrrjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Mozilla_Firefox",
-      "title": "Firefox - Wikipedia",
-      "grade": 0
-    },
-    {
-      "hash": "FZ5ZijRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/List_of_free_and_open-source_software_packages",
-      "title": "List of free and open-source software packages - Wikipedia",
+      "hash": "84FlxRrrnsyQ",
+      "address": "http://planet.gnu.org/",
+      "title": "Planet GNU",
       "grade": 0
     },
     {
@@ -197,30 +239,6 @@
       "hash": "esXNdjRvmBbx",
       "address": "https://en.wikipedia.org/wiki/GIMP",
       "title": "GIMP - Wikipedia",
-      "grade": 0
-    },
-    {
-      "hash": "5qBCujRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/GNU_Free_Documentation_License",
-      "title": "GNU Free Documentation License - Wikipedia",
-      "grade": 0
-    },
-    {
-      "hash": "kQwWXobrsZjx",
-      "address": "https://www.mediawiki.org/wiki/Extension:SyntaxHighlight_GeSHi",
-      "title": "Extension:SyntaxHighlight - MediaWiki",
-      "grade": 0
-    },
-    {
-      "hash": "k8eWwjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Command-line_interface",
-      "title": "Command-line interface - Wikipedia",
-      "grade": 0
-    },
-    {
-      "hash": "lN9DCbR2NVbw",
-      "address": "https://devguide.python.org/documentation/markup/",
-      "title": "reStructuredText markup",
       "grade": 0
     },
     {
@@ -242,15 +260,21 @@
       "grade": 0
     },
     {
+      "hash": "y9Sjojldhbwx",
+      "address": "https://en.wikibooks.org/wiki/Shelf:Computer_software",
+      "title": "Shelf:Computer software - Wikibooks, open books for an open world",
+      "grade": null
+    },
+    {
+      "hash": "RfX7GxtQ-zSx",
+      "address": "https://wiki.archlinux.org/title/Man_page",
+      "title": "man page - ArchWiki",
+      "grade": null
+    },
+    {
       "hash": "JlpqPjRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Internet_Explorer",
       "title": "Internet Explorer - Wikipedia",
-      "grade": 0
-    },
-    {
-      "hash": "oCluGjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/GPL",
-      "title": "GNU General Public License - Wikipedia",
       "grade": 0
     }
   ]

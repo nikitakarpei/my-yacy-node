@@ -1,83 +1,56 @@
 {
   "query": "comment apprendre le français",
-  "recordedAt": "2026-09-12T10:15:20Z",
+  "recordedAt": "2026-09-12T11:25:06Z",
   "itemsInTheOrderOfEachAnswer": [
-    [
-      {
-        "hash": "ZpE4QNqCHL24",
-        "address": "https://grow.google/intl/fr_fr/",
-        "title": "Google Ateliers Numériques - Développez votre activité commerciale",
-        "snippet": "Découvrez comment les Françaises et les Français utilisent l'IA et le numérique pour mener à bien leurs projets et développer leur activité\nÀ propos de Google Ateliers Numériques\nDepuis 2012, nous avons déjà accompagné plus d'un million de personnes.",
-        "matchedWords": {
-          "2RgFlHRPhwru": {
-            "hits": 4,
-            "textWords": 205
-          },
-          "BtTNY73pcvxm": {
-            "hits": 3,
-            "textWords": 205
-          },
-          "YW6JtNWqFbBK": {
-            "hits": 1,
-            "textWords": 205
-          },
-          "YwNfF72sou7o": {
-            "hits": 0,
-            "textWords": 205
-          }
-        },
-        "queryPhraseHits": 0
-      }
-    ],
-    [
-      {
-        "hash": "xyZbBs46lit6",
-        "address": "https://smoothstoneblog.com/",
-        "title": "Votre fenêtre sur le monde",
-        "snippet": "Et comment cet extrait végétal révolutionne-t-il le monde de la santé? Nous vous proposons de découvrir cela dans cet article. Alors, curieux d'en apprendre plus sur les multiples applications thérapeutiques du CBD? Embarquez avec nous pour un voyage au coeur de cette révolution verte!",
-        "matchedWords": {
-          "2RgFlHRPhwru": {
-            "hits": 257,
-            "textWords": 13536
-          },
-          "BtTNY73pcvxm": {
-            "hits": 62,
-            "textWords": 13536
-          },
-          "YW6JtNWqFbBK": {
-            "hits": 2,
-            "textWords": 13536
-          },
-          "YwNfF72sou7o": {
-            "hits": 5,
-            "textWords": 13536
-          }
-        },
-        "queryPhraseHits": 0
-      }
-    ],
     [
       {
         "hash": "smyaiTKCIhSg",
         "address": "https://madame.lefigaro.fr/",
         "title": "Mode, Beauté, Recettes, Société, Horoscope, Célébrités",
-        "snippet": "Jeudi 3 septembre, elles se trouvaient sur le tapis rouge de la 83e édition de la Mostra de Venise.\nComment George Clooney s’est fait voler la vedette par son conducteur de bateau Riva à Venise\nGeorge et Amal Clooney se trouvent à Venise pour le célèbre festival de cinéma.",
+        "snippet": "On nous vend la vingtaine comme une décennie d’insouciance mais on oublie le saut dans le vide et le poids de chaque choix. Comment grandir sans se perdre, dans un monde qui se dérobe ?\nPasser la publicité\nPasser la publicité",
         "matchedWords": {
           "2RgFlHRPhwru": {
-            "hits": 56,
-            "textWords": 2579
+            "hits": 66,
+            "textWords": 2805
           },
           "BtTNY73pcvxm": {
-            "hits": 3,
-            "textWords": 2579
+            "hits": 6,
+            "textWords": 2805
           },
           "YW6JtNWqFbBK": {
-            "hits": 0,
-            "textWords": 2579
+            "hits": 2,
+            "textWords": 2805
           },
           "YwNfF72sou7o": {
             "hits": 1,
-            "textWords": 2579
+            "textWords": 2805
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "eLm376G-ATF4",
+        "address": "https://podcasts.apple.com/sn/new",
+        "title": "Apple Podcasts (SN) - Web Player",
+        "snippet": "Copyright © 2026 Apple Inc. All rights reserved.\nInternet Service Terms\nApple Podcasts web player \u0026 Privacy\nCookie Warning\nSupport\nFeedback",
+        "matchedWords": {
+          "2RgFlHRPhwru": {
+            "hits": 0,
+            "textWords": 19
+          },
+          "BtTNY73pcvxm": {
+            "hits": 0,
+            "textWords": 19
+          },
+          "YW6JtNWqFbBK": {
+            "hits": 0,
+            "textWords": 19
+          },
+          "YwNfF72sou7o": {
+            "hits": 0,
+            "textWords": 19
           }
         },
         "queryPhraseHits": 0
@@ -112,26 +85,53 @@
     ],
     [
       {
-        "hash": "yJD_dkiwa444",
-        "address": "https://apps.apple.com/fr/iphone/today",
-        "title": "‎Aujourd’hui sur iPhone - App Store",
-        "snippet": "Jouez au jeu du monde\nAfficher\nLe JCC Pokémon Pocket\nDes cartes Pokémon sur mobile\nLes grands évènements du jour\nRegardez, jouez et faites-vous plaisir.\nLa Team Rocket aux manettes\nLes Sbires de la Team Rocket débarquent avec leurs Pokémon.\nAfficher\nLe JCC Pokémon Pocket",
+        "hash": "1y2xelUnydmg",
+        "address": "https://www.lemonde.fr/",
+        "title": "Le Monde.fr - Actualités et Infos en France et dans le monde",
+        "snippet": "Collection Le Monde des livres\nServiette de plage, pochette, sac cabas et casquette.\nMots croisés n°16\n100 nouvelles grilles de Philippe Dupuis\nSudoku n°1\nLes grilles de Sudoku - n°1\nSac cabas\nEmportez Le MondeLe Monde partout avec vous.\nGotlib (édition enrichie)\nLe génie Gotlib",
         "matchedWords": {
           "2RgFlHRPhwru": {
-            "hits": 15,
-            "textWords": 764
+            "hits": 35,
+            "textWords": 1191
           },
           "BtTNY73pcvxm": {
-            "hits": 0,
-            "textWords": 764
+            "hits": 3,
+            "textWords": 1191
           },
           "YW6JtNWqFbBK": {
             "hits": 0,
-            "textWords": 764
+            "textWords": 1191
           },
           "YwNfF72sou7o": {
             "hits": 0,
-            "textWords": 764
+            "textWords": 1191
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "1y2xelUnydmg",
+        "address": "https://www.lemonde.fr/",
+        "title": "Le Monde.fr - Actualités et Infos en France et dans le monde",
+        "snippet": "Collection Le Monde des livres\nServiette de plage, pochette, sac cabas et casquette.\nMots croisés n°16\n100 nouvelles grilles de Philippe Dupuis\nSudoku n°1\nLes grilles de Sudoku - n°1\nSac cabas\nEmportez Le MondeLe Monde partout avec vous.\nGotlib (édition enrichie)\nLe génie Gotlib",
+        "matchedWords": {
+          "2RgFlHRPhwru": {
+            "hits": 35,
+            "textWords": 1191
+          },
+          "BtTNY73pcvxm": {
+            "hits": 3,
+            "textWords": 1191
+          },
+          "YW6JtNWqFbBK": {
+            "hits": 0,
+            "textWords": 1191
+          },
+          "YwNfF72sou7o": {
+            "hits": 0,
+            "textWords": 1191
           }
         },
         "queryPhraseHits": 0
@@ -142,48 +142,23 @@
         "hash": "yJD_dkiwa444",
         "address": "https://apps.apple.com/fr/iphone/today",
         "title": "‎Aujourd’hui sur iPhone - App Store",
-        "snippet": "Jouez au jeu du monde\nAfficher\nLe JCC Pokémon Pocket\nDes cartes Pokémon sur mobile\nLes grands évènements du jour\nRegardez, jouez et faites-vous plaisir.\nLa Team Rocket aux manettes\nLes Sbires de la Team Rocket débarquent avec leurs Pokémon.\nAfficher\nLe JCC Pokémon Pocket",
+        "snippet": "Jouez au jeu du monde\nAfficher\nLe JCC Pokémon Pocket\nDes cartes Pokémon sur mobile\nDécouvrez des nouveautés\nLES COULISSES\nVoyez clair, voyez vert\nLe monde devient plus vert grâce à Forest.\nAfficher\nForest - Minuteur Pomodoro\nMinuteur focus \u0026 productivité\nON S’ORGANISE\nAnalysez la vue d’ensemble",
         "matchedWords": {
           "2RgFlHRPhwru": {
-            "hits": 15,
-            "textWords": 764
+            "hits": 8,
+            "textWords": 633
           },
           "BtTNY73pcvxm": {
             "hits": 0,
-            "textWords": 764
+            "textWords": 633
           },
           "YW6JtNWqFbBK": {
             "hits": 0,
-            "textWords": 764
+            "textWords": 633
           },
           "YwNfF72sou7o": {
             "hits": 0,
-            "textWords": 764
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "1y2xelUnydmg",
-        "address": "https://www.lemonde.fr/",
-        "title": "Le Monde.fr - Actualités et Infos en France et dans le monde",
-        "snippet": "GILLES SABRIÉ POUR « LE MONDE »\n« Mao, l’encombrant héritage » (6/7). Le village natal de Mao Zedong est vite devenu un site mémoriel. Douze millions de Chinois, des écoliers aux retraités, viennent chaque année s’y recueillir, apprendre l’histoire du Parti ou simplement se distraire.\nEnquête",
-        "matchedWords": {
-          "2RgFlHRPhwru": {
-            "hits": 48,
-            "textWords": 1460
-          },
-          "BtTNY73pcvxm": {
-            "hits": 3,
-            "textWords": 1460
-          },
-          "YW6JtNWqFbBK": {
-            "hits": 0,
-            "textWords": 1460
-          },
-          "YwNfF72sou7o": {
-            "hits": 1,
-            "textWords": 1460
+            "textWords": 633
           }
         },
         "queryPhraseHits": 0
@@ -392,101 +367,26 @@
       "queryPhraseHits": 0
     },
     {
-      "hash": "_2_ROlIi4Mlh",
-      "address": "https://www.franceinfo.fr/",
-      "title": "franceinfo - Actualités en temps réel et info en direct",
-      "snippet": "Les rebelles houthis du Yémen s'emparent de l'ensemble de la côte bordant la mer Rouge, dont le détroit stratégique de Bab el-Mandeb\nvidéo 1 minute 42\n\"On ne fait plus les courses comme avant\" : comment les Français font-ils face à l'inflation ?",
-      "matchedWords": {
-        "2RgFlHRPhwru": {
-          "hits": 88,
-          "textWords": 2840
-        },
-        "BtTNY73pcvxm": {
-          "hits": 3,
-          "textWords": 2840
-        },
-        "YW6JtNWqFbBK": {
-          "hits": 4,
-          "textWords": 2840
-        },
-        "YwNfF72sou7o": {
-          "hits": 0,
-          "textWords": 2840
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "f7EzzcKIzUTx",
-      "address": "https://fr.wikibooks.org/wiki/Accueil",
-      "title": "Wikilivres",
-      "snippet": "Étude scientifique de la technique du piano\nY a t-il des techniques différentes ou une seule et même technique ? La diversité des conceptions est impressionnante. « Il faudrait des efforts désespérés pour résumer les opinions et les enseignements sur le toucher pianistique » (Ludwig Riemann).",
-      "matchedWords": {
-        "2RgFlHRPhwru": {
-          "hits": 1,
-          "textWords": 120
-        },
-        "BtTNY73pcvxm": {
-          "hits": 0,
-          "textWords": 120
-        },
-        "YW6JtNWqFbBK": {
-          "hits": 0,
-          "textWords": 120
-        },
-        "YwNfF72sou7o": {
-          "hits": 0,
-          "textWords": 120
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "ENWQgshj4a55",
-      "address": "https://sachachua.com/blog/",
-      "title": "Home :: Sacha Chua",
-      "snippet": "Et donc si je dis par exemple, je lui ai demandé comment ça va, en fait il va recopier, je lui ai demandé deux points, ouvrez les guillemets, comment ça va, point d'interrogation, fermez les guillemets. Parce qu'il interprète en fait, il reconstitue le paragraphe, le texte à la fin.",
-      "matchedWords": {
-        "2RgFlHRPhwru": {
-          "hits": 174,
-          "textWords": 8267
-        },
-        "BtTNY73pcvxm": {
-          "hits": 8,
-          "textWords": 8267
-        },
-        "YW6JtNWqFbBK": {
-          "hits": 6,
-          "textWords": 8267
-        },
-        "YwNfF72sou7o": {
-          "hits": 0,
-          "textWords": 8267
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
       "hash": "k-cCzHiwa444",
       "address": "https://apps.apple.com/ga/iphone/today",
       "title": "‎Aujourd’hui sur iPhone - App Store",
-      "snippet": "À découvrir aujourd’hui\nAméliorez vos réseaux sociaux\nTissez des liens solides ou devenez influenceur\nLes jeux indés qu’on aime\nPetites équipes, grand plaisir\nCoups de cœur de l’App Store\nNotre sélection de jeux et d’apps est testée par nous, pour vous.\nProfitez au maximum de l’IA",
+      "snippet": "Joue à des millions de jeux\nAfficher\nTasty Travels: Merge Game\nMerge and Explore\nAfficher\nBrawl Stars\nLe combat Battle royale épique\nAfficher\nGossip Harbor : jeu de fusion\nCasse-tête\nAfficher\nLast War:Survival\nDodge, Defend, Defeat Zombies\nAfficher\nRoyal Match\nJeu de match 3 du roi\nAfficher",
       "matchedWords": {
         "2RgFlHRPhwru": {
-          "hits": 0,
-          "textWords": 83
+          "hits": 10,
+          "textWords": 1005
         },
         "BtTNY73pcvxm": {
-          "hits": 0,
-          "textWords": 83
+          "hits": 1,
+          "textWords": 1005
         },
         "YW6JtNWqFbBK": {
           "hits": 0,
-          "textWords": 83
+          "textWords": 1005
         },
         "YwNfF72sou7o": {
           "hits": 0,
-          "textWords": 83
+          "textWords": 1005
         }
       },
       "queryPhraseHits": 0
@@ -495,7 +395,7 @@
       "hash": "4KF3YZiwa444",
       "address": "https://apps.apple.com/cm/iphone/today",
       "title": "‎Aujourd’hui sur iPhone - App Store",
-      "snippet": "À découvrir aujourd’hui\nAméliorez vos réseaux sociaux\nTissez des liens solides ou devenez influenceur\nLes jeux indés qu’on aime\nPetites équipes, grand plaisir\nCoups de cœur de l’App Store\nNotre sélection de jeux et d’apps est testée par nous, pour vous.\nProfitez au maximum de l’IA",
+      "snippet": "À découvrir aujourd’hui\nGrimpez au classement\nExprimez votre esprit compétitif dans ces jeux\nLes jeux indés qu’on aime\nPetites équipes, grand plaisir\nCoups de cœur de l’App Store\nNotre sélection de jeux et d’apps est testée par nous, pour vous.\nAméliorez vos réseaux sociaux",
       "matchedWords": {
         "2RgFlHRPhwru": {
           "hits": 0,
@@ -520,76 +420,51 @@
       "hash": "4hBzCdiwa444",
       "address": "https://apps.apple.com/ca/iphone/today?l=fr-CA",
       "title": "‎Aujourd’hui pour iPhone - App Store",
-      "snippet": "Grands événements du jour\nRegardez, jouez et faites-vous plaisir.\nJeux indépendants qu’on aime\nPetits studios, grand plaisir\nLes coups de cœur de l’équipe\nApps et jeux testés par nous, pour vous.\nJouez sur Apple Arcade\nDe super événements\nDécouvrez ce qui se passe dans vos apps préférées.",
+      "snippet": "LE CODE POUR TOUT LE MONDE\nCréez vos outils avec Claude\nDonnez vie à vos idées grâce à la programmation au ressenti.\nAfficher\nClaude by Anthropic\nIA pour la vie et le travail\nTendances de la semaine\nNe manquez pas ces nouvelles sorties et mises à jour.\nNOUVEAU JEU\nChasse aux hérétiques!",
       "matchedWords": {
         "2RgFlHRPhwru": {
-          "hits": 0,
-          "textWords": 83
+          "hits": 16,
+          "textWords": 824
         },
         "BtTNY73pcvxm": {
           "hits": 0,
-          "textWords": 83
+          "textWords": 824
         },
         "YW6JtNWqFbBK": {
           "hits": 0,
-          "textWords": 83
+          "textWords": 824
         },
         "YwNfF72sou7o": {
           "hits": 0,
-          "textWords": 83
+          "textWords": 824
         }
       },
       "queryPhraseHits": 0
     },
     {
-      "hash": "jMxNQ8moJZfA",
-      "address": "http://junior.senat.fr/accueil.html",
-      "title": "Sénat Junior - Accueil",
-      "snippet": "Inscris ici le résultat du calcul",
+      "hash": "qiJRj7o1FmmR",
+      "address": "http://gutenberg.ca/index.html",
+      "title": "Project Gutenberg Canada / Projet Gutenberg Canada",
+      "snippet": "Bainville, Jacques (1879-1936) [Historien et journaliste français]\nfr.wikipedia Académie Française\nComment s'est faite la Restauration de 1814 (1914) [Monographie sur le retour des Bourbons en 1814] HTML HTML zip Texte Texte zip EPUB [PGC no 829]",
       "matchedWords": {
         "2RgFlHRPhwru": {
-          "hits": 1,
-          "textWords": 6
+          "hits": 237,
+          "textWords": 215111
         },
         "BtTNY73pcvxm": {
-          "hits": 0,
-          "textWords": 6
+          "hits": 6,
+          "textWords": 215111
         },
         "YW6JtNWqFbBK": {
-          "hits": 0,
-          "textWords": 6
+          "hits": 85,
+          "textWords": 215111
         },
         "YwNfF72sou7o": {
-          "hits": 0,
-          "textWords": 6
+          "hits": 2,
+          "textWords": 215111
         }
       },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "wCTWHcw63Csx",
-      "address": "https://fr.wikipedia.org/wiki/Wikip%C3%A9dia:V%C3%A9rifiabilit%C3%A9",
-      "title": "Wikipédia:Vérifiabilité — Wikipédia",
-      "snippet": "Même si les sources primaires peuvent être appropriées dans certains cas, leur utilisation risque d'être problématique.\nApprendre à sourcer\nPage d'aide\nWikipédia:Citez vos sources, pourquoi et comment bien les choisir, les contester, les demander...",
-      "matchedWords": {
-        "2RgFlHRPhwru": {
-          "hits": 15,
-          "textWords": 1824
-        },
-        "BtTNY73pcvxm": {
-          "hits": 1,
-          "textWords": 1824
-        },
-        "YW6JtNWqFbBK": {
-          "hits": 1,
-          "textWords": 1824
-        },
-        "YwNfF72sou7o": {
-          "hits": 1,
-          "textWords": 1824
-        }
-      },
-      "queryPhraseHits": 0
+      "queryPhraseHits": 2
     },
     {
       "hash": "Z-duvlzvQPgh",
@@ -617,201 +492,26 @@
       "queryPhraseHits": 0
     },
     {
-      "hash": "HjxzUzbpbGvx",
-      "address": "https://species.wikimedia.org/wiki/Wikispecies:Le_bistro",
-      "title": "Wikispecies:Le bistro - Wikispecies",
-      "snippet": "Merci.\nLe bistro dans d'autres langues : Anglais – English · Coréen – 한국어 · Finnois – Suomi · Hongrois – Magyar · Russe – Русский · Tchèque – česky · Ukrainienne – українська · Chinois – 中文\nArchives\nNoms vernaculaires\n[edit]\nLatest comment: 1 year ago",
+      "hash": "xyZbBs46lit6",
+      "address": "https://smoothstoneblog.com/",
+      "title": "Votre fenêtre sur le monde",
+      "snippet": "Et comment cet extrait végétal révolutionne-t-il le monde de la santé? Nous vous proposons de découvrir cela dans cet article. Alors, curieux d'en apprendre plus sur les multiples applications thérapeutiques du CBD? Embarquez avec nous pour un voyage au coeur de cette révolution verte!",
       "matchedWords": {
         "2RgFlHRPhwru": {
-          "hits": 10,
-          "textWords": 431
+          "hits": 257,
+          "textWords": 13536
         },
         "BtTNY73pcvxm": {
-          "hits": 6,
-          "textWords": 431
+          "hits": 62,
+          "textWords": 13536
         },
         "YW6JtNWqFbBK": {
-          "hits": 0,
-          "textWords": 431
-        },
-        "YwNfF72sou7o": {
-          "hits": 0,
-          "textWords": 431
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "4KF3YZiwa444",
-      "address": "https://apps.apple.com/cm/iphone/today",
-      "title": "‎Aujourd’hui sur iPhone - App Store",
-      "snippet": "À découvrir aujourd’hui\nAméliorez vos réseaux sociaux\nTissez des liens solides ou devenez influenceur\nLes jeux indés qu’on aime\nPetites équipes, grand plaisir\nCoups de cœur de l’App Store\nNotre sélection de jeux et d’apps est testée par nous, pour vous.\nProfitez au maximum de l’IA",
-      "matchedWords": {
-        "2RgFlHRPhwru": {
-          "hits": 0,
-          "textWords": 83
-        },
-        "BtTNY73pcvxm": {
-          "hits": 0,
-          "textWords": 83
-        },
-        "YW6JtNWqFbBK": {
-          "hits": 0,
-          "textWords": 83
-        },
-        "YwNfF72sou7o": {
-          "hits": 0,
-          "textWords": 83
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "4hBzCdiwa444",
-      "address": "https://apps.apple.com/ca/iphone/today?l=fr-CA",
-      "title": "‎Aujourd’hui sur iPhone - App Store",
-      "snippet": "Grands événements du jour\nRegardez, jouez et faites-vous plaisir.\nJeux indépendants qu’on aime\nPetits studios, grand plaisir\nLes coups de cœur de l’équipe\nApps et jeux testés par nous, pour vous.\nJouez sur Apple Arcade\nDe super événements\nDécouvrez ce qui se passe dans vos apps préférées.",
-      "matchedWords": {
-        "2RgFlHRPhwru": {
-          "hits": 0,
-          "textWords": 83
-        },
-        "BtTNY73pcvxm": {
-          "hits": 0,
-          "textWords": 83
-        },
-        "YW6JtNWqFbBK": {
-          "hits": 0,
-          "textWords": 83
-        },
-        "YwNfF72sou7o": {
-          "hits": 0,
-          "textWords": 83
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "4a35oAjw1Zlx",
-      "address": "https://kubernetes.io/fr/docs/tasks/inject-data-application/define-interdependent-environment-variables/",
-      "title": "Définir des variables d'environnement dépendantes | Kubernetes",
-      "snippet": "Pour définir une variable d'environnement dépendante, vous pouvez utiliser le format $(VAR_NAME) dans le champ value de la spécification env dans le fichier de configuration.\nDans cette exercice, vous allez créer un Pod qui exécute un container.",
-      "matchedWords": {
-        "2RgFlHRPhwru": {
-          "hits": 9,
-          "textWords": 515
-        },
-        "BtTNY73pcvxm": {
-          "hits": 1,
-          "textWords": 515
-        },
-        "YW6JtNWqFbBK": {
-          "hits": 0,
-          "textWords": 515
-        },
-        "YwNfF72sou7o": {
-          "hits": 0,
-          "textWords": 515
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "7M3jVYmVqts4",
-      "address": "https://academy.asana.com/",
-      "title": "Asana Academy",
-      "snippet": "Français (French) On-demand training Intermediate Localized Roll out Asana to your team featured-courses-fr course-page-template\nBien démarrer avec le studio IA (Séminaire en direct)",
-      "matchedWords": {
-        "2RgFlHRPhwru": {
-          "hits": 3,
-          "textWords": 5751
-        },
-        "BtTNY73pcvxm": {
           "hits": 2,
-          "textWords": 5751
-        },
-        "YW6JtNWqFbBK": {
-          "hits": 10,
-          "textWords": 5751
+          "textWords": 13536
         },
         "YwNfF72sou7o": {
-          "hits": 0,
-          "textWords": 5751
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "6dsd-lyMlk9g",
-      "address": "https://www.lumni.fr/",
-      "title": "Lumni | Des vidéos, quiz et jeux gratuits pour réviser tes cours et progresser",
-      "snippet": "AteliersMaster classesRencontres métiers\nDécouvre ce que Lumni organise pour toi !\nLes événements\nInscris-toi à la newsletter Lumni\nN'en perds pas une miette : le meilleur de Lumni, chaque mercredi dans ta boîte mail.",
-      "matchedWords": {
-        "2RgFlHRPhwru": {
-          "hits": 3,
-          "textWords": 297
-        },
-        "BtTNY73pcvxm": {
-          "hits": 0,
-          "textWords": 297
-        },
-        "YW6JtNWqFbBK": {
-          "hits": 0,
-          "textWords": 297
-        },
-        "YwNfF72sou7o": {
-          "hits": 0,
-          "textWords": 297
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "f7EzzcKIzUTx",
-      "address": "https://fr.wikibooks.org/wiki/Accueil",
-      "title": "Wikilivres",
-      "snippet": "Étude scientifique de la technique du piano\nY a t-il des techniques différentes ou une seule et même technique ? La diversité des conceptions est impressionnante. « Il faudrait des efforts désespérés pour résumer les opinions et les enseignements sur le toucher pianistique » (Ludwig Riemann).",
-      "matchedWords": {
-        "2RgFlHRPhwru": {
-          "hits": 1,
-          "textWords": 120
-        },
-        "BtTNY73pcvxm": {
-          "hits": 0,
-          "textWords": 120
-        },
-        "YW6JtNWqFbBK": {
-          "hits": 0,
-          "textWords": 120
-        },
-        "YwNfF72sou7o": {
-          "hits": 0,
-          "textWords": 120
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "4vZOvlMT2ldg",
-      "address": "https://www.lexpress.fr/",
-      "title": "L'Express - Actualités Politique, Monde, Economie et Culture - L'Express",
-      "snippet": "Le monde en bref\nActiver les notifications\nL'hebdo\nHEBDO DU 10 septembreLes figurants\nNos formats courts\nLa grande interview\nLe choix de la rédaction\nNos formats européens\nLes éditos Erasme\nLe comparateur\nIls font bouger l'Europe\nInfographies\nGrands Entretiens\nChroniques\nLes plus lus",
-      "matchedWords": {
-        "2RgFlHRPhwru": {
-          "hits": 3,
-          "textWords": 79
-        },
-        "BtTNY73pcvxm": {
-          "hits": 0,
-          "textWords": 79
-        },
-        "YW6JtNWqFbBK": {
-          "hits": 0,
-          "textWords": 79
-        },
-        "YwNfF72sou7o": {
-          "hits": 0,
-          "textWords": 79
+          "hits": 5,
+          "textWords": 13536
         }
       },
       "queryPhraseHits": 0
@@ -837,31 +537,6 @@
         "YwNfF72sou7o": {
           "hits": 0,
           "textWords": 602
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "2XYE4C8hxo35",
-      "address": "https://www.microsoft.com/fr-fr/education?icid=CNavMSCOML0_Studentsandeducation",
-      "title": "Solutions de technologies éducatives avec l’IA | Microsoft Education",
-      "snippet": "Créez, personnalisez et déployez facilement vos assistants IA.\nMicrosoft Teams pour l’éducation\nCréez des classes virtuelles sécurisées et collaboratives où tout le monde peut rester organisé et se sentir valorisé.\nMicrosoft IQ",
-      "matchedWords": {
-        "2RgFlHRPhwru": {
-          "hits": 1,
-          "textWords": 277
-        },
-        "BtTNY73pcvxm": {
-          "hits": 0,
-          "textWords": 277
-        },
-        "YW6JtNWqFbBK": {
-          "hits": 0,
-          "textWords": 277
-        },
-        "YwNfF72sou7o": {
-          "hits": 0,
-          "textWords": 277
         }
       },
       "queryPhraseHits": 0
@@ -967,26 +642,326 @@
       "queryPhraseHits": 0
     },
     {
+      "hash": "Vl6aQlNGLHz5",
+      "address": "https://www.salesforce.com/fr-ca/?bc=DF",
+      "title": "Salesforce, le CRM n° 1 intégrant l’IA agentique | Salesforce FR-CA",
+      "snippet": "Le rapport de Futurum explique pourquoi Agentforce est le chemin le plus rapide vers la valeur de l'entreprise\nLire le rapport\nDevenez Agentblazer\nApprenez gratuitement les compétences sur l’IA et Agentforce nécessaires pour façonner l’avenir du travail.\nNiveau 1\nChampion",
+      "matchedWords": {
+        "2RgFlHRPhwru": {
+          "hits": 22,
+          "textWords": 1689
+        },
+        "BtTNY73pcvxm": {
+          "hits": 2,
+          "textWords": 1689
+        },
+        "YW6JtNWqFbBK": {
+          "hits": 1,
+          "textWords": 1689
+        },
+        "YwNfF72sou7o": {
+          "hits": 3,
+          "textWords": 1689
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
       "hash": "LqhCmlxSD0j4",
       "address": "https://www.bbc.com/afrique",
       "title": "Accueil - BBC News Afrique",
       "snippet": "De nombreux pays occidentaux et pays apparentés célèbrent le Nouvel An en janvier, Certains pays asiatiques, en revanche, célèbrent le Nouvel An différemment. Comment les pays des différentes régions du monde célèbrent-ils le Nouvel An ?\n11 septembre 2026\nIgnorer Regardez ! et continuer\nRegardez !",
       "matchedWords": {
         "2RgFlHRPhwru": {
-          "hits": 16,
-          "textWords": 382
+          "hits": 12,
+          "textWords": 322
         },
         "BtTNY73pcvxm": {
           "hits": 1,
-          "textWords": 382
+          "textWords": 322
         },
         "YW6JtNWqFbBK": {
           "hits": 0,
-          "textWords": 382
+          "textWords": 322
         },
         "YwNfF72sou7o": {
           "hits": 0,
-          "textWords": 382
+          "textWords": 322
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "HjxzUzbpbGvx",
+      "address": "https://species.wikimedia.org/wiki/Wikispecies:Le_bistro",
+      "title": "Wikispecies:Le bistro - Wikispecies",
+      "snippet": "Merci.\nLe bistro dans d'autres langues : Anglais – English · Coréen – 한국어 · Finnois – Suomi · Hongrois – Magyar · Russe – Русский · Tchèque – česky · Ukrainienne – українська · Chinois – 中文\nArchives\nNoms vernaculaires\n[edit]\nLatest comment: 1 year ago",
+      "matchedWords": {
+        "2RgFlHRPhwru": {
+          "hits": 10,
+          "textWords": 431
+        },
+        "BtTNY73pcvxm": {
+          "hits": 6,
+          "textWords": 431
+        },
+        "YW6JtNWqFbBK": {
+          "hits": 0,
+          "textWords": 431
+        },
+        "YwNfF72sou7o": {
+          "hits": 0,
+          "textWords": 431
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "4KF3YZiwa444",
+      "address": "https://apps.apple.com/cm/iphone/today",
+      "title": "‎Aujourd’hui sur iPhone - App Store",
+      "snippet": "À découvrir aujourd’hui\nGrimpez au classement\nExprimez votre esprit compétitif dans ces jeux\nLes jeux indés qu’on aime\nPetites équipes, grand plaisir\nCoups de cœur de l’App Store\nNotre sélection de jeux et d’apps est testée par nous, pour vous.\nAméliorez vos réseaux sociaux",
+      "matchedWords": {
+        "2RgFlHRPhwru": {
+          "hits": 0,
+          "textWords": 83
+        },
+        "BtTNY73pcvxm": {
+          "hits": 0,
+          "textWords": 83
+        },
+        "YW6JtNWqFbBK": {
+          "hits": 0,
+          "textWords": 83
+        },
+        "YwNfF72sou7o": {
+          "hits": 0,
+          "textWords": 83
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "4hBzCdiwa444",
+      "address": "https://apps.apple.com/ca/iphone/today?l=fr-CA",
+      "title": "‎Aujourd’hui sur iPhone - App Store",
+      "snippet": "LE CODE POUR TOUT LE MONDE\nCréez vos outils avec Claude\nDonnez vie à vos idées grâce à la programmation au ressenti.\nAfficher\nClaude by Anthropic\nIA pour la vie et le travail\nTendances de la semaine\nNe manquez pas ces nouvelles sorties et mises à jour.\nNOUVEAU JEU\nChasse aux hérétiques!",
+      "matchedWords": {
+        "2RgFlHRPhwru": {
+          "hits": 16,
+          "textWords": 824
+        },
+        "BtTNY73pcvxm": {
+          "hits": 0,
+          "textWords": 824
+        },
+        "YW6JtNWqFbBK": {
+          "hits": 0,
+          "textWords": 824
+        },
+        "YwNfF72sou7o": {
+          "hits": 0,
+          "textWords": 824
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "4a35oAjw1Zlx",
+      "address": "https://kubernetes.io/fr/docs/tasks/inject-data-application/define-interdependent-environment-variables/",
+      "title": "Définir des variables d'environnement dépendantes | Kubernetes",
+      "snippet": "Pour définir une variable d'environnement dépendante, vous pouvez utiliser le format $(VAR_NAME) dans le champ value de la spécification env dans le fichier de configuration.\nDans cette exercice, vous allez créer un Pod qui exécute un container.",
+      "matchedWords": {
+        "2RgFlHRPhwru": {
+          "hits": 9,
+          "textWords": 515
+        },
+        "BtTNY73pcvxm": {
+          "hits": 1,
+          "textWords": 515
+        },
+        "YW6JtNWqFbBK": {
+          "hits": 0,
+          "textWords": 515
+        },
+        "YwNfF72sou7o": {
+          "hits": 0,
+          "textWords": 515
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "7M3jVYmVqts4",
+      "address": "https://academy.asana.com/",
+      "title": "Asana Academy",
+      "snippet": "Français (French) On-demand training Intermediate Localized Roll out Asana to your team featured-courses-fr course-page-template\nBien démarrer avec le studio IA (Séminaire en direct)",
+      "matchedWords": {
+        "2RgFlHRPhwru": {
+          "hits": 3,
+          "textWords": 5751
+        },
+        "BtTNY73pcvxm": {
+          "hits": 2,
+          "textWords": 5751
+        },
+        "YW6JtNWqFbBK": {
+          "hits": 10,
+          "textWords": 5751
+        },
+        "YwNfF72sou7o": {
+          "hits": 0,
+          "textWords": 5751
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "6dsd-lyMlk9g",
+      "address": "https://www.lumni.fr/",
+      "title": "Lumni | Des vidéos, quiz et jeux gratuits pour réviser tes cours et progresser",
+      "snippet": "AteliersMaster classesRencontres métiers\nDécouvre ce que Lumni organise pour toi !\nLes événements\nInscris-toi à la newsletter Lumni\nN'en perds pas une miette : le meilleur de Lumni, chaque mercredi dans ta boîte mail.",
+      "matchedWords": {
+        "2RgFlHRPhwru": {
+          "hits": 3,
+          "textWords": 297
+        },
+        "BtTNY73pcvxm": {
+          "hits": 0,
+          "textWords": 297
+        },
+        "YW6JtNWqFbBK": {
+          "hits": 0,
+          "textWords": 297
+        },
+        "YwNfF72sou7o": {
+          "hits": 0,
+          "textWords": 297
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "4vZOvlMT2ldg",
+      "address": "https://www.lexpress.fr/",
+      "title": "L'Express - Actualités Politique, Monde, Economie et Culture - L'Express",
+      "snippet": "Le monde en bref\nActiver les notifications\nL'hebdo\nHEBDO DU 10 septembreLes figurants\nNos formats courts\nLa grande interview\nLe choix de la rédaction\nNos formats européens\nLes éditos Erasme\nLe comparateur\nIls font bouger l'Europe\nInfographies\nGrands Entretiens\nChroniques\nLes plus lus",
+      "matchedWords": {
+        "2RgFlHRPhwru": {
+          "hits": 3,
+          "textWords": 79
+        },
+        "BtTNY73pcvxm": {
+          "hits": 0,
+          "textWords": 79
+        },
+        "YW6JtNWqFbBK": {
+          "hits": 0,
+          "textWords": 79
+        },
+        "YwNfF72sou7o": {
+          "hits": 0,
+          "textWords": 79
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "WwjbDlQBeBug",
+      "address": "https://www.webador.fr/contact",
+      "title": "Contactez-nous | Webador.fr",
+      "snippet": "Après l'annulation, nous mettons immédiatement à disposition le code de transfert / token de votre nom de domaine. Si vous le souhaitez, vous pouvez placer votre nom de domaine ailleurs.\nComment faire pour annuler mon abonnement ?",
+      "matchedWords": {
+        "2RgFlHRPhwru": {
+          "hits": 8,
+          "textWords": 332
+        },
+        "BtTNY73pcvxm": {
+          "hits": 1,
+          "textWords": 332
+        },
+        "YW6JtNWqFbBK": {
+          "hits": 0,
+          "textWords": 332
+        },
+        "YwNfF72sou7o": {
+          "hits": 0,
+          "textWords": 332
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "zXDrWsUJQ2S4",
+      "address": "https://crypto.com/fr-fr",
+      "title": "Crypto.com France : Achetez, vendez et tradez des cryptos en confiance",
+      "snippet": "De nombreuses cryptomonnaies, comme le bitcoin, sont créées par un processus appelé le minage, qui consiste à résoudre des équations mathématiques complexes afin de valider et d'enregistrer des transactions sur une blockchain. Ce mécanisme est également appelé preuve de travail (PoW).",
+      "matchedWords": {
+        "2RgFlHRPhwru": {
+          "hits": 22,
+          "textWords": 1376
+        },
+        "BtTNY73pcvxm": {
+          "hits": 0,
+          "textWords": 1376
+        },
+        "YW6JtNWqFbBK": {
+          "hits": 0,
+          "textWords": 1376
+        },
+        "YwNfF72sou7o": {
+          "hits": 0,
+          "textWords": 1376
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "vAun5lZ8Ljq5",
+      "address": "https://www.nouvelobs.com/depeche/",
+      "title": "Actualité en direct et en continu sur Le Nouvel Obs",
+      "snippet": "9 septembre 2026 à 8h21\nEntretien\nMettre la dette « au frigo » : pour Maroun Eddé, « Jean-Luc Mélenchon lève le voile sur le tabou de la création monétaire »\n9 septembre 2026 à 8h00\nAbonné\nInterview\nComment un « plafond de mère » pèse sur la carrière des femmes, avec ou sans enfant",
+      "matchedWords": {
+        "2RgFlHRPhwru": {
+          "hits": 75,
+          "textWords": 3942
+        },
+        "BtTNY73pcvxm": {
+          "hits": 11,
+          "textWords": 3942
+        },
+        "YW6JtNWqFbBK": {
+          "hits": 4,
+          "textWords": 3942
+        },
+        "YwNfF72sou7o": {
+          "hits": 1,
+          "textWords": 3942
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "4KF3YZiwa444",
+      "address": "https://apps.apple.com/cm/iphone/today",
+      "title": "‎Aujourd’hui sur iPhone - App Store",
+      "snippet": "À découvrir aujourd’hui\nGrimpez au classement\nExprimez votre esprit compétitif dans ces jeux\nLes jeux indés qu’on aime\nPetites équipes, grand plaisir\nCoups de cœur de l’App Store\nNotre sélection de jeux et d’apps est testée par nous, pour vous.\nAméliorez vos réseaux sociaux",
+      "matchedWords": {
+        "2RgFlHRPhwru": {
+          "hits": 0,
+          "textWords": 83
+        },
+        "BtTNY73pcvxm": {
+          "hits": 0,
+          "textWords": 83
+        },
+        "YW6JtNWqFbBK": {
+          "hits": 0,
+          "textWords": 83
+        },
+        "YwNfF72sou7o": {
+          "hits": 0,
+          "textWords": 83
         }
       },
       "queryPhraseHits": 0
@@ -1070,98 +1045,23 @@
       "hash": "FM2NCniwa444",
       "address": "https://apps.apple.com/ci/iphone/today",
       "title": "‎Aujourd’hui sur iPhone - App Store",
-      "snippet": "À découvrir aujourd’hui\nAméliorez vos réseaux sociaux\nTissez des liens solides ou devenez influenceur\nLes jeux indés qu’on aime\nPetites équipes, grand plaisir\nCoups de cœur de l’App Store\nNotre sélection de jeux et d’apps est testée par nous, pour vous.\nProfitez au maximum de l’IA",
+      "snippet": "5 idées de message pour tenir vos objectifs de vie.\nAfficher\nChatGPT\nVotre assistant IA quotidien\nTUTO\nL’IA est votre alliée d’études\nComment utiliser les chatbots IA de manière responsable ?\nDIFFÉRENTES FAÇONS D’APPRENDRE\nL’IA au service de vos cours",
       "matchedWords": {
         "2RgFlHRPhwru": {
-          "hits": 0,
-          "textWords": 83
-        },
-        "BtTNY73pcvxm": {
-          "hits": 0,
-          "textWords": 83
-        },
-        "YW6JtNWqFbBK": {
-          "hits": 0,
-          "textWords": 83
-        },
-        "YwNfF72sou7o": {
-          "hits": 0,
-          "textWords": 83
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "2XYE4C8hxo35",
-      "address": "https://www.microsoft.com/fr-fr/education?icid=CNavMSCOML0_Studentsandeducation",
-      "title": "Solutions de technologies éducatives avec l’IA | Microsoft Education",
-      "snippet": "Créez, personnalisez et déployez facilement vos assistants IA.\nMicrosoft Teams pour l’éducation\nCréez des classes virtuelles sécurisées et collaboratives où tout le monde peut rester organisé et se sentir valorisé.\nMicrosoft IQ",
-      "matchedWords": {
-        "2RgFlHRPhwru": {
-          "hits": 1,
-          "textWords": 277
-        },
-        "BtTNY73pcvxm": {
-          "hits": 0,
-          "textWords": 277
-        },
-        "YW6JtNWqFbBK": {
-          "hits": 0,
-          "textWords": 277
-        },
-        "YwNfF72sou7o": {
-          "hits": 0,
-          "textWords": 277
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "vAun5lZ8Ljq5",
-      "address": "https://www.nouvelobs.com/depeche/",
-      "title": "Actualité en direct et en continu sur Le Nouvel Obs",
-      "snippet": "Comment la France est devenue le nouveau cancre de l’économie européenne\n11 septembre 2026 à 15h52\nAbonné\nPrix Médicis 2026 : 18 romans français et 17 romans étrangers dans la première liste\n11 septembre 2026 à 15h48\nRécit",
-      "matchedWords": {
-        "2RgFlHRPhwru": {
-          "hits": 78,
-          "textWords": 3943
-        },
-        "BtTNY73pcvxm": {
           "hits": 9,
-          "textWords": 3943
+          "textWords": 1102
+        },
+        "BtTNY73pcvxm": {
+          "hits": 2,
+          "textWords": 1102
         },
         "YW6JtNWqFbBK": {
-          "hits": 4,
-          "textWords": 3943
+          "hits": 0,
+          "textWords": 1102
         },
         "YwNfF72sou7o": {
           "hits": 1,
-          "textWords": 3943
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "XH4WqzxYdD3g",
-      "address": "https://www.ecb.europa.eu/ecb-and-you/explainers/html/monetary_policy.fr.html",
-      "title": "Deep dive into the ECB: 2. Monetary policy",
-      "snippet": "Mieux connaître la BCE : 2. La politique monétaire\n2.1 Politique monétaire : les fondamentaux\n2.2 La politique monétaire et les banques\nPLUS DE NOTES EXPLICATIVES\nEt maintenant ?\nDécouvrez d’autres sujets",
-      "matchedWords": {
-        "2RgFlHRPhwru": {
-          "hits": 0,
-          "textWords": 77
-        },
-        "BtTNY73pcvxm": {
-          "hits": 0,
-          "textWords": 77
-        },
-        "YW6JtNWqFbBK": {
-          "hits": 0,
-          "textWords": 77
-        },
-        "YwNfF72sou7o": {
-          "hits": 0,
-          "textWords": 77
+          "textWords": 1102
         }
       },
       "queryPhraseHits": 0
@@ -1223,20 +1123,20 @@
       "snippet": "Le 14 septembre, à l'Hôtel de Ville, UNICEF France, le Samusocial de Paris et le réseau Solipam organise un colloque sur le thème « Santé périnatale et errance résidentielle : pour une prise en charge globale et adaptée des femmes enceintes, mères et nouveau-nés sans domicile ».",
       "matchedWords": {
         "2RgFlHRPhwru": {
-          "hits": 17,
-          "textWords": 612
+          "hits": 16,
+          "textWords": 611
         },
         "BtTNY73pcvxm": {
           "hits": 0,
-          "textWords": 612
+          "textWords": 611
         },
         "YW6JtNWqFbBK": {
           "hits": 0,
-          "textWords": 612
+          "textWords": 611
         },
         "YwNfF72sou7o": {
           "hits": 0,
-          "textWords": 612
+          "textWords": 611
         }
       },
       "queryPhraseHits": 0
@@ -1248,20 +1148,20 @@
       "snippet": "De nombreux pays occidentaux et pays apparentés célèbrent le Nouvel An en janvier, Certains pays asiatiques, en revanche, célèbrent le Nouvel An différemment. Comment les pays des différentes régions du monde célèbrent-ils le Nouvel An ?\n11 septembre 2026\nIgnorer Regardez ! et continuer\nRegardez !",
       "matchedWords": {
         "2RgFlHRPhwru": {
-          "hits": 16,
-          "textWords": 382
+          "hits": 12,
+          "textWords": 322
         },
         "BtTNY73pcvxm": {
           "hits": 1,
-          "textWords": 382
+          "textWords": 322
         },
         "YW6JtNWqFbBK": {
           "hits": 0,
-          "textWords": 382
+          "textWords": 322
         },
         "YwNfF72sou7o": {
           "hits": 0,
-          "textWords": 382
+          "textWords": 322
         }
       },
       "queryPhraseHits": 0
@@ -1292,84 +1192,59 @@
       "queryPhraseHits": 0
     },
     {
-      "hash": "mcNJwdKCIhSg",
-      "address": "https://madame.lefigaro.fr/celebrites/actu-people/de-jeune-mannequin-a-grande-actrice-comment-melanie-thierry-a-debute-a-13-ans-20260727",
-      "title": "De jeune mannequin à grande actrice : comment Mélanie Thierry a débuté à 13 ans",
-      "snippet": "Encore jeune, Mélanie Thierry ne s’intéresse pas vraiment au milieu du cinéma et a du mal à travailler ses textes. «Ça me faisait trop suer. J’avais déjà mes cours, apprendre ça me suffisait», la citait Marc-Olivier Fogiel sur le plateau de son émission.",
+      "hash": "XH4WqzxYdD3g",
+      "address": "https://www.ecb.europa.eu/ecb-and-you/explainers/html/monetary_policy.fr.html",
+      "title": "Deep dive into the ECB: 2. Monetary policy",
+      "snippet": "Mieux connaître la BCE : 2. La politique monétaire\n2.1 Politique monétaire : les fondamentaux\n2.2 La politique monétaire et les banques\nPLUS DE NOTES EXPLICATIVES\nEt maintenant ?\nDécouvrez d’autres sujets",
       "matchedWords": {
         "2RgFlHRPhwru": {
-          "hits": 12,
-          "textWords": 713
+          "hits": 0,
+          "textWords": 77
         },
         "BtTNY73pcvxm": {
           "hits": 0,
-          "textWords": 713
+          "textWords": 77
         },
         "YW6JtNWqFbBK": {
           "hits": 0,
-          "textWords": 713
+          "textWords": 77
+        },
+        "YwNfF72sou7o": {
+          "hits": 0,
+          "textWords": 77
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "wjNTVfxYdD3g",
+      "address": "https://www.ecb.europa.eu/ecb/legal/faqs/html/index.fr.html",
+      "title": "EUR-Lex – Questions fréquemment posées",
+      "snippet": "Il est possible d’y accéder via des liens directs figurant sur le site Internet de la BCE et le site Internet de la BCE consacré à la supervision bancaire, ainsi qu’en cliquant sur Parcourir \u003e Institutions de l’UE sur le site Internet d’EUR-Lex.",
+      "matchedWords": {
+        "2RgFlHRPhwru": {
+          "hits": 26,
+          "textWords": 1773
+        },
+        "BtTNY73pcvxm": {
+          "hits": 0,
+          "textWords": 1773
+        },
+        "YW6JtNWqFbBK": {
+          "hits": 0,
+          "textWords": 1773
         },
         "YwNfF72sou7o": {
           "hits": 1,
-          "textWords": 713
+          "textWords": 1773
         }
       },
       "queryPhraseHits": 0
     },
     {
-      "hash": "EgCTRHHSPPD5",
-      "address": "https://actualitte.com/article/12725/auteurs/auteurs",
-      "title": "auteurs",
-      "snippet": "DB: le DA aujourd’hui est celui du diffuseur, éditeurs, producteurs. en fait, un droit d’auteurs cédé.\nBP: le DA est une notion verbale le copyright au contraire serait plus clair. de même hierarchisation. façon poser problème importe.\ndroit moral : SD, apprendre à l’utiliser.",
-      "matchedWords": {
-        "2RgFlHRPhwru": {
-          "hits": 11,
-          "textWords": 1007
-        },
-        "BtTNY73pcvxm": {
-          "hits": 0,
-          "textWords": 1007
-        },
-        "YW6JtNWqFbBK": {
-          "hits": 0,
-          "textWords": 1007
-        },
-        "YwNfF72sou7o": {
-          "hits": 1,
-          "textWords": 1007
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "XX4sdlMT2ldg",
-      "address": "https://www.lexpress.fr/entrepreneurs/",
-      "title": "Entrepreneurs - Actualités et Conseils - L'Express",
-      "snippet": "Après une première vie dans la grande distribution, Didier Ballester dirige désormais quatre magasins Le Jardin des fleurs. Pari gagné!\nLe recrutement des candidats est primordial pour le développement de l'enseigne. Voici comment ne pas vous tromper.",
-      "matchedWords": {
-        "2RgFlHRPhwru": {
-          "hits": 56,
-          "textWords": 2426
-        },
-        "BtTNY73pcvxm": {
-          "hits": 8,
-          "textWords": 2426
-        },
-        "YW6JtNWqFbBK": {
-          "hits": 2,
-          "textWords": 2426
-        },
-        "YwNfF72sou7o": {
-          "hits": 0,
-          "textWords": 2426
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "JTVIeCG-ATF4",
-      "address": "https://podcasts.apple.com/mu/new",
-      "title": "Apple Podcasts (MU) - Web Player",
+      "hash": "0Y1u-cG-ATF4",
+      "address": "https://podcasts.apple.com/sc/new",
+      "title": "Apple Podcasts (SC) - Web Player",
       "snippet": "Copyright © 2026 Apple Inc. All rights reserved.\nInternet Service Terms\nApple Podcasts web player \u0026 Privacy\nCookie Warning\nSupport\nFeedback",
       "matchedWords": {
         "2RgFlHRPhwru": {
@@ -1387,6 +1262,156 @@
         "YwNfF72sou7o": {
           "hits": 0,
           "textWords": 19
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "1vsGBvG-ATF4",
+      "address": "https://podcasts.apple.com/ai/new",
+      "title": "Apple Podcasts (AI) - Web Player",
+      "snippet": "Copyright © 2026 Apple Inc. All rights reserved.\nInternet Service Terms\nApple Podcasts web player \u0026 Privacy\nCookie Warning\nSupport\nFeedback",
+      "matchedWords": {
+        "2RgFlHRPhwru": {
+          "hits": 0,
+          "textWords": 19
+        },
+        "BtTNY73pcvxm": {
+          "hits": 0,
+          "textWords": 19
+        },
+        "YW6JtNWqFbBK": {
+          "hits": 0,
+          "textWords": 19
+        },
+        "YwNfF72sou7o": {
+          "hits": 0,
+          "textWords": 19
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "FM2NCniwa444",
+      "address": "https://apps.apple.com/ci/iphone/today",
+      "title": "‎Aujourd’hui sur iPhone - App Store",
+      "snippet": "5 idées de message pour tenir vos objectifs de vie.\nAfficher\nChatGPT\nVotre assistant IA quotidien\nTUTO\nL’IA est votre alliée d’études\nComment utiliser les chatbots IA de manière responsable ?\nDIFFÉRENTES FAÇONS D’APPRENDRE\nL’IA au service de vos cours",
+      "matchedWords": {
+        "2RgFlHRPhwru": {
+          "hits": 9,
+          "textWords": 1102
+        },
+        "BtTNY73pcvxm": {
+          "hits": 2,
+          "textWords": 1102
+        },
+        "YW6JtNWqFbBK": {
+          "hits": 0,
+          "textWords": 1102
+        },
+        "YwNfF72sou7o": {
+          "hits": 1,
+          "textWords": 1102
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "4hBzCdiwa444",
+      "address": "https://apps.apple.com/ca/iphone/today?l=fr-CA",
+      "title": "‎Aujourd’hui pour iPhone - App Store",
+      "snippet": "LE CODE POUR TOUT LE MONDE\nCréez vos outils avec Claude\nDonnez vie à vos idées grâce à la programmation au ressenti.\nAfficher\nClaude by Anthropic\nIA pour la vie et le travail\nTendances de la semaine\nNe manquez pas ces nouvelles sorties et mises à jour.\nNOUVEAU JEU\nChasse aux hérétiques!",
+      "matchedWords": {
+        "2RgFlHRPhwru": {
+          "hits": 16,
+          "textWords": 824
+        },
+        "BtTNY73pcvxm": {
+          "hits": 0,
+          "textWords": 824
+        },
+        "YW6JtNWqFbBK": {
+          "hits": 0,
+          "textWords": 824
+        },
+        "YwNfF72sou7o": {
+          "hits": 0,
+          "textWords": 824
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "qiJRj7o1FmmR",
+      "address": "http://gutenberg.ca/index.html",
+      "title": "Project Gutenberg Canada / Projet Gutenberg Canada",
+      "snippet": "Bainville, Jacques (1879-1936) [Historien et journaliste français]\nfr.wikipedia Académie Française\nComment s'est faite la Restauration de 1814 (1914) [Monographie sur le retour des Bourbons en 1814] HTML HTML zip Texte Texte zip EPUB [PGC no 829]",
+      "matchedWords": {
+        "2RgFlHRPhwru": {
+          "hits": 237,
+          "textWords": 215111
+        },
+        "BtTNY73pcvxm": {
+          "hits": 6,
+          "textWords": 215111
+        },
+        "YW6JtNWqFbBK": {
+          "hits": 85,
+          "textWords": 215111
+        },
+        "YwNfF72sou7o": {
+          "hits": 2,
+          "textWords": 215111
+        }
+      },
+      "queryPhraseHits": 2
+    },
+    {
+      "hash": "3xsZblqSWIh4",
+      "address": "https://www.be.com/",
+      "title": "Be Magazine : mode, sexo, tendance et beauté - Magazine féminin",
+      "snippet": "decorationVítejte na Be.com, vaší destinací číslo jedna pro módu, krásu, kulturu a životní styl. Tento prostor vám poskytuje přístup do světa plného nejnovějších trendů, příběhů celebrit, wellness tipů, cestovních deníků a ještě mnohem více!",
+      "matchedWords": {
+        "2RgFlHRPhwru": {
+          "hits": 0,
+          "textWords": 158
+        },
+        "BtTNY73pcvxm": {
+          "hits": 0,
+          "textWords": 158
+        },
+        "YW6JtNWqFbBK": {
+          "hits": 0,
+          "textWords": 158
+        },
+        "YwNfF72sou7o": {
+          "hits": 0,
+          "textWords": 158
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "LqhCmlxSD0j4",
+      "address": "https://www.bbc.com/afrique",
+      "title": "Accueil - BBC News Afrique",
+      "snippet": "De nombreux pays occidentaux et pays apparentés célèbrent le Nouvel An en janvier, Certains pays asiatiques, en revanche, célèbrent le Nouvel An différemment. Comment les pays des différentes régions du monde célèbrent-ils le Nouvel An ?\n11 septembre 2026\nIgnorer Regardez ! et continuer\nRegardez !",
+      "matchedWords": {
+        "2RgFlHRPhwru": {
+          "hits": 12,
+          "textWords": 322
+        },
+        "BtTNY73pcvxm": {
+          "hits": 1,
+          "textWords": 322
+        },
+        "YW6JtNWqFbBK": {
+          "hits": 0,
+          "textWords": 322
+        },
+        "YwNfF72sou7o": {
+          "hits": 0,
+          "textWords": 322
         }
       },
       "queryPhraseHits": 0
@@ -1417,60 +1442,85 @@
       "queryPhraseHits": 0
     },
     {
-      "hash": "aO3_Byuvyo1w",
-      "address": "https://remacle.org/bloodwolf/philosophes/Ciceron/fato.htm",
-      "title": "Cicéron : du destin - de fato (bilingue)",
-      "snippet": "Le malheur est que pas un d'eux ne veut apprendre ce beau langage; car il est plus difficile d'étudier tous ces détours et ces finesses, que d'observer le lever et le coucher des astres.\nIX.",
+      "hash": "OwUxul3xy-34",
+      "address": "https://www.android.com/phones/",
+      "title": "Découvrez les téléphones et fonctionnalités Android de dernière génération | Android",
+      "snippet": "Play silent looping video Pause silent looping video\nMore choice,\nmore possibilities.\nExplore featured phones\nNew Google Pixel 11 Pro/Pro XL\nAttention-grabbing.\nNot attention-seeking.\nStriking design. Legendary Camera. Designed for Gemini Intelligence.1\nBuy now\nNew Google Pixel 11 Pro Fold",
       "matchedWords": {
         "2RgFlHRPhwru": {
-          "hits": 286,
-          "textWords": 18402
+          "hits": 0,
+          "textWords": 474
         },
         "BtTNY73pcvxm": {
-          "hits": 11,
-          "textWords": 18402
+          "hits": 0,
+          "textWords": 474
         },
         "YW6JtNWqFbBK": {
-          "hits": 1,
-          "textWords": 18402
+          "hits": 0,
+          "textWords": 474
         },
         "YwNfF72sou7o": {
-          "hits": 3,
-          "textWords": 18402
+          "hits": 0,
+          "textWords": 474
         }
       },
       "queryPhraseHits": 0
     },
     {
-      "hash": "f7EzzcKIzUTx",
-      "address": "https://fr.wikibooks.org/wiki/Accueil",
-      "title": "Wikilivres",
-      "snippet": "Étude scientifique de la technique du piano\nY a t-il des techniques différentes ou une seule et même technique ? La diversité des conceptions est impressionnante. « Il faudrait des efforts désespérés pour résumer les opinions et les enseignements sur le toucher pianistique » (Ludwig Riemann).",
+      "hash": "mcNJwdKCIhSg",
+      "address": "https://madame.lefigaro.fr/celebrites/actu-people/de-jeune-mannequin-a-grande-actrice-comment-melanie-thierry-a-debute-a-13-ans-20260727",
+      "title": "De jeune mannequin à grande actrice : comment Mélanie Thierry a débuté à 13 ans",
+      "snippet": "Encore jeune, Mélanie Thierry ne s’intéresse pas vraiment au milieu du cinéma et a du mal à travailler ses textes. «Ça me faisait trop suer. J’avais déjà mes cours, apprendre ça me suffisait», la citait Marc-Olivier Fogiel sur le plateau de son émission.",
       "matchedWords": {
         "2RgFlHRPhwru": {
-          "hits": 1,
-          "textWords": 120
+          "hits": 12,
+          "textWords": 713
         },
         "BtTNY73pcvxm": {
           "hits": 0,
-          "textWords": 120
+          "textWords": 713
         },
         "YW6JtNWqFbBK": {
           "hits": 0,
-          "textWords": 120
+          "textWords": 713
         },
         "YwNfF72sou7o": {
-          "hits": 0,
-          "textWords": 120
+          "hits": 1,
+          "textWords": 713
         }
       },
       "queryPhraseHits": 0
+    },
+    {
+      "hash": "qiJRj7o1FmmR",
+      "address": "http://gutenberg.ca/index.html",
+      "title": "Project Gutenberg Canada / Projet Gutenberg Canada",
+      "snippet": "Bainville, Jacques (1879-1936) [Historien et journaliste français]\nfr.wikipedia Académie Française\nComment s'est faite la Restauration de 1814 (1914) [Monographie sur le retour des Bourbons en 1814] HTML HTML zip Texte Texte zip EPUB [PGC no 829]",
+      "matchedWords": {
+        "2RgFlHRPhwru": {
+          "hits": 237,
+          "textWords": 215111
+        },
+        "BtTNY73pcvxm": {
+          "hits": 6,
+          "textWords": 215111
+        },
+        "YW6JtNWqFbBK": {
+          "hits": 85,
+          "textWords": 215111
+        },
+        "YwNfF72sou7o": {
+          "hits": 2,
+          "textWords": 215111
+        }
+      },
+      "queryPhraseHits": 2
     }
   ],
   "documentsHeldPerQueryWord": {
-    "2RgFlHRPhwru": 178092,
-    "BtTNY73pcvxm": 613984,
-    "YW6JtNWqFbBK": 1219567,
-    "YwNfF72sou7o": 18373
+    "2RgFlHRPhwru": 192478,
+    "BtTNY73pcvxm": 472635,
+    "YW6JtNWqFbBK": 950804,
+    "YwNfF72sou7o": 20253
   }
 }

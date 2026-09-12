@@ -2,22 +2,100 @@
   "query": "how does dns resolution work",
   "judgedDocuments": [
     {
-      "hash": "F1n0LluI8hnw",
-      "address": "https://www.eff.org/deeplinks/2015/12/how-tpp-will-affect-you-and-your-digital-rights",
-      "title": "How the TPP Will Affect You and Your Digital Rights | Electronic Frontier Foundation",
-      "grade": 0
+      "hash": "F3enq_nMM_j5",
+      "address": "https://grokipedia.com/page/GitHub",
+      "title": "GitHub — Grokipedia",
+      "grade": null
     },
     {
-      "hash": "7T32t2jw1Zlx",
-      "address": "https://kubernetes.io/docs/concepts/resource-management/dynamic-resource-allocation/how-dra-works/",
-      "title": "How DRA Works | Kubernetes",
-      "grade": 0
+      "hash": "9dnewsdTeyA4",
+      "address": "https://github.blog/",
+      "title": "Home - The GitHub Blog",
+      "grade": null
     },
     {
-      "hash": "2CAHw8uKjjbw",
-      "address": "https://wiki.gentoo.org/wiki/FAQ",
-      "title": "FAQ - Gentoo wiki",
-      "grade": 0
+      "hash": "i5OTelQw_dt5",
+      "address": "https://www.cloudflare.com/privacypolicy/",
+      "title": "Cloudflare's Privacy Policy | Cloudflare",
+      "grade": null
+    },
+    {
+      "hash": "QcKsL2jw1Zlx",
+      "address": "https://kubernetes.io/docs/concepts/services-networking/dns-pod-service/",
+      "title": "DNS for Services and Pods | Kubernetes",
+      "grade": null
+    },
+    {
+      "hash": "VSu84l1J_Myw",
+      "address": "https://www.cloudns.net/reverse-dns/",
+      "title": "Reverse DNS Service | rDNS Hosting for Secure Emails | ClouDNS",
+      "grade": null
+    },
+    {
+      "hash": "aCwTx2jw1Zlx",
+      "address": "https://kubernetes.io/docs/tasks/administer-cluster/dns-horizontal-autoscaling/",
+      "title": "Autoscale the DNS Service in a Cluster | Kubernetes",
+      "grade": null
+    },
+    {
+      "hash": "fqt_oUwYpnl5",
+      "address": "https://protonvpn.com/blog/what-is-dns",
+      "title": "What is DNS? | Proton",
+      "grade": null
+    },
+    {
+      "hash": "pO0vLyEkAvow",
+      "address": "https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Attributes/rel/dns-prefetch",
+      "title": "rel=\"dns-prefetch\" - HTML | MDN",
+      "grade": null
+    },
+    {
+      "hash": "gOUNKUb8iyg4",
+      "address": "https://cloud.google.com/dns",
+      "title": "Cloud DNS | Google Cloud",
+      "grade": null
+    },
+    {
+      "hash": "9Axfb05kpS44",
+      "address": "https://www.oracle.com/cloud/networking/dns/",
+      "title": "Domain Name System (DNS) | Oracle",
+      "grade": null
+    },
+    {
+      "hash": "GmDi12jw1Zlx",
+      "address": "https://kubernetes.io/docs/tasks/administer-cluster/dns-debugging-resolution/",
+      "title": "Debugging DNS Resolution | Kubernetes",
+      "grade": null
+    },
+    {
+      "hash": "0HLmCAcbctC6",
+      "address": "https://www.experts-exchange.com/questions/28195321/RHEL-6-2-NFS-Server-does-not-work-properly-with-Solaris-10-computer.html",
+      "title": "Solved: RHEL 6.2 NFS Server does not work properly with Solaris 10 computer | Experts Exchange",
+      "grade": null
+    },
+    {
+      "hash": "OC1-yuS6MKD4",
+      "address": "https://github.com/hickory-dns/hickory-dns",
+      "title": "GitHub - hickory-dns/hickory-dns: A Rust based DNS client, server, and resolver",
+      "grade": null
+    },
+    {
+      "hash": "y49V8Z9Ietny",
+      "address": "https://lists.fedoraproject.org/archives/list/devel-announce@lists.fedoraproject.org/2020/9/",
+      "title": "September 2020 - devel-announce - Fedora mailing-lists",
+      "grade": null
+    },
+    {
+      "hash": "DO6vtsv0FDc4",
+      "address": "https://gcore.com/dns",
+      "title": "Free DNS Hosting. Fast and Resilient | Gcore",
+      "grade": null
+    },
+    {
+      "hash": "pLpBuAmYhm_4",
+      "address": "https://ens-subname.utils.com/",
+      "title": "ENS Subname Explorer - List Subnames Under Any ENS Name - utils.com",
+      "grade": null
     },
     {
       "hash": "vo6A9AK-xyJ4",
@@ -26,57 +104,111 @@
       "grade": 0
     },
     {
-      "hash": "W-eXqzF3--Qw",
-      "address": "https://planet.mozilla.org/",
-      "title": "Planet Mozilla",
+      "hash": "8Vmj5lbZsoE4",
+      "address": "https://www.noip.com/managed-dns",
+      "title": "Managed DNS Services - 100% Uptime - Top-Rated Support - No-IP",
+      "grade": null
+    },
+    {
+      "hash": "2CAHw8uKjjbw",
+      "address": "https://wiki.gentoo.org/wiki/FAQ",
+      "title": "FAQ - Gentoo wiki",
       "grade": 0
     },
     {
-      "hash": "FDbC6B-c6vHw",
-      "address": "https://nixos.org/manual/nixpkgs/stable/",
-      "title": "Nixpkgs 23.05 manual | Nix \u0026 NixOS",
+      "hash": "JJjvolE_8xm7",
+      "address": "https://www.blacklanternsecurity.com/bbot/Stable/dev/helpers/dns/",
+      "title": "DNS - BBOT Docs",
+      "grade": null
+    },
+    {
+      "hash": "zPBaXSmEXcf4",
+      "address": "https://viewport-size.utils.com/",
+      "title": "Viewport Size Detector - Live Browser Viewport Dimensions | utils.com",
+      "grade": null
+    },
+    {
+      "hash": "4SUxOWRfu9ww",
+      "address": "https://datatracker.ietf.org/doc/recent",
+      "title": "Internet-Drafts submitted during the last 7 days",
+      "grade": null
+    },
+    {
+      "hash": "5axnUWKJWKmY",
+      "address": "http://googlecode.blogspot.com/2009/12/introducing-google-public-dns-new-dns.html?showComment=1260317165105",
+      "title": "Introducing Google Public DNS: A new DNS resolver from Google - The official Google Code blog",
+      "grade": null
+    },
+    {
+      "hash": "4OyE6nvEFCz4",
+      "address": "https://mobile-desktop.utils.com/",
+      "title": "Mobile vs Desktop Comparison - utils.com",
+      "grade": null
+    },
+    {
+      "hash": "4E_8IssEYJ15",
+      "address": "https://tailscale.com/changelog",
+      "title": "Changelog · Tailscale",
+      "grade": null
+    },
+    {
+      "hash": "_wmsVE9Ojva4",
+      "address": "https://docs.docker.com/engine/release-notes/29/",
+      "title": "Docker Engine version 29 release notes | Docker Docs",
+      "grade": null
+    },
+    {
+      "hash": "rXUw60ADJCy4",
+      "address": "https://securitylab.github.com/advisories/",
+      "title": "Advisories | GitHub Security Lab",
+      "grade": null
+    },
+    {
+      "hash": "Cpc5fjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Wikipedia",
+      "title": "Wikipedia - Wikipedia",
       "grade": 0
     },
     {
-      "hash": "az8RMs5DCs35",
-      "address": "https://wordpress.com/hosting/",
-      "title": "Managed WordPress Hosting | Super Fast. Ultra Secure | WordPress.com",
+      "hash": "ag6aqjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Unicode",
+      "title": "Unicode - Wikipedia",
+      "grade": null
+    },
+    {
+      "hash": "b-x4NjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Domain_name",
+      "title": "Domain name - Wikipedia",
+      "grade": 1
+    },
+    {
+      "hash": "qzV8sjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/YouTube",
+      "title": "YouTube - Wikipedia",
+      "grade": null
+    },
+    {
+      "hash": "wYESGjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Microsoft_Windows",
+      "title": "Microsoft Windows - Wikipedia",
       "grade": 0
     },
     {
-      "hash": "eODiks5DCs35",
-      "address": "https://wordpress.com/pricing/",
-      "title": "WordPress.com Pricing and Plans | Start Building Today",
-      "grade": 0
+      "hash": "6U4ewjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Hdl_(identifier)",
+      "title": "Handle System - Wikipedia",
+      "grade": null
     },
     {
-      "hash": "fRk_vs5DCs35",
-      "address": "https://wordpress.com/features/",
-      "title": "Explore WordPress.com Features | WordPress.com",
-      "grade": 0
-    },
-    {
-      "hash": "VpCOpt6ArEvw",
-      "address": "https://blog.archive.org/",
-      "title": "Internet Archive Blogs | Updates from the Internet Archive",
-      "grade": 0
-    },
-    {
-      "hash": "sC0kMlDOAHJg",
-      "address": "https://www.heise.de/en",
-      "title": "heise online – IT news, guides and background information | heise online",
-      "grade": 0
+      "hash": "IAm3dsS6MKD4",
+      "address": "https://github.com/advisories",
+      "title": "GitHub Advisory Database · GitHub",
+      "grade": null
     },
     {
       "hash": "h6qKJHS6MKD4",
       "address": "https://github.com/mcp/microsoft/playwright-mcp",
       "title": "MCP Registry | Playwright · GitHub",
-      "grade": 0
-    },
-    {
-      "hash": "MFZemWSMo4M4",
-      "address": "https://www.zdnet.com/home-and-office/home-entertainment/roku-tv-vs-fire-stick/",
-      "title": "Roku TV vs. Fire Stick: Why I'm looking beyond streaming resolution when comparing the two - ZDNET",
       "grade": 0
     },
     {
@@ -92,15 +224,21 @@
       "grade": 0
     },
     {
+      "hash": "e78ng7XxSRFx",
+      "address": "https://www.rfc-editor.org/info/rfc7230/",
+      "title": "RFC 7230: Hypertext Transfer Protocol (HTTP/1.1): Message Syntax and Routing | RFC Editor",
+      "grade": null
+    },
+    {
+      "hash": "gbOAx7XxSRFx",
+      "address": "https://www.rfc-editor.org/info/rfc1035/",
+      "title": "RFC 1035: Domain names - implementation and specification | RFC Editor",
+      "grade": null
+    },
+    {
       "hash": "hWuQZ7XxSRFx",
       "address": "https://www.rfc-editor.org/info/rfc3986/",
       "title": "RFC 3986: Uniform Resource Identifier (URI): Generic Syntax | RFC Editor",
-      "grade": 0
-    },
-    {
-      "hash": "jh1R77XxSRFx",
-      "address": "https://www.rfc-editor.org/info/rfc6125/",
-      "title": "RFC 6125: Representation and Verification of Domain-Based Application Service Identity within Internet Public Key Infrastructure Using X.509 (PKIX) Certificates in the Context of Transport Layer Security (TLS) | RFC Editor",
       "grade": 0
     },
     {
@@ -110,28 +248,10 @@
       "grade": 0
     },
     {
-      "hash": "Rx8AIs_tHst4",
-      "address": "https://dwheeler.com/oss_fs_why.html",
-      "title": "Why Open Source Software / Free Software (OSS/FS, FOSS, or FLOSS)? Look at the Numbers!",
-      "grade": 0
-    },
-    {
-      "hash": "aJD3bsakFVXw",
-      "address": "https://slashdot.org/",
-      "title": "Slashdot: News for nerds, stuff that matters, \u0026 software",
-      "grade": 0
-    },
-    {
-      "hash": "2ZqdVzfOEiDw",
-      "address": "https://planet.gnome.org/",
-      "title": "Planet GNOME",
-      "grade": 0
-    },
-    {
-      "hash": "lTVMLsgJoQyx",
-      "address": "https://grapheneos.org/faq",
-      "title": "Frequently Asked Questions | GrapheneOS",
-      "grade": 0
+      "hash": "S8-8qGfVq0pw",
+      "address": "https://httpwg.org/specs/rfc9110.html",
+      "title": "RFC 9110 - HTTP Semantics",
+      "grade": null
     },
     {
       "hash": "_QujqCjVeYyw",
@@ -140,112 +260,46 @@
       "grade": 0
     },
     {
-      "hash": "-Qqp72jw1Zlx",
-      "address": "https://kubernetes.io/docs/concepts/workloads/pods/disruptions/",
-      "title": "Disruptions | Kubernetes",
-      "grade": 0
+      "hash": "m0ZD62jw1Zlx",
+      "address": "https://kubernetes.io/docs/home/",
+      "title": "Kubernetes Documentation | Kubernetes",
+      "grade": null
     },
     {
-      "hash": "84FlxRrrnsyQ",
-      "address": "http://planet.gnu.org/",
-      "title": "Planet GNU",
-      "grade": 0
+      "hash": "8F3_I2jw1Zlx",
+      "address": "https://kubernetes.io/docs/tasks/extend-kubernetes/http-proxy-access-api/",
+      "title": "Use an HTTP Proxy to Access the Kubernetes API | Kubernetes",
+      "grade": null
     },
     {
-      "hash": "-xpxEitD2jQw",
-      "address": "https://docs.python.org/3/contents.html",
-      "title": "Python Documentation contents — Python 3.14.7 documentation",
-      "grade": 0
+      "hash": "8P7iQ2jw1Zlx",
+      "address": "https://kubernetes.io/docs/reference/kubectl/docker-cli-to-kubectl/",
+      "title": "kubectl for Docker Users | Kubernetes",
+      "grade": null
     },
     {
-      "hash": "UobyTsuI8hnw",
-      "address": "https://www.eff.org/about/staff",
-      "title": "EFF's Staff and Contributors | Electronic Frontier Foundation",
-      "grade": 0
+      "hash": "8kFwP2jw1Zlx",
+      "address": "https://kubernetes.io/docs/tasks/access-application-cluster/communicate-containers-same-pod-shared-volume/",
+      "title": "Communicate Between Containers in the Same Pod Using a Shared Volume | Kubernetes",
+      "grade": null
     },
     {
-      "hash": "pGRD67yp6WtY",
-      "address": "http://tantek.com/",
-      "title": "Tantek Çelik",
-      "grade": 0
+      "hash": "8zWEK2jw1Zlx",
+      "address": "https://kubernetes.io/docs/reference/using-api/server-side-apply/",
+      "title": "Server-Side Apply | Kubernetes",
+      "grade": null
     },
     {
-      "hash": "8-yf-WRfu9ww",
-      "address": "https://datatracker.ietf.org/doc/html/rfc3261",
-      "title": "RFC 3261 - SIP: Session Initiation Protocol",
-      "grade": 0
+      "hash": "9bUqH2jw1Zlx",
+      "address": "https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/",
+      "title": "Assigning Pods to Nodes | Kubernetes",
+      "grade": null
     },
     {
-      "hash": "Cpc5fjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Wikipedia",
-      "title": "Wikipedia - Wikipedia",
-      "grade": 0
-    },
-    {
-      "hash": "PbwP7jRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Wikipedia:Village_pump_(WMF)",
-      "title": "Wikipedia:Village pump (WMF) - Wikipedia",
-      "grade": 0
-    },
-    {
-      "hash": "D4lABzaS0qdw",
-      "address": "https://planet.debian.org/",
-      "title": "Planet Debian",
-      "grade": 0
-    },
-    {
-      "hash": "FxC5-KsrSOQw",
-      "address": "https://arxiv.org/list/cs.LG/new",
-      "title": "Machine Learning",
-      "grade": 0
-    },
-    {
-      "hash": "mpTuJKsrSOQw",
-      "address": "https://arxiv.org/list/physics/new",
-      "title": "Physics",
-      "grade": 0
-    },
-    {
-      "hash": "Ma72KjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/ChromeOS",
-      "title": "ChromeOS - Wikipedia",
-      "grade": 0
-    },
-    {
-      "hash": "jNEVesgJoQyx",
-      "address": "https://grapheneos.org/releases",
-      "title": "Releases | GrapheneOS",
-      "grade": 0
-    },
-    {
-      "hash": "89Pocs6GdY-4",
-      "address": "https://danluu.com/diseconomies-scale/",
-      "title": "Diseconomies of scale in fraud, spam, support, and moderation",
-      "grade": 0
-    },
-    {
-      "hash": "XCqnWjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Computer_security",
-      "title": "Computer security - Wikipedia",
-      "grade": 0
-    },
-    {
-      "hash": "b-x4NjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Domain_name",
-      "title": "Domain name - Wikipedia",
-      "grade": 1
-    },
-    {
-      "hash": "wYESGjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Microsoft_Windows",
-      "title": "Microsoft Windows - Wikipedia",
-      "grade": 0
-    },
-    {
-      "hash": "mKjEVzAa-Sqx",
-      "address": "https://planet.freedesktop.org/",
-      "title": "planet.freedesktop.org",
-      "grade": 0
+      "hash": "9cVUQ2jw1Zlx",
+      "address": "https://kubernetes.io/docs/reference/kubectl/generated/kubectl_config/kubectl_config_delete-context/",
+      "title": "kubectl config delete-context | Kubernetes",
+      "grade": null
     }
   ]
 }

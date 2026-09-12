@@ -2,16 +2,46 @@
   "query": "how to install debian",
   "judgedDocuments": [
     {
+      "hash": "zviPwZBP-b24",
+      "address": "https://docs.vultr.com/how-to-install-docker-ce-on-debian-11",
+      "title": "How to Install Docker CE on Debian 11 | Vultr Docs",
+      "grade": null
+    },
+    {
+      "hash": "S6BIcp65jyZQ",
+      "address": "http://neuro.debian.net/",
+      "title": "The Ultimate Neuroscience Software Platform — Debian Neuroscience Package Repository",
+      "grade": null
+    },
+    {
       "hash": "It5EdL1nrxbw",
       "address": "https://www.debian.org/intro/about",
       "title": "Debian -- About Debian",
       "grade": 1
     },
     {
-      "hash": "NweMal1nrxbw",
-      "address": "https://www.debian.org/social_contract",
-      "title": "Debian Social Contract",
-      "grade": 1
+      "hash": "QEGeKX2Yfep5",
+      "address": "https://learn.microsoft.com/en-us/azure/developer/github-copilot-app-modernization/modernization-agent/quickstart",
+      "title": "Quickstart: Install and Use the GitHub Copilot Modernization Agent | Microsoft Learn",
+      "grade": null
+    },
+    {
+      "hash": "T2EF52bypRQw",
+      "address": "https://forgejo.org/docs/latest/user/packages/debian/",
+      "title": "Debian Package Registry | Forgejo – Beyond coding. We forge.",
+      "grade": null
+    },
+    {
+      "hash": "0wub2ZIOYuRw",
+      "address": "https://chronicles.debian.org/www/News/2008/",
+      "title": "Debian -- News from 2008",
+      "grade": null
+    },
+    {
+      "hash": "xRhGhzDGa7S6",
+      "address": "https://raphaelhertzog.com/2026/08/26/debians-general-resolution-on-ai-and-llm/",
+      "title": "Debian’s General Resolution on AI and LLM",
+      "grade": null
     },
     {
       "hash": "my3jOE9Ojva4",
@@ -20,10 +50,112 @@
       "grade": 0
     },
     {
+      "hash": "_vBCkt1nrxbw",
+      "address": "https://www.debian.org/CD/http-ftp/",
+      "title": "Downloading Debian USB/CD/DVD images via HTTP/FTP",
+      "grade": null
+    },
+    {
+      "hash": "oS68c3PBIxVw",
+      "address": "https://www.getzola.org/documentation/getting-started/installation/",
+      "title": "Installation | Zola",
+      "grade": null
+    },
+    {
+      "hash": "xCnp1G1nrxbw",
+      "address": "https://www.debian.org/vote/2007/vote_003",
+      "title": "General Resolution: Endorse the concept of Debian Maintainers",
+      "grade": null
+    },
+    {
+      "hash": "f2gAZmwYpnl5",
+      "address": "https://protonvpn.com/support/linux-vpn-debian-ubuntu",
+      "title": "How to install Proton VPN on Debian and Ubuntu | Proton VPN",
+      "grade": null
+    },
+    {
+      "hash": "iaso0m0h8sSw",
+      "address": "https://tracker.debian.org/pkg/debian-installer",
+      "title": "debian-installer - Debian Package Tracker",
+      "grade": null
+    },
+    {
+      "hash": "4SIJYl1nrxbw",
+      "address": "https://www.debian.org/distrib/",
+      "title": "Download Debian",
+      "grade": 2
+    },
+    {
+      "hash": "NNK8wg7Yxvhx",
+      "address": "https://www.postgresql.org/download/linux/debian/",
+      "title": "PostgreSQL: Linux downloads (Debian)",
+      "grade": null
+    },
+    {
+      "hash": "ZtizaYS6MKD4",
+      "address": "https://github.com/HirbodBehnam/MTProtoProxyInstaller",
+      "title": "GitHub - HirbodBehnam/MTProtoProxyInstaller: One-click script to install MTProto Proxy server on CentOS, Ubuntu and Debian",
+      "grade": null
+    },
+    {
+      "hash": "e0hrdtlTdLA5",
+      "address": "https://blog.mmakowski.com/technology/debian-unattended-upgrades/",
+      "title": "Debian Unattended Upgrades | The Eternal Beginner",
+      "grade": null
+    },
+    {
+      "hash": "gZzFUHWhP36w",
+      "address": "https://matrix-team.pages.debian.net/blogue/",
+      "title": "Matrix on Debian blog",
+      "grade": null
+    },
+    {
+      "hash": "yp2SBE9Ojva4",
+      "address": "https://docs.docker.com/engine/install/debian/",
+      "title": "Debian | Docker Docs",
+      "grade": null
+    },
+    {
+      "hash": "3ePeGt0wUTHg",
+      "address": "https://blog.ganneff.de/",
+      "title": "Ganneff’s Little Blog | Thoughts of a small and very unimportant Debian Developer",
+      "grade": null
+    },
+    {
+      "hash": "-32vwSSLTmwg",
+      "address": "https://blog.entek.org.uk/notes/2024/01/12/orchestrating-debian-install-and-automated-post-install-configuration-with-ansible.html",
+      "title": "Orchestrating Debian install and automated post-install configuration with Ansible | Laurence’s Blog",
+      "grade": null
+    },
+    {
+      "hash": "9bBlhjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Debian",
+      "title": "Debian - Wikipedia",
+      "grade": null
+    },
+    {
       "hash": "D4lABzaS0qdw",
       "address": "https://planet.debian.org/",
       "title": "Planet Debian",
       "grade": 1
+    },
+    {
+      "hash": "HpCyvVSLTmwg",
+      "address": "https://blog.entek.org.uk/technical/2020/05/28/debian-system-updates.html",
+      "title": "Debian system updates | Laurence’s Blog",
+      "grade": null
+    },
+    {
+      "hash": "QX8MPKUFabq4",
+      "address": "https://blog.cihar.com/archives/debian/?page=2",
+      "title": "Blog Archives for Debian - Michal Čihař",
+      "grade": null
+    },
+    {
+      "hash": "YAZ8YE1nrxbw",
+      "address": "https://www.debian.org/users/com/one_eighty_out",
+      "title": "Debian -- One-Eighty Out, Incorporated, Colorado Springs, Colorado, USA",
+      "grade": null
     },
     {
       "hash": "xY0EdL1nrxbw",
@@ -32,10 +164,76 @@
       "grade": 1
     },
     {
-      "hash": "CjgsxsIyoLTx",
-      "address": "https://planetpython.org/",
-      "title": "Planet Python",
-      "grade": 0
+      "hash": "R5pe_l1nrxbw",
+      "address": "https://www.debian.org/News/",
+      "title": "Debian -- Latest News",
+      "grade": 1
+    },
+    {
+      "hash": "-0XzPobrsZjx",
+      "address": "https://www.mediawiki.org/wiki/Debian_packages",
+      "title": "Debian packages - MediaWiki",
+      "grade": null
+    },
+    {
+      "hash": "fpiTEk9xSLDY",
+      "address": "http://search.osakos.com/cache.php?key=c0792b69d674164f3134f6a4d8b0fd4b\u0026uri=http%3A%2F%2Fpenzu.com%2Fp%2F9114926c6b6601e3",
+      "title": "LDAP/NSS - Debian Wiki",
+      "grade": null
+    },
+    {
+      "hash": "SJVoVZIOYuRw",
+      "address": "https://chronicles.debian.org/www/News/2020/",
+      "title": "Debian -- News from 2020",
+      "grade": null
+    },
+    {
+      "hash": "z3R1oo8zaRUY",
+      "address": "http://www.hungry.com/~pere/blog/How_to_transform_a_Debian_based_system_to_a_Debian_Edu_installation.html",
+      "title": "How to transform a Debian based system to a Debian Edu installation",
+      "grade": null
+    },
+    {
+      "hash": "XFmAGZIOYuRw",
+      "address": "https://chronicles.debian.org/www/News/2022/",
+      "title": "Debian -- News from 2022",
+      "grade": null
+    },
+    {
+      "hash": "lp940TlsIQEw",
+      "address": "https://people.debian.org/~nthykier/blog/",
+      "title": "Things that I work on in Debian -",
+      "grade": null
+    },
+    {
+      "hash": "jhc0hTB-MEAg",
+      "address": "https://tanguy.ortolo.eu/blog/categorie2/debian",
+      "title": "Tanguy Ortolo - Debian",
+      "grade": null
+    },
+    {
+      "hash": "M_UYiL1nrxbw",
+      "address": "https://www.debian.org/intro/index",
+      "title": "Debian -- Introduction to Debian",
+      "grade": null
+    },
+    {
+      "hash": "Bc4mj0ruEU54",
+      "address": "https://www.cyrius.com/debian/nslu2/unpack/",
+      "title": "Debian tar ball for Linksys NSLU2 | Martin Michlmayr",
+      "grade": null
+    },
+    {
+      "hash": "lYmRuy1nrxbw",
+      "address": "https://www.debian.org/releases/etch/",
+      "title": "Debian -- Debian “etch” Release Information",
+      "grade": null
+    },
+    {
+      "hash": "_NH8h31nrxbw",
+      "address": "https://www.debian.org/News/2026/2026011002",
+      "title": "Debian -- News -- Updated Debian 12: 12.13 released",
+      "grade": null
     },
     {
       "hash": "yBMaQL1nrxbw",
@@ -44,111 +242,45 @@
       "grade": 1
     },
     {
-      "hash": "uaEnGzTwnifx",
-      "address": "https://planet.wordpress.org/",
-      "title": "Planet — WordPress.org",
-      "grade": 0
+      "hash": "q03Sr2QlA5B4",
+      "address": "https://miniflux.app/docs/debian.html",
+      "title": "Debian Installation",
+      "grade": null
     },
     {
-      "hash": "t2b3Ag1nrxbw",
-      "address": "https://www.debian.org/distrib/packages",
-      "title": "Debian -- Packages",
+      "hash": "ALdUosH8M7Hx",
+      "address": "https://snapcraft.io/telegram-desktop",
+      "title": "Install Telegram on Linux | Snap Store",
+      "grade": null
+    },
+    {
+      "hash": "eKmk8ZFFVuw4",
+      "address": "https://www.passbolt.com/ce/debian",
+      "title": "Install Community Edition on Debian: Passbolt Install Guide",
+      "grade": null
+    },
+    {
+      "hash": "SL3yxl1nrxbw",
+      "address": "https://www.debian.org/blends/",
+      "title": "Debian Pure Blends",
       "grade": 1
     },
     {
-      "hash": "wGCbVt1nrxbw",
-      "address": "https://www.debian.org/CD/verify",
-      "title": "Verifying authenticity of Debian images",
-      "grade": 1
+      "hash": "_BwQ1GNQlu2w",
+      "address": "https://bits.debian.org/",
+      "title": "Bits from Debian - Blog from the Debian Project",
+      "grade": null
     },
     {
-      "hash": "xOYgTl1nrxbw",
-      "address": "https://www.debian.org/events/",
-      "title": "Events related to Debian",
-      "grade": 1
+      "hash": "vkZ39WzhkODg",
+      "address": "https://soloconlinux.org.es/debian-13-6-point-release/",
+      "title": "Debian 13.6 (point release)",
+      "grade": null
     },
     {
-      "hash": "941WA31nrxbw",
-      "address": "https://www.debian.org/News/weekly/",
-      "title": "Debian Project News - Index",
-      "grade": 1
-    },
-    {
-      "hash": "8q_7kd8zMi84",
-      "address": "https://docs.cloud.google.com/release-notes",
-      "title": "Google Cloud release notes | Google Cloud Documentation",
-      "grade": 0
-    },
-    {
-      "hash": "mKjEVzAa-Sqx",
-      "address": "https://planet.freedesktop.org/",
-      "title": "planet.freedesktop.org",
-      "grade": 0
-    },
-    {
-      "hash": "W-eXqzF3--Qw",
-      "address": "https://planet.mozilla.org/",
-      "title": "Planet Mozilla",
-      "grade": 0
-    },
-    {
-      "hash": "Rx8AIs_tHst4",
-      "address": "https://dwheeler.com/oss_fs_why.html",
-      "title": "Why Open Source Software / Free Software (OSS/FS, FOSS, or FLOSS)? Look at the Numbers!",
-      "grade": 0
-    },
-    {
-      "hash": "-p2w3taoSn1x",
-      "address": "https://en.planet.wikimedia.org/",
-      "title": "en.planet.wikimedia.org",
-      "grade": 0
-    },
-    {
-      "hash": "8vgIrobrsZjx",
-      "address": "https://www.mediawiki.org/wiki/Download",
-      "title": "Download - MediaWiki",
-      "grade": 0
-    },
-    {
-      "hash": "2ZqdVzfOEiDw",
-      "address": "https://planet.gnome.org/",
-      "title": "Planet GNOME",
-      "grade": 0
-    },
-    {
-      "hash": "MocmU2sEYJ15",
-      "address": "https://tailscale.com/docs/reference/tailscale-cli",
-      "title": "Tailscale CLI · Tailscale Docs",
-      "grade": 0
-    },
-    {
-      "hash": "ufEmuitD2jQw",
-      "address": "https://docs.python.org/3/whatsnew/2.0.html",
-      "title": "What’s New in Python 2.0 — Python 3.14.6 documentation",
-      "grade": 0
-    },
-    {
-      "hash": "Q357ixtQ-zSx",
-      "address": "https://wiki.archlinux.org/title/ArchWiki_talk:Requests",
-      "title": "ArchWiki talk:Requests - ArchWiki",
-      "grade": 0
-    },
-    {
-      "hash": "-8IONxtQ-zSx",
-      "address": "https://wiki.archlinux.org/title/Arch_compared_to_other_distributions",
-      "title": "Arch compared to other distributions - ArchWiki",
-      "grade": 0
-    },
-    {
-      "hash": "aEjYq2u0AVBw",
-      "address": "https://build.slashdot.org/",
-      "title": "Build News | Slashdot",
-      "grade": 0
-    },
-    {
-      "hash": "OYZdJl1nrxbw",
-      "address": "https://www.debian.org/support",
-      "title": "Debian -- User Support",
+      "hash": "NweMal1nrxbw",
+      "address": "https://www.debian.org/social_contract",
+      "title": "Debian Social Contract",
       "grade": 1
     },
     {
@@ -158,142 +290,16 @@
       "grade": 2
     },
     {
-      "hash": "R5pe_l1nrxbw",
-      "address": "https://www.debian.org/News/",
-      "title": "Debian -- Latest News",
+      "hash": "941WA31nrxbw",
+      "address": "https://www.debian.org/News/weekly/",
+      "title": "Debian Project News - Index",
       "grade": 1
     },
     {
-      "hash": "SL3yxl1nrxbw",
-      "address": "https://www.debian.org/blends/",
-      "title": "Debian Pure Blends",
-      "grade": 1
-    },
-    {
-      "hash": "gmhRVl1nrxbw",
-      "address": "https://www.debian.org/devel/",
-      "title": "Debian -- Debian Developers' Corner",
-      "grade": 1
-    },
-    {
-      "hash": "4SIJYl1nrxbw",
-      "address": "https://www.debian.org/distrib/",
-      "title": "Download Debian",
-      "grade": 2
-    },
-    {
-      "hash": "QETWOeFEcjUx",
-      "address": "https://docs.confluent.io/platform/current/streams/microservices-orders.html",
-      "title": "Tutorial: Streaming Application Development Basics on Confluent Platform | Confluent Documentation",
-      "grade": 0
-    },
-    {
-      "hash": "QLafoeFEcjUx",
-      "address": "https://docs.confluent.io/platform/current/streams/developer-guide/write-streams.html",
-      "title": "Write a Kafka Streams Application for Confluent Platform | Confluent Documentation",
-      "grade": 0
-    },
-    {
-      "hash": "SChoGeFEcjUx",
-      "address": "https://docs.confluent.io/platform/current/clients/examples/kotlin.html",
-      "title": "Create a Kafka Client App for Kotlin for Use With Confluent Platform | Confluent Documentation",
-      "grade": 0
-    },
-    {
-      "hash": "TC82-eFEcjUx",
-      "address": "https://docs.confluent.io/platform/current/streams/developer-guide/processor-api.html",
-      "title": "Kafka Streams Processor API for Confluent Platform | Confluent Documentation",
-      "grade": 0
-    },
-    {
-      "hash": "O2B7wWSMo4M4",
-      "address": "https://www.zdnet.com/home-and-office/work-life/this-linux-and-windows-app-makes-managing-all-of-your-documents-easier/",
-      "title": "This Linux and Windows app makes managing all your documents easier - ZDNET",
-      "grade": 0
-    },
-    {
-      "hash": "wJjmaeFEcjUx",
-      "address": "https://docs.confluent.io/platform/current/clients/confluent-plugin-for-jetbrains-ides.html",
-      "title": "Confluent Plugin for JetBrains IDEs for Confluent Platform | Confluent Documentation",
-      "grade": 0
-    },
-    {
-      "hash": "wTGvueFEcjUx",
-      "address": "https://docs.confluent.io/platform/current/clients/examples/rust.html",
-      "title": "Create a Kafka Client App for Rust for Use With Confluent Platform | Confluent Documentation",
-      "grade": 0
-    },
-    {
-      "hash": "xwlXNeFEcjUx",
-      "address": "https://docs.confluent.io/platform/current/clients/client-configs.html",
-      "title": "Client Producer and Consumer Configuration Recommendations for Confluent Platform | Confluent Documentation",
-      "grade": 0
-    },
-    {
-      "hash": "yUw0FeFEcjUx",
-      "address": "https://docs.confluent.io/platform/current/kafka-mqtt/intro.html",
-      "title": "MQTT Proxy for Confluent Platform | Confluent Documentation",
-      "grade": 0
-    },
-    {
-      "hash": "wAnYgnLU2GSx",
-      "address": "https://blog.k0sproject.io/posts/k0s-multi-arch-kubernetes-cluster/",
-      "title": "k0s Multi Architectures Kubernetes Cluster AMD/ARM/RISC-V | The Zero Friction Kubernetes Blog",
-      "grade": 0
-    },
-    {
-      "hash": "sPfvHeFEcjUx",
-      "address": "https://docs.confluent.io/platform/current/clients/examples.html",
-      "title": "Kafka Client Examples for Confluent Platform | Confluent Documentation",
-      "grade": 0
-    },
-    {
-      "hash": "tO5gNeFEcjUx",
-      "address": "https://docs.confluent.io/platform/current/clients/examples/groovy.html",
-      "title": "Create a Kafka Client App for Groovy for Use With Confluent Platform | Confluent Documentation",
-      "grade": 0
-    },
-    {
-      "hash": "tdfcWeFEcjUx",
-      "address": "https://docs.confluent.io/platform/current/streams/developer-guide/interactive-queries.html",
-      "title": "Kafka Streams Interactive Queries for Confluent Platform | Confluent Documentation",
-      "grade": 0
-    },
-    {
-      "hash": "_8ITH_nMM_j5",
-      "address": "https://grokipedia.com/page/Raspberry_Pi",
-      "title": "Raspberry Pi — Grokipedia",
-      "grade": 0
-    },
-    {
-      "hash": "i98NBeFEcjUx",
-      "address": "https://docs.confluent.io/platform/current/clients/producer.html",
-      "title": "Kafka Producer for Confluent Platform | Confluent Documentation",
-      "grade": 0
-    },
-    {
-      "hash": "jaHe6eFEcjUx",
-      "address": "https://docs.confluent.io/platform/current/installation/upgrade.html",
-      "title": "Upgrade Confluent Platform | Confluent Documentation",
-      "grade": 0
-    },
-    {
-      "hash": "Tw2WTjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Google_Chrome",
-      "title": "Google Chrome - Wikipedia",
-      "grade": 0
-    },
-    {
-      "hash": "FevfV2gYLBO5",
-      "address": "https://caddyserver.com/docs/install",
-      "title": "Install — Caddy Documentation",
-      "grade": 0
-    },
-    {
-      "hash": "xInASeFEcjUx",
-      "address": "https://docs.confluent.io/platform/current/installation/installing_cp/rhel-centos.html",
-      "title": "Install Confluent Platform using Systemd on RHEL, CentOS, and Fedora-based Linux | Confluent Documentation",
-      "grade": 0
+      "hash": "K5flrZIOYuRw",
+      "address": "https://chronicles.debian.org/www/News/2021/",
+      "title": "Debian -- News from 2021",
+      "grade": null
     }
   ]
 }

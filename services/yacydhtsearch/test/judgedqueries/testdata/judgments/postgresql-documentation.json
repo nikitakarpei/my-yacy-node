@@ -2,28 +2,10 @@
   "query": "postgresql documentation",
   "judgedDocuments": [
     {
-      "hash": "wFsBysqBIpS6",
-      "address": "https://xn--gckvb8fzb.com/xbsapi-an-alternative-xbrowsersync-api-that-supports-sqlite-postgresql-and-mysql/",
-      "title": "マリウス . xbsapi: An Alternative xBrowserSync API that supports SQLite, PostgreSQL and MySQL",
-      "grade": 1
-    },
-    {
-      "hash": "B820_sjKPgu4",
-      "address": "https://kapeli.com/dash",
-      "title": "Dash for macOS - API Documentation Browser, Snippet Manager - Kapeli",
-      "grade": 0
-    },
-    {
-      "hash": "Hb2lZx7Yxvhx",
-      "address": "https://www.postgresql.org/docs/current/extend-how.html",
-      "title": "PostgreSQL: Documentation: 18: 36.1. How Extensibility Works",
+      "hash": "H3k5-x7Yxvhx",
+      "address": "https://www.postgresql.org/docs/current/tutorial-advanced.html",
+      "title": "PostgreSQL: Documentation: 18: Chapter 3. Advanced Features",
       "grade": 2
-    },
-    {
-      "hash": "-PElUl7Yxvhx",
-      "address": "https://www.postgresql.org/community/",
-      "title": "PostgreSQL: Community",
-      "grade": 1
     },
     {
       "hash": "qBsAylqYg_k4",
@@ -38,12 +20,6 @@
       "grade": 0
     },
     {
-      "hash": "S1Yp5x7Yxvhx",
-      "address": "https://www.postgresql.org/docs/current/spi-spi-freeplan.html",
-      "title": "PostgreSQL: Documentation: 18: SPI_freeplan",
-      "grade": 2
-    },
-    {
       "hash": "AEMxKJAp2-zw",
       "address": "https://www.wiz.io/blog/postgresql-cryptomining",
       "title": "Fileless XMRig-C3 Cryptominer Targets PostgreSQL Servers | Wiz Blog",
@@ -56,16 +32,16 @@
       "grade": 0
     },
     {
-      "hash": "Lj9Sl2c9duY5",
-      "address": "https://azure.microsoft.com/en-us",
-      "title": "Cloud Computing Services | Microsoft Azure",
-      "grade": 0
+      "hash": "WCL7Tx7Yxvhx",
+      "address": "https://www.postgresql.org/docs/current/mvcc-intro.html",
+      "title": "PostgreSQL: Documentation: 18: 13.1. Introduction",
+      "grade": 2
     },
     {
-      "hash": "k5-pcx7Yxvhx",
-      "address": "https://www.postgresql.org/docs/release/18.6/",
-      "title": "PostgreSQL: Release Notes",
-      "grade": 2
+      "hash": "OFFidA07xaXx",
+      "address": "https://musicbrainz.org/doc/Live_Data_Feed",
+      "title": "Live Data Feed - MusicBrainz",
+      "grade": null
     },
     {
       "hash": "lYsgT81iNM2x",
@@ -74,34 +50,58 @@
       "grade": 2
     },
     {
-      "hash": "tiJjCx7Yxvhx",
-      "address": "https://www.postgresql.org/docs/current/auth-bsd.html",
-      "title": "PostgreSQL: Documentation: 18: 20.14. BSD Authentication",
-      "grade": 2
+      "hash": "v4aP-zS6MKD4",
+      "address": "https://github.com/topics/low-code",
+      "title": "low-code · GitHub Topics · GitHub",
+      "grade": null
     },
     {
-      "hash": "BJhprx7Yxvhx",
-      "address": "https://www.postgresql.org/docs/current/plpython-python23.html",
-      "title": "PostgreSQL: Documentation: 18: 44.10. Python 2 vs. Python 3",
-      "grade": 2
+      "hash": "96dSMyXjZ9O4",
+      "address": "https://docs.github.com/en/actions/tutorials/use-containerized-services/create-postgresql-service-containers",
+      "title": "Creating PostgreSQL service containers - GitHub Docs",
+      "grade": null
     },
     {
-      "hash": "2lY5OgndnJA5",
-      "address": "https://access.crunchydata.com/documentation/",
-      "title": "Documentation | Enterprise PostgreSQL Support \u0026 Kubernetes Solutions | Crunchy Data",
+      "hash": "_9wYhs7Yxvhx",
+      "address": "https://www.postgresql.org/about/events/",
+      "title": "PostgreSQL: Upcoming Events",
+      "grade": null
+    },
+    {
+      "hash": "-PElUl7Yxvhx",
+      "address": "https://www.postgresql.org/community/",
+      "title": "PostgreSQL: Community",
       "grade": 1
     },
     {
-      "hash": "WCL7Tx7Yxvhx",
-      "address": "https://www.postgresql.org/docs/current/mvcc-intro.html",
-      "title": "PostgreSQL: Documentation: 18: 13.1. Introduction",
+      "hash": "9103Gx7Yxvhx",
+      "address": "https://www.postgresql.org/docs/current/app-vacuumdb.html",
+      "title": "PostgreSQL: Documentation: 18: vacuumdb",
+      "grade": null
+    },
+    {
+      "hash": "t5snQNswUu_h",
+      "address": "https://board.issociate.de/thread/509376/-Wchentlicher-PostgreSQL-Newsletter---21-August-2011-.html",
+      "title": "== WÃ¶chentlicher PostgreSQL Newsletter - 21. August 2011 ==",
+      "grade": null
+    },
+    {
+      "hash": "T8OWqcw63Csx",
+      "address": "https://fr.wikipedia.org/wiki/PostgreSQL",
+      "title": "PostgreSQL — Wikipédia",
+      "grade": null
+    },
+    {
+      "hash": "zNzIvx7Yxvhx",
+      "address": "https://www.postgresql.org/docs/current/ssl-tcp.html",
+      "title": "PostgreSQL: Documentation: 18: 18.9. Secure TCP/IP Connections with SSL",
       "grade": 2
     },
     {
-      "hash": "ixNKTx7Yxvhx",
-      "address": "https://www.postgresql.org/docs/current/reference-client.html",
-      "title": "PostgreSQL: Documentation: 18: PostgreSQL Client Applications",
-      "grade": 2
+      "hash": "4H1zux7Yxvhx",
+      "address": "https://www.postgresql.org/docs/current/spi-spi-getnspname.html",
+      "title": "PostgreSQL: Documentation: 18: SPI_getnspname",
+      "grade": null
     },
     {
       "hash": "0aV0fx7Yxvhx",
@@ -110,33 +110,33 @@
       "grade": 2
     },
     {
-      "hash": "kGWyJx7Yxvhx",
-      "address": "https://www.postgresql.org/docs/current/transaction-iso.html",
-      "title": "PostgreSQL: Documentation: 18: 13.2. Transaction Isolation",
+      "hash": "bRUZxx7Yxvhx",
+      "address": "https://www.postgresql.org/docs/release/16.0/",
+      "title": "PostgreSQL: Release Notes",
+      "grade": null
+    },
+    {
+      "hash": "ELEstx7Yxvhx",
+      "address": "https://www.postgresql.org/docs/current/pgwaldump.html",
+      "title": "PostgreSQL: Documentation: 18: pg_waldump",
       "grade": 2
     },
     {
-      "hash": "od_X7x7Yxvhx",
-      "address": "https://www.postgresql.org/docs/current/tutorial.html",
-      "title": "PostgreSQL: Documentation: 18: Part I. Tutorial",
+      "hash": "QpqD5Jg54E6x",
+      "address": "https://www.integrate.io/blog/postgresql-vs-mysql-which-one-is-better-for-your-use-case/",
+      "title": "PostgreSQL vs MySQL: The Critical Differences | Integrate.io",
+      "grade": null
+    },
+    {
+      "hash": "ixNKTx7Yxvhx",
+      "address": "https://www.postgresql.org/docs/current/reference-client.html",
+      "title": "PostgreSQL: Documentation: 18: PostgreSQL Client Applications",
       "grade": 2
     },
     {
-      "hash": "oOjZcx7Yxvhx",
-      "address": "https://www.postgresql.org/docs/18/postgres-fdw.html",
-      "title": "PostgreSQL: Documentation: 18: F.38. postgres_fdw — access data stored in external PostgreSQL servers",
-      "grade": 2
-    },
-    {
-      "hash": "tQzJTx7Yxvhx",
-      "address": "https://www.postgresql.org/docs/current/sql-dropgroup.html",
-      "title": "PostgreSQL: Documentation: 18: DROP GROUP",
-      "grade": 2
-    },
-    {
-      "hash": "n8OZP81iNM2x",
-      "address": "https://wiki.postgresql.org/wiki/Foreign_data_wrappers",
-      "title": "Foreign data wrappers - PostgreSQL wiki",
+      "hash": "Hb2lZx7Yxvhx",
+      "address": "https://www.postgresql.org/docs/current/extend-how.html",
+      "title": "PostgreSQL: Documentation: 18: 36.1. How Extensibility Works",
       "grade": 2
     },
     {
@@ -146,28 +146,28 @@
       "grade": 2
     },
     {
-      "hash": "TDHHrx7Yxvhx",
-      "address": "https://www.postgresql.org/docs/current/view-pg-matviews.html",
-      "title": "PostgreSQL: Documentation: 18: 53.14. pg_matviews",
+      "hash": "k5-pcx7Yxvhx",
+      "address": "https://www.postgresql.org/docs/release/18.6/",
+      "title": "PostgreSQL: Release Notes",
       "grade": 2
     },
     {
-      "hash": "kPDBXx7Yxvhx",
-      "address": "https://www.postgresql.org/docs/current/runtime-config-wal.html",
-      "title": "PostgreSQL: Documentation: 18: 19.5. Write Ahead Log",
+      "hash": "sOJ2hx7Yxvhx",
+      "address": "https://www.postgresql.org/docs/current/tutorial-sql-intro.html",
+      "title": "PostgreSQL: Documentation: 18: 2.1. Introduction",
       "grade": 2
     },
     {
-      "hash": "mJj6Cl7Yxvhx",
-      "address": "https://www.postgresql.org/",
-      "title": "PostgreSQL: The world's most advanced open source database",
+      "hash": "n8OZP81iNM2x",
+      "address": "https://wiki.postgresql.org/wiki/Foreign_data_wrappers",
+      "title": "Foreign data wrappers - PostgreSQL wiki",
       "grade": 2
     },
     {
-      "hash": "orBtml7Yxvhx",
-      "address": "https://www.postgresql.org/developer/roadmap/",
-      "title": "PostgreSQL: Roadmap",
-      "grade": 1
+      "hash": "Q6N2Vx7Yxvhx",
+      "address": "https://www.postgresql.org/docs/current/spi-spi-pfree.html",
+      "title": "PostgreSQL: Documentation: 18: SPI_pfree",
+      "grade": null
     },
     {
       "hash": "AXOajx7Yxvhx",
@@ -176,10 +176,16 @@
       "grade": 2
     },
     {
-      "hash": "5Nj00x7Yxvhx",
-      "address": "https://www.postgresql.org/docs/current/lo.html",
-      "title": "PostgreSQL: Documentation: 18: F.21. lo — manage large objects",
-      "grade": 2
+      "hash": "GDBJHx7Yxvhx",
+      "address": "https://www.postgresql.org/docs/current/pgprewarm.html",
+      "title": "PostgreSQL: Documentation: 18: F.30. pg_prewarm — preload relation data into buffer caches",
+      "grade": null
+    },
+    {
+      "hash": "rI2m6x7Yxvhx",
+      "address": "https://www.postgresql.org/docs/current/storage-page-layout.html",
+      "title": "PostgreSQL: Documentation: 18: 66.6. Database Page Layout",
+      "grade": null
     },
     {
       "hash": "hYc2i0yvgfs5",
@@ -194,111 +200,15 @@
       "grade": 2
     },
     {
+      "hash": "5lCPsx7Yxvhx",
+      "address": "https://www.postgresql.org/docs/current/index.html",
+      "title": "PostgreSQL: Documentation: 18: PostgreSQL 18.6 Documentation",
+      "grade": 2
+    },
+    {
       "hash": "c701ExFYRqW5",
       "address": "https://www.meilisearch.com/docs/resources/migration/postgresql_migration",
       "title": "Migrating from PostgreSQL full-text search to Meilisearch - Meilisearch Documentation",
-      "grade": 1
-    },
-    {
-      "hash": "uxRtix7Yxvhx",
-      "address": "https://www.postgresql.org/docs/current/docguide.html",
-      "title": "PostgreSQL: Documentation: 18: Appendix J. Documentation",
-      "grade": 2
-    },
-    {
-      "hash": "T1edwx7Yxvhx",
-      "address": "https://www.postgresql.org/docs/current/app-pgwalsummary.html",
-      "title": "PostgreSQL: Documentation: 18: pg_walsummary",
-      "grade": 2
-    },
-    {
-      "hash": "wtiuUx7Yxvhx",
-      "address": "https://www.postgresql.org/docs/current/manage-ag-tablespaces.html",
-      "title": "PostgreSQL: Documentation: 18: 22.6. Tablespaces",
-      "grade": 2
-    },
-    {
-      "hash": "zRYpFx7Yxvhx",
-      "address": "https://www.postgresql.org/docs/current/libpq-copy.html",
-      "title": "PostgreSQL: Documentation: 18: 32.10. Functions Associated with the COPY Command",
-      "grade": 2
-    },
-    {
-      "hash": "5lCPsx7Yxvhx",
-      "address": "https://www.postgresql.org/docs/current/index.html",
-      "title": "PostgreSQL: Documentation: 18: PostgreSQL 18.3 Documentation",
-      "grade": 2
-    },
-    {
-      "hash": "BMMdex7Yxvhx",
-      "address": "https://www.postgresql.org/docs/current/source-conventions.html",
-      "title": "PostgreSQL: Documentation: 18: 55.4. Miscellaneous Coding Conventions",
-      "grade": 2
-    },
-    {
-      "hash": "B8yYZdUhjm5w",
-      "address": "https://airflow.apache.org/docs/apache-airflow-providers-postgres/stable/connections/postgres.html",
-      "title": "PostgreSQL Connection — apache-airflow-providers-postgres Documentation",
-      "grade": 1
-    },
-    {
-      "hash": "uL1Rfx7Yxvhx",
-      "address": "https://www.postgresql.org/docs/current/archive-modules.html",
-      "title": "PostgreSQL: Documentation: 18: Chapter 49. Archive Modules",
-      "grade": 2
-    },
-    {
-      "hash": "KflpRx7Yxvhx",
-      "address": "https://www.postgresql.org/docs/current/rule-system.html",
-      "title": "PostgreSQL: Documentation: 18: 51.4. The PostgreSQL Rule System",
-      "grade": 2
-    },
-    {
-      "hash": "zNzIvx7Yxvhx",
-      "address": "https://www.postgresql.org/docs/current/ssl-tcp.html",
-      "title": "PostgreSQL: Documentation: 18: 18.9. Secure TCP/IP Connections with SSL",
-      "grade": 2
-    },
-    {
-      "hash": "vwtScx7Yxvhx",
-      "address": "https://www.postgresql.org/docs/current/trigger-example.html",
-      "title": "PostgreSQL: Documentation: 18: 37.4. A Complete Trigger Example",
-      "grade": 2
-    },
-    {
-      "hash": "sOJ2hx7Yxvhx",
-      "address": "https://www.postgresql.org/docs/current/tutorial-sql-intro.html",
-      "title": "PostgreSQL: Documentation: 18: 2.1. Introduction",
-      "grade": 2
-    },
-    {
-      "hash": "JXXE7x7Yxvhx",
-      "address": "https://www.postgresql.org/docs/current/jit.html",
-      "title": "PostgreSQL: Documentation: 18: Chapter 30. Just-in-Time Compilation (JIT)",
-      "grade": 2
-    },
-    {
-      "hash": "Pv3T_x7Yxvhx",
-      "address": "https://www.postgresql.org/docs/current/sql-droptsparser.html",
-      "title": "PostgreSQL: Documentation: 18: DROP TEXT SEARCH PARSER",
-      "grade": 2
-    },
-    {
-      "hash": "ELEstx7Yxvhx",
-      "address": "https://www.postgresql.org/docs/current/pgwaldump.html",
-      "title": "PostgreSQL: Documentation: 18: pg_waldump",
-      "grade": 2
-    },
-    {
-      "hash": "e7JKVx7Yxvhx",
-      "address": "https://www.postgresql.org/docs/current/ecpg-sql-set-connection.html",
-      "title": "PostgreSQL: Documentation: 18: SET CONNECTION",
-      "grade": 2
-    },
-    {
-      "hash": "Cv_cfysV8O86",
-      "address": "https://docs.djangoproject.com/en/2.1/ref/contrib/postgres/fields/",
-      "title": "PostgreSQL specific model fields | Django documentation | Django",
       "grade": 1
     },
     {
@@ -308,40 +218,106 @@
       "grade": 2
     },
     {
-      "hash": "umq3dx7Yxvhx",
-      "address": "https://www.postgresql.org/docs/current/libpq-pipeline-mode.html",
-      "title": "PostgreSQL: Documentation: 18: 32.5. Pipeline Mode",
+      "hash": "S1Yp5x7Yxvhx",
+      "address": "https://www.postgresql.org/docs/current/spi-spi-freeplan.html",
+      "title": "PostgreSQL: Documentation: 18: SPI_freeplan",
       "grade": 2
     },
     {
-      "hash": "d_icYx7Yxvhx",
-      "address": "https://www.postgresql.org/docs/current/logical-replication-upgrade.html",
-      "title": "PostgreSQL: Documentation: 18: 29.13. Upgrade",
+      "hash": "wtiuUx7Yxvhx",
+      "address": "https://www.postgresql.org/docs/current/manage-ag-tablespaces.html",
+      "title": "PostgreSQL: Documentation: 18: 22.6. Tablespaces",
       "grade": 2
     },
     {
-      "hash": "WGSo0x7Yxvhx",
-      "address": "https://www.postgresql.org/docs/current/bookindex.html",
-      "title": "PostgreSQL: Documentation: 18: Index",
+      "hash": "9LRebx7Yxvhx",
+      "address": "https://www.postgresql.org/docs/current/sourcerepo.html",
+      "title": "PostgreSQL: Documentation: 18: Appendix I. The Source Code Repository",
+      "grade": null
+    },
+    {
+      "hash": "BMMdex7Yxvhx",
+      "address": "https://www.postgresql.org/docs/current/source-conventions.html",
+      "title": "PostgreSQL: Documentation: 18: 55.4. Miscellaneous Coding Conventions",
       "grade": 2
     },
     {
-      "hash": "LIPQMx7Yxvhx",
-      "address": "https://www.postgresql.org/docs/current/runtime-config-file-locations.html",
-      "title": "PostgreSQL: Documentation: 18: 19.2. File Locations",
+      "hash": "464Spx7Yxvhx",
+      "address": "https://www.postgresql.org/docs/current/logicaldecoding-writer.html",
+      "title": "PostgreSQL: Documentation: 18: 47.7. Logical Decoding Output Writers",
+      "grade": null
+    },
+    {
+      "hash": "Pv3T_x7Yxvhx",
+      "address": "https://www.postgresql.org/docs/current/sql-droptsparser.html",
+      "title": "PostgreSQL: Documentation: 18: DROP TEXT SEARCH PARSER",
       "grade": 2
     },
     {
-      "hash": "OBCitx7Yxvhx",
-      "address": "https://www.postgresql.org/docs/current/monitoring-locks.html",
-      "title": "PostgreSQL: Documentation: 18: 27.3. Viewing Locks",
+      "hash": "x320kx7Yxvhx",
+      "address": "https://www.postgresql.org/docs/current/sql-revoke.html",
+      "title": "PostgreSQL: Documentation: 18: REVOKE",
+      "grade": null
+    },
+    {
+      "hash": "vwtScx7Yxvhx",
+      "address": "https://www.postgresql.org/docs/current/trigger-example.html",
+      "title": "PostgreSQL: Documentation: 18: 37.4. A Complete Trigger Example",
       "grade": 2
     },
     {
-      "hash": "H3k5-x7Yxvhx",
-      "address": "https://www.postgresql.org/docs/current/tutorial-advanced.html",
-      "title": "PostgreSQL: Documentation: 18: Chapter 3. Advanced Features",
-      "grade": 2
+      "hash": "5j1TMx7Yxvhx",
+      "address": "https://www.postgresql.org/docs/current/datetime-appendix.html",
+      "title": "PostgreSQL: Documentation: 18: Appendix B. Date/Time Support",
+      "grade": null
+    },
+    {
+      "hash": "Cv_cfysV8O86",
+      "address": "https://docs.djangoproject.com/en/2.1/ref/contrib/postgres/fields/",
+      "title": "PostgreSQL specific model fields | Django documentation | Django",
+      "grade": 1
+    },
+    {
+      "hash": "4x6u-x7Yxvhx",
+      "address": "https://www.postgresql.org/docs/current/legalnotice.html",
+      "title": "PostgreSQL: Documentation: 18: Legal Notice",
+      "grade": null
+    },
+    {
+      "hash": "f90B1x7Yxvhx",
+      "address": "https://www.postgresql.org/docs/current/sql-alterstatistics.html",
+      "title": "PostgreSQL: Documentation: 18: ALTER STATISTICS",
+      "grade": null
+    },
+    {
+      "hash": "htowwp2PJqNx",
+      "address": "https://doxygen.postgresql.org/win32fdatasync_8c_source.html",
+      "title": "PostgreSQL Source Code: src/port/win32fdatasync.c Source File",
+      "grade": null
+    },
+    {
+      "hash": "4lnzox7Yxvhx",
+      "address": "https://www.postgresql.org/docs/current/catalog-pg-largeobject-metadata.html",
+      "title": "PostgreSQL: Documentation: 18: 52.31. pg_largeobject_metadata",
+      "grade": null
+    },
+    {
+      "hash": "67t3mx7Yxvhx",
+      "address": "https://www.postgresql.org/docs/current/user-manag.html",
+      "title": "PostgreSQL: Documentation: 18: Chapter 21. Database Roles",
+      "grade": null
+    },
+    {
+      "hash": "4cGpZx7Yxvhx",
+      "address": "https://www.postgresql.org/docs/current/infoschema-sql-parts.html",
+      "title": "PostgreSQL: Documentation: 18: 35.50. sql_parts",
+      "grade": null
+    },
+    {
+      "hash": "7NEkax7Yxvhx",
+      "address": "https://www.postgresql.org/docs/current/spi-spi-gettype.html",
+      "title": "PostgreSQL: Documentation: 18: SPI_gettype",
+      "grade": null
     }
   ]
 }

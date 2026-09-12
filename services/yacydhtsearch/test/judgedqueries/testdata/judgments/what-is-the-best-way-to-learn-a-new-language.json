@@ -2,28 +2,250 @@
   "query": "what is the best way to learn a new language",
   "judgedDocuments": [
     {
-      "hash": "CTQ-Yj-JVcyx",
-      "address": "https://en.wikiquote.org/wiki/Mystery_Science_Theater_3000",
-      "title": "Mystery Science Theater 3000 - Wikiquote",
-      "grade": 0
+      "hash": "KkVl3jRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/New_Mexico",
+      "title": "New Mexico - Wikipedia",
+      "grade": null
     },
     {
-      "hash": "XEyWzL8hxo35",
-      "address": "https://www.microsoft.com/en-us/privacy/privacystatement",
-      "title": "Microsoft Privacy Statement – Microsoft privacy",
-      "grade": 0
+      "hash": "I5XexlotZ7Sw",
+      "address": "https://www.gnome.org/",
+      "title": "GNOME – Simple, beautiful, elegant.",
+      "grade": null
     },
     {
-      "hash": "26dpylS6MKD4",
-      "address": "https://github.com/features/copilot",
-      "title": "GitHub Copilot · Your AI pair programmer · GitHub",
-      "grade": 0
+      "hash": "mcNd2jRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/New_Zealand",
+      "title": "New Zealand - Wikipedia",
+      "grade": null
     },
     {
-      "hash": "-b3sxspKNBr4",
-      "address": "https://rense.com/",
-      "title": "rense.com",
-      "grade": 0
+      "hash": "QW8Ojjc4UIAx",
+      "address": "https://en.wikivoyage.org/wiki/New_York_City",
+      "title": "New York City – Travel guide at Wikivoyage",
+      "grade": null
+    },
+    {
+      "hash": "hNrcdJ-bwreQ",
+      "address": "http://ace.mu.nu/",
+      "title": "Ace of Spades HQ",
+      "grade": null
+    },
+    {
+      "hash": "gMf9eyEkAvow",
+      "address": "https://developer.mozilla.org/en-US/docs/Learn_web_development/Core/CSS_layout",
+      "title": "CSS layout - Learn web development | MDN",
+      "grade": null
+    },
+    {
+      "hash": "YjxoJjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/The_New_York_Times",
+      "title": "The New York Times - Wikipedia",
+      "grade": null
+    },
+    {
+      "hash": "fbD3NyEkAvow",
+      "address": "https://developer.mozilla.org/en-US/docs/Learn_web_development",
+      "title": "Learn web development | MDN",
+      "grade": null
+    },
+    {
+      "hash": "iT9gFUyeQ4a6",
+      "address": "https://automationdrives.com/blog/best-beauty-products",
+      "title": "Best Beauty Products",
+      "grade": null
+    },
+    {
+      "hash": "tQXxnjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Hungarian_language",
+      "title": "Hungarian language - Wikipedia",
+      "grade": null
+    },
+    {
+      "hash": "5oUPZjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/It%27s_a_Long_Way_to_Tipperary",
+      "title": "It's a Long Way to Tipperary - Wikipedia",
+      "grade": null
+    },
+    {
+      "hash": "8XfsijRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Conspiracy_theory",
+      "title": "Conspiracy theory - Wikipedia",
+      "grade": null
+    },
+    {
+      "hash": "Qkt5wjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/British_Sign_Language",
+      "title": "British Sign Language - Wikipedia",
+      "grade": null
+    },
+    {
+      "hash": "vc_PgjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/New_York_Times",
+      "title": "The New York Times - Wikipedia",
+      "grade": null
+    },
+    {
+      "hash": "z86LkABQIIm5",
+      "address": "https://www.empireonline.com/movies/features/best-movies-2/",
+      "title": "100 Best Movies of All Time Ranked – Empire Readers' Definitive List",
+      "grade": null
+    },
+    {
+      "hash": "TmMGljRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/New_York_(state)",
+      "title": "New York (state) - Wikipedia",
+      "grade": null
+    },
+    {
+      "hash": "-ro8qFiwa444",
+      "address": "https://apps.apple.com/us/app/new-york-post-for-ipad/id378590820",
+      "title": "‎New York Post for iPad App - App Store",
+      "grade": null
+    },
+    {
+      "hash": "Vv81ls2xL7A6",
+      "address": "https://corbettreport.com/september-open-thread-2022/",
+      "title": "September Open Thread (2022) | The Corbett Report",
+      "grade": null
+    },
+    {
+      "hash": "zQZExyEkAvow",
+      "address": "https://developer.mozilla.org/en-US/docs/Learn_web_development/Core/Scripting",
+      "title": "Dynamic scripting with JavaScript - Learn web development | MDN",
+      "grade": null
+    },
+    {
+      "hash": "_fFsUjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Language",
+      "title": "Language - Wikipedia",
+      "grade": null
+    },
+    {
+      "hash": "BwobsjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Greek_language",
+      "title": "Greek language - Wikipedia",
+      "grade": null
+    },
+    {
+      "hash": "bx63rjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Apple_Inc",
+      "title": "Apple Inc. - Wikipedia",
+      "grade": null
+    },
+    {
+      "hash": "GtLjhloUbV15",
+      "address": "https://www.whatfinger.com/",
+      "title": "Whatfinger News® – Unfiltered Truth. America’s News Feed",
+      "grade": null
+    },
+    {
+      "hash": "xr6iDzS6MKD4",
+      "address": "https://github.com/awesome-selfhosted/awesome-selfhosted",
+      "title": "GitHub - awesome-selfhosted/awesome-selfhosted: A list of Free Software network services and web applications which can be hosted on your own servers",
+      "grade": null
+    },
+    {
+      "hash": "n9jCEkMi4W67",
+      "address": "https://online.worldcasinodirectory.com/greece",
+      "title": "Online casinos accepting players from Greece ➤ (For 2026, September)",
+      "grade": null
+    },
+    {
+      "hash": "WJcMZLLc30Qw",
+      "address": "https://www.coursera.org/learn/build-a-computer",
+      "title": "Build a Modern Computer from First Principles: From Nand to Tetris (Project-Centered Course) | Coursera",
+      "grade": null
+    },
+    {
+      "hash": "W-koS2S6MKD4",
+      "address": "https://github.com/donnemartin/system-design-primer",
+      "title": "GitHub - donnemartin/system-design-primer: Learn how to design large-scale systems. Prep for the system design interview. Includes Anki flashcards. · GitHub",
+      "grade": null
+    },
+    {
+      "hash": "_jIacjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/New_World_Order_(conspiracy_theory)",
+      "title": "New World Order conspiracy theory - Wikipedia",
+      "grade": null
+    },
+    {
+      "hash": "pZOf2ym_mTBS",
+      "address": "http://www.concatenation.org/stuff/best-science-fiction-of-the-year.html",
+      "title": "Best Science Fiction of the Year",
+      "grade": null
+    },
+    {
+      "hash": "Qug-AopGtAW4",
+      "address": "https://www.amazon.com/Rise-Fall-Boeing-Way-Back/dp/1737640538",
+      "title": "The Rise and Fall of Boeing: and The Way Back: Hamilton, Mr. Scott: 9781737640530: Amazon.com: Books",
+      "grade": null
+    },
+    {
+      "hash": "_-pdnjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Tamil_language",
+      "title": "Tamil language - Wikipedia",
+      "grade": null
+    },
+    {
+      "hash": "Y2pI4jc4UIAx",
+      "address": "https://en.wikivoyage.org/wiki/New_Zealand",
+      "title": "New Zealand – Travel guide at Wikivoyage",
+      "grade": null
+    },
+    {
+      "hash": "cKq8rb8CAV45",
+      "address": "https://www.encyclopedia.com/places/australia-and-oceania/australian-and-new-zealand-political-geography/new-zealand",
+      "title": "New Zealand | Encyclopedia.com",
+      "grade": null
+    },
+    {
+      "hash": "ifP7FdHU0ZoY",
+      "address": "http://rigint.blogspot.com/",
+      "title": "Rigorous Intuition (v. 2.0)",
+      "grade": null
+    },
+    {
+      "hash": "vDp29b8CAV45",
+      "address": "https://www.encyclopedia.com/places/united-states-and-canada/us-political-geography/new-york",
+      "title": "New York | Encyclopedia.com",
+      "grade": null
+    },
+    {
+      "hash": "OGt-S_QzrsJ5",
+      "address": "https://thestingofthescorpion.wordpress.com/tag/texas/",
+      "title": "Texas | The Sting Of The Scorpion Blog (T.S.O.T.S.B.)",
+      "grade": null
+    },
+    {
+      "hash": "9dnewsdTeyA4",
+      "address": "https://github.blog/",
+      "title": "Home - The GitHub Blog",
+      "grade": null
+    },
+    {
+      "hash": "liVOzMuyvIWY",
+      "address": "http://information-machine.blogspot.com/",
+      "title": "Information Machine",
+      "grade": null
+    },
+    {
+      "hash": "vPz-2Fiwa444",
+      "address": "https://apps.apple.com/us/app/new-york-post-for-iphone/id410094240",
+      "title": "‎New York Post for iPhone App - App Store",
+      "grade": null
+    },
+    {
+      "hash": "6m4urjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/New_England",
+      "title": "New England - Wikipedia",
+      "grade": null
+    },
+    {
+      "hash": "S9YMJzCJVaIz",
+      "address": "https://planet.documentfoundation.org/",
+      "title": "The Document Foundation Planet",
+      "grade": null
     },
     {
       "hash": "D4lABzaS0qdw",
@@ -32,165 +254,9 @@
       "grade": 0
     },
     {
-      "hash": "BXUMpjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/India",
-      "title": "India - Wikipedia",
-      "grade": 0
-    },
-    {
-      "hash": "qzV8sjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/YouTube",
-      "title": "YouTube - Wikipedia",
-      "grade": 0
-    },
-    {
-      "hash": "1yXEqjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Russo-Ukrainian_war_(2022%E2%80%93present)",
-      "title": "Russo-Ukrainian war (2022–present) - Wikipedia",
-      "grade": 0
-    },
-    {
-      "hash": "9EJmqjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/United_States",
-      "title": "United States - Wikipedia",
-      "grade": 0
-    },
-    {
-      "hash": "JMrCglS6MKD4",
-      "address": "https://github.com/features/copilot/copilot-business",
-      "title": "GitHub Copilot Business · GitHub",
-      "grade": 0
-    },
-    {
-      "hash": "MijQL0S6MKD4",
-      "address": "https://github.com/resources/events",
-      "title": "Upcoming GitHub events, webinars \u0026 developer conferences · GitHub",
-      "grade": 0
-    },
-    {
-      "hash": "dwAr70S6MKD4",
-      "address": "https://github.com/resources/whitepapers",
-      "title": "Ebooks \u0026 Whitepapers · GitHub",
-      "grade": 0
-    },
-    {
-      "hash": "2kJyJ0S6MKD4",
-      "address": "https://github.com/resources/articles",
-      "title": "GitHub Articles • Technical Guides, Developer Insights \u0026 Best Practices · GitHub",
-      "grade": 0
-    },
-    {
-      "hash": "dENnoldA5r_4",
-      "address": "https://www.apple.com/iphone/",
-      "title": "iPhone - Apple",
-      "grade": 0
-    },
-    {
-      "hash": "DhmEc4iwa444",
-      "address": "https://apps.apple.com/al/iphone/today",
-      "title": "‎Today for iPhone - App Store",
-      "grade": 0
-    },
-    {
-      "hash": "oZtYHFiwa444",
-      "address": "https://apps.apple.com/us/iphone/apps",
-      "title": "‎Apps for iPhone - App Store",
-      "grade": 0
-    },
-    {
-      "hash": "t_P_aLiwa444",
-      "address": "https://apps.apple.com/mt/iphone/today",
-      "title": "‎Today for iPhone - App Store",
-      "grade": 0
-    },
-    {
-      "hash": "zOn1gwiwa444",
-      "address": "https://apps.apple.com/nz/iphone/today",
-      "title": "‎Today for iPhone - App Store",
-      "grade": 0
-    },
-    {
-      "hash": "4UN1Eziwa444",
-      "address": "https://apps.apple.com/xk/iphone/today",
-      "title": "‎Today for iPhone - App Store",
-      "grade": 0
-    },
-    {
-      "hash": "_ob2G2iwa444",
-      "address": "https://apps.apple.com/sz/iphone/today",
-      "title": "‎Today for iPhone - App Store",
-      "grade": 0
-    },
-    {
-      "hash": "pGRD67yp6WtY",
-      "address": "http://tantek.com/",
-      "title": "Tantek Çelik",
-      "grade": 0
-    },
-    {
-      "hash": "11qsGs5MC3Rw",
-      "address": "https://telegram.org/faq",
-      "title": "Telegram FAQ",
-      "grade": 0
-    },
-    {
-      "hash": "KXby1s6GdY-4",
-      "address": "https://danluu.com/mit-stanford/",
-      "title": "How does Boston compare to SV and what do MIT and Stanford have to do with it?",
-      "grade": 0
-    },
-    {
-      "hash": "ydv6cs6GdY-4",
-      "address": "https://danluu.com/bitc-retrospective/",
-      "title": "Jonathan Shapiro's Retrospective Thoughts on BitC",
-      "grade": 0
-    },
-    {
-      "hash": "zPzQLs6GdY-4",
-      "address": "https://danluu.com/ai-coding/",
-      "title": "Agentic test processes, LLM benchmarks, and other notes on agentic coding from Galapagos Island",
-      "grade": 0
-    },
-    {
-      "hash": "yx7c9AK-xyJ4",
-      "address": "https://go.dev/doc/modules/developing",
-      "title": "Developing and publishing modules - The Go Programming Language",
-      "grade": 0
-    },
-    {
-      "hash": "VBuCRO05rw04",
-      "address": "https://www.unz.com/book/arthur_conan_doyle__danger-and-other-stories/",
-      "title": "DANGER! AND OTHER STORIES, by Arthur Conan Doyle - The Unz Review",
-      "grade": 0
-    },
-    {
-      "hash": "IlNp2itD2jQw",
-      "address": "https://docs.python.org/3/library/turtle.html",
-      "title": "turtle — Turtle graphics — Python 3.14.6 documentation",
-      "grade": 0
-    },
-    {
-      "hash": "KQho5AK-xyJ4",
-      "address": "https://go.dev/doc/go1.6",
-      "title": "Go 1.6 Release Notes - The Go Programming Language",
-      "grade": 0
-    },
-    {
-      "hash": "-oQRzjc4UIAx",
-      "address": "https://en.wikivoyage.org/wiki/Singapore",
-      "title": "Singapore – Travel guide at Wikivoyage",
-      "grade": 0
-    },
-    {
-      "hash": "4DyIeg8xiSc4",
-      "address": "https://press.stripe.com/",
-      "title": "Stripe Press — Ideas for progress",
-      "grade": 0
-    },
-    {
-      "hash": "1ojMPAK-xyJ4",
-      "address": "https://go.dev/doc/effective_go",
-      "title": "Effective Go - The Go Programming Language",
+      "hash": "-b3sxspKNBr4",
+      "address": "https://rense.com/",
+      "title": "rense.com",
       "grade": 0
     }
   ]

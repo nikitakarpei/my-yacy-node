@@ -1,420 +1,330 @@
 {
   "query": "why do cats knead blankets",
-  "recordedAt": "2026-09-12T10:15:33Z",
-  "itemsInTheOrderOfEachAnswer": [],
+  "recordedAt": "2026-09-12T11:25:42Z",
+  "itemsInTheOrderOfEachAnswer": [
+    [
+      {
+        "hash": "6hJxUs_ARgYw",
+        "address": "https://cather.unl.edu/life/woodress",
+        "title": "Willa Cather: A Literary Life | Willa Cather Archive",
+        "snippet": "This is an essay praising dogs and denigrating cats and seems to have been part of a debate judged by her grandfather. The misspellings are Cather's: \"The dog is a very intelligent animal . . . . The nature of most dogs is kind, noble and generous. O!",
+        "matchedWords": {
+          "CDLBIC2o04Ix": {
+            "hits": 2,
+            "textWords": 266614
+          },
+          "QlmCxSYsNidO": {
+            "hits": 1,
+            "textWords": 266614
+          },
+          "W_BkjJvuSDJ5": {
+            "hits": 4,
+            "textWords": 266614
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ]
+  ],
   "itemsInNoOrder": [
     {
-      "hash": "btqgslTg2KM4",
-      "address": "https://www.wikihow.com/Experts",
-      "title": "wikiHow Experts",
-      "snippet": "She is the Founder of KittyNook, an online marketplace for cat owners. The company specializes in sourcing high-quality, affordable, products necessary for creating a comfortable home for cats. They sell products such as toys, garments, dishes, scratching posts, beds, and more.",
+      "hash": "pGNDuqXMJRe4",
+      "address": "https://www.nytimes.com/wirecutter/gifts/best-gifts-for-tweens/",
+      "title": "The 37 Best Gifts for Tweens of 2025 | Reviews by Wirecutter",
+      "snippet": "Pet-friendly socks\nPetParty\nThese goofy socks never get old: They can be personalized with the face of your tween’s favorite pet or person.\nPetParty’s Customized Socks are undoubtedly silly. They’re also fun, adorable, and irresistible — especially for the tween who loves animals.",
       "matchedWords": {
-        "1FebJojWdSNf": {
-          "hits": 0,
-          "textWords": 42393
-        },
         "CDLBIC2o04Ix": {
-          "hits": 4,
-          "textWords": 42393
+          "hits": 0,
+          "textWords": 4819
         },
         "QlmCxSYsNidO": {
           "hits": 0,
-          "textWords": 42393
-        },
-        "Ux5wpnRdB6i-": {
-          "hits": 0,
-          "textWords": 42393
+          "textWords": 4819
         },
         "W_BkjJvuSDJ5": {
           "hits": 0,
-          "textWords": 42393
+          "textWords": 4819
         }
       },
       "queryPhraseHits": 0
     },
     {
-      "hash": "btqgslTg2KM4",
-      "address": "https://www.wikihow.com/Experts",
-      "title": "wikiHow Experts",
-      "snippet": "She is the Founder of KittyNook, an online marketplace for cat owners. The company specializes in sourcing high-quality, affordable, products necessary for creating a comfortable home for cats. They sell products such as toys, garments, dishes, scratching posts, beds, and more.",
+      "hash": "3FbkrqXMJRe4",
+      "address": "https://www.nytimes.com/wirecutter/reviews/best-cat-beds/",
+      "title": "The Best Cat Beds (According to Our Cats) for 2025 | Reviews by Wirecutter",
+      "snippet": "For cats who prefer to nap in enclosed beds and cave-like spaces, the Meowfia Premium Cat Cave is an excellent and relatively affordable option.\nIt’s a nice-looking cave for cats who like to burrow. Some cats just want a dark cave to chill out in.",
       "matchedWords": {
-        "1FebJojWdSNf": {
-          "hits": 0,
-          "textWords": 42393
-        },
         "CDLBIC2o04Ix": {
-          "hits": 4,
-          "textWords": 42393
+          "hits": 45,
+          "textWords": 6323
         },
         "QlmCxSYsNidO": {
-          "hits": 0,
-          "textWords": 42393
-        },
-        "Ux5wpnRdB6i-": {
-          "hits": 0,
-          "textWords": 42393
+          "hits": 1,
+          "textWords": 6323
         },
         "W_BkjJvuSDJ5": {
           "hits": 0,
-          "textWords": 42393
+          "textWords": 6323
         }
       },
       "queryPhraseHits": 0
     },
     {
-      "hash": "btqgslTg2KM4",
-      "address": "https://www.wikihow.com/Experts",
-      "title": "wikiHow Experts",
-      "snippet": "She is the Founder of KittyNook, an online marketplace for cat owners. The company specializes in sourcing high-quality, affordable, products necessary for creating a comfortable home for cats. They sell products such as toys, garments, dishes, scratching posts, beds, and more.",
+      "hash": "K1eqgsfzc7V5",
+      "address": "https://bereanbible.com/bsb_topical_index.xlsx",
+      "title": "",
+      "snippet": "",
       "matchedWords": {
-        "1FebJojWdSNf": {
-          "hits": 0,
-          "textWords": 42393
-        },
         "CDLBIC2o04Ix": {
-          "hits": 4,
-          "textWords": 42393
+          "hits": 0,
+          "textWords": 0
         },
         "QlmCxSYsNidO": {
           "hits": 0,
-          "textWords": 42393
-        },
-        "Ux5wpnRdB6i-": {
-          "hits": 0,
-          "textWords": 42393
+          "textWords": 0
         },
         "W_BkjJvuSDJ5": {
           "hits": 0,
-          "textWords": 42393
+          "textWords": 0
         }
       },
       "queryPhraseHits": 0
     },
     {
-      "hash": "btqgslTg2KM4",
-      "address": "https://www.wikihow.com/Experts",
-      "title": "wikiHow Experts",
-      "snippet": "She is the Founder of KittyNook, an online marketplace for cat owners. The company specializes in sourcing high-quality, affordable, products necessary for creating a comfortable home for cats. They sell products such as toys, garments, dishes, scratching posts, beds, and more.",
+      "hash": "V_h9Ya8EmQaw",
+      "address": "https://gutenberg.net.au/ebooks02/0201091h.html",
+      "title": "The Waves",
+      "snippet": "She was not crying, but her eyes, which are so beautiful, were narrow as cats' eyes before they spring. I shall follow her, Neville. I shall go gently behind her, to be at hand, with my curiosity, to comfort her when she bursts out in a rage and thinks, \"I am alone.\"",
       "matchedWords": {
-        "1FebJojWdSNf": {
-          "hits": 0,
-          "textWords": 42393
-        },
         "CDLBIC2o04Ix": {
-          "hits": 4,
-          "textWords": 42393
+          "hits": 5,
+          "textWords": 73969
         },
         "QlmCxSYsNidO": {
-          "hits": 0,
-          "textWords": 42393
-        },
-        "Ux5wpnRdB6i-": {
-          "hits": 0,
-          "textWords": 42393
+          "hits": 1,
+          "textWords": 73969
         },
         "W_BkjJvuSDJ5": {
-          "hits": 0,
-          "textWords": 42393
+          "hits": 1,
+          "textWords": 73969
         }
       },
       "queryPhraseHits": 0
     },
     {
-      "hash": "btqgslTg2KM4",
-      "address": "https://www.wikihow.com/Experts",
-      "title": "wikiHow Experts",
-      "snippet": "She is the Founder of KittyNook, an online marketplace for cat owners. The company specializes in sourcing high-quality, affordable, products necessary for creating a comfortable home for cats. They sell products such as toys, garments, dishes, scratching posts, beds, and more.",
+      "hash": "pGNDuqXMJRe4",
+      "address": "https://www.nytimes.com/wirecutter/gifts/best-gifts-for-tweens/",
+      "title": "The 37 Best Gifts for Tweens of 2025 | Reviews by Wirecutter",
+      "snippet": "Pet-friendly socks\nPetParty\nThese goofy socks never get old: They can be personalized with the face of your tween’s favorite pet or person.\nPetParty’s Customized Socks are undoubtedly silly. They’re also fun, adorable, and irresistible — especially for the tween who loves animals.",
       "matchedWords": {
-        "1FebJojWdSNf": {
-          "hits": 0,
-          "textWords": 42393
-        },
         "CDLBIC2o04Ix": {
-          "hits": 4,
-          "textWords": 42393
+          "hits": 0,
+          "textWords": 4819
         },
         "QlmCxSYsNidO": {
           "hits": 0,
-          "textWords": 42393
-        },
-        "Ux5wpnRdB6i-": {
-          "hits": 0,
-          "textWords": 42393
+          "textWords": 4819
         },
         "W_BkjJvuSDJ5": {
           "hits": 0,
-          "textWords": 42393
+          "textWords": 4819
         }
       },
       "queryPhraseHits": 0
     },
     {
-      "hash": "btqgslTg2KM4",
-      "address": "https://www.wikihow.com/Experts",
-      "title": "wikiHow Experts",
-      "snippet": "She is the Founder of KittyNook, an online marketplace for cat owners. The company specializes in sourcing high-quality, affordable, products necessary for creating a comfortable home for cats. They sell products such as toys, garments, dishes, scratching posts, beds, and more.",
+      "hash": "3FbkrqXMJRe4",
+      "address": "https://www.nytimes.com/wirecutter/reviews/best-cat-beds/",
+      "title": "The Best Cat Beds",
+      "snippet": "For cats who prefer to nap in enclosed beds and cave-like spaces, the Meowfia Premium Cat Cave is an excellent and relatively affordable option.\nIt’s a nice-looking cave for cats who like to burrow. Some cats just want a dark cave to chill out in.",
       "matchedWords": {
-        "1FebJojWdSNf": {
-          "hits": 0,
-          "textWords": 42393
-        },
         "CDLBIC2o04Ix": {
-          "hits": 4,
-          "textWords": 42393
+          "hits": 45,
+          "textWords": 6323
         },
         "QlmCxSYsNidO": {
-          "hits": 0,
-          "textWords": 42393
-        },
-        "Ux5wpnRdB6i-": {
-          "hits": 0,
-          "textWords": 42393
+          "hits": 1,
+          "textWords": 6323
         },
         "W_BkjJvuSDJ5": {
           "hits": 0,
-          "textWords": 42393
+          "textWords": 6323
         }
       },
       "queryPhraseHits": 0
     },
     {
-      "hash": "btqgslTg2KM4",
-      "address": "https://www.wikihow.com/Experts",
-      "title": "wikiHow Experts",
-      "snippet": "She is the Founder of KittyNook, an online marketplace for cat owners. The company specializes in sourcing high-quality, affordable, products necessary for creating a comfortable home for cats. They sell products such as toys, garments, dishes, scratching posts, beds, and more.",
+      "hash": "K1eqgsfzc7V5",
+      "address": "https://bereanbible.com/bsb_topical_index.xlsx",
+      "title": "",
+      "snippet": "",
       "matchedWords": {
-        "1FebJojWdSNf": {
-          "hits": 0,
-          "textWords": 42393
-        },
         "CDLBIC2o04Ix": {
-          "hits": 4,
-          "textWords": 42393
+          "hits": 0,
+          "textWords": 0
         },
         "QlmCxSYsNidO": {
           "hits": 0,
-          "textWords": 42393
-        },
-        "Ux5wpnRdB6i-": {
-          "hits": 0,
-          "textWords": 42393
+          "textWords": 0
         },
         "W_BkjJvuSDJ5": {
           "hits": 0,
-          "textWords": 42393
+          "textWords": 0
         }
       },
       "queryPhraseHits": 0
     },
     {
-      "hash": "btqgslTg2KM4",
-      "address": "https://www.wikihow.com/Experts",
-      "title": "wikiHow Experts",
-      "snippet": "She is the Founder of KittyNook, an online marketplace for cat owners. The company specializes in sourcing high-quality, affordable, products necessary for creating a comfortable home for cats. They sell products such as toys, garments, dishes, scratching posts, beds, and more.",
+      "hash": "V_h9Ya8EmQaw",
+      "address": "https://gutenberg.net.au/ebooks02/0201091h.html",
+      "title": "The Waves",
+      "snippet": "She was not crying, but her eyes, which are so beautiful, were narrow as cats' eyes before they spring. I shall follow her, Neville. I shall go gently behind her, to be at hand, with my curiosity, to comfort her when she bursts out in a rage and thinks, \"I am alone.\"",
       "matchedWords": {
-        "1FebJojWdSNf": {
-          "hits": 0,
-          "textWords": 42393
-        },
         "CDLBIC2o04Ix": {
-          "hits": 4,
-          "textWords": 42393
+          "hits": 5,
+          "textWords": 73969
         },
         "QlmCxSYsNidO": {
-          "hits": 0,
-          "textWords": 42393
-        },
-        "Ux5wpnRdB6i-": {
-          "hits": 0,
-          "textWords": 42393
+          "hits": 1,
+          "textWords": 73969
         },
         "W_BkjJvuSDJ5": {
-          "hits": 0,
-          "textWords": 42393
+          "hits": 1,
+          "textWords": 73969
         }
       },
       "queryPhraseHits": 0
     },
     {
-      "hash": "btqgslTg2KM4",
-      "address": "https://www.wikihow.com/Experts",
-      "title": "wikiHow Experts",
-      "snippet": "She is the Founder of KittyNook, an online marketplace for cat owners. The company specializes in sourcing high-quality, affordable, products necessary for creating a comfortable home for cats. They sell products such as toys, garments, dishes, scratching posts, beds, and more.",
+      "hash": "pGNDuqXMJRe4",
+      "address": "https://www.nytimes.com/wirecutter/gifts/best-gifts-for-tweens/",
+      "title": "The 37 Best Gifts for Tweens of 2025 | Reviews by Wirecutter",
+      "snippet": "Pet-friendly socks\nPetParty\nThese goofy socks never get old: They can be personalized with the face of your tween’s favorite pet or person.\nPetParty’s Customized Socks are undoubtedly silly. They’re also fun, adorable, and irresistible — especially for the tween who loves animals.",
       "matchedWords": {
-        "1FebJojWdSNf": {
-          "hits": 0,
-          "textWords": 42393
-        },
         "CDLBIC2o04Ix": {
-          "hits": 4,
-          "textWords": 42393
+          "hits": 0,
+          "textWords": 4819
         },
         "QlmCxSYsNidO": {
           "hits": 0,
-          "textWords": 42393
-        },
-        "Ux5wpnRdB6i-": {
-          "hits": 0,
-          "textWords": 42393
+          "textWords": 4819
         },
         "W_BkjJvuSDJ5": {
           "hits": 0,
-          "textWords": 42393
+          "textWords": 4819
         }
       },
       "queryPhraseHits": 0
     },
     {
-      "hash": "btqgslTg2KM4",
-      "address": "https://www.wikihow.com/Experts",
-      "title": "wikiHow Experts",
-      "snippet": "She is the Founder of KittyNook, an online marketplace for cat owners. The company specializes in sourcing high-quality, affordable, products necessary for creating a comfortable home for cats. They sell products such as toys, garments, dishes, scratching posts, beds, and more.",
+      "hash": "3FbkrqXMJRe4",
+      "address": "https://www.nytimes.com/wirecutter/reviews/best-cat-beds/",
+      "title": "The Best Cat Beds (According to Our Cats) for 2025 | Reviews by Wirecutter",
+      "snippet": "For cats who prefer to nap in enclosed beds and cave-like spaces, the Meowfia Premium Cat Cave is an excellent and relatively affordable option.\nIt’s a nice-looking cave for cats who like to burrow. Some cats just want a dark cave to chill out in.",
       "matchedWords": {
-        "1FebJojWdSNf": {
-          "hits": 0,
-          "textWords": 42393
-        },
         "CDLBIC2o04Ix": {
-          "hits": 4,
-          "textWords": 42393
+          "hits": 45,
+          "textWords": 6323
         },
         "QlmCxSYsNidO": {
-          "hits": 0,
-          "textWords": 42393
-        },
-        "Ux5wpnRdB6i-": {
-          "hits": 0,
-          "textWords": 42393
+          "hits": 1,
+          "textWords": 6323
         },
         "W_BkjJvuSDJ5": {
           "hits": 0,
-          "textWords": 42393
+          "textWords": 6323
         }
       },
       "queryPhraseHits": 0
     },
     {
-      "hash": "btqgslTg2KM4",
-      "address": "https://www.wikihow.com/Experts",
-      "title": "wikiHow Experts",
-      "snippet": "She is the Founder of KittyNook, an online marketplace for cat owners. The company specializes in sourcing high-quality, affordable, products necessary for creating a comfortable home for cats. They sell products such as toys, garments, dishes, scratching posts, beds, and more.",
+      "hash": "K1eqgsfzc7V5",
+      "address": "https://bereanbible.com/bsb_topical_index.xlsx",
+      "title": "",
+      "snippet": "",
       "matchedWords": {
-        "1FebJojWdSNf": {
-          "hits": 0,
-          "textWords": 42393
-        },
         "CDLBIC2o04Ix": {
-          "hits": 4,
-          "textWords": 42393
+          "hits": 0,
+          "textWords": 0
         },
         "QlmCxSYsNidO": {
           "hits": 0,
-          "textWords": 42393
-        },
-        "Ux5wpnRdB6i-": {
-          "hits": 0,
-          "textWords": 42393
+          "textWords": 0
         },
         "W_BkjJvuSDJ5": {
           "hits": 0,
-          "textWords": 42393
+          "textWords": 0
         }
       },
       "queryPhraseHits": 0
     },
     {
-      "hash": "btqgslTg2KM4",
-      "address": "https://www.wikihow.com/Experts",
-      "title": "wikiHow Experts",
-      "snippet": "She is the Founder of KittyNook, an online marketplace for cat owners. The company specializes in sourcing high-quality, affordable, products necessary for creating a comfortable home for cats. They sell products such as toys, garments, dishes, scratching posts, beds, and more.",
+      "hash": "V_h9Ya8EmQaw",
+      "address": "https://gutenberg.net.au/ebooks02/0201091h.html",
+      "title": "The Waves",
+      "snippet": "She was not crying, but her eyes, which are so beautiful, were narrow as cats' eyes before they spring. I shall follow her, Neville. I shall go gently behind her, to be at hand, with my curiosity, to comfort her when she bursts out in a rage and thinks, \"I am alone.\"",
       "matchedWords": {
-        "1FebJojWdSNf": {
-          "hits": 0,
-          "textWords": 42393
-        },
         "CDLBIC2o04Ix": {
-          "hits": 4,
-          "textWords": 42393
+          "hits": 5,
+          "textWords": 73969
         },
         "QlmCxSYsNidO": {
-          "hits": 0,
-          "textWords": 42393
-        },
-        "Ux5wpnRdB6i-": {
-          "hits": 0,
-          "textWords": 42393
+          "hits": 1,
+          "textWords": 73969
         },
         "W_BkjJvuSDJ5": {
-          "hits": 0,
-          "textWords": 42393
+          "hits": 1,
+          "textWords": 73969
         }
       },
       "queryPhraseHits": 0
     },
     {
-      "hash": "btqgslTg2KM4",
-      "address": "https://www.wikihow.com/Experts",
-      "title": "wikiHow Experts",
-      "snippet": "She is the Founder of KittyNook, an online marketplace for cat owners. The company specializes in sourcing high-quality, affordable, products necessary for creating a comfortable home for cats. They sell products such as toys, garments, dishes, scratching posts, beds, and more.",
+      "hash": "V_h9Ya8EmQaw",
+      "address": "https://gutenberg.net.au/ebooks02/0201091h.html",
+      "title": "The Waves",
+      "snippet": "She was not crying, but her eyes, which are so beautiful, were narrow as cats' eyes before they spring. I shall follow her, Neville. I shall go gently behind her, to be at hand, with my curiosity, to comfort her when she bursts out in a rage and thinks, \"I am alone.\"",
       "matchedWords": {
-        "1FebJojWdSNf": {
-          "hits": 0,
-          "textWords": 42393
-        },
         "CDLBIC2o04Ix": {
-          "hits": 4,
-          "textWords": 42393
+          "hits": 5,
+          "textWords": 73969
         },
         "QlmCxSYsNidO": {
-          "hits": 0,
-          "textWords": 42393
-        },
-        "Ux5wpnRdB6i-": {
-          "hits": 0,
-          "textWords": 42393
+          "hits": 1,
+          "textWords": 73969
         },
         "W_BkjJvuSDJ5": {
-          "hits": 0,
-          "textWords": 42393
+          "hits": 1,
+          "textWords": 73969
         }
       },
       "queryPhraseHits": 0
     },
     {
-      "hash": "btqgslTg2KM4",
-      "address": "https://www.wikihow.com/Experts",
-      "title": "wikiHow Experts",
-      "snippet": "She is the Founder of KittyNook, an online marketplace for cat owners. The company specializes in sourcing high-quality, affordable, products necessary for creating a comfortable home for cats. They sell products such as toys, garments, dishes, scratching posts, beds, and more.",
+      "hash": "V_h9Ya8EmQaw",
+      "address": "https://gutenberg.net.au/ebooks02/0201091h.html",
+      "title": "The Waves",
+      "snippet": "She was not crying, but her eyes, which are so beautiful, were narrow as cats' eyes before they spring. I shall follow her, Neville. I shall go gently behind her, to be at hand, with my curiosity, to comfort her when she bursts out in a rage and thinks, \"I am alone.\"",
       "matchedWords": {
-        "1FebJojWdSNf": {
-          "hits": 0,
-          "textWords": 42393
-        },
         "CDLBIC2o04Ix": {
-          "hits": 4,
-          "textWords": 42393
+          "hits": 5,
+          "textWords": 73969
         },
         "QlmCxSYsNidO": {
-          "hits": 0,
-          "textWords": 42393
-        },
-        "Ux5wpnRdB6i-": {
-          "hits": 0,
-          "textWords": 42393
+          "hits": 1,
+          "textWords": 73969
         },
         "W_BkjJvuSDJ5": {
-          "hits": 0,
-          "textWords": 42393
+          "hits": 1,
+          "textWords": 73969
         }
       },
       "queryPhraseHits": 0
     }
   ],
   "documentsHeldPerQueryWord": {
-    "1FebJojWdSNf": 1741394,
-    "CDLBIC2o04Ix": 233498,
-    "QlmCxSYsNidO": 8421,
-    "Ux5wpnRdB6i-": 1680768,
-    "W_BkjJvuSDJ5": 24627
+    "CDLBIC2o04Ix": 261728,
+    "QlmCxSYsNidO": 7888,
+    "W_BkjJvuSDJ5": 15742
   }
 }

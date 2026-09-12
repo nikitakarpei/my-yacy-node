@@ -2,28 +2,28 @@
   "query": "programación funcional",
   "judgedDocuments": [
     {
-      "hash": "yPla3l3xyXO7",
-      "address": "https://www.elperiodicoextremadura.com/",
-      "title": "El Periódico Extremadura. Noticias de Hoy Extremadura, Cáceres, Badajoz. - El Periódico Extremadura",
+      "hash": "2K9tEuIq6BFg",
+      "address": "https://proton.me/es-es/blog/whatsapp-alternatives",
+      "title": "Las mejores alternativas a WhatsApp para la privacidad | Proton Mail | Proton",
+      "grade": null
+    },
+    {
+      "hash": "EuI4UlgLAVy7",
+      "address": "https://www.circulobellasartes.com/",
+      "title": "Círculo de Bellas Artes de Madrid. Casa Europa",
+      "grade": null
+    },
+    {
+      "hash": "K97T40Iq6BFg",
+      "address": "https://proton.me/es-419/blog/whatsapp-alternatives",
+      "title": "Las mejores alternativas a WhatsApp para la privacidad | Proton Mail | Proton",
       "grade": 0
     },
     {
-      "hash": "g8feIsiwa444",
-      "address": "https://apps.apple.com/do/iphone/story/id1878691462",
-      "title": "‎Crea herramientas con Claude - App Store",
-      "grade": 0
-    },
-    {
-      "hash": "vZx9GLiwa444",
-      "address": "https://apps.apple.com/hn/iphone/story/id1887119604",
-      "title": "‎Formas rápidas de aprender IA - App Store",
-      "grade": 0
-    },
-    {
-      "hash": "wj21NCSt_F9g",
-      "address": "https://www.abc.es/motor/novedades/",
-      "title": "Novedades en motor - ABC.es",
-      "grade": 0
+      "hash": "2fH6hgJPjR4x",
+      "address": "https://es.wikipedia.org/wiki/Lenguaje_de_programaci%C3%B3n",
+      "title": "Lenguaje de programación - Wikipedia, la enciclopedia libre",
+      "grade": 2
     },
     {
       "hash": "1HFZZcS6MKD4",
@@ -32,9 +32,9 @@
       "grade": 0
     },
     {
-      "hash": "70o3ZZSt_F9g",
-      "address": "https://www.abc.es/noticias/marcas/",
-      "title": "Marcas, últimas noticias - ABC",
+      "hash": "g8feIsiwa444",
+      "address": "https://apps.apple.com/do/iphone/story/id1878691462",
+      "title": "‎Crea herramientas con Claude - App Store",
       "grade": 0
     },
     {
@@ -50,10 +50,16 @@
       "grade": 0
     },
     {
-      "hash": "Q0aY8CjMl7g4",
-      "address": "https://www.elcorreo.com/motor/novedades/",
-      "title": "Novedades del Motor | El Correo",
-      "grade": 0
+      "hash": "WjcgVciwa444",
+      "address": "https://apps.apple.com/mx/iphone/story/id1887119604",
+      "title": "‎Formas rápidas de aprender IA - App Store",
+      "grade": null
+    },
+    {
+      "hash": "0UAR5Miwa444",
+      "address": "https://apps.apple.com/cr/iphone/story/id1878691462",
+      "title": "‎Crea herramientas con Claude - App Store",
+      "grade": null
     },
     {
       "hash": "3yZ5v_qoHJ8x",
@@ -68,15 +74,21 @@
       "grade": 0
     },
     {
-      "hash": "2fH6hgJPjR4x",
-      "address": "https://es.wikipedia.org/wiki/Lenguaje_de_programaci%C3%B3n",
-      "title": "Lenguaje de programación - Wikipedia, la enciclopedia libre",
-      "grade": 2
+      "hash": "l-UJ6fv1st34",
+      "address": "https://www.uptodown.com/android/juegos",
+      "title": "Juegos gratis para Android: descarga los mejores APKs",
+      "grade": null
     },
     {
-      "hash": "41QFvFfvsbp4",
-      "address": "https://villafotoblogg.blogspot.com/",
-      "title": "Villa Fotoblogg",
+      "hash": "PrjhptFNI2Jk",
+      "address": "https://www.regioncajamarca.gob.pe/",
+      "title": "Gobierno Regional Cajamarca",
+      "grade": null
+    },
+    {
+      "hash": "70o3ZZSt_F9g",
+      "address": "https://www.abc.es/noticias/marcas/",
+      "title": "Marcas, últimas noticias - ABC",
       "grade": 0
     },
     {
@@ -86,33 +98,39 @@
       "grade": 0
     },
     {
-      "hash": "hCahosaR8lU4",
-      "address": "https://andros.dev/blog/",
-      "title": "Blog | Andros Fenollosa",
+      "hash": "LGZs0_qoHJ8x",
+      "address": "https://gl.wikipedia.org/wiki/JavaScript",
+      "title": "JavaScript - Wikipedia, a enciclopedia libre",
       "grade": 0
     },
     {
-      "hash": "TNmrGU3So1Rk",
-      "address": "https://www.juridicas.unam.mx/legislacion/ordenamiento/constitucion-politica-de-los-estados-unidos-mexicanos",
-      "title": "Constitución Política de los Estados Unidos Mexicanos - Ordenamiento - Legislación",
+      "hash": "x8iR-_qoHJ8x",
+      "address": "https://gl.wikipedia.org/wiki/Rust_(linguaxe_de_programaci%C3%B3n)",
+      "title": "Rust (linguaxe de programación) - Wikipedia, a enciclopedia libre",
+      "grade": null
+    },
+    {
+      "hash": "hG0NfAZVsyZ4",
+      "address": "https://www.wipo.int/wipolex/en/legislation/details/21459",
+      "title": "Law No. 8039 on Procedures for Enforcement of Intellectual Property Rights, Costa Rica, WIPO Lex",
+      "grade": null
+    },
+    {
+      "hash": "yPla3l3xyXO7",
+      "address": "https://www.elperiodicoextremadura.com/",
+      "title": "El Periódico Extremadura. Noticias de Hoy Extremadura, Cáceres, Badajoz. - El Periódico Extremadura",
       "grade": 0
     },
     {
-      "hash": "yHkVVYVFEEow",
-      "address": "https://guix.gnu.org/es/",
-      "title": "GNU Guix gestor transaccional de paquetes y distribución — GNU Guix",
+      "hash": "wj21NCSt_F9g",
+      "address": "https://www.abc.es/motor/novedades/",
+      "title": "Novedades en motor - ABC.es",
       "grade": 0
     },
     {
-      "hash": "g4mMGv7raSJ4",
-      "address": "https://www.shopify.com/co/website/builder?country=co\u0026lang=es",
-      "title": "Creador de sitios web de ecommerce | Crea una tienda gratis en minutos - Shopify",
-      "grade": 0
-    },
-    {
-      "hash": "EXrNyv_9bPhw",
-      "address": "https://www.derechos.org/nizkor/corru/doc/colcoca4.html",
-      "title": "Equipo Nizkor - UNODC - Colombia: Monitoreo de territorios afectados por cultivos ilícitos 2016.",
+      "hash": "3WSVKznCqoag",
+      "address": "https://www.boe.es/buscar/act.php?id=BOE-A-2013-13645",
+      "title": "BOE-A-2013-13645 Ley 24/2013, de 26 de diciembre, del Sector Eléctrico.",
       "grade": 0
     },
     {
@@ -122,33 +140,15 @@
       "grade": 0
     },
     {
-      "hash": "em42fNg2z915",
-      "address": "https://www.thoughtworks.com/es-es/insights/podcasts",
-      "title": "Thoughtworks Podcasts | Thoughtworks Spain",
-      "grade": 1
-    },
-    {
-      "hash": "K97T40Iq6BFg",
-      "address": "https://proton.me/es-419/blog/whatsapp-alternatives",
-      "title": "Las mejores alternativas a WhatsApp para la privacidad | Proton Mail | Proton",
-      "grade": 0
-    },
-    {
-      "hash": "RuCr7-1-KQh5",
-      "address": "https://www.revistagq.com/articulo/los-mejores-ejercicios-de-agilidad-segun-los-expertos",
-      "title": "Los mejores ejercicios de agilidad, según los expertos | GQ España",
-      "grade": 0
+      "hash": "z_8y20Iq6BFg",
+      "address": "https://proton.me/es-419/blog/what-is-email-address",
+      "title": "¿Qué es una dirección de correo electrónico? Una guía de su identidad digital | Proton",
+      "grade": null
     },
     {
       "hash": "X-os6ljNm-ak",
       "address": "https://www.gob.pe/conadis",
       "title": "Consejo Nacional para la Integración de la Persona con Discapacidad - CONADIS - Plataforma del Estado Peruano",
-      "grade": 0
-    },
-    {
-      "hash": "9wGSm5ETZZex",
-      "address": "https://pdba.georgetown.edu/Constitutions/Honduras/hond82.html",
-      "title": "Honduras: Constitución de 1982",
       "grade": 0
     },
     {
@@ -164,9 +164,9 @@
       "grade": 0
     },
     {
-      "hash": "3-ExJlJB3nQg",
-      "address": "https://www.epe.es/es/",
-      "title": "El Periódico de España | epe.es",
+      "hash": "41QFvFfvsbp4",
+      "address": "https://villafotoblogg.blogspot.com/",
+      "title": "Villa Fotoblogg",
       "grade": 0
     },
     {
@@ -176,10 +176,22 @@
       "grade": 0
     },
     {
-      "hash": "LGZs0_qoHJ8x",
-      "address": "https://gl.wikipedia.org/wiki/JavaScript",
-      "title": "JavaScript - Wikipedia, a enciclopedia libre",
+      "hash": "Q0aY8CjMl7g4",
+      "address": "https://www.elcorreo.com/motor/novedades/",
+      "title": "Novedades del Motor | El Correo",
       "grade": 0
+    },
+    {
+      "hash": "YyqkegJPjR4x",
+      "address": "https://es.wikipedia.org/wiki/JavaScript",
+      "title": "JavaScript - Wikipedia, la enciclopedia libre",
+      "grade": 0
+    },
+    {
+      "hash": "em42fNg2z915",
+      "address": "https://www.thoughtworks.com/es-es/insights/podcasts",
+      "title": "Thoughtworks Podcasts | Thoughtworks Spain",
+      "grade": 1
     },
     {
       "hash": "AE8T94FTAOPg",
@@ -188,9 +200,15 @@
       "grade": 0
     },
     {
-      "hash": "YyqkegJPjR4x",
-      "address": "https://es.wikipedia.org/wiki/JavaScript",
-      "title": "JavaScript - Wikipedia, la enciclopedia libre",
+      "hash": "uVeJGgJPjR4x",
+      "address": "https://es.wikipedia.org/wiki/Java_(lenguaje_de_programaci%C3%B3n)",
+      "title": "Java (lenguaje de programación) - Wikipedia, la enciclopedia libre",
+      "grade": null
+    },
+    {
+      "hash": "9wGSm5ETZZex",
+      "address": "https://pdba.georgetown.edu/Constitutions/Honduras/hond82.html",
+      "title": "Honduras: Constitución de 1982",
       "grade": 0
     },
     {
@@ -204,6 +222,18 @@
       "address": "https://planet.opensuse.org/",
       "title": "Global - openSUSE Planet",
       "grade": 0
+    },
+    {
+      "hash": "F6BougJPjR4x",
+      "address": "https://es.wikipedia.org/wiki/Netflix",
+      "title": "Netflix - Wikipedia, la enciclopedia libre",
+      "grade": null
+    },
+    {
+      "hash": "GC8N1lVcNgA7",
+      "address": "https://www.elperiodicomediterraneo.com/",
+      "title": "El Periódico Mediterráneo. Noticias de Castellón. - El Periódico Mediterráneo",
+      "grade": null
     },
     {
       "hash": "Q9ZGalD5B4Sj",
@@ -230,12 +260,6 @@
       "grade": 0
     },
     {
-      "hash": "0jIrBznCqoag",
-      "address": "https://www.boe.es/buscar/act.php?id=BOE-A-1996-1069",
-      "title": "BOE-A-1996-1069 Ley Orgánica 1/1996, de 15 de enero, de Protección Jurídica del Menor, de modificación parcial del Código Civil y de la Ley de Enjuiciamiento Civil.",
-      "grade": 0
-    },
-    {
       "hash": "-tL_9znCqoag",
       "address": "https://www.boe.es/buscar/act.php?id=BOE-A-2012-8745",
       "title": "BOE-A-2012-8745 Ley 2/2012, de 29 de junio, de Presupuestos Generales del Estado para el año 2012.",
@@ -248,40 +272,22 @@
       "grade": 0
     },
     {
-      "hash": "d7ZMNp7raSJ4",
-      "address": "https://www.shopify.com/cl/website/builder?country=cl\u0026lang=en",
+      "hash": "Ud4Y7a7raSJ4",
+      "address": "https://www.shopify.com/pe/website/builder?country=pe\u0026lang=es",
       "title": "Creador de sitios web de ecommerce | Crea una tienda gratis en minutos - Shopify",
-      "grade": 0
+      "grade": null
     },
     {
-      "hash": "cy0QdlSt_F9g",
-      "address": "https://www.abc.es/salud/",
-      "title": "Canal Salud | Noticias, especialistas médicos, patologías | abc.es - ABC.es",
-      "grade": 0
+      "hash": "Vz_3Jm7raSJ4",
+      "address": "https://www.shopify.com/mx/website/builder",
+      "title": "Creador de sitios web de ecommerce | Crea una tienda gratis en minutos - Shopify",
+      "grade": null
     },
     {
-      "hash": "3WSVKznCqoag",
-      "address": "https://www.boe.es/buscar/act.php?id=BOE-A-2013-13645",
-      "title": "BOE-A-2013-13645 Ley 24/2013, de 26 de diciembre, del Sector Eléctrico.",
-      "grade": 0
-    },
-    {
-      "hash": "TfCmKdFO6r_x",
-      "address": "https://de.wikipedia.org/wiki/Kuba",
-      "title": "Kuba – Wikipedia",
-      "grade": 0
-    },
-    {
-      "hash": "75neNMZeKV3g",
-      "address": "https://www.eldiario.es/autores/nicolas_ribas/",
-      "title": "Nicolás Ribas",
-      "grade": 0
-    },
-    {
-      "hash": "9RVa1T5DCs35",
-      "address": "https://wordpress.com/es/creador-webs-ia/",
-      "title": "Creador de webs con IA | Crea un sitio de WordPress.com en cuestión de minutos",
-      "grade": 0
+      "hash": "Weru7p7raSJ4",
+      "address": "https://www.shopify.com/cl/website/builder",
+      "title": "Creador de sitios web de ecommerce | Crea una tienda gratis en minutos - Shopify",
+      "grade": null
     }
   ]
 }

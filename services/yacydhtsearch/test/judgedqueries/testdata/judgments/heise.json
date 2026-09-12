@@ -2,10 +2,10 @@
   "query": "heise",
   "judgedDocuments": [
     {
-      "hash": "4du6bTZPnOc5",
-      "address": "https://www.eurobasket.com/Germany/basketball.aspx",
-      "title": "Germany Basketball, News, Teams, Scores, Stats, Standings, Awards - eurobasket",
-      "grade": 0
+      "hash": "MKQ2gEDOAHJg",
+      "address": "https://www.heise.de/benachrichtigungen/heise-bot/",
+      "title": "heise-Bot | heise online",
+      "grade": 2
     },
     {
       "hash": "fSquuvDOAHJg",
@@ -20,10 +20,10 @@
       "grade": 1
     },
     {
-      "hash": "50ZNiWAG_SV5",
-      "address": "https://www.metraonline.com/brand/heise",
-      "title": "Heise Universe Lighting Systems Products | Metra Electronic…",
-      "grade": 0
+      "hash": "30Dg9l-4htmx",
+      "address": "https://www.libreoffice.org/privacy-policy/",
+      "title": "Privacy policy — LibreOffice",
+      "grade": null
     },
     {
       "hash": "-o_kwN5ARWyg",
@@ -32,10 +32,10 @@
       "grade": 0
     },
     {
-      "hash": "xH8OUvDOAHJg",
-      "address": "https://www.heise.de/news/NET-User-Groups-Update-Oktober-2010-1099872.html",
-      "title": ".NET User Groups Update, Oktober 2010 | heise online",
-      "grade": 1
+      "hash": "sC0kMlDOAHJg",
+      "address": "https://www.heise.de/en",
+      "title": "heise online – IT news, guides and background information | heise online",
+      "grade": 2
     },
     {
       "hash": "LPqJNvDOAHJg",
@@ -44,10 +44,10 @@
       "grade": 1
     },
     {
-      "hash": "ifdEY05uSLiw",
-      "address": "https://free21.org/samisdat/neues-wettruesten-und-kein-widerstand-warum-es-so-schwer-ist-druck-von-unten-aufzubauen/",
-      "title": "Neues Wettrüsten und kein Widerstand? - Warum es so schwer ist, Druck von unten aufzubauen - Free21",
-      "grade": 0
+      "hash": "gUZM4S5uSLiw",
+      "address": "https://free21.org/wp-content/uploads/2020/11/01-Ensel-Krieg-um-Karabach-DE.pdf",
+      "title": "01-Ensel-Krieg-um-Karabach-DE.pdf",
+      "grade": null
     },
     {
       "hash": "qeMWZvDOAHJg",
@@ -56,9 +56,9 @@
       "grade": 1
     },
     {
-      "hash": "q5B3_vDOAHJg",
-      "address": "https://www.heise.de/news/Open-Data-Frag-den-Staat-gewinnt-gegen-Bundesinnenministerium-2188031.html",
-      "title": "Open Data: \"Frag den Staat“ gewinnt gegen Bundesinnenministerium | heise online",
+      "hash": "bPubtFrrGcCg",
+      "address": "https://preisvergleich.heise.de/",
+      "title": "heise preisvergleich Deutschland",
       "grade": 1
     },
     {
@@ -74,16 +74,22 @@
       "grade": 1
     },
     {
+      "hash": "Fl-YxlDOAHJg",
+      "address": "https://www.heise.de/",
+      "title": "heise online - IT-News, Nachrichten und Hintergründe | heise online",
+      "grade": 2
+    },
+    {
       "hash": "9MkyYFrrGcCg",
       "address": "https://preisvergleich.heise.de/prophete-p487-ersatzakku-a1806469.html?hloc=de",
       "title": "AEG 487 Rahmenakku ab € 349,95 (2026) | heise preisvergleich Deutschland",
       "grade": 1
     },
     {
-      "hash": "-uEfRCDOAHJg",
-      "address": "https://www.heise.de/netze/netzwerk-tools/imonitor-internet-stoerungen/details-der-stoerungsmeldung-t-online--410717/",
-      "title": "iMonitor – Internet-Störungen | heise Netze",
-      "grade": 2
+      "hash": "UbO8ierrGcCg",
+      "address": "https://preisvergleich.heise.de/merchants/pv-republic-10-eb-de",
+      "title": "pv-republic_de Bewertungen \u0026 Erfahrungen - heise preisvergleich Deutschland",
+      "grade": null
     },
     {
       "hash": "gro9fvDOAHJg",
@@ -104,123 +110,15 @@
       "grade": 1
     },
     {
-      "hash": "9ISSbCDOAHJg",
-      "address": "https://www.heise.de/netze/tools/fernwartung",
-      "title": "Fernwartung | heise Netze",
-      "grade": 2
-    },
-    {
-      "hash": "bPubtFrrGcCg",
-      "address": "https://preisvergleich.heise.de/",
-      "title": "heise preisvergleich Deutschland",
-      "grade": 1
-    },
-    {
-      "hash": "6ubVWerrGcCg",
-      "address": "https://preisvergleich.heise.de/merchants/future-x-de-45-eb-de",
-      "title": "future-x_de Bewertungen \u0026 Erfahrungen - heise preisvergleich Deutschland",
-      "grade": 1
-    },
-    {
-      "hash": "GvL_jFrrGcCg",
-      "address": "https://preisvergleich.heise.de/?phist=3917957",
-      "title": "Preisentwicklung für ATK Dragonfly A9 Ultra Max 8KHz Wireless Gaming Maus, schwarz, USB/Bluetooth (90 Tage) heise preisvergleich Deutschland",
-      "grade": 1
-    },
-    {
-      "hash": "65JIOvDOAHJg",
-      "address": "https://www.heise.de/news/Proxmox-VE-8-3-kommt-mit-ueberarbeiteter-Netzwerk-Verwaltung-10173704.html",
-      "title": "Proxmox VE 8.3 kommt mit überarbeiteter Netzwerk-Verwaltung | heise online",
-      "grade": 2
-    },
-    {
-      "hash": "sC0kMlDOAHJg",
-      "address": "https://www.heise.de/en",
-      "title": "heise online – IT news, guides and background information | heise online",
-      "grade": 2
-    },
-    {
-      "hash": "r1_D1errGcCg",
-      "address": "https://preisvergleich.heise.de/merchants/a33djkfh431b9w-am-de",
-      "title": "FIDERRA Bewertungen \u0026 Erfahrungen - heise preisvergleich Deutschland",
-      "grade": 1
-    },
-    {
-      "hash": "jNwyNerrGcCg",
-      "address": "https://preisvergleich.heise.de/merchants/kshtechnik-de",
-      "title": "ksh-technik Bewertungen \u0026 Erfahrungen - heise preisvergleich Deutschland",
-      "grade": 1
-    },
-    {
-      "hash": "MKQ2gEDOAHJg",
-      "address": "https://www.heise.de/benachrichtigungen/heise-bot/",
-      "title": "heise-Bot | heise online",
-      "grade": 2
-    },
-    {
-      "hash": "mhfr-lDOAHJg",
-      "address": "https://www.heise.de/developer/kontakt/",
-      "title": "Kontaktformular | heise online",
-      "grade": 2
+      "hash": "9zP6RNDOAHJg",
+      "address": "https://www.heise.de/thema/Journal",
+      "title": "Journal: News, Ratgeber und Tipps | heise online",
+      "grade": null
     },
     {
       "hash": "56C3uerrGcCg",
       "address": "https://preisvergleich.heise.de/merchants/akku-onlinehandel-2914-eb-de",
       "title": "akku-onlinehandel Bewertungen \u0026 Erfahrungen - heise preisvergleich Deutschland",
-      "grade": 1
-    },
-    {
-      "hash": "Fl-YxlDOAHJg",
-      "address": "https://www.heise.de/",
-      "title": "heise online - IT-News, Nachrichten und Hintergründe | heise online",
-      "grade": 2
-    },
-    {
-      "hash": "9D3TzFrrGcCg",
-      "address": "https://preisvergleich.heise.de/?phist=3919797",
-      "title": "Preisentwicklung für eufy Wired Cam C31 Solo, grün (T817L461) (90 Tage) heise preisvergleich Deutschland",
-      "grade": 1
-    },
-    {
-      "hash": "l9OPverrGcCg",
-      "address": "https://preisvergleich.heise.de/merchants/ms-electronics-net-44-eb-de",
-      "title": "ms-electronics net Bewertungen \u0026 Erfahrungen - heise preisvergleich Deutschland",
-      "grade": 1
-    },
-    {
-      "hash": "K6y74vDOAHJg",
-      "address": "https://www.heise.de/news/Massiver-Datendiebstahl-in-Litauen-11309035.html",
-      "title": "Massiver Datendiebstahl in Litauen | heise online",
-      "grade": 2
-    },
-    {
-      "hash": "Lb0lrFrrGcCg",
-      "address": "https://preisvergleich.heise.de/hikvision-ds-7616ni-k2-a1910434.html?hloc=de",
-      "title": "Hikvision DS-7616NI-K2 16-Kanal, Netzwerk-Videorecorder ab € 253,60 (2026) | heise preisvergleich Deutschland",
-      "grade": 1
-    },
-    {
-      "hash": "DAq1DvDOAHJg",
-      "address": "https://www.heise.de/news/NET-User-Groups-Update-Juli-2011-1272244.html",
-      "title": ".NET User Groups Update, Juli 2011 | heise online",
-      "grade": 2
-    },
-    {
-      "hash": "8VYvf7DOAHJg",
-      "address": "https://www.heise.de/mac-and-i/kontakt/",
-      "title": "Kontaktformular | heise online",
-      "grade": 2
-    },
-    {
-      "hash": "R8DHxInk4jwg",
-      "address": "https://compaliate.heise.de/",
-      "title": "heise compaliate - Die Affiliate Plattform für Publisher",
-      "grade": 1
-    },
-    {
-      "hash": "sz4qlChhB9pg",
-      "address": "https://shop.heise.de/zeitschriften-abo/",
-      "title": "ABO | heise shop",
       "grade": 1
     },
     {
@@ -236,21 +134,87 @@
       "grade": 1
     },
     {
-      "hash": "7VU1wvDOAHJg",
-      "address": "https://www.heise.de/news/MDR-warnt-vor-gefaelschten-Videos-und-Desinformationskampagne-11414625.html?wt_mc=rss.red.ho.ho.rdf.beitrag.beitrag",
-      "title": "MDR wird Ziel russischer Desinformationskampagne | heise online",
+      "hash": "65JIOvDOAHJg",
+      "address": "https://www.heise.de/news/Proxmox-VE-8-3-kommt-mit-ueberarbeiteter-Netzwerk-Verwaltung-10173704.html",
+      "title": "Proxmox VE 8.3 kommt mit überarbeiteter Netzwerk-Verwaltung | heise online",
       "grade": 2
     },
     {
-      "hash": "cIkbSlDOAHJg",
-      "address": "https://www.heise.de/newsletter/",
-      "title": "Newsletter-Übersicht | heise online",
+      "hash": "MeA2UvDOAHJg",
+      "address": "https://www.heise.de/news/Microsoft-Alternativen-Open-Source-Software-aus-Europa-c-t-uplink-11449625.html?wt_mc=rss.red.ho.ho.rdf.beitrag.beitrag",
+      "title": "Microsoft-Alternativen: Open-Source-Software aus Europa | c’t uplink | heise online",
+      "grade": null
+    },
+    {
+      "hash": "jNwyNerrGcCg",
+      "address": "https://preisvergleich.heise.de/merchants/kshtechnik-de",
+      "title": "ksh-technik Bewertungen \u0026 Erfahrungen - heise preisvergleich Deutschland",
+      "grade": 1
+    },
+    {
+      "hash": "SmPLuNDOAHJg",
+      "address": "https://www.heise.de/thema/Wirtschaft",
+      "title": "Wirtschaft: News, Ratgeber und Tipps | heise online",
+      "grade": null
+    },
+    {
+      "hash": "KBQ_merrGcCg",
+      "address": "https://preisvergleich.heise.de/merchants/a1js66nmust3yf-am-de",
+      "title": "DigitSells Bewertungen \u0026 Erfahrungen - heise preisvergleich Deutschland",
+      "grade": null
+    },
+    {
+      "hash": "mhfr-lDOAHJg",
+      "address": "https://www.heise.de/developer/kontakt/",
+      "title": "Kontaktformular | heise online",
       "grade": 2
     },
     {
-      "hash": "LomHECDOAHJg",
-      "address": "https://www.heise.de/netze/tools/ping/",
-      "title": "Ping | heise Netze",
+      "hash": "FWcFzNwxwI-g",
+      "address": "https://mediadaten.heise.de/en/",
+      "title": "heise - Heise Medienportal",
+      "grade": null
+    },
+    {
+      "hash": "68WStvDOAHJg",
+      "address": "https://www.heise.de/news/Schnelles-Ethernet-c-t-uplink-9706879.html",
+      "title": "Schnelles Ethernet | c’t uplink | heise online",
+      "grade": null
+    },
+    {
+      "hash": "9D3TzFrrGcCg",
+      "address": "https://preisvergleich.heise.de/?phist=3919797",
+      "title": "Preisentwicklung für eufy Wired Cam C31 Solo, grün (T817L461) (90 Tage) heise preisvergleich Deutschland",
+      "grade": 1
+    },
+    {
+      "hash": "sz4qlChhB9pg",
+      "address": "https://shop.heise.de/zeitschriften-abo/",
+      "title": "heise Abo-Übersicht: Magazine \u0026 heise+ | heise | heise shop",
+      "grade": 1
+    },
+    {
+      "hash": "W90-DFrrGcCg",
+      "address": "https://preisvergleich.heise.de/axa-imenso-l-rahmenschloss-586400560x05sc-a3160305.html?hloc=de",
+      "title": "AXA Imenso L Rahmenschloss, Schlüssel schwarz (586400560X05SC) ab € 43,49 (2026) | heise preisvergleich Deutschland",
+      "grade": null
+    },
+    {
+      "hash": "K6y74vDOAHJg",
+      "address": "https://www.heise.de/news/Massiver-Datendiebstahl-in-Litauen-11309035.html",
+      "title": "Massiver Datendiebstahl in Litauen | heise online",
+      "grade": 2
+    },
+    {
+      "hash": "R8DHxInk4jwg",
+      "address": "https://compaliate.heise.de/",
+      "title": "heise compaliate - Die Affiliate Plattform für Publisher",
+      "grade": 1
+    },
+    {
+      "hash": "DAq1DvDOAHJg",
+      "address": "https://www.heise.de/news/NET-User-Groups-Update-Juli-2011-1272244.html",
+      "title": ".NET User Groups Update, Juli 2011 | heise online",
       "grade": 2
     },
     {
@@ -260,16 +224,58 @@
       "grade": 2
     },
     {
+      "hash": "6ubVWerrGcCg",
+      "address": "https://preisvergleich.heise.de/merchants/future-x-de-45-eb-de",
+      "title": "future-x_de Bewertungen \u0026 Erfahrungen - heise preisvergleich Deutschland",
+      "grade": 1
+    },
+    {
+      "hash": "YqI3NFrrGcCg",
+      "address": "https://preisvergleich.heise.de/?phist=2884322",
+      "title": "Preisentwicklung für Shelly Pro 3EM, DIN-Schienen-Stromverbrauchsmessgerät, 3-Phasen, 120A, Strommesssensor (213530) (90 Tage) heise preisvergleich Deutschland",
+      "grade": null
+    },
+    {
+      "hash": "7VU1wvDOAHJg",
+      "address": "https://www.heise.de/news/MDR-warnt-vor-gefaelschten-Videos-und-Desinformationskampagne-11414625.html?wt_mc=rss.red.ho.ho.rdf.beitrag.beitrag",
+      "title": "MDR wird Ziel russischer Desinformationskampagne | heise online",
+      "grade": 2
+    },
+    {
+      "hash": "ldSuNvDOAHJg",
+      "address": "https://www.heise.de/news/Microsoft-Alternativen-Open-Source-Software-aus-Europa-c-t-uplink-11449625.html?wt_mc=rss.red.ho.ho.atom.beitrag.beitrag",
+      "title": "Microsoft-Alternativen: Open-Source-Software aus Europa | c’t uplink | heise online",
+      "grade": null
+    },
+    {
+      "hash": "0tzohlDOAHJg",
+      "address": "https://www.heise.de/spiele",
+      "title": "Spiele | heise online",
+      "grade": null
+    },
+    {
+      "hash": "LomHECDOAHJg",
+      "address": "https://www.heise.de/netze/tools/ping/",
+      "title": "Ping | heise Netze",
+      "grade": 2
+    },
+    {
+      "hash": "prD7VFrrGcCg",
+      "address": "https://preisvergleich.heise.de/hikvision-ds-7616ni-i2-16-kanal-a2874910.html?hloc=de",
+      "title": "Hikvision DS-7616NI-I2 16-Kanal, Netzwerk-Videorecorder ab € 618,99 (2026) | heise preisvergleich Deutschland",
+      "grade": null
+    },
+    {
       "hash": "xymdFJDOAHJg",
       "address": "https://www.heise.de/ratgeber/Stromleitungen-und-Rohre-finden-mit-Waermebildkameras-10460890.html?seite=all",
       "title": "Stromleitungen und Rohre finden mit Wärmebildkameras | heise online",
       "grade": 2
     },
     {
-      "hash": "X6GAZvDOAHJg",
-      "address": "https://www.heise.de/news/NET-User-Groups-Update-Juni-2011-1252882.html",
-      "title": ".NET User Groups Update, Juni 2011 | heise online",
-      "grade": 2
+      "hash": "xH8OUvDOAHJg",
+      "address": "https://www.heise.de/news/NET-User-Groups-Update-Oktober-2010-1099872.html",
+      "title": ".NET User Groups Update, Oktober 2010 | heise online",
+      "grade": 1
     },
     {
       "hash": "hEJ9KvDOAHJg",
@@ -278,28 +284,10 @@
       "grade": 2
     },
     {
-      "hash": "cc3rvNDOAHJg",
-      "address": "https://www.heise.de/thema/Wissenschaft",
-      "title": "Wissenschaft: News, Ratgeber und Tipps | heise online",
-      "grade": 2
-    },
-    {
-      "hash": "4LQDBFrrGcCg",
-      "address": "https://preisvergleich.heise.de/?phist=3211533",
-      "title": "Preisentwicklung für Bosch Kiox 500 BHU3700 (13100004) (90 Tage) heise preisvergleich Deutschland",
-      "grade": 1
-    },
-    {
-      "hash": "_gxeKvDOAHJg",
-      "address": "https://www.heise.de/news/software-architektur-tv-Leadership-And-Psychological-Safety-mit-Gitte-Klitgaard-11447160.html",
-      "title": "software-architektur.tv: Leadership And Psychological Safety mit Gitte Klitgaard | heise online",
-      "grade": 1
-    },
-    {
-      "hash": "AM_wDvDOAHJg",
-      "address": "https://www.heise.de/news/Apple-vs-FBI-Die-Crypto-Wars-3-0-erreichen-die-USA-3117055.html?view=mail",
-      "title": "Apple vs. FBI: Die Crypto Wars 3.0 erreichen die USA | heise online",
-      "grade": 1
+      "hash": "TfHCJvDOAHJg",
+      "address": "https://www.heise.de/news/Microsoft-Alternativen-Open-Source-Software-aus-Europa-c-t-uplink-11449625.html?wt_mc=rss.red.ho.beitrag.atom.beitrag.beitrag",
+      "title": "Microsoft-Alternativen: Open-Source-Software aus Europa | c’t uplink | heise online",
+      "grade": null
     },
     {
       "hash": "IMRbOCDOAHJg",
@@ -312,6 +300,18 @@
       "address": "https://business-services.heise.de/",
       "title": "Heise Business Services | heise",
       "grade": 1
+    },
+    {
+      "hash": "ihD0elY1KsNj",
+      "address": "https://www.heise-regioconcept.de/",
+      "title": "heise regioconcept: Regionales Marketing, das wirkt!",
+      "grade": null
+    },
+    {
+      "hash": "VWVH19D69aig",
+      "address": "https://peertube.heise.de/",
+      "title": "Videos von heise online",
+      "grade": null
     },
     {
       "hash": "EUwmPsU0aeEi",

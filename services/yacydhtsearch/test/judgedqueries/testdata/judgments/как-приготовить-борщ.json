@@ -1,4 +1,245 @@
 {
   "query": "как приготовить борщ",
-  "judgedDocuments": []
+  "judgedDocuments": [
+    {
+      "hash": "HsONBsJc2VSg",
+      "address": "https://rutube.ru/feeds/eda/",
+      "title": "Пошаговые видеорецепты, кулинарные шоу на RUTUBE",
+      "grade": null
+    },
+    {
+      "hash": "jAyM9NasQuzw",
+      "address": "https://www.unian.net/editor/kristina-kashchavceva",
+      "title": "Кристина Кащавцева - все статьи автора для личной колонки | Мнения на УНИАН",
+      "grade": null
+    },
+    {
+      "hash": "Ca6bAtasQuzw",
+      "address": "https://www.unian.net/recipes/first-courses/dishes-meat",
+      "title": "Блюда с мясом - УНИАН",
+      "grade": null
+    },
+    {
+      "hash": "q90cYfyOugtg",
+      "address": "https://ok.ru/search/content",
+      "title": "Find interesting content on OK",
+      "grade": null
+    },
+    {
+      "hash": "0GIaYEQ--6xg",
+      "address": "https://smak.telegraf.com.ua/recipe/conservatsia/vialenie",
+      "title": "Вяление - рецепты, советы и пошаговые инструкции приготовления | Smak Telegraf",
+      "grade": null
+    },
+    {
+      "hash": "XlU0yjFVupxg",
+      "address": "https://59.ru/text/food/",
+      "title": "Кулинарные новости Перми за сегодня | 59.ру",
+      "grade": null
+    },
+    {
+      "hash": "EiqkJKSPfWlh",
+      "address": "https://www.gastronom.ru/group/gruzinskaya-kuhnya-2470",
+      "title": "Грузинская кухня: 493 рецепта с фото и видео на Гастроном.ру",
+      "grade": null
+    },
+    {
+      "hash": "UFbl-s4bA3Ug",
+      "address": "https://ria.ru/recipe/",
+      "title": "Лучшие летние рецепты 2025: свежие идеи для пикников, барбекю и семейных ужинов - РИА Новости",
+      "grade": null
+    },
+    {
+      "hash": "e8xdhKSPfWlh",
+      "address": "https://www.gastronom.ru/group/pasta-1330",
+      "title": "Паста - рецепт: 1238 рецептов с фото и видео на Гастроном.ру",
+      "grade": null
+    },
+    {
+      "hash": "BvKuYKSPfWlh",
+      "address": "https://www.gastronom.ru/group/kitajskaya-kuhnya-1809",
+      "title": "Китайская кухня: 323 рецепта с фото и видео на Гастроном.ру",
+      "grade": null
+    },
+    {
+      "hash": "1i0adjA2CL_g",
+      "address": "https://76.ru/text/food/",
+      "title": "Кулинарные новости Ярославля за сегодня | 76.ру",
+      "grade": null
+    },
+    {
+      "hash": "dkBR7dhobwkg",
+      "address": "https://eda.rambler.ru/",
+      "title": "«Еда» – рецепты, видеоуроки и кулинарные блоги - Рамблер/еда",
+      "grade": null
+    },
+    {
+      "hash": "QCsuBaasQuzw",
+      "address": "https://www.unian.net/tag/pensioneryi",
+      "title": "Пенсионеры - все последние новости по теме пенсионеры читайте на УНИАН",
+      "grade": null
+    },
+    {
+      "hash": "bM0CXU6ZxNqg",
+      "address": "https://seojazz.ru/blog/kak-rabotajut-povedencheskie-faktory/",
+      "title": "Как работают поведенческие факторы: влияние на SEO и позиции в поиске",
+      "grade": null
+    },
+    {
+      "hash": "91XA96FSIEAy",
+      "address": "https://korrespondent.net/lifestyle/fooddrinks/",
+      "title": "Еда и напитки - кулинарные рецепты, фестивали еды, питание и рестораны | Lifestyle\u0026Fashion | Korrespondent.net",
+      "grade": null
+    },
+    {
+      "hash": "-08icERpef8h",
+      "address": "https://www.liveinternet.ru/users/5840010/rubric/7009037/",
+      "title": "*УНИВЕРСАЛЬНЫЕ ПРИПРАВЫ ИЗ СУШЕНЫХ ОВОЩЕЙ*** | Записи в рубрике *УНИВЕРСАЛЬНЫЕ ПРИПРАВЫ ИЗ СУШЕНЫХ ОВОЩЕЙ*** | Вся жизнь- это танец,который танцует Душа : LiveInternet - Российский Сервис Онлайн-Дневников",
+      "grade": null
+    },
+    {
+      "hash": "FUsbEKSPfWlh",
+      "address": "https://www.gastronom.ru/group/syrniki-1248",
+      "title": "Рецепты сырников: 149 рецептов с фото и видео на Гастроном.ру",
+      "grade": null
+    },
+    {
+      "hash": "IODn_KSPfWlh",
+      "address": "https://www.gastronom.ru/group/recepty-plova-1483",
+      "title": "Рецепты плова: 172 рецепта с фото и видео на Гастроном.ру",
+      "grade": null
+    },
+    {
+      "hash": "J-KVNKSPfWlh",
+      "address": "https://www.gastronom.ru/group/karbonara-1579",
+      "title": "Паста Карбонара: 30 рецептов с фото и видео на Гастроном.ру",
+      "grade": null
+    },
+    {
+      "hash": "PPCELKSPfWlh",
+      "address": "https://www.gastronom.ru/group/postnaya-vypechka-2821",
+      "title": "Постная выпечка: 363 рецепта с фото и видео на Гастроном.ру",
+      "grade": null
+    },
+    {
+      "hash": "Q6SmGKSPfWlh",
+      "address": "https://www.gastronom.ru/group/mannaya-kasha-1646",
+      "title": "Манная каша: 38 рецептов с фото и видео на Гастроном.ру",
+      "grade": null
+    },
+    {
+      "hash": "Sbz7kKSPfWlh",
+      "address": "https://www.gastronom.ru/group/uzbekskaya-kuhnya-2820",
+      "title": "Узбекская кухня: 213 рецептов с фото и видео на Гастроном.ру",
+      "grade": null
+    },
+    {
+      "hash": "WsDEyKSPfWlh",
+      "address": "https://www.gastronom.ru/group/gorohovyj-sup-2635",
+      "title": "Гороховый суп: 69 рецептов с фото и видео на Гастроном.ру",
+      "grade": null
+    },
+    {
+      "hash": "YQS3MKSPfWlh",
+      "address": "https://www.gastronom.ru/group/postnye-recepty-zakuski-1287",
+      "title": "Постные закуски: 125 рецептов с фото и видео на Гастроном.ру",
+      "grade": null
+    },
+    {
+      "hash": "Zq7gVKSPfWlh",
+      "address": "https://www.gastronom.ru/group/borsh-1054",
+      "title": "Рецепты борща: 132 рецепта с фото и видео на Гастроном.ру",
+      "grade": null
+    },
+    {
+      "hash": "Z6b8gKSPfWlh",
+      "address": "https://www.gastronom.ru/group/risovaya-kasha-1649",
+      "title": "Рисовая каша: 59 рецептов с фото и видео на Гастроном.ру",
+      "grade": null
+    },
+    {
+      "hash": "aVciDKSPfWlh",
+      "address": "https://www.gastronom.ru/group/morsy-1051",
+      "title": "Морсы: 32 рецепта с фото и видео на Гастроном.ру",
+      "grade": null
+    },
+    {
+      "hash": "akkfTKSPfWlh",
+      "address": "https://www.gastronom.ru/group/kashi-1645",
+      "title": "Каши: 466 рецептов с фото и видео на Гастроном.ру",
+      "grade": null
+    },
+    {
+      "hash": "c1yQjKSPfWlh",
+      "address": "https://www.gastronom.ru/group/golubika-recepty-3336",
+      "title": "Голубика: рецепты: 84 рецепта с фото и видео на Гастроном.ру",
+      "grade": null
+    },
+    {
+      "hash": "dKnKClSPfWlh",
+      "address": "https://www.gastronom.ru/product",
+      "title": "Энциклопедия продуктов и напитков на Gastronom.ru",
+      "grade": null
+    },
+    {
+      "hash": "d0tdMKSPfWlh",
+      "address": "https://www.gastronom.ru/group/recepty-s-gribami-1590",
+      "title": "Рецепты с грибами: 2390 рецептов с фото и видео на Гастроном.ру",
+      "grade": null
+    },
+    {
+      "hash": "eo6WFKSPfWlh",
+      "address": "https://www.gastronom.ru/group/vtorye-blyuda-3211",
+      "title": "Вторые блюда: 14776 рецептов с фото и видео на Гастроном.ру",
+      "grade": null
+    },
+    {
+      "hash": "xT5QEKSPfWlh",
+      "address": "https://www.gastronom.ru/group/blyuda-iz-tykvy-1950",
+      "title": "Блюда из тыквы: 1018 рецептов с фото и видео на Гастроном.ру",
+      "grade": null
+    },
+    {
+      "hash": "00tFnKSPfWlh",
+      "address": "https://www.gastronom.ru/group/pasta-pod-sousom-boloneze-2008",
+      "title": "Паста под соусом болоньезе: 38 рецептов с фото и видео на Гастроном.ру",
+      "grade": null
+    },
+    {
+      "hash": "4k0UxKSPfWlh",
+      "address": "https://www.gastronom.ru/group/postnye-salaty-1413",
+      "title": "Постные салаты: 504 рецепта с фото и видео на Гастроном.ру",
+      "grade": null
+    },
+    {
+      "hash": "8p0UnKSPfWlh",
+      "address": "https://www.gastronom.ru/group/recepty-domashnego-hleba-1021",
+      "title": "Рецепты домашнего хлеба: 430 рецептов с фото и видео на Гастроном.ру",
+      "grade": null
+    },
+    {
+      "hash": "9pbaslSPfWlh",
+      "address": "https://www.gastronom.ru/poleznye-sovety-274",
+      "title": "Полезные советы — рубрика на Gastronom.ru",
+      "grade": null
+    },
+    {
+      "hash": "9rAn1KSPfWlh",
+      "address": "https://www.gastronom.ru/group/koktejli-1092",
+      "title": "Рецепты коктейлей: 497 рецептов с фото и видео на Гастроном.ру",
+      "grade": null
+    },
+    {
+      "hash": "99CnCKSPfWlh",
+      "address": "https://www.gastronom.ru/group/zakuski-2067",
+      "title": "Закуски: 7103 рецепта с фото и видео на Гастроном.ру",
+      "grade": null
+    },
+    {
+      "hash": "-cLTklSPfWlh",
+      "address": "https://www.gastronom.ru/vse-o-napitkah-363",
+      "title": "Все о напитках — рубрика на Gastronom.ru",
+      "grade": null
+    }
+  ]
 }

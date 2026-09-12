@@ -2,28 +2,16 @@
   "query": "climate change",
   "judgedDocuments": [
     {
-      "hash": "kE_iGywwXb8x",
-      "address": "https://esd.copernicus.org/articles/15/41/2024/",
-      "title": "ESD - Climate tipping point interactions and cascades: a review",
+      "hash": "AX4MssOLCOH6",
+      "address": "https://wattsupwiththat.com/climate-sensitivity/",
+      "title": "Climate Sensitivity - Watts Up With That?",
       "grade": 1
     },
     {
-      "hash": "RU0iR21734Gg",
-      "address": "https://cordis.europa.eu/en",
-      "title": "CORDIS | European Commission",
-      "grade": 0
-    },
-    {
-      "hash": "5CGlk2lbxFxx",
-      "address": "https://www.navigation.org/grants/climate-change",
-      "title": "Climate Change | The Navigation Fund",
-      "grade": 1
-    },
-    {
-      "hash": "UPulwzbISfC5",
-      "address": "https://www.teenvogue.com/story/hurricane-helene-is-tied-to-climate-change-powerful-dont-care",
-      "title": "Young People Know Hurricane Helene Is Tied to Climate Change. The Powerful Don't Care. | Teen Vogue",
-      "grade": 1
+      "hash": "O7hcoa-i-k-g",
+      "address": "https://www.lse.ac.uk/lse-player/the-hidden-health-crisis-behind-climate-change-lse-future-proof",
+      "title": "The hidden health crisis behind climate change | LSE Future Proof - LSE",
+      "grade": null
     },
     {
       "hash": "Glu_e5GPlOdg",
@@ -32,88 +20,106 @@
       "grade": 2
     },
     {
-      "hash": "7woeyA7dmKb4",
-      "address": "https://heatmap.news/politics/climate-change-voting-elections",
-      "title": "Are Pollsters Getting Climate Change Wrong? - Heatmap News",
+      "hash": "QU4s6s_wyst4",
+      "address": "https://observer.com/climate-change/",
+      "title": "Climate Change | Observer",
       "grade": 1
     },
     {
-      "hash": "Vue0tWt3OzH5",
-      "address": "https://depositsmag.com/tag/climate-change/",
-      "title": "climate change – DEPOSITS MAGAZINE",
-      "grade": 0
+      "hash": "9HMVmM4K80a7",
+      "address": "https://www.scsglobalservices.com/services/gscc-steel-climate-standard-verification",
+      "title": "GSCC Steel Climate Standard Verification | Low-Carbon Steel Certification",
+      "grade": null
     },
     {
-      "hash": "AX4MssOLCOH6",
-      "address": "https://wattsupwiththat.com/climate-sensitivity/",
-      "title": "Climate Sensitivity - Watts Up With That?",
-      "grade": 1
+      "hash": "sN6G-TsNfpdx",
+      "address": "https://hess.copernicus.org/articles/28/479/2024/",
+      "title": "HESS - On the need for physical constraints in deep learning rainfall–runoff projections under climate change: a sensitivity analysis to warming and shifts in potential",
+      "grade": null
     },
     {
-      "hash": "Q8CplQZchFfZ",
-      "address": "http://www.greenteethmm.com/benefits-homeless.shtml",
-      "title": "fever-child-children-health-drugs-medicine-daily-stirrer-short",
-      "grade": 0
+      "hash": "Tt036l7raSJ4",
+      "address": "https://www.shopify.com/climate",
+      "title": "Better commerce for a better planet | Shopify Climate - Shopify",
+      "grade": null
     },
     {
-      "hash": "97eIXjNcDvjw",
-      "address": "https://journals.plos.org/climate/s/editors-in-chief",
-      "title": "PLOS Climate",
-      "grade": 1
+      "hash": "XQaSe4PaTzPg",
+      "address": "https://reutersinstitute.politics.ox.ac.uk/members-oxford-climate-journalism-network",
+      "title": "Members of the Oxford Climate Journalism Network | Reuters Institute for the Study of Journalism",
+      "grade": null
     },
     {
-      "hash": "gerVcoWMDgLg",
-      "address": "https://climate.ec.europa.eu/news-other-reads/stories/breathing-life-fight-against-climate-change_en",
-      "title": "Breathing LIFE into the fight against climate change - Climate Action",
+      "hash": "3p6FVsdRGpoz",
+      "address": "https://global-change-data-lab.org/",
+      "title": "Global Change Data Lab",
+      "grade": null
+    },
+    {
+      "hash": "rMew3XPMwjH4",
+      "address": "https://docs.aws.amazon.com/solutions/physical-climate-risk-assessment-on-aws/",
+      "title": "Guidance for Physical Climate Risk Assessment on AWS",
+      "grade": null
+    },
+    {
+      "hash": "xZzmyl6ahC7x",
+      "address": "https://www.greenfacts.org/en/climate-change-ar4/index.htm",
+      "title": "Climate Change 2007 Update",
+      "grade": null
+    },
+    {
+      "hash": "3FLG2lOU0lyw",
+      "address": "https://www.aap.org/en/news-room/aap-voices/time-to-step-up-efforts-to-protect-children-from-climate-change/",
+      "title": "Time to Step Up Efforts to Protect Children from Climate Change",
+      "grade": null
+    },
+    {
+      "hash": "9EBqbv0sjhTw",
+      "address": "https://spectrum.ieee.org/collections/climate-change/",
+      "title": "Climate Change: Advances in Renewables, Carbon Capture, and Climate Tech - IEEE Spectrum",
+      "grade": null
+    },
+    {
+      "hash": "7_kXsB1ePOZ4",
+      "address": "https://testbook.com/ias-preparation/climate-change-in-india-upsc-notes",
+      "title": "Climate Change in India: Causes, Impacts \u0026 Mitigation Efforts - UPSC Notes",
+      "grade": null
+    },
+    {
+      "hash": "MAG-fMYA3hZg",
+      "address": "https://weather.metoffice.gov.uk/climate-change/what-is-climate-change",
+      "title": "What is climate change? - Met Office",
       "grade": 2
     },
     {
-      "hash": "rnFX1Om6J2ag",
-      "address": "https://www.ceh.ac.uk/our-science/case-studies/mitigating-impacts-climate-change-west-africa",
-      "title": "Mitigating the impacts of climate change in West Africa | UK Centre for Ecology \u0026 Hydrology",
+      "hash": "3IJcQ_eTuRfa",
+      "address": "http://patriotrising.com/2014/10/30/fed-backed-study-brainwash-public-fearing-climate-change-like-ebola/",
+      "title": "Fed-Backed Study: How to Brainwash Public into Fearing “Climate Change” Like Ebola - Patriot Rising",
+      "grade": null
+    },
+    {
+      "hash": "7ViRtlUtidhw",
+      "address": "https://www.iso.org/climate-change",
+      "title": "ISO - Climate change: What it is, how it works and why it’s important",
+      "grade": null
+    },
+    {
+      "hash": "n3H-3jRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Copernicus_Climate_Change_Service",
+      "title": "Copernicus Climate Change Service - Wikipedia",
       "grade": 2
     },
     {
-      "hash": "08sPHW6yRgl4",
-      "address": "https://lenbilen.com/tag/climate-change/",
-      "title": "Climate change – Len Bilén's blog, a blog about faith, politics and the environment.",
-      "grade": 2
+      "hash": "BIx4Xl1gxBTw",
+      "address": "https://www.isdb.org/climate-change",
+      "title": "Climate Change | IsDB",
+      "grade": null
     },
     {
-      "hash": "dNQQ1kHNiQx4",
-      "address": "https://www.gov.scot/policies/climate-change/climate-change-adaptation/",
-      "title": "Adaptation to climate change - Climate change - gov.scot",
-      "grade": 2
-    },
-    {
-      "hash": "UToSHQZchFfZ",
-      "address": "http://www.greenteethmm.com/climate_change.shtml",
-      "title": "climate_change",
-      "grade": 0
-    },
-    {
-      "hash": "Ag6uwpTuQ5Yw",
-      "address": "https://www.eli.org/events/monthly-climate-change-briefing-september-2026",
-      "title": "Monthly Climate Change Briefing: September 2026 | Environmental Law Institute",
-      "grade": 1
-    },
-    {
-      "hash": "1cuEci-i-k-g",
-      "address": "https://www.lse.ac.uk/granthaminstitute/news/evolving-regulation-of-companies-in-climate-change-framework-laws/",
-      "title": "Evolving regulation of companies in climate change framework laws - Grantham Research Institute on climate change and the environment",
-      "grade": 2
-    },
-    {
-      "hash": "P5SwwlWMDgLg",
-      "address": "https://climate.ec.europa.eu/climate-change-explained/consequences-climate-change_en",
-      "title": "Consequences of climate change - Climate Action - European Commission",
-      "grade": 2
-    },
-    {
-      "hash": "2XZri_J0Hy7x",
-      "address": "https://climate-laws.org/document/climate-change-act-2021_8bf7?c=Legislation\u0026l=fiji",
-      "title": "Climate Change Act 2021 - Climate Change Laws of the World",
-      "grade": 2
+      "hash": "E1D1-1xRtSGg",
+      "address": "https://www.eea.europa.eu/en/topics/in-depth/climate-change-impacts-risks-and-adaptation/",
+      "title": "Climate change impacts, risks and adaptation | In-depth topics | European Environment Agency (EEA)",
+      "grade": null
     },
     {
       "hash": "Ql4fFMYA3hZg",
@@ -122,16 +128,34 @@
       "grade": 2
     },
     {
-      "hash": "6O2K6lZ3sqdg",
-      "address": "https://www.rivm.nl/en/climate-change-and-health",
-      "title": "Climate change and Health | RIVM",
+      "hash": "aH3mPeMcq6Ew",
+      "address": "https://web.archive.org/web/20230327180057/https:/www.greenmatters.com/t/climate-change",
+      "title": "What Is Climate Change?",
+      "grade": null
+    },
+    {
+      "hash": "_JgQMl5x6Rzh",
+      "address": "https://www.deutschland.de/en/topic/environment/earth-climate/climate-change-conference-in-morocco",
+      "title": "Germany plans to advise climate change mitigation newcomers",
+      "grade": null
+    },
+    {
+      "hash": "P5SwwlWMDgLg",
+      "address": "https://climate.ec.europa.eu/climate-change-explained/consequences-climate-change_en",
+      "title": "Consequences of climate change - Climate Action - European Commission",
       "grade": 2
     },
     {
-      "hash": "vHaPFTetCYjx",
-      "address": "https://www.orfonline.org/programme/inclusive-growth-and-sdgs/climate-change-and-development",
-      "title": "Climate Change And Development | ORF",
-      "grade": 1
+      "hash": "TyWCJi-i-k-g",
+      "address": "https://www.lse.ac.uk/granthaminstitute/explainers-type/climate_change-_policies/",
+      "title": "Climate change policies Archives - Grantham Research Institute on climate change and the environment",
+      "grade": null
+    },
+    {
+      "hash": "2bRy4SHKIdig",
+      "address": "https://www.eeas.europa.eu/delegations/fiji/global-climate-change-alliance-plus-scaling-pacific-adaptation-gcca-supa_en?s=139",
+      "title": "Global Climate Change Alliance Plus Scaling Up Pacific Adaptation (GCCA + SUPA) | EEAS",
+      "grade": null
     },
     {
       "hash": "mSkXH9xCxcb5",
@@ -146,76 +170,34 @@
       "grade": 2
     },
     {
-      "hash": "QU4s6s_wyst4",
-      "address": "https://observer.com/climate-change/",
-      "title": "Climate Change | Observer",
-      "grade": 1
+      "hash": "TTdgPlS5WTn4",
+      "address": "https://www.jpost.com/environment-and-climate-change",
+      "title": "Environment \u0026 Climate Change | The Jerusalem Post",
+      "grade": null
     },
     {
-      "hash": "8cKE7sm7MhAy",
-      "address": "https://hechingerreport.org/how-florida-quietly-removed-climate-change-content-from-textbooks/",
-      "title": "How Florida quietly removed climate change content from textbooks - The Hechinger Report",
+      "hash": "gerVcoWMDgLg",
+      "address": "https://climate.ec.europa.eu/news-other-reads/stories/breathing-life-fight-against-climate-change_en",
+      "title": "Breathing LIFE into the fight against climate change - Climate Action",
       "grade": 2
     },
     {
-      "hash": "ncY549TRvWp5",
-      "address": "https://hecubus.wordpress.com/category/global-climate-change/",
-      "title": "global climate change | We Have Seen Better Days",
-      "grade": 1
+      "hash": "YuoYkoOkg38g",
+      "address": "https://www.nhm.ac.uk/discover/climate-change.html",
+      "title": "Climate change | Natural History Museum",
+      "grade": null
     },
     {
-      "hash": "DdDpMsh2DDj6",
-      "address": "https://scholarfactcheck.com/ben-shapiro-on-climate-change/",
-      "title": "Ben Shapiro on Climate Change | Scholar Fact Check",
-      "grade": 1
-    },
-    {
-      "hash": "9FWrdl5Wjsug",
-      "address": "https://www.afd.fr/en/gemmes-understand-effects-climate-change-economy",
-      "title": "GEMMES, to understand the effects of climate change on the economy | AFD - Agence Française de Développement",
+      "hash": "08sPHW6yRgl4",
+      "address": "https://lenbilen.com/tag/climate-change/",
+      "title": "Climate change – Len Bilén's blog, a blog about faith, politics and the environment.",
       "grade": 2
     },
     {
-      "hash": "C1dccHanZwwx",
-      "address": "https://projects.propublica.org/why-carbon-capture-cant-solve-climate-change/",
-      "title": "Why Carbon Capture Can’t Conceivably Solve Climate Change — ProPublica",
+      "hash": "dNQQ1kHNiQx4",
+      "address": "https://www.gov.scot/policies/climate-change/climate-change-adaptation/",
+      "title": "Adaptation to climate change - Climate change - gov.scot",
       "grade": 2
-    },
-    {
-      "hash": "hURPWayRff75",
-      "address": "https://australian.museum/learn/climate-change/climate-change-impacts/",
-      "title": "Impacts of Climate Change - The Australian Museum",
-      "grade": 2
-    },
-    {
-      "hash": "DzcWglmsCjKg",
-      "address": "https://www.theccc.org.uk/publication/managing-the-land-in-a-changing-climate/",
-      "title": "Managing the land in a changing climate - Adaptation Sub-Committee progress report 2013 - Climate Change Committee",
-      "grade": 2
-    },
-    {
-      "hash": "GptLMAqCmQAx",
-      "address": "https://www.justsecurity.org/category/climate-change/",
-      "title": "Climate Change | Just Security",
-      "grade": 1
-    },
-    {
-      "hash": "_syPCvISdjFg",
-      "address": "https://www.gov.uk/government/publications/committee-on-climate-changes-2016-progress-report-government-response",
-      "title": "Committee on Climate Change's 2016 progress report: Government response - GOV.UK",
-      "grade": 2
-    },
-    {
-      "hash": "n3H-3jRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Copernicus_Climate_Change_Service",
-      "title": "Copernicus Climate Change Service - Wikipedia",
-      "grade": 2
-    },
-    {
-      "hash": "VwvEgi-i-k-g",
-      "address": "https://www.lse.ac.uk/granthaminstitute/explainers-type/business-and-climate-change/",
-      "title": "Business and climate change Archives - Grantham Research Institute on climate change and the environment",
-      "grade": 0
     },
     {
       "hash": "KiueovtRP6Px",
@@ -230,10 +212,16 @@
       "grade": 2
     },
     {
-      "hash": "14alS1vQRrog",
-      "address": "https://www.newsnow.co.uk/h/Climate+Change",
-      "title": "Climate Change News | Latest News - NewsNow",
-      "grade": 2
+      "hash": "fExK-Jpdc6bg",
+      "address": "https://climate-pact.europa.eu/articles-and-events/pact-articles/how-adapt-and-be-resilient-climate-change-tools-and-tips-pact-community-2026-06-29_en?prefLang=da",
+      "title": "How to adapt and be resilient to climate change: tools and tips from the Pact community",
+      "grade": null
+    },
+    {
+      "hash": "tfn7f3gY955w",
+      "address": "https://regions4.org/actions/catalan-strategy-for-adapting-to-climate-change-2013-2020/",
+      "title": "Catalan Strategy for Adapting to Climate Change 2013-2020 – Regions4",
+      "grade": null
     },
     {
       "hash": "gUYnaEySe1Hw",
@@ -242,27 +230,57 @@
       "grade": 2
     },
     {
-      "hash": "Z4H69lkx8IKw",
-      "address": "https://www.econtalk.org/moises-velasquez-manoff-on-cows-carbon-farming-and-climate-change/",
-      "title": "Moises Velasquez-Manoff on Cows, Carbon Farming, and Climate Change - Econlib",
+      "hash": "UToSHQZchFfZ",
+      "address": "http://www.greenteethmm.com/climate_change.shtml",
+      "title": "climate_change",
+      "grade": 0
+    },
+    {
+      "hash": "CvYIMh5-F5dg",
+      "address": "https://www.bgs.ac.uk/discovering-geology/climate-change/",
+      "title": "Discovering Geology: climate change - British Geological Survey",
+      "grade": null
+    },
+    {
+      "hash": "UUfDFPnI6JIw",
+      "address": "https://climate.law.columbia.edu/content/climate-litigation-newsletter",
+      "title": "Climate Litigation Newsletter | Sabin Center for Climate Change Law",
+      "grade": null
+    },
+    {
+      "hash": "kCXtLd2-YG1g",
+      "address": "https://www.mpg.de/16501852/climate-change-threatens-european-forests",
+      "title": "Climate change threatens European forests | Max-Planck-Gesellschaft",
+      "grade": null
+    },
+    {
+      "hash": "5J_nGgHNiQx4",
+      "address": "https://www.gov.scot/publications/climate-change-adaptation-programme-progress-report-2022/pages/1/",
+      "title": "1. Introduction and context - Climate change adaptation programme: progress report 2022 - gov.scot",
+      "grade": null
+    },
+    {
+      "hash": "hURPWayRff75",
+      "address": "https://australian.museum/learn/climate-change/climate-change-impacts/",
+      "title": "Impacts of Climate Change - The Australian Museum",
       "grade": 2
     },
     {
-      "hash": "UAiI-SI5edIg",
-      "address": "https://www.metoffice.gov.uk/research/approach/our-research-staff/understanding-climate",
-      "title": "Climate change scientists - Met Office",
-      "grade": 1
+      "hash": "rBKifvHKIdig",
+      "address": "https://www.eeas.europa.eu/eeas/eu-climate-change-and-defence-roadmap_en?s=200",
+      "title": "The EU' climate change and defence roadmap | EEAS",
+      "grade": null
     },
     {
-      "hash": "U09CdOj-kX5y",
-      "address": "https://www.climatecentral.org/climate-shift-index-alert/Brazil-august-22-2024",
-      "title": "Extreme heat and fires linked to climate change in Brazil | Climate Central",
+      "hash": "6O2K6lZ3sqdg",
+      "address": "https://www.rivm.nl/en/climate-change-and-health",
+      "title": "Climate change and Health | RIVM",
       "grade": 2
     },
     {
-      "hash": "jIGiTB-5B6rw",
-      "address": "https://climatechange.ukwir.org/climate-change-drought-assessment-tool",
-      "title": "Climate Change and Drought Assessment Tool",
+      "hash": "9csD13nI6JIw",
+      "address": "https://climate.law.columbia.edu/climate-deregulation-tracker",
+      "title": "Climate Deregulation Tracker | Sabin Center for Climate Change Law",
       "grade": 2
     },
     {
@@ -272,28 +290,28 @@
       "grade": 2
     },
     {
-      "hash": "MAG-fMYA3hZg",
-      "address": "https://weather.metoffice.gov.uk/climate-change/what-is-climate-change",
-      "title": "What is climate change? - Met Office",
-      "grade": 2
+      "hash": "GHQDOsJ0Hy7x",
+      "address": "https://climate-laws.org/",
+      "title": "Law and Policy Search - Climate Change Laws of the World",
+      "grade": null
     },
     {
-      "hash": "GsBRg2XDslVg",
-      "address": "https://ec.europa.eu/eurostat/statistics-explained/index.php?title=Statistics_on_climate_change_mitigation",
-      "title": "Statistics on climate change mitigation - Statistics Explained - Eurostat",
-      "grade": 2
+      "hash": "WKArl0HED47w",
+      "address": "https://www.statcan.gc.ca/en/topics-start/climate-change",
+      "title": "Climate change statistics",
+      "grade": null
     },
     {
-      "hash": "jUv14qA_yh-4",
-      "address": "https://strategybusiness.pwc.com/climate-change-challenge-opportunity/p/1",
-      "title": "strategy+business | Climate change = climate opportunity",
-      "grade": 1
+      "hash": "6KBTmBrrBtSg",
+      "address": "https://research-and-innovation.ec.europa.eu/research-area/environment/climate-change-science_en",
+      "title": "Climate change science - Research and innovation - European Commission",
+      "grade": null
     },
     {
-      "hash": "43VaPlWMDgLg",
-      "address": "https://climate.ec.europa.eu/climate-change-explained/causes-climate-change_en",
-      "title": "Causes of climate change - Climate Action - European Commission",
-      "grade": 2
+      "hash": "20jsji4xOujw",
+      "address": "https://science.nasa.gov/climate-change/",
+      "title": "Climate Change - NASA Science",
+      "grade": null
     },
     {
       "hash": "sNaD2lxDpRig",
@@ -302,33 +320,27 @@
       "grade": 2
     },
     {
-      "hash": "QL0lMQe_9Kc4",
-      "address": "https://www.allmusic.com/album/climate-change-mw0002951500",
-      "title": "Pitbull: Climate Change Tracks \u0026 Reviews | AllMusic",
-      "grade": 0
+      "hash": "DG1wBCh0Zh2w",
+      "address": "https://www.halifax.ca/about-halifax/environment-climate-change",
+      "title": "Environment \u0026 Climate Change | Halifax",
+      "grade": null
     },
     {
-      "hash": "9csD13nI6JIw",
-      "address": "https://climate.law.columbia.edu/climate-deregulation-tracker",
-      "title": "Climate Deregulation Tracker | Sabin Center for Climate Change Law",
+      "hash": "GsBRg2XDslVg",
+      "address": "https://ec.europa.eu/eurostat/statistics-explained/index.php?title=Statistics_on_climate_change_mitigation",
+      "title": "Statistics on climate change mitigation - Statistics Explained - Eurostat",
       "grade": 2
     },
     {
-      "hash": "0_2DQLmMQij4",
-      "address": "https://www.who.int/activities/awareness-raising-to-protect-human-health-from-climate-change",
-      "title": "Advocacy and Partnerships to protect human health from climate change",
-      "grade": 2
+      "hash": "WMTU5ygVGvPw",
+      "address": "https://ncte.org/statement/resolution-literacy-teaching-climate-change/",
+      "title": "Resolution on Literacy Teaching on Climate Change - National Council of Teachers of English",
+      "grade": null
     },
     {
-      "hash": "J8sQBPnI6JIw",
-      "address": "https://climate.law.columbia.edu/content/climate-backtracker",
-      "title": "Climate Backtracker | Sabin Center for Climate Change Law",
-      "grade": 2
-    },
-    {
-      "hash": "0xxv3HugRbAw",
-      "address": "https://unctad.org/topic/transport-and-trade-logistics/policy-and-legislation/climate-change-and-maritime-transport",
-      "title": "Climate change adaptation and maritime transport | UN Trade and Development (UNCTAD)",
+      "hash": "2XZri_J0Hy7x",
+      "address": "https://climate-laws.org/document/climate-change-act-2021_8bf7?c=Legislation\u0026l=fiji",
+      "title": "Climate Change Act 2021 - Climate Change Laws of the World",
       "grade": 2
     },
     {

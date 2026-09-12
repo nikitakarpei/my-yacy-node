@@ -2,18 +2,6 @@
   "query": "fahrradwerkstatt berlin",
   "judgedDocuments": [
     {
-      "hash": "ScwFf7yX5Qug",
-      "address": "https://www.t-online.de/themen/reifen/",
-      "title": "Reifen: Aktuelle News und Infos zu Reifen",
-      "grade": 0
-    },
-    {
-      "hash": "njWECeJsEHPj",
-      "address": "https://www.braunschweiger-zeitung.de/niedersachsen/wolfenbuettel/",
-      "title": "Wolfenbüttel: Aktuelle Nachrichten, Hintergründe, Interviews",
-      "grade": 0
-    },
-    {
       "hash": "ksYCRlyX5Qug",
       "address": "https://www.t-online.de/mobilitaet/",
       "title": "News und Infos rund um das Thema Mobilität",
@@ -24,54 +12,6 @@
       "address": "https://www.t-online.de/mobilitaet/e-bikes-fahrraeder/",
       "title": "Ratgeber und News rund um E-Bikes und Fahrräder",
       "grade": 1
-    },
-    {
-      "hash": "iAnVcl9B6zzh",
-      "address": "https://www.morgenpost.de/wirtschaft/",
-      "title": "Wirtschaft - News zu Unternehmen \u0026 Märkten",
-      "grade": 0
-    },
-    {
-      "hash": "5hWWSQLYGe9h",
-      "address": "https://stellenmarkt.sueddeutsche.de/jobs/management-projekte",
-      "title": "Jobs im technischen Management - Jobs \u0026 Stellenangebote",
-      "grade": 0
-    },
-    {
-      "hash": "pVuVNlaBxnQg",
-      "address": "https://www.haz.de/ticker/",
-      "title": "Newsticker",
-      "grade": 0
-    },
-    {
-      "hash": "oUkDVlfz_mdh",
-      "address": "https://www.abendblatt.de/niedersachsen/",
-      "title": "Niedersachsen",
-      "grade": 0
-    },
-    {
-      "hash": "k6uTylkRFRqj",
-      "address": "https://www.marktplatz-mittelstand.de/",
-      "title": "✅ Unternehmen finden | marktplatz-mittelstand.de",
-      "grade": 0
-    },
-    {
-      "hash": "0sORGlw4Rujh",
-      "address": "https://www.presseportal.de/blaulicht/",
-      "title": "Plattform für Presseberichte von Polizei, Feuerwehr, Zoll und anderen Behörden | Presseportal",
-      "grade": 0
-    },
-    {
-      "hash": "vUDqhl8e_9Cg",
-      "address": "https://www.hs-aalen.de/",
-      "title": "Hochschule Aalen",
-      "grade": 0
-    },
-    {
-      "hash": "8wCrjeJsEHPj",
-      "address": "https://www.braunschweiger-zeitung.de/niedersachsen/gifhorn/",
-      "title": "Gifhorn: Aktuelle Nachrichten, Hintergründe, Interviews",
-      "grade": 0
     }
   ]
 }

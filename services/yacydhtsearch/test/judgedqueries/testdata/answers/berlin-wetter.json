@@ -1,82 +1,27 @@
 {
   "query": "berlin wetter",
-  "recordedAt": "2026-09-12T10:15:18Z",
+  "recordedAt": "2026-09-12T11:25:00Z",
   "itemsInTheOrderOfEachAnswer": [
     [
       {
-        "hash": "Eyuo0l_5-JKg",
-        "address": "https://www.mtwetter.de/regionales_mittel.php?par=mo_nfx12\u0026datum=09",
-        "title": "Wetter- und Klimakarten",
-        "snippet": "Startseite\nHilfe zu den Zeitreihen\nPassende Monatskarte\nZeitreihen\nZeitreihen\nTageszeitreihen\nKarten\n10-Minuten-Karten\nTageskarten\nMonatskarten\nZoom-Karten\n10-Minuten-Karten\nTageskarten\nMonatskarten\nMeteogramme\nTagesmeteogramme\nMeteogramme\nRekorde\nRekordlisten\nRekorde einer Station",
+        "hash": "5Y0vTPSEx1zg",
+        "address": "https://wetter.welt.de/",
+        "title": "Das aktuelle Wetter und 5-Tage Wettervorhersage für Deutschland",
+        "snippet": "5-Tage Vorhersage\n23\n25\n21\n21\n23\n22\n23\nheute 12.09.2026\n23\n25\n21\n21\n23\n22\n23\nmorgen 13.09.2026\n20\n22\n21\n20\n21\n19\n25\nMontag 14.09.2026\n20\n24\n20\n21\n24\n21\n22\nDienstag 15.09.2026\n25\n27\n24\n25\n27\n25\n25\nMittwoch 16.09.2026\n22\n22\n21\n20\n22\n21\n22\nBERLIN\nwolkig\n18 °C\nSO\n20° 15°\nMO\n20° 14°\nDeutschland heute",
         "matchedWords": {
           "01oC60kUlFD7": {
-            "hits": 0,
-            "textWords": 58
-          },
-          "WdCRTATBnXV3": {
-            "hits": 0,
-            "textWords": 58
-          }
-        },
-        "queryPhraseHits": 0
-      }
-    ],
-    [
-      {
-        "hash": "KKZkifbyotA5",
-        "address": "https://lovesunpeace.com/102/ping/wuppertal",
-        "title": "Wuppertal – Micro -!- News",
-        "snippet": "",
-        "matchedWords": {
-          "01oC60kUlFD7": {
-            "hits": 0,
-            "textWords": 0
-          },
-          "WdCRTATBnXV3": {
-            "hits": 5,
-            "textWords": 31660
-          }
-        },
-        "queryPhraseHits": 0
-      }
-    ],
-    [
-      {
-        "hash": "xK_P97yX5Qug",
-        "address": "https://www.t-online.de/themen/abgeordnetenhauswahl-berlin/",
-        "title": "Abgeordnetenhauswahl Berlin 2026: Aktuelle News \u0026 Infos",
-        "snippet": "Wahlumfragen: Trend deutet Überraschung an\nBerlin-Wahl\nAfD wirbt mit Willy Brandt – das löst Diskussionen aus\nBriefwahl in Berlin\nZahl der Anträge ist gestiegen\nUmfrage zur Wahl in Berlin\nEnges Rennen an der Spitze: Linke liegt knapp vorne\nUmfrage zur Berlin-Wahl",
-        "matchedWords": {
-          "01oC60kUlFD7": {
-            "hits": 32,
-            "textWords": 571
-          },
-          "WdCRTATBnXV3": {
-            "hits": 0,
-            "textWords": 571
-          }
-        },
-        "queryPhraseHits": 0
-      }
-    ],
-    [
-      {
-        "hash": "dzGMpl3MiEig",
-        "address": "https://www.ndr.de/",
-        "title": "NDR.de - Das Beste am Norden - Radio - Fernsehen - Nachrichten | ndr.de",
-        "snippet": "25 Jahre nach 9/11: Hamburg gedenkt der Opfer\nIn Hamburg ist am Freitag der Opfer des Terroranschlags von 2001 in New York gedacht worden. Vor dem früheren US-Generalkonsulat wurden Blumen abgelegt.\nPolitik ohne Parteien: Was Berlin von Hepstedt lernen kann",
-        "matchedWords": {
-          "01oC60kUlFD7": {
-            "hits": 2,
-            "textWords": 1297
-          },
-          "WdCRTATBnXV3": {
             "hits": 1,
-            "textWords": 1297
+            "textWords": 145
+          },
+          "WdCRTATBnXV3": {
+            "hits": 0,
+            "textWords": 145
           }
         },
         "queryPhraseHits": 0
-      },
+      }
+    ],
+    [
       {
         "hash": "ySJH8lvSGqr4",
         "address": "https://einarschlereth.blogspot.com/",
@@ -100,15 +45,15 @@
         "hash": "m4HF5WVhMz6w",
         "address": "https://journalism.us.to/",
         "title": "Journalism | Jornalismus | Journalism.us.to",
-        "snippet": "",
+        "snippet": "⌬ Information Management\n⌬ Journalismus: Was Ist Wie Funktioniert Pressemitteilung\n⌬ Journalismus: Nachrichten",
         "matchedWords": {
           "01oC60kUlFD7": {
             "hits": 0,
-            "textWords": 0
+            "textWords": 10
           },
           "WdCRTATBnXV3": {
-            "hits": 2,
-            "textWords": 3941
+            "hits": 0,
+            "textWords": 10
           }
         },
         "queryPhraseHits": 0
@@ -126,25 +71,6 @@
           "WdCRTATBnXV3": {
             "hits": 0,
             "textWords": 281
-          }
-        },
-        "queryPhraseHits": 0
-      }
-    ],
-    [
-      {
-        "hash": "l0gZGlXXOSAg",
-        "address": "https://www.rbb24.de/wetter/",
-        "title": "Wetter in Berlin und Brandenburg",
-        "snippet": "Aussichten für Berlin und Brandenburg\nDer Sonnabend bringt neben etwas Sonne einige kompakte Wolken und im Verlauf sind lokal ein paar Tropfen oder leichte Schauer möglich. Daneben ist es länger bzw. durchweg trocken.",
-        "matchedWords": {
-          "01oC60kUlFD7": {
-            "hits": 2,
-            "textWords": 120
-          },
-          "WdCRTATBnXV3": {
-            "hits": 0,
-            "textWords": 120
           }
         },
         "queryPhraseHits": 0
@@ -172,15 +98,15 @@
         "hash": "6AeNnlyX5Qug",
         "address": "https://www.t-online.de/video/",
         "title": "Die besten Videos aus Web, TV, News und Sport",
-        "snippet": "Video\nNachrichtenInternethitsRatgeberNachrichtenInternethitsRatgeberSportUnterhaltungWetterKlima \u0026 NachhaltigkeitLifehacksRätselZeitgeschichte",
+        "snippet": "Zum Inhalt springen\nZum Hauptmenü springen\nZum Menü springen\nZur Suche springen\nZur Fußzeile springen\nHome\nVideo",
         "matchedWords": {
           "01oC60kUlFD7": {
             "hits": 0,
-            "textWords": 551
+            "textWords": 17
           },
           "WdCRTATBnXV3": {
             "hits": 0,
-            "textWords": 551
+            "textWords": 17
           }
         },
         "queryPhraseHits": 0
@@ -224,22 +150,43 @@
     ],
     [
       {
-        "hash": "KBS1M78moajg",
-        "address": "https://www.welt.de/themen/instagram/",
-        "title": "Instagram: Aktuelle News \u0026 Nachrichten zum sozialen Netzwerk - WELT",
-        "snippet": "Warum im September das wahre „Neujahr“ ist\nWarum bis Januar warten? Der September wird zum Monat der guten Vorsätze. Warum ausgerechnet jetzt der perfekte Zeitpunkt für einen Neustart sein kann und welche kleinen Veränderungen wirklich machbar sind.\nWeltplus Artikel\nMaßnahmen gegen Handy-Sucht",
+        "hash": "5Y0vTPSEx1zg",
+        "address": "https://wetter.welt.de/",
+        "title": "Das aktuelle Wetter und 5-Tage Wettervorhersage für Deutschland",
+        "snippet": "5-Tage Vorhersage\n23\n25\n21\n21\n23\n22\n23\nheute 12.09.2026\n23\n25\n21\n21\n23\n22\n23\nmorgen 13.09.2026\n20\n22\n21\n20\n21\n19\n25\nMontag 14.09.2026\n20\n24\n20\n21\n24\n21\n22\nDienstag 15.09.2026\n25\n27\n24\n25\n27\n25\n25\nMittwoch 16.09.2026\n22\n22\n21\n20\n22\n21\n22\nBERLIN\nwolkig\n18 °C\nSO\n20° 15°\nMO\n20° 14°\nDeutschland heute",
         "matchedWords": {
           "01oC60kUlFD7": {
-            "hits": 0,
-            "textWords": 676
+            "hits": 1,
+            "textWords": 145
           },
           "WdCRTATBnXV3": {
             "hits": 0,
-            "textWords": 676
+            "textWords": 145
           }
         },
         "queryPhraseHits": 0
-      },
+      }
+    ],
+    [
+      {
+        "hash": "_2VMoQXXOSAg",
+        "address": "https://www.rbb24.de/kultur/beitrag/2026/06/berlin-open-air-veranstaltungen-genehmigung-fete-de-la-musique.html",
+        "title": "Weniger Hürden für Open-Airs in Berlin? Mitte wagt einen neuen Ansatz",
+        "snippet": "Open-Air-Saison Wie Berlin mehr Freiluftveranstaltungen ermöglichen will\nAnlässlich der Fete de la Musique 2025 tritt eine Band vor dem Schaufenster Theater in Berlin auf (Quelle: rbb)\nBürokratie und komplizierte Anträge machen Veranstaltern Probleme",
+        "matchedWords": {
+          "01oC60kUlFD7": {
+            "hits": 10,
+            "textWords": 1230
+          },
+          "WdCRTATBnXV3": {
+            "hits": 0,
+            "textWords": 1230
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
       {
         "hash": "-gSHXofjI1Dh",
         "address": "https://www.tagesschau.de/wahlarchiv/laenderparlamente/baden-wuerttemberg",
@@ -256,92 +203,109 @@
           }
         },
         "queryPhraseHits": 0
-      },
+      }
+    ],
+    [
       {
-        "hash": "_eUMI50w__jw",
-        "address": "https://www.faz.net/aktuell/sport/fussball/",
-        "title": "Fußball: Aktuelle Nachrichten und Spielberichte | FAZ",
-        "snippet": "Wenige Fans, kein eigenes Stadion – aber Erfolg: Die VSG Altglienicke will hinter Union und der Hertha zur dritten Fußballkraft in Berlin aufsteigen. Nicht jeder freut sich darüber.\nMerken\nStart der Königsklasse:\nDie Champions-League-Falle",
+        "hash": "RA7PGPPVWAXw",
+        "address": "https://wetter.faz.net/",
+        "title": "Wetter und 5-Tage Wettervorhersage Deutschland | FAZ",
+        "snippet": "Der Wind weht schwach, an der Küste und im Osten mäßig aus verschiedenen Richtungen.\nHeute\nMorgen\nMo\nDi\nMi\nBundesländer\nBaden-Württemberg\nBayern\nBerlin\nBremen\nBrandenburg\nHamburg\nHessen\nMecklenburg-Vorp.\nNiedersachsen\nNordrhein-Westfalen\nRheinland-Pfalz\nSaarland\nSachsen\nSachsen-Anhalt",
         "matchedWords": {
           "01oC60kUlFD7": {
             "hits": 1,
-            "textWords": 467
+            "textWords": 322
           },
           "WdCRTATBnXV3": {
             "hits": 0,
-            "textWords": 467
+            "textWords": 322
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "DcJqWlFc3viw",
+        "address": "https://www.wetter.net/",
+        "title": "wetter.net | Wetter, Wetter aktuell, Wettervorhersage",
+        "snippet": "Aktuelle Wettervorhersagen, Wettertrends und Geschichten rund ums Wetter — von Meteorologen für ganz Deutschland, Österreich und die Schweiz.\nApp herunterladen\n(öffnet in neuem Fenster)\n(öffnet in neuem Fenster)",
+        "matchedWords": {
+          "01oC60kUlFD7": {
+            "hits": 0,
+            "textWords": 27
+          },
+          "WdCRTATBnXV3": {
+            "hits": 1,
+            "textWords": 27
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "xk2PwlWgkBXg",
+        "address": "https://www.wetter.de/",
+        "title": "Wetter - Wettervorhersage - Wetterbericht",
+        "snippet": "Der Wetterbericht für morgen, die Wetterprognose für kommende Woche oder Wettertrends für die nächsten 21 Tage – wetter.de ist Ihr zuverlässiger Begleiter und versorgt Sie mit den wichtigsten Informationen rund um das Wetter.\nDas Wetter weltweit – aktuelle Vorhersagen für zu Hause und unterwegs",
+        "matchedWords": {
+          "01oC60kUlFD7": {
+            "hits": 0,
+            "textWords": 200
+          },
+          "WdCRTATBnXV3": {
+            "hits": 10,
+            "textWords": 200
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "-5YtplfjI1Dh",
+        "address": "https://www.tagesschau.de/wetter",
+        "title": "Das tagesschau.de-Wetter | tagesschau.de",
+        "snippet": "Wettervorhersage Europa Wetterlage und Temperaturen\nEine Hochdruckzone, die vom südwestlichen Europa bis nach Mitteleuropa reicht, bringt am Samstag großen Teilen Deutschlands ruhiges und trockenes Wetter mit Sonne und Wolken. Im Süden ist es gebietsweise länger sonnig.",
+        "matchedWords": {
+          "01oC60kUlFD7": {
+            "hits": 0,
+            "textWords": 60
+          },
+          "WdCRTATBnXV3": {
+            "hits": 1,
+            "textWords": 60
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "FgToD03MiEig",
+        "address": "https://www.ndr.de/nachrichten/wetter/index.html",
+        "title": "Wetter: Vorhersage und Regenradar für Norddeutschland | NDR.de - Nachrichten - Wetter",
+        "snippet": "",
+        "matchedWords": {
+          "01oC60kUlFD7": {
+            "hits": 0,
+            "textWords": 0
+          },
+          "WdCRTATBnXV3": {
+            "hits": 12,
+            "textWords": 909
           }
         },
         "queryPhraseHits": 0
       }
     ],
     [
-      {
-        "hash": "pNr3KLfjI1Dh",
-        "address": "https://www.tagesschau.de/inland/innenpolitik/csd-berlin-anschlag-tatverdaechtiger-100.html",
-        "title": "Angriff auf CSD Berlin: Tatverdächtiger war polizeibekannter Islamist | tagesschau.de",
-        "snippet": "Exklusiv\nAngriff auf CSD Tatverdächtiger war seit Längerem im Visier der Behörden\nStand: 26.07.2026 • 20:51 Uhr\nWie konnte ein polizeibekannter Islamist offenbar einen Angriff in Berlin verüben? Nach dem Anschlag auf Teilnehmer des CSD in Berlin werden die Fragen an die Behörden lauter.",
-        "matchedWords": {
-          "01oC60kUlFD7": {
-            "hits": 6,
-            "textWords": 712
-          },
-          "WdCRTATBnXV3": {
-            "hits": 0,
-            "textWords": 712
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "I-F3O0yX5Qug",
-        "address": "https://www.t-online.de/nachrichten/deutschland/innenpolitik/id_101360712/terroranschlag-auf-csd-berlin-ju-chef-spricht-von-kriegserklaerung-.html",
-        "title": "Terroranschlag auf CSD Berlin: JU-Chef spricht von \"Kriegserklärung\"",
-        "snippet": "\"Gefährder aus Öffentlichkeit entfernen\" Union fordert Konsequenzen nach Anschlag in Berlin\nVon reuters, afp, dpa, t-online, job\nAktualisiert am 26.07.2026Lesedauer: 3 Min.",
-        "matchedWords": {
-          "01oC60kUlFD7": {
-            "hits": 2,
-            "textWords": 376
-          },
-          "WdCRTATBnXV3": {
-            "hits": 0,
-            "textWords": 376
-          }
-        },
-        "queryPhraseHits": 0
-      }
-    ],
-    [
-      {
-        "hash": "S_sNkHyX5Qug",
-        "address": "https://www.t-online.de/wetter/deutschland/berlin/jh518hs406/wetter-heute",
-        "title": "Wetter für Berlin | Vorhersage für heute",
-        "snippet": "Wetter News\nWetter-Vorhersage\nWochenendwetter bringt Sonne und Regen\nDer Samstag lockt mit Temperaturen bis 27 Grad nach draußen – doch am Sonntag wird es vielerorts nass und kühler.\nWann kommt der Altweibersommer?\nWetterdienst warnt amtlich in Dutzenden Kreisen",
-        "matchedWords": {
-          "01oC60kUlFD7": {
-            "hits": 0,
-            "textWords": 210
-          },
-          "WdCRTATBnXV3": {
-            "hits": 7,
-            "textWords": 210
-          }
-        },
-        "queryPhraseHits": 0
-      },
       {
         "hash": "SMcXIlvmeA6g",
         "address": "https://www.wetter.at/",
         "title": "Wetter in Österreich - wetter.at",
-        "snippet": "9 Tage\nDie wichtigsten internationalen Städte\nwetter.at Highlights\nDEIN PERFEKTER URLAUB IN WIEN\nunsere Tipps für Wien\nWetter-TV\nDas Wetter TV\nWetternews\nWetterradar\nNiederschlag\nBewölkung\nTemperatur\nWind\nmm/ m²/ 15min\n0.02\n0.04\n0.16\n0.4\n0.7\n2\n4\n\u003e5\ndie besten Hotels",
+        "snippet": "Es liegen derzeit keine Unwetterwarnungen für Österreich vor!\ndie besten Wandertipps\nEuropawetter\nEuropa Wetter\nHeute\nMorgen\n9 Tage\nDie wichtigsten europäischen Städte\nWeltwetter\nWelt Wetter\nHeute\nMorgen\n9 Tage\nDie wichtigsten internationalen Städte\nwetter.at Highlights",
         "matchedWords": {
           "01oC60kUlFD7": {
             "hits": 0,
-            "textWords": 1307
+            "textWords": 1305
           },
           "WdCRTATBnXV3": {
             "hits": 15,
-            "textWords": 1307
+            "textWords": 1305
           }
         },
         "queryPhraseHits": 0
@@ -350,89 +314,15 @@
         "hash": "RA7PGPPVWAXw",
         "address": "https://wetter.faz.net/",
         "title": "Wetter und 5-Tage Wettervorhersage Deutschland | FAZ",
-        "snippet": "Die Höchstwerte bewegen sich zwischen 18 und 26 Grad. Der Wind weht schwach bis mäßig aus westlichen Richtungen Gebietsweise gibt es frische oder starke Böen.\nHeute\nMorgen\nSo\nMo\nDi\nBundesländer\nBaden-Württemberg\nBayern\nBerlin\nBremen\nBrandenburg\nHamburg\nHessen\nMecklenburg-Vorp.\nNiedersachsen",
+        "snippet": "Der Wind weht schwach, an der Küste und im Osten mäßig aus verschiedenen Richtungen.\nHeute\nMorgen\nMo\nDi\nMi\nBundesländer\nBaden-Württemberg\nBayern\nBerlin\nBremen\nBrandenburg\nHamburg\nHessen\nMecklenburg-Vorp.\nNiedersachsen\nNordrhein-Westfalen\nRheinland-Pfalz\nSaarland\nSachsen\nSachsen-Anhalt",
         "matchedWords": {
           "01oC60kUlFD7": {
             "hits": 1,
-            "textWords": 312
+            "textWords": 322
           },
           "WdCRTATBnXV3": {
             "hits": 0,
-            "textWords": 312
-          }
-        },
-        "queryPhraseHits": 0
-      }
-    ],
-    [
-      {
-        "hash": "KcN-yjRvmBbx",
-        "address": "https://en.wikipedia.org/wiki/Kenya",
-        "title": "Kenya - Wikipedia",
-        "snippet": "35][36] These people were later largely replaced by agropastoralist Cushitic (ancestral to Kenya's Cushitic speakers), who originated from the Horn of Africa.[37] During the early Holocene, the region's climate shifted from drier to wetter conditions.",
-        "matchedWords": {
-          "01oC60kUlFD7": {
-            "hits": 1,
-            "textWords": 20956
-          },
-          "WdCRTATBnXV3": {
-            "hits": 1,
-            "textWords": 20956
-          }
-        },
-        "queryPhraseHits": 0
-      }
-    ],
-    [
-      {
-        "hash": "gbZQsl9B6zzh",
-        "address": "https://www.morgenpost.de/berlin/",
-        "title": "Berlin - Aktuelle Nachrichten",
-        "snippet": "Kasupke gratuliert dem Langen Lulatsch\nHundat Jahre alt und strahlt wie neu: der Berlina Funkturm is frisch saniert und feiat Jeburtstach. Fahrn Se ruff, könnse runta kieken!\nBis zu 7 Grad\nWetter in Berlin: Sommer ade? DWD erwartet Wolken und Abkühlung\nBerlin.",
-        "matchedWords": {
-          "01oC60kUlFD7": {
-            "hits": 198,
-            "textWords": 4558
-          },
-          "WdCRTATBnXV3": {
-            "hits": 1,
-            "textWords": 4558
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "sn5bqlXXOSAg",
-        "address": "https://www.rbb24.de/berlin/",
-        "title": "Berlin Nachrichten – Aktuelle News und Themen von rbb24.de",
-        "snippet": "Analyse Insgesamt mehr Wahlberechtigte\nBerlin hat wieder mehr Wahlberechtigte - und einen neuen Höchstwert an Nicht-Berechtigten\nAnalyse Das Abgeordnetenhaus\nSo hat Berlin seit 1990 gewählt\nAnalyse Veränderungen seit 1990\nDie Hochburgen der Parteien in Berlin\nWahlen in Berlin",
-        "matchedWords": {
-          "01oC60kUlFD7": {
-            "hits": 69,
-            "textWords": 1887
-          },
-          "WdCRTATBnXV3": {
-            "hits": 0,
-            "textWords": 1887
-          }
-        },
-        "queryPhraseHits": 0
-      }
-    ],
-    [
-      {
-        "hash": "ySJH8lvSGqr4",
-        "address": "https://einarschlereth.blogspot.com/",
-        "title": "einartysken",
-        "snippet": "Jedoch über Lukaschenko hält Putin seine Hand.\nBerlin will, dass wir nicht mehr Weißrussland sagen, sondern nur noch „Belarus“. Wir sollen gegen Russland jetzt auch etymologisch klare Kante zeigen. Im Folgenden werden beide Bezeichnungen nach Belieben verwendet.",
-        "matchedWords": {
-          "01oC60kUlFD7": {
-            "hits": 1,
-            "textWords": 2698
-          },
-          "WdCRTATBnXV3": {
-            "hits": 0,
-            "textWords": 2698
+            "textWords": 322
           }
         },
         "queryPhraseHits": 0
@@ -459,6 +349,25 @@
     ],
     [
       {
+        "hash": "37f63My11Gbg",
+        "address": "https://berlin.t-online.de/region/berlin/",
+        "title": "Berlin: Nachrichten \u0026 News aus Berlin",
+        "snippet": "Zum Inhalt springen\nZur Fußzeile springen\nberlin.t-online - Anständig. Informiert.",
+        "matchedWords": {
+          "01oC60kUlFD7": {
+            "hits": 1,
+            "textWords": 10
+          },
+          "WdCRTATBnXV3": {
+            "hits": 0,
+            "textWords": 10
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
         "hash": "-5YtplfjI1Dh",
         "address": "https://www.tagesschau.de/wetter",
         "title": "Das tagesschau.de-Wetter | tagesschau.de",
@@ -471,82 +380,6 @@
           "WdCRTATBnXV3": {
             "hits": 1,
             "textWords": 60
-          }
-        },
-        "queryPhraseHits": 0
-      }
-    ],
-    [
-      {
-        "hash": "DcJqWlFc3viw",
-        "address": "https://www.wetter.net/",
-        "title": "wetter.net | Wetter, Wetter aktuell, Wettervorhersage",
-        "snippet": "Aktuelle Wettervorhersagen, Wettertrends und Geschichten rund ums Wetter — von Meteorologen für ganz Deutschland, Österreich und die Schweiz.\nApp herunterladen\n(öffnet in neuem Fenster)\n(öffnet in neuem Fenster)",
-        "matchedWords": {
-          "01oC60kUlFD7": {
-            "hits": 0,
-            "textWords": 27
-          },
-          "WdCRTATBnXV3": {
-            "hits": 1,
-            "textWords": 27
-          }
-        },
-        "queryPhraseHits": 0
-      }
-    ],
-    [
-      {
-        "hash": "kuiLcaiZ7fSg",
-        "address": "https://verband.hockey.de/",
-        "title": "Deutscher Hockey-Bund - verband.hockey.de",
-        "snippet": "Bei sonnigem Wetter und angenehmen Temperaturen standen zehn spannende Spiele, große Freude am Hockeysport und viele besondere Momente auf dem Programm.\nSOD-Kader-Lehrgang in Bonn\nVom 28. bis 30. August 2026 absolvierte der SOD-Kader einen gemeinsamen Lehrgang in Bonn.",
-        "matchedWords": {
-          "01oC60kUlFD7": {
-            "hits": 0,
-            "textWords": 178
-          },
-          "WdCRTATBnXV3": {
-            "hits": 1,
-            "textWords": 178
-          }
-        },
-        "queryPhraseHits": 0
-      }
-    ],
-    [
-      {
-        "hash": "3-1XaUwm21Ng",
-        "address": "https://www.flixbus.ch/busverbindung/fernbus-berlin-stuttgart",
-        "title": "Bus Berlin nach Stuttgart - Günstig tickets buchen",
-        "snippet": "Wenn Du von Berlin nach Stuttgart reisen willst, beträgt die Entfernung etwa 636 km, also eine geschätzte Reisedauer von 7 Stunden 50 Minuten mit unseren Fernbussen. Natürlich kann diese geschätzte Zeit aufgrund unvorhersehbarer Umstände variieren, wie z.B. Wetter- oder Verkehrsbedingungen.",
-        "matchedWords": {
-          "01oC60kUlFD7": {
-            "hits": 39,
-            "textWords": 1071
-          },
-          "WdCRTATBnXV3": {
-            "hits": 1,
-            "textWords": 1071
-          }
-        },
-        "queryPhraseHits": 0
-      }
-    ],
-    [
-      {
-        "hash": "IsqY7XMCiH44",
-        "address": "https://www.xing.com/pages/gruenderzeit-zwickau",
-        "title": "GRÜNDERZEIT Zwickau: Information and Updates | XING",
-        "snippet": "Business Partner (m/w/div) Ressourcenmanagement (Schwerpunkt: Staffing Projektteams)\nTroisdorf+ 1 mehr\nDeutschland\nFachkräftemangel? Mit uns kein Problem!\nHamburg, Stuttgart, Berlin, München, Köln, Frankfurt am Main, Essen, Düsseldorf, Mainz, Mannheim+ 1 mehr\nDeutschland",
-        "matchedWords": {
-          "01oC60kUlFD7": {
-            "hits": 6,
-            "textWords": 155
-          },
-          "WdCRTATBnXV3": {
-            "hits": 0,
-            "textWords": 155
           }
         },
         "queryPhraseHits": 0
@@ -573,109 +406,18 @@
     ],
     [
       {
-        "hash": "S_sNkHyX5Qug",
-        "address": "https://www.t-online.de/wetter/deutschland/berlin/jh518hs406/wetter-heute",
-        "title": "Wetter für Berlin | Vorhersage für heute",
-        "snippet": "Wetter News\nWetter-Vorhersage\nWochenendwetter bringt Sonne und Regen\nDer Samstag lockt mit Temperaturen bis 27 Grad nach draußen – doch am Sonntag wird es vielerorts nass und kühler.\nWann kommt der Altweibersommer?\nWetterdienst warnt amtlich in Dutzenden Kreisen",
-        "matchedWords": {
-          "01oC60kUlFD7": {
-            "hits": 0,
-            "textWords": 210
-          },
-          "WdCRTATBnXV3": {
-            "hits": 7,
-            "textWords": 210
-          }
-        },
-        "queryPhraseHits": 0
-      }
-    ],
-    [
-      {
-        "hash": "r7SQ1PSEx1zg",
-        "address": "https://wetter.welt.de/europa/",
-        "title": "Das aktuelle Wetter und 5-Tage Wettervorhersage für Europa",
-        "snippet": "Wetter Europa\n9\n17\n17\n32\n16\n29\n34\n25\n18\n23\n17\nheute 11.09.2026\n9\n17\n17\n32\n16\n29\n34\n25\n18\n23\n17\nmorgen 12.09.2026\n9\n16\n17\n33\n22\n30\n35\n25\n19\n23\n19\nSonntag 13.09.2026\n9\n15\n18\n34\n23\n30\n32\n26\n20\n24\n20\nMontag 14.09.2026\n11\n17\n19\n35\n22\n29\n30\n27\n18\n26\n19\nDienstag 15.09.2026\n9\n16\n17\n36\n25\n30\n29\n29\n18\n23\n21",
-        "matchedWords": {
-          "01oC60kUlFD7": {
-            "hits": 0,
-            "textWords": 86
-          },
-          "WdCRTATBnXV3": {
-            "hits": 1,
-            "textWords": 86
-          }
-        },
-        "queryPhraseHits": 0
-      }
-    ],
-    [
-      {
-        "hash": "cB7iXX8moajg",
-        "address": "https://www.welt.de/politik/deutschland/plus6a8d85a1d8b561d6189714ba/berlin-wahlkampf-abriss-und-neubau-kostet-sehr-viel-co-wie-die-gruenen-stattdessen-wohnraum-schaffen-wollen.html",
-        "title": "Berlin-Wahlkampf: „Abriss und Neubau kostet sehr viel CO₂“ – wie die Grünen stattdessen Wohnraum schaffen wollen - WELT",
-        "snippet": "Öffnen Sie Untermenüs mit der Leertaste.\nHomeApps\nAutoren\nPodcasts\nThemen\nWetter\nNewsletter\nWELTGo!\nSpiele\nKreuzworträtsel\nSudoku\nWordle\nSchachmatt\nSchlagzeilen-Archiv\nLive-TVWELT Live\nN24 Doku\nMediathekMeinungsfreiheit\nDuell des Tages\nLive-Sport\nDeffner \u0026 Zschäpitz\nReportagen\nDokumentationen",
-        "matchedWords": {
-          "01oC60kUlFD7": {
-            "hits": 3,
-            "textWords": 350
-          },
-          "WdCRTATBnXV3": {
-            "hits": 1,
-            "textWords": 350
-          }
-        },
-        "queryPhraseHits": 0
-      }
-    ],
-    [
-      {
         "hash": "h-LXAjyX5Qug",
         "address": "https://www.t-online.de/mobilitaet/reifen/",
         "title": "Reifen: Autoreifen und Reifentest für Sommerreifen und Winterreifen",
-        "snippet": "Reifen\nWinterreifen\nPro und Kontra im Check\nAllwetterreifen: Wie sicher sind sie im Winter?\nWichtige Regel bei Winterwetter\nDiese Reifen sind verboten\nAbnutzung als Risiko\nADAC-Test: Ab dann werden Winterreifen gefährlich\nAchtung, Betrüger\nWinterreifen: Vorsicht bei diesen Onlineshops",
+        "snippet": "Reifen\nWinterreifen\nSeit 2018 nicht mehr produziert\nDiese Reifen sind verboten\nPro und Kontra im Check\nAllwetterreifen: Wie sicher sind sie im Winter?\nAbnutzung als Risiko\nADAC-Test: Ab dann werden Winterreifen gefährlich\nAchtung, Betrüger\nWinterreifen: Vorsicht bei diesen Onlineshops",
         "matchedWords": {
           "01oC60kUlFD7": {
             "hits": 0,
-            "textWords": 528
+            "textWords": 529
           },
           "WdCRTATBnXV3": {
             "hits": 0,
-            "textWords": 528
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "hx8g6dFO6r_x",
-        "address": "https://de.wikipedia.org/wiki/M%C3%BCnchen",
-        "title": "München – Wikipedia",
-        "snippet": "↑ 7 Einwohnerinnen und Einwohner mit bzw. ohne Migrationshintergrund in Berlin am 30. Juni 2024 nach Bezirken und Geschlecht. (PDF) Amt für Statistik Berlin-Brandenburg, abgerufen am 16. Juni 2026.\n↑ Bevölkerung mit Migrationshintergrund in den Hamburger Stadtteilen 2023. Abgerufen am 18.",
-        "matchedWords": {
-          "01oC60kUlFD7": {
-            "hits": 17,
-            "textWords": 28592
-          },
-          "WdCRTATBnXV3": {
-            "hits": 1,
-            "textWords": 28592
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "gqkBacw63Csx",
-        "address": "https://fr.wikipedia.org/wiki/Canicules_de_2026_en_Europe",
-        "title": "Canicules de 2026 en Europe — Wikipédia",
-        "snippet": "En Allemagne, la Philharmonie de Berlin autorise les musiciens à ôter leurs vestes et à retrousser leurs manches par 41 °C[54].\nLe gouvernement envisage des mesures exceptionnelles pour sécuriser l’accès à l’eau potable[313].",
-        "matchedWords": {
-          "01oC60kUlFD7": {
-            "hits": 1,
-            "textWords": 17884
-          },
-          "WdCRTATBnXV3": {
-            "hits": 1,
-            "textWords": 17884
+            "textWords": 529
           }
         },
         "queryPhraseHits": 0
@@ -683,18 +425,18 @@
     ],
     [
       {
-        "hash": "RA7PGPPVWAXw",
-        "address": "https://wetter.faz.net/",
-        "title": "Wetter und 5-Tage Wettervorhersage Deutschland | FAZ",
-        "snippet": "Die Höchstwerte bewegen sich zwischen 18 und 26 Grad. Der Wind weht schwach bis mäßig aus westlichen Richtungen Gebietsweise gibt es frische oder starke Böen.\nHeute\nMorgen\nSo\nMo\nDi\nBundesländer\nBaden-Württemberg\nBayern\nBerlin\nBremen\nBrandenburg\nHamburg\nHessen\nMecklenburg-Vorp.\nNiedersachsen",
+        "hash": "FcrOSdR5Djcw",
+        "address": "https://de.wikinews.org/wiki/Hauptseite",
+        "title": "Wikinews, die freie Nachrichtenquelle",
+        "snippet": "Oktober 2025\nUmwelt – Wetter\nStarke Unwetter in mehreren Regionen Italiens\nMehrere italienische Regionen wurden in der Nacht zum 10.",
         "matchedWords": {
           "01oC60kUlFD7": {
-            "hits": 1,
-            "textWords": 312
+            "hits": 0,
+            "textWords": 1414
           },
           "WdCRTATBnXV3": {
-            "hits": 0,
-            "textWords": 312
+            "hits": 1,
+            "textWords": 1414
           }
         },
         "queryPhraseHits": 0
@@ -702,69 +444,18 @@
     ],
     [
       {
-        "hash": "qEpb6HfjI1Dh",
-        "address": "https://www.tagesschau.de/wetter/deutschland/wettervorhersage-deutschland-100.html",
-        "title": "Wetter Deutschland: Wolken, Temperaturen, Wind und Aussichten | tagesschau.de",
-        "snippet": "Stand: 11.09.2026 • 13:30 Uhr\nAm Samstag ist es im Süden sonnig. Sonst gibt es neben Sonnenschein dichtere Wolken, aber nur selten wird es nass. Im Nordwesten ziehen später dichte Wolken mit Regen auf. Die Höchstwerte liegen zwischen 18 Grad im Bayerischen Wald und 27 Grad am Oberrhein.",
+        "hash": "tR-1WXj5gZJ5",
+        "address": "https://wissenschaft3000.wordpress.com/tag/1913/",
+        "title": "1913 | Wissenschaft3000 ~ science3000",
+        "snippet": "Heute nennt man diese Schattenregierung – DEEP STATE – TIEFER STAAT",
         "matchedWords": {
           "01oC60kUlFD7": {
             "hits": 0,
-            "textWords": 320
+            "textWords": 1843
           },
           "WdCRTATBnXV3": {
             "hits": 0,
-            "textWords": 320
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "qrOEmeQdJjkg",
-        "address": "https://oesterreich.orf.at/",
-        "title": "oesterreich.ORF.at",
-        "snippet": "Lienz 11.9. 21.00 Uhr\nParagleiter prallte gegen Fahrradfahrerin\nEin 40-jähriger Italiener ist Freitagvormittag bei einem Trainingsflug vom Hochstein in Lienz gegen eine Fahrradfahrerin geflogen. Sie stand einige Meter unterhalb der Startbahn.\nAlt-Erlaa 11.9. 19.56 Uhr",
-        "matchedWords": {
-          "01oC60kUlFD7": {
-            "hits": 0,
-            "textWords": 514
-          },
-          "WdCRTATBnXV3": {
-            "hits": 0,
-            "textWords": 514
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "q7UDNl3ESnng",
-        "address": "https://www.br.de/index.html",
-        "title": "Bayerischer Rundfunk: Nachrichten von BR24, Highlights aus der BR Mediathek, Live Radio hören und BR.de-Specials - die Startseite für Bayern | BR.de",
-        "snippet": "Wirtschaft Emirate investieren Milliarden in Bayern: Was geplant ist\nZehn Milliarden Euro: So viel Investitionskapital hatte Scheich Zayid Al Nahyan beim Deutsch-Emiratischen Wirtschaftsforum in München allein für Bayern im Gepäck.",
-        "matchedWords": {
-          "01oC60kUlFD7": {
-            "hits": 0,
-            "textWords": 42
-          },
-          "WdCRTATBnXV3": {
-            "hits": 0,
-            "textWords": 42
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "rtQ-JluG0-bg",
-        "address": "https://www.fr.de/",
-        "title": "FR.de | News aus Politik, Wirtschaft, Sport, Frankfurt, Hessen und der Welt",
-        "snippet": "Darmstadt 98: Hässlich siegen, schön feiern\nEin Handelfmeter in der 86. Minute brachte Darmstadt 98 den 2:1-Sieg gegen Arminia Bielefeld. Trainer Kohfeldt verriet, was er im Fall eines …\nDarmstadt 98: Hässlich siegen, schön feiern\nProduktempfehlung\nWetter\nPlaßmanns Welt\nFotostrecken des Tages\nSport",
-        "matchedWords": {
-          "01oC60kUlFD7": {
-            "hits": 0,
-            "textWords": 315
-          },
-          "WdCRTATBnXV3": {
-            "hits": 1,
-            "textWords": 315
+            "textWords": 1843
           }
         },
         "queryPhraseHits": 0
@@ -791,37 +482,18 @@
     ],
     [
       {
-        "hash": "6BsM-HfjI1Dh",
-        "address": "https://www.tagesschau.de/wetter/regenradar-deutschland",
-        "title": "Regenradar Deutschland: Aktueller Niederschlag | tagesschau.de",
-        "snippet": "Live Prognose Regenradar für Deutschland\nDas Regenradar für Deutschland von tagesschau.de: Live-Werte zum Niederschlag und Prognose für die nächsten zwei Stunden.\nWas zeigt das Regenradar?\nDas Regenradar zeigt die Niederschlagsmenge. Gemessen wird sie mit Hilfe eines Radarechos.",
+        "hash": "4Its1HfjI1Dh",
+        "address": "https://www.tagesschau.de/wetter/europa-welt",
+        "title": "Wettervorhersage Europa: Wetterlage und Temperaturen | tagesschau.de",
+        "snippet": "Stand: 11.09.2026 • 11:17 Uhr\nEine Hochdruckzone, die vom südwestlichen Europa bis nach Mitteleuropa reicht, bringt am Samstag großen Teilen Deutschlands ruhiges und trockenes Wetter mit Sonne und Wolken. Im Süden ist es gebietsweise länger sonnig.",
         "matchedWords": {
           "01oC60kUlFD7": {
             "hits": 0,
-            "textWords": 93
-          },
-          "WdCRTATBnXV3": {
-            "hits": 0,
-            "textWords": 93
-          }
-        },
-        "queryPhraseHits": 0
-      }
-    ],
-    [
-      {
-        "hash": "_VdxO_3sDtZg",
-        "address": "https://tini24.de/news/partytime-mit-culcha-candela-und-ueber-1-500-besuchern-beim-strandkonzert-in-niendorf-ostsee/",
-        "title": "Partytime mit Culcha Candela und über 1.500 Besuchern beim Strandkonzert in Niendorf/Ostsee - News | TiNi24",
-        "snippet": "Die StrandKonzert-Termine mussten coronabedingt dreimal verlegt werden, aber jetzt war es endlich soweit und die Sänger und Tänzerinnen feierten bei bestem Wetter mit fast 1.600 Gästen, die nicht nur aus der näheren Umgebung nach Niendorf/Ostsee gekommen sind.",
-        "matchedWords": {
-          "01oC60kUlFD7": {
-            "hits": 1,
-            "textWords": 875
+            "textWords": 94
           },
           "WdCRTATBnXV3": {
             "hits": 1,
-            "textWords": 875
+            "textWords": 94
           }
         },
         "queryPhraseHits": 0
@@ -829,6 +501,40 @@
     ]
   ],
   "itemsInNoOrder": [
+    {
+      "hash": "hpNx6l0w__jw",
+      "address": "https://www.faz.net/aktuell/",
+      "title": "Aktuelle Nachrichten online - FAZ.NET",
+      "snippet": "Wie eigenständig agierte der preußische König Wilhelm I. bei der Gründung des Deutschen Reiches? Sein Briefwechsel mit seiner liberal gesinnten Gemahlin Augusta lässt sich jetzt über das „Trierer Briefportal“ studieren.\nBunte Seiten\n179 Bilder\nReisemarkt Anzeigen\nMerken\n„Berlin Art Week“:",
+      "matchedWords": {
+        "01oC60kUlFD7": {
+          "hits": 2,
+          "textWords": 949
+        },
+        "WdCRTATBnXV3": {
+          "hits": 0,
+          "textWords": 949
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "WLeSrl5ARWyg",
+      "address": "https://www.spiegel.de/",
+      "title": "DER SPIEGEL | Online-Nachrichten",
+      "snippet": "6 Min\n25 Jahre nach 9/11\nAlle Extras\nAlle Beiträge\nDER SAMSTAG\n8 Min\nAlle Beiträge\nNachrichten\nSport\n1 Min\nAlle Beiträge\nAlle Beiträge\n11FREUNDE mit SPIEGEL+ gratis lesen\n4 Min\nAktuelle Videos\nAlle Podcasts\nAlle Games\nTop bei SPIEGEL+\nMeistgelesene Artikel\nAlle Beiträge\n5 Min",
+      "matchedWords": {
+        "01oC60kUlFD7": {
+          "hits": 0,
+          "textWords": 328
+        },
+        "WdCRTATBnXV3": {
+          "hits": 0,
+          "textWords": 328
+        }
+      },
+      "queryPhraseHits": 0
+    },
     {
       "hash": "gt1Hms8_y8I6",
       "address": "https://henrymakow-de.com/",
@@ -847,52 +553,154 @@
       "queryPhraseHits": 0
     },
     {
+      "hash": "YFg0eX8moajg",
+      "address": "https://www.welt.de/sonderthemen/medizin-der-zukunft/",
+      "title": "Medizin der Zukunft",
+      "snippet": "Pfadnavigation\nHome\nSonderthemen\nMedizin der Zukunft\n„Screening rettet Leben“\nDie gute Nachricht: Neue Therapien und Medikamente bekämpfen Brustkrebs immer besser. Aber die Patientinnen müssen auch selbst aktiv werden.\nImpfen gegen den Tumor – mehr als nur ein Traum",
+      "matchedWords": {
+        "01oC60kUlFD7": {
+          "hits": 0,
+          "textWords": 362
+        },
+        "WdCRTATBnXV3": {
+          "hits": 0,
+          "textWords": 362
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "zjc5Mm8moajg",
+      "address": "https://www.welt.de/sport/handball/",
+      "title": "Handball: Aktuelle News zu Bundesliga, DHB \u0026 Champions League",
+      "snippet": "Pfadnavigation\nHome\nSport\nUnternavigation - Handball\nHBL-Ergebnisse\nHBL-Tabelle\nAlle Spiele, alle Tore, alle Highlights der Handball-Bundesliga und mehr!\nArtikel enthält Videos\nRessort:HandballHandball-Saison startet\nNach einer Katastrophensaison ist Kiel auf Wiedergutmachung aus",
+      "matchedWords": {
+        "01oC60kUlFD7": {
+          "hits": 0,
+          "textWords": 550
+        },
+        "WdCRTATBnXV3": {
+          "hits": 0,
+          "textWords": 550
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "2RTWrl8moajg",
+      "address": "https://www.welt.de/",
+      "title": "WELT - Aktuelle Nachrichten, News, Hintergründe \u0026 Videos",
+      "snippet": "15:05Untersuchungsbericht\nKommission sieht zahlreiche Fehler nach Vergewaltigung in Jugendclub in Berlin\n15:00Matroschka-Methode\nSchweden warnt vor russischer Einflussnahme auf Wahlen in Deutschland\n12:56Newsticker\nMotorradfahrer von Auto angefahren und gestorben\n12:54Newsticker",
+      "matchedWords": {
+        "01oC60kUlFD7": {
+          "hits": 1,
+          "textWords": 1239
+        },
+        "WdCRTATBnXV3": {
+          "hits": 0,
+          "textWords": 1239
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "--rz3C8moajg",
+      "address": "https://www.welt.de/regionales/sachsen-anhalt/",
+      "title": "Sachsen-Anhalt - Nachrichten \u0026 aktuelle News - WELT",
+      "snippet": "Ausgerechnet Wagenknechts Kleinstpartei kann Wahlgewinner Siegmund zur Macht verhelfen\n06.09.2026\n23:56Ralf Stegner\n„Wenn wir heute die Regierung in Berlin platzen lassen würden, gibt es drei mögliche Konsequenzen“\n12.09.2026\n12:03Newsticker\nADFC fordert mehr Geld für Radwege in Sachsen-Anhalt",
+      "matchedWords": {
+        "01oC60kUlFD7": {
+          "hits": 1,
+          "textWords": 1033
+        },
+        "WdCRTATBnXV3": {
+          "hits": 0,
+          "textWords": 1033
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "_a84pW8moajg",
+      "address": "https://www.welt.de/reise/weltplus/",
+      "title": "WELTplus Reise - Qualitätsjournalismus für Abonnenten",
+      "snippet": "FKK-Fans, denen es an Nord- oder Ostsee zu kalt ist, bietet Frankreich Abhilfe: am Mittelmeer. Dort verbindet eine Top-Anlage Naturismus mit Savoir-vivre und gutem Wetter. Strikte Regeln gewährleisten den gegenseitigen Respekt unter den Gästen.\nWeltplus Artikel\nZum 150. Geburtstag",
+      "matchedWords": {
+        "01oC60kUlFD7": {
+          "hits": 3,
+          "textWords": 1368
+        },
+        "WdCRTATBnXV3": {
+          "hits": 1,
+          "textWords": 1368
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
       "hash": "Fl-YxlDOAHJg",
       "address": "https://www.heise.de/",
       "title": "heise online - IT-News, Nachrichten und Hintergründe | heise online",
-      "snippet": "Anzeige\nAnzeige\nEigenwerbung\nWebinar\nIT-Security für Nicht-Nerds\nSchutz vor Phishing Mails und Kontoklau verständlich erklärt\nSicher surfen und im Netz unterwegs sein\n22.09. + 24.09.2026\nMEHR ERFAHREN\nAnzeige\nAnzeige\nmeistgelesen\nbeliebt bei Abonnenten\nmeistkommentiert",
+      "snippet": "Anzeige\nAnzeige\nEigenwerbung\nMicrosoft 365 Copilot im Unternehmen\nLive-Classroom · 26.10. - 23.11.26\nEigene Copilot Agents bauen und produktiv einsetzen\nCopilot Studio und Microsoft Foundry praxisnah nutzen\nSecurity, Governance und Skalierung sicher steuern\nClassroom entdecken\nAnzeige\nAnzeige",
       "matchedWords": {
         "01oC60kUlFD7": {
           "hits": 0,
-          "textWords": 961
+          "textWords": 1228
         },
         "WdCRTATBnXV3": {
           "hits": 0,
-          "textWords": 961
+          "textWords": 1228
         }
       },
       "queryPhraseHits": 0
     },
     {
-      "hash": "a9ooXjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Berlin",
-      "title": "Berlin - Wikipedia",
-      "snippet": "↑ \"Niederschlagsmonatssummen BERLIN-DAHLEM 1848– 1990\". old.wetterzentrale.de. Archived from the original on 7 July 2019. Retrieved 23 June 2019.\n↑ \"Wetter und Klima – Deutscher Wetterdienst – CDC (Climate Data Center)\". www.dwd.de. Archived from the original on 19 June 2022.",
+      "hash": "oq1hJjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Cardiff",
+      "title": "Cardiff - Wikipedia",
+      "snippet": "The northern part of the county, being higher and inland, tends to be cooler and wetter than the city centre.[99]\nCardiff's maximum and minimum monthly temperatures average 21.8 °C (71.2 °F) (July) and 2.5 °C (36.5 °F) (January and February).",
       "matchedWords": {
         "01oC60kUlFD7": {
-          "hits": 676,
-          "textWords": 19695
+          "hits": 1,
+          "textWords": 19173
         },
         "WdCRTATBnXV3": {
           "hits": 1,
-          "textWords": 19695
+          "textWords": 19173
         }
       },
       "queryPhraseHits": 0
     },
     {
-      "hash": "5Y0vTPSEx1zg",
-      "address": "https://wetter.welt.de/",
-      "title": "Das aktuelle Wetter und 5-Tage Wettervorhersage für Deutschland",
-      "snippet": "5-Tage Vorhersage\n23\n24\n21\n21\n22\n22\n21\nheute 11.09.2026\n23\n24\n21\n21\n22\n22\n21\nmorgen 12.09.2026\n23\n25\n21\n21\n24\n22\n23\nSonntag 13.09.2026\n20\n23\n20\n19\n21\n20\n24\nMontag 14.09.2026\n21\n25\n21\n21\n25\n21\n23\nDienstag 15.09.2026\n25\n27\n23\n23\n26\n25\n25\nBERLIN\nwolkig\n11 °C\nSO\n20° 15°\nMO\n21° 15°\nDeutschland heute",
+      "hash": "r7SQ1PSEx1zg",
+      "address": "https://wetter.welt.de/europa/",
+      "title": "Das aktuelle Wetter und 5-Tage Wettervorhersage für Europa",
+      "snippet": "Wetter Europa\n9\n14\n17\n33\n22\n30\n34\n26\n19\n24\n19\nheute 12.09.2026\n9\n14\n17\n33\n22\n30\n34\n26\n19\n24\n19\nmorgen 13.09.2026\n10\n15\n18\n34\n22\n30\n32\n27\n17\n24\n21\nMontag 14.09.2026\n11\n15\n18\n35\n22\n30\n30\n27\n17\n25\n20\nDienstag 15.09.2026\n9\n16\n18\n36\n24\n30\n30\n30\n16\n24\n19\nMittwoch 16.09.2026\n11\n14\n18\n33\n26\n30\n29\n23\n17\n21",
       "matchedWords": {
         "01oC60kUlFD7": {
+          "hits": 0,
+          "textWords": 88
+        },
+        "WdCRTATBnXV3": {
           "hits": 1,
-          "textWords": 146
+          "textWords": 88
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "TR9kflXXOSAg",
+      "address": "https://www.rbb24.de/",
+      "title": "rbb24 - Nachrichten aus Berlin und Brandenburg",
+      "snippet": "Die wichtigsten Infos zur Berlin-Wahl 2026 im Überblick\nProgramm-Checks\nWahlprogramme: Das planen die Berliner Parteien\nBerlin-Wahl 2026\nDas sind die Spitzenkandidaten\nBerlin-Wahl 2026\nHier können Sie den Wahl-O-Mat nutzen\nBerlinTrend\nLinke liegt wieder knapp vor CDU\nBerlin-Wahl 2026",
+      "matchedWords": {
+        "01oC60kUlFD7": {
+          "hits": 65,
+          "textWords": 2125
         },
         "WdCRTATBnXV3": {
           "hits": 0,
-          "textWords": 146
+          "textWords": 2125
         }
       },
       "queryPhraseHits": 0
@@ -913,10 +721,435 @@
         }
       },
       "queryPhraseHits": 0
+    },
+    {
+      "hash": "I86iVlfjI1Dh",
+      "address": "https://www.tagesschau.de/investigativ",
+      "title": "Investigativ Berichterstattung und Reportagen | tagesschau.de",
+      "snippet": "Russisches Haus in Berlin Spionage getarnt als Kulturpflege?\nDas Russische Haus in Berlin bestreitet Spionagevorwürfe. Dabei zeigt ein KGB-Lehrbuch, wie Moskau schon seit Jahrzehnten kulturelle Einrichtungen als Deckmantel für Spionage nutzt. Von Florian Flade und Roman Lehberger. mehr\nExklusiv",
+      "matchedWords": {
+        "01oC60kUlFD7": {
+          "hits": 6,
+          "textWords": 1658
+        },
+        "WdCRTATBnXV3": {
+          "hits": 0,
+          "textWords": 1658
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "SH2v_lfjI1Dh",
+      "address": "https://www.tagesschau.de/ausland",
+      "title": "Internationale Nachrichten aus aller Welt | tagesschau.de",
+      "snippet": "Europa\nZug entgleist in Frankreich Ermittler schließen Sabotage nicht aus\nIn Nordfrankreich entgleist ein Zug, mehr als 40 Menschen werden verletzt. Französische Medien berichten nun, dass es möglicherweise kein Unglück war. Offenbar fanden Ermittler einen Schienenteil auf der Strecke. mehr",
+      "matchedWords": {
+        "01oC60kUlFD7": {
+          "hits": 0,
+          "textWords": 1384
+        },
+        "WdCRTATBnXV3": {
+          "hits": 0,
+          "textWords": 1384
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "Sm8W4sfjI1Dh",
+      "address": "https://www.tagesschau.de/faktenfinder/kontext",
+      "title": "Kontext - Einordnung zu aktuellen Nachrichten | tagesschau.de",
+      "snippet": "Ressort\nKontext\nKontext\nKriminalstatistik Falsche Berechnungen zur Ausländerkriminalität\nKontext\nKriminalstatistik Fragwürdige Berechnungen der Ausländerkriminalität\nKontext\nQueerfeindlichkeit Wie Rechtsextreme den Pride Month umdeuten wollen\nKontext",
+      "matchedWords": {
+        "01oC60kUlFD7": {
+          "hits": 0,
+          "textWords": 80
+        },
+        "WdCRTATBnXV3": {
+          "hits": 0,
+          "textWords": 80
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "UEXwEofjI1Dh",
+      "address": "https://www.tagesschau.de/wahlarchiv/laenderparlamente/rheinland-pfalz",
+      "title": "Nachrichten und Hintergründe | tagesschau.de",
+      "snippet": "Wahlarchiv\nErgebnis Landtagswahl Rheinland-Pfalz 2021\nSPD 35,7% - CDU 27,7% - AfD 8,3% - FDP 5,5% - Grüne 9,3% - Die Linke 2,5% - FW 5,4% - Andere: 5,7%. mehr\nWahlarchiv\nErgebnis Landtagswahl Rheinland-Pfalz 2016",
+      "matchedWords": {
+        "01oC60kUlFD7": {
+          "hits": 0,
+          "textWords": 264
+        },
+        "WdCRTATBnXV3": {
+          "hits": 0,
+          "textWords": 264
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "UF5LEvfjI1Dh",
+      "address": "https://www.tagesschau.de/multimedia/bilder",
+      "title": "Bilder des Tages | tagesschau.de",
+      "snippet": "Anschlag während CSD Trauer und Anteilnahme nach Anschlag in Berlin\nWetterbilder\nPfeil hoch\n© ARD-aktuell / tagesschau.de",
+      "matchedWords": {
+        "01oC60kUlFD7": {
+          "hits": 1,
+          "textWords": 307
+        },
+        "WdCRTATBnXV3": {
+          "hits": 0,
+          "textWords": 307
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "V93UbofjI1Dh",
+      "address": "https://www.tagesschau.de/wahlarchiv/laenderparlamente/thueringen",
+      "title": "Nachrichten und Hintergründe | tagesschau.de",
+      "snippet": "Wahlarchiv\nErgebnis Landtagswahl Thüringen 2019\nCDU 21,7% - Die Linke 31,0% - SPD 8,2% - AfD 23,4% - Grüne 5,2% - FDP 5,0% - Andere: 5,5% mehr\nWahlarchiv\nErgebnis Landtagswahl Thüringen 2014\nCDU 33,5% - Die Linke 28,2% - SPD 12,4% - FDP 2,5% - Grüne 5,7% - NPD 3,6% - AfD 10,6% - Andere: 3,6% mehr",
+      "matchedWords": {
+        "01oC60kUlFD7": {
+          "hits": 0,
+          "textWords": 116
+        },
+        "WdCRTATBnXV3": {
+          "hits": 0,
+          "textWords": 116
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "XCS0EofjI1Dh",
+      "address": "https://www.tagesschau.de/wahlarchiv/laenderparlamente",
+      "title": "Nachrichten und Hintergründe | tagesschau.de",
+      "snippet": "Länderparlamente Untermenü Länderparlamente einblenden\nBundestagswahl\nEuropäisches Parlament\nChronologie\nWahltermine\nUntermenü Wetter ausblenden Wetter\nStartseite Wetter\nDeutschland\nEuropa \u0026 Welt\nUnwetter\nRegenradar\nWetterthema\nUntermenü Videos \u0026 Audios ausblenden Videos \u0026 Audios",
+      "matchedWords": {
+        "01oC60kUlFD7": {
+          "hits": 3,
+          "textWords": 401
+        },
+        "WdCRTATBnXV3": {
+          "hits": 5,
+          "textWords": 401
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "k1dSkZfjI1Dh",
+      "address": "https://www.tagesschau.de/wirtschaft/verbraucher",
+      "title": "Nachrichten zu Verbraucher-Themen | tagesschau.de",
+      "snippet": "Verbraucherschützer alarmiert Kritik an Wegfall der Info-Pflicht bei höheren Kassenbeiträgen\nWird die Krankenkasse teurer, muss sie ihren Mitgliedern das nicht mehr aktiv mitteilen. Die Info-Pflicht wurde gestrichen. \"Ein Unding\", kritisieren Verbraucherschützer.",
+      "matchedWords": {
+        "01oC60kUlFD7": {
+          "hits": 0,
+          "textWords": 780
+        },
+        "WdCRTATBnXV3": {
+          "hits": 0,
+          "textWords": 780
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "ng9PTlfjI1Dh",
+      "address": "https://www.tagesschau.de/",
+      "title": "tagesschau.de - die erste Adresse für Nachrichten und Information | tagesschau.de",
+      "snippet": "Zeitenwende für Rot-Grün: Berlin und der Schock vom 11. September\nIm eisigen Wasser Alaskas 15-Jähriger überlebt tagelang auf gekentertem Boot\nEin Teenager hat sich in der kalten Beringsee vor Alaska zwei Tage lang auf einem gekenterten Boot über Wasser gehalten.",
+      "matchedWords": {
+        "01oC60kUlFD7": {
+          "hits": 3,
+          "textWords": 1681
+        },
+        "WdCRTATBnXV3": {
+          "hits": 1,
+          "textWords": 1681
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "sII4cofjI1Dh",
+      "address": "https://www.tagesschau.de/wahlarchiv/laenderparlamente/brandenburg",
+      "title": "Nachrichten und Hintergründe | tagesschau.de",
+      "snippet": "Wahlarchiv\nErgebnis Landtagswahl Brandenburg 2019\nSPD 26,2% - CDU 15,6% - Die Linke 10,7% - AfD 23,5% - Grüne 10,8% - BVB/FW 5,0% - FDP 4,1% - Andere: 4,1% mehr\nWahlarchiv\nErgebnis Landtagswahl Brandenburg 2014",
+      "matchedWords": {
+        "01oC60kUlFD7": {
+          "hits": 0,
+          "textWords": 126
+        },
+        "WdCRTATBnXV3": {
+          "hits": 0,
+          "textWords": 126
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "tHnWBhfjI1Dh",
+      "address": "https://www.tagesschau.de/ausland/europa",
+      "title": "Aktuelle Nachrichten aus Europa | tagesschau.de",
+      "snippet": "Frankreich Mehr als 40 Verletzte bei Zugunglück\nEin Teil eines Zugs in Nordfrankreich ist nach einer Kollision entgleist. Mehr als 40 Menschen wurden verletzt, darunter eine Person schwer. An Bord des Regionalzuges waren rund 180 Passagiere. Die Unfallursache ist noch unklar. mehr",
+      "matchedWords": {
+        "01oC60kUlFD7": {
+          "hits": 0,
+          "textWords": 847
+        },
+        "WdCRTATBnXV3": {
+          "hits": 0,
+          "textWords": 847
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "uj2IelfjI1Dh",
+      "address": "https://www.tagesschau.de/inland",
+      "title": "Aktuelle Nachrichten aus Deutschland | tagesschau.de",
+      "snippet": "Länderparlamente Untermenü Länderparlamente einblenden\nBundestagswahl\nEuropäisches Parlament\nChronologie\nWahltermine\nUntermenü Wetter ausblenden Wetter\nStartseite Wetter\nDeutschland\nEuropa \u0026 Welt\nUnwetter\nRegenradar\nWetterthema\nUntermenü Videos \u0026 Audios ausblenden Videos \u0026 Audios",
+      "matchedWords": {
+        "01oC60kUlFD7": {
+          "hits": 5,
+          "textWords": 1434
+        },
+        "WdCRTATBnXV3": {
+          "hits": 5,
+          "textWords": 1434
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "0s4GelfjI1Dh",
+      "address": "https://www.tagesschau.de/thema",
+      "title": "Nachrichten-Themen | tagesschau.de",
+      "snippet": "Von A bis Z: Übersichten zu allen Nachrichten-Themen aus Politik, Kultur, Wirtschaft und Wissenschaft finden Sie über die A-Z Themenauswahl - Nachrichten und Videos zu Themen wie Ukraine, Wahlen, Unwetter, Coronavirus und Klimawandel.",
+      "matchedWords": {
+        "01oC60kUlFD7": {
+          "hits": 0,
+          "textWords": 48
+        },
+        "WdCRTATBnXV3": {
+          "hits": 0,
+          "textWords": 48
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "1_T-KZfjI1Dh",
+      "address": "https://www.tagesschau.de/wirtschaft/digitales",
+      "title": "Digitales aktuell | tagesschau.de",
+      "snippet": "Ressort\nDigitales\nHintergrund\nModelle von Apple, Samsung, Xiaomi, Huawei Warum jetzt mehr Falt-Handys in die Läden kommen\nApple steigt ins Geschäft mit aufklappbaren Smartphones ein. Bislang war das eher eine Nische.",
+      "matchedWords": {
+        "01oC60kUlFD7": {
+          "hits": 0,
+          "textWords": 1037
+        },
+        "WdCRTATBnXV3": {
+          "hits": 0,
+          "textWords": 1037
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "5sQ2eLfjI1Dh",
+      "address": "https://www.tagesschau.de/inland/mittendrin",
+      "title": "tagesthemen mittendrin Reportagen | tagesschau.de",
+      "snippet": "",
+      "matchedWords": {
+        "01oC60kUlFD7": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "WdCRTATBnXV3": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "6BsM-HfjI1Dh",
+      "address": "https://www.tagesschau.de/wetter/regenradar-deutschland",
+      "title": "Regenradar Deutschland: Aktueller Niederschlag | tagesschau.de",
+      "snippet": "",
+      "matchedWords": {
+        "01oC60kUlFD7": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "WdCRTATBnXV3": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "6sqARLfjI1Dh",
+      "address": "https://www.tagesschau.de/inland/regional/mecklenburgvorpommern",
+      "title": "Regionalnachrichten aus Mecklenburg-Vorpommern | tagesschau.de",
+      "snippet": "",
+      "matchedWords": {
+        "01oC60kUlFD7": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "WdCRTATBnXV3": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "65ANUhfjI1Dh",
+      "address": "https://www.tagesschau.de/ausland/asien",
+      "title": "Aktuelle Nachrichten aus Asien | tagesschau.de",
+      "snippet": "",
+      "matchedWords": {
+        "01oC60kUlFD7": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "WdCRTATBnXV3": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "8mSGWdfjI1Dh",
+      "address": "https://www.tagesschau.de/archiv/allemeldungen",
+      "title": "7-Tage-Überblick - kompakte News vom 09.04.2026 | tagesschau.de",
+      "snippet": "",
+      "matchedWords": {
+        "01oC60kUlFD7": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "WdCRTATBnXV3": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "TSnyVlgCVoFh",
+      "address": "https://www.nd-aktuell.de/",
+      "title": "nd.Aktuell – Journalismus von links",
+      "snippet": "",
+      "matchedWords": {
+        "01oC60kUlFD7": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "WdCRTATBnXV3": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "bthkIlgw84xh",
+      "address": "https://www.sueddeutsche.de/",
+      "title": "Aktuelle Nachrichten und Kommentare - SZ.de",
+      "snippet": "",
+      "matchedWords": {
+        "01oC60kUlFD7": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "WdCRTATBnXV3": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "pImU9lkaJR9i",
+      "address": "https://www.berliner-zeitung.de/",
+      "title": "Berliner Zeitung",
+      "snippet": "",
+      "matchedWords": {
+        "01oC60kUlFD7": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "WdCRTATBnXV3": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "rtQ-JluG0-bg",
+      "address": "https://www.fr.de/",
+      "title": "FR.de | News aus Politik, Wirtschaft, Sport, Frankfurt, Hessen und der Welt",
+      "snippet": "",
+      "matchedWords": {
+        "01oC60kUlFD7": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "WdCRTATBnXV3": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "4nGGEswuHbag",
+      "address": "https://orf.at/",
+      "title": "news.ORF.at",
+      "snippet": "",
+      "matchedWords": {
+        "01oC60kUlFD7": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "WdCRTATBnXV3": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "BKlEylyX5Qug",
+      "address": "https://www.t-online.de/",
+      "title": "News \u0026 E-Mail bei t-online | Politik, Sport, Unterhaltung \u0026 Ratgeber",
+      "snippet": "",
+      "matchedWords": {
+        "01oC60kUlFD7": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "WdCRTATBnXV3": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
     }
   ],
   "documentsHeldPerQueryWord": {
-    "01oC60kUlFD7": 1308670,
-    "WdCRTATBnXV3": 243151
+    "01oC60kUlFD7": 1089421,
+    "WdCRTATBnXV3": 212181
   }
 }

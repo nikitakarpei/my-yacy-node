@@ -8,10 +8,10 @@
       "grade": 1
     },
     {
-      "hash": "Uy5MSiMQjAmx",
-      "address": "https://it.libreoffice.org/",
-      "title": "Home | LibreOffice in italiano - La suite libera per l'ufficio",
-      "grade": 2
+      "hash": "QaEPlQxXGmlz",
+      "address": "https://wiki.documentfoundation.org/LibreOffice_Localization_Guide",
+      "title": "LibreOffice Localization Guide - The Document Foundation Wiki",
+      "grade": null
     },
     {
       "hash": "ehYdFl-4htmx",
@@ -32,22 +32,28 @@
       "grade": 0
     },
     {
-      "hash": "8856zsuNWVxw",
-      "address": "https://linuxfr.org/",
-      "title": "Accueil - LinuxFr.org",
-      "grade": 0
+      "hash": "a_LYv0hl92eQ",
+      "address": "http://advisories.mageia.org/src_libreoffice.html",
+      "title": "Mageia advisories for package libreoffice",
+      "grade": null
     },
     {
-      "hash": "tb9f6s_XwdU5",
-      "address": "https://endoflife.date/libreoffice",
-      "title": "LibreOffice added",
-      "grade": 1
+      "hash": "DU4mtls8l0-4",
+      "address": "https://www.clubic.com/microsoft-office/",
+      "title": "Microsoft Office : Actualités, Avis, Dossiers, Guides et Tutos",
+      "grade": null
     },
     {
       "hash": "cBBK_NcIC9Gh",
       "address": "https://www.eduvidual.at/course/view.php?id=215108",
       "title": "Course: LibreOffice Writer | eduvidual.at",
       "grade": 1
+    },
+    {
+      "hash": "_i4Gv7JCQNT0",
+      "address": "https://www.nobleprog.co.za/",
+      "title": "NobleProg South Africa | The World's Local Training Provider",
+      "grade": null
     },
     {
       "hash": "g5dE49OwONZ6",
@@ -62,33 +68,27 @@
       "grade": 1
     },
     {
+      "hash": "Uy5MSiMQjAmx",
+      "address": "https://it.libreoffice.org/",
+      "title": "Home | LibreOffice in italiano - La suite libera per l'ufficio",
+      "grade": 2
+    },
+    {
       "hash": "PCpNBzxXGmlz",
       "address": "https://wiki.documentfoundation.org/ReleaseNotes/5.3",
       "title": "LibreOffice 5.3: Release Notes - The Document Foundation Wiki",
       "grade": 1
     },
     {
+      "hash": "hR7IkRRnHrtg",
+      "address": "https://elearn.ellak.gr/mod/forum/discuss.php?d=45404",
+      "title": "LibreOffice: paybis",
+      "grade": null
+    },
+    {
       "hash": "0c2hEZZ5FD3x",
       "address": "https://bugs.launchpad.net/ubuntu/+source/libreoffice/+bug/1300792",
       "title": "Bug #1300792 “libreoffice toolbar icons large and ugly - no matt...” : Bugs : libreoffice package : Ubuntu",
-      "grade": 1
-    },
-    {
-      "hash": "x5sAFVPMwjH4",
-      "address": "https://docs.aws.amazon.com/zh_tw/linux/al2023/ug/al2023-libreoffice.html",
-      "title": "教學課程：在 AL2023 上安裝 LibreOffice - Amazon Linux 2023",
-      "grade": 1
-    },
-    {
-      "hash": "X0gS6jRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/LibreOffice",
-      "title": "LibreOffice - Wikipedia",
-      "grade": 1
-    },
-    {
-      "hash": "wXVn0vKqlBA4",
-      "address": "https://www.phoronix.com/news/LibreOffice-26-Donation-Banner",
-      "title": "LibreOffice 26.8 To Add A Donation Banner To Its Start Center - Phoronix",
       "grade": 1
     },
     {
@@ -98,15 +98,21 @@
       "grade": 2
     },
     {
-      "hash": "ZYA3wl-4htmx",
-      "address": "https://www.libreoffice.org/who-are-we/",
-      "title": "Who are we? — LibreOffice",
-      "grade": 2
+      "hash": "X0gS6jRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/LibreOffice",
+      "title": "LibreOffice - Wikipedia",
+      "grade": 1
     },
     {
-      "hash": "429rsWdEd1C6",
-      "address": "https://heathermeeker.com/tag/libreoffice/",
-      "title": "libreoffice – Copyleft Currents",
+      "hash": "T-ON6dIRRnbx",
+      "address": "https://books.libreoffice.org/en/",
+      "title": "LibreOffice Bookshelf",
+      "grade": null
+    },
+    {
+      "hash": "x5sAFVPMwjH4",
+      "address": "https://docs.aws.amazon.com/zh_tw/linux/al2023/ug/al2023-libreoffice.html",
+      "title": "教學課程：在 AL2023 上安裝 LibreOffice - Amazon Linux 2023",
       "grade": 1
     },
     {
@@ -116,22 +122,16 @@
       "grade": 2
     },
     {
-      "hash": "xjXbWvKqlBA4",
-      "address": "https://www.phoronix.com/news/LibreOffice-25.8-RC1",
-      "title": "LibreOffice 25.8 RC1 Released With Various File Performance Improvements - Phoronix",
-      "grade": 1
-    },
-    {
-      "hash": "8MHuJlPsL0Jz",
-      "address": "https://www.documentfoundation.org/",
-      "title": "The Document Foundation - The House of LibreOffice and Document Liberation Project — The Document Foundation",
-      "grade": 2
-    },
-    {
       "hash": "Cq-xgm0h8sSw",
       "address": "https://tracker.debian.org/pkg/libreoffice",
       "title": "libreoffice - Debian Package Tracker",
       "grade": 1
+    },
+    {
+      "hash": "HTF6isLafmQx",
+      "address": "https://launchpad.net/~libreoffice",
+      "title": "LibreOffice Packaging in Launchpad",
+      "grade": null
     },
     {
       "hash": "5y_i0yz8AoWx",
@@ -140,15 +140,15 @@
       "grade": 2
     },
     {
-      "hash": "VeLOxl-4htmx",
-      "address": "https://www.libreoffice.org/security/",
-      "title": "Security advisories — LibreOffice",
-      "grade": 2
+      "hash": "U3jbhlf4UL4w",
+      "address": "https://www.freewear.org/LibreOffice",
+      "title": "LibreOffice merchandise | FreeWear.org",
+      "grade": 1
     },
     {
-      "hash": "qZrTal-4htmx",
-      "address": "https://www.libreoffice.org/improve-it/",
-      "title": "Improve it — LibreOffice",
+      "hash": "Sah2als8l0-4",
+      "address": "https://www.clubic.com/telecharger-fiche446386-libreoffice-1.html",
+      "title": "Télécharger LibreOffice Calc (gratuit) Windows, Mac, Linux - Clubic",
       "grade": 1
     },
     {
@@ -158,28 +158,16 @@
       "grade": 1
     },
     {
-      "hash": "wYdvKAJGtFlz",
-      "address": "https://design.blog.documentfoundation.org/",
-      "title": "Design Community Blog - Blog site from the design and UX teams working on LibreOffice",
-      "grade": 2
-    },
-    {
       "hash": "e3kA0O1f59yx",
       "address": "https://cs.libreoffice.org/get-help/documentation/",
       "title": "Dokumentace | LibreOffice - Svobodný kancelářský balík - Smysluplný projekt - Skvělí lidé",
       "grade": 2
     },
     {
-      "hash": "V389_bo-5aSx",
-      "address": "https://conference.libreoffice.org/2024/sponsors",
-      "title": "Sponsors » LibreOffice Conference",
-      "grade": 2
-    },
-    {
-      "hash": "Sah2als8l0-4",
-      "address": "https://www.clubic.com/telecharger-fiche446386-libreoffice-1.html",
-      "title": "Télécharger LibreOffice Calc (gratuit) Windows, Mac, Linux - Clubic",
-      "grade": 1
+      "hash": "2RLnvl-4htmx",
+      "address": "https://www.libreoffice.org/donate/?pk_campaign=help",
+      "title": "Donate — LibreOffice",
+      "grade": null
     },
     {
       "hash": "ilWjy61ajpq5",
@@ -188,15 +176,21 @@
       "grade": 1
     },
     {
-      "hash": "zfp_TfS6MKD4",
-      "address": "https://github.com/LibreOffice/core/tags",
-      "title": "Tags · LibreOffice/core · GitHub",
-      "grade": 2
+      "hash": "MpRMNls8l0-4",
+      "address": "https://www.clubic.com/telecharger-fiche366452-libreoffice.html?file=33508\u0026launched=true",
+      "title": "Télécharger LibreOffice (gratuit) Windows, Mac, Linux - Clubic",
+      "grade": null
     },
     {
-      "hash": "4hkFtWSMo4M4",
-      "address": "https://www.zdnet.com/home-and-office/work-life/how-i-use-libreoffice-templates-to-work-smarter-and-you-can-too/",
-      "title": "How I use LibreOffice templates to work smarter - and you can too | ZDNET",
+      "hash": "03n6NdwG-02z",
+      "address": "https://blog.documentfoundation.org/blog/2016/12/21/the-document-foundation-announces-the-muffin-a-new-tasty-user-interface-concept-for-libreoffice/",
+      "title": "The Document Foundation announces the MUFFIN, a new tasty user interface concept for LibreOffice - TDF Community Blog",
+      "grade": null
+    },
+    {
+      "hash": "2xk3is9r_z8g",
+      "address": "https://gnulinux.ch/serie-ralf-regt-sich-auf-ueber-libreoffice-calc",
+      "title": "Serie: Ralf regt sich auf über LibreOffice-Calc",
       "grade": 1
     },
     {
@@ -206,28 +200,34 @@
       "grade": 2
     },
     {
-      "hash": "2xk3is9r_z8g",
-      "address": "https://gnulinux.ch/serie-ralf-regt-sich-auf-ueber-libreoffice-calc",
-      "title": "Serie: Ralf regt sich auf über LibreOffice-Calc",
+      "hash": "qZrTal-4htmx",
+      "address": "https://www.libreoffice.org/improve-it/",
+      "title": "Improve it — LibreOffice",
       "grade": 1
     },
     {
-      "hash": "ym4zSwSMo4M4",
-      "address": "https://www.zdnet.com/article/whats-new-in-libreoffice-and-how-do-you-install-it-on-macos/",
-      "title": "What's new in LibreOffice and how do you install it on MacOS? | ZDNET",
-      "grade": 1
+      "hash": "VeLOxl-4htmx",
+      "address": "https://www.libreoffice.org/security/",
+      "title": "Security advisories — LibreOffice",
+      "grade": 2
     },
     {
-      "hash": "U3jbhlf4UL4w",
-      "address": "https://www.freewear.org/LibreOffice",
-      "title": "LibreOffice merchandise | FreeWear.org",
-      "grade": 1
+      "hash": "2DhRj0TYIVRx",
+      "address": "https://blog.thebehrens.net/2017/07/28/openpgp-signature-support-in-libreoffice/",
+      "title": "OpenPGP signature support in LibreOffice | Thorsten's Weblog",
+      "grade": null
     },
     {
-      "hash": "_WED-xtQ-zSx",
-      "address": "https://wiki.archlinux.org/title/LibreOffice_(%D0%A0%D1%83%D1%81%D1%81%D0%BA%D0%B8%D0%B9)",
-      "title": "LibreOffice (Русский) - ArchWiki",
-      "grade": 1
+      "hash": "OK3ohYj86aPx",
+      "address": "https://help.libreoffice.org/latest/en-US/text/shared/05/new_help.html",
+      "title": "The LibreOffice Help Window",
+      "grade": null
+    },
+    {
+      "hash": "QKv26xtQ-zSx",
+      "address": "https://wiki.archlinux.org/title/LibreOffice",
+      "title": "LibreOffice - ArchWiki",
+      "grade": null
     },
     {
       "hash": "GD15j_TXSTfx",
@@ -236,16 +236,22 @@
       "grade": 1
     },
     {
+      "hash": "DRJ3LFS6MKD4",
+      "address": "https://github.com/goosepirate/lox365",
+      "title": "GitHub - goosepirate/lox365: ⚗️ Lox365: XLOOKUP for LibreOffice · GitHub",
+      "grade": null
+    },
+    {
+      "hash": "-5h9wl-4htmx",
+      "address": "https://www.libreoffice.org/imprint/",
+      "title": "Imprint — LibreOffice",
+      "grade": null
+    },
+    {
       "hash": "kvqmPdwG-02z",
       "address": "https://blog.documentfoundation.org/blog/2018/06/18/simplicity-and-flexibility-choose-the-right-libreoffice-interface-for-you/",
       "title": "Simplicity and flexibility: choose the right LibreOffice interface for you - TDF Community Blog",
       "grade": 2
-    },
-    {
-      "hash": "xuqxcYL_TxYx",
-      "address": "https://languagetool.org/insights/post/product-libreoffice/",
-      "title": "How To Enable LanguageTool on LibreOffice: Step by Step",
-      "grade": 1
     },
     {
       "hash": "BLzeBEX3xSfx",
@@ -266,10 +272,10 @@
       "grade": 2
     },
     {
-      "hash": "zeO10FX3xSfx",
-      "address": "https://ask.libreoffice.org/c/italian/8",
-      "title": "Latest Italiano topics - Ask LibreOffice",
-      "grade": 2
+      "hash": "ZDXTViPMwjH4",
+      "address": "https://docs.aws.amazon.com/linux/al2023/ug/al2023-libreoffice.html",
+      "title": "Tutorial: Install LibreOffice on AL2023 - Amazon Linux 2023",
+      "grade": null
     },
     {
       "hash": "MewNztxeGHlx",

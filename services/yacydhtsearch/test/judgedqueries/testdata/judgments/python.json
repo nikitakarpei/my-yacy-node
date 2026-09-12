@@ -8,27 +8,21 @@
       "grade": 1
     },
     {
-      "hash": "HEQVMwS6MKD4",
-      "address": "https://github.com/ayushi7rawat/Ultimate-Python-Resource-Hub",
-      "title": "GitHub - ayushi7rawat/Ultimate-Python-Resource-Hub: The Ultimate resource hub of Python: All at one place · GitHub",
-      "grade": 1
+      "hash": "GAtpWgsjOPf5",
+      "address": "https://fuchsia.googlesource.com/third_party/github.com/python/mypy_extensions/+/refs/heads/upstream/master",
+      "title": "refs/heads/upstream/master - third_party/github.com/python/mypy_extensions - Git at Google",
+      "grade": null
     },
     {
-      "hash": "Ugbc-tHWcaq4",
-      "address": "https://blog.finxter.com/free-python-books/",
-      "title": "101+ Free Python Books - Be on the Right Side of Change",
-      "grade": 1
+      "hash": "soIzFAIRlUi5",
+      "address": "https://www.10zenmonkeys.com/category/uncategorized/",
+      "title": "All Articles – 10 Zen Monkeys",
+      "grade": null
     },
     {
-      "hash": "PJMkUsvmxro5",
-      "address": "https://techbeamers.com/python-tutorial-step-by-step/",
-      "title": "Free Python Course with 100+ Basic to Advanced Tutorials",
-      "grade": 1
-    },
-    {
-      "hash": "SooFRitD2jQw",
-      "address": "https://docs.python.org/3/howto/pyporting.html",
-      "title": "How to port Python 2 Code to Python 3 — Python 3.14.6 documentation",
+      "hash": "ROGk4VdG5jPw",
+      "address": "https://www.python.org/doc/av/",
+      "title": "Audio/Video Instructional Materials for Python | Python.org",
       "grade": 1
     },
     {
@@ -50,21 +44,33 @@
       "grade": 1
     },
     {
-      "hash": "-QvMPAS6MKD4",
-      "address": "https://github.com/mithun035/Python-programming-exercises",
-      "title": "GitHub - mithun035/Python-programming-exercises: 100+ Python challenging programming exercises · GitHub",
-      "grade": 1
-    },
-    {
       "hash": "lNYajPMW35a4",
       "address": "https://hub.docker.com/_/python",
       "title": "python - Official Image | Docker Hub",
       "grade": 1
     },
     {
-      "hash": "t-S-sitD2jQw",
-      "address": "https://docs.python.org/3/faq/installed.html",
-      "title": "“Why is Python Installed on my Computer?” FAQ — Python 3.14.0 documentation",
+      "hash": "qRaHnG-j6W54",
+      "address": "https://rpep.dev/posts/alpine-python-antipattern/",
+      "title": "Why using Alpine Docker images and Python is probably bad for your project (right now) | rpep.dev",
+      "grade": null
+    },
+    {
+      "hash": "vfhHBEgOlJX5",
+      "address": "https://www.codecademy.com/projects/language/python",
+      "title": "Projects in Python | Codecademy",
+      "grade": null
+    },
+    {
+      "hash": "2vIepkdG5jPw",
+      "address": "https://www.python.org/community/forums/",
+      "title": "Forums | Python.org",
+      "grade": null
+    },
+    {
+      "hash": "gQlf6itD2jQw",
+      "address": "https://docs.python.org/3/whatsnew/index.html",
+      "title": "What’s New in Python — Python 3.14.6 documentation",
       "grade": 1
     },
     {
@@ -74,40 +80,34 @@
       "grade": 1
     },
     {
-      "hash": "gQlf6itD2jQw",
-      "address": "https://docs.python.org/3/whatsnew/index.html",
-      "title": "What’s New in Python — Python 3.14.6 documentation",
+      "hash": "Hh9MvsZTlNQ4",
+      "address": "https://python.land/python-tutorial",
+      "title": "Welcome To The Python Tutorial",
       "grade": 1
     },
     {
-      "hash": "72XtLitD2jQw",
-      "address": "https://docs.python.org/3/faq/general.html",
-      "title": "General Python FAQ — Python 3.12.4 documentation",
-      "grade": 1
-    },
-    {
-      "hash": "Aqv6qpdG5jPw",
-      "address": "https://www.python.org/events/python-user-group/680/",
-      "title": "Ljubljana Python March 2018 meetup | Python.org",
-      "grade": 1
-    },
-    {
-      "hash": "IakIRpdG5jPw",
-      "address": "https://www.python.org/events/python-events/2175/",
-      "title": "Python Leiden User Group | Python.org",
-      "grade": 1
-    },
-    {
-      "hash": "R3GUgzdG5jPw",
-      "address": "https://www.python.org/success-stories/category/software-development/",
-      "title": "Software Development | Our Success Stories | Python.org",
-      "grade": 1
+      "hash": "426AildG5jPw",
+      "address": "https://www.python.org/jobs/type/evangelism/",
+      "title": "Python Job Board | Python.org",
+      "grade": null
     },
     {
       "hash": "a9fkoldG5jPw",
       "address": "https://www.python.org/",
       "title": "Welcome to Python.org",
       "grade": 2
+    },
+    {
+      "hash": "dzPvYltD2jQw",
+      "address": "https://docs.python.org/3.14/using/index.html",
+      "title": "Python Setup and Usage — Python 3.14.6 documentation",
+      "grade": 1
+    },
+    {
+      "hash": "g3IUJldG5jPw",
+      "address": "https://www.python.org/shell/",
+      "title": "Welcome to Python.org",
+      "grade": 1
     },
     {
       "hash": "pv6SAsdG5jPw",
@@ -122,15 +122,27 @@
       "grade": 1
     },
     {
-      "hash": "WOyIQpdG5jPw",
-      "address": "https://www.python.org/events/python-events/locations/475/",
-      "title": "Our Events | Python.org",
+      "hash": "CEg0qsdG5jPw",
+      "address": "https://www.python.org/about/website/",
+      "title": "About the Python Web Site | Python.org",
+      "grade": null
+    },
+    {
+      "hash": "Nh8yR1r4CjGw",
+      "address": "https://discuss.python.org/",
+      "title": "Discussions on Python.org",
       "grade": 1
     },
     {
-      "hash": "gMt65TCk19rw",
-      "address": "https://peps.python.org/pep-0361/",
-      "title": "PEP 361 – Python 2.6 and 3.0 Release Schedule | peps.python.org",
+      "hash": "g14O1hdG5jPw",
+      "address": "https://www.python.org/downloads/release/python-326/",
+      "title": "Python Release Python 3.2.6 | Python.org",
+      "grade": null
+    },
+    {
+      "hash": "dDT4-t3vtu2w",
+      "address": "https://blog.python.org/",
+      "title": "Python Insider",
       "grade": 1
     },
     {
@@ -140,33 +152,15 @@
       "grade": 1
     },
     {
-      "hash": "7N3vIpdG5jPw",
-      "address": "https://www.python.org/events/python-user-group/2039/",
-      "title": "Python Leiden User Group | Python.org",
-      "grade": 1
+      "hash": "9DykFpdG5jPw",
+      "address": "https://www.python.org/events/calendars/",
+      "title": "Python Calendars | Python.org",
+      "grade": null
     },
     {
-      "hash": "HSk23ldG5jPw",
-      "address": "https://www.python.org/blogs/",
-      "title": "Our Blogs | Python.org",
-      "grade": 1
-    },
-    {
-      "hash": "JfZEMitD2jQw",
-      "address": "https://docs.python.org/3/faq/",
-      "title": "Python Frequently Asked Questions — Python 3.14.6 documentation",
-      "grade": 1
-    },
-    {
-      "hash": "ROGk4VdG5jPw",
-      "address": "https://www.python.org/doc/av/",
-      "title": "Audio/Video Instructional Materials for Python | Python.org",
-      "grade": 1
-    },
-    {
-      "hash": "g3IUJldG5jPw",
-      "address": "https://www.python.org/shell/",
-      "title": "Welcome to Python.org",
+      "hash": "SooFRitD2jQw",
+      "address": "https://docs.python.org/3/howto/pyporting.html",
+      "title": "How to port Python 2 Code to Python 3 — Python 3.14.6 documentation",
       "grade": 1
     },
     {
@@ -176,10 +170,28 @@
       "grade": 1
     },
     {
-      "hash": "P1bBYitD2jQw",
-      "address": "https://docs.python.org/3/whatsnew/3.5.html",
-      "title": "What’s New In Python 3.5 — Python 3.14.2 documentation",
+      "hash": "t-S-sitD2jQw",
+      "address": "https://docs.python.org/3/faq/installed.html",
+      "title": "“Why is Python Installed on my Computer?” FAQ — Python 3.14.0 documentation",
       "grade": 1
+    },
+    {
+      "hash": "_OfvEhdG5jPw",
+      "address": "https://www.python.org/downloads/release/python-3110b2/",
+      "title": "Python Release Python 3.11.0b2 | Python.org",
+      "grade": null
+    },
+    {
+      "hash": "JfZEMitD2jQw",
+      "address": "https://docs.python.org/3/faq/",
+      "title": "Python Frequently Asked Questions — Python 3.14.6 documentation",
+      "grade": 1
+    },
+    {
+      "hash": "NI6PS33vtu2w",
+      "address": "https://blog.python.org/authors/jacob-coffee/",
+      "title": "Jacob Coffee | Python Insider",
+      "grade": null
     },
     {
       "hash": "aUDQBxbhx54w",
@@ -188,52 +200,16 @@
       "grade": 1
     },
     {
-      "hash": "jKQKJldG5jPw",
-      "address": "https://www.python.org/psf-landing/",
-      "title": "Python Software Foundation",
-      "grade": 1
+      "hash": "g70YoTCk19rw",
+      "address": "https://peps.python.org/pep-0587/",
+      "title": "PEP 587 – Python Initialization Configuration | peps.python.org",
+      "grade": null
     },
     {
-      "hash": "DuEPzitD2jQw",
-      "address": "https://docs.python.org/3/whatsnew/3.9.html",
-      "title": "What’s New In Python 3.9 — Python 3.11.1 documentation",
-      "grade": 1
-    },
-    {
-      "hash": "Hh9MvsZTlNQ4",
-      "address": "https://python.land/python-tutorial",
-      "title": "Welcome To The Python Tutorial",
-      "grade": 1
-    },
-    {
-      "hash": "WY2aUHtD2jQw",
-      "address": "https://docs.python.org/3.12/whatsnew/index.html",
-      "title": "What’s New in Python — Python 3.12.0a6 documentation",
-      "grade": 1
-    },
-    {
-      "hash": "dzPvYltD2jQw",
-      "address": "https://docs.python.org/3.14/using/index.html",
-      "title": "Python Setup and Usage — Python 3.14.6 documentation",
-      "grade": 1
-    },
-    {
-      "hash": "g--irzdG5jPw",
-      "address": "https://www.python.org/success-stories/category/engineering/",
-      "title": "Engineering | Our Success Stories | Python.org",
-      "grade": 1
-    },
-    {
-      "hash": "dDT4-t3vtu2w",
-      "address": "https://blog.python.org/",
-      "title": "Python Insider",
-      "grade": 1
-    },
-    {
-      "hash": "z02vKTCk19rw",
-      "address": "https://peps.python.org/",
-      "title": "PEP 0 – Index of Python Enhancement Proposals (PEPs) | peps.python.org",
-      "grade": 1
+      "hash": "APn9VTCk19rw",
+      "address": "https://peps.python.org/pep-0457/",
+      "title": "PEP 457 – Notation For Positional-Only Parameters | peps.python.org",
+      "grade": null
     },
     {
       "hash": "2fxzxltD2jQw",
@@ -248,45 +224,9 @@
       "grade": 1
     },
     {
-      "hash": "SEaby5n__psw",
-      "address": "https://policies.python.org/",
-      "title": "About - Python Software Foundation Policies",
-      "grade": 1
-    },
-    {
-      "hash": "7h12hhdG5jPw",
-      "address": "https://www.python.org/downloads/release/python-2718rc1/",
-      "title": "Python Release Python 2.7.18rc1 | Python.org",
-      "grade": 1
-    },
-    {
-      "hash": "T00dXgYf_OZw",
-      "address": "https://mail.python.org/archives/list/python-announce-list@python.org/2005/3/",
-      "title": "Mailman 3 March 2005 - Python-announce-list - python.org",
-      "grade": 1
-    },
-    {
       "hash": "brpYmTCk19rw",
       "address": "https://peps.python.org/pep-8107/",
       "title": "PEP 8107 – 2026 Term Steering Council election | peps.python.org",
-      "grade": 1
-    },
-    {
-      "hash": "nWdI4IR2NVbw",
-      "address": "https://devguide.python.org/",
-      "title": "Python Developer’s Guide",
-      "grade": 1
-    },
-    {
-      "hash": "Nh8yR1r4CjGw",
-      "address": "https://discuss.python.org/",
-      "title": "Discussions on Python.org",
-      "grade": 1
-    },
-    {
-      "hash": "vaQzdpr4CjGw",
-      "address": "https://discuss.python.org/u/effigies",
-      "title": "Profile - effigies - Discussions on Python.org",
       "grade": 1
     },
     {
@@ -296,15 +236,39 @@
       "grade": 1
     },
     {
-      "hash": "JV0vxTCk19rw",
-      "address": "https://peps.python.org/pep-0020/",
-      "title": "PEP 20 – The Zen of Python | peps.python.org",
+      "hash": "WY2aUHtD2jQw",
+      "address": "https://docs.python.org/3.12/whatsnew/index.html",
+      "title": "What’s New in Python — Python 3.12.0a6 documentation",
       "grade": 1
+    },
+    {
+      "hash": "jKQKJldG5jPw",
+      "address": "https://www.python.org/psf-landing/",
+      "title": "Python Software Foundation",
+      "grade": 1
+    },
+    {
+      "hash": "XmjB_sdG5jPw",
+      "address": "https://www.python.org/about/gettingstarted/",
+      "title": "Python For Beginners | Python.org",
+      "grade": null
     },
     {
       "hash": "dIVOAIR2NVbw",
       "address": "https://devguide.python.org/versions/",
       "title": "Status of Python versions",
+      "grade": 1
+    },
+    {
+      "hash": "nWdI4IR2NVbw",
+      "address": "https://devguide.python.org/",
+      "title": "Python Developer’s Guide",
+      "grade": 1
+    },
+    {
+      "hash": "gMt65TCk19rw",
+      "address": "https://peps.python.org/pep-0361/",
+      "title": "PEP 361 – Python 2.6 and 3.0 Release Schedule | peps.python.org",
       "grade": 1
     },
     {
@@ -314,10 +278,34 @@
       "grade": 1
     },
     {
-      "hash": "SNlGrxbhx54w",
-      "address": "https://packaging.python.org/en/latest/",
-      "title": "Python Packaging User Guide",
+      "hash": "vaQzdpr4CjGw",
+      "address": "https://discuss.python.org/u/effigies",
+      "title": "Profile - effigies - Discussions on Python.org",
       "grade": 1
+    },
+    {
+      "hash": "zh2qIGtD2jQw",
+      "address": "https://docs.python.org/3.16/bugs.html",
+      "title": "Dealing with Bugs — Python 3.16.0a0 documentation",
+      "grade": null
+    },
+    {
+      "hash": "JV0vxTCk19rw",
+      "address": "https://peps.python.org/pep-0020/",
+      "title": "PEP 20 – The Zen of Python | peps.python.org",
+      "grade": 1
+    },
+    {
+      "hash": "HSk23ldG5jPw",
+      "address": "https://www.python.org/blogs/",
+      "title": "Our Blogs | Python.org",
+      "grade": 1
+    },
+    {
+      "hash": "eQ3N3sdG5jPw",
+      "address": "https://www.python.org/about/quotes/",
+      "title": "Quotes about Python | Python.org",
+      "grade": null
     },
     {
       "hash": "nelDPNaJVZ24",
@@ -326,9 +314,21 @@
       "grade": 1
     },
     {
-      "hash": "AF6AOlBLxyZw",
-      "address": "https://bugs.python.org/issue36763",
-      "title": "Issue 36763: Implementation of the PEP 587 - Python tracker",
+      "hash": "z02vKTCk19rw",
+      "address": "https://peps.python.org/",
+      "title": "PEP 0 – Index of Python Enhancement Proposals (PEPs) | peps.python.org",
+      "grade": 1
+    },
+    {
+      "hash": "SEaby5n__psw",
+      "address": "https://policies.python.org/",
+      "title": "About - Python Software Foundation Policies",
+      "grade": 1
+    },
+    {
+      "hash": "SNlGrxbhx54w",
+      "address": "https://packaging.python.org/en/latest/",
+      "title": "Python Packaging User Guide",
       "grade": 1
     },
     {

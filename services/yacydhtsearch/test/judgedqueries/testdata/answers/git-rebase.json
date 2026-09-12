@@ -1,6 +1,6 @@
 {
   "query": "git rebase",
-  "recordedAt": "2026-09-12T10:15:20Z",
+  "recordedAt": "2026-09-12T11:25:10Z",
   "itemsInTheOrderOfEachAnswer": [
     [
       {
@@ -24,15 +24,15 @@
         "hash": "CjgsxsIyoLTx",
         "address": "https://planetpython.org/",
         "title": "Planet Python",
-        "snippet": "",
+        "snippet": "# Keep the final evidence readable without rewriting historical parent requirements. for a,b in [('all328','all 328'),('pass31','pass 31'),('pass all328','pass all 328'),('pass,9.2s','pass, 9.2s'),('log`,210','log`, 210'),('log`,5,731','log`, 5,731'),('log`:18/18','log`: 18/18'),('pass,88','pass,",
         "matchedWords": {
           "up8R7MNJfZmT": {
-            "hits": 0,
-            "textWords": 0
+            "hits": 7,
+            "textWords": 28843
           },
           "wWrW4vQhHIra": {
-            "hits": 3,
-            "textWords": 14016
+            "hits": 0,
+            "textWords": 28843
           }
         },
         "queryPhraseHits": 0
@@ -60,32 +60,15 @@
         "hash": "F3enq_nMM_j5",
         "address": "https://grokipedia.com/page/GitHub",
         "title": "GitHub — Grokipedia",
-        "snippet": "",
+        "snippet": "GitHub extends these primitives with features like pull requests, which propose branch merges by fetching and comparing remote refs, but relies on Git's underlying fetch, merge, and rebase commands for resolution.[",
         "matchedWords": {
           "up8R7MNJfZmT": {
-            "hits": 0,
-            "textWords": 0
+            "hits": 45,
+            "textWords": 11566
           },
           "wWrW4vQhHIra": {
             "hits": 2,
-            "textWords": 13336
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "cZ2_WkRFf6Bx",
-        "address": "https://wikitech.wikimedia.org/wiki/Parsoid",
-        "title": "Parsoid - Wikitech",
-        "snippet": "",
-        "matchedWords": {
-          "up8R7MNJfZmT": {
-            "hits": 0,
-            "textWords": 0
-          },
-          "wWrW4vQhHIra": {
-            "hits": 6,
-            "textWords": 4880
+            "textWords": 11566
           }
         },
         "queryPhraseHits": 0
@@ -112,71 +95,35 @@
     ],
     [
       {
-        "hash": "PexbGAK-xyJ4",
-        "address": "https://go.dev/doc/contribute",
-        "title": "Contribution Guide - The Go Programming Language",
-        "snippet": "",
-        "matchedWords": {
-          "up8R7MNJfZmT": {
-            "hits": 0,
-            "textWords": 0
-          },
-          "wWrW4vQhHIra": {
-            "hits": 4,
-            "textWords": 5899
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "RnRgX8-xq5l4",
-        "address": "https://cygwin.com/faq/faq.html",
-        "title": "Cygwin FAQ",
-        "snippet": "",
-        "matchedWords": {
-          "up8R7MNJfZmT": {
-            "hits": 0,
-            "textWords": 0
-          },
-          "wWrW4vQhHIra": {
-            "hits": 7,
-            "textWords": 24609
-          }
-        },
-        "queryPhraseHits": 0
-      }
-    ],
-    [
-      {
         "hash": "NB7afyXjZ9O4",
         "address": "https://docs.github.com/en/pull-requests/how-tos/commit-changes/changing-a-commit-message",
         "title": "Changing a commit message - GitHub Docs",
-        "snippet": "",
+        "snippet": "On the command line, navigate to the repository that contains the commits you want to amend.\nStart an interactive rebase for the last n commits.\ngit rebase -i HEAD~n\nIn the commit list, replace pick with reword before each commit message you want to change.",
         "matchedWords": {
           "up8R7MNJfZmT": {
-            "hits": 0,
-            "textWords": 0
+            "hits": 5,
+            "textWords": 389
           },
           "wWrW4vQhHIra": {
             "hits": 3,
-            "textWords": 922
+            "textWords": 389
           }
         },
-        "queryPhraseHits": 0
+        "queryPhraseHits": 1
       },
       {
         "hash": "79vs4yXjZ9O4",
         "address": "https://docs.github.com/en/get-started/learning-about-github/githubs-plans",
         "title": "GitHub's plans - GitHub Docs",
-        "snippet": "",
+        "snippet": "An overview of GitHub's pricing plans.\nAbout GitHub's plans\nGitHub offers free and paid plans for storing and collaborating on code. Some plans are available only to personal accounts, while other plans are available only to organization and enterprise accounts.",
         "matchedWords": {
           "up8R7MNJfZmT": {
             "hits": 0,
-            "textWords": 0
+            "textWords": 1004
           },
           "wWrW4vQhHIra": {
-            "hits": 3,
-            "textWords": 1614
+            "hits": 0,
+            "textWords": 1004
           }
         },
         "queryPhraseHits": 0
@@ -185,23 +132,190 @@
         "hash": "X1qxTyXjZ9O4",
         "address": "https://docs.github.com/en/get-started/writing-on-github/working-with-advanced-formatting/autolinked-references-and-urls",
         "title": "Autolinked references and URLs - GitHub Docs",
-        "snippet": "",
+        "snippet": "References to URLs, issues, pull requests, and commits are automatically shortened and converted into links.\nWho can use this feature?\nMarkdown can be used in the GitHub web interface.\nURLs\nGitHub automatically creates links from standard URLs.\nVisit https://github.com",
         "matchedWords": {
           "up8R7MNJfZmT": {
             "hits": 0,
-            "textWords": 0
+            "textWords": 527
+          },
+          "wWrW4vQhHIra": {
+            "hits": 0,
+            "textWords": 527
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "11YwxZPqQlSw",
+        "address": "https://pip.pypa.io/en/stable/development/contributing/",
+        "title": "Contributing - pip documentation v26.2.1",
+        "snippet": "First, fetch the latest changes from the main pip repository, upstream:\ngit fetch upstream\nThen, check out your local main branch, and rebase the changes on top of it:\ngit checkout main git rebase upstream/main\nAt this point, you might have to resolve merge conflicts.",
+        "matchedWords": {
+          "up8R7MNJfZmT": {
+            "hits": 19,
+            "textWords": 1684
           },
           "wWrW4vQhHIra": {
             "hits": 3,
-            "textWords": 1166
+            "textWords": 1684
+          }
+        },
+        "queryPhraseHits": 2
+      }
+    ],
+    [
+      {
+        "hash": "0uJDlvRjxAex",
+        "address": "https://cs.wikibooks.org/wiki/Git",
+        "title": "Git – Wikiknihy",
+        "snippet": "Není-li uvedena moje_větev, bude přeskládána (překopírována) aktuální větev. Použití uvedeného příkazu git rebase se jmény dvou větví je ekvivalentní dvojici příkazů\ngit checkout moje_větev git rebase hlavní_větev",
+        "matchedWords": {
+          "up8R7MNJfZmT": {
+            "hits": 227,
+            "textWords": 5756
+          },
+          "wWrW4vQhHIra": {
+            "hits": 30,
+            "textWords": 5756
+          }
+        },
+        "queryPhraseHits": 15
+      }
+    ],
+    [
+      {
+        "hash": "wVAXw_nMM_j5",
+        "address": "https://grokipedia.com/page/Git",
+        "title": "Git — Grokipedia",
+        "snippet": "Best practices recommend using rebase only on private, local branches or those not yet shared publicly; rebasing shared or public history is strongly discouraged. Conflicts during rebase are resolved similarly to merge conflicts: edit files, stage changes, and run git rebase --continue.",
+        "matchedWords": {
+          "up8R7MNJfZmT": {
+            "hits": 421,
+            "textWords": 11963
+          },
+          "wWrW4vQhHIra": {
+            "hits": 10,
+            "textWords": 11963
+          }
+        },
+        "queryPhraseHits": 2
+      },
+      {
+        "hash": "cZ2_WkRFf6Bx",
+        "address": "https://wikitech.wikimedia.org/wiki/Parsoid",
+        "title": "Parsoid - Wikitech",
+        "snippet": "If you are quick, you might be able to take the mediawiki-vendor patch prepared above and just rebase it (ie git rebase -i origin/REL1_43) but if other changes have landed on mediawiki-vendor you'll have to create the patch manually: cd ..../mediawiki-vendor git checkout REL1_43 ; git pull origin",
+        "matchedWords": {
+          "up8R7MNJfZmT": {
+            "hits": 47,
+            "textWords": 4532
+          },
+          "wWrW4vQhHIra": {
+            "hits": 6,
+            "textWords": 4532
+          }
+        },
+        "queryPhraseHits": 1
+      }
+    ],
+    [
+      {
+        "hash": "J4wKnyXjZ9O4",
+        "address": "https://docs.github.com/en/get-started",
+        "title": "Get started with GitHub documentation - GitHub Docs",
+        "snippet": "Git is responsible for everything GitHub-related that happens locally on your computer.\nSet up Git\nAbout Git\nLearn about the version control system, Git, and how it works with GitHub.\nWork with Git\nAbout Git rebase",
+        "matchedWords": {
+          "up8R7MNJfZmT": {
+            "hits": 12,
+            "textWords": 298
+          },
+          "wWrW4vQhHIra": {
+            "hits": 2,
+            "textWords": 298
+          }
+        },
+        "queryPhraseHits": 2
+      },
+      {
+        "hash": "_HoZdyXjZ9O4",
+        "address": "https://docs.github.com/en/get-started/using-github/github-mobile",
+        "title": "GitHub Mobile - GitHub Docs",
+        "snippet": "Triage, collaborate, and manage your work on GitHub from your mobile device.\nAbout GitHub Mobile\nGitHub Mobile is available as an Android and iOS app.\nGitHub Mobile gives you a way to do high-impact work on GitHub quickly and from anywhere.",
+        "matchedWords": {
+          "up8R7MNJfZmT": {
+            "hits": 0,
+            "textWords": 860
+          },
+          "wWrW4vQhHIra": {
+            "hits": 0,
+            "textWords": 860
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "F3enq_nMM_j5",
+        "address": "https://grokipedia.com/page/GitHub",
+        "title": "GitHub — Grokipedia",
+        "snippet": "GitHub extends these primitives with features like pull requests, which propose branch merges by fetching and comparing remote refs, but relies on Git's underlying fetch, merge, and rebase commands for resolution.[",
+        "matchedWords": {
+          "up8R7MNJfZmT": {
+            "hits": 45,
+            "textWords": 11566
+          },
+          "wWrW4vQhHIra": {
+            "hits": 2,
+            "textWords": 11566
           }
         },
         "queryPhraseHits": 0
       },
       {
-        "hash": "ij2fsyXjZ9O4",
-        "address": "https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/managing-protected-branches/about-protected-branches",
-        "title": "About protected branches - GitHub Docs",
+        "hash": "cZ2_WkRFf6Bx",
+        "address": "https://wikitech.wikimedia.org/wiki/Parsoid",
+        "title": "Parsoid - Wikitech",
+        "snippet": "If you are quick, you might be able to take the mediawiki-vendor patch prepared above and just rebase it (ie git rebase -i origin/REL1_43) but if other changes have landed on mediawiki-vendor you'll have to create the patch manually: cd ..../mediawiki-vendor git checkout REL1_43 ; git pull origin",
+        "matchedWords": {
+          "up8R7MNJfZmT": {
+            "hits": 47,
+            "textWords": 4532
+          },
+          "wWrW4vQhHIra": {
+            "hits": 6,
+            "textWords": 4532
+          }
+        },
+        "queryPhraseHits": 1
+      }
+    ],
+    [
+      {
+        "hash": "TeZMVjy-fQn5",
+        "address": "https://aomedia.googlesource.com/aom/",
+        "title": "aom - Git at Google",
+        "snippet": "This will usually automatically rebase your change onto the branch specified.\nSometimes this can’t be done automatically. If you run into this problem, you must rebase your changes manually:\n$ git fetch $ git rebase origin/branchname",
+        "matchedWords": {
+          "up8R7MNJfZmT": {
+            "hits": 21,
+            "textWords": 3450
+          },
+          "wWrW4vQhHIra": {
+            "hits": 4,
+            "textWords": 3450
+          }
+        },
+        "queryPhraseHits": 1
+      }
+    ],
+    [
+      {
+        "hash": "SOAt4sWMnAPx",
+        "address": "https://fedoraplanet.org/",
+        "title": "Fedora People",
         "snippet": "",
         "matchedWords": {
           "up8R7MNJfZmT": {
@@ -209,8 +323,173 @@
             "textWords": 0
           },
           "wWrW4vQhHIra": {
-            "hits": 3,
-            "textWords": 3440
+            "hits": 1,
+            "textWords": 52164
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "WVLgdPaM_sMw",
+        "address": "https://docs.codeberg.org/collaborating/pull-requests-and-git-flow/",
+        "title": "Pull requests and Git flow | Codeberg Documentation",
+        "snippet": "git pull --rebase upstream main git pull\nThat's it. You can now push your changes, and create the pull request as usual by clicking on the \"New Pull Request\" button.\nVia the web interface\nAnother way of keeping up-to-date is to sync your fork via the web interface.",
+        "matchedWords": {
+          "up8R7MNJfZmT": {
+            "hits": 19,
+            "textWords": 672
+          },
+          "wWrW4vQhHIra": {
+            "hits": 6,
+            "textWords": 672
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "SGCHO29cq-94",
+        "address": "https://git-scm.com/docs/gitsubmodules",
+        "title": "Git - gitsubmodules Documentation",
+        "snippet": "On the filesystem, a submodule usually (but not always - see FORMS below) consists of (i) a Git directory located under the $GIT_DIR/modules/ directory of its superproject, (ii) a working directory inside the superproject’s working directory, and a .git file at the root of the submodule’s working",
+        "matchedWords": {
+          "up8R7MNJfZmT": {
+            "hits": 10,
+            "textWords": 402
+          },
+          "wWrW4vQhHIra": {
+            "hits": 0,
+            "textWords": 402
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "X1qxTyXjZ9O4",
+        "address": "https://docs.github.com/en/get-started/writing-on-github/working-with-advanced-formatting/autolinked-references-and-urls",
+        "title": "Autolinked references and URLs - GitHub Docs",
+        "snippet": "References to URLs, issues, pull requests, and commits are automatically shortened and converted into links.\nWho can use this feature?\nMarkdown can be used in the GitHub web interface.\nURLs\nGitHub automatically creates links from standard URLs.\nVisit https://github.com",
+        "matchedWords": {
+          "up8R7MNJfZmT": {
+            "hits": 0,
+            "textWords": 527
+          },
+          "wWrW4vQhHIra": {
+            "hits": 0,
+            "textWords": 527
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "YgAeyl0lKwR5",
+        "address": "https://www.git-tower.com/",
+        "title": "Tower — The most powerful Git client for Mac and Windows",
+        "snippet": "All of Git's Power (And None of the Pain)\nPull Requests • Single-line staging • Interactive Rebase • Conflict Wizard• Submodules • Git LFS • Git-Flow • File History • Blame • Cherry-Pick\nLearn More about Tower's advanced Git features\nEsteban TorresEngineer at SoundCloud",
+        "matchedWords": {
+          "up8R7MNJfZmT": {
+            "hits": 6,
+            "textWords": 114
+          },
+          "wWrW4vQhHIra": {
+            "hits": 1,
+            "textWords": 114
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "cEcJUyXjZ9O4",
+        "address": "https://docs.github.com/en/get-started/learning-about-github/about-github-advanced-security",
+        "title": "About GitHub Advanced Security - GitHub Docs",
+        "snippet": "GitHub makes extra security features available to customers who purchase GitHub Code Security or GitHub Secret Protection. Some features are enabled for public repositories by default.\nWho can use this feature?",
+        "matchedWords": {
+          "up8R7MNJfZmT": {
+            "hits": 0,
+            "textWords": 932
+          },
+          "wWrW4vQhHIra": {
+            "hits": 0,
+            "textWords": 932
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "cx4QG2McH3tw",
+        "address": "https://llvm.org/docs/CodingStandards.html",
+        "title": "LLVM Coding Standards — LLVM 13 documentation",
+        "snippet": "Instead of individual file names, you can specify directories to darker, and it will find the changed files. However, if a directory is large, like a clone of the LLVM repository, darker can be painfully slow. In that case, you might wish to use git to list changed files. For example:",
+        "matchedWords": {
+          "up8R7MNJfZmT": {
+            "hits": 2,
+            "textWords": 8449
+          },
+          "wWrW4vQhHIra": {
+            "hits": 1,
+            "textWords": 8449
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "-eL3TvdTeyA4",
+        "address": "https://github.blog/open-source/git/highlights-from-git-2-55/",
+        "title": "Highlights from Git 2.55 - The GitHub Blog",
+        "snippet": "Today, one common way to handle that is to create a fixup commit and then autosquash it:\n$ git commit --fixup=\u003ccommit\u003e $ git rebase --autosquash \u003ccommit\u003e^\nThat works, but it asks you to spell out the mechanism instead of the intent.",
+        "matchedWords": {
+          "up8R7MNJfZmT": {
+            "hits": 98,
+            "textWords": 3018
+          },
+          "wWrW4vQhHIra": {
+            "hits": 1,
+            "textWords": 3018
+          }
+        },
+        "queryPhraseHits": 1
+      },
+      {
+        "hash": "R0RMzyXjZ9O4",
+        "address": "https://docs.github.com/en/get-started/git-basics/setting-your-username-in-git",
+        "title": "Setting your username in Git - GitHub Docs",
+        "snippet": "Setting your Git username for every repository on your computer\nOpen TerminalTerminalGit Bash.\nSet a Git username:\ngit config --global user.name \"Mona Lisa\"\nConfirm that you have set the Git username correctly:\n$ git config --global user.name \u003e Mona Lisa",
+        "matchedWords": {
+          "up8R7MNJfZmT": {
+            "hits": 24,
+            "textWords": 244
+          },
+          "wWrW4vQhHIra": {
+            "hits": 0,
+            "textWords": 244
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "jNEVesgJoQyx",
+        "address": "https://grapheneos.org/releases",
+        "title": "2026050400",
+        "snippet": "",
+        "matchedWords": {
+          "up8R7MNJfZmT": {
+            "hits": 0,
+            "textWords": 0
+          },
+          "wWrW4vQhHIra": {
+            "hits": 2,
+            "textWords": 34633
           }
         },
         "queryPhraseHits": 0
@@ -256,147 +535,37 @@
     ],
     [
       {
-        "hash": "wVAXw_nMM_j5",
-        "address": "https://grokipedia.com/page/Git",
-        "title": "Git — Grokipedia",
-        "snippet": "",
+        "hash": "v733uyXjZ9O4",
+        "address": "https://docs.github.com/en/get-started/using-github/github-flow",
+        "title": "GitHub flow - GitHub Docs",
+        "snippet": "Follow GitHub flow to collaborate on projects.\nIntroduction\nGitHub flow is a lightweight, branch-based workflow. The GitHub flow is useful for everyone, not just developers. For example, here at GitHub, we use GitHub flow for our site policy, documentation, and roadmap.\nPrerequisites",
         "matchedWords": {
           "up8R7MNJfZmT": {
             "hits": 0,
-            "textWords": 0
+            "textWords": 1016
+          },
+          "wWrW4vQhHIra": {
+            "hits": 0,
+            "textWords": 1016
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "6bQzZ2bypRQw",
+        "address": "https://forgejo.org/docs/latest/contributor/localization/admin/",
+        "title": "Weblate admin duties | Forgejo – Beyond coding. We forge.",
+        "snippet": "Rebase it on top of latest commit in main Forgejo branch git rebase -i \u003clatest-commit\u003e\nPropose a new PR with fixed commit and merge it\nClose PR created by Weblate, reset Weblate\nAlternatively to rebase you can also interactively cherry-pick the commit on top of a new branch based on latest.",
+        "matchedWords": {
+          "up8R7MNJfZmT": {
+            "hits": 6,
+            "textWords": 590
           },
           "wWrW4vQhHIra": {
             "hits": 9,
-            "textWords": 12802
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "cZ2_WkRFf6Bx",
-        "address": "https://wikitech.wikimedia.org/wiki/Parsoid",
-        "title": "Parsoid - Wikitech",
-        "snippet": "",
-        "matchedWords": {
-          "up8R7MNJfZmT": {
-            "hits": 0,
-            "textWords": 0
-          },
-          "wWrW4vQhHIra": {
-            "hits": 6,
-            "textWords": 4880
-          }
-        },
-        "queryPhraseHits": 0
-      }
-    ],
-    [
-      {
-        "hash": "0cykrss0voQ5",
-        "address": "https://johnnyreilly.com/rss.xml",
-        "title": "",
-        "snippet": "",
-        "matchedWords": {
-          "up8R7MNJfZmT": {
-            "hits": 15,
-            "textWords": 57212
-          },
-          "wWrW4vQhHIra": {
-            "hits": 0,
-            "textWords": 0
-          }
-        },
-        "queryPhraseHits": 0
-      }
-    ],
-    [
-      {
-        "hash": "J4wKnyXjZ9O4",
-        "address": "https://docs.github.com/en/get-started",
-        "title": "Get started with GitHub documentation - GitHub Docs",
-        "snippet": "",
-        "matchedWords": {
-          "up8R7MNJfZmT": {
-            "hits": 0,
-            "textWords": 0
-          },
-          "wWrW4vQhHIra": {
-            "hits": 5,
-            "textWords": 986
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "_HoZdyXjZ9O4",
-        "address": "https://docs.github.com/en/get-started/using-github/github-mobile",
-        "title": "GitHub Mobile - GitHub Docs",
-        "snippet": "",
-        "matchedWords": {
-          "up8R7MNJfZmT": {
-            "hits": 0,
-            "textWords": 0
-          },
-          "wWrW4vQhHIra": {
-            "hits": 3,
-            "textWords": 1530
-          }
-        },
-        "queryPhraseHits": 0
-      }
-    ],
-    [
-      {
-        "hash": "CmQQlyEkAvow",
-        "address": "https://developer.mozilla.org/en-US/blog/optimize-your-workflow-git-stash/",
-        "title": "Optimize your workflow with Git stash",
-        "snippet": "If your workflow allows, you can rebase the branch before using git unwip. This will rebase the whole branch, including the WIP changes, to make sure you're working on the latest version of the target branch.\nThe git unwip command is designed to work on any branch.",
-        "matchedWords": {
-          "up8R7MNJfZmT": {
-            "hits": 77,
-            "textWords": 1976
-          },
-          "wWrW4vQhHIra": {
-            "hits": 2,
-            "textWords": 1976
-          }
-        },
-        "queryPhraseHits": 0
-      }
-    ],
-    [
-      {
-        "hash": "mKjEVzAa-Sqx",
-        "address": "https://planet.freedesktop.org/",
-        "title": "planet.freedesktop.org",
-        "snippet": "",
-        "matchedWords": {
-          "up8R7MNJfZmT": {
-            "hits": 0,
-            "textWords": 0
-          },
-          "wWrW4vQhHIra": {
-            "hits": 1,
-            "textWords": 7656
-          }
-        },
-        "queryPhraseHits": 0
-      }
-    ],
-    [
-      {
-        "hash": "TeZMVjy-fQn5",
-        "address": "https://aomedia.googlesource.com/aom/",
-        "title": "aom - Git at Google",
-        "snippet": "This will usually automatically rebase your change onto the branch specified.\nSometimes this can’t be done automatically. If you run into this problem, you must rebase your changes manually:\n$ git fetch $ git rebase origin/branchname",
-        "matchedWords": {
-          "up8R7MNJfZmT": {
-            "hits": 21,
-            "textWords": 3450
-          },
-          "wWrW4vQhHIra": {
-            "hits": 4,
-            "textWords": 3450
+            "textWords": 590
           }
         },
         "queryPhraseHits": 1
@@ -404,194 +573,6 @@
     ],
     [
       {
-        "hash": "SOAt4sWMnAPx",
-        "address": "https://fedoraplanet.org/",
-        "title": "Fedora People",
-        "snippet": "",
-        "matchedWords": {
-          "up8R7MNJfZmT": {
-            "hits": 0,
-            "textWords": 0
-          },
-          "wWrW4vQhHIra": {
-            "hits": 1,
-            "textWords": 52164
-          }
-        },
-        "queryPhraseHits": 0
-      }
-    ],
-    [
-      {
-        "hash": "YgAeyl0lKwR5",
-        "address": "https://www.git-tower.com/",
-        "title": "Tower — The most powerful Git client for Mac and Windows",
-        "snippet": "All of Git's Power (And None of the Pain)\nPull Requests • Single-line staging • Interactive Rebase • Conflict Wizard• Submodules • Git LFS • Git-Flow • File History • Blame • Cherry-Pick\nLearn More about Tower's advanced Git features\nEsteban TorresEngineer at SoundCloud",
-        "matchedWords": {
-          "up8R7MNJfZmT": {
-            "hits": 6,
-            "textWords": 114
-          },
-          "wWrW4vQhHIra": {
-            "hits": 1,
-            "textWords": 114
-          }
-        },
-        "queryPhraseHits": 0
-      }
-    ],
-    [
-      {
-        "hash": "z3pThyXjZ9O4",
-        "address": "https://docs.github.com/en/get-started/using-git",
-        "title": "Using Git - GitHub Docs",
-        "snippet": "About Git subtree merges, 6 of 11\nAbout Git rebase, 7 of 11\nUsing Git rebase on the command line, 8 of 11\nResolving merge conflicts after a Git rebase, 9 of 11\nDealing with special characters in branch and tag names, 10 of 11\nTroubleshooting the 2 GiB push limit, 11 of 11",
-        "matchedWords": {
-          "up8R7MNJfZmT": {
-            "hits": 6,
-            "textWords": 92
-          },
-          "wWrW4vQhHIra": {
-            "hits": 3,
-            "textWords": 92
-          }
-        },
-        "queryPhraseHits": 3
-      },
-      {
-        "hash": "R0RMzyXjZ9O4",
-        "address": "https://docs.github.com/en/get-started/git-basics/setting-your-username-in-git",
-        "title": "Setting your username in Git - GitHub Docs",
-        "snippet": "Setting your Git username for every repository on your computer\nOpen TerminalTerminalGit Bash.\nSet a Git username:\ngit config --global user.name \"Mona Lisa\"\nConfirm that you have set the Git username correctly:\n$ git config --global user.name \u003e Mona Lisa",
-        "matchedWords": {
-          "up8R7MNJfZmT": {
-            "hits": 24,
-            "textWords": 244
-          },
-          "wWrW4vQhHIra": {
-            "hits": 0,
-            "textWords": 244
-          }
-        },
-        "queryPhraseHits": 0
-      }
-    ],
-    [
-      {
-        "hash": "jNEVesgJoQyx",
-        "address": "https://grapheneos.org/releases",
-        "title": "2026050400",
-        "snippet": "",
-        "matchedWords": {
-          "up8R7MNJfZmT": {
-            "hits": 0,
-            "textWords": 0
-          },
-          "wWrW4vQhHIra": {
-            "hits": 2,
-            "textWords": 34633
-          }
-        },
-        "queryPhraseHits": 0
-      }
-    ],
-    [
-      {
-        "hash": "0uJDlvRjxAex",
-        "address": "https://cs.wikibooks.org/wiki/Git",
-        "title": "Git – Wikiknihy",
-        "snippet": "Není-li uvedena moje_větev, bude přeskládána (překopírována) aktuální větev. Použití uvedeného příkazu git rebase se jmény dvou větví je ekvivalentní dvojici příkazů\ngit checkout moje_větev git rebase hlavní_větev",
-        "matchedWords": {
-          "up8R7MNJfZmT": {
-            "hits": 227,
-            "textWords": 5756
-          },
-          "wWrW4vQhHIra": {
-            "hits": 30,
-            "textWords": 5756
-          }
-        },
-        "queryPhraseHits": 15
-      }
-    ],
-    [
-      {
-        "hash": "tetY4sElpUjy",
-        "address": "https://git-send-email.io/",
-        "title": "Learn to use email with git!",
-        "snippet": "Here are a few more tips and tricks which may serve you well as you use git send-email.\nReviewing patches you've received via email\nNow you know the contributor workflow. Ready to learn about the other side?\nCheck out our next tutorial: Reviewing git contributions via email on git-am.io",
-        "matchedWords": {
-          "up8R7MNJfZmT": {
-            "hits": 18,
-            "textWords": 610
-          },
-          "wWrW4vQhHIra": {
-            "hits": 0,
-            "textWords": 610
-          }
-        },
-        "queryPhraseHits": 0
-      }
-    ],
-    [
-      {
-        "hash": "PBHGklNdxz8x",
-        "address": "https://www.freshports.org/",
-        "title": "FreshPorts -- The Place For Ports - Most recent commits",
-        "snippet": "",
-        "matchedWords": {
-          "up8R7MNJfZmT": {
-            "hits": 0,
-            "textWords": 0
-          },
-          "wWrW4vQhHIra": {
-            "hits": 1,
-            "textWords": 4313
-          }
-        },
-        "queryPhraseHits": 0
-      }
-    ],
-    [
-      {
-        "hash": "8gWJRJNn7ab5",
-        "address": "https://www.jeremykun.com/2020/01/14/the-communicative-value-of-using-git-well/",
-        "title": "The Communicative Value of Using Git Well || Math ∩ Programming",
-        "snippet": "Git supports metachanges with few limits, and without sacrificing flexibility.\nFor instance, if you want, you can treat git like a replacement for Dropbox. You keep a single default branch, you do git pull, edit code, and run git add --all \u0026\u0026 git commit -m \"do stuff\" \u0026\u0026 git push.",
-        "matchedWords": {
-          "up8R7MNJfZmT": {
-            "hits": 29,
-            "textWords": 2248
-          },
-          "wWrW4vQhHIra": {
-            "hits": 2,
-            "textWords": 2248
-          }
-        },
-        "queryPhraseHits": 0
-      }
-    ],
-    [
-      {
-        "hash": "RVPC2yXjZ9O4",
-        "address": "https://docs.github.com/en/get-started/using-git/about-git-rebase",
-        "title": "About Git rebase - GitHub Docs",
-        "snippet": "git rebase --interactive OTHER-BRANCH-NAME\nRebasing commits against a point in time\nTo rebase the last few commits in your current branch, you can enter the following command in your shell:\ngit rebase --interactive HEAD~7\nCommands available while rebasing",
-        "matchedWords": {
-          "up8R7MNJfZmT": {
-            "hits": 14,
-            "textWords": 700
-          },
-          "wWrW4vQhHIra": {
-            "hits": 18,
-            "textWords": 700
-          }
-        },
-        "queryPhraseHits": 7
-      }
-    ],
-    [
-      {
         "hash": "CmQQlyEkAvow",
         "address": "https://developer.mozilla.org/en-US/blog/optimize-your-workflow-git-stash/",
         "title": "Optimize your workflow with Git stash",
@@ -607,80 +588,80 @@
           }
         },
         "queryPhraseHits": 0
-      },
-      {
-        "hash": "CeKDz29cq-94",
-        "address": "https://git-scm.com/docs/git-config",
-        "title": "Git - git-config Documentation",
-        "snippet": "When merges (or just m), pass the --rebase-merges option to git rebase so that the local merge commits are included in the rebase (see git-rebase[1] for details).\nWhen the value is interactive (or just i), the rebase is run in interactive mode.",
-        "matchedWords": {
-          "up8R7MNJfZmT": {
-            "hits": 1051,
-            "textWords": 47685
-          },
-          "wWrW4vQhHIra": {
-            "hits": 78,
-            "textWords": 47685
-          }
-        },
-        "queryPhraseHits": 15
       }
     ],
     [
       {
-        "hash": "6zIwnQ4a_6Ww",
-        "address": "https://hbase.apache.org/book.html",
-        "title": "Apache HBase® Reference Guide",
-        "snippet": "",
+        "hash": "rqW0fx8XNsex",
+        "address": "https://edgeguides.rubyonrails.org/contributing_to_ruby_on_rails.html",
+        "title": "Contributing to Ruby on Rails — Ruby on Rails Guides",
+        "snippet": "$ git checkout main $ git rebase rails/main $ git checkout my_new_branch $ git rebase rails/main\nUpdate your fork:\n$ git push fork main $ git push fork my_new_branch\n5.17. Open a Pull Request",
         "matchedWords": {
           "up8R7MNJfZmT": {
-            "hits": 0,
-            "textWords": 0
+            "hits": 45,
+            "textWords": 5696
           },
           "wWrW4vQhHIra": {
             "hits": 6,
-            "textWords": 34499
+            "textWords": 5696
           }
         },
-        "queryPhraseHits": 0
+        "queryPhraseHits": 4
       }
     ],
     [
       {
-        "hash": "XEdwsyXjZ9O4",
-        "address": "https://docs.github.com/en/get-started/git-basics/about-remote-repositories",
-        "title": "About remote repositories - GitHub Docs",
-        "snippet": "",
+        "hash": "F3enq_nMM_j5",
+        "address": "https://grokipedia.com/page/GitHub",
+        "title": "GitHub — Grokipedia",
+        "snippet": "GitHub extends these primitives with features like pull requests, which propose branch merges by fetching and comparing remote refs, but relies on Git's underlying fetch, merge, and rebase commands for resolution.[",
         "matchedWords": {
           "up8R7MNJfZmT": {
-            "hits": 0,
-            "textWords": 0
+            "hits": 45,
+            "textWords": 11566
           },
           "wWrW4vQhHIra": {
-            "hits": 3,
-            "textWords": 1318
+            "hits": 2,
+            "textWords": 11566
           }
         },
         "queryPhraseHits": 0
+      },
+      {
+        "hash": "jmgT3MS6MKD4",
+        "address": "https://github.com/tpope/vim-fugitive",
+        "title": "GitHub - tpope/vim-fugitive: fugitive.vim: A Git wrapper so awesome, it should be illegal · GitHub",
+        "snippet": ":Git commit, :Git rebase -i, and other commands that invoke an editor do their editing in the current Vim instance.\n:Git diff, :Git log, and other verbose, paginated commands have their output loaded into a temporary buffer. Force this behavior for any command with :Git --paginate or :Git -p.",
+        "matchedWords": {
+          "up8R7MNJfZmT": {
+            "hits": 37,
+            "textWords": 806
+          },
+          "wWrW4vQhHIra": {
+            "hits": 1,
+            "textWords": 806
+          }
+        },
+        "queryPhraseHits": 1
       }
     ],
     [
       {
-        "hash": "mHFlJdUhjm5w",
-        "address": "https://airflow.apache.org/docs/apache-airflow/2.11.2/release_notes.html",
-        "title": "Release Notes — Airflow 2.11.2 Documentation",
-        "snippet": "",
+        "hash": "ZLEAaobrsZjx",
+        "address": "https://www.mediawiki.org/wiki/Gerrit/Tutorial",
+        "title": "Gerrit/Tutorial - MediaWiki",
+        "snippet": "To get a list of all changes in your branch:\ngit rebase -i origin/master\nYou can also limit the displayed list of recent changes. HEAD~3 means pull the last three commits:\ngit rebase -i HEAD~3",
         "matchedWords": {
           "up8R7MNJfZmT": {
-            "hits": 0,
-            "textWords": 0
+            "hits": 136,
+            "textWords": 4229
           },
           "wWrW4vQhHIra": {
-            "hits": 3,
-            "textWords": 48096
+            "hits": 22,
+            "textWords": 4229
           }
         },
-        "queryPhraseHits": 0
+        "queryPhraseHits": 5
       }
     ],
     [
@@ -688,18 +669,18 @@
         "hash": "PexbGAK-xyJ4",
         "address": "https://go.dev/doc/contribute",
         "title": "Contribution Guide - The Go Programming Language",
-        "snippet": "",
+        "snippet": "If you add more commits by mistake, you can use git rebase to squash them together into a single one.\nStep 3: Test your changes",
         "matchedWords": {
           "up8R7MNJfZmT": {
-            "hits": 0,
-            "textWords": 0
+            "hits": 82,
+            "textWords": 5503
           },
           "wWrW4vQhHIra": {
             "hits": 4,
-            "textWords": 5899
+            "textWords": 5503
           }
         },
-        "queryPhraseHits": 0
+        "queryPhraseHits": 3
       },
       {
         "hash": "98ydQs9cq-94",
@@ -755,32 +736,47 @@
           }
         },
         "queryPhraseHits": 0
+      },
+      {
+        "hash": "xDYFcsUZXr25",
+        "address": "https://pre-commit.com/",
+        "title": "pre-commit",
+        "snippet": "post-rewrite runs after a git command which modifies history such as git commit --amend or git rebase.\npost-rewrite hooks do not operate on files so they must be set as always_run: true or they will always be skipped.\nenvironment variables:",
+        "matchedWords": {
+          "up8R7MNJfZmT": {
+            "hits": 105,
+            "textWords": 9171
+          },
+          "wWrW4vQhHIra": {
+            "hits": 12,
+            "textWords": 9171
+          }
+        },
+        "queryPhraseHits": 1
       }
     ],
     [
       {
-        "hash": "dneiglzbmVEz",
-        "address": "https://www.conventionalcommits.org/en/v1.0.0/",
-        "title": "Conventional Commits",
-        "snippet": "",
+        "hash": "TKQQYyS6MKD4",
+        "address": "https://github.com/blindglobe/common-lisp-stat",
+        "title": "GitHub - blindglobe/common-lisp-stat: Common Lisp Statistics -- based on LispStat (Tierney) but updated for Common Lisp and incorporating lessons from R (http://www.r-project.org/). See the google group for lisp stat / common lisp statistics for a mailing list. · GitHub",
+        "snippet": "git rebase myTopicBranch\n)\nBETTER DOCUMENTATION EXAMPLES EXIST ON-LINE (on the git WWW site mentioned above)!! PLEASE READ THEM, THE ABOVE IS SPARSE AND MIGHT BE OUTDATED!\nContributing through GitHub\nAlternatively, one can work on the github repositories as well.",
         "matchedWords": {
           "up8R7MNJfZmT": {
-            "hits": 0,
-            "textWords": 0
+            "hits": 42,
+            "textWords": 2312
           },
           "wWrW4vQhHIra": {
             "hits": 1,
-            "textWords": 1754
+            "textWords": 2312
           }
         },
-        "queryPhraseHits": 0
-      }
-    ],
-    [
+        "queryPhraseHits": 1
+      },
       {
-        "hash": "cZ2_WkRFf6Bx",
-        "address": "https://wikitech.wikimedia.org/wiki/Parsoid",
-        "title": "Parsoid - Wikitech",
+        "hash": "jNEVesgJoQyx",
+        "address": "https://grapheneos.org/releases",
+        "title": "Releases | GrapheneOS",
         "snippet": "",
         "matchedWords": {
           "up8R7MNJfZmT": {
@@ -788,61 +784,8 @@
             "textWords": 0
           },
           "wWrW4vQhHIra": {
-            "hits": 6,
-            "textWords": 4880
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "jXCYphffZ5F4",
-        "address": "https://pospi.spadgos.com/2012/08/22/list-of-git-tips/",
-        "title": "List of git tips | pospi",
-        "snippet": "With each, I've tried to show graphically the state of the git network in each form of process.\n1. Pulling and merging BEFORE committing will avoid the need to merge or rebase:\n$ git pull\n$ git add ...\n$ git commit ...\n$ git push ...",
-        "matchedWords": {
-          "up8R7MNJfZmT": {
-            "hits": 72,
-            "textWords": 2132
-          },
-          "wWrW4vQhHIra": {
-            "hits": 3,
-            "textWords": 2132
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "u8YTm29cq-94",
-        "address": "https://git-scm.com/docs/git-log",
-        "title": "Git - git-log Documentation",
-        "snippet": "By default entries added by git add -N appear as an existing empty file in git diff and a new file in git diff --cached. This option makes the entry appear as a new file in git diff and non-existent in git diff --cached. This option could be reverted with --ita-visible-in-index.",
-        "matchedWords": {
-          "up8R7MNJfZmT": {
-            "hits": 31,
-            "textWords": 4816
-          },
-          "wWrW4vQhHIra": {
-            "hits": 0,
-            "textWords": 4816
-          }
-        },
-        "queryPhraseHits": 0
-      }
-    ],
-    [
-      {
-        "hash": "lMTZq2bypRQw",
-        "address": "https://forgejo.org/docs/latest/user/collaboration/pull-requests-and-git-flow/",
-        "title": "Pull requests and Git flow | Forgejo – Beyond coding. We forge.",
-        "snippet": "git pull --rebase upstream main git pull\nThat’s it. You can now push your changes and create the pull request as usual by clicking on the “New Pull Request” button.\nA friendly note on owner rights and force push permissions",
-        "matchedWords": {
-          "up8R7MNJfZmT": {
-            "hits": 18,
-            "textWords": 979
-          },
-          "wWrW4vQhHIra": {
-            "hits": 4,
-            "textWords": 979
+            "hits": 2,
+            "textWords": 33233
           }
         },
         "queryPhraseHits": 0
@@ -869,18 +812,18 @@
     ],
     [
       {
-        "hash": "wVAXw_nMM_j5",
-        "address": "https://grokipedia.com/page/Git",
-        "title": "Git — Grokipedia",
-        "snippet": "",
+        "hash": "v733uyXjZ9O4",
+        "address": "https://docs.github.com/en/get-started/using-github/github-flow",
+        "title": "GitHub flow - GitHub Docs",
+        "snippet": "Follow GitHub flow to collaborate on projects.\nIntroduction\nGitHub flow is a lightweight, branch-based workflow. The GitHub flow is useful for everyone, not just developers. For example, here at GitHub, we use GitHub flow for our site policy, documentation, and roadmap.\nPrerequisites",
         "matchedWords": {
           "up8R7MNJfZmT": {
-            "hits": 15,
-            "textWords": 12802
+            "hits": 0,
+            "textWords": 1016
           },
           "wWrW4vQhHIra": {
             "hits": 0,
-            "textWords": 0
+            "textWords": 1016
           }
         },
         "queryPhraseHits": 0
@@ -891,53 +834,34 @@
         "hash": "wVAXw_nMM_j5",
         "address": "https://grokipedia.com/page/Git",
         "title": "Git — Grokipedia",
-        "snippet": "",
+        "snippet": "Best practices recommend using rebase only on private, local branches or those not yet shared publicly; rebasing shared or public history is strongly discouraged. Conflicts during rebase are resolved similarly to merge conflicts: edit files, stage changes, and run git rebase --continue.",
         "matchedWords": {
           "up8R7MNJfZmT": {
-            "hits": 0,
-            "textWords": 0
+            "hits": 421,
+            "textWords": 11963
           },
           "wWrW4vQhHIra": {
-            "hits": 9,
-            "textWords": 12802
+            "hits": 10,
+            "textWords": 11963
           }
         },
-        "queryPhraseHits": 0
+        "queryPhraseHits": 2
       }
     ],
     [
       {
-        "hash": "5g9r129cq-94",
-        "address": "https://git-scm.com/docs/pretty-formats",
-        "title": "Git - pretty-formats Documentation",
-        "snippet": "author email (respecting .mailmap, see git-shortlog[1] or git-blame[1])\n%al\nauthor email local-part (the part before the @ sign)\n%aL\nauthor local-part (see %al) respecting .mailmap, see git-shortlog[1] or git-blame[1])\n%ad\nauthor date (format respects --date= option)\n%aD\nauthor date, RFC2822 style",
+        "hash": "1di-C29cq-94",
+        "address": "https://git-scm.com/docs/gitfaq",
+        "title": "Git - gitfaq Documentation",
+        "snippet": "Note that rebases rewrite history, so you should avoid rebasing published branches unless you’re sure you’re comfortable with that. See the NOTES section in git-rebase[1] for more details.\nHooks\nHow do I use hooks to prevent users from making certain changes?",
         "matchedWords": {
           "up8R7MNJfZmT": {
-            "hits": 26,
-            "textWords": 1221
+            "hits": 126,
+            "textWords": 4479
           },
           "wWrW4vQhHIra": {
-            "hits": 0,
-            "textWords": 1221
-          }
-        },
-        "queryPhraseHits": 0
-      }
-    ],
-    [
-      {
-        "hash": "cs0WNsR2NVbw",
-        "address": "https://devguide.python.org/getting-started/git-boot-camp/",
-        "title": "Git bootcamp and cheat sheet",
-        "snippet": "If the apply was successful, create a new branch and switch to it.\nStage and commit the changes.\nIf the patch was applied to an old revision, it needs to be updated and merge conflicts need to be resolved:\n$ git rebase main $ git mergetool",
-        "matchedWords": {
-          "up8R7MNJfZmT": {
-            "hits": 116,
-            "textWords": 3123
-          },
-          "wWrW4vQhHIra": {
-            "hits": 2,
-            "textWords": 3123
+            "hits": 6,
+            "textWords": 4479
           }
         },
         "queryPhraseHits": 1
@@ -945,21 +869,40 @@
     ],
     [
       {
-        "hash": "etAnNobrsZjx",
-        "address": "https://www.mediawiki.org/wiki/MediaWiki_1.47/wmf.6",
-        "title": "MediaWiki 1.47/wmf.6 - MediaWiki",
-        "snippet": "",
+        "hash": "6vbK7ssY0Thg",
+        "address": "https://bueltge.de/git/",
+        "title": "Get your Practice-Git on!",
+        "snippet": "git rebase -i\"\n​ # Rebase interactive on our unpushed commits\n​ rbiu = !\"git rebase -i @{u}\"\nSetup alias for convenience.\ngit alias to list all alias from .gitconfi\ng\u003cbr\u003ealias = !git config --list | grep 'alias\\\\.' | sed 's/alias\\\\.\\\\([^=]\\\\)=\\\\(.\\\\)/\\\\1\\\\\\t =\u003e \\\\2/' | sort",
         "matchedWords": {
           "up8R7MNJfZmT": {
-            "hits": 0,
-            "textWords": 0
+            "hits": 110,
+            "textWords": 1205
           },
           "wWrW4vQhHIra": {
-            "hits": 1,
-            "textWords": 6375
+            "hits": 8,
+            "textWords": 1205
           }
         },
-        "queryPhraseHits": 0
+        "queryPhraseHits": 2
+      }
+    ],
+    [
+      {
+        "hash": "RVPC2yXjZ9O4",
+        "address": "https://docs.github.com/en/get-started/using-git/about-git-rebase",
+        "title": "About Git rebase - GitHub Docs",
+        "snippet": "git rebase --interactive OTHER-BRANCH-NAME\nRebasing commits against a point in time\nTo rebase the last few commits in your current branch, you can enter the following command in your shell:\ngit rebase --interactive HEAD~7\nCommands available while rebasing",
+        "matchedWords": {
+          "up8R7MNJfZmT": {
+            "hits": 14,
+            "textWords": 700
+          },
+          "wWrW4vQhHIra": {
+            "hits": 18,
+            "textWords": 700
+          }
+        },
+        "queryPhraseHits": 7
       }
     ]
   ],
@@ -1016,23 +959,6 @@
       "queryPhraseHits": 0
     },
     {
-      "hash": "JQB76sNdy-a5",
-      "address": "https://getnikola.com/changes.html",
-      "title": "Changes | Nikola",
-      "snippet": "",
-      "matchedWords": {
-        "up8R7MNJfZmT": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "wWrW4vQhHIra": {
-          "hits": 0,
-          "textWords": 0
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
       "hash": "OkJ2Km0h8sSw",
       "address": "https://tracker.debian.org/pkg/linux",
       "title": "linux - Debian Package Tracker",
@@ -1084,9 +1010,9 @@
       "queryPhraseHits": 0
     },
     {
-      "hash": "u2SnisCRdREw",
-      "address": "https://jvns.ca/",
-      "title": "Julia Evans",
+      "hash": "W-eXqzF3--Qw",
+      "address": "https://planet.mozilla.org/",
+      "title": "Planet Mozilla",
       "snippet": "",
       "matchedWords": {
         "up8R7MNJfZmT": {
@@ -1101,9 +1027,9 @@
       "queryPhraseHits": 0
     },
     {
-      "hash": "Pq85gxtQ-zSx",
-      "address": "https://wiki.archlinux.org/title/AUR_submission_guidelines",
-      "title": "AUR submission guidelines - ArchWiki",
+      "hash": "5CknIsJqV0ww",
+      "address": "https://suckless.org/",
+      "title": "software that sucks less | suckless.org software that sucks less",
       "snippet": "",
       "matchedWords": {
         "up8R7MNJfZmT": {
@@ -1118,9 +1044,9 @@
       "queryPhraseHits": 0
     },
     {
-      "hash": "u2SnisCRdREw",
-      "address": "https://jvns.ca/",
-      "title": "Julia Evans",
+      "hash": "6DX6BsoPHifk",
+      "address": "https://cassidoo.co/blog/",
+      "title": "Cassidy Williams",
       "snippet": "",
       "matchedWords": {
         "up8R7MNJfZmT": {
@@ -1135,18 +1061,35 @@
       "queryPhraseHits": 0
     },
     {
-      "hash": "zSrcq29cq-94",
-      "address": "https://git-scm.com/docs/git-shortlog",
-      "title": "Git - git-shortlog Documentation",
-      "snippet": "--exclude-hidden=(fetch|receive|uploadpack)\nDo not include refs that would be hidden by git-fetch, git-receive-pack or git-upload-pack by consulting the appropriate fetch.hideRefs, receive.hideRefs or uploadpack.hideRefs configuration along with transfer.hideRefs (see git-config[1]).",
+      "hash": "Bb0SUspGMAgk",
+      "address": "https://blogs.hn/",
+      "title": "blogs.hn",
+      "snippet": "",
       "matchedWords": {
         "up8R7MNJfZmT": {
-          "hits": 12,
-          "textWords": 3963
+          "hits": 0,
+          "textWords": 0
         },
         "wWrW4vQhHIra": {
-          "hits": 1,
-          "textWords": 3963
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "dneiglzbmVEz",
+      "address": "https://www.conventionalcommits.org/en/v1.0.0/",
+      "title": "Conventional Commits",
+      "snippet": "",
+      "matchedWords": {
+        "up8R7MNJfZmT": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "wWrW4vQhHIra": {
+          "hits": 0,
+          "textWords": 0
         }
       },
       "queryPhraseHits": 0
@@ -1169,9 +1112,9 @@
       "queryPhraseHits": 0
     },
     {
-      "hash": "TKQQYyS6MKD4",
-      "address": "https://github.com/blindglobe/common-lisp-stat",
-      "title": "GitHub - blindglobe/common-lisp-stat: Common Lisp Statistics -- based on LispStat (Tierney) but updated for Common Lisp and incorporating lessons from R (http://www.r-project.",
+      "hash": "XEdwsyXjZ9O4",
+      "address": "https://docs.github.com/en/get-started/git-basics/about-remote-repositories",
+      "title": "About remote repositories - GitHub Docs",
       "snippet": "",
       "matchedWords": {
         "up8R7MNJfZmT": {
@@ -1186,9 +1129,9 @@
       "queryPhraseHits": 0
     },
     {
-      "hash": "Pq85gxtQ-zSx",
-      "address": "https://wiki.archlinux.org/title/AUR_submission_guidelines",
-      "title": "AUR submission guidelines - ArchWiki",
+      "hash": "ij2fsyXjZ9O4",
+      "address": "https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/managing-protected-branches/about-protected-branches",
+      "title": "About protected branches - GitHub Docs",
       "snippet": "",
       "matchedWords": {
         "up8R7MNJfZmT": {
@@ -1203,35 +1146,69 @@
       "queryPhraseHits": 0
     },
     {
-      "hash": "fDcnx29cq-94",
-      "address": "https://git-scm.com/docs/git-bundle",
-      "title": "Git - git-bundle Documentation",
-      "snippet": "NAME\ngit-bundle - Move objects and refs by archive\nSYNOPSIS\ngit bundle create [-q | --quiet | --progress] [--version=\u003cversion\u003e] \u003cfile\u003e \u003cgit-rev-list-args\u003e git bundle verify [-q | --quiet] \u003cfile\u003e git bundle list-heads \u003cfile\u003e [\u003crefname\u003e…​] git bundle unbundle [--progress] \u003cfile\u003e [\u003crefname\u003e…​]",
+      "hash": "4lmMugThXEF4",
+      "address": "https://source.android.com/docs/setup/reference/repo",
+      "title": "Repo command reference | Android Open Source Project",
+      "snippet": "",
       "matchedWords": {
         "up8R7MNJfZmT": {
-          "hits": 64,
-          "textWords": 1934
+          "hits": 0,
+          "textWords": 0
         },
         "wWrW4vQhHIra": {
           "hits": 0,
-          "textWords": 1934
+          "textWords": 0
         }
       },
       "queryPhraseHits": 0
     },
     {
-      "hash": "19sbJ29cq-94",
-      "address": "https://git-scm.com/docs/git-verify-pack",
-      "title": "Git - git-verify-pack Documentation",
-      "snippet": "NAME\ngit-verify-pack - Validate packed Git archive files\nSYNOPSIS\ngit verify-pack [-v | --verbose] [-s | --stat-only] [--] \u003cpack\u003e.idx...\nDESCRIPTION\nRead each idx file for packed Git archive given on the command line, and verify the idx file and the corresponding pack file.\nOPTIONS\n-v\n--verbose",
+      "hash": "dneiglzbmVEz",
+      "address": "https://www.conventionalcommits.org/en/v1.0.0/",
+      "title": "Conventional Commits",
+      "snippet": "",
       "matchedWords": {
         "up8R7MNJfZmT": {
-          "hits": 4,
-          "textWords": 145
+          "hits": 0,
+          "textWords": 0
         },
         "wWrW4vQhHIra": {
           "hits": 0,
-          "textWords": 145
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "6JOUD29cq-94",
+      "address": "https://git-scm.com/docs/git-remote",
+      "title": "Git - git-remote Documentation",
+      "snippet": "With -f option, git fetch \u003cname\u003e is run immediately after the remote information is set up.\nWith --tags option, git fetch \u003cname\u003e imports every tag from the remote repository.\nWith --no-tags option, git fetch \u003cname\u003e does not import tags from the remote repository.",
+      "matchedWords": {
+        "up8R7MNJfZmT": {
+          "hits": 15,
+          "textWords": 955
+        },
+        "wWrW4vQhHIra": {
+          "hits": 0,
+          "textWords": 955
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "ij2fsyXjZ9O4",
+      "address": "https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/managing-protected-branches/about-protected-branches",
+      "title": "About protected branches - GitHub Docs",
+      "snippet": "",
+      "matchedWords": {
+        "up8R7MNJfZmT": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "wWrW4vQhHIra": {
+          "hits": 0,
+          "textWords": 0
         }
       },
       "queryPhraseHits": 0
@@ -1254,9 +1231,9 @@
       "queryPhraseHits": 0
     },
     {
-      "hash": "TKQQYyS6MKD4",
-      "address": "https://github.com/blindglobe/common-lisp-stat",
-      "title": "GitHub - blindglobe/common-lisp-stat: Common Lisp Statistics -- based on LispStat (Tierney) but updated for Common Lisp and incorporating lessons from R (http://www.r-project.",
+      "hash": "dneiglzbmVEz",
+      "address": "https://www.conventionalcommits.org/en/v1.0.0/",
+      "title": "Conventional Commits",
       "snippet": "",
       "matchedWords": {
         "up8R7MNJfZmT": {
@@ -1271,18 +1248,52 @@
       "queryPhraseHits": 0
     },
     {
-      "hash": "aE__u29cq-94",
-      "address": "https://git-scm.com/docs/git-submodule",
-      "title": "Git - git-submodule Documentation",
-      "snippet": "If --force is specified, the submodule will be checked out (using git checkout --force), even if the commit specified in the index of the containing repository already matches the commit checked out in the submodule.\nrebase",
+      "hash": "NNEnbyXjZ9O4",
+      "address": "https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax",
+      "title": "Basic writing and formatting syntax - GitHub Docs",
+      "snippet": "",
       "matchedWords": {
         "up8R7MNJfZmT": {
-          "hits": 41,
-          "textWords": 1802
+          "hits": 0,
+          "textWords": 0
         },
         "wWrW4vQhHIra": {
-          "hits": 2,
-          "textWords": 1802
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "XEdwsyXjZ9O4",
+      "address": "https://docs.github.com/en/get-started/git-basics/about-remote-repositories",
+      "title": "About remote repositories - GitHub Docs",
+      "snippet": "",
+      "matchedWords": {
+        "up8R7MNJfZmT": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "wWrW4vQhHIra": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "dneiglzbmVEz",
+      "address": "https://www.conventionalcommits.org/en/v1.0.0/",
+      "title": "Conventional Commits",
+      "snippet": "",
+      "matchedWords": {
+        "up8R7MNJfZmT": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "wWrW4vQhHIra": {
+          "hits": 0,
+          "textWords": 0
         }
       },
       "queryPhraseHits": 0
@@ -1305,9 +1316,77 @@
       "queryPhraseHits": 0
     },
     {
-      "hash": "1-artsRPup1w",
-      "address": "https://diessi.ca/atom.xml",
-      "title": "",
+      "hash": "18R0h29cq-94",
+      "address": "https://git-scm.com/docs/git-send-email",
+      "title": "Git - git-send-email Documentation",
+      "snippet": "NAME\ngit-send-email - Send a collection of patches as emails\nSYNOPSIS\ngit send-email [\u003coptions\u003e] (\u003cfile\u003e|\u003cdirectory\u003e)…​ git send-email [\u003coptions\u003e] \u003cformat-patch-options\u003e git send-email --dump-aliases git send-email --translate-aliases\nDESCRIPTION",
+      "matchedWords": {
+        "up8R7MNJfZmT": {
+          "hits": 66,
+          "textWords": 5207
+        },
+        "wWrW4vQhHIra": {
+          "hits": 0,
+          "textWords": 5207
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "NNEnbyXjZ9O4",
+      "address": "https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax",
+      "title": "Basic writing and formatting syntax - GitHub Docs",
+      "snippet": "",
+      "matchedWords": {
+        "up8R7MNJfZmT": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "wWrW4vQhHIra": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "1WCs82bypRQw",
+      "address": "https://forgejo.org/docs/latest/admin/config-cheat-sheet/",
+      "title": "Configuration Cheat Sheet | Forgejo – Beyond coding. We forge.",
+      "snippet": "",
+      "matchedWords": {
+        "up8R7MNJfZmT": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "wWrW4vQhHIra": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "2RKfa2bypRQw",
+      "address": "https://forgejo.org/docs/latest/user/repository/merge-message-templates/",
+      "title": "Merge Message Templates | Forgejo – Beyond coding. We forge.",
+      "snippet": "",
+      "matchedWords": {
+        "up8R7MNJfZmT": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "wWrW4vQhHIra": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "0_W3Y_nMM_j5",
+      "address": "https://grokipedia.com/page/Version_control",
+      "title": "Version control — Grokipedia",
       "snippet": "",
       "matchedWords": {
         "up8R7MNJfZmT": {
@@ -1356,6 +1435,23 @@
       "queryPhraseHits": 3
     },
     {
+      "hash": "OkJ2Km0h8sSw",
+      "address": "https://tracker.debian.org/pkg/linux",
+      "title": "linux - Debian Package Tracker",
+      "snippet": "",
+      "matchedWords": {
+        "up8R7MNJfZmT": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "wWrW4vQhHIra": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
       "hash": "Cg9jcs2jvnSw",
       "address": "https://ffmpeg.org/ffmpeg-filters.html",
       "title": "FFmpeg Filters Documentation",
@@ -1373,9 +1469,9 @@
       "queryPhraseHits": 0
     },
     {
-      "hash": "BnO0FShHMhLg",
-      "address": "https://blog.glyph.im/tag/deployment.html",
-      "title": "Deciphering Glyph :: tag/deployment",
+      "hash": "Se89Dt4qDUgx",
+      "address": "https://blog.launchpad.net/",
+      "title": "Launchpad Blog",
       "snippet": "",
       "matchedWords": {
         "up8R7MNJfZmT": {
@@ -1390,9 +1486,468 @@
       "queryPhraseHits": 0
     },
     {
-      "hash": "TKQQYyS6MKD4",
-      "address": "https://github.com/blindglobe/common-lisp-stat",
-      "title": "GitHub - blindglobe/common-lisp-stat: Common Lisp Statistics -- based on LispStat (Tierney) but updated for Common Lisp and incorporating lessons from R (http://www.r-project.",
+      "hash": "sKaik29cq-94",
+      "address": "https://git-scm.com/docs/githooks",
+      "title": "Git - githooks Documentation",
+      "snippet": "This hook is invoked by commands that rewrite commits (git-commit[1] when called with --amend and git-rebase[1]; however, full-history (re)writing tools like git-fast-import[1] or git-filter-repo typically do not call it!).",
+      "matchedWords": {
+        "up8R7MNJfZmT": {
+          "hits": 107,
+          "textWords": 4546
+        },
+        "wWrW4vQhHIra": {
+          "hits": 6,
+          "textWords": 4546
+        }
+      },
+      "queryPhraseHits": 2
+    },
+    {
+      "hash": "18Aza29cq-94",
+      "address": "https://git-scm.com/docs/giteveryday",
+      "title": "Git - giteveryday Documentation",
+      "snippet": "$ git status (1) $ git branch --no-merged master (2) $ mailx (3) \u0026 s 2 3 4 5 ./+to-apply \u0026 s 7 8 ./+hold-linus \u0026 q $ git switch -c topic/one master $ git am -3 -i -s ./+to-apply (4) $ compile/test $ git switch -c hold/linus \u0026\u0026 git am -3 -i -s ./+hold-linus (5) $ git switch topic/one \u0026\u0026 git rebase",
+      "matchedWords": {
+        "up8R7MNJfZmT": {
+          "hits": 153,
+          "textWords": 2009
+        },
+        "wWrW4vQhHIra": {
+          "hits": 3,
+          "textWords": 2009
+        }
+      },
+      "queryPhraseHits": 2
+    },
+    {
+      "hash": "18R0h29cq-94",
+      "address": "https://git-scm.com/docs/git-send-email",
+      "title": "Git - git-send-email Documentation",
+      "snippet": "NAME\ngit-send-email - Send a collection of patches as emails\nSYNOPSIS\ngit send-email [\u003coptions\u003e] (\u003cfile\u003e|\u003cdirectory\u003e)…​ git send-email [\u003coptions\u003e] \u003cformat-patch-options\u003e git send-email --dump-aliases git send-email --translate-aliases\nDESCRIPTION",
+      "matchedWords": {
+        "up8R7MNJfZmT": {
+          "hits": 66,
+          "textWords": 5207
+        },
+        "wWrW4vQhHIra": {
+          "hits": 0,
+          "textWords": 5207
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "6JOUD29cq-94",
+      "address": "https://git-scm.com/docs/git-remote",
+      "title": "Git - git-remote Documentation",
+      "snippet": "With -f option, git fetch \u003cname\u003e is run immediately after the remote information is set up.\nWith --tags option, git fetch \u003cname\u003e imports every tag from the remote repository.\nWith --no-tags option, git fetch \u003cname\u003e does not import tags from the remote repository.",
+      "matchedWords": {
+        "up8R7MNJfZmT": {
+          "hits": 15,
+          "textWords": 955
+        },
+        "wWrW4vQhHIra": {
+          "hits": 0,
+          "textWords": 955
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "6fDY-29cq-94",
+      "address": "https://git-scm.com/docs/git-grep",
+      "title": "Git - git-grep Documentation",
+      "snippet": "Search files in the current directory that is not managed by Git, or by ignoring that the current directory is managed by Git.",
+      "matchedWords": {
+        "up8R7MNJfZmT": {
+          "hits": 10,
+          "textWords": 1279
+        },
+        "wWrW4vQhHIra": {
+          "hits": 0,
+          "textWords": 1279
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "-7-UKs9cq-94",
+      "address": "https://git-scm.com/docs",
+      "title": "Git - Reference",
+      "snippet": "Quick reference guide: Cheat Sheet\nComplete list of all commands\nSetup and Config\ngit\nconfig\nhelp\nbugreport\nCredential helpers\nGetting and Creating Projects\ninit\nclone\nBasic Snapshotting\nadd\nstatus\ndiff\ncommit\nnotes\nrestore\nreset\nrm\nmv\nBranching and Merging\nbranch\ncheckout\nswitch\nmerge\nmergetool",
+      "matchedWords": {
+        "up8R7MNJfZmT": {
+          "hits": 2,
+          "textWords": 176
+        },
+        "wWrW4vQhHIra": {
+          "hits": 1,
+          "textWords": 176
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "ev5UssBVpjfi",
+      "address": "https://lucaswerkmeister.de/posts/",
+      "title": "Lucas’ Posts",
+      "snippet": "",
+      "matchedWords": {
+        "up8R7MNJfZmT": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "wWrW4vQhHIra": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "W-eXqzF3--Qw",
+      "address": "https://planet.mozilla.org/",
+      "title": "Planet Mozilla",
+      "snippet": "",
+      "matchedWords": {
+        "up8R7MNJfZmT": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "wWrW4vQhHIra": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "5-NNBzHvMhvw",
+      "address": "https://firefox-source-docs.mozilla.org/genindex.html",
+      "title": "Index \u0026mdash; Firefox Source Docs documentation",
+      "snippet": "",
+      "matchedWords": {
+        "up8R7MNJfZmT": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "wWrW4vQhHIra": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "5CknIsJqV0ww",
+      "address": "https://suckless.org/",
+      "title": "software that sucks less | suckless.org software that sucks less",
+      "snippet": "",
+      "matchedWords": {
+        "up8R7MNJfZmT": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "wWrW4vQhHIra": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "R_xsdMS6MKD4",
+      "address": "https://github.com/orgs/community/discussions",
+      "title": "community · Discussions · GitHub",
+      "snippet": "",
+      "matchedWords": {
+        "up8R7MNJfZmT": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "wWrW4vQhHIra": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "4lmMugThXEF4",
+      "address": "https://source.android.com/docs/setup/reference/repo",
+      "title": "Repo command reference | Android Open Source Project",
+      "snippet": "",
+      "matchedWords": {
+        "up8R7MNJfZmT": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "wWrW4vQhHIra": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "Ae2HlyXjZ9O4",
+      "address": "https://docs.github.com/en/get-started/exploring-projects-on-github/saving-repositories-with-stars",
+      "title": "Saving repositories with stars - GitHub Docs",
+      "snippet": "",
+      "matchedWords": {
+        "up8R7MNJfZmT": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "wWrW4vQhHIra": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "EaolfyXjZ9O4",
+      "address": "https://docs.github.com/en/get-started/exploring-integrations/about-building-integrations",
+      "title": "About building integrations - GitHub Docs",
+      "snippet": "",
+      "matchedWords": {
+        "up8R7MNJfZmT": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "wWrW4vQhHIra": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "NNEnbyXjZ9O4",
+      "address": "https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax",
+      "title": "Basic writing and formatting syntax - GitHub Docs",
+      "snippet": "",
+      "matchedWords": {
+        "up8R7MNJfZmT": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "wWrW4vQhHIra": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "SIu24yXjZ9O4",
+      "address": "https://docs.github.com/en/get-started/using-github-docs/about-versions-of-github-docs",
+      "title": "About versions of GitHub Docs - GitHub Docs",
+      "snippet": "",
+      "matchedWords": {
+        "up8R7MNJfZmT": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "wWrW4vQhHIra": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "XEdwsyXjZ9O4",
+      "address": "https://docs.github.com/en/get-started/git-basics/about-remote-repositories",
+      "title": "About remote repositories - GitHub Docs",
+      "snippet": "",
+      "matchedWords": {
+        "up8R7MNJfZmT": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "wWrW4vQhHIra": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "ij2fsyXjZ9O4",
+      "address": "https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/managing-protected-branches/about-protected-branches",
+      "title": "About protected branches - GitHub Docs",
+      "snippet": "",
+      "matchedWords": {
+        "up8R7MNJfZmT": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "wWrW4vQhHIra": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "1IlShyXjZ9O4",
+      "address": "https://docs.github.com/en/enterprise-cloud@latest/repositories/configuring-branches-and-merges-in-your-repository/configuring-pull-request-merges/configuring-commit-rebasing-for-pull-requests",
+      "title": "Configuring commit rebasing for pull requests - GitHub Enterprise Cloud Docs",
+      "snippet": "",
+      "matchedWords": {
+        "up8R7MNJfZmT": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "wWrW4vQhHIra": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "2op_kyXjZ9O4",
+      "address": "https://docs.github.com/en/get-started/accessibility/keyboard-shortcuts",
+      "title": "Keyboard shortcuts - GitHub Docs",
+      "snippet": "",
+      "matchedWords": {
+        "up8R7MNJfZmT": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "wWrW4vQhHIra": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "727xuyXjZ9O4",
+      "address": "https://docs.github.com/en/enterprise-cloud@latest/repositories/configuring-branches-and-merges-in-your-repository/configuring-pull-request-merges/about-merge-methods-on-github",
+      "title": "About merge methods on GitHub - GitHub Enterprise Cloud Docs",
+      "snippet": "",
+      "matchedWords": {
+        "up8R7MNJfZmT": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "wWrW4vQhHIra": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "9q5AlyXjZ9O4",
+      "address": "https://docs.github.com/en/get-started/writing-on-github/working-with-advanced-formatting/organizing-information-with-collapsed-sections",
+      "title": "Organizing information with collapsed sections - GitHub Docs",
+      "snippet": "",
+      "matchedWords": {
+        "up8R7MNJfZmT": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "wWrW4vQhHIra": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "-gmXMyXjZ9O4",
+      "address": "https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github",
+      "title": "Getting started with writing and formatting on GitHub - GitHub Docs",
+      "snippet": "",
+      "matchedWords": {
+        "up8R7MNJfZmT": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "wWrW4vQhHIra": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "7bGodv_FhCOw",
+      "address": "https://docs.pi-hole.net/guides/github/dco/",
+      "title": "Developer Certificate of Origin (DCO) - Pi-hole documentation",
+      "snippet": "",
+      "matchedWords": {
+        "up8R7MNJfZmT": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "wWrW4vQhHIra": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "D4lABzaS0qdw",
+      "address": "https://planet.debian.org/",
+      "title": "Planet Debian",
+      "snippet": "",
+      "matchedWords": {
+        "up8R7MNJfZmT": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "wWrW4vQhHIra": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "6DX6BsoPHifk",
+      "address": "https://cassidoo.co/blog/",
+      "title": "Cassidy Williams",
+      "snippet": "",
+      "matchedWords": {
+        "up8R7MNJfZmT": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "wWrW4vQhHIra": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "Bb0SUspGMAgk",
+      "address": "https://blogs.hn/",
+      "title": "blogs.hn",
+      "snippet": "",
+      "matchedWords": {
+        "up8R7MNJfZmT": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "wWrW4vQhHIra": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "dneiglzbmVEz",
+      "address": "https://www.conventionalcommits.org/en/v1.0.0/",
+      "title": "Conventional Commits",
       "snippet": "",
       "matchedWords": {
         "up8R7MNJfZmT": {
@@ -1424,9 +1979,9 @@
       "queryPhraseHits": 0
     },
     {
-      "hash": "JQB76sNdy-a5",
-      "address": "https://getnikola.com/changes.html",
-      "title": "Changes | Nikola",
+      "hash": "W-eXqzF3--Qw",
+      "address": "https://planet.mozilla.org/",
+      "title": "Planet Mozilla",
       "snippet": "",
       "matchedWords": {
         "up8R7MNJfZmT": {
@@ -1436,91 +1991,6 @@
         "wWrW4vQhHIra": {
           "hits": 0,
           "textWords": 0
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "QWtr229cq-94",
-      "address": "https://git-scm.com/docs/git-diff",
-      "title": "Git - git-diff Documentation",
-      "snippet": "By default entries added by git add -N appear as an existing empty file in git diff and a new file in git diff --cached. This option makes the entry appear as a new file in git diff and non-existent in git diff --cached. This option could be reverted with --ita-visible-in-index.",
-      "matchedWords": {
-        "up8R7MNJfZmT": {
-          "hits": 31,
-          "textWords": 4492
-        },
-        "wWrW4vQhHIra": {
-          "hits": 0,
-          "textWords": 4492
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "lpRZC29cq-94",
-      "address": "https://git-scm.com/docs/gitrevisions",
-      "title": "Git - gitrevisions Documentation",
-      "snippet": "Commands that are specifically designed to take two distinct ranges (e.g. \"git range-diff R1 R2\" to compare two ranges) do exist, but they are exceptions. Unless otherwise noted, all \"git\" commands that operate on a set of commits work on a single revision range.",
-      "matchedWords": {
-        "up8R7MNJfZmT": {
-          "hits": 5,
-          "textWords": 552
-        },
-        "wWrW4vQhHIra": {
-          "hits": 0,
-          "textWords": 552
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "TKQQYyS6MKD4",
-      "address": "https://github.com/blindglobe/common-lisp-stat",
-      "title": "GitHub - blindglobe/common-lisp-stat: Common Lisp Statistics -- based on LispStat (Tierney) but updated for Common Lisp and incorporating lessons from R (http://www.r-project.",
-      "snippet": "",
-      "matchedWords": {
-        "up8R7MNJfZmT": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "wWrW4vQhHIra": {
-          "hits": 0,
-          "textWords": 0
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "fDcnx29cq-94",
-      "address": "https://git-scm.com/docs/git-bundle",
-      "title": "Git - git-bundle Documentation",
-      "snippet": "NAME\ngit-bundle - Move objects and refs by archive\nSYNOPSIS\ngit bundle create [-q | --quiet | --progress] [--version=\u003cversion\u003e] \u003cfile\u003e \u003cgit-rev-list-args\u003e git bundle verify [-q | --quiet] \u003cfile\u003e git bundle list-heads \u003cfile\u003e [\u003crefname\u003e…​] git bundle unbundle [--progress] \u003cfile\u003e [\u003crefname\u003e…​]",
-      "matchedWords": {
-        "up8R7MNJfZmT": {
-          "hits": 64,
-          "textWords": 1934
-        },
-        "wWrW4vQhHIra": {
-          "hits": 0,
-          "textWords": 1934
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "l-XXS29cq-94",
-      "address": "https://git-scm.com/docs/gittutorial",
-      "title": "Git - gittutorial Documentation",
-      "snippet": "$ tar xzf project.tar.gz $ cd project $ git init\nGit will reply\nInitialized empty Git repository in .git/\nYou’ve now initialized the working directory—​you may notice a new directory created, named .git.",
-      "matchedWords": {
-        "up8R7MNJfZmT": {
-          "hits": 137,
-          "textWords": 2840
-        },
-        "wWrW4vQhHIra": {
-          "hits": 0,
-          "textWords": 2840
         }
       },
       "queryPhraseHits": 0
@@ -1543,9 +2013,9 @@
       "queryPhraseHits": 0
     },
     {
-      "hash": "ww-gf8cZd9Fw",
-      "address": "https://hackage.haskell.org/packages/",
-      "title": "packages by category | Hackage",
+      "hash": "R_xsdMS6MKD4",
+      "address": "https://github.com/orgs/community/discussions",
+      "title": "community · Discussions · GitHub",
       "snippet": "",
       "matchedWords": {
         "up8R7MNJfZmT": {
@@ -1558,23 +2028,6 @@
         }
       },
       "queryPhraseHits": 0
-    },
-    {
-      "hash": "Atcou29cq-94",
-      "address": "https://git-scm.com/docs/git-checkout",
-      "title": "Git - git-checkout Documentation",
-      "snippet": "Note that during git rebase and git pull --rebase, ours and theirs may appear swapped; --ours gives the version from the branch the changes are rebased onto, while --theirs gives the version from the branch that holds your work that is being rebased.",
-      "matchedWords": {
-        "up8R7MNJfZmT": {
-          "hits": 24,
-          "textWords": 1770
-        },
-        "wWrW4vQhHIra": {
-          "hits": 4,
-          "textWords": 1770
-        }
-      },
-      "queryPhraseHits": 1
     },
     {
       "hash": "GOC_RsS6MKD4",
@@ -1594,6 +2047,40 @@
       "queryPhraseHits": 0
     },
     {
+      "hash": "XEdwsyXjZ9O4",
+      "address": "https://docs.github.com/en/get-started/git-basics/about-remote-repositories",
+      "title": "About remote repositories - GitHub Docs",
+      "snippet": "",
+      "matchedWords": {
+        "up8R7MNJfZmT": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "wWrW4vQhHIra": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "5-NNBzHvMhvw",
+      "address": "https://firefox-source-docs.mozilla.org/genindex.html",
+      "title": "Index — Firefox Source Docs documentation",
+      "snippet": "",
+      "matchedWords": {
+        "up8R7MNJfZmT": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "wWrW4vQhHIra": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
       "hash": "Se89Dt4qDUgx",
       "address": "https://blog.launchpad.net/",
       "title": "Launchpad Blog",
@@ -1611,18 +2098,35 @@
       "queryPhraseHits": 0
     },
     {
-      "hash": "l-XXS29cq-94",
-      "address": "https://git-scm.com/docs/gittutorial",
-      "title": "Git - gittutorial Documentation",
-      "snippet": "$ tar xzf project.tar.gz $ cd project $ git init\nGit will reply\nInitialized empty Git repository in .git/\nYou’ve now initialized the working directory—​you may notice a new directory created, named .git.",
+      "hash": "ev5UssBVpjfi",
+      "address": "https://lucaswerkmeister.de/posts/",
+      "title": "Lucas’ Posts",
+      "snippet": "",
       "matchedWords": {
         "up8R7MNJfZmT": {
-          "hits": 137,
-          "textWords": 2840
+          "hits": 0,
+          "textWords": 0
         },
         "wWrW4vQhHIra": {
           "hits": 0,
-          "textWords": 2840
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "RRPfgjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Fork_(software_development)",
+      "title": "Fork (software development) - Wikipedia",
+      "snippet": "",
+      "matchedWords": {
+        "up8R7MNJfZmT": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "wWrW4vQhHIra": {
+          "hits": 0,
+          "textWords": 0
         }
       },
       "queryPhraseHits": 0
@@ -1730,9 +2234,77 @@
       "queryPhraseHits": 0
     },
     {
+      "hash": "SIu24yXjZ9O4",
+      "address": "https://docs.github.com/en/get-started/using-github-docs/about-versions-of-github-docs",
+      "title": "About versions of GitHub Docs - GitHub Docs",
+      "snippet": "",
+      "matchedWords": {
+        "up8R7MNJfZmT": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "wWrW4vQhHIra": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
       "hash": "Tybr3yXjZ9O4",
       "address": "https://docs.github.com/en/get-started/learning-about-github/access-permissions-on-github",
       "title": "Access permissions on GitHub - GitHub Docs",
+      "snippet": "",
+      "matchedWords": {
+        "up8R7MNJfZmT": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "wWrW4vQhHIra": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "XEdwsyXjZ9O4",
+      "address": "https://docs.github.com/en/get-started/git-basics/about-remote-repositories",
+      "title": "About remote repositories - GitHub Docs",
+      "snippet": "",
+      "matchedWords": {
+        "up8R7MNJfZmT": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "wWrW4vQhHIra": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "1IlShyXjZ9O4",
+      "address": "https://docs.github.com/en/enterprise-cloud@latest/repositories/configuring-branches-and-merges-in-your-repository/configuring-pull-request-merges/configuring-commit-rebasing-for-pull-requests",
+      "title": "Configuring commit rebasing for pull requests - GitHub Enterprise Cloud Docs",
+      "snippet": "",
+      "matchedWords": {
+        "up8R7MNJfZmT": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "wWrW4vQhHIra": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "2op_kyXjZ9O4",
+      "address": "https://docs.github.com/en/get-started/accessibility/keyboard-shortcuts",
+      "title": "Keyboard shortcuts - GitHub Docs",
       "snippet": "",
       "matchedWords": {
         "up8R7MNJfZmT": {
@@ -1781,18 +2353,35 @@
       "queryPhraseHits": 0
     },
     {
-      "hash": "Y0wMEQvPJCNw",
-      "address": "https://eagain.net/articles/git-for-computer-scientists/",
-      "title": "Git for Computer Scientists",
-      "snippet": "Abstract\nQuick introduction to git internals for people who are not scared by words like Directed Acyclic Graph .\nStorage\nIn simplified form, git object storage is \"just\" a DAG of objects, with a handful of different types of objects.",
+      "hash": "9q5AlyXjZ9O4",
+      "address": "https://docs.github.com/en/get-started/writing-on-github/working-with-advanced-formatting/organizing-information-with-collapsed-sections",
+      "title": "Organizing information with collapsed sections - GitHub Docs",
+      "snippet": "",
       "matchedWords": {
         "up8R7MNJfZmT": {
-          "hits": 17,
-          "textWords": 904
+          "hits": 0,
+          "textWords": 0
         },
         "wWrW4vQhHIra": {
-          "hits": 4,
-          "textWords": 904
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "-gmXMyXjZ9O4",
+      "address": "https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github",
+      "title": "Getting started with writing and formatting on GitHub - GitHub Docs",
+      "snippet": "",
+      "matchedWords": {
+        "up8R7MNJfZmT": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "wWrW4vQhHIra": {
+          "hits": 0,
+          "textWords": 0
         }
       },
       "queryPhraseHits": 0
@@ -1801,6 +2390,23 @@
       "hash": "Cg9jcs2jvnSw",
       "address": "https://ffmpeg.org/ffmpeg-filters.html",
       "title": "FFmpeg Filters Documentation",
+      "snippet": "",
+      "matchedWords": {
+        "up8R7MNJfZmT": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "wWrW4vQhHIra": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "RRPfgjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Fork_(software_development)",
+      "title": "Fork (software development) - Wikipedia",
       "snippet": "",
       "matchedWords": {
         "up8R7MNJfZmT": {
@@ -1832,9 +2438,9 @@
       "queryPhraseHits": 2
     },
     {
-      "hash": "TKQQYyS6MKD4",
-      "address": "https://github.com/blindglobe/common-lisp-stat",
-      "title": "GitHub - blindglobe/common-lisp-stat: Common Lisp Statistics -- based on LispStat (Tierney) but updated for Common Lisp and incorporating lessons from R (http://www.r-project.",
+      "hash": "6zIwnQ4a_6Ww",
+      "address": "https://hbase.apache.org/book.html",
+      "title": "Apache HBase® Reference Guide",
       "snippet": "",
       "matchedWords": {
         "up8R7MNJfZmT": {
@@ -1849,35 +2455,35 @@
       "queryPhraseHits": 0
     },
     {
-      "hash": "JnqHwV9cq-94",
-      "address": "https://git-scm.com/book/en/v2/Git-Tools-Submodules",
-      "title": "Git - Submodules",
-      "snippet": "Then you need to tell Git what to do if you have made changes and later git submodule update --remote pulls in new work from upstream. The options are that you can merge them into your local work, or you can try to rebase your local work on top of the new changes.",
+      "hash": "X0gS6jRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/LibreOffice",
+      "title": "LibreOffice - Wikipedia",
+      "snippet": "",
       "matchedWords": {
         "up8R7MNJfZmT": {
-          "hits": 209,
-          "textWords": 6141
+          "hits": 0,
+          "textWords": 0
         },
         "wWrW4vQhHIra": {
-          "hits": 4,
-          "textWords": 6141
+          "hits": 0,
+          "textWords": 0
         }
       },
       "queryPhraseHits": 0
     },
     {
-      "hash": "lpRZC29cq-94",
-      "address": "https://git-scm.com/docs/gitrevisions",
-      "title": "Git - gitrevisions Documentation",
-      "snippet": "Commands that are specifically designed to take two distinct ranges (e.g. \"git range-diff R1 R2\" to compare two ranges) do exist, but they are exceptions. Unless otherwise noted, all \"git\" commands that operate on a set of commits work on a single revision range.",
+      "hash": "NNEnbyXjZ9O4",
+      "address": "https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax",
+      "title": "Basic writing and formatting syntax - GitHub Docs",
+      "snippet": "",
       "matchedWords": {
         "up8R7MNJfZmT": {
-          "hits": 5,
-          "textWords": 552
+          "hits": 0,
+          "textWords": 0
         },
         "wWrW4vQhHIra": {
           "hits": 0,
-          "textWords": 552
+          "textWords": 0
         }
       },
       "queryPhraseHits": 0
@@ -1900,21 +2506,21 @@
       "queryPhraseHits": 2
     },
     {
-      "hash": "3A0ez29cq-94",
-      "address": "https://git-scm.com/docs/git-commit/2.31.0",
-      "title": "Git - git-commit Documentation",
-      "snippet": "See git-rebase[1] for details.\n--squash=\u003ccommit\u003e\nConstruct a commit message for use with rebase --autosquash. The commit message subject line is taken from the specified commit with a prefix of \"squash! \". Can be used with additional commit message options (-m/-c/-C/-F).",
+      "hash": "XEdwsyXjZ9O4",
+      "address": "https://docs.github.com/en/get-started/git-basics/about-remote-repositories",
+      "title": "About remote repositories - GitHub Docs",
+      "snippet": "",
       "matchedWords": {
         "up8R7MNJfZmT": {
-          "hits": 20,
-          "textWords": 1638
+          "hits": 0,
+          "textWords": 0
         },
         "wWrW4vQhHIra": {
-          "hits": 6,
-          "textWords": 1638
+          "hits": 0,
+          "textWords": 0
         }
       },
-      "queryPhraseHits": 3
+      "queryPhraseHits": 0
     },
     {
       "hash": "RgG4r29cq-94",
@@ -1929,6 +2535,23 @@
         "wWrW4vQhHIra": {
           "hits": 0,
           "textWords": 355
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "5g9r129cq-94",
+      "address": "https://git-scm.com/docs/pretty-formats",
+      "title": "Git - pretty-formats Documentation",
+      "snippet": "author email (respecting .mailmap, see git-shortlog[1] or git-blame[1])\n%al\nauthor email local-part (the part before the @ sign)\n%aL\nauthor local-part (see %al) respecting .mailmap, see git-shortlog[1] or git-blame[1])\n%ad\nauthor date (format respects --date= option)\n%aD\nauthor date, RFC2822 style",
+      "matchedWords": {
+        "up8R7MNJfZmT": {
+          "hits": 26,
+          "textWords": 1221
+        },
+        "wWrW4vQhHIra": {
+          "hits": 0,
+          "textWords": 1221
         }
       },
       "queryPhraseHits": 0
@@ -1951,9 +2574,9 @@
       "queryPhraseHits": 0
     },
     {
-      "hash": "TKQQYyS6MKD4",
-      "address": "https://github.com/blindglobe/common-lisp-stat",
-      "title": "GitHub - blindglobe/common-lisp-stat: Common Lisp Statistics -- based on LispStat (Tierney) but updated for Common Lisp and incorporating lessons from R (http://www.r-project.",
+      "hash": "PhfTTyXjZ9O4",
+      "address": "https://docs.github.com/en/get-started/onboarding/getting-started-with-github-enterprise-cloud",
+      "title": "Getting started with GitHub Enterprise Cloud - GitHub Docs",
       "snippet": "",
       "matchedWords": {
         "up8R7MNJfZmT": {
@@ -1985,9 +2608,621 @@
       "queryPhraseHits": 0
     },
     {
-      "hash": "709w-2hHMhLg",
-      "address": "https://blog.glyph.im/2025/11/dependency-cutout-workflow-pattern.html",
-      "title": "Deciphering Glyph :: The “Dependency Cutout” Workflow Pattern, Part I",
+      "hash": "ij2fsyXjZ9O4",
+      "address": "https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/managing-protected-branches/about-protected-branches",
+      "title": "About protected branches - GitHub Docs",
+      "snippet": "",
+      "matchedWords": {
+        "up8R7MNJfZmT": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "wWrW4vQhHIra": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "5g9r129cq-94",
+      "address": "https://git-scm.com/docs/pretty-formats",
+      "title": "Git - pretty-formats Documentation",
+      "snippet": "author email (respecting .mailmap, see git-shortlog[1] or git-blame[1])\n%al\nauthor email local-part (the part before the @ sign)\n%aL\nauthor local-part (see %al) respecting .mailmap, see git-shortlog[1] or git-blame[1])\n%ad\nauthor date (format respects --date= option)\n%aD\nauthor date, RFC2822 style",
+      "matchedWords": {
+        "up8R7MNJfZmT": {
+          "hits": 26,
+          "textWords": 1221
+        },
+        "wWrW4vQhHIra": {
+          "hits": 0,
+          "textWords": 1221
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "-y8Tx29cq-94",
+      "address": "https://git-scm.com/docs/git-fast-import",
+      "title": "Git - git-fast-import Documentation",
+      "snippet": "Like git push or git fetch, imports handled by fast-import are safe to run alongside parallel git repack -a -d or git gc invocations, or any other Git operation (including git prune, as loose objects are never used by fast-import).",
+      "matchedWords": {
+        "up8R7MNJfZmT": {
+          "hits": 90,
+          "textWords": 9958
+        },
+        "wWrW4vQhHIra": {
+          "hits": 0,
+          "textWords": 9958
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "9qMfQo0Z_SDg",
+      "address": "https://www.jvt.me/posts/2019/01/10/git-commit-fixup/",
+      "title": "Using `git commit --fixup=` to track changes that need to be applied on top of another commit · Jamie Tanna | Software Engineer",
+      "snippet": "Add Lorem Ipsum commit 5552fc0e523108bb8e6d7358b51c08a85ca10edc Author: Jamie Tanna \u003cjamie@jamietanna.co.uk\u003e Date: Thu Jan 10 16:45:46 2019 +0000 Add Lorem Ipsum commit 47d1a2ad0e490c1dd67ed5bf5a539bb6024d706d Author: Jamie Tanna \u003cjamie@jamietanna.co.uk\u003e Date: Thu Jan 10 16:45:26 2019 +0000 Initial",
+      "matchedWords": {
+        "up8R7MNJfZmT": {
+          "hits": 21,
+          "textWords": 696
+        },
+        "wWrW4vQhHIra": {
+          "hits": 4,
+          "textWords": 696
+        }
+      },
+      "queryPhraseHits": 3
+    },
+    {
+      "hash": "Tybr3yXjZ9O4",
+      "address": "https://docs.github.com/en/get-started/learning-about-github/access-permissions-on-github",
+      "title": "Access permissions on GitHub - GitHub Docs",
+      "snippet": "",
+      "matchedWords": {
+        "up8R7MNJfZmT": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "wWrW4vQhHIra": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "Cg9jcs2jvnSw",
+      "address": "https://ffmpeg.org/ffmpeg-filters.html",
+      "title": "FFmpeg Filters Documentation",
+      "snippet": "",
+      "matchedWords": {
+        "up8R7MNJfZmT": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "wWrW4vQhHIra": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "6zIwnQ4a_6Ww",
+      "address": "https://hbase.apache.org/book.html",
+      "title": "Apache HBase® Reference Guide",
+      "snippet": "",
+      "matchedWords": {
+        "up8R7MNJfZmT": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "wWrW4vQhHIra": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "Cg9jcs2jvnSw",
+      "address": "https://ffmpeg.org/ffmpeg-filters.html",
+      "title": "FFmpeg Filters Documentation",
+      "snippet": "",
+      "matchedWords": {
+        "up8R7MNJfZmT": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "wWrW4vQhHIra": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "QWtr229cq-94",
+      "address": "https://git-scm.com/docs/git-diff",
+      "title": "Git - git-diff Documentation",
+      "snippet": "By default entries added by git add -N appear as an existing empty file in git diff and a new file in git diff --cached. This option makes the entry appear as a new file in git diff and non-existent in git diff --cached. This option could be reverted with --ita-visible-in-index.",
+      "matchedWords": {
+        "up8R7MNJfZmT": {
+          "hits": 31,
+          "textWords": 4492
+        },
+        "wWrW4vQhHIra": {
+          "hits": 0,
+          "textWords": 4492
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "-7-UKs9cq-94",
+      "address": "https://git-scm.com/docs",
+      "title": "Git - Reference",
+      "snippet": "Quick reference guide: Cheat Sheet\nComplete list of all commands\nSetup and Config\ngit\nconfig\nhelp\nbugreport\nCredential helpers\nGetting and Creating Projects\ninit\nclone\nBasic Snapshotting\nadd\nstatus\ndiff\ncommit\nnotes\nrestore\nreset\nrm\nmv\nBranching and Merging\nbranch\ncheckout\nswitch\nmerge\nmergetool",
+      "matchedWords": {
+        "up8R7MNJfZmT": {
+          "hits": 2,
+          "textWords": 176
+        },
+        "wWrW4vQhHIra": {
+          "hits": 1,
+          "textWords": 176
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "R_xsdMS6MKD4",
+      "address": "https://github.com/orgs/community/discussions",
+      "title": "community · Discussions · GitHub",
+      "snippet": "",
+      "matchedWords": {
+        "up8R7MNJfZmT": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "wWrW4vQhHIra": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "Se89Dt4qDUgx",
+      "address": "https://blog.launchpad.net/",
+      "title": "Launchpad Blog",
+      "snippet": "",
+      "matchedWords": {
+        "up8R7MNJfZmT": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "wWrW4vQhHIra": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "QWtr229cq-94",
+      "address": "https://git-scm.com/docs/git-diff",
+      "title": "Git - git-diff Documentation",
+      "snippet": "By default entries added by git add -N appear as an existing empty file in git diff and a new file in git diff --cached. This option makes the entry appear as a new file in git diff and non-existent in git diff --cached. This option could be reverted with --ita-visible-in-index.",
+      "matchedWords": {
+        "up8R7MNJfZmT": {
+          "hits": 31,
+          "textWords": 4492
+        },
+        "wWrW4vQhHIra": {
+          "hits": 0,
+          "textWords": 4492
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "RgG4r29cq-94",
+      "address": "https://git-scm.com/docs/git-bugreport",
+      "title": "Git - git-bugreport Documentation",
+      "snippet": "NAME\ngit-bugreport - Collect information for user to file a bug report\nSYNOPSIS\ngit bugreport [(-o | --output-directory) \u003cpath\u003e] [(-s | --suffix) \u003cformat\u003e | --no-suffix] [--diagnose[=\u003cmode\u003e]]\nDESCRIPTION",
+      "matchedWords": {
+        "up8R7MNJfZmT": {
+          "hits": 12,
+          "textWords": 355
+        },
+        "wWrW4vQhHIra": {
+          "hits": 0,
+          "textWords": 355
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "-7-UKs9cq-94",
+      "address": "https://git-scm.com/docs",
+      "title": "Git - Reference",
+      "snippet": "Quick reference guide: Cheat Sheet\nComplete list of all commands\nSetup and Config\ngit\nconfig\nhelp\nbugreport\nCredential helpers\nGetting and Creating Projects\ninit\nclone\nBasic Snapshotting\nadd\nstatus\ndiff\ncommit\nnotes\nrestore\nreset\nrm\nmv\nBranching and Merging\nbranch\ncheckout\nswitch\nmerge\nmergetool",
+      "matchedWords": {
+        "up8R7MNJfZmT": {
+          "hits": 2,
+          "textWords": 176
+        },
+        "wWrW4vQhHIra": {
+          "hits": 1,
+          "textWords": 176
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "RRPfgjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Fork_(software_development)",
+      "title": "Fork (software development) - Wikipedia",
+      "snippet": "",
+      "matchedWords": {
+        "up8R7MNJfZmT": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "wWrW4vQhHIra": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "R_xsdMS6MKD4",
+      "address": "https://github.com/orgs/community/discussions",
+      "title": "community · Discussions · GitHub",
+      "snippet": "",
+      "matchedWords": {
+        "up8R7MNJfZmT": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "wWrW4vQhHIra": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "NNEnbyXjZ9O4",
+      "address": "https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax",
+      "title": "Basic writing and formatting syntax - GitHub Docs",
+      "snippet": "",
+      "matchedWords": {
+        "up8R7MNJfZmT": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "wWrW4vQhHIra": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "PhfTTyXjZ9O4",
+      "address": "https://docs.github.com/en/get-started/onboarding/getting-started-with-github-enterprise-cloud",
+      "title": "Getting started with GitHub Enterprise Cloud - GitHub Docs",
+      "snippet": "",
+      "matchedWords": {
+        "up8R7MNJfZmT": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "wWrW4vQhHIra": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "SIu24yXjZ9O4",
+      "address": "https://docs.github.com/en/get-started/using-github-docs/about-versions-of-github-docs",
+      "title": "About versions of GitHub Docs - GitHub Docs",
+      "snippet": "",
+      "matchedWords": {
+        "up8R7MNJfZmT": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "wWrW4vQhHIra": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "Tybr3yXjZ9O4",
+      "address": "https://docs.github.com/en/get-started/learning-about-github/access-permissions-on-github",
+      "title": "Access permissions on GitHub - GitHub Docs",
+      "snippet": "",
+      "matchedWords": {
+        "up8R7MNJfZmT": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "wWrW4vQhHIra": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "X0gS6jRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/LibreOffice",
+      "title": "LibreOffice - Wikipedia",
+      "snippet": "",
+      "matchedWords": {
+        "up8R7MNJfZmT": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "wWrW4vQhHIra": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "Tybr3yXjZ9O4",
+      "address": "https://docs.github.com/en/get-started/learning-about-github/access-permissions-on-github",
+      "title": "Access permissions on GitHub - GitHub Docs",
+      "snippet": "",
+      "matchedWords": {
+        "up8R7MNJfZmT": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "wWrW4vQhHIra": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "1HsAf29cq-94",
+      "address": "https://git-scm.com/docs/git-fsck",
+      "title": "Git - git-fsck Documentation",
+      "snippet": "Report to the git@vger.kernel.org mailing list if you see this error, as we need to know what tools created such a file.\ntrailingRefContent\n(INFO) A loose ref has trailing content. As valid implementations of Git never created such a loose ref file, it may become an error in the future.",
+      "matchedWords": {
+        "up8R7MNJfZmT": {
+          "hits": 11,
+          "textWords": 919
+        },
+        "wWrW4vQhHIra": {
+          "hits": 0,
+          "textWords": 919
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "1WCs82bypRQw",
+      "address": "https://forgejo.org/docs/latest/admin/config-cheat-sheet/",
+      "title": "Configuration Cheat Sheet | Forgejo – Beyond coding. We forge.",
+      "snippet": "",
+      "matchedWords": {
+        "up8R7MNJfZmT": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "wWrW4vQhHIra": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "2RKfa2bypRQw",
+      "address": "https://forgejo.org/docs/latest/user/repository/merge-message-templates/",
+      "title": "Merge Message Templates | Forgejo – Beyond coding. We forge.",
+      "snippet": "",
+      "matchedWords": {
+        "up8R7MNJfZmT": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "wWrW4vQhHIra": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "0_W3Y_nMM_j5",
+      "address": "https://grokipedia.com/page/Version_control",
+      "title": "Version control — Grokipedia",
+      "snippet": "",
+      "matchedWords": {
+        "up8R7MNJfZmT": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "wWrW4vQhHIra": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "1HsAf29cq-94",
+      "address": "https://git-scm.com/docs/git-fsck",
+      "title": "Git - git-fsck Documentation",
+      "snippet": "Report to the git@vger.kernel.org mailing list if you see this error, as we need to know what tools created such a file.\ntrailingRefContent\n(INFO) A loose ref has trailing content. As valid implementations of Git never created such a loose ref file, it may become an error in the future.",
+      "matchedWords": {
+        "up8R7MNJfZmT": {
+          "hits": 11,
+          "textWords": 919
+        },
+        "wWrW4vQhHIra": {
+          "hits": 0,
+          "textWords": 919
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "18Aza29cq-94",
+      "address": "https://git-scm.com/docs/giteveryday",
+      "title": "Git - giteveryday Documentation",
+      "snippet": "$ git status (1) $ git branch --no-merged master (2) $ mailx (3) \u0026 s 2 3 4 5 ./+to-apply \u0026 s 7 8 ./+hold-linus \u0026 q $ git switch -c topic/one master $ git am -3 -i -s ./+to-apply (4) $ compile/test $ git switch -c hold/linus \u0026\u0026 git am -3 -i -s ./+hold-linus (5) $ git switch topic/one \u0026\u0026 git rebase",
+      "matchedWords": {
+        "up8R7MNJfZmT": {
+          "hits": 153,
+          "textWords": 2009
+        },
+        "wWrW4vQhHIra": {
+          "hits": 3,
+          "textWords": 2009
+        }
+      },
+      "queryPhraseHits": 2
+    },
+    {
+      "hash": "18R0h29cq-94",
+      "address": "https://git-scm.com/docs/git-send-email",
+      "title": "Git - git-send-email Documentation",
+      "snippet": "NAME\ngit-send-email - Send a collection of patches as emails\nSYNOPSIS\ngit send-email [\u003coptions\u003e] (\u003cfile\u003e|\u003cdirectory\u003e)…​ git send-email [\u003coptions\u003e] \u003cformat-patch-options\u003e git send-email --dump-aliases git send-email --translate-aliases\nDESCRIPTION",
+      "matchedWords": {
+        "up8R7MNJfZmT": {
+          "hits": 66,
+          "textWords": 5207
+        },
+        "wWrW4vQhHIra": {
+          "hits": 0,
+          "textWords": 5207
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "1WCs82bypRQw",
+      "address": "https://forgejo.org/docs/latest/admin/config-cheat-sheet/",
+      "title": "Configuration Cheat Sheet | Forgejo – Beyond coding. We forge.",
+      "snippet": "",
+      "matchedWords": {
+        "up8R7MNJfZmT": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "wWrW4vQhHIra": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "2RKfa2bypRQw",
+      "address": "https://forgejo.org/docs/latest/user/repository/merge-message-templates/",
+      "title": "Merge Message Templates | Forgejo – Beyond coding. We forge.",
+      "snippet": "",
+      "matchedWords": {
+        "up8R7MNJfZmT": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "wWrW4vQhHIra": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "5g9r129cq-94",
+      "address": "https://git-scm.com/docs/pretty-formats",
+      "title": "Git - pretty-formats Documentation",
+      "snippet": "author email (respecting .mailmap, see git-shortlog[1] or git-blame[1])\n%al\nauthor email local-part (the part before the @ sign)\n%aL\nauthor local-part (see %al) respecting .mailmap, see git-shortlog[1] or git-blame[1])\n%ad\nauthor date (format respects --date= option)\n%aD\nauthor date, RFC2822 style",
+      "matchedWords": {
+        "up8R7MNJfZmT": {
+          "hits": 26,
+          "textWords": 1221
+        },
+        "wWrW4vQhHIra": {
+          "hits": 0,
+          "textWords": 1221
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "6JOUD29cq-94",
+      "address": "https://git-scm.com/docs/git-remote",
+      "title": "Git - git-remote Documentation",
+      "snippet": "With -f option, git fetch \u003cname\u003e is run immediately after the remote information is set up.\nWith --tags option, git fetch \u003cname\u003e imports every tag from the remote repository.\nWith --no-tags option, git fetch \u003cname\u003e does not import tags from the remote repository.",
+      "matchedWords": {
+        "up8R7MNJfZmT": {
+          "hits": 15,
+          "textWords": 955
+        },
+        "wWrW4vQhHIra": {
+          "hits": 0,
+          "textWords": 955
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "ev5UssBVpjfi",
+      "address": "https://lucaswerkmeister.de/posts/",
+      "title": "Posts",
+      "snippet": "",
+      "matchedWords": {
+        "up8R7MNJfZmT": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "wWrW4vQhHIra": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "5-NNBzHvMhvw",
+      "address": "https://firefox-source-docs.mozilla.org/genindex.html",
+      "title": "Index — Firefox Source Docs documentation",
+      "snippet": "",
+      "matchedWords": {
+        "up8R7MNJfZmT": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "wWrW4vQhHIra": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "EaolfyXjZ9O4",
+      "address": "https://docs.github.com/en/get-started/exploring-integrations/about-building-integrations",
+      "title": "About building integrations - GitHub Docs",
       "snippet": "",
       "matchedWords": {
         "up8R7MNJfZmT": {
@@ -2019,9 +3254,9 @@
       "queryPhraseHits": 0
     },
     {
-      "hash": "ww-gf8cZd9Fw",
-      "address": "https://hackage.haskell.org/packages/",
-      "title": "packages by category | Hackage",
+      "hash": "727xuyXjZ9O4",
+      "address": "https://docs.github.com/en/enterprise-cloud@latest/repositories/configuring-branches-and-merges-in-your-repository/configuring-pull-request-merges/about-merge-methods-on-github",
+      "title": "About merge methods on GitHub - GitHub Enterprise Cloud Docs",
       "snippet": "",
       "matchedWords": {
         "up8R7MNJfZmT": {
@@ -2036,21 +3271,21 @@
       "queryPhraseHits": 0
     },
     {
-      "hash": "6vbK7ssY0Thg",
-      "address": "https://bueltge.de/git/",
-      "title": "Get your Practice-Git on!",
-      "snippet": "git rebase -i\"\n​ # Rebase interactive on our unpushed commits\n​ rbiu = !\"git rebase -i @{u}\"\nSetup alias for convenience.\ngit alias to list all alias from .gitconfi\ng\u003cbr\u003ealias = !git config --list | grep 'alias\\\\.' | sed 's/alias\\\\.\\\\([^=]\\\\)=\\\\(.\\\\)/\\\\1\\\\\\t =\u003e \\\\2/' | sort",
+      "hash": "7bGodv_FhCOw",
+      "address": "https://docs.pi-hole.net/guides/github/dco/",
+      "title": "Developer Certificate of Origin (DCO) - Pi-hole documentation",
+      "snippet": "",
       "matchedWords": {
         "up8R7MNJfZmT": {
-          "hits": 110,
-          "textWords": 1205
+          "hits": 0,
+          "textWords": 0
         },
         "wWrW4vQhHIra": {
-          "hits": 8,
-          "textWords": 1205
+          "hits": 0,
+          "textWords": 0
         }
       },
-      "queryPhraseHits": 2
+      "queryPhraseHits": 0
     },
     {
       "hash": "9qMfQo0Z_SDg",
@@ -2121,6 +3356,23 @@
       "queryPhraseHits": 0
     },
     {
+      "hash": "6zIwnQ4a_6Ww",
+      "address": "https://hbase.apache.org/book.html",
+      "title": "Apache HBase® Reference Guide",
+      "snippet": "",
+      "matchedWords": {
+        "up8R7MNJfZmT": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "wWrW4vQhHIra": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
       "hash": "Se89Dt4qDUgx",
       "address": "https://blog.launchpad.net/",
       "title": "Launchpad Blog",
@@ -2136,91 +3388,6 @@
         }
       },
       "queryPhraseHits": 0
-    },
-    {
-      "hash": "Atcou29cq-94",
-      "address": "https://git-scm.com/docs/git-checkout",
-      "title": "Git - git-checkout Documentation",
-      "snippet": "Note that during git rebase and git pull --rebase, ours and theirs may appear swapped; --ours gives the version from the branch the changes are rebased onto, while --theirs gives the version from the branch that holds your work that is being rebased.",
-      "matchedWords": {
-        "up8R7MNJfZmT": {
-          "hits": 24,
-          "textWords": 1770
-        },
-        "wWrW4vQhHIra": {
-          "hits": 4,
-          "textWords": 1770
-        }
-      },
-      "queryPhraseHits": 1
-    },
-    {
-      "hash": "DNJ9f29cq-94",
-      "address": "https://git-scm.com/docs/git-commit-tree",
-      "title": "Git - git-commit-tree Documentation",
-      "snippet": "Normally a commit would identify a new \"HEAD\" state, and while Git doesn’t care where you save the note about that state, in practice we tend to just write the result to the file that is pointed at by .git/HEAD, so that we can always see what the last committed state was.",
-      "matchedWords": {
-        "up8R7MNJfZmT": {
-          "hits": 3,
-          "textWords": 187
-        },
-        "wWrW4vQhHIra": {
-          "hits": 0,
-          "textWords": 187
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "JnqHwV9cq-94",
-      "address": "https://git-scm.com/book/en/v2/Git-Tools-Submodules",
-      "title": "Git - Submodules",
-      "snippet": "Then you need to tell Git what to do if you have made changes and later git submodule update --remote pulls in new work from upstream. The options are that you can merge them into your local work, or you can try to rebase your local work on top of the new changes.",
-      "matchedWords": {
-        "up8R7MNJfZmT": {
-          "hits": 209,
-          "textWords": 6141
-        },
-        "wWrW4vQhHIra": {
-          "hits": 4,
-          "textWords": 6141
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "K3Sdz29cq-94",
-      "address": "https://git-scm.com/docs/git-reflog",
-      "title": "Git - git-reflog Documentation",
-      "snippet": "git reflog [show] [\u003clog-options\u003e] [\u003cref\u003e] git reflog list git reflog exists \u003cref\u003e git reflog write \u003cref\u003e \u003cold-oid\u003e \u003cnew-oid\u003e \u003cmessage\u003e git reflog delete [--rewrite] [--updateref] [--dry-run | -n] [--verbose] \u003cref\u003e@{\u003cspecifier\u003e}... git reflog drop [--all [--single-worktree] | \u003crefs\u003e…​] git reflog",
-      "matchedWords": {
-        "up8R7MNJfZmT": {
-          "hits": 19,
-          "textWords": 818
-        },
-        "wWrW4vQhHIra": {
-          "hits": 0,
-          "textWords": 818
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "MqEBYs9cq-94",
-      "address": "https://git-scm.com/cheat-sheet",
-      "title": "Git Cheat Sheet",
-      "snippet": "git switch banana git rebase main Before:\nAfter:\nCombine with merge:\ngit switch main git merge banana Before:\nAfter:\nCombine with squash merge:\ngit switch main git merge --squash banana git commit Before:\nAfter:\nBring a branch up to date with another branch (aka \"fast-forward merge\"):",
-      "matchedWords": {
-        "up8R7MNJfZmT": {
-          "hits": 80,
-          "textWords": 698
-        },
-        "wWrW4vQhHIra": {
-          "hits": 6,
-          "textWords": 698
-        }
-      },
-      "queryPhraseHits": 2
     },
     {
       "hash": "QWtr229cq-94",
@@ -2257,125 +3424,6 @@
       "queryPhraseHits": 0
     },
     {
-      "hash": "SGCHO29cq-94",
-      "address": "https://git-scm.com/docs/gitsubmodules",
-      "title": "Git - gitsubmodules Documentation",
-      "snippet": "On the filesystem, a submodule usually (but not always - see FORMS below) consists of (i) a Git directory located under the $GIT_DIR/modules/ directory of its superproject, (ii) a working directory inside the superproject’s working directory, and a .git file at the root of the submodule’s working",
-      "matchedWords": {
-        "up8R7MNJfZmT": {
-          "hits": 10,
-          "textWords": 402
-        },
-        "wWrW4vQhHIra": {
-          "hits": 0,
-          "textWords": 402
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "SOaOd29cq-94",
-      "address": "https://git-scm.com/docs/git",
-      "title": "Git - git Documentation",
-      "snippet": "See also git-rebase[1] and the sequence.editor option in git-config[1].\nGIT_SSH\nGIT_SSH_COMMAND\nIf either of these environment variables is set then git fetch and git push will use the specified command instead of ssh when they need to connect to a remote system.",
-      "matchedWords": {
-        "up8R7MNJfZmT": {
-          "hits": 137,
-          "textWords": 2495
-        },
-        "wWrW4vQhHIra": {
-          "hits": 2,
-          "textWords": 2495
-        }
-      },
-      "queryPhraseHits": 1
-    },
-    {
-      "hash": "aE__u29cq-94",
-      "address": "https://git-scm.com/docs/git-submodule",
-      "title": "Git - git-submodule Documentation",
-      "snippet": "If --force is specified, the submodule will be checked out (using git checkout --force), even if the commit specified in the index of the containing repository already matches the commit checked out in the submodule.\nrebase",
-      "matchedWords": {
-        "up8R7MNJfZmT": {
-          "hits": 41,
-          "textWords": 1802
-        },
-        "wWrW4vQhHIra": {
-          "hits": 2,
-          "textWords": 1802
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "fDcnx29cq-94",
-      "address": "https://git-scm.com/docs/git-bundle",
-      "title": "Git - git-bundle Documentation",
-      "snippet": "NAME\ngit-bundle - Move objects and refs by archive\nSYNOPSIS\ngit bundle create [-q | --quiet | --progress] [--version=\u003cversion\u003e] \u003cfile\u003e \u003cgit-rev-list-args\u003e git bundle verify [-q | --quiet] \u003cfile\u003e git bundle list-heads \u003cfile\u003e [\u003crefname\u003e…​] git bundle unbundle [--progress] \u003cfile\u003e [\u003crefname\u003e…​]",
-      "matchedWords": {
-        "up8R7MNJfZmT": {
-          "hits": 64,
-          "textWords": 1934
-        },
-        "wWrW4vQhHIra": {
-          "hits": 0,
-          "textWords": 1934
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "lpRZC29cq-94",
-      "address": "https://git-scm.com/docs/gitrevisions",
-      "title": "Git - gitrevisions Documentation",
-      "snippet": "Commands that are specifically designed to take two distinct ranges (e.g. \"git range-diff R1 R2\" to compare two ranges) do exist, but they are exceptions. Unless otherwise noted, all \"git\" commands that operate on a set of commits work on a single revision range.",
-      "matchedWords": {
-        "up8R7MNJfZmT": {
-          "hits": 5,
-          "textWords": 552
-        },
-        "wWrW4vQhHIra": {
-          "hits": 0,
-          "textWords": 552
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "l-XXS29cq-94",
-      "address": "https://git-scm.com/docs/gittutorial",
-      "title": "Git - gittutorial Documentation",
-      "snippet": "$ tar xzf project.tar.gz $ cd project $ git init\nGit will reply\nInitialized empty Git repository in .git/\nYou’ve now initialized the working directory—​you may notice a new directory created, named .git.",
-      "matchedWords": {
-        "up8R7MNJfZmT": {
-          "hits": 137,
-          "textWords": 2840
-        },
-        "wWrW4vQhHIra": {
-          "hits": 0,
-          "textWords": 2840
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "omph329cq-94",
-      "address": "https://git-scm.com/docs/gitcli",
-      "title": "Git - gitcli Documentation",
-      "snippet": "For example, git commit --amen behaves as if you typed git commit --amend, but that is true only until a later version of Git introduces another option that shares the same prefix, e.g. git commit --amenity option.\nSeparating argument from the option",
-      "matchedWords": {
-        "up8R7MNJfZmT": {
-          "hits": 30,
-          "textWords": 576
-        },
-        "wWrW4vQhHIra": {
-          "hits": 0,
-          "textWords": 576
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
       "hash": "sKaik29cq-94",
       "address": "https://git-scm.com/docs/githooks",
       "title": "Git - githooks Documentation",
@@ -2391,40 +3439,6 @@
         }
       },
       "queryPhraseHits": 2
-    },
-    {
-      "hash": "zCoSO29cq-94",
-      "address": "https://git-scm.com/docs/git-filter-branch",
-      "title": "Git - git-filter-branch Documentation",
-      "snippet": "Please do not use this command if you do not know the full implications, and avoid using it anyway, if a simple single commit would suffice to fix your problem. (See the \"RECOVERING FROM UPSTREAM REBASE\" section in git-rebase[1] for further information about rewriting published history.)",
-      "matchedWords": {
-        "up8R7MNJfZmT": {
-          "hits": 115,
-          "textWords": 4566
-        },
-        "wWrW4vQhHIra": {
-          "hits": 5,
-          "textWords": 4566
-        }
-      },
-      "queryPhraseHits": 3
-    },
-    {
-      "hash": "zSrcq29cq-94",
-      "address": "https://git-scm.com/docs/git-shortlog",
-      "title": "Git - git-shortlog Documentation",
-      "snippet": "--exclude-hidden=(fetch|receive|uploadpack)\nDo not include refs that would be hidden by git-fetch, git-receive-pack or git-upload-pack by consulting the appropriate fetch.hideRefs, receive.hideRefs or uploadpack.hideRefs configuration along with transfer.hideRefs (see git-config[1]).",
-      "matchedWords": {
-        "up8R7MNJfZmT": {
-          "hits": 12,
-          "textWords": 3963
-        },
-        "wWrW4vQhHIra": {
-          "hits": 1,
-          "textWords": 3963
-        }
-      },
-      "queryPhraseHits": 0
     },
     {
       "hash": "1HsAf29cq-94",
@@ -2444,55 +3458,72 @@
       "queryPhraseHits": 0
     },
     {
-      "hash": "1di-C29cq-94",
-      "address": "https://git-scm.com/docs/gitfaq",
-      "title": "Git - gitfaq Documentation",
-      "snippet": "Note that rebases rewrite history, so you should avoid rebasing published branches unless you’re sure you’re comfortable with that. See the NOTES section in git-rebase[1] for more details.\nHooks\nHow do I use hooks to prevent users from making certain changes?",
+      "hash": "18Aza29cq-94",
+      "address": "https://git-scm.com/docs/giteveryday",
+      "title": "Git - giteveryday Documentation",
+      "snippet": "$ git status (1) $ git branch --no-merged master (2) $ mailx (3) \u0026 s 2 3 4 5 ./+to-apply \u0026 s 7 8 ./+hold-linus \u0026 q $ git switch -c topic/one master $ git am -3 -i -s ./+to-apply (4) $ compile/test $ git switch -c hold/linus \u0026\u0026 git am -3 -i -s ./+hold-linus (5) $ git switch topic/one \u0026\u0026 git rebase",
       "matchedWords": {
         "up8R7MNJfZmT": {
-          "hits": 126,
-          "textWords": 4479
+          "hits": 153,
+          "textWords": 2009
         },
         "wWrW4vQhHIra": {
-          "hits": 6,
-          "textWords": 4479
+          "hits": 3,
+          "textWords": 2009
         }
       },
-      "queryPhraseHits": 1
+      "queryPhraseHits": 2
     },
     {
-      "hash": "19sbJ29cq-94",
-      "address": "https://git-scm.com/docs/git-verify-pack",
-      "title": "Git - git-verify-pack Documentation",
-      "snippet": "NAME\ngit-verify-pack - Validate packed Git archive files\nSYNOPSIS\ngit verify-pack [-v | --verbose] [-s | --stat-only] [--] \u003cpack\u003e.idx...\nDESCRIPTION\nRead each idx file for packed Git archive given on the command line, and verify the idx file and the corresponding pack file.\nOPTIONS\n-v\n--verbose",
+      "hash": "18R0h29cq-94",
+      "address": "https://git-scm.com/docs/git-send-email",
+      "title": "Git - git-send-email Documentation",
+      "snippet": "NAME\ngit-send-email - Send a collection of patches as emails\nSYNOPSIS\ngit send-email [\u003coptions\u003e] (\u003cfile\u003e|\u003cdirectory\u003e)…​ git send-email [\u003coptions\u003e] \u003cformat-patch-options\u003e git send-email --dump-aliases git send-email --translate-aliases\nDESCRIPTION",
       "matchedWords": {
         "up8R7MNJfZmT": {
-          "hits": 4,
-          "textWords": 145
+          "hits": 66,
+          "textWords": 5207
         },
         "wWrW4vQhHIra": {
           "hits": 0,
-          "textWords": 145
+          "textWords": 5207
         }
       },
       "queryPhraseHits": 0
     },
     {
-      "hash": "3A0ez29cq-94",
-      "address": "https://git-scm.com/docs/git-commit/2.31.0",
-      "title": "Git - git-commit Documentation",
-      "snippet": "See git-rebase[1] for details.\n--squash=\u003ccommit\u003e\nConstruct a commit message for use with rebase --autosquash. The commit message subject line is taken from the specified commit with a prefix of \"squash! \". Can be used with additional commit message options (-m/-c/-C/-F).",
+      "hash": "5g9r129cq-94",
+      "address": "https://git-scm.com/docs/pretty-formats",
+      "title": "Git - pretty-formats Documentation",
+      "snippet": "author email (respecting .mailmap, see git-shortlog[1] or git-blame[1])\n%al\nauthor email local-part (the part before the @ sign)\n%aL\nauthor local-part (see %al) respecting .mailmap, see git-shortlog[1] or git-blame[1])\n%ad\nauthor date (format respects --date= option)\n%aD\nauthor date, RFC2822 style",
       "matchedWords": {
         "up8R7MNJfZmT": {
-          "hits": 20,
-          "textWords": 1638
+          "hits": 26,
+          "textWords": 1221
         },
         "wWrW4vQhHIra": {
-          "hits": 6,
-          "textWords": 1638
+          "hits": 0,
+          "textWords": 1221
         }
       },
-      "queryPhraseHits": 3
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "6JOUD29cq-94",
+      "address": "https://git-scm.com/docs/git-remote",
+      "title": "Git - git-remote Documentation",
+      "snippet": "With -f option, git fetch \u003cname\u003e is run immediately after the remote information is set up.\nWith --tags option, git fetch \u003cname\u003e imports every tag from the remote repository.\nWith --no-tags option, git fetch \u003cname\u003e does not import tags from the remote repository.",
+      "matchedWords": {
+        "up8R7MNJfZmT": {
+          "hits": 15,
+          "textWords": 955
+        },
+        "wWrW4vQhHIra": {
+          "hits": 0,
+          "textWords": 955
+        }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "6fDY-29cq-94",
@@ -2507,40 +3538,6 @@
         "wWrW4vQhHIra": {
           "hits": 0,
           "textWords": 1279
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "7gc6929cq-94",
-      "address": "https://git-scm.com/docs/git-worktree",
-      "title": "Git - git-worktree Documentation",
-      "snippet": "For example, in the linked worktree git rev-parse --git-path HEAD returns /path/main/.git/worktrees/test-next/HEAD (not /path/other/test-next/.git/HEAD or /path/main/.git/HEAD) while git rev-parse --git-path refs/heads/master uses $GIT_COMMON_DIR and returns /path/main/.git/refs/heads/master, since",
-      "matchedWords": {
-        "up8R7MNJfZmT": {
-          "hits": 106,
-          "textWords": 3377
-        },
-        "wWrW4vQhHIra": {
-          "hits": 0,
-          "textWords": 3377
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "9SzT029cq-94",
-      "address": "https://git-scm.com/docs/git-apply",
-      "title": "Git - git-apply Documentation",
-      "snippet": "If a -p argument was also passed, it is applied before prepending the new root.\nFor example, a patch that talks about updating a/git-gui.sh to b/git-gui.sh can be applied to the file in the working tree modules/git-gui/git-gui.sh by running git apply --directory=modules/git-gui.\n--unsafe-paths",
-      "matchedWords": {
-        "up8R7MNJfZmT": {
-          "hits": 18,
-          "textWords": 1395
-        },
-        "wWrW4vQhHIra": {
-          "hits": 0,
-          "textWords": 1395
         }
       },
       "queryPhraseHits": 0
@@ -2580,9 +3577,9 @@
       "queryPhraseHits": 0
     },
     {
-      "hash": "u2SnisCRdREw",
-      "address": "https://jvns.ca/",
-      "title": "Julia Evans",
+      "hash": "ev5UssBVpjfi",
+      "address": "https://lucaswerkmeister.de/posts/",
+      "title": "Lucas’ Posts",
       "snippet": "",
       "matchedWords": {
         "up8R7MNJfZmT": {
@@ -2597,9 +3594,9 @@
       "queryPhraseHits": 0
     },
     {
-      "hash": "JQB76sNdy-a5",
-      "address": "https://getnikola.com/changes.html",
-      "title": "Changes | Nikola",
+      "hash": "W-eXqzF3--Qw",
+      "address": "https://planet.mozilla.org/",
+      "title": "Planet Mozilla",
       "snippet": "",
       "matchedWords": {
         "up8R7MNJfZmT": {
@@ -2614,8 +3611,42 @@
       "queryPhraseHits": 0
     },
     {
-      "hash": "1-artsRPup1w",
-      "address": "https://diessi.ca/atom.xml",
+      "hash": "5-NNBzHvMhvw",
+      "address": "https://firefox-source-docs.mozilla.org/genindex.html",
+      "title": "Index — Firefox Source Docs documentation",
+      "snippet": "",
+      "matchedWords": {
+        "up8R7MNJfZmT": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "wWrW4vQhHIra": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "5CknIsJqV0ww",
+      "address": "https://suckless.org/",
+      "title": "software that sucks less | suckless.org software that sucks less",
+      "snippet": "",
+      "matchedWords": {
+        "up8R7MNJfZmT": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "wWrW4vQhHIra": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "X0gS6jRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/LibreOffice",
       "title": "",
       "snippet": "",
       "matchedWords": {
@@ -2648,6 +3679,23 @@
       "queryPhraseHits": 2
     },
     {
+      "hash": "4lmMugThXEF4",
+      "address": "https://source.android.com/docs/setup/reference/repo",
+      "title": "Repo command reference | Android Open Source Project",
+      "snippet": "",
+      "matchedWords": {
+        "up8R7MNJfZmT": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "wWrW4vQhHIra": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
       "hash": "Ae2HlyXjZ9O4",
       "address": "https://docs.github.com/en/get-started/exploring-projects-on-github/saving-repositories-with-stars",
       "title": "Saving repositories with stars - GitHub Docs",
@@ -2668,6 +3716,23 @@
       "hash": "Df17RyXjZ9O4",
       "address": "https://docs.github.com/en/get-started/writing-on-github/working-with-advanced-formatting/attaching-files",
       "title": "Attaching files - GitHub Docs",
+      "snippet": "",
+      "matchedWords": {
+        "up8R7MNJfZmT": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "wWrW4vQhHIra": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "EaolfyXjZ9O4",
+      "address": "https://docs.github.com/en/get-started/exploring-integrations/about-building-integrations",
+      "title": "",
       "snippet": "",
       "matchedWords": {
         "up8R7MNJfZmT": {
@@ -2716,9 +3781,94 @@
       "queryPhraseHits": 0
     },
     {
+      "hash": "SIu24yXjZ9O4",
+      "address": "https://docs.github.com/en/get-started/using-github-docs/about-versions-of-github-docs",
+      "title": "About versions of GitHub Docs - GitHub Docs",
+      "snippet": "",
+      "matchedWords": {
+        "up8R7MNJfZmT": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "wWrW4vQhHIra": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
       "hash": "Tybr3yXjZ9O4",
       "address": "https://docs.github.com/en/get-started/learning-about-github/access-permissions-on-github",
       "title": "Access permissions on GitHub - GitHub Docs",
+      "snippet": "",
+      "matchedWords": {
+        "up8R7MNJfZmT": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "wWrW4vQhHIra": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "XEdwsyXjZ9O4",
+      "address": "https://docs.github.com/en/get-started/git-basics/about-remote-repositories",
+      "title": "About remote repositories - GitHub Docs",
+      "snippet": "",
+      "matchedWords": {
+        "up8R7MNJfZmT": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "wWrW4vQhHIra": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "ij2fsyXjZ9O4",
+      "address": "https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/managing-protected-branches/about-protected-branches",
+      "title": "About protected branches - GitHub Docs",
+      "snippet": "",
+      "matchedWords": {
+        "up8R7MNJfZmT": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "wWrW4vQhHIra": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "1IlShyXjZ9O4",
+      "address": "https://docs.github.com/en/enterprise-cloud@latest/repositories/configuring-branches-and-merges-in-your-repository/configuring-pull-request-merges/configuring-commit-rebasing-for-pull-requests",
+      "title": "Configuring commit rebasing for pull requests - GitHub Enterprise Cloud Docs",
+      "snippet": "",
+      "matchedWords": {
+        "up8R7MNJfZmT": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "wWrW4vQhHIra": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "2op_kyXjZ9O4",
+      "address": "https://docs.github.com/en/get-started/accessibility/keyboard-shortcuts",
+      "title": "Keyboard shortcuts - GitHub Docs",
       "snippet": "",
       "matchedWords": {
         "up8R7MNJfZmT": {
@@ -2767,6 +3917,74 @@
       "queryPhraseHits": 0
     },
     {
+      "hash": "727xuyXjZ9O4",
+      "address": "https://docs.github.com/en/enterprise-cloud@latest/repositories/configuring-branches-and-merges-in-your-repository/configuring-pull-request-merges/about-merge-methods-on-github",
+      "title": "About merge methods on GitHub - GitHub Enterprise Cloud Docs",
+      "snippet": "",
+      "matchedWords": {
+        "up8R7MNJfZmT": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "wWrW4vQhHIra": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "9q5AlyXjZ9O4",
+      "address": "https://docs.github.com/en/get-started/writing-on-github/working-with-advanced-formatting/organizing-information-with-collapsed-sections",
+      "title": "Organizing information with collapsed sections - GitHub Docs",
+      "snippet": "",
+      "matchedWords": {
+        "up8R7MNJfZmT": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "wWrW4vQhHIra": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "-gmXMyXjZ9O4",
+      "address": "https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github",
+      "title": "Getting started with writing and formatting on GitHub - GitHub Docs",
+      "snippet": "",
+      "matchedWords": {
+        "up8R7MNJfZmT": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "wWrW4vQhHIra": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "7bGodv_FhCOw",
+      "address": "https://docs.pi-hole.net/guides/github/dco/",
+      "title": "Developer Certificate of Origin (DCO) - Pi-hole documentation",
+      "snippet": "",
+      "matchedWords": {
+        "up8R7MNJfZmT": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "wWrW4vQhHIra": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
       "hash": "D4lABzaS0qdw",
       "address": "https://planet.debian.org/",
       "title": "Planet Debian",
@@ -2784,9 +4002,9 @@
       "queryPhraseHits": 0
     },
     {
-      "hash": "ww-gf8cZd9Fw",
-      "address": "https://hackage.haskell.org/packages/",
-      "title": "packages by category | Hackage",
+      "hash": "6DX6BsoPHifk",
+      "address": "https://cassidoo.co/blog/",
+      "title": "Cassidy Williams",
       "snippet": "",
       "matchedWords": {
         "up8R7MNJfZmT": {
@@ -2801,9 +4019,9 @@
       "queryPhraseHits": 0
     },
     {
-      "hash": "709w-2hHMhLg",
-      "address": "https://blog.glyph.im/2025/11/dependency-cutout-workflow-pattern.html",
-      "title": "The “Dependency Cutout” Workflow Pattern, Part I",
+      "hash": "Bb0SUspGMAgk",
+      "address": "https://blogs.hn/",
+      "title": "blogs.hn",
       "snippet": "",
       "matchedWords": {
         "up8R7MNJfZmT": {
@@ -2818,26 +4036,9 @@
       "queryPhraseHits": 0
     },
     {
-      "hash": "6vbK7ssY0Thg",
-      "address": "https://bueltge.de/git/",
-      "title": "Get your Practice-Git on!",
-      "snippet": "git rebase -i\"\n​ # Rebase interactive on our unpushed commits\n​ rbiu = !\"git rebase -i @{u}\"\nSetup alias for convenience.\ngit alias to list all alias from .gitconfi\ng\u003cbr\u003ealias = !git config --list | grep 'alias\\\\.' | sed 's/alias\\\\.\\\\([^=]\\\\)=\\\\(.\\\\)/\\\\1\\\\\\t =\u003e \\\\2/' | sort",
-      "matchedWords": {
-        "up8R7MNJfZmT": {
-          "hits": 110,
-          "textWords": 1205
-        },
-        "wWrW4vQhHIra": {
-          "hits": 8,
-          "textWords": 1205
-        }
-      },
-      "queryPhraseHits": 2
-    },
-    {
-      "hash": "Pq85gxtQ-zSx",
-      "address": "https://wiki.archlinux.org/title/AUR_submission_guidelines",
-      "title": "AUR submission guidelines - ArchWiki",
+      "hash": "dneiglzbmVEz",
+      "address": "https://www.conventionalcommits.org/en/v1.0.0/",
+      "title": "Conventional Commits",
       "snippet": "",
       "matchedWords": {
         "up8R7MNJfZmT": {
@@ -2850,877 +4051,10 @@
         }
       },
       "queryPhraseHits": 0
-    },
-    {
-      "hash": "Y0wMEQvPJCNw",
-      "address": "https://eagain.net/articles/git-for-computer-scientists/",
-      "title": "Git for Computer Scientists",
-      "snippet": "Abstract\nQuick introduction to git internals for people who are not scared by words like Directed Acyclic Graph .\nStorage\nIn simplified form, git object storage is \"just\" a DAG of objects, with a handful of different types of objects.",
-      "matchedWords": {
-        "up8R7MNJfZmT": {
-          "hits": 17,
-          "textWords": 904
-        },
-        "wWrW4vQhHIra": {
-          "hits": 4,
-          "textWords": 904
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "Cg9jcs2jvnSw",
-      "address": "https://ffmpeg.org/ffmpeg-filters.html",
-      "title": "FFmpeg Filters Documentation",
-      "snippet": "",
-      "matchedWords": {
-        "up8R7MNJfZmT": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "wWrW4vQhHIra": {
-          "hits": 0,
-          "textWords": 0
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "BnO0FShHMhLg",
-      "address": "https://blog.glyph.im/tag/deployment.html",
-      "title": "Deciphering Glyph :: tag/deployment",
-      "snippet": "",
-      "matchedWords": {
-        "up8R7MNJfZmT": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "wWrW4vQhHIra": {
-          "hits": 0,
-          "textWords": 0
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "-7-UKs9cq-94",
-      "address": "https://git-scm.com/docs",
-      "title": "Git - Reference",
-      "snippet": "Quick reference guide: Cheat Sheet\nComplete list of all commands\nSetup and Config\ngit\nconfig\nhelp\nbugreport\nCredential helpers\nGetting and Creating Projects\ninit\nclone\nBasic Snapshotting\nadd\nstatus\ndiff\ncommit\nnotes\nrestore\nreset\nrm\nmv\nBranching and Merging\nbranch\ncheckout\nswitch\nmerge\nmergetool",
-      "matchedWords": {
-        "up8R7MNJfZmT": {
-          "hits": 2,
-          "textWords": 176
-        },
-        "wWrW4vQhHIra": {
-          "hits": 1,
-          "textWords": 176
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "Se89Dt4qDUgx",
-      "address": "https://blog.launchpad.net/",
-      "title": "Launchpad Blog",
-      "snippet": "",
-      "matchedWords": {
-        "up8R7MNJfZmT": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "wWrW4vQhHIra": {
-          "hits": 0,
-          "textWords": 0
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "QWtr229cq-94",
-      "address": "https://git-scm.com/docs/git-diff",
-      "title": "Git - git-diff Documentation",
-      "snippet": "By default entries added by git add -N appear as an existing empty file in git diff and a new file in git diff --cached. This option makes the entry appear as a new file in git diff and non-existent in git diff --cached. This option could be reverted with --ita-visible-in-index.",
-      "matchedWords": {
-        "up8R7MNJfZmT": {
-          "hits": 31,
-          "textWords": 4492
-        },
-        "wWrW4vQhHIra": {
-          "hits": 0,
-          "textWords": 4492
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "RgG4r29cq-94",
-      "address": "https://git-scm.com/docs/git-bugreport",
-      "title": "Git - git-bugreport Documentation",
-      "snippet": "NAME\ngit-bugreport - Collect information for user to file a bug report\nSYNOPSIS\ngit bugreport [(-o | --output-directory) \u003cpath\u003e] [(-s | --suffix) \u003cformat\u003e | --no-suffix] [--diagnose[=\u003cmode\u003e]]\nDESCRIPTION",
-      "matchedWords": {
-        "up8R7MNJfZmT": {
-          "hits": 12,
-          "textWords": 355
-        },
-        "wWrW4vQhHIra": {
-          "hits": 0,
-          "textWords": 355
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "SGCHO29cq-94",
-      "address": "https://git-scm.com/docs/gitsubmodules",
-      "title": "Git - gitsubmodules Documentation",
-      "snippet": "On the filesystem, a submodule usually (but not always - see FORMS below) consists of (i) a Git directory located under the $GIT_DIR/modules/ directory of its superproject, (ii) a working directory inside the superproject’s working directory, and a .git file at the root of the submodule’s working",
-      "matchedWords": {
-        "up8R7MNJfZmT": {
-          "hits": 10,
-          "textWords": 402
-        },
-        "wWrW4vQhHIra": {
-          "hits": 0,
-          "textWords": 402
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "SOaOd29cq-94",
-      "address": "https://git-scm.com/docs/git",
-      "title": "Git - git Documentation",
-      "snippet": "See also git-rebase[1] and the sequence.editor option in git-config[1].\nGIT_SSH\nGIT_SSH_COMMAND\nIf either of these environment variables is set then git fetch and git push will use the specified command instead of ssh when they need to connect to a remote system.",
-      "matchedWords": {
-        "up8R7MNJfZmT": {
-          "hits": 137,
-          "textWords": 2495
-        },
-        "wWrW4vQhHIra": {
-          "hits": 2,
-          "textWords": 2495
-        }
-      },
-      "queryPhraseHits": 1
-    },
-    {
-      "hash": "-7-UKs9cq-94",
-      "address": "https://git-scm.com/docs",
-      "title": "Git - Reference",
-      "snippet": "Quick reference guide: Cheat Sheet\nComplete list of all commands\nSetup and Config\ngit\nconfig\nhelp\nbugreport\nCredential helpers\nGetting and Creating Projects\ninit\nclone\nBasic Snapshotting\nadd\nstatus\ndiff\ncommit\nnotes\nrestore\nreset\nrm\nmv\nBranching and Merging\nbranch\ncheckout\nswitch\nmerge\nmergetool",
-      "matchedWords": {
-        "up8R7MNJfZmT": {
-          "hits": 2,
-          "textWords": 176
-        },
-        "wWrW4vQhHIra": {
-          "hits": 1,
-          "textWords": 176
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "NNEnbyXjZ9O4",
-      "address": "https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax",
-      "title": "Basic writing and formatting syntax - GitHub Docs",
-      "snippet": "",
-      "matchedWords": {
-        "up8R7MNJfZmT": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "wWrW4vQhHIra": {
-          "hits": 0,
-          "textWords": 0
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "PhfTTyXjZ9O4",
-      "address": "https://docs.github.com/en/get-started/onboarding/getting-started-with-github-enterprise-cloud",
-      "title": "Getting started with GitHub Enterprise Cloud - GitHub Docs",
-      "snippet": "",
-      "matchedWords": {
-        "up8R7MNJfZmT": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "wWrW4vQhHIra": {
-          "hits": 0,
-          "textWords": 0
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "Tybr3yXjZ9O4",
-      "address": "https://docs.github.com/en/get-started/learning-about-github/access-permissions-on-github",
-      "title": "Access permissions on GitHub - GitHub Docs",
-      "snippet": "",
-      "matchedWords": {
-        "up8R7MNJfZmT": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "wWrW4vQhHIra": {
-          "hits": 0,
-          "textWords": 0
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "Atcou29cq-94",
-      "address": "https://git-scm.com/docs/git-checkout",
-      "title": "Git - git-checkout Documentation",
-      "snippet": "Note that during git rebase and git pull --rebase, ours and theirs may appear swapped; --ours gives the version from the branch the changes are rebased onto, while --theirs gives the version from the branch that holds your work that is being rebased.",
-      "matchedWords": {
-        "up8R7MNJfZmT": {
-          "hits": 24,
-          "textWords": 1770
-        },
-        "wWrW4vQhHIra": {
-          "hits": 4,
-          "textWords": 1770
-        }
-      },
-      "queryPhraseHits": 1
-    },
-    {
-      "hash": "DNJ9f29cq-94",
-      "address": "https://git-scm.com/docs/git-commit-tree",
-      "title": "Git - git-commit-tree Documentation",
-      "snippet": "Normally a commit would identify a new \"HEAD\" state, and while Git doesn’t care where you save the note about that state, in practice we tend to just write the result to the file that is pointed at by .git/HEAD, so that we can always see what the last committed state was.",
-      "matchedWords": {
-        "up8R7MNJfZmT": {
-          "hits": 3,
-          "textWords": 187
-        },
-        "wWrW4vQhHIra": {
-          "hits": 0,
-          "textWords": 187
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "JnqHwV9cq-94",
-      "address": "https://git-scm.com/book/en/v2/Git-Tools-Submodules",
-      "title": "Git - Submodules",
-      "snippet": "Then you need to tell Git what to do if you have made changes and later git submodule update --remote pulls in new work from upstream. The options are that you can merge them into your local work, or you can try to rebase your local work on top of the new changes.",
-      "matchedWords": {
-        "up8R7MNJfZmT": {
-          "hits": 209,
-          "textWords": 6141
-        },
-        "wWrW4vQhHIra": {
-          "hits": 4,
-          "textWords": 6141
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "K3Sdz29cq-94",
-      "address": "https://git-scm.com/docs/git-reflog",
-      "title": "Git - git-reflog Documentation",
-      "snippet": "git reflog [show] [\u003clog-options\u003e] [\u003cref\u003e] git reflog list git reflog exists \u003cref\u003e git reflog write \u003cref\u003e \u003cold-oid\u003e \u003cnew-oid\u003e \u003cmessage\u003e git reflog delete [--rewrite] [--updateref] [--dry-run | -n] [--verbose] \u003cref\u003e@{\u003cspecifier\u003e}... git reflog drop [--all [--single-worktree] | \u003crefs\u003e…​] git reflog",
-      "matchedWords": {
-        "up8R7MNJfZmT": {
-          "hits": 19,
-          "textWords": 818
-        },
-        "wWrW4vQhHIra": {
-          "hits": 0,
-          "textWords": 818
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "MqEBYs9cq-94",
-      "address": "https://git-scm.com/cheat-sheet",
-      "title": "Git Cheat Sheet",
-      "snippet": "git switch banana git rebase main Before:\nAfter:\nCombine with merge:\ngit switch main git merge banana Before:\nAfter:\nCombine with squash merge:\ngit switch main git merge --squash banana git commit Before:\nAfter:\nBring a branch up to date with another branch (aka \"fast-forward merge\"):",
-      "matchedWords": {
-        "up8R7MNJfZmT": {
-          "hits": 80,
-          "textWords": 698
-        },
-        "wWrW4vQhHIra": {
-          "hits": 6,
-          "textWords": 698
-        }
-      },
-      "queryPhraseHits": 2
-    },
-    {
-      "hash": "QWtr229cq-94",
-      "address": "https://git-scm.com/docs/git-diff",
-      "title": "Git - git-diff Documentation",
-      "snippet": "By default entries added by git add -N appear as an existing empty file in git diff and a new file in git diff --cached. This option makes the entry appear as a new file in git diff and non-existent in git diff --cached. This option could be reverted with --ita-visible-in-index.",
-      "matchedWords": {
-        "up8R7MNJfZmT": {
-          "hits": 31,
-          "textWords": 4492
-        },
-        "wWrW4vQhHIra": {
-          "hits": 0,
-          "textWords": 4492
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "RgG4r29cq-94",
-      "address": "https://git-scm.com/docs/git-bugreport",
-      "title": "Git - git-bugreport Documentation",
-      "snippet": "NAME\ngit-bugreport - Collect information for user to file a bug report\nSYNOPSIS\ngit bugreport [(-o | --output-directory) \u003cpath\u003e] [(-s | --suffix) \u003cformat\u003e | --no-suffix] [--diagnose[=\u003cmode\u003e]]\nDESCRIPTION",
-      "matchedWords": {
-        "up8R7MNJfZmT": {
-          "hits": 12,
-          "textWords": 355
-        },
-        "wWrW4vQhHIra": {
-          "hits": 0,
-          "textWords": 355
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "SGCHO29cq-94",
-      "address": "https://git-scm.com/docs/gitsubmodules",
-      "title": "Git - gitsubmodules Documentation",
-      "snippet": "On the filesystem, a submodule usually (but not always - see FORMS below) consists of (i) a Git directory located under the $GIT_DIR/modules/ directory of its superproject, (ii) a working directory inside the superproject’s working directory, and a .git file at the root of the submodule’s working",
-      "matchedWords": {
-        "up8R7MNJfZmT": {
-          "hits": 10,
-          "textWords": 402
-        },
-        "wWrW4vQhHIra": {
-          "hits": 0,
-          "textWords": 402
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "SOaOd29cq-94",
-      "address": "https://git-scm.com/docs/git",
-      "title": "Git - git Documentation",
-      "snippet": "See also git-rebase[1] and the sequence.editor option in git-config[1].\nGIT_SSH\nGIT_SSH_COMMAND\nIf either of these environment variables is set then git fetch and git push will use the specified command instead of ssh when they need to connect to a remote system.",
-      "matchedWords": {
-        "up8R7MNJfZmT": {
-          "hits": 137,
-          "textWords": 2495
-        },
-        "wWrW4vQhHIra": {
-          "hits": 2,
-          "textWords": 2495
-        }
-      },
-      "queryPhraseHits": 1
-    },
-    {
-      "hash": "aE__u29cq-94",
-      "address": "https://git-scm.com/docs/git-submodule",
-      "title": "Git - git-submodule Documentation",
-      "snippet": "If --force is specified, the submodule will be checked out (using git checkout --force), even if the commit specified in the index of the containing repository already matches the commit checked out in the submodule.\nrebase",
-      "matchedWords": {
-        "up8R7MNJfZmT": {
-          "hits": 41,
-          "textWords": 1802
-        },
-        "wWrW4vQhHIra": {
-          "hits": 2,
-          "textWords": 1802
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "fDcnx29cq-94",
-      "address": "https://git-scm.com/docs/git-bundle",
-      "title": "Git - git-bundle Documentation",
-      "snippet": "NAME\ngit-bundle - Move objects and refs by archive\nSYNOPSIS\ngit bundle create [-q | --quiet | --progress] [--version=\u003cversion\u003e] \u003cfile\u003e \u003cgit-rev-list-args\u003e git bundle verify [-q | --quiet] \u003cfile\u003e git bundle list-heads \u003cfile\u003e [\u003crefname\u003e…​] git bundle unbundle [--progress] \u003cfile\u003e [\u003crefname\u003e…​]",
-      "matchedWords": {
-        "up8R7MNJfZmT": {
-          "hits": 64,
-          "textWords": 1934
-        },
-        "wWrW4vQhHIra": {
-          "hits": 0,
-          "textWords": 1934
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "lpRZC29cq-94",
-      "address": "https://git-scm.com/docs/gitrevisions",
-      "title": "Git - gitrevisions Documentation",
-      "snippet": "Commands that are specifically designed to take two distinct ranges (e.g. \"git range-diff R1 R2\" to compare two ranges) do exist, but they are exceptions. Unless otherwise noted, all \"git\" commands that operate on a set of commits work on a single revision range.",
-      "matchedWords": {
-        "up8R7MNJfZmT": {
-          "hits": 5,
-          "textWords": 552
-        },
-        "wWrW4vQhHIra": {
-          "hits": 0,
-          "textWords": 552
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "l-XXS29cq-94",
-      "address": "https://git-scm.com/docs/gittutorial",
-      "title": "Git - gittutorial Documentation",
-      "snippet": "$ tar xzf project.tar.gz $ cd project $ git init\nGit will reply\nInitialized empty Git repository in .git/\nYou’ve now initialized the working directory—​you may notice a new directory created, named .git.",
-      "matchedWords": {
-        "up8R7MNJfZmT": {
-          "hits": 137,
-          "textWords": 2840
-        },
-        "wWrW4vQhHIra": {
-          "hits": 0,
-          "textWords": 2840
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "omph329cq-94",
-      "address": "https://git-scm.com/docs/gitcli",
-      "title": "Git - gitcli Documentation",
-      "snippet": "For example, git commit --amen behaves as if you typed git commit --amend, but that is true only until a later version of Git introduces another option that shares the same prefix, e.g. git commit --amenity option.\nSeparating argument from the option",
-      "matchedWords": {
-        "up8R7MNJfZmT": {
-          "hits": 30,
-          "textWords": 576
-        },
-        "wWrW4vQhHIra": {
-          "hits": 0,
-          "textWords": 576
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "sKaik29cq-94",
-      "address": "https://git-scm.com/docs/githooks",
-      "title": "Git - githooks Documentation",
-      "snippet": "This hook is invoked by commands that rewrite commits (git-commit[1] when called with --amend and git-rebase[1]; however, full-history (re)writing tools like git-fast-import[1] or git-filter-repo typically do not call it!).",
-      "matchedWords": {
-        "up8R7MNJfZmT": {
-          "hits": 107,
-          "textWords": 4546
-        },
-        "wWrW4vQhHIra": {
-          "hits": 6,
-          "textWords": 4546
-        }
-      },
-      "queryPhraseHits": 2
-    },
-    {
-      "hash": "zCoSO29cq-94",
-      "address": "https://git-scm.com/docs/git-filter-branch",
-      "title": "Git - git-filter-branch Documentation",
-      "snippet": "Please do not use this command if you do not know the full implications, and avoid using it anyway, if a simple single commit would suffice to fix your problem. (See the \"RECOVERING FROM UPSTREAM REBASE\" section in git-rebase[1] for further information about rewriting published history.)",
-      "matchedWords": {
-        "up8R7MNJfZmT": {
-          "hits": 115,
-          "textWords": 4566
-        },
-        "wWrW4vQhHIra": {
-          "hits": 5,
-          "textWords": 4566
-        }
-      },
-      "queryPhraseHits": 3
-    },
-    {
-      "hash": "zSrcq29cq-94",
-      "address": "https://git-scm.com/docs/git-shortlog",
-      "title": "Git - git-shortlog Documentation",
-      "snippet": "--exclude-hidden=(fetch|receive|uploadpack)\nDo not include refs that would be hidden by git-fetch, git-receive-pack or git-upload-pack by consulting the appropriate fetch.hideRefs, receive.hideRefs or uploadpack.hideRefs configuration along with transfer.hideRefs (see git-config[1]).",
-      "matchedWords": {
-        "up8R7MNJfZmT": {
-          "hits": 12,
-          "textWords": 3963
-        },
-        "wWrW4vQhHIra": {
-          "hits": 1,
-          "textWords": 3963
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "1HsAf29cq-94",
-      "address": "https://git-scm.com/docs/git-fsck",
-      "title": "Git - git-fsck Documentation",
-      "snippet": "Report to the git@vger.kernel.org mailing list if you see this error, as we need to know what tools created such a file.\ntrailingRefContent\n(INFO) A loose ref has trailing content. As valid implementations of Git never created such a loose ref file, it may become an error in the future.",
-      "matchedWords": {
-        "up8R7MNJfZmT": {
-          "hits": 11,
-          "textWords": 919
-        },
-        "wWrW4vQhHIra": {
-          "hits": 0,
-          "textWords": 919
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "1di-C29cq-94",
-      "address": "https://git-scm.com/docs/gitfaq",
-      "title": "Git - gitfaq Documentation",
-      "snippet": "Note that rebases rewrite history, so you should avoid rebasing published branches unless you’re sure you’re comfortable with that. See the NOTES section in git-rebase[1] for more details.\nHooks\nHow do I use hooks to prevent users from making certain changes?",
-      "matchedWords": {
-        "up8R7MNJfZmT": {
-          "hits": 126,
-          "textWords": 4479
-        },
-        "wWrW4vQhHIra": {
-          "hits": 6,
-          "textWords": 4479
-        }
-      },
-      "queryPhraseHits": 1
-    },
-    {
-      "hash": "19sbJ29cq-94",
-      "address": "https://git-scm.com/docs/git-verify-pack",
-      "title": "Git - git-verify-pack Documentation",
-      "snippet": "NAME\ngit-verify-pack - Validate packed Git archive files\nSYNOPSIS\ngit verify-pack [-v | --verbose] [-s | --stat-only] [--] \u003cpack\u003e.idx...\nDESCRIPTION\nRead each idx file for packed Git archive given on the command line, and verify the idx file and the corresponding pack file.\nOPTIONS\n-v\n--verbose",
-      "matchedWords": {
-        "up8R7MNJfZmT": {
-          "hits": 4,
-          "textWords": 145
-        },
-        "wWrW4vQhHIra": {
-          "hits": 0,
-          "textWords": 145
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "3A0ez29cq-94",
-      "address": "https://git-scm.com/docs/git-commit/2.31.0",
-      "title": "Git - git-commit Documentation",
-      "snippet": "See git-rebase[1] for details.\n--squash=\u003ccommit\u003e\nConstruct a commit message for use with rebase --autosquash. The commit message subject line is taken from the specified commit with a prefix of \"squash! \". Can be used with additional commit message options (-m/-c/-C/-F).",
-      "matchedWords": {
-        "up8R7MNJfZmT": {
-          "hits": 20,
-          "textWords": 1638
-        },
-        "wWrW4vQhHIra": {
-          "hits": 6,
-          "textWords": 1638
-        }
-      },
-      "queryPhraseHits": 3
-    },
-    {
-      "hash": "6fDY-29cq-94",
-      "address": "https://git-scm.com/docs/git-grep",
-      "title": "Git - git-grep Documentation",
-      "snippet": "Search files in the current directory that is not managed by Git, or by ignoring that the current directory is managed by Git.",
-      "matchedWords": {
-        "up8R7MNJfZmT": {
-          "hits": 10,
-          "textWords": 1279
-        },
-        "wWrW4vQhHIra": {
-          "hits": 0,
-          "textWords": 1279
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "7gc6929cq-94",
-      "address": "https://git-scm.com/docs/git-worktree",
-      "title": "Git - git-worktree Documentation",
-      "snippet": "For example, in the linked worktree git rev-parse --git-path HEAD returns /path/main/.git/worktrees/test-next/HEAD (not /path/other/test-next/.git/HEAD or /path/main/.git/HEAD) while git rev-parse --git-path refs/heads/master uses $GIT_COMMON_DIR and returns /path/main/.git/refs/heads/master, since",
-      "matchedWords": {
-        "up8R7MNJfZmT": {
-          "hits": 106,
-          "textWords": 3377
-        },
-        "wWrW4vQhHIra": {
-          "hits": 0,
-          "textWords": 3377
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "9SzT029cq-94",
-      "address": "https://git-scm.com/docs/git-apply",
-      "title": "Git - git-apply Documentation",
-      "snippet": "If a -p argument was also passed, it is applied before prepending the new root.\nFor example, a patch that talks about updating a/git-gui.sh to b/git-gui.sh can be applied to the file in the working tree modules/git-gui/git-gui.sh by running git apply --directory=modules/git-gui.\n--unsafe-paths",
-      "matchedWords": {
-        "up8R7MNJfZmT": {
-          "hits": 18,
-          "textWords": 1395
-        },
-        "wWrW4vQhHIra": {
-          "hits": 0,
-          "textWords": 1395
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "-y8Tx29cq-94",
-      "address": "https://git-scm.com/docs/git-fast-import",
-      "title": "Git - git-fast-import Documentation",
-      "snippet": "Like git push or git fetch, imports handled by fast-import are safe to run alongside parallel git repack -a -d or git gc invocations, or any other Git operation (including git prune, as loose objects are never used by fast-import).",
-      "matchedWords": {
-        "up8R7MNJfZmT": {
-          "hits": 90,
-          "textWords": 9958
-        },
-        "wWrW4vQhHIra": {
-          "hits": 0,
-          "textWords": 9958
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "-7-UKs9cq-94",
-      "address": "https://git-scm.com/docs",
-      "title": "Git - Reference",
-      "snippet": "Quick reference guide: Cheat Sheet\nComplete list of all commands\nSetup and Config\ngit\nconfig\nhelp\nbugreport\nCredential helpers\nGetting and Creating Projects\ninit\nclone\nBasic Snapshotting\nadd\nstatus\ndiff\ncommit\nnotes\nrestore\nreset\nrm\nmv\nBranching and Merging\nbranch\ncheckout\nswitch\nmerge\nmergetool",
-      "matchedWords": {
-        "up8R7MNJfZmT": {
-          "hits": 2,
-          "textWords": 176
-        },
-        "wWrW4vQhHIra": {
-          "hits": 1,
-          "textWords": 176
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "u2SnisCRdREw",
-      "address": "https://jvns.ca/",
-      "title": "Julia Evans",
-      "snippet": "",
-      "matchedWords": {
-        "up8R7MNJfZmT": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "wWrW4vQhHIra": {
-          "hits": 0,
-          "textWords": 0
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "1-artsRPup1w",
-      "address": "https://diessi.ca/atom.xml",
-      "title": "",
-      "snippet": "",
-      "matchedWords": {
-        "up8R7MNJfZmT": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "wWrW4vQhHIra": {
-          "hits": 0,
-          "textWords": 0
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "ww-gf8cZd9Fw",
-      "address": "https://hackage.haskell.org/packages/",
-      "title": "packages by category | Hackage",
-      "snippet": "",
-      "matchedWords": {
-        "up8R7MNJfZmT": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "wWrW4vQhHIra": {
-          "hits": 0,
-          "textWords": 0
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "BnO0FShHMhLg",
-      "address": "https://blog.glyph.im/tag/deployment.html",
-      "title": "Deciphering Glyph :: tag/deployment",
-      "snippet": "",
-      "matchedWords": {
-        "up8R7MNJfZmT": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "wWrW4vQhHIra": {
-          "hits": 0,
-          "textWords": 0
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "709w-2hHMhLg",
-      "address": "https://blog.glyph.im/2025/11/dependency-cutout-workflow-pattern.html",
-      "title": "Deciphering Glyph :: The “Dependency Cutout” Workflow Pattern, Part I",
-      "snippet": "",
-      "matchedWords": {
-        "up8R7MNJfZmT": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "wWrW4vQhHIra": {
-          "hits": 0,
-          "textWords": 0
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "Y0wMEQvPJCNw",
-      "address": "https://eagain.net/articles/git-for-computer-scientists/",
-      "title": "Git for Computer Scientists",
-      "snippet": "Abstract\nQuick introduction to git internals for people who are not scared by words like Directed Acyclic Graph .\nStorage\nIn simplified form, git object storage is \"just\" a DAG of objects, with a handful of different types of objects.",
-      "matchedWords": {
-        "up8R7MNJfZmT": {
-          "hits": 17,
-          "textWords": 904
-        },
-        "wWrW4vQhHIra": {
-          "hits": 4,
-          "textWords": 904
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "Y0wMEQvPJCNw",
-      "address": "https://eagain.net/articles/git-for-computer-scientists/",
-      "title": "Git for Computer Scientists",
-      "snippet": "Abstract\nQuick introduction to git internals for people who are not scared by words like Directed Acyclic Graph .\nStorage\nIn simplified form, git object storage is \"just\" a DAG of objects, with a handful of different types of objects.",
-      "matchedWords": {
-        "up8R7MNJfZmT": {
-          "hits": 17,
-          "textWords": 904
-        },
-        "wWrW4vQhHIra": {
-          "hits": 4,
-          "textWords": 904
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "NNEnbyXjZ9O4",
-      "address": "https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax",
-      "title": "Basic writing and formatting syntax - GitHub Docs",
-      "snippet": "",
-      "matchedWords": {
-        "up8R7MNJfZmT": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "wWrW4vQhHIra": {
-          "hits": 0,
-          "textWords": 0
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "DNJ9f29cq-94",
-      "address": "https://git-scm.com/docs/git-commit-tree",
-      "title": "Git - git-commit-tree Documentation",
-      "snippet": "Normally a commit would identify a new \"HEAD\" state, and while Git doesn’t care where you save the note about that state, in practice we tend to just write the result to the file that is pointed at by .git/HEAD, so that we can always see what the last committed state was.",
-      "matchedWords": {
-        "up8R7MNJfZmT": {
-          "hits": 3,
-          "textWords": 187
-        },
-        "wWrW4vQhHIra": {
-          "hits": 0,
-          "textWords": 187
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "zCoSO29cq-94",
-      "address": "https://git-scm.com/docs/git-filter-branch",
-      "title": "Git - git-filter-branch Documentation",
-      "snippet": "Please do not use this command if you do not know the full implications, and avoid using it anyway, if a simple single commit would suffice to fix your problem. (See the \"RECOVERING FROM UPSTREAM REBASE\" section in git-rebase[1] for further information about rewriting published history.)",
-      "matchedWords": {
-        "up8R7MNJfZmT": {
-          "hits": 115,
-          "textWords": 4566
-        },
-        "wWrW4vQhHIra": {
-          "hits": 5,
-          "textWords": 4566
-        }
-      },
-      "queryPhraseHits": 3
-    },
-    {
-      "hash": "1HsAf29cq-94",
-      "address": "https://git-scm.com/docs/git-fsck",
-      "title": "Git - git-fsck Documentation",
-      "snippet": "Report to the git@vger.kernel.org mailing list if you see this error, as we need to know what tools created such a file.\ntrailingRefContent\n(INFO) A loose ref has trailing content. As valid implementations of Git never created such a loose ref file, it may become an error in the future.",
-      "matchedWords": {
-        "up8R7MNJfZmT": {
-          "hits": 11,
-          "textWords": 919
-        },
-        "wWrW4vQhHIra": {
-          "hits": 0,
-          "textWords": 919
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "6vbK7ssY0Thg",
-      "address": "https://bueltge.de/git/",
-      "title": "Get your Practice-Git on!",
-      "snippet": "git rebase -i\"\n​ # Rebase interactive on our unpushed commits\n​ rbiu = !\"git rebase -i @{u}\"\nSetup alias for convenience.\ngit alias to list all alias from .gitconfi\ng\u003cbr\u003ealias = !git config --list | grep 'alias\\\\.' | sed 's/alias\\\\.\\\\([^=]\\\\)=\\\\(.\\\\)/\\\\1\\\\\\t =\u003e \\\\2/' | sort",
-      "matchedWords": {
-        "up8R7MNJfZmT": {
-          "hits": 110,
-          "textWords": 1205
-        },
-        "wWrW4vQhHIra": {
-          "hits": 8,
-          "textWords": 1205
-        }
-      },
-      "queryPhraseHits": 2
     }
   ],
   "documentsHeldPerQueryWord": {
-    "up8R7MNJfZmT": 75375,
-    "wWrW4vQhHIra": 10779
+    "up8R7MNJfZmT": 103138,
+    "wWrW4vQhHIra": 8353
   }
 }

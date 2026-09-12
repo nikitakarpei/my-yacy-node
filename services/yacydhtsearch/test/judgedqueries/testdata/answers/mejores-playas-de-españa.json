@@ -1,29 +1,56 @@
 {
   "query": "mejores playas de españa",
-  "recordedAt": "2026-09-12T10:15:28Z",
+  "recordedAt": "2026-09-12T11:25:29Z",
   "itemsInTheOrderOfEachAnswer": [
     [
       {
-        "hash": "V2Hlal6Ke78h",
-        "address": "https://www.diariosur.es/",
-        "title": "SUR, diario de Málaga. Noticias de Malaga",
-        "snippet": "Cortes de tráfico hoy en Málaga por la llegada de la Vuelta Ciclista a España\n3. El padre al que la Junta le retiró la custodia de su hijo autista intenta quemarse a lo bonzo en Málaga\n4. El Gobierno frena el parque previsto en una parte de los terrenos de Repsol en Málaga\n5.",
+        "hash": "28SkmlJ9Kfhg",
+        "address": "https://www.traveler.es/",
+        "title": "Revista de Viajes | Traveler",
+        "snippet": "Parajes increíbles para conocer su historia, vivir aventuras en mitad de la naturaleza, dormir en lugares remotos o bañarse en playas idílicas.\nExperiencias\nLos mejores destinos del mundo para viajar en 2026",
+        "matchedWords": {
+          "LbmfwJj1NASK": {
+            "hits": 1,
+            "textWords": 1249
+          },
+          "XwLwiJMB_Xvh": {
+            "hits": 82,
+            "textWords": 1249
+          },
+          "_Bt8li-ASzdd": {
+            "hits": 2,
+            "textWords": 1249
+          },
+          "z9Ku3LqDZOuA": {
+            "hits": 22,
+            "textWords": 1249
+          }
+        },
+        "queryPhraseHits": 2
+      }
+    ],
+    [
+      {
+        "hash": "5_i4klQ9tg5g",
+        "address": "https://www.vogue.es/",
+        "title": "Vogue España - Revista de moda y tendencias | Vogue España",
+        "snippet": "Las 50 mejores compras de belleza por menos de 50€\nPor María Meléndez Amaya y Mayte Salido\n10 de septiembre de 2026\nCOMPRAS\nLas mejores compras de Mango, H\u0026M y Massimo Dutti para este otoño (palabra de una ‘shopping editor’)\nPor Mayte Salido\n9 de septiembre de 2026\nicon\nGallery\nPERFUMES",
         "matchedWords": {
           "LbmfwJj1NASK": {
             "hits": 0,
-            "textWords": 569
+            "textWords": 1408
           },
           "XwLwiJMB_Xvh": {
-            "hits": 45,
-            "textWords": 569
+            "hits": 177,
+            "textWords": 1408
           },
           "_Bt8li-ASzdd": {
             "hits": 1,
-            "textWords": 569
+            "textWords": 1408
           },
           "z9Ku3LqDZOuA": {
-            "hits": 1,
-            "textWords": 569
+            "hits": 8,
+            "textWords": 1408
           }
         },
         "queryPhraseHits": 0
@@ -34,23 +61,23 @@
         "hash": "V2Hlal6Ke78h",
         "address": "https://www.diariosur.es/",
         "title": "SUR, diario de Málaga. Noticias de Malaga",
-        "snippet": "Cortes de tráfico hoy en Málaga por la llegada de la Vuelta Ciclista a España\n3. El padre al que la Junta le retiró la custodia de su hijo autista intenta quemarse a lo bonzo en Málaga\n4. El Gobierno frena el parque previsto en una parte de los terrenos de Repsol en Málaga\n5.",
+        "snippet": "Los incendios en los campamentos del Tarajal y las amenazas de Rabat elevan la tensión de una crisis que no se sofoca con dimisiones de cargos menores\n20 películas lésbicas (y eróticas) para ver este verano\nNo son las mejores propuestas cinematográficas.",
         "matchedWords": {
           "LbmfwJj1NASK": {
             "hits": 0,
-            "textWords": 569
+            "textWords": 548
           },
           "XwLwiJMB_Xvh": {
-            "hits": 45,
-            "textWords": 569
+            "hits": 38,
+            "textWords": 548
           },
           "_Bt8li-ASzdd": {
             "hits": 1,
-            "textWords": 569
+            "textWords": 548
           },
           "z9Ku3LqDZOuA": {
             "hits": 1,
-            "textWords": 569
+            "textWords": 548
           }
         },
         "queryPhraseHits": 0
@@ -58,104 +85,514 @@
     ],
     [
       {
-        "hash": "V2Hlal6Ke78h",
-        "address": "https://www.diariosur.es/",
-        "title": "SUR, diario de Málaga. Noticias de Malaga",
-        "snippet": "Cortes de tráfico hoy en Málaga por la llegada de la Vuelta Ciclista a España\n3. El padre al que la Junta le retiró la custodia de su hijo autista intenta quemarse a lo bonzo en Málaga\n4. El Gobierno frena el parque previsto en una parte de los terrenos de Repsol en Málaga\n5.",
+        "hash": "7eonllZeKV3g",
+        "address": "https://www.eldiario.es/viajes/",
+        "title": "Noticias sobre rutas y escapadas - Viajes, en elDiario.es",
+        "snippet": "Secciones\nPolítica\nSociedad\nEconomía\nInternacional - The Guardian\nCultura Librotea\nTecnología\nDesalambre\nEl rincón de pensar\nConsumo Claro\nVertele Programación TV\nNidos\nera\nBallena Blanca\nViajes \u0026 Gastro\nJuegos\nMovilidad + Auto\nLotería de Navidad Comprobar Lotería Navidad\nSpin\nFestival FIC\nEventos",
         "matchedWords": {
           "LbmfwJj1NASK": {
             "hits": 0,
-            "textWords": 569
+            "textWords": 193
           },
           "XwLwiJMB_Xvh": {
-            "hits": 45,
-            "textWords": 569
+            "hits": 7,
+            "textWords": 193
           },
           "_Bt8li-ASzdd": {
-            "hits": 1,
-            "textWords": 569
+            "hits": 0,
+            "textWords": 193
           },
           "z9Ku3LqDZOuA": {
-            "hits": 1,
-            "textWords": 569
+            "hits": 0,
+            "textWords": 193
           }
         },
         "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "bFXinwnyk9C5",
+        "address": "https://cronicaglobal.elespanol.com/",
+        "title": "Crónica Global | Noticias sobre Cataluña y actualidad empresarial",
+        "snippet": "La marcha de antorchas congrega a medio millar de independentistas en la previa de la Diada\nRicard López\nLa manifestación independentista de la Diada acaba con la quema de una bandera de España en el escenario de la ANC\nAndrea Pacha Röper\nLa Diada de las tribus\nJoaquim Coll",
+        "matchedWords": {
+          "LbmfwJj1NASK": {
+            "hits": 2,
+            "textWords": 2404
+          },
+          "XwLwiJMB_Xvh": {
+            "hits": 185,
+            "textWords": 2404
+          },
+          "_Bt8li-ASzdd": {
+            "hits": 10,
+            "textWords": 2404
+          },
+          "z9Ku3LqDZOuA": {
+            "hits": 0,
+            "textWords": 2404
+          }
+        },
+        "queryPhraseHits": 6
+      }
+    ],
+    [
+      {
+        "hash": "V2Hlal6Ke78h",
+        "address": "https://www.diariosur.es/",
+        "title": "SUR, diario de Málaga. Noticias de Malaga",
+        "snippet": "Los incendios en los campamentos del Tarajal y las amenazas de Rabat elevan la tensión de una crisis que no se sofoca con dimisiones de cargos menores\n20 películas lésbicas (y eróticas) para ver este verano\nNo son las mejores propuestas cinematográficas.",
+        "matchedWords": {
+          "LbmfwJj1NASK": {
+            "hits": 0,
+            "textWords": 548
+          },
+          "XwLwiJMB_Xvh": {
+            "hits": 38,
+            "textWords": 548
+          },
+          "_Bt8li-ASzdd": {
+            "hits": 1,
+            "textWords": 548
+          },
+          "z9Ku3LqDZOuA": {
+            "hits": 1,
+            "textWords": 548
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "8POhxlFZc5Lg",
+        "address": "https://www.elmundo.es/metropoli.html",
+        "title": "Metrópoli | EL MUNDO",
+        "snippet": "De conformidad con lo previsto en el artículo 67.3 del Real Decreto - ley 24/2021, de 2 de noviembre, la reproducción y utilización de las obras y otras prestaciones disponibles en este portal web mediante técnicas de minería de textos y datos, u otros procedimientos automatizados de extracción de",
+        "matchedWords": {
+          "LbmfwJj1NASK": {
+            "hits": 0,
+            "textWords": 76
+          },
+          "XwLwiJMB_Xvh": {
+            "hits": 9,
+            "textWords": 76
+          },
+          "_Bt8li-ASzdd": {
+            "hits": 0,
+            "textWords": 76
+          },
+          "z9Ku3LqDZOuA": {
+            "hits": 0,
+            "textWords": 76
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "bFXinwnyk9C5",
+        "address": "https://cronicaglobal.elespanol.com/",
+        "title": "Crónica Global : Noticias sobre Cataluña y actualidad empresarial",
+        "snippet": "La marcha de antorchas congrega a medio millar de independentistas en la previa de la Diada\nRicard López\nLa manifestación independentista de la Diada acaba con la quema de una bandera de España en el escenario de la ANC\nAndrea Pacha Röper\nLa Diada de las tribus\nJoaquim Coll",
+        "matchedWords": {
+          "LbmfwJj1NASK": {
+            "hits": 2,
+            "textWords": 2404
+          },
+          "XwLwiJMB_Xvh": {
+            "hits": 185,
+            "textWords": 2404
+          },
+          "_Bt8li-ASzdd": {
+            "hits": 10,
+            "textWords": 2404
+          },
+          "z9Ku3LqDZOuA": {
+            "hits": 0,
+            "textWords": 2404
+          }
+        },
+        "queryPhraseHits": 6
+      }
+    ],
+    [
+      {
+        "hash": "avZLXl0i5eji",
+        "address": "https://www.businessinsider.es/",
+        "title": "Business Insider España: Actualidad económica, tendencias y mundo global",
+        "snippet": "Indra presentará en UNVEX (Murcia) su nuevo misil de bajo coste SQUALL y mostrará los drones Tarsis que entregará a las Fuerzas Armadas de España\nRodrigo Isasi Arce\nLa coreana Hanwha Aerospace firma con Indra el contrato dotar al Ejército de Tierra de España con el obús autopropulsado K9",
+        "matchedWords": {
+          "LbmfwJj1NASK": {
+            "hits": 0,
+            "textWords": 3726
+          },
+          "XwLwiJMB_Xvh": {
+            "hits": 260,
+            "textWords": 3726
+          },
+          "_Bt8li-ASzdd": {
+            "hits": 33,
+            "textWords": 3726
+          },
+          "z9Ku3LqDZOuA": {
+            "hits": 1,
+            "textWords": 3726
+          }
+        },
+        "queryPhraseHits": 5
       }
     ]
   ],
   "itemsInNoOrder": [
     {
-      "hash": "Q9ZGalD5B4Sj",
-      "address": "https://www.elnortedecastilla.es/",
-      "title": "El Norte de Castilla - Noticias de Castilla y León desde 1854",
-      "snippet": "Aznar invita a ETA a reanudar los contactos de forma inmediata\nEl cronista\nSimulacro de invasión de España en tierras vallisoletanas\nAquel escenario ficticio de guerra, ensayado por el Ejército hace 55 años, estuvo presidido por el príncipe Juan Carlos\nEnrique Berzal",
+      "hash": "m4HbNs2e6bG4",
+      "address": "https://elpais.com/",
+      "title": "EL PAÍS: el periódico global",
+      "snippet": "Los periodistas de Escaparate seleccionan los mejores productos que puedes adquirir en internet",
       "matchedWords": {
         "LbmfwJj1NASK": {
           "hits": 0,
-          "textWords": 3970
+          "textWords": 250
         },
         "XwLwiJMB_Xvh": {
-          "hits": 284,
-          "textWords": 3970
+          "hits": 20,
+          "textWords": 250
         },
         "_Bt8li-ASzdd": {
-          "hits": 2,
-          "textWords": 3970
-        },
-        "z9Ku3LqDZOuA": {
-          "hits": 4,
-          "textWords": 3970
-        }
-      },
-      "queryPhraseHits": 1
-    },
-    {
-      "hash": "MuorVQRAvAya",
-      "address": "http://www.euroresidentes.com/",
-      "title": "Euroresidentes",
-      "snippet": "Guías con información y recomendaciones de los mejores restaurantes en España y Restaurantes en Madrid.\nFotos Tenemos miles de fotos de todo el mundo, fotos hechas por nosotros y fotos nuestros usuarios.\nEmpresa y Finanzas",
-      "matchedWords": {
-        "LbmfwJj1NASK": {
           "hits": 0,
-          "textWords": 197
-        },
-        "XwLwiJMB_Xvh": {
-          "hits": 11,
-          "textWords": 197
-        },
-        "_Bt8li-ASzdd": {
-          "hits": 1,
-          "textWords": 197
+          "textWords": 250
         },
         "z9Ku3LqDZOuA": {
           "hits": 1,
-          "textWords": 197
+          "textWords": 250
         }
       },
       "queryPhraseHits": 0
     },
     {
-      "hash": "uK5b6ljMl7g4",
-      "address": "https://www.elcorreo.com/",
-      "title": "EL CORREO - Diario con las últimas noticias, fotos y vídeos de Bizkaia",
-      "snippet": "La patronal amenaza con exigir indemnizaciones millonarias mientras tres grandes proyectos por 9.000 millones preparan alternativas fuera de España si el texto sale adelante\nJosé A. González\nCultura\nSan Telmo expone una serie de collages de Isabel Coixet",
+      "hash": "mB6uel4wIVHi",
+      "address": "https://www.lasprovincias.es/",
+      "title": "Las Provincias - Diario de noticias y actualidad de Valencia",
+      "snippet": "La diana del crimen organizado: oleada de robos de Toyota RAV4 en la Comunitat Valenciana\n3. El Ayuntamiento de Valencia recibe una petición de impugnación de un jurado de fallera mayor de Valencia 2027\n4. Así subirán las pensiones en 2027 tras el aumento de la inflación\n5.",
       "matchedWords": {
         "LbmfwJj1NASK": {
           "hits": 0,
-          "textWords": 4014
+          "textWords": 631
         },
         "XwLwiJMB_Xvh": {
-          "hits": 249,
-          "textWords": 4014
+          "hits": 43,
+          "textWords": 631
+        },
+        "_Bt8li-ASzdd": {
+          "hits": 0,
+          "textWords": 631
+        },
+        "z9Ku3LqDZOuA": {
+          "hits": 0,
+          "textWords": 631
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "DrCEPl7Ocb95",
+      "address": "https://www.lavanguardia.com/",
+      "title": "Últimas noticias, actualidad y última hora en Catalunya, España y el mundo",
+      "snippet": "F1 GP de España, hoy en directo | Última hora desde el Madring, horarios, resultados y toda la actualidad\nDani Duch / Propias\nRoberto Rodríguez\nRoberto Rodríguez, Juan Bautista Martínez\nRoberto Rodríguez\nPublicidad\nMàrius Carol\nConsejero editorial\nRufián dispara la alarma",
+      "matchedWords": {
+        "LbmfwJj1NASK": {
+          "hits": 0,
+          "textWords": 1196
+        },
+        "XwLwiJMB_Xvh": {
+          "hits": 75,
+          "textWords": 1196
+        },
+        "_Bt8li-ASzdd": {
+          "hits": 1,
+          "textWords": 1196
+        },
+        "z9Ku3LqDZOuA": {
+          "hits": 0,
+          "textWords": 1196
+        }
+      },
+      "queryPhraseHits": 1
+    },
+    {
+      "hash": "pyw55lAeAk-5",
+      "address": "https://www.trendencias.com/",
+      "title": "Trendencias - Moda y tendencias. Estilismos. Ropa y complementos.",
+      "snippet": "Tom Hanks, actor: \"Algunas personas dicen 'Casablanca' o 'Ciudadano Kane'. Yo digo que esta es la mejor película de la historia\" de Espinof\nEs uno de los pueblos más bonitos de España: solo 90 habitantes, casas negras y una espectacular cascada de 120 metros",
+      "matchedWords": {
+        "LbmfwJj1NASK": {
+          "hits": 0,
+          "textWords": 598
+        },
+        "XwLwiJMB_Xvh": {
+          "hits": 42,
+          "textWords": 598
+        },
+        "_Bt8li-ASzdd": {
+          "hits": 1,
+          "textWords": 598
+        },
+        "z9Ku3LqDZOuA": {
+          "hits": 0,
+          "textWords": 598
+        }
+      },
+      "queryPhraseHits": 1
+    },
+    {
+      "hash": "g_pvJlGdBEY4",
+      "address": "https://www.larioja.com/",
+      "title": "LA RIOJA - Noticias y actualidad de La Rioja, Logroño y comarcas",
+      "snippet": "Degusta La Rioja\nMundo\nEconomía\nSociedad\nLo más leído\n1. Brutal agresión a dos miembros de un colectivo de izquierdas en las fiestas de Oviedo al grito de «arriba España»\n2. Un trabajador queda atrapado entre una carretilla elevadora y el puente de la LOâ20 sobre el Iregua\n3.",
+      "matchedWords": {
+        "LbmfwJj1NASK": {
+          "hits": 0,
+          "textWords": 420
+        },
+        "XwLwiJMB_Xvh": {
+          "hits": 40,
+          "textWords": 420
+        },
+        "_Bt8li-ASzdd": {
+          "hits": 1,
+          "textWords": 420
+        },
+        "z9Ku3LqDZOuA": {
+          "hits": 0,
+          "textWords": 420
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "qlCfKlLjcC4h",
+      "address": "https://www.elcomercio.es/",
+      "title": "EL COMERCIO de Asturias - Últimas noticias y actualidad",
+      "snippet": "Minova cierra su planta de Gijón y despedirá a 23 empleados\n5. Cuevas del Agua amanece cubierta de carteles pidiendo justicia por Toño, el ganadero asesinado hace un año\nOtras noticias\n1. Fiestas de San Mateo en Oviedo 2026\n2. Así será la 'banderona' de España que se colocará en Gijón\n3.",
+      "matchedWords": {
+        "LbmfwJj1NASK": {
+          "hits": 0,
+          "textWords": 197
+        },
+        "XwLwiJMB_Xvh": {
+          "hits": 19,
+          "textWords": 197
         },
         "_Bt8li-ASzdd": {
           "hits": 2,
-          "textWords": 4014
+          "textWords": 197
         },
         "z9Ku3LqDZOuA": {
+          "hits": 0,
+          "textWords": 197
+        }
+      },
+      "queryPhraseHits": 1
+    },
+    {
+      "hash": "Lxil9rRxNAyg",
+      "address": "https://saposyprincesas.elmundo.es/",
+      "title": "Sapos y Princesas: Artículos, actividades y planes en familia",
+      "snippet": "Los mejores estrenos de la gran pantalla\nPreadolescencia\nSupergirl\n'Supergirl' se presenta como uno de los grandes estrenos del verano y es una nueva adaptación de la heroína de DC Comics.\nInfantil\nMarsupilami",
+      "matchedWords": {
+        "LbmfwJj1NASK": {
+          "hits": 0,
+          "textWords": 190
+        },
+        "XwLwiJMB_Xvh": {
+          "hits": 16,
+          "textWords": 190
+        },
+        "_Bt8li-ASzdd": {
+          "hits": 0,
+          "textWords": 190
+        },
+        "z9Ku3LqDZOuA": {
+          "hits": 2,
+          "textWords": 190
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "KNXAdlTL0HYi",
+      "address": "https://www.burgosconecta.es/",
+      "title": "BURGOSconecta - Todas las noticias de Burgos y su provincia",
+      "snippet": "El balear resiste sin sufrir el ataque del esloveno en Peñas Blancas, donde Dunbar remacha a Buitrago en los metros finales en otra fuga exitosa\nIván Benito\nGP de España\nEl presidente de la FIA se moviliza para evitar el adiós de Alonso: «No podemos dejar que se vaya»",
+      "matchedWords": {
+        "LbmfwJj1NASK": {
+          "hits": 0,
+          "textWords": 3466
+        },
+        "XwLwiJMB_Xvh": {
+          "hits": 250,
+          "textWords": 3466
+        },
+        "_Bt8li-ASzdd": {
           "hits": 7,
-          "textWords": 4014
+          "textWords": 3466
+        },
+        "z9Ku3LqDZOuA": {
+          "hits": 5,
+          "textWords": 3466
+        }
+      },
+      "queryPhraseHits": 1
+    },
+    {
+      "hash": "lqi-SlWGWVQj",
+      "address": "https://www.huelvainformacion.es/",
+      "title": "Huelva Información | Noticias de Huelva, Andalucía y España, actualidad y última hora",
+      "snippet": "JOLY DIGITAL, S.L. realiza una reserva expresa de las reproducciones y usos de las obras y otras prestaciones accesibles desde este sitio web a medios de lectura mecánica u otros medios que resulten adecuados a tal fin de conformidad con el artículo 67.3 del Real Decreto - ley 24/2021, de 2 de",
+      "matchedWords": {
+        "LbmfwJj1NASK": {
+          "hits": 0,
+          "textWords": 53
+        },
+        "XwLwiJMB_Xvh": {
+          "hits": 6,
+          "textWords": 53
+        },
+        "_Bt8li-ASzdd": {
+          "hits": 0,
+          "textWords": 53
+        },
+        "z9Ku3LqDZOuA": {
+          "hits": 0,
+          "textWords": 53
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "2V2zcldMowzh",
+      "address": "https://www.lavozdigital.es/",
+      "title": "La Voz Digital. Diario de noticias y actualidad de Cádiz, líder de la provincia | Lavozdigital.es",
+      "snippet": "Se trata de colar un ejército de votantes totalmente desvinculados de España a quienes se ofrece la posibilidad de ganar, a toro pasado, la guerra que perdieron sus abuelitos\nJuan Manuel de Prada\nOpinión\nDel atisbo al abismo",
+      "matchedWords": {
+        "LbmfwJj1NASK": {
+          "hits": 0,
+          "textWords": 295
+        },
+        "XwLwiJMB_Xvh": {
+          "hits": 23,
+          "textWords": 295
+        },
+        "_Bt8li-ASzdd": {
+          "hits": 1,
+          "textWords": 295
+        },
+        "z9Ku3LqDZOuA": {
+          "hits": 0,
+          "textWords": 295
+        }
+      },
+      "queryPhraseHits": 1
+    },
+    {
+      "hash": "rSvKAlfulRxi",
+      "address": "https://www.huffingtonpost.es/",
+      "title": "El HuffPost: Última hora, noticias y opinión en español",
+      "snippet": "PRISA MEDIA, S.A.U. ejerce la oposición expresa frente al uso de sus obras y prestaciones en la elaboración de revistas de prensa prevista en el artículo 32.1 del TRLPI; también realiza la reserva expresa frente a la reproducción, distribución y comunicación pública de sus trabajos y artículos",
+      "matchedWords": {
+        "LbmfwJj1NASK": {
+          "hits": 0,
+          "textWords": 105
+        },
+        "XwLwiJMB_Xvh": {
+          "hits": 11,
+          "textWords": 105
+        },
+        "_Bt8li-ASzdd": {
+          "hits": 0,
+          "textWords": 105
+        },
+        "z9Ku3LqDZOuA": {
+          "hits": 0,
+          "textWords": 105
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "BM6kIliVUugg",
+      "address": "https://www.laverdad.es/",
+      "title": "La Verdad - Noticias, actualidad y últimas noticias de Murcia",
+      "snippet": "La patronal amenaza con exigir indemnizaciones millonarias mientras tres grandes proyectos por 9.000 millones preparan alternativas fuera de España si el texto sale adelante\nJosé A. González\nFerrovial deja de cotizar en la Bolsa de Ámsterdam después de tres años",
+      "matchedWords": {
+        "LbmfwJj1NASK": {
+          "hits": 0,
+          "textWords": 3806
+        },
+        "XwLwiJMB_Xvh": {
+          "hits": 308,
+          "textWords": 3806
+        },
+        "_Bt8li-ASzdd": {
+          "hits": 7,
+          "textWords": 3806
+        },
+        "z9Ku3LqDZOuA": {
+          "hits": 3,
+          "textWords": 3806
+        }
+      },
+      "queryPhraseHits": 3
+    },
+    {
+      "hash": "c8HjXlj1Er05",
+      "address": "https://www.leonoticias.com/",
+      "title": "Leonoticias: noticias de León y provincia",
+      "snippet": "PP y Vox se abren a que un consorcio asuma el tramo urbano de FEVE que impulsa UPL\nPP, Vox, UPL y XAV exigen bonificar los peajes y suprimir el de la AP-66 con el 'no' del PSOE\nLos médicos de España van a huelga indefinida desde el 28 de octubre\nHerramientas\nCalcula la cuota de tu hipoteca",
+      "matchedWords": {
+        "LbmfwJj1NASK": {
+          "hits": 0,
+          "textWords": 3327
+        },
+        "XwLwiJMB_Xvh": {
+          "hits": 278,
+          "textWords": 3327
+        },
+        "_Bt8li-ASzdd": {
+          "hits": 10,
+          "textWords": 3327
+        },
+        "z9Ku3LqDZOuA": {
+          "hits": 2,
+          "textWords": 3327
+        }
+      },
+      "queryPhraseHits": 3
+    },
+    {
+      "hash": "uK5b6ljMl7g4",
+      "address": "https://www.elcorreo.com/",
+      "title": "EL CORREO - Diario con las últimas noticias, fotos y vídeos de Bizkaia",
+      "snippet": "Los primeros refugiados climáticos de España: sus casas expropiadas por el alto riesgo de inundación\nDiez casas de Alcanar, Tarragona, serán incautadas y derribadas tras ser arrasadas por el agua en varias ocasiones. Hablamos con los primeros desplazados por el calentamiento global.\nDaniel Méndez",
+      "matchedWords": {
+        "LbmfwJj1NASK": {
+          "hits": 0,
+          "textWords": 3950
+        },
+        "XwLwiJMB_Xvh": {
+          "hits": 243,
+          "textWords": 3950
+        },
+        "_Bt8li-ASzdd": {
+          "hits": 3,
+          "textWords": 3950
+        },
+        "z9Ku3LqDZOuA": {
+          "hits": 6,
+          "textWords": 3950
         }
       },
       "queryPhraseHits": 1
@@ -164,23 +601,73 @@
       "hash": "zCCs7lo7s48g",
       "address": "https://www.ideal.es/",
       "title": "IDEAL | Periódico de las noticias de Granada",
-      "snippet": "La deriva de la propiedad del Granada CF, el grupo chino DDMC, en una situación financiera crítica\n4. Subidón térmico en Granada: una 'cresta africana' traerá de vuelta el calor desde este día\n5. Los cambios en las líneas de autobús de Granada por la llegada de La Vuelta\n6.",
+      "snippet": "Internacional\nSucesos\nLo más leído\n1. El mapa con el recorrido y todos los cortes de tráfico de La Vuelta en Granada\n2. Un emergente grupo de mensajería marroquí desembarca en el puerto de Motril\n3. Tres restaurantes de pueblo en Granada para comer y disfrutar de La Vuelta este sábado\n4.",
       "matchedWords": {
         "LbmfwJj1NASK": {
           "hits": 0,
-          "textWords": 378
+          "textWords": 299
         },
         "XwLwiJMB_Xvh": {
-          "hits": 33,
-          "textWords": 378
+          "hits": 28,
+          "textWords": 299
         },
         "_Bt8li-ASzdd": {
           "hits": 0,
-          "textWords": 378
+          "textWords": 299
         },
         "z9Ku3LqDZOuA": {
           "hits": 0,
-          "textWords": 378
+          "textWords": 299
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "ISxsyloVqyIh",
+      "address": "https://www.elcorreoweb.es/",
+      "title": "El Correo de Andalucía - Noticias de Sevilla, Andalucía y España.",
+      "snippet": "PRENSA IBÉRICA NETWORK, S.L.U.",
+      "matchedWords": {
+        "LbmfwJj1NASK": {
+          "hits": 0,
+          "textWords": 3
+        },
+        "XwLwiJMB_Xvh": {
+          "hits": 0,
+          "textWords": 3
+        },
+        "_Bt8li-ASzdd": {
+          "hits": 0,
+          "textWords": 3
+        },
+        "z9Ku3LqDZOuA": {
+          "hits": 0,
+          "textWords": 3
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "UijGqltzWF35",
+      "address": "https://www.diariovasco.com/",
+      "title": "El Diario Vasco - Noticias de Donostia, San Sebastián y Gipuzkoa",
+      "snippet": "La pareja ganadora de 134 millones de euros en el Euromillones que ha donado la mitad de su fortuna en admiración a Dolly Parton\nOtras noticias\n1. El problema de Tatiana Kaer y Héctor Fort para encontrar casa de alquiler en San Sebastián: «La mayoría son vacacionales»\n2.",
+      "matchedWords": {
+        "LbmfwJj1NASK": {
+          "hits": 0,
+          "textWords": 183
+        },
+        "XwLwiJMB_Xvh": {
+          "hits": 15,
+          "textWords": 183
+        },
+        "_Bt8li-ASzdd": {
+          "hits": 0,
+          "textWords": 183
+        },
+        "z9Ku3LqDZOuA": {
+          "hits": 0,
+          "textWords": 183
         }
       },
       "queryPhraseHits": 0
@@ -189,26 +676,851 @@
       "hash": "qX9MJlx36Xdi",
       "address": "https://www.eldiariomontanes.es/",
       "title": "El Diario Montañés: Noticias de Cantabria y Santander",
-      "snippet": "Los verdiblancos estarán un mes sin jugar en casa con motivo de la doble visita y el parón internacional\nAser Falagán Santander\nGP de España\nEl presidente de la FIA se moviliza para evitar el adiós de Alonso: «No podemos dejar que se vaya»",
+      "snippet": "El balear resiste sin sufrir el ataque del esloveno en Peñas Blancas, donde Dunbar remacha a Buitrago en los metros finales en otra fuga exitosa\nIván Benito\nGP de España\nLa madurez de Carlos Sainz, el piloto que ayudó a crear Madring\nDavid Sánchez de Castro\nGP de España",
       "matchedWords": {
         "LbmfwJj1NASK": {
           "hits": 0,
-          "textWords": 3746
+          "textWords": 3355
         },
         "XwLwiJMB_Xvh": {
-          "hits": 257,
-          "textWords": 3746
+          "hits": 231,
+          "textWords": 3355
         },
         "_Bt8li-ASzdd": {
-          "hits": 6,
-          "textWords": 3746
+          "hits": 7,
+          "textWords": 3355
         },
         "z9Ku3LqDZOuA": {
-          "hits": 2,
-          "textWords": 3746
+          "hits": 3,
+          "textWords": 3355
+        }
+      },
+      "queryPhraseHits": 3
+    },
+    {
+      "hash": "5418oUxHMQI4",
+      "address": "https://cnnespanol.cnn.com/?hpt=header_edition-picker",
+      "title": "Últimas noticias de Estados Unidos, Latinoamérica y el mundo, hoy | CNN en Español | CNN",
+      "snippet": "",
+      "matchedWords": {
+        "LbmfwJj1NASK": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "XwLwiJMB_Xvh": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "_Bt8li-ASzdd": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "z9Ku3LqDZOuA": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "mvI6Gl3Rh0Hg",
+      "address": "https://www.welife.es/",
+      "title": "Noticias sobre cuerpo, mente y planeta | WeLife",
+      "snippet": "En lo posible, para la resolución de litigios en línea en materia de consumo conforme Reglamento (UE) 524/2013, se buscará la posibilidad que la Comisión Europea facilita como plataforma de resolución de litigios en línea y que se encuentra disponible en el enlace http://ec.europa.eu/consumers/odr.",
+      "matchedWords": {
+        "LbmfwJj1NASK": {
+          "hits": 0,
+          "textWords": 53
+        },
+        "XwLwiJMB_Xvh": {
+          "hits": 4,
+          "textWords": 53
+        },
+        "_Bt8li-ASzdd": {
+          "hits": 0,
+          "textWords": 53
+        },
+        "z9Ku3LqDZOuA": {
+          "hits": 0,
+          "textWords": 53
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "ZgMF8lAZ2Nxi",
+      "address": "https://www.eldiadecordoba.es/",
+      "title": "Noticias de Córdoba | Última hora en El Día de Córdoba",
+      "snippet": "El panadero cordobés José Roldán reúne sus mejores creaciones en un libro\nRocío Górriz\n¿Qué coctelería de Córdoba está entre las mejores de España y Portugal?\nRocío Górriz\nEl restaurante de Córdoba que reinventa el flamenquín, la carrillada y hasta la torrija\nRocío Górriz\nVivir en Córdoba",
+      "matchedWords": {
+        "LbmfwJj1NASK": {
+          "hits": 0,
+          "textWords": 1645
+        },
+        "XwLwiJMB_Xvh": {
+          "hits": 106,
+          "textWords": 1645
+        },
+        "_Bt8li-ASzdd": {
+          "hits": 3,
+          "textWords": 1645
+        },
+        "z9Ku3LqDZOuA": {
+          "hits": 3,
+          "textWords": 1645
+        }
+      },
+      "queryPhraseHits": 1
+    },
+    {
+      "hash": "7TiY4lCZVJp4",
+      "address": "https://www.xataka.com/",
+      "title": "Xataka - Tecnología y gadgets, móviles, informática, electrónica",
+      "snippet": "Sensacine Colombia\nMotorpasión México\nCondiciones de uso\nCondiciones de uso de cookies\nPublicidad",
+      "matchedWords": {
+        "LbmfwJj1NASK": {
+          "hits": 0,
+          "textWords": 162
+        },
+        "XwLwiJMB_Xvh": {
+          "hits": 5,
+          "textWords": 162
+        },
+        "_Bt8li-ASzdd": {
+          "hits": 0,
+          "textWords": 162
+        },
+        "z9Ku3LqDZOuA": {
+          "hits": 0,
+          "textWords": 162
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "eE_K_sO4DQ84",
+      "address": "https://as.com/",
+      "title": "AS.com - Diario online deportivo. Fútbol, motor y mucho más",
+      "snippet": "Mbappé no quiere ser Michael Jordan\nEl País\nPlataformas digitales\nDisfruta del GP de España y el debut de MADRING sin pagar nada en DAZN\nAdrián Castellote\nDeporte\nDiseñado para entrenar y a buen precio: así es el chándal de Hummel que encanta a los deportistas\nAdrián Castellote\nResultados",
+      "matchedWords": {
+        "LbmfwJj1NASK": {
+          "hits": 0,
+          "textWords": 1805
+        },
+        "XwLwiJMB_Xvh": {
+          "hits": 95,
+          "textWords": 1805
+        },
+        "_Bt8li-ASzdd": {
+          "hits": 5,
+          "textWords": 1805
+        },
+        "z9Ku3LqDZOuA": {
+          "hits": 3,
+          "textWords": 1805
         }
       },
       "queryPhraseHits": 2
+    },
+    {
+      "hash": "w4sPElPQmzeg",
+      "address": "https://www.hoy.es/",
+      "title": "HOY: Diario con noticias y última hora de Extremadura",
+      "snippet": "Los primeros refugiados climáticos de España: sus casas expropiadas por el alto riesgo de inundación\nDiez casas de Alcanar, Tarragona, serán incautadas y derribadas tras ser arrasadas por el agua en varias ocasiones. Hablamos con los primeros desplazados por el calentamiento global.\nDaniel Méndez",
+      "matchedWords": {
+        "LbmfwJj1NASK": {
+          "hits": 0,
+          "textWords": 3573
+        },
+        "XwLwiJMB_Xvh": {
+          "hits": 278,
+          "textWords": 3573
+        },
+        "_Bt8li-ASzdd": {
+          "hits": 3,
+          "textWords": 3573
+        },
+        "z9Ku3LqDZOuA": {
+          "hits": 7,
+          "textWords": 3573
+        }
+      },
+      "queryPhraseHits": 1
+    },
+    {
+      "hash": "0X-a-tWIjA-4",
+      "address": "https://es.wired.com/",
+      "title": "WIRED en Español: Noticias sobre tecnología, gadgets, ciencia, cultura y negocios | WIRED",
+      "snippet": "WIRED en Español platica con los hermanos SKabeche, Bryan y Eddy, sobre cómo supieron adaptarse a la evolución de la generación de contenido, y cómo pasaron de un hobby divertido en redes sociales a una actividad profesional de la cual han surgido múltiples proyectos empresariales.",
+      "matchedWords": {
+        "LbmfwJj1NASK": {
+          "hits": 0,
+          "textWords": 604
+        },
+        "XwLwiJMB_Xvh": {
+          "hits": 39,
+          "textWords": 604
+        },
+        "_Bt8li-ASzdd": {
+          "hits": 0,
+          "textWords": 604
+        },
+        "z9Ku3LqDZOuA": {
+          "hits": 0,
+          "textWords": 604
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "uHVM5lzD8ru5",
+      "address": "https://www.admagazine.com/",
+      "title": "Architectural Digest México y Latinoamérica | Architectural Digest",
+      "snippet": "AD es una ventana en constante actualización al mundo del diseño, la decoración, la arquitectura y el arte, nuevas direcciones y destinos, nombres y lanzamientos.",
+      "matchedWords": {
+        "LbmfwJj1NASK": {
+          "hits": 0,
+          "textWords": 49
+        },
+        "XwLwiJMB_Xvh": {
+          "hits": 0,
+          "textWords": 49
+        },
+        "_Bt8li-ASzdd": {
+          "hits": 0,
+          "textWords": 49
+        },
+        "z9Ku3LqDZOuA": {
+          "hits": 0,
+          "textWords": 49
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "m4HbNs2e6bG4",
+      "address": "https://elpais.com/",
+      "title": "EL PAÍS: el periódico global",
+      "snippet": "Los periodistas de Escaparate seleccionan los mejores productos que puedes adquirir en internet",
+      "matchedWords": {
+        "LbmfwJj1NASK": {
+          "hits": 0,
+          "textWords": 250
+        },
+        "XwLwiJMB_Xvh": {
+          "hits": 20,
+          "textWords": 250
+        },
+        "_Bt8li-ASzdd": {
+          "hits": 0,
+          "textWords": 250
+        },
+        "z9Ku3LqDZOuA": {
+          "hits": 1,
+          "textWords": 250
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "mvI6Gl3Rh0Hg",
+      "address": "https://www.welife.es/",
+      "title": "Bienestar con ciencia para vivir más y mejor | WeLife",
+      "snippet": "En lo posible, para la resolución de litigios en línea en materia de consumo conforme Reglamento (UE) 524/2013, se buscará la posibilidad que la Comisión Europea facilita como plataforma de resolución de litigios en línea y que se encuentra disponible en el enlace http://ec.europa.eu/consumers/odr.",
+      "matchedWords": {
+        "LbmfwJj1NASK": {
+          "hits": 0,
+          "textWords": 53
+        },
+        "XwLwiJMB_Xvh": {
+          "hits": 4,
+          "textWords": 53
+        },
+        "_Bt8li-ASzdd": {
+          "hits": 0,
+          "textWords": 53
+        },
+        "z9Ku3LqDZOuA": {
+          "hits": 0,
+          "textWords": 53
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "mB6uel4wIVHi",
+      "address": "https://www.lasprovincias.es/",
+      "title": "Las Provincias - Diario de noticias y actualidad de Valencia",
+      "snippet": "La diana del crimen organizado: oleada de robos de Toyota RAV4 en la Comunitat Valenciana\n3. El Ayuntamiento de Valencia recibe una petición de impugnación de un jurado de fallera mayor de Valencia 2027\n4. Así subirán las pensiones en 2027 tras el aumento de la inflación\n5.",
+      "matchedWords": {
+        "LbmfwJj1NASK": {
+          "hits": 0,
+          "textWords": 631
+        },
+        "XwLwiJMB_Xvh": {
+          "hits": 43,
+          "textWords": 631
+        },
+        "_Bt8li-ASzdd": {
+          "hits": 0,
+          "textWords": 631
+        },
+        "z9Ku3LqDZOuA": {
+          "hits": 0,
+          "textWords": 631
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "DrCEPl7Ocb95",
+      "address": "https://www.lavanguardia.com/",
+      "title": "Últimas noticias, actualidad y última hora en Catalunya, España y el mundo",
+      "snippet": "F1 GP de España, hoy en directo | Última hora desde el Madring, horarios, resultados y toda la actualidad\nDani Duch / Propias\nRoberto Rodríguez\nRoberto Rodríguez, Juan Bautista Martínez\nRoberto Rodríguez\nPublicidad\nMàrius Carol\nConsejero editorial\nRufián dispara la alarma",
+      "matchedWords": {
+        "LbmfwJj1NASK": {
+          "hits": 0,
+          "textWords": 1196
+        },
+        "XwLwiJMB_Xvh": {
+          "hits": 75,
+          "textWords": 1196
+        },
+        "_Bt8li-ASzdd": {
+          "hits": 1,
+          "textWords": 1196
+        },
+        "z9Ku3LqDZOuA": {
+          "hits": 0,
+          "textWords": 1196
+        }
+      },
+      "queryPhraseHits": 1
+    },
+    {
+      "hash": "ZgMF8lAZ2Nxi",
+      "address": "https://www.eldiadecordoba.es/",
+      "title": "Noticias de Córdoba | Última hora en El Día de Córdoba",
+      "snippet": "El panadero cordobés José Roldán reúne sus mejores creaciones en un libro\nRocío Górriz\n¿Qué coctelería de Córdoba está entre las mejores de España y Portugal?\nRocío Górriz\nEl restaurante de Córdoba que reinventa el flamenquín, la carrillada y hasta la torrija\nRocío Górriz\nVivir en Córdoba",
+      "matchedWords": {
+        "LbmfwJj1NASK": {
+          "hits": 0,
+          "textWords": 1645
+        },
+        "XwLwiJMB_Xvh": {
+          "hits": 106,
+          "textWords": 1645
+        },
+        "_Bt8li-ASzdd": {
+          "hits": 3,
+          "textWords": 1645
+        },
+        "z9Ku3LqDZOuA": {
+          "hits": 3,
+          "textWords": 1645
+        }
+      },
+      "queryPhraseHits": 1
+    },
+    {
+      "hash": "pyw55lAeAk-5",
+      "address": "https://www.trendencias.com/",
+      "title": "Trendencias - Moda y tendencias. Estilismos. Ropa y complementos.",
+      "snippet": "Tom Hanks, actor: \"Algunas personas dicen 'Casablanca' o 'Ciudadano Kane'. Yo digo que esta es la mejor película de la historia\" de Espinof\nEs uno de los pueblos más bonitos de España: solo 90 habitantes, casas negras y una espectacular cascada de 120 metros",
+      "matchedWords": {
+        "LbmfwJj1NASK": {
+          "hits": 0,
+          "textWords": 598
+        },
+        "XwLwiJMB_Xvh": {
+          "hits": 42,
+          "textWords": 598
+        },
+        "_Bt8li-ASzdd": {
+          "hits": 1,
+          "textWords": 598
+        },
+        "z9Ku3LqDZOuA": {
+          "hits": 0,
+          "textWords": 598
+        }
+      },
+      "queryPhraseHits": 1
+    },
+    {
+      "hash": "7TiY4lCZVJp4",
+      "address": "https://www.xataka.com/",
+      "title": "Xataka - Tecnología y gadgets, móviles, informática, electrónica",
+      "snippet": "Sensacine Colombia\nMotorpasión México\nCondiciones de uso\nCondiciones de uso de cookies\nPublicidad",
+      "matchedWords": {
+        "LbmfwJj1NASK": {
+          "hits": 0,
+          "textWords": 162
+        },
+        "XwLwiJMB_Xvh": {
+          "hits": 5,
+          "textWords": 162
+        },
+        "_Bt8li-ASzdd": {
+          "hits": 0,
+          "textWords": 162
+        },
+        "z9Ku3LqDZOuA": {
+          "hits": 0,
+          "textWords": 162
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "Q9ZGalD5B4Sj",
+      "address": "https://www.elnortedecastilla.es/",
+      "title": "El Norte de Castilla - Noticias de Castilla y León desde 1854",
+      "snippet": "Roban un ángel del siglo XVII de uno de los altares de la Iglesia de la Vera Cruz y un cuadro en San Pablo\n4. Carmen Lomana, a punto de morir\n5. Programa de fiestas de Valladolid 2026. Viernes 11 de septiembre\n6. Suspendido el pregón de las fiestas por amenazas de la ultraderecha\n7.",
+      "matchedWords": {
+        "LbmfwJj1NASK": {
+          "hits": 0,
+          "textWords": 330
+        },
+        "XwLwiJMB_Xvh": {
+          "hits": 30,
+          "textWords": 330
+        },
+        "_Bt8li-ASzdd": {
+          "hits": 0,
+          "textWords": 330
+        },
+        "z9Ku3LqDZOuA": {
+          "hits": 0,
+          "textWords": 330
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "g_pvJlGdBEY4",
+      "address": "https://www.larioja.com/",
+      "title": "LA RIOJA - Noticias y actualidad de La Rioja, Logroño y comarcas",
+      "snippet": "Degusta La Rioja\nMundo\nEconomía\nSociedad\nLo más leído\n1. Brutal agresión a dos miembros de un colectivo de izquierdas en las fiestas de Oviedo al grito de «arriba España»\n2. Un trabajador queda atrapado entre una carretilla elevadora y el puente de la LOâ20 sobre el Iregua\n3.",
+      "matchedWords": {
+        "LbmfwJj1NASK": {
+          "hits": 0,
+          "textWords": 420
+        },
+        "XwLwiJMB_Xvh": {
+          "hits": 40,
+          "textWords": 420
+        },
+        "_Bt8li-ASzdd": {
+          "hits": 1,
+          "textWords": 420
+        },
+        "z9Ku3LqDZOuA": {
+          "hits": 0,
+          "textWords": 420
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "qlCfKlLjcC4h",
+      "address": "https://www.elcomercio.es/",
+      "title": "EL COMERCIO de Asturias - Últimas noticias y actualidad",
+      "snippet": "Minova cierra su planta de Gijón y despedirá a 23 empleados\n5. Cuevas del Agua amanece cubierta de carteles pidiendo justicia por Toño, el ganadero asesinado hace un año\nOtras noticias\n1. Fiestas de San Mateo en Oviedo 2026\n2. Así será la 'banderona' de España que se colocará en Gijón\n3.",
+      "matchedWords": {
+        "LbmfwJj1NASK": {
+          "hits": 0,
+          "textWords": 197
+        },
+        "XwLwiJMB_Xvh": {
+          "hits": 19,
+          "textWords": 197
+        },
+        "_Bt8li-ASzdd": {
+          "hits": 2,
+          "textWords": 197
+        },
+        "z9Ku3LqDZOuA": {
+          "hits": 0,
+          "textWords": 197
+        }
+      },
+      "queryPhraseHits": 1
+    },
+    {
+      "hash": "eE_K_sO4DQ84",
+      "address": "https://as.com/",
+      "title": "AS.com - Diario online deportivo. Fútbol, motor y mucho más",
+      "snippet": "Mbappé no quiere ser Michael Jordan\nEl País\nPlataformas digitales\nDisfruta del GP de España y el debut de MADRING sin pagar nada en DAZN\nAdrián Castellote\nDeporte\nDiseñado para entrenar y a buen precio: así es el chándal de Hummel que encanta a los deportistas\nAdrián Castellote\nResultados",
+      "matchedWords": {
+        "LbmfwJj1NASK": {
+          "hits": 0,
+          "textWords": 1805
+        },
+        "XwLwiJMB_Xvh": {
+          "hits": 95,
+          "textWords": 1805
+        },
+        "_Bt8li-ASzdd": {
+          "hits": 5,
+          "textWords": 1805
+        },
+        "z9Ku3LqDZOuA": {
+          "hits": 3,
+          "textWords": 1805
+        }
+      },
+      "queryPhraseHits": 2
+    },
+    {
+      "hash": "w4sPElPQmzeg",
+      "address": "https://www.hoy.es/",
+      "title": "HOY: Diario con noticias y última hora de Extremadura",
+      "snippet": "Los primeros refugiados climáticos de España: sus casas expropiadas por el alto riesgo de inundación\nDiez casas de Alcanar, Tarragona, serán incautadas y derribadas tras ser arrasadas por el agua en varias ocasiones. Hablamos con los primeros desplazados por el calentamiento global.\nDaniel Méndez",
+      "matchedWords": {
+        "LbmfwJj1NASK": {
+          "hits": 0,
+          "textWords": 3573
+        },
+        "XwLwiJMB_Xvh": {
+          "hits": 278,
+          "textWords": 3573
+        },
+        "_Bt8li-ASzdd": {
+          "hits": 3,
+          "textWords": 3573
+        },
+        "z9Ku3LqDZOuA": {
+          "hits": 7,
+          "textWords": 3573
+        }
+      },
+      "queryPhraseHits": 1
+    },
+    {
+      "hash": "e2cUr9St_F9g",
+      "address": "https://www.abc.es/viajar/destinos/",
+      "title": "Todos los destinos | Viajes - ABC.es",
+      "snippet": "El castillo andaluz cuyo patio renacentista se expone en el MET de Nueva York\nEste exquisito espacio, con toda su decoración, fue trasladado pieza a pieza desde España hasta Manhattan para unos coleccionistas privados, quienes acabaron donándolo al museo\nRocío Jiménez | 06/09/2026",
+      "matchedWords": {
+        "LbmfwJj1NASK": {
+          "hits": 0,
+          "textWords": 716
+        },
+        "XwLwiJMB_Xvh": {
+          "hits": 57,
+          "textWords": 716
+        },
+        "_Bt8li-ASzdd": {
+          "hits": 1,
+          "textWords": 716
+        },
+        "z9Ku3LqDZOuA": {
+          "hits": 0,
+          "textWords": 716
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "KNXAdlTL0HYi",
+      "address": "https://www.burgosconecta.es/",
+      "title": "BURGOSconecta - Todas las noticias de Burgos y su provincia",
+      "snippet": "El balear resiste sin sufrir el ataque del esloveno en Peñas Blancas, donde Dunbar remacha a Buitrago en los metros finales en otra fuga exitosa\nIván Benito\nGP de España\nEl presidente de la FIA se moviliza para evitar el adiós de Alonso: «No podemos dejar que se vaya»",
+      "matchedWords": {
+        "LbmfwJj1NASK": {
+          "hits": 0,
+          "textWords": 3466
+        },
+        "XwLwiJMB_Xvh": {
+          "hits": 250,
+          "textWords": 3466
+        },
+        "_Bt8li-ASzdd": {
+          "hits": 7,
+          "textWords": 3466
+        },
+        "z9Ku3LqDZOuA": {
+          "hits": 5,
+          "textWords": 3466
+        }
+      },
+      "queryPhraseHits": 1
+    },
+    {
+      "hash": "lqi-SlWGWVQj",
+      "address": "https://www.huelvainformacion.es/",
+      "title": "Huelva Información | Noticias de Huelva, Andalucía y España, actualidad y última hora",
+      "snippet": "JOLY DIGITAL, S.L. realiza una reserva expresa de las reproducciones y usos de las obras y otras prestaciones accesibles desde este sitio web a medios de lectura mecánica u otros medios que resulten adecuados a tal fin de conformidad con el artículo 67.3 del Real Decreto - ley 24/2021, de 2 de",
+      "matchedWords": {
+        "LbmfwJj1NASK": {
+          "hits": 0,
+          "textWords": 53
+        },
+        "XwLwiJMB_Xvh": {
+          "hits": 6,
+          "textWords": 53
+        },
+        "_Bt8li-ASzdd": {
+          "hits": 0,
+          "textWords": 53
+        },
+        "z9Ku3LqDZOuA": {
+          "hits": 0,
+          "textWords": 53
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "0X-a-tWIjA-4",
+      "address": "https://es.wired.com/",
+      "title": "WIRED en Español: Noticias sobre tecnología, gadgets, ciencia, cultura y negocios | WIRED",
+      "snippet": "WIRED en Español platica con los hermanos SKabeche, Bryan y Eddy, sobre cómo supieron adaptarse a la evolución de la generación de contenido, y cómo pasaron de un hobby divertido en redes sociales a una actividad profesional de la cual han surgido múltiples proyectos empresariales.",
+      "matchedWords": {
+        "LbmfwJj1NASK": {
+          "hits": 0,
+          "textWords": 604
+        },
+        "XwLwiJMB_Xvh": {
+          "hits": 39,
+          "textWords": 604
+        },
+        "_Bt8li-ASzdd": {
+          "hits": 0,
+          "textWords": 604
+        },
+        "z9Ku3LqDZOuA": {
+          "hits": 0,
+          "textWords": 604
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "2V2zcldMowzh",
+      "address": "https://www.lavozdigital.es/",
+      "title": "La Voz Digital. Diario de noticias y actualidad de Cádiz, líder de la provincia | Lavozdigital.es",
+      "snippet": "Se trata de colar un ejército de votantes totalmente desvinculados de España a quienes se ofrece la posibilidad de ganar, a toro pasado, la guerra que perdieron sus abuelitos\nJuan Manuel de Prada\nOpinión\nDel atisbo al abismo",
+      "matchedWords": {
+        "LbmfwJj1NASK": {
+          "hits": 0,
+          "textWords": 295
+        },
+        "XwLwiJMB_Xvh": {
+          "hits": 23,
+          "textWords": 295
+        },
+        "_Bt8li-ASzdd": {
+          "hits": 1,
+          "textWords": 295
+        },
+        "z9Ku3LqDZOuA": {
+          "hits": 0,
+          "textWords": 295
+        }
+      },
+      "queryPhraseHits": 1
+    },
+    {
+      "hash": "rSvKAlfulRxi",
+      "address": "https://www.huffingtonpost.es/",
+      "title": "El HuffPost: Última hora, noticias y opinión en español",
+      "snippet": "PRISA MEDIA, S.A.U. ejerce la oposición expresa frente al uso de sus obras y prestaciones en la elaboración de revistas de prensa prevista en el artículo 32.1 del TRLPI; también realiza la reserva expresa frente a la reproducción, distribución y comunicación pública de sus trabajos y artículos",
+      "matchedWords": {
+        "LbmfwJj1NASK": {
+          "hits": 0,
+          "textWords": 105
+        },
+        "XwLwiJMB_Xvh": {
+          "hits": 11,
+          "textWords": 105
+        },
+        "_Bt8li-ASzdd": {
+          "hits": 0,
+          "textWords": 105
+        },
+        "z9Ku3LqDZOuA": {
+          "hits": 0,
+          "textWords": 105
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "BM6kIliVUugg",
+      "address": "https://www.laverdad.es/",
+      "title": "La Verdad - Noticias, actualidad y últimas noticias de Murcia",
+      "snippet": "La patronal amenaza con exigir indemnizaciones millonarias mientras tres grandes proyectos por 9.000 millones preparan alternativas fuera de España si el texto sale adelante\nJosé A. González\nFerrovial deja de cotizar en la Bolsa de Ámsterdam después de tres años",
+      "matchedWords": {
+        "LbmfwJj1NASK": {
+          "hits": 0,
+          "textWords": 3806
+        },
+        "XwLwiJMB_Xvh": {
+          "hits": 308,
+          "textWords": 3806
+        },
+        "_Bt8li-ASzdd": {
+          "hits": 7,
+          "textWords": 3806
+        },
+        "z9Ku3LqDZOuA": {
+          "hits": 3,
+          "textWords": 3806
+        }
+      },
+      "queryPhraseHits": 3
+    },
+    {
+      "hash": "c8HjXlj1Er05",
+      "address": "https://www.leonoticias.com/",
+      "title": "Leonoticias: noticias de León y provincia",
+      "snippet": "PP y Vox se abren a que un consorcio asuma el tramo urbano de FEVE que impulsa UPL\nPP, Vox, UPL y XAV exigen bonificar los peajes y suprimir el de la AP-66 con el 'no' del PSOE\nLos médicos de España van a huelga indefinida desde el 28 de octubre\nHerramientas\nCalcula la cuota de tu hipoteca",
+      "matchedWords": {
+        "LbmfwJj1NASK": {
+          "hits": 0,
+          "textWords": 3327
+        },
+        "XwLwiJMB_Xvh": {
+          "hits": 278,
+          "textWords": 3327
+        },
+        "_Bt8li-ASzdd": {
+          "hits": 10,
+          "textWords": 3327
+        },
+        "z9Ku3LqDZOuA": {
+          "hits": 2,
+          "textWords": 3327
+        }
+      },
+      "queryPhraseHits": 3
+    },
+    {
+      "hash": "uK5b6ljMl7g4",
+      "address": "https://www.elcorreo.com/",
+      "title": "EL CORREO - Diario con las últimas noticias, fotos y vídeos de Bizkaia",
+      "snippet": "Los primeros refugiados climáticos de España: sus casas expropiadas por el alto riesgo de inundación\nDiez casas de Alcanar, Tarragona, serán incautadas y derribadas tras ser arrasadas por el agua en varias ocasiones. Hablamos con los primeros desplazados por el calentamiento global.\nDaniel Méndez",
+      "matchedWords": {
+        "LbmfwJj1NASK": {
+          "hits": 0,
+          "textWords": 3950
+        },
+        "XwLwiJMB_Xvh": {
+          "hits": 243,
+          "textWords": 3950
+        },
+        "_Bt8li-ASzdd": {
+          "hits": 3,
+          "textWords": 3950
+        },
+        "z9Ku3LqDZOuA": {
+          "hits": 6,
+          "textWords": 3950
+        }
+      },
+      "queryPhraseHits": 1
+    },
+    {
+      "hash": "zCCs7lo7s48g",
+      "address": "https://www.ideal.es/",
+      "title": "IDEAL | Periódico de las noticias de Granada",
+      "snippet": "Internacional\nSucesos\nLo más leído\n1. El mapa con el recorrido y todos los cortes de tráfico de La Vuelta en Granada\n2. Un emergente grupo de mensajería marroquí desembarca en el puerto de Motril\n3. Tres restaurantes de pueblo en Granada para comer y disfrutar de La Vuelta este sábado\n4.",
+      "matchedWords": {
+        "LbmfwJj1NASK": {
+          "hits": 0,
+          "textWords": 299
+        },
+        "XwLwiJMB_Xvh": {
+          "hits": 28,
+          "textWords": 299
+        },
+        "_Bt8li-ASzdd": {
+          "hits": 0,
+          "textWords": 299
+        },
+        "z9Ku3LqDZOuA": {
+          "hits": 0,
+          "textWords": 299
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "UijGqltzWF35",
+      "address": "https://www.diariovasco.com/",
+      "title": "El Diario Vasco - Noticias de Donostia, San Sebastián y Gipuzkoa",
+      "snippet": "La pareja ganadora de 134 millones de euros en el Euromillones que ha donado la mitad de su fortuna en admiración a Dolly Parton\nOtras noticias\n1. El problema de Tatiana Kaer y Héctor Fort para encontrar casa de alquiler en San Sebastián: «La mayoría son vacacionales»\n2.",
+      "matchedWords": {
+        "LbmfwJj1NASK": {
+          "hits": 0,
+          "textWords": 183
+        },
+        "XwLwiJMB_Xvh": {
+          "hits": 15,
+          "textWords": 183
+        },
+        "_Bt8li-ASzdd": {
+          "hits": 0,
+          "textWords": 183
+        },
+        "z9Ku3LqDZOuA": {
+          "hits": 0,
+          "textWords": 183
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "qX9MJlx36Xdi",
+      "address": "https://www.eldiariomontanes.es/",
+      "title": "El Diario Montañés: Noticias de Cantabria y Santander",
+      "snippet": "El balear resiste sin sufrir el ataque del esloveno en Peñas Blancas, donde Dunbar remacha a Buitrago en los metros finales en otra fuga exitosa\nIván Benito\nGP de España\nLa madurez de Carlos Sainz, el piloto que ayudó a crear Madring\nDavid Sánchez de Castro\nGP de España",
+      "matchedWords": {
+        "LbmfwJj1NASK": {
+          "hits": 0,
+          "textWords": 3355
+        },
+        "XwLwiJMB_Xvh": {
+          "hits": 231,
+          "textWords": 3355
+        },
+        "_Bt8li-ASzdd": {
+          "hits": 7,
+          "textWords": 3355
+        },
+        "z9Ku3LqDZOuA": {
+          "hits": 3,
+          "textWords": 3355
+        }
+      },
+      "queryPhraseHits": 3
+    },
+    {
+      "hash": "5418oUxHMQI4",
+      "address": "https://cnnespanol.cnn.com/?hpt=header_edition-picker",
+      "title": "Últimas noticias de Estados Unidos, Latinoamérica y el mundo, hoy | CNN en Español | CNN",
+      "snippet": "",
+      "matchedWords": {
+        "LbmfwJj1NASK": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "XwLwiJMB_Xvh": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "_Bt8li-ASzdd": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "z9Ku3LqDZOuA": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "uHVM5lzD8ru5",
@@ -261,76 +1573,101 @@
       "queryPhraseHits": 0
     },
     {
-      "hash": "Q9ZGalD5B4Sj",
-      "address": "https://www.elnortedecastilla.es/",
-      "title": "El Norte de Castilla - Noticias de Castilla y León desde 1854",
-      "snippet": "Aznar invita a ETA a reanudar los contactos de forma inmediata\nEl cronista\nSimulacro de invasión de España en tierras vallisoletanas\nAquel escenario ficticio de guerra, ensayado por el Ejército hace 55 años, estuvo presidido por el príncipe Juan Carlos\nEnrique Berzal",
+      "hash": "DrCEPl7Ocb95",
+      "address": "https://www.lavanguardia.com/",
+      "title": "Últimas noticias, actualidad y última hora en Catalunya, España y el mundo",
+      "snippet": "F1 GP de España, hoy en directo | Última hora desde el Madring, horarios, resultados y toda la actualidad\nDani Duch / Propias\nRoberto Rodríguez\nRoberto Rodríguez, Juan Bautista Martínez\nRoberto Rodríguez\nPublicidad\nMàrius Carol\nConsejero editorial\nRufián dispara la alarma",
       "matchedWords": {
         "LbmfwJj1NASK": {
           "hits": 0,
-          "textWords": 3970
+          "textWords": 1196
         },
         "XwLwiJMB_Xvh": {
-          "hits": 284,
-          "textWords": 3970
+          "hits": 75,
+          "textWords": 1196
         },
         "_Bt8li-ASzdd": {
-          "hits": 2,
-          "textWords": 3970
+          "hits": 1,
+          "textWords": 1196
         },
         "z9Ku3LqDZOuA": {
-          "hits": 4,
-          "textWords": 3970
+          "hits": 0,
+          "textWords": 1196
         }
       },
       "queryPhraseHits": 1
     },
     {
+      "hash": "Q9ZGalD5B4Sj",
+      "address": "https://www.elnortedecastilla.es/",
+      "title": "El Norte de Castilla - Noticias de Castilla y León desde 1854",
+      "snippet": "Roban un ángel del siglo XVII de uno de los altares de la Iglesia de la Vera Cruz y un cuadro en San Pablo\n4. Carmen Lomana, a punto de morir\n5. Programa de fiestas de Valladolid 2026. Viernes 11 de septiembre\n6. Suspendido el pregón de las fiestas por amenazas de la ultraderecha\n7.",
+      "matchedWords": {
+        "LbmfwJj1NASK": {
+          "hits": 0,
+          "textWords": 330
+        },
+        "XwLwiJMB_Xvh": {
+          "hits": 30,
+          "textWords": 330
+        },
+        "_Bt8li-ASzdd": {
+          "hits": 0,
+          "textWords": 330
+        },
+        "z9Ku3LqDZOuA": {
+          "hits": 0,
+          "textWords": 330
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
       "hash": "JHfiCljMl7g4",
       "address": "https://www.elcorreo.com/alava/",
       "title": "EL CORREO - Diario con las últimas noticias, fotos y vídeos de Álava - Araba",
-      "snippet": "Rahm se asoma a la zona noble en Irlanda, donde su colega Lowry destroza el campo de Trump\nCarlos Nieto\nGP de España\nEl presidente de la FIA se moviliza para evitar el adiós de Alonso: «No podemos dejar que se vaya»\nJavier Varela",
+      "snippet": "Los primeros refugiados climáticos de España: sus casas expropiadas por el alto riesgo de inundación\nDiez casas de Alcanar, Tarragona, serán incautadas y derribadas tras ser arrasadas por el agua en varias ocasiones. Hablamos con los primeros desplazados por el calentamiento global.\nDaniel Méndez",
       "matchedWords": {
         "LbmfwJj1NASK": {
           "hits": 0,
-          "textWords": 3784
+          "textWords": 3832
         },
         "XwLwiJMB_Xvh": {
-          "hits": 233,
-          "textWords": 3784
+          "hits": 242,
+          "textWords": 3832
         },
         "_Bt8li-ASzdd": {
-          "hits": 4,
-          "textWords": 3784
+          "hits": 5,
+          "textWords": 3832
         },
         "z9Ku3LqDZOuA": {
-          "hits": 4,
-          "textWords": 3784
+          "hits": 5,
+          "textWords": 3832
         }
       },
-      "queryPhraseHits": 2
+      "queryPhraseHits": 1
     },
     {
-      "hash": "7eonllZeKV3g",
-      "address": "https://www.eldiario.es/viajes/",
-      "title": "Noticias sobre rutas y escapadas - Viajes, en elDiario.es",
-      "snippet": "Educación\nLGTBI\nMovilidad\nRacismo\nPrecariedad\nVivienda\nSocios y socias\nEstatuto de elDiario.es\nTus ventajas\nAumenta tu cuota\nEl blog de los socios y socias\nRegala elDiario.es\nPreguntas frecuentes\nLa opinión de los socios y las socias\nRevista\nTodo sobre El Diario\nQué es\nEl equipo\nContacto",
+      "hash": "UijGqltzWF35",
+      "address": "https://www.diariovasco.com/",
+      "title": "El Diario Vasco - Noticias de Donostia, San Sebastián y Gipuzkoa",
+      "snippet": "La pareja ganadora de 134 millones de euros en el Euromillones que ha donado la mitad de su fortuna en admiración a Dolly Parton\nOtras noticias\n1. El problema de Tatiana Kaer y Héctor Fort para encontrar casa de alquiler en San Sebastián: «La mayoría son vacacionales»\n2.",
       "matchedWords": {
         "LbmfwJj1NASK": {
           "hits": 0,
-          "textWords": 295
+          "textWords": 183
         },
         "XwLwiJMB_Xvh": {
-          "hits": 10,
-          "textWords": 295
+          "hits": 15,
+          "textWords": 183
         },
         "_Bt8li-ASzdd": {
           "hits": 0,
-          "textWords": 295
+          "textWords": 183
         },
         "z9Ku3LqDZOuA": {
           "hits": 0,
-          "textWords": 295
+          "textWords": 183
         }
       },
       "queryPhraseHits": 0
@@ -339,23 +1676,98 @@
       "hash": "0Fb3UljMl7g4",
       "address": "https://www.elcorreo.com/athletic/",
       "title": "Athletic Club Bilbao | El Correo",
-      "snippet": "El entrenador que vendió su moto para viajar a España y ver al Athletic de Bielsa\nMartín Anselmi, técnico del Elche, quiso estar presente en la final de Copa de 2012 frente al Barcelona\nIgor Barcia | 10/09/2026",
+      "snippet": "Como cada año, varios jugadores de los equipos masculino y femenino son reconocidos por la afición rojiblanca\nCarlos Nieto | 10/09/2026\nEl entrenador que vendió su moto para viajar a España y ver al Athletic de Bielsa",
       "matchedWords": {
         "LbmfwJj1NASK": {
           "hits": 0,
-          "textWords": 792
+          "textWords": 805
         },
         "XwLwiJMB_Xvh": {
-          "hits": 44,
-          "textWords": 792
+          "hits": 47,
+          "textWords": 805
         },
         "_Bt8li-ASzdd": {
           "hits": 1,
-          "textWords": 792
+          "textWords": 805
         },
         "z9Ku3LqDZOuA": {
           "hits": 0,
-          "textWords": 792
+          "textWords": 805
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "c8HjXlj1Er05",
+      "address": "https://www.leonoticias.com/",
+      "title": "Leonoticias: noticias de León y provincia",
+      "snippet": "PP y Vox se abren a que un consorcio asuma el tramo urbano de FEVE que impulsa UPL\nPP, Vox, UPL y XAV exigen bonificar los peajes y suprimir el de la AP-66 con el 'no' del PSOE\nLos médicos de España van a huelga indefinida desde el 28 de octubre\nHerramientas\nCalcula la cuota de tu hipoteca",
+      "matchedWords": {
+        "LbmfwJj1NASK": {
+          "hits": 0,
+          "textWords": 3327
+        },
+        "XwLwiJMB_Xvh": {
+          "hits": 278,
+          "textWords": 3327
+        },
+        "_Bt8li-ASzdd": {
+          "hits": 10,
+          "textWords": 3327
+        },
+        "z9Ku3LqDZOuA": {
+          "hits": 2,
+          "textWords": 3327
+        }
+      },
+      "queryPhraseHits": 3
+    },
+    {
+      "hash": "mvI6Gl3Rh0Hg",
+      "address": "https://www.welife.es/",
+      "title": "Home - WeLife",
+      "snippet": "En lo posible, para la resolución de litigios en línea en materia de consumo conforme Reglamento (UE) 524/2013, se buscará la posibilidad que la Comisión Europea facilita como plataforma de resolución de litigios en línea y que se encuentra disponible en el enlace http://ec.europa.eu/consumers/odr.",
+      "matchedWords": {
+        "LbmfwJj1NASK": {
+          "hits": 0,
+          "textWords": 53
+        },
+        "XwLwiJMB_Xvh": {
+          "hits": 4,
+          "textWords": 53
+        },
+        "_Bt8li-ASzdd": {
+          "hits": 0,
+          "textWords": 53
+        },
+        "z9Ku3LqDZOuA": {
+          "hits": 0,
+          "textWords": 53
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "mB6uel4wIVHi",
+      "address": "https://www.lasprovincias.es/",
+      "title": "Las Provincias - Diario de noticias y actualidad de Valencia",
+      "snippet": "La diana del crimen organizado: oleada de robos de Toyota RAV4 en la Comunitat Valenciana\n3. El Ayuntamiento de Valencia recibe una petición de impugnación de un jurado de fallera mayor de Valencia 2027\n4. Así subirán las pensiones en 2027 tras el aumento de la inflación\n5.",
+      "matchedWords": {
+        "LbmfwJj1NASK": {
+          "hits": 0,
+          "textWords": 631
+        },
+        "XwLwiJMB_Xvh": {
+          "hits": 43,
+          "textWords": 631
+        },
+        "_Bt8li-ASzdd": {
+          "hits": 0,
+          "textWords": 631
+        },
+        "z9Ku3LqDZOuA": {
+          "hits": 0,
+          "textWords": 631
         }
       },
       "queryPhraseHits": 0
@@ -389,23 +1801,23 @@
       "hash": "uK5b6ljMl7g4",
       "address": "https://www.elcorreo.com/",
       "title": "elcorreo.com | Bizkaia | diario con las últimas noticias, fotos y vídeos de Bizkaia | El Correo",
-      "snippet": "La patronal amenaza con exigir indemnizaciones millonarias mientras tres grandes proyectos por 9.000 millones preparan alternativas fuera de España si el texto sale adelante\nJosé A. González\nCultura\nSan Telmo expone una serie de collages de Isabel Coixet",
+      "snippet": "Los primeros refugiados climáticos de España: sus casas expropiadas por el alto riesgo de inundación\nDiez casas de Alcanar, Tarragona, serán incautadas y derribadas tras ser arrasadas por el agua en varias ocasiones. Hablamos con los primeros desplazados por el calentamiento global.\nDaniel Méndez",
       "matchedWords": {
         "LbmfwJj1NASK": {
           "hits": 0,
-          "textWords": 4014
+          "textWords": 3950
         },
         "XwLwiJMB_Xvh": {
-          "hits": 249,
-          "textWords": 4014
+          "hits": 243,
+          "textWords": 3950
         },
         "_Bt8li-ASzdd": {
-          "hits": 2,
-          "textWords": 4014
+          "hits": 3,
+          "textWords": 3950
         },
         "z9Ku3LqDZOuA": {
-          "hits": 7,
-          "textWords": 4014
+          "hits": 6,
+          "textWords": 3950
         }
       },
       "queryPhraseHits": 1
@@ -414,23 +1826,23 @@
       "hash": "Dhuszsj70uyi",
       "address": "https://cncompetencia.es/",
       "title": "ℹ Revista CNCompetencia | Noticias del mundo ✔️",
-      "snippet": "Bitcoin (BTC) $ 77,278.00 0.65%\nEthereum (ETH) $ 2,516.22 2.76%\nTether (USDT) $ 0.999854 0.01%\nBNB (BNB) $ 727.23 2.16%\nXRP (XRP) $ 1.36 1.17%\nUSDC (USDC) $ 0.999880 0.01%\nSolana (SOL) $ 102.28 3.41%\nTRON (TRX) $ 0.338535 0.51%\nFigure Heloc (FIGR_HELOC) $ 1.03 0.33%\nZcash (ZEC) $ 1,160.70 6.98%",
+      "snippet": "Bitcoin (BTC) $ 77,311.00 0.73%\nEthereum (ETH) $ 2,531.46 3.21%\nTether (USDT) $ 0.999812 0.02%\nBNB (BNB) $ 736.78 3.7%\nXRP (XRP) $ 1.37 3.67%\nUSDC (USDC) $ 0.999867 0.01%\nSolana (SOL) $ 102.06 3.45%\nTRON (TRX) $ 0.340440 0.91%\nFigure Heloc (FIGR_HELOC) $ 1.02 1.78%\nZcash (ZEC) $ 1,154.19 5.87%",
       "matchedWords": {
         "LbmfwJj1NASK": {
           "hits": 0,
-          "textWords": 48
+          "textWords": 47
         },
         "XwLwiJMB_Xvh": {
           "hits": 0,
-          "textWords": 48
+          "textWords": 47
         },
         "_Bt8li-ASzdd": {
           "hits": 0,
-          "textWords": 48
+          "textWords": 47
         },
         "z9Ku3LqDZOuA": {
           "hits": 0,
-          "textWords": 48
+          "textWords": 47
         }
       },
       "queryPhraseHits": 0
@@ -439,23 +1851,23 @@
       "hash": "0Fb3UljMl7g4",
       "address": "https://www.elcorreo.com/athletic/",
       "title": "Athletic Club Bilbao | El Correo",
-      "snippet": "El entrenador que vendió su moto para viajar a España y ver al Athletic de Bielsa\nMartín Anselmi, técnico del Elche, quiso estar presente en la final de Copa de 2012 frente al Barcelona\nIgor Barcia | 10/09/2026",
+      "snippet": "Como cada año, varios jugadores de los equipos masculino y femenino son reconocidos por la afición rojiblanca\nCarlos Nieto | 10/09/2026\nEl entrenador que vendió su moto para viajar a España y ver al Athletic de Bielsa",
       "matchedWords": {
         "LbmfwJj1NASK": {
           "hits": 0,
-          "textWords": 792
+          "textWords": 805
         },
         "XwLwiJMB_Xvh": {
-          "hits": 44,
-          "textWords": 792
+          "hits": 47,
+          "textWords": 805
         },
         "_Bt8li-ASzdd": {
           "hits": 1,
-          "textWords": 792
+          "textWords": 805
         },
         "z9Ku3LqDZOuA": {
           "hits": 0,
-          "textWords": 792
+          "textWords": 805
         }
       },
       "queryPhraseHits": 0
@@ -464,48 +1876,23 @@
       "hash": "zCCs7lo7s48g",
       "address": "https://www.ideal.es/",
       "title": "IDEAL | Periódico de las noticias de Granada",
-      "snippet": "La deriva de la propiedad del Granada CF, el grupo chino DDMC, en una situación financiera crítica\n4. Subidón térmico en Granada: una 'cresta africana' traerá de vuelta el calor desde este día\n5. Los cambios en las líneas de autobús de Granada por la llegada de La Vuelta\n6.",
+      "snippet": "Internacional\nSucesos\nLo más leído\n1. El mapa con el recorrido y todos los cortes de tráfico de La Vuelta en Granada\n2. Un emergente grupo de mensajería marroquí desembarca en el puerto de Motril\n3. Tres restaurantes de pueblo en Granada para comer y disfrutar de La Vuelta este sábado\n4.",
       "matchedWords": {
         "LbmfwJj1NASK": {
           "hits": 0,
-          "textWords": 378
+          "textWords": 299
         },
         "XwLwiJMB_Xvh": {
-          "hits": 33,
-          "textWords": 378
+          "hits": 28,
+          "textWords": 299
         },
         "_Bt8li-ASzdd": {
           "hits": 0,
-          "textWords": 378
+          "textWords": 299
         },
         "z9Ku3LqDZOuA": {
           "hits": 0,
-          "textWords": 378
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "MuorVQRAvAya",
-      "address": "http://www.euroresidentes.com/",
-      "title": "Euroresidentes",
-      "snippet": "Guías con información y recomendaciones de los mejores restaurantes en España y Restaurantes en Madrid.\nFotos Tenemos miles de fotos de todo el mundo, fotos hechas por nosotros y fotos nuestros usuarios.\nEmpresa y Finanzas",
-      "matchedWords": {
-        "LbmfwJj1NASK": {
-          "hits": 0,
-          "textWords": 197
-        },
-        "XwLwiJMB_Xvh": {
-          "hits": 11,
-          "textWords": 197
-        },
-        "_Bt8li-ASzdd": {
-          "hits": 1,
-          "textWords": 197
-        },
-        "z9Ku3LqDZOuA": {
-          "hits": 1,
-          "textWords": 197
+          "textWords": 299
         }
       },
       "queryPhraseHits": 0
@@ -514,23 +1901,48 @@
       "hash": "uK5b6ljMl7g4",
       "address": "https://www.elcorreo.com/",
       "title": "EL CORREO - Diario con las últimas noticias, fotos y vídeos de Bizkaia",
-      "snippet": "La patronal amenaza con exigir indemnizaciones millonarias mientras tres grandes proyectos por 9.000 millones preparan alternativas fuera de España si el texto sale adelante\nJosé A. González\nCultura\nSan Telmo expone una serie de collages de Isabel Coixet",
+      "snippet": "Los primeros refugiados climáticos de España: sus casas expropiadas por el alto riesgo de inundación\nDiez casas de Alcanar, Tarragona, serán incautadas y derribadas tras ser arrasadas por el agua en varias ocasiones. Hablamos con los primeros desplazados por el calentamiento global.\nDaniel Méndez",
       "matchedWords": {
         "LbmfwJj1NASK": {
           "hits": 0,
-          "textWords": 4014
+          "textWords": 3950
         },
         "XwLwiJMB_Xvh": {
-          "hits": 249,
-          "textWords": 4014
+          "hits": 243,
+          "textWords": 3950
         },
         "_Bt8li-ASzdd": {
-          "hits": 2,
-          "textWords": 4014
+          "hits": 3,
+          "textWords": 3950
+        },
+        "z9Ku3LqDZOuA": {
+          "hits": 6,
+          "textWords": 3950
+        }
+      },
+      "queryPhraseHits": 1
+    },
+    {
+      "hash": "w4sPElPQmzeg",
+      "address": "https://www.hoy.es/",
+      "title": "HOY Extremadura a diario con noticias y última hora del periódico y la edición digital | Hoy",
+      "snippet": "Los primeros refugiados climáticos de España: sus casas expropiadas por el alto riesgo de inundación\nDiez casas de Alcanar, Tarragona, serán incautadas y derribadas tras ser arrasadas por el agua en varias ocasiones. Hablamos con los primeros desplazados por el calentamiento global.\nDaniel Méndez",
+      "matchedWords": {
+        "LbmfwJj1NASK": {
+          "hits": 0,
+          "textWords": 3573
+        },
+        "XwLwiJMB_Xvh": {
+          "hits": 278,
+          "textWords": 3573
+        },
+        "_Bt8li-ASzdd": {
+          "hits": 3,
+          "textWords": 3573
         },
         "z9Ku3LqDZOuA": {
           "hits": 7,
-          "textWords": 4014
+          "textWords": 3573
         }
       },
       "queryPhraseHits": 1
@@ -539,123 +1951,73 @@
       "hash": "zCCs7lo7s48g",
       "address": "https://www.ideal.es/",
       "title": "Noticias de Granada y Provincia | Ideal",
-      "snippet": "La deriva de la propiedad del Granada CF, el grupo chino DDMC, en una situación financiera crítica\n4. Subidón térmico en Granada: una 'cresta africana' traerá de vuelta el calor desde este día\n5. Los cambios en las líneas de autobús de Granada por la llegada de La Vuelta\n6.",
+      "snippet": "Internacional\nSucesos\nLo más leído\n1. El mapa con el recorrido y todos los cortes de tráfico de La Vuelta en Granada\n2. Un emergente grupo de mensajería marroquí desembarca en el puerto de Motril\n3. Tres restaurantes de pueblo en Granada para comer y disfrutar de La Vuelta este sábado\n4.",
       "matchedWords": {
         "LbmfwJj1NASK": {
           "hits": 0,
-          "textWords": 378
+          "textWords": 299
         },
         "XwLwiJMB_Xvh": {
-          "hits": 33,
-          "textWords": 378
+          "hits": 28,
+          "textWords": 299
         },
         "_Bt8li-ASzdd": {
           "hits": 0,
-          "textWords": 378
+          "textWords": 299
         },
         "z9Ku3LqDZOuA": {
           "hits": 0,
-          "textWords": 378
+          "textWords": 299
         }
       },
       "queryPhraseHits": 0
     },
     {
-      "hash": "JHfiCljMl7g4",
-      "address": "https://www.elcorreo.com/alava/",
-      "title": "EL CORREO - Diario con las últimas noticias, fotos y vídeos de Álava - Araba",
-      "snippet": "Rahm se asoma a la zona noble en Irlanda, donde su colega Lowry destroza el campo de Trump\nCarlos Nieto\nGP de España\nEl presidente de la FIA se moviliza para evitar el adiós de Alonso: «No podemos dejar que se vaya»\nJavier Varela",
-      "matchedWords": {
-        "LbmfwJj1NASK": {
-          "hits": 0,
-          "textWords": 3784
-        },
-        "XwLwiJMB_Xvh": {
-          "hits": 233,
-          "textWords": 3784
-        },
-        "_Bt8li-ASzdd": {
-          "hits": 4,
-          "textWords": 3784
-        },
-        "z9Ku3LqDZOuA": {
-          "hits": 4,
-          "textWords": 3784
-        }
-      },
-      "queryPhraseHits": 2
-    },
-    {
-      "hash": "7eonllZeKV3g",
-      "address": "https://www.eldiario.es/viajes/",
-      "title": "Noticias sobre rutas y escapadas - Viajes, en elDiario.es",
-      "snippet": "Educación\nLGTBI\nMovilidad\nRacismo\nPrecariedad\nVivienda\nSocios y socias\nEstatuto de elDiario.es\nTus ventajas\nAumenta tu cuota\nEl blog de los socios y socias\nRegala elDiario.es\nPreguntas frecuentes\nLa opinión de los socios y las socias\nRevista\nTodo sobre El Diario\nQué es\nEl equipo\nContacto",
+      "hash": "2V2zcldMowzh",
+      "address": "https://www.lavozdigital.es/",
+      "title": "La Voz Digital. Diario de noticias y actualidad de Cádiz, líder de la provincia | Lavozdigital.es",
+      "snippet": "Se trata de colar un ejército de votantes totalmente desvinculados de España a quienes se ofrece la posibilidad de ganar, a toro pasado, la guerra que perdieron sus abuelitos\nJuan Manuel de Prada\nOpinión\nDel atisbo al abismo",
       "matchedWords": {
         "LbmfwJj1NASK": {
           "hits": 0,
           "textWords": 295
         },
         "XwLwiJMB_Xvh": {
-          "hits": 10,
+          "hits": 23,
           "textWords": 295
         },
         "_Bt8li-ASzdd": {
-          "hits": 0,
+          "hits": 1,
           "textWords": 295
         },
         "z9Ku3LqDZOuA": {
           "hits": 0,
           "textWords": 295
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "Q9ZGalD5B4Sj",
-      "address": "https://www.elnortedecastilla.es/",
-      "title": "El Norte de Castilla - Noticias de Castilla y León desde 1854",
-      "snippet": "Aznar invita a ETA a reanudar los contactos de forma inmediata\nEl cronista\nSimulacro de invasión de España en tierras vallisoletanas\nAquel escenario ficticio de guerra, ensayado por el Ejército hace 55 años, estuvo presidido por el príncipe Juan Carlos\nEnrique Berzal",
-      "matchedWords": {
-        "LbmfwJj1NASK": {
-          "hits": 0,
-          "textWords": 3970
-        },
-        "XwLwiJMB_Xvh": {
-          "hits": 284,
-          "textWords": 3970
-        },
-        "_Bt8li-ASzdd": {
-          "hits": 2,
-          "textWords": 3970
-        },
-        "z9Ku3LqDZOuA": {
-          "hits": 4,
-          "textWords": 3970
         }
       },
       "queryPhraseHits": 1
     },
     {
-      "hash": "Dhuszsj70uyi",
-      "address": "https://cncompetencia.es/",
-      "title": "ℹ Revista CNCompetencia | Noticias del mundo ✔️",
-      "snippet": "Bitcoin (BTC) $ 77,278.00 0.65%\nEthereum (ETH) $ 2,516.22 2.76%\nTether (USDT) $ 0.999854 0.01%\nBNB (BNB) $ 727.23 2.16%\nXRP (XRP) $ 1.36 1.17%\nUSDC (USDC) $ 0.999880 0.01%\nSolana (SOL) $ 102.28 3.41%\nTRON (TRX) $ 0.338535 0.51%\nFigure Heloc (FIGR_HELOC) $ 1.03 0.33%\nZcash (ZEC) $ 1,160.70 6.98%",
+      "hash": "e2cUr9St_F9g",
+      "address": "https://www.abc.es/viajar/destinos/",
+      "title": "Todos los destinos | Viajes - ABC.es",
+      "snippet": "El castillo andaluz cuyo patio renacentista se expone en el MET de Nueva York\nEste exquisito espacio, con toda su decoración, fue trasladado pieza a pieza desde España hasta Manhattan para unos coleccionistas privados, quienes acabaron donándolo al museo\nRocío Jiménez | 06/09/2026",
       "matchedWords": {
         "LbmfwJj1NASK": {
           "hits": 0,
-          "textWords": 48
+          "textWords": 716
         },
         "XwLwiJMB_Xvh": {
-          "hits": 0,
-          "textWords": 48
+          "hits": 57,
+          "textWords": 716
         },
         "_Bt8li-ASzdd": {
-          "hits": 0,
-          "textWords": 48
+          "hits": 1,
+          "textWords": 716
         },
         "z9Ku3LqDZOuA": {
           "hits": 0,
-          "textWords": 48
+          "textWords": 716
         }
       },
       "queryPhraseHits": 0
@@ -664,51 +2026,76 @@
       "hash": "JHfiCljMl7g4",
       "address": "https://www.elcorreo.com/alava/",
       "title": "EL CORREO - Diario con las últimas noticias, fotos y vídeos de Álava - Araba",
-      "snippet": "Rahm se asoma a la zona noble en Irlanda, donde su colega Lowry destroza el campo de Trump\nCarlos Nieto\nGP de España\nEl presidente de la FIA se moviliza para evitar el adiós de Alonso: «No podemos dejar que se vaya»\nJavier Varela",
+      "snippet": "Los primeros refugiados climáticos de España: sus casas expropiadas por el alto riesgo de inundación\nDiez casas de Alcanar, Tarragona, serán incautadas y derribadas tras ser arrasadas por el agua en varias ocasiones. Hablamos con los primeros desplazados por el calentamiento global.\nDaniel Méndez",
       "matchedWords": {
         "LbmfwJj1NASK": {
           "hits": 0,
-          "textWords": 3784
+          "textWords": 3832
         },
         "XwLwiJMB_Xvh": {
-          "hits": 233,
-          "textWords": 3784
+          "hits": 242,
+          "textWords": 3832
         },
         "_Bt8li-ASzdd": {
-          "hits": 4,
-          "textWords": 3784
+          "hits": 5,
+          "textWords": 3832
         },
         "z9Ku3LqDZOuA": {
-          "hits": 4,
-          "textWords": 3784
+          "hits": 5,
+          "textWords": 3832
         }
       },
-      "queryPhraseHits": 2
+      "queryPhraseHits": 1
+    },
+    {
+      "hash": "BM6kIliVUugg",
+      "address": "https://www.laverdad.es/",
+      "title": "La Verdad - Noticias, actualidad y últimas noticias de Murcia",
+      "snippet": "La patronal amenaza con exigir indemnizaciones millonarias mientras tres grandes proyectos por 9.000 millones preparan alternativas fuera de España si el texto sale adelante\nJosé A. González\nFerrovial deja de cotizar en la Bolsa de Ámsterdam después de tres años",
+      "matchedWords": {
+        "LbmfwJj1NASK": {
+          "hits": 0,
+          "textWords": 3806
+        },
+        "XwLwiJMB_Xvh": {
+          "hits": 308,
+          "textWords": 3806
+        },
+        "_Bt8li-ASzdd": {
+          "hits": 7,
+          "textWords": 3806
+        },
+        "z9Ku3LqDZOuA": {
+          "hits": 3,
+          "textWords": 3806
+        }
+      },
+      "queryPhraseHits": 3
     },
     {
       "hash": "qX9MJlx36Xdi",
       "address": "https://www.eldiariomontanes.es/",
       "title": "El Diario Montañés: Noticias de Cantabria y Santander",
-      "snippet": "Los verdiblancos estarán un mes sin jugar en casa con motivo de la doble visita y el parón internacional\nAser Falagán Santander\nGP de España\nEl presidente de la FIA se moviliza para evitar el adiós de Alonso: «No podemos dejar que se vaya»",
+      "snippet": "El balear resiste sin sufrir el ataque del esloveno en Peñas Blancas, donde Dunbar remacha a Buitrago en los metros finales en otra fuga exitosa\nIván Benito\nGP de España\nLa madurez de Carlos Sainz, el piloto que ayudó a crear Madring\nDavid Sánchez de Castro\nGP de España",
       "matchedWords": {
         "LbmfwJj1NASK": {
           "hits": 0,
-          "textWords": 3746
+          "textWords": 3355
         },
         "XwLwiJMB_Xvh": {
-          "hits": 257,
-          "textWords": 3746
+          "hits": 231,
+          "textWords": 3355
         },
         "_Bt8li-ASzdd": {
-          "hits": 6,
-          "textWords": 3746
+          "hits": 7,
+          "textWords": 3355
         },
         "z9Ku3LqDZOuA": {
-          "hits": 2,
-          "textWords": 3746
+          "hits": 3,
+          "textWords": 3355
         }
       },
-      "queryPhraseHits": 2
+      "queryPhraseHits": 3
     },
     {
       "hash": "uHVM5lzD8ru5",
@@ -761,29 +2148,104 @@
       "queryPhraseHits": 0
     },
     {
-      "hash": "Q9ZGalD5B4Sj",
-      "address": "https://www.elnortedecastilla.es/",
-      "title": "El Norte de Castilla - Noticias de Castilla y León desde 1854",
-      "snippet": "Aznar invita a ETA a reanudar los contactos de forma inmediata\nEl cronista\nSimulacro de invasión de España en tierras vallisoletanas\nAquel escenario ficticio de guerra, ensayado por el Ejército hace 55 años, estuvo presidido por el príncipe Juan Carlos\nEnrique Berzal",
+      "hash": "ISxsyloVqyIh",
+      "address": "https://www.elcorreoweb.es/",
+      "title": "El Correo de Andalucía - Noticias de Sevilla, Andalucía y España.",
+      "snippet": "PRENSA IBÉRICA NETWORK, S.L.U.",
       "matchedWords": {
         "LbmfwJj1NASK": {
           "hits": 0,
-          "textWords": 3970
+          "textWords": 3
         },
         "XwLwiJMB_Xvh": {
-          "hits": 284,
-          "textWords": 3970
+          "hits": 0,
+          "textWords": 3
         },
         "_Bt8li-ASzdd": {
-          "hits": 2,
-          "textWords": 3970
+          "hits": 0,
+          "textWords": 3
         },
         "z9Ku3LqDZOuA": {
-          "hits": 4,
-          "textWords": 3970
+          "hits": 0,
+          "textWords": 3
         }
       },
-      "queryPhraseHits": 1
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "Q9ZGalD5B4Sj",
+      "address": "https://www.elnortedecastilla.es/",
+      "title": "El Norte de Castilla - Noticias de Castilla y León desde 1854",
+      "snippet": "Roban un ángel del siglo XVII de uno de los altares de la Iglesia de la Vera Cruz y un cuadro en San Pablo\n4. Carmen Lomana, a punto de morir\n5. Programa de fiestas de Valladolid 2026. Viernes 11 de septiembre\n6. Suspendido el pregón de las fiestas por amenazas de la ultraderecha\n7.",
+      "matchedWords": {
+        "LbmfwJj1NASK": {
+          "hits": 0,
+          "textWords": 330
+        },
+        "XwLwiJMB_Xvh": {
+          "hits": 30,
+          "textWords": 330
+        },
+        "_Bt8li-ASzdd": {
+          "hits": 0,
+          "textWords": 330
+        },
+        "z9Ku3LqDZOuA": {
+          "hits": 0,
+          "textWords": 330
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "rSvKAlfulRxi",
+      "address": "https://www.huffingtonpost.es/",
+      "title": "El HuffPost: Última hora, noticias y opinión en español",
+      "snippet": "PRISA MEDIA, S.A.U. ejerce la oposición expresa frente al uso de sus obras y prestaciones en la elaboración de revistas de prensa prevista en el artículo 32.1 del TRLPI; también realiza la reserva expresa frente a la reproducción, distribución y comunicación pública de sus trabajos y artículos",
+      "matchedWords": {
+        "LbmfwJj1NASK": {
+          "hits": 0,
+          "textWords": 105
+        },
+        "XwLwiJMB_Xvh": {
+          "hits": 11,
+          "textWords": 105
+        },
+        "_Bt8li-ASzdd": {
+          "hits": 0,
+          "textWords": 105
+        },
+        "z9Ku3LqDZOuA": {
+          "hits": 0,
+          "textWords": 105
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "Q9ZGalD5B4Sj",
+      "address": "https://www.elnortedecastilla.es/",
+      "title": "El Norte de Castilla - Noticias de Castilla y León desde 1854",
+      "snippet": "Roban un ángel del siglo XVII de uno de los altares de la Iglesia de la Vera Cruz y un cuadro en San Pablo\n4. Carmen Lomana, a punto de morir\n5. Programa de fiestas de Valladolid 2026. Viernes 11 de septiembre\n6. Suspendido el pregón de las fiestas por amenazas de la ultraderecha\n7.",
+      "matchedWords": {
+        "LbmfwJj1NASK": {
+          "hits": 0,
+          "textWords": 330
+        },
+        "XwLwiJMB_Xvh": {
+          "hits": 30,
+          "textWords": 330
+        },
+        "_Bt8li-ASzdd": {
+          "hits": 0,
+          "textWords": 330
+        },
+        "z9Ku3LqDZOuA": {
+          "hits": 0,
+          "textWords": 330
+        }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "wqCeqlFZc5Lg",
@@ -811,26 +2273,76 @@
       "queryPhraseHits": 0
     },
     {
-      "hash": "zCCs7lo7s48g",
-      "address": "https://www.ideal.es/",
-      "title": "IDEAL | Periódico de las noticias de Granada",
-      "snippet": "La deriva de la propiedad del Granada CF, el grupo chino DDMC, en una situación financiera crítica\n4. Subidón térmico en Granada: una 'cresta africana' traerá de vuelta el calor desde este día\n5. Los cambios en las líneas de autobús de Granada por la llegada de La Vuelta\n6.",
+      "hash": "uHVM5lzD8ru5",
+      "address": "https://www.admagazine.com/",
+      "title": "Architectural Digest México y Latinoamérica | Architectural Digest",
+      "snippet": "AD es una ventana en constante actualización al mundo del diseño, la decoración, la arquitectura y el arte, nuevas direcciones y destinos, nombres y lanzamientos.",
       "matchedWords": {
         "LbmfwJj1NASK": {
           "hits": 0,
-          "textWords": 378
+          "textWords": 49
         },
         "XwLwiJMB_Xvh": {
-          "hits": 33,
-          "textWords": 378
+          "hits": 0,
+          "textWords": 49
         },
         "_Bt8li-ASzdd": {
           "hits": 0,
-          "textWords": 378
+          "textWords": 49
         },
         "z9Ku3LqDZOuA": {
           "hits": 0,
-          "textWords": 378
+          "textWords": 49
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "DrCEPl7Ocb95",
+      "address": "https://www.lavanguardia.com/",
+      "title": "Últimas noticias, actualidad y última hora en Catalunya, España y el mundo",
+      "snippet": "F1 GP de España, hoy en directo | Última hora desde el Madring, horarios, resultados y toda la actualidad\nDani Duch / Propias\nRoberto Rodríguez\nRoberto Rodríguez, Juan Bautista Martínez\nRoberto Rodríguez\nPublicidad\nMàrius Carol\nConsejero editorial\nRufián dispara la alarma",
+      "matchedWords": {
+        "LbmfwJj1NASK": {
+          "hits": 0,
+          "textWords": 1196
+        },
+        "XwLwiJMB_Xvh": {
+          "hits": 75,
+          "textWords": 1196
+        },
+        "_Bt8li-ASzdd": {
+          "hits": 1,
+          "textWords": 1196
+        },
+        "z9Ku3LqDZOuA": {
+          "hits": 0,
+          "textWords": 1196
+        }
+      },
+      "queryPhraseHits": 1
+    },
+    {
+      "hash": "Q9ZGalD5B4Sj",
+      "address": "https://www.elnortedecastilla.es/",
+      "title": "El Norte de Castilla - Noticias de Castilla y León desde 1854",
+      "snippet": "Roban un ángel del siglo XVII de uno de los altares de la Iglesia de la Vera Cruz y un cuadro en San Pablo\n4. Carmen Lomana, a punto de morir\n5. Programa de fiestas de Valladolid 2026. Viernes 11 de septiembre\n6. Suspendido el pregón de las fiestas por amenazas de la ultraderecha\n7.",
+      "matchedWords": {
+        "LbmfwJj1NASK": {
+          "hits": 0,
+          "textWords": 330
+        },
+        "XwLwiJMB_Xvh": {
+          "hits": 30,
+          "textWords": 330
+        },
+        "_Bt8li-ASzdd": {
+          "hits": 0,
+          "textWords": 330
+        },
+        "z9Ku3LqDZOuA": {
+          "hits": 0,
+          "textWords": 330
         }
       },
       "queryPhraseHits": 0
@@ -839,23 +2351,373 @@
       "hash": "uK5b6ljMl7g4",
       "address": "https://www.elcorreo.com/",
       "title": "EL CORREO - Diario con las últimas noticias, fotos y vídeos de Bizkaia",
-      "snippet": "La patronal amenaza con exigir indemnizaciones millonarias mientras tres grandes proyectos por 9.000 millones preparan alternativas fuera de España si el texto sale adelante\nJosé A. González\nCultura\nSan Telmo expone una serie de collages de Isabel Coixet",
+      "snippet": "Los primeros refugiados climáticos de España: sus casas expropiadas por el alto riesgo de inundación\nDiez casas de Alcanar, Tarragona, serán incautadas y derribadas tras ser arrasadas por el agua en varias ocasiones. Hablamos con los primeros desplazados por el calentamiento global.\nDaniel Méndez",
       "matchedWords": {
         "LbmfwJj1NASK": {
           "hits": 0,
-          "textWords": 4014
+          "textWords": 3950
         },
         "XwLwiJMB_Xvh": {
-          "hits": 249,
-          "textWords": 4014
+          "hits": 243,
+          "textWords": 3950
         },
         "_Bt8li-ASzdd": {
+          "hits": 3,
+          "textWords": 3950
+        },
+        "z9Ku3LqDZOuA": {
+          "hits": 6,
+          "textWords": 3950
+        }
+      },
+      "queryPhraseHits": 1
+    },
+    {
+      "hash": "zCCs7lo7s48g",
+      "address": "https://www.ideal.es/",
+      "title": "IDEAL | Periódico de las noticias de Granada",
+      "snippet": "Internacional\nSucesos\nLo más leído\n1. El mapa con el recorrido y todos los cortes de tráfico de La Vuelta en Granada\n2. Un emergente grupo de mensajería marroquí desembarca en el puerto de Motril\n3. Tres restaurantes de pueblo en Granada para comer y disfrutar de La Vuelta este sábado\n4.",
+      "matchedWords": {
+        "LbmfwJj1NASK": {
+          "hits": 0,
+          "textWords": 299
+        },
+        "XwLwiJMB_Xvh": {
+          "hits": 28,
+          "textWords": 299
+        },
+        "_Bt8li-ASzdd": {
+          "hits": 0,
+          "textWords": 299
+        },
+        "z9Ku3LqDZOuA": {
+          "hits": 0,
+          "textWords": 299
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "UijGqltzWF35",
+      "address": "https://www.diariovasco.com/",
+      "title": "El Diario Vasco - Noticias de Donostia, San Sebastián y Gipuzkoa",
+      "snippet": "La pareja ganadora de 134 millones de euros en el Euromillones que ha donado la mitad de su fortuna en admiración a Dolly Parton\nOtras noticias\n1. El problema de Tatiana Kaer y Héctor Fort para encontrar casa de alquiler en San Sebastián: «La mayoría son vacacionales»\n2.",
+      "matchedWords": {
+        "LbmfwJj1NASK": {
+          "hits": 0,
+          "textWords": 183
+        },
+        "XwLwiJMB_Xvh": {
+          "hits": 15,
+          "textWords": 183
+        },
+        "_Bt8li-ASzdd": {
+          "hits": 0,
+          "textWords": 183
+        },
+        "z9Ku3LqDZOuA": {
+          "hits": 0,
+          "textWords": 183
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "Lxil9rRxNAyg",
+      "address": "https://saposyprincesas.elmundo.es/",
+      "title": "Sapos y Princesas: Artículos, actividades y planes en familia",
+      "snippet": "Los mejores estrenos de la gran pantalla\nPreadolescencia\nSupergirl\n'Supergirl' se presenta como uno de los grandes estrenos del verano y es una nueva adaptación de la heroína de DC Comics.\nInfantil\nMarsupilami",
+      "matchedWords": {
+        "LbmfwJj1NASK": {
+          "hits": 0,
+          "textWords": 190
+        },
+        "XwLwiJMB_Xvh": {
+          "hits": 16,
+          "textWords": 190
+        },
+        "_Bt8li-ASzdd": {
+          "hits": 0,
+          "textWords": 190
+        },
+        "z9Ku3LqDZOuA": {
           "hits": 2,
-          "textWords": 4014
+          "textWords": 190
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "DrCEPl7Ocb95",
+      "address": "https://www.lavanguardia.com/",
+      "title": "Últimas noticias, actualidad y última hora en Catalunya, España y el mundo",
+      "snippet": "F1 GP de España, hoy en directo | Última hora desde el Madring, horarios, resultados y toda la actualidad\nDani Duch / Propias\nRoberto Rodríguez\nRoberto Rodríguez, Juan Bautista Martínez\nRoberto Rodríguez\nPublicidad\nMàrius Carol\nConsejero editorial\nRufián dispara la alarma",
+      "matchedWords": {
+        "LbmfwJj1NASK": {
+          "hits": 0,
+          "textWords": 1196
+        },
+        "XwLwiJMB_Xvh": {
+          "hits": 75,
+          "textWords": 1196
+        },
+        "_Bt8li-ASzdd": {
+          "hits": 1,
+          "textWords": 1196
+        },
+        "z9Ku3LqDZOuA": {
+          "hits": 0,
+          "textWords": 1196
+        }
+      },
+      "queryPhraseHits": 1
+    },
+    {
+      "hash": "uK5b6ljMl7g4",
+      "address": "https://www.elcorreo.com/",
+      "title": "EL CORREO - Diario con las últimas noticias, fotos y vídeos de Bizkaia",
+      "snippet": "Los primeros refugiados climáticos de España: sus casas expropiadas por el alto riesgo de inundación\nDiez casas de Alcanar, Tarragona, serán incautadas y derribadas tras ser arrasadas por el agua en varias ocasiones. Hablamos con los primeros desplazados por el calentamiento global.\nDaniel Méndez",
+      "matchedWords": {
+        "LbmfwJj1NASK": {
+          "hits": 0,
+          "textWords": 3950
+        },
+        "XwLwiJMB_Xvh": {
+          "hits": 243,
+          "textWords": 3950
+        },
+        "_Bt8li-ASzdd": {
+          "hits": 3,
+          "textWords": 3950
+        },
+        "z9Ku3LqDZOuA": {
+          "hits": 6,
+          "textWords": 3950
+        }
+      },
+      "queryPhraseHits": 1
+    },
+    {
+      "hash": "w4sPElPQmzeg",
+      "address": "https://www.hoy.es/",
+      "title": "HOY: Diario con noticias y última hora de Extremadura",
+      "snippet": "Los primeros refugiados climáticos de España: sus casas expropiadas por el alto riesgo de inundación\nDiez casas de Alcanar, Tarragona, serán incautadas y derribadas tras ser arrasadas por el agua en varias ocasiones. Hablamos con los primeros desplazados por el calentamiento global.\nDaniel Méndez",
+      "matchedWords": {
+        "LbmfwJj1NASK": {
+          "hits": 0,
+          "textWords": 3573
+        },
+        "XwLwiJMB_Xvh": {
+          "hits": 278,
+          "textWords": 3573
+        },
+        "_Bt8li-ASzdd": {
+          "hits": 3,
+          "textWords": 3573
         },
         "z9Ku3LqDZOuA": {
           "hits": 7,
-          "textWords": 4014
+          "textWords": 3573
+        }
+      },
+      "queryPhraseHits": 1
+    },
+    {
+      "hash": "zCCs7lo7s48g",
+      "address": "https://www.ideal.es/",
+      "title": "IDEAL | Periódico de las noticias de Granada",
+      "snippet": "Internacional\nSucesos\nLo más leído\n1. El mapa con el recorrido y todos los cortes de tráfico de La Vuelta en Granada\n2. Un emergente grupo de mensajería marroquí desembarca en el puerto de Motril\n3. Tres restaurantes de pueblo en Granada para comer y disfrutar de La Vuelta este sábado\n4.",
+      "matchedWords": {
+        "LbmfwJj1NASK": {
+          "hits": 0,
+          "textWords": 299
+        },
+        "XwLwiJMB_Xvh": {
+          "hits": 28,
+          "textWords": 299
+        },
+        "_Bt8li-ASzdd": {
+          "hits": 0,
+          "textWords": 299
+        },
+        "z9Ku3LqDZOuA": {
+          "hits": 0,
+          "textWords": 299
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "DrCEPl7Ocb95",
+      "address": "https://www.lavanguardia.com/",
+      "title": "Últimas noticias, actualidad y última hora en Catalunya, España y el mundo",
+      "snippet": "F1 GP de España, hoy en directo | Última hora desde el Madring, horarios, resultados y toda la actualidad\nDani Duch / Propias\nRoberto Rodríguez\nRoberto Rodríguez, Juan Bautista Martínez\nRoberto Rodríguez\nPublicidad\nMàrius Carol\nConsejero editorial\nRufián dispara la alarma",
+      "matchedWords": {
+        "LbmfwJj1NASK": {
+          "hits": 0,
+          "textWords": 1196
+        },
+        "XwLwiJMB_Xvh": {
+          "hits": 75,
+          "textWords": 1196
+        },
+        "_Bt8li-ASzdd": {
+          "hits": 1,
+          "textWords": 1196
+        },
+        "z9Ku3LqDZOuA": {
+          "hits": 0,
+          "textWords": 1196
+        }
+      },
+      "queryPhraseHits": 1
+    },
+    {
+      "hash": "BM6kIliVUugg",
+      "address": "https://www.laverdad.es/",
+      "title": "La Verdad - Noticias, actualidad y últimas noticias de Murcia",
+      "snippet": "La patronal amenaza con exigir indemnizaciones millonarias mientras tres grandes proyectos por 9.000 millones preparan alternativas fuera de España si el texto sale adelante\nJosé A. González\nFerrovial deja de cotizar en la Bolsa de Ámsterdam después de tres años",
+      "matchedWords": {
+        "LbmfwJj1NASK": {
+          "hits": 0,
+          "textWords": 3806
+        },
+        "XwLwiJMB_Xvh": {
+          "hits": 308,
+          "textWords": 3806
+        },
+        "_Bt8li-ASzdd": {
+          "hits": 7,
+          "textWords": 3806
+        },
+        "z9Ku3LqDZOuA": {
+          "hits": 3,
+          "textWords": 3806
+        }
+      },
+      "queryPhraseHits": 3
+    },
+    {
+      "hash": "Q9ZGalD5B4Sj",
+      "address": "https://www.elnortedecastilla.es/",
+      "title": "El Norte de Castilla - Noticias de Castilla y León desde 1854",
+      "snippet": "Roban un ángel del siglo XVII de uno de los altares de la Iglesia de la Vera Cruz y un cuadro en San Pablo\n4. Carmen Lomana, a punto de morir\n5. Programa de fiestas de Valladolid 2026. Viernes 11 de septiembre\n6. Suspendido el pregón de las fiestas por amenazas de la ultraderecha\n7.",
+      "matchedWords": {
+        "LbmfwJj1NASK": {
+          "hits": 0,
+          "textWords": 330
+        },
+        "XwLwiJMB_Xvh": {
+          "hits": 30,
+          "textWords": 330
+        },
+        "_Bt8li-ASzdd": {
+          "hits": 0,
+          "textWords": 330
+        },
+        "z9Ku3LqDZOuA": {
+          "hits": 0,
+          "textWords": 330
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "Dhuszsj70uyi",
+      "address": "https://cncompetencia.es/",
+      "title": "ℹ Revista CNCompetencia | Noticias del mundo ✔️",
+      "snippet": "Bitcoin (BTC) $ 77,311.00 0.73%\nEthereum (ETH) $ 2,531.46 3.21%\nTether (USDT) $ 0.999812 0.02%\nBNB (BNB) $ 736.78 3.7%\nXRP (XRP) $ 1.37 3.67%\nUSDC (USDC) $ 0.999867 0.01%\nSolana (SOL) $ 102.06 3.45%\nTRON (TRX) $ 0.340440 0.91%\nFigure Heloc (FIGR_HELOC) $ 1.02 1.78%\nZcash (ZEC) $ 1,154.19 5.87%",
+      "matchedWords": {
+        "LbmfwJj1NASK": {
+          "hits": 0,
+          "textWords": 47
+        },
+        "XwLwiJMB_Xvh": {
+          "hits": 0,
+          "textWords": 47
+        },
+        "_Bt8li-ASzdd": {
+          "hits": 0,
+          "textWords": 47
+        },
+        "z9Ku3LqDZOuA": {
+          "hits": 0,
+          "textWords": 47
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "JHfiCljMl7g4",
+      "address": "https://www.elcorreo.com/alava/",
+      "title": "EL CORREO - Diario con las últimas noticias, fotos y vídeos de Álava - Araba",
+      "snippet": "Los primeros refugiados climáticos de España: sus casas expropiadas por el alto riesgo de inundación\nDiez casas de Alcanar, Tarragona, serán incautadas y derribadas tras ser arrasadas por el agua en varias ocasiones. Hablamos con los primeros desplazados por el calentamiento global.\nDaniel Méndez",
+      "matchedWords": {
+        "LbmfwJj1NASK": {
+          "hits": 0,
+          "textWords": 3832
+        },
+        "XwLwiJMB_Xvh": {
+          "hits": 242,
+          "textWords": 3832
+        },
+        "_Bt8li-ASzdd": {
+          "hits": 5,
+          "textWords": 3832
+        },
+        "z9Ku3LqDZOuA": {
+          "hits": 5,
+          "textWords": 3832
+        }
+      },
+      "queryPhraseHits": 1
+    },
+    {
+      "hash": "UijGqltzWF35",
+      "address": "https://www.diariovasco.com/",
+      "title": "El Diario Vasco - Noticias de Donostia, San Sebastián y Gipuzkoa",
+      "snippet": "La pareja ganadora de 134 millones de euros en el Euromillones que ha donado la mitad de su fortuna en admiración a Dolly Parton\nOtras noticias\n1. El problema de Tatiana Kaer y Héctor Fort para encontrar casa de alquiler en San Sebastián: «La mayoría son vacacionales»\n2.",
+      "matchedWords": {
+        "LbmfwJj1NASK": {
+          "hits": 0,
+          "textWords": 183
+        },
+        "XwLwiJMB_Xvh": {
+          "hits": 15,
+          "textWords": 183
+        },
+        "_Bt8li-ASzdd": {
+          "hits": 0,
+          "textWords": 183
+        },
+        "z9Ku3LqDZOuA": {
+          "hits": 0,
+          "textWords": 183
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "DrCEPl7Ocb95",
+      "address": "https://www.lavanguardia.com/",
+      "title": "Últimas noticias, actualidad y última hora en Catalunya, España y el mundo",
+      "snippet": "F1 GP de España, hoy en directo | Última hora desde el Madring, horarios, resultados y toda la actualidad\nDani Duch / Propias\nRoberto Rodríguez\nRoberto Rodríguez, Juan Bautista Martínez\nRoberto Rodríguez\nPublicidad\nMàrius Carol\nConsejero editorial\nRufián dispara la alarma",
+      "matchedWords": {
+        "LbmfwJj1NASK": {
+          "hits": 0,
+          "textWords": 1196
+        },
+        "XwLwiJMB_Xvh": {
+          "hits": 75,
+          "textWords": 1196
+        },
+        "_Bt8li-ASzdd": {
+          "hits": 1,
+          "textWords": 1196
+        },
+        "z9Ku3LqDZOuA": {
+          "hits": 0,
+          "textWords": 1196
         }
       },
       "queryPhraseHits": 1
@@ -864,157 +2726,82 @@
       "hash": "JHfiCljMl7g4",
       "address": "https://www.elcorreo.com/alava/",
       "title": "EL CORREO - Diario con las últimas noticias, fotos y vídeos de Álava - Araba",
-      "snippet": "Rahm se asoma a la zona noble en Irlanda, donde su colega Lowry destroza el campo de Trump\nCarlos Nieto\nGP de España\nEl presidente de la FIA se moviliza para evitar el adiós de Alonso: «No podemos dejar que se vaya»\nJavier Varela",
+      "snippet": "Los primeros refugiados climáticos de España: sus casas expropiadas por el alto riesgo de inundación\nDiez casas de Alcanar, Tarragona, serán incautadas y derribadas tras ser arrasadas por el agua en varias ocasiones. Hablamos con los primeros desplazados por el calentamiento global.\nDaniel Méndez",
       "matchedWords": {
         "LbmfwJj1NASK": {
           "hits": 0,
-          "textWords": 3784
+          "textWords": 3832
         },
         "XwLwiJMB_Xvh": {
-          "hits": 233,
-          "textWords": 3784
+          "hits": 242,
+          "textWords": 3832
         },
         "_Bt8li-ASzdd": {
-          "hits": 4,
-          "textWords": 3784
+          "hits": 5,
+          "textWords": 3832
         },
         "z9Ku3LqDZOuA": {
-          "hits": 4,
-          "textWords": 3784
+          "hits": 5,
+          "textWords": 3832
         }
       },
-      "queryPhraseHits": 2
+      "queryPhraseHits": 1
     },
     {
-      "hash": "uHVM5lzD8ru5",
-      "address": "https://www.admagazine.com/",
-      "title": "Architectural Digest México y Latinoamérica | Architectural Digest",
-      "snippet": "AD es una ventana en constante actualización al mundo del diseño, la decoración, la arquitectura y el arte, nuevas direcciones y destinos, nombres y lanzamientos.",
+      "hash": "JALAPlFZc5Lg",
+      "address": "https://www.elmundo.es/andalucia.html",
+      "title": "Andalucía - Noticias de Andalucía | EL MUNDO",
+      "snippet": "De conformidad con lo previsto en el artículo 67.3 del Real Decreto - ley 24/2021, de 2 de noviembre, la reproducción y utilización de las obras y otras prestaciones disponibles en este portal web mediante técnicas de minería de textos y datos, u otros procedimientos automatizados de extracción de",
       "matchedWords": {
         "LbmfwJj1NASK": {
           "hits": 0,
-          "textWords": 49
+          "textWords": 76
         },
         "XwLwiJMB_Xvh": {
-          "hits": 0,
-          "textWords": 49
+          "hits": 9,
+          "textWords": 76
         },
         "_Bt8li-ASzdd": {
           "hits": 0,
-          "textWords": 49
+          "textWords": 76
         },
         "z9Ku3LqDZOuA": {
           "hits": 0,
-          "textWords": 49
+          "textWords": 76
         }
       },
       "queryPhraseHits": 0
     },
     {
-      "hash": "Q9ZGalD5B4Sj",
-      "address": "https://www.elnortedecastilla.es/",
-      "title": "El Norte de Castilla - Noticias de Castilla y León desde 1854",
-      "snippet": "Aznar invita a ETA a reanudar los contactos de forma inmediata\nEl cronista\nSimulacro de invasión de España en tierras vallisoletanas\nAquel escenario ficticio de guerra, ensayado por el Ejército hace 55 años, estuvo presidido por el príncipe Juan Carlos\nEnrique Berzal",
+      "hash": "rSvKAlfulRxi",
+      "address": "https://www.huffingtonpost.es/",
+      "title": "El HuffPost: Última hora, noticias y opinión en español",
+      "snippet": "PRISA MEDIA, S.A.U. ejerce la oposición expresa frente al uso de sus obras y prestaciones en la elaboración de revistas de prensa prevista en el artículo 32.1 del TRLPI; también realiza la reserva expresa frente a la reproducción, distribución y comunicación pública de sus trabajos y artículos",
       "matchedWords": {
         "LbmfwJj1NASK": {
           "hits": 0,
-          "textWords": 3970
+          "textWords": 105
         },
         "XwLwiJMB_Xvh": {
-          "hits": 284,
-          "textWords": 3970
-        },
-        "_Bt8li-ASzdd": {
-          "hits": 2,
-          "textWords": 3970
-        },
-        "z9Ku3LqDZOuA": {
-          "hits": 4,
-          "textWords": 3970
-        }
-      },
-      "queryPhraseHits": 1
-    },
-    {
-      "hash": "uK5b6ljMl7g4",
-      "address": "https://www.elcorreo.com/",
-      "title": "EL CORREO - Diario con las últimas noticias, fotos y vídeos de Bizkaia",
-      "snippet": "La patronal amenaza con exigir indemnizaciones millonarias mientras tres grandes proyectos por 9.000 millones preparan alternativas fuera de España si el texto sale adelante\nJosé A. González\nCultura\nSan Telmo expone una serie de collages de Isabel Coixet",
-      "matchedWords": {
-        "LbmfwJj1NASK": {
-          "hits": 0,
-          "textWords": 4014
-        },
-        "XwLwiJMB_Xvh": {
-          "hits": 249,
-          "textWords": 4014
-        },
-        "_Bt8li-ASzdd": {
-          "hits": 2,
-          "textWords": 4014
-        },
-        "z9Ku3LqDZOuA": {
-          "hits": 7,
-          "textWords": 4014
-        }
-      },
-      "queryPhraseHits": 1
-    },
-    {
-      "hash": "zCCs7lo7s48g",
-      "address": "https://www.ideal.es/",
-      "title": "IDEAL | Periódico de las noticias de Granada",
-      "snippet": "La deriva de la propiedad del Granada CF, el grupo chino DDMC, en una situación financiera crítica\n4. Subidón térmico en Granada: una 'cresta africana' traerá de vuelta el calor desde este día\n5. Los cambios en las líneas de autobús de Granada por la llegada de La Vuelta\n6.",
-      "matchedWords": {
-        "LbmfwJj1NASK": {
-          "hits": 0,
-          "textWords": 378
-        },
-        "XwLwiJMB_Xvh": {
-          "hits": 33,
-          "textWords": 378
+          "hits": 11,
+          "textWords": 105
         },
         "_Bt8li-ASzdd": {
           "hits": 0,
-          "textWords": 378
+          "textWords": 105
         },
         "z9Ku3LqDZOuA": {
           "hits": 0,
-          "textWords": 378
+          "textWords": 105
         }
       },
       "queryPhraseHits": 0
-    },
-    {
-      "hash": "uK5b6ljMl7g4",
-      "address": "https://www.elcorreo.com/",
-      "title": "EL CORREO - Diario con las últimas noticias, fotos y vídeos de Bizkaia",
-      "snippet": "La patronal amenaza con exigir indemnizaciones millonarias mientras tres grandes proyectos por 9.000 millones preparan alternativas fuera de España si el texto sale adelante\nJosé A. González\nCultura\nSan Telmo expone una serie de collages de Isabel Coixet",
-      "matchedWords": {
-        "LbmfwJj1NASK": {
-          "hits": 0,
-          "textWords": 4014
-        },
-        "XwLwiJMB_Xvh": {
-          "hits": 249,
-          "textWords": 4014
-        },
-        "_Bt8li-ASzdd": {
-          "hits": 2,
-          "textWords": 4014
-        },
-        "z9Ku3LqDZOuA": {
-          "hits": 7,
-          "textWords": 4014
-        }
-      },
-      "queryPhraseHits": 1
     }
   ],
   "documentsHeldPerQueryWord": {
-    "LbmfwJj1NASK": 2519,
-    "XwLwiJMB_Xvh": 768264,
-    "_Bt8li-ASzdd": 51997,
-    "z9Ku3LqDZOuA": 39851
+    "LbmfwJj1NASK": 2622,
+    "XwLwiJMB_Xvh": 736041,
+    "_Bt8li-ASzdd": 75621,
+    "z9Ku3LqDZOuA": 37882
   }
 }

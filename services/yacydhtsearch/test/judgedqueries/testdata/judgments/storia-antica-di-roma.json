@@ -2,10 +2,40 @@
   "query": "storia antica di roma",
   "judgedDocuments": [
     {
-      "hash": "LSZQb4XlMkDx",
-      "address": "https://scn.wikipedia.org/wiki/P%C3%A0ggina_principali",
-      "title": "Wikipedia",
-      "grade": 0
+      "hash": "USKWwlXkSvhh",
+      "address": "https://www.museoetru.it/natale-di-roma-alletru",
+      "title": "Natale di Roma all'ETRU",
+      "grade": null
+    },
+    {
+      "hash": "4A8q_jRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Sardinian_language",
+      "title": "Sardinian language - Wikipedia",
+      "grade": null
+    },
+    {
+      "hash": "N0XpalKaKudg",
+      "address": "https://www.corriere.it/cronache/",
+      "title": "Cronaca: ultime notizie | Corriere.it",
+      "grade": null
+    },
+    {
+      "hash": "ez0sfOnsHw9g",
+      "address": "https://www.treccani.it/enciclopedia/citta/",
+      "title": "Città - Enciclopedia - Treccani",
+      "grade": null
+    },
+    {
+      "hash": "Ry_AV6QzbYgx",
+      "address": "https://wikisource.org/wiki/Histoire_des_Alpes_-_Storia_delle_Alpi_-_Geschichte_der_Alpen_(2009)/06",
+      "title": "Histoire des Alpes - Storia delle Alpi - Geschichte der Alpen (2009)/06 - Wikisource",
+      "grade": null
+    },
+    {
+      "hash": "oDA_QjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Rome",
+      "title": "Rome - Wikipedia",
+      "grade": 1
     },
     {
       "hash": "DMqpejRvmBbx",
@@ -20,10 +50,64 @@
       "grade": 0
     },
     {
+      "hash": "3qR3VlJvRLZi",
+      "address": "https://www.fondazionecsc.it/",
+      "title": "Centro Sperimentale di Cinematografia",
+      "grade": null
+    },
+    {
       "hash": "u51StlKaKudg",
       "address": "https://www.corriere.it/",
       "title": "Corriere della Sera: News e Ultime notizie in tempo reale da Italia e Mondo",
       "grade": 0
+    },
+    {
+      "hash": "-Ce7JlKaKudg",
+      "address": "https://www.corriere.it/pianeta2030/",
+      "title": "Pianeta 2030: sviluppo sostenibile, emissioni zero e decarbonizzazione | Corriere.it",
+      "grade": null
+    },
+    {
+      "hash": "QembcgM-i-mx",
+      "address": "https://it.wikipedia.org/wiki/Pagina_principale",
+      "title": "Wikipedia, l'enciclopedia libera",
+      "grade": null
+    },
+    {
+      "hash": "hTGmVgM-i-mx",
+      "address": "https://it.wikipedia.org/wiki/Stati_Uniti_d%27America",
+      "title": "Stati Uniti d'America - Wikipedia",
+      "grade": null
+    },
+    {
+      "hash": "lkc_AgM-i-mx",
+      "address": "https://it.wikipedia.org/wiki/Wikipedia:Vetrina",
+      "title": "Wikipedia:Vetrina - Wikipedia",
+      "grade": null
+    },
+    {
+      "hash": "4rAMcgM-i-mx",
+      "address": "https://it.wikipedia.org/wiki/New_York",
+      "title": "New York - Wikipedia",
+      "grade": null
+    },
+    {
+      "hash": "DQ7SSjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Milan",
+      "title": "Milan - Wikipedia",
+      "grade": null
+    },
+    {
+      "hash": "aNXsMlTJlRKg",
+      "address": "https://www.gazzetta.it/",
+      "title": "La Gazzetta dello Sport | Notizie sportive e risultati live di oggi",
+      "grade": null
+    },
+    {
+      "hash": "OjKysCUBTaLg",
+      "address": "https://corrieredelveneto.corriere.it/vicenza/",
+      "title": "Vicenza: le ultime news dalla città | Corriere del Veneto",
+      "grade": null
     },
     {
       "hash": "78UBwCUBTaLg",
@@ -32,10 +116,76 @@
       "grade": 0
     },
     {
+      "hash": "LSZQb4XlMkDx",
+      "address": "https://scn.wikipedia.org/wiki/P%C3%A0ggina_principali",
+      "title": "Wikipedia",
+      "grade": 0
+    },
+    {
       "hash": "-exk2lgMr6jg",
       "address": "https://www.vogue.it/",
       "title": "Vogue Italia: Moda, Bellezza, Lifestyle, News - Vogue | Vogue Italia",
       "grade": 0
+    },
+    {
+      "hash": "FFhNJdKaKudg",
+      "address": "https://www.corriere.it/cook/news/",
+      "title": "News dal mondo della cucina: eventi, chef e storie | Cook Corriere",
+      "grade": null
+    },
+    {
+      "hash": "cVrPCOnsHw9g",
+      "address": "https://www.treccani.it/enciclopedia/iran/",
+      "title": "Iran - Enciclopedia - Treccani",
+      "grade": null
+    },
+    {
+      "hash": "1nX0KOnsHw9g",
+      "address": "https://www.treccani.it/enciclopedia/servizio/",
+      "title": "Servizio - Enciclopedia - Treccani",
+      "grade": null
+    },
+    {
+      "hash": "08AdJwUl8GVi",
+      "address": "https://www.radioradicale.it/scheda/666252/intervista-a-iolanda-pensa-presidente-di-wikimedia-italia-sul-ruolo-e-le-funzioni",
+      "title": "Intervista a Iolanda Pensa, Presidente di Wikimedia Italia, sul ruolo e le funzioni della sua Associazione (20.04.2022)",
+      "grade": null
+    },
+    {
+      "hash": "oW9I5lKaKudg",
+      "address": "https://www.corriere.it/le-lezioni-del-corriere/",
+      "title": "Le lezioni del Corriere - Corriere.it",
+      "grade": null
+    },
+    {
+      "hash": "piXx7iLvzJ3h",
+      "address": "https://firenze.repubblica.it/",
+      "title": "Cronaca di Firenze notizie e approfondimenti: Repubblica.it",
+      "grade": null
+    },
+    {
+      "hash": "1XpT_gM-i-mx",
+      "address": "https://it.wikipedia.org/wiki/Stati_Uniti_d'America",
+      "title": "Stati Uniti d'America - Wikipedia",
+      "grade": null
+    },
+    {
+      "hash": "fZvullQKCY-j",
+      "address": "https://www.nationalgeographic.it/",
+      "title": "National Geographic",
+      "grade": null
+    },
+    {
+      "hash": "D8BHPKdFiFbh",
+      "address": "https://roma.repubblica.it/",
+      "title": "Cronaca di Roma: notizie e approfondimenti - Repubblica.it",
+      "grade": null
+    },
+    {
+      "hash": "TlIKolsozXdh",
+      "address": "https://www.repubblica.it/viaggi/",
+      "title": "Viaggi - la Repubblica",
+      "grade": null
     },
     {
       "hash": "rJHmYlsozXdh",
@@ -56,10 +206,94 @@
       "grade": 1
     },
     {
-      "hash": "oDA_QjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Rome",
-      "title": "Rome - Wikipedia",
-      "grade": 1
+      "hash": "N4vc0OnsHw9g",
+      "address": "https://www.treccani.it/enciclopedia/italia/",
+      "title": "Italia - Enciclopedia - Treccani",
+      "grade": null
+    },
+    {
+      "hash": "2j7WUOnsHw9g",
+      "address": "https://www.treccani.it/enciclopedia/francia/",
+      "title": "Francia - Enciclopedia - Treccani",
+      "grade": null
+    },
+    {
+      "hash": "RS7KyVHZCzyg",
+      "address": "https://corrieredibologna.corriere.it/cultura-e-tempo-libero/",
+      "title": "Notizie di spettacoli e cultura dalla città | Corriere di Bologna",
+      "grade": null
+    },
+    {
+      "hash": "KlXnAjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Turin",
+      "title": "Turin - Wikipedia",
+      "grade": null
+    },
+    {
+      "hash": "SLM2POnsHw9g",
+      "address": "https://www.treccani.it/enciclopedia/gesu-cristo/",
+      "title": "Gesù cristo - Enciclopedia - Treccani",
+      "grade": null
+    },
+    {
+      "hash": "8t3fLOnsHw9g",
+      "address": "https://www.treccani.it/enciclopedia/dionigi-il-piccolo_(Dizionario-Biografico)/",
+      "title": "Dionigi il piccolo - Enciclopedia - Treccani",
+      "grade": null
+    },
+    {
+      "hash": "E4tlUOnsHw9g",
+      "address": "https://www.treccani.it/enciclopedia/europa/",
+      "title": "Europa - Enciclopedia - Treccani",
+      "grade": null
+    },
+    {
+      "hash": "edV5Kopg4UCw",
+      "address": "https://www.wikidata.org/wiki/Q1747689",
+      "title": "Ancient Rome - Wikidata",
+      "grade": null
+    },
+    {
+      "hash": "y3dJvopg4UCw",
+      "address": "https://www.wikidata.org/wiki/Wikidata:Gruppo_Wikidata_per_Musei,_Archivi_e_Biblioteche",
+      "title": "Wikidata:Gruppo Wikidata per Musei, Archivi e Biblioteche - Wikidata",
+      "grade": null
+    },
+    {
+      "hash": "PtN8BwJFE1zi",
+      "address": "https://www.lacucinaitaliana.it/article/la-cucina-del-mercato-da-paul-bocuse-di-50-anni-fa-a-oggi/",
+      "title": "Cucina del mercato: da Paul Bocuse di 50 anni fa a oggi | La Cucina Italiana",
+      "grade": null
+    },
+    {
+      "hash": "y1DuMOnsHw9g",
+      "address": "https://www.treccani.it/enciclopedia/baldassarre-castiglione_(Enciclopedia-dell'Italiano)/",
+      "title": "Castiglione, Baldassarre - Enciclopedia - Treccani",
+      "grade": null
+    },
+    {
+      "hash": "ymeI3jRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Illyrian_religion",
+      "title": "Illyrian religion - Wikipedia",
+      "grade": null
+    },
+    {
+      "hash": "b2fd4OnsHw9g",
+      "address": "https://www.treccani.it/enciclopedia/lucio-anneo-seneca/",
+      "title": "Sèneca, Lucio Anneo - Enciclopedia - Treccani",
+      "grade": null
+    },
+    {
+      "hash": "dSp7KgM-i-mx",
+      "address": "https://it.wikipedia.org/wiki/Germania_nazista",
+      "title": "Germania nazista - Wikipedia",
+      "grade": null
+    },
+    {
+      "hash": "1JsO8koYEQXx",
+      "address": "https://vi.wikipedia.org/wiki/Roma",
+      "title": "Roma – Wikipedia tiếng Việt",
+      "grade": null
     }
   ]
 }

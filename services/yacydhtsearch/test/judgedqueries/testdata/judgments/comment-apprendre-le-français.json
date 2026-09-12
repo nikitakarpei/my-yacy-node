@@ -2,22 +2,16 @@
   "query": "comment apprendre le français",
   "judgedDocuments": [
     {
-      "hash": "ZpE4QNqCHL24",
-      "address": "https://grow.google/intl/fr_fr/",
-      "title": "Google Ateliers Numériques - Développez votre activité commerciale",
-      "grade": 0
-    },
-    {
-      "hash": "xyZbBs46lit6",
-      "address": "https://smoothstoneblog.com/",
-      "title": "Votre fenêtre sur le monde",
-      "grade": 0
-    },
-    {
       "hash": "smyaiTKCIhSg",
       "address": "https://madame.lefigaro.fr/",
       "title": "Mode, Beauté, Recettes, Société, Horoscope, Célébrités",
       "grade": 0
+    },
+    {
+      "hash": "eLm376G-ATF4",
+      "address": "https://podcasts.apple.com/sn/new",
+      "title": "Apple Podcasts (SN) - Web Player",
+      "grade": null
     },
     {
       "hash": "trfUglB_OP8y",
@@ -26,15 +20,15 @@
       "grade": 0
     },
     {
-      "hash": "yJD_dkiwa444",
-      "address": "https://apps.apple.com/fr/iphone/today",
-      "title": "‎Aujourd’hui sur iPhone - App Store",
-      "grade": 0
-    },
-    {
       "hash": "1y2xelUnydmg",
       "address": "https://www.lemonde.fr/",
       "title": "Le Monde.fr - Actualités et Infos en France et dans le monde",
+      "grade": 0
+    },
+    {
+      "hash": "yJD_dkiwa444",
+      "address": "https://apps.apple.com/fr/iphone/today",
+      "title": "‎Aujourd’hui sur iPhone - App Store",
       "grade": 0
     },
     {
@@ -86,24 +80,6 @@
       "grade": 0
     },
     {
-      "hash": "_2_ROlIi4Mlh",
-      "address": "https://www.franceinfo.fr/",
-      "title": "franceinfo - Actualités en temps réel et info en direct",
-      "grade": 0
-    },
-    {
-      "hash": "f7EzzcKIzUTx",
-      "address": "https://fr.wikibooks.org/wiki/Accueil",
-      "title": "Wikilivres",
-      "grade": 0
-    },
-    {
-      "hash": "ENWQgshj4a55",
-      "address": "https://sachachua.com/blog/",
-      "title": "Home :: Sacha Chua",
-      "grade": 0
-    },
-    {
       "hash": "k-cCzHiwa444",
       "address": "https://apps.apple.com/ga/iphone/today",
       "title": "‎Aujourd’hui sur iPhone - App Store",
@@ -122,21 +98,51 @@
       "grade": 0
     },
     {
-      "hash": "jMxNQ8moJZfA",
-      "address": "http://junior.senat.fr/accueil.html",
-      "title": "Sénat Junior - Accueil",
-      "grade": 0
-    },
-    {
-      "hash": "wCTWHcw63Csx",
-      "address": "https://fr.wikipedia.org/wiki/Wikip%C3%A9dia:V%C3%A9rifiabilit%C3%A9",
-      "title": "Wikipédia:Vérifiabilité — Wikipédia",
-      "grade": 0
+      "hash": "qiJRj7o1FmmR",
+      "address": "http://gutenberg.ca/index.html",
+      "title": "Project Gutenberg Canada / Projet Gutenberg Canada",
+      "grade": null
     },
     {
       "hash": "Z-duvlzvQPgh",
       "address": "https://www.radiofrance.fr/franceinter",
       "title": "France Inter – Première radio d'actualité généraliste et culturelle",
+      "grade": 0
+    },
+    {
+      "hash": "xyZbBs46lit6",
+      "address": "https://smoothstoneblog.com/",
+      "title": "Votre fenêtre sur le monde",
+      "grade": 0
+    },
+    {
+      "hash": "CQ0EJC8hxo35",
+      "address": "https://www.microsoft.com/fr-fr/power-platform",
+      "title": "Outils de développement basés sur l’IA | Microsoft Power Platform",
+      "grade": 0
+    },
+    {
+      "hash": "tfmiUfG-ATF4",
+      "address": "https://podcasts.apple.com/cm/new",
+      "title": "Apple Podcasts (CM) - Lecteur web",
+      "grade": 0
+    },
+    {
+      "hash": "1vsGBvG-ATF4",
+      "address": "https://podcasts.apple.com/ai/new",
+      "title": "Apple Podcasts (AI) - Web Player",
+      "grade": 0
+    },
+    {
+      "hash": "Vl6aQlNGLHz5",
+      "address": "https://www.salesforce.com/fr-ca/?bc=DF",
+      "title": "Salesforce, le CRM n° 1 intégrant l’IA agentique | Salesforce FR-CA",
+      "grade": null
+    },
+    {
+      "hash": "LqhCmlxSD0j4",
+      "address": "https://www.bbc.com/afrique",
+      "title": "Accueil - BBC News Afrique",
       "grade": 0
     },
     {
@@ -170,33 +176,21 @@
       "grade": 0
     },
     {
-      "hash": "CQ0EJC8hxo35",
-      "address": "https://www.microsoft.com/fr-fr/power-platform",
-      "title": "Outils de développement basés sur l’IA | Microsoft Power Platform",
-      "grade": 0
+      "hash": "WwjbDlQBeBug",
+      "address": "https://www.webador.fr/contact",
+      "title": "Contactez-nous | Webador.fr",
+      "grade": null
     },
     {
-      "hash": "2XYE4C8hxo35",
-      "address": "https://www.microsoft.com/fr-fr/education?icid=CNavMSCOML0_Studentsandeducation",
-      "title": "Solutions de technologies éducatives avec l’IA | Microsoft Education",
-      "grade": 0
+      "hash": "zXDrWsUJQ2S4",
+      "address": "https://crypto.com/fr-fr",
+      "title": "Crypto.com France : Achetez, vendez et tradez des cryptos en confiance",
+      "grade": null
     },
     {
-      "hash": "tfmiUfG-ATF4",
-      "address": "https://podcasts.apple.com/cm/new",
-      "title": "Apple Podcasts (CM) - Lecteur web",
-      "grade": 0
-    },
-    {
-      "hash": "1vsGBvG-ATF4",
-      "address": "https://podcasts.apple.com/ai/new",
-      "title": "Apple Podcasts (AI) - Web Player",
-      "grade": 0
-    },
-    {
-      "hash": "LqhCmlxSD0j4",
-      "address": "https://www.bbc.com/afrique",
-      "title": "Accueil - BBC News Afrique",
+      "hash": "vAun5lZ8Ljq5",
+      "address": "https://www.nouvelobs.com/depeche/",
+      "title": "Actualité en direct et en continu sur Le Nouvel Obs",
       "grade": 0
     },
     {
@@ -218,18 +212,6 @@
       "grade": 0
     },
     {
-      "hash": "vAun5lZ8Ljq5",
-      "address": "https://www.nouvelobs.com/depeche/",
-      "title": "Actualité en direct et en continu sur Le Nouvel Obs",
-      "grade": 0
-    },
-    {
-      "hash": "XH4WqzxYdD3g",
-      "address": "https://www.ecb.europa.eu/ecb-and-you/explainers/html/monetary_policy.fr.html",
-      "title": "Deep dive into the ECB: 2. Monetary policy",
-      "grade": 0
-    },
-    {
       "hash": "t3TqPHHSPPD5",
       "address": "https://actualitte.com/article/128765/scolarite/ce-que-le-recul-de-l-ecriture-manuscrite-dit-des-inquietudes-educatives",
       "title": "Ce que le recul de l’écriture manuscrite dit des inquiétudes éducatives",
@@ -242,16 +224,28 @@
       "grade": 0
     },
     {
-      "hash": "mcNJwdKCIhSg",
-      "address": "https://madame.lefigaro.fr/celebrites/actu-people/de-jeune-mannequin-a-grande-actrice-comment-melanie-thierry-a-debute-a-13-ans-20260727",
-      "title": "De jeune mannequin à grande actrice : comment Mélanie Thierry a débuté à 13 ans",
+      "hash": "XH4WqzxYdD3g",
+      "address": "https://www.ecb.europa.eu/ecb-and-you/explainers/html/monetary_policy.fr.html",
+      "title": "Deep dive into the ECB: 2. Monetary policy",
       "grade": 0
     },
     {
-      "hash": "XX4sdlMT2ldg",
-      "address": "https://www.lexpress.fr/entrepreneurs/",
-      "title": "Entrepreneurs - Actualités et Conseils - L'Express",
-      "grade": 0
+      "hash": "wjNTVfxYdD3g",
+      "address": "https://www.ecb.europa.eu/ecb/legal/faqs/html/index.fr.html",
+      "title": "EUR-Lex – Questions fréquemment posées",
+      "grade": null
+    },
+    {
+      "hash": "0Y1u-cG-ATF4",
+      "address": "https://podcasts.apple.com/sc/new",
+      "title": "Apple Podcasts (SC) - Web Player",
+      "grade": null
+    },
+    {
+      "hash": "3xsZblqSWIh4",
+      "address": "https://www.be.com/",
+      "title": "Be Magazine : mode, sexo, tendance et beauté - Magazine féminin",
+      "grade": null
     },
     {
       "hash": "Qd1tkyV8T0Eg",
@@ -260,9 +254,9 @@
       "grade": 0
     },
     {
-      "hash": "aO3_Byuvyo1w",
-      "address": "https://remacle.org/bloodwolf/philosophes/Ciceron/fato.htm",
-      "title": "Cicéron : du destin - de fato (bilingue)",
+      "hash": "mcNJwdKCIhSg",
+      "address": "https://madame.lefigaro.fr/celebrites/actu-people/de-jeune-mannequin-a-grande-actrice-comment-melanie-thierry-a-debute-a-13-ans-20260727",
+      "title": "De jeune mannequin à grande actrice : comment Mélanie Thierry a débuté à 13 ans",
       "grade": 0
     }
   ]

@@ -1,29 +1,161 @@
 {
   "query": "storia antica di roma",
-  "recordedAt": "2026-09-12T10:15:31Z",
+  "recordedAt": "2026-09-12T11:25:37Z",
   "itemsInTheOrderOfEachAnswer": [
     [
       {
-        "hash": "LSZQb4XlMkDx",
-        "address": "https://scn.wikipedia.org/wiki/P%C3%A0ggina_principali",
-        "title": "Wikipedia",
-        "snippet": "N’autra diffirenza è ntê tilara cu’ suspinsioni spissu prisenti ntê mudelli cchiù prufissiunali. ... leggi tuttu l'artìculu.\nNtâ storia\nWikipedia ntî àutri lingui\nPruggetti frati\nWikipedia\nSalutamu.",
+        "hash": "USKWwlXkSvhh",
+        "address": "https://www.museoetru.it/natale-di-roma-alletru",
+        "title": "Natale di Roma all'ETRU",
+        "snippet": "Giuseppe Barbera, presidente associazione tradizionale Pietas (nata per approfondire particolari aspetti storici, archeologici, giuridici, economici e filosofici della Roma Antica), Valerio Bello Presidente associazione AUGUSTUS CAESAR PRAETORIA, che collabora con il Gruppo Storico Romano,",
         "matchedWords": {
           "BicNylYz9lUP": {
+            "hits": 2,
+            "textWords": 317
+          },
+          "LpLRiNvb2I58": {
+            "hits": 8,
+            "textWords": 317
+          },
+          "lSiJB7EZGxtR": {
             "hits": 1,
-            "textWords": 314
+            "textWords": 317
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "4A8q_jRvmBbx",
+        "address": "https://en.wikipedia.org/wiki/Sardinian_language",
+        "title": "Sardinian language - Wikipedia",
+        "snippet": "\"Genomic history of the Sardinian population\". Nature Genetics. 50 (10): 1426–1434. doi:10.1038/s41588-018-0215-8. PMC 6168346. PMID 30224645.\n↑ Attilio Mastino (2005). Storia della Sardegna antica. Edizioni Il Maestrale. p. 307. ISBN 88-86109-98-9.\n↑ Bereznay, András (2011).",
+        "matchedWords": {
+          "BicNylYz9lUP": {
+            "hits": 60,
+            "textWords": 41137
+          },
+          "LpLRiNvb2I58": {
+            "hits": 4,
+            "textWords": 41137
+          },
+          "lSiJB7EZGxtR": {
+            "hits": 7,
+            "textWords": 41137
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "N0XpalKaKudg",
+        "address": "https://www.corriere.it/cronache/",
+        "title": "Cronaca: ultime notizie | Corriere.it",
+        "snippet": "Chi Siamo | Dichiarazione di accessibilità\nAbbonati a Corriere della Sera | Gazzetta | El Mundo | Marca | RCS Mediagroup | Fondazione Corriere | Fondazione Cutuli | Quimamme | OFFERTE CORRIERE STORE | Buonpertutti |",
+        "matchedWords": {
+          "BicNylYz9lUP": {
+            "hits": 0,
+            "textWords": 130
           },
           "LpLRiNvb2I58": {
             "hits": 0,
-            "textWords": 314
-          },
-          "aQOC3cy4q8c2": {
-            "hits": 0,
-            "textWords": 314
+            "textWords": 130
           },
           "lSiJB7EZGxtR": {
             "hits": 0,
-            "textWords": 314
+            "textWords": 130
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "ez0sfOnsHw9g",
+        "address": "https://www.treccani.it/enciclopedia/citta/",
+        "title": "Città - Enciclopedia - Treccani",
+        "snippet": "Nell’ambito geografico mediterraneo e vicino-orientale lo sviluppo urbano fu particolarmente significativo e diede luogo alla originale proliferazione delle póleis, le c.-stato, tipiche soprattutto dell’antica Grecia, ma presenti anche in altri paesi dell’area suddetta, in alcuni dei quali, anzi,",
+        "matchedWords": {
+          "BicNylYz9lUP": {
+            "hits": 1,
+            "textWords": 3914
+          },
+          "LpLRiNvb2I58": {
+            "hits": 5,
+            "textWords": 3914
+          },
+          "lSiJB7EZGxtR": {
+            "hits": 8,
+            "textWords": 3914
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "Ry_AV6QzbYgx",
+        "address": "https://wikisource.org/wiki/Histoire_des_Alpes_-_Storia_delle_Alpi_-_Geschichte_der_Alpen_(2009)/06",
+        "title": "Histoire des Alpes - Storia delle Alpi - Geschichte der Alpen (2009)/06 - Wikisource",
+        "snippet": "67.\n5 G. Tore, «Malattia ed economia», in: Centro italiano di storia ospitaliera CISO (a cura di), Storia della sanità in Italia, Roma 1978, pp. 61-66; R. Villa, «Antropologia della miseria e del lavoro: aspetti dell’analisi medico-antropologica di fronte alle classi subalterne», in: M. L.",
+        "matchedWords": {
+          "BicNylYz9lUP": {
+            "hits": 5,
+            "textWords": 5110
+          },
+          "LpLRiNvb2I58": {
+            "hits": 8,
+            "textWords": 5110
+          },
+          "lSiJB7EZGxtR": {
+            "hits": 1,
+            "textWords": 5110
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "Ry_AV6QzbYgx",
+        "address": "https://wikisource.org/wiki/Histoire_des_Alpes_-_Storia_delle_Alpi_-_Geschichte_der_Alpen_(2009)/06",
+        "title": "Histoire des Alpes - Storia delle Alpi - Geschichte der Alpen (2009)/06 - Wikisource",
+        "snippet": "67.\n5 G. Tore, «Malattia ed economia», in: Centro italiano di storia ospitaliera CISO (a cura di), Storia della sanità in Italia, Roma 1978, pp. 61-66; R. Villa, «Antropologia della miseria e del lavoro: aspetti dell’analisi medico-antropologica di fronte alle classi subalterne», in: M. L.",
+        "matchedWords": {
+          "BicNylYz9lUP": {
+            "hits": 5,
+            "textWords": 5110
+          },
+          "LpLRiNvb2I58": {
+            "hits": 8,
+            "textWords": 5110
+          },
+          "lSiJB7EZGxtR": {
+            "hits": 1,
+            "textWords": 5110
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "oDA_QjRvmBbx",
+        "address": "https://en.wikipedia.org/wiki/Rome",
+        "title": "Rome - Wikipedia",
+        "snippet": "↑ \"World Map of Köppen−Geiger Climate Classification\". Archived from the original on 6 September 2010.\n↑ \"Storia della neve a Roma\". Archived from the original on 27 July 2013. Retrieved 2 October 2014.\n↑ \"Snow startles Rome on Europe's coldest day of the winter\". The Mercury News.",
+        "matchedWords": {
+          "BicNylYz9lUP": {
+            "hits": 2,
+            "textWords": 19872
+          },
+          "LpLRiNvb2I58": {
+            "hits": 59,
+            "textWords": 19872
+          },
+          "lSiJB7EZGxtR": {
+            "hits": 0,
+            "textWords": 19872
           }
         },
         "queryPhraseHits": 0
@@ -38,19 +170,61 @@
         "matchedWords": {
           "BicNylYz9lUP": {
             "hits": 1,
-            "textWords": 28208
+            "textWords": 28252
           },
           "LpLRiNvb2I58": {
             "hits": 0,
-            "textWords": 28208
-          },
-          "aQOC3cy4q8c2": {
-            "hits": 0,
-            "textWords": 28208
+            "textWords": 28252
           },
           "lSiJB7EZGxtR": {
             "hits": 1,
-            "textWords": 28208
+            "textWords": 28252
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "Ry_AV6QzbYgx",
+        "address": "https://wikisource.org/wiki/Histoire_des_Alpes_-_Storia_delle_Alpi_-_Geschichte_der_Alpen_(2009)/06",
+        "title": "Histoire des Alpes - Storia delle Alpi - Geschichte der Alpen (2009)/06 - Wikisource",
+        "snippet": "67.\n5 G. Tore, «Malattia ed economia», in: Centro italiano di storia ospitaliera CISO (a cura di), Storia della sanità in Italia, Roma 1978, pp. 61-66; R. Villa, «Antropologia della miseria e del lavoro: aspetti dell’analisi medico-antropologica di fronte alle classi subalterne», in: M. L.",
+        "matchedWords": {
+          "BicNylYz9lUP": {
+            "hits": 5,
+            "textWords": 5110
+          },
+          "LpLRiNvb2I58": {
+            "hits": 8,
+            "textWords": 5110
+          },
+          "lSiJB7EZGxtR": {
+            "hits": 1,
+            "textWords": 5110
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "4A8q_jRvmBbx",
+        "address": "https://en.wikipedia.org/wiki/Sardinian_language",
+        "title": "Sardinian language - Wikipedia",
+        "snippet": "\"Genomic history of the Sardinian population\". Nature Genetics. 50 (10): 1426–1434. doi:10.1038/s41588-018-0215-8. PMC 6168346. PMID 30224645.\n↑ Attilio Mastino (2005). Storia della Sardegna antica. Edizioni Il Maestrale. p. 307. ISBN 88-86109-98-9.\n↑ Bereznay, András (2011).",
+        "matchedWords": {
+          "BicNylYz9lUP": {
+            "hits": 60,
+            "textWords": 41137
+          },
+          "LpLRiNvb2I58": {
+            "hits": 4,
+            "textWords": 41137
+          },
+          "lSiJB7EZGxtR": {
+            "hits": 7,
+            "textWords": 41137
           }
         },
         "queryPhraseHits": 0
@@ -62,48 +236,229 @@
       "hash": "cowocQ6AOKEx",
       "address": "https://co.wikipedia.org/wiki/Pagina_maestra",
       "title": "Wikipedia",
-      "snippet": "Sartè\nCorti\nSalute! Sì benvenutu nantu à a versione di Wikipedia in lingua corsa,\nl'enciclopedìa lìbera, gratisi è scritta cù a cuuperazione di tutti.\nU scopu di stu prugettu hè di cuntribuisce à mantene a lingua è a cultura corsa.\nOghje, vènneri 11 di settembre 2026, Wikipedia tene 9 444 articuli",
+      "snippet": "Sartè\nCorti\nSalute! Sì benvenutu nantu à a versione di Wikipedia in lingua corsa,\nl'enciclopedìa lìbera, gratisi è scritta cù a cuuperazione di tutti.\nU scopu di stu prugettu hè di cuntribuisce à mantene a lingua è a cultura corsa.\nOghje, sàbatu 12 di settembre 2026, Wikipedia tene 9 446 articuli",
       "matchedWords": {
         "BicNylYz9lUP": {
           "hits": 0,
-          "textWords": 388
+          "textWords": 500
         },
         "LpLRiNvb2I58": {
           "hits": 0,
-          "textWords": 388
-        },
-        "aQOC3cy4q8c2": {
-          "hits": 0,
-          "textWords": 388
+          "textWords": 500
         },
         "lSiJB7EZGxtR": {
           "hits": 0,
-          "textWords": 388
+          "textWords": 500
         }
       },
       "queryPhraseHits": 0
     },
     {
+      "hash": "3qR3VlJvRLZi",
+      "address": "https://www.fondazionecsc.it/",
+      "title": "Centro Sperimentale di Cinematografia",
+      "snippet": "Ogni mese proponiamo un’offerta su tre titoli del nostro catalogo editoriale. Gian Maria VolontèFa parte di «Bianco e nero: rivista quadrimest…\nNegli Studi di via Tuscolana, nel suggestivo set dell’Antica Roma, si è tenuto l’evento Cinecittà Futura, ideato per raccontare visione e proget…",
+      "matchedWords": {
+        "BicNylYz9lUP": {
+          "hits": 3,
+          "textWords": 2973
+        },
+        "LpLRiNvb2I58": {
+          "hits": 11,
+          "textWords": 2973
+        },
+        "lSiJB7EZGxtR": {
+          "hits": 1,
+          "textWords": 2973
+        }
+      },
+      "queryPhraseHits": 1
+    },
+    {
       "hash": "u51StlKaKudg",
       "address": "https://www.corriere.it/",
       "title": "Corriere della Sera: News e Ultime notizie in tempo reale da Italia e Mondo",
-      "snippet": "Camilla Tracardi, la concorrente di X Factor che vive senza acqua né luce\ndi Federica Bandirali\nTifoso lancia una bottiglietta, il tecnico del Fenerbahce si dimette dopo il pari con la Roma: «Non mi vedrete più». Cosa è successo\ndi Salvatore Riggio\nL'OROSCOPO",
+      "snippet": "Martina Ferragamo porta sul set la storia della Maison e di Wanda: «Ho messo da parte che fosse mia nonna, racconto la donna d'impresa»\ndi Enrica Roddolo\nMargherita de Cles, baronessa e stilista dei vip: «La mia moda è multiculturale. Cucivo gli abiti alle Barbie»\ndi Francesca Negri",
       "matchedWords": {
         "BicNylYz9lUP": {
-          "hits": 0,
-          "textWords": 627
+          "hits": 1,
+          "textWords": 834
         },
         "LpLRiNvb2I58": {
-          "hits": 1,
-          "textWords": 627
-        },
-        "aQOC3cy4q8c2": {
           "hits": 0,
-          "textWords": 627
+          "textWords": 834
         },
         "lSiJB7EZGxtR": {
           "hits": 0,
-          "textWords": 627
+          "textWords": 834
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "-Ce7JlKaKudg",
+      "address": "https://www.corriere.it/pianeta2030/",
+      "title": "Pianeta 2030: sviluppo sostenibile, emissioni zero e decarbonizzazione | Corriere.it",
+      "snippet": "Abbonati a Corriere della Sera | Gazzetta | El Mundo | Marca | RCS Mediagroup | Fondazione Corriere | Fondazione Cutuli | Quimamme | OFFERTE CORRIERE STORE\nCopyright 2026 © RCS Mediagroup S.p.a. Tutti i diritti sono riservati | Per la pubblicità: RCS MediaGroup SpA - Direzione Pubblicità",
+      "matchedWords": {
+        "BicNylYz9lUP": {
+          "hits": 0,
+          "textWords": 69
+        },
+        "LpLRiNvb2I58": {
+          "hits": 0,
+          "textWords": 69
+        },
+        "lSiJB7EZGxtR": {
+          "hits": 0,
+          "textWords": 69
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "QembcgM-i-mx",
+      "address": "https://it.wikipedia.org/wiki/Pagina_principale",
+      "title": "Wikipedia, l'enciclopedia libera",
+      "snippet": "Gediminas, italianizzato in Gedimino (in bielorusso Гедымін, traslitterato Hiedymin; 1275 circa – Vilnius, 1341), fu granduca di Lituania dal 1316 fino alla sua morte.\nFu uno dei personaggi più significativi della storia medievale lituana.",
+      "matchedWords": {
+        "BicNylYz9lUP": {
+          "hits": 3,
+          "textWords": 929
+        },
+        "LpLRiNvb2I58": {
+          "hits": 0,
+          "textWords": 929
+        },
+        "lSiJB7EZGxtR": {
+          "hits": 0,
+          "textWords": 929
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "hTGmVgM-i-mx",
+      "address": "https://it.wikipedia.org/wiki/Stati_Uniti_d%27America",
+      "title": "Stati Uniti d'America - Wikipedia",
+      "snippet": "↑ America, in Treccani.it – Vocabolario Treccani on line, Roma, Istituto dell'Enciclopedia Italiana.\n↑ americano, in Treccani.it – Sinonimi e contrari, Roma, Istituto dell'Enciclopedia Italiana.\n↑ (EN) Kenneth G.",
+      "matchedWords": {
+        "BicNylYz9lUP": {
+          "hits": 34,
+          "textWords": 23898
+        },
+        "LpLRiNvb2I58": {
+          "hits": 4,
+          "textWords": 23898
+        },
+        "lSiJB7EZGxtR": {
+          "hits": 4,
+          "textWords": 23898
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "lkc_AgM-i-mx",
+      "address": "https://it.wikipedia.org/wiki/Wikipedia:Vetrina",
+      "title": "Wikipedia:Vetrina - Wikipedia",
+      "snippet": "Walpole era un prolifico autore di lettere e il suo epistolario è uno dei più sterminati che la storia ricordi, costituito da migliaia di missive dirette a importanti personalità politico-culturali dell'epoca (si ricordano in particolare Horace Mann, madame du Deffand, George Montagu ed Henry",
+      "matchedWords": {
+        "BicNylYz9lUP": {
+          "hits": 1,
+          "textWords": 1669
+        },
+        "LpLRiNvb2I58": {
+          "hits": 0,
+          "textWords": 1669
+        },
+        "lSiJB7EZGxtR": {
+          "hits": 0,
+          "textWords": 1669
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "4rAMcgM-i-mx",
+      "address": "https://it.wikipedia.org/wiki/New_York",
+      "title": "New York - Wikipedia",
+      "snippet": "Today America is the Roman Empire and New York is Rome itself»\n(italiano)\n«Se fossi vissuto al tempo dei romani, sarei vissuto a Roma. Dove altro? Oggi l'America è l'Impero romano e New York è Roma stessa»\nIl Metropolitan Museum of Art è uno dei più grandi musei del mondo[87]",
+      "matchedWords": {
+        "BicNylYz9lUP": {
+          "hits": 13,
+          "textWords": 15523
+        },
+        "LpLRiNvb2I58": {
+          "hits": 6,
+          "textWords": 15523
+        },
+        "lSiJB7EZGxtR": {
+          "hits": 1,
+          "textWords": 15523
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "DQ7SSjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Milan",
+      "title": "Milan - Wikipedia",
+      "snippet": "National radio stations based in Milan include Radio DeeJay, Radio 105 Network, R101 (Italy), Radio Popolare, RTL 102.5, Radio Capital and Virgin Radio Italia.\nThe Antica trattoria Bagutto in Milan, the oldest restaurant in Italy and the second oldest in Europe.[221]",
+      "matchedWords": {
+        "BicNylYz9lUP": {
+          "hits": 7,
+          "textWords": 21422
+        },
+        "LpLRiNvb2I58": {
+          "hits": 1,
+          "textWords": 21422
+        },
+        "lSiJB7EZGxtR": {
+          "hits": 2,
+          "textWords": 21422
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "aNXsMlTJlRKg",
+      "address": "https://www.gazzetta.it/",
+      "title": "La Gazzetta dello Sport | Notizie sportive e risultati live di oggi",
+      "snippet": "Si gioca alle 18 all'Olimpico di Roma (diretta tv Dazn)\nultime dai campi\nLe probabili formazioni: Roma, Manu Koné è convocato. Inter, pronto Stones\nLive\nLe ultime dai campi in vista del quarto turno di campionato\nreportage",
+      "matchedWords": {
+        "BicNylYz9lUP": {
+          "hits": 5,
+          "textWords": 3201
+        },
+        "LpLRiNvb2I58": {
+          "hits": 8,
+          "textWords": 3201
+        },
+        "lSiJB7EZGxtR": {
+          "hits": 0,
+          "textWords": 3201
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "OjKysCUBTaLg",
+      "address": "https://corrieredelveneto.corriere.it/vicenza/",
+      "title": "Vicenza: le ultime news dalla città | Corriere del Veneto",
+      "snippet": "Il patron del brand Diesel, a Venezia per la presentazione del film realizzato con l'Ai sulla sua storia, ricorda l'attentato di 25 anni fa: «Dormivamo tutti nei letti a castello militari. Conobbi un sacco di gente e quasi dimenticammo perché eravamo lì»\nvicenza",
+      "matchedWords": {
+        "BicNylYz9lUP": {
+          "hits": 1,
+          "textWords": 2097
+        },
+        "LpLRiNvb2I58": {
+          "hits": 0,
+          "textWords": 2097
+        },
+        "lSiJB7EZGxtR": {
+          "hits": 0,
+          "textWords": 2097
         }
       },
       "queryPhraseHits": 0
@@ -112,23 +467,40 @@
       "hash": "78UBwCUBTaLg",
       "address": "https://corrieredelveneto.corriere.it/padova/",
       "title": "Padova: le ultime news dalla città | Corriere del Veneto",
-      "snippet": "Mi manca ma lo ritrovo continuamente nel modo di affrontare la vita. Resta un supereroe»\nLA STORIA\nEx prete si sposa: le nozze in Kenya dove era stato missionario per 12 anni\ndi Pierfrancesco Carcassi\nLa festa tradizionale per Sandro Ferretto, 55 anni.",
+      "snippet": "Niccolò Zanardi ospite a San Marino per una serie di iniziative in ricordo del padre: «Era mosso da un fuoco che non si spegneva mai. Mi manca ma lo ritrovo continuamente nel modo di affrontare la vita. Resta un supereroe»\nLA STORIA",
       "matchedWords": {
         "BicNylYz9lUP": {
           "hits": 3,
-          "textWords": 2120
+          "textWords": 2133
         },
         "LpLRiNvb2I58": {
           "hits": 0,
-          "textWords": 2120
-        },
-        "aQOC3cy4q8c2": {
-          "hits": 0,
-          "textWords": 2120
+          "textWords": 2133
         },
         "lSiJB7EZGxtR": {
           "hits": 0,
-          "textWords": 2120
+          "textWords": 2133
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "LSZQb4XlMkDx",
+      "address": "https://scn.wikipedia.org/wiki/P%C3%A0ggina_principali",
+      "title": "Wikipedia",
+      "snippet": "N’autra diffirenza è ntê tilara cu’ suspinsioni spissu prisenti ntê mudelli cchiù prufissiunali. ... leggi tuttu l'artìculu.\nNtâ storia\nWikipedia ntî àutri lingui\nPruggetti frati\nWikipedia\nSalutamu.",
+      "matchedWords": {
+        "BicNylYz9lUP": {
+          "hits": 1,
+          "textWords": 314
+        },
+        "LpLRiNvb2I58": {
+          "hits": 0,
+          "textWords": 314
+        },
+        "lSiJB7EZGxtR": {
+          "hits": 0,
+          "textWords": 314
         }
       },
       "queryPhraseHits": 0
@@ -137,23 +509,397 @@
       "hash": "-exk2lgMr6jg",
       "address": "https://www.vogue.it/",
       "title": "Vogue Italia: Moda, Bellezza, Lifestyle, News - Vogue | Vogue Italia",
-      "snippet": "Innamorarsi a (e di) Roma insieme a Dove Cameron, che con When in Rome vive la città come nessun altro\ndi Eleonora Giordani\n11 settembre 2026\nEditor's Wishlist: consigli per gli acquisti\nEditor's Wishlist\nLa Wishlist di Lucrezia Malavolta\n7 maggio 2026\nEditor's Wishlist\nLa Wishlist di Marta Oldrini",
+      "snippet": "Da Milano al mondo: la storia di Campari, il logo che ha trasformato un prodotto in un’icona della comunicazione visiva italiana\ndi Alessia Bossi\n12 settembre 2026\nfestival di venezia 2026",
       "matchedWords": {
         "BicNylYz9lUP": {
-          "hits": 0,
-          "textWords": 1136
+          "hits": 1,
+          "textWords": 1149
         },
         "LpLRiNvb2I58": {
-          "hits": 1,
-          "textWords": 1136
-        },
-        "aQOC3cy4q8c2": {
           "hits": 0,
-          "textWords": 1136
+          "textWords": 1149
         },
         "lSiJB7EZGxtR": {
           "hits": 0,
-          "textWords": 1136
+          "textWords": 1149
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "FFhNJdKaKudg",
+      "address": "https://www.corriere.it/cook/news/",
+      "title": "News dal mondo della cucina: eventi, chef e storie | Cook Corriere",
+      "snippet": "Chiude lo \"Chateaubriand\" a Parigi, lo chef Inaki Aizpitarte: «Sta prendendo forma una bella storia»\ndi Giuseppe Scuotri\nIl patron del leggendario bistrot che chiuderà a dicembre 2026: «Non posso dire chi sta per rilevare l'attività, porta sfortuna»\nsu rai 1\nRiparte 'È sempre mezzogiorno!'.",
+      "matchedWords": {
+        "BicNylYz9lUP": {
+          "hits": 1,
+          "textWords": 2488
+        },
+        "LpLRiNvb2I58": {
+          "hits": 3,
+          "textWords": 2488
+        },
+        "lSiJB7EZGxtR": {
+          "hits": 1,
+          "textWords": 2488
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "cVrPCOnsHw9g",
+      "address": "https://www.treccani.it/enciclopedia/iran/",
+      "title": "Iran - Enciclopedia - Treccani",
+      "snippet": "Di questa religione più antica, la documentazione è indiretta: i suoi caratteri ed elementi si deducono in parte dai principali temi della polemica zoroastriana (contro il politeismo, il sacrificio cruento, la spremitura e libazione del haoma ecc.), in parte dalla sopravvivenza tenace, nel sistema",
+      "matchedWords": {
+        "BicNylYz9lUP": {
+          "hits": 12,
+          "textWords": 11201
+        },
+        "LpLRiNvb2I58": {
+          "hits": 2,
+          "textWords": 11201
+        },
+        "lSiJB7EZGxtR": {
+          "hits": 6,
+          "textWords": 11201
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "1nX0KOnsHw9g",
+      "address": "https://www.treccani.it/enciclopedia/servizio/",
+      "title": "Servizio - Enciclopedia - Treccani",
+      "snippet": "L’evoluzione del s. militare nella storia dell’antica Roma ha notevole importanza come riflesso della storia sociale e politica.",
+      "matchedWords": {
+        "BicNylYz9lUP": {
+          "hits": 3,
+          "textWords": 5500
+        },
+        "LpLRiNvb2I58": {
+          "hits": 2,
+          "textWords": 5500
+        },
+        "lSiJB7EZGxtR": {
+          "hits": 2,
+          "textWords": 5500
+        }
+      },
+      "queryPhraseHits": 1
+    },
+    {
+      "hash": "08AdJwUl8GVi",
+      "address": "https://www.radioradicale.it/scheda/666252/intervista-a-iolanda-pensa-presidente-di-wikimedia-italia-sul-ruolo-e-le-funzioni",
+      "title": "Intervista a Iolanda Pensa, Presidente di Wikimedia Italia, sul ruolo e le funzioni della sua Associazione (20.04.2022)",
+      "snippet": "\"Intervista a Iolanda Pensa, Presidente di Wikimedia Italia, sul ruolo e le funzioni della sua Associazione\" realizzata da Emilio Targia con Iolanda Pensa (presidente di Wikimedia Italia).L'intervista è stata registrata mercoledì 20 aprile 2022 alle 18:10.",
+      "matchedWords": {
+        "BicNylYz9lUP": {
+          "hits": 0,
+          "textWords": 88
+        },
+        "LpLRiNvb2I58": {
+          "hits": 0,
+          "textWords": 88
+        },
+        "lSiJB7EZGxtR": {
+          "hits": 0,
+          "textWords": 88
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "q182To-nHpog",
+      "address": "https://mediasetinfinity.mediaset.it/",
+      "title": "Mediaset Infinity: Guarda Gratis Programmi, Fiction e Dirette TV",
+      "snippet": "",
+      "matchedWords": {
+        "BicNylYz9lUP": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "LpLRiNvb2I58": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "lSiJB7EZGxtR": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "cowocQ6AOKEx",
+      "address": "https://co.wikipedia.org/wiki/Pagina_maestra",
+      "title": "Wikipedia",
+      "snippet": "Sartè\nCorti\nSalute! Sì benvenutu nantu à a versione di Wikipedia in lingua corsa,\nl'enciclopedìa lìbera, gratisi è scritta cù a cuuperazione di tutti.\nU scopu di stu prugettu hè di cuntribuisce à mantene a lingua è a cultura corsa.\nOghje, sàbatu 12 di settembre 2026, Wikipedia tene 9 446 articuli",
+      "matchedWords": {
+        "BicNylYz9lUP": {
+          "hits": 0,
+          "textWords": 500
+        },
+        "LpLRiNvb2I58": {
+          "hits": 0,
+          "textWords": 500
+        },
+        "lSiJB7EZGxtR": {
+          "hits": 0,
+          "textWords": 500
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "oW9I5lKaKudg",
+      "address": "https://www.corriere.it/le-lezioni-del-corriere/",
+      "title": "Le lezioni del Corriere - Corriere.it",
+      "snippet": "La prova di matematica\nCome affrontare la prova scritta di matematica:\nconsigli e suggerimenti pratici di un Normalista\nEdoardo Balistri\nStoria\nViaggio nella storia del ‘900 (e non solo) per prepararsi alla maturità: brevi lezioni e idee forti per capire e approfondire",
+      "matchedWords": {
+        "BicNylYz9lUP": {
+          "hits": 2,
+          "textWords": 267
+        },
+        "LpLRiNvb2I58": {
+          "hits": 0,
+          "textWords": 267
+        },
+        "lSiJB7EZGxtR": {
+          "hits": 0,
+          "textWords": 267
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "u51StlKaKudg",
+      "address": "https://www.corriere.it/",
+      "title": "Corriere della Sera: News e Ultime notizie in tempo reale da Italia e Mondo",
+      "snippet": "Martina Ferragamo porta sul set la storia della Maison e di Wanda: «Ho messo da parte che fosse mia nonna, racconto la donna d'impresa»\ndi Enrica Roddolo\nMargherita de Cles, baronessa e stilista dei vip: «La mia moda è multiculturale. Cucivo gli abiti alle Barbie»\ndi Francesca Negri",
+      "matchedWords": {
+        "BicNylYz9lUP": {
+          "hits": 1,
+          "textWords": 834
+        },
+        "LpLRiNvb2I58": {
+          "hits": 0,
+          "textWords": 834
+        },
+        "lSiJB7EZGxtR": {
+          "hits": 0,
+          "textWords": 834
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "piXx7iLvzJ3h",
+      "address": "https://firenze.repubblica.it/",
+      "title": "Cronaca di Firenze notizie e approfondimenti: Repubblica.it",
+      "snippet": "Cultura e Spettacoli\nElettronica e disco, l’atto finale a Firenze di Lattexplus alla Cavea del Maggio\ndi Paolo Lazzari\nFirenze, le “Storie di San Francesco” di Giotto tornano a risplendere in Santa Croce\ndi Elisabetta Berti\nTornano i concerti alle Scuderie Reali: nell’81 in 20 mila per Bennato",
+      "matchedWords": {
+        "BicNylYz9lUP": {
+          "hits": 0,
+          "textWords": 1258
+        },
+        "LpLRiNvb2I58": {
+          "hits": 0,
+          "textWords": 1258
+        },
+        "lSiJB7EZGxtR": {
+          "hits": 0,
+          "textWords": 1258
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "1XpT_gM-i-mx",
+      "address": "https://it.wikipedia.org/wiki/Stati_Uniti_d'America",
+      "title": "Stati Uniti d'America - Wikipedia",
+      "snippet": "↑ America, in Treccani.it – Vocabolario Treccani on line, Roma, Istituto dell'Enciclopedia Italiana.\n↑ americano, in Treccani.it – Sinonimi e contrari, Roma, Istituto dell'Enciclopedia Italiana.\n↑ (EN) Kenneth G.",
+      "matchedWords": {
+        "BicNylYz9lUP": {
+          "hits": 34,
+          "textWords": 23898
+        },
+        "LpLRiNvb2I58": {
+          "hits": 4,
+          "textWords": 23898
+        },
+        "lSiJB7EZGxtR": {
+          "hits": 4,
+          "textWords": 23898
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "fZvullQKCY-j",
+      "address": "https://www.nationalgeographic.it/",
+      "title": "National Geographic",
+      "snippet": "Dopo il parto, condizioni concomitanti possono causare nelle donne ipervigilanza, pensieri intrusivi, rabbia e distacco, sintomi che possono comparire anche molto tempo dopo la nascita del bambino.\nStoria e civiltà\nL'antica principessa che sconfiggeva i nemici con la sua lingua tagliente",
+      "matchedWords": {
+        "BicNylYz9lUP": {
+          "hits": 4,
+          "textWords": 749
+        },
+        "LpLRiNvb2I58": {
+          "hits": 0,
+          "textWords": 749
+        },
+        "lSiJB7EZGxtR": {
+          "hits": 1,
+          "textWords": 749
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "aNXsMlTJlRKg",
+      "address": "https://www.gazzetta.it/",
+      "title": "La Gazzetta dello Sport | Notizie sportive e risultati live di oggi",
+      "snippet": "Si gioca alle 18 all'Olimpico di Roma (diretta tv Dazn)\nultime dai campi\nLe probabili formazioni: Roma, Manu Koné è convocato. Inter, pronto Stones\nLive\nLe ultime dai campi in vista del quarto turno di campionato\nreportage",
+      "matchedWords": {
+        "BicNylYz9lUP": {
+          "hits": 5,
+          "textWords": 3201
+        },
+        "LpLRiNvb2I58": {
+          "hits": 8,
+          "textWords": 3201
+        },
+        "lSiJB7EZGxtR": {
+          "hits": 0,
+          "textWords": 3201
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "OjKysCUBTaLg",
+      "address": "https://corrieredelveneto.corriere.it/vicenza/",
+      "title": "Vicenza: le ultime news dalla città | Corriere del Veneto",
+      "snippet": "Il patron del brand Diesel, a Venezia per la presentazione del film realizzato con l'Ai sulla sua storia, ricorda l'attentato di 25 anni fa: «Dormivamo tutti nei letti a castello militari. Conobbi un sacco di gente e quasi dimenticammo perché eravamo lì»\nvicenza",
+      "matchedWords": {
+        "BicNylYz9lUP": {
+          "hits": 1,
+          "textWords": 2097
+        },
+        "LpLRiNvb2I58": {
+          "hits": 0,
+          "textWords": 2097
+        },
+        "lSiJB7EZGxtR": {
+          "hits": 0,
+          "textWords": 2097
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "78UBwCUBTaLg",
+      "address": "https://corrieredelveneto.corriere.it/padova/",
+      "title": "Padova: le ultime news dalla città | Corriere del Veneto",
+      "snippet": "Niccolò Zanardi ospite a San Marino per una serie di iniziative in ricordo del padre: «Era mosso da un fuoco che non si spegneva mai. Mi manca ma lo ritrovo continuamente nel modo di affrontare la vita. Resta un supereroe»\nLA STORIA",
+      "matchedWords": {
+        "BicNylYz9lUP": {
+          "hits": 3,
+          "textWords": 2133
+        },
+        "LpLRiNvb2I58": {
+          "hits": 0,
+          "textWords": 2133
+        },
+        "lSiJB7EZGxtR": {
+          "hits": 0,
+          "textWords": 2133
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "LSZQb4XlMkDx",
+      "address": "https://scn.wikipedia.org/wiki/P%C3%A0ggina_principali",
+      "title": "Wikipedia",
+      "snippet": "N’autra diffirenza è ntê tilara cu’ suspinsioni spissu prisenti ntê mudelli cchiù prufissiunali. ... leggi tuttu l'artìculu.\nNtâ storia\nWikipedia ntî àutri lingui\nPruggetti frati\nWikipedia\nSalutamu.",
+      "matchedWords": {
+        "BicNylYz9lUP": {
+          "hits": 1,
+          "textWords": 314
+        },
+        "LpLRiNvb2I58": {
+          "hits": 0,
+          "textWords": 314
+        },
+        "lSiJB7EZGxtR": {
+          "hits": 0,
+          "textWords": 314
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "D8BHPKdFiFbh",
+      "address": "https://roma.repubblica.it/",
+      "title": "Cronaca di Roma: notizie e approfondimenti - Repubblica.it",
+      "snippet": "All’Ardeatina un automobilista ferito gravemente da un pino caduto sulla sua macchina\ndi Salvatore Giuffrida, Valentina Lupia 11 Settembre 2026\nVilla Adriana, scoperto il “fulmine di Summano”: riemerge un raro rito dell’antica Roma",
+      "matchedWords": {
+        "BicNylYz9lUP": {
+          "hits": 2,
+          "textWords": 1430
+        },
+        "LpLRiNvb2I58": {
+          "hits": 19,
+          "textWords": 1430
+        },
+        "lSiJB7EZGxtR": {
+          "hits": 1,
+          "textWords": 1430
+        }
+      },
+      "queryPhraseHits": 1
+    },
+    {
+      "hash": "-exk2lgMr6jg",
+      "address": "https://www.vogue.it/",
+      "title": "Vogue Italia: Moda, Bellezza, Lifestyle, News - Vogue | Vogue Italia",
+      "snippet": "Da Milano al mondo: la storia di Campari, il logo che ha trasformato un prodotto in un’icona della comunicazione visiva italiana\ndi Alessia Bossi\n12 settembre 2026\nfestival di venezia 2026",
+      "matchedWords": {
+        "BicNylYz9lUP": {
+          "hits": 1,
+          "textWords": 1149
+        },
+        "LpLRiNvb2I58": {
+          "hits": 0,
+          "textWords": 1149
+        },
+        "lSiJB7EZGxtR": {
+          "hits": 0,
+          "textWords": 1149
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "TlIKolsozXdh",
+      "address": "https://www.repubblica.it/viaggi/",
+      "title": "Viaggi - la Repubblica",
+      "snippet": "Ufficio con vista: 10 idee panoramiche per chi lavora da remoto\ndi Sara Ficocelli\nTra mare, borghi e montagne. Castellón, l’altra faccia della Spagna mediterranea\ndi Isa Grassano\nSeychelles oltre le spiagge: 8 trekking per scoprire il lato più selvaggio dell’arcipelago\ndi Veronica Mazza",
+      "matchedWords": {
+        "BicNylYz9lUP": {
+          "hits": 0,
+          "textWords": 384
+        },
+        "LpLRiNvb2I58": {
+          "hits": 0,
+          "textWords": 384
+        },
+        "lSiJB7EZGxtR": {
+          "hits": 0,
+          "textWords": 384
         }
       },
       "queryPhraseHits": 0
@@ -169,10 +915,6 @@
           "textWords": 1138
         },
         "LpLRiNvb2I58": {
-          "hits": 0,
-          "textWords": 1138
-        },
-        "aQOC3cy4q8c2": {
           "hits": 0,
           "textWords": 1138
         },
@@ -191,19 +933,15 @@
       "matchedWords": {
         "BicNylYz9lUP": {
           "hits": 2,
-          "textWords": 1557
+          "textWords": 1223
         },
         "LpLRiNvb2I58": {
-          "hits": 3,
-          "textWords": 1557
-        },
-        "aQOC3cy4q8c2": {
-          "hits": 0,
-          "textWords": 1557
+          "hits": 1,
+          "textWords": 1223
         },
         "lSiJB7EZGxtR": {
           "hits": 0,
-          "textWords": 1557
+          "textWords": 1223
         }
       },
       "queryPhraseHits": 0
@@ -222,10 +960,6 @@
           "hits": 2,
           "textWords": 195
         },
-        "aQOC3cy4q8c2": {
-          "hits": 0,
-          "textWords": 195
-        },
         "lSiJB7EZGxtR": {
           "hits": 0,
           "textWords": 195
@@ -234,51 +968,526 @@
       "queryPhraseHits": 0
     },
     {
-      "hash": "rJHmYlsozXdh",
-      "address": "https://www.repubblica.it/il-gusto/",
-      "title": "Il Gusto",
-      "snippet": "Nelle zucche di Yayoi Kusama risplende il senso dell’infinito\ndi Dora Iannuzzi\nUnder 30\nCarlotta Filippini: “La bravura di un pasticciere si vede dalla crostata”\ndi Nicoletta Moncalero\nLa storia\nEx professore dell’alberghiero apre 4 ristoranti a Miami e assume i suoi allievi\ndi Lara De Luna",
+      "hash": "N4vc0OnsHw9g",
+      "address": "https://www.treccani.it/enciclopedia/italia/",
+      "title": "Italia - Enciclopedia - Treccani",
+      "snippet": "Per i culti acattolici l’art. 8 della Costituzione italiana dispone che abbiano diritto di organizzarsi secondo i propri statuti, se non contrastano con l’ordinamento giuridico italiano.\nPreistoria e storia antica\nPaleolitico\nLa comparsa dell’uomo",
+      "matchedWords": {
+        "BicNylYz9lUP": {
+          "hits": 49,
+          "textWords": 72949
+        },
+        "LpLRiNvb2I58": {
+          "hits": 111,
+          "textWords": 72949
+        },
+        "lSiJB7EZGxtR": {
+          "hits": 13,
+          "textWords": 72949
+        }
+      },
+      "queryPhraseHits": 1
+    },
+    {
+      "hash": "2j7WUOnsHw9g",
+      "address": "https://www.treccani.it/enciclopedia/francia/",
+      "title": "Francia - Enciclopedia - Treccani",
+      "snippet": "Va tuttavia ricordato che alcune regioni di antica industrializzazione (Nord-Pas-de-Calais, Lorena) hanno conosciuto gravi crisi produttive e occupazionali, dovute soprattutto al declino dei settori carbonifero e siderurgico.",
+      "matchedWords": {
+        "BicNylYz9lUP": {
+          "hits": 9,
+          "textWords": 20419
+        },
+        "LpLRiNvb2I58": {
+          "hits": 3,
+          "textWords": 20419
+        },
+        "lSiJB7EZGxtR": {
+          "hits": 3,
+          "textWords": 20419
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "RS7KyVHZCzyg",
+      "address": "https://corrieredibologna.corriere.it/cultura-e-tempo-libero/",
+      "title": "Notizie di spettacoli e cultura dalla città | Corriere di Bologna",
+      "snippet": "Dall'11 settembre ogni venerdì, alle 12, una nuova rubrica con analisi e approfondimenti su una notizia o una storia dell'Emilia-Romagna\ncinema\nMostra del Cinema di Venezia, il premio a Farinelli per il Modernissimo: «Uno straordinario recupero culturale»\ndi Piero Di Domenico",
+      "matchedWords": {
+        "BicNylYz9lUP": {
+          "hits": 3,
+          "textWords": 2378
+        },
+        "LpLRiNvb2I58": {
+          "hits": 0,
+          "textWords": 2378
+        },
+        "lSiJB7EZGxtR": {
+          "hits": 0,
+          "textWords": 2378
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "FFhNJdKaKudg",
+      "address": "https://www.corriere.it/cook/news/",
+      "title": "News dal mondo della cucina: eventi, chef e storie | Cook Corriere",
+      "snippet": "Chiude lo \"Chateaubriand\" a Parigi, lo chef Inaki Aizpitarte: «Sta prendendo forma una bella storia»\ndi Giuseppe Scuotri\nIl patron del leggendario bistrot che chiuderà a dicembre 2026: «Non posso dire chi sta per rilevare l'attività, porta sfortuna»\nsu rai 1\nRiparte 'È sempre mezzogiorno!'.",
+      "matchedWords": {
+        "BicNylYz9lUP": {
+          "hits": 1,
+          "textWords": 2488
+        },
+        "LpLRiNvb2I58": {
+          "hits": 3,
+          "textWords": 2488
+        },
+        "lSiJB7EZGxtR": {
+          "hits": 1,
+          "textWords": 2488
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "KlXnAjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Turin",
+      "title": "Turin - Wikipedia",
+      "snippet": "Nonetheless, the main street of the city centre, Via Roma, was built during the Fascist era (from 1931 to 1937) as an example of Italian Rationalism, replacing former buildings already present in this area.\nVia Roma runs between Piazza Carlo Felice and Piazza Castello.",
+      "matchedWords": {
+        "BicNylYz9lUP": {
+          "hits": 1,
+          "textWords": 14791
+        },
+        "LpLRiNvb2I58": {
+          "hits": 10,
+          "textWords": 14791
+        },
+        "lSiJB7EZGxtR": {
+          "hits": 1,
+          "textWords": 14791
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "QembcgM-i-mx",
+      "address": "https://it.wikipedia.org/wiki/Pagina_principale",
+      "title": "Wikipedia, l'enciclopedia libera",
+      "snippet": "Gediminas, italianizzato in Gedimino (in bielorusso Гедымін, traslitterato Hiedymin; 1275 circa – Vilnius, 1341), fu granduca di Lituania dal 1316 fino alla sua morte.\nFu uno dei personaggi più significativi della storia medievale lituana.",
+      "matchedWords": {
+        "BicNylYz9lUP": {
+          "hits": 3,
+          "textWords": 929
+        },
+        "LpLRiNvb2I58": {
+          "hits": 0,
+          "textWords": 929
+        },
+        "lSiJB7EZGxtR": {
+          "hits": 0,
+          "textWords": 929
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "DQ7SSjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Milan",
+      "title": "Milan - Wikipedia",
+      "snippet": "National radio stations based in Milan include Radio DeeJay, Radio 105 Network, R101 (Italy), Radio Popolare, RTL 102.5, Radio Capital and Virgin Radio Italia.\nThe Antica trattoria Bagutto in Milan, the oldest restaurant in Italy and the second oldest in Europe.[221]",
+      "matchedWords": {
+        "BicNylYz9lUP": {
+          "hits": 7,
+          "textWords": 21422
+        },
+        "LpLRiNvb2I58": {
+          "hits": 1,
+          "textWords": 21422
+        },
+        "lSiJB7EZGxtR": {
+          "hits": 2,
+          "textWords": 21422
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "LSZQb4XlMkDx",
+      "address": "https://scn.wikipedia.org/wiki/P%C3%A0ggina_principali",
+      "title": "Wikipedia",
+      "snippet": "N’autra diffirenza è ntê tilara cu’ suspinsioni spissu prisenti ntê mudelli cchiù prufissiunali. ... leggi tuttu l'artìculu.\nNtâ storia\nWikipedia ntî àutri lingui\nPruggetti frati\nWikipedia\nSalutamu.",
+      "matchedWords": {
+        "BicNylYz9lUP": {
+          "hits": 1,
+          "textWords": 314
+        },
+        "LpLRiNvb2I58": {
+          "hits": 0,
+          "textWords": 314
+        },
+        "lSiJB7EZGxtR": {
+          "hits": 0,
+          "textWords": 314
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "SLM2POnsHw9g",
+      "address": "https://www.treccani.it/enciclopedia/gesu-cristo/",
+      "title": "Gesù cristo - Enciclopedia - Treccani",
+      "snippet": "La sua storia è quindi la \"storia di salvezza\" di ogni essere umano e del cosmo intero, intendendo per storia non solo il fatto reale accaduto in un determinato tempo, spazio e contesto sociale e politico, ma anche il luogo di rivelazione e di realizzazione del piano salvifico di Dio.",
+      "matchedWords": {
+        "BicNylYz9lUP": {
+          "hits": 23,
+          "textWords": 5424
+        },
+        "LpLRiNvb2I58": {
+          "hits": 7,
+          "textWords": 5424
+        },
+        "lSiJB7EZGxtR": {
+          "hits": 1,
+          "textWords": 5424
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "TlIKolsozXdh",
+      "address": "https://www.repubblica.it/viaggi/",
+      "title": "Viaggi - la Repubblica",
+      "snippet": "Ufficio con vista: 10 idee panoramiche per chi lavora da remoto\ndi Sara Ficocelli\nTra mare, borghi e montagne. Castellón, l’altra faccia della Spagna mediterranea\ndi Isa Grassano\nSeychelles oltre le spiagge: 8 trekking per scoprire il lato più selvaggio dell’arcipelago\ndi Veronica Mazza",
+      "matchedWords": {
+        "BicNylYz9lUP": {
+          "hits": 0,
+          "textWords": 384
+        },
+        "LpLRiNvb2I58": {
+          "hits": 0,
+          "textWords": 384
+        },
+        "lSiJB7EZGxtR": {
+          "hits": 0,
+          "textWords": 384
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "SLM2POnsHw9g",
+      "address": "https://www.treccani.it/enciclopedia/gesu-cristo/",
+      "title": "Gesù cristo - Enciclopedia - Treccani",
+      "snippet": "La sua storia è quindi la \"storia di salvezza\" di ogni essere umano e del cosmo intero, intendendo per storia non solo il fatto reale accaduto in un determinato tempo, spazio e contesto sociale e politico, ma anche il luogo di rivelazione e di realizzazione del piano salvifico di Dio.",
+      "matchedWords": {
+        "BicNylYz9lUP": {
+          "hits": 23,
+          "textWords": 5424
+        },
+        "LpLRiNvb2I58": {
+          "hits": 7,
+          "textWords": 5424
+        },
+        "lSiJB7EZGxtR": {
+          "hits": 1,
+          "textWords": 5424
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "8t3fLOnsHw9g",
+      "address": "https://www.treccani.it/enciclopedia/dionigi-il-piccolo_(Dizionario-Biografico)/",
+      "title": "Dionigi il piccolo - Enciclopedia - Treccani",
+      "snippet": "Fin dall'inizio della sua attività a Roma D. si presentò come volgarizzatore di opere teologico-letterarie relative a questioni dogmatiche d'attualità, giacché nel 497 o poco dopo tradusse il \"libellus quem dederunt apocrisiarii Alexandrinae ecclesiae legatis ab urbe Roma Constantinopolim",
       "matchedWords": {
         "BicNylYz9lUP": {
           "hits": 4,
-          "textWords": 1138
+          "textWords": 4330
         },
         "LpLRiNvb2I58": {
-          "hits": 0,
-          "textWords": 1138
-        },
-        "aQOC3cy4q8c2": {
-          "hits": 0,
-          "textWords": 1138
+          "hits": 16,
+          "textWords": 4330
         },
         "lSiJB7EZGxtR": {
-          "hits": 0,
-          "textWords": 1138
+          "hits": 2,
+          "textWords": 4330
         }
       },
       "queryPhraseHits": 0
     },
     {
-      "hash": "oDA_QjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Rome",
-      "title": "Rome - Wikipedia",
-      "snippet": "↑ \"World Map of Köppen−Geiger Climate Classification\". Archived from the original on 6 September 2010.\n↑ \"Storia della neve a Roma\". Archived from the original on 27 July 2013. Retrieved 2 October 2014.\n↑ \"Snow startles Rome on Europe's coldest day of the winter\". The Mercury News.",
+      "hash": "E4tlUOnsHw9g",
+      "address": "https://www.treccani.it/enciclopedia/europa/",
+      "title": "Europa - Enciclopedia - Treccani",
+      "snippet": "Nell’E. meridionale l’antica macchia mediterranea, derivante dalla foresta mediterranea, occupa ormai solo un’esigua frazione del suo habitat originario, e da tempo risulta infiltrata da specie caducifoglie di ambiente temperato, per naturale competizione o per sostituzione a opera dell’uomo.",
       "matchedWords": {
         "BicNylYz9lUP": {
-          "hits": 2,
-          "textWords": 19873
+          "hits": 4,
+          "textWords": 12671
         },
         "LpLRiNvb2I58": {
-          "hits": 59,
-          "textWords": 19873
+          "hits": 17,
+          "textWords": 12671
         },
-        "aQOC3cy4q8c2": {
+        "lSiJB7EZGxtR": {
+          "hits": 3,
+          "textWords": 12671
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "cVrPCOnsHw9g",
+      "address": "https://www.treccani.it/enciclopedia/iran/",
+      "title": "Iran - Enciclopedia - Treccani",
+      "snippet": "Di questa religione più antica, la documentazione è indiretta: i suoi caratteri ed elementi si deducono in parte dai principali temi della polemica zoroastriana (contro il politeismo, il sacrificio cruento, la spremitura e libazione del haoma ecc.), in parte dalla sopravvivenza tenace, nel sistema",
+      "matchedWords": {
+        "BicNylYz9lUP": {
+          "hits": 12,
+          "textWords": 11201
+        },
+        "LpLRiNvb2I58": {
+          "hits": 2,
+          "textWords": 11201
+        },
+        "lSiJB7EZGxtR": {
+          "hits": 6,
+          "textWords": 11201
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "QembcgM-i-mx",
+      "address": "https://it.wikipedia.org/wiki/Pagina_principale",
+      "title": "Wikipedia, l'enciclopedia libera",
+      "snippet": "Gediminas, italianizzato in Gedimino (in bielorusso Гедымін, traslitterato Hiedymin; 1275 circa – Vilnius, 1341), fu granduca di Lituania dal 1316 fino alla sua morte.\nFu uno dei personaggi più significativi della storia medievale lituana.",
+      "matchedWords": {
+        "BicNylYz9lUP": {
+          "hits": 3,
+          "textWords": 929
+        },
+        "LpLRiNvb2I58": {
           "hits": 0,
-          "textWords": 19873
+          "textWords": 929
         },
         "lSiJB7EZGxtR": {
           "hits": 0,
-          "textWords": 19873
+          "textWords": 929
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "lkc_AgM-i-mx",
+      "address": "https://it.wikipedia.org/wiki/Wikipedia:Vetrina",
+      "title": "Wikipedia:Vetrina - Wikipedia",
+      "snippet": "Walpole era un prolifico autore di lettere e il suo epistolario è uno dei più sterminati che la storia ricordi, costituito da migliaia di missive dirette a importanti personalità politico-culturali dell'epoca (si ricordano in particolare Horace Mann, madame du Deffand, George Montagu ed Henry",
+      "matchedWords": {
+        "BicNylYz9lUP": {
+          "hits": 1,
+          "textWords": 1669
+        },
+        "LpLRiNvb2I58": {
+          "hits": 0,
+          "textWords": 1669
+        },
+        "lSiJB7EZGxtR": {
+          "hits": 0,
+          "textWords": 1669
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "KlXnAjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Turin",
+      "title": "Turin - Wikipedia",
+      "snippet": "Nonetheless, the main street of the city centre, Via Roma, was built during the Fascist era (from 1931 to 1937) as an example of Italian Rationalism, replacing former buildings already present in this area.\nVia Roma runs between Piazza Carlo Felice and Piazza Castello.",
+      "matchedWords": {
+        "BicNylYz9lUP": {
+          "hits": 1,
+          "textWords": 14791
+        },
+        "LpLRiNvb2I58": {
+          "hits": 10,
+          "textWords": 14791
+        },
+        "lSiJB7EZGxtR": {
+          "hits": 1,
+          "textWords": 14791
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "oW9I5lKaKudg",
+      "address": "https://www.corriere.it/le-lezioni-del-corriere/",
+      "title": "Le lezioni del Corriere - Corriere.it",
+      "snippet": "La prova di matematica\nCome affrontare la prova scritta di matematica:\nconsigli e suggerimenti pratici di un Normalista\nEdoardo Balistri\nStoria\nViaggio nella storia del ‘900 (e non solo) per prepararsi alla maturità: brevi lezioni e idee forti per capire e approfondire",
+      "matchedWords": {
+        "BicNylYz9lUP": {
+          "hits": 2,
+          "textWords": 267
+        },
+        "LpLRiNvb2I58": {
+          "hits": 0,
+          "textWords": 267
+        },
+        "lSiJB7EZGxtR": {
+          "hits": 0,
+          "textWords": 267
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "cVrPCOnsHw9g",
+      "address": "https://www.treccani.it/enciclopedia/iran/",
+      "title": "Iran - Enciclopedia - Treccani",
+      "snippet": "Di questa religione più antica, la documentazione è indiretta: i suoi caratteri ed elementi si deducono in parte dai principali temi della polemica zoroastriana (contro il politeismo, il sacrificio cruento, la spremitura e libazione del haoma ecc.), in parte dalla sopravvivenza tenace, nel sistema",
+      "matchedWords": {
+        "BicNylYz9lUP": {
+          "hits": 12,
+          "textWords": 11201
+        },
+        "LpLRiNvb2I58": {
+          "hits": 2,
+          "textWords": 11201
+        },
+        "lSiJB7EZGxtR": {
+          "hits": 6,
+          "textWords": 11201
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "edV5Kopg4UCw",
+      "address": "https://www.wikidata.org/wiki/Q1747689",
+      "title": "Ancient Rome - Wikidata",
+      "snippet": "0 references\n0 references\n0 references\n1 reference\n22 December 2020\n0 references\n0 references\nRóma (civiltà antica)\n0 references\n0 references\nancient Rome\nSimon Hornblower\nNancy Thomson de Grummond\nPaul Petit\nEdward Togo Salmon\nJohn Ferguson\nEmily D. Townsend Vermeule\nE. Badian\nRichard P. Saller",
+      "matchedWords": {
+        "BicNylYz9lUP": {
+          "hits": 0,
+          "textWords": 435
+        },
+        "LpLRiNvb2I58": {
+          "hits": 0,
+          "textWords": 435
+        },
+        "lSiJB7EZGxtR": {
+          "hits": 1,
+          "textWords": 435
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "y3dJvopg4UCw",
+      "address": "https://www.wikidata.org/wiki/Wikidata:Gruppo_Wikidata_per_Musei,_Archivi_e_Biblioteche",
+      "title": "Wikidata:Gruppo Wikidata per Musei, Archivi e Biblioteche - Wikidata",
+      "snippet": "Polo del '900\nimportazione su Wikidata di articoli di riviste italiane relative alla storia contemporanea\nprima parte del 2021\nSAIA\ncreazione e miglioramento degli elementi degli allievi (dalla fondazione al 2021 compreso) della Scuola Archeologica Italiana di Atene in Wikidata",
+      "matchedWords": {
+        "BicNylYz9lUP": {
+          "hits": 2,
+          "textWords": 4972
+        },
+        "LpLRiNvb2I58": {
+          "hits": 2,
+          "textWords": 4972
+        },
+        "lSiJB7EZGxtR": {
+          "hits": 1,
+          "textWords": 4972
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "PtN8BwJFE1zi",
+      "address": "https://www.lacucinaitaliana.it/article/la-cucina-del-mercato-da-paul-bocuse-di-50-anni-fa-a-oggi/",
+      "title": "Cucina del mercato: da Paul Bocuse di 50 anni fa a oggi | La Cucina Italiana",
+      "snippet": "I mercati di Roma\nA Roma, dove i mercati rionali hanno sempre avuto un peso rilevante, non sono mai mancate le osterie che lavorano la spesa mattutina: ma quasi sempre la lavagnetta riporta il repertorio dei primi capitolini, i carciofi alla giudia e l'abbacchio.",
+      "matchedWords": {
+        "BicNylYz9lUP": {
+          "hits": 2,
+          "textWords": 2129
+        },
+        "LpLRiNvb2I58": {
+          "hits": 3,
+          "textWords": 2129
+        },
+        "lSiJB7EZGxtR": {
+          "hits": 1,
+          "textWords": 2129
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "SLM2POnsHw9g",
+      "address": "https://www.treccani.it/enciclopedia/gesu-cristo/",
+      "title": "Gesù cristo - Enciclopedia - Treccani",
+      "snippet": "La sua storia è quindi la \"storia di salvezza\" di ogni essere umano e del cosmo intero, intendendo per storia non solo il fatto reale accaduto in un determinato tempo, spazio e contesto sociale e politico, ma anche il luogo di rivelazione e di realizzazione del piano salvifico di Dio.",
+      "matchedWords": {
+        "BicNylYz9lUP": {
+          "hits": 23,
+          "textWords": 5424
+        },
+        "LpLRiNvb2I58": {
+          "hits": 7,
+          "textWords": 5424
+        },
+        "lSiJB7EZGxtR": {
+          "hits": 1,
+          "textWords": 5424
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "y1DuMOnsHw9g",
+      "address": "https://www.treccani.it/enciclopedia/baldassarre-castiglione_(Enciclopedia-dell'Italiano)/",
+      "title": "Castiglione, Baldassarre - Enciclopedia - Treccani",
+      "snippet": "Dal 1513 al 1516 in qualità di ambasciatore del duca di Urbino si stabilì a Roma, dove partecipò attivamente alla vita culturale della città.",
+      "matchedWords": {
+        "BicNylYz9lUP": {
+          "hits": 2,
+          "textWords": 2409
+        },
+        "LpLRiNvb2I58": {
+          "hits": 4,
+          "textWords": 2409
+        },
+        "lSiJB7EZGxtR": {
+          "hits": 1,
+          "textWords": 2409
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "q182To-nHpog",
+      "address": "https://mediasetinfinity.mediaset.it/",
+      "title": "Mediaset Infinity: Guarda Gratis Programmi, Fiction e Dirette TV",
+      "snippet": "",
+      "matchedWords": {
+        "BicNylYz9lUP": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "LpLRiNvb2I58": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "lSiJB7EZGxtR": {
+          "hits": 0,
+          "textWords": 0
         }
       },
       "queryPhraseHits": 0
@@ -287,73 +1496,187 @@
       "hash": "cowocQ6AOKEx",
       "address": "https://co.wikipedia.org/wiki/Pagina_maestra",
       "title": "Wikipedia",
-      "snippet": "Sartè\nCorti\nSalute! Sì benvenutu nantu à a versione di Wikipedia in lingua corsa,\nl'enciclopedìa lìbera, gratisi è scritta cù a cuuperazione di tutti.\nU scopu di stu prugettu hè di cuntribuisce à mantene a lingua è a cultura corsa.\nOghje, vènneri 11 di settembre 2026, Wikipedia tene 9 444 articuli",
+      "snippet": "Sartè\nCorti\nSalute! Sì benvenutu nantu à a versione di Wikipedia in lingua corsa,\nl'enciclopedìa lìbera, gratisi è scritta cù a cuuperazione di tutti.\nU scopu di stu prugettu hè di cuntribuisce à mantene a lingua è a cultura corsa.\nOghje, sàbatu 12 di settembre 2026, Wikipedia tene 9 446 articuli",
       "matchedWords": {
         "BicNylYz9lUP": {
           "hits": 0,
-          "textWords": 388
+          "textWords": 500
         },
         "LpLRiNvb2I58": {
           "hits": 0,
-          "textWords": 388
-        },
-        "aQOC3cy4q8c2": {
-          "hits": 0,
-          "textWords": 388
+          "textWords": 500
         },
         "lSiJB7EZGxtR": {
           "hits": 0,
-          "textWords": 388
+          "textWords": 500
         }
       },
       "queryPhraseHits": 0
+    },
+    {
+      "hash": "RS7KyVHZCzyg",
+      "address": "https://corrieredibologna.corriere.it/cultura-e-tempo-libero/",
+      "title": "Notizie di spettacoli e cultura dalla città | Corriere di Bologna",
+      "snippet": "Dall'11 settembre ogni venerdì, alle 12, una nuova rubrica con analisi e approfondimenti su una notizia o una storia dell'Emilia-Romagna\ncinema\nMostra del Cinema di Venezia, il premio a Farinelli per il Modernissimo: «Uno straordinario recupero culturale»\ndi Piero Di Domenico",
+      "matchedWords": {
+        "BicNylYz9lUP": {
+          "hits": 3,
+          "textWords": 2378
+        },
+        "LpLRiNvb2I58": {
+          "hits": 0,
+          "textWords": 2378
+        },
+        "lSiJB7EZGxtR": {
+          "hits": 0,
+          "textWords": 2378
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "3qR3VlJvRLZi",
+      "address": "https://www.fondazionecsc.it/",
+      "title": "Centro Sperimentale di Cinematografia",
+      "snippet": "Ogni mese proponiamo un’offerta su tre titoli del nostro catalogo editoriale. Gian Maria VolontèFa parte di «Bianco e nero: rivista quadrimest…\nNegli Studi di via Tuscolana, nel suggestivo set dell’Antica Roma, si è tenuto l’evento Cinecittà Futura, ideato per raccontare visione e proget…",
+      "matchedWords": {
+        "BicNylYz9lUP": {
+          "hits": 3,
+          "textWords": 2973
+        },
+        "LpLRiNvb2I58": {
+          "hits": 11,
+          "textWords": 2973
+        },
+        "lSiJB7EZGxtR": {
+          "hits": 1,
+          "textWords": 2973
+        }
+      },
+      "queryPhraseHits": 1
     },
     {
       "hash": "u51StlKaKudg",
       "address": "https://www.corriere.it/",
       "title": "Corriere della Sera: News e Ultime notizie in tempo reale da Italia e Mondo",
-      "snippet": "Camilla Tracardi, la concorrente di X Factor che vive senza acqua né luce\ndi Federica Bandirali\nTifoso lancia una bottiglietta, il tecnico del Fenerbahce si dimette dopo il pari con la Roma: «Non mi vedrete più». Cosa è successo\ndi Salvatore Riggio\nL'OROSCOPO",
+      "snippet": "Martina Ferragamo porta sul set la storia della Maison e di Wanda: «Ho messo da parte che fosse mia nonna, racconto la donna d'impresa»\ndi Enrica Roddolo\nMargherita de Cles, baronessa e stilista dei vip: «La mia moda è multiculturale. Cucivo gli abiti alle Barbie»\ndi Francesca Negri",
       "matchedWords": {
         "BicNylYz9lUP": {
-          "hits": 0,
-          "textWords": 627
+          "hits": 1,
+          "textWords": 834
         },
         "LpLRiNvb2I58": {
-          "hits": 1,
-          "textWords": 627
-        },
-        "aQOC3cy4q8c2": {
           "hits": 0,
-          "textWords": 627
+          "textWords": 834
         },
         "lSiJB7EZGxtR": {
           "hits": 0,
-          "textWords": 627
+          "textWords": 834
         }
       },
       "queryPhraseHits": 0
     },
     {
-      "hash": "oDA_QjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Rome",
-      "title": "Rome - Wikipedia",
-      "snippet": "↑ \"World Map of Köppen−Geiger Climate Classification\". Archived from the original on 6 September 2010.\n↑ \"Storia della neve a Roma\". Archived from the original on 27 July 2013. Retrieved 2 October 2014.\n↑ \"Snow startles Rome on Europe's coldest day of the winter\". The Mercury News.",
+      "hash": "piXx7iLvzJ3h",
+      "address": "https://firenze.repubblica.it/",
+      "title": "Cronaca di Firenze notizie e approfondimenti: Repubblica.it",
+      "snippet": "Cultura e Spettacoli\nElettronica e disco, l’atto finale a Firenze di Lattexplus alla Cavea del Maggio\ndi Paolo Lazzari\nFirenze, le “Storie di San Francesco” di Giotto tornano a risplendere in Santa Croce\ndi Elisabetta Berti\nTornano i concerti alle Scuderie Reali: nell’81 in 20 mila per Bennato",
       "matchedWords": {
         "BicNylYz9lUP": {
-          "hits": 2,
-          "textWords": 19873
+          "hits": 0,
+          "textWords": 1258
         },
         "LpLRiNvb2I58": {
-          "hits": 59,
-          "textWords": 19873
-        },
-        "aQOC3cy4q8c2": {
           "hits": 0,
-          "textWords": 19873
+          "textWords": 1258
         },
         "lSiJB7EZGxtR": {
           "hits": 0,
-          "textWords": 19873
+          "textWords": 1258
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "lkc_AgM-i-mx",
+      "address": "https://it.wikipedia.org/wiki/Wikipedia:Vetrina",
+      "title": "Wikipedia:Vetrina - Wikipedia",
+      "snippet": "Walpole era un prolifico autore di lettere e il suo epistolario è uno dei più sterminati che la storia ricordi, costituito da migliaia di missive dirette a importanti personalità politico-culturali dell'epoca (si ricordano in particolare Horace Mann, madame du Deffand, George Montagu ed Henry",
+      "matchedWords": {
+        "BicNylYz9lUP": {
+          "hits": 1,
+          "textWords": 1669
+        },
+        "LpLRiNvb2I58": {
+          "hits": 0,
+          "textWords": 1669
+        },
+        "lSiJB7EZGxtR": {
+          "hits": 0,
+          "textWords": 1669
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "fZvullQKCY-j",
+      "address": "https://www.nationalgeographic.it/",
+      "title": "National Geographic",
+      "snippet": "Dopo il parto, condizioni concomitanti possono causare nelle donne ipervigilanza, pensieri intrusivi, rabbia e distacco, sintomi che possono comparire anche molto tempo dopo la nascita del bambino.\nStoria e civiltà\nL'antica principessa che sconfiggeva i nemici con la sua lingua tagliente",
+      "matchedWords": {
+        "BicNylYz9lUP": {
+          "hits": 4,
+          "textWords": 749
+        },
+        "LpLRiNvb2I58": {
+          "hits": 0,
+          "textWords": 749
+        },
+        "lSiJB7EZGxtR": {
+          "hits": 1,
+          "textWords": 749
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "KlXnAjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Turin",
+      "title": "Turin - Wikipedia",
+      "snippet": "Nonetheless, the main street of the city centre, Via Roma, was built during the Fascist era (from 1931 to 1937) as an example of Italian Rationalism, replacing former buildings already present in this area.\nVia Roma runs between Piazza Carlo Felice and Piazza Castello.",
+      "matchedWords": {
+        "BicNylYz9lUP": {
+          "hits": 1,
+          "textWords": 14791
+        },
+        "LpLRiNvb2I58": {
+          "hits": 10,
+          "textWords": 14791
+        },
+        "lSiJB7EZGxtR": {
+          "hits": 1,
+          "textWords": 14791
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "OjKysCUBTaLg",
+      "address": "https://corrieredelveneto.corriere.it/vicenza/",
+      "title": "Vicenza: le ultime news dalla città | Corriere del Veneto",
+      "snippet": "Il patron del brand Diesel, a Venezia per la presentazione del film realizzato con l'Ai sulla sua storia, ricorda l'attentato di 25 anni fa: «Dormivamo tutti nei letti a castello militari. Conobbi un sacco di gente e quasi dimenticammo perché eravamo lì»\nvicenza",
+      "matchedWords": {
+        "BicNylYz9lUP": {
+          "hits": 1,
+          "textWords": 2097
+        },
+        "LpLRiNvb2I58": {
+          "hits": 0,
+          "textWords": 2097
+        },
+        "lSiJB7EZGxtR": {
+          "hits": 0,
+          "textWords": 2097
         }
       },
       "queryPhraseHits": 0
@@ -362,48 +1685,82 @@
       "hash": "78UBwCUBTaLg",
       "address": "https://corrieredelveneto.corriere.it/padova/",
       "title": "Padova: le ultime news dalla città | Corriere del Veneto",
-      "snippet": "Mi manca ma lo ritrovo continuamente nel modo di affrontare la vita. Resta un supereroe»\nLA STORIA\nEx prete si sposa: le nozze in Kenya dove era stato missionario per 12 anni\ndi Pierfrancesco Carcassi\nLa festa tradizionale per Sandro Ferretto, 55 anni.",
+      "snippet": "Niccolò Zanardi ospite a San Marino per una serie di iniziative in ricordo del padre: «Era mosso da un fuoco che non si spegneva mai. Mi manca ma lo ritrovo continuamente nel modo di affrontare la vita. Resta un supereroe»\nLA STORIA",
       "matchedWords": {
         "BicNylYz9lUP": {
           "hits": 3,
-          "textWords": 2120
+          "textWords": 2133
         },
         "LpLRiNvb2I58": {
           "hits": 0,
-          "textWords": 2120
-        },
-        "aQOC3cy4q8c2": {
-          "hits": 0,
-          "textWords": 2120
+          "textWords": 2133
         },
         "lSiJB7EZGxtR": {
           "hits": 0,
-          "textWords": 2120
+          "textWords": 2133
         }
       },
       "queryPhraseHits": 0
     },
     {
-      "hash": "-exk2lgMr6jg",
-      "address": "https://www.vogue.it/",
-      "title": "Vogue Italia: Moda, Bellezza, Lifestyle, News - Vogue | Vogue Italia",
-      "snippet": "Innamorarsi a (e di) Roma insieme a Dove Cameron, che con When in Rome vive la città come nessun altro\ndi Eleonora Giordani\n11 settembre 2026\nEditor's Wishlist: consigli per gli acquisti\nEditor's Wishlist\nLa Wishlist di Lucrezia Malavolta\n7 maggio 2026\nEditor's Wishlist\nLa Wishlist di Marta Oldrini",
+      "hash": "LSZQb4XlMkDx",
+      "address": "https://scn.wikipedia.org/wiki/P%C3%A0ggina_principali",
+      "title": "Wikipedia",
+      "snippet": "N’autra diffirenza è ntê tilara cu’ suspinsioni spissu prisenti ntê mudelli cchiù prufissiunali. ... leggi tuttu l'artìculu.\nNtâ storia\nWikipedia ntî àutri lingui\nPruggetti frati\nWikipedia\nSalutamu.",
       "matchedWords": {
         "BicNylYz9lUP": {
-          "hits": 0,
-          "textWords": 1136
+          "hits": 1,
+          "textWords": 314
         },
         "LpLRiNvb2I58": {
-          "hits": 1,
-          "textWords": 1136
-        },
-        "aQOC3cy4q8c2": {
           "hits": 0,
-          "textWords": 1136
+          "textWords": 314
         },
         "lSiJB7EZGxtR": {
           "hits": 0,
-          "textWords": 1136
+          "textWords": 314
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "D8BHPKdFiFbh",
+      "address": "https://roma.repubblica.it/",
+      "title": "Cronaca di Roma: notizie e approfondimenti - Repubblica.it",
+      "snippet": "All’Ardeatina un automobilista ferito gravemente da un pino caduto sulla sua macchina\ndi Salvatore Giuffrida, Valentina Lupia 11 Settembre 2026\nVilla Adriana, scoperto il “fulmine di Summano”: riemerge un raro rito dell’antica Roma",
+      "matchedWords": {
+        "BicNylYz9lUP": {
+          "hits": 2,
+          "textWords": 1430
+        },
+        "LpLRiNvb2I58": {
+          "hits": 19,
+          "textWords": 1430
+        },
+        "lSiJB7EZGxtR": {
+          "hits": 1,
+          "textWords": 1430
+        }
+      },
+      "queryPhraseHits": 1
+    },
+    {
+      "hash": "-exk2lgMr6jg",
+      "address": "https://www.vogue.it/",
+      "title": "Vogue Italia: Moda, Bellezza, Lifestyle, News - Vogue | Vogue Italia",
+      "snippet": "Da Milano al mondo: la storia di Campari, il logo che ha trasformato un prodotto in un’icona della comunicazione visiva italiana\ndi Alessia Bossi\n12 settembre 2026\nfestival di venezia 2026",
+      "matchedWords": {
+        "BicNylYz9lUP": {
+          "hits": 1,
+          "textWords": 1149
+        },
+        "LpLRiNvb2I58": {
+          "hits": 0,
+          "textWords": 1149
+        },
+        "lSiJB7EZGxtR": {
+          "hits": 0,
+          "textWords": 1149
         }
       },
       "queryPhraseHits": 0
@@ -416,19 +1773,57 @@
       "matchedWords": {
         "BicNylYz9lUP": {
           "hits": 2,
-          "textWords": 1557
+          "textWords": 1223
         },
         "LpLRiNvb2I58": {
-          "hits": 3,
-          "textWords": 1557
-        },
-        "aQOC3cy4q8c2": {
-          "hits": 0,
-          "textWords": 1557
+          "hits": 1,
+          "textWords": 1223
         },
         "lSiJB7EZGxtR": {
           "hits": 0,
-          "textWords": 1557
+          "textWords": 1223
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "PtN8BwJFE1zi",
+      "address": "https://www.lacucinaitaliana.it/article/la-cucina-del-mercato-da-paul-bocuse-di-50-anni-fa-a-oggi/",
+      "title": "Cucina del mercato: da Paul Bocuse di 50 anni fa a oggi | La Cucina Italiana",
+      "snippet": "I mercati di Roma\nA Roma, dove i mercati rionali hanno sempre avuto un peso rilevante, non sono mai mancate le osterie che lavorano la spesa mattutina: ma quasi sempre la lavagnetta riporta il repertorio dei primi capitolini, i carciofi alla giudia e l'abbacchio.",
+      "matchedWords": {
+        "BicNylYz9lUP": {
+          "hits": 2,
+          "textWords": 2129
+        },
+        "LpLRiNvb2I58": {
+          "hits": 3,
+          "textWords": 2129
+        },
+        "lSiJB7EZGxtR": {
+          "hits": 1,
+          "textWords": 2129
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "ymeI3jRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Illyrian_religion",
+      "title": "Illyrian religion - Wikipedia",
+      "snippet": "La Magna Grecia e i grandi santuari della madrepatria: atti del trentunesimo Convegno di studi sulla Magna Grecia. Atti del Convegno di studi sulla Magna Grecia (in Italian). Vol. 31. Istituto per la storia e l'archeologia della Magna Grecia. pp. 127–136.\nBeekes, Robert S. P. (2009).",
+      "matchedWords": {
+        "BicNylYz9lUP": {
+          "hits": 4,
+          "textWords": 10739
+        },
+        "LpLRiNvb2I58": {
+          "hits": 0,
+          "textWords": 10739
+        },
+        "lSiJB7EZGxtR": {
+          "hits": 1,
+          "textWords": 10739
         }
       },
       "queryPhraseHits": 0
@@ -437,73 +1832,229 @@
       "hash": "u51StlKaKudg",
       "address": "https://www.corriere.it/",
       "title": "Corriere della Sera: News e Ultime notizie in tempo reale da Italia e Mondo",
-      "snippet": "Camilla Tracardi, la concorrente di X Factor che vive senza acqua né luce\ndi Federica Bandirali\nTifoso lancia una bottiglietta, il tecnico del Fenerbahce si dimette dopo il pari con la Roma: «Non mi vedrete più». Cosa è successo\ndi Salvatore Riggio\nL'OROSCOPO",
+      "snippet": "Martina Ferragamo porta sul set la storia della Maison e di Wanda: «Ho messo da parte che fosse mia nonna, racconto la donna d'impresa»\ndi Enrica Roddolo\nMargherita de Cles, baronessa e stilista dei vip: «La mia moda è multiculturale. Cucivo gli abiti alle Barbie»\ndi Francesca Negri",
       "matchedWords": {
         "BicNylYz9lUP": {
-          "hits": 0,
-          "textWords": 627
-        },
-        "LpLRiNvb2I58": {
           "hits": 1,
-          "textWords": 627
+          "textWords": 834
         },
-        "aQOC3cy4q8c2": {
+        "LpLRiNvb2I58": {
           "hits": 0,
-          "textWords": 627
+          "textWords": 834
         },
         "lSiJB7EZGxtR": {
           "hits": 0,
-          "textWords": 627
+          "textWords": 834
         }
       },
       "queryPhraseHits": 0
     },
     {
-      "hash": "oDA_QjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Rome",
-      "title": "Rome - Wikipedia",
-      "snippet": "↑ \"World Map of Köppen−Geiger Climate Classification\". Archived from the original on 6 September 2010.\n↑ \"Storia della neve a Roma\". Archived from the original on 27 July 2013. Retrieved 2 October 2014.\n↑ \"Snow startles Rome on Europe's coldest day of the winter\". The Mercury News.",
+      "hash": "08AdJwUl8GVi",
+      "address": "https://www.radioradicale.it/scheda/666252/intervista-a-iolanda-pensa-presidente-di-wikimedia-italia-sul-ruolo-e-le-funzioni",
+      "title": "Intervista a Iolanda Pensa, Presidente di Wikimedia Italia, sul ruolo e le funzioni della sua Associazione (20.04.2022)",
+      "snippet": "\"Intervista a Iolanda Pensa, Presidente di Wikimedia Italia, sul ruolo e le funzioni della sua Associazione\" realizzata da Emilio Targia con Iolanda Pensa (presidente di Wikimedia Italia).L'intervista è stata registrata mercoledì 20 aprile 2022 alle 18:10.",
       "matchedWords": {
         "BicNylYz9lUP": {
-          "hits": 2,
-          "textWords": 19873
+          "hits": 0,
+          "textWords": 88
         },
         "LpLRiNvb2I58": {
-          "hits": 59,
-          "textWords": 19873
-        },
-        "aQOC3cy4q8c2": {
           "hits": 0,
-          "textWords": 19873
+          "textWords": 88
         },
         "lSiJB7EZGxtR": {
           "hits": 0,
-          "textWords": 19873
+          "textWords": 88
         }
       },
       "queryPhraseHits": 0
     },
     {
-      "hash": "oDA_QjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Rome",
-      "title": "Rome - Wikipedia",
-      "snippet": "↑ \"World Map of Köppen−Geiger Climate Classification\". Archived from the original on 6 September 2010.\n↑ \"Storia della neve a Roma\". Archived from the original on 27 July 2013. Retrieved 2 October 2014.\n↑ \"Snow startles Rome on Europe's coldest day of the winter\". The Mercury News.",
+      "hash": "KlXnAjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Turin",
+      "title": "Turin - Wikipedia",
+      "snippet": "Nonetheless, the main street of the city centre, Via Roma, was built during the Fascist era (from 1931 to 1937) as an example of Italian Rationalism, replacing former buildings already present in this area.\nVia Roma runs between Piazza Carlo Felice and Piazza Castello.",
+      "matchedWords": {
+        "BicNylYz9lUP": {
+          "hits": 1,
+          "textWords": 14791
+        },
+        "LpLRiNvb2I58": {
+          "hits": 10,
+          "textWords": 14791
+        },
+        "lSiJB7EZGxtR": {
+          "hits": 1,
+          "textWords": 14791
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "oW9I5lKaKudg",
+      "address": "https://www.corriere.it/le-lezioni-del-corriere/",
+      "title": "Le lezioni del Corriere - Corriere.it",
+      "snippet": "La prova di matematica\nCome affrontare la prova scritta di matematica:\nconsigli e suggerimenti pratici di un Normalista\nEdoardo Balistri\nStoria\nViaggio nella storia del ‘900 (e non solo) per prepararsi alla maturità: brevi lezioni e idee forti per capire e approfondire",
       "matchedWords": {
         "BicNylYz9lUP": {
           "hits": 2,
-          "textWords": 19873
+          "textWords": 267
         },
         "LpLRiNvb2I58": {
-          "hits": 59,
-          "textWords": 19873
-        },
-        "aQOC3cy4q8c2": {
           "hits": 0,
-          "textWords": 19873
+          "textWords": 267
         },
         "lSiJB7EZGxtR": {
           "hits": 0,
-          "textWords": 19873
+          "textWords": 267
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "cVrPCOnsHw9g",
+      "address": "https://www.treccani.it/enciclopedia/iran/",
+      "title": "Iran - Enciclopedia - Treccani",
+      "snippet": "Di questa religione più antica, la documentazione è indiretta: i suoi caratteri ed elementi si deducono in parte dai principali temi della polemica zoroastriana (contro il politeismo, il sacrificio cruento, la spremitura e libazione del haoma ecc.), in parte dalla sopravvivenza tenace, nel sistema",
+      "matchedWords": {
+        "BicNylYz9lUP": {
+          "hits": 12,
+          "textWords": 11201
+        },
+        "LpLRiNvb2I58": {
+          "hits": 2,
+          "textWords": 11201
+        },
+        "lSiJB7EZGxtR": {
+          "hits": 6,
+          "textWords": 11201
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "y1DuMOnsHw9g",
+      "address": "https://www.treccani.it/enciclopedia/baldassarre-castiglione_(Enciclopedia-dell'Italiano)/",
+      "title": "Castiglione, Baldassarre - Enciclopedia - Treccani",
+      "snippet": "Dal 1513 al 1516 in qualità di ambasciatore del duca di Urbino si stabilì a Roma, dove partecipò attivamente alla vita culturale della città.",
+      "matchedWords": {
+        "BicNylYz9lUP": {
+          "hits": 2,
+          "textWords": 2409
+        },
+        "LpLRiNvb2I58": {
+          "hits": 4,
+          "textWords": 2409
+        },
+        "lSiJB7EZGxtR": {
+          "hits": 1,
+          "textWords": 2409
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "N4vc0OnsHw9g",
+      "address": "https://www.treccani.it/enciclopedia/italia/",
+      "title": "Italia - Enciclopedia - Treccani",
+      "snippet": "Per i culti acattolici l’art. 8 della Costituzione italiana dispone che abbiano diritto di organizzarsi secondo i propri statuti, se non contrastano con l’ordinamento giuridico italiano.\nPreistoria e storia antica\nPaleolitico\nLa comparsa dell’uomo",
+      "matchedWords": {
+        "BicNylYz9lUP": {
+          "hits": 49,
+          "textWords": 72949
+        },
+        "LpLRiNvb2I58": {
+          "hits": 111,
+          "textWords": 72949
+        },
+        "lSiJB7EZGxtR": {
+          "hits": 13,
+          "textWords": 72949
+        }
+      },
+      "queryPhraseHits": 1
+    },
+    {
+      "hash": "SLM2POnsHw9g",
+      "address": "https://www.treccani.it/enciclopedia/gesu-cristo/",
+      "title": "Gesù cristo - Enciclopedia - Treccani",
+      "snippet": "La sua storia è quindi la \"storia di salvezza\" di ogni essere umano e del cosmo intero, intendendo per storia non solo il fatto reale accaduto in un determinato tempo, spazio e contesto sociale e politico, ma anche il luogo di rivelazione e di realizzazione del piano salvifico di Dio.",
+      "matchedWords": {
+        "BicNylYz9lUP": {
+          "hits": 23,
+          "textWords": 5424
+        },
+        "LpLRiNvb2I58": {
+          "hits": 7,
+          "textWords": 5424
+        },
+        "lSiJB7EZGxtR": {
+          "hits": 1,
+          "textWords": 5424
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "cVrPCOnsHw9g",
+      "address": "https://www.treccani.it/enciclopedia/iran/",
+      "title": "Iran - Enciclopedia - Treccani",
+      "snippet": "Di questa religione più antica, la documentazione è indiretta: i suoi caratteri ed elementi si deducono in parte dai principali temi della polemica zoroastriana (contro il politeismo, il sacrificio cruento, la spremitura e libazione del haoma ecc.), in parte dalla sopravvivenza tenace, nel sistema",
+      "matchedWords": {
+        "BicNylYz9lUP": {
+          "hits": 12,
+          "textWords": 11201
+        },
+        "LpLRiNvb2I58": {
+          "hits": 2,
+          "textWords": 11201
+        },
+        "lSiJB7EZGxtR": {
+          "hits": 6,
+          "textWords": 11201
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "KlXnAjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Turin",
+      "title": "Turin - Wikipedia",
+      "snippet": "Nonetheless, the main street of the city centre, Via Roma, was built during the Fascist era (from 1931 to 1937) as an example of Italian Rationalism, replacing former buildings already present in this area.\nVia Roma runs between Piazza Carlo Felice and Piazza Castello.",
+      "matchedWords": {
+        "BicNylYz9lUP": {
+          "hits": 1,
+          "textWords": 14791
+        },
+        "LpLRiNvb2I58": {
+          "hits": 10,
+          "textWords": 14791
+        },
+        "lSiJB7EZGxtR": {
+          "hits": 1,
+          "textWords": 14791
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "b2fd4OnsHw9g",
+      "address": "https://www.treccani.it/enciclopedia/lucio-anneo-seneca/",
+      "title": "Sèneca, Lucio Anneo - Enciclopedia - Treccani",
+      "snippet": "Filosofo e scrittore latino (n. Cordova 4 a. C. - m. 65 d. C.). Figlio di Seneca il Retore, compì i suoi studî a Roma, con Papirio Fabiano, retore e filosofo stoico, lo stoico Attalo, il cinico Demetrio e il neopitagorico Sozione.",
+      "matchedWords": {
+        "BicNylYz9lUP": {
+          "hits": 2,
+          "textWords": 1148
+        },
+        "LpLRiNvb2I58": {
+          "hits": 3,
+          "textWords": 1148
+        },
+        "lSiJB7EZGxtR": {
+          "hits": 2,
+          "textWords": 1148
         }
       },
       "queryPhraseHits": 0
@@ -512,23 +2063,19 @@
       "hash": "cowocQ6AOKEx",
       "address": "https://co.wikipedia.org/wiki/Pagina_maestra",
       "title": "Wikipedia",
-      "snippet": "Sartè\nCorti\nSalute! Sì benvenutu nantu à a versione di Wikipedia in lingua corsa,\nl'enciclopedìa lìbera, gratisi è scritta cù a cuuperazione di tutti.\nU scopu di stu prugettu hè di cuntribuisce à mantene a lingua è a cultura corsa.\nOghje, vènneri 11 di settembre 2026, Wikipedia tene 9 444 articuli",
+      "snippet": "Sartè\nCorti\nSalute! Sì benvenutu nantu à a versione di Wikipedia in lingua corsa,\nl'enciclopedìa lìbera, gratisi è scritta cù a cuuperazione di tutti.\nU scopu di stu prugettu hè di cuntribuisce à mantene a lingua è a cultura corsa.\nOghje, sàbatu 12 di settembre 2026, Wikipedia tene 9 446 articuli",
       "matchedWords": {
         "BicNylYz9lUP": {
           "hits": 0,
-          "textWords": 388
+          "textWords": 500
         },
         "LpLRiNvb2I58": {
           "hits": 0,
-          "textWords": 388
-        },
-        "aQOC3cy4q8c2": {
-          "hits": 0,
-          "textWords": 388
+          "textWords": 500
         },
         "lSiJB7EZGxtR": {
           "hits": 0,
-          "textWords": 388
+          "textWords": 500
         }
       },
       "queryPhraseHits": 0
@@ -537,48 +2084,229 @@
       "hash": "u51StlKaKudg",
       "address": "https://www.corriere.it/",
       "title": "Corriere della Sera: News e Ultime notizie in tempo reale da Italia e Mondo",
-      "snippet": "Camilla Tracardi, la concorrente di X Factor che vive senza acqua né luce\ndi Federica Bandirali\nTifoso lancia una bottiglietta, il tecnico del Fenerbahce si dimette dopo il pari con la Roma: «Non mi vedrete più». Cosa è successo\ndi Salvatore Riggio\nL'OROSCOPO",
+      "snippet": "Martina Ferragamo porta sul set la storia della Maison e di Wanda: «Ho messo da parte che fosse mia nonna, racconto la donna d'impresa»\ndi Enrica Roddolo\nMargherita de Cles, baronessa e stilista dei vip: «La mia moda è multiculturale. Cucivo gli abiti alle Barbie»\ndi Francesca Negri",
       "matchedWords": {
         "BicNylYz9lUP": {
-          "hits": 0,
-          "textWords": 627
+          "hits": 1,
+          "textWords": 834
         },
         "LpLRiNvb2I58": {
-          "hits": 1,
-          "textWords": 627
-        },
-        "aQOC3cy4q8c2": {
           "hits": 0,
-          "textWords": 627
+          "textWords": 834
         },
         "lSiJB7EZGxtR": {
           "hits": 0,
-          "textWords": 627
+          "textWords": 834
         }
       },
       "queryPhraseHits": 0
     },
     {
-      "hash": "oDA_QjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Rome",
-      "title": "Rome - Wikipedia",
-      "snippet": "↑ \"World Map of Köppen−Geiger Climate Classification\". Archived from the original on 6 September 2010.\n↑ \"Storia della neve a Roma\". Archived from the original on 27 July 2013. Retrieved 2 October 2014.\n↑ \"Snow startles Rome on Europe's coldest day of the winter\". The Mercury News.",
+      "hash": "-Ce7JlKaKudg",
+      "address": "https://www.corriere.it/pianeta2030/",
+      "title": "Pianeta 2030: sviluppo sostenibile, emissioni zero e decarbonizzazione | Corriere.it",
+      "snippet": "Abbonati a Corriere della Sera | Gazzetta | El Mundo | Marca | RCS Mediagroup | Fondazione Corriere | Fondazione Cutuli | Quimamme | OFFERTE CORRIERE STORE\nCopyright 2026 © RCS Mediagroup S.p.a. Tutti i diritti sono riservati | Per la pubblicità: RCS MediaGroup SpA - Direzione Pubblicità",
       "matchedWords": {
         "BicNylYz9lUP": {
-          "hits": 2,
-          "textWords": 19873
+          "hits": 0,
+          "textWords": 69
         },
         "LpLRiNvb2I58": {
-          "hits": 59,
-          "textWords": 19873
-        },
-        "aQOC3cy4q8c2": {
           "hits": 0,
-          "textWords": 19873
+          "textWords": 69
         },
         "lSiJB7EZGxtR": {
           "hits": 0,
-          "textWords": 19873
+          "textWords": 69
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "QembcgM-i-mx",
+      "address": "https://it.wikipedia.org/wiki/Pagina_principale",
+      "title": "Wikipedia, l'enciclopedia libera",
+      "snippet": "Gediminas, italianizzato in Gedimino (in bielorusso Гедымін, traslitterato Hiedymin; 1275 circa – Vilnius, 1341), fu granduca di Lituania dal 1316 fino alla sua morte.\nFu uno dei personaggi più significativi della storia medievale lituana.",
+      "matchedWords": {
+        "BicNylYz9lUP": {
+          "hits": 3,
+          "textWords": 929
+        },
+        "LpLRiNvb2I58": {
+          "hits": 0,
+          "textWords": 929
+        },
+        "lSiJB7EZGxtR": {
+          "hits": 0,
+          "textWords": 929
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "dSp7KgM-i-mx",
+      "address": "https://it.wikipedia.org/wiki/Germania_nazista",
+      "title": "Germania nazista - Wikipedia",
+      "snippet": "Questi roghi divennero noti col nome di Bücherverbrennungen.\nNonostante il tentativo ufficiale di creare una cultura tedesca pura, una delle arti maggiori, l'architettura, sotto la guida personale di Hitler, adottò uno stile neoclassico ispirato a quello dell'antica Roma.[",
+      "matchedWords": {
+        "BicNylYz9lUP": {
+          "hits": 13,
+          "textWords": 23408
+        },
+        "LpLRiNvb2I58": {
+          "hits": 5,
+          "textWords": 23408
+        },
+        "lSiJB7EZGxtR": {
+          "hits": 2,
+          "textWords": 23408
+        }
+      },
+      "queryPhraseHits": 1
+    },
+    {
+      "hash": "hTGmVgM-i-mx",
+      "address": "https://it.wikipedia.org/wiki/Stati_Uniti_d%27America",
+      "title": "Stati Uniti d'America - Wikipedia",
+      "snippet": "↑ America, in Treccani.it – Vocabolario Treccani on line, Roma, Istituto dell'Enciclopedia Italiana.\n↑ americano, in Treccani.it – Sinonimi e contrari, Roma, Istituto dell'Enciclopedia Italiana.\n↑ (EN) Kenneth G.",
+      "matchedWords": {
+        "BicNylYz9lUP": {
+          "hits": 34,
+          "textWords": 23898
+        },
+        "LpLRiNvb2I58": {
+          "hits": 4,
+          "textWords": 23898
+        },
+        "lSiJB7EZGxtR": {
+          "hits": 4,
+          "textWords": 23898
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "lkc_AgM-i-mx",
+      "address": "https://it.wikipedia.org/wiki/Wikipedia:Vetrina",
+      "title": "Wikipedia:Vetrina - Wikipedia",
+      "snippet": "Walpole era un prolifico autore di lettere e il suo epistolario è uno dei più sterminati che la storia ricordi, costituito da migliaia di missive dirette a importanti personalità politico-culturali dell'epoca (si ricordano in particolare Horace Mann, madame du Deffand, George Montagu ed Henry",
+      "matchedWords": {
+        "BicNylYz9lUP": {
+          "hits": 1,
+          "textWords": 1669
+        },
+        "LpLRiNvb2I58": {
+          "hits": 0,
+          "textWords": 1669
+        },
+        "lSiJB7EZGxtR": {
+          "hits": 0,
+          "textWords": 1669
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "zJrhcgM-i-mx",
+      "address": "https://it.wikipedia.org/wiki/Seconda_guerra_mondiale",
+      "title": "Seconda guerra mondiale - Wikipedia",
+      "snippet": "",
+      "matchedWords": {
+        "BicNylYz9lUP": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "LpLRiNvb2I58": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "lSiJB7EZGxtR": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "1XpT_gM-i-mx",
+      "address": "https://it.wikipedia.org/wiki/Stati_Uniti_d'America",
+      "title": "",
+      "snippet": "↑ America, in Treccani.it – Vocabolario Treccani on line, Roma, Istituto dell'Enciclopedia Italiana.\n↑ americano, in Treccani.it – Sinonimi e contrari, Roma, Istituto dell'Enciclopedia Italiana.\n↑ (EN) Kenneth G.",
+      "matchedWords": {
+        "BicNylYz9lUP": {
+          "hits": 34,
+          "textWords": 23898
+        },
+        "LpLRiNvb2I58": {
+          "hits": 4,
+          "textWords": 23898
+        },
+        "lSiJB7EZGxtR": {
+          "hits": 4,
+          "textWords": 23898
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "4rAMcgM-i-mx",
+      "address": "https://it.wikipedia.org/wiki/New_York",
+      "title": "New York - Wikipedia",
+      "snippet": "Today America is the Roman Empire and New York is Rome itself»\n(italiano)\n«Se fossi vissuto al tempo dei romani, sarei vissuto a Roma. Dove altro? Oggi l'America è l'Impero romano e New York è Roma stessa»\nIl Metropolitan Museum of Art è uno dei più grandi musei del mondo[87]",
+      "matchedWords": {
+        "BicNylYz9lUP": {
+          "hits": 13,
+          "textWords": 15523
+        },
+        "LpLRiNvb2I58": {
+          "hits": 6,
+          "textWords": 15523
+        },
+        "lSiJB7EZGxtR": {
+          "hits": 1,
+          "textWords": 15523
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "DQ7SSjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Milan",
+      "title": "Milan - Wikipedia",
+      "snippet": "National radio stations based in Milan include Radio DeeJay, Radio 105 Network, R101 (Italy), Radio Popolare, RTL 102.5, Radio Capital and Virgin Radio Italia.\nThe Antica trattoria Bagutto in Milan, the oldest restaurant in Italy and the second oldest in Europe.[221]",
+      "matchedWords": {
+        "BicNylYz9lUP": {
+          "hits": 7,
+          "textWords": 21422
+        },
+        "LpLRiNvb2I58": {
+          "hits": 1,
+          "textWords": 21422
+        },
+        "lSiJB7EZGxtR": {
+          "hits": 2,
+          "textWords": 21422
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "KlXnAjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Turin",
+      "title": "Turin - Wikipedia",
+      "snippet": "Nonetheless, the main street of the city centre, Via Roma, was built during the Fascist era (from 1931 to 1937) as an example of Italian Rationalism, replacing former buildings already present in this area.\nVia Roma runs between Piazza Carlo Felice and Piazza Castello.",
+      "matchedWords": {
+        "BicNylYz9lUP": {
+          "hits": 1,
+          "textWords": 14791
+        },
+        "LpLRiNvb2I58": {
+          "hits": 10,
+          "textWords": 14791
+        },
+        "lSiJB7EZGxtR": {
+          "hits": 1,
+          "textWords": 14791
         }
       },
       "queryPhraseHits": 0
@@ -587,23 +2315,40 @@
       "hash": "78UBwCUBTaLg",
       "address": "https://corrieredelveneto.corriere.it/padova/",
       "title": "Padova: le ultime news dalla città | Corriere del Veneto",
-      "snippet": "Mi manca ma lo ritrovo continuamente nel modo di affrontare la vita. Resta un supereroe»\nLA STORIA\nEx prete si sposa: le nozze in Kenya dove era stato missionario per 12 anni\ndi Pierfrancesco Carcassi\nLa festa tradizionale per Sandro Ferretto, 55 anni.",
+      "snippet": "Niccolò Zanardi ospite a San Marino per una serie di iniziative in ricordo del padre: «Era mosso da un fuoco che non si spegneva mai. Mi manca ma lo ritrovo continuamente nel modo di affrontare la vita. Resta un supereroe»\nLA STORIA",
       "matchedWords": {
         "BicNylYz9lUP": {
           "hits": 3,
-          "textWords": 2120
+          "textWords": 2133
         },
         "LpLRiNvb2I58": {
           "hits": 0,
-          "textWords": 2120
-        },
-        "aQOC3cy4q8c2": {
-          "hits": 0,
-          "textWords": 2120
+          "textWords": 2133
         },
         "lSiJB7EZGxtR": {
           "hits": 0,
-          "textWords": 2120
+          "textWords": 2133
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "LSZQb4XlMkDx",
+      "address": "https://scn.wikipedia.org/wiki/P%C3%A0ggina_principali",
+      "title": "Wikipedia",
+      "snippet": "N’autra diffirenza è ntê tilara cu’ suspinsioni spissu prisenti ntê mudelli cchiù prufissiunali. ... leggi tuttu l'artìculu.\nNtâ storia\nWikipedia ntî àutri lingui\nPruggetti frati\nWikipedia\nSalutamu.",
+      "matchedWords": {
+        "BicNylYz9lUP": {
+          "hits": 1,
+          "textWords": 314
+        },
+        "LpLRiNvb2I58": {
+          "hits": 0,
+          "textWords": 314
+        },
+        "lSiJB7EZGxtR": {
+          "hits": 0,
+          "textWords": 314
         }
       },
       "queryPhraseHits": 0
@@ -622,13 +2367,135 @@
           "hits": 2,
           "textWords": 195
         },
-        "aQOC3cy4q8c2": {
-          "hits": 0,
-          "textWords": 195
-        },
         "lSiJB7EZGxtR": {
           "hits": 0,
           "textWords": 195
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "N4vc0OnsHw9g",
+      "address": "https://www.treccani.it/enciclopedia/italia/",
+      "title": "Italia - Enciclopedia - Treccani",
+      "snippet": "Per i culti acattolici l’art. 8 della Costituzione italiana dispone che abbiano diritto di organizzarsi secondo i propri statuti, se non contrastano con l’ordinamento giuridico italiano.\nPreistoria e storia antica\nPaleolitico\nLa comparsa dell’uomo",
+      "matchedWords": {
+        "BicNylYz9lUP": {
+          "hits": 49,
+          "textWords": 72949
+        },
+        "LpLRiNvb2I58": {
+          "hits": 111,
+          "textWords": 72949
+        },
+        "lSiJB7EZGxtR": {
+          "hits": 13,
+          "textWords": 72949
+        }
+      },
+      "queryPhraseHits": 1
+    },
+    {
+      "hash": "b2fd4OnsHw9g",
+      "address": "https://www.treccani.it/enciclopedia/lucio-anneo-seneca/",
+      "title": "Sèneca, Lucio Anneo - Enciclopedia - Treccani",
+      "snippet": "Filosofo e scrittore latino (n. Cordova 4 a. C. - m. 65 d. C.). Figlio di Seneca il Retore, compì i suoi studî a Roma, con Papirio Fabiano, retore e filosofo stoico, lo stoico Attalo, il cinico Demetrio e il neopitagorico Sozione.",
+      "matchedWords": {
+        "BicNylYz9lUP": {
+          "hits": 2,
+          "textWords": 1148
+        },
+        "LpLRiNvb2I58": {
+          "hits": 3,
+          "textWords": 1148
+        },
+        "lSiJB7EZGxtR": {
+          "hits": 2,
+          "textWords": 1148
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "1JsO8koYEQXx",
+      "address": "https://vi.wikipedia.org/wiki/Roma",
+      "title": "Roma – Wikipedia tiếng Việt",
+      "snippet": "Monte Sacro\nNúi Thánh\n204.514\n97,82\n2.091\nQuận 4\nTiburtina\n177.084\n49,15\n3.603\nQuận 5\nPrenestino - Centocelle\n246.471\n27,00\n9.137\nQuận 6\nRoma delle Torri\nRoma của những ngọn tháp\n256.261\n113,40\n2.261\nQuận 7\nSan Giovanni - Cinecittà\nThánh Gioan - Cinecittà\n307.607\n46,80\n6.580\nQuận 8\nAppia Antica",
+      "matchedWords": {
+        "BicNylYz9lUP": {
+          "hits": 6,
+          "textWords": 39645
+        },
+        "LpLRiNvb2I58": {
+          "hits": 525,
+          "textWords": 39645
+        },
+        "lSiJB7EZGxtR": {
+          "hits": 2,
+          "textWords": 39645
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "FFhNJdKaKudg",
+      "address": "https://www.corriere.it/cook/news/",
+      "title": "News dal mondo della cucina: eventi, chef e storie | Cook Corriere",
+      "snippet": "Chiude lo \"Chateaubriand\" a Parigi, lo chef Inaki Aizpitarte: «Sta prendendo forma una bella storia»\ndi Giuseppe Scuotri\nIl patron del leggendario bistrot che chiuderà a dicembre 2026: «Non posso dire chi sta per rilevare l'attività, porta sfortuna»\nsu rai 1\nRiparte 'È sempre mezzogiorno!'.",
+      "matchedWords": {
+        "BicNylYz9lUP": {
+          "hits": 1,
+          "textWords": 2488
+        },
+        "LpLRiNvb2I58": {
+          "hits": 3,
+          "textWords": 2488
+        },
+        "lSiJB7EZGxtR": {
+          "hits": 1,
+          "textWords": 2488
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "ymeI3jRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Illyrian_religion",
+      "title": "Illyrian religion - Wikipedia",
+      "snippet": "La Magna Grecia e i grandi santuari della madrepatria: atti del trentunesimo Convegno di studi sulla Magna Grecia. Atti del Convegno di studi sulla Magna Grecia (in Italian). Vol. 31. Istituto per la storia e l'archeologia della Magna Grecia. pp. 127–136.\nBeekes, Robert S. P. (2009).",
+      "matchedWords": {
+        "BicNylYz9lUP": {
+          "hits": 4,
+          "textWords": 10739
+        },
+        "LpLRiNvb2I58": {
+          "hits": 0,
+          "textWords": 10739
+        },
+        "lSiJB7EZGxtR": {
+          "hits": 1,
+          "textWords": 10739
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "TlIKolsozXdh",
+      "address": "https://www.repubblica.it/viaggi/",
+      "title": "Viaggi - la Repubblica",
+      "snippet": "Ufficio con vista: 10 idee panoramiche per chi lavora da remoto\ndi Sara Ficocelli\nTra mare, borghi e montagne. Castellón, l’altra faccia della Spagna mediterranea\ndi Isa Grassano\nSeychelles oltre le spiagge: 8 trekking per scoprire il lato più selvaggio dell’arcipelago\ndi Veronica Mazza",
+      "matchedWords": {
+        "BicNylYz9lUP": {
+          "hits": 0,
+          "textWords": 384
+        },
+        "LpLRiNvb2I58": {
+          "hits": 0,
+          "textWords": 384
+        },
+        "lSiJB7EZGxtR": {
+          "hits": 0,
+          "textWords": 384
         }
       },
       "queryPhraseHits": 0
@@ -637,48 +2504,166 @@
       "hash": "u51StlKaKudg",
       "address": "https://www.corriere.it/",
       "title": "Corriere della Sera: News e Ultime notizie in tempo reale da Italia e Mondo",
-      "snippet": "Camilla Tracardi, la concorrente di X Factor che vive senza acqua né luce\ndi Federica Bandirali\nTifoso lancia una bottiglietta, il tecnico del Fenerbahce si dimette dopo il pari con la Roma: «Non mi vedrete più». Cosa è successo\ndi Salvatore Riggio\nL'OROSCOPO",
+      "snippet": "Martina Ferragamo porta sul set la storia della Maison e di Wanda: «Ho messo da parte che fosse mia nonna, racconto la donna d'impresa»\ndi Enrica Roddolo\nMargherita de Cles, baronessa e stilista dei vip: «La mia moda è multiculturale. Cucivo gli abiti alle Barbie»\ndi Francesca Negri",
       "matchedWords": {
         "BicNylYz9lUP": {
-          "hits": 0,
-          "textWords": 627
+          "hits": 1,
+          "textWords": 834
         },
         "LpLRiNvb2I58": {
-          "hits": 1,
-          "textWords": 627
-        },
-        "aQOC3cy4q8c2": {
           "hits": 0,
-          "textWords": 627
+          "textWords": 834
         },
         "lSiJB7EZGxtR": {
           "hits": 0,
-          "textWords": 627
+          "textWords": 834
         }
       },
       "queryPhraseHits": 0
     },
     {
-      "hash": "8y2yzlkeJYej",
-      "address": "https://www.museiincomuneroma.it/",
-      "title": "| Portale dei Musei in Comune",
-      "snippet": "La MIC card, con 5 euro, permette di entrare gratuitamente per 12 mesi nel Sistema Musei di Roma Capitale e offre la riduzione alle mostre ospitate negli spazi espositivi che prevedono bigliettazione separata. Visita miccard.roma.it\nScopri di più",
+      "hash": "y1DuMOnsHw9g",
+      "address": "https://www.treccani.it/enciclopedia/baldassarre-castiglione_(Enciclopedia-dell'Italiano)/",
+      "title": "Castiglione, Baldassarre - Enciclopedia - Treccani",
+      "snippet": "Dal 1513 al 1516 in qualità di ambasciatore del duca di Urbino si stabilì a Roma, dove partecipò attivamente alla vita culturale della città.",
       "matchedWords": {
         "BicNylYz9lUP": {
+          "hits": 2,
+          "textWords": 2409
+        },
+        "LpLRiNvb2I58": {
+          "hits": 4,
+          "textWords": 2409
+        },
+        "lSiJB7EZGxtR": {
           "hits": 1,
-          "textWords": 195
+          "textWords": 2409
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "edV5Kopg4UCw",
+      "address": "https://www.wikidata.org/wiki/Q1747689",
+      "title": "Ancient Rome - Wikidata",
+      "snippet": "0 references\n0 references\n0 references\n1 reference\n22 December 2020\n0 references\n0 references\nRóma (civiltà antica)\n0 references\n0 references\nancient Rome\nSimon Hornblower\nNancy Thomson de Grummond\nPaul Petit\nEdward Togo Salmon\nJohn Ferguson\nEmily D. Townsend Vermeule\nE. Badian\nRichard P. Saller",
+      "matchedWords": {
+        "BicNylYz9lUP": {
+          "hits": 0,
+          "textWords": 435
+        },
+        "LpLRiNvb2I58": {
+          "hits": 0,
+          "textWords": 435
+        },
+        "lSiJB7EZGxtR": {
+          "hits": 1,
+          "textWords": 435
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "y3dJvopg4UCw",
+      "address": "https://www.wikidata.org/wiki/Wikidata:Gruppo_Wikidata_per_Musei,_Archivi_e_Biblioteche",
+      "title": "Wikidata:Gruppo Wikidata per Musei, Archivi e Biblioteche - Wikidata",
+      "snippet": "Polo del '900\nimportazione su Wikidata di articoli di riviste italiane relative alla storia contemporanea\nprima parte del 2021\nSAIA\ncreazione e miglioramento degli elementi degli allievi (dalla fondazione al 2021 compreso) della Scuola Archeologica Italiana di Atene in Wikidata",
+      "matchedWords": {
+        "BicNylYz9lUP": {
+          "hits": 2,
+          "textWords": 4972
         },
         "LpLRiNvb2I58": {
           "hits": 2,
-          "textWords": 195
+          "textWords": 4972
         },
-        "aQOC3cy4q8c2": {
+        "lSiJB7EZGxtR": {
+          "hits": 1,
+          "textWords": 4972
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "y1DuMOnsHw9g",
+      "address": "https://www.treccani.it/enciclopedia/baldassarre-castiglione_(Enciclopedia-dell'Italiano)/",
+      "title": "Castiglione, Baldassarre - Enciclopedia - Treccani",
+      "snippet": "Dal 1513 al 1516 in qualità di ambasciatore del duca di Urbino si stabilì a Roma, dove partecipò attivamente alla vita culturale della città.",
+      "matchedWords": {
+        "BicNylYz9lUP": {
+          "hits": 2,
+          "textWords": 2409
+        },
+        "LpLRiNvb2I58": {
+          "hits": 4,
+          "textWords": 2409
+        },
+        "lSiJB7EZGxtR": {
+          "hits": 1,
+          "textWords": 2409
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "RS7KyVHZCzyg",
+      "address": "https://corrieredibologna.corriere.it/cultura-e-tempo-libero/",
+      "title": "Notizie di spettacoli e cultura dalla città | Corriere di Bologna",
+      "snippet": "Dall'11 settembre ogni venerdì, alle 12, una nuova rubrica con analisi e approfondimenti su una notizia o una storia dell'Emilia-Romagna\ncinema\nMostra del Cinema di Venezia, il premio a Farinelli per il Modernissimo: «Uno straordinario recupero culturale»\ndi Piero Di Domenico",
+      "matchedWords": {
+        "BicNylYz9lUP": {
+          "hits": 3,
+          "textWords": 2378
+        },
+        "LpLRiNvb2I58": {
           "hits": 0,
-          "textWords": 195
+          "textWords": 2378
         },
         "lSiJB7EZGxtR": {
           "hits": 0,
-          "textWords": 195
+          "textWords": 2378
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "3qR3VlJvRLZi",
+      "address": "https://www.fondazionecsc.it/",
+      "title": "Centro Sperimentale di Cinematografia",
+      "snippet": "Ogni mese proponiamo un’offerta su tre titoli del nostro catalogo editoriale. Gian Maria VolontèFa parte di «Bianco e nero: rivista quadrimest…\nNegli Studi di via Tuscolana, nel suggestivo set dell’Antica Roma, si è tenuto l’evento Cinecittà Futura, ideato per raccontare visione e proget…",
+      "matchedWords": {
+        "BicNylYz9lUP": {
+          "hits": 3,
+          "textWords": 2973
+        },
+        "LpLRiNvb2I58": {
+          "hits": 11,
+          "textWords": 2973
+        },
+        "lSiJB7EZGxtR": {
+          "hits": 1,
+          "textWords": 2973
+        }
+      },
+      "queryPhraseHits": 1
+    },
+    {
+      "hash": "FFhNJdKaKudg",
+      "address": "https://www.corriere.it/cook/news/",
+      "title": "Notizie su cucina, cibo, eventi, chef | Cook",
+      "snippet": "Chiude lo \"Chateaubriand\" a Parigi, lo chef Inaki Aizpitarte: «Sta prendendo forma una bella storia»\ndi Giuseppe Scuotri\nIl patron del leggendario bistrot che chiuderà a dicembre 2026: «Non posso dire chi sta per rilevare l'attività, porta sfortuna»\nsu rai 1\nRiparte 'È sempre mezzogiorno!'.",
+      "matchedWords": {
+        "BicNylYz9lUP": {
+          "hits": 1,
+          "textWords": 2488
+        },
+        "LpLRiNvb2I58": {
+          "hits": 3,
+          "textWords": 2488
+        },
+        "lSiJB7EZGxtR": {
+          "hits": 1,
+          "textWords": 2488
         }
       },
       "queryPhraseHits": 0
@@ -687,48 +2672,145 @@
       "hash": "u51StlKaKudg",
       "address": "https://www.corriere.it/",
       "title": "Corriere della Sera: News e Ultime notizie in tempo reale da Italia e Mondo",
-      "snippet": "Camilla Tracardi, la concorrente di X Factor che vive senza acqua né luce\ndi Federica Bandirali\nTifoso lancia una bottiglietta, il tecnico del Fenerbahce si dimette dopo il pari con la Roma: «Non mi vedrete più». Cosa è successo\ndi Salvatore Riggio\nL'OROSCOPO",
+      "snippet": "Martina Ferragamo porta sul set la storia della Maison e di Wanda: «Ho messo da parte che fosse mia nonna, racconto la donna d'impresa»\ndi Enrica Roddolo\nMargherita de Cles, baronessa e stilista dei vip: «La mia moda è multiculturale. Cucivo gli abiti alle Barbie»\ndi Francesca Negri",
       "matchedWords": {
         "BicNylYz9lUP": {
-          "hits": 0,
-          "textWords": 627
+          "hits": 1,
+          "textWords": 834
         },
         "LpLRiNvb2I58": {
-          "hits": 1,
-          "textWords": 627
-        },
-        "aQOC3cy4q8c2": {
           "hits": 0,
-          "textWords": 627
+          "textWords": 834
         },
         "lSiJB7EZGxtR": {
           "hits": 0,
-          "textWords": 627
+          "textWords": 834
         }
       },
       "queryPhraseHits": 0
     },
     {
-      "hash": "oDA_QjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Rome",
-      "title": "Rome - Wikipedia",
-      "snippet": "↑ \"World Map of Köppen−Geiger Climate Classification\". Archived from the original on 6 September 2010.\n↑ \"Storia della neve a Roma\". Archived from the original on 27 July 2013. Retrieved 2 October 2014.\n↑ \"Snow startles Rome on Europe's coldest day of the winter\". The Mercury News.",
+      "hash": "-Ce7JlKaKudg",
+      "address": "https://www.corriere.it/pianeta2030/",
+      "title": "Pianeta 2030: sviluppo sostenibile, emissioni zero e decarbonizzazione | Corriere.it",
+      "snippet": "Abbonati a Corriere della Sera | Gazzetta | El Mundo | Marca | RCS Mediagroup | Fondazione Corriere | Fondazione Cutuli | Quimamme | OFFERTE CORRIERE STORE\nCopyright 2026 © RCS Mediagroup S.p.a. Tutti i diritti sono riservati | Per la pubblicità: RCS MediaGroup SpA - Direzione Pubblicità",
       "matchedWords": {
         "BicNylYz9lUP": {
-          "hits": 2,
-          "textWords": 19873
+          "hits": 0,
+          "textWords": 69
         },
         "LpLRiNvb2I58": {
-          "hits": 59,
-          "textWords": 19873
-        },
-        "aQOC3cy4q8c2": {
           "hits": 0,
-          "textWords": 19873
+          "textWords": 69
         },
         "lSiJB7EZGxtR": {
           "hits": 0,
-          "textWords": 19873
+          "textWords": 69
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "fZvullQKCY-j",
+      "address": "https://www.nationalgeographic.it/",
+      "title": "National Geographic",
+      "snippet": "Dopo il parto, condizioni concomitanti possono causare nelle donne ipervigilanza, pensieri intrusivi, rabbia e distacco, sintomi che possono comparire anche molto tempo dopo la nascita del bambino.\nStoria e civiltà\nL'antica principessa che sconfiggeva i nemici con la sua lingua tagliente",
+      "matchedWords": {
+        "BicNylYz9lUP": {
+          "hits": 4,
+          "textWords": 749
+        },
+        "LpLRiNvb2I58": {
+          "hits": 0,
+          "textWords": 749
+        },
+        "lSiJB7EZGxtR": {
+          "hits": 1,
+          "textWords": 749
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "DQ7SSjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Milan",
+      "title": "Milan - Wikipedia",
+      "snippet": "National radio stations based in Milan include Radio DeeJay, Radio 105 Network, R101 (Italy), Radio Popolare, RTL 102.5, Radio Capital and Virgin Radio Italia.\nThe Antica trattoria Bagutto in Milan, the oldest restaurant in Italy and the second oldest in Europe.[221]",
+      "matchedWords": {
+        "BicNylYz9lUP": {
+          "hits": 7,
+          "textWords": 21422
+        },
+        "LpLRiNvb2I58": {
+          "hits": 1,
+          "textWords": 21422
+        },
+        "lSiJB7EZGxtR": {
+          "hits": 2,
+          "textWords": 21422
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "KlXnAjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Turin",
+      "title": "Turin - Wikipedia",
+      "snippet": "Nonetheless, the main street of the city centre, Via Roma, was built during the Fascist era (from 1931 to 1937) as an example of Italian Rationalism, replacing former buildings already present in this area.\nVia Roma runs between Piazza Carlo Felice and Piazza Castello.",
+      "matchedWords": {
+        "BicNylYz9lUP": {
+          "hits": 1,
+          "textWords": 14791
+        },
+        "LpLRiNvb2I58": {
+          "hits": 10,
+          "textWords": 14791
+        },
+        "lSiJB7EZGxtR": {
+          "hits": 1,
+          "textWords": 14791
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "aNXsMlTJlRKg",
+      "address": "https://www.gazzetta.it/",
+      "title": "La Gazzetta dello Sport | Notizie sportive e risultati live di oggi",
+      "snippet": "Si gioca alle 18 all'Olimpico di Roma (diretta tv Dazn)\nultime dai campi\nLe probabili formazioni: Roma, Manu Koné è convocato. Inter, pronto Stones\nLive\nLe ultime dai campi in vista del quarto turno di campionato\nreportage",
+      "matchedWords": {
+        "BicNylYz9lUP": {
+          "hits": 5,
+          "textWords": 3201
+        },
+        "LpLRiNvb2I58": {
+          "hits": 8,
+          "textWords": 3201
+        },
+        "lSiJB7EZGxtR": {
+          "hits": 0,
+          "textWords": 3201
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "OjKysCUBTaLg",
+      "address": "https://corrieredelveneto.corriere.it/vicenza/",
+      "title": "Vicenza: le ultime news dalla città | Corriere del Veneto",
+      "snippet": "Il patron del brand Diesel, a Venezia per la presentazione del film realizzato con l'Ai sulla sua storia, ricorda l'attentato di 25 anni fa: «Dormivamo tutti nei letti a castello militari. Conobbi un sacco di gente e quasi dimenticammo perché eravamo lì»\nvicenza",
+      "matchedWords": {
+        "BicNylYz9lUP": {
+          "hits": 1,
+          "textWords": 2097
+        },
+        "LpLRiNvb2I58": {
+          "hits": 0,
+          "textWords": 2097
+        },
+        "lSiJB7EZGxtR": {
+          "hits": 0,
+          "textWords": 2097
         }
       },
       "queryPhraseHits": 0
@@ -737,23 +2819,61 @@
       "hash": "78UBwCUBTaLg",
       "address": "https://corrieredelveneto.corriere.it/padova/",
       "title": "Padova: le ultime news dalla città | Corriere del Veneto",
-      "snippet": "Mi manca ma lo ritrovo continuamente nel modo di affrontare la vita. Resta un supereroe»\nLA STORIA\nEx prete si sposa: le nozze in Kenya dove era stato missionario per 12 anni\ndi Pierfrancesco Carcassi\nLa festa tradizionale per Sandro Ferretto, 55 anni.",
+      "snippet": "Niccolò Zanardi ospite a San Marino per una serie di iniziative in ricordo del padre: «Era mosso da un fuoco che non si spegneva mai. Mi manca ma lo ritrovo continuamente nel modo di affrontare la vita. Resta un supereroe»\nLA STORIA",
       "matchedWords": {
         "BicNylYz9lUP": {
           "hits": 3,
-          "textWords": 2120
+          "textWords": 2133
         },
         "LpLRiNvb2I58": {
           "hits": 0,
-          "textWords": 2120
-        },
-        "aQOC3cy4q8c2": {
-          "hits": 0,
-          "textWords": 2120
+          "textWords": 2133
         },
         "lSiJB7EZGxtR": {
           "hits": 0,
-          "textWords": 2120
+          "textWords": 2133
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "D8BHPKdFiFbh",
+      "address": "https://roma.repubblica.it/",
+      "title": "Roma: notizie e approfondimenti - Repubblica.it",
+      "snippet": "All’Ardeatina un automobilista ferito gravemente da un pino caduto sulla sua macchina\ndi Salvatore Giuffrida, Valentina Lupia 11 Settembre 2026\nVilla Adriana, scoperto il “fulmine di Summano”: riemerge un raro rito dell’antica Roma",
+      "matchedWords": {
+        "BicNylYz9lUP": {
+          "hits": 2,
+          "textWords": 1430
+        },
+        "LpLRiNvb2I58": {
+          "hits": 19,
+          "textWords": 1430
+        },
+        "lSiJB7EZGxtR": {
+          "hits": 1,
+          "textWords": 1430
+        }
+      },
+      "queryPhraseHits": 1
+    },
+    {
+      "hash": "2j7WUOnsHw9g",
+      "address": "https://www.treccani.it/enciclopedia/francia/",
+      "title": "Francia nell'Enciclopedia Treccani",
+      "snippet": "Va tuttavia ricordato che alcune regioni di antica industrializzazione (Nord-Pas-de-Calais, Lorena) hanno conosciuto gravi crisi produttive e occupazionali, dovute soprattutto al declino dei settori carbonifero e siderurgico.",
+      "matchedWords": {
+        "BicNylYz9lUP": {
+          "hits": 9,
+          "textWords": 20419
+        },
+        "LpLRiNvb2I58": {
+          "hits": 3,
+          "textWords": 20419
+        },
+        "lSiJB7EZGxtR": {
+          "hits": 3,
+          "textWords": 20419
         }
       },
       "queryPhraseHits": 0
@@ -769,10 +2889,6 @@
           "textWords": 1138
         },
         "LpLRiNvb2I58": {
-          "hits": 0,
-          "textWords": 1138
-        },
-        "aQOC3cy4q8c2": {
           "hits": 0,
           "textWords": 1138
         },
@@ -791,19 +2907,162 @@
       "matchedWords": {
         "BicNylYz9lUP": {
           "hits": 2,
-          "textWords": 1557
+          "textWords": 1223
         },
         "LpLRiNvb2I58": {
-          "hits": 3,
-          "textWords": 1557
-        },
-        "aQOC3cy4q8c2": {
-          "hits": 0,
-          "textWords": 1557
+          "hits": 1,
+          "textWords": 1223
         },
         "lSiJB7EZGxtR": {
           "hits": 0,
-          "textWords": 1557
+          "textWords": 1223
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "dSp7KgM-i-mx",
+      "address": "https://it.wikipedia.org/wiki/Germania_nazista",
+      "title": "Germania nazista - Wikipedia",
+      "snippet": "Questi roghi divennero noti col nome di Bücherverbrennungen.\nNonostante il tentativo ufficiale di creare una cultura tedesca pura, una delle arti maggiori, l'architettura, sotto la guida personale di Hitler, adottò uno stile neoclassico ispirato a quello dell'antica Roma.[",
+      "matchedWords": {
+        "BicNylYz9lUP": {
+          "hits": 13,
+          "textWords": 23408
+        },
+        "LpLRiNvb2I58": {
+          "hits": 5,
+          "textWords": 23408
+        },
+        "lSiJB7EZGxtR": {
+          "hits": 2,
+          "textWords": 23408
+        }
+      },
+      "queryPhraseHits": 1
+    },
+    {
+      "hash": "lkc_AgM-i-mx",
+      "address": "https://it.wikipedia.org/wiki/Wikipedia:Vetrina",
+      "title": "Wikipedia:Vetrina - Wikipedia",
+      "snippet": "Walpole era un prolifico autore di lettere e il suo epistolario è uno dei più sterminati che la storia ricordi, costituito da migliaia di missive dirette a importanti personalità politico-culturali dell'epoca (si ricordano in particolare Horace Mann, madame du Deffand, George Montagu ed Henry",
+      "matchedWords": {
+        "BicNylYz9lUP": {
+          "hits": 1,
+          "textWords": 1669
+        },
+        "LpLRiNvb2I58": {
+          "hits": 0,
+          "textWords": 1669
+        },
+        "lSiJB7EZGxtR": {
+          "hits": 0,
+          "textWords": 1669
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "zJrhcgM-i-mx",
+      "address": "https://it.wikipedia.org/wiki/Seconda_guerra_mondiale",
+      "title": "Seconda guerra mondiale - Wikipedia",
+      "snippet": "",
+      "matchedWords": {
+        "BicNylYz9lUP": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "LpLRiNvb2I58": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "lSiJB7EZGxtR": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "FFhNJdKaKudg",
+      "address": "https://www.corriere.it/cook/news/",
+      "title": "News dal mondo della cucina: eventi, chef e storie | Cook Corriere",
+      "snippet": "Chiude lo \"Chateaubriand\" a Parigi, lo chef Inaki Aizpitarte: «Sta prendendo forma una bella storia»\ndi Giuseppe Scuotri\nIl patron del leggendario bistrot che chiuderà a dicembre 2026: «Non posso dire chi sta per rilevare l'attività, porta sfortuna»\nsu rai 1\nRiparte 'È sempre mezzogiorno!'.",
+      "matchedWords": {
+        "BicNylYz9lUP": {
+          "hits": 1,
+          "textWords": 2488
+        },
+        "LpLRiNvb2I58": {
+          "hits": 3,
+          "textWords": 2488
+        },
+        "lSiJB7EZGxtR": {
+          "hits": 1,
+          "textWords": 2488
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "SLM2POnsHw9g",
+      "address": "https://www.treccani.it/enciclopedia/gesu-cristo/",
+      "title": "Gesù cristo - Enciclopedia - Treccani",
+      "snippet": "La sua storia è quindi la \"storia di salvezza\" di ogni essere umano e del cosmo intero, intendendo per storia non solo il fatto reale accaduto in un determinato tempo, spazio e contesto sociale e politico, ma anche il luogo di rivelazione e di realizzazione del piano salvifico di Dio.",
+      "matchedWords": {
+        "BicNylYz9lUP": {
+          "hits": 23,
+          "textWords": 5424
+        },
+        "LpLRiNvb2I58": {
+          "hits": 7,
+          "textWords": 5424
+        },
+        "lSiJB7EZGxtR": {
+          "hits": 1,
+          "textWords": 5424
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "E4tlUOnsHw9g",
+      "address": "https://www.treccani.it/enciclopedia/europa/",
+      "title": "Europa - Enciclopedia - Treccani",
+      "snippet": "Nell’E. meridionale l’antica macchia mediterranea, derivante dalla foresta mediterranea, occupa ormai solo un’esigua frazione del suo habitat originario, e da tempo risulta infiltrata da specie caducifoglie di ambiente temperato, per naturale competizione o per sostituzione a opera dell’uomo.",
+      "matchedWords": {
+        "BicNylYz9lUP": {
+          "hits": 4,
+          "textWords": 12671
+        },
+        "LpLRiNvb2I58": {
+          "hits": 17,
+          "textWords": 12671
+        },
+        "lSiJB7EZGxtR": {
+          "hits": 3,
+          "textWords": 12671
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "cVrPCOnsHw9g",
+      "address": "https://www.treccani.it/enciclopedia/iran/",
+      "title": "Iran - Enciclopedia - Treccani",
+      "snippet": "Di questa religione più antica, la documentazione è indiretta: i suoi caratteri ed elementi si deducono in parte dai principali temi della polemica zoroastriana (contro il politeismo, il sacrificio cruento, la spremitura e libazione del haoma ecc.), in parte dalla sopravvivenza tenace, nel sistema",
+      "matchedWords": {
+        "BicNylYz9lUP": {
+          "hits": 12,
+          "textWords": 11201
+        },
+        "LpLRiNvb2I58": {
+          "hits": 2,
+          "textWords": 11201
+        },
+        "lSiJB7EZGxtR": {
+          "hits": 6,
+          "textWords": 11201
         }
       },
       "queryPhraseHits": 0
@@ -822,10 +3081,6 @@
           "hits": 0,
           "textWords": 1138
         },
-        "aQOC3cy4q8c2": {
-          "hits": 0,
-          "textWords": 1138
-        },
         "lSiJB7EZGxtR": {
           "hits": 0,
           "textWords": 1138
@@ -834,226 +3089,190 @@
       "queryPhraseHits": 0
     },
     {
-      "hash": "cowocQ6AOKEx",
-      "address": "https://co.wikipedia.org/wiki/Pagina_maestra",
-      "title": "Wikipedia",
-      "snippet": "Sartè\nCorti\nSalute! Sì benvenutu nantu à a versione di Wikipedia in lingua corsa,\nl'enciclopedìa lìbera, gratisi è scritta cù a cuuperazione di tutti.\nU scopu di stu prugettu hè di cuntribuisce à mantene a lingua è a cultura corsa.\nOghje, vènneri 11 di settembre 2026, Wikipedia tene 9 444 articuli",
+      "hash": "oW9I5lKaKudg",
+      "address": "https://www.corriere.it/le-lezioni-del-corriere/",
+      "title": "Le lezioni del Corriere - Corriere.it",
+      "snippet": "La prova di matematica\nCome affrontare la prova scritta di matematica:\nconsigli e suggerimenti pratici di un Normalista\nEdoardo Balistri\nStoria\nViaggio nella storia del ‘900 (e non solo) per prepararsi alla maturità: brevi lezioni e idee forti per capire e approfondire",
       "matchedWords": {
         "BicNylYz9lUP": {
-          "hits": 0,
-          "textWords": 388
+          "hits": 2,
+          "textWords": 267
         },
         "LpLRiNvb2I58": {
           "hits": 0,
-          "textWords": 388
-        },
-        "aQOC3cy4q8c2": {
-          "hits": 0,
-          "textWords": 388
+          "textWords": 267
         },
         "lSiJB7EZGxtR": {
           "hits": 0,
-          "textWords": 388
+          "textWords": 267
         }
       },
       "queryPhraseHits": 0
     },
     {
-      "hash": "-exk2lgMr6jg",
-      "address": "https://www.vogue.it/",
-      "title": "Vogue Italia: Moda, Bellezza, Lifestyle, News - Vogue | Vogue Italia",
-      "snippet": "Innamorarsi a (e di) Roma insieme a Dove Cameron, che con When in Rome vive la città come nessun altro\ndi Eleonora Giordani\n11 settembre 2026\nEditor's Wishlist: consigli per gli acquisti\nEditor's Wishlist\nLa Wishlist di Lucrezia Malavolta\n7 maggio 2026\nEditor's Wishlist\nLa Wishlist di Marta Oldrini",
+      "hash": "q182To-nHpog",
+      "address": "https://mediasetinfinity.mediaset.it/",
+      "title": "Mediaset Infinity: Guarda Gratis Programmi, Fiction e Dirette TV",
+      "snippet": "",
       "matchedWords": {
         "BicNylYz9lUP": {
           "hits": 0,
-          "textWords": 1136
+          "textWords": 0
         },
         "LpLRiNvb2I58": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "lSiJB7EZGxtR": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "-Ce7JlKaKudg",
+      "address": "https://www.corriere.it/pianeta2030/",
+      "title": "Pianeta 2030: sviluppo sostenibile, emissioni zero e decarbonizzazione | Corriere.it",
+      "snippet": "Abbonati a Corriere della Sera | Gazzetta | El Mundo | Marca | RCS Mediagroup | Fondazione Corriere | Fondazione Cutuli | Quimamme | OFFERTE CORRIERE STORE\nCopyright 2026 © RCS Mediagroup S.p.a. Tutti i diritti sono riservati | Per la pubblicità: RCS MediaGroup SpA - Direzione Pubblicità",
+      "matchedWords": {
+        "BicNylYz9lUP": {
+          "hits": 0,
+          "textWords": 69
+        },
+        "LpLRiNvb2I58": {
+          "hits": 0,
+          "textWords": 69
+        },
+        "lSiJB7EZGxtR": {
+          "hits": 0,
+          "textWords": 69
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "y1DuMOnsHw9g",
+      "address": "https://www.treccani.it/enciclopedia/baldassarre-castiglione_(Enciclopedia-dell'Italiano)/",
+      "title": "Castiglione, Baldassarre - Enciclopedia - Treccani",
+      "snippet": "Dal 1513 al 1516 in qualità di ambasciatore del duca di Urbino si stabilì a Roma, dove partecipò attivamente alla vita culturale della città.",
+      "matchedWords": {
+        "BicNylYz9lUP": {
+          "hits": 2,
+          "textWords": 2409
+        },
+        "LpLRiNvb2I58": {
+          "hits": 4,
+          "textWords": 2409
+        },
+        "lSiJB7EZGxtR": {
           "hits": 1,
-          "textWords": 1136
-        },
-        "aQOC3cy4q8c2": {
-          "hits": 0,
-          "textWords": 1136
-        },
-        "lSiJB7EZGxtR": {
-          "hits": 0,
-          "textWords": 1136
+          "textWords": 2409
         }
       },
       "queryPhraseHits": 0
     },
     {
-      "hash": "-exk2lgMr6jg",
-      "address": "https://www.vogue.it/",
-      "title": "Vogue Italia: Moda, Bellezza, Lifestyle, News - Vogue | Vogue Italia",
-      "snippet": "Innamorarsi a (e di) Roma insieme a Dove Cameron, che con When in Rome vive la città come nessun altro\ndi Eleonora Giordani\n11 settembre 2026\nEditor's Wishlist: consigli per gli acquisti\nEditor's Wishlist\nLa Wishlist di Lucrezia Malavolta\n7 maggio 2026\nEditor's Wishlist\nLa Wishlist di Marta Oldrini",
+      "hash": "u51StlKaKudg",
+      "address": "https://www.corriere.it/",
+      "title": "Corriere della Sera: News e Ultime notizie in tempo reale da Italia e Mondo",
+      "snippet": "Martina Ferragamo porta sul set la storia della Maison e di Wanda: «Ho messo da parte che fosse mia nonna, racconto la donna d'impresa»\ndi Enrica Roddolo\nMargherita de Cles, baronessa e stilista dei vip: «La mia moda è multiculturale. Cucivo gli abiti alle Barbie»\ndi Francesca Negri",
       "matchedWords": {
         "BicNylYz9lUP": {
-          "hits": 0,
-          "textWords": 1136
-        },
-        "LpLRiNvb2I58": {
           "hits": 1,
-          "textWords": 1136
-        },
-        "aQOC3cy4q8c2": {
-          "hits": 0,
-          "textWords": 1136
-        },
-        "lSiJB7EZGxtR": {
-          "hits": 0,
-          "textWords": 1136
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "cowocQ6AOKEx",
-      "address": "https://co.wikipedia.org/wiki/Pagina_maestra",
-      "title": "Wikipedia",
-      "snippet": "Sartè\nCorti\nSalute! Sì benvenutu nantu à a versione di Wikipedia in lingua corsa,\nl'enciclopedìa lìbera, gratisi è scritta cù a cuuperazione di tutti.\nU scopu di stu prugettu hè di cuntribuisce à mantene a lingua è a cultura corsa.\nOghje, vènneri 11 di settembre 2026, Wikipedia tene 9 444 articuli",
-      "matchedWords": {
-        "BicNylYz9lUP": {
-          "hits": 0,
-          "textWords": 388
+          "textWords": 834
         },
         "LpLRiNvb2I58": {
           "hits": 0,
-          "textWords": 388
-        },
-        "aQOC3cy4q8c2": {
-          "hits": 0,
-          "textWords": 388
+          "textWords": 834
         },
         "lSiJB7EZGxtR": {
           "hits": 0,
-          "textWords": 388
+          "textWords": 834
         }
       },
       "queryPhraseHits": 0
     },
     {
-      "hash": "78UBwCUBTaLg",
-      "address": "https://corrieredelveneto.corriere.it/padova/",
-      "title": "Padova: le ultime news dalla città | Corriere del Veneto",
-      "snippet": "Mi manca ma lo ritrovo continuamente nel modo di affrontare la vita. Resta un supereroe»\nLA STORIA\nEx prete si sposa: le nozze in Kenya dove era stato missionario per 12 anni\ndi Pierfrancesco Carcassi\nLa festa tradizionale per Sandro Ferretto, 55 anni.",
+      "hash": "piXx7iLvzJ3h",
+      "address": "https://firenze.repubblica.it/",
+      "title": "Cronaca di Firenze notizie e approfondimenti: Repubblica.it",
+      "snippet": "Cultura e Spettacoli\nElettronica e disco, l’atto finale a Firenze di Lattexplus alla Cavea del Maggio\ndi Paolo Lazzari\nFirenze, le “Storie di San Francesco” di Giotto tornano a risplendere in Santa Croce\ndi Elisabetta Berti\nTornano i concerti alle Scuderie Reali: nell’81 in 20 mila per Bennato",
+      "matchedWords": {
+        "BicNylYz9lUP": {
+          "hits": 0,
+          "textWords": 1258
+        },
+        "LpLRiNvb2I58": {
+          "hits": 0,
+          "textWords": 1258
+        },
+        "lSiJB7EZGxtR": {
+          "hits": 0,
+          "textWords": 1258
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "1nX0KOnsHw9g",
+      "address": "https://www.treccani.it/enciclopedia/servizio/",
+      "title": "Servizio - Enciclopedia - Treccani",
+      "snippet": "L’evoluzione del s. militare nella storia dell’antica Roma ha notevole importanza come riflesso della storia sociale e politica.",
       "matchedWords": {
         "BicNylYz9lUP": {
           "hits": 3,
-          "textWords": 2120
+          "textWords": 5500
         },
         "LpLRiNvb2I58": {
-          "hits": 0,
-          "textWords": 2120
-        },
-        "aQOC3cy4q8c2": {
-          "hits": 0,
-          "textWords": 2120
-        },
-        "lSiJB7EZGxtR": {
-          "hits": 0,
-          "textWords": 2120
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "u51StlKaKudg",
-      "address": "https://www.corriere.it/",
-      "title": "Corriere della Sera: News e Ultime notizie in tempo reale da Italia e Mondo",
-      "snippet": "Camilla Tracardi, la concorrente di X Factor che vive senza acqua né luce\ndi Federica Bandirali\nTifoso lancia una bottiglietta, il tecnico del Fenerbahce si dimette dopo il pari con la Roma: «Non mi vedrete più». Cosa è successo\ndi Salvatore Riggio\nL'OROSCOPO",
-      "matchedWords": {
-        "BicNylYz9lUP": {
-          "hits": 0,
-          "textWords": 627
-        },
-        "LpLRiNvb2I58": {
-          "hits": 1,
-          "textWords": 627
-        },
-        "aQOC3cy4q8c2": {
-          "hits": 0,
-          "textWords": 627
-        },
-        "lSiJB7EZGxtR": {
-          "hits": 0,
-          "textWords": 627
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "oDA_QjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Rome",
-      "title": "Rome - Wikipedia",
-      "snippet": "↑ \"World Map of Köppen−Geiger Climate Classification\". Archived from the original on 6 September 2010.\n↑ \"Storia della neve a Roma\". Archived from the original on 27 July 2013. Retrieved 2 October 2014.\n↑ \"Snow startles Rome on Europe's coldest day of the winter\". The Mercury News.",
-      "matchedWords": {
-        "BicNylYz9lUP": {
           "hits": 2,
-          "textWords": 19873
-        },
-        "LpLRiNvb2I58": {
-          "hits": 59,
-          "textWords": 19873
-        },
-        "aQOC3cy4q8c2": {
-          "hits": 0,
-          "textWords": 19873
+          "textWords": 5500
         },
         "lSiJB7EZGxtR": {
-          "hits": 0,
-          "textWords": 19873
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "oDA_QjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Rome",
-      "title": "Rome - Wikipedia",
-      "snippet": "↑ \"World Map of Köppen−Geiger Climate Classification\". Archived from the original on 6 September 2010.\n↑ \"Storia della neve a Roma\". Archived from the original on 27 July 2013. Retrieved 2 October 2014.\n↑ \"Snow startles Rome on Europe's coldest day of the winter\". The Mercury News.",
-      "matchedWords": {
-        "BicNylYz9lUP": {
           "hits": 2,
-          "textWords": 19873
+          "textWords": 5500
+        }
+      },
+      "queryPhraseHits": 1
+    },
+    {
+      "hash": "2j7WUOnsHw9g",
+      "address": "https://www.treccani.it/enciclopedia/francia/",
+      "title": "Francia nell'Enciclopedia Treccani",
+      "snippet": "Va tuttavia ricordato che alcune regioni di antica industrializzazione (Nord-Pas-de-Calais, Lorena) hanno conosciuto gravi crisi produttive e occupazionali, dovute soprattutto al declino dei settori carbonifero e siderurgico.",
+      "matchedWords": {
+        "BicNylYz9lUP": {
+          "hits": 9,
+          "textWords": 20419
         },
         "LpLRiNvb2I58": {
-          "hits": 59,
-          "textWords": 19873
-        },
-        "aQOC3cy4q8c2": {
-          "hits": 0,
-          "textWords": 19873
+          "hits": 3,
+          "textWords": 20419
         },
         "lSiJB7EZGxtR": {
-          "hits": 0,
-          "textWords": 19873
+          "hits": 3,
+          "textWords": 20419
         }
       },
       "queryPhraseHits": 0
     },
     {
-      "hash": "u51StlKaKudg",
-      "address": "https://www.corriere.it/",
-      "title": "Corriere della Sera: News e Ultime notizie in tempo reale da Italia e Mondo",
-      "snippet": "Camilla Tracardi, la concorrente di X Factor che vive senza acqua né luce\ndi Federica Bandirali\nTifoso lancia una bottiglietta, il tecnico del Fenerbahce si dimette dopo il pari con la Roma: «Non mi vedrete più». Cosa è successo\ndi Salvatore Riggio\nL'OROSCOPO",
+      "hash": "TlIKolsozXdh",
+      "address": "https://www.repubblica.it/viaggi/",
+      "title": "Viaggi - la Repubblica",
+      "snippet": "Ufficio con vista: 10 idee panoramiche per chi lavora da remoto\ndi Sara Ficocelli\nTra mare, borghi e montagne. Castellón, l’altra faccia della Spagna mediterranea\ndi Isa Grassano\nSeychelles oltre le spiagge: 8 trekking per scoprire il lato più selvaggio dell’arcipelago\ndi Veronica Mazza",
       "matchedWords": {
         "BicNylYz9lUP": {
           "hits": 0,
-          "textWords": 627
+          "textWords": 384
         },
         "LpLRiNvb2I58": {
-          "hits": 1,
-          "textWords": 627
-        },
-        "aQOC3cy4q8c2": {
           "hits": 0,
-          "textWords": 627
+          "textWords": 384
         },
         "lSiJB7EZGxtR": {
           "hits": 0,
-          "textWords": 627
+          "textWords": 384
         }
       },
       "queryPhraseHits": 0
@@ -1066,28 +3285,44 @@
       "matchedWords": {
         "BicNylYz9lUP": {
           "hits": 2,
-          "textWords": 1557
+          "textWords": 1223
         },
         "LpLRiNvb2I58": {
-          "hits": 3,
-          "textWords": 1557
-        },
-        "aQOC3cy4q8c2": {
-          "hits": 0,
-          "textWords": 1557
+          "hits": 1,
+          "textWords": 1223
         },
         "lSiJB7EZGxtR": {
           "hits": 0,
-          "textWords": 1557
+          "textWords": 1223
         }
       },
       "queryPhraseHits": 0
+    },
+    {
+      "hash": "1nX0KOnsHw9g",
+      "address": "https://www.treccani.it/enciclopedia/servizio/",
+      "title": "Servizio - Enciclopedia - Treccani",
+      "snippet": "L’evoluzione del s. militare nella storia dell’antica Roma ha notevole importanza come riflesso della storia sociale e politica.",
+      "matchedWords": {
+        "BicNylYz9lUP": {
+          "hits": 3,
+          "textWords": 5500
+        },
+        "LpLRiNvb2I58": {
+          "hits": 2,
+          "textWords": 5500
+        },
+        "lSiJB7EZGxtR": {
+          "hits": 2,
+          "textWords": 5500
+        }
+      },
+      "queryPhraseHits": 1
     }
   ],
   "documentsHeldPerQueryWord": {
-    "BicNylYz9lUP": 90231,
-    "LpLRiNvb2I58": 56450,
-    "aQOC3cy4q8c2": 101940,
-    "lSiJB7EZGxtR": 8377
+    "BicNylYz9lUP": 94418,
+    "LpLRiNvb2I58": 37109,
+    "lSiJB7EZGxtR": 8756
   }
 }

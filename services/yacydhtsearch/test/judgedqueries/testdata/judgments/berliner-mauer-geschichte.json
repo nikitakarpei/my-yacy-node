@@ -8,10 +8,16 @@
       "grade": 0
     },
     {
-      "hash": "KJbG1jRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Berlin_Wall",
-      "title": "Berlin Wall - Wikipedia",
-      "grade": 2
+      "hash": "R1PZSlKDFhNg",
+      "address": "https://www.bpb.de/",
+      "title": "Bundeszentrale für politische Bildung | Startseite | bpb.de",
+      "grade": 0
+    },
+    {
+      "hash": "JvV_6jRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Cold_War",
+      "title": "Cold War - Wikipedia",
+      "grade": null
     },
     {
       "hash": "n9Y5MdFO6r_x",
@@ -26,16 +32,10 @@
       "grade": 0
     },
     {
-      "hash": "sxUL2dFO6r_x",
-      "address": "https://de.wikipedia.org/wiki/Wikipedia:Hauptseite",
-      "title": "Wikipedia – Die freie Enzyklopädie",
-      "grade": 0
-    },
-    {
-      "hash": "O_W7sdFO6r_x",
-      "address": "https://de.wikipedia.org/wiki/Wikipedia:Exzellente_Artikel",
-      "title": "Wikipedia:Exzellente Artikel – Wikipedia",
-      "grade": 0
+      "hash": "WsFtevF-RWXj",
+      "address": "https://www.bundesumweltministerium.de/media/berliner-dienstsitz-aktuelle-aufnahmen",
+      "title": "BMUKN: Berliner Dienstsitz: aktuelle Aufnahmen | Bildergalerie",
+      "grade": null
     },
     {
       "hash": "17zOZjc4UIAx",
@@ -44,28 +44,16 @@
       "grade": 0
     },
     {
-      "hash": "6-otadFO6r_x",
-      "address": "https://de.wikipedia.org/wiki/1989",
-      "title": "1989 – Wikipedia",
-      "grade": 1
-    },
-    {
-      "hash": "7URIg3ci-_qj",
-      "address": "https://www.chronik-der-mauer.de/material/175240/1967?show=image\u0026i=183565",
-      "title": "Fotos 1967 | Chronik der Mauer",
-      "grade": 1
-    },
-    {
-      "hash": "tgYaolT3kTrg",
-      "address": "https://www.logo.de/deutsche-geschichte-110.html",
-      "title": "logo!-Thema: Deutsche Geschichte - logo!",
-      "grade": 1
-    },
-    {
       "hash": "ybbdrajCKJ9g",
       "address": "https://www.bva.bund.de/DE/Das-BVA/Rueckblick/rueckblick_node.html",
       "title": "BVA - Rückblick",
       "grade": 0
+    },
+    {
+      "hash": "8uW9ql8moajg",
+      "address": "https://www.welt.de/geschichte/",
+      "title": "Geschichte - Von der Antike über das Mittelalter zur Moderne - WELT",
+      "grade": null
     },
     {
       "hash": "a9ooXjRvmBbx",
@@ -74,9 +62,63 @@
       "grade": 1
     },
     {
+      "hash": "hpNx6l0w__jw",
+      "address": "https://www.faz.net/aktuell/",
+      "title": "Aktuelle Nachrichten online - FAZ.NET",
+      "grade": null
+    },
+    {
       "hash": "WLeSrl5ARWyg",
       "address": "https://www.spiegel.de/",
       "title": "DER SPIEGEL | Online-Nachrichten",
+      "grade": 0
+    },
+    {
+      "hash": "2RTWrl8moajg",
+      "address": "https://www.welt.de/",
+      "title": "WELT - Aktuelle Nachrichten, News, Hintergründe \u0026 Videos",
+      "grade": null
+    },
+    {
+      "hash": "3Qt4nC8moajg",
+      "address": "https://www.welt.de/regionales/berlin/",
+      "title": "Berlin \u0026 Brandenburg - News \u0026 aktuelle Nachrichten - WELT",
+      "grade": null
+    },
+    {
+      "hash": "68MPWl8moajg",
+      "address": "https://www.welt.de/videos/",
+      "title": "WELT Videos: Aktuelle News \u0026 Nachrichten-Videos",
+      "grade": null
+    },
+    {
+      "hash": "O_W7sdFO6r_x",
+      "address": "https://de.wikipedia.org/wiki/Wikipedia:Exzellente_Artikel",
+      "title": "Wikipedia:Exzellente Artikel – Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "TR9kflXXOSAg",
+      "address": "https://www.rbb24.de/",
+      "title": "rbb24 - Nachrichten aus Berlin und Brandenburg",
+      "grade": null
+    },
+    {
+      "hash": "ATIMylhl_5qi",
+      "address": "https://www.deutschlandfunk.de/sendungen",
+      "title": "Alle Sendungen",
+      "grade": null
+    },
+    {
+      "hash": "0OQaDApVI8fh",
+      "address": "https://plus.sueddeutsche.de/",
+      "title": "Alle SZplus Inhalte der Süddeutschen Zeitung - SZ.de",
+      "grade": null
+    },
+    {
+      "hash": "bWC1SaqeWpa5",
+      "address": "https://www.leverkusen.com/wohin/index.php?view=00000029",
+      "title": "Essen und Trinken in Wiesdorf",
       "grade": 0
     },
     {
@@ -116,16 +158,46 @@
       "grade": 0
     },
     {
+      "hash": "6BzIDjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Eastern_Bloc",
+      "title": "Eastern Bloc - Wikipedia",
+      "grade": null
+    },
+    {
+      "hash": "-eJKllXXOSAg",
+      "address": "https://www.rbb24.de/thema/",
+      "title": "Themen von A - Z",
+      "grade": null
+    },
+    {
+      "hash": "LA9XAhoLWSig",
+      "address": "https://www.berlin.de/landesdenkmalamt/veranstaltungen/tag-des-offenen-denkmals/",
+      "title": "Tag des offenen Denkmals - Berlin.de",
+      "grade": null
+    },
+    {
       "hash": "QrcPgdFO6r_x",
       "address": "https://de.wikipedia.org/wiki/Klassizismus",
       "title": "Klassizismus – Wikipedia",
       "grade": 0
     },
     {
-      "hash": "bWC1SaqeWpa5",
-      "address": "https://www.leverkusen.com/wohin/index.php?view=00000029",
-      "title": "Essen und Trinken in Wiesdorf",
-      "grade": 0
+      "hash": "B9pAUdFO6r_x",
+      "address": "https://de.wikipedia.org/wiki/Zweiter_Weltkrieg",
+      "title": "Zweiter Weltkrieg – Wikipedia",
+      "grade": null
+    },
+    {
+      "hash": "DWP4NdFO6r_x",
+      "address": "https://de.wikipedia.org/wiki/Deutscher_Bundestag",
+      "title": "Deutscher Bundestag – Wikipedia",
+      "grade": null
+    },
+    {
+      "hash": "N_sgsdFO6r_x",
+      "address": "https://de.wikipedia.org/wiki/Europa",
+      "title": "Europa – Wikipedia",
+      "grade": null
     },
     {
       "hash": "VSatEdFO6r_x",
@@ -138,6 +210,18 @@
       "address": "https://de.wikipedia.org/wiki/Volksrepublik_China",
       "title": "Volksrepublik China – Wikipedia",
       "grade": 0
+    },
+    {
+      "hash": "sxUL2dFO6r_x",
+      "address": "https://de.wikipedia.org/wiki/Wikipedia:Hauptseite",
+      "title": "Wikipedia – Die freie Enzyklopädie",
+      "grade": 0
+    },
+    {
+      "hash": "UGaaTjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Central_Europe",
+      "title": "Central Europe - Wikipedia",
+      "grade": null
     },
     {
       "hash": "RXMx0mcqomtg",
@@ -170,27 +254,15 @@
       "grade": 0
     },
     {
-      "hash": "1c6AWlfWll-g",
-      "address": "https://www.3sat.de/",
-      "title": "Startseite - 3sat-Mediathek",
-      "grade": 0
-    },
-    {
       "hash": "0k0HOtcqomtg",
       "address": "https://taz.de/verlag/aktuelles-aus-der-taz/!v=8f20076f-2be2-41ba-b79b-5a03bb0ecc51/",
       "title": "Aktuelles | taz.de",
       "grade": 0
     },
     {
-      "hash": "R1PZSlKDFhNg",
-      "address": "https://www.bpb.de/",
-      "title": "Bundeszentrale für politische Bildung | Startseite | bpb.de",
-      "grade": 0
-    },
-    {
-      "hash": "0jbQd7KDFhNg",
-      "address": "https://www.bpb.de/themen/deutschlandarchiv/550520/neugablonz-vom-truemmergelaende-zur-vertriebenensiedlung/",
-      "title": "Neugablonz - vom Trümmergelände zur Vertriebenensiedlung | Deutschland Archiv | bpb.de",
+      "hash": "1c6AWlfWll-g",
+      "address": "https://www.3sat.de/",
+      "title": "Startseite - 3sat-Mediathek",
       "grade": 0
     },
     {
@@ -204,84 +276,6 @@
       "address": "https://www.bpb.de/themen/deutschlandarchiv/324915/die-durchlaufene-mauer/",
       "title": "Die durchlaufene Mauer | Deutschland Archiv | bpb.de",
       "grade": 2
-    },
-    {
-      "hash": "14BQC7KDFhNg",
-      "address": "https://www.bpb.de/themen/deutschlandarchiv/297811/die-maueroeffner/",
-      "title": "Die Maueröffner | Deutschland Archiv | bpb.de",
-      "grade": 2
-    },
-    {
-      "hash": "2AnHz7KDFhNg",
-      "address": "https://www.bpb.de/themen/deutschlandarchiv/344484/eliten-im-osten-ein-anhaltendes-defizit/",
-      "title": "Eliten im Osten - ein anhaltendes Defizit? | Deutschland Archiv | bpb.de",
-      "grade": 1
-    },
-    {
-      "hash": "3X7hb7KDFhNg",
-      "address": "https://www.bpb.de/themen/deutschlandarchiv/158899/der-andere-mauerfall/",
-      "title": "Der andere Mauerfall | Deutschland Archiv | bpb.de",
-      "grade": 2
-    },
-    {
-      "hash": "3mWBh7KDFhNg",
-      "address": "https://www.bpb.de/themen/deutschlandarchiv/518214/der-13-februar-1945-im-kollektiven-gedaechtnis-dresdens/",
-      "title": "Der 13. Februar 1945 im kollektiven Gedächtnis Dresdens | Deutschland Archiv | bpb.de",
-      "grade": 0
-    },
-    {
-      "hash": "3o-vl7KDFhNg",
-      "address": "https://www.bpb.de/themen/deutschlandarchiv/548200/d-und-ddr-die-doppelte-staatsgruendung-vor-75-jahren/",
-      "title": "D und DDR. Die doppelte Staatsgründung vor 75 Jahren. | Deutschland Archiv | bpb.de",
-      "grade": 1
-    },
-    {
-      "hash": "4bIqt7KDFhNg",
-      "address": "https://www.bpb.de/themen/deutschlandarchiv/310154/die-debatte-ueber-die-asiatische-grippe/",
-      "title": "Die Debatte über die Asiatische Grippe | Deutschland Archiv | bpb.de",
-      "grade": 0
-    },
-    {
-      "hash": "4koo47KDFhNg",
-      "address": "https://www.bpb.de/themen/deutschlandarchiv/546140/als-es-mir-kalt-den-ruecken-runterlief/",
-      "title": "Als es mir kalt den Rücken runterlief | Deutschland Archiv | bpb.de",
-      "grade": 1
-    },
-    {
-      "hash": "4qI5D7KDFhNg",
-      "address": "https://www.bpb.de/themen/deutschlandarchiv/302316/5-den-anderen-anders-wahrnehmen/",
-      "title": "5. Den Anderen anders wahrnehmen | Deutschland Archiv | bpb.de",
-      "grade": 1
-    },
-    {
-      "hash": "5MrdD7KDFhNg",
-      "address": "https://www.bpb.de/themen/deutschlandarchiv/139631/der-honecker-besuch-in-bonn-1987/",
-      "title": "Der Honecker-Besuch in Bonn 1987 | Deutschland Archiv | bpb.de",
-      "grade": 1
-    },
-    {
-      "hash": "5W0Sd7KDFhNg",
-      "address": "https://www.bpb.de/themen/deutschlandarchiv/138893/nach-dem-mauerbau/",
-      "title": "Nach dem Mauerbau | Deutschland Archiv | bpb.de",
-      "grade": 2
-    },
-    {
-      "hash": "5aMQ77KDFhNg",
-      "address": "https://www.bpb.de/themen/deutschlandarchiv/231079/demokratischer-denkmalsturz/",
-      "title": "Demokratischer Denkmalsturz? | Deutschland Archiv | bpb.de",
-      "grade": 1
-    },
-    {
-      "hash": "5nLdN7KDFhNg",
-      "address": "https://www.bpb.de/themen/deutschlandarchiv/284384/israel-im-schwarzen-kanal/",
-      "title": "Israel im Schwarzen Kanal | Deutschland Archiv | bpb.de",
-      "grade": 1
-    },
-    {
-      "hash": "6DUXh7KDFhNg",
-      "address": "https://www.bpb.de/themen/deutschlandarchiv/kutzner-alltagsleben-im-grenzgebiet/",
-      "title": "Alltagsleben im Grenzgebiet. Ein Oral History Projekt | Deutschland Archiv | bpb.de",
-      "grade": 1
     },
     {
       "hash": "-JFhL7KDFhNg",

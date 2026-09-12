@@ -8,22 +8,16 @@
       "grade": 2
     },
     {
-      "hash": "qIqhBUemigYg",
-      "address": "https://www.flixbus.de/busverbindung/fernbus-europa-park-rust-heidelberg",
-      "title": "Bus Rust (Europa-Park) nach Heidelberg - Günstig Tickets buchen",
-      "grade": 0
+      "hash": "EJQL5vDOAHJg",
+      "address": "https://www.heise.de/news/Nvidia-CUDA-Rust-Native-GPU-Kernel-in-Rust-schreiben-11446842.html?wt_mc=rss.red.ho.beitrag.atom.beitrag.beitrag",
+      "title": "Nvidia CUDA Rust: Native GPU-Kernel in Rust schreiben | heise online",
+      "grade": null
     },
     {
-      "hash": "_GS0aoDZNRCx",
-      "address": "https://doc.rust-lang.org/nightly/core/keyword.crate.html",
-      "title": "crate - Rust",
-      "grade": 1
-    },
-    {
-      "hash": "HTGekngko1nx",
-      "address": "https://users.rust-lang.org/u/ZiCog",
-      "title": "Profile - ZiCog - The Rust Programming Language Forum",
-      "grade": 1
+      "hash": "op6r4sNweQAy",
+      "address": "https://steamunlocked.org/rust-free-download/",
+      "title": "Rust Free Download (v2321 \u0026 Multiplayer) » SteamUnlocked",
+      "grade": null
     },
     {
       "hash": "tA8cOeWRy054",
@@ -50,10 +44,10 @@
       "grade": 1
     },
     {
-      "hash": "OSC6vPMW35a4",
-      "address": "https://hub.docker.com/_/rust/tags",
-      "title": "rust Tags | Docker Hub",
-      "grade": 1
+      "hash": "_4-AysS6MKD4",
+      "address": "https://github.com/rust-lang",
+      "title": "The Rust Programming Language · GitHub",
+      "grade": null
     },
     {
       "hash": "uZZMYjRvmBbx",
@@ -62,22 +56,28 @@
       "grade": 2
     },
     {
-      "hash": "Bi7Wzd-COV4w",
-      "address": "https://packages.altlinux.org/en/sisyphus/deps/rust/provide",
-      "title": "ALT Linux - sisyphus - Dependency - rust - provide",
+      "hash": "pmMjcC7NCNPA",
+      "address": "http://urn.kb.se/resolve?urn=urn:nbn:se:uu:diva-567498",
+      "title": "An Analysis of Malware Written in the Rust Programming Language",
+      "grade": null
+    },
+    {
+      "hash": "_GS0aoDZNRCx",
+      "address": "https://doc.rust-lang.org/nightly/core/keyword.crate.html",
+      "title": "crate - Rust",
       "grade": 1
     },
     {
-      "hash": "QLueEgsjOPf5",
-      "address": "https://fuchsia.googlesource.com/third_party/github.com/rust-lang/rust/+/refs/heads/cranelift-rebase",
-      "title": "refs/heads/cranelift-rebase - third_party/github.com/rust-lang/rust - Git at Google",
+      "hash": "Q2tdhvDOAHJg",
+      "address": "https://www.heise.de/news/Nvidia-CUDA-Rust-Native-GPU-Kernel-in-Rust-schreiben-11446842.html",
+      "title": "Nvidia CUDA Rust: Native GPU-Kernel in Rust schreiben | heise online",
       "grade": 1
     },
     {
-      "hash": "ijpxLwSMo4M4",
-      "address": "https://www.zdnet.com/article/greg-kroah-hartman-linux-kernel-rust/",
-      "title": "'Rust makes coding fun again': Why Linux is moving away from C, according to Greg Kroah-Hartman | ZDNET",
-      "grade": 1
+      "hash": "T4keGsnpCNr6",
+      "address": "https://rust-for-linux.com/gccrs",
+      "title": "gccrs - Rust for Linux",
+      "grade": null
     },
     {
       "hash": "lh0zKsnpCNr6",
@@ -92,9 +92,15 @@
       "grade": 2
     },
     {
-      "hash": "nYC62oDZNRCx",
-      "address": "https://doc.rust-lang.org/nightly/core/panicking/fn.panic_display.html",
-      "title": "panic_display in core::panicking - Rust",
+      "hash": "YSYluU8LZOnz",
+      "address": "https://this-week-in-rust.org/blog/2022/11/30/this-week-in-rust-471/",
+      "title": "This Week in Rust 471 · This Week in Rust",
+      "grade": null
+    },
+    {
+      "hash": "mts9ingko1nx",
+      "address": "https://users.rust-lang.org/u/crackanimad0r",
+      "title": "Profile - crackanimad0r - The Rust Programming Language Forum",
       "grade": 1
     },
     {
@@ -110,15 +116,9 @@
       "grade": 1
     },
     {
-      "hash": "Q2tdhvDOAHJg",
-      "address": "https://www.heise.de/news/Nvidia-CUDA-Rust-Native-GPU-Kernel-in-Rust-schreiben-11446842.html",
-      "title": "Nvidia CUDA Rust: Native GPU-Kernel in Rust schreiben | heise online",
-      "grade": 1
-    },
-    {
-      "hash": "P5qgbsnpCNr6",
-      "address": "https://rust-for-linux.com/print",
-      "title": "Rust for Linux",
+      "hash": "QLueEgsjOPf5",
+      "address": "https://fuchsia.googlesource.com/third_party/github.com/rust-lang/rust/+/refs/heads/cranelift-rebase",
+      "title": "refs/heads/cranelift-rebase - third_party/github.com/rust-lang/rust - Git at Google",
       "grade": 1
     },
     {
@@ -134,15 +134,9 @@
       "grade": 1
     },
     {
-      "hash": "YT8E9oDZNRCx",
-      "address": "https://doc.rust-lang.org/nightly/std/primitive.i16.html",
-      "title": "i16 - Rust",
-      "grade": 1
-    },
-    {
-      "hash": "mts9ingko1nx",
-      "address": "https://users.rust-lang.org/u/crackanimad0r",
-      "title": "Profile - crackanimad0r - The Rust Programming Language Forum",
+      "hash": "6K8zAtkUiOQ5",
+      "address": "https://rust.code-maven.com/",
+      "title": "Rust Maven",
       "grade": 1
     },
     {
@@ -152,34 +146,34 @@
       "grade": 1
     },
     {
+      "hash": "NtmYkoDZNRCx",
+      "address": "https://doc.rust-lang.org/nightly/std/primitive.str.html",
+      "title": "str - Rust",
+      "grade": null
+    },
+    {
       "hash": "0INJAoBXHPax",
       "address": "https://blog.rust-lang.org/inside-rust/2024/08/09/async-closures-call-for-testing/",
       "title": "Async Closures MVP: Call for Testing! | Inside Rust Blog",
       "grade": 1
     },
     {
-      "hash": "5e0M2U8LZOnz",
-      "address": "https://this-week-in-rust.org/blog/2026/04/29/this-week-in-rust-649/",
-      "title": "This Week in Rust 649 · This Week in Rust",
+      "hash": "U_yD6oDZNRCx",
+      "address": "https://doc.rust-lang.org/nightly/std/sync/mpmc/struct.Receiver.html",
+      "title": "Receiver in std::sync::mpmc - Rust",
       "grade": 1
     },
     {
-      "hash": "XvPK_coCj-7w",
-      "address": "https://rust-unofficial.github.io/patterns/print.html",
-      "title": "Rust Design Patterns",
+      "hash": "P5qgbsnpCNr6",
+      "address": "https://rust-for-linux.com/print",
+      "title": "Rust for Linux",
       "grade": 1
     },
     {
-      "hash": "YjZ0LDDZNRCx",
-      "address": "https://doc.rust-lang.org/rust-by-example/",
-      "title": "Introduction - Rust By Example",
-      "grade": 1
-    },
-    {
-      "hash": "M-vipvDOAHJg",
-      "address": "https://www.heise.de/news/Nvidia-CUDA-Rust-Native-GPU-Kernel-in-Rust-schreiben-11446842.html?wt_mc=rss.red.ho.ho.atom.beitrag.beitrag",
-      "title": "Nvidia CUDA Rust: Native GPU-Kernel in Rust schreiben | heise online",
-      "grade": 1
+      "hash": "8pWVgoDZNRCx",
+      "address": "https://doc.rust-lang.org/nightly/std/mem/struct.ManuallyDrop.html",
+      "title": "ManuallyDrop in std::mem - Rust",
+      "grade": null
     },
     {
       "hash": "6ytcEoDZNRCx",
@@ -200,15 +194,15 @@
       "grade": 1
     },
     {
-      "hash": "_7VHgoDZNRCx",
-      "address": "https://doc.rust-lang.org/nightly/core/",
-      "title": "core - Rust",
+      "hash": "KT8bUtV9oHh4",
+      "address": "https://rust.utils.com/",
+      "title": "Rust Shell - utils.com",
       "grade": 1
     },
     {
-      "hash": "U_yD6oDZNRCx",
-      "address": "https://doc.rust-lang.org/nightly/std/sync/mpmc/struct.Receiver.html",
-      "title": "Receiver in std::sync::mpmc - Rust",
+      "hash": "XvPK_coCj-7w",
+      "address": "https://rust-unofficial.github.io/patterns/print.html",
+      "title": "Rust Design Patterns",
       "grade": 1
     },
     {
@@ -218,16 +212,10 @@
       "grade": 0
     },
     {
-      "hash": "PF3jvsVuF7c4",
-      "address": "https://rust-mobile.ru.uptodown.com/android",
-      "title": "Rust Mobile 1.33.1.106 для Android - Скачайте проверенный APK с Uptodown",
-      "grade": 0
-    },
-    {
-      "hash": "OUkf3mgko1nx",
-      "address": "https://users.rust-lang.org/t/twir-quote-of-the-week/328",
-      "title": "TWiR quote of the week - community - The Rust Programming Language Forum",
-      "grade": 1
+      "hash": "bhWQUmgko1nx",
+      "address": "https://users.rust-lang.org/t/welcome-to-the-rust-programming-language-users-forum/77411",
+      "title": "Welcome to the Rust programming language users forum - meta - The Rust Programming Language Forum",
+      "grade": null
     },
     {
       "hash": "f0zFwtDnLmqx",
@@ -236,46 +224,70 @@
       "grade": 1
     },
     {
-      "hash": "6K8zAtkUiOQ5",
-      "address": "https://rust.code-maven.com/",
-      "title": "Rust Maven",
+      "hash": "aIh_JoDZNRCx",
+      "address": "https://doc.rust-lang.org/nightly/core/ops/trait.Shr.html",
+      "title": "Shr in core::ops - Rust",
+      "grade": null
+    },
+    {
+      "hash": "OUkf3mgko1nx",
+      "address": "https://users.rust-lang.org/t/twir-quote-of-the-week/328",
+      "title": "TWiR quote of the week - community - The Rust Programming Language Forum",
       "grade": 1
     },
     {
-      "hash": "O68Ub5anrPkw",
-      "address": "https://rustwiki.org/zh-CN/rust-by-example/",
-      "title": "简介 - 通过例子学 Rust 中文版",
+      "hash": "5e0M2U8LZOnz",
+      "address": "https://this-week-in-rust.org/blog/2026/04/29/this-week-in-rust-649/",
+      "title": "This Week in Rust 649 · This Week in Rust",
       "grade": 1
     },
     {
-      "hash": "KT8bUtV9oHh4",
-      "address": "https://rust.utils.com/",
-      "title": "Rust Shell - utils.com",
+      "hash": "pbc9aoDZNRCx",
+      "address": "https://doc.rust-lang.org/nightly/core/marker/trait.Unpin.html",
+      "title": "Unpin in core::marker - Rust",
+      "grade": null
+    },
+    {
+      "hash": "9ZngG5Di1byx",
+      "address": "https://rust-lang.org/governance/people/djc/",
+      "title": "Dirkjan Ochtman - Rust Programming Language",
+      "grade": null
+    },
+    {
+      "hash": "YT8E9oDZNRCx",
+      "address": "https://doc.rust-lang.org/nightly/std/primitive.i16.html",
+      "title": "i16 - Rust",
       "grade": 1
     },
     {
-      "hash": "cdFyDoDZNRCx",
-      "address": "https://doc.rust-lang.org/nightly/std/io/struct.IoSlice.html",
-      "title": "IoSlice in std::io - Rust",
+      "hash": "G1ejCoDZNRCx",
+      "address": "https://doc.rust-lang.org/nightly/std/ffi/index.html",
+      "title": "std::ffi - Rust",
+      "grade": null
+    },
+    {
+      "hash": "YjZ0LDDZNRCx",
+      "address": "https://doc.rust-lang.org/rust-by-example/",
+      "title": "Introduction - Rust By Example",
       "grade": 1
     },
     {
-      "hash": "LYyGA8Di1byx",
-      "address": "https://rust-lang.org/funding/mir.html",
-      "title": "Maintainers in Residence - Rust Programming Language",
-      "grade": 1
+      "hash": "EG80KtDnLmqx",
+      "address": "https://thanks.rust-lang.org/rust/1.98.1/",
+      "title": "Rust 1.98.1 Contributors",
+      "grade": null
     },
     {
-      "hash": "NH0RtFcFdHhw",
-      "address": "https://rust-lang-nursery.github.io/rust-cookbook/",
-      "title": "Table of Contents - Rust Cookbook",
-      "grade": 1
+      "hash": "PF3jvsVuF7c4",
+      "address": "https://rust-mobile.ru.uptodown.com/android",
+      "title": "Rust Mobile 1.33.1.106 для Android - Скачайте проверенный APK с Uptodown",
+      "grade": 0
     },
     {
-      "hash": "OF1aPs0sjhTw",
-      "address": "https://spectrum.ieee.org/ai-code-rust-great-refactor",
-      "title": "AI Code Transforms C to Rust for Safer Software - IEEE Spectrum",
-      "grade": 1
+      "hash": "NTQeXoDZNRCx",
+      "address": "https://doc.rust-lang.org/nightly/std/panic/trait.UnwindSafe.html",
+      "title": "UnwindSafe in std::panic - Rust",
+      "grade": null
     },
     {
       "hash": "agKV-5Di1byx",
@@ -290,40 +302,28 @@
       "grade": 1
     },
     {
-      "hash": "KL-_KgvbH0Xx",
-      "address": "https://forge.rust-lang.org/infra/other-installation-methods.html",
-      "title": "Other Installation Methods - Rust Forge",
-      "grade": 1
-    },
-    {
-      "hash": "NGsW0Hoc7tnw",
-      "address": "https://blog.mozilla.org/en/mozilla/mozilla-welcomes-the-rust-foundation/",
-      "title": "Mozilla Welcomes the Rust Foundation",
-      "grade": 1
-    },
-    {
-      "hash": "zbG0ltDnLmqx",
-      "address": "https://thanks.rust-lang.org/rust/1.66.1/",
-      "title": "Rust 1.66.1 Contributors",
-      "grade": 1
-    },
-    {
       "hash": "_RH4ooDZNRCx",
       "address": "https://doc.rust-lang.org/nightly/core/ptr/fn.read_unaligned.html",
       "title": "read_unaligned in core::ptr - Rust",
       "grade": 1
     },
     {
-      "hash": "BRgLMoDZNRCx",
-      "address": "https://doc.rust-lang.org/nightly/core/panicking/fn.panic_nounwind_fmt.html",
-      "title": "panic_nounwind_fmt in core::panicking - Rust",
-      "grade": 1
+      "hash": "59ctk5Di1byx",
+      "address": "https://rust-lang.org/governance/people/dianqk/",
+      "title": "dianqk - Rust Programming Language",
+      "grade": null
     },
     {
-      "hash": "EgwpYoDZNRCx",
-      "address": "https://doc.rust-lang.org/nightly/std/io/trait.Read.html",
-      "title": "Read in std::io - Rust",
-      "grade": 1
+      "hash": "MalpltDnLmqx",
+      "address": "https://thanks.rust-lang.org/rust/1.77.1/",
+      "title": "Rust 1.77.1 Contributors",
+      "grade": null
+    },
+    {
+      "hash": "jq9sPoDZNRCx",
+      "address": "https://doc.rust-lang.org/nightly/core/keyword.match.html",
+      "title": "match - Rust",
+      "grade": null
     }
   ]
 }

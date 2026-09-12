@@ -1,17 +1,134 @@
 {
   "query": "heise",
-  "recordedAt": "2026-09-12T10:15:21Z",
+  "recordedAt": "2026-09-12T11:25:11Z",
   "itemsInTheOrderOfEachAnswer": [
     [
       {
-        "hash": "4du6bTZPnOc5",
-        "address": "https://www.eurobasket.com/Germany/basketball.aspx",
-        "title": "Germany Basketball, News, Teams, Scores, Stats, Standings, Awards - eurobasket",
-        "snippet": "",
+        "hash": "MKQ2gEDOAHJg",
+        "address": "https://www.heise.de/benachrichtigungen/heise-bot/",
+        "title": "heise-Bot | heise online",
+        "snippet": "Täglich schickt Ihnen unser heise-Bot – auch \"Botti\" genannt – morgens und abends ausgewählte News als Push-Nachricht. Der etwas andere Nachrichtenüberblick, erfrischend locker und gespickt mit Anekdoten aus dem Leben eines Bots.",
         "matchedWords": {
           "-3-LOujYh7vX": {
             "hits": 1,
-            "textWords": 8969
+            "textWords": 47
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "sz4qlChhB9pg",
+        "address": "https://shop.heise.de/zeitschriften-abo/",
+        "title": "heise Abo-Übersicht: Magazine \u0026 heise+ | heise | heise shop",
+        "snippet": "Unabhängiger Journalismus ist bei c't das A und O - das wissen unsere Leser zu schätzen. Egal ob gedruckt oder digital. Genießen Sie die Vorzüge eines Abonnements und sparen Sie gegenüber dem Einzelkauf.\nheise+ ist das digitale Abo von heise online.",
+        "matchedWords": {
+          "-3-LOujYh7vX": {
+            "hits": 5,
+            "textWords": 484
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "frdNx0T7dH8g",
+        "address": "https://social.heise.de/@heiseonlineenglish",
+        "title": "heise online English (@heiseonlineenglish@social.heise.de) - Heise Medien on Mastodon",
+        "snippet": "",
+        "matchedWords": {
+          "-3-LOujYh7vX": {
+            "hits": 3,
+            "textWords": 68
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "1Uk6a9Uv6uQ4",
+        "address": "https://bsky.app/profile/heise.de",
+        "title": "@heise.de on Bluesky",
+        "snippet": "",
+        "matchedWords": {
+          "-3-LOujYh7vX": {
+            "hits": 4,
+            "textWords": 87
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "R8DHxInk4jwg",
+        "address": "https://compaliate.heise.de/",
+        "title": "heise compaliate - Die Affiliate Plattform für Publisher",
+        "snippet": "Fülle ganz einfach und bequem das Formular aus oder schreibe uns eine E-Mail. Wir werden deine Fragen schnellstmöglich beantworten.\nUnsere Antworten auf die häufigsten Fragen\nHier findest Du Antworten auf die häufigsten Fragen zu heise compaliate!\nWas ist heise compaliate?",
+        "matchedWords": {
+          "-3-LOujYh7vX": {
+            "hits": 9,
+            "textWords": 890
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "iRZd5qBwgIkg",
+        "address": "https://business-services.heise.de/",
+        "title": "Heise Business Services | heise",
+        "snippet": "Premium Webcast / Live Webcast am 22.10. um 11 Uhr\nSecurity\nSecurity Management\nKI-gestützte Cyberangriffe: So rüsten Sie Ihre Abwehr richtig auf\nCyberkriminelle nutzen KI, um Angriffe schneller und gezielter durchzuführen.",
+        "matchedWords": {
+          "-3-LOujYh7vX": {
+            "hits": 0,
+            "textWords": 549
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "VWVH19D69aig",
+        "address": "https://peertube.heise.de/",
+        "title": "Videos von heise online",
+        "snippet": "Videos von heise online\nIncompatible browser\nWe are sorry but it seems that PeerTube is not compatible with your web browser.\nPlease try with the latest version of Mozilla Firefox.\nIf you think this is a mistake, please report it.",
+        "matchedWords": {
+          "-3-LOujYh7vX": {
+            "hits": 1,
+            "textWords": 39
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "-AK_LlDOAHJg",
+        "address": "https://www.heise.de/developer/kontakt/?frage=3212474",
+        "title": "Kontaktformular | heise online",
+        "snippet": "",
+        "matchedWords": {
+          "-3-LOujYh7vX": {
+            "hits": 57,
+            "textWords": 623
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "EzaPUdFO6r_x",
+        "address": "https://de.wikipedia.org/wiki/Heise_online",
+        "title": "heise online – Wikipedia",
+        "snippet": "",
+        "matchedWords": {
+          "-3-LOujYh7vX": {
+            "hits": 97,
+            "textWords": 1939
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "gqShUFuC9upw",
+        "address": "https://www.saidit.net/domain/heise.de/",
+        "title": "heise.de on saidit.net",
+        "snippet": "",
+        "matchedWords": {
+          "-3-LOujYh7vX": {
+            "hits": 103,
+            "textWords": 2608
           }
         },
         "queryPhraseHits": 0
@@ -58,27 +175,27 @@
         "queryPhraseHits": 0
       },
       {
-        "hash": "wETJ80ghd-Kg",
-        "address": "https://geizhals.de/merchants/shelly-parts-97-eb-de",
-        "title": "shelly-parts Bewertungen \u0026 Erfahrungen - Geizhals Deutschland",
+        "hash": "ZJ8D5jRvmBbx",
+        "address": "https://en.wikipedia.org/wiki/DR-DOS_7.07",
+        "title": "DR-DOS - Wikipedia",
         "snippet": "",
         "matchedWords": {
           "-3-LOujYh7vX": {
-            "hits": 1,
-            "textWords": 434
+            "hits": 3,
+            "textWords": 12876
           }
         },
         "queryPhraseHits": 0
       },
       {
-        "hash": "WBXG1jRvmBbx",
-        "address": "https://en.wikipedia.org/wiki/Wikimedia",
-        "title": "Wikimedia Foundation - Wikipedia",
+        "hash": "F1w03sghd-Kg",
+        "address": "https://geizhals.de/?phist=3752901",
+        "title": "Preisentwicklung für M-Wave Amsterdam Box L Gepäckbox (90 Tage) Geizhals Deutschland",
         "snippet": "",
         "matchedWords": {
           "-3-LOujYh7vX": {
-            "hits": 2,
-            "textWords": 15100
+            "hits": 1,
+            "textWords": 292
           }
         },
         "queryPhraseHits": 0
@@ -97,27 +214,40 @@
         "queryPhraseHits": 0
       },
       {
-        "hash": "6WsmEsghd-Kg",
-        "address": "https://geizhals.de/thule-shield-23-gepaecktasche-v246951.html?pg=1\u0026view=list",
-        "title": "Thule Shield 23 Gepäcktasche ab € 105,92 (2026) | Preisvergleich Geizhals Deutschland",
+        "hash": "9qteUscL7sng",
+        "address": "https://geizhals.at/?cat=camsecsa",
+        "title": "Gebäudeautomation \u0026 Sicherheit Gegensprechsysteme Preisvergleich Geizhals Österreich",
         "snippet": "",
         "matchedWords": {
           "-3-LOujYh7vX": {
             "hits": 1,
-            "textWords": 674
+            "textWords": 2055
           }
         },
         "queryPhraseHits": 0
       },
       {
-        "hash": "6wArqLgj2PMw",
-        "address": "https://www.law.cornell.edu/category/keywords/free_exercise_clause",
-        "title": "Free Exercise Clause | Legal Information Institute",
+        "hash": "WBXG1jRvmBbx",
+        "address": "https://en.wikipedia.org/wiki/Wikimedia",
+        "title": "Wikimedia Foundation - Wikipedia",
+        "snippet": "",
+        "matchedWords": {
+          "-3-LOujYh7vX": {
+            "hits": 2,
+            "textWords": 15100
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "qJaXOsghd-Kg",
+        "address": "https://geizhals.de/?cat=camseczb\u0026promode=false",
+        "title": "Gebäudeautomation \u0026 Sicherheit Kamerazubehör Preisvergleich Geizhals Deutschland",
         "snippet": "",
         "matchedWords": {
           "-3-LOujYh7vX": {
             "hits": 1,
-            "textWords": 4622
+            "textWords": 1953
           }
         },
         "queryPhraseHits": 0
@@ -131,19 +261,6 @@
           "-3-LOujYh7vX": {
             "hits": 1,
             "textWords": 1311
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "78snBscL7sng",
-        "address": "https://geizhals.at/?cat=eggjoystick",
-        "title": "Eingabegeräte Joysticks \u0026 Zubehör Preisvergleich Geizhals Österreich",
-        "snippet": "",
-        "matchedWords": {
-          "-3-LOujYh7vX": {
-            "hits": 1,
-            "textWords": 2408
           }
         },
         "queryPhraseHits": 0
@@ -164,14 +281,14 @@
         "queryPhraseHits": 0
       },
       {
-        "hash": "l9OPverrGcCg",
-        "address": "https://preisvergleich.heise.de/merchants/ms-electronics-net-44-eb-de",
-        "title": "ms-electronics net Bewertungen \u0026 Erfahrungen - heise preisvergleich Deutschland",
-        "snippet": "Schon bei ms-electronics net gekauft?\nSchon bei ms-electronics net gekauft?\nBewertungen und Erfahrungen für ms-electronics net\nLaden ...\nLetzte Aktualisierung: 12.09.2026, 02:12\nDer heise Preisvergleich ist ein Angebot in Kooperation mit der Preisvergleich Internet Services AG (geizhals.de).",
+        "hash": "W90-DFrrGcCg",
+        "address": "https://preisvergleich.heise.de/axa-imenso-l-rahmenschloss-586400560x05sc-a3160305.html?hloc=de",
+        "title": "AXA Imenso L Rahmenschloss, Schlüssel schwarz (586400560X05SC) ab € 43,49 (2026) | heise preisvergleich Deutschland",
+        "snippet": "Der heise Preisvergleich ist ein Angebot in Kooperation mit der Preisvergleich Internet Services AG (geizhals.de). Die Redaktion von heise online hat keinen Einfluss auf das Angebot. Anfragen bitten wir daher direkt an geizhals.de zu stellen.",
         "matchedWords": {
           "-3-LOujYh7vX": {
             "hits": 2,
-            "textWords": 98
+            "textWords": 295
           }
         },
         "queryPhraseHits": 0
@@ -190,19 +307,6 @@
         "queryPhraseHits": 0
       },
       {
-        "hash": "3_yvllU0FcHg",
-        "address": "https://www.gravsted.dk/person.php?navn=peterheise",
-        "title": "Peter Heise",
-        "snippet": "",
-        "matchedWords": {
-          "-3-LOujYh7vX": {
-            "hits": 5,
-            "textWords": 257
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
         "hash": "7ez7rlPCpqc4",
         "address": "https://www.youtube.com/heiseonline",
         "title": "heise \u0026 c't - YouTube",
@@ -211,6 +315,19 @@
           "-3-LOujYh7vX": {
             "hits": 1,
             "textWords": 68
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "3_yvllU0FcHg",
+        "address": "https://www.gravsted.dk/person.php?navn=peterheise",
+        "title": "Peter Heise",
+        "snippet": "",
+        "matchedWords": {
+          "-3-LOujYh7vX": {
+            "hits": 5,
+            "textWords": 257
           }
         },
         "queryPhraseHits": 0
@@ -229,14 +346,14 @@
         "queryPhraseHits": 0
       },
       {
-        "hash": "FEBtIerrGcCg",
-        "address": "https://preisvergleich.heise.de/merchants/saturn-53109-eb-de",
-        "title": "saturn Bewertungen \u0026 Erfahrungen - heise preisvergleich Deutschland",
+        "hash": "l9OPverrGcCg",
+        "address": "https://preisvergleich.heise.de/merchants/ms-electronics-net-44-eb-de",
+        "title": "ms-electronics net Bewertungen \u0026 Erfahrungen - heise preisvergleich Deutschland",
         "snippet": "",
         "matchedWords": {
           "-3-LOujYh7vX": {
             "hits": 25,
-            "textWords": 659
+            "textWords": 606
           }
         },
         "queryPhraseHits": 0
@@ -283,131 +400,92 @@
     ],
     [
       {
-        "hash": "50ZNiWAG_SV5",
-        "address": "https://www.metraonline.com/brand/heise",
-        "title": "Heise Universe Lighting Systems Products | Metra Electronic…",
-        "snippet": "",
-        "matchedWords": {
-          "-3-LOujYh7vX": {
-            "hits": 6,
-            "textWords": 649
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "_n337H3VhAU6",
-        "address": "https://www.metradigitalhub.com/portals/Heise",
-        "title": "Heise",
+        "hash": "30Dg9l-4htmx",
+        "address": "https://www.libreoffice.org/privacy-policy/",
+        "title": "Privacy policy — LibreOffice",
         "snippet": "",
         "matchedWords": {
           "-3-LOujYh7vX": {
             "hits": 1,
-            "textWords": 6
+            "textWords": 7065
           }
         },
         "queryPhraseHits": 0
       },
       {
-        "hash": "_UhZMlPCpqc4",
-        "address": "https://www.youtube.com/watch?v=Aqta6wEBWL0",
-        "title": "Heise Infinite Series LED Lightbars \u0026 Cubes with RGB Backlight - YouTube",
+        "hash": "r4pqws0fIXr6",
+        "address": "https://anselm-hannemann.com/about",
+        "title": "About me — Anselm Hannemann",
         "snippet": "",
         "matchedWords": {
           "-3-LOujYh7vX": {
             "hits": 1,
-            "textWords": 157
+            "textWords": 1323
           }
         },
         "queryPhraseHits": 0
       },
       {
-        "hash": "Wfq3FswvoTD5",
-        "address": "https://r-universe.dev/articles",
-        "title": "R-universe - browse articles",
+        "hash": "J-Ynujk8pbbw",
+        "address": "https://healthsciences.arizona.edu/research/research-awards-and-grants",
+        "title": "Health Sciences Grants | The University of Arizona Health Sciences",
         "snippet": "",
         "matchedWords": {
           "-3-LOujYh7vX": {
             "hits": 1,
-            "textWords": 14505
+            "textWords": 1067
           }
         },
         "queryPhraseHits": 0
       },
       {
-        "hash": "k3ZhxWAG_SV5",
-        "address": "https://www.metraonline.com/brand/heise/lbc",
-        "title": "Light Bars and Cubes | Heise Universe Lighting Systems",
+        "hash": "U-Ou9exFffU5",
+        "address": "https://help.nextcloud.com/t/a-new-major-release-of-nc-what-needs-to-be-done/139012/1",
+        "title": "A new major release of NC - what needs to be done - 📑 How to - Nextcloud community",
         "snippet": "",
         "matchedWords": {
           "-3-LOujYh7vX": {
-            "hits": 6,
-            "textWords": 453
+            "hits": 4,
+            "textWords": 888
           }
         },
         "queryPhraseHits": 0
       },
       {
-        "hash": "lHCOUsXqQizy",
-        "address": "https://heberovergaard.org/volunteers/",
-        "title": "Volunteers - Heber-Overgaard Chamber of Commerce",
+        "hash": "L9dWw7jCC-54",
+        "address": "https://help.qwant.com/en/docs/qwant-search/searching/comment-utiliser-les-raccourcis-de-recherche-qwick",
+        "title": "How to use Qwick search shortcuts? - Qwant Help Center",
+        "snippet": "",
+        "matchedWords": {
+          "-3-LOujYh7vX": {
+            "hits": 3,
+            "textWords": 6998
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "wPoIS7jCC-54",
+        "address": "https://help.qwant.com/en/docs/qwant-search/searching/comment-utiliser-les-raccourcis-de-recherche-qwick/",
+        "title": "How to use Qwick search shortcuts? - Qwant Help Center",
+        "snippet": "",
+        "matchedWords": {
+          "-3-LOujYh7vX": {
+            "hits": 3,
+            "textWords": 6998
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "fSimOexFffU5",
+        "address": "https://help.nextcloud.com/t/will-nextcoud-stay-on-github-or-move-to-gitlab-following-other-projects/32482",
+        "title": "Will Nextcoud stay on github or move to gitlab, following other projects? - 💻 Development - Nextcloud community",
         "snippet": "",
         "matchedWords": {
           "-3-LOujYh7vX": {
             "hits": 2,
-            "textWords": 443
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "ZKy7XWAG_SV5",
-        "address": "https://www.metraonline.com/brand/heise/heise",
-        "title": "Heise Universe Lighting Systems | Heise Universe Lighting S…",
-        "snippet": "",
-        "matchedWords": {
-          "-3-LOujYh7vX": {
-            "hits": 7,
-            "textWords": 652
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "1Xhx7WAG_SV5",
-        "address": "https://www.metraonline.com/brand/heise/msl",
-        "title": "Municipality and Safety Lights | Heise Universe Lighting Sy…",
-        "snippet": "",
-        "matchedWords": {
-          "-3-LOujYh7vX": {
-            "hits": 6,
-            "textWords": 633
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "bGSAdgZrhM6w",
-        "address": "https://encyclopedia.ushmm.org/content/en/article/kristallnacht",
-        "title": "Kristallnacht | Holocaust Encyclopedia",
-        "snippet": "",
-        "matchedWords": {
-          "-3-LOujYh7vX": {
-            "hits": 1,
-            "textWords": 5598
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "193ZgWAG_SV5",
-        "address": "https://www.metraonline.com/brand/heise/rll",
-        "title": "RGB LED Lighting | Heise Universe Lighting Systems",
-        "snippet": "",
-        "matchedWords": {
-          "-3-LOujYh7vX": {
-            "hits": 6,
-            "textWords": 638
+            "textWords": 1312
           }
         },
         "queryPhraseHits": 0
@@ -547,14 +625,14 @@
     ],
     [
       {
-        "hash": "xH8OUvDOAHJg",
-        "address": "https://www.heise.de/news/NET-User-Groups-Update-Oktober-2010-1099872.html",
-        "title": ".NET User Groups Update, Oktober 2010 | heise online",
-        "snippet": "Abseits der großen und kleinen Softwarekonferenzen bemühen sich zahlreiche deutsche .NET User Groups um den meist kostenlosen Know-how-Transfer rund um .NET- und andere Microsoft-nahe Techniken. heise Developer informiert regelmäßig über die Termine und Community-Events der .NET-Szene:\nAm 2.",
+        "hash": "sC0kMlDOAHJg",
+        "address": "https://www.heise.de/en",
+        "title": "heise online – IT news, guides and background information | heise online",
+        "snippet": "Europe's Premier Tech News\nGet cutting-edge IT insights from Europe's largest tech editorial team – from curated news to expert opinions. Follow us on Facebook, LinkedIn or Mastodon.\nSelf-Promotion\nClassroom\nEthical Hacking für Admins\nPentesting für eine sichere IT\n5 Live-Sessions Inkl.",
         "matchedWords": {
           "-3-LOujYh7vX": {
-            "hits": 2,
-            "textWords": 773
+            "hits": 0,
+            "textWords": 1029
           }
         },
         "queryPhraseHits": 0
@@ -573,14 +651,14 @@
         "queryPhraseHits": 0
       },
       {
-        "hash": "X6GAZvDOAHJg",
-        "address": "https://www.heise.de/news/NET-User-Groups-Update-Juni-2011-1252882.html",
-        "title": ".NET User Groups Update, Juni 2011 | heise online",
-        "snippet": "Abseits der großen und kleinen Softwarekonferenzen bemühen sich zahlreiche deutsche .NET User Groups um den meist kostenlosen Know-how-Transfer rund um .NET- und andere Microsoft-nahe Techniken. heise Developer informiert regelmäßig über die Termine und Community-Events der .NET-Szene:",
+        "hash": "xH8OUvDOAHJg",
+        "address": "https://www.heise.de/news/NET-User-Groups-Update-Oktober-2010-1099872.html",
+        "title": ".NET User Groups Update, Oktober 2010 | heise online",
+        "snippet": "Abseits der großen und kleinen Softwarekonferenzen bemühen sich zahlreiche deutsche .NET User Groups um den meist kostenlosen Know-how-Transfer rund um .NET- und andere Microsoft-nahe Techniken. heise Developer informiert regelmäßig über die Termine und Community-Events der .NET-Szene:\nAm 2.",
         "matchedWords": {
           "-3-LOujYh7vX": {
             "hits": 2,
-            "textWords": 774
+            "textWords": 773
           }
         },
         "queryPhraseHits": 0
@@ -589,24 +667,11 @@
         "hash": "Fl-YxlDOAHJg",
         "address": "https://www.heise.de/",
         "title": "heise online - IT-News, Nachrichten und Hintergründe | heise online",
-        "snippet": "Ein faltbares iPhone, Pro-Kameras und eine Watch, die ganz nonchalant Gespräche mithört: Wir diskutieren über Apples Hardware-Reigen im Detail.\nVorherigeNächste\nheise online daily abonnieren\nheise online daily abonnieren\nKeine News verpassen!",
+        "snippet": "Das digitale Abo für IT und Technik\nheise+ Jahresabo\nDauerhaft 20 % Rabatt ggü. dem 4-Wochen-Abo\nAlle exklusiven Artikel auf heise online lesen\nOptional mit Zugriff auf alle heise-Magazine (digital \u0026 PDF)\nJetzt Rabatt sichern\nAnzeige\nEigenwerbung\nWhitepaper\nWenn Hacker KI nutzen",
         "matchedWords": {
           "-3-LOujYh7vX": {
-            "hits": 5,
-            "textWords": 956
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "sC0kMlDOAHJg",
-        "address": "https://www.heise.de/en",
-        "title": "heise online – IT news, guides and background information | heise online",
-        "snippet": "Europe's Premier Tech News\nGet cutting-edge IT insights from Europe's largest tech editorial team – from curated news to expert opinions. Follow us on Facebook, LinkedIn or Mastodon.\nSelf-Promotion\nClassroom\nEthical Hacking für Admins\nPentesting für eine sichere IT\n5 Live-Sessions Inkl.",
-        "matchedWords": {
-          "-3-LOujYh7vX": {
-            "hits": 0,
-            "textWords": 695
+            "hits": 10,
+            "textWords": 1238
           }
         },
         "queryPhraseHits": 0
@@ -625,35 +690,48 @@
         "queryPhraseHits": 0
       },
       {
-        "hash": "l6s_OgDOAHJg",
-        "address": "https://www.heise.de/download/products/spiele/wissensspiele",
-        "title": "Wissensspiele | Software-Downloads \u0026 Webdienste | heise Download",
+        "hash": "X6GAZvDOAHJg",
+        "address": "https://www.heise.de/news/NET-User-Groups-Update-Juni-2011-1252882.html",
+        "title": ".NET User Groups Update, Juni 2011 | heise online",
         "snippet": "",
         "matchedWords": {
           "-3-LOujYh7vX": {
-            "hits": 2,
-            "textWords": 1865
+            "hits": 48,
+            "textWords": 1538
           }
         },
         "queryPhraseHits": 0
       },
       {
-        "hash": "5jPuJy8y6f8w",
-        "address": "https://heise.cloudimg.io/v7/_heise-academy-assets_/mz6pujg1s5198b78vd3q9kf9ldkm",
-        "title": "mz6pujg1s5198b78vd3q9kf9ldkm",
+        "hash": "owKxQy8y6f8w",
+        "address": "https://heise.cloudimg.io/v7/_heise-academy-assets_/zaf6yc7watx148gej9izdr6juhu4",
+        "title": "zaf6yc7watx148gej9izdr6juhu4",
         "snippet": "",
         "matchedWords": {
           "-3-LOujYh7vX": {
             "hits": 1,
-            "textWords": 50
+            "textWords": 44
           }
         },
         "queryPhraseHits": 0
       },
       {
-        "hash": "iEwW6ZunM6pg",
-        "address": "https://bestenliste-assets.heise.de/1/O4zk9lBaHR0cHM6Ly9vY2RuLmV1L3B1bHNjbXMvTURBXy81ZTkwMWE2MDg3ZGEwNDFmNjY2N2JiOWQzNzBlMWU2Ny5wbmeRkwXNAzfNBvfeAAGhMQQ",
-        "title": "O4zk9lBaHR0cHM6Ly9vY2RuLmV1L3B1bHNjbXMvTURBXy81ZTkwMWE2MDg3ZGEwNDFmNjY2N2JiOWQzNzBlMWU2Ny5wbmeRkwXNAzfNBvfeAAGhMQQ",
+        "hash": "eg3YTgDOAHJg",
+        "address": "https://www.heise.de/download/products/programmierung/interpreter",
+        "title": "Interpreter | Software-Downloads \u0026 Webdienste | heise Download",
+        "snippet": "",
+        "matchedWords": {
+          "-3-LOujYh7vX": {
+            "hits": 2,
+            "textWords": 1379
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "QB_5EZunM6pg",
+        "address": "https://bestenliste-assets.heise.de/1/5bmk9lBaHR0cHM6Ly9vY2RuLmV1L3B1bHNjbXMvTURBXy9hODAyNTJmNDM1NWQwYzRlZGE2NTg0MTQ1MzFlZDkzYy5qcGeRkwXNAaLM694AAaExBA",
+        "title": "5bmk9lBaHR0cHM6Ly9vY2RuLmV1L3B1bHNjbXMvTURBXy9hODAyNTJmNDM1NWQwYzRlZGE2NTg0MTQ1MzFlZDkzYy5qcGeRkwXNAaLM694AAaExBA",
         "snippet": "",
         "matchedWords": {
           "-3-LOujYh7vX": {
@@ -664,14 +742,14 @@
         "queryPhraseHits": 0
       },
       {
-        "hash": "yIe7agDOAHJg",
-        "address": "https://www.heise.de/download/products/windows_phone/programmierung",
-        "title": "Programmierung für Windows Phone | Software-Downloads \u0026 Webdienste | heise Download",
+        "hash": "l6s_OgDOAHJg",
+        "address": "https://www.heise.de/download/products/spiele/wissensspiele",
+        "title": "Wissensspiele | Software-Downloads \u0026 Webdienste | heise Download",
         "snippet": "",
         "matchedWords": {
           "-3-LOujYh7vX": {
             "hits": 2,
-            "textWords": 717
+            "textWords": 1865
           }
         },
         "queryPhraseHits": 0
@@ -809,17 +887,16 @@
         "queryPhraseHits": 0
       }
     ],
-    [],
     [
       {
-        "hash": "ifdEY05uSLiw",
-        "address": "https://free21.org/samisdat/neues-wettruesten-und-kein-widerstand-warum-es-so-schwer-ist-druck-von-unten-aufzubauen/",
-        "title": "Neues Wettrüsten und kein Widerstand? - Warum es so schwer ist, Druck von unten aufzubauen - Free21",
+        "hash": "gUZM4S5uSLiw",
+        "address": "https://free21.org/wp-content/uploads/2020/11/01-Ensel-Krieg-um-Karabach-DE.pdf",
+        "title": "01-Ensel-Krieg-um-Karabach-DE.pdf",
         "snippet": "",
         "matchedWords": {
           "-3-LOujYh7vX": {
-            "hits": 2,
-            "textWords": 2228
+            "hits": 11,
+            "textWords": 3166
           }
         },
         "queryPhraseHits": 0
@@ -838,19 +915,6 @@
         "queryPhraseHits": 0
       },
       {
-        "hash": "d4_rmjRvmBbx",
-        "address": "https://en.wikipedia.org/wiki/OnlyOffice",
-        "title": "OnlyOffice - Wikipedia",
-        "snippet": "",
-        "matchedWords": {
-          "-3-LOujYh7vX": {
-            "hits": 1,
-            "textWords": 1503
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
         "hash": "duTGceSLKN4x",
         "address": "https://bbs.archlinux.org/viewtopic.php?id=305594",
         "title": "NoobFrage... / Other Languages / Arch Linux Forums",
@@ -864,14 +928,27 @@
         "queryPhraseHits": 0
       },
       {
-        "hash": "gUZM4S5uSLiw",
-        "address": "https://free21.org/wp-content/uploads/2020/11/01-Ensel-Krieg-um-Karabach-DE.pdf",
-        "title": "01-Ensel-Krieg-um-Karabach-DE.pdf",
+        "hash": "d4_rmjRvmBbx",
+        "address": "https://en.wikipedia.org/wiki/OnlyOffice",
+        "title": "OnlyOffice - Wikipedia",
         "snippet": "",
         "matchedWords": {
           "-3-LOujYh7vX": {
-            "hits": 11,
-            "textWords": 3166
+            "hits": 1,
+            "textWords": 1503
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "ifdEY05uSLiw",
+        "address": "https://free21.org/samisdat/neues-wettruesten-und-kein-widerstand-warum-es-so-schwer-ist-druck-von-unten-aufzubauen/",
+        "title": "Neues Wettrüsten und kein Widerstand? - Warum es so schwer ist, Druck von unten aufzubauen - Free21",
+        "snippet": "",
+        "matchedWords": {
+          "-3-LOujYh7vX": {
+            "hits": 2,
+            "textWords": 2228
           }
         },
         "queryPhraseHits": 0
@@ -951,20 +1028,7 @@
         "matchedWords": {
           "-3-LOujYh7vX": {
             "hits": 0,
-            "textWords": 695
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "5pX5yXDOAHJg",
-        "address": "https://www.heise.de/bestenlisten/testsieger/top-10-maehroboter-ohne-begrenzungskabel-im-test-dreame-vor-mammotion/gb7xhbg",
-        "title": "Top 10: Mähroboter ohne Begrenzungskabel im Test – Dreame vor Mammotion | heise online bestenlisten",
-        "snippet": "",
-        "matchedWords": {
-          "-3-LOujYh7vX": {
-            "hits": 6,
-            "textWords": 37471
+            "textWords": 1029
           }
         },
         "queryPhraseHits": 0
@@ -978,6 +1042,19 @@
           "-3-LOujYh7vX": {
             "hits": 46,
             "textWords": 1700
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "z_bAb5hhB9pg",
+        "address": "https://shop.heise.de/magazine/make-magazin/?p=3",
+        "title": "Make Magazin: aktuelle Ausgaben \u0026 Sonderhefte | heise | heise shop",
+        "snippet": "",
+        "matchedWords": {
+          "-3-LOujYh7vX": {
+            "hits": 15,
+            "textWords": 5575
           }
         },
         "queryPhraseHits": 0
@@ -1009,19 +1086,6 @@
         "queryPhraseHits": 0
       },
       {
-        "hash": "nBXYaXDOAHJg",
-        "address": "https://www.heise.de/bestenlisten/testsieger/top-10-die-besten-pc-lautsprecher-ohne-subwoofer-edifier-ist-testsieger/bmy3jw8?wt_mc=intern.red.bestenlisten.bestenlisten_buehne.startseite.buehne.buehne",
-        "title": "Top 10: Die besten PC-Lautsprecher ohne Subwoofer – Edifier ist Testsieger | heise online bestenlisten",
-        "snippet": "",
-        "matchedWords": {
-          "-3-LOujYh7vX": {
-            "hits": 118,
-            "textWords": 20248
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
         "hash": "Psx0YmTzG1nj",
         "address": "https://heise-conferences.de/formate/konferenzen",
         "title": "IT-Konferenzen mit Tiefgang: Praxiswissen \u0026 Networking | heise conferences",
@@ -1035,14 +1099,27 @@
         "queryPhraseHits": 0
       },
       {
-        "hash": "z_bAb5hhB9pg",
-        "address": "https://shop.heise.de/magazine/make-magazin/?p=3",
-        "title": "Make Magazin: aktuelle Ausgaben \u0026 Sonderhefte | heise | heise shop",
+        "hash": "ci1bM5hhB9pg",
+        "address": "https://shop.heise.de/magazine/mit-technology-review/?p=5",
+        "title": "MIT Technology Review: Ausgaben \u0026 Archive | heise | heise shop",
         "snippet": "",
         "matchedWords": {
           "-3-LOujYh7vX": {
-            "hits": 15,
-            "textWords": 5575
+            "hits": 22,
+            "textWords": 3039
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "nBXYaXDOAHJg",
+        "address": "https://www.heise.de/bestenlisten/testsieger/top-10-die-besten-pc-lautsprecher-ohne-subwoofer-edifier-ist-testsieger/bmy3jw8?wt_mc=intern.red.bestenlisten.bestenlisten_buehne.startseite.buehne.buehne",
+        "title": "Top 10: Die besten PC-Lautsprecher ohne Subwoofer – Edifier ist Testsieger | heise online bestenlisten",
+        "snippet": "",
+        "matchedWords": {
+          "-3-LOujYh7vX": {
+            "hits": 118,
+            "textWords": 20248
           }
         },
         "queryPhraseHits": 0
@@ -1050,131 +1127,131 @@
     ],
     [
       {
-        "hash": "q5B3_vDOAHJg",
-        "address": "https://www.heise.de/news/Open-Data-Frag-den-Staat-gewinnt-gegen-Bundesinnenministerium-2188031.html",
-        "title": "Open Data: \"Frag den Staat“ gewinnt gegen Bundesinnenministerium | heise online",
-        "snippet": "Überraschende Wende im Rechtsstreit über die Veröffentlichung eines Aktenvermerks des Bundesinnenministeriums: Wie das Ministerium auf Anfrage von heise online bekannt gab, hatte es bereits eine Einstweilige Verfügung gegen die Plattform \"Frag den Staat\" beantragt – und war damit in gleich zwei",
+        "hash": "bPubtFrrGcCg",
+        "address": "https://preisvergleich.heise.de/",
+        "title": "heise preisvergleich Deutschland",
+        "snippet": "Die Lösung für Content-Monetarisierung – Preisvergleich-Widgets für deine Webseite!\nJetzt kostenlos registrieren",
+        "matchedWords": {
+          "-3-LOujYh7vX": {
+            "hits": 0,
+            "textWords": 13
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "R8DHxInk4jwg",
+        "address": "https://compaliate.heise.de/",
+        "title": "heise compaliate - Die Affiliate Plattform für Publisher",
+        "snippet": "Fülle ganz einfach und bequem das Formular aus oder schreibe uns eine E-Mail. Wir werden deine Fragen schnellstmöglich beantworten.\nUnsere Antworten auf die häufigsten Fragen\nHier findest Du Antworten auf die häufigsten Fragen zu heise compaliate!\nWas ist heise compaliate?",
+        "matchedWords": {
+          "-3-LOujYh7vX": {
+            "hits": 9,
+            "textWords": 890
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "sz4qlChhB9pg",
+        "address": "https://shop.heise.de/zeitschriften-abo/",
+        "title": "ABO | heise shop",
+        "snippet": "Unabhängiger Journalismus ist bei c't das A und O - das wissen unsere Leser zu schätzen. Egal ob gedruckt oder digital. Genießen Sie die Vorzüge eines Abonnements und sparen Sie gegenüber dem Einzelkauf.\nheise+ ist das digitale Abo von heise online.",
+        "matchedWords": {
+          "-3-LOujYh7vX": {
+            "hits": 5,
+            "textWords": 484
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "iRZd5qBwgIkg",
+        "address": "https://business-services.heise.de/",
+        "title": "Heise Business Services | heise",
+        "snippet": "Premium Webcast / Live Webcast am 22.10. um 11 Uhr\nSecurity\nSecurity Management\nKI-gestützte Cyberangriffe: So rüsten Sie Ihre Abwehr richtig auf\nCyberkriminelle nutzen KI, um Angriffe schneller und gezielter durchzuführen.",
+        "matchedWords": {
+          "-3-LOujYh7vX": {
+            "hits": 0,
+            "textWords": 549
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "76Uz4FDOAHJg",
+        "address": "https://www.heise.de/ct/kontakt/?frage=3212474",
+        "title": "Kontaktformular | heise online",
+        "snippet": "",
+        "matchedWords": {
+          "-3-LOujYh7vX": {
+            "hits": 37,
+            "textWords": 571
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "MIpaRhnAgGgh",
+        "address": "https://www.heisegroup.de/artikel/heise-medien-3904998.html",
+        "title": "heise medien | heise group",
+        "snippet": "",
+        "matchedWords": {
+          "-3-LOujYh7vX": {
+            "hits": 33,
+            "textWords": 835
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "FWcFzNwxwI-g",
+        "address": "https://mediadaten.heise.de/en/",
+        "title": "heise - Heise Medienportal",
+        "snippet": "heise bestenlisten by techstage – AI Visibility Advertorial\nheise bestenlisten by techstage – YouTube channel\nheise bestenlisten by techstage – @TikTok\nIT decision-maker study wave 5\nc’t Phasenlage\nc’t 4004-Bundle\nMulti-sponsored editorial Lead-Hub “IT SUMMIT by heise”",
+        "matchedWords": {
+          "-3-LOujYh7vX": {
+            "hits": 11,
+            "textWords": 231
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "EUwmPsU0aeEi",
+        "address": "https://heise-academy.de/",
+        "title": "Online Weiterbildung für IT-Professionals | heise academy",
+        "snippet": "Wir haben uns für die heise academy entschieden, weil heise für sachliche, hochwertige Inhalte und echtes Praxiswissen steht – und genau das ist für uns in der Weiterbildung entscheidend.",
         "matchedWords": {
           "-3-LOujYh7vX": {
             "hits": 4,
-            "textWords": 674
+            "textWords": 134
           }
         },
         "queryPhraseHits": 0
       },
       {
-        "hash": "o692adFO6r_x",
-        "address": "https://de.wikipedia.org/wiki/Ask.com",
-        "title": "Ask.com – Wikipedia",
+        "hash": "ihD0elY1KsNj",
+        "address": "https://www.heise-regioconcept.de/",
+        "title": "heise regioconcept: Regionales Marketing, das wirkt!",
+        "snippet": "Wir bieten kleinen und mittleren Unternehmen, was sie für ihre regionale und lokale Sichtbarkeit benötigen:\nProfessionelle Web-Auftritte, Online-Shops und Firmen-Apps, SEO, SEA, Social Media Marketing sowie eine optimale Auffindbarkeit in Verzeichnissen und Online-Branchenportalen.",
+        "matchedWords": {
+          "-3-LOujYh7vX": {
+            "hits": 0,
+            "textWords": 70
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "QtT4ODRBYjbw",
+        "address": "https://matrix.org/category/general/atom.xml",
+        "title": "",
         "snippet": "",
         "matchedWords": {
           "-3-LOujYh7vX": {
             "hits": 1,
-            "textWords": 1371
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "qbWCasOQvonb",
-        "address": "http://www.authorandbookinfo.com/ngcoba/ap.htm",
-        "title": "Ap - New General Catalog of Old Books \u0026 Authors",
-        "snippet": "",
-        "matchedWords": {
-          "-3-LOujYh7vX": {
-            "hits": 1,
-            "textWords": 4814
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "qAN32s5uSLiw",
-        "address": "https://free21.org/das-twitter-maedchen-aus-syrien/",
-        "title": "Das Twitter-Mädchen aus Syrien - Free21",
-        "snippet": "",
-        "matchedWords": {
-          "-3-LOujYh7vX": {
-            "hits": 1,
-            "textWords": 5754
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "olzSSs5uSLiw",
-        "address": "https://free21.org/unbekannte-warnungen-vor-einer-risiko-technologie/",
-        "title": "Unbekannte Warnungen vor einer Risiko-Technologie - Free21",
-        "snippet": "",
-        "matchedWords": {
-          "-3-LOujYh7vX": {
-            "hits": 1,
-            "textWords": 2992
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "rrGyZjRvmBbx",
-        "address": "https://en.wikipedia.org/wiki/SMS",
-        "title": "SMS - Wikipedia",
-        "snippet": "",
-        "matchedWords": {
-          "-3-LOujYh7vX": {
-            "hits": 2,
-            "textWords": 6531
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "q1Nc8S5uSLiw",
-        "address": "https://free21.org/wp-content/uploads/2021/05/01-Effenberger-Gefaehrliches-Zuendeln-SW.pdf",
-        "title": "01-Effenberger-Gefaehrliches-Zuendeln-SW.pdf",
-        "snippet": "",
-        "matchedWords": {
-          "-3-LOujYh7vX": {
-            "hits": 2,
-            "textWords": 3105
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "rw-BBS5uSLiw",
-        "address": "https://free21.org/wp-content/uploads/2021/04/01-Broeckers-Clash-der-Konspirationen-DE.pdf",
-        "title": "01-Broeckers-Clash-der-Konspirationen-DE.pdf",
-        "snippet": "",
-        "matchedWords": {
-          "-3-LOujYh7vX": {
-            "hits": 2,
-            "textWords": 2467
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "oh4oJT9uM9Dh",
-        "address": "https://www.hardwareluxx.de/index.php/tags/ai.html",
-        "title": "AI - Hardwareluxx",
-        "snippet": "",
-        "matchedWords": {
-          "-3-LOujYh7vX": {
-            "hits": 1,
-            "textWords": 3164
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "qVkVlS5uSLiw",
-        "address": "https://free21.org/wp-content/uploads/2022/06/03_Ensel-Die-geraubte-Wuerde-des-Stanislaw-Petrow.pdf",
-        "title": "Ensel-Die geraubte Würde des Stanislaw Petrow.indd",
-        "snippet": "",
-        "matchedWords": {
-          "-3-LOujYh7vX": {
-            "hits": 1,
-            "textWords": 1842
+            "textWords": 31192
           }
         },
         "queryPhraseHits": 0
@@ -1189,7 +1266,7 @@
         "matchedWords": {
           "-3-LOujYh7vX": {
             "hits": 0,
-            "textWords": 475
+            "textWords": 466
           }
         },
         "queryPhraseHits": 0
@@ -1208,19 +1285,6 @@
         "queryPhraseHits": 0
       },
       {
-        "hash": "cc3rvNDOAHJg",
-        "address": "https://www.heise.de/thema/Wissenschaft",
-        "title": "Wissenschaft: News, Ratgeber und Tipps | heise online",
-        "snippet": "Anzeige\nAnzeige\nTurbulenzvorhersage-Tool soll Piloten Turbulenzen in Echtzeit umfliegen lassen\nTurbulenzen in der Luftfahrt können die Flugsicherheit gefährden. US-Forscher haben ein Tool entwickelt, das Turbulenzen nahezu in Echtzeit voraussagt.",
-        "matchedWords": {
-          "-3-LOujYh7vX": {
-            "hits": 0,
-            "textWords": 447
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
         "hash": "sC0kMlDOAHJg",
         "address": "https://www.heise.de/en",
         "title": "heise online – IT news, guides and background information | heise online",
@@ -1228,7 +1292,20 @@
         "matchedWords": {
           "-3-LOujYh7vX": {
             "hits": 0,
-            "textWords": 695
+            "textWords": 1029
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "cc3rvNDOAHJg",
+        "address": "https://www.heise.de/thema/Wissenschaft",
+        "title": "Wissenschaft: News, Ratgeber und Tipps | heise online",
+        "snippet": "",
+        "matchedWords": {
+          "-3-LOujYh7vX": {
+            "hits": 40,
+            "textWords": 1501
           }
         },
         "queryPhraseHits": 0
@@ -1317,24 +1394,11 @@
         "hash": "31yTCerrGcCg",
         "address": "https://preisvergleich.heise.de/merchants/absoluts-54317-eb-de",
         "title": "absoluts Bewertungen \u0026 Erfahrungen - heise preisvergleich Deutschland",
-        "snippet": "Schon bei absoluts gekauft?\nSchon bei absoluts gekauft?\nBewertungen und Erfahrungen für absoluts\nLaden ...\nLetzte Aktualisierung: 12.09.2026, 02:12\nDer heise Preisvergleich ist ein Angebot in Kooperation mit der Preisvergleich Internet Services AG (geizhals.de).",
+        "snippet": "Schon bei absoluts gekauft?\nSchon bei absoluts gekauft?\nBewertungen und Erfahrungen für absoluts\nLaden ...\nLetzte Aktualisierung: 12.09.2026, 13:06\nDer heise Preisvergleich ist ein Angebot in Kooperation mit der Preisvergleich Internet Services AG (geizhals.de).",
         "matchedWords": {
           "-3-LOujYh7vX": {
             "hits": 2,
             "textWords": 92
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "Lb0lrFrrGcCg",
-        "address": "https://preisvergleich.heise.de/hikvision-ds-7616ni-k2-a1910434.html?hloc=de",
-        "title": "Hikvision DS-7616NI-K2 16-Kanal, Netzwerk-Videorecorder ab € 253,60 (2026) | heise preisvergleich Deutschland",
-        "snippet": "Der heise Preisvergleich ist ein Angebot in Kooperation mit der Preisvergleich Internet Services AG (geizhals.de). Die Redaktion von heise online hat keinen Einfluss auf das Angebot. Anfragen bitten wir daher direkt an geizhals.de zu stellen.",
-        "matchedWords": {
-          "-3-LOujYh7vX": {
-            "hits": 2,
-            "textWords": 430
           }
         },
         "queryPhraseHits": 0
@@ -1353,6 +1417,19 @@
         "queryPhraseHits": 0
       },
       {
+        "hash": "SIo99ZunM6pg",
+        "address": "https://bestenliste-assets.heise.de/1/hTmk9lQaHR0cDovL29jZG4uZXUvaW1hZ2VzL3B1bHNjbXMvTURVN01EQV8vZWU4OTQwOTktMGY2YS00YWY4LWFiZTktOTUxNmI0YzdjZTY1LmpwZWeRkwXNAzfNAzfeAAGhMQQ",
+        "title": "hTmk9lQaHR0cDovL29jZG4uZXUvaW1hZ2VzL3B1bHNjbXMvTURVN01EQV8vZWU4OTQwOTktMGY2YS00YWY4LWFiZTktOTUxNmI0YzdjZTY1LmpwZWeRkwXNAzfNAzfeAAGhMQQ",
+        "snippet": "",
+        "matchedWords": {
+          "-3-LOujYh7vX": {
+            "hits": 1,
+            "textWords": 150
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
         "hash": "mfGp8fpT3MJg",
         "address": "https://it-kenner.heise.de/secure-it-fuer-unternehmen/",
         "title": "Secure IT für Unternehmen - Whitepaper, eBooks, Artikel \u0026 mehr",
@@ -1366,27 +1443,14 @@
         "queryPhraseHits": 0
       },
       {
-        "hash": "EHgUiZunM6pg",
-        "address": "https://bestenliste-assets.heise.de/1/fJbk9lBaHR0cHM6Ly9vY2RuLmV1L3B1bHNjbXMvTURBXy8zZjJjZGIxYWUwOTJkMjlhYWJhNzZhYjUxNDQ2MDJjYi5qcGeRkwXNAzfNAc_eAAGhMQQ",
-        "title": "fJbk9lBaHR0cHM6Ly9vY2RuLmV1L3B1bHNjbXMvTURBXy8zZjJjZGIxYWUwOTJkMjlhYWJhNzZhYjUxNDQ2MDJjYi5qcGeRkwXNAzfNAc_eAAGhMQQ",
+        "hash": "KIsq8y8y6f8w",
+        "address": "https://heise.cloudimg.io/v7/_heise-academy-assets_/yjiuh9t26fulmgb3qakrxtzdbtnk?force_format=avif%2Cwebp%2Cjpeg%2Cpng\u0026optipress=3\u0026q=75",
+        "title": "yjiuh9t26fulmgb3qakrxtzdbtnk",
         "snippet": "",
         "matchedWords": {
           "-3-LOujYh7vX": {
             "hits": 1,
-            "textWords": 136
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "AUmPVy8y6f8w",
-        "address": "https://heise.cloudimg.io/v7/_heise-academy-assets_/v4ped066v6b6luh1d4gte8etnkng",
-        "title": "v4ped066v6b6luh1d4gte8etnkng",
-        "snippet": "",
-        "matchedWords": {
-          "-3-LOujYh7vX": {
-            "hits": 1,
-            "textWords": 254
+            "textWords": 118
           }
         },
         "queryPhraseHits": 0
@@ -1442,96 +1506,148 @@
           }
         },
         "queryPhraseHits": 0
+      },
+      {
+        "hash": "Lb0lrFrrGcCg",
+        "address": "https://preisvergleich.heise.de/hikvision-ds-7616ni-k2-a1910434.html?hloc=de",
+        "title": "Hikvision DS-7616NI-K2 16-Kanal, Netzwerk-Videorecorder ab € 253,60 (2026) | heise preisvergleich Deutschland",
+        "snippet": "",
+        "matchedWords": {
+          "-3-LOujYh7vX": {
+            "hits": 25,
+            "textWords": 1055
+          }
+        },
+        "queryPhraseHits": 0
       }
     ],
     [
       {
-        "hash": "2CZ5N75e7rhB",
-        "address": "http://dingfabrik.de/dingfabrik-in-den-medien/",
-        "title": "DingFabrik in den Medien – DingFabrik Köln e.V.",
+        "hash": "Fl-YxlDOAHJg",
+        "address": "https://www.heise.de/",
+        "title": "heise online - IT-News, Nachrichten und Hintergründe | heise online",
+        "snippet": "Das digitale Abo für IT und Technik\nheise+ Jahresabo\nDauerhaft 20 % Rabatt ggü. dem 4-Wochen-Abo\nAlle exklusiven Artikel auf heise online lesen\nOptional mit Zugriff auf alle heise-Magazine (digital \u0026 PDF)\nJetzt Rabatt sichern\nAnzeige\nEigenwerbung\nWhitepaper\nWenn Hacker KI nutzen",
+        "matchedWords": {
+          "-3-LOujYh7vX": {
+            "hits": 10,
+            "textWords": 1238
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "FWcFzNwxwI-g",
+        "address": "https://mediadaten.heise.de/en/",
+        "title": "heise - Heise Medienportal",
+        "snippet": "heise bestenlisten by techstage – AI Visibility Advertorial\nheise bestenlisten by techstage – YouTube channel\nheise bestenlisten by techstage – @TikTok\nIT decision-maker study wave 5\nc’t Phasenlage\nc’t 4004-Bundle\nMulti-sponsored editorial Lead-Hub “IT SUMMIT by heise”",
+        "matchedWords": {
+          "-3-LOujYh7vX": {
+            "hits": 11,
+            "textWords": 231
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "C1lbJ5hhB9pg",
+        "address": "https://shop.heise.de/magazine/ct-fotografie/?p=5",
+        "title": "c’t Fotografie: Ausgaben \u0026 Sonderhefte | heise | heise shop",
+        "snippet": "",
+        "matchedWords": {
+          "-3-LOujYh7vX": {
+            "hits": 9,
+            "textWords": 2439
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "5I7e8XDOAHJg",
+        "address": "https://www.heise.de/bestenlisten/testbericht/fahrrad-airbag-hoevding-3-im-test/f5qgf2n",
+        "title": "Fahrrad-Airbag Hövding 3 im Test | heise online bestenlisten",
+        "snippet": "",
+        "matchedWords": {
+          "-3-LOujYh7vX": {
+            "hits": 49,
+            "textWords": 5015
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "ihD0elY1KsNj",
+        "address": "https://www.heise-regioconcept.de/",
+        "title": "heise regioconcept: Regionales Marketing, das wirkt!",
+        "snippet": "Wir bieten kleinen und mittleren Unternehmen, was sie für ihre regionale und lokale Sichtbarkeit benötigen:\nProfessionelle Web-Auftritte, Online-Shops und Firmen-Apps, SEO, SEA, Social Media Marketing sowie eine optimale Auffindbarkeit in Verzeichnissen und Online-Branchenportalen.",
+        "matchedWords": {
+          "-3-LOujYh7vX": {
+            "hits": 0,
+            "textWords": 70
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "iebSGSeT5cDg",
+        "address": "https://www.freitag.de/autoren/msuckow/was-interessiert-junge-forschende-heute-am-ddr-philosophen-wolfgang-heise",
+        "title": "Was steckt hinter dem akademischen Hype um den DDR-Philosophen Wolfgang Heise? — der Freitag",
+        "snippet": "",
+        "matchedWords": {
+          "-3-LOujYh7vX": {
+            "hits": 38,
+            "textWords": 2183
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "AByOvlnAgGgh",
+        "address": "https://www.heisegroup.de/presse",
+        "title": "Presse-Informationen | heise group",
+        "snippet": "",
+        "matchedWords": {
+          "-3-LOujYh7vX": {
+            "hits": 12,
+            "textWords": 195
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "-a2e-ZunM6pg",
+        "address": "https://bestenliste-assets.heise.de/1/lauk9lBaHR0cHM6Ly9vY2RuLmV1L3B1bHNjbXMvTURBXy82OGYzMGJiYzlmNTA2ZTMyZTM4MWJhODRjYWEzOTIzMC5qcGeRkwXNAaLM694AAaExBA",
+        "title": "lauk9lBaHR0cHM6Ly9vY2RuLmV1L3B1bHNjbXMvTURBXy82OGYzMGJiYzlmNTA2ZTMyZTM4MWJhODRjYWEzOTIzMC5qcGeRkwXNAaLM694AAaExBA",
+        "snippet": "",
+        "matchedWords": {
+          "-3-LOujYh7vX": {
+            "hits": 1,
+            "textWords": 139
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "6H5Ady8y6f8w",
+        "address": "https://heise.cloudimg.io/v7/_heise-academy-assets_/0ph7xz5it825f2tjgw6gpwb1z4xy",
+        "title": "0ph7xz5it825f2tjgw6gpwb1z4xy",
+        "snippet": "",
+        "matchedWords": {
+          "-3-LOujYh7vX": {
+            "hits": 1,
+            "textWords": 117
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "rTBAGgDOAHJg",
+        "address": "https://www.heise.de/download/products/other/grafik",
+        "title": "Grafik für Andere | Software-Downloads \u0026 Webdienste | heise Download",
         "snippet": "",
         "matchedWords": {
           "-3-LOujYh7vX": {
             "hits": 2,
-            "textWords": 1045
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "23ssEdFO6r_x",
-        "address": "https://de.wikipedia.org/wiki/Internet",
-        "title": "Internet – Wikipedia",
-        "snippet": "",
-        "matchedWords": {
-          "-3-LOujYh7vX": {
-            "hits": 4,
-            "textWords": 9237
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "2gIHPs5uSLiw",
-        "address": "https://free21.org/habe-den-mut-dich-deines-verstandes-nicht-zu-bedienen/",
-        "title": "Habe den Mut, dich deines Verstandes NICHT zu bedienen - Free21",
-        "snippet": "",
-        "matchedWords": {
-          "-3-LOujYh7vX": {
-            "hits": 1,
-            "textWords": 2848
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "3waaHS5uSLiw",
-        "address": "https://free21.org/wp-content/uploads/2023/02/01_ROLAND-Das-neue-Pandemie-Planspiel_RESEARCH.pdf",
-        "title": "01_ROLAND-Das-neue-Pandemie-Planspiel_RESEARCH.pdf",
-        "snippet": "",
-        "matchedWords": {
-          "-3-LOujYh7vX": {
-            "hits": 2,
-            "textWords": 3035
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "1JPuOS5uSLiw",
-        "address": "https://free21.org/wp-content/uploads/2020/10/02-Broeckers-New-Normal-Gleichschaltung_DE.pdf",
-        "title": "02-Broeckers-New-Normal-Gleichschaltung_DE.pdf",
-        "snippet": "",
-        "matchedWords": {
-          "-3-LOujYh7vX": {
-            "hits": 1,
-            "textWords": 1719
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "31QxHS5uSLiw",
-        "address": "https://free21.org/wp-content/uploads/2021/02/02-Pohlmann-Wikileaks-und-Wikipedia_DE.pdf",
-        "title": "02-Pohlmann-Wikileaks-und-Wikipedia_DE.pdf",
-        "snippet": "",
-        "matchedWords": {
-          "-3-LOujYh7vX": {
-            "hits": 1,
-            "textWords": 2585
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "19oPPs5uSLiw",
-        "address": "https://free21.org/das-finanzministerium-der-deep-state-und-das-geldsystem/",
-        "title": "Das Finanzministerium, der „Deep State“ und das Geldsystem - Free21",
-        "snippet": "",
-        "matchedWords": {
-          "-3-LOujYh7vX": {
-            "hits": 1,
-            "textWords": 3156
+            "textWords": 533
           }
         },
         "queryPhraseHits": 0
@@ -1565,19 +1681,6 @@
         "queryPhraseHits": 0
       },
       {
-        "hash": "4LQDBFrrGcCg",
-        "address": "https://preisvergleich.heise.de/?phist=3211533",
-        "title": "Preisentwicklung für Bosch Kiox 500 BHU3700 (13100004) (90 Tage) heise preisvergleich Deutschland",
-        "snippet": "Preisentwicklung für Bosch Kiox 500 BHU3700 (13100004)\n« Zurück zum Produkt\nLetzte Aktualisierung: 12.09.2026, 02:12\nDer heise Preisvergleich ist ein Angebot in Kooperation mit der Preisvergleich Internet Services AG (geizhals.de). Die Redaktion von heise online hat keinen Einfluss auf das Angebot.",
-        "matchedWords": {
-          "-3-LOujYh7vX": {
-            "hits": 2,
-            "textWords": 88
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
         "hash": "9rgyrFrrGcCg",
         "address": "https://preisvergleich.heise.de/hager-leitungsschutzschalter-mcs116-a2264747.html?hloc=de",
         "title": "Hager Leitungsschutzschalter (MCS116) ab € 4,94 (2026) | heise preisvergleich Deutschland",
@@ -1586,6 +1689,19 @@
           "-3-LOujYh7vX": {
             "hits": 25,
             "textWords": 2177
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "4LQDBFrrGcCg",
+        "address": "https://preisvergleich.heise.de/?phist=3211533",
+        "title": "Preisentwicklung für Bosch Kiox 500 BHU3700 (13100004) (90 Tage) heise preisvergleich Deutschland",
+        "snippet": "",
+        "matchedWords": {
+          "-3-LOujYh7vX": {
+            "hits": 25,
+            "textWords": 475
           }
         },
         "queryPhraseHits": 0
@@ -1617,6 +1733,19 @@
         "queryPhraseHits": 0
       },
       {
+        "hash": "PBQ1verrGcCg",
+        "address": "https://preisvergleich.heise.de/merchants/metacomp-de",
+        "title": "MetaComp Bewertungen \u0026 Erfahrungen - heise preisvergleich Deutschland",
+        "snippet": "",
+        "matchedWords": {
+          "-3-LOujYh7vX": {
+            "hits": 25,
+            "textWords": 771
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
         "hash": "IFTE8errGcCg",
         "address": "https://preisvergleich.heise.de/merchants/snogard-143708-eb-de",
         "title": "snogard Bewertungen \u0026 Erfahrungen - heise preisvergleich Deutschland",
@@ -1638,19 +1767,6 @@
           "-3-LOujYh7vX": {
             "hits": 25,
             "textWords": 593
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "PBQ1verrGcCg",
-        "address": "https://preisvergleich.heise.de/merchants/metacomp-de",
-        "title": "MetaComp Bewertungen \u0026 Erfahrungen - heise preisvergleich Deutschland",
-        "snippet": "",
-        "matchedWords": {
-          "-3-LOujYh7vX": {
-            "hits": 25,
-            "textWords": 771
           }
         },
         "queryPhraseHits": 0
@@ -1684,19 +1800,6 @@
         "queryPhraseHits": 0
       },
       {
-        "hash": "-VKuX05uSLiw",
-        "address": "https://free21.org/samisdat/meeting-gorbatschow-besuche-beim-ehemaligen-praesidenten-der-sowjetunion/",
-        "title": "Meeting Gorbatschow - Besuche beim ehemaligen Präsidenten der Sowjetunion - Free21",
-        "snippet": "",
-        "matchedWords": {
-          "-3-LOujYh7vX": {
-            "hits": 1,
-            "textWords": 3446
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
         "hash": "95FAPNFysdYg",
         "address": "https://www.luga.de/Aktionen/LIT-2006/",
         "title": "LUGA e.V.",
@@ -1705,6 +1808,19 @@
           "-3-LOujYh7vX": {
             "hits": 1,
             "textWords": 2896
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "86ERns5uSLiw",
+        "address": "https://free21.org/bill-browder-and-his-story-of-the-death-of-the-alleged-whistleblower-magnitsky/",
+        "title": "Bill Browder and his story about the alleged Whistleblower Sergei Magnitsky - Free21",
+        "snippet": "",
+        "matchedWords": {
+          "-3-LOujYh7vX": {
+            "hits": 7,
+            "textWords": 6519
           }
         },
         "queryPhraseHits": 0
@@ -1723,6 +1839,19 @@
         "queryPhraseHits": 0
       },
       {
+        "hash": "-VKuX05uSLiw",
+        "address": "https://free21.org/samisdat/meeting-gorbatschow-besuche-beim-ehemaligen-praesidenten-der-sowjetunion/",
+        "title": "Meeting Gorbatschow - Besuche beim ehemaligen Präsidenten der Sowjetunion - Free21",
+        "snippet": "",
+        "matchedWords": {
+          "-3-LOujYh7vX": {
+            "hits": 1,
+            "textWords": 3446
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
         "hash": "_1ahs05uSLiw",
         "address": "https://free21.org/samisdat/raus-aus-der-eskalationsspirale-der-aufsehenerregende-appell-der-ex-generaele-und-botschafter/",
         "title": "„Raus aus der Eskalationsspirale!“ - Der aufsehenerregende Appell der Ex-Generäle und Botschafter - Free21",
@@ -1734,16 +1863,31 @@
           }
         },
         "queryPhraseHits": 0
-      },
+      }
+    ],
+    [
       {
-        "hash": "86ERns5uSLiw",
-        "address": "https://free21.org/bill-browder-and-his-story-of-the-death-of-the-alleged-whistleblower-magnitsky/",
-        "title": "Bill Browder and his story about the alleged Whistleblower Sergei Magnitsky - Free21",
+        "hash": "4du6bTZPnOc5",
+        "address": "https://www.eurobasket.com/Germany/basketball.aspx",
+        "title": "Germany Basketball, News, Teams, Scores, Stats, Standings, Awards - eurobasket",
         "snippet": "",
         "matchedWords": {
           "-3-LOujYh7vX": {
-            "hits": 7,
-            "textWords": 6519
+            "hits": 1,
+            "textWords": 8969
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "4ctyYjRvmBbx",
+        "address": "https://en.wikipedia.org/wiki/General_Directorate_for_Internal_Security",
+        "title": "General Directorate for Internal Security - Wikipedia",
+        "snippet": "",
+        "matchedWords": {
+          "-3-LOujYh7vX": {
+            "hits": 2,
+            "textWords": 4309
           }
         },
         "queryPhraseHits": 0
@@ -1751,263 +1895,131 @@
     ],
     [
       {
-        "hash": "Bdv_XdFO6r_x",
-        "address": "https://de.wikipedia.org/wiki/Excite",
-        "title": "Excite",
-        "snippet": "",
-        "matchedWords": {
-          "-3-LOujYh7vX": {
-            "hits": 1,
-            "textWords": 950
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "BeVXr2S6MKD4",
-        "address": "https://github.com/error311/FileRise?tab=readme-ov-file",
-        "title": "GitHub - error311/FileRise: 🗂️ FileRise – lightweight, self-hosted file manager \u0026 storage hub with granular ACLs, resumable uploads, encrypted folders, WebDAV \u0026 SSO. Fully Docker / Unraid compatible. · GitHub",
-        "snippet": "",
+        "hash": "UbO8ierrGcCg",
+        "address": "https://preisvergleich.heise.de/merchants/pv-republic-10-eb-de",
+        "title": "pv-republic_de Bewertungen \u0026 Erfahrungen - heise preisvergleich Deutschland",
+        "snippet": "Schon bei pv-republic_de gekauft?\nSchon bei pv-republic_de gekauft?\nBewertungen und Erfahrungen für pv-republic_de\nLaden ...\nLetzte Aktualisierung: 12.09.2026, 13:07\nDer heise Preisvergleich ist ein Angebot in Kooperation mit der Preisvergleich Internet Services AG (geizhals.de).",
         "matchedWords": {
           "-3-LOujYh7vX": {
             "hits": 2,
-            "textWords": 4050
+            "textWords": 98
           }
         },
         "queryPhraseHits": 0
       },
       {
-        "hash": "DZ5I9JR9eiIg",
-        "address": "https://dsba.univie.ac.at/en/data-protection-declaration/",
-        "title": "Data Protection Declaration",
-        "snippet": "",
-        "matchedWords": {
-          "-3-LOujYh7vX": {
-            "hits": 1,
-            "textWords": 10487
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "AL14tKYIsh2h",
-        "address": "https://www.mindfactory.de/Highlights/heiseplus_und_AMD_gratis_Abo/Aktionen/true",
-        "title": "heiseplus und AMD gratis Abo | Mindfactory.de",
-        "snippet": "",
-        "matchedWords": {
-          "-3-LOujYh7vX": {
-            "hits": 13,
-            "textWords": 556
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "B14UtNDOAHJg",
-        "address": "https://www.heise.de/thema/Datenschutz",
-        "title": "Datenschutz News, Ratgeber und Tipps | heise online",
-        "snippet": "",
-        "matchedWords": {
-          "-3-LOujYh7vX": {
-            "hits": 2,
-            "textWords": 152
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "Cpc5fjRvmBbx",
-        "address": "https://en.wikipedia.org/wiki/Wikipedia",
-        "title": "Wikipedia - Wikipedia",
-        "snippet": "",
-        "matchedWords": {
-          "-3-LOujYh7vX": {
-            "hits": 4,
-            "textWords": 25592
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "Cy6f0dFO6r_x",
-        "address": "https://de.wikipedia.org/wiki/T%C3%BCbingen",
-        "title": "Tübingen – Wikipedia",
-        "snippet": "",
-        "matchedWords": {
-          "-3-LOujYh7vX": {
-            "hits": 1,
-            "textWords": 19598
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "CxRTivDOAHJg",
-        "address": "https://www.heise.de/news/c-t-NerdWord-spielen-9636745.html",
-        "title": "c't NerdWord spielen | heise online",
-        "snippet": "",
-        "matchedWords": {
-          "-3-LOujYh7vX": {
-            "hits": 1,
-            "textWords": 231
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "DyM1-jRvmBbx",
-        "address": "https://en.wikipedia.org/wiki/Altair_8800",
-        "title": "Altair 8800 - Wikipedia",
-        "snippet": "",
-        "matchedWords": {
-          "-3-LOujYh7vX": {
-            "hits": 2,
-            "textWords": 3991
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "DqivBjRvmBbx",
-        "address": "https://en.wikipedia.org/wiki/Free_and_open-source_software",
-        "title": "Free and open-source software - Wikipedia",
-        "snippet": "",
-        "matchedWords": {
-          "-3-LOujYh7vX": {
-            "hits": 1,
-            "textWords": 7803
-          }
-        },
-        "queryPhraseHits": 0
-      }
-    ],
-    [
-      {
-        "hash": "-uEfRCDOAHJg",
-        "address": "https://www.heise.de/netze/netzwerk-tools/imonitor-internet-stoerungen/details-der-stoerungsmeldung-t-online--410717/",
-        "title": "iMonitor – Internet-Störungen | heise Netze",
-        "snippet": "← zurück\nDetails zur Störungsmeldung T-Online, Verl (#410717)\nRegion:\n05246 Verl Süd\nInternet-Provider:\nT-Online\nArt des Zugangs:\nVDSL\nArt der Störung:\nkeine Datenübertragung, Leitung OK\nBeginn der Störung:\n11.09.2026 06:00 Uhr\nEnde der Störung:\noffen\nKommentar:",
+        "hash": "sC0kMlDOAHJg",
+        "address": "https://www.heise.de/en",
+        "title": "heise online – IT news, guides and background information | heise online",
+        "snippet": "Europe's Premier Tech News\nGet cutting-edge IT insights from Europe's largest tech editorial team – from curated news to expert opinions. Follow us on Facebook, LinkedIn or Mastodon.\nSelf-Promotion\nClassroom\nEthical Hacking für Admins\nPentesting für eine sichere IT\n5 Live-Sessions Inkl.",
         "matchedWords": {
           "-3-LOujYh7vX": {
             "hits": 0,
-            "textWords": 39
+            "textWords": 1029
           }
         },
         "queryPhraseHits": 0
       },
       {
-        "hash": "8VYvf7DOAHJg",
-        "address": "https://www.heise.de/mac-and-i/kontakt/",
-        "title": "Kontaktformular | heise online",
-        "snippet": "Kontakt\nWir freuen uns über Ihre Mitteilung und antworten schnellstmöglich.\nIch möchte\nBitte wählen Sie\nKontakt für vertrauliche Informationen\nzum sicheren Bereich\nInvestigativ: Helfen Sie Missstände aufzudecken. Senden Sie Informationen sicher und vertraulich an die Redaktion.",
+        "hash": "iPHnAerrGcCg",
+        "address": "https://preisvergleich.heise.de/merchants/amazon-de",
+        "title": "Amazon.de Bewertungen \u0026 Erfahrungen - heise preisvergleich Deutschland",
+        "snippet": "",
         "matchedWords": {
           "-3-LOujYh7vX": {
-            "hits": 0,
-            "textWords": 36
+            "hits": 25,
+            "textWords": 734
           }
         },
         "queryPhraseHits": 0
       },
       {
-        "hash": "_gxeKvDOAHJg",
-        "address": "https://www.heise.de/news/software-architektur-tv-Leadership-And-Psychological-Safety-mit-Gitte-Klitgaard-11447160.html",
-        "title": "software-architektur.tv: Leadership And Psychological Safety mit Gitte Klitgaard | heise online",
-        "snippet": "Seit Juni 2020 sind über 250 Folgen entstanden, die unterschiedliche Bereiche der Softwarearchitektur beleuchten – mal mit Gästen, mal Wolff, Schäfer oder Müller solo. Seit mittlerweile mehr als zwei Jahren berichtet heise Developer über die Episoden.\n(rme)",
+        "hash": "8AdKcerrGcCg",
+        "address": "https://preisvergleich.heise.de/merchants/pda-punkt-138441-eb-de",
+        "title": "pda-punkt Bewertungen \u0026 Erfahrungen - heise preisvergleich Deutschland",
+        "snippet": "",
         "matchedWords": {
           "-3-LOujYh7vX": {
-            "hits": 1,
-            "textWords": 273
+            "hits": 25,
+            "textWords": 690
           }
         },
         "queryPhraseHits": 0
       },
       {
-        "hash": "_cW3xCDOAHJg",
-        "address": "https://www.heise.de/netze/netzwerk-tools/imonitor-internet-stoerungen/details-der-stoerungsmeldung-t-online--410712/",
-        "title": "iMonitor – Internet-Störungen | heise Netze",
+        "hash": "Ccso-errGcCg",
+        "address": "https://preisvergleich.heise.de/merchants/as-tcgstore-91-eb-de",
+        "title": "as.tcgstore Bewertungen \u0026 Erfahrungen - heise preisvergleich Deutschland",
+        "snippet": "",
+        "matchedWords": {
+          "-3-LOujYh7vX": {
+            "hits": 25,
+            "textWords": 630
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "L1RH8errGcCg",
+        "address": "https://preisvergleich.heise.de/merchants/officediscount-de",
+        "title": "office discount DE Bewertungen \u0026 Erfahrungen - heise preisvergleich Deutschland",
+        "snippet": "",
+        "matchedWords": {
+          "-3-LOujYh7vX": {
+            "hits": 25,
+            "textWords": 709
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "HiJvCerrGcCg",
+        "address": "https://preisvergleich.heise.de/merchants/alternategmbh-96032-eb-de",
+        "title": "alternate Bewertungen \u0026 Erfahrungen - heise preisvergleich Deutschland",
+        "snippet": "",
+        "matchedWords": {
+          "-3-LOujYh7vX": {
+            "hits": 25,
+            "textWords": 706
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "83kZmFrrGcCg",
+        "address": "https://preisvergleich.heise.de/lenovo-thinkpad-t15-20s6003nge-a2308441.html?hloc=de",
+        "title": "Lenovo ThinkPad T15 G1, Core i7-10510U, 16GB RAM, 512GB SSD, GeForce MX330, LTE, DE (20S6003NGE) ab € 549,00 (2026) | heise preisvergleich Deutschland",
+        "snippet": "",
+        "matchedWords": {
+          "-3-LOujYh7vX": {
+            "hits": 25,
+            "textWords": 2560
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "jH8_CChhB9pg",
+        "address": "https://shop.heise.de/e-learning/it-security/?p=2",
+        "title": "IT-Security | heise shop",
+        "snippet": "",
+        "matchedWords": {
+          "-3-LOujYh7vX": {
+            "hits": 57,
+            "textWords": 13582
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "uMafXlDOAHJg",
+        "address": "https://www.heise.de/en?p=2",
+        "title": "heise online – IT news, guides and background information | heise online",
         "snippet": "",
         "matchedWords": {
           "-3-LOujYh7vX": {
             "hits": 38,
-            "textWords": 635
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "7qiVMvDOAHJg",
-        "address": "https://www.heise.de/news/Sicherheitsluecken-36-000-Plex-Media-Server-Instanzen-potenziell-angreifbar-11448584.html",
-        "title": "Sicherheitslücken: 36.000 Plex-Media-Server-Instanzen potenziell angreifbar | heise online",
-        "snippet": "",
-        "matchedWords": {
-          "-3-LOujYh7vX": {
-            "hits": 48,
-            "textWords": 1198
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "4O_zCCDOAHJg",
-        "address": "https://www.heise.de/netze/netzwerk-tools/imonitor-internet-stoerungen/details-der-stoerungsmeldung-vodafone-kabel--410716/",
-        "title": "iMonitor – Internet-Störungen | heise Netze",
-        "snippet": "",
-        "matchedWords": {
-          "-3-LOujYh7vX": {
-            "hits": 38,
-            "textWords": 642
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "8FwBJNDOAHJg",
-        "address": "https://www.heise.de/thema/Geodaten",
-        "title": "Geodaten | heise online",
-        "snippet": "",
-        "matchedWords": {
-          "-3-LOujYh7vX": {
-            "hits": 36,
-            "textWords": 1192
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "9WaDvvDOAHJg",
-        "address": "https://www.heise.de/news/software-architektur-tv-Leadership-And-Psychological-Safety-mit-Gitte-Klitgaard-11447160.html?wt_mc=rss.red.ho.ho.rdf.beitrag.beitrag",
-        "title": "software-architektur.tv: Leadership And Psychological Safety mit Gitte Klitgaard | heise online",
-        "snippet": "",
-        "matchedWords": {
-          "-3-LOujYh7vX": {
-            "hits": 48,
-            "textWords": 1213
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "9MyDBvDOAHJg",
-        "address": "https://www.heise.de/news/Chinesische-Speicherhersteller-horten-Lithografie-Systeme-von-ASML-11448502.html?wt_mc=rss.red.ho.ho.rdf.beitrag.beitrag",
-        "title": "Chinesische Speicherhersteller horten angeblich ASML-Systeme | heise online",
-        "snippet": "",
-        "matchedWords": {
-          "-3-LOujYh7vX": {
-            "hits": 49,
-            "textWords": 1396
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "8LaGEvDOAHJg",
-        "address": "https://www.heise.de/news/iOS-27-erscheint-am-14-September-plus-macOS-27-Co-11448914.html?wt_mc=rss.red.ho.ho.atom.beitrag.beitrag",
-        "title": "iOS 27 erscheint am 14. September – plus macOS 27 \u0026 Co. | heise online",
-        "snippet": "",
-        "matchedWords": {
-          "-3-LOujYh7vX": {
-            "hits": 50,
-            "textWords": 1449
+            "textWords": 2013
           }
         },
         "queryPhraseHits": 0
@@ -2173,27 +2185,14 @@
         "queryPhraseHits": 0
       },
       {
-        "hash": "TqXeBvDOAHJg",
-        "address": "https://www.heise.de/news/TGIQF-Das-Quiz-rund-die-News-Mitte-Juli-10500032.html?wt_mc=rss.red.ho.ho.atom.beitrag.beitrag",
-        "title": "#TGIQF: Das Quiz rund die News Mitte Juli | heise online",
-        "snippet": "",
+        "hash": "SmPLuNDOAHJg",
+        "address": "https://www.heise.de/thema/Wirtschaft",
+        "title": "Wirtschaft: News, Ratgeber und Tipps | heise online",
+        "snippet": "Anzeige\nAnzeige\nLeapmotor B03X: Crossover mit bis zu 382 km Reichweite ab 24.900 Euro\nDer Leapmotor B03X startet in Deutschland ab 24.900 Euro. Mit LFP-Akkus, bis zu 382 km Reichweite und Preisen ab 24.900 Euro zielt er auf das Einstiegssegment.",
         "matchedWords": {
           "-3-LOujYh7vX": {
-            "hits": 70,
-            "textWords": 1479
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "QrzyGMY1KsNj",
-        "address": "https://www.heise-regioconcept.de/produkte/better-jobs/",
-        "title": "BETTER JOBS – Jobbörse von heise regioconcept",
-        "snippet": "",
-        "matchedWords": {
-          "-3-LOujYh7vX": {
-            "hits": 14,
-            "textWords": 2012
+            "hits": 0,
+            "textWords": 462
           }
         },
         "queryPhraseHits": 0
@@ -2212,6 +2211,19 @@
         "queryPhraseHits": 0
       },
       {
+        "hash": "QrzyGMY1KsNj",
+        "address": "https://www.heise-regioconcept.de/produkte/better-jobs/",
+        "title": "BETTER JOBS – Jobbörse von heise regioconcept",
+        "snippet": "",
+        "matchedWords": {
+          "-3-LOujYh7vX": {
+            "hits": 14,
+            "textWords": 2012
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
         "hash": "kvxYQlUnydmg",
         "address": "https://www.lemonde.fr/archives/article/2003/01/06/modifier-le-pacte-de-stabilite-est-secondaire-par-michael-heise_304478_1819218.html",
         "title": "Modifier le pacte de stabilité est secondaire, par Michael Heise",
@@ -2225,45 +2237,6 @@
         "queryPhraseHits": 0
       },
       {
-        "hash": "TlSx9JDOAHJg",
-        "address": "https://www.heise.de/ratgeber/heise-Expertentalk-Weg-von-US-Diensten-10351291.html?wt_mc=rss.red.ho.ho.atom.beitrag_plus.beitrag_plus",
-        "title": "heise+ Expertentalk: Weg von US-Diensten | heise online",
-        "snippet": "",
-        "matchedWords": {
-          "-3-LOujYh7vX": {
-            "hits": 72,
-            "textWords": 1622
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "TnLCuvDOAHJg",
-        "address": "https://www.heise.de/news/heise-meets-Die-Einfuehrung-der-E-Rechnung-ist-nicht-so-schlimm-10447906.html?wt_mc=rss.red.ho.ho.atom.beitrag.beitrag",
-        "title": "heise meets … Die E-Rechnung ist eine verpasste Chance | heise online",
-        "snippet": "",
-        "matchedWords": {
-          "-3-LOujYh7vX": {
-            "hits": 78,
-            "textWords": 1772
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "SmPLuNDOAHJg",
-        "address": "https://www.heise.de/thema/Wirtschaft",
-        "title": "Wirtschaft: News, Ratgeber und Tipps | heise online",
-        "snippet": "",
-        "matchedWords": {
-          "-3-LOujYh7vX": {
-            "hits": 39,
-            "textWords": 1519
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
         "hash": "QZVZAvDOAHJg",
         "address": "https://www.heise.de/news/Horizons-25-KI-Datenstrategie-Zukunft-der-Arbeit-10476629.html?wt_mc=rss.red.ho.ho.atom.beitrag.beitrag",
         "title": "Horizons #25: KI, Datenstrategie \u0026 Zukunft der Arbeit | heise online",
@@ -2272,6 +2245,45 @@
           "-3-LOujYh7vX": {
             "hits": 70,
             "textWords": 1487
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "TqXeBvDOAHJg",
+        "address": "https://www.heise.de/news/TGIQF-Das-Quiz-rund-die-News-Mitte-Juli-10500032.html?wt_mc=rss.red.ho.ho.atom.beitrag.beitrag",
+        "title": "#TGIQF: Das Quiz rund die News Mitte Juli | heise online",
+        "snippet": "",
+        "matchedWords": {
+          "-3-LOujYh7vX": {
+            "hits": 70,
+            "textWords": 1479
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "QjGB8vDOAHJg",
+        "address": "https://www.heise.de/news/Sichere-Softwareentwicklung-Jetzt-noch-Tickets-fuer-die-heise-devSec-sichern-10637140.html?wt_mc=rss.red.ho.ho.atom.beitrag.beitrag",
+        "title": "Sichere Softwareentwicklung: Jetzt noch Tickets für die heise devSec sichern | heise online",
+        "snippet": "",
+        "matchedWords": {
+          "-3-LOujYh7vX": {
+            "hits": 74,
+            "textWords": 1510
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "QydDovDOAHJg",
+        "address": "https://www.heise.de/news/25-September-letzte-Chance-Die-heise-security-Tour-2025-Online-10628838.html?wt_mc=rss.red.ho.ho.atom.beitrag.beitrag",
+        "title": "25. September, letzte Chance: Die heise security Tour 2025 Online | heise online",
+        "snippet": "",
+        "matchedWords": {
+          "-3-LOujYh7vX": {
+            "hits": 78,
+            "textWords": 1633
           }
         },
         "queryPhraseHits": 0
@@ -2292,19 +2304,6 @@
         "queryPhraseHits": 0
       },
       {
-        "hash": "f23ehFrrGcCg",
-        "address": "https://preisvergleich.heise.de/bosch-bds3250-displayaufnahme-eb13100009-a3436095.html?hloc=de",
-        "title": "Bosch BDS3250 Kabelabgang vorne Displayhalterung (EB13100009) ab € 21,00 (2026) | heise preisvergleich Deutschland",
-        "snippet": "",
-        "matchedWords": {
-          "-3-LOujYh7vX": {
-            "hits": 25,
-            "textWords": 1436
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
         "hash": "3-1TqChhB9pg",
         "address": "https://shop.heise.de/heise-t-shirt-groesse-xl",
         "title": "heise T-Shirt Unisex Modell 2025",
@@ -2313,6 +2312,19 @@
           "-3-LOujYh7vX": {
             "hits": 15,
             "textWords": 740
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "f23ehFrrGcCg",
+        "address": "https://preisvergleich.heise.de/bosch-bds3250-displayaufnahme-eb13100009-a3436095.html?hloc=de",
+        "title": "Bosch BDS3250 Kabelabgang vorne Displayhalterung (EB13100009) ab € 21,00 (2026) | heise preisvergleich Deutschland",
+        "snippet": "",
+        "matchedWords": {
+          "-3-LOujYh7vX": {
+            "hits": 25,
+            "textWords": 1436
           }
         },
         "queryPhraseHits": 0
@@ -2331,19 +2343,6 @@
         "queryPhraseHits": 0
       },
       {
-        "hash": "x_uR7FrrGcCg",
-        "address": "https://preisvergleich.heise.de/delock-2d-barcodescanner-schwarz-90557-a2842493.html?hloc=de",
-        "title": "DeLOCK 2D Barcodescanner schwarz, USB (90557) ab € 61,39 (2026) | heise preisvergleich Deutschland",
-        "snippet": "",
-        "matchedWords": {
-          "-3-LOujYh7vX": {
-            "hits": 25,
-            "textWords": 1846
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
         "hash": "XDRrElDOAHJg",
         "address": "https://www.heise.de/meinung",
         "title": "Meinung | heise online",
@@ -2357,14 +2356,27 @@
         "queryPhraseHits": 0
       },
       {
-        "hash": "1OH26FrrGcCg",
-        "address": "https://preisvergleich.heise.de/hager-leitungsschutzschalter-1-polig-25ka-10a-b-charakteristik-mb197-a2934495.html?hloc=de",
-        "title": "Hager Leitungsschutzschalter 1-polig 25kA 10A B-Charakteristik (MB197) ab € 23,63 (2026) | heise preisvergleich Deutschland",
+        "hash": "NDil0FrrGcCg",
+        "address": "https://preisvergleich.heise.de/nuki-smart-lock-5-0-pro-a3903031.html?hloc=de",
+        "title": "Nuki Smart Lock 5.0 Pro, inkl. Keypad 2 NFC/Door Sensor, schwarz ab € 399,00 (2026) | heise preisvergleich Deutschland",
         "snippet": "",
         "matchedWords": {
           "-3-LOujYh7vX": {
             "hits": 25,
-            "textWords": 1573
+            "textWords": 1235
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "GCcFvFrrGcCg",
+        "address": "https://preisvergleich.heise.de/ezviz-dl01-pro-smart-lock-a3669134.html?hloc=de",
+        "title": "Ezviz DL01 Pro Smart Lock, inkl. Keypad und Gateway ab € 139,00 (2026) | heise preisvergleich Deutschland",
+        "snippet": "",
+        "matchedWords": {
+          "-3-LOujYh7vX": {
+            "hits": 25,
+            "textWords": 2234
           }
         },
         "queryPhraseHits": 0
@@ -2383,27 +2395,27 @@
         "queryPhraseHits": 0
       },
       {
-        "hash": "Z5pC2vU0aeEi",
-        "address": "https://heise-academy.de/experten/eberhard-wolff-f61718",
-        "title": "Eberhard Wolff",
+        "hash": "HTzj2ZunM6pg",
+        "address": "https://bestenliste-assets.heise.de/1/jluk9lBaHR0cHM6Ly9vY2RuLmV1L3B1bHNjbXMvTURBXy9lYzgwNWRhZTRiZTEzZGExODViOWI1ZTAxNDk5MjBjZi5qcGeRkwXNAaLMvN4AAaExBA",
+        "title": "jluk9lBaHR0cHM6Ly9vY2RuLmV1L3B1bHNjbXMvTURBXy9lYzgwNWRhZTRiZTEzZGExODViOWI1ZTAxNDk5MjBjZi5qcGeRkwXNAaLMvN4AAaExBA",
         "snippet": "",
         "matchedWords": {
           "-3-LOujYh7vX": {
-            "hits": 5,
-            "textWords": 515
+            "hits": 1,
+            "textWords": 138
           }
         },
         "queryPhraseHits": 0
       },
       {
-        "hash": "IjTnTZunM6pg",
-        "address": "https://bestenliste-assets.heise.de/1/omuk9lBaHR0cHM6Ly9vY2RuLmV1L3B1bHNjbXMvTURBXy84OTVjOTNhMjFjOGVkZjIxZmE5MzFjYWEwYTliY2IzOS5qcGeRkwXNAaLM694AAaExBA",
-        "title": "omuk9lBaHR0cHM6Ly9vY2RuLmV1L3B1bHNjbXMvTURBXy84OTVjOTNhMjFjOGVkZjIxZmE5MzFjYWEwYTliY2IzOS5qcGeRkwXNAaLM694AAaExBA",
+        "hash": "GfWB-vU0aeEi",
+        "address": "https://heise-academy.de/experten/verena-zengerle-91c7b6",
+        "title": "Verena Zengerle",
         "snippet": "",
         "matchedWords": {
           "-3-LOujYh7vX": {
-            "hits": 1,
-            "textWords": 141
+            "hits": 5,
+            "textWords": 517
           }
         },
         "queryPhraseHits": 0
@@ -2414,7 +2426,7 @@
         "hash": "aJsbverrGcCg",
         "address": "https://preisvergleich.heise.de/merchants/boomstore-143844-eb-de",
         "title": "boomstore Bewertungen \u0026 Erfahrungen - heise preisvergleich Deutschland",
-        "snippet": "Schon bei boomstore gekauft?\nSchon bei boomstore gekauft?\nBewertungen und Erfahrungen für boomstore\nLaden ...\nLetzte Aktualisierung: 12.09.2026, 02:12\nDer heise Preisvergleich ist ein Angebot in Kooperation mit der Preisvergleich Internet Services AG (geizhals.de).",
+        "snippet": "Schon bei boomstore gekauft?\nSchon bei boomstore gekauft?\nBewertungen und Erfahrungen für boomstore\nLaden ...\nLetzte Aktualisierung: 12.09.2026, 13:06\nDer heise Preisvergleich ist ein Angebot in Kooperation mit der Preisvergleich Internet Services AG (geizhals.de).",
         "matchedWords": {
           "-3-LOujYh7vX": {
             "hits": 2,
@@ -2437,19 +2449,6 @@
         "queryPhraseHits": 0
       },
       {
-        "hash": "AM_wDvDOAHJg",
-        "address": "https://www.heise.de/news/Apple-vs-FBI-Die-Crypto-Wars-3-0-erreichen-die-USA-3117055.html?view=mail",
-        "title": "Apple vs. FBI: Die Crypto Wars 3.0 erreichen die USA | heise online",
-        "snippet": "Diesen Beitrag per E-Mail versenden\nE-Mail-Adresse(n) Empfänger\nSie können maximal fünf Empfänger angeben. Diese müssen durch Kommas getrennt werden.\nE-Mail-Adresse des Absenders\nName des Absenders (optional)\nZusatztext\nGeben Sie bitte den Sicherheitscode ein",
-        "matchedWords": {
-          "-3-LOujYh7vX": {
-            "hits": 0,
-            "textWords": 64
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
         "hash": "Jsx3ojRvmBbx",
         "address": "https://en.wikipedia.org/wiki/Heise_Verlag",
         "title": "Heise Group - Wikipedia",
@@ -2458,6 +2457,19 @@
           "-3-LOujYh7vX": {
             "hits": 34,
             "textWords": 1296
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "AM_wDvDOAHJg",
+        "address": "https://www.heise.de/news/Apple-vs-FBI-Die-Crypto-Wars-3-0-erreichen-die-USA-3117055.html?view=mail",
+        "title": "Apple vs. FBI: Die Crypto Wars 3.0 erreichen die USA | heise online",
+        "snippet": "",
+        "matchedWords": {
+          "-3-LOujYh7vX": {
+            "hits": 41,
+            "textWords": 640
           }
         },
         "queryPhraseHits": 0
@@ -2489,6 +2501,19 @@
         "queryPhraseHits": 0
       },
       {
+        "hash": "LKsHASweyniY",
+        "address": "http://topps1971.blogspot.com/",
+        "title": "Topps 1971",
+        "snippet": "",
+        "matchedWords": {
+          "-3-LOujYh7vX": {
+            "hits": 1,
+            "textWords": 3233
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
         "hash": "rYnjysghd-Kg",
         "address": "https://geizhals.de/?phist=2380649",
         "title": "Preisentwicklung für Faber-Castell Polychromos Buntstift sortiert (90 Tage) Geizhals Deutschland",
@@ -2497,6 +2522,19 @@
           "-3-LOujYh7vX": {
             "hits": 1,
             "textWords": 305
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "hhtFRQ0LreBa",
+        "address": "http://www.thetoppsarchives.com/",
+        "title": "The Topps Archives",
+        "snippet": "",
+        "matchedWords": {
+          "-3-LOujYh7vX": {
+            "hits": 1,
+            "textWords": 14424
           }
         },
         "queryPhraseHits": 0
@@ -2513,29 +2551,135 @@
           }
         },
         "queryPhraseHits": 0
-      },
+      }
+    ],
+    [
       {
-        "hash": "oN13klXXtd9j",
-        "address": "https://www.vogelstimmen-wehr.de/",
-        "title": "Vogelstimmen von Stefan Wehr",
-        "snippet": "",
+        "hash": "9zP6RNDOAHJg",
+        "address": "https://www.heise.de/thema/Journal",
+        "title": "Journal: News, Ratgeber und Tipps | heise online",
+        "snippet": "Anzeige\nAnzeige\nVorsicht, Kunde: Kurs bezahlt und trotzdem ausgesperrt\nWird der Zugang zu einem digitalen Angebot plötzlich gesperrt, müssen Verbraucher das nicht hinnehmen. Wir klären, welche Vertragsklauseln oft unwirksam sind.\nEutelsat: Europas Starlink-Konkurrent expandiert",
         "matchedWords": {
           "-3-LOujYh7vX": {
-            "hits": 1,
-            "textWords": 1417
+            "hits": 0,
+            "textWords": 432
           }
         },
         "queryPhraseHits": 0
       },
       {
-        "hash": "YAXQOs5uSLiw",
-        "address": "https://free21.org/hitler-war-ein-grosser-demokrat/",
-        "title": "„Hitler war ein großer Demokrat“  - Free21",
+        "hash": "1Uk6a9Uv6uQ4",
+        "address": "https://bsky.app/profile/heise.de",
+        "title": "@heise.de on Bluesky",
         "snippet": "",
         "matchedWords": {
           "-3-LOujYh7vX": {
+            "hits": 4,
+            "textWords": 89
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "bPubtFrrGcCg",
+        "address": "https://preisvergleich.heise.de/",
+        "title": "heise preisvergleich Deutschland",
+        "snippet": "Die Lösung für Content-Monetarisierung – Preisvergleich-Widgets für deine Webseite!\nJetzt kostenlos registrieren",
+        "matchedWords": {
+          "-3-LOujYh7vX": {
+            "hits": 0,
+            "textWords": 13
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "MKQ2gEDOAHJg",
+        "address": "https://www.heise.de/benachrichtigungen/heise-bot/",
+        "title": "heise-Bot | heise online",
+        "snippet": "Täglich schickt Ihnen unser heise-Bot – auch \"Botti\" genannt – morgens und abends ausgewählte News als Push-Nachricht. Der etwas andere Nachrichtenüberblick, erfrischend locker und gespickt mit Anekdoten aus dem Leben eines Bots.",
+        "matchedWords": {
+          "-3-LOujYh7vX": {
             "hits": 1,
-            "textWords": 3826
+            "textWords": 47
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "Iw8DylDOAHJg",
+        "address": "https://www.heise.de/kontakt/",
+        "title": "Kontaktformular | heise online",
+        "snippet": "",
+        "matchedWords": {
+          "-3-LOujYh7vX": {
+            "hits": 38,
+            "textWords": 530
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "zNZDulDOAHJg",
+        "address": "https://www.heise.de/kontakt/?frage=3212474",
+        "title": "Kontaktformular | heise online",
+        "snippet": "",
+        "matchedWords": {
+          "-3-LOujYh7vX": {
+            "hits": 38,
+            "textWords": 532
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "sucL-dFO6r_x",
+        "address": "https://de.wikipedia.org/wiki/Heise_Online",
+        "title": "heise online – Wikipedia",
+        "snippet": "",
+        "matchedWords": {
+          "-3-LOujYh7vX": {
+            "hits": 93,
+            "textWords": 2111
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "24dHqlDOAHJg",
+        "address": "https://www.heise.de/tools",
+        "title": "Netzwerk-Tools | heise online",
+        "snippet": "",
+        "matchedWords": {
+          "-3-LOujYh7vX": {
+            "hits": 36,
+            "textWords": 805
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "3Zwe0lDOAHJg",
+        "address": "https://www.heise.de/tests",
+        "title": "tests | heise online",
+        "snippet": "",
+        "matchedWords": {
+          "-3-LOujYh7vX": {
+            "hits": 37,
+            "textWords": 1359
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "imQXflDOAHJg",
+        "address": "https://www.heise.de/security",
+        "title": "heise security: Alerts,Newsticker,Hintergrund und Events | heise online",
+        "snippet": "heise security abonnieren\nheise security abonnieren\nOb Sicherheitslücken, Viren oder Trojaner – alle sicherheitsrelevanten Meldungen gibts bei heise security\nE-Mail-Adresse",
+        "matchedWords": {
+          "-3-LOujYh7vX": {
+            "hits": 4,
+            "textWords": 79
           }
         },
         "queryPhraseHits": 0
@@ -2597,274 +2741,10 @@
     ],
     [
       {
-        "hash": "9ISSbCDOAHJg",
-        "address": "https://www.heise.de/netze/tools/fernwartung",
-        "title": "Fernwartung | heise Netze",
-        "snippet": "Fernwartung\nViren-Alarm: Manche Anti-Viren-Programme bewerten den im Windows-Fernwartungs-Programm enthaltenen VNC-Server als Sicherheitslücke. Das ist ein Fehlalarm.",
-        "matchedWords": {
-          "-3-LOujYh7vX": {
-            "hits": 0,
-            "textWords": 316
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "sz4qlChhB9pg",
-        "address": "https://shop.heise.de/zeitschriften-abo/",
-        "title": "ABO | heise shop",
-        "snippet": "Unabhängiger Journalismus ist bei c't das A und O - das wissen unsere Leser zu schätzen. Egal ob gedruckt oder digital. Genießen Sie die Vorzüge eines Abonnements und sparen Sie gegenüber dem Einzelkauf.\nheise+ ist das digitale Abo von heise online.",
-        "matchedWords": {
-          "-3-LOujYh7vX": {
-            "hits": 5,
-            "textWords": 484
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "jfSJBBiwa444",
-        "address": "https://apps.apple.com/de/app/heise-online-it-news/id333214314",
-        "title": "‎heise online | IT-News‑App – App Store",
-        "snippet": "",
-        "matchedWords": {
-          "-3-LOujYh7vX": {
-            "hits": 41,
-            "textWords": 2839
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "bPubtFrrGcCg",
-        "address": "https://preisvergleich.heise.de/",
-        "title": "heise preisvergleich Deutschland",
-        "snippet": "Die Lösung für Content-Monetarisierung – Preisvergleich-Widgets für deine Webseite!\nJetzt kostenlos registrieren",
-        "matchedWords": {
-          "-3-LOujYh7vX": {
-            "hits": 0,
-            "textWords": 13
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "W3qi8lDOAHJg",
-        "address": "https://www.heise.de/Meine-Themen-Bleiben-Sie-auf-dem-Laufenden-9543592.html",
-        "title": "Meine Themen: Bleiben Sie auf dem Laufenden! | heise online",
-        "snippet": "",
-        "matchedWords": {
-          "-3-LOujYh7vX": {
-            "hits": 41,
-            "textWords": 908
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "AhiLlsS6MKD4",
-        "address": "https://github.com/00heise",
-        "title": "00heise (00heise) · GitHub",
-        "snippet": "",
-        "matchedWords": {
-          "-3-LOujYh7vX": {
-            "hits": 7,
-            "textWords": 632
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "wjDk9NDOAHJg",
-        "address": "https://www.heise.de/thema/IT?p=1",
-        "title": "IT: News, Ratgeber und Tipps | heise online",
-        "snippet": "",
-        "matchedWords": {
-          "-3-LOujYh7vX": {
-            "hits": 46,
-            "textWords": 1587
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "-AR0qJDOAHJg",
-        "address": "https://www.heise.de/ratgeber/Java-6-Scripting-mit-JRuby-920124.html",
-        "title": "Java-6-Scripting mit JRuby | heise online",
-        "snippet": "",
-        "matchedWords": {
-          "-3-LOujYh7vX": {
-            "hits": 47,
-            "textWords": 1429
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "R8DHxInk4jwg",
-        "address": "https://compaliate.heise.de/",
-        "title": "heise compaliate - Die Affiliate Plattform für Publisher",
-        "snippet": "Fülle ganz einfach und bequem das Formular aus oder schreibe uns eine E-Mail. Wir werden deine Fragen schnellstmöglich beantworten.\nUnsere Antworten auf die häufigsten Fragen\nHier findest Du Antworten auf die häufigsten Fragen zu heise compaliate!\nWas ist heise compaliate?",
-        "matchedWords": {
-          "-3-LOujYh7vX": {
-            "hits": 9,
-            "textWords": 890
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "iRZd5qBwgIkg",
-        "address": "https://business-services.heise.de/",
-        "title": "Heise Business Services | heise",
-        "snippet": "Premium Webcast / Live Webcast am 22.10. um 11 Uhr\nSecurity\nSecurity Management\nKI-gestützte Cyberangriffe: So rüsten Sie Ihre Abwehr richtig auf\nCyberkriminelle nutzen KI, um Angriffe schneller und gezielter durchzuführen.",
-        "matchedWords": {
-          "-3-LOujYh7vX": {
-            "hits": 0,
-            "textWords": 549
-          }
-        },
-        "queryPhraseHits": 0
-      }
-    ],
-    [
-      {
-        "hash": "bPubtFrrGcCg",
-        "address": "https://preisvergleich.heise.de/",
-        "title": "heise preisvergleich Deutschland",
-        "snippet": "Die Lösung für Content-Monetarisierung – Preisvergleich-Widgets für deine Webseite!\nJetzt kostenlos registrieren",
-        "matchedWords": {
-          "-3-LOujYh7vX": {
-            "hits": 0,
-            "textWords": 13
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "R8DHxInk4jwg",
-        "address": "https://compaliate.heise.de/",
-        "title": "heise compaliate - Die Affiliate Plattform für Publisher",
-        "snippet": "Fülle ganz einfach und bequem das Formular aus oder schreibe uns eine E-Mail. Wir werden deine Fragen schnellstmöglich beantworten.\nUnsere Antworten auf die häufigsten Fragen\nHier findest Du Antworten auf die häufigsten Fragen zu heise compaliate!\nWas ist heise compaliate?",
-        "matchedWords": {
-          "-3-LOujYh7vX": {
-            "hits": 9,
-            "textWords": 890
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "sz4qlChhB9pg",
-        "address": "https://shop.heise.de/zeitschriften-abo/",
-        "title": "ABO | heise shop",
-        "snippet": "Unabhängiger Journalismus ist bei c't das A und O - das wissen unsere Leser zu schätzen. Egal ob gedruckt oder digital. Genießen Sie die Vorzüge eines Abonnements und sparen Sie gegenüber dem Einzelkauf.\nheise+ ist das digitale Abo von heise online.",
-        "matchedWords": {
-          "-3-LOujYh7vX": {
-            "hits": 5,
-            "textWords": 484
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "iRZd5qBwgIkg",
-        "address": "https://business-services.heise.de/",
-        "title": "Heise Business Services | heise",
-        "snippet": "Premium Webcast / Live Webcast am 22.10. um 11 Uhr\nSecurity\nSecurity Management\nKI-gestützte Cyberangriffe: So rüsten Sie Ihre Abwehr richtig auf\nCyberkriminelle nutzen KI, um Angriffe schneller und gezielter durchzuführen.",
-        "matchedWords": {
-          "-3-LOujYh7vX": {
-            "hits": 0,
-            "textWords": 549
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "76Uz4FDOAHJg",
-        "address": "https://www.heise.de/ct/kontakt/?frage=3212474",
-        "title": "Kontaktformular | heise online",
-        "snippet": "",
-        "matchedWords": {
-          "-3-LOujYh7vX": {
-            "hits": 37,
-            "textWords": 571
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "MIpaRhnAgGgh",
-        "address": "https://www.heisegroup.de/artikel/heise-medien-3904998.html",
-        "title": "heise medien | heise group",
-        "snippet": "",
-        "matchedWords": {
-          "-3-LOujYh7vX": {
-            "hits": 33,
-            "textWords": 835
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "FWcFzNwxwI-g",
-        "address": "https://mediadaten.heise.de/en/",
-        "title": "heise - Heise Medienportal",
-        "snippet": "",
-        "matchedWords": {
-          "-3-LOujYh7vX": {
-            "hits": 12,
-            "textWords": 720
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "EUwmPsU0aeEi",
-        "address": "https://heise-academy.de/",
-        "title": "Online Weiterbildung für IT-Professionals | heise academy",
-        "snippet": "Wir haben uns für die heise academy entschieden, weil heise für sachliche, hochwertige Inhalte und echtes Praxiswissen steht – und genau das ist für uns in der Weiterbildung entscheidend.",
-        "matchedWords": {
-          "-3-LOujYh7vX": {
-            "hits": 4,
-            "textWords": 134
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "ihD0elY1KsNj",
-        "address": "https://www.heise-regioconcept.de/",
-        "title": "heise regioconcept: Regionales Marketing, das wirkt!",
-        "snippet": "",
-        "matchedWords": {
-          "-3-LOujYh7vX": {
-            "hits": 12,
-            "textWords": 1032
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "QtT4ODRBYjbw",
-        "address": "https://matrix.org/category/general/atom.xml",
-        "title": "",
-        "snippet": "",
-        "matchedWords": {
-          "-3-LOujYh7vX": {
-            "hits": 1,
-            "textWords": 31192
-          }
-        },
-        "queryPhraseHits": 0
-      }
-    ],
-    [
-      {
-        "hash": "6ubVWerrGcCg",
-        "address": "https://preisvergleich.heise.de/merchants/future-x-de-45-eb-de",
-        "title": "future-x_de Bewertungen \u0026 Erfahrungen - heise preisvergleich Deutschland",
-        "snippet": "Schon bei future-x_de gekauft?\nSchon bei future-x_de gekauft?\nBewertungen und Erfahrungen für future-x_de\nLaden ...\nLetzte Aktualisierung: 12.09.2026, 02:12\nDer heise Preisvergleich ist ein Angebot in Kooperation mit der Preisvergleich Internet Services AG (geizhals.de).",
+        "hash": "56C3uerrGcCg",
+        "address": "https://preisvergleich.heise.de/merchants/akku-onlinehandel-2914-eb-de",
+        "title": "akku-onlinehandel Bewertungen \u0026 Erfahrungen - heise preisvergleich Deutschland",
+        "snippet": "Schon bei akku-onlinehandel gekauft?\nSchon bei akku-onlinehandel gekauft?\nBewertungen und Erfahrungen für akku-onlinehandel\nLaden ...\nLetzte Aktualisierung: 12.09.2026, 13:06\nDer heise Preisvergleich ist ein Angebot in Kooperation mit der Preisvergleich Internet Services AG (geizhals.de).",
         "matchedWords": {
           "-3-LOujYh7vX": {
             "hits": 2,
@@ -2874,6 +2754,125 @@
         "queryPhraseHits": 0
       },
       {
+        "hash": "imQXflDOAHJg",
+        "address": "https://www.heise.de/security",
+        "title": "heise security: Alerts,Newsticker,Hintergrund und Events | heise online",
+        "snippet": "heise security abonnieren\nheise security abonnieren\nOb Sicherheitslücken, Viren oder Trojaner – alle sicherheitsrelevanten Meldungen gibts bei heise security\nE-Mail-Adresse",
+        "matchedWords": {
+          "-3-LOujYh7vX": {
+            "hits": 4,
+            "textWords": 79
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "6PshaerrGcCg",
+        "address": "https://preisvergleich.heise.de/merchants/jackery-de",
+        "title": "Jackery Bewertungen \u0026 Erfahrungen - heise preisvergleich Deutschland",
+        "snippet": "",
+        "matchedWords": {
+          "-3-LOujYh7vX": {
+            "hits": 25,
+            "textWords": 629
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "eeN57errGcCg",
+        "address": "https://preisvergleich.heise.de/merchants/salesarti-41-eb-de",
+        "title": "salesarti Bewertungen \u0026 Erfahrungen - heise preisvergleich Deutschland",
+        "snippet": "",
+        "matchedWords": {
+          "-3-LOujYh7vX": {
+            "hits": 25,
+            "textWords": 614
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "CXNbLerrGcCg",
+        "address": "https://preisvergleich.heise.de/merchants/neiflex-at",
+        "title": "NeiFlex Bewertungen \u0026 Erfahrungen - heise preisvergleich Deutschland",
+        "snippet": "",
+        "matchedWords": {
+          "-3-LOujYh7vX": {
+            "hits": 25,
+            "textWords": 718
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "14nL4FrrGcCg",
+        "address": "https://preisvergleich.heise.de/bosch-powertube-400-vertikal-rahmenakku-a2244945.html?hloc=de",
+        "title": "Bosch PowerTube 400 Vertikal Rahmenakku (0275007556) ab € 299,90 (2026) | heise preisvergleich Deutschland",
+        "snippet": "",
+        "matchedWords": {
+          "-3-LOujYh7vX": {
+            "hits": 25,
+            "textWords": 990
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "4UAnpFrrGcCg",
+        "address": "https://preisvergleich.heise.de/fischer-11ah-ersatzakku-50061-a2303136.html?hloc=de",
+        "title": "Fischer 11Ah Rahmenakku (50061) ab € 349,00 (2026) | heise preisvergleich Deutschland",
+        "snippet": "",
+        "matchedWords": {
+          "-3-LOujYh7vX": {
+            "hits": 25,
+            "textWords": 1130
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "kWx_serrGcCg",
+        "address": "https://preisvergleich.heise.de/merchants/nexocstore-de",
+        "title": "NEXOC Store Bewertungen \u0026 Erfahrungen - heise preisvergleich Deutschland",
+        "snippet": "",
+        "matchedWords": {
+          "-3-LOujYh7vX": {
+            "hits": 25,
+            "textWords": 771
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "_cbEdChhB9pg",
+        "address": "https://shop.heise.de/e-learning/?p=2",
+        "title": "E-LEARNING | heise shop",
+        "snippet": "",
+        "matchedWords": {
+          "-3-LOujYh7vX": {
+            "hits": 40,
+            "textWords": 10397
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "XIBNeerrGcCg",
+        "address": "https://preisvergleich.heise.de/merchants/electronis",
+        "title": "electronis.de Bewertungen \u0026 Erfahrungen - heise preisvergleich Deutschland",
+        "snippet": "",
+        "matchedWords": {
+          "-3-LOujYh7vX": {
+            "hits": 25,
+            "textWords": 877
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
         "hash": "_8mjOXDOAHJg",
         "address": "https://www.heise.de/bestenlisten/testsieger/top-10-die-beste-powerstation-im-test-ecoflow-vor-bluetti-und-anker/1f379f0",
         "title": "Top 10: Die beste Powerstation im Test – Ecoflow vor Bluetti und Anker | heise online bestenlisten",
@@ -2882,6 +2881,19 @@
           "-3-LOujYh7vX": {
             "hits": 386,
             "textWords": 49811
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "6ubVWerrGcCg",
+        "address": "https://preisvergleich.heise.de/merchants/future-x-de-45-eb-de",
+        "title": "future-x_de Bewertungen \u0026 Erfahrungen - heise preisvergleich Deutschland",
+        "snippet": "Schon bei future-x_de gekauft?\nSchon bei future-x_de gekauft?\nBewertungen und Erfahrungen für future-x_de\nLaden ...\nLetzte Aktualisierung: 12.09.2026, 13:06\nDer heise Preisvergleich ist ein Angebot in Kooperation mit der Preisvergleich Internet Services AG (geizhals.de).",
+        "matchedWords": {
+          "-3-LOujYh7vX": {
+            "hits": 2,
+            "textWords": 95
           }
         },
         "queryPhraseHits": 0
@@ -2913,14 +2925,14 @@
         "queryPhraseHits": 0
       },
       {
-        "hash": "B88GvFrrGcCg",
-        "address": "https://preisvergleich.heise.de/aten-2l-1010p-c-10m-a760563.html?hloc=de",
-        "title": "ATEN 2L-1010P/C, 10m ab € 79,95 (2026) | heise preisvergleich Deutschland",
+        "hash": "2g8-4FrrGcCg",
+        "address": "https://preisvergleich.heise.de/aten-2l-5202u-1-8m-a749797.html?hloc=de",
+        "title": "ATEN 2L-5202U, 1.8m ab € 8,85 (2026) | heise preisvergleich Deutschland",
         "snippet": "",
         "matchedWords": {
           "-3-LOujYh7vX": {
             "hits": 25,
-            "textWords": 998
+            "textWords": 1746
           }
         },
         "queryPhraseHits": 0
@@ -2965,14 +2977,14 @@
         "queryPhraseHits": 0
       },
       {
-        "hash": "emXdgFrrGcCg",
-        "address": "https://preisvergleich.heise.de/hikvision-ds-7108ni-k1-w-m-8-kanal-a2553700.html?hloc=de",
-        "title": "Hikvision DS-7108NI-K1/W/M 8-Kanal, Netzwerk-Videorecorder ab € 134,23 (2026) | heise preisvergleich Deutschland",
+        "hash": "hGZ2sFrrGcCg",
+        "address": "https://preisvergleich.heise.de/buechel-shiny-80-frontlicht-51254517-a2604535.html?hloc=de",
+        "title": "Büchel Shiny 80 SL S Frontlicht (51254517) ab € 27,99 (2026) | heise preisvergleich Deutschland",
         "snippet": "",
         "matchedWords": {
           "-3-LOujYh7vX": {
             "hits": 25,
-            "textWords": 1005
+            "textWords": 1092
           }
         },
         "queryPhraseHits": 0
@@ -2993,19 +3005,6 @@
     ],
     [
       {
-        "hash": "wTALf05uSLiw",
-        "address": "https://free21.org/samisdat/der-krieg-um-berg-karabach-oder-warum-neutralitaet-parteinahme-ist/",
-        "title": "Der Krieg um Berg-Karabach – oder: Warum ‚Neutralität‘ Parteinahme ist - Free21",
-        "snippet": "",
-        "matchedWords": {
-          "-3-LOujYh7vX": {
-            "hits": 6,
-            "textWords": 3469
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
         "hash": "xZNm2gy8XHY4",
         "address": "https://denl.abcdef.wiki/wiki/Donald_Trump",
         "title": "Donald Trump - abcdef.wiki",
@@ -3014,6 +3013,19 @@
           "-3-LOujYh7vX": {
             "hits": 1,
             "textWords": 38035
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "yJb09S5uSLiw",
+        "address": "https://free21.org/wp-content/uploads/2021/05/01_Ensel_-Meeting_Gorbatschow_kleinste-Dateigroesse_SW.pdf",
+        "title": "01_Ensel_-Meeting_Gorbatschow_kleinste-Dateigroesse_SW.pdf",
+        "snippet": "",
+        "matchedWords": {
+          "-3-LOujYh7vX": {
+            "hits": 2,
+            "textWords": 3720
           }
         },
         "queryPhraseHits": 0
@@ -3032,19 +3044,6 @@
         "queryPhraseHits": 0
       },
       {
-        "hash": "xAo33S5uSLiw",
-        "address": "https://free21.org/wp-content/uploads/2020/10/03-Escobar-From-911-to-the-great-Reset-DE.pdf",
-        "title": "MARIKA_Escobar - 911to Great Reset_LAYOUT.indd",
-        "snippet": "",
-        "matchedWords": {
-          "-3-LOujYh7vX": {
-            "hits": 2,
-            "textWords": 3211
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
         "hash": "x51SVS5uSLiw",
         "address": "https://free21.org/wp-content/uploads/2022/12/01_Cechura-Hartz-4-geht-das-Buergergeld-kommt-die-Notlagen-bleiben.pdf",
         "title": "01_Cechura-Hartz-4-geht-das-Buergergeld-kommt-die-Notlagen-bleiben.pdf",
@@ -3058,14 +3057,27 @@
         "queryPhraseHits": 0
       },
       {
-        "hash": "yJb09S5uSLiw",
-        "address": "https://free21.org/wp-content/uploads/2021/05/01_Ensel_-Meeting_Gorbatschow_kleinste-Dateigroesse_SW.pdf",
-        "title": "01_Ensel_-Meeting_Gorbatschow_kleinste-Dateigroesse_SW.pdf",
+        "hash": "wTALf05uSLiw",
+        "address": "https://free21.org/samisdat/der-krieg-um-berg-karabach-oder-warum-neutralitaet-parteinahme-ist/",
+        "title": "Der Krieg um Berg-Karabach – oder: Warum ‚Neutralität‘ Parteinahme ist - Free21",
+        "snippet": "",
+        "matchedWords": {
+          "-3-LOujYh7vX": {
+            "hits": 6,
+            "textWords": 3469
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "xAo33S5uSLiw",
+        "address": "https://free21.org/wp-content/uploads/2020/10/03-Escobar-From-911-to-the-great-Reset-DE.pdf",
+        "title": "MARIKA_Escobar - 911to Great Reset_LAYOUT.indd",
         "snippet": "",
         "matchedWords": {
           "-3-LOujYh7vX": {
             "hits": 2,
-            "textWords": 3720
+            "textWords": 3211
           }
         },
         "queryPhraseHits": 0
@@ -3086,27 +3098,27 @@
     ],
     [
       {
-        "hash": "GvL_jFrrGcCg",
-        "address": "https://preisvergleich.heise.de/?phist=3917957",
-        "title": "Preisentwicklung für ATK Dragonfly A9 Ultra Max 8KHz Wireless Gaming Maus, schwarz, USB/Bluetooth (90 Tage) heise preisvergleich Deutschland",
-        "snippet": "Preisentwicklung für ATK Dragonfly A9 Ultra Max 8KHz Wireless Gaming Maus, schwarz, USB/Bluetooth\n« Zurück zum Produkt\nLetzte Aktualisierung: 12.09.2026, 02:11\nDer heise Preisvergleich ist ein Angebot in Kooperation mit der Preisvergleich Internet Services AG (geizhals.de).",
+        "hash": "VeY8uFrrGcCg",
+        "address": "https://preisvergleich.heise.de/?phist=3298140",
+        "title": "Preisentwicklung für Sony PlayStation 5 Pro - 2TB weiß (1000046526) (90 Tage) heise preisvergleich Deutschland",
+        "snippet": "Preisentwicklung für Sony PlayStation 5 Pro - 2TB weiß (1000046526)\n« Zurück zum Produkt\nLetzte Aktualisierung: 12.09.2026, 13:06\nDer heise Preisvergleich ist ein Angebot in Kooperation mit der Preisvergleich Internet Services AG (geizhals.de).",
         "matchedWords": {
           "-3-LOujYh7vX": {
             "hits": 2,
-            "textWords": 95
+            "textWords": 89
           }
         },
         "queryPhraseHits": 0
       },
       {
-        "hash": "VeY8uFrrGcCg",
-        "address": "https://preisvergleich.heise.de/?phist=3298140",
-        "title": "Preisentwicklung für Sony PlayStation 5 Pro - 2TB weiß (1000046526) (90 Tage) heise preisvergleich Deutschland",
-        "snippet": "Preisentwicklung für Sony PlayStation 5 Pro - 2TB weiß (1000046526)\n« Zurück zum Produkt\nLetzte Aktualisierung: 12.09.2026, 02:11\nDer heise Preisvergleich ist ein Angebot in Kooperation mit der Preisvergleich Internet Services AG (geizhals.de).",
+        "hash": "YqI3NFrrGcCg",
+        "address": "https://preisvergleich.heise.de/?phist=2884322",
+        "title": "Preisentwicklung für Shelly Pro 3EM, DIN-Schienen-Stromverbrauchsmessgerät, 3-Phasen, 120A, Strommesssensor (213530) (90 Tage) heise preisvergleich Deutschland",
+        "snippet": "Preisentwicklung für Shelly Pro 3EM, DIN-Schienen-Stromverbrauchsmessgerät, 3-Phasen, 120A, Strommesssensor (213530)\n« Zurück zum Produkt\nLetzte Aktualisierung: 12.09.2026, 13:06\nDer heise Preisvergleich ist ein Angebot in Kooperation mit der Preisvergleich Internet Services AG (geizhals.de).",
         "matchedWords": {
           "-3-LOujYh7vX": {
             "hits": 2,
-            "textWords": 89
+            "textWords": 93
           }
         },
         "queryPhraseHits": 0
@@ -3177,14 +3189,14 @@
         "queryPhraseHits": 0
       },
       {
-        "hash": "YqI3NFrrGcCg",
-        "address": "https://preisvergleich.heise.de/?phist=2884322",
-        "title": "Preisentwicklung für Shelly Pro 3EM, DIN-Schienen-Stromverbrauchsmessgerät, 3-Phasen, 120A, Strommesssensor (213530) (90 Tage) heise preisvergleich Deutschland",
+        "hash": "GvL_jFrrGcCg",
+        "address": "https://preisvergleich.heise.de/?phist=3917957",
+        "title": "Preisentwicklung für ATK Dragonfly A9 Ultra Max 8KHz Wireless Gaming Maus, schwarz, USB/Bluetooth (90 Tage) heise preisvergleich Deutschland",
         "snippet": "",
         "matchedWords": {
           "-3-LOujYh7vX": {
             "hits": 25,
-            "textWords": 497
+            "textWords": 509
           }
         },
         "queryPhraseHits": 0
@@ -3270,14 +3282,14 @@
         "queryPhraseHits": 0
       },
       {
-        "hash": "6MikmvDOAHJg",
-        "address": "https://www.heise.de/news/MDR-warnt-vor-gefaelschten-Videos-und-Desinformationskampagne-11414625.html?wt_mc=rss.red.ho.ho.atom.beitrag.beitrag",
-        "title": "MDR wird Ziel russischer Desinformationskampagne | heise online",
+        "hash": "6Q7g-vDOAHJg",
+        "address": "https://www.heise.de/news/Nachgebaute-Apple-Watch-verbindet-sich-mit-iPhones-11404012.html?wt_mc=rss.red.ho.ho.atom.beitrag.beitrag",
+        "title": "Nachgebaute Apple Watch verbindet sich mit iPhones | heise online",
         "snippet": "",
         "matchedWords": {
           "-3-LOujYh7vX": {
-            "hits": 47,
-            "textWords": 1274
+            "hits": 48,
+            "textWords": 1384
           }
         },
         "queryPhraseHits": 0
@@ -3296,14 +3308,27 @@
         "queryPhraseHits": 0
       },
       {
-        "hash": "6Q7g-vDOAHJg",
-        "address": "https://www.heise.de/news/Nachgebaute-Apple-Watch-verbindet-sich-mit-iPhones-11404012.html?wt_mc=rss.red.ho.ho.atom.beitrag.beitrag",
-        "title": "Nachgebaute Apple Watch verbindet sich mit iPhones | heise online",
+        "hash": "6MikmvDOAHJg",
+        "address": "https://www.heise.de/news/MDR-warnt-vor-gefaelschten-Videos-und-Desinformationskampagne-11414625.html?wt_mc=rss.red.ho.ho.atom.beitrag.beitrag",
+        "title": "MDR wird Ziel russischer Desinformationskampagne | heise online",
         "snippet": "",
         "matchedWords": {
           "-3-LOujYh7vX": {
-            "hits": 48,
-            "textWords": 1384
+            "hits": 47,
+            "textWords": 1274
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "4YaVWvDOAHJg",
+        "address": "https://www.heise.de/news/Developer-Haeppchen-Security-Patches-fuer-GitLab-Postgres-und-Python-11413676.html?wt_mc=rss.red.ho.ho.atom.beitrag.beitrag",
+        "title": "Developer-Häppchen: Security-Patches für GitLab, Postgres und Python | heise online",
+        "snippet": "",
+        "matchedWords": {
+          "-3-LOujYh7vX": {
+            "hits": 49,
+            "textWords": 1391
           }
         },
         "queryPhraseHits": 0
@@ -3333,19 +3358,6 @@
           }
         },
         "queryPhraseHits": 0
-      },
-      {
-        "hash": "4YaVWvDOAHJg",
-        "address": "https://www.heise.de/news/Developer-Haeppchen-Security-Patches-fuer-GitLab-Postgres-und-Python-11413676.html?wt_mc=rss.red.ho.ho.atom.beitrag.beitrag",
-        "title": "Developer-Häppchen: Security-Patches für GitLab, Postgres und Python | heise online",
-        "snippet": "",
-        "matchedWords": {
-          "-3-LOujYh7vX": {
-            "hits": 49,
-            "textWords": 1391
-          }
-        },
-        "queryPhraseHits": 0
       }
     ],
     [
@@ -3357,7 +3369,7 @@
         "matchedWords": {
           "-3-LOujYh7vX": {
             "hits": 0,
-            "textWords": 695
+            "textWords": 1029
           }
         },
         "queryPhraseHits": 0
@@ -3402,19 +3414,6 @@
         "queryPhraseHits": 0
       },
       {
-        "hash": "VQmikjRvmBbx",
-        "address": "https://en.wikipedia.org/wiki/2G",
-        "title": "2G - Wikipedia",
-        "snippet": "",
-        "matchedWords": {
-          "-3-LOujYh7vX": {
-            "hits": 1,
-            "textWords": 10161
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
         "hash": "_8ITH_nMM_j5",
         "address": "https://grokipedia.com/page/Raspberry_Pi",
         "title": "Raspberry Pi",
@@ -3428,6 +3427,19 @@
         "queryPhraseHits": 0
       },
       {
+        "hash": "pFAtCjRvmBbx",
+        "address": "https://en.wikipedia.org/wiki/DR_DOS_3.35",
+        "title": "DR-DOS - Wikipedia",
+        "snippet": "",
+        "matchedWords": {
+          "-3-LOujYh7vX": {
+            "hits": 3,
+            "textWords": 12877
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
         "hash": "m_P2NkqO2Dlg",
         "address": "https://media.ccc.de/tags/38c3",
         "title": "38c3 - media.ccc.de",
@@ -3436,6 +3448,19 @@
           "-3-LOujYh7vX": {
             "hits": 1,
             "textWords": 12247
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "9CqbR0zARI44",
+        "address": "https://lemmy.world/c/munich@discuss.tchncs.de",
+        "title": "München/Munich - Lemmy.World",
+        "snippet": "",
+        "matchedWords": {
+          "-3-LOujYh7vX": {
+            "hits": 2,
+            "textWords": 2115
           }
         },
         "queryPhraseHits": 0
@@ -3465,16 +3490,135 @@
           }
         },
         "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "Bdv_XdFO6r_x",
+        "address": "https://de.wikipedia.org/wiki/Excite",
+        "title": "Excite",
+        "snippet": "",
+        "matchedWords": {
+          "-3-LOujYh7vX": {
+            "hits": 1,
+            "textWords": 950
+          }
+        },
+        "queryPhraseHits": 0
       },
       {
-        "hash": "9CqbR0zARI44",
-        "address": "https://lemmy.world/c/munich@discuss.tchncs.de",
-        "title": "München/Munich - Lemmy.World",
+        "hash": "BeVXr2S6MKD4",
+        "address": "https://github.com/error311/FileRise?tab=readme-ov-file",
+        "title": "GitHub - error311/FileRise: 🗂️ FileRise – lightweight, self-hosted file manager \u0026 storage hub with granular ACLs, resumable uploads, encrypted folders, WebDAV \u0026 SSO. Fully Docker / Unraid compatible. · GitHub",
         "snippet": "",
         "matchedWords": {
           "-3-LOujYh7vX": {
             "hits": 2,
-            "textWords": 2115
+            "textWords": 4050
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "DZ5I9JR9eiIg",
+        "address": "https://dsba.univie.ac.at/en/data-protection-declaration/",
+        "title": "Data Protection Declaration",
+        "snippet": "",
+        "matchedWords": {
+          "-3-LOujYh7vX": {
+            "hits": 1,
+            "textWords": 10487
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "AL14tKYIsh2h",
+        "address": "https://www.mindfactory.de/Highlights/heiseplus_und_AMD_gratis_Abo/Aktionen/true",
+        "title": "heiseplus und AMD gratis Abo | Mindfactory.de",
+        "snippet": "",
+        "matchedWords": {
+          "-3-LOujYh7vX": {
+            "hits": 13,
+            "textWords": 556
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "B14UtNDOAHJg",
+        "address": "https://www.heise.de/thema/Datenschutz",
+        "title": "Datenschutz News, Ratgeber und Tipps | heise online",
+        "snippet": "",
+        "matchedWords": {
+          "-3-LOujYh7vX": {
+            "hits": 2,
+            "textWords": 152
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "Cpc5fjRvmBbx",
+        "address": "https://en.wikipedia.org/wiki/Wikipedia",
+        "title": "Wikipedia - Wikipedia",
+        "snippet": "",
+        "matchedWords": {
+          "-3-LOujYh7vX": {
+            "hits": 4,
+            "textWords": 25592
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "Cy6f0dFO6r_x",
+        "address": "https://de.wikipedia.org/wiki/T%C3%BCbingen",
+        "title": "Tübingen – Wikipedia",
+        "snippet": "",
+        "matchedWords": {
+          "-3-LOujYh7vX": {
+            "hits": 1,
+            "textWords": 19598
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "CxRTivDOAHJg",
+        "address": "https://www.heise.de/news/c-t-NerdWord-spielen-9636745.html",
+        "title": "c't NerdWord spielen | heise online",
+        "snippet": "",
+        "matchedWords": {
+          "-3-LOujYh7vX": {
+            "hits": 1,
+            "textWords": 231
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "DyM1-jRvmBbx",
+        "address": "https://en.wikipedia.org/wiki/Altair_8800",
+        "title": "Altair 8800 - Wikipedia",
+        "snippet": "",
+        "matchedWords": {
+          "-3-LOujYh7vX": {
+            "hits": 2,
+            "textWords": 3991
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "DqivBjRvmBbx",
+        "address": "https://en.wikipedia.org/wiki/Free_and_open-source_software",
+        "title": "Free and open-source software - Wikipedia",
+        "snippet": "",
+        "matchedWords": {
+          "-3-LOujYh7vX": {
+            "hits": 1,
+            "textWords": 7803
           }
         },
         "queryPhraseHits": 0
@@ -3482,263 +3626,131 @@
     ],
     [
       {
-        "hash": "nsJe4fC6nCRj",
-        "address": "https://forum-raspberrypi.de/forum/thread/41960-ublock-filter-fuer-heise/",
-        "title": "uBlock Filter für Heise+ - Tutorials · Anleitungen - Deutsches Raspberry Pi Forum",
-        "snippet": "",
+        "hash": "MeA2UvDOAHJg",
+        "address": "https://www.heise.de/news/Microsoft-Alternativen-Open-Source-Software-aus-Europa-c-t-uplink-11449625.html?wt_mc=rss.red.ho.ho.rdf.beitrag.beitrag",
+        "title": "Microsoft-Alternativen: Open-Source-Software aus Europa | c’t uplink | heise online",
+        "snippet": "► Interview „openDesk: Wie die Microsoft-Alternative auch bei Unternehmen ankommen soll“ bei heise+ (Paywall): https://www.heise.de/hintergrund/openDesk-Wie-die-Microsoft-Alternative-auch-bei-Unternehmen-ankommen-soll-11416094.html\n► Mitdiskutieren auf dem heise \u0026 c't Discord-Server\n(gref)",
         "matchedWords": {
           "-3-LOujYh7vX": {
-            "hits": 8,
-            "textWords": 538
+            "hits": 10,
+            "textWords": 415
           }
         },
         "queryPhraseHits": 0
       },
       {
-        "hash": "8LYGilmlm3uh",
-        "address": "https://www.berrybase.ch/heise-medien/",
-        "title": "Heise Medien | BerryBase - The Maker Shop",
-        "snippet": "",
+        "hash": "ldSuNvDOAHJg",
+        "address": "https://www.heise.de/news/Microsoft-Alternativen-Open-Source-Software-aus-Europa-c-t-uplink-11449625.html?wt_mc=rss.red.ho.ho.atom.beitrag.beitrag",
+        "title": "Microsoft-Alternativen: Open-Source-Software aus Europa | c’t uplink | heise online",
+        "snippet": "► Interview „openDesk: Wie die Microsoft-Alternative auch bei Unternehmen ankommen soll“ bei heise+ (Paywall): https://www.heise.de/hintergrund/openDesk-Wie-die-Microsoft-Alternative-auch-bei-Unternehmen-ankommen-soll-11416094.html\n► Mitdiskutieren auf dem heise \u0026 c't Discord-Server\n(gref)",
         "matchedWords": {
           "-3-LOujYh7vX": {
-            "hits": 5,
-            "textWords": 1912
+            "hits": 10,
+            "textWords": 415
           }
         },
         "queryPhraseHits": 0
       },
       {
-        "hash": "Lf8VwfC6nCRj",
-        "address": "https://forum-raspberrypi.de/forum/thread/41960-ublock-filter-fuer-heise/?postID=366514",
-        "title": "uBlock Filter für Heise+ - Tutorials · Anleitungen - Deutsches Raspberry Pi Forum",
-        "snippet": "",
+        "hash": "TfHCJvDOAHJg",
+        "address": "https://www.heise.de/news/Microsoft-Alternativen-Open-Source-Software-aus-Europa-c-t-uplink-11449625.html?wt_mc=rss.red.ho.beitrag.atom.beitrag.beitrag",
+        "title": "Microsoft-Alternativen: Open-Source-Software aus Europa | c’t uplink | heise online",
+        "snippet": "► Interview „openDesk: Wie die Microsoft-Alternative auch bei Unternehmen ankommen soll“ bei heise+ (Paywall): https://www.heise.de/hintergrund/openDesk-Wie-die-Microsoft-Alternative-auch-bei-Unternehmen-ankommen-soll-11416094.html\n► Mitdiskutieren auf dem heise \u0026 c't Discord-Server\n(gref)",
         "matchedWords": {
           "-3-LOujYh7vX": {
-            "hits": 8,
-            "textWords": 542
+            "hits": 10,
+            "textWords": 415
           }
         },
         "queryPhraseHits": 0
       },
       {
-        "hash": "gLqPNfC6nCRj",
-        "address": "https://forum-raspberrypi.de/forum/thread/41960-ublock-filter-fuer-heise/?postID=366409",
-        "title": "uBlock Filter für Heise+ - Tutorials · Anleitungen - Deutsches Raspberry Pi Forum",
+        "hash": "79PxxNDOAHJg",
+        "address": "https://www.heise.de/thema/JBoss",
+        "title": "JBoss | heise online",
         "snippet": "",
         "matchedWords": {
           "-3-LOujYh7vX": {
-            "hits": 8,
-            "textWords": 542
+            "hits": 55,
+            "textWords": 1273
           }
         },
         "queryPhraseHits": 0
       },
       {
-        "hash": "8z1NEfC6nCRj",
-        "address": "https://forum-raspberrypi.de/forum/thread/64785-heise-make-6-2025/",
-        "title": "[Heise] Make 6/2025 - Offtopic - Deutsches Raspberry Pi Forum",
+        "hash": "57sieNDOAHJg",
+        "address": "https://www.heise.de/thema/Journalismus",
+        "title": "Journalismus | heise online",
         "snippet": "",
         "matchedWords": {
           "-3-LOujYh7vX": {
-            "hits": 4,
-            "textWords": 432
+            "hits": 40,
+            "textWords": 1242
           }
         },
         "queryPhraseHits": 0
       },
       {
-        "hash": "U_Uw0fC6nCRj",
-        "address": "https://forum-raspberrypi.de/forum/thread/42987-docker-hub-gehackt-heise-artikel/",
-        "title": "Docker Hub gehackt, (Heise Artikel) - Allgemeine Software - Deutsches Raspberry Pi Forum",
+        "hash": "6ysoHCDOAHJg",
+        "address": "https://www.heise.de/netze/netzwerk-tools/imonitor-internet-stoerungen/details-der-stoerungsmeldung-1%261--410719/",
+        "title": "iMonitor – Internet-Störungen | heise Netze",
         "snippet": "",
         "matchedWords": {
           "-3-LOujYh7vX": {
-            "hits": 4,
-            "textWords": 317
+            "hits": 38,
+            "textWords": 648
           }
         },
         "queryPhraseHits": 0
       },
       {
-        "hash": "Cz9hyfC6nCRj",
-        "address": "https://forum-raspberrypi.de/forum/thread/65323-heise-3d-druck-slicer-im-vergleich/?postID=629468",
-        "title": "[Heise] 3D-Druck-Slicer im Vergleich - 3D-Druck - Deutsches Raspberry Pi Forum",
+        "hash": "758uFNDOAHJg",
+        "address": "https://www.heise.de/thema/Genfer-Autosalon",
+        "title": "Genfer Autosalon | heise online",
         "snippet": "",
         "matchedWords": {
           "-3-LOujYh7vX": {
-            "hits": 7,
-            "textWords": 492
+            "hits": 39,
+            "textWords": 1182
           }
         },
         "queryPhraseHits": 0
       },
       {
-        "hash": "RajETfC6nCRj",
-        "address": "https://forum-raspberrypi.de/forum/thread/65556-heise-newsticker-pihole-sicherheitsluecken-geschlossen/",
-        "title": "[Heise Newsticker] PiHole Sicherheitslücken geschlossen",
+        "hash": "nS2ytCDOAHJg",
+        "address": "https://www.heise.de/netze/netzwerk-tools/imonitor-internet-stoerungen/details-der-stoerungsmeldung-1%261--410707/",
+        "title": "iMonitor – Internet-Störungen | heise Netze",
         "snippet": "",
         "matchedWords": {
           "-3-LOujYh7vX": {
-            "hits": 1,
-            "textWords": 53
+            "hits": 38,
+            "textWords": 621
           }
         },
         "queryPhraseHits": 0
       },
       {
-        "hash": "nnFNhfC6nCRj",
-        "address": "https://forum-raspberrypi.de/forum/thread/60719-heise-make-poe-fuer-den-rpi5/",
-        "title": "[Heise][Make]POE für den RPi5 - Raspberry Pi 5 - Deutsches Raspberry Pi Forum",
+        "hash": "0WyOWCDOAHJg",
+        "address": "https://www.heise.de/netze/netzwerk-tools/imonitor-internet-stoerungen/details-der-stoerungsmeldung-o2--410713/",
+        "title": "iMonitor – Internet-Störungen | heise Netze",
         "snippet": "",
         "matchedWords": {
           "-3-LOujYh7vX": {
-            "hits": 5,
-            "textWords": 422
+            "hits": 38,
+            "textWords": 627
           }
         },
         "queryPhraseHits": 0
       },
       {
-        "hash": "wKC7zfC6nCRj",
-        "address": "https://forum-raspberrypi.de/forum/thread/42987-docker-hub-gehackt-heise-artikel/?postID=378409",
-        "title": "Docker Hub gehackt, (Heise Artikel) - Allgemeine Software - Deutsches Raspberry Pi Forum",
+        "hash": "kmfbrCDOAHJg",
+        "address": "https://www.heise.de/netze/netzwerk-tools/imonitor-internet-stoerungen/details-der-stoerungsmeldung-1%261--410704/",
+        "title": "iMonitor – Internet-Störungen | heise Netze",
         "snippet": "",
         "matchedWords": {
           "-3-LOujYh7vX": {
-            "hits": 4,
-            "textWords": 321
-          }
-        },
-        "queryPhraseHits": 0
-      }
-    ],
-    [
-      {
-        "hash": "r1_D1errGcCg",
-        "address": "https://preisvergleich.heise.de/merchants/a33djkfh431b9w-am-de",
-        "title": "FIDERRA Bewertungen \u0026 Erfahrungen - heise preisvergleich Deutschland",
-        "snippet": "Schon bei FIDERRA gekauft?\nSchon bei FIDERRA gekauft?\nBewertungen und Erfahrungen für FIDERRA\nLaden ...\nLetzte Aktualisierung: 12.09.2026, 02:11\nDer heise Preisvergleich ist ein Angebot in Kooperation mit der Preisvergleich Internet Services AG (geizhals.de).",
-        "matchedWords": {
-          "-3-LOujYh7vX": {
-            "hits": 2,
-            "textWords": 92
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "cIkbSlDOAHJg",
-        "address": "https://www.heise.de/newsletter/",
-        "title": "Newsletter-Übersicht | heise online",
-        "snippet": "Der neue Karriere-Newsletter von heise online - Alle zwei Wochen beantworten wir zahlreiche Fragen zu den Themen Karriere, Bewerbung und Gehalt in der IT. Dazu gibt es aktuelle Karriere-News aus dem IT-Bereich.\nheise online XR-Briefing",
-        "matchedWords": {
-          "-3-LOujYh7vX": {
-            "hits": 11,
-            "textWords": 405
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "fzMbserrGcCg",
-        "address": "https://preisvergleich.heise.de/merchants/boomstore-de",
-        "title": "Boomstore.de Bewertungen \u0026 Erfahrungen - heise preisvergleich Deutschland",
-        "snippet": "",
-        "matchedWords": {
-          "-3-LOujYh7vX": {
-            "hits": 25,
-            "textWords": 715
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "WDQLmerrGcCg",
-        "address": "https://preisvergleich.heise.de/merchants/expert_ecommerce-118041-eb-de",
-        "title": "expert_ecommerce Bewertungen \u0026 Erfahrungen - heise preisvergleich Deutschland",
-        "snippet": "",
-        "matchedWords": {
-          "-3-LOujYh7vX": {
-            "hits": 25,
-            "textWords": 665
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "z1AvEerrGcCg",
-        "address": "https://preisvergleich.heise.de/merchants/electronic4you-net",
-        "title": "electronic4you.de Bewertungen \u0026 Erfahrungen - heise preisvergleich Deutschland",
-        "snippet": "",
-        "matchedWords": {
-          "-3-LOujYh7vX": {
-            "hits": 25,
-            "textWords": 857
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "CV6REy8y6f8w",
-        "address": "https://heise.cloudimg.io/v7/_heise-academy-assets_/ds95geneusfg38a2ygklzzyum6ot",
-        "title": "ds95geneusfg38a2ygklzzyum6ot",
-        "snippet": "",
-        "matchedWords": {
-          "-3-LOujYh7vX": {
-            "hits": 1,
-            "textWords": 40
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "M04FjvNPsjmw",
-        "address": "https://pageviews.wmcloud.org/?pages=Heise_online\u0026project=de.wikipedia.org",
-        "title": "Pageviews Analysis",
-        "snippet": "",
-        "matchedWords": {
-          "-3-LOujYh7vX": {
-            "hits": 1,
-            "textWords": 212
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "F4XiaZunM6pg",
-        "address": "https://bestenliste-assets.heise.de/1/wfvk9lQaHR0cDovL29jZG4uZXUvaW1hZ2VzL3B1bHNjbXMvTnpFN01EQV8vYjQ3MzRjYzgtOTk3Ny00OGUwLTgyMTMtNGRlZDBlMjk2M2Q5LmpwZWeRkwXNAzfNAc7eAAGhMQQ",
-        "title": "wfvk9lQaHR0cDovL29jZG4uZXUvaW1hZ2VzL3B1bHNjbXMvTnpFN01EQV8vYjQ3MzRjYzgtOTk3Ny00OGUwLTgyMTMtNGRlZDBlMjk2M2Q5LmpwZWeRkwXNAzfNAc7eAAGhMQQ",
-        "snippet": "",
-        "matchedWords": {
-          "-3-LOujYh7vX": {
-            "hits": 1,
-            "textWords": 154
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "bO_bqlc_rKzh",
-        "address": "https://www.telepolis.de/kontakt/",
-        "title": "Kontaktformular | Telepolis",
-        "snippet": "",
-        "matchedWords": {
-          "-3-LOujYh7vX": {
-            "hits": 5,
-            "textWords": 169
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "SiZaXsghd-Kg",
-        "address": "https://geizhals.de/logitech-g502-v81343.html?pg=1\u0026view=list",
-        "title": "Logitech G502 ab € 28,40 (2026) | Preisvergleich Geizhals Deutschland",
-        "snippet": "",
-        "matchedWords": {
-          "-3-LOujYh7vX": {
-            "hits": 1,
-            "textWords": 1591
+            "hits": 38,
+            "textWords": 636
           }
         },
         "queryPhraseHits": 0
@@ -3750,7 +3762,7 @@
         "hash": "jNwyNerrGcCg",
         "address": "https://preisvergleich.heise.de/merchants/kshtechnik-de",
         "title": "ksh-technik Bewertungen \u0026 Erfahrungen - heise preisvergleich Deutschland",
-        "snippet": "Kundenservice (Beratung, Gewährleistung, Reklamation)\nBewertung: 4.8 von 5 Sternen\nBewertungen und Erfahrungen für ksh-technik\nLaden ...\nLetzte Aktualisierung: 12.09.2026, 02:11\nDer heise Preisvergleich ist ein Angebot in Kooperation mit der Preisvergleich Internet Services AG (geizhals.de).",
+        "snippet": "Kundenservice (Beratung, Gewährleistung, Reklamation)\nBewertung: 4.8 von 5 Sternen\nBewertungen und Erfahrungen für ksh-technik\nLaden ...\nLetzte Aktualisierung: 12.09.2026, 13:06\nDer heise Preisvergleich ist ein Angebot in Kooperation mit der Preisvergleich Internet Services AG (geizhals.de).",
         "matchedWords": {
           "-3-LOujYh7vX": {
             "hits": 2,
@@ -3786,14 +3798,14 @@
         "queryPhraseHits": 0
       },
       {
-        "hash": "XT6K_ZunM6pg",
-        "address": "https://bestenliste-assets.heise.de/1/MYTk9lBaHR0cHM6Ly9vY2RuLmV1L3B1bHNjbXMvTURBXy84ODQ4ZjRiOTNiZDE4NjAzNmFmZjYyYjJiNWVjMmJiNi5qcGeRkwXNAzfNAc_eAAGhMQQ",
-        "title": "MYTk9lBaHR0cHM6Ly9vY2RuLmV1L3B1bHNjbXMvTURBXy84ODQ4ZjRiOTNiZDE4NjAzNmFmZjYyYjJiNWVjMmJiNi5qcGeRkwXNAzfNAc_eAAGhMQQ",
+        "hash": "QMYDlZunM6pg",
+        "address": "https://bestenliste-assets.heise.de/1/g99k9lBaHR0cHM6Ly9vY2RuLmV1L3B1bHNjbXMvTURBXy84NGQxMDMyYjZhNjZkZTlmYTU2NzExYWRkMTE5OTdjZC5qcGeRkwXNAzfNAc_eAAGhMQQ",
+        "title": "g99k9lBaHR0cHM6Ly9vY2RuLmV1L3B1bHNjbXMvTURBXy84NGQxMDMyYjZhNjZkZTlmYTU2NzExYWRkMTE5OTdjZC5qcGeRkwXNAzfNAc_eAAGhMQQ",
         "snippet": "",
         "matchedWords": {
           "-3-LOujYh7vX": {
             "hits": 1,
-            "textWords": 141
+            "textWords": 143
           }
         },
         "queryPhraseHits": 0
@@ -3812,19 +3824,6 @@
         "queryPhraseHits": 0
       },
       {
-        "hash": "gF_3XjRvmBbx",
-        "address": "https://en.wikipedia.org/wiki/Wikimedia_Endowment",
-        "title": "Wikimedia Foundation - Wikipedia",
-        "snippet": "",
-        "matchedWords": {
-          "-3-LOujYh7vX": {
-            "hits": 2,
-            "textWords": 15104
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
         "hash": "N2lIjs6yPSkg",
         "address": "https://ngi.eu/press/",
         "title": "Press Releases and Media Coverage | Next Generation Internet",
@@ -3833,6 +3832,19 @@
           "-3-LOujYh7vX": {
             "hits": 1,
             "textWords": 10811
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "gF_3XjRvmBbx",
+        "address": "https://en.wikipedia.org/wiki/Wikimedia_Endowment",
+        "title": "Wikimedia Foundation - Wikipedia",
+        "snippet": "",
+        "matchedWords": {
+          "-3-LOujYh7vX": {
+            "hits": 2,
+            "textWords": 15104
           }
         },
         "queryPhraseHits": 0
@@ -3879,53 +3891,131 @@
     ],
     [
       {
-        "hash": "UAdE_ouHIat4",
-        "address": "https://depl.abcdef.wiki/wiki/Linux",
-        "title": "Linux - abcdef.wiki",
-        "snippet": "",
+        "hash": "SmPLuNDOAHJg",
+        "address": "https://www.heise.de/thema/Wirtschaft",
+        "title": "Wirtschaft: News, Ratgeber und Tipps | heise online",
+        "snippet": "Anzeige\nAnzeige\nLeapmotor B03X: Crossover mit bis zu 382 km Reichweite ab 24.900 Euro\nDer Leapmotor B03X startet in Deutschland ab 24.900 Euro. Mit LFP-Akkus, bis zu 382 km Reichweite und Preisen ab 24.900 Euro zielt er auf das Einstiegssegment.",
         "matchedWords": {
           "-3-LOujYh7vX": {
-            "hits": 6,
-            "textWords": 6984
+            "hits": 0,
+            "textWords": 462
           }
         },
         "queryPhraseHits": 0
       },
       {
-        "hash": "W-3OnIMnUDb4",
-        "address": "https://deno.abcdef.wiki/wiki/Linux",
-        "title": "Linux - abcdef.wiki",
-        "snippet": "",
+        "hash": "R8DHxInk4jwg",
+        "address": "https://compaliate.heise.de/",
+        "title": "heise compaliate - Die Affiliate Plattform für Publisher",
+        "snippet": "Fülle ganz einfach und bequem das Formular aus oder schreibe uns eine E-Mail. Wir werden deine Fragen schnellstmöglich beantworten.\nUnsere Antworten auf die häufigsten Fragen\nHier findest Du Antworten auf die häufigsten Fragen zu heise compaliate!\nWas ist heise compaliate?",
         "matchedWords": {
           "-3-LOujYh7vX": {
-            "hits": 6,
-            "textWords": 7295
+            "hits": 9,
+            "textWords": 890
           }
         },
         "queryPhraseHits": 0
       },
       {
-        "hash": "U-EdAlT1ZURg",
-        "address": "https://www.interred.de/de/",
-        "title": "InterRed - CMS - Redaktionssystem - Multi Channel Publishing - KI | interred.de",
+        "hash": "R174MNDOAHJg",
+        "address": "https://www.heise.de/thema/Digitale_Souveraenitaet",
+        "title": "Digitale Souveränität: News, Ratgeber und Tipps | heise online",
         "snippet": "",
         "matchedWords": {
           "-3-LOujYh7vX": {
-            "hits": 1,
-            "textWords": 1754
+            "hits": 37,
+            "textWords": 1416
           }
         },
         "queryPhraseHits": 0
       },
       {
-        "hash": "U1Q7asghd-Kg",
-        "address": "https://geizhals.de/",
-        "title": "Geizhals Preisvergleich Deutschland",
+        "hash": "ScFcJvDOAHJg",
+        "address": "https://www.heise.de/news/TeamViewer-Zwei-Faktor-Authentifizierung-unter-macOS-umgehbar-11382884.html",
+        "title": "TeamViewer: Zwei-Faktor-Authentifizierung unter macOS umgehbar | heise online",
         "snippet": "",
         "matchedWords": {
           "-3-LOujYh7vX": {
-            "hits": 1,
-            "textWords": 2124
+            "hits": 48,
+            "textWords": 1113
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "TOWwhCDOAHJg",
+        "address": "https://www.heise.de/netze/netzwerk-tools/imonitor-internet-stoerungen/details-der-stoerungsmeldung-vodafone-kabel--410560/",
+        "title": "iMonitor – Internet-Störungen | heise Netze",
+        "snippet": "",
+        "matchedWords": {
+          "-3-LOujYh7vX": {
+            "hits": 38,
+            "textWords": 626
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "STxLECDOAHJg",
+        "address": "https://www.heise.de/netze/netzwerk-tools/imonitor-internet-stoerungen/details-der-stoerungsmeldung-1%261--410616/",
+        "title": "iMonitor – Internet-Störungen | heise Netze",
+        "snippet": "",
+        "matchedWords": {
+          "-3-LOujYh7vX": {
+            "hits": 38,
+            "textWords": 631
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "TsKPzvDOAHJg",
+        "address": "https://www.heise.de/news/Apple-Reise-Adapter-Kit-nicht-mehr-verfuegbar-11377936.html",
+        "title": "Apple-Reise-Adapter-Kit nicht mehr verfügbar | heise online",
+        "snippet": "",
+        "matchedWords": {
+          "-3-LOujYh7vX": {
+            "hits": 50,
+            "textWords": 1378
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "SZK1KCDOAHJg",
+        "address": "https://www.heise.de/netze/netzwerk-tools/imonitor-internet-stoerungen/details-der-stoerungsmeldung-t-online--410571/",
+        "title": "iMonitor – Internet-Störungen | heise Netze",
+        "snippet": "",
+        "matchedWords": {
+          "-3-LOujYh7vX": {
+            "hits": 38,
+            "textWords": 624
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "TpaN2vDOAHJg",
+        "address": "https://www.heise.de/news/Apple-TV-The-Morning-Show-sagt-leise-Servus-11379125.html",
+        "title": "Apple TV: „The Morning Show“ sagt leise Servus | heise online",
+        "snippet": "",
+        "matchedWords": {
+          "-3-LOujYh7vX": {
+            "hits": 50,
+            "textWords": 1392
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "TohqxvDOAHJg",
+        "address": "https://www.heise.de/news/Anonymisierendes-Linux-Tails-7-10-Neuer-Shutdown-und-Videoplayer-11375972.html",
+        "title": "Anonymisierendes Linux Tails 7.10: Neuer Shutdown und Videoplayer | heise online",
+        "snippet": "",
+        "matchedWords": {
+          "-3-LOujYh7vX": {
+            "hits": 50,
+            "textWords": 1326
           }
         },
         "queryPhraseHits": 0
@@ -3933,131 +4023,395 @@
     ],
     [
       {
-        "hash": "MKQ2gEDOAHJg",
-        "address": "https://www.heise.de/benachrichtigungen/heise-bot/",
-        "title": "heise-Bot | heise online",
-        "snippet": "Täglich schickt Ihnen unser heise-Bot – auch \"Botti\" genannt – morgens und abends ausgewählte News als Push-Nachricht. Der etwas andere Nachrichtenüberblick, erfrischend locker und gespickt mit Anekdoten aus dem Leben eines Bots.",
+        "hash": "zvIEUNXV7qMi",
+        "address": "https://www.mittelstandswiki.de/2010/02/cebit-2010-noch-27-tage-bis-zur-security-plaza/",
+        "title": "Heise Events \u0026 MittelstandsWiki: Noch 27 Tage bis zur CeBIT Security Plaza",
+        "snippet": "",
+        "matchedWords": {
+          "-3-LOujYh7vX": {
+            "hits": 6,
+            "textWords": 559
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "BlVLwcPeAUvg",
+        "address": "https://natenom.de/2017/10/linkdump-9/",
+        "title": "Linkdump #9 - Natenoms Blog",
+        "snippet": "",
         "matchedWords": {
           "-3-LOujYh7vX": {
             "hits": 1,
-            "textWords": 47
+            "textWords": 643
           }
         },
         "queryPhraseHits": 0
       },
       {
-        "hash": "bPubtFrrGcCg",
-        "address": "https://preisvergleich.heise.de/",
-        "title": "heise preisvergleich Deutschland",
-        "snippet": "Die Lösung für Content-Monetarisierung – Preisvergleich-Widgets für deine Webseite!\nJetzt kostenlos registrieren",
+        "hash": "a9KxxZXV7qMi",
+        "address": "https://www.mittelstandswiki.de/2009/02/vermogensungleichheit-ist-grostenteils-nur-heise-luft/",
+        "title": "Vermögensungleichheit ist größtenteils nur heiße Luft",
+        "snippet": "",
         "matchedWords": {
           "-3-LOujYh7vX": {
-            "hits": 0,
-            "textWords": 13
+            "hits": 2,
+            "textWords": 1176
           }
         },
         "queryPhraseHits": 0
       },
       {
-        "hash": "1Uk6a9Uv6uQ4",
-        "address": "https://bsky.app/profile/heise.de",
-        "title": "@heise.de on Bluesky",
+        "hash": "nfe8hQXV7qMi",
+        "address": "https://www.mittelstandswiki.de/2008/12/notebookkuhler-beluftet-superleise-heise-notebooks/",
+        "title": "Notebook-Kühler belüftet superleise heiße Notebooks",
+        "snippet": "",
+        "matchedWords": {
+          "-3-LOujYh7vX": {
+            "hits": 2,
+            "textWords": 672
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "-nROsZXV7qMi",
+        "address": "https://www.mittelstandswiki.de/2009/12/rechtliche-anmerkungen-in-e-mails-meist-uberflussig/",
+        "title": "Disclaimer: Rechtliche Anmerkungen in E-Mails meist überflüssig",
+        "snippet": "",
+        "matchedWords": {
+          "-3-LOujYh7vX": {
+            "hits": 3,
+            "textWords": 482
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "uW6H9XXV7qMi",
+        "address": "https://www.mittelstandswiki.de/2007/01/support-fur-xp-lauft-noch-uber-jahre/",
+        "title": "Support für XP läuft noch über Jahre",
         "snippet": "",
         "matchedWords": {
           "-3-LOujYh7vX": {
             "hits": 4,
-            "textWords": 89
+            "textWords": 497
           }
         },
         "queryPhraseHits": 0
       },
       {
-        "hash": "Iw8DylDOAHJg",
-        "address": "https://www.heise.de/kontakt/",
-        "title": "Kontaktformular | heise online",
+        "hash": "HGAg5QXV7qMi",
+        "address": "https://www.mittelstandswiki.de/2008/07/36-seiten-fachwissen-als-pdf-zum-download/",
+        "title": "36 Seiten Fachwissen als PDF zum Download",
         "snippet": "",
-        "matchedWords": {
-          "-3-LOujYh7vX": {
-            "hits": 38,
-            "textWords": 530
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "zNZDulDOAHJg",
-        "address": "https://www.heise.de/kontakt/?frage=3212474",
-        "title": "Kontaktformular | heise online",
-        "snippet": "",
-        "matchedWords": {
-          "-3-LOujYh7vX": {
-            "hits": 38,
-            "textWords": 532
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "RIRZxdFO6r_x",
-        "address": "https://de.wikipedia.org/wiki/Heise.de",
-        "title": "heise online – Wikipedia",
-        "snippet": "",
-        "matchedWords": {
-          "-3-LOujYh7vX": {
-            "hits": 93,
-            "textWords": 2110
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "Zh6oYlDOAHJg",
-        "address": "https://www.heise.de/benachrichtigungen/",
-        "title": "Browser-Benachrichtigungen | heise online",
-        "snippet": "",
-        "matchedWords": {
-          "-3-LOujYh7vX": {
-            "hits": 54,
-            "textWords": 1243
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "24dHqlDOAHJg",
-        "address": "https://www.heise.de/tools",
-        "title": "Netzwerk-Tools | heise online",
-        "snippet": "",
-        "matchedWords": {
-          "-3-LOujYh7vX": {
-            "hits": 36,
-            "textWords": 805
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "imQXflDOAHJg",
-        "address": "https://www.heise.de/security",
-        "title": "heise security: Alerts,Newsticker,Hintergrund und Events | heise online",
-        "snippet": "Alerts\nHintergrund\nEvents\nAnzeige\nAnzeige\nEigenwerbung\nIhr Experten-Paket\nIhr Wissensvorsprung in IT-Sicherheit\nExklusive Insider-Informationen\nPraxisnahe Webinare\nDirekter Zugang zu Experten\nJetzt sichern!\nAnzeige\nAnzeige\nheise security abonnieren\nheise security abonnieren",
         "matchedWords": {
           "-3-LOujYh7vX": {
             "hits": 3,
-            "textWords": 67
+            "textWords": 626
           }
         },
         "queryPhraseHits": 0
       },
       {
-        "hash": "3Zwe0lDOAHJg",
-        "address": "https://www.heise.de/tests",
-        "title": "tests | heise online",
+        "hash": "Vgl5TBXV7qMi",
+        "address": "https://www.mittelstandswiki.de/2011/02/agypten-mubarak-zuruckgetreten/",
+        "title": "Ägypten: Mubarak zurückgetreten",
         "snippet": "",
         "matchedWords": {
           "-3-LOujYh7vX": {
-            "hits": 37,
-            "textWords": 1359
+            "hits": 2,
+            "textWords": 383
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "tx8qrNXV7qMi",
+        "address": "https://www.mittelstandswiki.de/2010/12/biosprit-super-e-10-kommt-spater/",
+        "title": "Biosprit: Super E 10 kommt später",
+        "snippet": "",
+        "matchedWords": {
+          "-3-LOujYh7vX": {
+            "hits": 2,
+            "textWords": 450
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "kSECyNXV7qMi",
+        "address": "https://www.mittelstandswiki.de/2010/10/forschungsprojekte-eumonis-soll-regenerative-stromproduktion-optimieren/",
+        "title": "Forschungsprojekte: EUMONIS soll regenerative Stromproduktion optimieren",
+        "snippet": "",
+        "matchedWords": {
+          "-3-LOujYh7vX": {
+            "hits": 2,
+            "textWords": 606
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "hC3E6Xc_xMzx",
+        "address": "https://th.wikipedia.org/wiki/%E0%B9%81%E0%B8%A5%E0%B8%A1%E0%B8%9B%E0%B9%8C",
+        "title": "แลมป์ - วิกิพีเดีย",
+        "snippet": "",
+        "matchedWords": {
+          "-3-LOujYh7vX": {
+            "hits": 1,
+            "textWords": 671
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "pKIWtIJTSRTx",
+        "address": "https://ro.wikipedia.org/wiki/Cubul_Rubik",
+        "title": "Cubul Rubik - Wikipedia",
+        "snippet": "",
+        "matchedWords": {
+          "-3-LOujYh7vX": {
+            "hits": 2,
+            "textWords": 6046
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "abagqFinYDGk",
+        "address": "https://somosarado.com.ar/hello-world",
+        "title": "Hello world! – Arado",
+        "snippet": "",
+        "matchedWords": {
+          "-3-LOujYh7vX": {
+            "hits": 1,
+            "textWords": 46467
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "_ScPhsR_U0jj",
+        "address": "https://sicherheitstechnik-pfaff.de/tuersicherheit_tuerspione/",
+        "title": "tuersicherheit_tuerspione – Pfaff Schlüssel- und Sicherheitstechnik",
+        "snippet": "",
+        "matchedWords": {
+          "-3-LOujYh7vX": {
+            "hits": 1,
+            "textWords": 56805
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "5ZQwmuEMwriD",
+        "address": "http://macchineperidrocolonterapia.it/mod-004ra/particolare_033/",
+        "title": "Particolare_033 – Macchine per idrocolonterapia",
+        "snippet": "",
+        "matchedWords": {
+          "-3-LOujYh7vX": {
+            "hits": 2,
+            "textWords": 38839
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "Wfq3FswvoTD5",
+        "address": "https://r-universe.dev/articles",
+        "title": "R-universe - browse articles",
+        "snippet": "",
+        "matchedWords": {
+          "-3-LOujYh7vX": {
+            "hits": 1,
+            "textWords": 14280
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "cQZK7Yw63Qei",
+        "address": "https://pensjonatorle.pl/event/beach-sports-2/",
+        "title": "Beach Sports – Pensjonat Orle**. Wyjątkowe widoki wypoczywaj z nami.",
+        "snippet": "",
+        "matchedWords": {
+          "-3-LOujYh7vX": {
+            "hits": 1,
+            "textWords": 63944
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "5Vlb_9EVCpZ6",
+        "address": "https://sandai-training.com/suzuki/117/",
+        "title": "猫と蝙蝠 | 三題噺トレーニング",
+        "snippet": "",
+        "matchedWords": {
+          "-3-LOujYh7vX": {
+            "hits": 1,
+            "textWords": 46466
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "X6SHl26yaEu6",
+        "address": "https://gingatransfer.com/ginga/index.php/2022/06/08/hello-world-2/",
+        "title": "Hello world! – Gingatransfer",
+        "snippet": "",
+        "matchedWords": {
+          "-3-LOujYh7vX": {
+            "hits": 1,
+            "textWords": 59671
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "V7camq3KFHf4",
+        "address": "https://pkvgamesmiyaqq.blogspot.com/2020/11/transaksi-mudah-di-situs-judi-online.html?showComment=1677353594569",
+        "title": "Situs Judi Online MiyaQQ Terbaru dan Terpercaya di Indonesia: Transaksi Mudah Di Situs Judi Online MiyaQQ Mudah Menang",
+        "snippet": "",
+        "matchedWords": {
+          "-3-LOujYh7vX": {
+            "hits": 1,
+            "textWords": 10496
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "KBQ_merrGcCg",
+        "address": "https://preisvergleich.heise.de/merchants/a1js66nmust3yf-am-de",
+        "title": "DigitSells Bewertungen \u0026 Erfahrungen - heise preisvergleich Deutschland",
+        "snippet": "Schon bei DigitSells gekauft?\nSchon bei DigitSells gekauft?\nBewertungen und Erfahrungen für DigitSells\nLaden ...\nLetzte Aktualisierung: 12.09.2026, 13:07\nDer heise Preisvergleich ist ein Angebot in Kooperation mit der Preisvergleich Internet Services AG (geizhals.de).",
+        "matchedWords": {
+          "-3-LOujYh7vX": {
+            "hits": 2,
+            "textWords": 92
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "0tzohlDOAHJg",
+        "address": "https://www.heise.de/spiele",
+        "title": "Spiele | heise online",
+        "snippet": "Anzeige\nheise Spiele\nFür Quiz-Fans, c't-Nerds und Menschen, die es werden wollen\nDies ist die neue Heimat der Spiele auf heise online. Ob Thank God it's Quiz Friday! zu aktuellen Themen und Jubiläen oder das von c’t entwickelte Nerdword – mach mal Pause und streng deinen Kopf an!",
+        "matchedWords": {
+          "-3-LOujYh7vX": {
+            "hits": 2,
+            "textWords": 148
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "tzCwWFrrGcCg",
+        "address": "https://preisvergleich.heise.de/digitus-17-rack-konsole-ds-72210-2fr-a1898134.html?hloc=de",
+        "title": "Digitus DS-72210-2, 17\" LCD KVM Switch, 8-fach, FR (DS-72210-2FR) ab € 1069,00 (2026) | heise preisvergleich Deutschland",
+        "snippet": "",
+        "matchedWords": {
+          "-3-LOujYh7vX": {
+            "hits": 25,
+            "textWords": 1238
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "xjkwtFrrGcCg",
+        "address": "https://preisvergleich.heise.de/axis-s3008-mk-ii-2tb-02764-002-a3556558.html?hloc=de",
+        "title": "Axis S3008 MK II 8-Kanal 2TB, Netzwerk-Videorecorder (02764-002) ab € 858,75 (2026) | heise preisvergleich Deutschland",
+        "snippet": "",
+        "matchedWords": {
+          "-3-LOujYh7vX": {
+            "hits": 25,
+            "textWords": 1727
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "z95r05hhB9pg",
+        "address": "https://shop.heise.de/magazine/ct-magazin/sonderhefte/?p=4",
+        "title": "Sonderhefte | heise shop",
+        "snippet": "",
+        "matchedWords": {
+          "-3-LOujYh7vX": {
+            "hits": 10,
+            "textWords": 3515
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "yK2-ssTzG1nj",
+        "address": "https://heise-conferences.de/werbeeinverstaendnis",
+        "title": "Werbeeinverständnis",
+        "snippet": "",
+        "matchedWords": {
+          "-3-LOujYh7vX": {
+            "hits": 7,
+            "textWords": 238
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "xTHMjFrrGcCg",
+        "address": "https://preisvergleich.heise.de/bosch-kiox-500-bhu3700-13100004-a3211533.html?hloc=de\u0026flat_offers=1",
+        "title": "Bosch Kiox 500 BHU3700 (13100004) ab € 119,02 (2026) | heise preisvergleich Deutschland",
+        "snippet": "",
+        "matchedWords": {
+          "-3-LOujYh7vX": {
+            "hits": 25,
+            "textWords": 1757
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "npeIMZunM6pg",
+        "address": "https://bestenliste-assets.heise.de/1/5KBk9lBaHR0cHM6Ly9vY2RuLmV1L3B1bHNjbXMvTURBXy9mZGNhOGVkMWZkN2YzMjhkMzcwYzk5ZDk5OGYwNDg0YS5qcGeRkwXNAaLMvN4AAaExBA",
+        "title": "5KBk9lBaHR0cHM6Ly9vY2RuLmV1L3B1bHNjbXMvTURBXy9mZGNhOGVkMWZkN2YzMjhkMzcwYzk5ZDk5OGYwNDg0YS5qcGeRkwXNAaLMvN4AAaExBA",
+        "snippet": "",
+        "matchedWords": {
+          "-3-LOujYh7vX": {
+            "hits": 1,
+            "textWords": 143
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "T1_FtSU0aeEi",
+        "address": "https://heise-academy.de/kurs/videokurs-azure-security-315571",
+        "title": "Grundlagen der IT-Sicherheit in der Azure Cloud",
+        "snippet": "",
+        "matchedWords": {
+          "-3-LOujYh7vX": {
+            "hits": 5,
+            "textWords": 548
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "OUQFRFrrGcCg",
+        "address": "https://preisvergleich.heise.de/logitech-spotlight-2-schwarz-910-007798-a3839468.html?hloc=de",
+        "title": "Logitech Spotlight 2 schwarz, LogiBolt, USB-C/Bluetooth (910-007798) ab € 125,42 (2026) | heise preisvergleich Deutschland",
+        "snippet": "",
+        "matchedWords": {
+          "-3-LOujYh7vX": {
+            "hits": 25,
+            "textWords": 1430
           }
         },
         "queryPhraseHits": 0
@@ -4156,6 +4510,19 @@
         "queryPhraseHits": 0
       },
       {
+        "hash": "02iRjjRvmBbx",
+        "address": "https://en.wikipedia.org/wiki/ECHELON",
+        "title": "ECHELON - Wikipedia",
+        "snippet": "",
+        "matchedWords": {
+          "-3-LOujYh7vX": {
+            "hits": 3,
+            "textWords": 8589
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
         "hash": "L7jfRjRvmBbx",
         "address": "https://en.wikipedia.org/wiki/WebPositive",
         "title": "Haiku (operating system) - Wikipedia",
@@ -4169,14 +4536,14 @@
         "queryPhraseHits": 0
       },
       {
-        "hash": "gpipts5uSLiw",
-        "address": "https://free21.org/niemand-wird-als-terrorist-geboren/",
-        "title": "Niemand wird als Terrorist geboren - Free21",
+        "hash": "qB6vFjRvmBbx",
+        "address": "https://en.wikipedia.org/wiki/UKUSA_Agreement",
+        "title": "UKUSA Agreement - Wikipedia",
         "snippet": "",
         "matchedWords": {
           "-3-LOujYh7vX": {
-            "hits": 1,
-            "textWords": 2780
+            "hits": 2,
+            "textWords": 7487
           }
         },
         "queryPhraseHits": 0
@@ -4291,11 +4658,11 @@
         "hash": "VWVH19D69aig",
         "address": "https://peertube.heise.de/",
         "title": "Videos von heise",
-        "snippet": "",
+        "snippet": "Videos von heise online\nIncompatible browser\nWe are sorry but it seems that PeerTube is not compatible with your web browser.\nPlease try with the latest version of Mozilla Firefox.\nIf you think this is a mistake, please report it.",
         "matchedWords": {
           "-3-LOujYh7vX": {
             "hits": 1,
-            "textWords": 160
+            "textWords": 39
           }
         },
         "queryPhraseHits": 0
@@ -4316,131 +4683,131 @@
     ],
     [
       {
-        "hash": "56C3uerrGcCg",
-        "address": "https://preisvergleich.heise.de/merchants/akku-onlinehandel-2914-eb-de",
-        "title": "akku-onlinehandel Bewertungen \u0026 Erfahrungen - heise preisvergleich Deutschland",
-        "snippet": "Schon bei akku-onlinehandel gekauft?\nSchon bei akku-onlinehandel gekauft?\nBewertungen und Erfahrungen für akku-onlinehandel\nLaden ...\nLetzte Aktualisierung: 12.09.2026, 02:11\nDer heise Preisvergleich ist ein Angebot in Kooperation mit der Preisvergleich Internet Services AG (geizhals.de).",
+        "hash": "FWcFzNwxwI-g",
+        "address": "https://mediadaten.heise.de/en/",
+        "title": "heise - Heise Medienportal",
+        "snippet": "heise bestenlisten by techstage – AI Visibility Advertorial\nheise bestenlisten by techstage – YouTube channel\nheise bestenlisten by techstage – @TikTok\nIT decision-maker study wave 5\nc’t Phasenlage\nc’t 4004-Bundle\nMulti-sponsored editorial Lead-Hub “IT SUMMIT by heise”",
+        "matchedWords": {
+          "-3-LOujYh7vX": {
+            "hits": 11,
+            "textWords": 231
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "prD7VFrrGcCg",
+        "address": "https://preisvergleich.heise.de/hikvision-ds-7616ni-i2-16-kanal-a2874910.html?hloc=de",
+        "title": "Hikvision DS-7616NI-I2 16-Kanal, Netzwerk-Videorecorder ab € 618,99 (2026) | heise preisvergleich Deutschland",
+        "snippet": "Der heise Preisvergleich ist ein Angebot in Kooperation mit der Preisvergleich Internet Services AG (geizhals.de). Die Redaktion von heise online hat keinen Einfluss auf das Angebot. Anfragen bitten wir daher direkt an geizhals.de zu stellen.",
         "matchedWords": {
           "-3-LOujYh7vX": {
             "hits": 2,
-            "textWords": 95
+            "textWords": 354
           }
         },
         "queryPhraseHits": 0
       },
       {
-        "hash": "imQXflDOAHJg",
-        "address": "https://www.heise.de/security",
-        "title": "heise security: Alerts,Newsticker,Hintergrund und Events | heise online",
-        "snippet": "Alerts\nHintergrund\nEvents\nAnzeige\nAnzeige\nEigenwerbung\nIhr Experten-Paket\nIhr Wissensvorsprung in IT-Sicherheit\nExklusive Insider-Informationen\nPraxisnahe Webinare\nDirekter Zugang zu Experten\nJetzt sichern!\nAnzeige\nAnzeige\nheise security abonnieren\nheise security abonnieren",
-        "matchedWords": {
-          "-3-LOujYh7vX": {
-            "hits": 3,
-            "textWords": 67
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "14nL4FrrGcCg",
-        "address": "https://preisvergleich.heise.de/bosch-powertube-400-vertikal-rahmenakku-a2244945.html?hloc=de",
-        "title": "Bosch PowerTube 400 Vertikal Rahmenakku (0275007556) ab € 299,90 (2026) | heise preisvergleich Deutschland",
+        "hash": "p0nX7vDOAHJg",
+        "address": "https://www.heise.de/news/EU-Experten-warnen-Abhaengigkeit-von-Microsoft-gefaehrdet-die-digitale-Souveraenitaet-3679559.html",
+        "title": "EU-Experten warnen: Abhängigkeit von Microsoft gefährdet die digitale Souveränität | heise online",
         "snippet": "",
         "matchedWords": {
           "-3-LOujYh7vX": {
-            "hits": 25,
-            "textWords": 990
+            "hits": 47,
+            "textWords": 1798
           }
         },
         "queryPhraseHits": 0
       },
       {
-        "hash": "6PshaerrGcCg",
-        "address": "https://preisvergleich.heise.de/merchants/jackery-de",
-        "title": "Jackery Bewertungen \u0026 Erfahrungen - heise preisvergleich Deutschland",
+        "hash": "sAOLWZunM6pg",
+        "address": "https://bestenliste-assets.heise.de/1/RJtk9lBaHR0cHM6Ly9vY2RuLmV1L3B1bHNjbXMvTURBXy9hNjdlMjUzOGNiZjAwY2M4MjkxMjljYTVhYWM2MDFhZi5qcGeRkwXNAzfNAmneAAGhMQQ",
+        "title": "RJtk9lBaHR0cHM6Ly9vY2RuLmV1L3B1bHNjbXMvTURBXy9hNjdlMjUzOGNiZjAwY2M4MjkxMjljYTVhYWM2MDFhZi5qcGeRkwXNAzfNAmneAAGhMQQ",
         "snippet": "",
         "matchedWords": {
           "-3-LOujYh7vX": {
-            "hits": 25,
-            "textWords": 629
+            "hits": 1,
+            "textWords": 137
           }
         },
         "queryPhraseHits": 0
       },
       {
-        "hash": "eeN57errGcCg",
-        "address": "https://preisvergleich.heise.de/merchants/salesarti-41-eb-de",
-        "title": "salesarti Bewertungen \u0026 Erfahrungen - heise preisvergleich Deutschland",
+        "hash": "kU7zkfpT3MJg",
+        "address": "https://it-kenner.heise.de/collaboration-im-ki-zeitalter/",
+        "title": "Collaboration im KI-Zeitalter - Whitepaper, eBooks, Artikel \u0026 mehr",
         "snippet": "",
         "matchedWords": {
           "-3-LOujYh7vX": {
-            "hits": 25,
-            "textWords": 614
+            "hits": 1,
+            "textWords": 1798
           }
         },
         "queryPhraseHits": 0
       },
       {
-        "hash": "CXNbLerrGcCg",
-        "address": "https://preisvergleich.heise.de/merchants/neiflex-at",
-        "title": "NeiFlex Bewertungen \u0026 Erfahrungen - heise preisvergleich Deutschland",
+        "hash": "X0gS6jRvmBbx",
+        "address": "https://en.wikipedia.org/wiki/LibreOffice",
+        "title": "LibreOffice - Wikipedia",
         "snippet": "",
         "matchedWords": {
           "-3-LOujYh7vX": {
-            "hits": 25,
-            "textWords": 718
+            "hits": 7,
+            "textWords": 15111
           }
         },
         "queryPhraseHits": 0
       },
       {
-        "hash": "2CdbSerrGcCg",
-        "address": "https://preisvergleich.heise.de/merchants/liquidlifede-de",
-        "title": "liquid-life Bewertungen \u0026 Erfahrungen - heise preisvergleich Deutschland",
+        "hash": "ljEwvl6MaqVw",
+        "address": "https://www.nber.org/",
+        "title": "National Bureau of Economic Research | NBER",
         "snippet": "",
         "matchedWords": {
           "-3-LOujYh7vX": {
-            "hits": 25,
-            "textWords": 750
+            "hits": 1,
+            "textWords": 2279
           }
         },
         "queryPhraseHits": 0
       },
       {
-        "hash": "kWx_serrGcCg",
-        "address": "https://preisvergleich.heise.de/merchants/nexocstore-de",
-        "title": "NEXOC Store Bewertungen \u0026 Erfahrungen - heise preisvergleich Deutschland",
+        "hash": "FMti20ghd-Kg",
+        "address": "https://geizhals.de/merchants/elektropool-de",
+        "title": "Elektro Pool Bewertungen \u0026 Erfahrungen - Geizhals Deutschland",
         "snippet": "",
         "matchedWords": {
           "-3-LOujYh7vX": {
-            "hits": 25,
-            "textWords": 771
+            "hits": 1,
+            "textWords": 530
           }
         },
         "queryPhraseHits": 0
       },
       {
-        "hash": "_cbEdChhB9pg",
-        "address": "https://shop.heise.de/e-learning/?p=2",
-        "title": "E-LEARNING | heise shop",
+        "hash": "Mnse7scL7sng",
+        "address": "https://geizhals.at/?cat=eisfhlss",
+        "title": "Elektroinstallation Fehlerstromschutzschalter Preisvergleich Geizhals Österreich",
         "snippet": "",
         "matchedWords": {
           "-3-LOujYh7vX": {
-            "hits": 40,
-            "textWords": 10397
+            "hits": 1,
+            "textWords": 2033
           }
         },
         "queryPhraseHits": 0
       },
       {
-        "hash": "XIBNeerrGcCg",
-        "address": "https://preisvergleich.heise.de/merchants/electronis",
-        "title": "electronis.de Bewertungen \u0026 Erfahrungen - heise preisvergleich Deutschland",
+        "hash": "SgsBeltwxXMi",
+        "address": "https://www.notebookcheck.pl/",
+        "title": "laptopy testy i recenzje notebooki - Notebookcheck.pl",
         "snippet": "",
         "matchedWords": {
           "-3-LOujYh7vX": {
-            "hits": 25,
-            "textWords": 877
+            "hits": 7,
+            "textWords": 5817
           }
         },
         "queryPhraseHits": 0
@@ -4449,14 +4816,14 @@
     [],
     [
       {
-        "hash": "PYlNnV_w0LFh",
-        "address": "https://www.juraforum.de/rechtsanwalt/gabriele-heise-stuttgart",
-        "title": "Gabriele Heise - Rechtsanwältin - JuraForum.de",
+        "hash": "JPfwPV_w0LFh",
+        "address": "https://www.juraforum.de/rechtsanwalt/detlef-heise-achim",
+        "title": "Dr. Detlef Heise - Rechtsanwalt - JuraForum.de",
         "snippet": "",
         "matchedWords": {
           "-3-LOujYh7vX": {
-            "hits": 4,
-            "textWords": 296
+            "hits": 5,
+            "textWords": 317
           }
         },
         "queryPhraseHits": 0
@@ -4475,14 +4842,14 @@
         "queryPhraseHits": 0
       },
       {
-        "hash": "JPfwPV_w0LFh",
-        "address": "https://www.juraforum.de/rechtsanwalt/detlef-heise-achim",
-        "title": "Dr. Detlef Heise - Rechtsanwalt - JuraForum.de",
+        "hash": "PYlNnV_w0LFh",
+        "address": "https://www.juraforum.de/rechtsanwalt/gabriele-heise-stuttgart",
+        "title": "Gabriele Heise - Rechtsanwältin - JuraForum.de",
         "snippet": "",
         "matchedWords": {
           "-3-LOujYh7vX": {
-            "hits": 5,
-            "textWords": 317
+            "hits": 4,
+            "textWords": 296
           }
         },
         "queryPhraseHits": 0
@@ -4496,19 +4863,6 @@
           "-3-LOujYh7vX": {
             "hits": 4,
             "textWords": 307
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "91q-eV_w0LFh",
-        "address": "https://www.juraforum.de/rechtsanwalt/anwalt-osnabrueck-vertragsrecht/",
-        "title": "Top10 ᐅ Rechtsanwalt Osnabrück Vertragsrecht Bewertungen",
-        "snippet": "",
-        "matchedWords": {
-          "-3-LOujYh7vX": {
-            "hits": 3,
-            "textWords": 1255
           }
         },
         "queryPhraseHits": 0
@@ -4553,27 +4907,40 @@
         "queryPhraseHits": 0
       },
       {
-        "hash": "_VB2fh_w0LFh",
-        "address": "https://www.juraforum.de/forum/t/statusklage-gleiche-position.723779/",
-        "title": "ᐅ Statusklage - gleiche Position?",
+        "hash": "NOt9pV_w0LFh",
+        "address": "https://www.juraforum.de/rechtsanwalt/moritz-kerkmann-achim",
+        "title": "Moritz Kerkmann - Rechtsanwalt - JuraForum.de",
         "snippet": "",
         "matchedWords": {
           "-3-LOujYh7vX": {
             "hits": 1,
-            "textWords": 1030
+            "textWords": 307
           }
         },
         "queryPhraseHits": 0
       },
       {
-        "hash": "s9ifSV_w0LFh",
-        "address": "https://www.juraforum.de/rechtsanwalt/stefan-kloster-kiel",
-        "title": "Stefan Kloster - Rechtsanwalt - JuraForum.de",
+        "hash": "hCQMVV_w0LFh",
+        "address": "https://www.juraforum.de/rechtsanwalt/anwalt-achim-arzthaftungsrecht/",
+        "title": "Top10 ᐅ Rechtsanwalt Achim Arzthaftungsrecht Bewertungen",
         "snippet": "",
         "matchedWords": {
           "-3-LOujYh7vX": {
-            "hits": 2,
-            "textWords": 7368
+            "hits": 3,
+            "textWords": 637
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "da5PMV_w0LFh",
+        "address": "https://www.juraforum.de/rechtsanwalt/anwalt-achim-versicherungsrecht/",
+        "title": "Top10 ᐅ Rechtsanwalt Achim Versicherungsrecht Bewertungen",
+        "snippet": "",
+        "matchedWords": {
+          "-3-LOujYh7vX": {
+            "hits": 4,
+            "textWords": 959
           }
         },
         "queryPhraseHits": 0
@@ -4581,27 +4948,14 @@
     ],
     [
       {
-        "hash": "Fl-YxlDOAHJg",
-        "address": "https://www.heise.de/",
-        "title": "heise online - IT-News, Nachrichten und Hintergründe | heise online",
-        "snippet": "Ein faltbares iPhone, Pro-Kameras und eine Watch, die ganz nonchalant Gespräche mithört: Wir diskutieren über Apples Hardware-Reigen im Detail.\nVorherigeNächste\nheise online daily abonnieren\nheise online daily abonnieren\nKeine News verpassen!",
+        "hash": "68WStvDOAHJg",
+        "address": "https://www.heise.de/news/Schnelles-Ethernet-c-t-uplink-9706879.html",
+        "title": "Schnelles Ethernet | c’t uplink | heise online",
+        "snippet": "In Sachen Ethernet waren Adapter und Switches mit Übertragungsraten von maximal 1 Gigabit pro Sekunde lange Zeit der Mindeststandard, auf den sich allerlei Gerätehersteller auch für billige Hardware mehr oder weniger geeinigt hatten.",
         "matchedWords": {
           "-3-LOujYh7vX": {
-            "hits": 5,
-            "textWords": 956
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "NWoxbkA4psi4",
-        "address": "https://www.theverge.com/authors/ryan-heise",
-        "title": "Ryan Heise Profile and Activity | The Verge",
-        "snippet": "",
-        "matchedWords": {
-          "-3-LOujYh7vX": {
-            "hits": 13,
-            "textWords": 2267
+            "hits": 0,
+            "textWords": 263
           }
         },
         "queryPhraseHits": 0
@@ -4620,22 +4974,35 @@
         "queryPhraseHits": 0
       },
       {
-        "hash": "68WStvDOAHJg",
-        "address": "https://www.heise.de/news/Schnelles-Ethernet-c-t-uplink-9706879.html",
-        "title": "Schnelles Ethernet | c’t uplink | heise online",
+        "hash": "NWoxbkA4psi4",
+        "address": "https://www.theverge.com/authors/ryan-heise",
+        "title": "Ryan Heise Profile and Activity | The Verge",
         "snippet": "",
         "matchedWords": {
           "-3-LOujYh7vX": {
-            "hits": 48,
-            "textWords": 1298
+            "hits": 13,
+            "textWords": 2267
           }
         },
         "queryPhraseHits": 0
       },
       {
-        "hash": "5az9WvU0aeEi",
-        "address": "https://heise-academy.de/experten/mario-leander-reimer-a7ca2c",
-        "title": "Mario-Leander Reimer",
+        "hash": "Fl-YxlDOAHJg",
+        "address": "https://www.heise.de/",
+        "title": "heise online - IT-News, Nachrichten und Hintergründe | heise online",
+        "snippet": "Das digitale Abo für IT und Technik\nheise+ Jahresabo\nDauerhaft 20 % Rabatt ggü. dem 4-Wochen-Abo\nAlle exklusiven Artikel auf heise online lesen\nOptional mit Zugriff auf alle heise-Magazine (digital \u0026 PDF)\nJetzt Rabatt sichern\nAnzeige\nEigenwerbung\nWhitepaper\nWenn Hacker KI nutzen",
+        "matchedWords": {
+          "-3-LOujYh7vX": {
+            "hits": 10,
+            "textWords": 1238
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "7vfqdvU0aeEi",
+        "address": "https://heise-academy.de/experten/fabian-hiller-760a04",
+        "title": "Fabian Hiller",
         "snippet": "",
         "matchedWords": {
           "-3-LOujYh7vX": {
@@ -4659,14 +5026,14 @@
         "queryPhraseHits": 0
       },
       {
-        "hash": "VV4BxZunM6pg",
-        "address": "https://bestenliste-assets.heise.de/1/Cobk9lBaHR0cHM6Ly9vY2RuLmV1L3B1bHNjbXMvTURBXy8yYTYwMDg2Y2FhMTkxYWFhZmIyNzRiZmIzOTA4MjhhNy5qcGeRkwXNAzfNAmneAAGhMQQ",
-        "title": "Cobk9lBaHR0cHM6Ly9vY2RuLmV1L3B1bHNjbXMvTURBXy8yYTYwMDg2Y2FhMTkxYWFhZmIyNzRiZmIzOTA4MjhhNy5qcGeRkwXNAzfNAmneAAGhMQQ",
+        "hash": "skNA4ZunM6pg",
+        "address": "https://bestenliste-assets.heise.de/1/5C7k9lBaHR0cHM6Ly9vY2RuLmV1L3B1bHNjbXMvTURBXy9iYmZlOWQ0MTgwZjMzYTVlNjAxMGY1YzE2Yzc0MTljOS5qcGeRkwXNAaLMvN4AAaExBA",
+        "title": "5C7k9lBaHR0cHM6Ly9vY2RuLmV1L3B1bHNjbXMvTURBXy9iYmZlOWQ0MTgwZjMzYTVlNjAxMGY1YzE2Yzc0MTljOS5qcGeRkwXNAaLMvN4AAaExBA",
         "snippet": "",
         "matchedWords": {
           "-3-LOujYh7vX": {
             "hits": 1,
-            "textWords": 138
+            "textWords": 148
           }
         },
         "queryPhraseHits": 0
@@ -4698,20 +5065,33 @@
         "queryPhraseHits": 0
       },
       {
-        "hash": "_czwOvDOAHJg",
-        "address": "https://www.heise.de/news/US-Behoerde-will-Gesundheitsbelastung-durch-Nacktscanner-nun-doch-pruefen-1415091.html",
-        "title": "US-Behörde will Gesundheitsbelastung durch Nacktscanner nun doch prüfen | heise online",
+        "hash": "tuUz-vDOAHJg",
+        "address": "https://www.heise.de/news/20-Jahre-BTX-84671.html",
+        "title": "20 Jahre BTX | heise online",
         "snippet": "",
         "matchedWords": {
           "-3-LOujYh7vX": {
             "hits": 46,
-            "textWords": 1012
+            "textWords": 1337
           }
         },
         "queryPhraseHits": 0
       }
     ],
     [
+      {
+        "hash": "_CpnYZ_Av1Mw",
+        "address": "https://dejure.org/dienste/vernetzung/rechtsprechung?Gericht=BFH\u0026Datum=12.12.2012\u0026Aktenzeichen=VI%20R%2079%2F10",
+        "title": "BFH, 12.12.2012 - VI R 79/10 - dejure.org",
+        "snippet": "",
+        "matchedWords": {
+          "-3-LOujYh7vX": {
+            "hits": 1,
+            "textWords": 6184
+          }
+        },
+        "queryPhraseHits": 0
+      },
       {
         "hash": "Z80vKW_Av1Mw",
         "address": "https://dejure.org/BGBl/2017/BGBl._I_S._1648",
@@ -4726,14 +5106,14 @@
         "queryPhraseHits": 0
       },
       {
-        "hash": "1O_jyk_Av1Mw",
-        "address": "https://dejure.org/gesetze/UrhG/95b.html",
-        "title": "§ 95b UrhG - Durchsetzung von Schrankenbestimmungen - dejure.org",
+        "hash": "AkH4RW_Av1Mw",
+        "address": "https://dejure.org/BGBl/2016/BGBl._I_S._1818",
+        "title": "BGBl. I 2016 S. 1818 - Gesetz zum besseren Informationsaustausch bei der Bekämpfung des internationalen Terrorismus - dejure.org",
         "snippet": "",
         "matchedWords": {
           "-3-LOujYh7vX": {
-            "hits": 1,
-            "textWords": 1185
+            "hits": 2,
+            "textWords": 1216
           }
         },
         "queryPhraseHits": 0
@@ -4765,66 +5145,14 @@
         "queryPhraseHits": 0
       },
       {
-        "hash": "AkH4RW_Av1Mw",
-        "address": "https://dejure.org/BGBl/2016/BGBl._I_S._1818",
-        "title": "BGBl. I 2016 S. 1818 - Gesetz zum besseren Informationsaustausch bei der Bekämpfung des internationalen Terrorismus - dejure.org",
-        "snippet": "",
-        "matchedWords": {
-          "-3-LOujYh7vX": {
-            "hits": 2,
-            "textWords": 1216
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "2skMUZ_Av1Mw",
-        "address": "https://dejure.org/dienste/vernetzung/rechtsprechung?Gericht=VG%20K%C3%B6ln\u0026Datum=29.06.2005\u0026Aktenzeichen=11%20L%20765/05",
-        "title": "VG Köln, 29.06.2005 - 11 L 765/05 - dejure.org",
-        "snippet": "",
-        "matchedWords": {
-          "-3-LOujYh7vX": {
-            "hits": 2,
-            "textWords": 838
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "zFTUDW_Av1Mw",
-        "address": "https://dejure.org/BGBl/2021/BGBl._I_S._2",
-        "title": "BGBl. I 2021 S. 2 - Gesetz zur Änderung des Gesetzes gegen Wettbewerbsbeschränkungen für ein fokussiertes, proaktives und digitales Wettbewerbsrecht 4.0 und anderer Bestimmungen... - dejure.org",
+        "hash": "1O_jyk_Av1Mw",
+        "address": "https://dejure.org/gesetze/UrhG/95b.html",
+        "title": "§ 95b UrhG - Durchsetzung von Schrankenbestimmungen - dejure.org",
         "snippet": "",
         "matchedWords": {
           "-3-LOujYh7vX": {
             "hits": 1,
-            "textWords": 1044
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "t6LanW_Av1Mw",
-        "address": "https://dejure.org/BGBl/2017/BGBl._I_S._2745",
-        "title": "BGBl. I 2017 S. 2745 - Gesetz zur Durchführung der Verordnung (EU) Nr. 910/2014 des Europäischen Parlaments und des Rates vom 23. Juli 2014 über elektronische Identifizierung und Vertrauensdienste für elektronische Transaktionen im Binnenmarkt und zur Aufhebung der Richtlinie... - dejure.org",
-        "snippet": "",
-        "matchedWords": {
-          "-3-LOujYh7vX": {
-            "hits": 1,
-            "textWords": 1907
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "3QldpZ_Av1Mw",
-        "address": "https://dejure.org/dienste/vernetzung/rechtsprechung?Gericht=LG%20Hamburg\u0026Datum=07.07.2004\u0026Aktenzeichen=308%20O%20264%2F04",
-        "title": "LG Hamburg, 07.07.2004 - 308 O 264/04 - dejure.org",
-        "snippet": "",
-        "matchedWords": {
-          "-3-LOujYh7vX": {
-            "hits": 1,
-            "textWords": 1235
+            "textWords": 1185
           }
         },
         "queryPhraseHits": 0
@@ -4841,6 +5169,45 @@
           }
         },
         "queryPhraseHits": 0
+      },
+      {
+        "hash": "T4QC9Z_Av1Mw",
+        "address": "https://dejure.org/dienste/vernetzung/rechtsprechung?Gericht=ArbG%20Heilbronn\u0026Datum=26.09.1997\u0026Aktenzeichen=3%20Ca%20489/97",
+        "title": "ArbG Heilbronn, 26.09.1997 - 3 Ca 489/97 - dejure.org",
+        "snippet": "",
+        "matchedWords": {
+          "-3-LOujYh7vX": {
+            "hits": 8,
+            "textWords": 2407
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "vX0rLZ_Av1Mw",
+        "address": "https://dejure.org/dienste/vernetzung/rechtsprechung?Gericht=LG%20Mannheim\u0026Datum=27.02.2009\u0026Aktenzeichen=7%20O%2094%2F08",
+        "title": "LG Mannheim, 27.02.2009 - 7 O 94/08 - dejure.org",
+        "snippet": "",
+        "matchedWords": {
+          "-3-LOujYh7vX": {
+            "hits": 7,
+            "textWords": 2753
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "89yyiW_Av1Mw",
+        "address": "https://dejure.org/BGBl/2019/BGBl._I_S._432",
+        "title": "BGBl. I 2019 S. 432 - Dreizehntes Gesetz zur Änderung des Bundes-Immissionsschutzgesetzes - dejure.org",
+        "snippet": "",
+        "matchedWords": {
+          "-3-LOujYh7vX": {
+            "hits": 1,
+            "textWords": 702
+          }
+        },
+        "queryPhraseHits": 0
       }
     ],
     [
@@ -4848,7 +5215,7 @@
         "hash": "9D3TzFrrGcCg",
         "address": "https://preisvergleich.heise.de/?phist=3919797",
         "title": "Preisentwicklung für eufy Wired Cam C31 Solo, grün (T817L461) (90 Tage) heise preisvergleich Deutschland",
-        "snippet": "Preisentwicklung für eufy Wired Cam C31 Solo, grün (T817L461)\n« Zurück zum Produkt\nLetzte Aktualisierung: 12.09.2026, 02:11\nDer heise Preisvergleich ist ein Angebot in Kooperation mit der Preisvergleich Internet Services AG (geizhals.de).",
+        "snippet": "Preisentwicklung für eufy Wired Cam C31 Solo, grün (T817L461)\n« Zurück zum Produkt\nLetzte Aktualisierung: 12.09.2026, 13:07\nDer heise Preisvergleich ist ein Angebot in Kooperation mit der Preisvergleich Internet Services AG (geizhals.de).",
         "matchedWords": {
           "-3-LOujYh7vX": {
             "hits": 2,
@@ -4861,11 +5228,11 @@
         "hash": "imQXflDOAHJg",
         "address": "https://www.heise.de/security",
         "title": "heise security: Alerts,Newsticker,Hintergrund und Events | heise online",
-        "snippet": "Alerts\nHintergrund\nEvents\nAnzeige\nAnzeige\nEigenwerbung\nIhr Experten-Paket\nIhr Wissensvorsprung in IT-Sicherheit\nExklusive Insider-Informationen\nPraxisnahe Webinare\nDirekter Zugang zu Experten\nJetzt sichern!\nAnzeige\nAnzeige\nheise security abonnieren\nheise security abonnieren",
+        "snippet": "heise security abonnieren\nheise security abonnieren\nOb Sicherheitslücken, Viren oder Trojaner – alle sicherheitsrelevanten Meldungen gibts bei heise security\nE-Mail-Adresse",
         "matchedWords": {
           "-3-LOujYh7vX": {
-            "hits": 3,
-            "textWords": 67
+            "hits": 4,
+            "textWords": 79
           }
         },
         "queryPhraseHits": 0
@@ -4910,14 +5277,14 @@
         "queryPhraseHits": 0
       },
       {
-        "hash": "ZkMXterrGcCg",
-        "address": "https://preisvergleich.heise.de/merchants/marcmax-media-91-eb-de",
-        "title": "marcmax-media Bewertungen \u0026 Erfahrungen - heise preisvergleich Deutschland",
+        "hash": "DyM2gerrGcCg",
+        "address": "https://preisvergleich.heise.de/merchants/cejuron-12-eb-de",
+        "title": "cejuron Bewertungen \u0026 Erfahrungen - heise preisvergleich Deutschland",
         "snippet": "",
         "matchedWords": {
           "-3-LOujYh7vX": {
             "hits": 25,
-            "textWords": 732
+            "textWords": 614
           }
         },
         "queryPhraseHits": 0

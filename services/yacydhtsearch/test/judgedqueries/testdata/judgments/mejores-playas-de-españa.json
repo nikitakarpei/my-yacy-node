@@ -2,22 +2,124 @@
   "query": "mejores playas de españa",
   "judgedDocuments": [
     {
+      "hash": "28SkmlJ9Kfhg",
+      "address": "https://www.traveler.es/",
+      "title": "Revista de Viajes | Traveler",
+      "grade": null
+    },
+    {
+      "hash": "5_i4klQ9tg5g",
+      "address": "https://www.vogue.es/",
+      "title": "Vogue España - Revista de moda y tendencias | Vogue España",
+      "grade": null
+    },
+    {
       "hash": "V2Hlal6Ke78h",
       "address": "https://www.diariosur.es/",
       "title": "SUR, diario de Málaga. Noticias de Malaga",
       "grade": 0
     },
     {
-      "hash": "Q9ZGalD5B4Sj",
-      "address": "https://www.elnortedecastilla.es/",
-      "title": "El Norte de Castilla - Noticias de Castilla y León desde 1854",
-      "grade": 0
+      "hash": "7eonllZeKV3g",
+      "address": "https://www.eldiario.es/viajes/",
+      "title": "Noticias sobre rutas y escapadas - Viajes, en elDiario.es",
+      "grade": 1
     },
     {
-      "hash": "MuorVQRAvAya",
-      "address": "http://www.euroresidentes.com/",
-      "title": "Euroresidentes",
-      "grade": 0
+      "hash": "bFXinwnyk9C5",
+      "address": "https://cronicaglobal.elespanol.com/",
+      "title": "Crónica Global | Noticias sobre Cataluña y actualidad empresarial",
+      "grade": null
+    },
+    {
+      "hash": "8POhxlFZc5Lg",
+      "address": "https://www.elmundo.es/metropoli.html",
+      "title": "Metrópoli | EL MUNDO",
+      "grade": null
+    },
+    {
+      "hash": "avZLXl0i5eji",
+      "address": "https://www.businessinsider.es/",
+      "title": "Business Insider España: Actualidad económica, tendencias y mundo global",
+      "grade": null
+    },
+    {
+      "hash": "m4HbNs2e6bG4",
+      "address": "https://elpais.com/",
+      "title": "EL PAÍS: el periódico global",
+      "grade": null
+    },
+    {
+      "hash": "mB6uel4wIVHi",
+      "address": "https://www.lasprovincias.es/",
+      "title": "Las Provincias - Diario de noticias y actualidad de Valencia",
+      "grade": null
+    },
+    {
+      "hash": "DrCEPl7Ocb95",
+      "address": "https://www.lavanguardia.com/",
+      "title": "Últimas noticias, actualidad y última hora en Catalunya, España y el mundo",
+      "grade": null
+    },
+    {
+      "hash": "pyw55lAeAk-5",
+      "address": "https://www.trendencias.com/",
+      "title": "Trendencias - Moda y tendencias. Estilismos. Ropa y complementos.",
+      "grade": null
+    },
+    {
+      "hash": "g_pvJlGdBEY4",
+      "address": "https://www.larioja.com/",
+      "title": "LA RIOJA - Noticias y actualidad de La Rioja, Logroño y comarcas",
+      "grade": null
+    },
+    {
+      "hash": "qlCfKlLjcC4h",
+      "address": "https://www.elcomercio.es/",
+      "title": "EL COMERCIO de Asturias - Últimas noticias y actualidad",
+      "grade": null
+    },
+    {
+      "hash": "Lxil9rRxNAyg",
+      "address": "https://saposyprincesas.elmundo.es/",
+      "title": "Sapos y Princesas: Artículos, actividades y planes en familia",
+      "grade": null
+    },
+    {
+      "hash": "KNXAdlTL0HYi",
+      "address": "https://www.burgosconecta.es/",
+      "title": "BURGOSconecta - Todas las noticias de Burgos y su provincia",
+      "grade": null
+    },
+    {
+      "hash": "lqi-SlWGWVQj",
+      "address": "https://www.huelvainformacion.es/",
+      "title": "Huelva Información | Noticias de Huelva, Andalucía y España, actualidad y última hora",
+      "grade": null
+    },
+    {
+      "hash": "2V2zcldMowzh",
+      "address": "https://www.lavozdigital.es/",
+      "title": "La Voz Digital. Diario de noticias y actualidad de Cádiz, líder de la provincia | Lavozdigital.es",
+      "grade": null
+    },
+    {
+      "hash": "rSvKAlfulRxi",
+      "address": "https://www.huffingtonpost.es/",
+      "title": "El HuffPost: Última hora, noticias y opinión en español",
+      "grade": null
+    },
+    {
+      "hash": "BM6kIliVUugg",
+      "address": "https://www.laverdad.es/",
+      "title": "La Verdad - Noticias, actualidad y últimas noticias de Murcia",
+      "grade": null
+    },
+    {
+      "hash": "c8HjXlj1Er05",
+      "address": "https://www.leonoticias.com/",
+      "title": "Leonoticias: noticias de León y provincia",
+      "grade": null
     },
     {
       "hash": "uK5b6ljMl7g4",
@@ -32,16 +134,76 @@
       "grade": 0
     },
     {
+      "hash": "ISxsyloVqyIh",
+      "address": "https://www.elcorreoweb.es/",
+      "title": "El Correo de Andalucía - Noticias de Sevilla, Andalucía y España.",
+      "grade": null
+    },
+    {
+      "hash": "UijGqltzWF35",
+      "address": "https://www.diariovasco.com/",
+      "title": "El Diario Vasco - Noticias de Donostia, San Sebastián y Gipuzkoa",
+      "grade": null
+    },
+    {
       "hash": "qX9MJlx36Xdi",
       "address": "https://www.eldiariomontanes.es/",
       "title": "El Diario Montañés: Noticias de Cantabria y Santander",
       "grade": 0
     },
     {
+      "hash": "mvI6Gl3Rh0Hg",
+      "address": "https://www.welife.es/",
+      "title": "Noticias sobre cuerpo, mente y planeta | WeLife",
+      "grade": null
+    },
+    {
+      "hash": "ZgMF8lAZ2Nxi",
+      "address": "https://www.eldiadecordoba.es/",
+      "title": "Noticias de Córdoba | Última hora en El Día de Córdoba",
+      "grade": null
+    },
+    {
+      "hash": "7TiY4lCZVJp4",
+      "address": "https://www.xataka.com/",
+      "title": "Xataka - Tecnología y gadgets, móviles, informática, electrónica",
+      "grade": null
+    },
+    {
+      "hash": "eE_K_sO4DQ84",
+      "address": "https://as.com/",
+      "title": "AS.com - Diario online deportivo. Fútbol, motor y mucho más",
+      "grade": null
+    },
+    {
+      "hash": "w4sPElPQmzeg",
+      "address": "https://www.hoy.es/",
+      "title": "HOY: Diario con noticias y última hora de Extremadura",
+      "grade": null
+    },
+    {
+      "hash": "0X-a-tWIjA-4",
+      "address": "https://es.wired.com/",
+      "title": "WIRED en Español: Noticias sobre tecnología, gadgets, ciencia, cultura y negocios | WIRED",
+      "grade": null
+    },
+    {
       "hash": "uHVM5lzD8ru5",
       "address": "https://www.admagazine.com/",
       "title": "Architectural Digest México y Latinoamérica | Architectural Digest",
       "grade": 0
+    },
+    {
+      "hash": "Q9ZGalD5B4Sj",
+      "address": "https://www.elnortedecastilla.es/",
+      "title": "El Norte de Castilla - Noticias de Castilla y León desde 1854",
+      "grade": 0
+    },
+    {
+      "hash": "e2cUr9St_F9g",
+      "address": "https://www.abc.es/viajar/destinos/",
+      "title": "Todos los destinos | Viajes - ABC.es",
+      "grade": null
     },
     {
       "hash": "wqCeqlFZc5Lg",
@@ -54,12 +216,6 @@
       "address": "https://www.elcorreo.com/alava/",
       "title": "EL CORREO - Diario con las últimas noticias, fotos y vídeos de Álava - Araba",
       "grade": 0
-    },
-    {
-      "hash": "7eonllZeKV3g",
-      "address": "https://www.eldiario.es/viajes/",
-      "title": "Noticias sobre rutas y escapadas - Viajes, en elDiario.es",
-      "grade": 1
     },
     {
       "hash": "0Fb3UljMl7g4",

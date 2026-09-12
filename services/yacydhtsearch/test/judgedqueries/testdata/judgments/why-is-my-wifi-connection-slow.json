@@ -2,9 +2,39 @@
   "query": "why is my wifi connection slow",
   "judgedDocuments": [
     {
-      "hash": "b08TwlDZkUL4",
-      "address": "https://www.cnet.com/",
-      "title": "CNET: Product reviews, advice, how-tos and the latest news",
+      "hash": "XTPIBlptNsG4",
+      "address": "https://www.akdart.com/hijrah.html",
+      "title": "Islamic invasion disguised as the displacement and acceptance of refugees",
+      "grade": null
+    },
+    {
+      "hash": "9d0zQJOC4JVg",
+      "address": "https://www.gifts4u.gr/blog/season-essentials",
+      "title": "",
+      "grade": null
+    },
+    {
+      "hash": "m-DJMn4Gdhjh",
+      "address": "https://malpedia.caad.fkie.fraunhofer.de/library/download",
+      "title": "Download",
+      "grade": null
+    },
+    {
+      "hash": "EyjETIl7OZJE",
+      "address": "http://www.kursaal.com.ar/web/post-without-sidebar/",
+      "title": "Post Without Sidebar",
+      "grade": null
+    },
+    {
+      "hash": "HrKyXWOXoHMQ",
+      "address": "http://acecomments.mu.nu/?post=391252",
+      "title": "Cutting The Cord [Joe Mannix (not a cop)]",
+      "grade": null
+    },
+    {
+      "hash": "pGRD67yp6WtY",
+      "address": "http://tantek.com/",
+      "title": "Tantek Çelik",
       "grade": 0
     },
     {
@@ -14,10 +44,22 @@
       "grade": 0
     },
     {
-      "hash": "pGRD67yp6WtY",
-      "address": "http://tantek.com/",
-      "title": "Tantek Çelik",
-      "grade": 0
+      "hash": "IKIZjvNVRnN4",
+      "address": "https://feeds.acast.com/public/shows/6960406eea3a5db99ef40043",
+      "title": "",
+      "grade": null
+    },
+    {
+      "hash": "E0p8pdDZkUL4",
+      "address": "https://www.cnet.com/home/internet/routers-survey-2026/",
+      "title": "Most US Adults Struggle With Wonky Wi-Fi Connections, CNET Finds. Here's What You Can Do About It - CNET",
+      "grade": null
+    },
+    {
+      "hash": "f7lyEE741r34",
+      "address": "https://support.linksys.com/home/",
+      "title": "Home - Linksys Support",
+      "grade": null
     },
     {
       "hash": "D4lABzaS0qdw",
@@ -26,22 +68,142 @@
       "grade": 0
     },
     {
-      "hash": "yJuijsCG40j4",
-      "address": "https://tantek.com/",
-      "title": "Tantek Çelik",
+      "hash": "2dQPwsnHFMh6",
+      "address": "https://lustforlovefilm.com/",
+      "title": "Lustforlovefilm.com -",
+      "grade": null
+    },
+    {
+      "hash": "hNrcdJ-bwreQ",
+      "address": "http://ace.mu.nu/",
+      "title": "Ace of Spades HQ",
+      "grade": null
+    },
+    {
+      "hash": "Jb4XHs5IzNm6",
+      "address": "https://citizenfreepress.com/",
+      "title": "CITIZEN FREE PRESS",
+      "grade": null
+    },
+    {
+      "hash": "ETfRxdDZkUL4",
+      "address": "https://www.cnet.com/home/security/best-video-doorbell-cameras/",
+      "title": "The Best Video Doorbells of 2026: Watch Porches, Packages and More - CNET",
+      "grade": null
+    },
+    {
+      "hash": "zlyXsdDZkUL4",
+      "address": "https://www.cnet.com/home/kitchen-and-household/best-robot-vacuums-our-labs-tested-47-models-and-only-these-made-the-cut/",
+      "title": "Best Robot Vacuums We've Tested in 2026",
+      "grade": null
+    },
+    {
+      "hash": "krJ9TsRD6io6",
+      "address": "https://licindiachennai.com/",
+      "title": "licindiachennai -",
+      "grade": null
+    },
+    {
+      "hash": "CyUYvsY-tUi5",
+      "address": "https://moralparty.com/Warnings/",
+      "title": "Warnings – MoralParty.com",
+      "grade": null
+    },
+    {
+      "hash": "seSMJsY-tUi5",
+      "address": "https://moralparty.com/warnings/",
+      "title": "Warnings – MoralParty.com",
+      "grade": null
+    },
+    {
+      "hash": "nA0ugsw4UVk6",
+      "address": "https://paydayloansforus.com/",
+      "title": "Paydayloansforus -",
+      "grade": null
+    },
+    {
+      "hash": "W5uqHs-D33u5",
+      "address": "https://instapundit.com/",
+      "title": "Instapundit",
+      "grade": null
+    },
+    {
+      "hash": "zjU19-2Sk-24",
+      "address": "https://www.dexerto.com/archive/2024/1/",
+      "title": "Archive - January 2024 - Dexerto",
+      "grade": null
+    },
+    {
+      "hash": "b08TwlDZkUL4",
+      "address": "https://www.cnet.com/",
+      "title": "CNET: Product reviews, advice, how-tos and the latest news",
       "grade": 0
     },
     {
-      "hash": "GxTNgsF20Rww",
-      "address": "https://ma.tt/",
-      "title": "Matt Mullenweg | Unlucky in Cards",
-      "grade": 0
+      "hash": "zR5OwdDZkUL4",
+      "address": "https://www.cnet.com/home/internet/best-mesh-wifi-routers/",
+      "title": "Best Mesh Wi-Fi Routers for 2026: Our Top Picks After Testing Range and Speed",
+      "grade": null
     },
     {
-      "hash": "VpCOpt6ArEvw",
-      "address": "https://blog.archive.org/",
-      "title": "Internet Archive Blogs | Updates from the Internet Archive",
-      "grade": 0
+      "hash": "mbiYtWnK_Q7w",
+      "address": "https://deirdre.net/tag/writing/",
+      "title": "writing – Deirdre Saoirse Moen",
+      "grade": null
+    },
+    {
+      "hash": "KAu1L9DZkUL4",
+      "address": "https://www.cnet.com/tech/services-and-software/best-vpn/",
+      "title": "Best VPN service of 2021 - CNET",
+      "grade": null
+    },
+    {
+      "hash": "KuD2JdDZkUL4",
+      "address": "https://www.cnet.com/home/internet/best-satellite-internet/",
+      "title": "Best Satellite Internet Providers for 2026 - CNET",
+      "grade": null
+    },
+    {
+      "hash": "_wxyPdDZkUL4",
+      "address": "https://www.cnet.com/home/internet/best-internet-providers/",
+      "title": "Best Internet Providers for 2026 - CNET",
+      "grade": null
+    },
+    {
+      "hash": "SUYfNsDaBIgz",
+      "address": "https://australiantimberoil.net/",
+      "title": "australiantimberoil.net -",
+      "grade": null
+    },
+    {
+      "hash": "NwkcOWOXoHMQ",
+      "address": "http://acecomments.mu.nu/?post=369635",
+      "title": "Cutting The Cord: It's Easier Than You Think. I Think. I have No Idea. That's What This Post Is For",
+      "grade": null
+    },
+    {
+      "hash": "fa4DE8QzrsJ5",
+      "address": "https://thestingofthescorpion.wordpress.com/",
+      "title": "The Sting Of The Scorpion Blog (T.S.O.T.S.B.) | …………………..Because Everything Else Just Bites!",
+      "grade": null
+    },
+    {
+      "hash": "3jB0w_QzrsJ5",
+      "address": "https://thestingofthescorpion.wordpress.com/tag/waste/",
+      "title": "Waste | The Sting Of The Scorpion Blog (T.S.O.T.S.B.)",
+      "grade": null
+    },
+    {
+      "hash": "7ahdAsiYYWG6",
+      "address": "https://cedarcafeonline.com/",
+      "title": "cedarcafeonline -",
+      "grade": null
+    },
+    {
+      "hash": "Mde3Ks5dlbp4",
+      "address": "https://mashable.com/",
+      "title": "Mashable",
+      "grade": null
     },
     {
       "hash": "MAC3Gs6GdY-4",
@@ -56,34 +218,16 @@
       "grade": 0
     },
     {
-      "hash": "2ZqdVzfOEiDw",
-      "address": "https://planet.gnome.org/",
-      "title": "Planet GNOME",
-      "grade": 0
+      "hash": "OdcWutIIL7ew",
+      "address": "https://stallman.org/archives/2018-jan-apr.html",
+      "title": "2018: January - April Political Notes - Richard Stallman",
+      "grade": null
     },
     {
-      "hash": "nWMgE7yp6WtY",
-      "address": "http://tantek.com/?skin=vtx",
-      "title": "Tantek Çelik",
-      "grade": 0
-    },
-    {
-      "hash": "m5Fe6jRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Google",
-      "title": "Google - Wikipedia",
-      "grade": 0
-    },
-    {
-      "hash": "Tw2WTjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Google_Chrome",
-      "title": "Google Chrome - Wikipedia",
-      "grade": 0
-    },
-    {
-      "hash": "SCifX7yp6WtY",
-      "address": "http://tantek.com/?",
-      "title": "Tantek Çelik",
-      "grade": 0
+      "hash": "aLS5YZIRcMkY",
+      "address": "http://rigorousintuition.blogspot.com/2005/10/bill-bennett-and-great-white.html",
+      "title": "Rigorous Intuition: Bill Bennett and the Great White Brotherhood",
+      "grade": null
     }
   ]
 }

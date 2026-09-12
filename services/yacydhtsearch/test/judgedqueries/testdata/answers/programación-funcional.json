@@ -1,21 +1,167 @@
 {
   "query": "programación funcional",
-  "recordedAt": "2026-09-12T10:15:29Z",
+  "recordedAt": "2026-09-12T11:25:31Z",
   "itemsInTheOrderOfEachAnswer": [
     [
+      {
+        "hash": "2K9tEuIq6BFg",
+        "address": "https://proton.me/es-es/blog/whatsapp-alternatives",
+        "title": "Las mejores alternativas a WhatsApp para la privacidad | Proton Mail | Proton",
+        "snippet": "El beneficio funcional de esto es que permite a Wire funcionar en múltiples dispositivos de una manera que la mayoría de las aplicaciones de mensajería con cifrado de extremo a extremo (E2EE) (incluida Signal) no lo hacen.",
+        "matchedWords": {
+          "Eh1HfZrHSRjZ": {
+            "hits": 1,
+            "textWords": 5200
+          },
+          "UTS1UnoLaEo1": {
+            "hits": 1,
+            "textWords": 5200
+          }
+        },
+        "queryPhraseHits": 0
+      },
       {
         "hash": "yPla3l3xyXO7",
         "address": "https://www.elperiodicoextremadura.com/",
         "title": "El Periódico Extremadura. Noticias de Hoy Extremadura, Cáceres, Badajoz. - El Periódico Extremadura",
-        "snippet": "Dos noches de actividades\nArrancan Las Noches del Patrimonio: Cáceres se vuelca con la música, la danza y la cultura\nGonzalo Lillo\nCáceres abre su Ciudad Monumental el 11 y 12 de septiembre: esta es toda la programación de Las Noches del Patrimonio",
+        "snippet": "Arrancan Las Noches del Patrimonio: Cáceres se vuelca con la música, la danza y la cultura\nGonzalo Lillo\nLa primera Noche del Patrimonio de Cáceres, en imágenes\nCáceres abre su Ciudad Monumental el 11 y 12 de septiembre: esta es toda la programación de Las Noches del Patrimonio\nSiniestro",
         "matchedWords": {
           "Eh1HfZrHSRjZ": {
             "hits": 1,
-            "textWords": 1857
+            "textWords": 1856
           },
           "UTS1UnoLaEo1": {
             "hits": 0,
-            "textWords": 1857
+            "textWords": 1856
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "EuI4UlgLAVy7",
+        "address": "https://www.circulobellasartes.com/",
+        "title": "Círculo de Bellas Artes de Madrid. Casa Europa",
+        "snippet": "Recibe nuestra programación. Suscríbete al boletín. •\nRecibe nuestra programación. Suscríbete al boletín. •\nRecibe nuestra programación. Suscríbete al boletín. •\nRecibe nuestra programación. Suscríbete al boletín. •\nRecibe nuestra programación. Suscríbete al boletín. •\nRecibe nuestra programación.",
+        "matchedWords": {
+          "Eh1HfZrHSRjZ": {
+            "hits": 14,
+            "textWords": 374
+          },
+          "UTS1UnoLaEo1": {
+            "hits": 0,
+            "textWords": 374
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "K97T40Iq6BFg",
+        "address": "https://proton.me/es-419/blog/whatsapp-alternatives",
+        "title": "Las mejores alternativas a WhatsApp para la privacidad | Proton Mail | Proton",
+        "snippet": "El beneficio funcional de esto es que le permite a Wire funcionar en múltiples dispositivos de una manera que la mayoría de las aplicaciones de mensajería con E2EE (incluyendo Signal) no lo hacen.",
+        "matchedWords": {
+          "Eh1HfZrHSRjZ": {
+            "hits": 1,
+            "textWords": 5202
+          },
+          "UTS1UnoLaEo1": {
+            "hits": 1,
+            "textWords": 5202
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "wj21NCSt_F9g",
+        "address": "https://www.abc.es/motor/novedades/",
+        "title": "Novedades en motor - ABC.es",
+        "snippet": "Hennessey Blackbird: la belleza analógica inspirada en la era espacial\nCon una producción limitada a 71 unidades y un precio de salida de 2,5 millones de dólares, el vehículo rinde un homenaje estético y funcional al legendario avión de reconocimiento Lockheed SR-71 Blackbird",
+        "matchedWords": {
+          "Eh1HfZrHSRjZ": {
+            "hits": 0,
+            "textWords": 725
+          },
+          "UTS1UnoLaEo1": {
+            "hits": 1,
+            "textWords": 725
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "2fH6hgJPjR4x",
+        "address": "https://es.wikipedia.org/wiki/Lenguaje_de_programaci%C3%B3n",
+        "title": "Lenguaje de programación - Wikipedia, la enciclopedia libre",
+        "snippet": "En la programación visual los elementos son manipulados gráficamente en vez de especificarse por medio de texto.\nAnexo:Lenguajes de programación\nProgramación estructurada\nProgramación modular\nProgramación funcional\nProgramación orientada a aspectos\nProgramación con restricciones",
+        "matchedWords": {
+          "Eh1HfZrHSRjZ": {
+            "hits": 110,
+            "textWords": 6754
+          },
+          "UTS1UnoLaEo1": {
+            "hits": 10,
+            "textWords": 6754
+          }
+        },
+        "queryPhraseHits": 7
+      },
+      {
+        "hash": "3WSVKznCqoag",
+        "address": "https://www.boe.es/buscar/act.php?id=BOE-A-2013-13645",
+        "title": "BOE-A-2013-13645 Ley 24/2013, de 26 de diciembre, del Sector Eléctrico.",
+        "snippet": "a) Recibir las ofertas de venta emitidas para cada período de programación por los distintos sujetos que participan en el mercado diario de energía eléctrica, para cada uno de los períodos de programación.\nb) Recibir las ofertas de adquisición de energía.",
+        "matchedWords": {
+          "Eh1HfZrHSRjZ": {
+            "hits": 16,
+            "textWords": 69631
+          },
+          "UTS1UnoLaEo1": {
+            "hits": 2,
+            "textWords": 69631
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "1HFZZcS6MKD4",
+        "address": "https://github.com/ayr-ton/awesome-geek-podcasts",
+        "title": "GitHub - ayr-ton/awesome-geek-podcasts: A curated list of podcasts we like to listen to. · GitHub",
+        "snippet": "Elemencast - A proposta é levar ao ouvinte drops de conteúdo diversos a respeito do universo Front-End, NodeJs, Programação Funcional etc.\nEnciclopédia do Teatro Impossível - A Enciclopédia do Teatro Impossível é uma história paralela do teatro brasileiro, vista pelos seus fracassos.",
+        "matchedWords": {
+          "Eh1HfZrHSRjZ": {
+            "hits": 2,
+            "textWords": 5738
+          },
+          "UTS1UnoLaEo1": {
+            "hits": 1,
+            "textWords": 5738
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "1HFZZcS6MKD4",
+        "address": "https://github.com/ayr-ton/awesome-geek-podcasts",
+        "title": "GitHub - ayr-ton/awesome-geek-podcasts: A curated list of podcasts we like to listen to. · GitHub",
+        "snippet": "Elemencast - A proposta é levar ao ouvinte drops de conteúdo diversos a respeito do universo Front-End, NodeJs, Programação Funcional etc.\nEnciclopédia do Teatro Impossível - A Enciclopédia do Teatro Impossível é uma história paralela do teatro brasileiro, vista pelos seus fracassos.",
+        "matchedWords": {
+          "Eh1HfZrHSRjZ": {
+            "hits": 2,
+            "textWords": 5738
+          },
+          "UTS1UnoLaEo1": {
+            "hits": 1,
+            "textWords": 5738
           }
         },
         "queryPhraseHits": 0
@@ -59,82 +205,6 @@
     ],
     [
       {
-        "hash": "vZx9GLiwa444",
-        "address": "https://apps.apple.com/hn/iphone/story/id1887119604",
-        "title": "‎Formas rápidas de aprender IA - App Store",
-        "snippet": "Llegó la hora de crear algo por tu cuenta y unirte al auge del vibe coding. No dejes que el nombre te intimide: no necesitas ser especialista en programación. El vibe coding o programación intuitiva consiste en describirle tu idea a una IA para que esta cree el software por ti.",
-        "matchedWords": {
-          "Eh1HfZrHSRjZ": {
-            "hits": 5,
-            "textWords": 600
-          },
-          "UTS1UnoLaEo1": {
-            "hits": 1,
-            "textWords": 600
-          }
-        },
-        "queryPhraseHits": 0
-      }
-    ],
-    [
-      {
-        "hash": "wj21NCSt_F9g",
-        "address": "https://www.abc.es/motor/novedades/",
-        "title": "Novedades en motor - ABC.es",
-        "snippet": "Con una producción limitada a 71 unidades y un precio de salida de 2,5 millones de dólares, el vehículo rinde un homenaje estético y funcional al legendario avión de reconocimiento Lockheed SR-71 Blackbird\nPatxi Fernández | 28/08/2026",
-        "matchedWords": {
-          "Eh1HfZrHSRjZ": {
-            "hits": 0,
-            "textWords": 740
-          },
-          "UTS1UnoLaEo1": {
-            "hits": 1,
-            "textWords": 740
-          }
-        },
-        "queryPhraseHits": 0
-      }
-    ],
-    [
-      {
-        "hash": "1HFZZcS6MKD4",
-        "address": "https://github.com/ayr-ton/awesome-geek-podcasts",
-        "title": "GitHub - ayr-ton/awesome-geek-podcasts: A curated list of podcasts we like to listen to. · GitHub",
-        "snippet": "Elemencast - A proposta é levar ao ouvinte drops de conteúdo diversos a respeito do universo Front-End, NodeJs, Programação Funcional etc.\nEnciclopédia do Teatro Impossível - A Enciclopédia do Teatro Impossível é uma história paralela do teatro brasileiro, vista pelos seus fracassos.",
-        "matchedWords": {
-          "Eh1HfZrHSRjZ": {
-            "hits": 2,
-            "textWords": 5738
-          },
-          "UTS1UnoLaEo1": {
-            "hits": 1,
-            "textWords": 5738
-          }
-        },
-        "queryPhraseHits": 0
-      }
-    ],
-    [
-      {
-        "hash": "1HFZZcS6MKD4",
-        "address": "https://github.com/ayr-ton/awesome-geek-podcasts",
-        "title": "GitHub - ayr-ton/awesome-geek-podcasts: A curated list of podcasts we like to listen to. · GitHub",
-        "snippet": "Elemencast - A proposta é levar ao ouvinte drops de conteúdo diversos a respeito do universo Front-End, NodeJs, Programação Funcional etc.\nEnciclopédia do Teatro Impossível - A Enciclopédia do Teatro Impossível é uma história paralela do teatro brasileiro, vista pelos seus fracassos.",
-        "matchedWords": {
-          "Eh1HfZrHSRjZ": {
-            "hits": 2,
-            "textWords": 5738
-          },
-          "UTS1UnoLaEo1": {
-            "hits": 1,
-            "textWords": 5738
-          }
-        },
-        "queryPhraseHits": 0
-      }
-    ],
-    [
-      {
         "hash": "g8feIsiwa444",
         "address": "https://apps.apple.com/do/iphone/story/id1878691462",
         "title": "‎Crea herramientas con Claude - App Store",
@@ -147,6 +217,23 @@
           "UTS1UnoLaEo1": {
             "hits": 2,
             "textWords": 530
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "z_8y20Iq6BFg",
+        "address": "https://proton.me/es-419/blog/what-is-email-address",
+        "title": "¿Qué es una dirección de correo electrónico? Una guía de su identidad digital | Proton",
+        "snippet": "Mantenga su dirección de correo electrónico privada\nLa evolución de la dirección de correo electrónico\nCuando se inventó el correo electrónico en 1971, tenía un propósito puramente funcional.",
+        "matchedWords": {
+          "Eh1HfZrHSRjZ": {
+            "hits": 0,
+            "textWords": 1810
+          },
+          "UTS1UnoLaEo1": {
+            "hits": 1,
+            "textWords": 1810
           }
         },
         "queryPhraseHits": 0
@@ -171,78 +258,6 @@
     ],
     [
       {
-        "hash": "70o3ZZSt_F9g",
-        "address": "https://www.abc.es/noticias/marcas/",
-        "title": "Marcas, últimas noticias - ABC",
-        "snippet": "La cartera DODENSHA para hombre que guarda hasta 10 tarjetas, tiene hueco para AirTag y está rebajada\nUna cartera compacta, funcional y con un extra que puede marcar la diferencia: la posibilidad de localizarla si algún día se pierde\nTeresa Rodríguez García | 01/09/2026",
-        "matchedWords": {
-          "Eh1HfZrHSRjZ": {
-            "hits": 0,
-            "textWords": 504
-          },
-          "UTS1UnoLaEo1": {
-            "hits": 1,
-            "textWords": 504
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "K97T40Iq6BFg",
-        "address": "https://proton.me/es-419/blog/whatsapp-alternatives",
-        "title": "Las mejores alternativas a WhatsApp para la privacidad | Proton Mail | Proton",
-        "snippet": "El beneficio funcional de esto es que le permite a Wire funcionar en múltiples dispositivos de una manera que la mayoría de las aplicaciones de mensajería con E2EE (incluyendo Signal) no lo hacen.",
-        "matchedWords": {
-          "Eh1HfZrHSRjZ": {
-            "hits": 1,
-            "textWords": 5202
-          },
-          "UTS1UnoLaEo1": {
-            "hits": 1,
-            "textWords": 5202
-          }
-        },
-        "queryPhraseHits": 0
-      }
-    ],
-    [
-      {
-        "hash": "vZx9GLiwa444",
-        "address": "https://apps.apple.com/hn/iphone/story/id1887119604",
-        "title": "‎Formas rápidas de aprender IA - App Store",
-        "snippet": "Llegó la hora de crear algo por tu cuenta y unirte al auge del vibe coding. No dejes que el nombre te intimide: no necesitas ser especialista en programación. El vibe coding o programación intuitiva consiste en describirle tu idea a una IA para que esta cree el software por ti.",
-        "matchedWords": {
-          "Eh1HfZrHSRjZ": {
-            "hits": 5,
-            "textWords": 600
-          },
-          "UTS1UnoLaEo1": {
-            "hits": 1,
-            "textWords": 600
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "RuCr7-1-KQh5",
-        "address": "https://www.revistagq.com/articulo/los-mejores-ejercicios-de-agilidad-segun-los-expertos",
-        "title": "Los mejores ejercicios de agilidad, según los expertos | GQ España",
-        "snippet": "“Si hablamos de fitness funcional, el entrenamiento de agilidad es lo más funcional que hay”, afirma Steve Stonehouse, entrenador personal, preparador de carrera y vicepresidente de programación y formación en Body Fit Training.",
-        "matchedWords": {
-          "Eh1HfZrHSRjZ": {
-            "hits": 1,
-            "textWords": 1785
-          },
-          "UTS1UnoLaEo1": {
-            "hits": 5,
-            "textWords": 1785
-          }
-        },
-        "queryPhraseHits": 0
-      }
-    ],
-    [
-      {
         "hash": "REIgDh4KILng",
         "address": "https://csirc.ugr.es/informacion/servicios/plataformas-web",
         "title": "Servicios | Centro de Servicios Informáticos y Redes de Comunicación",
@@ -255,6 +270,23 @@
           "UTS1UnoLaEo1": {
             "hits": 0,
             "textWords": 329
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "vZFVnaI8elA4",
+        "address": "https://www.genbeta.com/tag/tipografias",
+        "title": "tipografías - Genbeta",
+        "snippet": "Freebiebucket, herramientas y recursos gratuitos para creadores\nWeb\n20 categorías de recursos gratuitos con más de 400 herramientas recomendadas.\nLeer más »\nFontown, la española que quiere ser el centro donde encuentras y gestionas todas tus tipografías\nA fondo",
+        "matchedWords": {
+          "Eh1HfZrHSRjZ": {
+            "hits": 0,
+            "textWords": 343
+          },
+          "UTS1UnoLaEo1": {
+            "hits": 0,
+            "textWords": 343
           }
         },
         "queryPhraseHits": 0
@@ -315,35 +347,37 @@
     ],
     [
       {
-        "hash": "Q0aY8CjMl7g4",
-        "address": "https://www.elcorreo.com/motor/novedades/",
-        "title": "Novedades del Motor | El Correo",
-        "snippet": "OFRECIDO POR CITROËN\nCitroën C3 Aircross: un SUV compacto que en realidad es mediano\nEs el modelo más grande y capaz de su clase. Aporta la amplitud necesaria para cumplir con soltura como familiar, y suma un diseño y confort de referencia.",
+        "hash": "WjcgVciwa444",
+        "address": "https://apps.apple.com/mx/iphone/story/id1887119604",
+        "title": "‎Formas rápidas de aprender IA - App Store",
+        "snippet": "Llegó la hora de crear algo por tu cuenta y unirte al auge del vibe coding. No dejes que el nombre te intimide: no necesitas ser especialista en programación. El vibe coding o programación intuitiva consiste en describirle tu idea a una IA para que esta cree el software por ti.",
         "matchedWords": {
           "Eh1HfZrHSRjZ": {
-            "hits": 0,
-            "textWords": 121
+            "hits": 5,
+            "textWords": 600
           },
           "UTS1UnoLaEo1": {
-            "hits": 0,
-            "textWords": 121
+            "hits": 1,
+            "textWords": 600
           }
         },
         "queryPhraseHits": 0
-      },
+      }
+    ],
+    [
       {
-        "hash": "9wGSm5ETZZex",
-        "address": "https://pdba.georgetown.edu/Constitutions/Honduras/hond82.html",
-        "title": "Honduras: Constitución de 1982",
-        "snippet": "ARTICULO 159.- La Secretaría de Educación Pública y la Universidad Nacional Autónoma de Honduras, sin menoscabo de sus respectivas competencias, adoptarán las medidas que sean necesarias para que la programación general de la educación nacional se integre en un sistema coherente, a fin de que los",
+        "hash": "0UAR5Miwa444",
+        "address": "https://apps.apple.com/cr/iphone/story/id1878691462",
+        "title": "‎Crea herramientas con Claude - App Store",
+        "snippet": "Primero que nada, no necesitas aprender un lenguaje de programación ni lidiar con código técnico para crear herramientas. La idea detrás del término es que la IA se encarga del aspecto técnico, mientras tú simplemente guías la dirección y, lo más importante, la vibra.",
         "matchedWords": {
           "Eh1HfZrHSRjZ": {
-            "hits": 1,
-            "textWords": 20865
+            "hits": 2,
+            "textWords": 530
           },
           "UTS1UnoLaEo1": {
-            "hits": 3,
-            "textWords": 20865
+            "hits": 2,
+            "textWords": 530
           }
         },
         "queryPhraseHits": 0
@@ -380,6 +414,23 @@
           "UTS1UnoLaEo1": {
             "hits": 1,
             "textWords": 1064
+          }
+        },
+        "queryPhraseHits": 1
+      },
+      {
+        "hash": "uVeJGgJPjR4x",
+        "address": "https://es.wikipedia.org/wiki/Java_(lenguaje_de_programaci%C3%B3n)",
+        "title": "Java (lenguaje de programación) - Wikipedia, la enciclopedia libre",
+        "snippet": "Cabe destacar: Incorpora de forma completa la librería JavaFX.\nDiferentes mejoras en seguridad.\nDiferentes mejoras en concurrencia.\nAñade funcionalidad para programación funcional mediante expresiones Lambda.\nMejora la integración de JavaScript.",
+        "matchedWords": {
+          "Eh1HfZrHSRjZ": {
+            "hits": 23,
+            "textWords": 10088
+          },
+          "UTS1UnoLaEo1": {
+            "hits": 1,
+            "textWords": 10088
           }
         },
         "queryPhraseHits": 1
@@ -457,41 +508,41 @@
     ],
     [
       {
-        "hash": "2fH6hgJPjR4x",
-        "address": "https://es.wikipedia.org/wiki/Lenguaje_de_programaci%C3%B3n",
-        "title": "Lenguaje de programación - Wikipedia, la enciclopedia libre",
-        "snippet": "En la programación visual los elementos son manipulados gráficamente en vez de especificarse por medio de texto.\nAnexo:Lenguajes de programación\nProgramación estructurada\nProgramación modular\nProgramación funcional\nProgramación orientada a aspectos\nProgramación con restricciones",
+        "hash": "l-UJ6fv1st34",
+        "address": "https://www.uptodown.com/android/juegos",
+        "title": "Juegos gratis para Android: descarga los mejores APKs",
+        "snippet": "Where Winds Meet\nTelegram\nApps de resultados deportivos en vivo\nbilibili - All Your Fav Videos\nMy Talking Tom 2\nMundos virtuales\nEA Sports FC Mobile Beta\nAntivirus\nZenless Zone Zero\nEdits\nJuegos de Sonic\nPUBG MOBILE\nTotal Football\nApps para escanear documentos\nLord of Mysteries",
         "matchedWords": {
           "Eh1HfZrHSRjZ": {
-            "hits": 110,
-            "textWords": 6754
-          },
-          "UTS1UnoLaEo1": {
-            "hits": 10,
-            "textWords": 6754
-          }
-        },
-        "queryPhraseHits": 7
-      },
-      {
-        "hash": "3-ExJlJB3nQg",
-        "address": "https://www.epe.es/es/",
-        "title": "El Periódico de España | epe.es",
-        "snippet": "Alcalá de Henares se prepara para celebrar las Fiestas Patronales del Val: consulta toda la programación\nJoaquín de la Aleja\n11 Y 12 DE SEPTIEMBRE\nCuenta atrás para Las Noches del Patrimonio en Alcalá de Henares: consulta la programación completa\nMaría Saiz\nSUCESOS",
-        "matchedWords": {
-          "Eh1HfZrHSRjZ": {
-            "hits": 3,
-            "textWords": 2306
+            "hits": 0,
+            "textWords": 1658
           },
           "UTS1UnoLaEo1": {
             "hits": 0,
-            "textWords": 2306
+            "textWords": 1658
           }
         },
         "queryPhraseHits": 0
       }
     ],
     [
+      {
+        "hash": "2K9tEuIq6BFg",
+        "address": "https://proton.me/es-es/blog/whatsapp-alternatives",
+        "title": "Las mejores alternativas a WhatsApp para la privacidad | Proton Mail | Proton",
+        "snippet": "El beneficio funcional de esto es que permite a Wire funcionar en múltiples dispositivos de una manera que la mayoría de las aplicaciones de mensajería con cifrado de extremo a extremo (E2EE) (incluida Signal) no lo hacen.",
+        "matchedWords": {
+          "Eh1HfZrHSRjZ": {
+            "hits": 1,
+            "textWords": 5200
+          },
+          "UTS1UnoLaEo1": {
+            "hits": 1,
+            "textWords": 5200
+          }
+        },
+        "queryPhraseHits": 0
+      },
       {
         "hash": "41QFvFfvsbp4",
         "address": "https://villafotoblogg.blogspot.com/",
@@ -505,6 +556,44 @@
           "UTS1UnoLaEo1": {
             "hits": 1,
             "textWords": 392
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "PrjhptFNI2Jk",
+        "address": "https://www.regioncajamarca.gob.pe/",
+        "title": "Gobierno Regional Cajamarca",
+        "snippet": "Esta obra forma parte de un paquete de 6 espacios deportivos, que estaremos inaugurando progresivamente durante la próxima semana, llevando infraestructura digna y funcional a más comunidades.\nGarantizamos el recursos hídrico en Cajamarca",
+        "matchedWords": {
+          "Eh1HfZrHSRjZ": {
+            "hits": 0,
+            "textWords": 887
+          },
+          "UTS1UnoLaEo1": {
+            "hits": 1,
+            "textWords": 887
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "70o3ZZSt_F9g",
+        "address": "https://www.abc.es/noticias/marcas/",
+        "title": "Marcas, últimas noticias - ABC",
+        "snippet": "La cartera DODENSHA para hombre que guarda hasta 10 tarjetas, tiene hueco para AirTag y está rebajada\nUna cartera compacta, funcional y con un extra que puede marcar la diferencia: la posibilidad de localizarla si algún día se pierde\nTeresa Rodríguez García | 01/09/2026",
+        "matchedWords": {
+          "Eh1HfZrHSRjZ": {
+            "hits": 0,
+            "textWords": 489
+          },
+          "UTS1UnoLaEo1": {
+            "hits": 1,
+            "textWords": 489
           }
         },
         "queryPhraseHits": 0
@@ -548,60 +637,58 @@
     ],
     [
       {
-        "hash": "hCahosaR8lU4",
-        "address": "https://andros.dev/blog/",
-        "title": "Blog | Andros Fenollosa",
-        "snippet": "Hecho con por Andros Fenollosa usando Django LiveView\nDiseñado por Suquet Estudi",
+        "hash": "WjcgVciwa444",
+        "address": "https://apps.apple.com/mx/iphone/story/id1887119604",
+        "title": "‎Formas rápidas de aprender IA - App Store",
+        "snippet": "Llegó la hora de crear algo por tu cuenta y unirte al auge del vibe coding. No dejes que el nombre te intimide: no necesitas ser especialista en programación. El vibe coding o programación intuitiva consiste en describirle tu idea a una IA para que esta cree el software por ti.",
         "matchedWords": {
           "Eh1HfZrHSRjZ": {
-            "hits": 0,
-            "textWords": 12
+            "hits": 5,
+            "textWords": 600
           },
           "UTS1UnoLaEo1": {
-            "hits": 0,
-            "textWords": 12
-          }
-        },
-        "queryPhraseHits": 0
-      }
-    ],
-    [
-      {
-        "hash": "TNmrGU3So1Rk",
-        "address": "https://www.juridicas.unam.mx/legislacion/ordenamiento/constitucion-politica-de-los-estados-unidos-mexicanos",
-        "title": "Constitución Política de los Estados Unidos Mexicanos - Ordenamiento - Legislación",
-        "snippet": "La ley deberá asegurar que la programación dirigida a la población infantil respete los valores y principios a que se refiere el artículo 3o. de la Constitución, así como las normas en materia de salud y establecerá lineamientos específicos que regulen la publicidad pautada en la programación",
-        "matchedWords": {
-          "Eh1HfZrHSRjZ": {
-            "hits": 8,
-            "textWords": 181372
-          },
-          "UTS1UnoLaEo1": {
-            "hits": 2,
-            "textWords": 181372
-          }
-        },
-        "queryPhraseHits": 0
-      }
-    ],
-    [
-      {
-        "hash": "yHkVVYVFEEow",
-        "address": "https://guix.gnu.org/es/",
-        "title": "GNU Guix gestor transaccional de paquetes y distribución — GNU Guix",
-        "snippet": "Guix proporciona miles de paquetes que incluyen entornos de escritorio, aplicaciones, herramientas de sistema, lenguajes de programación y sus datos y otros artefactos digitales que funcionan como bloques de construcción para crear entornos reproducibles de shell, contenedores y sistemas para",
-        "matchedWords": {
-          "Eh1HfZrHSRjZ": {
             "hits": 1,
-            "textWords": 443
-          },
-          "UTS1UnoLaEo1": {
-            "hits": 0,
-            "textWords": 443
+            "textWords": 600
           }
         },
         "queryPhraseHits": 0
       },
+      {
+        "hash": "Q0aY8CjMl7g4",
+        "address": "https://www.elcorreo.com/motor/novedades/",
+        "title": "Novedades del Motor | El Correo",
+        "snippet": "OFRECIDO POR CITROËN\nCitroën C3 Aircross: un SUV compacto que en realidad es mediano\nEs el modelo más grande y capaz de su clase. Aporta la amplitud necesaria para cumplir con soltura como familiar, y suma un diseño y confort de referencia.",
+        "matchedWords": {
+          "Eh1HfZrHSRjZ": {
+            "hits": 0,
+            "textWords": 121
+          },
+          "UTS1UnoLaEo1": {
+            "hits": 0,
+            "textWords": 121
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "9wGSm5ETZZex",
+        "address": "https://pdba.georgetown.edu/Constitutions/Honduras/hond82.html",
+        "title": "Honduras: Constitución de 1982",
+        "snippet": "ARTICULO 159.- La Secretaría de Educación Pública y la Universidad Nacional Autónoma de Honduras, sin menoscabo de sus respectivas competencias, adoptarán las medidas que sean necesarias para que la programación general de la educación nacional se integre en un sistema coherente, a fin de que los",
+        "matchedWords": {
+          "Eh1HfZrHSRjZ": {
+            "hits": 1,
+            "textWords": 20865
+          },
+          "UTS1UnoLaEo1": {
+            "hits": 3,
+            "textWords": 20865
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
       {
         "hash": "LGZs0_qoHJ8x",
         "address": "https://gl.wikipedia.org/wiki/JavaScript",
@@ -657,15 +744,15 @@
         "hash": "LRfNwzmvZD7w",
         "address": "https://planet.opensuse.org/",
         "title": "Global - openSUSE Planet",
-        "snippet": "Table of Contents\n1) Introduction\n2) D-Bus and Polkit Additions 2.1) systemd v260.2 and v261 Reviews\n2.2) Polkit Rules File in upower\n2.3) New Polkit Action aa-notify.from_file in AppArmor\n2.4) New Polkit Actions in fwupd 2.1.4\n2.5) Changes in Polkit Rules in gnome-initial-setup",
+        "snippet": "Two weeks ago, I released AppStream 1.2.0. This release contains a lot of great changes, but one of the most important ones concerns how media are being handled, and AppStream’s default image export format.\nAppStream is a Freedesktop metadata standard to describe software components.",
         "matchedWords": {
           "Eh1HfZrHSRjZ": {
             "hits": 0,
-            "textWords": 4275
+            "textWords": 2681
           },
           "UTS1UnoLaEo1": {
             "hits": 0,
-            "textWords": 4275
+            "textWords": 2681
           }
         },
         "queryPhraseHits": 0
@@ -673,21 +760,21 @@
     ],
     [
       {
-        "hash": "g4mMGv7raSJ4",
-        "address": "https://www.shopify.com/co/website/builder?country=co\u0026lang=es",
-        "title": "Creador de sitios web de ecommerce | Crea una tienda gratis en minutos - Shopify",
-        "snippet": "Da rienda suelta a tu marca con las herramientas sin programación del editor de la tienda online, hechas para visionarios, no para expertos en tecnología.\nPruébalo\nCrea con la función de arrastrar y soltar\nCrea páginas nuevas o cambia tu diseño fácilmente con secciones editables.",
+        "hash": "x8iR-_qoHJ8x",
+        "address": "https://gl.wikipedia.org/wiki/Rust_(linguaxe_de_programaci%C3%B3n)",
+        "title": "Rust (linguaxe de programación) - Wikipedia, a enciclopedia libre",
+        "snippet": "Rust\nInstancia de\nlinguaxe de programación\nlinguaxe de programación de sistemas\nsoftware libre e de código aberto\nlinguaxe de programación imperativa\nlinguaxe de programación funcional\nlinguaxe de programación multiparadigma\nlinguaxe compilada\nEpónimo\nPucciniales\nObxectivo\nSegurança de memória (pt)",
         "matchedWords": {
           "Eh1HfZrHSRjZ": {
-            "hits": 1,
-            "textWords": 496
+            "hits": 21,
+            "textWords": 10779
           },
           "UTS1UnoLaEo1": {
-            "hits": 0,
-            "textWords": 496
+            "hits": 5,
+            "textWords": 10779
           }
         },
-        "queryPhraseHits": 0
+        "queryPhraseHits": 5
       }
     ],
     [
@@ -711,18 +798,37 @@
     ],
     [
       {
-        "hash": "EXrNyv_9bPhw",
-        "address": "https://www.derechos.org/nizkor/corru/doc/colcoca4.html",
-        "title": "Equipo Nizkor - UNODC - Colombia: Monitoreo de territorios afectados por cultivos ilícitos 2016.",
-        "snippet": "Valor por Km2 (para 9 bandas multiespectral y 8 bandas SWIR) en Programación estándar USD$202.49, programación priority USD $ 256.15 y Programación rouge USD$ 324.03. [Volver]\n161.",
+        "hash": "l-UJ6fv1st34",
+        "address": "https://www.uptodown.com/android/juegos",
+        "title": "Juegos gratis para Android: descarga los mejores APKs",
+        "snippet": "Where Winds Meet\nTelegram\nApps de resultados deportivos en vivo\nbilibili - All Your Fav Videos\nMy Talking Tom 2\nMundos virtuales\nEA Sports FC Mobile Beta\nAntivirus\nZenless Zone Zero\nEdits\nJuegos de Sonic\nPUBG MOBILE\nTotal Football\nApps para escanear documentos\nLord of Mysteries",
         "matchedWords": {
           "Eh1HfZrHSRjZ": {
-            "hits": 3,
-            "textWords": 68716
+            "hits": 0,
+            "textWords": 1658
           },
           "UTS1UnoLaEo1": {
-            "hits": 3,
-            "textWords": 68716
+            "hits": 0,
+            "textWords": 1658
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "hG0NfAZVsyZ4",
+        "address": "https://www.wipo.int/wipolex/en/legislation/details/21459",
+        "title": "Law No. 8039 on Procedures for Enforcement of Intellectual Property Rights, Costa Rica, WIPO Lex",
+        "snippet": "Tendrá la sede en San José y competencia en todo el territorio nacional. Sus atribuciones serán exclusivas y tendrá independencia funcional y administrativa; sus fallos agotarán la vía administrativa.",
+        "matchedWords": {
+          "Eh1HfZrHSRjZ": {
+            "hits": 1,
+            "textWords": 12025
+          },
+          "UTS1UnoLaEo1": {
+            "hits": 1,
+            "textWords": 12025
           }
         },
         "queryPhraseHits": 0
@@ -731,18 +837,52 @@
   ],
   "itemsInNoOrder": [
     {
-      "hash": "Q9ZGalD5B4Sj",
-      "address": "https://www.elnortedecastilla.es/",
-      "title": "El Norte de Castilla - Noticias de Castilla y León desde 1854",
-      "snippet": "Encuentra en nuestra web el curso que buscas y mejora tu futuro con formación de calidad.\nVer más\nFormación Profesional\nTítulo oficial de FP con financiación y prácticas profesionales\nPresencial o a distancia, obtén un título 100% oficial.\nCampus virtual\nProgramación",
+      "hash": "F6BougJPjR4x",
+      "address": "https://es.wikipedia.org/wiki/Netflix",
+      "title": "Netflix - Wikipedia, la enciclopedia libre",
+      "snippet": "Para sacar adelante esta plataforma digital, Netflix requería ofrecer una plataforma funcional en todo momento, que permitiera el visionado de una gran cantidad de personas al mismo tiempo, sin poner en riesgo la calidad de la imagen.",
       "matchedWords": {
         "Eh1HfZrHSRjZ": {
+          "hits": 4,
+          "textWords": 17566
+        },
+        "UTS1UnoLaEo1": {
           "hits": 1,
-          "textWords": 3970
+          "textWords": 17566
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "GC8N1lVcNgA7",
+      "address": "https://www.elperiodicomediterraneo.com/",
+      "title": "El Periódico Mediterráneo. Noticias de Castellón. - El Periódico Mediterráneo",
+      "snippet": "PROMOCIONES Y EDICIONES CULTURALES S.A.",
+      "matchedWords": {
+        "Eh1HfZrHSRjZ": {
+          "hits": 0,
+          "textWords": 3
         },
         "UTS1UnoLaEo1": {
           "hits": 0,
-          "textWords": 3970
+          "textWords": 3
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "Q9ZGalD5B4Sj",
+      "address": "https://www.elnortedecastilla.es/",
+      "title": "El Norte de Castilla - Noticias de Castilla y León desde 1854",
+      "snippet": "Fiestas de Valladolid\nNewsletter\n25 años del 11-S\nEn vertical\nPaco Martínez\n«Llevé a los Reyes unas sopas de ajo al palco en la final de Copa de la pulmonía»\n01:25\nValladolid (Cigales)\nQueman el coche de un delincuente y este amenaza con «comerse la cabeza» del autor\n00:23\nValladolid",
+      "matchedWords": {
+        "Eh1HfZrHSRjZ": {
+          "hits": 0,
+          "textWords": 330
+        },
+        "UTS1UnoLaEo1": {
+          "hits": 0,
+          "textWords": 330
         }
       },
       "queryPhraseHits": 0
@@ -751,15 +891,15 @@
       "hash": "_TfV3lFZc5Lg",
       "address": "https://www.elmundo.es/",
       "title": "EL MUNDO - Diario online líder de información en español",
-      "snippet": "Portada Sábado, 12 de septiembre de 2026\nPortada Es noticia\nSaltar a navegación principal (Pulse Enter)\nSaltar a contenido (Pulse Enter)\nPortada\nSecciones\nPORTADA\nACTUALIDAD\nJUEGOS\n25 aniversario del 11-S\nAL DÍA\nCULTURA\nSucesos\nDESTACADOS\nHistoria.",
+      "snippet": "Portada Sábado, 12 de septiembre de 2026\nPortada Es noticia\nSaltar a navegación principal (Pulse Enter)\nSaltar a contenido (Pulse Enter)\nPortada\nSecciones\nPORTADA\nDiada. Dieciocho detenidos por desorden público en varios disturbios en Barcelona\nACTUALIDAD\nJUEGOS\nAL DÍA\nDESTACADOS\nLOC",
       "matchedWords": {
         "Eh1HfZrHSRjZ": {
           "hits": 0,
-          "textWords": 66
+          "textWords": 63
         },
         "UTS1UnoLaEo1": {
           "hits": 0,
-          "textWords": 66
+          "textWords": 63
         }
       },
       "queryPhraseHits": 0
@@ -768,15 +908,15 @@
       "hash": "qlCfKlLjcC4h",
       "address": "https://www.elcomercio.es/",
       "title": "EL COMERCIO de Asturias - Últimas noticias y actualidad",
-      "snippet": "Título oficial de FP con financiación y prácticas profesionales\nPresencial o a distancia, obtén un título 100% oficial.\nCampus virtual\nProgramación\nFórmate en Python y accede a un sector en constante crecimiento\nCurso bonificable a través de Fundae.\n100% Online\nAuxiliar Técnico Veterinario",
+      "snippet": "Newsletter\nJGPA\nActividad parlamentaria\nBoletines Oficiales\nVídeos\nTendencias\nBarrios y zona rural de Oviedo\nReal Oviedo\nFotos\nVídeos\nBarrios de Avilés\nCastrillón\nCorvera\nBajo Nalón\nReal Avilés\nSiero y Centro\nCuencas\nLlanera\nVillaviciosa\nGozón\nObituarios de mascotas\nRutas con tu mascota\nMercados",
       "matchedWords": {
         "Eh1HfZrHSRjZ": {
-          "hits": 1,
-          "textWords": 4679
+          "hits": 0,
+          "textWords": 197
         },
         "UTS1UnoLaEo1": {
           "hits": 0,
-          "textWords": 4679
+          "textWords": 197
         }
       },
       "queryPhraseHits": 0
@@ -785,15 +925,15 @@
       "hash": "StIUFOk_hDHh",
       "address": "https://computerhoy.20minutos.es/",
       "title": "Computer Hoy: Todo sobre tecnología, gadgets y novedades",
-      "snippet": "Funciones de iOS 27 para iPhone que no podrás utilizar en España por el bloqueo de la Unión Europea\nJuan Manuel Delgado\nLa Fórmula 1 mueve hasta 650 TB de datos en un solo Gran Premio: así funciona su impresionante tecnología\nAna Muñoz de Frutos",
+      "snippet": "Tecnología\n¿Por qué todos los cables USB no funcionan (si es que lo hacen) de la misma forma en tu móvil Android?\nPedro Venegas\nEsta es la razón por la que ese cable USB no funciona para transferir archivos o cargar tu móvil Android. Conoce las diferencias para no cometer el mismo error.",
       "matchedWords": {
         "Eh1HfZrHSRjZ": {
           "hits": 0,
-          "textWords": 2162
+          "textWords": 52
         },
         "UTS1UnoLaEo1": {
           "hits": 0,
-          "textWords": 2162
+          "textWords": 52
         }
       },
       "queryPhraseHits": 0
@@ -819,32 +959,15 @@
       "hash": "Q9ZGalD5B4Sj",
       "address": "https://www.elnortedecastilla.es/",
       "title": "El Norte de Castilla - Noticias de Castilla y León desde 1854",
-      "snippet": "Encuentra en nuestra web el curso que buscas y mejora tu futuro con formación de calidad.\nVer más\nFormación Profesional\nTítulo oficial de FP con financiación y prácticas profesionales\nPresencial o a distancia, obtén un título 100% oficial.\nCampus virtual\nProgramación",
+      "snippet": "Fiestas de Valladolid\nNewsletter\n25 años del 11-S\nEn vertical\nPaco Martínez\n«Llevé a los Reyes unas sopas de ajo al palco en la final de Copa de la pulmonía»\n01:25\nValladolid (Cigales)\nQueman el coche de un delincuente y este amenaza con «comerse la cabeza» del autor\n00:23\nValladolid",
       "matchedWords": {
         "Eh1HfZrHSRjZ": {
-          "hits": 1,
-          "textWords": 3970
+          "hits": 0,
+          "textWords": 330
         },
         "UTS1UnoLaEo1": {
           "hits": 0,
-          "textWords": 3970
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "0jIrBznCqoag",
-      "address": "https://www.boe.es/buscar/act.php?id=BOE-A-1996-1069",
-      "title": "BOE-A-1996-1069 Ley Orgánica 1/1996, de 15 de enero, de Protección Jurídica del Menor, de modificación parcial del Código Civil y de la Ley de Enjuiciamiento Civil.",
-      "snippet": "Para garantizar que la publicidad o mensajes dirigidos a menores o emitidos en la programación dirigida a éstos, no les perjudique moral o físicamente, podrá ser regulada por normas especiales.\n5.",
-      "matchedWords": {
-        "Eh1HfZrHSRjZ": {
-          "hits": 2,
-          "textWords": 25141
-        },
-        "UTS1UnoLaEo1": {
-          "hits": 2,
-          "textWords": 25141
+          "textWords": 330
         }
       },
       "queryPhraseHits": 0
@@ -884,25 +1007,8 @@
       "queryPhraseHits": 0
     },
     {
-      "hash": "_TfV3lFZc5Lg",
-      "address": "https://www.elmundo.es/",
-      "title": "EL MUNDO - Diario online líder de información en español",
-      "snippet": "Portada Sábado, 12 de septiembre de 2026\nPortada Es noticia\nSaltar a navegación principal (Pulse Enter)\nSaltar a contenido (Pulse Enter)\nPortada\nSecciones\nPORTADA\nACTUALIDAD\nJUEGOS\n25 aniversario del 11-S\nAL DÍA\nCULTURA\nSucesos\nDESTACADOS\nHistoria.",
-      "matchedWords": {
-        "Eh1HfZrHSRjZ": {
-          "hits": 0,
-          "textWords": 66
-        },
-        "UTS1UnoLaEo1": {
-          "hits": 0,
-          "textWords": 66
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "d7ZMNp7raSJ4",
-      "address": "https://www.shopify.com/cl/website/builder?country=cl\u0026lang=en",
+      "hash": "Ud4Y7a7raSJ4",
+      "address": "https://www.shopify.com/pe/website/builder?country=pe\u0026lang=es",
       "title": "Creador de sitios web de ecommerce | Crea una tienda gratis en minutos - Shopify",
       "snippet": "Da rienda suelta a tu marca con las herramientas sin programación del editor de la tienda online, hechas para visionarios, no para expertos en tecnología.\nPruébalo\nCrea con la función de arrastrar y soltar\nCrea páginas nuevas o cambia tu diseño fácilmente con secciones editables.",
       "matchedWords": {
@@ -918,18 +1024,35 @@
       "queryPhraseHits": 0
     },
     {
-      "hash": "_TfV3lFZc5Lg",
-      "address": "https://www.elmundo.es/",
-      "title": "EL MUNDO - Diario online líder de información en español",
-      "snippet": "Portada Sábado, 12 de septiembre de 2026\nPortada Es noticia\nSaltar a navegación principal (Pulse Enter)\nSaltar a contenido (Pulse Enter)\nPortada\nSecciones\nPORTADA\nACTUALIDAD\nJUEGOS\n25 aniversario del 11-S\nAL DÍA\nCULTURA\nSucesos\nDESTACADOS\nHistoria.",
+      "hash": "Vz_3Jm7raSJ4",
+      "address": "https://www.shopify.com/mx/website/builder",
+      "title": "Creador de sitios web de ecommerce | Crea una tienda gratis en minutos - Shopify",
+      "snippet": "Da rienda suelta a tu marca con las herramientas sin programación del editor de la tienda online, hechas para visionarios, no para expertos en tecnología.\nPruébalo\nCrea con la función de arrastrar y soltar\nCrea páginas nuevas o cambia tu diseño fácilmente con secciones editables.",
       "matchedWords": {
         "Eh1HfZrHSRjZ": {
-          "hits": 0,
-          "textWords": 66
+          "hits": 1,
+          "textWords": 496
         },
         "UTS1UnoLaEo1": {
           "hits": 0,
-          "textWords": 66
+          "textWords": 496
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "Weru7p7raSJ4",
+      "address": "https://www.shopify.com/cl/website/builder",
+      "title": "Creador de sitios web de ecommerce | Crea una tienda gratis en minutos - Shopify",
+      "snippet": "Da rienda suelta a tu marca con las herramientas sin programación del editor de la tienda online, hechas para visionarios, no para expertos en tecnología.\nPruébalo\nCrea con la función de arrastrar y soltar\nCrea páginas nuevas o cambia tu diseño fácilmente con secciones editables.",
+      "matchedWords": {
+        "Eh1HfZrHSRjZ": {
+          "hits": 1,
+          "textWords": 496
+        },
+        "UTS1UnoLaEo1": {
+          "hits": 0,
+          "textWords": 496
         }
       },
       "queryPhraseHits": 0
@@ -938,91 +1061,23 @@
       "hash": "Q9ZGalD5B4Sj",
       "address": "https://www.elnortedecastilla.es/",
       "title": "El Norte de Castilla - Noticias de Castilla y León desde 1854",
-      "snippet": "Encuentra en nuestra web el curso que buscas y mejora tu futuro con formación de calidad.\nVer más\nFormación Profesional\nTítulo oficial de FP con financiación y prácticas profesionales\nPresencial o a distancia, obtén un título 100% oficial.\nCampus virtual\nProgramación",
+      "snippet": "Fiestas de Valladolid\nNewsletter\n25 años del 11-S\nEn vertical\nPaco Martínez\n«Llevé a los Reyes unas sopas de ajo al palco en la final de Copa de la pulmonía»\n01:25\nValladolid (Cigales)\nQueman el coche de un delincuente y este amenaza con «comerse la cabeza» del autor\n00:23\nValladolid",
       "matchedWords": {
         "Eh1HfZrHSRjZ": {
-          "hits": 1,
-          "textWords": 3970
+          "hits": 0,
+          "textWords": 330
         },
         "UTS1UnoLaEo1": {
           "hits": 0,
-          "textWords": 3970
+          "textWords": 330
         }
       },
       "queryPhraseHits": 0
     },
     {
-      "hash": "_TfV3lFZc5Lg",
-      "address": "https://www.elmundo.es/",
-      "title": "EL MUNDO - Diario online líder de información en español",
-      "snippet": "Portada Sábado, 12 de septiembre de 2026\nPortada Es noticia\nSaltar a navegación principal (Pulse Enter)\nSaltar a contenido (Pulse Enter)\nPortada\nSecciones\nPORTADA\nACTUALIDAD\nJUEGOS\n25 aniversario del 11-S\nAL DÍA\nCULTURA\nSucesos\nDESTACADOS\nHistoria.",
-      "matchedWords": {
-        "Eh1HfZrHSRjZ": {
-          "hits": 0,
-          "textWords": 66
-        },
-        "UTS1UnoLaEo1": {
-          "hits": 0,
-          "textWords": 66
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "cy0QdlSt_F9g",
-      "address": "https://www.abc.es/salud/",
-      "title": "Canal Salud | Noticias, especialistas médicos, patologías | abc.es - ABC.es",
-      "snippet": "El peligro oculto en el pastillero de los mayores: cuando un fármaco se receta solo para tapar los efectos de otro\nLa llamada 'cascada de prescripciones', donde los efectos adversos se confunden con nuevas enfermedades, causa daños inadvertidos que afectan sobre todo a las mujeres mayores.",
-      "matchedWords": {
-        "Eh1HfZrHSRjZ": {
-          "hits": 0,
-          "textWords": 715
-        },
-        "UTS1UnoLaEo1": {
-          "hits": 0,
-          "textWords": 715
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "3WSVKznCqoag",
-      "address": "https://www.boe.es/buscar/act.php?id=BOE-A-2013-13645",
-      "title": "BOE-A-2013-13645 Ley 24/2013, de 26 de diciembre, del Sector Eléctrico.",
-      "snippet": "a) Recibir las ofertas de venta emitidas para cada período de programación por los distintos sujetos que participan en el mercado diario de energía eléctrica, para cada uno de los períodos de programación.\nb) Recibir las ofertas de adquisición de energía.",
-      "matchedWords": {
-        "Eh1HfZrHSRjZ": {
-          "hits": 16,
-          "textWords": 69631
-        },
-        "UTS1UnoLaEo1": {
-          "hits": 2,
-          "textWords": 69631
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "TfCmKdFO6r_x",
-      "address": "https://de.wikipedia.org/wiki/Kuba",
-      "title": "Kuba – Wikipedia",
-      "snippet": "Februar 2026 (spanisch).\n↑ Mejor atención al pueblo y más funcional: Modificación de la División Político Administrativa, Granma Internacional vom 23. Juli 2010\n↑ Urban population (% of total population). Weltbank, abgerufen am 30. September 2024 (englisch).",
-      "matchedWords": {
-        "Eh1HfZrHSRjZ": {
-          "hits": 1,
-          "textWords": 31568
-        },
-        "UTS1UnoLaEo1": {
-          "hits": 1,
-          "textWords": 31568
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "5uL4QQFZc5Lg",
-      "address": "https://www.elmundo.es/ciencia-y-salud/ciencia.html",
-      "title": "Ciencia - Noticias de ciencia | EL MUNDO",
+      "hash": "d7ZMNp7raSJ4",
+      "address": "https://www.shopify.com/cl/website/builder?country=cl\u0026lang=en",
+      "title": "Creador de sitios web de ecommerce | Crea una tienda gratis en minutos - Shopify",
       "snippet": "",
       "matchedWords": {
         "Eh1HfZrHSRjZ": {
@@ -1037,18 +1092,18 @@
       "queryPhraseHits": 0
     },
     {
-      "hash": "75neNMZeKV3g",
-      "address": "https://www.eldiario.es/autores/nicolas_ribas/",
-      "title": "Nicolás Ribas",
-      "snippet": "Graduado en Periodismo por la Universidad Complutense de Madrid. Máster en Periodismo Político Internacional por la Universitat Pompeu Fabra. Ahora escribo reportajes desde Ibiza y Formentera para elDiario.es Balears. Fui reportero de informativos y magazines de IB3.",
+      "hash": "_TfV3lFZc5Lg",
+      "address": "https://www.elmundo.es/",
+      "title": "EL MUNDO - Diario online líder de información en español",
+      "snippet": "Portada Sábado, 12 de septiembre de 2026\nPortada Es noticia\nSaltar a navegación principal (Pulse Enter)\nSaltar a contenido (Pulse Enter)\nPortada\nSecciones\nPORTADA\nDiada. Dieciocho detenidos por desorden público en varios disturbios en Barcelona\nACTUALIDAD\nJUEGOS\nAL DÍA\nDESTACADOS\nLOC",
       "matchedWords": {
         "Eh1HfZrHSRjZ": {
           "hits": 0,
-          "textWords": 67
+          "textWords": 63
         },
         "UTS1UnoLaEo1": {
           "hits": 0,
-          "textWords": 67
+          "textWords": 63
         }
       },
       "queryPhraseHits": 0
@@ -1057,15 +1112,15 @@
       "hash": "Q9ZGalD5B4Sj",
       "address": "https://www.elnortedecastilla.es/",
       "title": "El Norte de Castilla - Noticias de Castilla y León desde 1854",
-      "snippet": "Encuentra en nuestra web el curso que buscas y mejora tu futuro con formación de calidad.\nVer más\nFormación Profesional\nTítulo oficial de FP con financiación y prácticas profesionales\nPresencial o a distancia, obtén un título 100% oficial.\nCampus virtual\nProgramación",
+      "snippet": "Fiestas de Valladolid\nNewsletter\n25 años del 11-S\nEn vertical\nPaco Martínez\n«Llevé a los Reyes unas sopas de ajo al palco en la final de Copa de la pulmonía»\n01:25\nValladolid (Cigales)\nQueman el coche de un delincuente y este amenaza con «comerse la cabeza» del autor\n00:23\nValladolid",
       "matchedWords": {
         "Eh1HfZrHSRjZ": {
-          "hits": 1,
-          "textWords": 3970
+          "hits": 0,
+          "textWords": 330
         },
         "UTS1UnoLaEo1": {
           "hits": 0,
-          "textWords": 3970
+          "textWords": 330
         }
       },
       "queryPhraseHits": 0
@@ -1074,32 +1129,100 @@
       "hash": "_TfV3lFZc5Lg",
       "address": "https://www.elmundo.es/",
       "title": "EL MUNDO - Diario online líder de información en español",
-      "snippet": "Portada Sábado, 12 de septiembre de 2026\nPortada Es noticia\nSaltar a navegación principal (Pulse Enter)\nSaltar a contenido (Pulse Enter)\nPortada\nSecciones\nPORTADA\nACTUALIDAD\nJUEGOS\n25 aniversario del 11-S\nAL DÍA\nCULTURA\nSucesos\nDESTACADOS\nHistoria.",
+      "snippet": "Portada Sábado, 12 de septiembre de 2026\nPortada Es noticia\nSaltar a navegación principal (Pulse Enter)\nSaltar a contenido (Pulse Enter)\nPortada\nSecciones\nPORTADA\nDiada. Dieciocho detenidos por desorden público en varios disturbios en Barcelona\nACTUALIDAD\nJUEGOS\nAL DÍA\nDESTACADOS\nLOC",
       "matchedWords": {
         "Eh1HfZrHSRjZ": {
           "hits": 0,
-          "textWords": 66
+          "textWords": 63
         },
         "UTS1UnoLaEo1": {
           "hits": 0,
-          "textWords": 66
+          "textWords": 63
         }
       },
       "queryPhraseHits": 0
     },
     {
-      "hash": "ISxsyloVqyIh",
-      "address": "https://www.elcorreoweb.es/",
-      "title": "El Correo de Andalucía - Noticias de Sevilla, Andalucía y España.",
-      "snippet": "PRENSA IBÉRICA NETWORK, S.L.U.",
+      "hash": "cy0QdlSt_F9g",
+      "address": "https://www.abc.es/salud/",
+      "title": "Canal Salud | Noticias, especialistas médicos, patologías | abc.es - ABC.es",
+      "snippet": "",
       "matchedWords": {
         "Eh1HfZrHSRjZ": {
           "hits": 0,
-          "textWords": 3
+          "textWords": 0
         },
         "UTS1UnoLaEo1": {
           "hits": 0,
-          "textWords": 3
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "TfCmKdFO6r_x",
+      "address": "https://de.wikipedia.org/wiki/Kuba",
+      "title": "Kuba – Wikipedia",
+      "snippet": "",
+      "matchedWords": {
+        "Eh1HfZrHSRjZ": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "UTS1UnoLaEo1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "3-ExJlJB3nQg",
+      "address": "https://www.epe.es/es/",
+      "title": "El Periódico de España | epe.es",
+      "snippet": "",
+      "matchedWords": {
+        "Eh1HfZrHSRjZ": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "UTS1UnoLaEo1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "_TfV3lFZc5Lg",
+      "address": "https://www.elmundo.es/",
+      "title": "EL MUNDO - Diario online líder de información en español",
+      "snippet": "Portada Sábado, 12 de septiembre de 2026\nPortada Es noticia\nSaltar a navegación principal (Pulse Enter)\nSaltar a contenido (Pulse Enter)\nPortada\nSecciones\nPORTADA\nDiada. Dieciocho detenidos por desorden público en varios disturbios en Barcelona\nACTUALIDAD\nJUEGOS\nAL DÍA\nDESTACADOS\nLOC",
+      "matchedWords": {
+        "Eh1HfZrHSRjZ": {
+          "hits": 0,
+          "textWords": 63
+        },
+        "UTS1UnoLaEo1": {
+          "hits": 0,
+          "textWords": 63
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "-GDuJznCqoag",
+      "address": "https://www.boe.es/buscar/act.php?id=BOE-A-2009-20765",
+      "title": "BOE-A-2009-20765 Ley 26/2009, de 23 de diciembre, de Presupuestos Generales del Estado para el año 2010.",
+      "snippet": "",
+      "matchedWords": {
+        "Eh1HfZrHSRjZ": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "UTS1UnoLaEo1": {
+          "hits": 0,
+          "textWords": 0
         }
       },
       "queryPhraseHits": 0
@@ -1108,15 +1231,32 @@
       "hash": "9RVa1T5DCs35",
       "address": "https://wordpress.com/es/creador-webs-ia/",
       "title": "Creador de webs con IA | Crea un sitio de WordPress.com en cuestión de minutos",
-      "snippet": "Solo tienes que escribir lo que necesitas, responder a algunas preguntas y la IA se encarga del diseño y el texto. No se necesita experiencia en programación ni diseño.\n¿En qué se diferencia un creador de webs con IA de uno normal?",
+      "snippet": "",
       "matchedWords": {
         "Eh1HfZrHSRjZ": {
-          "hits": 1,
-          "textWords": 1706
+          "hits": 0,
+          "textWords": 0
         },
         "UTS1UnoLaEo1": {
           "hits": 0,
-          "textWords": 1706
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "EQiAJa7raSJ4",
+      "address": "https://www.shopify.com/pe/website/builder?country=pe\u0026lang=en",
+      "title": "Creador de sitios web de ecommerce | Crea una tienda gratis en minutos - Shopify",
+      "snippet": "",
+      "matchedWords": {
+        "Eh1HfZrHSRjZ": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "UTS1UnoLaEo1": {
+          "hits": 0,
+          "textWords": 0
         }
       },
       "queryPhraseHits": 0
@@ -1139,8 +1279,8 @@
       "queryPhraseHits": 0
     },
     {
-      "hash": "d7ZMNp7raSJ4",
-      "address": "https://www.shopify.com/cl/website/builder?country=cl\u0026lang=en",
+      "hash": "Ud4Y7a7raSJ4",
+      "address": "https://www.shopify.com/pe/website/builder?country=pe\u0026lang=es",
       "title": "Creador de sitios web de ecommerce | Crea una tienda gratis en minutos - Shopify",
       "snippet": "Da rienda suelta a tu marca con las herramientas sin programación del editor de la tienda online, hechas para visionarios, no para expertos en tecnología.\nPruébalo\nCrea con la función de arrastrar y soltar\nCrea páginas nuevas o cambia tu diseño fácilmente con secciones editables.",
       "matchedWords": {
@@ -1151,6 +1291,74 @@
         "UTS1UnoLaEo1": {
           "hits": 0,
           "textWords": 496
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "Vz_3Jm7raSJ4",
+      "address": "https://www.shopify.com/mx/website/builder",
+      "title": "Creador de sitios web de ecommerce | Crea una tienda gratis en minutos - Shopify",
+      "snippet": "Da rienda suelta a tu marca con las herramientas sin programación del editor de la tienda online, hechas para visionarios, no para expertos en tecnología.\nPruébalo\nCrea con la función de arrastrar y soltar\nCrea páginas nuevas o cambia tu diseño fácilmente con secciones editables.",
+      "matchedWords": {
+        "Eh1HfZrHSRjZ": {
+          "hits": 1,
+          "textWords": 496
+        },
+        "UTS1UnoLaEo1": {
+          "hits": 0,
+          "textWords": 496
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "Weru7p7raSJ4",
+      "address": "https://www.shopify.com/cl/website/builder",
+      "title": "Creador de sitios web de ecommerce | Crea una tienda gratis en minutos - Shopify",
+      "snippet": "Da rienda suelta a tu marca con las herramientas sin programación del editor de la tienda online, hechas para visionarios, no para expertos en tecnología.\nPruébalo\nCrea con la función de arrastrar y soltar\nCrea páginas nuevas o cambia tu diseño fácilmente con secciones editables.",
+      "matchedWords": {
+        "Eh1HfZrHSRjZ": {
+          "hits": 1,
+          "textWords": 496
+        },
+        "UTS1UnoLaEo1": {
+          "hits": 0,
+          "textWords": 496
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "d7ZMNp7raSJ4",
+      "address": "https://www.shopify.com/cl/website/builder?country=cl\u0026lang=en",
+      "title": "Creador de sitios web de ecommerce | Crea una tienda gratis en minutos - Shopify",
+      "snippet": "",
+      "matchedWords": {
+        "Eh1HfZrHSRjZ": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "UTS1UnoLaEo1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "g4mMGv7raSJ4",
+      "address": "https://www.shopify.com/co/website/builder?country=co\u0026lang=es",
+      "title": "Creador de sitios web de ecommerce | Crea una tienda gratis en minutos - Shopify",
+      "snippet": "",
+      "matchedWords": {
+        "Eh1HfZrHSRjZ": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "UTS1UnoLaEo1": {
+          "hits": 0,
+          "textWords": 0
         }
       },
       "queryPhraseHits": 0
@@ -1275,18 +1483,18 @@
       "queryPhraseHits": 0
     },
     {
-      "hash": "9RVa1T5DCs35",
-      "address": "https://wordpress.com/es/creador-webs-ia/",
-      "title": "Creador de webs con IA | Crea tu sitio en cuestión de segundos | Empieza aquí | WordPress.com",
-      "snippet": "Solo tienes que escribir lo que necesitas, responder a algunas preguntas y la IA se encarga del diseño y el texto. No se necesita experiencia en programación ni diseño.\n¿En qué se diferencia un creador de webs con IA de uno normal?",
+      "hash": "_TfV3lFZc5Lg",
+      "address": "https://www.elmundo.es/",
+      "title": "EL MUNDO - Diario online líder de información en español",
+      "snippet": "Portada Sábado, 12 de septiembre de 2026\nPortada Es noticia\nSaltar a navegación principal (Pulse Enter)\nSaltar a contenido (Pulse Enter)\nPortada\nSecciones\nPORTADA\nDiada. Dieciocho detenidos por desorden público en varios disturbios en Barcelona\nACTUALIDAD\nJUEGOS\nAL DÍA\nDESTACADOS\nLOC",
       "matchedWords": {
         "Eh1HfZrHSRjZ": {
-          "hits": 1,
-          "textWords": 1706
+          "hits": 0,
+          "textWords": 63
         },
         "UTS1UnoLaEo1": {
           "hits": 0,
-          "textWords": 1706
+          "textWords": 63
         }
       },
       "queryPhraseHits": 0
@@ -1295,151 +1503,15 @@
       "hash": "_TfV3lFZc5Lg",
       "address": "https://www.elmundo.es/",
       "title": "EL MUNDO - Diario online líder de información en español",
-      "snippet": "Portada Sábado, 12 de septiembre de 2026\nPortada Es noticia\nSaltar a navegación principal (Pulse Enter)\nSaltar a contenido (Pulse Enter)\nPortada\nSecciones\nPORTADA\nACTUALIDAD\nJUEGOS\n25 aniversario del 11-S\nAL DÍA\nCULTURA\nSucesos\nDESTACADOS\nHistoria.",
+      "snippet": "Portada Sábado, 12 de septiembre de 2026\nPortada Es noticia\nSaltar a navegación principal (Pulse Enter)\nSaltar a contenido (Pulse Enter)\nPortada\nSecciones\nPORTADA\nDiada. Dieciocho detenidos por desorden público en varios disturbios en Barcelona\nACTUALIDAD\nJUEGOS\nAL DÍA\nDESTACADOS\nLOC",
       "matchedWords": {
         "Eh1HfZrHSRjZ": {
           "hits": 0,
-          "textWords": 66
+          "textWords": 63
         },
         "UTS1UnoLaEo1": {
           "hits": 0,
-          "textWords": 66
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "qlCfKlLjcC4h",
-      "address": "https://www.elcomercio.es/",
-      "title": "EL COMERCIO - Últimas noticias y actualidad en Asturias",
-      "snippet": "Título oficial de FP con financiación y prácticas profesionales\nPresencial o a distancia, obtén un título 100% oficial.\nCampus virtual\nProgramación\nFórmate en Python y accede a un sector en constante crecimiento\nCurso bonificable a través de Fundae.\n100% Online\nAuxiliar Técnico Veterinario",
-      "matchedWords": {
-        "Eh1HfZrHSRjZ": {
-          "hits": 1,
-          "textWords": 4679
-        },
-        "UTS1UnoLaEo1": {
-          "hits": 0,
-          "textWords": 4679
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "Gcqx0WVFEEow",
-      "address": "https://guix.gnu.org/manual/devel/es/html_node/",
-      "title": "Top (Manual de referencia de GNU Guix)",
-      "snippet": "",
-      "matchedWords": {
-        "Eh1HfZrHSRjZ": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "UTS1UnoLaEo1": {
-          "hits": 0,
-          "textWords": 0
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "2gOgBWVFEEow",
-      "address": "https://guix.gnu.org/manual/1.5.0/es/html_node/",
-      "title": "Top (Manual de referencia de GNU Guix)",
-      "snippet": "",
-      "matchedWords": {
-        "Eh1HfZrHSRjZ": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "UTS1UnoLaEo1": {
-          "hits": 0,
-          "textWords": 0
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "-D4INWVFEEow",
-      "address": "https://guix.gnu.org/manual/devel/es/guix.es.html",
-      "title": "Manual de referencia de GNU Guix",
-      "snippet": "",
-      "matchedWords": {
-        "Eh1HfZrHSRjZ": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "UTS1UnoLaEo1": {
-          "hits": 0,
-          "textWords": 0
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "-VJtmWVFEEow",
-      "address": "https://guix.gnu.org/manual/es/html_node/",
-      "title": "",
-      "snippet": "",
-      "matchedWords": {
-        "Eh1HfZrHSRjZ": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "UTS1UnoLaEo1": {
-          "hits": 0,
-          "textWords": 0
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "1AJ_STbD0zn4",
-      "address": "https://stripe.com/es/climate",
-      "title": "Stripe Climate | Ayuda a eliminar el CO₂ de la atmósfera",
-      "snippet": "",
-      "matchedWords": {
-        "Eh1HfZrHSRjZ": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "UTS1UnoLaEo1": {
-          "hits": 0,
-          "textWords": 0
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "8ta_Tkq5hB0g",
-      "address": "https://skos.um.es/TR/rdf-sparql-query/",
-      "title": "SPARQL Lenguaje de consulta para RDF",
-      "snippet": "",
-      "matchedWords": {
-        "Eh1HfZrHSRjZ": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "UTS1UnoLaEo1": {
-          "hits": 0,
-          "textWords": 0
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "_TfV3lFZc5Lg",
-      "address": "https://www.elmundo.es/",
-      "title": "EL MUNDO - Diario online líder de información en español",
-      "snippet": "Portada Sábado, 12 de septiembre de 2026\nPortada Es noticia\nSaltar a navegación principal (Pulse Enter)\nSaltar a contenido (Pulse Enter)\nPortada\nSecciones\nPORTADA\nACTUALIDAD\nJUEGOS\n25 aniversario del 11-S\nAL DÍA\nCULTURA\nSucesos\nDESTACADOS\nHistoria.",
-      "matchedWords": {
-        "Eh1HfZrHSRjZ": {
-          "hits": 0,
-          "textWords": 66
-        },
-        "UTS1UnoLaEo1": {
-          "hits": 0,
-          "textWords": 66
+          "textWords": 63
         }
       },
       "queryPhraseHits": 0
@@ -1448,15 +1520,15 @@
       "hash": "d7ZMNp7raSJ4",
       "address": "https://www.shopify.com/cl/website/builder?country=cl\u0026lang=en",
       "title": "Creador de sitios web | Crea un sitio web gratis con IA en minutos: Shopify",
-      "snippet": "Da rienda suelta a tu marca con las herramientas sin programación del editor de la tienda online, hechas para visionarios, no para expertos en tecnología.\nPruébalo\nCrea con la función de arrastrar y soltar\nCrea páginas nuevas o cambia tu diseño fácilmente con secciones editables.",
+      "snippet": "",
       "matchedWords": {
         "Eh1HfZrHSRjZ": {
-          "hits": 1,
-          "textWords": 496
+          "hits": 0,
+          "textWords": 0
         },
         "UTS1UnoLaEo1": {
           "hits": 0,
-          "textWords": 496
+          "textWords": 0
         }
       },
       "queryPhraseHits": 0
@@ -1465,15 +1537,15 @@
       "hash": "TfCmKdFO6r_x",
       "address": "https://de.wikipedia.org/wiki/Kuba",
       "title": "Kuba – Wikipedia",
-      "snippet": "Februar 2026 (spanisch).\n↑ Mejor atención al pueblo y más funcional: Modificación de la División Político Administrativa, Granma Internacional vom 23. Juli 2010\n↑ Urban population (% of total population). Weltbank, abgerufen am 30. September 2024 (englisch).",
+      "snippet": "",
       "matchedWords": {
         "Eh1HfZrHSRjZ": {
-          "hits": 1,
-          "textWords": 31568
+          "hits": 0,
+          "textWords": 0
         },
         "UTS1UnoLaEo1": {
-          "hits": 1,
-          "textWords": 31568
+          "hits": 0,
+          "textWords": 0
         }
       },
       "queryPhraseHits": 0
@@ -1516,15 +1588,15 @@
       "hash": "cy0QdlSt_F9g",
       "address": "https://www.abc.es/salud/",
       "title": "Canal Salud | Noticias, especialistas médicos, patologías | abc.es - ABC.es",
-      "snippet": "El peligro oculto en el pastillero de los mayores: cuando un fármaco se receta solo para tapar los efectos de otro\nLa llamada 'cascada de prescripciones', donde los efectos adversos se confunden con nuevas enfermedades, causa daños inadvertidos que afectan sobre todo a las mujeres mayores.",
+      "snippet": "",
       "matchedWords": {
         "Eh1HfZrHSRjZ": {
           "hits": 0,
-          "textWords": 715
+          "textWords": 0
         },
         "UTS1UnoLaEo1": {
           "hits": 0,
-          "textWords": 715
+          "textWords": 0
         }
       },
       "queryPhraseHits": 0
@@ -1533,6 +1605,23 @@
       "hash": "Gcqx0WVFEEow",
       "address": "https://guix.gnu.org/manual/devel/es/html_node/",
       "title": "Top (Manual de referencia de GNU Guix)",
+      "snippet": "",
+      "matchedWords": {
+        "Eh1HfZrHSRjZ": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "UTS1UnoLaEo1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "yHkVVYVFEEow",
+      "address": "https://guix.gnu.org/es/",
+      "title": "GNU Guix gestor transaccional de paquetes y distribución — GNU Guix",
       "snippet": "",
       "matchedWords": {
         "Eh1HfZrHSRjZ": {
@@ -1564,9 +1653,9 @@
       "queryPhraseHits": 0
     },
     {
-      "hash": "dBWd4_qoHJ8x",
-      "address": "https://gl.wikipedia.org/wiki/PHP",
-      "title": "PHP - Wikipedia, a enciclopedia libre",
+      "hash": "5418oUxHMQI4",
+      "address": "https://cnnespanol.cnn.com/?hpt=header_edition-picker",
+      "title": "Últimas noticias de Estados Unidos, Latinoamérica y el mundo, hoy | CNN en Español | CNN",
       "snippet": "",
       "matchedWords": {
         "Eh1HfZrHSRjZ": {
@@ -1581,18 +1670,18 @@
       "queryPhraseHits": 0
     },
     {
-      "hash": "5418oUxHMQI4",
-      "address": "https://cnnespanol.cnn.com/?hpt=header_edition-picker",
-      "title": "Últimas noticias de Estados Unidos, Latinoamérica y el mundo, hoy | CNN en Español | CNN",
-      "snippet": "",
+      "hash": "F6BougJPjR4x",
+      "address": "https://es.wikipedia.org/wiki/Netflix",
+      "title": "Netflix - Wikipedia, la enciclopedia libre",
+      "snippet": "Para sacar adelante esta plataforma digital, Netflix requería ofrecer una plataforma funcional en todo momento, que permitiera el visionado de una gran cantidad de personas al mismo tiempo, sin poner en riesgo la calidad de la imagen.",
       "matchedWords": {
         "Eh1HfZrHSRjZ": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 4,
+          "textWords": 17566
         },
         "UTS1UnoLaEo1": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 1,
+          "textWords": 17566
         }
       },
       "queryPhraseHits": 0
@@ -1717,18 +1806,426 @@
       "queryPhraseHits": 0
     },
     {
-      "hash": "3WSVKznCqoag",
-      "address": "https://www.boe.es/buscar/act.php?id=BOE-A-2013-13645",
-      "title": "BOE-A-2013-13645 Ley 24/2013, de 26 de diciembre, del Sector Eléctrico.",
-      "snippet": "a) Recibir las ofertas de venta emitidas para cada período de programación por los distintos sujetos que participan en el mercado diario de energía eléctrica, para cada uno de los períodos de programación.\nb) Recibir las ofertas de adquisición de energía.",
+      "hash": "8TA94l-cfhOj",
+      "address": "https://www.laopiniondemurcia.es/",
+      "title": "La Opinión de Murcia, últimas noticias de Murcia y España.",
+      "snippet": "",
       "matchedWords": {
         "Eh1HfZrHSRjZ": {
-          "hits": 16,
-          "textWords": 69631
+          "hits": 0,
+          "textWords": 0
         },
         "UTS1UnoLaEo1": {
-          "hits": 2,
-          "textWords": 69631
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "Q9ZGalD5B4Sj",
+      "address": "https://www.elnortedecastilla.es/",
+      "title": "El Norte de Castilla - Noticias de Castilla y León desde 1854",
+      "snippet": "Fiestas de Valladolid\nNewsletter\n25 años del 11-S\nEn vertical\nPaco Martínez\n«Llevé a los Reyes unas sopas de ajo al palco en la final de Copa de la pulmonía»\n01:25\nValladolid (Cigales)\nQueman el coche de un delincuente y este amenaza con «comerse la cabeza» del autor\n00:23\nValladolid",
+      "matchedWords": {
+        "Eh1HfZrHSRjZ": {
+          "hits": 0,
+          "textWords": 330
+        },
+        "UTS1UnoLaEo1": {
+          "hits": 0,
+          "textWords": 330
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "_TfV3lFZc5Lg",
+      "address": "https://www.elmundo.es/",
+      "title": "EL MUNDO - Diario online líder de información en español",
+      "snippet": "Portada Sábado, 12 de septiembre de 2026\nPortada Es noticia\nSaltar a navegación principal (Pulse Enter)\nSaltar a contenido (Pulse Enter)\nPortada\nSecciones\nPORTADA\nDiada. Dieciocho detenidos por desorden público en varios disturbios en Barcelona\nACTUALIDAD\nJUEGOS\nAL DÍA\nDESTACADOS\nLOC",
+      "matchedWords": {
+        "Eh1HfZrHSRjZ": {
+          "hits": 0,
+          "textWords": 63
+        },
+        "UTS1UnoLaEo1": {
+          "hits": 0,
+          "textWords": 63
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "3-ExJlJB3nQg",
+      "address": "https://www.epe.es/es/",
+      "title": "El Periódico de España | epe.es",
+      "snippet": "",
+      "matchedWords": {
+        "Eh1HfZrHSRjZ": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "UTS1UnoLaEo1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "XGiX3gJPjR4x",
+      "address": "https://es.wikipedia.org/wiki/M%C3%A9xico",
+      "title": "México - Wikipedia, la enciclopedia libre",
+      "snippet": "",
+      "matchedWords": {
+        "Eh1HfZrHSRjZ": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "UTS1UnoLaEo1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "xuamygJPjR4x",
+      "address": "https://es.wikipedia.org/wiki/Argentina",
+      "title": "Argentina - Wikipedia, la enciclopedia libre",
+      "snippet": "",
+      "matchedWords": {
+        "Eh1HfZrHSRjZ": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "UTS1UnoLaEo1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "8ScywgJPjR4x",
+      "address": "https://es.wikipedia.org/wiki/BBC_Micro",
+      "title": "BBC Micro - Wikipedia, la enciclopedia libre",
+      "snippet": "",
+      "matchedWords": {
+        "Eh1HfZrHSRjZ": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "UTS1UnoLaEo1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "qlCfKlLjcC4h",
+      "address": "https://www.elcomercio.es/",
+      "title": "EL COMERCIO - Últimas noticias y actualidad en Asturias",
+      "snippet": "Newsletter\nJGPA\nActividad parlamentaria\nBoletines Oficiales\nVídeos\nTendencias\nBarrios y zona rural de Oviedo\nReal Oviedo\nFotos\nVídeos\nBarrios de Avilés\nCastrillón\nCorvera\nBajo Nalón\nReal Avilés\nSiero y Centro\nCuencas\nLlanera\nVillaviciosa\nGozón\nObituarios de mascotas\nRutas con tu mascota\nMercados",
+      "matchedWords": {
+        "Eh1HfZrHSRjZ": {
+          "hits": 0,
+          "textWords": 197
+        },
+        "UTS1UnoLaEo1": {
+          "hits": 0,
+          "textWords": 197
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "-qTg_sMtOvg7",
+      "address": "https://universidadeuropea.com/master-derecho-digital-online/",
+      "title": "Máster en Derecho Digital | UE Online",
+      "snippet": "",
+      "matchedWords": {
+        "Eh1HfZrHSRjZ": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "UTS1UnoLaEo1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "GC8N1lVcNgA7",
+      "address": "https://www.elperiodicomediterraneo.com/",
+      "title": "El Periódico Mediterráneo. Noticias de Castellón. - El Periódico Mediterráneo",
+      "snippet": "PROMOCIONES Y EDICIONES CULTURALES S.A.",
+      "matchedWords": {
+        "Eh1HfZrHSRjZ": {
+          "hits": 0,
+          "textWords": 3
+        },
+        "UTS1UnoLaEo1": {
+          "hits": 0,
+          "textWords": 3
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "7j0eLle1yXo6",
+      "address": "https://www.lacronicabadajoz.com/",
+      "title": "La Crónica de Badajoz | Noticias de hoy en Badajoz",
+      "snippet": "",
+      "matchedWords": {
+        "Eh1HfZrHSRjZ": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "UTS1UnoLaEo1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "StIUFOk_hDHh",
+      "address": "https://computerhoy.20minutos.es/",
+      "title": "Computer Hoy: Todo sobre tecnología, gadgets y novedades",
+      "snippet": "Tecnología\n¿Por qué todos los cables USB no funcionan (si es que lo hacen) de la misma forma en tu móvil Android?\nPedro Venegas\nEsta es la razón por la que ese cable USB no funciona para transferir archivos o cargar tu móvil Android. Conoce las diferencias para no cometer el mismo error.",
+      "matchedWords": {
+        "Eh1HfZrHSRjZ": {
+          "hits": 0,
+          "textWords": 52
+        },
+        "UTS1UnoLaEo1": {
+          "hits": 0,
+          "textWords": 52
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "ISxsyloVqyIh",
+      "address": "https://www.elcorreoweb.es/",
+      "title": "El Correo de Andalucía - Noticias de Sevilla, Andalucía y España.",
+      "snippet": "PRENSA IBÉRICA NETWORK, S.L.U.",
+      "matchedWords": {
+        "Eh1HfZrHSRjZ": {
+          "hits": 0,
+          "textWords": 3
+        },
+        "UTS1UnoLaEo1": {
+          "hits": 0,
+          "textWords": 3
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "8ta_Tkq5hB0g",
+      "address": "https://skos.um.es/TR/rdf-sparql-query/",
+      "title": "SPARQL Lenguaje de consulta para RDF",
+      "snippet": "",
+      "matchedWords": {
+        "Eh1HfZrHSRjZ": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "UTS1UnoLaEo1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "qJ2yhlqI85p7",
+      "address": "https://www.elperiodicodearagon.com/",
+      "title": "El Periódico de Aragón. Noticias de Aragón, Zaragoza, Huesca y Teruel",
+      "snippet": "",
+      "matchedWords": {
+        "Eh1HfZrHSRjZ": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "UTS1UnoLaEo1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "_TfV3lFZc5Lg",
+      "address": "https://www.elmundo.es/",
+      "title": "EL MUNDO - Diario online líder de información en español",
+      "snippet": "Portada Sábado, 12 de septiembre de 2026\nPortada Es noticia\nSaltar a navegación principal (Pulse Enter)\nSaltar a contenido (Pulse Enter)\nPortada\nSecciones\nPORTADA\nDiada. Dieciocho detenidos por desorden público en varios disturbios en Barcelona\nACTUALIDAD\nJUEGOS\nAL DÍA\nDESTACADOS\nLOC",
+      "matchedWords": {
+        "Eh1HfZrHSRjZ": {
+          "hits": 0,
+          "textWords": 63
+        },
+        "UTS1UnoLaEo1": {
+          "hits": 0,
+          "textWords": 63
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "EQiAJa7raSJ4",
+      "address": "https://www.shopify.com/pe/website/builder?country=pe\u0026lang=en",
+      "title": "Creador de sitios web de ecommerce | Crea una tienda gratis en minutos - Shopify",
+      "snippet": "",
+      "matchedWords": {
+        "Eh1HfZrHSRjZ": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "UTS1UnoLaEo1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "_TfV3lFZc5Lg",
+      "address": "https://www.elmundo.es/",
+      "title": "EL MUNDO - Diario online líder de información en español",
+      "snippet": "Portada Sábado, 12 de septiembre de 2026\nPortada Es noticia\nSaltar a navegación principal (Pulse Enter)\nSaltar a contenido (Pulse Enter)\nPortada\nSecciones\nPORTADA\nDiada. Dieciocho detenidos por desorden público en varios disturbios en Barcelona\nACTUALIDAD\nJUEGOS\nAL DÍA\nDESTACADOS\nLOC",
+      "matchedWords": {
+        "Eh1HfZrHSRjZ": {
+          "hits": 0,
+          "textWords": 63
+        },
+        "UTS1UnoLaEo1": {
+          "hits": 0,
+          "textWords": 63
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "Q9ZGalD5B4Sj",
+      "address": "https://www.elnortedecastilla.es/",
+      "title": "El Norte de Castilla - Noticias de Castilla y León desde 1854",
+      "snippet": "Fiestas de Valladolid\nNewsletter\n25 años del 11-S\nEn vertical\nPaco Martínez\n«Llevé a los Reyes unas sopas de ajo al palco en la final de Copa de la pulmonía»\n01:25\nValladolid (Cigales)\nQueman el coche de un delincuente y este amenaza con «comerse la cabeza» del autor\n00:23\nValladolid",
+      "matchedWords": {
+        "Eh1HfZrHSRjZ": {
+          "hits": 0,
+          "textWords": 330
+        },
+        "UTS1UnoLaEo1": {
+          "hits": 0,
+          "textWords": 330
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "_TfV3lFZc5Lg",
+      "address": "https://www.elmundo.es/",
+      "title": "EL MUNDO - Diario online líder de información en español",
+      "snippet": "Portada Sábado, 12 de septiembre de 2026\nPortada Es noticia\nSaltar a navegación principal (Pulse Enter)\nSaltar a contenido (Pulse Enter)\nPortada\nSecciones\nPORTADA\nDiada. Dieciocho detenidos por desorden público en varios disturbios en Barcelona\nACTUALIDAD\nJUEGOS\nAL DÍA\nDESTACADOS\nLOC",
+      "matchedWords": {
+        "Eh1HfZrHSRjZ": {
+          "hits": 0,
+          "textWords": 63
+        },
+        "UTS1UnoLaEo1": {
+          "hits": 0,
+          "textWords": 63
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "ISxsyloVqyIh",
+      "address": "https://www.elcorreoweb.es/",
+      "title": "El Correo de Andalucía - Noticias de Sevilla, Andalucía y España.",
+      "snippet": "PRENSA IBÉRICA NETWORK, S.L.U.",
+      "matchedWords": {
+        "Eh1HfZrHSRjZ": {
+          "hits": 0,
+          "textWords": 3
+        },
+        "UTS1UnoLaEo1": {
+          "hits": 0,
+          "textWords": 3
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "EQiAJa7raSJ4",
+      "address": "https://www.shopify.com/pe/website/builder?country=pe\u0026lang=en",
+      "title": "Creador de sitios web de ecommerce | Crea una tienda gratis en minutos - Shopify",
+      "snippet": "",
+      "matchedWords": {
+        "Eh1HfZrHSRjZ": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "UTS1UnoLaEo1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "TZghy77raSJ4",
+      "address": "https://www.shopify.com/es/website/builder",
+      "title": "Creador de sitios web de ecommerce | Crea una tienda gratis en minutos - Shopify",
+      "snippet": "",
+      "matchedWords": {
+        "Eh1HfZrHSRjZ": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "UTS1UnoLaEo1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "g4mMGv7raSJ4",
+      "address": "https://www.shopify.com/co/website/builder?country=co\u0026lang=es",
+      "title": "Creador de sitios web de ecommerce | Crea una tienda gratis en minutos - Shopify",
+      "snippet": "",
+      "matchedWords": {
+        "Eh1HfZrHSRjZ": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "UTS1UnoLaEo1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "hbTm1v7raSJ4",
+      "address": "https://www.shopify.com/co/website/builder?country=co\u0026lang=en",
+      "title": "Creador de sitios web de ecommerce | Crea una tienda gratis en minutos - Shopify",
+      "snippet": "",
+      "matchedWords": {
+        "Eh1HfZrHSRjZ": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "UTS1UnoLaEo1": {
+          "hits": 0,
+          "textWords": 0
         }
       },
       "queryPhraseHits": 0
@@ -1751,9 +2248,26 @@
       "queryPhraseHits": 0
     },
     {
-      "hash": "5uL4QQFZc5Lg",
-      "address": "https://www.elmundo.es/ciencia-y-salud/ciencia.html",
-      "title": "Ciencia - Noticias de ciencia | EL MUNDO",
+      "hash": "Q9ZGalD5B4Sj",
+      "address": "https://www.elnortedecastilla.es/",
+      "title": "El Norte de Castilla - Noticias de Castilla y León desde 1854",
+      "snippet": "Fiestas de Valladolid\nNewsletter\n25 años del 11-S\nEn vertical\nPaco Martínez\n«Llevé a los Reyes unas sopas de ajo al palco en la final de Copa de la pulmonía»\n01:25\nValladolid (Cigales)\nQueman el coche de un delincuente y este amenaza con «comerse la cabeza» del autor\n00:23\nValladolid",
+      "matchedWords": {
+        "Eh1HfZrHSRjZ": {
+          "hits": 0,
+          "textWords": 330
+        },
+        "UTS1UnoLaEo1": {
+          "hits": 0,
+          "textWords": 330
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "TfCmKdFO6r_x",
+      "address": "https://de.wikipedia.org/wiki/Kuba",
+      "title": "Kuba – Wikipedia",
       "snippet": "",
       "matchedWords": {
         "Eh1HfZrHSRjZ": {
@@ -1768,9 +2282,9 @@
       "queryPhraseHits": 0
     },
     {
-      "hash": "0X-a-tWIjA-4",
-      "address": "https://es.wired.com/",
-      "title": "WIRED en Español: Noticias sobre tecnología, gadgets, ciencia, cultura y negocios | WIRED",
+      "hash": "8TA94l-cfhOj",
+      "address": "https://www.laopiniondemurcia.es/",
+      "title": "La Opinión de Murcia, últimas noticias de Murcia y España.",
       "snippet": "",
       "matchedWords": {
         "Eh1HfZrHSRjZ": {
@@ -1785,26 +2299,485 @@
       "queryPhraseHits": 0
     },
     {
-      "hash": "75neNMZeKV3g",
-      "address": "https://www.eldiario.es/autores/nicolas_ribas/",
-      "title": "Nicolás Ribas",
-      "snippet": "Graduado en Periodismo por la Universidad Complutense de Madrid. Máster en Periodismo Político Internacional por la Universitat Pompeu Fabra. Ahora escribo reportajes desde Ibiza y Formentera para elDiario.es Balears. Fui reportero de informativos y magazines de IB3.",
+      "hash": "_TfV3lFZc5Lg",
+      "address": "https://www.elmundo.es/",
+      "title": "EL MUNDO - Diario online líder de información en español",
+      "snippet": "Portada Sábado, 12 de septiembre de 2026\nPortada Es noticia\nSaltar a navegación principal (Pulse Enter)\nSaltar a contenido (Pulse Enter)\nPortada\nSecciones\nPORTADA\nDiada. Dieciocho detenidos por desorden público en varios disturbios en Barcelona\nACTUALIDAD\nJUEGOS\nAL DÍA\nDESTACADOS\nLOC",
       "matchedWords": {
         "Eh1HfZrHSRjZ": {
           "hits": 0,
-          "textWords": 67
+          "textWords": 63
         },
         "UTS1UnoLaEo1": {
           "hits": 0,
-          "textWords": 67
+          "textWords": 63
         }
       },
       "queryPhraseHits": 0
     },
     {
-      "hash": "0Cl_D3bD0zn4",
-      "address": "https://stripe.com/es-us/climate",
-      "title": "Stripe Climate",
+      "hash": "9RVa1T5DCs35",
+      "address": "https://wordpress.com/es/creador-webs-ia/",
+      "title": "Creador de webs con IA | Crea tu sitio en cuestión de segundos | Empieza aquí | WordPress.com",
+      "snippet": "",
+      "matchedWords": {
+        "Eh1HfZrHSRjZ": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "UTS1UnoLaEo1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "_TfV3lFZc5Lg",
+      "address": "https://www.elmundo.es/",
+      "title": "EL MUNDO - Diario online líder de información en español",
+      "snippet": "Portada Sábado, 12 de septiembre de 2026\nPortada Es noticia\nSaltar a navegación principal (Pulse Enter)\nSaltar a contenido (Pulse Enter)\nPortada\nSecciones\nPORTADA\nDiada. Dieciocho detenidos por desorden público en varios disturbios en Barcelona\nACTUALIDAD\nJUEGOS\nAL DÍA\nDESTACADOS\nLOC",
+      "matchedWords": {
+        "Eh1HfZrHSRjZ": {
+          "hits": 0,
+          "textWords": 63
+        },
+        "UTS1UnoLaEo1": {
+          "hits": 0,
+          "textWords": 63
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "qlCfKlLjcC4h",
+      "address": "https://www.elcomercio.es/",
+      "title": "EL COMERCIO - Últimas noticias y actualidad en Asturias",
+      "snippet": "Newsletter\nJGPA\nActividad parlamentaria\nBoletines Oficiales\nVídeos\nTendencias\nBarrios y zona rural de Oviedo\nReal Oviedo\nFotos\nVídeos\nBarrios de Avilés\nCastrillón\nCorvera\nBajo Nalón\nReal Avilés\nSiero y Centro\nCuencas\nLlanera\nVillaviciosa\nGozón\nObituarios de mascotas\nRutas con tu mascota\nMercados",
+      "matchedWords": {
+        "Eh1HfZrHSRjZ": {
+          "hits": 0,
+          "textWords": 197
+        },
+        "UTS1UnoLaEo1": {
+          "hits": 0,
+          "textWords": 197
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "Gcqx0WVFEEow",
+      "address": "https://guix.gnu.org/manual/devel/es/html_node/",
+      "title": "Top (Manual de referencia de GNU Guix)",
+      "snippet": "",
+      "matchedWords": {
+        "Eh1HfZrHSRjZ": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "UTS1UnoLaEo1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "yHkVVYVFEEow",
+      "address": "https://guix.gnu.org/es/",
+      "title": "GNU Guix gestor transaccional de paquetes y distribución — GNU Guix",
+      "snippet": "",
+      "matchedWords": {
+        "Eh1HfZrHSRjZ": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "UTS1UnoLaEo1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "2gOgBWVFEEow",
+      "address": "https://guix.gnu.org/manual/1.5.0/es/html_node/",
+      "title": "Top (Manual de referencia de GNU Guix)",
+      "snippet": "",
+      "matchedWords": {
+        "Eh1HfZrHSRjZ": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "UTS1UnoLaEo1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "-D4INWVFEEow",
+      "address": "https://guix.gnu.org/manual/devel/es/guix.es.html",
+      "title": "Manual de referencia de GNU Guix",
+      "snippet": "",
+      "matchedWords": {
+        "Eh1HfZrHSRjZ": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "UTS1UnoLaEo1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "-VJtmWVFEEow",
+      "address": "https://guix.gnu.org/manual/es/html_node/",
+      "title": "",
+      "snippet": "",
+      "matchedWords": {
+        "Eh1HfZrHSRjZ": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "UTS1UnoLaEo1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "1AJ_STbD0zn4",
+      "address": "https://stripe.com/es/climate",
+      "title": "Stripe Climate | Ayuda a eliminar el CO₂ de la atmósfera",
+      "snippet": "",
+      "matchedWords": {
+        "Eh1HfZrHSRjZ": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "UTS1UnoLaEo1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "8ta_Tkq5hB0g",
+      "address": "https://skos.um.es/TR/rdf-sparql-query/",
+      "title": "SPARQL Lenguaje de consulta para RDF",
+      "snippet": "",
+      "matchedWords": {
+        "Eh1HfZrHSRjZ": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "UTS1UnoLaEo1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "Q9ZGalD5B4Sj",
+      "address": "https://www.elnortedecastilla.es/",
+      "title": "El Norte de Castilla - Noticias de Castilla y León desde 1854",
+      "snippet": "Fiestas de Valladolid\nNewsletter\n25 años del 11-S\nEn vertical\nPaco Martínez\n«Llevé a los Reyes unas sopas de ajo al palco en la final de Copa de la pulmonía»\n01:25\nValladolid (Cigales)\nQueman el coche de un delincuente y este amenaza con «comerse la cabeza» del autor\n00:23\nValladolid",
+      "matchedWords": {
+        "Eh1HfZrHSRjZ": {
+          "hits": 0,
+          "textWords": 330
+        },
+        "UTS1UnoLaEo1": {
+          "hits": 0,
+          "textWords": 330
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "_TfV3lFZc5Lg",
+      "address": "https://www.elmundo.es/",
+      "title": "EL MUNDO - Diario online líder de información en español",
+      "snippet": "Portada Sábado, 12 de septiembre de 2026\nPortada Es noticia\nSaltar a navegación principal (Pulse Enter)\nSaltar a contenido (Pulse Enter)\nPortada\nSecciones\nPORTADA\nDiada. Dieciocho detenidos por desorden público en varios disturbios en Barcelona\nACTUALIDAD\nJUEGOS\nAL DÍA\nDESTACADOS\nLOC",
+      "matchedWords": {
+        "Eh1HfZrHSRjZ": {
+          "hits": 0,
+          "textWords": 63
+        },
+        "UTS1UnoLaEo1": {
+          "hits": 0,
+          "textWords": 63
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "g4mMGv7raSJ4",
+      "address": "https://www.shopify.com/co/website/builder?country=co\u0026lang=es",
+      "title": "Creador de sitios web de ecommerce | Crea una tienda gratis en minutos - Shopify",
+      "snippet": "",
+      "matchedWords": {
+        "Eh1HfZrHSRjZ": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "UTS1UnoLaEo1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "hbTm1v7raSJ4",
+      "address": "https://www.shopify.com/co/website/builder?country=co\u0026lang=en",
+      "title": "Creador de sitios web | Crea un sitio web gratis con IA en minutos: Shopify",
+      "snippet": "",
+      "matchedWords": {
+        "Eh1HfZrHSRjZ": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "UTS1UnoLaEo1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "_TfV3lFZc5Lg",
+      "address": "https://www.elmundo.es/",
+      "title": "EL MUNDO - Diario online líder de información en español",
+      "snippet": "Portada Sábado, 12 de septiembre de 2026\nPortada Es noticia\nSaltar a navegación principal (Pulse Enter)\nSaltar a contenido (Pulse Enter)\nPortada\nSecciones\nPORTADA\nDiada. Dieciocho detenidos por desorden público en varios disturbios en Barcelona\nACTUALIDAD\nJUEGOS\nAL DÍA\nDESTACADOS\nLOC",
+      "matchedWords": {
+        "Eh1HfZrHSRjZ": {
+          "hits": 0,
+          "textWords": 63
+        },
+        "UTS1UnoLaEo1": {
+          "hits": 0,
+          "textWords": 63
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "FxHNCgJPjR4x",
+      "address": "https://es.wikipedia.org/wiki/Inteligencia_artificial",
+      "title": "Inteligencia artificial - Wikipedia, la enciclopedia libre",
+      "snippet": "",
+      "matchedWords": {
+        "Eh1HfZrHSRjZ": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "UTS1UnoLaEo1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "F6BougJPjR4x",
+      "address": "https://es.wikipedia.org/wiki/Netflix",
+      "title": "Netflix - Wikipedia, la enciclopedia libre",
+      "snippet": "Para sacar adelante esta plataforma digital, Netflix requería ofrecer una plataforma funcional en todo momento, que permitiera el visionado de una gran cantidad de personas al mismo tiempo, sin poner en riesgo la calidad de la imagen.",
+      "matchedWords": {
+        "Eh1HfZrHSRjZ": {
+          "hits": 4,
+          "textWords": 17566
+        },
+        "UTS1UnoLaEo1": {
+          "hits": 1,
+          "textWords": 17566
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "h86QaOSt_F9g",
+      "address": "https://www.abc.es/espana/castilla-leon/",
+      "title": "",
+      "snippet": "",
+      "matchedWords": {
+        "Eh1HfZrHSRjZ": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "UTS1UnoLaEo1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "9RVa1T5DCs35",
+      "address": "https://wordpress.com/es/creador-webs-ia/",
+      "title": "Creador de webs con IA | Crea un sitio de WordPress.com en cuestión de minutos",
+      "snippet": "",
+      "matchedWords": {
+        "Eh1HfZrHSRjZ": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "UTS1UnoLaEo1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "FxHNCgJPjR4x",
+      "address": "https://es.wikipedia.org/wiki/Inteligencia_artificial",
+      "title": "Inteligencia artificial - Wikipedia, la enciclopedia libre",
+      "snippet": "",
+      "matchedWords": {
+        "Eh1HfZrHSRjZ": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "UTS1UnoLaEo1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "QEHhGgJPjR4x",
+      "address": "https://es.wikipedia.org/wiki/Portal:Inform%C3%A1tica",
+      "title": "Portal:Informática - Wikipedia, la enciclopedia libre",
+      "snippet": "",
+      "matchedWords": {
+        "Eh1HfZrHSRjZ": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "UTS1UnoLaEo1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "XGiX3gJPjR4x",
+      "address": "https://es.wikipedia.org/wiki/M%C3%A9xico",
+      "title": "México - Wikipedia, la enciclopedia libre",
+      "snippet": "",
+      "matchedWords": {
+        "Eh1HfZrHSRjZ": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "UTS1UnoLaEo1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "eTDc7gJPjR4x",
+      "address": "https://es.wikipedia.org/wiki/Twitter",
+      "title": "Twitter - Wikipedia, la enciclopedia libre",
+      "snippet": "",
+      "matchedWords": {
+        "Eh1HfZrHSRjZ": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "UTS1UnoLaEo1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "xuamygJPjR4x",
+      "address": "https://es.wikipedia.org/wiki/Argentina",
+      "title": "Argentina - Wikipedia, la enciclopedia libre",
+      "snippet": "",
+      "matchedWords": {
+        "Eh1HfZrHSRjZ": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "UTS1UnoLaEo1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "5418oUxHMQI4",
+      "address": "https://cnnespanol.cnn.com/?hpt=header_edition-picker",
+      "title": "Últimas noticias de Estados Unidos, Latinoamérica y el mundo, hoy | CNN en Español | CNN",
+      "snippet": "",
+      "matchedWords": {
+        "Eh1HfZrHSRjZ": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "UTS1UnoLaEo1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "6NeqQm7raSJ4",
+      "address": "https://www.shopify.com/mx/website/builder?country=mx\u0026lang=en",
+      "title": "Creador de sitios web de ecommerce | Crea una tienda gratis en minutos - Shopify",
+      "snippet": "",
+      "matchedWords": {
+        "Eh1HfZrHSRjZ": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "UTS1UnoLaEo1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "3-ExJlJB3nQg",
+      "address": "https://www.epe.es/es/",
+      "title": "El Periódico de España | epe.es",
+      "snippet": "",
+      "matchedWords": {
+        "Eh1HfZrHSRjZ": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "UTS1UnoLaEo1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "h86QaOSt_F9g",
+      "address": "https://www.abc.es/espana/castilla-leon/",
+      "title": "Castilla y León en ABC. es | Noticias, fotos y reportajes - ABC.es",
       "snippet": "",
       "matchedWords": {
         "Eh1HfZrHSRjZ": {
@@ -1941,15 +2914,15 @@
       "hash": "9RVa1T5DCs35",
       "address": "https://wordpress.com/es/creador-webs-ia/",
       "title": "Creador de webs con IA | Crea tu sitio en cuestión de segundos | Empieza aquí | WordPress.com",
-      "snippet": "Solo tienes que escribir lo que necesitas, responder a algunas preguntas y la IA se encarga del diseño y el texto. No se necesita experiencia en programación ni diseño.\n¿En qué se diferencia un creador de webs con IA de uno normal?",
+      "snippet": "",
       "matchedWords": {
         "Eh1HfZrHSRjZ": {
-          "hits": 1,
-          "textWords": 1706
+          "hits": 0,
+          "textWords": 0
         },
         "UTS1UnoLaEo1": {
           "hits": 0,
-          "textWords": 1706
+          "textWords": 0
         }
       },
       "queryPhraseHits": 0
@@ -1958,23 +2931,6 @@
       "hash": "TfCmKdFO6r_x",
       "address": "https://de.wikipedia.org/wiki/Kuba",
       "title": "",
-      "snippet": "Februar 2026 (spanisch).\n↑ Mejor atención al pueblo y más funcional: Modificación de la División Político Administrativa, Granma Internacional vom 23. Juli 2010\n↑ Urban population (% of total population). Weltbank, abgerufen am 30. September 2024 (englisch).",
-      "matchedWords": {
-        "Eh1HfZrHSRjZ": {
-          "hits": 1,
-          "textWords": 31568
-        },
-        "UTS1UnoLaEo1": {
-          "hits": 1,
-          "textWords": 31568
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "5uL4QQFZc5Lg",
-      "address": "https://www.elmundo.es/ciencia-y-salud/ciencia.html",
-      "title": "Ciencia - Noticias de ciencia | EL MUNDO",
       "snippet": "",
       "matchedWords": {
         "Eh1HfZrHSRjZ": {
@@ -1992,15 +2948,32 @@
       "hash": "_TfV3lFZc5Lg",
       "address": "https://www.elmundo.es/",
       "title": "EL MUNDO - Diario online líder de información en español",
-      "snippet": "Portada Sábado, 12 de septiembre de 2026\nPortada Es noticia\nSaltar a navegación principal (Pulse Enter)\nSaltar a contenido (Pulse Enter)\nPortada\nSecciones\nPORTADA\nACTUALIDAD\nJUEGOS\n25 aniversario del 11-S\nAL DÍA\nCULTURA\nSucesos\nDESTACADOS\nHistoria.",
+      "snippet": "Portada Sábado, 12 de septiembre de 2026\nPortada Es noticia\nSaltar a navegación principal (Pulse Enter)\nSaltar a contenido (Pulse Enter)\nPortada\nSecciones\nPORTADA\nDiada. Dieciocho detenidos por desorden público en varios disturbios en Barcelona\nACTUALIDAD\nJUEGOS\nAL DÍA\nDESTACADOS\nLOC",
       "matchedWords": {
         "Eh1HfZrHSRjZ": {
           "hits": 0,
-          "textWords": 66
+          "textWords": 63
         },
         "UTS1UnoLaEo1": {
           "hits": 0,
-          "textWords": 66
+          "textWords": 63
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "3-ExJlJB3nQg",
+      "address": "https://www.epe.es/es/",
+      "title": "El Periódico de España | epe.es",
+      "snippet": "",
+      "matchedWords": {
+        "Eh1HfZrHSRjZ": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "UTS1UnoLaEo1": {
+          "hits": 0,
+          "textWords": 0
         }
       },
       "queryPhraseHits": 0
@@ -2023,26 +2996,26 @@
       "queryPhraseHits": 0
     },
     {
-      "hash": "XGiX3gJPjR4x",
-      "address": "https://es.wikipedia.org/wiki/M%C3%A9xico",
-      "title": "",
-      "snippet": "",
+      "hash": "F6BougJPjR4x",
+      "address": "https://es.wikipedia.org/wiki/Netflix",
+      "title": "Netflix - Wikipedia, la enciclopedia libre",
+      "snippet": "Para sacar adelante esta plataforma digital, Netflix requería ofrecer una plataforma funcional en todo momento, que permitiera el visionado de una gran cantidad de personas al mismo tiempo, sin poner en riesgo la calidad de la imagen.",
       "matchedWords": {
         "Eh1HfZrHSRjZ": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 4,
+          "textWords": 17566
         },
         "UTS1UnoLaEo1": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 1,
+          "textWords": 17566
         }
       },
       "queryPhraseHits": 0
     },
     {
-      "hash": "coIOOgJPjR4x",
-      "address": "https://es.wikipedia.org/wiki/Wikipedia:Art%C3%ADculos_solicitados",
-      "title": "Wikipedia:Artículos solicitados - Wikipedia, la enciclopedia libre",
+      "hash": "XGiX3gJPjR4x",
+      "address": "https://es.wikipedia.org/wiki/M%C3%A9xico",
+      "title": "",
       "snippet": "",
       "matchedWords": {
         "Eh1HfZrHSRjZ": {
@@ -2159,35 +3132,18 @@
       "queryPhraseHits": 0
     },
     {
-      "hash": "0_jlZlKzNdbg",
-      "address": "https://www.cope.es/actualidad",
-      "title": "Actualidad | COPE",
-      "snippet": "",
-      "matchedWords": {
-        "Eh1HfZrHSRjZ": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "UTS1UnoLaEo1": {
-          "hits": 0,
-          "textWords": 0
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
       "hash": "qlCfKlLjcC4h",
       "address": "https://www.elcomercio.es/",
       "title": "EL COMERCIO - Últimas noticias y actualidad en Asturias",
-      "snippet": "Título oficial de FP con financiación y prácticas profesionales\nPresencial o a distancia, obtén un título 100% oficial.\nCampus virtual\nProgramación\nFórmate en Python y accede a un sector en constante crecimiento\nCurso bonificable a través de Fundae.\n100% Online\nAuxiliar Técnico Veterinario",
+      "snippet": "Newsletter\nJGPA\nActividad parlamentaria\nBoletines Oficiales\nVídeos\nTendencias\nBarrios y zona rural de Oviedo\nReal Oviedo\nFotos\nVídeos\nBarrios de Avilés\nCastrillón\nCorvera\nBajo Nalón\nReal Avilés\nSiero y Centro\nCuencas\nLlanera\nVillaviciosa\nGozón\nObituarios de mascotas\nRutas con tu mascota\nMercados",
       "matchedWords": {
         "Eh1HfZrHSRjZ": {
-          "hits": 1,
-          "textWords": 4679
+          "hits": 0,
+          "textWords": 197
         },
         "UTS1UnoLaEo1": {
           "hits": 0,
-          "textWords": 4679
+          "textWords": 197
         }
       },
       "queryPhraseHits": 0
@@ -2210,9 +3166,9 @@
       "queryPhraseHits": 0
     },
     {
-      "hash": "0ZjN3HRgsp67",
-      "address": "https://creativecampus.universidadeuropea.com/master-diseno-espacios-gastronomicos-madrid/",
-      "title": "Máster en Diseño de Espacios Gastronómicos | Creative Campus",
+      "hash": "cy0QdlSt_F9g",
+      "address": "https://www.abc.es/salud/",
+      "title": "Canal Salud | Noticias, especialistas médicos, patologías | abc.es - ABC.es",
       "snippet": "",
       "matchedWords": {
         "Eh1HfZrHSRjZ": {
@@ -2227,18 +3183,35 @@
       "queryPhraseHits": 0
     },
     {
-      "hash": "cy0QdlSt_F9g",
-      "address": "https://www.abc.es/salud/",
-      "title": "Canal Salud | Noticias, especialistas médicos, patologías | abc.es - ABC.es",
-      "snippet": "El peligro oculto en el pastillero de los mayores: cuando un fármaco se receta solo para tapar los efectos de otro\nLa llamada 'cascada de prescripciones', donde los efectos adversos se confunden con nuevas enfermedades, causa daños inadvertidos que afectan sobre todo a las mujeres mayores.",
+      "hash": "h86QaOSt_F9g",
+      "address": "https://www.abc.es/espana/castilla-leon/",
+      "title": "Castilla y Leon en ABC.es | Noticias, fotos y reportajes - ABC.es",
+      "snippet": "",
       "matchedWords": {
         "Eh1HfZrHSRjZ": {
           "hits": 0,
-          "textWords": 715
+          "textWords": 0
         },
         "UTS1UnoLaEo1": {
           "hits": 0,
-          "textWords": 715
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "yHkVVYVFEEow",
+      "address": "https://guix.gnu.org/es/",
+      "title": "GNU Guix gestor transaccional de paquetes y distribución — GNU Guix",
+      "snippet": "",
+      "matchedWords": {
+        "Eh1HfZrHSRjZ": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "UTS1UnoLaEo1": {
+          "hits": 0,
+          "textWords": 0
         }
       },
       "queryPhraseHits": 0
@@ -2278,35 +3251,18 @@
       "queryPhraseHits": 0
     },
     {
-      "hash": "0X-a-tWIjA-4",
-      "address": "https://es.wired.com/",
-      "title": "WIRED en Español: Noticias sobre tecnología, gadgets, ciencia, cultura y negocios | WIRED",
-      "snippet": "",
+      "hash": "GC8N1lVcNgA7",
+      "address": "https://www.elperiodicomediterraneo.com/",
+      "title": "El Periódico Mediterráneo. Noticias de Castellón. - El Periódico Mediterráneo",
+      "snippet": "PROMOCIONES Y EDICIONES CULTURALES S.A.",
       "matchedWords": {
         "Eh1HfZrHSRjZ": {
           "hits": 0,
-          "textWords": 0
+          "textWords": 3
         },
         "UTS1UnoLaEo1": {
           "hits": 0,
-          "textWords": 0
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "75neNMZeKV3g",
-      "address": "https://www.eldiario.es/autores/nicolas_ribas/",
-      "title": "Nicolás Ribas",
-      "snippet": "Graduado en Periodismo por la Universidad Complutense de Madrid. Máster en Periodismo Político Internacional por la Universitat Pompeu Fabra. Ahora escribo reportajes desde Ibiza y Formentera para elDiario.es Balears. Fui reportero de informativos y magazines de IB3.",
-      "matchedWords": {
-        "Eh1HfZrHSRjZ": {
-          "hits": 0,
-          "textWords": 67
-        },
-        "UTS1UnoLaEo1": {
-          "hits": 0,
-          "textWords": 67
+          "textWords": 3
         }
       },
       "queryPhraseHits": 0
@@ -2332,23 +3288,6 @@
       "hash": "woZO63bD0zn4",
       "address": "https://stripe.com/es-us/customers",
       "title": "Nuestros clientes | Stripe",
-      "snippet": "",
-      "matchedWords": {
-        "Eh1HfZrHSRjZ": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "UTS1UnoLaEo1": {
-          "hits": 0,
-          "textWords": 0
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "0Cl_D3bD0zn4",
-      "address": "https://stripe.com/es-us/climate",
-      "title": "Stripe Climate",
       "snippet": "",
       "matchedWords": {
         "Eh1HfZrHSRjZ": {
@@ -2397,23 +3336,6 @@
       "queryPhraseHits": 0
     },
     {
-      "hash": "0RvkuLdT6x75",
-      "address": "https://www.infoempleo.com/trabajo/en_valencia/",
-      "title": "Ofertas de trabajo en Valencia | Infoempleo",
-      "snippet": "",
-      "matchedWords": {
-        "Eh1HfZrHSRjZ": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "UTS1UnoLaEo1": {
-          "hits": 0,
-          "textWords": 0
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
       "hash": "7j0eLle1yXo6",
       "address": "https://www.lacronicabadajoz.com/",
       "title": "La Crónica de Badajoz | Noticias de hoy en Badajoz",
@@ -2434,49 +3356,32 @@
       "hash": "StIUFOk_hDHh",
       "address": "https://computerhoy.20minutos.es/",
       "title": "Computer Hoy: Todo sobre tecnología, gadgets y novedades",
-      "snippet": "Funciones de iOS 27 para iPhone que no podrás utilizar en España por el bloqueo de la Unión Europea\nJuan Manuel Delgado\nLa Fórmula 1 mueve hasta 650 TB de datos en un solo Gran Premio: así funciona su impresionante tecnología\nAna Muñoz de Frutos",
+      "snippet": "Tecnología\n¿Por qué todos los cables USB no funcionan (si es que lo hacen) de la misma forma en tu móvil Android?\nPedro Venegas\nEsta es la razón por la que ese cable USB no funciona para transferir archivos o cargar tu móvil Android. Conoce las diferencias para no cometer el mismo error.",
       "matchedWords": {
         "Eh1HfZrHSRjZ": {
           "hits": 0,
-          "textWords": 2162
+          "textWords": 52
         },
         "UTS1UnoLaEo1": {
           "hits": 0,
-          "textWords": 2162
+          "textWords": 52
         }
       },
       "queryPhraseHits": 0
     },
     {
-      "hash": "0jIrBznCqoag",
-      "address": "https://www.boe.es/buscar/act.php?id=BOE-A-1996-1069",
-      "title": "BOE-A-1996-1069 Ley Orgánica 1/1996, de 15 de enero, de Protección Jurídica del Menor, de modificación parcial del Código Civil y de la Ley de Enjuiciamiento Civil.",
-      "snippet": "Para garantizar que la publicidad o mensajes dirigidos a menores o emitidos en la programación dirigida a éstos, no les perjudique moral o físicamente, podrá ser regulada por normas especiales.\n5.",
+      "hash": "-GDuJznCqoag",
+      "address": "https://www.boe.es/buscar/act.php?id=BOE-A-2009-20765",
+      "title": "BOE-A-2009-20765 Ley 26/2009, de 23 de diciembre, de Presupuestos Generales del Estado para el año 2010.",
+      "snippet": "",
       "matchedWords": {
         "Eh1HfZrHSRjZ": {
-          "hits": 2,
-          "textWords": 25141
+          "hits": 0,
+          "textWords": 0
         },
         "UTS1UnoLaEo1": {
-          "hits": 2,
-          "textWords": 25141
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "3WSVKznCqoag",
-      "address": "https://www.boe.es/buscar/act.php?id=BOE-A-2013-13645",
-      "title": "BOE-A-2013-13645 Ley 24/2013, de 26 de diciembre, del Sector Eléctrico.",
-      "snippet": "a) Recibir las ofertas de venta emitidas para cada período de programación por los distintos sujetos que participan en el mercado diario de energía eléctrica, para cada uno de los períodos de programación.\nb) Recibir las ofertas de adquisición de energía.",
-      "matchedWords": {
-        "Eh1HfZrHSRjZ": {
-          "hits": 16,
-          "textWords": 69631
-        },
-        "UTS1UnoLaEo1": {
-          "hits": 2,
-          "textWords": 69631
+          "hits": 0,
+          "textWords": 0
         }
       },
       "queryPhraseHits": 0
@@ -2550,23 +3455,6 @@
       "queryPhraseHits": 0
     },
     {
-      "hash": "dBWd4_qoHJ8x",
-      "address": "https://gl.wikipedia.org/wiki/PHP",
-      "title": "PHP - Wikipedia, a enciclopedia libre",
-      "snippet": "",
-      "matchedWords": {
-        "Eh1HfZrHSRjZ": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "UTS1UnoLaEo1": {
-          "hits": 0,
-          "textWords": 0
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
       "hash": "00vztvyG2Z6g",
       "address": "https://eur-lex.europa.eu/legal-content/ES/TXT/PDF/?uri=OJ:C:2012:391:FULL",
       "title": "  ",
@@ -2582,673 +3470,10 @@
         }
       },
       "queryPhraseHits": 0
-    },
-    {
-      "hash": "_TfV3lFZc5Lg",
-      "address": "https://www.elmundo.es/",
-      "title": "EL MUNDO - Diario online líder de información en español",
-      "snippet": "Portada Sábado, 12 de septiembre de 2026\nPortada Es noticia\nSaltar a navegación principal (Pulse Enter)\nSaltar a contenido (Pulse Enter)\nPortada\nSecciones\nPORTADA\nACTUALIDAD\nJUEGOS\n25 aniversario del 11-S\nAL DÍA\nCULTURA\nSucesos\nDESTACADOS\nHistoria.",
-      "matchedWords": {
-        "Eh1HfZrHSRjZ": {
-          "hits": 0,
-          "textWords": 66
-        },
-        "UTS1UnoLaEo1": {
-          "hits": 0,
-          "textWords": 66
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "TZghy77raSJ4",
-      "address": "https://www.shopify.com/es/website/builder",
-      "title": "Creador de sitios web de ecommerce | Crea una tienda gratis en minutos - Shopify",
-      "snippet": "",
-      "matchedWords": {
-        "Eh1HfZrHSRjZ": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "UTS1UnoLaEo1": {
-          "hits": 0,
-          "textWords": 0
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "hbTm1v7raSJ4",
-      "address": "https://www.shopify.com/co/website/builder?country=co\u0026lang=en",
-      "title": "Creador de sitios web de ecommerce | Crea una tienda gratis en minutos - Shopify",
-      "snippet": "",
-      "matchedWords": {
-        "Eh1HfZrHSRjZ": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "UTS1UnoLaEo1": {
-          "hits": 0,
-          "textWords": 0
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "6NeqQm7raSJ4",
-      "address": "https://www.shopify.com/mx/website/builder?country=mx\u0026lang=en",
-      "title": "Creador de sitios web de ecommerce | Crea una tienda gratis en minutos - Shopify",
-      "snippet": "",
-      "matchedWords": {
-        "Eh1HfZrHSRjZ": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "UTS1UnoLaEo1": {
-          "hits": 0,
-          "textWords": 0
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "Q9ZGalD5B4Sj",
-      "address": "https://www.elnortedecastilla.es/",
-      "title": "El Norte de Castilla - Noticias de Castilla y León desde 1854",
-      "snippet": "Encuentra en nuestra web el curso que buscas y mejora tu futuro con formación de calidad.\nVer más\nFormación Profesional\nTítulo oficial de FP con financiación y prácticas profesionales\nPresencial o a distancia, obtén un título 100% oficial.\nCampus virtual\nProgramación",
-      "matchedWords": {
-        "Eh1HfZrHSRjZ": {
-          "hits": 1,
-          "textWords": 3970
-        },
-        "UTS1UnoLaEo1": {
-          "hits": 0,
-          "textWords": 3970
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "TfCmKdFO6r_x",
-      "address": "https://de.wikipedia.org/wiki/Kuba",
-      "title": "Kuba – Wikipedia",
-      "snippet": "Februar 2026 (spanisch).\n↑ Mejor atención al pueblo y más funcional: Modificación de la División Político Administrativa, Granma Internacional vom 23. Juli 2010\n↑ Urban population (% of total population). Weltbank, abgerufen am 30. September 2024 (englisch).",
-      "matchedWords": {
-        "Eh1HfZrHSRjZ": {
-          "hits": 1,
-          "textWords": 31568
-        },
-        "UTS1UnoLaEo1": {
-          "hits": 1,
-          "textWords": 31568
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "8TA94l-cfhOj",
-      "address": "https://www.laopiniondemurcia.es/",
-      "title": "La Opinión de Murcia, últimas noticias de Murcia y España.",
-      "snippet": "",
-      "matchedWords": {
-        "Eh1HfZrHSRjZ": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "UTS1UnoLaEo1": {
-          "hits": 0,
-          "textWords": 0
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "_TfV3lFZc5Lg",
-      "address": "https://www.elmundo.es/",
-      "title": "EL MUNDO - Diario online líder de información en español",
-      "snippet": "Portada Sábado, 12 de septiembre de 2026\nPortada Es noticia\nSaltar a navegación principal (Pulse Enter)\nSaltar a contenido (Pulse Enter)\nPortada\nSecciones\nPORTADA\nACTUALIDAD\nJUEGOS\n25 aniversario del 11-S\nAL DÍA\nCULTURA\nSucesos\nDESTACADOS\nHistoria.",
-      "matchedWords": {
-        "Eh1HfZrHSRjZ": {
-          "hits": 0,
-          "textWords": 66
-        },
-        "UTS1UnoLaEo1": {
-          "hits": 0,
-          "textWords": 66
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "_TfV3lFZc5Lg",
-      "address": "https://www.elmundo.es/",
-      "title": "EL MUNDO - Diario online líder de información en español",
-      "snippet": "Portada Sábado, 12 de septiembre de 2026\nPortada Es noticia\nSaltar a navegación principal (Pulse Enter)\nSaltar a contenido (Pulse Enter)\nPortada\nSecciones\nPORTADA\nACTUALIDAD\nJUEGOS\n25 aniversario del 11-S\nAL DÍA\nCULTURA\nSucesos\nDESTACADOS\nHistoria.",
-      "matchedWords": {
-        "Eh1HfZrHSRjZ": {
-          "hits": 0,
-          "textWords": 66
-        },
-        "UTS1UnoLaEo1": {
-          "hits": 0,
-          "textWords": 66
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "coIOOgJPjR4x",
-      "address": "https://es.wikipedia.org/wiki/Wikipedia:Art%C3%ADculos_solicitados",
-      "title": "Wikipedia:Artículos solicitados - Wikipedia, la enciclopedia libre",
-      "snippet": "",
-      "matchedWords": {
-        "Eh1HfZrHSRjZ": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "UTS1UnoLaEo1": {
-          "hits": 0,
-          "textWords": 0
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "eq7JMgJPjR4x",
-      "address": "https://es.wikipedia.org/wiki/Computadora",
-      "title": "",
-      "snippet": "",
-      "matchedWords": {
-        "Eh1HfZrHSRjZ": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "UTS1UnoLaEo1": {
-          "hits": 0,
-          "textWords": 0
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "-YDIJgJPjR4x",
-      "address": "https://es.wikipedia.org/wiki/Andaluc%C3%ADa",
-      "title": "Andalucía - Wikipedia, la enciclopedia libre",
-      "snippet": "",
-      "matchedWords": {
-        "Eh1HfZrHSRjZ": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "UTS1UnoLaEo1": {
-          "hits": 0,
-          "textWords": 0
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "dBWd4_qoHJ8x",
-      "address": "https://gl.wikipedia.org/wiki/PHP",
-      "title": "PHP - Wikipedia, a enciclopedia libre",
-      "snippet": "",
-      "matchedWords": {
-        "Eh1HfZrHSRjZ": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "UTS1UnoLaEo1": {
-          "hits": 0,
-          "textWords": 0
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "cy0QdlSt_F9g",
-      "address": "https://www.abc.es/salud/",
-      "title": "Canal Salud | Noticias, especialistas médicos, patologías | abc.es - ABC.es",
-      "snippet": "El peligro oculto en el pastillero de los mayores: cuando un fármaco se receta solo para tapar los efectos de otro\nLa llamada 'cascada de prescripciones', donde los efectos adversos se confunden con nuevas enfermedades, causa daños inadvertidos que afectan sobre todo a las mujeres mayores.",
-      "matchedWords": {
-        "Eh1HfZrHSRjZ": {
-          "hits": 0,
-          "textWords": 715
-        },
-        "UTS1UnoLaEo1": {
-          "hits": 0,
-          "textWords": 715
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "hbTm1v7raSJ4",
-      "address": "https://www.shopify.com/co/website/builder?country=co\u0026lang=en",
-      "title": "Creador de sitios web de ecommerce | Crea una tienda gratis en minutos - Shopify",
-      "snippet": "",
-      "matchedWords": {
-        "Eh1HfZrHSRjZ": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "UTS1UnoLaEo1": {
-          "hits": 0,
-          "textWords": 0
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "9RVa1T5DCs35",
-      "address": "https://wordpress.com/es/creador-webs-ia/",
-      "title": "Creador de webs con IA | Crea un sitio de WordPress.com en cuestión de minutos",
-      "snippet": "Solo tienes que escribir lo que necesitas, responder a algunas preguntas y la IA se encarga del diseño y el texto. No se necesita experiencia en programación ni diseño.\n¿En qué se diferencia un creador de webs con IA de uno normal?",
-      "matchedWords": {
-        "Eh1HfZrHSRjZ": {
-          "hits": 1,
-          "textWords": 1706
-        },
-        "UTS1UnoLaEo1": {
-          "hits": 0,
-          "textWords": 1706
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "FxHNCgJPjR4x",
-      "address": "https://es.wikipedia.org/wiki/Inteligencia_artificial",
-      "title": "Inteligencia artificial - Wikipedia, la enciclopedia libre",
-      "snippet": "",
-      "matchedWords": {
-        "Eh1HfZrHSRjZ": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "UTS1UnoLaEo1": {
-          "hits": 0,
-          "textWords": 0
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "QEHhGgJPjR4x",
-      "address": "https://es.wikipedia.org/wiki/Portal:Inform%C3%A1tica",
-      "title": "Portal:Informática - Wikipedia, la enciclopedia libre",
-      "snippet": "",
-      "matchedWords": {
-        "Eh1HfZrHSRjZ": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "UTS1UnoLaEo1": {
-          "hits": 0,
-          "textWords": 0
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "XGiX3gJPjR4x",
-      "address": "https://es.wikipedia.org/wiki/M%C3%A9xico",
-      "title": "México - Wikipedia, la enciclopedia libre",
-      "snippet": "",
-      "matchedWords": {
-        "Eh1HfZrHSRjZ": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "UTS1UnoLaEo1": {
-          "hits": 0,
-          "textWords": 0
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "coIOOgJPjR4x",
-      "address": "https://es.wikipedia.org/wiki/Wikipedia:Art%C3%ADculos_solicitados",
-      "title": "Wikipedia:Artículos solicitados - Wikipedia, la enciclopedia libre",
-      "snippet": "",
-      "matchedWords": {
-        "Eh1HfZrHSRjZ": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "UTS1UnoLaEo1": {
-          "hits": 0,
-          "textWords": 0
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "eTDc7gJPjR4x",
-      "address": "https://es.wikipedia.org/wiki/Twitter",
-      "title": "Twitter - Wikipedia, la enciclopedia libre",
-      "snippet": "",
-      "matchedWords": {
-        "Eh1HfZrHSRjZ": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "UTS1UnoLaEo1": {
-          "hits": 0,
-          "textWords": 0
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "xuamygJPjR4x",
-      "address": "https://es.wikipedia.org/wiki/Argentina",
-      "title": "Argentina - Wikipedia, la enciclopedia libre",
-      "snippet": "",
-      "matchedWords": {
-        "Eh1HfZrHSRjZ": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "UTS1UnoLaEo1": {
-          "hits": 0,
-          "textWords": 0
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "5418oUxHMQI4",
-      "address": "https://cnnespanol.cnn.com/?hpt=header_edition-picker",
-      "title": "Últimas noticias de Estados Unidos, Latinoamérica y el mundo, hoy | CNN en Español | CNN",
-      "snippet": "",
-      "matchedWords": {
-        "Eh1HfZrHSRjZ": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "UTS1UnoLaEo1": {
-          "hits": 0,
-          "textWords": 0
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "8TA94l-cfhOj",
-      "address": "https://www.laopiniondemurcia.es/",
-      "title": "La Opinión de Murcia, últimas noticias de Murcia y España.",
-      "snippet": "",
-      "matchedWords": {
-        "Eh1HfZrHSRjZ": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "UTS1UnoLaEo1": {
-          "hits": 0,
-          "textWords": 0
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "Q9ZGalD5B4Sj",
-      "address": "https://www.elnortedecastilla.es/",
-      "title": "El Norte de Castilla - Noticias de Castilla y León desde 1854",
-      "snippet": "Encuentra en nuestra web el curso que buscas y mejora tu futuro con formación de calidad.\nVer más\nFormación Profesional\nTítulo oficial de FP con financiación y prácticas profesionales\nPresencial o a distancia, obtén un título 100% oficial.\nCampus virtual\nProgramación",
-      "matchedWords": {
-        "Eh1HfZrHSRjZ": {
-          "hits": 1,
-          "textWords": 3970
-        },
-        "UTS1UnoLaEo1": {
-          "hits": 0,
-          "textWords": 3970
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "_TfV3lFZc5Lg",
-      "address": "https://www.elmundo.es/",
-      "title": "EL MUNDO - Diario online líder de información en español",
-      "snippet": "Portada Sábado, 12 de septiembre de 2026\nPortada Es noticia\nSaltar a navegación principal (Pulse Enter)\nSaltar a contenido (Pulse Enter)\nPortada\nSecciones\nPORTADA\nACTUALIDAD\nJUEGOS\n25 aniversario del 11-S\nAL DÍA\nCULTURA\nSucesos\nDESTACADOS\nHistoria.",
-      "matchedWords": {
-        "Eh1HfZrHSRjZ": {
-          "hits": 0,
-          "textWords": 66
-        },
-        "UTS1UnoLaEo1": {
-          "hits": 0,
-          "textWords": 66
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "XGiX3gJPjR4x",
-      "address": "https://es.wikipedia.org/wiki/M%C3%A9xico",
-      "title": "México - Wikipedia, la enciclopedia libre",
-      "snippet": "",
-      "matchedWords": {
-        "Eh1HfZrHSRjZ": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "UTS1UnoLaEo1": {
-          "hits": 0,
-          "textWords": 0
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "xuamygJPjR4x",
-      "address": "https://es.wikipedia.org/wiki/Argentina",
-      "title": "Argentina - Wikipedia, la enciclopedia libre",
-      "snippet": "",
-      "matchedWords": {
-        "Eh1HfZrHSRjZ": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "UTS1UnoLaEo1": {
-          "hits": 0,
-          "textWords": 0
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "8ScywgJPjR4x",
-      "address": "https://es.wikipedia.org/wiki/BBC_Micro",
-      "title": "BBC Micro - Wikipedia, la enciclopedia libre",
-      "snippet": "",
-      "matchedWords": {
-        "Eh1HfZrHSRjZ": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "UTS1UnoLaEo1": {
-          "hits": 0,
-          "textWords": 0
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "0_jlZlKzNdbg",
-      "address": "https://www.cope.es/actualidad",
-      "title": "Actualidad | COPE",
-      "snippet": "",
-      "matchedWords": {
-        "Eh1HfZrHSRjZ": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "UTS1UnoLaEo1": {
-          "hits": 0,
-          "textWords": 0
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "qlCfKlLjcC4h",
-      "address": "https://www.elcomercio.es/",
-      "title": "EL COMERCIO - Últimas noticias y actualidad en Asturias",
-      "snippet": "Título oficial de FP con financiación y prácticas profesionales\nPresencial o a distancia, obtén un título 100% oficial.\nCampus virtual\nProgramación\nFórmate en Python y accede a un sector en constante crecimiento\nCurso bonificable a través de Fundae.\n100% Online\nAuxiliar Técnico Veterinario",
-      "matchedWords": {
-        "Eh1HfZrHSRjZ": {
-          "hits": 1,
-          "textWords": 4679
-        },
-        "UTS1UnoLaEo1": {
-          "hits": 0,
-          "textWords": 4679
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "-qTg_sMtOvg7",
-      "address": "https://universidadeuropea.com/master-derecho-digital-online/",
-      "title": "Máster en Derecho Digital | UE Online",
-      "snippet": "",
-      "matchedWords": {
-        "Eh1HfZrHSRjZ": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "UTS1UnoLaEo1": {
-          "hits": 0,
-          "textWords": 0
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "0ZjN3HRgsp67",
-      "address": "https://creativecampus.universidadeuropea.com/master-diseno-espacios-gastronomicos-madrid/",
-      "title": "Máster en Diseño de Espacios Gastronómicos | Creative Campus",
-      "snippet": "",
-      "matchedWords": {
-        "Eh1HfZrHSRjZ": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "UTS1UnoLaEo1": {
-          "hits": 0,
-          "textWords": 0
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "0RvkuLdT6x75",
-      "address": "https://www.infoempleo.com/trabajo/en_valencia/",
-      "title": "Ofertas de trabajo en Valencia | Infoempleo",
-      "snippet": "",
-      "matchedWords": {
-        "Eh1HfZrHSRjZ": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "UTS1UnoLaEo1": {
-          "hits": 0,
-          "textWords": 0
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "7j0eLle1yXo6",
-      "address": "https://www.lacronicabadajoz.com/",
-      "title": "La Crónica de Badajoz | Noticias de hoy en Badajoz",
-      "snippet": "",
-      "matchedWords": {
-        "Eh1HfZrHSRjZ": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "UTS1UnoLaEo1": {
-          "hits": 0,
-          "textWords": 0
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "StIUFOk_hDHh",
-      "address": "https://computerhoy.20minutos.es/",
-      "title": "Computer Hoy: Todo sobre tecnología, gadgets y novedades",
-      "snippet": "Funciones de iOS 27 para iPhone que no podrás utilizar en España por el bloqueo de la Unión Europea\nJuan Manuel Delgado\nLa Fórmula 1 mueve hasta 650 TB de datos en un solo Gran Premio: así funciona su impresionante tecnología\nAna Muñoz de Frutos",
-      "matchedWords": {
-        "Eh1HfZrHSRjZ": {
-          "hits": 0,
-          "textWords": 2162
-        },
-        "UTS1UnoLaEo1": {
-          "hits": 0,
-          "textWords": 2162
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "ISxsyloVqyIh",
-      "address": "https://www.elcorreoweb.es/",
-      "title": "El Correo de Andalucía - Noticias de Sevilla, Andalucía y España.",
-      "snippet": "PRENSA IBÉRICA NETWORK, S.L.U.",
-      "matchedWords": {
-        "Eh1HfZrHSRjZ": {
-          "hits": 0,
-          "textWords": 3
-        },
-        "UTS1UnoLaEo1": {
-          "hits": 0,
-          "textWords": 3
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "8ta_Tkq5hB0g",
-      "address": "https://skos.um.es/TR/rdf-sparql-query/",
-      "title": "SPARQL Lenguaje de consulta para RDF",
-      "snippet": "",
-      "matchedWords": {
-        "Eh1HfZrHSRjZ": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "UTS1UnoLaEo1": {
-          "hits": 0,
-          "textWords": 0
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "qJ2yhlqI85p7",
-      "address": "https://www.elperiodicodearagon.com/",
-      "title": "El Periódico de Aragón. Noticias de Aragón, Zaragoza, Huesca y Teruel",
-      "snippet": "",
-      "matchedWords": {
-        "Eh1HfZrHSRjZ": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "UTS1UnoLaEo1": {
-          "hits": 0,
-          "textWords": 0
-        }
-      },
-      "queryPhraseHits": 0
     }
   ],
   "documentsHeldPerQueryWord": {
-    "Eh1HfZrHSRjZ": 21258,
-    "UTS1UnoLaEo1": 55876
+    "Eh1HfZrHSRjZ": 22540,
+    "UTS1UnoLaEo1": 54938
   }
 }

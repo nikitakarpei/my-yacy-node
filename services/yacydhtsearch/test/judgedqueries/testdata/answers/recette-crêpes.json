@@ -1,140 +1,76 @@
 {
   "query": "recette crêpes",
-  "recordedAt": "2026-09-12T10:15:30Z",
+  "recordedAt": "2026-09-12T11:25:31Z",
   "itemsInTheOrderOfEachAnswer": [
     [
       {
-        "hash": "05P_mCKCIhSg",
-        "address": "https://madame.lefigaro.fr/recettes/nems-crevettes-221206-5867",
-        "title": "Nems aux crevettes faciles",
-        "snippet": "Réservé aux abonnés\n(731 votes)\nDes crêpes de riz, des crevettes roses, des pousses de soja et une carotte suffisent à obtenir la meilleure des bouchées.\nDurée : 30min\nDifficulté : Facile\nPréparation 20min\nRepos -\nCuisson 10min\nIngrédients\nPréparation\nPréparation\n01 Confection des nems",
-        "matchedWords": {
-          "5fuQgx56JnNw": {
-            "hits": 0,
-            "textWords": 176
-          },
-          "fTPlth54Kuw3": {
-            "hits": 2,
-            "textWords": 176
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "Wk2hT2KCIhSg",
-        "address": "https://madame.lefigaro.fr/tag/judi-dench",
-        "title": "Judi Dench",
-        "snippet": "Les actrices Judi Dench et Siân Phillips deviennent les premières femmes à intégrer le Garrick, célèbre «boys club» londonien\nC’est le dernier «boys club» de Londres.",
-        "matchedWords": {
-          "5fuQgx56JnNw": {
-            "hits": 0,
-            "textWords": 158
-          },
-          "fTPlth54Kuw3": {
-            "hits": 0,
-            "textWords": 158
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "K2WdICKCIhSg",
-        "address": "https://madame.lefigaro.fr/recettes/ceviche-de-bar-a-la-forestiere-20230503",
-        "title": "Ceviche de bar à la forestière",
-        "snippet": "Réservé aux abonnés\n(1 vote)\nLe ceviche est un plat de poisson cru frais et parfumé à conjuguer tout l'été. Ici, le bar s'associe parfaitement aux champignons et aux agrumes.\nDurée : 30min\nDifficulté : Facile\nPréparation 20min\nRepos -\nCuisson 10min\nIngrédients\nPréparation\nIngrédients\n4 personnes",
-        "matchedWords": {
-          "5fuQgx56JnNw": {
-            "hits": 0,
-            "textWords": 167
-          },
-          "fTPlth54Kuw3": {
-            "hits": 0,
-            "textWords": 167
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "Ss7MJ2KCIhSg",
-        "address": "https://madame.lefigaro.fr/tag/amanda-seyfried",
-        "title": "Amanda Seyfried",
-        "snippet": "Fiche d'identité\nTaille : 1,59 m\nSigne chinois : Buffle\nMarié à Thomas Sadoski\nEnfants : Nina (2017)\nPère : Jack Seyfried\nMère : Ann Seyfried\nSœur : Jennifer Seyfried\nBiographie d'Amanda Seyfried",
-        "matchedWords": {
-          "5fuQgx56JnNw": {
-            "hits": 0,
-            "textWords": 519
-          },
-          "fTPlth54Kuw3": {
-            "hits": 0,
-            "textWords": 519
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "pRl9CHqMmHqh",
-        "address": "https://www.lindependant.fr/articles/2019/01/31/",
-        "title": "Articles du 31/01/2019 - lindependant.fr",
-        "snippet": "Trois semaines de plâtre suffisantes pour soigner une fracture ?\nM.A.C Cosmetics lance la saison des carnavals avec sa nouvelle ligne de make-up\nLe petit-déjeuner ne favoriserait pas forcément la perte de poids\nRecette : Crêpes gratinées jambon/fromage\nPsycho - sexo",
+        "hash": "Lg_KaCKCIhSg",
+        "address": "https://madame.lefigaro.fr/recettes/pate-crepes-sucree-171000-198865",
+        "title": "Pâte à crêpes sucrée facile et rapide",
+        "snippet": "(14101 votes)\nFacile, cette recette se réalise en 10 minutes montre en main ! Cette pâte à crêpes sucrée facile et rapide, très légère, réalisée avec du rhum, est idéale pour célébrer la Chandeleur.\nPasser la publicité Durée : 10min\nDifficulté : Très facile\nPréparation 05min\nRepos -\nCuisson 05min",
         "matchedWords": {
           "5fuQgx56JnNw": {
             "hits": 1,
-            "textWords": 1805
+            "textWords": 136
           },
           "fTPlth54Kuw3": {
             "hits": 2,
-            "textWords": 1805
+            "textWords": 136
           }
         },
-        "queryPhraseHits": 1
-      },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
       {
-        "hash": "UDv4zCKCIhSg",
-        "address": "https://madame.lefigaro.fr/recettes/ingredients/huitre-0",
-        "title": "Huître recettes traditionnelles : sublimez vos plats",
-        "snippet": "Composée de seulement trois ingrédients, cette recette élégante allie huîtres, Fourme d’Ambert et carotte.\n11min Facile\nHuîtres aux pommes parfumées au calvados\nUne recette qui fleure bon la mer et la Normandie, composée d’huîtres coiffées de pommes parfumées au Calvados.\n20min Très facile",
+        "hash": "smyaiTKCIhSg",
+        "address": "https://madame.lefigaro.fr/",
+        "title": "Mode, Beauté, Recettes, Société, Horoscope, Célébrités",
+        "snippet": "VIDÉOS\nPassion Céline Dion\nParis Hilton, égérie Karl Lagerfeld, Sessùn fête ses 30 ans, collaboration Havaïanas et Kidsuper… L’impératif Madame\nRetour sur ce que la rédaction veut impérativement partager avec vous cette semaine.\nCe dégradé de bleu Ralph Lauren qu’on va toutes vouloir porter en 2027",
         "matchedWords": {
           "5fuQgx56JnNw": {
-            "hits": 21,
-            "textWords": 1878
+            "hits": 0,
+            "textWords": 2805
           },
           "fTPlth54Kuw3": {
             "hits": 0,
-            "textWords": 1878
+            "textWords": 2805
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "JhYEx2KCIhSg",
+        "address": "https://madame.lefigaro.fr/tag/rebecca-zlotowski",
+        "title": "Rebecca Zlotowski",
+        "snippet": "Rebecca Zlotowski : «Ce film, c'est aussi une lettre d'amour aux femmes qui n'ont pas d'enfant»\nAvec Les enfants des autres, portés par Virginie Efira, la cinéaste plonge dans le récit intime.",
+        "matchedWords": {
+          "5fuQgx56JnNw": {
+            "hits": 0,
+            "textWords": 312
+          },
+          "fTPlth54Kuw3": {
+            "hits": 0,
+            "textWords": 312
           }
         },
         "queryPhraseHits": 0
       },
       {
-        "hash": "DHdLtCKCIhSg",
-        "address": "https://madame.lefigaro.fr/recettes/terrine-de-foie-gras-de-canard-au-vin-des-dieux-20221212",
-        "title": "Terrine de foie gras de canard au vin des dieux",
-        "snippet": "Réservé aux abonnés\n(12 votes)\nPar\nLa terrine de foie gras de canard au vin des dieux d'Hélène Darroze. Une recette idéale pour les fêtes de fin d'année.\nDurée : 1h\nDifficulté : Facile\nPréparation 35min\nRepos -\nCuisson 25min\nIngrédients\nPréparation\nIngrédients\n6 personnes",
-        "matchedWords": {
-          "5fuQgx56JnNw": {
-            "hits": 1,
-            "textWords": 144
-          },
-          "fTPlth54Kuw3": {
-            "hits": 0,
-            "textWords": 144
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "XdkO_mKCIhSg",
-        "address": "https://madame.lefigaro.fr/le-petit-club/madamelove-tentez-de-gagner-une-bague-tityaravy-20240208",
-        "title": "#MadameLove : tentez de gagner une bague Tityaravy",
-        "snippet": "Par Le Petit Club\nPublié le 08/02/2024 à 09h55, mis à jour le 26/03/2024 à 12h01\nDécouvrez la sélection de cadeaux de St Valentin signée Le Petit Club Tityaravy\nLe Petit Club célèbre l'amour ! Pour la Saint-Valentin, Madame Figaro lance #MadameLove.",
+        "hash": "KQ5uDlKCIhSg",
+        "address": "https://madame.lefigaro.fr/mariage/tendances",
+        "title": "Tendances mariage : Nos idées pour votre jour j",
+        "snippet": "Le somptueux mariage d’Isabel de Habsbourg-Lorraine et Carlos de Palacio Gaytán de Ayala en Autriche\nCe samedi 25 juillet, l’archiduchesse Isabel de Habsbourg-Lorraine et Carlos de Palacio Gaytán de Ayala ont célébré leurs noces à Vienne. Pour l’occasion, des invités prestigieux étaient présents.",
         "matchedWords": {
           "5fuQgx56JnNw": {
             "hits": 0,
-            "textWords": 302
+            "textWords": 2234
           },
           "fTPlth54Kuw3": {
             "hits": 0,
-            "textWords": 302
+            "textWords": 2234
           }
         },
         "queryPhraseHits": 0
@@ -161,18 +97,52 @@
     ],
     [
       {
-        "hash": "PDErLCKCIhSg",
-        "address": "https://madame.lefigaro.fr/recettes/ingredients/beurre-0",
-        "title": "Beurre recettes traditionnelles : sublimez vos plats",
-        "snippet": "Un délice !\n45min Moyen\nÉpaule de cochon confite 8h\nTendre et savoureuse, cette épaule d’agneau est confite pendant plus de 8 heures et dégustée flanquée de pommes de terre grenailles. Une recette de Laurent Delabre.\n8h35min Facile\nMillefeuille de crêpes aux fraises",
+        "hash": "aXyYXdKCIhSg",
+        "address": "https://madame.lefigaro.fr/celebrites/actu-people/en-video-jake-gyllenhaal-affiche-ses-abdos-lors-d-une-vraie-competition-d-arts-martiaux-20230307",
+        "title": "L'acteur Jake Gyllenhaal affiche son impressionnante musculature lors d'une compétition d'arts martiaux",
+        "snippet": "Métamorphosé en ex-lutteur de MMA pour les besoins d'un nouveau film, l'acteur a stupéfié l'audience lors d'une compétition d'«ultimate fighting» avec son physique ultra-sculpté.",
         "matchedWords": {
           "5fuQgx56JnNw": {
-            "hits": 30,
-            "textWords": 2326
+            "hits": 0,
+            "textWords": 353
           },
           "fTPlth54Kuw3": {
-            "hits": 2,
-            "textWords": 2326
+            "hits": 0,
+            "textWords": 353
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "YQv1aCKCIhSg",
+        "address": "https://madame.lefigaro.fr/recettes/helene-darroze-merlu-de-ligne-de-saint-jean-de-luz-et-bagna-cauda-070619-165474",
+        "title": "Merlu de ligne de Saint-Jean-de-Luz et bagna cauda",
+        "snippet": "(350 votes)\nPar\nLa cheffe Hélène Darroze propose une recette qui fleure bon le Sud-Ouest.\nPasser la publicité Durée : 1h10min\nDifficulté : Facile\nPréparation 25min\nRepos -\nCuisson 45min\nIngrédients\nPréparation\nIngrédients\n6 personnes\n6 pavés pavés de merlu de 75 g\n14 asperge blanche\n450 g d’ail",
+        "matchedWords": {
+          "5fuQgx56JnNw": {
+            "hits": 1,
+            "textWords": 278
+          },
+          "fTPlth54Kuw3": {
+            "hits": 0,
+            "textWords": 278
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "aV9pJCKCIhSg",
+        "address": "https://madame.lefigaro.fr/recettes/macarons-sans-amande-ultra-chocolat-081107-6668",
+        "title": "Macarons sans amande ultra-chocolat",
+        "snippet": "Réservé aux abonnés\n(403 votes)\nPar\nJulie Andrieu dévoile dans cette recette, un macaron à la fois tendre et croustillant. Très chocolaté, il promet de faire fondre tous les gourmets.\nDurée : 22min\nDifficulté : Facile\nPréparation 10min\nRepos -\nCuisson 12min\nIngrédients\nPréparation\nIngrédients",
+        "matchedWords": {
+          "5fuQgx56JnNw": {
+            "hits": 1,
+            "textWords": 150
+          },
+          "fTPlth54Kuw3": {
+            "hits": 0,
+            "textWords": 150
           }
         },
         "queryPhraseHits": 0
@@ -180,18 +150,315 @@
     ],
     [
       {
-        "hash": "9_VEXsKCIhSg",
-        "address": "https://madame.lefigaro.fr/bien-etre/nutrition",
-        "title": "Conseils diététiques et astuces pour bien manger",
-        "snippet": "Contrairement aux croyances, la conservation des œufs ne répond pas à une règle unique\nCe qu’il vaut mieux savoir avant d’acheter son tarama au supermarché\nSur Instagram, le chimiste Raphaël Haumont révèle les coulisses de la recette industrielle",
+        "hash": "y09tFdKCIhSg",
+        "address": "https://madame.lefigaro.fr/celebrites/culture/romans-polars-bd-les-10-livres-qui-vont-faire-votre-ete-20260714",
+        "title": "Romans, polars, BD... les 10 livres qui vont faire votre été",
+        "snippet": "Réservé aux abonnés\nDes vies qui se croisent, des destins qui se brisent, des trajectoires percutées par l’histoire… nos coups de cœur à savourer au soleil.\nPasser la publicité Saga : Des héroïnes en lutte\nLe Calamity Club, de Kathryn Stockett, Éditions Robert Laffont, 682 p., 24,90 €.",
         "matchedWords": {
           "5fuQgx56JnNw": {
-            "hits": 1,
-            "textWords": 1782
+            "hits": 0,
+            "textWords": 251
           },
           "fTPlth54Kuw3": {
             "hits": 0,
-            "textWords": 1782
+            "textWords": 251
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "xNH_c_KCIhSg",
+        "address": "https://madame.lefigaro.fr/royaute/le-prince-harry-retourne-au-tribunal-pour-soutenir-elizabeth-hurley-20260123",
+        "title": "Le prince Harry retourne au tribunal pour soutenir Elizabeth Hurley",
+        "snippet": "Par C.L\nPublié le 23/01/2026 à 07h59\nLe duc de Sussex quitte le palais de justice royal après avoir manifesté son soutien envers Elizabeth Hurley dans leur procès contre Associated Newspapers Limited (ANL). (Londres, le 22 janvier 2026.) PA Photos/ABACA",
+        "matchedWords": {
+          "5fuQgx56JnNw": {
+            "hits": 0,
+            "textWords": 389
+          },
+          "fTPlth54Kuw3": {
+            "hits": 0,
+            "textWords": 389
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "zFBYcsKCIhSg",
+        "address": "https://madame.lefigaro.fr/bien-etre/nutrition/quel-est-le-petit-dejeuner-ideal-pour-notre-cerveau-20251215",
+        "title": "Petit déjeuner : voici le menu idéal pour le bon fonctionnement de notre cerveau",
+        "snippet": "Par Tiphaine Honnet\nPublié le 15/12/2025 à 07h00\nSur Instagram, le psychiatre Guillaume Fond explique pourquoi le petit déjeuner à la française crée un cercle vicieux épuisant pour le cerveau, et comment l’éviter.",
+        "matchedWords": {
+          "5fuQgx56JnNw": {
+            "hits": 0,
+            "textWords": 549
+          },
+          "fTPlth54Kuw3": {
+            "hits": 0,
+            "textWords": 549
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "YQv1aCKCIhSg",
+        "address": "https://madame.lefigaro.fr/recettes/helene-darroze-merlu-de-ligne-de-saint-jean-de-luz-et-bagna-cauda-070619-165474",
+        "title": "Merlu de ligne de Saint-Jean-de-Luz et bagna cauda",
+        "snippet": "(350 votes)\nPar\nLa cheffe Hélène Darroze propose une recette qui fleure bon le Sud-Ouest.\nPasser la publicité Durée : 1h10min\nDifficulté : Facile\nPréparation 25min\nRepos -\nCuisson 45min\nIngrédients\nPréparation\nIngrédients\n6 personnes\n6 pavés pavés de merlu de 75 g\n14 asperge blanche\n450 g d’ail",
+        "matchedWords": {
+          "5fuQgx56JnNw": {
+            "hits": 1,
+            "textWords": 278
+          },
+          "fTPlth54Kuw3": {
+            "hits": 0,
+            "textWords": 278
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "r2lvPCKCIhSg",
+        "address": "https://madame.lefigaro.fr/recettes/100-chocolat-100511-202685",
+        "title": "Le 100% chocolat",
+        "snippet": "Réalisez le cylindre au chocolat noir :\nFaites fondre le chocolat et le lait au bain-marie. Pendant ce temps monter la crème en chantilly. Lorsque le chocolat est fondu, ajoutez délicatement la crème. Mélangez pour avoir un ensemble homogène.",
+        "matchedWords": {
+          "5fuQgx56JnNw": {
+            "hits": 0,
+            "textWords": 329
+          },
+          "fTPlth54Kuw3": {
+            "hits": 0,
+            "textWords": 329
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "6SSBSCKCIhSg",
+        "address": "https://madame.lefigaro.fr/recettes/terrine-de-lapin-de-garrigue-200914-936802",
+        "title": "Terrine de lapin",
+        "snippet": "Réservé aux abonnés\n(599 votes)\nUne terrine de lapin et de légumes savoureuse, idéale en entrée ou en apéritif, accompagnée de pain frais.\nDurée : 3h25min\nDifficulté : Moyen\nPréparation 25min\nRepos -\nCuisson 3h\nIngrédients\nPréparation\nPréparation\n01 Pour le lapin",
+        "matchedWords": {
+          "5fuQgx56JnNw": {
+            "hits": 0,
+            "textWords": 117
+          },
+          "fTPlth54Kuw3": {
+            "hits": 0,
+            "textWords": 117
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "aV9pJCKCIhSg",
+        "address": "https://madame.lefigaro.fr/recettes/macarons-sans-amande-ultra-chocolat-081107-6668",
+        "title": "Macarons sans amande ultra-chocolat",
+        "snippet": "Réservé aux abonnés\n(403 votes)\nPar\nJulie Andrieu dévoile dans cette recette, un macaron à la fois tendre et croustillant. Très chocolaté, il promet de faire fondre tous les gourmets.\nDurée : 22min\nDifficulté : Facile\nPréparation 10min\nRepos -\nCuisson 12min\nIngrédients\nPréparation\nIngrédients",
+        "matchedWords": {
+          "5fuQgx56JnNw": {
+            "hits": 1,
+            "textWords": 150
+          },
+          "fTPlth54Kuw3": {
+            "hits": 0,
+            "textWords": 150
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "DQiReCKCIhSg",
+        "address": "https://madame.lefigaro.fr/recettes/trois-rouleaux-farcis-221206-5864",
+        "title": "Rouleaux farcis au poulet, tomate et jambon",
+        "snippet": "(416 votes)\nUn apéritif froid, facile et rapide à réaliser. Trois galettes fourrées au poulet, à la tomate et au jambon, à déguster toute l'année.\nPasser la publicité Durée : 25min\nDifficulté : Facile\nPréparation 15min\nRepos -\nCuisson 10min\nIngrédients\nPréparation\nIngrédients\n6 personnes",
+        "matchedWords": {
+          "5fuQgx56JnNw": {
+            "hits": 0,
+            "textWords": 204
+          },
+          "fTPlth54Kuw3": {
+            "hits": 0,
+            "textWords": 204
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "mMk2xCKCIhSg",
+        "address": "https://madame.lefigaro.fr/recettes/foie-gras-zeste-de-citron-vert-confit-de-dattes-181109-201952",
+        "title": "Foie gras au zeste de citron vert, confit de dattes",
+        "snippet": "Réservé aux abonnés\n(551 votes)\nPar\nGuy Martin propose ce foie gras au zeste de citron vert et confit de dattes, à déguster avec des tranches de pain grillé et une salade.\nDurée : 1h05min\nDifficulté : Moyen\nPréparation 40min\nRepos -\nCuisson 25min\nIngrédients\nPréparation\nIngrédients\n8 personnes",
+        "matchedWords": {
+          "5fuQgx56JnNw": {
+            "hits": 0,
+            "textWords": 218
+          },
+          "fTPlth54Kuw3": {
+            "hits": 0,
+            "textWords": 218
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "BSpvEQKCIhSg",
+        "address": "https://madame.lefigaro.fr/bijoux-et-montres/ariana-grande-pour-swarovski-une-collection-de-bijoux-inspiree-par-la-musique-20250128",
+        "title": "Ariana Grande pour Swarovski, une collection de bijoux inspirée par la musique",
+        "snippet": "Les images de la nouvelle collection capsule Swarovski x Ariana Grande, dévoilée ce mardi 28 janvier. Swarovski",
+        "matchedWords": {
+          "5fuQgx56JnNw": {
+            "hits": 0,
+            "textWords": 518
+          },
+          "fTPlth54Kuw3": {
+            "hits": 0,
+            "textWords": 518
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "BUDN0rKCIhSg",
+        "address": "https://madame.lefigaro.fr/beaute/parfum/en-exclusivite-anya-taylor-joy-s-avance-en-reine-des-neiges-enchanteresse-pour-dior-parfums-20231020",
+        "title": "En exclusivité, Anya Taylor-Joy s’avance en reine des neiges enchanteresse pour Dior parfums",
+        "snippet": "Par La Rédaction\nPublié le 20/10/2023 à 13h02\nEXCLU VIDÉO - Madame Figaro s’est procuré en exclusivité la vidéo de la campagne Christian Dior parfums pour les fêtes de Noël, dans laquelle Anya-Taylor-Joy, égérie de la marque, tient le premier rôle.",
+        "matchedWords": {
+          "5fuQgx56JnNw": {
+            "hits": 0,
+            "textWords": 444
+          },
+          "fTPlth54Kuw3": {
+            "hits": 0,
+            "textWords": 444
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "DQiReCKCIhSg",
+        "address": "https://madame.lefigaro.fr/recettes/trois-rouleaux-farcis-221206-5864",
+        "title": "Rouleaux farcis au poulet, tomate et jambon",
+        "snippet": "(416 votes)\nUn apéritif froid, facile et rapide à réaliser. Trois galettes fourrées au poulet, à la tomate et au jambon, à déguster toute l'année.\nPasser la publicité Durée : 25min\nDifficulté : Facile\nPréparation 15min\nRepos -\nCuisson 10min\nIngrédients\nPréparation\nIngrédients\n6 personnes",
+        "matchedWords": {
+          "5fuQgx56JnNw": {
+            "hits": 0,
+            "textWords": 204
+          },
+          "fTPlth54Kuw3": {
+            "hits": 0,
+            "textWords": 204
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "aXyYXdKCIhSg",
+        "address": "https://madame.lefigaro.fr/celebrites/actu-people/en-video-jake-gyllenhaal-affiche-ses-abdos-lors-d-une-vraie-competition-d-arts-martiaux-20230307",
+        "title": "L'acteur Jake Gyllenhaal affiche son impressionnante musculature lors d'une compétition d'arts martiaux",
+        "snippet": "Métamorphosé en ex-lutteur de MMA pour les besoins d'un nouveau film, l'acteur a stupéfié l'audience lors d'une compétition d'«ultimate fighting» avec son physique ultra-sculpté.",
+        "matchedWords": {
+          "5fuQgx56JnNw": {
+            "hits": 0,
+            "textWords": 353
+          },
+          "fTPlth54Kuw3": {
+            "hits": 0,
+            "textWords": 353
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "aV9pJCKCIhSg",
+        "address": "https://madame.lefigaro.fr/recettes/macarons-sans-amande-ultra-chocolat-081107-6668",
+        "title": "Macarons sans amande ultra-chocolat",
+        "snippet": "Réservé aux abonnés\n(403 votes)\nPar\nJulie Andrieu dévoile dans cette recette, un macaron à la fois tendre et croustillant. Très chocolaté, il promet de faire fondre tous les gourmets.\nDurée : 22min\nDifficulté : Facile\nPréparation 10min\nRepos -\nCuisson 12min\nIngrédients\nPréparation\nIngrédients",
+        "matchedWords": {
+          "5fuQgx56JnNw": {
+            "hits": 1,
+            "textWords": 150
+          },
+          "fTPlth54Kuw3": {
+            "hits": 0,
+            "textWords": 150
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "YQv1aCKCIhSg",
+        "address": "https://madame.lefigaro.fr/recettes/helene-darroze-merlu-de-ligne-de-saint-jean-de-luz-et-bagna-cauda-070619-165474",
+        "title": "Merlu de ligne de Saint-Jean-de-Luz et bagna cauda",
+        "snippet": "(350 votes)\nPar\nLa cheffe Hélène Darroze propose une recette qui fleure bon le Sud-Ouest.\nPasser la publicité Durée : 1h10min\nDifficulté : Facile\nPréparation 25min\nRepos -\nCuisson 45min\nIngrédients\nPréparation\nIngrédients\n6 personnes\n6 pavés pavés de merlu de 75 g\n14 asperge blanche\n450 g d’ail",
+        "matchedWords": {
+          "5fuQgx56JnNw": {
+            "hits": 1,
+            "textWords": 278
+          },
+          "fTPlth54Kuw3": {
+            "hits": 0,
+            "textWords": 278
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "jyxCbsKCIhSg",
+        "address": "https://madame.lefigaro.fr/bien-etre/psycho/j-ai-demande-des-conseils-amoureux-a-l-ia-et-voici-ce-qu-elle-m-a-repondu-20260804",
+        "title": "J’ai demandé des conseils amoureux à l’IA et voici ce qu’elle m’a répondu",
+        "snippet": "Par Elvire Emptaz\nPublié le 04/08/2026 à 18h19, mis à jour le 05/08/2026 à 09h27\nL’Ia fait désormais partie de notre quotidien, y compris pour parler de sa vie amoureuse. Edward Berthelot / Getty Images",
+        "matchedWords": {
+          "5fuQgx56JnNw": {
+            "hits": 0,
+            "textWords": 958
+          },
+          "fTPlth54Kuw3": {
+            "hits": 0,
+            "textWords": 958
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "gOIJ8sKCIhSg",
+        "address": "https://madame.lefigaro.fr/bien-etre/forme-detente/les-conseils-du-coach-de-jennifer-lopez-pour-des-seances-de-sport-efficaces-20220228",
+        "title": "Les conseils et exercices du coach de Jennifer Lopez pour des séances de sport efficaces",
+        "snippet": "Par Julia Mokdad\nPublié le 28/02/2022 à 11h33, mis à jour le 28/02/2022 à 11h59\nMême pendant les jours de récupération, Gunnar Peterson conseille de trouver une manière de bouger. Getty Images",
+        "matchedWords": {
+          "5fuQgx56JnNw": {
+            "hits": 0,
+            "textWords": 431
+          },
+          "fTPlth54Kuw3": {
+            "hits": 0,
+            "textWords": 431
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "jPEb-sKCIhSg",
+        "address": "https://madame.lefigaro.fr/bien-etre/forme-detente/vinaigre-de-cidre-au-reveil-deux-seances-de-sport-chaque-matin-la-routine-extreme-de-victoria-beckham-20220704",
+        "title": "Vinaigre de cidre au réveil, deux séances de sport chaque matin… La routine extrême de Victoria Beckham",
+        "snippet": "Par La rédaction\nPublié le 04/07/2022 à 17h12, mis à jour le 05/07/2022 à 09h14\nVictoria Beckham dans les rues de l'Upper East Side (12 octobre 2021, New York.) Getty Images\nDans le monde de Victoria Beckham, la discipline et la rigueur sont essentielles.",
+        "matchedWords": {
+          "5fuQgx56JnNw": {
+            "hits": 0,
+            "textWords": 665
+          },
+          "fTPlth54Kuw3": {
+            "hits": 0,
+            "textWords": 665
           }
         },
         "queryPhraseHits": 0
@@ -206,11 +473,64 @@
         "matchedWords": {
           "5fuQgx56JnNw": {
             "hits": 46,
-            "textWords": 2944
+            "textWords": 2946
           },
           "fTPlth54Kuw3": {
             "hits": 0,
-            "textWords": 2944
+            "textWords": 2946
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "N5_8O2KCIhSg",
+        "address": "https://madame.lefigaro.fr/tag/bande-annonce",
+        "title": "Bande-annonce",
+        "snippet": "Passer les articles suggérés\nLa Bataille de Gaulle : l’âge de fer : de Gaulle avant la légende, de Londres à la bataille de Bir Hakeim\nAvant d’être le Général, il fut un homme seul contre tous. Antonin Baudry raconte cette conquête de la légitimité dans une fresque historique à hauteur d’homme.",
+        "matchedWords": {
+          "5fuQgx56JnNw": {
+            "hits": 0,
+            "textWords": 3179
+          },
+          "fTPlth54Kuw3": {
+            "hits": 0,
+            "textWords": 3179
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "qV8l-0KCIhSg",
+        "address": "https://madame.lefigaro.fr/societe/actu/nager-dans-la-seine-est-ce-bien-raisonnable-20260623",
+        "title": "Nager dans le Canal Saint-Martin, est-ce bien raisonnable ?",
+        "snippet": "Par Joseph Ghosn\nPublié le 23/06/2026 à 18h05, mis à jour le 24/06/2026 à 09h54\nDes Parisiens profitent d’une baignade dans le Canal Saint-Martin durant la canicule, le 22 juin 2026. JOEL SAGET / AFP\nCHRONIQUE - Il fait trop chaud et l’envie de plonger est irrésistible.",
+        "matchedWords": {
+          "5fuQgx56JnNw": {
+            "hits": 0,
+            "textWords": 558
+          },
+          "fTPlth54Kuw3": {
+            "hits": 0,
+            "textWords": 558
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "oPN_QdKCIhSg",
+        "address": "https://madame.lefigaro.fr/celebrites/culture/faut-il-lire-le-premier-roman-de-tom-hanks-20260109",
+        "title": "Faut-il lire le premier roman de Tom Hanks ?",
+        "snippet": "Par Minh Tran Huy\nPublié le 09/01/2026 à 06h40\nAprès avoir joué tous les rôles et s’être déjà lancé en littérature avec un recueil de nouvelles, la star hollywoodienne publie un récit à son image : malicieux, inventif et sincère.",
+        "matchedWords": {
+          "5fuQgx56JnNw": {
+            "hits": 0,
+            "textWords": 547
+          },
+          "fTPlth54Kuw3": {
+            "hits": 0,
+            "textWords": 547
           }
         },
         "queryPhraseHits": 0
@@ -256,18 +576,52 @@
     ],
     [
       {
-        "hash": "Lg_KaCKCIhSg",
-        "address": "https://madame.lefigaro.fr/recettes/pate-crepes-sucree-171000-198865",
-        "title": "Pâte à crêpes sucrée facile et rapide",
-        "snippet": "(14101 votes)\nFacile, cette recette se réalise en 10 minutes montre en main ! Cette pâte à crêpes sucrée facile et rapide, très légère, réalisée avec du rhum, est idéale pour célébrer la Chandeleur.\nPasser la publicité Durée : 10min\nDifficulté : Très facile\nPréparation 05min\nRepos -\nCuisson 05min",
+        "hash": "75bMgCKCIhSg",
+        "address": "https://madame.lefigaro.fr/recettes/ingredients/boeuf-0",
+        "title": "Bœuf recettes traditionnelles : sublimez vos plats",
+        "snippet": "Une recette exquise et généreuse signée Christophe Felder, maître pâtissier.\n2h05min Facile\nBœuf confit aux épices\nCannelle, thym, laurier et gingembre parfument cette recette de bœuf confit.\n3h20min Facile\nPasser la publicité\nTomates farcies au boeuf",
         "matchedWords": {
           "5fuQgx56JnNw": {
-            "hits": 1,
-            "textWords": 136
+            "hits": 30,
+            "textWords": 1692
           },
           "fTPlth54Kuw3": {
-            "hits": 2,
-            "textWords": 136
+            "hits": 0,
+            "textWords": 1692
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "4k-h0dKCIhSg",
+        "address": "https://madame.lefigaro.fr/celebrites/culture/luz-depuis-plus-de-dix-ans-chacune-de-mes-bd-porte-en-elle-le-stigmate-de-2015-20260905",
+        "title": "Luz : «Depuis plus de dix ans, chacune de mes BD porte en elle le stigmate de 2015»",
+        "snippet": "Luz au cœur du centre Pompidou, fermé pour travaux. Khanh Renaud/Editions Stock\nINTERVIEW. - Le dessinateur signe un premier récit littéraire pour la collection «Ma nuit au musée» chez Stock.",
+        "matchedWords": {
+          "5fuQgx56JnNw": {
+            "hits": 0,
+            "textWords": 598
+          },
+          "fTPlth54Kuw3": {
+            "hits": 0,
+            "textWords": 598
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "5MuGc0KCIhSg",
+        "address": "https://madame.lefigaro.fr/societe/actu/on-a-tous-cet-ami-qui-adore-faire-les-courses-en-vacances-les-secrets-derriere-le-tourisme-de-supermarche-20260803",
+        "title": "On a tous cet ami qui adore faire les courses en vacances : les secrets derrière le «tourisme de supermarché»",
+        "snippet": "DÉCRYPTAGE - Un nouveau type de tourisme a fait son apparition, dans lequel partir en voyage sans s’arrêter dans un supermarché serait inconcevable.",
+        "matchedWords": {
+          "5fuQgx56JnNw": {
+            "hits": 0,
+            "textWords": 964
+          },
+          "fTPlth54Kuw3": {
+            "hits": 0,
+            "textWords": 964
           }
         },
         "queryPhraseHits": 0
@@ -294,52 +648,90 @@
     ],
     [
       {
-        "hash": "UDv4zCKCIhSg",
-        "address": "https://madame.lefigaro.fr/recettes/ingredients/huitre-0",
-        "title": "Huître recettes traditionnelles : sublimez vos plats",
-        "snippet": "Composée de seulement trois ingrédients, cette recette élégante allie huîtres, Fourme d’Ambert et carotte.\n11min Facile\nHuîtres aux pommes parfumées au calvados\nUne recette qui fleure bon la mer et la Normandie, composée d’huîtres coiffées de pommes parfumées au Calvados.\n20min Très facile",
+        "hash": "BUDN0rKCIhSg",
+        "address": "https://madame.lefigaro.fr/beaute/parfum/en-exclusivite-anya-taylor-joy-s-avance-en-reine-des-neiges-enchanteresse-pour-dior-parfums-20231020",
+        "title": "En exclusivité, Anya Taylor-Joy s’avance en reine des neiges enchanteresse pour Dior parfums",
+        "snippet": "Par La Rédaction\nPublié le 20/10/2023 à 13h02\nEXCLU VIDÉO - Madame Figaro s’est procuré en exclusivité la vidéo de la campagne Christian Dior parfums pour les fêtes de Noël, dans laquelle Anya-Taylor-Joy, égérie de la marque, tient le premier rôle.",
         "matchedWords": {
           "5fuQgx56JnNw": {
-            "hits": 21,
-            "textWords": 1878
+            "hits": 0,
+            "textWords": 444
           },
           "fTPlth54Kuw3": {
             "hits": 0,
-            "textWords": 1878
+            "textWords": 444
           }
         },
         "queryPhraseHits": 0
       },
       {
-        "hash": "tk0fmCKCIhSg",
-        "address": "https://madame.lefigaro.fr/recettes/ingredients/encornet",
-        "title": "Encornet recettes traditionnelles : sublimez vos plats",
-        "snippet": "Risotto d’encornets à l’encre de seiche\nUne recette du chef Kho Vu du restaurant le Bistrot de Marius.\n39min Facile\nSalade de fruits exotiques et encornets\nMélanger tous les ingrédients de la vinaigrette. Nettoyer les encornets, les rincer, les égoutter et les couper en rondelles.",
+        "hash": "DQiReCKCIhSg",
+        "address": "https://madame.lefigaro.fr/recettes/trois-rouleaux-farcis-221206-5864",
+        "title": "Rouleaux farcis au poulet, tomate et jambon",
+        "snippet": "(416 votes)\nUn apéritif froid, facile et rapide à réaliser. Trois galettes fourrées au poulet, à la tomate et au jambon, à déguster toute l'année.\nPasser la publicité Durée : 25min\nDifficulté : Facile\nPréparation 15min\nRepos -\nCuisson 10min\nIngrédients\nPréparation\nIngrédients\n6 personnes",
         "matchedWords": {
           "5fuQgx56JnNw": {
-            "hits": 1,
-            "textWords": 443
+            "hits": 0,
+            "textWords": 204
           },
           "fTPlth54Kuw3": {
             "hits": 0,
-            "textWords": 443
+            "textWords": 204
           }
         },
         "queryPhraseHits": 0
       },
       {
-        "hash": "etgHsCKCIhSg",
-        "address": "https://madame.lefigaro.fr/recettes/ingredients/ble",
-        "title": "Blé recettes traditionnelles : sublimez vos plats",
-        "snippet": "Égouttez-le en le passant sous l'eau froide.Hachez les olives.Lavez les tomates et coupez-les en deux.Lavez, triez et essorez la salade…\n30min Très facile\nSalade de cœur de blé au jambon\nÉbly, jambon, carottes et comté se mélangent dans cette recette pour enfants façon riz cantonais.\n30min Facile",
+        "hash": "BSpvEQKCIhSg",
+        "address": "https://madame.lefigaro.fr/bijoux-et-montres/ariana-grande-pour-swarovski-une-collection-de-bijoux-inspiree-par-la-musique-20250128",
+        "title": "Ariana Grande pour Swarovski, une collection de bijoux inspirée par la musique",
+        "snippet": "Les images de la nouvelle collection capsule Swarovski x Ariana Grande, dévoilée ce mardi 28 janvier. Swarovski",
         "matchedWords": {
           "5fuQgx56JnNw": {
-            "hits": 1,
-            "textWords": 688
+            "hits": 0,
+            "textWords": 518
           },
           "fTPlth54Kuw3": {
             "hits": 0,
-            "textWords": 688
+            "textWords": 518
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "9_VEXsKCIhSg",
+        "address": "https://madame.lefigaro.fr/bien-etre/nutrition",
+        "title": "Conseils diététiques et astuces pour bien manger",
+        "snippet": "Contrairement aux croyances, la conservation des œufs ne répond pas à une règle unique\nCe qu’il vaut mieux savoir avant d’acheter son tarama au supermarché\nSur Instagram, le chimiste Raphaël Haumont révèle les coulisses de la recette industrielle",
+        "matchedWords": {
+          "5fuQgx56JnNw": {
+            "hits": 1,
+            "textWords": 1782
+          },
+          "fTPlth54Kuw3": {
+            "hits": 0,
+            "textWords": 1782
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "PDErLCKCIhSg",
+        "address": "https://madame.lefigaro.fr/recettes/ingredients/beurre-0",
+        "title": "Beurre recettes traditionnelles : sublimez vos plats",
+        "snippet": "Un délice !\n45min Moyen\nÉpaule de cochon confite 8h\nTendre et savoureuse, cette épaule d’agneau est confite pendant plus de 8 heures et dégustée flanquée de pommes de terre grenailles. Une recette de Laurent Delabre.\n8h35min Facile\nMillefeuille de crêpes aux fraises",
+        "matchedWords": {
+          "5fuQgx56JnNw": {
+            "hits": 30,
+            "textWords": 2326
+          },
+          "fTPlth54Kuw3": {
+            "hits": 2,
+            "textWords": 2326
           }
         },
         "queryPhraseHits": 0
@@ -354,11 +746,11 @@
         "matchedWords": {
           "5fuQgx56JnNw": {
             "hits": 23,
-            "textWords": 11146
+            "textWords": 11126
           },
           "fTPlth54Kuw3": {
             "hits": 2,
-            "textWords": 11146
+            "textWords": 11126
           }
         },
         "queryPhraseHits": 0
@@ -366,6 +758,193 @@
     ]
   ],
   "itemsInNoOrder": [
+    {
+      "hash": "A6PjT2KCIhSg",
+      "address": "https://madame.lefigaro.fr/tag/brigitte-macron",
+      "title": "Brigitte Macron",
+      "snippet": "Passer les articles suggérés\n«L’âge n’a aucune importance quand on est amoureux» : face aux critiques, le nouveau compagnon de Tiphaine Auzière défend son couple\nFin août, la plus jeune fille de Brigitte Macron a officialisé sa relation avec Antoine Lecomte, de 20 ans son cadet.",
+      "matchedWords": {
+        "5fuQgx56JnNw": {
+          "hits": 0,
+          "textWords": 3322
+        },
+        "fTPlth54Kuw3": {
+          "hits": 0,
+          "textWords": 3322
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "Bn6FoTKCIhSg",
+      "address": "https://madame.lefigaro.fr/mariage",
+      "title": "Guide du mariage : tout pour un mariage de rêve",
+      "snippet": "Vous êtes invités à un mariage ? Les 10 erreurs vestimentaires à ne pas commettre\nCouleurs trop vives, vêtements mal coupés, tenues inconfortables... Alors que la saison des mariages approche, retour sur les faux pas à bannir le jour J.",
+      "matchedWords": {
+        "5fuQgx56JnNw": {
+          "hits": 0,
+          "textWords": 2194
+        },
+        "fTPlth54Kuw3": {
+          "hits": 0,
+          "textWords": 2194
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "Eefa2CKCIhSg",
+      "address": "https://madame.lefigaro.fr/recettes/idees-menus/aperitif-dinatoire-0",
+      "title": "Recettes Apéro dînatoire : faciles et originales",
+      "snippet": "En deux temps trois mouvements on réalise cette recette de beignets de courge à tremper dans une sauce au yaourt. Une recette signée Chloé Charles.\n20min Facile\nSamosas tomate et fromage au Airfryer\nPour des samosas croustillants, on mise sur une cuisson au Airfryer.\n37min Très facile",
+      "matchedWords": {
+        "5fuQgx56JnNw": {
+          "hits": 18,
+          "textWords": 1788
+        },
+        "fTPlth54Kuw3": {
+          "hits": 2,
+          "textWords": 1788
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "Ip_fpTKCIhSg",
+      "address": "https://madame.lefigaro.fr/cuisine",
+      "title": "Cuisine et Recettes faciles et rapides du monde",
+      "snippet": "Schweppes à Roland-Garros, un oursin japonais, un nouveau bar à viandes... Quoi de neuf en cuisine ?\nL’été va avoir bon goût\nLe Beefbar s’installe au Majestic : le bar à viandes de luxe débarque sur la Côte d’Azur",
+      "matchedWords": {
+        "5fuQgx56JnNw": {
+          "hits": 0,
+          "textWords": 620
+        },
+        "fTPlth54Kuw3": {
+          "hits": 0,
+          "textWords": 620
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "LzJ_wQKCIhSg",
+      "address": "https://madame.lefigaro.fr/bijoux-et-montres/tendances-bijoux",
+      "title": "Tendances bijoux - Madame Figaro",
+      "snippet": "Nouveau mariage chez les Windsor : Samuel Chatto, le neveu d’Elizabeth II, s’est fiancé à Eleanor Ekserdjian avec une bague qu’il a lui-même confectionnée\nLundi 13 juillet Samuel Chatto a annoncé ses fiançailles avec Eleanor Ekserdjian.",
+      "matchedWords": {
+        "5fuQgx56JnNw": {
+          "hits": 0,
+          "textWords": 1796
+        },
+        "fTPlth54Kuw3": {
+          "hits": 0,
+          "textWords": 1796
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "Sw5E4jKCIhSg",
+      "address": "https://madame.lefigaro.fr/astro/horoscope/quotidien",
+      "title": "Horoscope gratuit du jour : prévisions quotidiennes par signe",
+      "snippet": "Passer la publicité\nPasser la publicité\nHoroscope du jour DR\nDossier\nAmour, travail, santé, argent.. Découvrez votre horoscope du jour gratuit et suivez les conseils des astrologues\nHoroscope Bélier du jour, le 12 septembre 2026",
+      "matchedWords": {
+        "5fuQgx56JnNw": {
+          "hits": 0,
+          "textWords": 554
+        },
+        "fTPlth54Kuw3": {
+          "hits": 0,
+          "textWords": 554
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "16j4fTKCIhSg",
+      "address": "https://madame.lefigaro.fr/style",
+      "title": "Les Tendances de la mode au féminin et défilés",
+      "snippet": "Passer la publicité\ndans L’actu\nPrête pour une séance de stylisme privée sur les Champs-Élysées ?\nRejoignez-nous sur les Champs-Élysées le 24 septembre à 19h30 pour une soirée exclusive avec Canada Goose.",
+      "matchedWords": {
+        "5fuQgx56JnNw": {
+          "hits": 0,
+          "textWords": 2096
+        },
+        "fTPlth54Kuw3": {
+          "hits": 0,
+          "textWords": 2096
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "FaFCxdKCIhSg",
+      "address": "https://madame.lefigaro.fr/celebrites/culture/nathacha-appanah-ecrire-c-est-l-histoire-de-ma-vie-depuis-que-j-ai-14-ans-20260125",
+      "title": "Nathacha Appanah : «Écrire c’est l’histoire de ma vie, depuis que j’ai 14 ans»",
+      "snippet": "Submergée par les marques d’affection du public lors de la Foire du livre de Brive-la-Gaillarde, Nathacha Appanah, fraîchement auréolée du prix Femina et du prix Goncourt des lycéens pour La Nuit au cœur (Éd. Gallimard) – son douzième livre –, savoure le bonheur du devoir accompli.",
+      "matchedWords": {
+        "5fuQgx56JnNw": {
+          "hits": 0,
+          "textWords": 656
+        },
+        "fTPlth54Kuw3": {
+          "hits": 0,
+          "textWords": 656
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "F33ef9KCIhSg",
+      "address": "https://madame.lefigaro.fr/style/news/le-costume-de-virginie-efira-les-paillettes-d-isabelle-huppert-la-couette-de-demi-moore-le-dernier-tapis-rouge-du-79e-festival-de-cannes-20260523",
+      "title": "Virginie Efira, Isabelle Huppert, Demi Moore, une couette, des ballerines de danse… À quoi a ressemblé le dernier tapis rouge du 79e Festival de Cannes ?",
+      "snippet": "Après onze jours de cinéma, le 79e Festival de Cannes touche à sa fin. Avant de découvrir le palmarès, les stars se sont réunies une dernière fois sur les prestigieuses marches de la Croisette.\nPasser la publicité Passer la publicité Clap de fin pour cette 79e édition du Festival de Cannes.",
+      "matchedWords": {
+        "5fuQgx56JnNw": {
+          "hits": 0,
+          "textWords": 320
+        },
+        "fTPlth54Kuw3": {
+          "hits": 0,
+          "textWords": 320
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "HfLo5sKCIhSg",
+      "address": "https://madame.lefigaro.fr/bien-etre/forme-detente/les-sept-salles-de-sport-les-plus-cool-de-paris-20221014",
+      "title": "Concepts innovants, cours attrayants, espaces bien pensés... Les salles de sport les plus tendances de Paris",
+      "snippet": "Après deux années chahutées par les confinements et la crise sanitaire, pas simple de se motiver à enfiler ses baskets, s'inscrire dans un club et, surtout, y rester fidèle. La recette ?",
+      "matchedWords": {
+        "5fuQgx56JnNw": {
+          "hits": 1,
+          "textWords": 250
+        },
+        "fTPlth54Kuw3": {
+          "hits": 0,
+          "textWords": 250
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "l7WpW2KCIhSg",
+      "address": "https://madame.lefigaro.fr/tag/meghan-markle",
+      "title": "Meghan Markle",
+      "snippet": "Passer les articles suggérés\nQu’est-ce que Soho Farmhouse, ce lieu très privé où Meghan Markle a été aperçue pour la première fois depuis son retour en Angleterre ?",
+      "matchedWords": {
+        "5fuQgx56JnNw": {
+          "hits": 0,
+          "textWords": 3559
+        },
+        "fTPlth54Kuw3": {
+          "hits": 0,
+          "textWords": 3559
+        }
+      },
+      "queryPhraseHits": 0
+    },
     {
       "hash": "l7WpW2KCIhSg",
       "address": "https://madame.lefigaro.fr/tag/meghan-markle",
@@ -401,290 +980,35 @@
       "queryPhraseHits": 0
     },
     {
-      "hash": "AGn43dKCIhSg",
-      "address": "https://madame.lefigaro.fr/celebrites/soirees/nicolas-mathieu-rima-abdul-malak-anne-berest-en-photos-le-diner-des-primo-romanciers-2023-du-cnl-20231120",
-      "title": "Nicolas Mathieu, Rima Abdul-Malak, Anne Berest... En photos, le dîner des primo-romanciers 2023 du Centre national du livre (CNL)",
-      "snippet": "Par Madame Figaro x Say Who\nPublié le 20/11/2023 à 17h46, mis à jour le 29/11/2023 à 16h25\nJulie Héraclès et Hemley Boum au Dîner des primo-romanciers 2023 du CNL. (Paris, le 15 novembre 2023.) SHERAZ DEBBICH\n75008 PARIS",
+      "hash": "KQ6pNQKCIhSg",
+      "address": "https://madame.lefigaro.fr/bijoux-et-montres/ces-10-choses-sont-a-proscrire-avec-sa-bague-de-fiancailles-en-diamant-20250417",
+      "title": "Ces 10 choses sont à proscrire avec sa bague de fiançailles en diamant",
+      "snippet": "Contrairement à ce que l’on voudrait bien croire, les diamants, aussi solides soient-ils, ne sont pas éternels. Au quotidien, des gestes anodins peuvent abîmer la pierre de sa bague de fiançailles. Voici 10 choses à (absolument) éviter.",
       "matchedWords": {
         "5fuQgx56JnNw": {
           "hits": 0,
-          "textWords": 379
+          "textWords": 996
         },
         "fTPlth54Kuw3": {
           "hits": 0,
-          "textWords": 379
+          "textWords": 996
         }
       },
       "queryPhraseHits": 0
     },
     {
-      "hash": "B7jLHCKCIhSg",
-      "address": "https://madame.lefigaro.fr/recettes/carpaccio-de-saint-jacques-sur-tarte-fine-261111-186543",
-      "title": "Carpaccio de Saint-Jacques sur tarte fine",
-      "snippet": "Réservé aux abonnés\n(563 votes)\nLes noix de Saint-Jacques se marient très bien dans une tarte fine et quelques feuilles de roquette pour une entrée élégante.\nDurée : 23min\nDifficulté : Facile\nPréparation 15min\nRepos -\nCuisson 08min\nIngrédients\nPréparation\nPréparation",
-      "matchedWords": {
-        "5fuQgx56JnNw": {
-          "hits": 0,
-          "textWords": 141
-        },
-        "fTPlth54Kuw3": {
-          "hits": 0,
-          "textWords": 141
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "B-xbKYKCIhSg",
-      "address": "https://madame.lefigaro.fr/cuisine/le-tour-de-france-gourmand-de-plats-regionaux-en-boissons-typique-290617-133046",
-      "title": "Tour de France gourmand : une région, une spécialité",
-      "snippet": "Cette recette typique tire son originalité du farz, une garniture à base de farine de blé noir ou de froment, cuite dans le bouillon.\nNos recettes aux accents régionaux\nVingt recettes du terroir\nPasser la publicité\nViande blanche dans le Centre",
-      "matchedWords": {
-        "5fuQgx56JnNw": {
-          "hits": 3,
-          "textWords": 837
-        },
-        "fTPlth54Kuw3": {
-          "hits": 0,
-          "textWords": 837
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "CMWLQCKCIhSg",
-      "address": "https://madame.lefigaro.fr/recettes/coquilles-saint-jacques-curry-240101-200348",
-      "title": "Coquilles Saint-Jacques au curry",
-      "snippet": "(332 votes)\nDans cette recette originale, la Saint-Jacques est flanquée de morceaux de pomme verte et est parfumée d’une pointe de curry. À déguster avec du riz basmati.\nPasser la publicité Durée : 15min\nDifficulté : Facile\nPréparation 10min\nRepos -\nCuisson 05min\nIngrédients\nPréparation\nIngrédients",
+      "hash": "KnOaDsKCIhSg",
+      "address": "https://madame.lefigaro.fr/bien-etre/forme-detente/sport-six-fois-par-semaine-jeune-intermittent-meditation-la-routine-bien-etre-de-halle-berry-20220301",
+      "title": "Sport six fois par semaine, jeûne intermittent, méditation... La routine bien-être de Halle Berry",
+      "snippet": "Halle Berry nous dévoile la recette de son teint éclatant\nEn vidéo, Jennifer Lopez en pleine entraînement de pole dance",
       "matchedWords": {
         "5fuQgx56JnNw": {
           "hits": 1,
-          "textWords": 179
+          "textWords": 1034
         },
         "fTPlth54Kuw3": {
           "hits": 0,
-          "textWords": 179
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "DgVdfmKCIhSg",
-      "address": "https://madame.lefigaro.fr/le-petit-club/le-grand-palais-rouvre-ses-portes-pour-art-basel-paris-participez-a-une-visite-exclusive-20240925",
-      "title": "Plus que quelques jours pour réserver votre Visite Exclusive avec Madame Figaro !",
-      "snippet": "Par Madame Figaro\nPublié le 25/09/2024 à 14h03, mis à jour le 14/10/2024 à 16h31\nLe Grand Palais rouvre ses portes pour Art Basel Paris : participez à une visite exclusive ! Photo : Aliki Christoforou - Œuvre : Dalida de Nina Childress - Art Basel",
-      "matchedWords": {
-        "5fuQgx56JnNw": {
-          "hits": 0,
-          "textWords": 408
-        },
-        "fTPlth54Kuw3": {
-          "hits": 0,
-          "textWords": 408
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "EVF3ImKCIhSg",
-      "address": "https://madame.lefigaro.fr/le-petit-club/cinq-mondes-vous-offre-son-onguent-de-jeunesse-pour-hydrater-votre-peau-et-prevenir-les-rides-de-deshydratation-20231211",
-      "title": "Dernière surprise de l'année : un soin révolutionnaire Cinq Mondes à gagner",
-      "snippet": "Contenu conçu et proposé par Le Petit Club\nPar Le Petit Club\nPublié le 11/12/2023 à 11h17, mis à jour le 19/12/2023 à 17h18\nCinq Mondes vous offre son Onguent de Jeunesse pour hydrater votre peau et prévenir les rides de déshydratation Cinq Mondes",
-      "matchedWords": {
-        "5fuQgx56JnNw": {
-          "hits": 0,
-          "textWords": 577
-        },
-        "fTPlth54Kuw3": {
-          "hits": 0,
-          "textWords": 577
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "FQPmQiKCIhSg",
-      "address": "https://madame.lefigaro.fr/deco-design/fauteuil-doudou-le-nouveau-cool-20250413",
-      "title": "Fauteuil doudou : on fond pour les formes rondes et enveloppantes, dehors comme dedans",
-      "snippet": "Par Caroline Appert\nPublié le 13/04/2025 à 12h00, mis à jour le 14/04/2025 à 11h46\nLes fauteuils et canapés enveloppants sont aussi pensés pour se détendre dehors... alexandre Moggi\nAu placard, les dossiers raides et les assises rigides !",
-      "matchedWords": {
-        "5fuQgx56JnNw": {
-          "hits": 0,
-          "textWords": 962
-        },
-        "fTPlth54Kuw3": {
-          "hits": 0,
-          "textWords": 962
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "FokeUdKCIhSg",
-      "address": "https://madame.lefigaro.fr/celebrites/culture/en-photos-la-soiree-de-recompenses-du-grand-prix-de-l-heroine-madame-figaro-2025-20250613",
-      "title": "En photos : la soirée de récompenses du Grand Prix de l’Héroïne Madame Figaro 2025",
-      "snippet": "Ce jeudi 12 juin, à l’Hôtel Mona Bismarck, les gagnantes, Christine Angot, Mathilde Henzelin, Susie Boyt, Flore Mongin et Coline Naujalis, se sont vues décerner le prix littéraire, entourées d’invités de prestige. Avec le soutien de la maison Panerai, et la complicité de S.T. Dupont et Volvo.",
-      "matchedWords": {
-        "5fuQgx56JnNw": {
-          "hits": 0,
-          "textWords": 491
-        },
-        "fTPlth54Kuw3": {
-          "hits": 0,
-          "textWords": 491
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "GuOBHCKCIhSg",
-      "address": "https://madame.lefigaro.fr/recettes/tatin-de-saint-jacques-deric-guerin-151213-634624",
-      "title": "Tatin de Saint-Jacques",
-      "snippet": "Réservé aux abonnés\n(977 votes)\nPar\nSignée Éric Guérin, cette tarte tatin de la mer se compose de Saint-Jacques, pomme, fève, châtaigne et piment.\nDurée : 1h20min\nDifficulté : Facile\nPréparation 20min\nRepos -\nCuisson 1h\nIngrédients\nPréparation\nIngrédients\n4 personnes\n8 noix de Saint-Jacques",
-      "matchedWords": {
-        "5fuQgx56JnNw": {
-          "hits": 0,
-          "textWords": 205
-        },
-        "fTPlth54Kuw3": {
-          "hits": 0,
-          "textWords": 205
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "KtqtjCKCIhSg",
-      "address": "https://madame.lefigaro.fr/recettes/carpaccio-de-saint-jacques-mandarine-210807-6606",
-      "title": "Carpaccio de Saint-Jacques à la mandarine",
-      "snippet": "Détailler les noix de saint-jacques en fines lamelles de 5 mm d’épaisseur.\nRetirer la peau des mandarines ; avec un couteau bien aiguisé, les peler à vif, puis les couper en fines rondelles.",
-      "matchedWords": {
-        "5fuQgx56JnNw": {
-          "hits": 0,
-          "textWords": 97
-        },
-        "fTPlth54Kuw3": {
-          "hits": 0,
-          "textWords": 97
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "MukKRCKCIhSg",
-      "address": "https://madame.lefigaro.fr/recettes/carpaccio-de-saint-jacques-jus-de-mangue-epices-281211-207011",
-      "title": "Carpaccio de Saint-Jacques au jus de mangue et épices",
-      "snippet": "(575 votes)\nDans cette recette originale, la Saint-Jacques est marinée dans un jus de mangue épicé, puis flanquée d’une crème montée et d’œufs de saumon.\nPasser la publicité Durée : 2h30min\nDifficulté : Facile\nPréparation 30min\nRepos 2h\nCuisson -\nIngrédients\nPréparation\nIngrédients\n6 personnes",
-      "matchedWords": {
-        "5fuQgx56JnNw": {
-          "hits": 1,
-          "textWords": 297
-        },
-        "fTPlth54Kuw3": {
-          "hits": 0,
-          "textWords": 297
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "SoZ9oCKCIhSg",
-      "address": "https://madame.lefigaro.fr/recettes/ravioles-de-saint-jacques-030107-6060",
-      "title": "Ravioles de Saint-Jacques",
-      "snippet": "Réservé aux abonnés\n(340 votes)\nUne recette subtile, fraîche et délicate de noix de Saint-Jacques en ravioles de chou, accompagnées d'une onctueuse crème de potiron.\nDurée : 50min\nDifficulté : Facile\nPréparation 30min\nRepos -\nCuisson 20min\nIngrédients\nPréparation\nPréparation",
-      "matchedWords": {
-        "5fuQgx56JnNw": {
-          "hits": 1,
-          "textWords": 135
-        },
-        "fTPlth54Kuw3": {
-          "hits": 0,
-          "textWords": 135
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "S9VUp2KCIhSg",
-      "address": "https://madame.lefigaro.fr/tag/francois-henri-pinault",
-      "title": "François-Henri Pinault",
-      "snippet": "Qui est Lara Cosima Henckel von Donnersmarck, la jeune comtesse qui a épousé le fils aîné de François-Henri Pinault ?",
-      "matchedWords": {
-        "5fuQgx56JnNw": {
-          "hits": 0,
-          "textWords": 1509
-        },
-        "fTPlth54Kuw3": {
-          "hits": 0,
-          "textWords": 1509
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "Vy07QdKCIhSg",
-      "address": "https://madame.lefigaro.fr/celebrites/retour-sur-une-soiree-exceptionnelle-autour-du-droit-des-femmes-171121-199177",
-      "title": "Retour sur une soirée exceptionnelle autour du droit des femmes",
-      "snippet": "Par 14HAUSSMANN\nPublié le 17/11/2021 à 10h15, mis à jour le 26/11/2021 à 09h50\nNINA ANSARY - SIGNATURE D'ANONYMOUS IS A WOMAN",
-      "matchedWords": {
-        "5fuQgx56JnNw": {
-          "hits": 0,
-          "textWords": 420
-        },
-        "fTPlth54Kuw3": {
-          "hits": 0,
-          "textWords": 420
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "XCaFRmKCIhSg",
-      "address": "https://madame.lefigaro.fr/le-petit-club/devenez-juree-du-prix-des-lectrices-feel-good-madame-figaro-2024-20240723",
-      "title": "Devenez jurée du Prix des lectrices Feel Good Madame Figaro 2024",
-      "snippet": "Par La rédaction\nPublié le 23/07/2024 à 09h51, mis à jour le 23/07/2024 à 12h31\nDevenez jurée du Prix des lectrices Feel Good Madame Figaro\nAprès le succès de la première édition de Feel Good; Madame Figaro organise un deuxième rendez-vous dédié à la beauté holistique.",
-      "matchedWords": {
-        "5fuQgx56JnNw": {
-          "hits": 0,
-          "textWords": 358
-        },
-        "fTPlth54Kuw3": {
-          "hits": 0,
-          "textWords": 358
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "YfylidKCIhSg",
-      "address": "https://madame.lefigaro.fr/celebrites/culture/quelles-sont-les-images-qui-nous-ont-marques-lors-de-la-premiere-semaine-des-rencontres-photographiques-d-arles-20260813",
-      "title": "Quelles sont les images qui nous ont marqués lors de la première semaine des Rencontres photographiques d’Arles ?",
-      "snippet": "L’édition 2026 du festival de photo le plus couru de la planète est riche en découvertes, surprises et façons différentes de regarder le monde, s’y arrêter, le parcourir, s’y perdre.\nArles serait-elle devenue le Cannes de la photo et de l’art ?",
-      "matchedWords": {
-        "5fuQgx56JnNw": {
-          "hits": 0,
-          "textWords": 1420
-        },
-        "fTPlth54Kuw3": {
-          "hits": 0,
-          "textWords": 1420
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "ZJyIlCKCIhSg",
-      "address": "https://madame.lefigaro.fr/recettes/gratin-dhuitres-saint-jacques-magret-fume-170609-202186",
-      "title": "Gratin d'huîtres et Saint-Jacques au magret fumé",
-      "snippet": "(525 votes)\nNoix de Saint-Jacques, magret de canard fumé, huîtres, chapelure, vin blanc et ciboulette forment une entrée parfaite.\nPasser la publicité Durée : 1h\nDifficulté : Facile\nPréparation 45min\nRepos -\nCuisson 15min\nIngrédients\nPréparation\nIngrédients\n4 personnes\n16 noix de saint-jacques",
-      "matchedWords": {
-        "5fuQgx56JnNw": {
-          "hits": 0,
-          "textWords": 272
-        },
-        "fTPlth54Kuw3": {
-          "hits": 0,
-          "textWords": 272
+          "textWords": 1034
         }
       },
       "queryPhraseHits": 0
@@ -707,108 +1031,6 @@
       "queryPhraseHits": 0
     },
     {
-      "hash": "6ZpNwCKCIhSg",
-      "address": "https://madame.lefigaro.fr/recettes/coquilles-saint-jacques-au-the-fume-111210-112190",
-      "title": "Coquilles Saint-Jacques au thé fumé",
-      "snippet": "Réservé aux abonnés\n(741 votes)\nLe thé se marie harmonieusement à cette recette de coquilles Saint-Jacques, fleur de sel et salade.\nDurée : 25min\nDifficulté : Facile\nPréparation 15min\nRepos -\nCuisson 10min\nIngrédients\nPréparation\nIngrédients\n4 personnes\n12 noix de saint-jacques\n3 cc de thé fumé",
-      "matchedWords": {
-        "5fuQgx56JnNw": {
-          "hits": 1,
-          "textWords": 159
-        },
-        "fTPlth54Kuw3": {
-          "hits": 0,
-          "textWords": 159
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "6l4R4mKCIhSg",
-      "address": "https://madame.lefigaro.fr/le-petit-club/mid-season-sale-la-veste-en-cuir-claudie-pierlot-le-bestseller-de-la-marque-est-remisee-20240517",
-      "title": "Mid Season Sale : La veste en cuir Claudie Pierlot, le bestseller de la marque, est remisée",
-      "snippet": "Par Le Petit club. La rédaction de Madame Figaro n'a pas participé à la réalisation de ce contenu.\nPublié le 17/05/2024 à 08h00, mis à jour le 17/05/2024 à 16h22\nProfitez des offres de mi-saison sur la boutique en ligne de Claudie Pierlot Photo presse Claudie Pierlot",
-      "matchedWords": {
-        "5fuQgx56JnNw": {
-          "hits": 0,
-          "textWords": 371
-        },
-        "fTPlth54Kuw3": {
-          "hits": 0,
-          "textWords": 371
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "6p8FNCKCIhSg",
-      "address": "https://madame.lefigaro.fr/recettes/saint-jacques-lemulsion-de-mache-030107-6064",
-      "title": "Saint-Jacques à l'émulsion de mâche",
-      "snippet": "(689 votes)\nDes Saint-Jacques légèrement poêlés, une mousse de salade et un bouillon au vin blanc pour un plat de résitance raffiné, à servir pour de grandes occasions.\nPasser la publicité Durée : 1h\nDifficulté : Facile\nPréparation 30min\nRepos -\nCuisson 30min\nIngrédients\nPréparation\nIngrédients",
-      "matchedWords": {
-        "5fuQgx56JnNw": {
-          "hits": 0,
-          "textWords": 299
-        },
-        "fTPlth54Kuw3": {
-          "hits": 0,
-          "textWords": 299
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "6s-3imKCIhSg",
-      "address": "https://madame.lefigaro.fr/le-petit-club/deux-attentions-beaute-a-decouvrir-avec-votre-nouveau-numero-madame-figaro-20260529",
-      "title": "Deux attentions beauté à découvrir avec votre nouveau numéro Madame Figaro",
-      "snippet": "Par Le Petit Club\nPublié le 29/05/2026 à 17h36\nDeux attentions beauté à découvrir avec votre nouveau numéro Madame Figaro Madame Figaro\nEn exclusivité. Retrouvez dès aujourd’hui deux essentiels beauté signés Leonor Greyl et Les Petits Prödiges avec votre magazine !",
-      "matchedWords": {
-        "5fuQgx56JnNw": {
-          "hits": 0,
-          "textWords": 310
-        },
-        "fTPlth54Kuw3": {
-          "hits": 0,
-          "textWords": 310
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "8qCPUCKCIhSg",
-      "address": "https://madame.lefigaro.fr/recettes/coquilles-saint-jacques-gratinees-four-260808-200824",
-      "title": "Coquilles Saint-Jacques gratinées au four",
-      "snippet": "Réservé aux abonnés\n(1248 votes)\nDe délicieuses Saint-Jacques cuites dans une fondue d'échalotes au persil frais. Une douceur de la mer idéale pour accompagner du riz ou des pommes de terre.\nDurée : 15min\nDifficulté : Très facile\nPréparation 10min\nRepos -\nCuisson 05min\nIngrédients\nPréparation",
-      "matchedWords": {
-        "5fuQgx56JnNw": {
-          "hits": 0,
-          "textWords": 144
-        },
-        "fTPlth54Kuw3": {
-          "hits": 0,
-          "textWords": 144
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "-uC6FdKCIhSg",
-      "address": "https://madame.lefigaro.fr/celebrites/soirees/happy-mandarin-oriental-lutetia-20251217",
-      "title": "Les 115 ans du Mandarin Oriental Lutetia : une nuit rive gauche avec les stars de l’art et du cinéma",
-      "snippet": "Dorothée Gilbert, Benjamin Biolay, Audrey Marnay et Mélanie Laurent, au Bar Joséphine, à Paris, le 10 décembre 2025. Jean Picon / Say Who\nVoir le diaporama",
-      "matchedWords": {
-        "5fuQgx56JnNw": {
-          "hits": 0,
-          "textWords": 183
-        },
-        "fTPlth54Kuw3": {
-          "hits": 0,
-          "textWords": 183
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
       "hash": "Zj6fIsKCIhSg",
       "address": "https://madame.lefigaro.fr/bien-etre/forme-detente/comment-muscler-et-dessiner-ses-bras-sans-poids-ni-halteres-20220426",
       "title": "Comment muscler et dessiner ses bras sans poids ni haltères",
@@ -821,6 +1043,23 @@
         "fTPlth54Kuw3": {
           "hits": 0,
           "textWords": 673
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "Nj4TPrKCIhSg",
+      "address": "https://madame.lefigaro.fr/beaute/parfum/chanel-n05-la-vie-est-belle-angel-pourquoi-les-parfums-cultes-n-ont-jamais-ete-aussi-modernes-20260522",
+      "title": "Chanel N°5, La Vie est Belle, Angel… Pourquoi les parfums cultes n’ont jamais été aussi modernes ?",
+      "snippet": "Les grands parfums iconiques évoluent, intégrant de subtiles variations qui séduisent de nouvelles générations.\nPlus de 6500 parfums sont lancés chaque année dans le monde.",
+      "matchedWords": {
+        "5fuQgx56JnNw": {
+          "hits": 0,
+          "textWords": 1022
+        },
+        "fTPlth54Kuw3": {
+          "hits": 0,
+          "textWords": 1022
         }
       },
       "queryPhraseHits": 0
@@ -860,18 +1099,86 @@
       "queryPhraseHits": 0
     },
     {
-      "hash": "smyaiTKCIhSg",
-      "address": "https://madame.lefigaro.fr/",
-      "title": "Mode, Beauté, Recettes, Société, Horoscope, Célébrités",
-      "snippet": "VIDÉOS\nAccessoires solaires\nQuelques indispensables pour cet été : un foulard en soie, en fichu ou autour de la taille, un maillot de foot pour honorer la tendance «blokecore», des lunettes de soleil ovales aux verres colorés, des ballerines en résille...",
+      "hash": "Ui5X3rKCIhSg",
+      "address": "https://madame.lefigaro.fr/beaute/quels-sont-les-parfums-recommandes-par-les-redactrices-de-madame-figaro-20260527",
+      "title": "Fête des mères : les parfums fétiches des rédactrices de Madame Figaro qui pourraient vous inspirer",
+      "snippet": "Des senteurs de fleur d’oranger, de bouquets blancs ou d’agrumes ensoleillés... Quels sont les sillages que l’on croise dans les couloirs de la rédaction ?\nCertaines portent des parfums «doudous» qui réconfortent. D’autres, des senteurs qui leur donnent de la force ou reflètent leur caractère.",
       "matchedWords": {
         "5fuQgx56JnNw": {
           "hits": 0,
-          "textWords": 2579
+          "textWords": 1744
         },
         "fTPlth54Kuw3": {
           "hits": 0,
-          "textWords": 2579
+          "textWords": 1744
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "XzL9AsKCIhSg",
+      "address": "https://madame.lefigaro.fr/bien-etre/brule-graisse-renforcement-musculaire-correction-posturale-quelle-220219-163917",
+      "title": "Quelle machine choisir à la salle de sport pour un maximum d'efficacité ?",
+      "snippet": "",
+      "matchedWords": {
+        "5fuQgx56JnNw": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "fTPlth54Kuw3": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "X9s35dKCIhSg",
+      "address": "https://madame.lefigaro.fr/celebrites/culture/quels-sont-les-3-romans-de-la-rentree-litteraire-2026-a-lire-en-priorite-20260822",
+      "title": "Quels sont les 3 romans de la rentrée littéraire 2026 à lire en priorité?",
+      "snippet": "",
+      "matchedWords": {
+        "5fuQgx56JnNw": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "fTPlth54Kuw3": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "cNW-qjKCIhSg",
+      "address": "https://madame.lefigaro.fr/evasion/au-63e-etage-en-surplomb-de-la-skyline-on-a-teste-saga-le-restaurant-etoile-avec-l-une-des-plus-belles-vues-de-new-york-20260312",
+      "title": "Au 63e étage, en surplomb de la skyline : on a testé Saga, le restaurant étoilé avec l’une des plus belles vues de New York",
+      "snippet": "",
+      "matchedWords": {
+        "5fuQgx56JnNw": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "fTPlth54Kuw3": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "dUzJXsKCIhSg",
+      "address": "https://madame.lefigaro.fr/bien-etre/forme-detente/muscler-son-corps-en-profondeur-ces-trois-disciplines-qui-font-vraiment-la-difference-20250123",
+      "title": "Muscler son corps en profondeur : ces trois disciplines qui font (vraiment) la différence",
+      "snippet": "",
+      "matchedWords": {
+        "5fuQgx56JnNw": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "fTPlth54Kuw3": {
+          "hits": 0,
+          "textWords": 0
         }
       },
       "queryPhraseHits": 0
@@ -880,7 +1187,7 @@
       "hash": "Sw5E4jKCIhSg",
       "address": "https://madame.lefigaro.fr/astro/horoscope/quotidien",
       "title": "Horoscope gratuit du jour : prévisions quotidiennes par signe",
-      "snippet": "Passer la publicité\nPasser la publicité\nHoroscope du jour DR\nDossier\nAmour, travail, santé, argent.. Découvrez votre horoscope du jour gratuit et suivez les conseils des astrologues\nHoroscope Bélier du jour, le 11 septembre 2026",
+      "snippet": "Passer la publicité\nPasser la publicité\nHoroscope du jour DR\nDossier\nAmour, travail, santé, argent.. Découvrez votre horoscope du jour gratuit et suivez les conseils des astrologues\nHoroscope Bélier du jour, le 12 septembre 2026",
       "matchedWords": {
         "5fuQgx56JnNw": {
           "hits": 0,
@@ -901,223 +1208,19 @@
       "matchedWords": {
         "5fuQgx56JnNw": {
           "hits": 0,
-          "textWords": 2071
+          "textWords": 2096
         },
         "fTPlth54Kuw3": {
           "hits": 0,
-          "textWords": 2071
+          "textWords": 2096
         }
       },
       "queryPhraseHits": 0
     },
     {
-      "hash": "A6PjT2KCIhSg",
-      "address": "https://madame.lefigaro.fr/tag/brigitte-macron",
-      "title": "Brigitte Macron : Dernières infos et biographie",
-      "snippet": "Passer les articles suggérés\n«L’âge n’a aucune importance quand on est amoureux» : face aux critiques, le nouveau compagnon de Tiphaine Auzière défend son couple\nFin août, la plus jeune fille de Brigitte Macron a officialisé sa relation avec Antoine Lecomte, de 20 ans son cadet.",
-      "matchedWords": {
-        "5fuQgx56JnNw": {
-          "hits": 0,
-          "textWords": 3322
-        },
-        "fTPlth54Kuw3": {
-          "hits": 0,
-          "textWords": 3322
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "Bn6FoTKCIhSg",
-      "address": "https://madame.lefigaro.fr/mariage",
-      "title": "Guide du mariage : tout pour un mariage de rêve",
-      "snippet": "Vous êtes invités à un mariage ? Les 10 erreurs vestimentaires à ne pas commettre\nCouleurs trop vives, vêtements mal coupés, tenues inconfortables... Alors que la saison des mariages approche, retour sur les faux pas à bannir le jour J.",
-      "matchedWords": {
-        "5fuQgx56JnNw": {
-          "hits": 0,
-          "textWords": 2194
-        },
-        "fTPlth54Kuw3": {
-          "hits": 0,
-          "textWords": 2194
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "LzJ_wQKCIhSg",
-      "address": "https://madame.lefigaro.fr/bijoux-et-montres/tendances-bijoux",
-      "title": "Tendances bijoux - Madame Figaro",
-      "snippet": "",
-      "matchedWords": {
-        "5fuQgx56JnNw": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "fTPlth54Kuw3": {
-          "hits": 0,
-          "textWords": 0
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "Sw5E4jKCIhSg",
-      "address": "https://madame.lefigaro.fr/astro/horoscope/quotidien",
-      "title": "Horoscope gratuit du jour : prévisions quotidiennes par signe",
-      "snippet": "Passer la publicité\nPasser la publicité\nHoroscope du jour DR\nDossier\nAmour, travail, santé, argent.. Découvrez votre horoscope du jour gratuit et suivez les conseils des astrologues\nHoroscope Bélier du jour, le 11 septembre 2026",
-      "matchedWords": {
-        "5fuQgx56JnNw": {
-          "hits": 0,
-          "textWords": 554
-        },
-        "fTPlth54Kuw3": {
-          "hits": 0,
-          "textWords": 554
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "l7WpW2KCIhSg",
-      "address": "https://madame.lefigaro.fr/tag/meghan-markle",
-      "title": "Meghan Markle : Dernières infos et biographie",
-      "snippet": "Passer les articles suggérés\nQu’est-ce que Soho Farmhouse, ce lieu très privé où Meghan Markle a été aperçue pour la première fois depuis son retour en Angleterre ?",
-      "matchedWords": {
-        "5fuQgx56JnNw": {
-          "hits": 0,
-          "textWords": 3559
-        },
-        "fTPlth54Kuw3": {
-          "hits": 0,
-          "textWords": 3559
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "nA9fUCKCIhSg",
-      "address": "https://madame.lefigaro.fr/recettes/ingredients/pousses-depinard",
-      "title": "Pousse d'épinard recettes traditionnelles : sublimez vos plats",
-      "snippet": "",
-      "matchedWords": {
-        "5fuQgx56JnNw": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "fTPlth54Kuw3": {
-          "hits": 0,
-          "textWords": 0
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "ncF3aGKCIhSg",
-      "address": "https://madame.lefigaro.fr/divers/conditions-generales-de-vente-031214-93255",
-      "title": "Conditions Générales de Vente",
-      "snippet": "",
-      "matchedWords": {
-        "5fuQgx56JnNw": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "fTPlth54Kuw3": {
-          "hits": 0,
-          "textWords": 0
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "ntMeYdKCIhSg",
-      "address": "https://madame.lefigaro.fr/celebrites/jennifer-lawrence-muse-de-hollywood-151113-630012",
-      "title": "Jennifer Lawrence, la muse de Hollywood",
-      "snippet": "Il est l'un des écrivains français les plus populaires. Elle est la nouvelle reine du cinéma, oscarisée à 22 ans pour son rôle dans Happiness Therapy et bientôt dans la suite de la saga phénomène Hunger Games - L'embrasement.",
-      "matchedWords": {
-        "5fuQgx56JnNw": {
-          "hits": 0,
-          "textWords": 1984
-        },
-        "fTPlth54Kuw3": {
-          "hits": 0,
-          "textWords": 1984
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "tlHnTCKCIhSg",
-      "address": "https://madame.lefigaro.fr/recettes/noix-de-saint-jacques-panees-051011-198525",
-      "title": "Noix de Saint-Jacques panées",
-      "snippet": "",
-      "matchedWords": {
-        "5fuQgx56JnNw": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "fTPlth54Kuw3": {
-          "hits": 0,
-          "textWords": 0
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "16j4fTKCIhSg",
-      "address": "https://madame.lefigaro.fr/style",
-      "title": "Les Tendances de la mode au féminin et défilés",
-      "snippet": "Passer la publicité\ndans L’actu\nPrête pour une séance de stylisme privée sur les Champs-Élysées ?\nRejoignez-nous sur les Champs-Élysées le 24 septembre à 19h30 pour une soirée exclusive avec Canada Goose.",
-      "matchedWords": {
-        "5fuQgx56JnNw": {
-          "hits": 0,
-          "textWords": 2071
-        },
-        "fTPlth54Kuw3": {
-          "hits": 0,
-          "textWords": 2071
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "XKFWyFUEJ2Hh",
-      "address": "https://maison.20minutes.fr/mm87111-dommage-den-acheter-alors-que-cest-facile-et-rapide-a-faire-la-creme-de-marrons-maison-onctueuse-et-genereuse/",
-      "title": "« Dommage d'en acheter alors que c'est facile et rapide à faire » : la crème de marrons maison onctueuse et généreuse ! - Minutes Maison",
-      "snippet": "",
-      "matchedWords": {
-        "5fuQgx56JnNw": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "fTPlth54Kuw3": {
-          "hits": 0,
-          "textWords": 0
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "gfAWVlZ8Ljq5",
-      "address": "https://www.nouvelobs.com/food/",
-      "title": "Food : actualités en direct et info en continu",
-      "snippet": "",
-      "matchedWords": {
-        "5fuQgx56JnNw": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "fTPlth54Kuw3": {
-          "hits": 0,
-          "textWords": 0
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "gb-4wlipqV44",
-      "address": "https://www.la-croix.com/art-de-vivre",
-      "title": "Art de vivre : idées de recettes de cuisine, conseils jardinage... - La Croix",
+      "hash": "_vdtXdKCIhSg",
+      "address": "https://madame.lefigaro.fr/celebrites/actu-people/le-prince-harry-de-retour-au-royaume-uni-la-reconciliation-avec-son-frere-le-prince-william-est-elle-toujours-possible-20260823",
+      "title": "Le prince Harry de retour au Royaume-Uni : la réconciliation avec son frère, le prince William, est-elle toujours possible ?",
       "snippet": "",
       "matchedWords": {
         "5fuQgx56JnNw": {
@@ -1149,9 +1252,26 @@
       "queryPhraseHits": 0
     },
     {
-      "hash": "ZCWrrRKCIhSg",
-      "address": "https://madame.lefigaro.fr/cinema/monica-bellucci-etre-mere-c-est-le-plus-beau-role-de-ma-vie-20260526",
-      "title": "Monica Bellucci : «Être mère, c’est le plus beau rôle de ma vie»",
+      "hash": "oGkFmiKCIhSg",
+      "address": "https://madame.lefigaro.fr/deco-design/tendances-deco/velours-satin-jacquard-la-nouvelle-ere-passionnante-des-tissus-d-exterieur-20260521",
+      "title": "Velours, satin, jacquard : la nouvelle ère passionnante des tissus d’extérieur",
+      "snippet": "",
+      "matchedWords": {
+        "5fuQgx56JnNw": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "fTPlth54Kuw3": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "q3TJtdKCIhSg",
+      "address": "https://madame.lefigaro.fr/celebrites/actu-people/les-enfants-de-mathilde-favier-dignes-et-emus-pour-le-dernier-adieu-a-leur-mere-20260901",
+      "title": "Les enfants de Mathilde Favier, dignes et émus derrière le cercueil de leur mère à Saint-Sulpice",
       "snippet": "",
       "matchedWords": {
         "5fuQgx56JnNw": {
@@ -1217,9 +1337,366 @@
       "queryPhraseHits": 0
     },
     {
-      "hash": "75bMgCKCIhSg",
-      "address": "https://madame.lefigaro.fr/recettes/ingredients/boeuf-0",
-      "title": "Bœuf recettes traditionnelles : sublimez vos plats",
+      "hash": "FaFCxdKCIhSg",
+      "address": "https://madame.lefigaro.fr/celebrites/culture/nathacha-appanah-ecrire-c-est-l-histoire-de-ma-vie-depuis-que-j-ai-14-ans-20260125",
+      "title": "Nathacha Appanah : «Écrire c’est l’histoire de ma vie, depuis que j’ai 14 ans»",
+      "snippet": "Submergée par les marques d’affection du public lors de la Foire du livre de Brive-la-Gaillarde, Nathacha Appanah, fraîchement auréolée du prix Femina et du prix Goncourt des lycéens pour La Nuit au cœur (Éd. Gallimard) – son douzième livre –, savoure le bonheur du devoir accompli.",
+      "matchedWords": {
+        "5fuQgx56JnNw": {
+          "hits": 0,
+          "textWords": 656
+        },
+        "fTPlth54Kuw3": {
+          "hits": 0,
+          "textWords": 656
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "F33ef9KCIhSg",
+      "address": "https://madame.lefigaro.fr/style/news/le-costume-de-virginie-efira-les-paillettes-d-isabelle-huppert-la-couette-de-demi-moore-le-dernier-tapis-rouge-du-79e-festival-de-cannes-20260523",
+      "title": "Virginie Efira, Isabelle Huppert, Demi Moore, une couette, des ballerines de danse… À quoi a ressemblé le dernier tapis rouge du 79e Festival de Cannes ?",
+      "snippet": "Après onze jours de cinéma, le 79e Festival de Cannes touche à sa fin. Avant de découvrir le palmarès, les stars se sont réunies une dernière fois sur les prestigieuses marches de la Croisette.\nPasser la publicité Passer la publicité Clap de fin pour cette 79e édition du Festival de Cannes.",
+      "matchedWords": {
+        "5fuQgx56JnNw": {
+          "hits": 0,
+          "textWords": 320
+        },
+        "fTPlth54Kuw3": {
+          "hits": 0,
+          "textWords": 320
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "HfLo5sKCIhSg",
+      "address": "https://madame.lefigaro.fr/bien-etre/forme-detente/les-sept-salles-de-sport-les-plus-cool-de-paris-20221014",
+      "title": "Concepts innovants, cours attrayants, espaces bien pensés... Les salles de sport les plus tendances de Paris",
+      "snippet": "Après deux années chahutées par les confinements et la crise sanitaire, pas simple de se motiver à enfiler ses baskets, s'inscrire dans un club et, surtout, y rester fidèle. La recette ?",
+      "matchedWords": {
+        "5fuQgx56JnNw": {
+          "hits": 1,
+          "textWords": 250
+        },
+        "fTPlth54Kuw3": {
+          "hits": 0,
+          "textWords": 250
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "KQ6pNQKCIhSg",
+      "address": "https://madame.lefigaro.fr/bijoux-et-montres/ces-10-choses-sont-a-proscrire-avec-sa-bague-de-fiancailles-en-diamant-20250417",
+      "title": "Ces 10 choses sont à proscrire avec sa bague de fiançailles en diamant",
+      "snippet": "Contrairement à ce que l’on voudrait bien croire, les diamants, aussi solides soient-ils, ne sont pas éternels. Au quotidien, des gestes anodins peuvent abîmer la pierre de sa bague de fiançailles. Voici 10 choses à (absolument) éviter.",
+      "matchedWords": {
+        "5fuQgx56JnNw": {
+          "hits": 0,
+          "textWords": 996
+        },
+        "fTPlth54Kuw3": {
+          "hits": 0,
+          "textWords": 996
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "KnOaDsKCIhSg",
+      "address": "https://madame.lefigaro.fr/bien-etre/forme-detente/sport-six-fois-par-semaine-jeune-intermittent-meditation-la-routine-bien-etre-de-halle-berry-20220301",
+      "title": "Sport six fois par semaine, jeûne intermittent, méditation... La routine bien-être de Halle Berry",
+      "snippet": "Halle Berry nous dévoile la recette de son teint éclatant\nEn vidéo, Jennifer Lopez en pleine entraînement de pole dance",
+      "matchedWords": {
+        "5fuQgx56JnNw": {
+          "hits": 1,
+          "textWords": 1034
+        },
+        "fTPlth54Kuw3": {
+          "hits": 0,
+          "textWords": 1034
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "Nj4TPrKCIhSg",
+      "address": "https://madame.lefigaro.fr/beaute/parfum/chanel-n05-la-vie-est-belle-angel-pourquoi-les-parfums-cultes-n-ont-jamais-ete-aussi-modernes-20260522",
+      "title": "Chanel N°5, La Vie est Belle, Angel… Pourquoi les parfums cultes n’ont jamais été aussi modernes ?",
+      "snippet": "Les grands parfums iconiques évoluent, intégrant de subtiles variations qui séduisent de nouvelles générations.\nPlus de 6500 parfums sont lancés chaque année dans le monde.",
+      "matchedWords": {
+        "5fuQgx56JnNw": {
+          "hits": 0,
+          "textWords": 1022
+        },
+        "fTPlth54Kuw3": {
+          "hits": 0,
+          "textWords": 1022
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "QCWOCdKCIhSg",
+      "address": "https://madame.lefigaro.fr/celebrites/actu-people/george-charlotte-louis-kate-et-william-les-images-des-galles-au-complet-dans-les-tribunes-des-jeux-du-commonwealth-20260801",
+      "title": "George, Charlotte, Louis, Kate et William : les images des Galles au complet dans les tribunes des Jeux du Commonwealth",
+      "snippet": "",
+      "matchedWords": {
+        "5fuQgx56JnNw": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "fTPlth54Kuw3": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "SwcnEsKCIhSg",
+      "address": "https://madame.lefigaro.fr/bien-etre/fatigue-problemes-de-peau-six-astuces-pour-ameliorer-son-equilibre-emotionnel-et-physique-060320-180053",
+      "title": "Six moyens de retrouver un meilleur équilibre physique et émotionnel",
+      "snippet": "",
+      "matchedWords": {
+        "5fuQgx56JnNw": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "fTPlth54Kuw3": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "TOV_dsKCIhSg",
+      "address": "https://madame.lefigaro.fr/bien-etre/genoux-qui-craquent-quand-on-fait-du-sport-quand-on-se-baisse-est-ce-grave-180521-196542",
+      "title": "Genoux qui craquent pendant le sport : quand faut-il s'inquiéter ?",
+      "snippet": "",
+      "matchedWords": {
+        "5fuQgx56JnNw": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "fTPlth54Kuw3": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "Ui5X3rKCIhSg",
+      "address": "https://madame.lefigaro.fr/beaute/quels-sont-les-parfums-recommandes-par-les-redactrices-de-madame-figaro-20260527",
+      "title": "Fête des mères : les parfums fétiches des rédactrices de Madame Figaro qui pourraient vous inspirer",
+      "snippet": "Des senteurs de fleur d’oranger, de bouquets blancs ou d’agrumes ensoleillés... Quels sont les sillages que l’on croise dans les couloirs de la rédaction ?\nCertaines portent des parfums «doudous» qui réconfortent. D’autres, des senteurs qui leur donnent de la force ou reflètent leur caractère.",
+      "matchedWords": {
+        "5fuQgx56JnNw": {
+          "hits": 0,
+          "textWords": 1744
+        },
+        "fTPlth54Kuw3": {
+          "hits": 0,
+          "textWords": 1744
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "XzL9AsKCIhSg",
+      "address": "https://madame.lefigaro.fr/bien-etre/brule-graisse-renforcement-musculaire-correction-posturale-quelle-220219-163917",
+      "title": "Quelle machine choisir à la salle de sport pour un maximum d'efficacité ?",
+      "snippet": "",
+      "matchedWords": {
+        "5fuQgx56JnNw": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "fTPlth54Kuw3": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "cNW-qjKCIhSg",
+      "address": "https://madame.lefigaro.fr/evasion/au-63e-etage-en-surplomb-de-la-skyline-on-a-teste-saga-le-restaurant-etoile-avec-l-une-des-plus-belles-vues-de-new-york-20260312",
+      "title": "Au 63e étage, en surplomb de la skyline : on a testé Saga, le restaurant étoilé avec l’une des plus belles vues de New York",
+      "snippet": "",
+      "matchedWords": {
+        "5fuQgx56JnNw": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "fTPlth54Kuw3": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "dUzJXsKCIhSg",
+      "address": "https://madame.lefigaro.fr/bien-etre/forme-detente/muscler-son-corps-en-profondeur-ces-trois-disciplines-qui-font-vraiment-la-difference-20250123",
+      "title": "Muscler son corps en profondeur : ces trois disciplines qui font (vraiment) la différence",
+      "snippet": "",
+      "matchedWords": {
+        "5fuQgx56JnNw": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "fTPlth54Kuw3": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "oGkFmiKCIhSg",
+      "address": "https://madame.lefigaro.fr/deco-design/tendances-deco/velours-satin-jacquard-la-nouvelle-ere-passionnante-des-tissus-d-exterieur-20260521",
+      "title": "Velours, satin, jacquard : la nouvelle ère passionnante des tissus d’extérieur",
+      "snippet": "",
+      "matchedWords": {
+        "5fuQgx56JnNw": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "fTPlth54Kuw3": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "q3TJtdKCIhSg",
+      "address": "https://madame.lefigaro.fr/celebrites/actu-people/les-enfants-de-mathilde-favier-dignes-et-emus-pour-le-dernier-adieu-a-leur-mere-20260901",
+      "title": "Les enfants de Mathilde Favier, dignes et émus derrière le cercueil de leur mère à Saint-Sulpice",
+      "snippet": "",
+      "matchedWords": {
+        "5fuQgx56JnNw": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "fTPlth54Kuw3": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "0Zte72KCIhSg",
+      "address": "https://madame.lefigaro.fr/tag/internet",
+      "title": "internet",
+      "snippet": "",
+      "matchedWords": {
+        "5fuQgx56JnNw": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "fTPlth54Kuw3": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "2HMvhdKCIhSg",
+      "address": "https://madame.lefigaro.fr/celebrites/actu-people/la-fille-de-jeff-bezos-a-ibiza-la-vraie-histoire-derriere-une-intox-virale-20260731",
+      "title": "«La fille de Jeff Bezos» à Ibiza : la vraie histoire derrière une intox virale",
+      "snippet": "",
+      "matchedWords": {
+        "5fuQgx56JnNw": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "fTPlth54Kuw3": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "2QnMvdKCIhSg",
+      "address": "https://madame.lefigaro.fr/celebrites/actu-people/joseph-le-fils-illegitime-d-arnold-schwarzenegger-presque-aussi-bodybuilde-que-son-pere-lors-d-une-sortie-a-los-angeles-20220703",
+      "title": "En photo, Joseph, le fils illégitime d'Arnold Schwarzenegger, presque aussi bodybuildé que son père",
+      "snippet": "",
+      "matchedWords": {
+        "5fuQgx56JnNw": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "fTPlth54Kuw3": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "3QZvYdKCIhSg",
+      "address": "https://madame.lefigaro.fr/celebrites/culture/vivante-le-recit-graphique-qui-devoile-les-secrets-d-une-guerison-mentale-par-le-dessin-20260215",
+      "title": "«Vivante !», le récit graphique qui dévoile les secrets d’une guérison mentale par le dessin",
+      "snippet": "",
+      "matchedWords": {
+        "5fuQgx56JnNw": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "fTPlth54Kuw3": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "3kDYxCKCIhSg",
+      "address": "https://madame.lefigaro.fr/recettes/veloute-de-betterave-151002-201130",
+      "title": "Velouté de betterave",
+      "snippet": "",
+      "matchedWords": {
+        "5fuQgx56JnNw": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "fTPlth54Kuw3": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "8otSkQKCIhSg",
+      "address": "https://madame.lefigaro.fr/bijoux-et-montres/pourquoi-y-a-t-il-de-moins-en-moins-de-belles-perles-20250623",
+      "title": "Pourquoi y a-t-il de moins en moins de belles perles ?",
+      "snippet": "",
+      "matchedWords": {
+        "5fuQgx56JnNw": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "fTPlth54Kuw3": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "_vdtXdKCIhSg",
+      "address": "https://madame.lefigaro.fr/celebrites/actu-people/le-prince-harry-de-retour-au-royaume-uni-la-reconciliation-avec-son-frere-le-prince-william-est-elle-toujours-possible-20260823",
+      "title": "Le prince Harry de retour au Royaume-Uni : la réconciliation avec son frère, le prince William, est-elle toujours possible ?",
       "snippet": "",
       "matchedWords": {
         "5fuQgx56JnNw": {
@@ -1251,9 +1728,128 @@
       "queryPhraseHits": 0
     },
     {
-      "hash": "qdd30sKCIhSg",
-      "address": "https://madame.lefigaro.fr/bien-etre/forme-detente/routine-sportive-quel-est-le-rythme-hebdomadaire-ideal-pour-se-muscler-efficacement-20240209",
-      "title": "Routine sportive : quel est le rythme hebdomadaire idéal pour se muscler efficacement ?",
+      "hash": "8otSkQKCIhSg",
+      "address": "https://madame.lefigaro.fr/bijoux-et-montres/pourquoi-y-a-t-il-de-moins-en-moins-de-belles-perles-20250623",
+      "title": "Pourquoi y a-t-il de moins en moins de belles perles ?",
+      "snippet": "",
+      "matchedWords": {
+        "5fuQgx56JnNw": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "fTPlth54Kuw3": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "_vdtXdKCIhSg",
+      "address": "https://madame.lefigaro.fr/celebrites/actu-people/le-prince-harry-de-retour-au-royaume-uni-la-reconciliation-avec-son-frere-le-prince-william-est-elle-toujours-possible-20260823",
+      "title": "Le prince Harry de retour au Royaume-Uni : la réconciliation avec son frère, le prince William, est-elle toujours possible ?",
+      "snippet": "",
+      "matchedWords": {
+        "5fuQgx56JnNw": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "fTPlth54Kuw3": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "FaFCxdKCIhSg",
+      "address": "https://madame.lefigaro.fr/celebrites/culture/nathacha-appanah-ecrire-c-est-l-histoire-de-ma-vie-depuis-que-j-ai-14-ans-20260125",
+      "title": "Nathacha Appanah : «Écrire c’est l’histoire de ma vie, depuis que j’ai 14 ans»",
+      "snippet": "Submergée par les marques d’affection du public lors de la Foire du livre de Brive-la-Gaillarde, Nathacha Appanah, fraîchement auréolée du prix Femina et du prix Goncourt des lycéens pour La Nuit au cœur (Éd. Gallimard) – son douzième livre –, savoure le bonheur du devoir accompli.",
+      "matchedWords": {
+        "5fuQgx56JnNw": {
+          "hits": 0,
+          "textWords": 656
+        },
+        "fTPlth54Kuw3": {
+          "hits": 0,
+          "textWords": 656
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "F33ef9KCIhSg",
+      "address": "https://madame.lefigaro.fr/style/news/le-costume-de-virginie-efira-les-paillettes-d-isabelle-huppert-la-couette-de-demi-moore-le-dernier-tapis-rouge-du-79e-festival-de-cannes-20260523",
+      "title": "Virginie Efira, Isabelle Huppert, Demi Moore, une couette, des ballerines de danse… À quoi a ressemblé le dernier tapis rouge du 79e Festival de Cannes ?",
+      "snippet": "Après onze jours de cinéma, le 79e Festival de Cannes touche à sa fin. Avant de découvrir le palmarès, les stars se sont réunies une dernière fois sur les prestigieuses marches de la Croisette.\nPasser la publicité Passer la publicité Clap de fin pour cette 79e édition du Festival de Cannes.",
+      "matchedWords": {
+        "5fuQgx56JnNw": {
+          "hits": 0,
+          "textWords": 320
+        },
+        "fTPlth54Kuw3": {
+          "hits": 0,
+          "textWords": 320
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "HfLo5sKCIhSg",
+      "address": "https://madame.lefigaro.fr/bien-etre/forme-detente/les-sept-salles-de-sport-les-plus-cool-de-paris-20221014",
+      "title": "Concepts innovants, cours attrayants, espaces bien pensés... Les salles de sport les plus tendances de Paris",
+      "snippet": "Après deux années chahutées par les confinements et la crise sanitaire, pas simple de se motiver à enfiler ses baskets, s'inscrire dans un club et, surtout, y rester fidèle. La recette ?",
+      "matchedWords": {
+        "5fuQgx56JnNw": {
+          "hits": 1,
+          "textWords": 250
+        },
+        "fTPlth54Kuw3": {
+          "hits": 0,
+          "textWords": 250
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "QCWOCdKCIhSg",
+      "address": "https://madame.lefigaro.fr/celebrites/actu-people/george-charlotte-louis-kate-et-william-les-images-des-galles-au-complet-dans-les-tribunes-des-jeux-du-commonwealth-20260801",
+      "title": "George, Charlotte, Louis, Kate et William : les images des Galles au complet dans les tribunes des Jeux du Commonwealth",
+      "snippet": "",
+      "matchedWords": {
+        "5fuQgx56JnNw": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "fTPlth54Kuw3": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "SwcnEsKCIhSg",
+      "address": "https://madame.lefigaro.fr/bien-etre/fatigue-problemes-de-peau-six-astuces-pour-ameliorer-son-equilibre-emotionnel-et-physique-060320-180053",
+      "title": "Six moyens de retrouver un meilleur équilibre physique et émotionnel",
+      "snippet": "",
+      "matchedWords": {
+        "5fuQgx56JnNw": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "fTPlth54Kuw3": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "TOV_dsKCIhSg",
+      "address": "https://madame.lefigaro.fr/bien-etre/genoux-qui-craquent-quand-on-fait-du-sport-quand-on-se-baisse-est-ce-grave-180521-196542",
+      "title": "Genoux qui craquent pendant le sport : quand faut-il s'inquiéter ?",
       "snippet": "",
       "matchedWords": {
         "5fuQgx56JnNw": {
@@ -1271,7 +1867,7 @@
       "hash": "Sw5E4jKCIhSg",
       "address": "https://madame.lefigaro.fr/astro/horoscope/quotidien",
       "title": "Horoscope gratuit du jour : prévisions quotidiennes par signe",
-      "snippet": "Passer la publicité\nPasser la publicité\nHoroscope du jour DR\nDossier\nAmour, travail, santé, argent.. Découvrez votre horoscope du jour gratuit et suivez les conseils des astrologues\nHoroscope Bélier du jour, le 11 septembre 2026",
+      "snippet": "Passer la publicité\nPasser la publicité\nHoroscope du jour DR\nDossier\nAmour, travail, santé, argent.. Découvrez votre horoscope du jour gratuit et suivez les conseils des astrologues\nHoroscope Bélier du jour, le 12 septembre 2026",
       "matchedWords": {
         "5fuQgx56JnNw": {
           "hits": 0,
@@ -1280,23 +1876,6 @@
         "fTPlth54Kuw3": {
           "hits": 0,
           "textWords": 554
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "X9s35dKCIhSg",
-      "address": "https://madame.lefigaro.fr/celebrites/culture/quels-sont-les-3-romans-de-la-rentree-litteraire-2026-a-lire-en-priorite-20260822",
-      "title": "Quels sont les 3 romans de la rentrée littéraire 2026 à lire en priorité?",
-      "snippet": "",
-      "matchedWords": {
-        "5fuQgx56JnNw": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "fTPlth54Kuw3": {
-          "hits": 0,
-          "textWords": 0
         }
       },
       "queryPhraseHits": 0
@@ -1387,9 +1966,9 @@
       "queryPhraseHits": 0
     },
     {
-      "hash": "LzJ_wQKCIhSg",
-      "address": "https://madame.lefigaro.fr/bijoux-et-montres/tendances-bijoux",
-      "title": "Tendances bijoux - Madame Figaro",
+      "hash": "oGkFmiKCIhSg",
+      "address": "https://madame.lefigaro.fr/deco-design/tendances-deco/velours-satin-jacquard-la-nouvelle-ere-passionnante-des-tissus-d-exterieur-20260521",
+      "title": "Velours, satin, jacquard : la nouvelle ère passionnante des tissus d’extérieur",
       "snippet": "",
       "matchedWords": {
         "5fuQgx56JnNw": {
@@ -1404,9 +1983,162 @@
       "queryPhraseHits": 0
     },
     {
+      "hash": "q3TJtdKCIhSg",
+      "address": "https://madame.lefigaro.fr/celebrites/actu-people/les-enfants-de-mathilde-favier-dignes-et-emus-pour-le-dernier-adieu-a-leur-mere-20260901",
+      "title": "Les enfants de Mathilde Favier, dignes et émus derrière le cercueil de leur mère à Saint-Sulpice",
+      "snippet": "",
+      "matchedWords": {
+        "5fuQgx56JnNw": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "fTPlth54Kuw3": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "fNtu2dKCIhSg",
+      "address": "https://madame.lefigaro.fr/celebrites/actu-people/a-20-ans-suri-la-fille-de-tom-cruise-et-katie-holmes-s-apprete-a-faire-ses-debuts-en-tant-que-comedienne-20260726",
+      "title": "À 20 ans, Suri, la fille de Tom Cruise et Katie Holmes, s’apprête à faire ses débuts en tant que comédienne",
+      "snippet": "",
+      "matchedWords": {
+        "5fuQgx56JnNw": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "fTPlth54Kuw3": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "ZCWrrRKCIhSg",
+      "address": "https://madame.lefigaro.fr/cinema/monica-bellucci-etre-mere-c-est-le-plus-beau-role-de-ma-vie-20260526",
+      "title": "Monica Bellucci : «Être mère, c’est le plus beau rôle de ma vie»",
+      "snippet": "",
+      "matchedWords": {
+        "5fuQgx56JnNw": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "fTPlth54Kuw3": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "LzJ_wQKCIhSg",
+      "address": "https://madame.lefigaro.fr/bijoux-et-montres/tendances-bijoux",
+      "title": "Tendances bijoux - Madame Figaro",
+      "snippet": "Nouveau mariage chez les Windsor : Samuel Chatto, le neveu d’Elizabeth II, s’est fiancé à Eleanor Ekserdjian avec une bague qu’il a lui-même confectionnée\nLundi 13 juillet Samuel Chatto a annoncé ses fiançailles avec Eleanor Ekserdjian.",
+      "matchedWords": {
+        "5fuQgx56JnNw": {
+          "hits": 0,
+          "textWords": 1796
+        },
+        "fTPlth54Kuw3": {
+          "hits": 0,
+          "textWords": 1796
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
       "hash": "X9s35dKCIhSg",
       "address": "https://madame.lefigaro.fr/celebrites/culture/quels-sont-les-3-romans-de-la-rentree-litteraire-2026-a-lire-en-priorite-20260822",
       "title": "Quels sont les 3 romans de la rentrée littéraire 2026 à lire en priorité?",
+      "snippet": "",
+      "matchedWords": {
+        "5fuQgx56JnNw": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "fTPlth54Kuw3": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "0Zte72KCIhSg",
+      "address": "https://madame.lefigaro.fr/tag/internet",
+      "title": "internet",
+      "snippet": "",
+      "matchedWords": {
+        "5fuQgx56JnNw": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "fTPlth54Kuw3": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "2HMvhdKCIhSg",
+      "address": "https://madame.lefigaro.fr/celebrites/actu-people/la-fille-de-jeff-bezos-a-ibiza-la-vraie-histoire-derriere-une-intox-virale-20260731",
+      "title": "«La fille de Jeff Bezos» à Ibiza : la vraie histoire derrière une intox virale",
+      "snippet": "",
+      "matchedWords": {
+        "5fuQgx56JnNw": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "fTPlth54Kuw3": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "2QnMvdKCIhSg",
+      "address": "https://madame.lefigaro.fr/celebrites/actu-people/joseph-le-fils-illegitime-d-arnold-schwarzenegger-presque-aussi-bodybuilde-que-son-pere-lors-d-une-sortie-a-los-angeles-20220703",
+      "title": "En photo, Joseph, le fils illégitime d'Arnold Schwarzenegger, presque aussi bodybuildé que son père",
+      "snippet": "",
+      "matchedWords": {
+        "5fuQgx56JnNw": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "fTPlth54Kuw3": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "3QZvYdKCIhSg",
+      "address": "https://madame.lefigaro.fr/celebrites/culture/vivante-le-recit-graphique-qui-devoile-les-secrets-d-une-guerison-mentale-par-le-dessin-20260215",
+      "title": "«Vivante !», le récit graphique qui dévoile les secrets d’une guérison mentale par le dessin",
+      "snippet": "",
+      "matchedWords": {
+        "5fuQgx56JnNw": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "fTPlth54Kuw3": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "3kDYxCKCIhSg",
+      "address": "https://madame.lefigaro.fr/recettes/veloute-de-betterave-151002-201130",
+      "title": "Velouté de betterave",
       "snippet": "",
       "matchedWords": {
         "5fuQgx56JnNw": {
@@ -1455,9 +2187,9 @@
       "queryPhraseHits": 0
     },
     {
-      "hash": "Eefa2CKCIhSg",
-      "address": "https://madame.lefigaro.fr/recettes/idees-menus/aperitif-dinatoire-0",
-      "title": "Recettes Apéro dînatoire : faciles et originales",
+      "hash": "8otSkQKCIhSg",
+      "address": "https://madame.lefigaro.fr/bijoux-et-montres/pourquoi-y-a-t-il-de-moins-en-moins-de-belles-perles-20250623",
+      "title": "Pourquoi y a-t-il de moins en moins de belles perles ?",
       "snippet": "",
       "matchedWords": {
         "5fuQgx56JnNw": {
@@ -1472,77 +2204,9 @@
       "queryPhraseHits": 0
     },
     {
-      "hash": "Sw5E4jKCIhSg",
-      "address": "https://madame.lefigaro.fr/astro/horoscope/quotidien",
-      "title": "Horoscope gratuit du jour : prévisions quotidiennes par signe",
-      "snippet": "Passer la publicité\nPasser la publicité\nHoroscope du jour DR\nDossier\nAmour, travail, santé, argent.. Découvrez votre horoscope du jour gratuit et suivez les conseils des astrologues\nHoroscope Bélier du jour, le 11 septembre 2026",
-      "matchedWords": {
-        "5fuQgx56JnNw": {
-          "hits": 0,
-          "textWords": 554
-        },
-        "fTPlth54Kuw3": {
-          "hits": 0,
-          "textWords": 554
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "l7WpW2KCIhSg",
-      "address": "https://madame.lefigaro.fr/tag/meghan-markle",
-      "title": "Meghan Markle",
-      "snippet": "Passer les articles suggérés\nQu’est-ce que Soho Farmhouse, ce lieu très privé où Meghan Markle a été aperçue pour la première fois depuis son retour en Angleterre ?",
-      "matchedWords": {
-        "5fuQgx56JnNw": {
-          "hits": 0,
-          "textWords": 3559
-        },
-        "fTPlth54Kuw3": {
-          "hits": 0,
-          "textWords": 3559
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "16j4fTKCIhSg",
-      "address": "https://madame.lefigaro.fr/style",
-      "title": "Les Tendances de la mode au féminin et défilés",
-      "snippet": "Passer la publicité\ndans L’actu\nPrête pour une séance de stylisme privée sur les Champs-Élysées ?\nRejoignez-nous sur les Champs-Élysées le 24 septembre à 19h30 pour une soirée exclusive avec Canada Goose.",
-      "matchedWords": {
-        "5fuQgx56JnNw": {
-          "hits": 0,
-          "textWords": 2071
-        },
-        "fTPlth54Kuw3": {
-          "hits": 0,
-          "textWords": 2071
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "smyaiTKCIhSg",
-      "address": "https://madame.lefigaro.fr/",
-      "title": "Mode, Beauté, Recettes, Société, Horoscope, Célébrités",
-      "snippet": "VIDÉOS\nAccessoires solaires\nQuelques indispensables pour cet été : un foulard en soie, en fichu ou autour de la taille, un maillot de foot pour honorer la tendance «blokecore», des lunettes de soleil ovales aux verres colorés, des ballerines en résille...",
-      "matchedWords": {
-        "5fuQgx56JnNw": {
-          "hits": 0,
-          "textWords": 2579
-        },
-        "fTPlth54Kuw3": {
-          "hits": 0,
-          "textWords": 2579
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "tlHnTCKCIhSg",
-      "address": "https://madame.lefigaro.fr/recettes/noix-de-saint-jacques-panees-051011-198525",
-      "title": "Noix de Saint-Jacques panées",
+      "hash": "_vdtXdKCIhSg",
+      "address": "https://madame.lefigaro.fr/celebrites/actu-people/le-prince-harry-de-retour-au-royaume-uni-la-reconciliation-avec-son-frere-le-prince-william-est-elle-toujours-possible-20260823",
+      "title": "Le prince Harry de retour au Royaume-Uni : la réconciliation avec son frère, le prince William, est-elle toujours possible ?",
       "snippet": "",
       "matchedWords": {
         "5fuQgx56JnNw": {
@@ -1557,9 +2221,145 @@
       "queryPhraseHits": 0
     },
     {
-      "hash": "75bMgCKCIhSg",
-      "address": "https://madame.lefigaro.fr/recettes/ingredients/boeuf-0",
-      "title": "Bœuf recettes traditionnelles : sublimez vos plats",
+      "hash": "qdd30sKCIhSg",
+      "address": "https://madame.lefigaro.fr/bien-etre/forme-detente/routine-sportive-quel-est-le-rythme-hebdomadaire-ideal-pour-se-muscler-efficacement-20240209",
+      "title": "Routine sportive : quel est le rythme hebdomadaire idéal pour se muscler efficacement ?",
+      "snippet": "",
+      "matchedWords": {
+        "5fuQgx56JnNw": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "fTPlth54Kuw3": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "FaFCxdKCIhSg",
+      "address": "https://madame.lefigaro.fr/celebrites/culture/nathacha-appanah-ecrire-c-est-l-histoire-de-ma-vie-depuis-que-j-ai-14-ans-20260125",
+      "title": "Nathacha Appanah : «Écrire c’est l’histoire de ma vie, depuis que j’ai 14 ans»",
+      "snippet": "Submergée par les marques d’affection du public lors de la Foire du livre de Brive-la-Gaillarde, Nathacha Appanah, fraîchement auréolée du prix Femina et du prix Goncourt des lycéens pour La Nuit au cœur (Éd. Gallimard) – son douzième livre –, savoure le bonheur du devoir accompli.",
+      "matchedWords": {
+        "5fuQgx56JnNw": {
+          "hits": 0,
+          "textWords": 656
+        },
+        "fTPlth54Kuw3": {
+          "hits": 0,
+          "textWords": 656
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "F33ef9KCIhSg",
+      "address": "https://madame.lefigaro.fr/style/news/le-costume-de-virginie-efira-les-paillettes-d-isabelle-huppert-la-couette-de-demi-moore-le-dernier-tapis-rouge-du-79e-festival-de-cannes-20260523",
+      "title": "Virginie Efira, Isabelle Huppert, Demi Moore, une couette, des ballerines de danse… À quoi a ressemblé le dernier tapis rouge du 79e Festival de Cannes ?",
+      "snippet": "Après onze jours de cinéma, le 79e Festival de Cannes touche à sa fin. Avant de découvrir le palmarès, les stars se sont réunies une dernière fois sur les prestigieuses marches de la Croisette.\nPasser la publicité Passer la publicité Clap de fin pour cette 79e édition du Festival de Cannes.",
+      "matchedWords": {
+        "5fuQgx56JnNw": {
+          "hits": 0,
+          "textWords": 320
+        },
+        "fTPlth54Kuw3": {
+          "hits": 0,
+          "textWords": 320
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "HfLo5sKCIhSg",
+      "address": "https://madame.lefigaro.fr/bien-etre/forme-detente/les-sept-salles-de-sport-les-plus-cool-de-paris-20221014",
+      "title": "Concepts innovants, cours attrayants, espaces bien pensés... Les salles de sport les plus tendances de Paris",
+      "snippet": "Après deux années chahutées par les confinements et la crise sanitaire, pas simple de se motiver à enfiler ses baskets, s'inscrire dans un club et, surtout, y rester fidèle. La recette ?",
+      "matchedWords": {
+        "5fuQgx56JnNw": {
+          "hits": 1,
+          "textWords": 250
+        },
+        "fTPlth54Kuw3": {
+          "hits": 0,
+          "textWords": 250
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "fNtu2dKCIhSg",
+      "address": "https://madame.lefigaro.fr/celebrites/actu-people/a-20-ans-suri-la-fille-de-tom-cruise-et-katie-holmes-s-apprete-a-faire-ses-debuts-en-tant-que-comedienne-20260726",
+      "title": "À 20 ans, Suri, la fille de Tom Cruise et Katie Holmes, s’apprête à faire ses débuts en tant que comédienne",
+      "snippet": "",
+      "matchedWords": {
+        "5fuQgx56JnNw": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "fTPlth54Kuw3": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "cNW-qjKCIhSg",
+      "address": "https://madame.lefigaro.fr/evasion/au-63e-etage-en-surplomb-de-la-skyline-on-a-teste-saga-le-restaurant-etoile-avec-l-une-des-plus-belles-vues-de-new-york-20260312",
+      "title": "Au 63e étage, en surplomb de la skyline : on a testé Saga, le restaurant étoilé avec l’une des plus belles vues de New York",
+      "snippet": "",
+      "matchedWords": {
+        "5fuQgx56JnNw": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "fTPlth54Kuw3": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "dUzJXsKCIhSg",
+      "address": "https://madame.lefigaro.fr/bien-etre/forme-detente/muscler-son-corps-en-profondeur-ces-trois-disciplines-qui-font-vraiment-la-difference-20250123",
+      "title": "Muscler son corps en profondeur : ces trois disciplines qui font (vraiment) la différence",
+      "snippet": "",
+      "matchedWords": {
+        "5fuQgx56JnNw": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "fTPlth54Kuw3": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "badhO2KCIhSg",
+      "address": "https://madame.lefigaro.fr/tag/sport",
+      "title": "sport",
+      "snippet": "",
+      "matchedWords": {
+        "5fuQgx56JnNw": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "fTPlth54Kuw3": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "dTh74sKCIhSg",
+      "address": "https://madame.lefigaro.fr/bien-etre/faut-il-faire-des-abdos-tous-les-jours-pour-que-ca-se-voie-170118-146446",
+      "title": "Faut-il faire des abdos tous les jours pour que ça se voie ?",
       "snippet": "",
       "matchedWords": {
         "5fuQgx56JnNw": {
@@ -1611,15 +2411,32 @@
       "hash": "Eefa2CKCIhSg",
       "address": "https://madame.lefigaro.fr/recettes/idees-menus/aperitif-dinatoire-0",
       "title": "Recettes Apéro dînatoire : faciles et originales",
-      "snippet": "",
+      "snippet": "En deux temps trois mouvements on réalise cette recette de beignets de courge à tremper dans une sauce au yaourt. Une recette signée Chloé Charles.\n20min Facile\nSamosas tomate et fromage au Airfryer\nPour des samosas croustillants, on mise sur une cuisson au Airfryer.\n37min Très facile",
+      "matchedWords": {
+        "5fuQgx56JnNw": {
+          "hits": 18,
+          "textWords": 1788
+        },
+        "fTPlth54Kuw3": {
+          "hits": 2,
+          "textWords": 1788
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "Ip_fpTKCIhSg",
+      "address": "https://madame.lefigaro.fr/cuisine",
+      "title": "Cuisine et Recettes faciles et rapides du monde",
+      "snippet": "Schweppes à Roland-Garros, un oursin japonais, un nouveau bar à viandes... Quoi de neuf en cuisine ?\nL’été va avoir bon goût\nLe Beefbar s’installe au Majestic : le bar à viandes de luxe débarque sur la Côte d’Azur",
       "matchedWords": {
         "5fuQgx56JnNw": {
           "hits": 0,
-          "textWords": 0
+          "textWords": 620
         },
         "fTPlth54Kuw3": {
           "hits": 0,
-          "textWords": 0
+          "textWords": 620
         }
       },
       "queryPhraseHits": 0
@@ -1628,15 +2445,15 @@
       "hash": "LzJ_wQKCIhSg",
       "address": "https://madame.lefigaro.fr/bijoux-et-montres/tendances-bijoux",
       "title": "Tendances bijoux - Madame Figaro",
-      "snippet": "",
+      "snippet": "Nouveau mariage chez les Windsor : Samuel Chatto, le neveu d’Elizabeth II, s’est fiancé à Eleanor Ekserdjian avec une bague qu’il a lui-même confectionnée\nLundi 13 juillet Samuel Chatto a annoncé ses fiançailles avec Eleanor Ekserdjian.",
       "matchedWords": {
         "5fuQgx56JnNw": {
           "hits": 0,
-          "textWords": 0
+          "textWords": 1796
         },
         "fTPlth54Kuw3": {
           "hits": 0,
-          "textWords": 0
+          "textWords": 1796
         }
       },
       "queryPhraseHits": 0
@@ -1645,7 +2462,7 @@
       "hash": "Sw5E4jKCIhSg",
       "address": "https://madame.lefigaro.fr/astro/horoscope/quotidien",
       "title": "Horoscope gratuit du jour : prévisions quotidiennes par signe",
-      "snippet": "Passer la publicité\nPasser la publicité\nHoroscope du jour DR\nDossier\nAmour, travail, santé, argent.. Découvrez votre horoscope du jour gratuit et suivez les conseils des astrologues\nHoroscope Bélier du jour, le 11 septembre 2026",
+      "snippet": "Passer la publicité\nPasser la publicité\nHoroscope du jour DR\nDossier\nAmour, travail, santé, argent.. Découvrez votre horoscope du jour gratuit et suivez les conseils des astrologues\nHoroscope Bélier du jour, le 12 septembre 2026",
       "matchedWords": {
         "5fuQgx56JnNw": {
           "hits": 0,
@@ -1654,23 +2471,6 @@
         "fTPlth54Kuw3": {
           "hits": 0,
           "textWords": 554
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "smyaiTKCIhSg",
-      "address": "https://madame.lefigaro.fr/",
-      "title": "Mode, Beauté, Recettes, Société, Horoscope, Célébrités",
-      "snippet": "VIDÉOS\nAccessoires solaires\nQuelques indispensables pour cet été : un foulard en soie, en fichu ou autour de la taille, un maillot de foot pour honorer la tendance «blokecore», des lunettes de soleil ovales aux verres colorés, des ballerines en résille...",
-      "matchedWords": {
-        "5fuQgx56JnNw": {
-          "hits": 0,
-          "textWords": 2579
-        },
-        "fTPlth54Kuw3": {
-          "hits": 0,
-          "textWords": 2579
         }
       },
       "queryPhraseHits": 0
@@ -1683,28 +2483,11 @@
       "matchedWords": {
         "5fuQgx56JnNw": {
           "hits": 0,
-          "textWords": 2071
+          "textWords": 2096
         },
         "fTPlth54Kuw3": {
           "hits": 0,
-          "textWords": 2071
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "XKFWyFUEJ2Hh",
-      "address": "https://maison.20minutes.fr/mm87111-dommage-den-acheter-alors-que-cest-facile-et-rapide-a-faire-la-creme-de-marrons-maison-onctueuse-et-genereuse/",
-      "title": "« Dommage d'en acheter alors que c'est facile et rapide à faire » : la crème de marrons maison onctueuse et généreuse ! - Minutes Maison",
-      "snippet": "",
-      "matchedWords": {
-        "5fuQgx56JnNw": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "fTPlth54Kuw3": {
-          "hits": 0,
-          "textWords": 0
+          "textWords": 2096
         }
       },
       "queryPhraseHits": 0
@@ -1728,7 +2511,7 @@
     }
   ],
   "documentsHeldPerQueryWord": {
-    "5fuQgx56JnNw": 10401,
-    "fTPlth54Kuw3": 3580
+    "5fuQgx56JnNw": 12943,
+    "fTPlth54Kuw3": 3385
   }
 }

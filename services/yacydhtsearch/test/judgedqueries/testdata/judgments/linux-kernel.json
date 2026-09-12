@@ -2,10 +2,10 @@
   "query": "linux kernel",
   "judgedDocuments": [
     {
-      "hash": "dEBY5jRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Scientific_Linux",
-      "title": "Scientific Linux - Wikipedia",
-      "grade": 1
+      "hash": "Ckmv4yRO6Xx4",
+      "address": "https://docs.redhat.com/en/documentation/Red_Hat_Enterprise_Linux/6/html-single/Installation_Guide/index",
+      "title": "Installation Guide | Red Hat Enterprise Linux | 6 | Red Hat Documentation",
+      "grade": null
     },
     {
       "hash": "9KNuQjRvmBbx",
@@ -14,10 +14,10 @@
       "grade": 1
     },
     {
-      "hash": "VYUrfnv-bf35",
-      "address": "https://docs.datadoghq.com/security/workload_protection/linux_expressions/",
-      "title": "Linux Agent attributes and helpers",
-      "grade": 0
+      "hash": "AE5Ku2sEYJ15",
+      "address": "https://tailscale.com/docs/reference/kernel-vs-userspace-routers",
+      "title": "Kernel vs. netstack subnet routing \u0026 exit nodes · Tailscale Docs",
+      "grade": null
     },
     {
       "hash": "EJB5gmVSvPzg",
@@ -26,21 +26,15 @@
       "grade": 0
     },
     {
-      "hash": "myKVgl2uAu0w",
-      "address": "https://www.linux.org/",
-      "title": "Linux.org",
-      "grade": 1
+      "hash": "hMYfxA24Kkqw",
+      "address": "https://www.ghacks.net/category/linux/",
+      "title": "Linux News: Distributions, Kernel Updates, Open-Source Developments - gHacks",
+      "grade": null
     },
     {
       "hash": "zm1LfOy8O7iw",
       "address": "https://kernel.opensuse.org/",
       "title": "Welcome To The openSUSE Kernel Site - openSUSE Kernel",
-      "grade": 1
-    },
-    {
-      "hash": "N280urS6MKD4",
-      "address": "https://github.com/xairy/linux-kernel-exploitation",
-      "title": "GitHub - xairy/linux-kernel-exploitation: A collection of links related to Linux kernel security and exploitation",
       "grade": 1
     },
     {
@@ -56,16 +50,10 @@
       "grade": 0
     },
     {
-      "hash": "V_Sy6HDMrHS4",
-      "address": "https://gist.github.com/ricardoanguiano/18125b7eb3f26cf83724fb60662bdd2c",
-      "title": "linux kernel mainline 4.9 sloccount.txt · GitHub",
-      "grade": 1
-    },
-    {
-      "hash": "Wl42f5KqlBA4",
-      "address": "https://www.phoronix.com/review/nvidia-open-kernel",
-      "title": "NVIDIA Transitioning To Official, Open-Source Linux GPU Kernel Driver - Phoronix",
-      "grade": 2
+      "hash": "FJclwl6plxQx",
+      "address": "https://www.linux-live.org/",
+      "title": "Linux Live Kit is a set of shell scripts which allows you to create your own Live Linux!",
+      "grade": null
     },
     {
       "hash": "HCJIZsscikty",
@@ -92,9 +80,21 @@
       "grade": 2
     },
     {
-      "hash": "Wyzcq_YgUcBw",
-      "address": "https://salsa.debian.org/kernel-team/linux/-/merge_requests/1968",
-      "title": "[bookworm] net: mana: refresh driver from 6.12.94 (!1968) · Merge requests · Debian kernel team / linux · GitLab",
+      "hash": "_BwbJVGZ4FKw",
+      "address": "https://www.kernel.org/doc/html/latest/devicetree/index.html",
+      "title": "Open Firmware and Devicetree — The Linux Kernel documentation",
+      "grade": 2
+    },
+    {
+      "hash": "N280urS6MKD4",
+      "address": "https://github.com/xairy/linux-kernel-exploitation",
+      "title": "GitHub - xairy/linux-kernel-exploitation: A collection of links related to Linux kernel security and exploitation",
+      "grade": 1
+    },
+    {
+      "hash": "V_Sy6HDMrHS4",
+      "address": "https://gist.github.com/ricardoanguiano/18125b7eb3f26cf83724fb60662bdd2c",
+      "title": "linux kernel mainline 4.9 sloccount.txt · GitHub",
       "grade": 1
     },
     {
@@ -104,15 +104,27 @@
       "grade": 2
     },
     {
-      "hash": "6QS8lVGZ4FKw",
-      "address": "https://www.kernel.org/doc/html/latest/dev-tools/index.html",
-      "title": "Development tools for the kernel — The Linux Kernel documentation",
+      "hash": "ntv1cVGZ4FKw",
+      "address": "https://www.kernel.org/doc/html/latest/firmware-guide/index.html",
+      "title": "The Linux kernel firmware guide — The Linux Kernel documentation",
       "grade": 2
     },
     {
-      "hash": "lmRNDjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Linux_kernel",
-      "title": "Linux kernel - Wikipedia",
+      "hash": "z9JxTVGZ4FKw",
+      "address": "https://www.kernel.org/doc/html/latest/subsystem-apis.html",
+      "title": "Kernel subsystem documentation — The Linux Kernel documentation",
+      "grade": null
+    },
+    {
+      "hash": "5Iwamsscikty",
+      "address": "https://kernelnewbies.org/Linux_2_6_36",
+      "title": "Linux_2_6_36 - Linux Kernel Newbies",
+      "grade": 2
+    },
+    {
+      "hash": "6QS8lVGZ4FKw",
+      "address": "https://www.kernel.org/doc/html/latest/dev-tools/index.html",
+      "title": "Development tools for the kernel — The Linux Kernel documentation",
       "grade": 2
     },
     {
@@ -122,117 +134,21 @@
       "grade": 2
     },
     {
-      "hash": "Zi4KKVGZ4FKw",
-      "address": "https://www.kernel.org/doc/html/v5.8/kbuild/llvm.html",
-      "title": "Building Linux with Clang/LLVM — The Linux Kernel documentation",
-      "grade": 2
-    },
-    {
       "hash": "UxZv1VGZ4FKw",
       "address": "https://www.kernel.org/doc/html/latest/process/index.html",
       "title": "Working with the kernel development community — The Linux Kernel documentation",
       "grade": 2
     },
     {
-      "hash": "5G4dnMZ5FD3x",
-      "address": "https://bugs.launchpad.net/kernel-sru-workflow/snap-release-to-candidate/+bug/2164881",
-      "title": "Bug #2164881 “resolute/linux: 7.0.0-31.31 snap-debs snap:pc-kern...” : Series snap-release-to-candidate : Bugs : Kernel SRU Workflow",
-      "grade": 1
-    },
-    {
-      "hash": "JLITKVI-vZCw",
-      "address": "https://subspace.kernel.org/lists.linux.dev.html",
-      "title": "lists.linux.dev — subspace.kernel.org documentation",
-      "grade": 2
-    },
-    {
-      "hash": "5OdiTlSCNQa4",
-      "address": "https://www.redhat.com/en/topics/linux/what-is-the-linux-kernel",
-      "title": "What is the Linux kernel?",
-      "grade": 2
-    },
-    {
-      "hash": "ntv1cVGZ4FKw",
-      "address": "https://www.kernel.org/doc/html/latest/firmware-guide/index.html",
-      "title": "The Linux kernel firmware guide — The Linux Kernel documentation",
-      "grade": 2
-    },
-    {
-      "hash": "yUVUXCS6MKD4",
-      "address": "https://github.com/ludocode/mpack-linux-kernel",
-      "title": "GitHub - ludocode/mpack-linux-kernel: Config file and unit test shim to build MPack in the Linux kernel · GitHub",
-      "grade": 0
-    },
-    {
-      "hash": "_BwbJVGZ4FKw",
-      "address": "https://www.kernel.org/doc/html/latest/devicetree/index.html",
-      "title": "Open Firmware and Devicetree — The Linux Kernel documentation",
-      "grade": 2
-    },
-    {
-      "hash": "JEaJ_ZXKQKtw",
-      "address": "https://docs.kernel.org/",
-      "title": "The Linux Kernel documentation — The Linux Kernel documentation",
-      "grade": 2
-    },
-    {
-      "hash": "WpZ1HHOSpvvg",
-      "address": "https://nluug.nl/evenementen/nluug/voorjaarsconferentie-2025/talks/michael-boelen-application-security-sandboxing-features-of-the-linux-kernel-and-systemd/",
-      "title": "Michael Boelen - Application security: sandboxing features of the Linux kernel and systemd | NLUUG",
-      "grade": 1
-    },
-    {
-      "hash": "jpQ5kcKBgd5w",
-      "address": "https://www.spinics.net/lists/kernel/msg4339024.html",
-      "title": "[PATCH] nvme-pci: fix host memory buffer allocation size — Linux Kernel",
-      "grade": 1
-    },
-    {
-      "hash": "i_9-_lpcc_2y",
-      "address": "https://www.notebookcheck.net/PrismLinux-2026-05-05-sports-a-redesigned-installer-the-Linux-kernel-7-0-more.1292456.0.html",
-      "title": "PrismLinux 2026.05.05 sports a redesigned installer, the Linux kernel 7.0, more - Notebookcheck News",
-      "grade": 1
-    },
-    {
-      "hash": "E2jRFKXKQKtw",
-      "address": "https://docs.kernel.org/filesystems/squashfs.html",
-      "title": "Squashfs 4.0 Filesystem — The Linux Kernel documentation",
-      "grade": 2
-    },
-    {
       "hash": "ayEXgVGZ4FKw",
       "address": "https://www.kernel.org/doc/html/latest/index.html",
-      "title": "The Linux Kernel documentation — The Linux Kernel documentation",
+      "title": "The Linux Kernel documentation \u0026mdash; The Linux Kernel documentation",
       "grade": 2
     },
     {
-      "hash": "fK864sueNoX4",
-      "address": "https://itsfoss.com/compile-linux-kernel/",
-      "title": "A Guide to Compiling the Linux Kernel All By Yourself",
-      "grade": 2
-    },
-    {
-      "hash": "k94uERXKQKtw",
-      "address": "https://docs.kernel.org/input/index.html",
-      "title": "Input Documentation — The Linux Kernel documentation",
-      "grade": 2
-    },
-    {
-      "hash": "SDL4QvKqlBA4",
-      "address": "https://www.phoronix.com/news/Linux-Kernel-AI-Guidelines-v3",
-      "title": "Latest Proposed Guidelines For Tool-Generated / AI Submissions To The Linux Kernel - Phoronix",
-      "grade": 2
-    },
-    {
-      "hash": "UhQw5VGZ4FKw",
-      "address": "https://www.kernel.org/doc/html/v5.0/driver-api/firmware/fallback-mechanisms.html",
-      "title": "Fallback mechanisms — The Linux Kernel documentation",
-      "grade": 2
-    },
-    {
-      "hash": "DIybb_XKQKtw",
-      "address": "https://docs.kernel.org/admin-guide/sysctl/vm.html",
-      "title": "Documentation for /proc/sys/vm/ — The Linux Kernel documentation",
+      "hash": "lmRNDjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Linux_kernel",
+      "title": "Linux kernel - Wikipedia",
       "grade": 2
     },
     {
@@ -242,10 +158,70 @@
       "grade": 2
     },
     {
-      "hash": "U7ces6XKQKtw",
-      "address": "https://docs.kernel.org/driver-api/dma-buf.html",
-      "title": "Buffer Sharing and Synchronization (dma-buf) — The Linux Kernel documentation",
+      "hash": "5OdiTlSCNQa4",
+      "address": "https://www.redhat.com/en/topics/linux/what-is-the-linux-kernel",
+      "title": "What is the Linux kernel?",
       "grade": 2
+    },
+    {
+      "hash": "uEZoLvXKQKtw",
+      "address": "https://docs.kernel.org/leds/index.html",
+      "title": "LEDs — The Linux Kernel documentation",
+      "grade": 2
+    },
+    {
+      "hash": "k94uERXKQKtw",
+      "address": "https://docs.kernel.org/input/index.html",
+      "title": "Input Documentation — The Linux Kernel documentation",
+      "grade": 2
+    },
+    {
+      "hash": "uX9xOlSCNQa4",
+      "address": "https://www.redhat.com/en/topics/linux/what-is-linux-kernel-live-patching",
+      "title": "What is Linux kernel live patching?",
+      "grade": null
+    },
+    {
+      "hash": "yUVUXCS6MKD4",
+      "address": "https://github.com/ludocode/mpack-linux-kernel",
+      "title": "GitHub - ludocode/mpack-linux-kernel: Config file and unit test shim to build MPack in the Linux kernel · GitHub",
+      "grade": 0
+    },
+    {
+      "hash": "7yh0lVGZ4FKw",
+      "address": "https://www.kernel.org/doc/html/latest/translations/ja_JP/index.html",
+      "title": "日本語訳 — The Linux Kernel documentation",
+      "grade": 2
+    },
+    {
+      "hash": "WpZ1HHOSpvvg",
+      "address": "https://nluug.nl/evenementen/nluug/voorjaarsconferentie-2025/talks/michael-boelen-application-security-sandboxing-features-of-the-linux-kernel-and-systemd/",
+      "title": "Michael Boelen - Application security: sandboxing features of the Linux kernel and systemd | NLUUG",
+      "grade": 1
+    },
+    {
+      "hash": "F9OBAuQVdKD5",
+      "address": "https://projectzero.google/2022/08/the-quantum-state-of-linux-kernel.html",
+      "title": "The quantum state of Linux kernel garbage collection CVE-2021-0920 (Part I) - Project Zero",
+      "grade": null
+    },
+    {
+      "hash": "SDL4QvKqlBA4",
+      "address": "https://www.phoronix.com/news/Linux-Kernel-AI-Guidelines-v3",
+      "title": "Latest Proposed Guidelines For Tool-Generated / AI Submissions To The Linux Kernel - Phoronix",
+      "grade": 2
+    },
+    {
+      "hash": "04jSmwSMo4M4",
+      "address": "https://www.zdnet.com/article/linux-kernel-6-8-offers-some-exciting-new-features-and-fixes-all-over/",
+      "title": "Linux kernel 6.8 offers some exciting new features and 'fixes all over' | ZDNET",
+      "grade": null
+    },
+    {
+      "hash": "glnJPIXKQKtw",
+      "address": "https://docs.kernel.org/arch/xtensa/index.html",
+      "title": "Xtensa Architecture — The Linux Kernel documentation",
+      "grade": null
     },
     {
       "hash": "eaGhAlpcc_2y",
@@ -260,27 +236,33 @@
       "grade": 2
     },
     {
-      "hash": "vYInm_XKQKtw",
-      "address": "https://docs.kernel.org/admin-guide/pstore-blk.html",
-      "title": "pstore block oops/panic logger — The Linux Kernel documentation",
-      "grade": 2
-    },
-    {
-      "hash": "eW4AOVGZ4FKw",
-      "address": "https://www.kernel.org/doc/html/latest/tools/index.html",
-      "title": "Kernel tools — The Linux Kernel documentation",
-      "grade": 2
-    },
-    {
       "hash": "9vmHasOAID44",
       "address": "https://linuxiac.com/linux-kernel-5-8-released-as-the-one-of-biggest-releases-of-all-time/",
       "title": "Linux Kernel 5.8 Released As The 'One Of Biggest Releases Of All Time'",
       "grade": 2
     },
     {
-      "hash": "e5NoTOXKQKtw",
-      "address": "https://docs.kernel.org/userspace-api/tee.html",
-      "title": "TEE (Trusted Execution Environment) Userspace API — The Linux Kernel documentation",
+      "hash": "U7ces6XKQKtw",
+      "address": "https://docs.kernel.org/driver-api/dma-buf.html",
+      "title": "Buffer Sharing and Synchronization (dma-buf) — The Linux Kernel documentation",
+      "grade": 2
+    },
+    {
+      "hash": "DnI_SvKqlBA4",
+      "address": "https://www.phoronix.com/news/Linux-DRM-AI-Code-Review",
+      "title": "Linux Kernel Graphics Driver Development Now Experimenting With AI Code Review - Phoronix",
+      "grade": null
+    },
+    {
+      "hash": "25bbQURMLT-5",
+      "address": "https://canonical.com/blog/dirtyclone-linux-vulnerability-fixes-available",
+      "title": "DirtyClone Linux kernel local privilege escalation vulnerability fixes available | Canonical",
+      "grade": null
+    },
+    {
+      "hash": "JEaJ_ZXKQKtw",
+      "address": "https://docs.kernel.org/",
+      "title": "The Linux Kernel documentation — The Linux Kernel documentation",
       "grade": 2
     },
     {
@@ -290,16 +272,16 @@
       "grade": 2
     },
     {
-      "hash": "5Iwamsscikty",
-      "address": "https://kernelnewbies.org/Linux_2_6_36",
-      "title": "Linux_2_6_36 - Linux Kernel Newbies",
-      "grade": 2
+      "hash": "IZCQCG1ajpq5",
+      "address": "https://www.linuxjournal.com/content/linux-kernel-72-officially-released-cache-aware-scheduling-usb4stream-and-major-amd",
+      "title": "Linux Kernel 7.2 Officially Released with Cache-Aware Scheduling, USB4STREAM, and Major AMD Improvements | Linux Journal",
+      "grade": null
     },
     {
-      "hash": "WIrAypiNWeQw",
-      "address": "https://wiki.cachyos.org/features/kernel_manager/",
-      "title": "Managing Linux Kernels \u0026 Sched-ext framework with the CachyOS Kernel Manager | CachyOS",
-      "grade": 1
+      "hash": "8DxDpIXKQKtw",
+      "address": "https://docs.kernel.org/arch/nios2/index.html",
+      "title": "Nios II Specific Documentation — The Linux Kernel documentation",
+      "grade": null
     },
     {
       "hash": "b6kPgOy8O7iw",
@@ -308,40 +290,64 @@
       "grade": 1
     },
     {
-      "hash": "ec2vXVGZ4FKw",
-      "address": "https://www.kernel.org/doc/html/latest/core-api/irq/irq-affinity.html",
-      "title": "SMP IRQ affinity — The Linux Kernel documentation",
-      "grade": 2
-    },
-    {
-      "hash": "0qHLKIXKQKtw",
-      "address": "https://docs.kernel.org/arch/arm/index.html",
-      "title": "ARM Architecture — The Linux Kernel documentation",
-      "grade": 2
-    },
-    {
-      "hash": "7yh0lVGZ4FKw",
-      "address": "https://www.kernel.org/doc/html/latest/translations/ja_JP/index.html",
-      "title": "日本語訳 — The Linux Kernel documentation",
-      "grade": 2
-    },
-    {
-      "hash": "uEZoLvXKQKtw",
-      "address": "https://docs.kernel.org/leds/index.html",
-      "title": "LEDs — The Linux Kernel documentation",
-      "grade": 2
-    },
-    {
       "hash": "ne8urIXKQKtw",
       "address": "https://docs.kernel.org/arch/x86/i386/index.html",
       "title": "29. i386 Support — The Linux Kernel documentation",
       "grade": 2
     },
     {
-      "hash": "LqE5m_XKQKtw",
-      "address": "https://docs.kernel.org/admin-guide/aoe/index.html",
-      "title": "ATA over Ethernet (AoE) — The Linux Kernel documentation",
+      "hash": "DPunis-UOu6x",
+      "address": "https://thenewstack.io/linux-kernel-6-12-prepped-for-superior-scheduling-real-time-ops/",
+      "title": "Linux Kernel 6.12 Prepped for Superior Scheduling, Real Time Ops - The New Stack",
+      "grade": null
+    },
+    {
+      "hash": "CzKLxslc4Pz6",
+      "address": "https://open-sourceress.com/my-project-at-linux-kernel/",
+      "title": "My Project at Linux Kernel | Open Sourceress",
+      "grade": null
+    },
+    {
+      "hash": "fK864sueNoX4",
+      "address": "https://itsfoss.com/compile-linux-kernel/",
+      "title": "A Guide to Compiling the Linux Kernel All By Yourself",
       "grade": 2
+    },
+    {
+      "hash": "5jH2G2F6GHVw",
+      "address": "https://calyxos.org/docs/development/build/kernel/",
+      "title": "Building the Linux kernel for CalyxOS",
+      "grade": null
+    },
+    {
+      "hash": "vYInm_XKQKtw",
+      "address": "https://docs.kernel.org/admin-guide/pstore-blk.html",
+      "title": "pstore block oops/panic logger — The Linux Kernel documentation",
+      "grade": 2
+    },
+    {
+      "hash": "18zCc_YgUcBw",
+      "address": "https://salsa.debian.org/kernel-team/linux/-/merge_requests/2027",
+      "title": "Include rsync in Build-Depends-Arch for any build including tools (!2027) · Merge requests · Debian kernel team / linux · GitLab",
+      "grade": null
+    },
+    {
+      "hash": "56_ORwX-NDdg",
+      "address": "https://www.pcwelt.de/article/1161399/linux-kernel.html",
+      "title": "Linux Kernel – PC-WELT",
+      "grade": null
+    },
+    {
+      "hash": "omgCZMZ5FD3x",
+      "address": "https://bugs.launchpad.net/kernel-sru-workflow/promote-to-updates/+bug/2154040",
+      "title": "Bug #2154040 “noble/linux-vmware-6.17: 6.17.0-1003.3 -proposed t...” : Series promote-to-updates : Bugs : Kernel SRU Workflow",
+      "grade": null
+    },
+    {
+      "hash": "9zN-vVGZ4FKw",
+      "address": "https://www.kernel.org/doc/html/latest/staging/index.html",
+      "title": "Unsorted Documentation — The Linux Kernel documentation",
+      "grade": null
     }
   ]
 }

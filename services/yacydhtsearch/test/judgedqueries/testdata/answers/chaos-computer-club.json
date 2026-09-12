@@ -1,25 +1,25 @@
 {
   "query": "chaos computer club",
-  "recordedAt": "2026-09-12T10:15:20Z",
+  "recordedAt": "2026-09-12T11:25:05Z",
   "itemsInTheOrderOfEachAnswer": [
     [
       {
-        "hash": "Tm8vbiVUrQm6",
-        "address": "https://earthnewspaper.com/2022-news/24-7-news-october-2022/",
-        "title": "24/7 News October 2022 – EarthNewspaper.com – All The Honest News Fit To Publish",
-        "snippet": "Section 230 (c)(1) prevents providers of interactive computer services from being treated as the publisher or speaker of content posted by their users and Section 230 (c)(2) gives providers of interactive computer services immunity from civil liability if they act in “good faith” to moderate",
+        "hash": "1akPysVUrQm6",
+        "address": "https://earthnewspaper.com/Writers/",
+        "title": "Writers – EarthNewspaper.com – All The Honest News Fit To Publish",
+        "snippet": "",
         "matchedWords": {
           "31PKJoJAynZn": {
-            "hits": 7,
-            "textWords": 117549
+            "hits": 0,
+            "textWords": 0
           },
           "6SKJg0Ll-TIS": {
-            "hits": 7,
-            "textWords": 117549
+            "hits": 0,
+            "textWords": 0
           },
           "lcxrSsWr3q3H": {
-            "hits": 2,
-            "textWords": 117549
+            "hits": 11,
+            "textWords": 19509
           }
         },
         "queryPhraseHits": 0
@@ -27,22 +27,43 @@
     ],
     [
       {
-        "hash": "VNx-T_8T85F5",
-        "address": "https://boggartblog.wordpress.com/",
-        "title": "BNN - Boggart Network News | Boggart Network News (BNN) reports the bizarre, weird, whacky and plain crazy news from around the globe.",
-        "snippet": "People go missing with the funds from the social club. In other contexts, gone astray is no more American than Apple Pie (which is actually German, it was brought to Britain by the Saxons.)",
+        "hash": "XTPIBlptNsG4",
+        "address": "https://www.akdart.com/hijrah.html",
+        "title": "Islamic invasion disguised as the displacement and acceptance of refugees",
+        "snippet": "After a few days, prosecutors dropped the investigation against one of the players — who returned to training with the club. However, Amoako, a citizen of Ghana, was charged with rape, although he denies the charges.\nLondon Falls On New Year's Eve As Migrant Youths Cause Chaos And Riots.",
         "matchedWords": {
           "31PKJoJAynZn": {
-            "hits": 2,
-            "textWords": 8109
+            "hits": 1,
+            "textWords": 405419
           },
           "6SKJg0Ll-TIS": {
-            "hits": 0,
-            "textWords": 8109
+            "hits": 69,
+            "textWords": 405419
           },
           "lcxrSsWr3q3H": {
-            "hits": 1,
-            "textWords": 8109
+            "hits": 8,
+            "textWords": 405419
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "-b3sxspKNBr4",
+        "address": "https://rense.com/",
+        "title": "rense.com",
+        "snippet": "Chinese scientists develop electrode coating\nto address signal loss and tissue adhesion\nproblems in long-term brain-computer\ninterface implantation\nIran develops smart device to measure depth\nof anesthesia\nFrom satellite internet to microwave weapons\nQuantum computer microscope is set to",
+        "matchedWords": {
+          "31PKJoJAynZn": {
+            "hits": 12,
+            "textWords": 85916
+          },
+          "6SKJg0Ll-TIS": {
+            "hits": 10,
+            "textWords": 85916
+          },
+          "lcxrSsWr3q3H": {
+            "hits": 3,
+            "textWords": 85916
           }
         },
         "queryPhraseHits": 0
@@ -54,39 +75,16 @@
         "snippet": "",
         "matchedWords": {
           "31PKJoJAynZn": {
-            "hits": 0,
-            "textWords": 0
+            "hits": 41,
+            "textWords": 15695
           },
           "6SKJg0Ll-TIS": {
-            "hits": 3,
-            "textWords": 15701
+            "hits": 0,
+            "textWords": 0
           },
           "lcxrSsWr3q3H": {
             "hits": 0,
             "textWords": 0
-          }
-        },
-        "queryPhraseHits": 0
-      }
-    ],
-    [
-      {
-        "hash": "yVK2vDwoHeUQ",
-        "address": "http://vrici.lojban.org/~cowan/hat.html",
-        "title": "Commented-On Language Hat Posts",
-        "snippet": "John Houselamp.\nGestural Origin of Language?\nDODRANS.\nModernizing Linguistic Typology.\nUnusual Units of Measurement.\nShakespeare in Love.\nTHE PUSHKIN CLUB.\nGACKLE YOUR CABLES.\nInterview with Igor Mel’čuk.\nShvitzer.\nKlabyasch!\n“After diam-diam a bit…”\nSLOVARUS.\nAUDEN AND THE OED.\nArchive Books.",
-        "matchedWords": {
-          "31PKJoJAynZn": {
-            "hits": 3,
-            "textWords": 30397
-          },
-          "6SKJg0Ll-TIS": {
-            "hits": 2,
-            "textWords": 30397
-          },
-          "lcxrSsWr3q3H": {
-            "hits": 4,
-            "textWords": 30397
           }
         },
         "queryPhraseHits": 0
@@ -134,11 +132,13 @@
           }
         },
         "queryPhraseHits": 0
-      },
+      }
+    ],
+    [
       {
-        "hash": "pYw3_AHucLY4",
-        "address": "https://adrienalfiste.vip-blog.com/",
-        "title": "adrienalfiste blog : Le blog d'Adri (83)",
+        "hash": "FWzwn7K7kTIB",
+        "address": "http://arquisign.pt/mostbet-india-app-guide-how-exactly-to-download-install-and-sign-up-637/",
+        "title": "Mostbet India App Guide: How Exactly To Download, Install And Sign Up – Arquisign",
         "snippet": "",
         "matchedWords": {
           "31PKJoJAynZn": {
@@ -146,58 +146,12 @@
             "textWords": 0
           },
           "6SKJg0Ll-TIS": {
-            "hits": 21,
-            "textWords": 15695
-          },
-          "lcxrSsWr3q3H": {
             "hits": 0,
             "textWords": 0
-          }
-        },
-        "queryPhraseHits": 0
-      }
-    ],
-    [
-      {
-        "hash": "s_KCoQZchFfZ",
-        "address": "http://www.greenteethmm.com/ukip-goes-india.shtml",
-        "title": "technology-google-human-transhumanism-what-the-elite-and-their-science-whores-have-planned-for you-and-your-robot-lover-daily-stirrer-dailystirrer",
-        "snippet": "Chaos Erupts In Brussels As Rubber Bullets Fired At Farmers Protesting Outside EU Parliament\nBelgian police used Rubber bullets and water cannons against hundreds of farmers who had travelled from around western Europe to protest outside the EU Headquarters in the city on Thursday.",
-        "matchedWords": {
-          "31PKJoJAynZn": {
-            "hits": 5,
-            "textWords": 39313
-          },
-          "6SKJg0Ll-TIS": {
-            "hits": 3,
-            "textWords": 39313
           },
           "lcxrSsWr3q3H": {
-            "hits": 3,
-            "textWords": 39313
-          }
-        },
-        "queryPhraseHits": 0
-      }
-    ],
-    [
-      {
-        "hash": "XTPIBlptNsG4",
-        "address": "https://www.akdart.com/hijrah.html",
-        "title": "Islamic invasion disguised as the displacement and acceptance of refugees",
-        "snippet": "After a few days, prosecutors dropped the investigation against one of the players — who returned to training with the club. However, Amoako, a citizen of Ghana, was charged with rape, although he denies the charges.\nLondon Falls On New Year's Eve As Migrant Youths Cause Chaos And Riots.",
-        "matchedWords": {
-          "31PKJoJAynZn": {
-            "hits": 1,
-            "textWords": 405419
-          },
-          "6SKJg0Ll-TIS": {
-            "hits": 69,
-            "textWords": 405419
-          },
-          "lcxrSsWr3q3H": {
-            "hits": 8,
-            "textWords": 405419
+            "hits": 41,
+            "textWords": 58219
           }
         },
         "queryPhraseHits": 0
@@ -228,27 +182,6 @@
     ],
     [
       {
-        "hash": "_ddgCjjEZfvx",
-        "address": "https://en.wiktionary.org/wiki/Wiktionary:Word_of_the_day/Nominations",
-        "title": "Wiktionary:Word of the day/Nominations - Wiktionary, the free dictionary",
-        "snippet": "windjammer (Check: R, G, H, W, Y) Ioaxxere (talk) 04:36, 21 September 2024 (UTC)reply\nrun amok (Check: R, G, H, W, Y) -- The entry needs work. Missing a defn. to cover (for ex.) The computer ran amok. -- ALGRIF talk 13:27, 12 September 2024 (UTC)reply\namok (Check: R, G, H, W, Y) -- A mok. A mok.",
-        "matchedWords": {
-          "31PKJoJAynZn": {
-            "hits": 2,
-            "textWords": 15592
-          },
-          "6SKJg0Ll-TIS": {
-            "hits": 0,
-            "textWords": 15592
-          },
-          "lcxrSsWr3q3H": {
-            "hits": 1,
-            "textWords": 15592
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
         "hash": "DuvQzlm-yS86",
         "address": "https://www.illuminati-news.com/nwo.html",
         "title": "Illuminati News: The New World Order (Page 1)",
@@ -272,200 +205,43 @@
     ],
     [
       {
-        "hash": "FWzwn7K7kTIB",
-        "address": "http://arquisign.pt/mostbet-india-app-guide-how-exactly-to-download-install-and-sign-up-637/",
-        "title": "Mostbet India App Guide: How Exactly To Download, Install And Sign Up – Arquisign",
-        "snippet": "",
+        "hash": "fE4y5sGA_USx",
+        "address": "https://warracket.net/",
+        "title": "WAR RACKET - MAINSTREAM MEDIA, CORPORATE MEDIA, WARMONGERS, NEOCONS, DEEP STATE, NATO, NATIONAL SECURITY STATE, MILITARY-INDUSTRIAL-SECURITY-COMPLEX, WEAPONS MANUFACTURERS, NATO,",
+        "snippet": "\"In the mid-1980s, Al Qaeda was a database located in computer and dedicated to the communications of the Islamic Conference's secretariat. It was but natural for Osama bin Laden to be connected to this network. He is a member of an important family in the banking and business world.",
         "matchedWords": {
           "31PKJoJAynZn": {
-            "hits": 0,
-            "textWords": 0
+            "hits": 2,
+            "textWords": 63596
           },
           "6SKJg0Ll-TIS": {
-            "hits": 0,
-            "textWords": 0
+            "hits": 6,
+            "textWords": 63596
           },
           "lcxrSsWr3q3H": {
-            "hits": 72,
-            "textWords": 58219
-          }
-        },
-        "queryPhraseHits": 0
-      }
-    ],
-    [
-      {
-        "hash": "iLQO1sN0ip-w",
-        "address": "https://m-reform.net/",
-        "title": "replica football shirts",
-        "snippet": "",
-        "matchedWords": {
-          "31PKJoJAynZn": {
-            "hits": 0,
-            "textWords": 0
-          },
-          "6SKJg0Ll-TIS": {
-            "hits": 0,
-            "textWords": 0
-          },
-          "lcxrSsWr3q3H": {
-            "hits": 30,
-            "textWords": 312
+            "hits": 6,
+            "textWords": 63596
           }
         },
         "queryPhraseHits": 0
       },
       {
-        "hash": "YzkOOsa7-qV4",
-        "address": "https://xkcd.com/archive/",
-        "title": "xkcd - A webcomic of romance, sarcasm, math, and language - By Randall Munroe",
-        "snippet": "Comics I enjoy:\nThree Word Phrase, SMBC, Dinosaur Comics, Oglaf (nsfw), A Softer World, Buttersafe, Perry Bible Fellowship, Questionable Content, Buttercup Festival, Homestuck, Junior Scientist Power Hour",
+        "hash": "kR4wQnm_mTBS",
+        "address": "http://www.concatenation.org/news/news9~25.html",
+        "title": "Science Fiction news - Autumn 2025",
+        "snippet": "The Rule of Chaos by Esmie Jikiemi-Pearson, Gollancz, £16.99, trdpbk, ISBN 978-1-473-23425-3.\nTrapped inside the mysterious Order of Legends, Asha is struggling to become the hero that the hundred worlds need.",
         "matchedWords": {
           "31PKJoJAynZn": {
             "hits": 0,
-            "textWords": 81
+            "textWords": 25226
           },
           "6SKJg0Ll-TIS": {
-            "hits": 0,
-            "textWords": 81
-          },
-          "lcxrSsWr3q3H": {
-            "hits": 0,
-            "textWords": 81
-          }
-        },
-        "queryPhraseHits": 0
-      }
-    ],
-    [
-      {
-        "hash": "KyDIk1SKkctx",
-        "address": "https://softpanorama.org/Skeptics/Political_skeptic/Elite_theory/audacious_oligarchy_and_loss_of_trust.shtml",
-        "title": "Audacious Oligarchy and \"Democracy for Winners\"",
-        "snippet": "",
-        "matchedWords": {
-          "31PKJoJAynZn": {
-            "hits": 0,
-            "textWords": 0
-          },
-          "6SKJg0Ll-TIS": {
-            "hits": 35,
-            "textWords": 3319
-          },
-          "lcxrSsWr3q3H": {
-            "hits": 0,
-            "textWords": 0
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "I5RxgQZchFfZ",
-        "address": "http://www.greenteethmm.com/facebook-evil-empire.shtml",
-        "title": "facebook-evil-empire-fourth-reigh-privacy-data-internet-security",
-        "snippet": "Chaos Erupts In Brussels As Rubber Bullets Fired At Farmers Protesting Outside EU Parliament\nBelgian police used Rubber bullets and water cannons against hundreds of farmers who had travelled from around western Europe to protest outside the EU Headquarters in the city on Thursday.",
-        "matchedWords": {
-          "31PKJoJAynZn": {
-            "hits": 1,
-            "textWords": 28965
-          },
-          "6SKJg0Ll-TIS": {
-            "hits": 3,
-            "textWords": 28965
+            "hits": 4,
+            "textWords": 25226
           },
           "lcxrSsWr3q3H": {
             "hits": 2,
-            "textWords": 28965
-          }
-        },
-        "queryPhraseHits": 0
-      }
-    ],
-    [
-      {
-        "hash": "nL-trz8CAV45",
-        "address": "https://www.encyclopedia.com/social-sciences-and-law/political-science-and-government/us-government/education",
-        "title": "Education | Encyclopedia.com",
-        "snippet": "They must be planning to attend college to prepare for a career in business, business education, computer science, computer information systems, or a related field.",
-        "matchedWords": {
-          "31PKJoJAynZn": {
-            "hits": 26,
-            "textWords": 156851
-          },
-          "6SKJg0Ll-TIS": {
-            "hits": 1,
-            "textWords": 156851
-          },
-          "lcxrSsWr3q3H": {
-            "hits": 14,
-            "textWords": 156851
-          }
-        },
-        "queryPhraseHits": 0
-      }
-    ],
-    [
-      {
-        "hash": "iLQO1sN0ip-w",
-        "address": "https://m-reform.net/",
-        "title": "replica football shirts",
-        "snippet": "",
-        "matchedWords": {
-          "31PKJoJAynZn": {
-            "hits": 0,
-            "textWords": 0
-          },
-          "6SKJg0Ll-TIS": {
-            "hits": 0,
-            "textWords": 0
-          },
-          "lcxrSsWr3q3H": {
-            "hits": 30,
-            "textWords": 312
-          }
-        },
-        "queryPhraseHits": 0
-      }
-    ],
-    [
-      {
-        "hash": "8L_aSlESuha4",
-        "address": "https://www.leagle.com/featureddecisions",
-        "title": "Featured Decisions | Leagle.com | The place to find U. S. Law, Lawyers and Opinions",
-        "snippet": "",
-        "matchedWords": {
-          "31PKJoJAynZn": {
-            "hits": 0,
-            "textWords": 0
-          },
-          "6SKJg0Ll-TIS": {
-            "hits": 0,
-            "textWords": 0
-          },
-          "lcxrSsWr3q3H": {
-            "hits": 180,
-            "textWords": 4151
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "-b3sxspKNBr4",
-        "address": "https://rense.com/",
-        "title": "rense.com",
-        "snippet": "Chinese scientists develop electrode coating\nto address signal loss and tissue adhesion\nproblems in long-term brain-computer\ninterface implantation\nIran develops smart device to measure depth\nof anesthesia\nFrom satellite internet to microwave weapons\nQuantum computer microscope is set to",
-        "matchedWords": {
-          "31PKJoJAynZn": {
-            "hits": 12,
-            "textWords": 85916
-          },
-          "6SKJg0Ll-TIS": {
-            "hits": 10,
-            "textWords": 85916
-          },
-          "lcxrSsWr3q3H": {
-            "hits": 3,
-            "textWords": 85916
+            "textWords": 25226
           }
         },
         "queryPhraseHits": 0
@@ -496,6 +272,184 @@
     ],
     [
       {
+        "hash": "KyDIk1SKkctx",
+        "address": "https://softpanorama.org/Skeptics/Political_skeptic/Elite_theory/audacious_oligarchy_and_loss_of_trust.shtml",
+        "title": "Audacious Oligarchy and \"Democracy for Winners\"",
+        "snippet": "",
+        "matchedWords": {
+          "31PKJoJAynZn": {
+            "hits": 0,
+            "textWords": 0
+          },
+          "6SKJg0Ll-TIS": {
+            "hits": 35,
+            "textWords": 3319
+          },
+          "lcxrSsWr3q3H": {
+            "hits": 0,
+            "textWords": 0
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "0kLxN_nMM_j5",
+        "address": "https://grokipedia.com/page/Resource",
+        "title": "Resource — Grokipedia",
+        "snippet": "16] This view critiques neoclassical equilibrium models for ignoring real-world uncertainty and calculational chaos under intervention, emphasizing how malinvestment from distorted signals (e.g., subsidies) misallocates scarce resources.[",
+        "matchedWords": {
+          "31PKJoJAynZn": {
+            "hits": 1,
+            "textWords": 8025
+          },
+          "6SKJg0Ll-TIS": {
+            "hits": 1,
+            "textWords": 8025
+          },
+          "lcxrSsWr3q3H": {
+            "hits": 1,
+            "textWords": 8025
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "-7BQifg0b_aw",
+        "address": "https://ebb.org/bkuhn/blog/",
+        "title": "Blog - Bradley Kühn ( bkuhn )",
+        "snippet": "The Chaos Computer Club assisted the GUADEC organizers in recording the talks, so you can see here a great recording of my talk here (and also, the slides). Whether the talk itself is great — that's for you to watch and judge, of course.\nYour browser does not support the video element.",
+        "matchedWords": {
+          "31PKJoJAynZn": {
+            "hits": 102,
+            "textWords": 173415
+          },
+          "6SKJg0Ll-TIS": {
+            "hits": 2,
+            "textWords": 173415
+          },
+          "lcxrSsWr3q3H": {
+            "hits": 2,
+            "textWords": 173415
+          }
+        },
+        "queryPhraseHits": 2
+      }
+    ],
+    [
+      {
+        "hash": "-b3sxspKNBr4",
+        "address": "https://rense.com/",
+        "title": "rense.com",
+        "snippet": "Chinese scientists develop electrode coating\nto address signal loss and tissue adhesion\nproblems in long-term brain-computer\ninterface implantation\nIran develops smart device to measure depth\nof anesthesia\nFrom satellite internet to microwave weapons\nQuantum computer microscope is set to",
+        "matchedWords": {
+          "31PKJoJAynZn": {
+            "hits": 12,
+            "textWords": 85916
+          },
+          "6SKJg0Ll-TIS": {
+            "hits": 10,
+            "textWords": 85916
+          },
+          "lcxrSsWr3q3H": {
+            "hits": 3,
+            "textWords": 85916
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "9NeGhj0li_S4",
+        "address": "https://layer7it.com/portfolio/spros2go-com/",
+        "title": "Spros2go.com – Layer7IT",
+        "snippet": "",
+        "matchedWords": {
+          "31PKJoJAynZn": {
+            "hits": 0,
+            "textWords": 0
+          },
+          "6SKJg0Ll-TIS": {
+            "hits": 0,
+            "textWords": 0
+          },
+          "lcxrSsWr3q3H": {
+            "hits": 105,
+            "textWords": 40666
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "-d63GQZchFfZ",
+        "address": "http://www.greenteethmm.com/science-time-disapppearing.shtml",
+        "title": "science-time-disappearing-from-our-universe",
+        "snippet": "Chaos Erupts In Brussels As Rubber Bullets Fired At Farmers Protesting Outside EU Parliament\nBelgian police used Rubber bullets and water cannons against hundreds of farmers who had travelled from around western Europe to protest outside the EU Headquarters in the city on Thursday.",
+        "matchedWords": {
+          "31PKJoJAynZn": {
+            "hits": 5,
+            "textWords": 39329
+          },
+          "6SKJg0Ll-TIS": {
+            "hits": 3,
+            "textWords": 39329
+          },
+          "lcxrSsWr3q3H": {
+            "hits": 3,
+            "textWords": 39329
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "_kFWztIIL7ew",
+        "address": "https://stallman.org/archives/2015-nov-feb.html",
+        "title": "2015: November - February Political Notes - Richard Stallman",
+        "snippet": "Apple's censorship is wrong, now as always, and designing computers as platforms for censorship should be illegal.\nHowever, it is also wrong to make proprietary apps for the iThing. The Chaos Computer Club should do its streaming on the World Wide Web using a freedom-respecting video format.",
+        "matchedWords": {
+          "31PKJoJAynZn": {
+            "hits": 26,
+            "textWords": 117781
+          },
+          "6SKJg0Ll-TIS": {
+            "hits": 3,
+            "textWords": 117781
+          },
+          "lcxrSsWr3q3H": {
+            "hits": 7,
+            "textWords": 117781
+          }
+        },
+        "queryPhraseHits": 2
+      }
+    ],
+    [
+      {
+        "hash": "FWzwn7K7kTIB",
+        "address": "http://arquisign.pt/mostbet-india-app-guide-how-exactly-to-download-install-and-sign-up-637/",
+        "title": "Mostbet India App Guide: How Exactly To Download, Install And Sign Up – Arquisign",
+        "snippet": "",
+        "matchedWords": {
+          "31PKJoJAynZn": {
+            "hits": 0,
+            "textWords": 0
+          },
+          "6SKJg0Ll-TIS": {
+            "hits": 0,
+            "textWords": 0
+          },
+          "lcxrSsWr3q3H": {
+            "hits": 72,
+            "textWords": 58219
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
         "hash": "y7TxP0fyvALZ",
         "address": "http://www.ifitstooloud.com/2026/09/first-listen-new-releases-for-august.html",
         "title": "First Listen: New Releases for August 2026",
@@ -519,43 +473,66 @@
     ],
     [
       {
-        "hash": "hQy9paP0TsU6",
-        "address": "https://www.americanthinker.com/author/rick_moran/",
-        "title": "Articles: Rick Moran Archives - American Thinker",
-        "snippet": "",
+        "hash": "fE4y5sGA_USx",
+        "address": "https://warracket.net/",
+        "title": "WAR RACKET - MAINSTREAM MEDIA, CORPORATE MEDIA, WARMONGERS, NEOCONS, DEEP STATE, NATO, NATIONAL SECURITY STATE, MILITARY-INDUSTRIAL-SECURITY-COMPLEX, WEAPONS MANUFACTURERS, NATO, CORPORATIONS, BANKERS",
+        "snippet": "\"In the mid-1980s, Al Qaeda was a database located in computer and dedicated to the communications of the Islamic Conference's secretariat. It was but natural for Osama bin Laden to be connected to this network. He is a member of an important family in the banking and business world.",
         "matchedWords": {
           "31PKJoJAynZn": {
-            "hits": 0,
-            "textWords": 0
+            "hits": 2,
+            "textWords": 63596
           },
           "6SKJg0Ll-TIS": {
-            "hits": 0,
-            "textWords": 0
+            "hits": 6,
+            "textWords": 63596
           },
           "lcxrSsWr3q3H": {
-            "hits": 121,
-            "textWords": 22902
+            "hits": 6,
+            "textWords": 63596
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "iLQO1sN0ip-w",
+        "address": "https://m-reform.net/",
+        "title": "replica football shirts",
+        "snippet": "In 1985 the QAFL had determined that pushing for a Melbourne-based mostly club to relocate to Brisbane was probably the most viable possibility. The premise for Sensible Soccer was MicroProse Soccer, released for house computer systems in 1988.",
+        "matchedWords": {
+          "31PKJoJAynZn": {
+            "hits": 23,
+            "textWords": 230924
+          },
+          "6SKJg0Ll-TIS": {
+            "hits": 2,
+            "textWords": 230924
+          },
+          "lcxrSsWr3q3H": {
+            "hits": 337,
+            "textWords": 230924
           }
         },
         "queryPhraseHits": 0
       },
       {
-        "hash": "iLQO1sN0ip-w",
-        "address": "https://m-reform.net/",
-        "title": "replica football shirts",
-        "snippet": "",
+        "hash": "YzkOOsa7-qV4",
+        "address": "https://xkcd.com/archive/",
+        "title": "xkcd - A webcomic of romance, sarcasm, math, and language - By Randall Munroe",
+        "snippet": "Comics I enjoy:\nThree Word Phrase, SMBC, Dinosaur Comics, Oglaf (nsfw), A Softer World, Buttersafe, Perry Bible Fellowship, Questionable Content, Buttercup Festival, Homestuck, Junior Scientist Power Hour",
         "matchedWords": {
           "31PKJoJAynZn": {
             "hits": 0,
-            "textWords": 0
+            "textWords": 81
           },
           "6SKJg0Ll-TIS": {
             "hits": 0,
-            "textWords": 0
+            "textWords": 81
           },
           "lcxrSsWr3q3H": {
-            "hits": 17,
-            "textWords": 312
+            "hits": 0,
+            "textWords": 81
           }
         },
         "queryPhraseHits": 0
@@ -606,29 +583,6 @@
         },
         "queryPhraseHits": 0
       }
-    ],
-    [
-      {
-        "hash": "-7BQifg0b_aw",
-        "address": "https://ebb.org/bkuhn/blog/",
-        "title": "Blog - Bradley Kühn ( bkuhn )",
-        "snippet": "The Chaos Computer Club assisted the GUADEC organizers in recording the talks, so you can see here a great recording of my talk here (and also, the slides). Whether the talk itself is great — that's for you to watch and judge, of course.\nYour browser does not support the video element.",
-        "matchedWords": {
-          "31PKJoJAynZn": {
-            "hits": 102,
-            "textWords": 173415
-          },
-          "6SKJg0Ll-TIS": {
-            "hits": 2,
-            "textWords": 173415
-          },
-          "lcxrSsWr3q3H": {
-            "hits": 2,
-            "textWords": 173415
-          }
-        },
-        "queryPhraseHits": 2
-      }
     ]
   ],
   "itemsInNoOrder": [
@@ -654,22 +608,22 @@
       "queryPhraseHits": 0
     },
     {
-      "hash": "6GiIzj-JVcyx",
-      "address": "https://en.wikiquote.org/wiki/Donald_Trump",
-      "title": "Donald Trump - Wikiquote",
-      "snippet": "There's no security. It happens so often. I'm old-fashioned. I put a letter in an envelope and have it hand delivered. My son is 10 years old, and he has grown up computer literate. They start using computers before they can walk. His computer was locked and he unlocked it.",
+      "hash": "onaY7j-JVcyx",
+      "address": "https://en.wikiquote.org/wiki/Barack_Obama",
+      "title": "Barack Obama - Wikiquote",
+      "snippet": "Statement at a press conference following Reverend Jeremiah Wright's speech at a Press Club event (29 April 2008)\nOver the last fifteen months we've traveled to every corner of the United States. I've now been in fifty...seven states... I think one left to go.",
       "matchedWords": {
         "31PKJoJAynZn": {
           "hits": 5,
-          "textWords": 83247
+          "textWords": 132299
         },
         "6SKJg0Ll-TIS": {
-          "hits": 3,
-          "textWords": 83247
+          "hits": 4,
+          "textWords": 132299
         },
         "lcxrSsWr3q3H": {
           "hits": 2,
-          "textWords": 83247
+          "textWords": 132299
         }
       },
       "queryPhraseHits": 0
@@ -703,15 +657,15 @@
       "matchedWords": {
         "31PKJoJAynZn": {
           "hits": 0,
-          "textWords": 14271
+          "textWords": 12885
         },
         "6SKJg0Ll-TIS": {
           "hits": 2,
-          "textWords": 14271
+          "textWords": 12885
         },
         "lcxrSsWr3q3H": {
           "hits": 0,
-          "textWords": 14271
+          "textWords": 12885
         }
       },
       "queryPhraseHits": 0
@@ -738,22 +692,43 @@
       "queryPhraseHits": 0
     },
     {
-      "hash": "Q4SEOs3rpWVz",
-      "address": "https://inconvenienttruths.net/",
-      "title": "INCONVENIEINCONVENIENT TRUTHS - DEEP STATE, JFK, GLOBAL FINANCIAL ELITE, POWER ELITE, PLUTOCRACY, MEDICAL MAFIA, VACCINES, FALSE FLAGS, GLOBALISM, CORPORATOCRACY, ZIONISM, MOSSAD",
-      "snippet": "THE GLOBAL POWER ELITE AND THE \"GREAT RESET\"\nIMMUNITY PASSPORTS - COVID19\nIS AMERICA STILL A DEMOCRACY?\nEMPIRE OF CHAOS\nTHE VACCINE CATASTROPHE\nWHAT ARE 'FALSE FLAGS' AND WHY DO THEY MATTER?\nWAR ON DRUGS \u0026 WAR ON TERRORISM\nISLAMIC TERRORISM AND CHAOS IN THE MIDDLE EAST",
+      "hash": "sX9EVn7YLxR5",
+      "address": "https://thedailymessenger.wordpress.com/",
+      "title": "The Daily Messenger (mirror) | Revealing that which is concealed. Learning about anything that resembles real freedom.",
+      "snippet": "The presumed military leaders who created Q and who protected Trump throughout the election and presidency have created a precise path to victory. Despite the seeming chaos of daily events, a steady progression of victories is taking place.",
       "matchedWords": {
         "31PKJoJAynZn": {
-          "hits": 1,
-          "textWords": 105837
+          "hits": 0,
+          "textWords": 2428
         },
         "6SKJg0Ll-TIS": {
-          "hits": 18,
-          "textWords": 105837
+          "hits": 1,
+          "textWords": 2428
         },
         "lcxrSsWr3q3H": {
-          "hits": 16,
-          "textWords": 105837
+          "hits": 0,
+          "textWords": 2428
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "nL-trz8CAV45",
+      "address": "https://www.encyclopedia.com/social-sciences-and-law/political-science-and-government/us-government/education",
+      "title": "Education | Encyclopedia.com",
+      "snippet": "They must be planning to attend college to prepare for a career in business, business education, computer science, computer information systems, or a related field.",
+      "matchedWords": {
+        "31PKJoJAynZn": {
+          "hits": 26,
+          "textWords": 156851
+        },
+        "6SKJg0Ll-TIS": {
+          "hits": 1,
+          "textWords": 156851
+        },
+        "lcxrSsWr3q3H": {
+          "hits": 14,
+          "textWords": 156851
         }
       },
       "queryPhraseHits": 0
@@ -801,43 +776,127 @@
       "queryPhraseHits": 0
     },
     {
-      "hash": "fE4y5sGA_USx",
-      "address": "https://warracket.net/",
-      "title": "WAR RACKET - MAINSTREAM MEDIA, CORPORATE MEDIA, WARMONGERS, NEOCONS, DEEP STATE, NATO, NATIONAL SECURITY STATE, MILITARY-INDUSTRIAL-SECURITY-COMPLEX, WEAPONS MANUFACTURERS, NATO,",
-      "snippet": "\"In the mid-1980s, Al Qaeda was a database located in computer and dedicated to the communications of the Islamic Conference's secretariat. It was but natural for Osama bin Laden to be connected to this network. He is a member of an important family in the banking and business world.",
+      "hash": "8L_aSlESuha4",
+      "address": "https://www.leagle.com/featureddecisions",
+      "title": "Featured Decisions | Leagle.com | The place to find U. S. Law, Lawyers and Opinions",
+      "snippet": "",
       "matchedWords": {
         "31PKJoJAynZn": {
-          "hits": 2,
-          "textWords": 63596
+          "hits": 0,
+          "textWords": 0
         },
         "6SKJg0Ll-TIS": {
-          "hits": 6,
-          "textWords": 63596
+          "hits": 0,
+          "textWords": 0
         },
         "lcxrSsWr3q3H": {
-          "hits": 6,
-          "textWords": 63596
+          "hits": 0,
+          "textWords": 0
         }
       },
       "queryPhraseHits": 0
     },
     {
-      "hash": "x8N6sSN18v64",
-      "address": "https://www.thearda.com/research/religion-dictionary",
-      "title": "Religion Dictionary | Research",
-      "snippet": "Club Models of Religion: Club models of religion emphasize how effective congregations function more like families or social clubs rather than firms.",
+      "hash": "TKYymjGG7ou5",
+      "address": "https://kingnorth.wordpress.com/",
+      "title": "kingnorth | King North is the 8th King World Government",
+      "snippet": "",
       "matchedWords": {
         "31PKJoJAynZn": {
-          "hits": 2,
-          "textWords": 49336
+          "hits": 0,
+          "textWords": 0
         },
         "6SKJg0Ll-TIS": {
-          "hits": 2,
-          "textWords": 49336
+          "hits": 0,
+          "textWords": 0
         },
         "lcxrSsWr3q3H": {
-          "hits": 5,
-          "textWords": 49336
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "R5vzYsOocYRx",
+      "address": "https://murdoconline.net/",
+      "title": "MURDOCONLINE - Situs Kumpulan Game Online Terbaik Paling Populer",
+      "snippet": "",
+      "matchedWords": {
+        "31PKJoJAynZn": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "6SKJg0Ll-TIS": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "lcxrSsWr3q3H": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "hQy9paP0TsU6",
+      "address": "https://www.americanthinker.com/author/rick_moran/",
+      "title": "Articles: Rick Moran Archives - American Thinker",
+      "snippet": "",
+      "matchedWords": {
+        "31PKJoJAynZn": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "6SKJg0Ll-TIS": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "lcxrSsWr3q3H": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "oOVv2jRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Wikipedia:Featured_article_candidates",
+      "title": "Wikipedia:Featured article candidates - Wikipedia",
+      "snippet": "",
+      "matchedWords": {
+        "31PKJoJAynZn": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "6SKJg0Ll-TIS": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "lcxrSsWr3q3H": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "VI9YzkSKkctx",
+      "address": "https://softpanorama.org/Social/Toxic_managers/index.shtml",
+      "title": "Toxic Managers",
+      "snippet": "",
+      "matchedWords": {
+        "31PKJoJAynZn": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "6SKJg0Ll-TIS": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "lcxrSsWr3q3H": {
+          "hits": 0,
+          "textWords": 0
         }
       },
       "queryPhraseHits": 0
@@ -859,6 +918,27 @@
         "lcxrSsWr3q3H": {
           "hits": 7,
           "textWords": 42393
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "2T0UisUhsCbg",
+      "address": "https://samsuns.eu/business-strategy-plan-2022-from-the-usa/",
+      "title": "Business Strategy Plan 2022 From the USA - Wir verbinden Sie mit der Welt",
+      "snippet": "",
+      "matchedWords": {
+        "31PKJoJAynZn": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "6SKJg0Ll-TIS": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "lcxrSsWr3q3H": {
+          "hits": 0,
+          "textWords": 0
         }
       },
       "queryPhraseHits": 0
@@ -906,6 +986,27 @@
       "queryPhraseHits": 0
     },
     {
+      "hash": "Tm8vbiVUrQm6",
+      "address": "https://earthnewspaper.com/2022-news/24-7-news-october-2022/",
+      "title": "24/7 News October 2022 – EarthNewspaper.com – All The Honest News Fit To Publish",
+      "snippet": "",
+      "matchedWords": {
+        "31PKJoJAynZn": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "6SKJg0Ll-TIS": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "lcxrSsWr3q3H": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
       "hash": "w4BkfQXx1HRZ",
       "address": "http://www.dailystirrer.com/2021-july.shtml",
       "title": "dailystirrer-2021-news-july-comment-opinion-controversy-contrarianism",
@@ -922,27 +1023,6 @@
         "lcxrSsWr3q3H": {
           "hits": 1,
           "textWords": 55464
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "FczEQQZchFfZ",
-      "address": "http://www.greenteethmm.com/climate-change-mind.shtml",
-      "title": "what-if-man-made-climate-change-is-all-in-the-mind-daily-stirrer-dailystirrer",
-      "snippet": "Chaos Erupts In Brussels As Rubber Bullets Fired At Farmers Protesting Outside EU Parliament\nBelgian police used Rubber bullets and water cannons against hundreds of farmers who had travelled from around western Europe to protest outside the EU Headquarters in the city on Thursday.",
-      "matchedWords": {
-        "31PKJoJAynZn": {
-          "hits": 5,
-          "textWords": 39329
-        },
-        "6SKJg0Ll-TIS": {
-          "hits": 3,
-          "textWords": 39329
-        },
-        "lcxrSsWr3q3H": {
-          "hits": 3,
-          "textWords": 39329
         }
       },
       "queryPhraseHits": 0
@@ -990,69 +1070,6 @@
       "queryPhraseHits": 0
     },
     {
-      "hash": "Qve1qQZchFfZ",
-      "address": "http://www.greenteethmm.com/energy-net-zero-fantasy.shtml",
-      "title": "greenteeth-digital-publishing-net-zero-is-dangerous-fantasy-but-scientists-believe-in-fairies-it-seems",
-      "snippet": "Fully paid up members of the Bellendskyyyyy fan club were creaming themselves in comment threads under the articles ...",
-      "matchedWords": {
-        "31PKJoJAynZn": {
-          "hits": 1,
-          "textWords": 13922
-        },
-        "6SKJg0Ll-TIS": {
-          "hits": 0,
-          "textWords": 13922
-        },
-        "lcxrSsWr3q3H": {
-          "hits": 2,
-          "textWords": 13922
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "WbJD3QZchFfZ",
-      "address": "http://www.greenteethmm.com/russua-ukraine-crisis22.shtml",
-      "title": "current-ukraine-crisis-the-inevitable-onsequence-of-US-UK-and-EU-foreign-policy- aggression-politics-world-news-daily-stirrer",
-      "snippet": "Despite the fact that they represent only the interests of big business, big finance and themselves, the oligarchs of the World Economic Forum are now calling for a policy of merging human and artificial intelligence systems so that computer chips implanted in our brain can edit and censor â€œhate",
-      "matchedWords": {
-        "31PKJoJAynZn": {
-          "hits": 1,
-          "textWords": 14111
-        },
-        "6SKJg0Ll-TIS": {
-          "hits": 2,
-          "textWords": 14111
-        },
-        "lcxrSsWr3q3H": {
-          "hits": 0,
-          "textWords": 14111
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "daW1ZQZchFfZ",
-      "address": "http://www.greenteethmm.com/transgenderr-ladies-first.shtml",
-      "title": "whether-tom-chivers-is-a-science-writer-a-hack-journalist-or-a-cunt-is-a-matter-of-semantics-daily-stirrer-dailystirrer",
-      "snippet": "Chaos Erupts In Brussels As Rubber Bullets Fired At Farmers Protesting Outside EU Parliament\nBelgian police used Rubber bullets and water cannons against hundreds of farmers who had travelled from around western Europe to protest outside the EU Headquarters in the city on Thursday.",
-      "matchedWords": {
-        "31PKJoJAynZn": {
-          "hits": 5,
-          "textWords": 44655
-        },
-        "6SKJg0Ll-TIS": {
-          "hits": 3,
-          "textWords": 44655
-        },
-        "lcxrSsWr3q3H": {
-          "hits": 3,
-          "textWords": 44655
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
       "hash": "pIq__QZchFfZ",
       "address": "http://www.greenteethmm.com/lawless-libya.shtml",
       "title": "lawless-leaderless-libya-becoming-a-terror-hub-fukus-axis-war-islam",
@@ -1069,6 +1086,27 @@
         "lcxrSsWr3q3H": {
           "hits": 5,
           "textWords": 76665
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "rkE9tQZchFfZ",
+      "address": "http://www.greenteethmm.com/latestposts.shtml",
+      "title": "reality-on-employment-prospects-for-graduates",
+      "snippet": "Chaos Erupts In Brussels As Rubber Bullets Fired At Farmers Protesting Outside EU Parliament\nBelgian police used Rubber bullets and water cannons against hundreds of farmers who had travelled from around western Europe to protest outside the EU Headquarters in the city on Thursday.",
+      "matchedWords": {
+        "31PKJoJAynZn": {
+          "hits": 7,
+          "textWords": 98213
+        },
+        "6SKJg0Ll-TIS": {
+          "hits": 9,
+          "textWords": 98213
+        },
+        "lcxrSsWr3q3H": {
+          "hits": 7,
+          "textWords": 98213
         }
       },
       "queryPhraseHits": 0
@@ -1095,9 +1133,9 @@
       "queryPhraseHits": 0
     },
     {
-      "hash": "kaxjOD_7CIb5",
-      "address": "https://aretekitchen.com/2025/09/26/balloon-de-smartsoft-guia-esencial-para-jugar-y-descargar-en-chile/",
-      "title": "Balloon de SmartSoft: Guía Esencial para Jugar y Descargar en Chile – Arete Kitchen",
+      "hash": "gthKLlaZtVHl",
+      "address": "https://www.byrpartners.cl/inteligent-transitions-in-ux-design/",
+      "title": "Byr Partners | Transitions In UX Design",
       "snippet": "",
       "matchedWords": {
         "31PKJoJAynZn": {
@@ -1116,9 +1154,9 @@
       "queryPhraseHits": 0
     },
     {
-      "hash": "Jfiuj0aGfG25",
-      "address": "https://feeds.simplecast.com/BqbsxVfO",
-      "title": "",
+      "hash": "D_FUmsbQMMCy",
+      "address": "https://realworldorder.net/",
+      "title": "ROTHSCHILD WORLD ORDER - ROTHSCHILD, FINANCIAL OLIGARCHY, MONEY POWER, RULING ELITE, GLOBAL ELITE, DYNASTIC OLIGARCHY, POWER ELITE, DEEP STATE, ROCKEFELLER, GLOBALISM, NEW WORLD ORDER",
       "snippet": "",
       "matchedWords": {
         "31PKJoJAynZn": {
@@ -1158,22 +1196,43 @@
       "queryPhraseHits": 0
     },
     {
-      "hash": "O1Tk8shc5tG6",
-      "address": "https://accordingtohoyt.com/",
-      "title": "According To Hoyt – Born Free",
-      "snippet": "I almost forgot about 9/11 this week. Mostly because I’m so tired I’m barely walking (last day of packing at the old house G-d willing, and I’m starting late, because it’s been that kind of day.) and looking at the computer has been sporadic, so I lost track of the date.",
+      "hash": "IL6CnhcHOkWx",
+      "address": "https://www.gutenberg.org/cache/epub/12342/pg12342-images.html",
+      "title": "The Project Gutenberg eBook of The Nuttall Encyclopædia, edited by the Rev. James Wood",
+      "snippet": "",
       "matchedWords": {
         "31PKJoJAynZn": {
-          "hits": 2,
-          "textWords": 11309
+          "hits": 0,
+          "textWords": 0
         },
         "6SKJg0Ll-TIS": {
-          "hits": 2,
-          "textWords": 11309
+          "hits": 0,
+          "textWords": 0
         },
         "lcxrSsWr3q3H": {
-          "hits": 1,
-          "textWords": 11309
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "sUWqE0fyvALZ",
+      "address": "http://www.ifitstooloud.com/2026/07/twilark-no-cowboy-song.html",
+      "title": "Twilark - \"No Cowboy Song\"",
+      "snippet": "",
+      "matchedWords": {
+        "31PKJoJAynZn": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "6SKJg0Ll-TIS": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "lcxrSsWr3q3H": {
+          "hits": 0,
+          "textWords": 0
         }
       },
       "queryPhraseHits": 0
@@ -1263,9 +1322,9 @@
       "queryPhraseHits": 0
     },
     {
-      "hash": "CpMPuPoT35q6",
-      "address": "https://uptimeinstitute.com/about-ui/news-media",
-      "title": "News \u0026 Media | Latest Updates - Uptime Institute",
+      "hash": "GtLjhloUbV15",
+      "address": "https://www.whatfinger.com/",
+      "title": "Whatfinger News® – Unfiltered Truth. America’s News Feed",
       "snippet": "",
       "matchedWords": {
         "31PKJoJAynZn": {
@@ -1284,9 +1343,72 @@
       "queryPhraseHits": 0
     },
     {
-      "hash": "GtLjhloUbV15",
-      "address": "https://www.whatfinger.com/",
-      "title": "Whatfinger News® – Unfiltered Truth. America’s News Feed",
+      "hash": "NSGq8lptNsG4",
+      "address": "https://www.akdart.com/warming.html",
+      "title": "Global Warming",
+      "snippet": "",
+      "matchedWords": {
+        "31PKJoJAynZn": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "6SKJg0Ll-TIS": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "lcxrSsWr3q3H": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "m1yAxlpyxNCY",
+      "address": "http://dailymessenger.blogspot.com/2026/07/mayor-of-town-in-ny-declares-emergency.html?m=0",
+      "title": "The Daily Messenger: Mayor of town in NY 'declares emergency' to overrule vote that would have removed Flock cams",
+      "snippet": "",
+      "matchedWords": {
+        "31PKJoJAynZn": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "6SKJg0Ll-TIS": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "lcxrSsWr3q3H": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "U775WcsBuKK5",
+      "address": "https://templelijah.wordpress.com/",
+      "title": "templelijah – 8th King King North World Government completion triggers the Christ Arrival!",
+      "snippet": "",
+      "matchedWords": {
+        "31PKJoJAynZn": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "6SKJg0Ll-TIS": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "lcxrSsWr3q3H": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "p5WNmsyZbNhw",
+      "address": "https://gwern.net/gpt-3",
+      "title": "GPT-3 Creative Fiction · Gwern.net",
       "snippet": "",
       "matchedWords": {
         "31PKJoJAynZn": {
@@ -1326,48 +1448,6 @@
       "queryPhraseHits": 0
     },
     {
-      "hash": "yW_3HAIRlUi5",
-      "address": "https://www.10zenmonkeys.com/category/interviews/",
-      "title": "Interviews – 10 Zen Monkeys",
-      "snippet": "",
-      "matchedWords": {
-        "31PKJoJAynZn": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "6SKJg0Ll-TIS": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "lcxrSsWr3q3H": {
-          "hits": 0,
-          "textWords": 0
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "oOVv2jRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Wikipedia:Featured_article_candidates",
-      "title": "Wikipedia:Featured article candidates - Wikipedia",
-      "snippet": "",
-      "matchedWords": {
-        "31PKJoJAynZn": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "6SKJg0Ll-TIS": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "lcxrSsWr3q3H": {
-          "hits": 0,
-          "textWords": 0
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
       "hash": "CTQ-Yj-JVcyx",
       "address": "https://en.wikiquote.org/wiki/Mystery_Science_Theater_3000",
       "title": "Mystery Science Theater 3000 - Wikiquote",
@@ -1389,48 +1469,6 @@
       "queryPhraseHits": 0
     },
     {
-      "hash": "onaY7j-JVcyx",
-      "address": "https://en.wikiquote.org/wiki/Barack_Obama",
-      "title": "Barack Obama - Wikiquote",
-      "snippet": "",
-      "matchedWords": {
-        "31PKJoJAynZn": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "6SKJg0Ll-TIS": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "lcxrSsWr3q3H": {
-          "hits": 0,
-          "textWords": 0
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "Qw0Oas-RJCSj",
-      "address": "https://wspomozycielka-lodz.pl/?p=747",
-      "title": "OGŁOSZENIA PARAFIALNE (11.06.2023) – Parafia Matki Bożej Wspomożenia Wiernych w Łodzi",
-      "snippet": "",
-      "matchedWords": {
-        "31PKJoJAynZn": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "6SKJg0Ll-TIS": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "lcxrSsWr3q3H": {
-          "hits": 0,
-          "textWords": 0
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
       "hash": "hNrcdJ-bwreQ",
       "address": "http://ace.mu.nu/",
       "title": "Ace of Spades HQ",
@@ -1438,44 +1476,107 @@
       "matchedWords": {
         "31PKJoJAynZn": {
           "hits": 0,
-          "textWords": 14271
+          "textWords": 12885
         },
         "6SKJg0Ll-TIS": {
           "hits": 2,
-          "textWords": 14271
+          "textWords": 12885
         },
         "lcxrSsWr3q3H": {
           "hits": 0,
-          "textWords": 14271
+          "textWords": 12885
         }
       },
       "queryPhraseHits": 0
     },
     {
-      "hash": "TX6B6sAQv-v6",
-      "address": "https://thepeoplescube.com/mother",
-      "title": "The People's Cube - Political Satire - Mother Page",
-      "snippet": "Protest march in straight jackets against Trump ends in chaos as participants try but fail to free themselves\nHEADLINES YOU WILL NEVER SEE: California Gov. Jerry Brown single-handedly stops wildfires in his state by issuing an immediate statewide ban on wildfires",
+      "hash": "Q4SEOs3rpWVz",
+      "address": "https://inconvenienttruths.net/",
+      "title": "INCONVENIEINCONVENIENT TRUTHS - DEEP STATE, JFK, GLOBAL FINANCIAL ELITE, POWER ELITE, PLUTOCRACY, MEDICAL MAFIA, VACCINES, FALSE FLAGS, GLOBALISM, CORPORATOCRACY, ZIONISM, MOSSAD",
+      "snippet": "",
       "matchedWords": {
         "31PKJoJAynZn": {
-          "hits": 1,
-          "textWords": 7859
+          "hits": 0,
+          "textWords": 0
+        },
+        "6SKJg0Ll-TIS": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "lcxrSsWr3q3H": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "sX9EVn7YLxR5",
+      "address": "https://thedailymessenger.wordpress.com/",
+      "title": "The Daily Messenger (mirror) | Revealing that which is concealed. Learning about anything that resembles real freedom.",
+      "snippet": "The presumed military leaders who created Q and who protected Trump throughout the election and presidency have created a precise path to victory. Despite the seeming chaos of daily events, a steady progression of victories is taking place.",
+      "matchedWords": {
+        "31PKJoJAynZn": {
+          "hits": 0,
+          "textWords": 2428
         },
         "6SKJg0Ll-TIS": {
           "hits": 1,
-          "textWords": 7859
+          "textWords": 2428
         },
         "lcxrSsWr3q3H": {
           "hits": 0,
-          "textWords": 7859
+          "textWords": 2428
         }
       },
       "queryPhraseHits": 0
     },
     {
-      "hash": "2Goj8sAq2i9i",
-      "address": "https://vanosengineering.nl/table_filling/",
-      "title": "table_filling – VAN OS ENGINEERING",
+      "hash": "nL-trz8CAV45",
+      "address": "https://www.encyclopedia.com/social-sciences-and-law/political-science-and-government/us-government/education",
+      "title": "Education | Encyclopedia.com",
+      "snippet": "They must be planning to attend college to prepare for a career in business, business education, computer science, computer information systems, or a related field.",
+      "matchedWords": {
+        "31PKJoJAynZn": {
+          "hits": 26,
+          "textWords": 156851
+        },
+        "6SKJg0Ll-TIS": {
+          "hits": 1,
+          "textWords": 156851
+        },
+        "lcxrSsWr3q3H": {
+          "hits": 14,
+          "textWords": 156851
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "VNx-T_8T85F5",
+      "address": "https://boggartblog.wordpress.com/",
+      "title": "BNN - Boggart Network News | Boggart Network News (BNN) reports the bizarre, weird, whacky and plain crazy news from around the globe.",
+      "snippet": "",
+      "matchedWords": {
+        "31PKJoJAynZn": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "6SKJg0Ll-TIS": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "lcxrSsWr3q3H": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "8L_aSlESuha4",
+      "address": "https://www.leagle.com/featureddecisions",
+      "title": "Featured Decisions | Leagle.com | The place to find U. S. Law, Lawyers and Opinions",
       "snippet": "",
       "matchedWords": {
         "31PKJoJAynZn": {
@@ -1515,9 +1616,9 @@
       "queryPhraseHits": 0
     },
     {
-      "hash": "yW_3HAIRlUi5",
-      "address": "https://www.10zenmonkeys.com/category/interviews/",
-      "title": "Interviews – 10 Zen Monkeys",
+      "hash": "R5vzYsOocYRx",
+      "address": "https://murdoconline.net/",
+      "title": "MURDOCONLINE - Situs Kumpulan Game Online Terbaik Paling Populer",
       "snippet": "",
       "matchedWords": {
         "31PKJoJAynZn": {
@@ -1536,9 +1637,9 @@
       "queryPhraseHits": 0
     },
     {
-      "hash": "R5vzYsOocYRx",
-      "address": "https://murdoconline.net/",
-      "title": "MURDOCONLINE - Situs Kumpulan Game Online Terbaik Paling Populer",
+      "hash": "hQy9paP0TsU6",
+      "address": "https://www.americanthinker.com/author/rick_moran/",
+      "title": "Articles: Rick Moran Archives - American Thinker",
       "snippet": "",
       "matchedWords": {
         "31PKJoJAynZn": {
@@ -1620,22 +1721,22 @@
       "queryPhraseHits": 0
     },
     {
-      "hash": "D1yl1bUmIDp5",
-      "address": "https://voiceofrestoration.wordpress.com/",
-      "title": "Voice of Restoration – Life is like a chameleon in a bag of skittles…",
-      "snippet": "And it gets worse with each generation as we push toward the end of the age. We shouldn’t be surprised though; all the chaos, hatred, division, and wars were predicted. Jesus quoted Micah 7:6 where it says that our enemies will be members of our own household!",
+      "hash": "2T0UisUhsCbg",
+      "address": "https://samsuns.eu/business-strategy-plan-2022-from-the-usa/",
+      "title": "Business Strategy Plan 2022 From the USA - Wir verbinden Sie mit der Welt",
+      "snippet": "",
       "matchedWords": {
         "31PKJoJAynZn": {
-          "hits": 4,
-          "textWords": 74861
+          "hits": 0,
+          "textWords": 0
         },
         "6SKJg0Ll-TIS": {
-          "hits": 9,
-          "textWords": 74861
+          "hits": 0,
+          "textWords": 0
         },
         "lcxrSsWr3q3H": {
-          "hits": 1,
-          "textWords": 74861
+          "hits": 0,
+          "textWords": 0
         }
       },
       "queryPhraseHits": 0
@@ -1662,51 +1763,9 @@
       "queryPhraseHits": 0
     },
     {
-      "hash": "FczEQQZchFfZ",
-      "address": "http://www.greenteethmm.com/climate-change-mind.shtml",
-      "title": "what-if-man-made-climate-change-is-all-in-the-mind-daily-stirrer-dailystirrer",
-      "snippet": "Chaos Erupts In Brussels As Rubber Bullets Fired At Farmers Protesting Outside EU Parliament\nBelgian police used Rubber bullets and water cannons against hundreds of farmers who had travelled from around western Europe to protest outside the EU Headquarters in the city on Thursday.",
-      "matchedWords": {
-        "31PKJoJAynZn": {
-          "hits": 5,
-          "textWords": 39329
-        },
-        "6SKJg0Ll-TIS": {
-          "hits": 3,
-          "textWords": 39329
-        },
-        "lcxrSsWr3q3H": {
-          "hits": 3,
-          "textWords": 39329
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "MW69aQZchFfZ",
-      "address": "http://www.greenteethmm.com/2021-october.shtml",
-      "title": "dailystirrer-2021-news-october-comment-opinion-controversy-contrarianism",
-      "snippet": "Chaos Erupts In Brussels As Rubber Bullets Fired At Farmers Protesting Outside EU Parliament\nBelgian police used Rubber bullets and water cannons against hundreds of farmers who had travelled from around western Europe to protest outside the EU Headquarters in the city on Thursday.",
-      "matchedWords": {
-        "31PKJoJAynZn": {
-          "hits": 1,
-          "textWords": 40231
-        },
-        "6SKJg0Ll-TIS": {
-          "hits": 3,
-          "textWords": 40231
-        },
-        "lcxrSsWr3q3H": {
-          "hits": 3,
-          "textWords": 40231
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "Soh_fQZchFfZ",
-      "address": "http://www.greenteethmm.com/ukraine-war-europe-gas.shtml",
-      "title": "europes-depleted-gas-storage-might-not-get-refilled-ahead-of-next-winter-news-daily-stirrer",
+      "hash": "Tm8vbiVUrQm6",
+      "address": "https://earthnewspaper.com/2022-news/24-7-news-october-2022/",
+      "title": "24/7 News October 2022 – EarthNewspaper.com – All The Honest News Fit To Publish",
       "snippet": "",
       "matchedWords": {
         "31PKJoJAynZn": {
@@ -1728,19 +1787,40 @@
       "hash": "WbJD3QZchFfZ",
       "address": "http://www.greenteethmm.com/russua-ukraine-crisis22.shtml",
       "title": "current-ukraine-crisis-the-inevitable-onsequence-of-US-UK-and-EU-foreign-policy- aggression-politics-world-news-daily-stirrer",
-      "snippet": "Despite the fact that they represent only the interests of big business, big finance and themselves, the oligarchs of the World Economic Forum are now calling for a policy of merging human and artificial intelligence systems so that computer chips implanted in our brain can edit and censor â€œhate",
+      "snippet": "",
       "matchedWords": {
         "31PKJoJAynZn": {
-          "hits": 1,
-          "textWords": 14111
+          "hits": 0,
+          "textWords": 0
         },
         "6SKJg0Ll-TIS": {
-          "hits": 2,
-          "textWords": 14111
+          "hits": 0,
+          "textWords": 0
         },
         "lcxrSsWr3q3H": {
           "hits": 0,
-          "textWords": 14111
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "daW1ZQZchFfZ",
+      "address": "http://www.greenteethmm.com/transgenderr-ladies-first.shtml",
+      "title": "whether-tom-chivers-is-a-science-writer-a-hack-journalist-or-a-cunt-is-a-matter-of-semantics-daily-stirrer-dailystirrer",
+      "snippet": "",
+      "matchedWords": {
+        "31PKJoJAynZn": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "6SKJg0Ll-TIS": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "lcxrSsWr3q3H": {
+          "hits": 0,
+          "textWords": 0
         }
       },
       "queryPhraseHits": 0
@@ -1767,30 +1847,30 @@
       "queryPhraseHits": 0
     },
     {
-      "hash": "pIq__QZchFfZ",
-      "address": "http://www.greenteethmm.com/lawless-libya.shtml",
-      "title": "lawless-leaderless-libya-becoming-a-terror-hub-fukus-axis-war-islam",
-      "snippet": "Italian foreign minister Paolo Gentiloni has admitted that Western countries got it wrong when, three years ago, France, the UK and USA (the FUKUS axis) intervened in Libya to overthrow former dictator Muammar Gaddafi and allow Islamist extremists to plunge the small but rich nation into",
+      "hash": "rkE9tQZchFfZ",
+      "address": "http://www.greenteethmm.com/latestposts.shtml",
+      "title": "reality-on-employment-prospects-for-graduates",
+      "snippet": "Chaos Erupts In Brussels As Rubber Bullets Fired At Farmers Protesting Outside EU Parliament\nBelgian police used Rubber bullets and water cannons against hundreds of farmers who had travelled from around western Europe to protest outside the EU Headquarters in the city on Thursday.",
       "matchedWords": {
         "31PKJoJAynZn": {
-          "hits": 6,
-          "textWords": 76665
+          "hits": 7,
+          "textWords": 98213
         },
         "6SKJg0Ll-TIS": {
-          "hits": 13,
-          "textWords": 76665
+          "hits": 9,
+          "textWords": 98213
         },
         "lcxrSsWr3q3H": {
-          "hits": 5,
-          "textWords": 76665
+          "hits": 7,
+          "textWords": 98213
         }
       },
       "queryPhraseHits": 0
     },
     {
-      "hash": "rkE9tQZchFfZ",
-      "address": "http://www.greenteethmm.com/latestposts.shtml",
-      "title": "reality-on-employment-prospects-for-graduates",
+      "hash": "kaxjOD_7CIb5",
+      "address": "https://aretekitchen.com/2025/09/26/balloon-de-smartsoft-guia-esencial-para-jugar-y-descargar-en-chile/",
+      "title": "Balloon de SmartSoft: Guía Esencial para Jugar y Descargar en Chile – Arete Kitchen",
       "snippet": "",
       "matchedWords": {
         "31PKJoJAynZn": {
@@ -1809,30 +1889,51 @@
       "queryPhraseHits": 0
     },
     {
-      "hash": "6pHilQZchFfZ",
-      "address": "http://www.greenteethmm.com/google-omnibus.shtml",
-      "title": "google-how-search-engine-corporation-is-building-a-digital-superstate-daily-stirrer",
-      "snippet": "Real computer pros (i.e. the diminishing number of baby boomers still compus mentis)have warned for years that one of the greatest dangers of what is called \"Artificial Intelligence,\" i.e. using computers to make decisions that involve those unquantifiable human considerations like, \"who defines",
+      "hash": "Jfiuj0aGfG25",
+      "address": "https://feeds.simplecast.com/BqbsxVfO",
+      "title": "",
+      "snippet": "",
       "matchedWords": {
         "31PKJoJAynZn": {
-          "hits": 13,
-          "textWords": 28991
+          "hits": 0,
+          "textWords": 0
         },
         "6SKJg0Ll-TIS": {
           "hits": 0,
-          "textWords": 28991
+          "textWords": 0
         },
         "lcxrSsWr3q3H": {
           "hits": 0,
-          "textWords": 28991
+          "textWords": 0
         }
       },
       "queryPhraseHits": 0
     },
     {
-      "hash": "Jfiuj0aGfG25",
-      "address": "https://feeds.simplecast.com/BqbsxVfO",
-      "title": "",
+      "hash": "gthKLlaZtVHl",
+      "address": "https://www.byrpartners.cl/inteligent-transitions-in-ux-design/",
+      "title": "Byr Partners | Transitions In UX Design",
+      "snippet": "",
+      "matchedWords": {
+        "31PKJoJAynZn": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "6SKJg0Ll-TIS": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "lcxrSsWr3q3H": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "D_FUmsbQMMCy",
+      "address": "https://realworldorder.net/",
+      "title": "ROTHSCHILD WORLD ORDER - ROTHSCHILD, FINANCIAL OLIGARCHY, MONEY POWER, RULING ELITE, GLOBAL ELITE, DYNASTIC OLIGARCHY, POWER ELITE, DEEP STATE, ROCKEFELLER, GLOBALISM, NEW WORLD",
       "snippet": "",
       "matchedWords": {
         "31PKJoJAynZn": {
@@ -1893,30 +1994,9 @@
       "queryPhraseHits": 0
     },
     {
-      "hash": "O1Tk8shc5tG6",
-      "address": "https://accordingtohoyt.com/",
-      "title": "According To Hoyt – Born Free",
-      "snippet": "I almost forgot about 9/11 this week. Mostly because I’m so tired I’m barely walking (last day of packing at the old house G-d willing, and I’m starting late, because it’s been that kind of day.) and looking at the computer has been sporadic, so I lost track of the date.",
-      "matchedWords": {
-        "31PKJoJAynZn": {
-          "hits": 2,
-          "textWords": 11309
-        },
-        "6SKJg0Ll-TIS": {
-          "hits": 2,
-          "textWords": 11309
-        },
-        "lcxrSsWr3q3H": {
-          "hits": 1,
-          "textWords": 11309
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "PxBYQsjsdFw4",
-      "address": "https://akdart.com/tv.html",
-      "title": "The Technology and Politics of Broadcasting",
+      "hash": "sUWqE0fyvALZ",
+      "address": "http://www.ifitstooloud.com/2026/07/twilark-no-cowboy-song.html",
+      "title": "Twilark - \"No Cowboy Song\"",
       "snippet": "",
       "matchedWords": {
         "31PKJoJAynZn": {
@@ -1930,300 +2010,6 @@
         "lcxrSsWr3q3H": {
           "hits": 0,
           "textWords": 0
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "Q4lQ4lpyxNCY",
-      "address": "http://dailymessenger.blogspot.com/2026/07/trumpsteins-4th-of-july-scam-false-flag.html",
-      "title": "The Daily Messenger: Trumpstein's 4th of July scam false flag doing this saturday",
-      "snippet": "",
-      "matchedWords": {
-        "31PKJoJAynZn": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "6SKJg0Ll-TIS": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "lcxrSsWr3q3H": {
-          "hits": 0,
-          "textWords": 0
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "m1yAxlpyxNCY",
-      "address": "http://dailymessenger.blogspot.com/2026/07/mayor-of-town-in-ny-declares-emergency.html?m=0",
-      "title": "The Daily Messenger: Mayor of town in NY 'declares emergency' to overrule vote that would have removed Flock cams",
-      "snippet": "",
-      "matchedWords": {
-        "31PKJoJAynZn": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "6SKJg0Ll-TIS": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "lcxrSsWr3q3H": {
-          "hits": 0,
-          "textWords": 0
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "6GiIzj-JVcyx",
-      "address": "https://en.wikiquote.org/wiki/Donald_Trump",
-      "title": "Donald Trump - Wikiquote",
-      "snippet": "There's no security. It happens so often. I'm old-fashioned. I put a letter in an envelope and have it hand delivered. My son is 10 years old, and he has grown up computer literate. They start using computers before they can walk. His computer was locked and he unlocked it.",
-      "matchedWords": {
-        "31PKJoJAynZn": {
-          "hits": 5,
-          "textWords": 83247
-        },
-        "6SKJg0Ll-TIS": {
-          "hits": 3,
-          "textWords": 83247
-        },
-        "lcxrSsWr3q3H": {
-          "hits": 2,
-          "textWords": 83247
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "hNrcdJ-bwreQ",
-      "address": "http://ace.mu.nu/",
-      "title": "Ace of Spades HQ",
-      "snippet": "What they're doing is delaying this as long as possible so that they can then claim \"It will cause chaos to implement this policy at this late date, there's just not enough time to implement it properly.\"",
-      "matchedWords": {
-        "31PKJoJAynZn": {
-          "hits": 0,
-          "textWords": 14271
-        },
-        "6SKJg0Ll-TIS": {
-          "hits": 2,
-          "textWords": 14271
-        },
-        "lcxrSsWr3q3H": {
-          "hits": 0,
-          "textWords": 14271
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "Q4SEOs3rpWVz",
-      "address": "https://inconvenienttruths.net/",
-      "title": "INCONVENIEINCONVENIENT TRUTHS - DEEP STATE, JFK, GLOBAL FINANCIAL ELITE, POWER ELITE, PLUTOCRACY, MEDICAL MAFIA, VACCINES, FALSE FLAGS, GLOBALISM, CORPORATOCRACY, ZIONISM, MOSSAD",
-      "snippet": "THE GLOBAL POWER ELITE AND THE \"GREAT RESET\"\nIMMUNITY PASSPORTS - COVID19\nIS AMERICA STILL A DEMOCRACY?\nEMPIRE OF CHAOS\nTHE VACCINE CATASTROPHE\nWHAT ARE 'FALSE FLAGS' AND WHY DO THEY MATTER?\nWAR ON DRUGS \u0026 WAR ON TERRORISM\nISLAMIC TERRORISM AND CHAOS IN THE MIDDLE EAST",
-      "matchedWords": {
-        "31PKJoJAynZn": {
-          "hits": 1,
-          "textWords": 105837
-        },
-        "6SKJg0Ll-TIS": {
-          "hits": 18,
-          "textWords": 105837
-        },
-        "lcxrSsWr3q3H": {
-          "hits": 16,
-          "textWords": 105837
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "W-eXqzF3--Qw",
-      "address": "https://planet.mozilla.org/",
-      "title": "Planet Mozilla",
-      "snippet": "",
-      "matchedWords": {
-        "31PKJoJAynZn": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "6SKJg0Ll-TIS": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "lcxrSsWr3q3H": {
-          "hits": 0,
-          "textWords": 0
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "fE4y5sGA_USx",
-      "address": "https://warracket.net/",
-      "title": "WAR RACKET - MAINSTREAM MEDIA, CORPORATE MEDIA, WARMONGERS, NEOCONS, DEEP STATE, NATO, NATIONAL SECURITY STATE, MILITARY-INDUSTRIAL-SECURITY-COMPLEX, WEAPONS MANUFACTURERS, NATO, CORPORATIONS, BANKERS",
-      "snippet": "\"In the mid-1980s, Al Qaeda was a database located in computer and dedicated to the communications of the Islamic Conference's secretariat. It was but natural for Osama bin Laden to be connected to this network. He is a member of an important family in the banking and business world.",
-      "matchedWords": {
-        "31PKJoJAynZn": {
-          "hits": 2,
-          "textWords": 63596
-        },
-        "6SKJg0Ll-TIS": {
-          "hits": 6,
-          "textWords": 63596
-        },
-        "lcxrSsWr3q3H": {
-          "hits": 6,
-          "textWords": 63596
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "R5vzYsOocYRx",
-      "address": "https://murdoconline.net/",
-      "title": "MURDOCONLINE - Situs Kumpulan Game Online Terbaik Paling Populer",
-      "snippet": "",
-      "matchedWords": {
-        "31PKJoJAynZn": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "6SKJg0Ll-TIS": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "lcxrSsWr3q3H": {
-          "hits": 0,
-          "textWords": 0
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "VI9YzkSKkctx",
-      "address": "https://softpanorama.org/Social/Toxic_managers/index.shtml",
-      "title": "Toxic Managers",
-      "snippet": "",
-      "matchedWords": {
-        "31PKJoJAynZn": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "6SKJg0Ll-TIS": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "lcxrSsWr3q3H": {
-          "hits": 0,
-          "textWords": 0
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "uaEnGzTwnifx",
-      "address": "https://planet.wordpress.org/",
-      "title": "Planet — WordPress.org",
-      "snippet": "",
-      "matchedWords": {
-        "31PKJoJAynZn": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "6SKJg0Ll-TIS": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "lcxrSsWr3q3H": {
-          "hits": 0,
-          "textWords": 0
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "w4BkfQXx1HRZ",
-      "address": "http://www.dailystirrer.com/2021-july.shtml",
-      "title": "dailystirrer-2021-news-july-comment-opinion-controversy-contrarianism",
-      "snippet": "While the world has been obsessing over the ongoing COVID-19 crisis, The Delta Variant,, to vaccinate or not to vaccinate (whether 'tis nobler in the mind to get an armful of DNA altering toxic shite or to resist the scaremongering of government and corporate propaganda,) South Africa, a country",
-      "matchedWords": {
-        "31PKJoJAynZn": {
-          "hits": 2,
-          "textWords": 55464
-        },
-        "6SKJg0Ll-TIS": {
-          "hits": 6,
-          "textWords": 55464
-        },
-        "lcxrSsWr3q3H": {
-          "hits": 1,
-          "textWords": 55464
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "-p2w3taoSn1x",
-      "address": "https://en.planet.wikimedia.org/",
-      "title": "en.planet.wikimedia.org",
-      "snippet": "",
-      "matchedWords": {
-        "31PKJoJAynZn": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "6SKJg0Ll-TIS": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "lcxrSsWr3q3H": {
-          "hits": 0,
-          "textWords": 0
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "D_FUmsbQMMCy",
-      "address": "https://realworldorder.net/",
-      "title": "ROTHSCHILD WORLD ORDER - ROTHSCHILD, FINANCIAL OLIGARCHY, MONEY POWER, RULING ELITE, GLOBAL ELITE, DYNASTIC OLIGARCHY, POWER ELITE, DEEP STATE, ROCKEFELLER, GLOBALISM, NEW WORLD ORDER",
-      "snippet": "",
-      "matchedWords": {
-        "31PKJoJAynZn": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "6SKJg0Ll-TIS": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "lcxrSsWr3q3H": {
-          "hits": 0,
-          "textWords": 0
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "O1Tk8shc5tG6",
-      "address": "https://accordingtohoyt.com/",
-      "title": "According To Hoyt – Born Free",
-      "snippet": "I almost forgot about 9/11 this week. Mostly because I’m so tired I’m barely walking (last day of packing at the old house G-d willing, and I’m starting late, because it’s been that kind of day.) and looking at the computer has been sporadic, so I lost track of the date.",
-      "matchedWords": {
-        "31PKJoJAynZn": {
-          "hits": 2,
-          "textWords": 11309
-        },
-        "6SKJg0Ll-TIS": {
-          "hits": 2,
-          "textWords": 11309
-        },
-        "lcxrSsWr3q3H": {
-          "hits": 1,
-          "textWords": 11309
         }
       },
       "queryPhraseHits": 0
@@ -2231,7 +2017,7 @@
     {
       "hash": "190N3snp_33z",
       "address": "https://globalkleptocracy.net/",
-      "title": "GLOBAL KLEPTOCRACY - GLOBAL ELITE, RULING ELITE, GLOBAL OLIGARCHY, DEEP STATE, GLOBALISM, DYNASTIC ELITE, MONOPOLY CAPITALISM, CORPORATOCRACY, PLUTOCRACY, MONEY LAUNDERING, DRUG TRAFFICKING",
+      "title": "GLOBAL KLEPTOCRACY - GLOBAL ELITE, RULING ELITE, GLOBAL OLIGARCHY, DEEP STATE, GLOBALISM, DYNASTIC ELITE, MONOPOLY CAPITALISM, CORPORATOCRACY, PLUTOCRACY, MONEY LAUNDERING, DRUG",
       "snippet": "",
       "matchedWords": {
         "31PKJoJAynZn": {
@@ -2271,9 +2057,9 @@
       "queryPhraseHits": 0
     },
     {
-      "hash": "y46lssywOgMx",
-      "address": "https://pathocracy.net/",
-      "title": "PATHOCRACY: THE GLOBAL ORDER - PSYCHOPATHS, SOCIOPATHS, RULING ELITE, GLOBAL ELITE, DYNASTIC OLIGARCHY, FINANCIAL ELITE, POWER ELITE, KLEPTOCRACY, CORPORATOCRACY, DEEP STATE, GLOBALISM",
+      "hash": "NSGq8lptNsG4",
+      "address": "https://www.akdart.com/warming.html",
+      "title": "Global Warming",
       "snippet": "",
       "matchedWords": {
         "31PKJoJAynZn": {
@@ -2292,30 +2078,30 @@
       "queryPhraseHits": 0
     },
     {
-      "hash": "CTQ-Yj-JVcyx",
-      "address": "https://en.wikiquote.org/wiki/Mystery_Science_Theater_3000",
-      "title": "Mystery Science Theater 3000 - Wikiquote",
-      "snippet": "So I guess I'm going to have to push my own buttons for a change.\nMike: Ah, you've been doing enough of that, mister!\n[Fingal is trying to write a computer program while in the computer.]\nComputer: What is your access code?\nCrow: Where do you want to go today?",
+      "hash": "p5WNmsyZbNhw",
+      "address": "https://gwern.net/gpt-3",
+      "title": "GPT-3 Creative Fiction · Gwern.net",
+      "snippet": "",
       "matchedWords": {
         "31PKJoJAynZn": {
-          "hits": 15,
-          "textWords": 143064
+          "hits": 0,
+          "textWords": 0
         },
         "6SKJg0Ll-TIS": {
-          "hits": 3,
-          "textWords": 143064
+          "hits": 0,
+          "textWords": 0
         },
         "lcxrSsWr3q3H": {
-          "hits": 14,
-          "textWords": 143064
+          "hits": 0,
+          "textWords": 0
         }
       },
       "queryPhraseHits": 0
     },
     {
-      "hash": "Qw0Oas-RJCSj",
-      "address": "https://wspomozycielka-lodz.pl/?p=747",
-      "title": "OGŁOSZENIA PARAFIALNE (11.06.2023) – Parafia Matki Bożej Wspomożenia Wiernych w Łodzi",
+      "hash": "y46lssywOgMx",
+      "address": "https://pathocracy.net/",
+      "title": "PATHOCRACY: THE GLOBAL ORDER - PSYCHOPATHS, SOCIOPATHS, RULING ELITE, GLOBAL ELITE, DYNASTIC OLIGARCHY, FINANCIAL ELITE, POWER ELITE, KLEPTOCRACY, CORPORATOCRACY, DEEP STATE,",
       "snippet": "",
       "matchedWords": {
         "31PKJoJAynZn": {
@@ -2341,78 +2127,36 @@
       "matchedWords": {
         "31PKJoJAynZn": {
           "hits": 0,
-          "textWords": 14271
+          "textWords": 12885
         },
         "6SKJg0Ll-TIS": {
           "hits": 2,
-          "textWords": 14271
+          "textWords": 12885
         },
         "lcxrSsWr3q3H": {
           "hits": 0,
-          "textWords": 14271
+          "textWords": 12885
         }
       },
       "queryPhraseHits": 0
     },
     {
-      "hash": "Q4SEOs3rpWVz",
-      "address": "https://inconvenienttruths.net/",
-      "title": "INCONVENIEINCONVENIENT TRUTHS - DEEP STATE, JFK, GLOBAL FINANCIAL ELITE, POWER ELITE, PLUTOCRACY, MEDICAL MAFIA, VACCINES, FALSE FLAGS, GLOBALISM, CORPORATOCRACY, ZIONISM, MOSSAD",
-      "snippet": "THE GLOBAL POWER ELITE AND THE \"GREAT RESET\"\nIMMUNITY PASSPORTS - COVID19\nIS AMERICA STILL A DEMOCRACY?\nEMPIRE OF CHAOS\nTHE VACCINE CATASTROPHE\nWHAT ARE 'FALSE FLAGS' AND WHY DO THEY MATTER?\nWAR ON DRUGS \u0026 WAR ON TERRORISM\nISLAMIC TERRORISM AND CHAOS IN THE MIDDLE EAST",
+      "hash": "nL-trz8CAV45",
+      "address": "https://www.encyclopedia.com/social-sciences-and-law/political-science-and-government/us-government/education",
+      "title": "Education | Encyclopedia.com",
+      "snippet": "They must be planning to attend college to prepare for a career in business, business education, computer science, computer information systems, or a related field.",
       "matchedWords": {
         "31PKJoJAynZn": {
-          "hits": 1,
-          "textWords": 105837
-        },
-        "6SKJg0Ll-TIS": {
-          "hits": 18,
-          "textWords": 105837
-        },
-        "lcxrSsWr3q3H": {
-          "hits": 16,
-          "textWords": 105837
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "TX6B6sAQv-v6",
-      "address": "https://thepeoplescube.com/mother",
-      "title": "The People's Cube - Political Satire - Mother Page",
-      "snippet": "Protest march in straight jackets against Trump ends in chaos as participants try but fail to free themselves\nHEADLINES YOU WILL NEVER SEE: California Gov. Jerry Brown single-handedly stops wildfires in his state by issuing an immediate statewide ban on wildfires",
-      "matchedWords": {
-        "31PKJoJAynZn": {
-          "hits": 1,
-          "textWords": 7859
+          "hits": 26,
+          "textWords": 156851
         },
         "6SKJg0Ll-TIS": {
           "hits": 1,
-          "textWords": 7859
+          "textWords": 156851
         },
         "lcxrSsWr3q3H": {
-          "hits": 0,
-          "textWords": 7859
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "yW_3HAIRlUi5",
-      "address": "https://www.10zenmonkeys.com/category/interviews/",
-      "title": "Interviews – 10 Zen Monkeys",
-      "snippet": "",
-      "matchedWords": {
-        "31PKJoJAynZn": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "6SKJg0Ll-TIS": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "lcxrSsWr3q3H": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 14,
+          "textWords": 156851
         }
       },
       "queryPhraseHits": 0
@@ -2439,198 +2183,30 @@
       "queryPhraseHits": 0
     },
     {
-      "hash": "oOVv2jRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Wikipedia:Featured_article_candidates",
-      "title": "Wikipedia:Featured article candidates - Wikipedia",
-      "snippet": "",
+      "hash": "w4BkfQXx1HRZ",
+      "address": "http://www.dailystirrer.com/2021-july.shtml",
+      "title": "dailystirrer-2021-news-july-comment-opinion-controversy-contrarianism",
+      "snippet": "While the world has been obsessing over the ongoing COVID-19 crisis, The Delta Variant,, to vaccinate or not to vaccinate (whether 'tis nobler in the mind to get an armful of DNA altering toxic shite or to resist the scaremongering of government and corporate propaganda,) South Africa, a country",
       "matchedWords": {
         "31PKJoJAynZn": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "6SKJg0Ll-TIS": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "lcxrSsWr3q3H": {
-          "hits": 0,
-          "textWords": 0
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "btqgslTg2KM4",
-      "address": "https://www.wikihow.com/Experts",
-      "title": "wikiHow Experts",
-      "snippet": "He is a senior member of the American Society of Appraisers (ASA) and is a member of the Twenty-Four Karat Club of the City of New York, a social club limited to 200 of the most accomplished individuals in the jewelry business.",
-      "matchedWords": {
-        "31PKJoJAynZn": {
-          "hits": 5,
-          "textWords": 42393
-        },
-        "6SKJg0Ll-TIS": {
-          "hits": 3,
-          "textWords": 42393
-        },
-        "lcxrSsWr3q3H": {
-          "hits": 7,
-          "textWords": 42393
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "MW69aQZchFfZ",
-      "address": "http://www.greenteethmm.com/2021-october.shtml",
-      "title": "dailystirrer-2021-news-october-comment-opinion-controversy-contrarianism",
-      "snippet": "Chaos Erupts In Brussels As Rubber Bullets Fired At Farmers Protesting Outside EU Parliament\nBelgian police used Rubber bullets and water cannons against hundreds of farmers who had travelled from around western Europe to protest outside the EU Headquarters in the city on Thursday.",
-      "matchedWords": {
-        "31PKJoJAynZn": {
-          "hits": 1,
-          "textWords": 40231
-        },
-        "6SKJg0Ll-TIS": {
-          "hits": 3,
-          "textWords": 40231
-        },
-        "lcxrSsWr3q3H": {
-          "hits": 3,
-          "textWords": 40231
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "Qve1qQZchFfZ",
-      "address": "http://www.greenteethmm.com/energy-net-zero-fantasy.shtml",
-      "title": "greenteeth-digital-publishing-net-zero-is-dangerous-fantasy-but-scientists-believe-in-fairies-it-seems",
-      "snippet": "Fully paid up members of the Bellendskyyyyy fan club were creaming themselves in comment threads under the articles ...",
-      "matchedWords": {
-        "31PKJoJAynZn": {
-          "hits": 1,
-          "textWords": 13922
-        },
-        "6SKJg0Ll-TIS": {
-          "hits": 0,
-          "textWords": 13922
-        },
-        "lcxrSsWr3q3H": {
           "hits": 2,
-          "textWords": 13922
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "Soh_fQZchFfZ",
-      "address": "http://www.greenteethmm.com/ukraine-war-europe-gas.shtml",
-      "title": "europes-depleted-gas-storage-might-not-get-refilled-ahead-of-next-winter-news-daily-stirrer",
-      "snippet": "",
-      "matchedWords": {
-        "31PKJoJAynZn": {
-          "hits": 0,
-          "textWords": 0
+          "textWords": 55464
         },
         "6SKJg0Ll-TIS": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "lcxrSsWr3q3H": {
-          "hits": 0,
-          "textWords": 0
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "WbJD3QZchFfZ",
-      "address": "http://www.greenteethmm.com/russua-ukraine-crisis22.shtml",
-      "title": "current-ukraine-crisis-the-inevitable-onsequence-of-US-UK-and-EU-foreign-policy- aggression-politics-world-news-daily-stirrer",
-      "snippet": "Despite the fact that they represent only the interests of big business, big finance and themselves, the oligarchs of the World Economic Forum are now calling for a policy of merging human and artificial intelligence systems so that computer chips implanted in our brain can edit and censor â€œhate",
-      "matchedWords": {
-        "31PKJoJAynZn": {
-          "hits": 1,
-          "textWords": 14111
-        },
-        "6SKJg0Ll-TIS": {
-          "hits": 2,
-          "textWords": 14111
-        },
-        "lcxrSsWr3q3H": {
-          "hits": 0,
-          "textWords": 14111
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "daW1ZQZchFfZ",
-      "address": "http://www.greenteethmm.com/transgenderr-ladies-first.shtml",
-      "title": "whether-tom-chivers-is-a-science-writer-a-hack-journalist-or-a-cunt-is-a-matter-of-semantics-daily-stirrer-dailystirrer",
-      "snippet": "Chaos Erupts In Brussels As Rubber Bullets Fired At Farmers Protesting Outside EU Parliament\nBelgian police used Rubber bullets and water cannons against hundreds of farmers who had travelled from around western Europe to protest outside the EU Headquarters in the city on Thursday.",
-      "matchedWords": {
-        "31PKJoJAynZn": {
-          "hits": 5,
-          "textWords": 44655
-        },
-        "6SKJg0Ll-TIS": {
-          "hits": 3,
-          "textWords": 44655
-        },
-        "lcxrSsWr3q3H": {
-          "hits": 3,
-          "textWords": 44655
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "pIq__QZchFfZ",
-      "address": "http://www.greenteethmm.com/lawless-libya.shtml",
-      "title": "lawless-leaderless-libya-becoming-a-terror-hub-fukus-axis-war-islam",
-      "snippet": "Italian foreign minister Paolo Gentiloni has admitted that Western countries got it wrong when, three years ago, France, the UK and USA (the FUKUS axis) intervened in Libya to overthrow former dictator Muammar Gaddafi and allow Islamist extremists to plunge the small but rich nation into",
-      "matchedWords": {
-        "31PKJoJAynZn": {
           "hits": 6,
-          "textWords": 76665
-        },
-        "6SKJg0Ll-TIS": {
-          "hits": 13,
-          "textWords": 76665
+          "textWords": 55464
         },
         "lcxrSsWr3q3H": {
-          "hits": 5,
-          "textWords": 76665
+          "hits": 1,
+          "textWords": 55464
         }
       },
       "queryPhraseHits": 0
     },
     {
-      "hash": "rkE9tQZchFfZ",
-      "address": "http://www.greenteethmm.com/latestposts.shtml",
-      "title": "reality-on-employment-prospects-for-graduates",
-      "snippet": "",
-      "matchedWords": {
-        "31PKJoJAynZn": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "6SKJg0Ll-TIS": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "lcxrSsWr3q3H": {
-          "hits": 0,
-          "textWords": 0
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "31kf2QZchFfZ",
-      "address": "http://www.greenteethmm.com/history-menu.shtml",
-      "title": "history-menu-",
+      "hash": "kaxjOD_7CIb5",
+      "address": "https://aretekitchen.com/2025/09/26/balloon-de-smartsoft-guia-esencial-para-jugar-y-descargar-en-chile/",
+      "title": "Balloon de SmartSoft: Guía Esencial para Jugar y Descargar en Chile – Arete Kitchen",
       "snippet": "",
       "matchedWords": {
         "31PKJoJAynZn": {
@@ -2670,9 +2246,9 @@
       "queryPhraseHits": 0
     },
     {
-      "hash": "D_FUmsbQMMCy",
-      "address": "https://realworldorder.net/",
-      "title": "ROTHSCHILD WORLD ORDER - ROTHSCHILD, FINANCIAL OLIGARCHY, MONEY POWER, RULING ELITE, GLOBAL ELITE, DYNASTIC OLIGARCHY, POWER ELITE, DEEP STATE, ROCKEFELLER, GLOBALISM, NEW WORLD",
+      "hash": "0xYK4Jbk4R1h",
+      "address": "https://lybystrand.dk/author/admin",
+      "title": "admin – LYBYSTRAND",
       "snippet": "",
       "matchedWords": {
         "31PKJoJAynZn": {
@@ -2691,9 +2267,9 @@
       "queryPhraseHits": 0
     },
     {
-      "hash": "m1yAxlpyxNCY",
-      "address": "http://dailymessenger.blogspot.com/2026/07/mayor-of-town-in-ny-declares-emergency.html?m=0",
-      "title": "The Daily Messenger: Mayor of town in NY 'declares emergency' to overrule vote that would have removed Flock cams",
+      "hash": "CpMPuPoT35q6",
+      "address": "https://uptimeinstitute.com/about-ui/news-media",
+      "title": "News \u0026 Media | Latest Updates - Uptime Institute",
       "snippet": "",
       "matchedWords": {
         "31PKJoJAynZn": {
@@ -2713,8 +2289,8 @@
     }
   ],
   "documentsHeldPerQueryWord": {
-    "31PKJoJAynZn": 434990,
-    "6SKJg0Ll-TIS": 191914,
-    "lcxrSsWr3q3H": 658109
+    "31PKJoJAynZn": 207983,
+    "6SKJg0Ll-TIS": 204157,
+    "lcxrSsWr3q3H": 231024
   }
 }

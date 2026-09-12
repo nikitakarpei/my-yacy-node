@@ -2,10 +2,10 @@
   "query": "deutsche bahn fahrplan",
   "judgedDocuments": [
     {
-      "hash": "NbA0slHjdLqg",
-      "address": "https://www.focus.de/",
-      "title": "FOCUS online - Aktuelle Nachrichten",
-      "grade": 0
+      "hash": "Pht4tlX3cKDg",
+      "address": "https://www.bahn.de/",
+      "title": "DB Fahrplan, Auskunft, Tickets, informieren und buchen - Deutsche Bahn",
+      "grade": null
     },
     {
       "hash": "7bXOR3jxcqD4",
@@ -20,16 +20,46 @@
       "grade": 0
     },
     {
+      "hash": "VzJ9E8KDigKy",
+      "address": "https://wiki.openstreetmap.org/wiki/Contributors",
+      "title": "Contributors - OpenStreetMap Wiki",
+      "grade": null
+    },
+    {
+      "hash": "wEtxBltNQfKh",
+      "address": "https://www.derstandard.at/",
+      "title": "derStandard.at | Nachrichten, Kommentare \u0026 Community",
+      "grade": 0
+    },
+    {
+      "hash": "NbA0slHjdLqg",
+      "address": "https://www.focus.de/",
+      "title": "FOCUS online - Aktuelle Nachrichten",
+      "grade": 0
+    },
+    {
       "hash": "jQG4ujj5gZJ5",
       "address": "https://wissenschaft3000.wordpress.com/category/ernst-nolte/",
       "title": "Ernst Nolte | Wissenschaft3000 ~ science3000",
       "grade": 0
     },
     {
-      "hash": "pvRMKdFO6r_x",
-      "address": "https://de.wikipedia.org/wiki/Westfalen",
-      "title": "Westfalen",
-      "grade": 0
+      "hash": "Md29ZdFO6r_x",
+      "address": "https://de.wikipedia.org/wiki/Leipzig",
+      "title": "Leipzig – Wikipedia",
+      "grade": null
+    },
+    {
+      "hash": "TDYojdFO6r_x",
+      "address": "https://de.wikipedia.org/wiki/Energiewende",
+      "title": "Energiewende – Wikipedia",
+      "grade": null
+    },
+    {
+      "hash": "WE1DRdFO6r_x",
+      "address": "https://de.wikipedia.org/wiki/Wikipedia:Relevanzkriterien",
+      "title": "Wikipedia:Relevanzkriterien – Wikipedia",
+      "grade": null
     },
     {
       "hash": "qvp3KdFO6r_x",
@@ -38,10 +68,238 @@
       "grade": 0
     },
     {
-      "hash": "wEtxBltNQfKh",
-      "address": "https://www.derstandard.at/",
-      "title": "derStandard.at | Nachrichten, Kommentare \u0026 Community",
-      "grade": 0
+      "hash": "Ag3WqdFO6r_x",
+      "address": "https://de.wikipedia.org/wiki/Schnellfahrstrecke_N%C3%BCrnberg%E2%80%93Ingolstadt",
+      "title": "Schnellfahrstrecke Nürnberg–Ingolstadt – Wikipedia",
+      "grade": null
+    },
+    {
+      "hash": "BSLRIdFO6r_x",
+      "address": "https://de.wikipedia.org/wiki/Norderney",
+      "title": "Norderney – Wikipedia",
+      "grade": null
+    },
+    {
+      "hash": "CWIIBdFO6r_x",
+      "address": "https://de.wikipedia.org/wiki/Gotthard-Basistunnel",
+      "title": "Gotthard-Basistunnel – Wikipedia",
+      "grade": null
+    },
+    {
+      "hash": "CXADkdFO6r_x",
+      "address": "https://de.wikipedia.org/wiki/Bahnstrecke_Stuttgart%E2%80%93Horb",
+      "title": "Bahnstrecke Stuttgart–Horb – Wikipedia",
+      "grade": null
+    },
+    {
+      "hash": "CxHURdFO6r_x",
+      "address": "https://de.wikipedia.org/wiki/Worms_Hauptbahnhof",
+      "title": "Worms Hauptbahnhof – Wikipedia",
+      "grade": null
+    },
+    {
+      "hash": "C5PBOdFO6r_x",
+      "address": "https://de.wikipedia.org/wiki/Bayerische_Zugspitzbahn",
+      "title": "Bayerische Zugspitzbahn – Wikipedia",
+      "grade": null
+    },
+    {
+      "hash": "C68OodFO6r_x",
+      "address": "https://de.wikipedia.org/wiki/Marl",
+      "title": "Marl – Wikipedia",
+      "grade": null
+    },
+    {
+      "hash": "C8lAedFO6r_x",
+      "address": "https://de.wikipedia.org/wiki/Notbrems%C3%BCberbr%C3%BCckung",
+      "title": "Notbremsüberbrückung – Wikipedia",
+      "grade": null
+    },
+    {
+      "hash": "DG9RIdFO6r_x",
+      "address": "https://de.wikipedia.org/wiki/St%C3%A4dtische_Stra%C3%9Fenbahn_Spandau",
+      "title": "Städtische Straßenbahn Spandau – Wikipedia",
+      "grade": null
+    },
+    {
+      "hash": "D4idUdFO6r_x",
+      "address": "https://de.wikipedia.org/wiki/Bahnhof_G%C3%B6rlitz",
+      "title": "Bahnhof Görlitz – Wikipedia",
+      "grade": null
+    },
+    {
+      "hash": "NN1f7dFO6r_x",
+      "address": "https://de.wikipedia.org/wiki/Luxemburg_(Stadt)",
+      "title": "Luxemburg (Stadt) – Wikipedia",
+      "grade": null
+    },
+    {
+      "hash": "zbZnhdFO6r_x",
+      "address": "https://de.wikipedia.org/wiki/Orient-Express",
+      "title": "Orient-Express – Wikipedia",
+      "grade": null
+    },
+    {
+      "hash": "0H2EydFO6r_x",
+      "address": "https://de.wikipedia.org/wiki/Waverley_Line",
+      "title": "Waverley Line – Wikipedia",
+      "grade": null
+    },
+    {
+      "hash": "0RAuDdFO6r_x",
+      "address": "https://de.wikipedia.org/wiki/L%C3%BCnen",
+      "title": "Lünen – Wikipedia",
+      "grade": null
+    },
+    {
+      "hash": "0SShCdFO6r_x",
+      "address": "https://de.wikipedia.org/wiki/U-Bahn_M%C3%BCnchen",
+      "title": "U-Bahn München – Wikipedia",
+      "grade": null
+    },
+    {
+      "hash": "0nVZTdFO6r_x",
+      "address": "https://de.wikipedia.org/wiki/Bahnhof_Dresden-Neustadt",
+      "title": "Bahnhof Dresden-Neustadt – Wikipedia",
+      "grade": null
+    },
+    {
+      "hash": "1m-FPdFO6r_x",
+      "address": "https://de.wikipedia.org/wiki/Offenbach_am_Main",
+      "title": "Offenbach am Main – Wikipedia",
+      "grade": null
+    },
+    {
+      "hash": "1ntocdFO6r_x",
+      "address": "https://de.wikipedia.org/wiki/Bahnstrecke_Jaffa%E2%80%93Jerusalem",
+      "title": "Bahnstrecke Jaffa–Jerusalem – Wikipedia",
+      "grade": null
+    },
+    {
+      "hash": "3SrLMdFO6r_x",
+      "address": "https://de.wikipedia.org/wiki/Ludwigsfelde",
+      "title": "Ludwigsfelde – Wikipedia",
+      "grade": null
+    },
+    {
+      "hash": "3njPDdFO6r_x",
+      "address": "https://de.wikipedia.org/wiki/Sonderzug",
+      "title": "Sonderzug – Wikipedia",
+      "grade": null
+    },
+    {
+      "hash": "3zPj0dFO6r_x",
+      "address": "https://de.wikipedia.org/wiki/Wuppertaler_Schwebebahn",
+      "title": "Wuppertaler Schwebebahn – Wikipedia",
+      "grade": null
+    },
+    {
+      "hash": "4LxZ6dFO6r_x",
+      "address": "https://de.wikipedia.org/wiki/Gro%C3%9Fe_Berliner_Stra%C3%9Fenbahn",
+      "title": "Große Berliner Straßenbahn – Wikipedia",
+      "grade": null
+    },
+    {
+      "hash": "4aGnEdFO6r_x",
+      "address": "https://de.wikipedia.org/wiki/Bahnstrecke_Gulbene%E2%80%93Al%C5%ABksne",
+      "title": "Bahnstrecke Gulbene–Alūksne – Wikipedia",
+      "grade": null
+    },
+    {
+      "hash": "4qSHYdFO6r_x",
+      "address": "https://de.wikipedia.org/wiki/Murgtalbahn",
+      "title": "Murgtalbahn – Wikipedia",
+      "grade": null
+    },
+    {
+      "hash": "5DgHLdFO6r_x",
+      "address": "https://de.wikipedia.org/wiki/Freudenstadt",
+      "title": "Freudenstadt – Wikipedia",
+      "grade": null
+    },
+    {
+      "hash": "5jCiSdFO6r_x",
+      "address": "https://de.wikipedia.org/wiki/N%C3%BCmbrecht",
+      "title": "Nümbrecht – Wikipedia",
+      "grade": null
+    },
+    {
+      "hash": "5_i5odFO6r_x",
+      "address": "https://de.wikipedia.org/wiki/Geschichte_der_Stra%C3%9Fenbahn_in_Berlin",
+      "title": "Geschichte der Straßenbahn in Berlin – Wikipedia",
+      "grade": null
+    },
+    {
+      "hash": "7RHLedFO6r_x",
+      "address": "https://de.wikipedia.org/wiki/Bahnstrecke_Plze%C5%88%E2%80%93Furth_im_Wald",
+      "title": "Bahnstrecke Praha-Smíchov–Furth im Wald – Wikipedia",
+      "grade": null
+    },
+    {
+      "hash": "7affFdFO6r_x",
+      "address": "https://de.wikipedia.org/wiki/Arverio_Deutschland",
+      "title": "Arverio Deutschland – Wikipedia",
+      "grade": null
+    },
+    {
+      "hash": "8UIqddFO6r_x",
+      "address": "https://de.wikipedia.org/wiki/U-Bahn_Berlin",
+      "title": "U-Bahn Berlin – Wikipedia",
+      "grade": null
+    },
+    {
+      "hash": "9NqdadFO6r_x",
+      "address": "https://de.wikipedia.org/wiki/Bayreuth",
+      "title": "Bayreuth – Wikipedia",
+      "grade": null
+    },
+    {
+      "hash": "9QUsndFO6r_x",
+      "address": "https://de.wikipedia.org/wiki/G%C3%B6rlitz",
+      "title": "Görlitz – Wikipedia",
+      "grade": null
+    },
+    {
+      "hash": "9SZ-odFO6r_x",
+      "address": "https://de.wikipedia.org/wiki/ICE_International",
+      "title": "ICE International – Wikipedia",
+      "grade": null
+    },
+    {
+      "hash": "962uadFO6r_x",
+      "address": "https://de.wikipedia.org/wiki/Bahnstrecke_Augsburg%E2%80%93N%C3%B6rdlingen",
+      "title": "Bahnstrecke Augsburg–Nördlingen – Wikipedia",
+      "grade": null
+    },
+    {
+      "hash": "-HbYEdFO6r_x",
+      "address": "https://de.wikipedia.org/wiki/S-Bahn_Berlin",
+      "title": "S-Bahn Berlin – Wikipedia",
+      "grade": null
+    },
+    {
+      "hash": "-NpmYdFO6r_x",
+      "address": "https://de.wikipedia.org/wiki/Waldviertler_Schmalspurbahnen",
+      "title": "Waldviertler Schmalspurbahnen – Wikipedia",
+      "grade": null
+    },
+    {
+      "hash": "-8-JFdFO6r_x",
+      "address": "https://de.wikipedia.org/wiki/Flughafen_Luxemburg",
+      "title": "Flughafen Luxemburg – Wikipedia",
+      "grade": null
+    },
+    {
+      "hash": "ArZhydFO6r_x",
+      "address": "https://de.wikipedia.org/wiki/Pre%C3%9Fburger_Bahn",
+      "title": "Pressburger Bahn – Wikipedia",
+      "grade": null
+    },
+    {
+      "hash": "Cjp7GdFO6r_x",
+      "address": "https://de.wikipedia.org/wiki/Wieserbahn",
+      "title": "Wieserbahn – Wikipedia",
+      "grade": null
     }
   ]
 }

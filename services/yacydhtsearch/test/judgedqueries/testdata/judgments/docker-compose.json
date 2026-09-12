@@ -2,33 +2,33 @@
   "query": "docker compose",
   "judgedDocuments": [
     {
-      "hash": "BPdiiZ9Ojva4",
-      "address": "https://docs.docker.com/scout/",
-      "title": "Docker Scout | Docker Docs",
-      "grade": 0
-    },
-    {
-      "hash": "xr6iDzS6MKD4",
-      "address": "https://github.com/awesome-selfhosted/awesome-selfhosted",
-      "title": "GitHub - awesome-selfhosted/awesome-selfhosted: A list of Free Software network services and web applications which can be hosted on your own servers",
-      "grade": 0
-    },
-    {
-      "hash": "IpYcVX9Ojva4",
-      "address": "https://docs.docker.com/reference/samples/plex/",
-      "title": "Plex samples | Docker Docs",
-      "grade": 0
-    },
-    {
-      "hash": "DJvK9ug2aLVh",
-      "address": "https://community.searchlab.eu/t/what-is-the-correct-docker-compose-setting/3394",
-      "title": "What is the correct docker compose setting? - YaCy - Searchlab Community",
+      "hash": "DcjaKj_MW7i4",
+      "address": "https://www.docker.com/products/ide/",
+      "title": "IDE Extensions | Docker",
       "grade": 1
     },
     {
-      "hash": "OmcmkE9Ojva4",
-      "address": "https://docs.docker.com/engine/release-notes/24.0/",
-      "title": "Engine v24.0 | Docker Docs",
+      "hash": "CjgsxsIyoLTx",
+      "address": "https://planetpython.org/",
+      "title": "Planet Python",
+      "grade": null
+    },
+    {
+      "hash": "F_NF5j_MW7i4",
+      "address": "https://www.docker.com/products/docker-scout/",
+      "title": "Software Supply Chain Management for Developers | Docker Scout",
+      "grade": null
+    },
+    {
+      "hash": "G3ZGKoTDwvCw",
+      "address": "https://packages.gentoo.org/useflags/test",
+      "title": "test – Gentoo Packages",
+      "grade": null
+    },
+    {
+      "hash": "qFW6El_MW7i4",
+      "address": "https://www.docker.com/community/",
+      "title": "Community | Docker",
       "grade": 0
     },
     {
@@ -38,22 +38,22 @@
       "grade": 0
     },
     {
-      "hash": "stTy1E9Ojva4",
-      "address": "https://docs.docker.com/engine/network/drivers/host/",
-      "title": "Host network driver | Docker Docs",
-      "grade": 0
-    },
-    {
-      "hash": "0i0OGX9Ojva4",
-      "address": "https://docs.docker.com/reference/api/hub/deprecated/",
-      "title": "Deprecated Docker Hub API endpoints | Docker Docs",
-      "grade": 0
+      "hash": "H10cRX9Ojva4",
+      "address": "https://docs.docker.com/reference/api/dvp/changelog/",
+      "title": "",
+      "grade": null
     },
     {
       "hash": "3JOA-syz5Ngx",
       "address": "https://archivebox.io/",
       "title": "ArchiveBox - Open-source self-hosted web archiving",
       "grade": 0
+    },
+    {
+      "hash": "6PUUbj_MW7i4",
+      "address": "https://www.docker.com/products/developer-tools/",
+      "title": "Developer Tools | Docker",
+      "grade": null
     },
     {
       "hash": "8mnnr49Ojva4",
@@ -68,10 +68,10 @@
       "grade": 2
     },
     {
-      "hash": "qFW6El_MW7i4",
-      "address": "https://www.docker.com/community/",
-      "title": "Community | Docker",
-      "grade": 0
+      "hash": "h_riql_MW7i4",
+      "address": "https://www.docker.com/support/",
+      "title": "Support | Docker",
+      "grade": null
     },
     {
       "hash": "ybt5vj_MW7i4",
@@ -80,195 +80,21 @@
       "grade": 0
     },
     {
-      "hash": "88Bc6c9Ojva4",
-      "address": "https://docs.docker.com/compose/how-tos/environment-variables/envvars/",
-      "title": "Configure pre-defined environment variables in Docker Compose | Docker Docs",
-      "grade": 2
-    },
-    {
-      "hash": "4Ki38c9Ojva4",
-      "address": "https://docs.docker.com/compose/gettingstarted/",
-      "title": "Docker Compose Quickstart | Docker Docs",
-      "grade": 2
-    },
-    {
-      "hash": "5xXVok4eGBC5",
-      "address": "https://www.digitalocean.com/community/tutorials/how-to-set-up-laravel-nginx-and-mysql-with-docker-compose?comment=76300",
-      "title": "How To Set Up Laravel, Nginx, and MySQL with Docker Compose | DigitalOcean",
-      "grade": 2
-    },
-    {
-      "hash": "CybcXzS6MKD4",
-      "address": "https://github.com/topics/docker-compose",
-      "title": "docker-compose · GitHub Topics · GitHub",
-      "grade": 2
-    },
-    {
-      "hash": "E9jC8X9Ojva4",
-      "address": "https://docs.docker.com/reference/glossary/",
-      "title": "Glossary | Docker Docs",
+      "hash": "0i0OGX9Ojva4",
+      "address": "https://docs.docker.com/reference/api/hub/deprecated/",
+      "title": "Deprecated | Docker Docs",
       "grade": 0
     },
     {
-      "hash": "4x3NEl_MW7i4",
-      "address": "https://www.docker.com/play-with-docker/",
-      "title": "Play with Docker | Docker",
-      "grade": 0
-    },
-    {
-      "hash": "NHivBUlasQL4",
-      "address": "https://xuanyuan.cloud/usage/docker-compose?section=restart",
-      "title": "Docker Compose 镜像源配置教程 - 轩辕镜像",
+      "hash": "bfznZc9Ojva4",
+      "address": "https://docs.docker.com/compose/intro/history/",
+      "title": "History and development of Docker Compose | Docker Docs",
       "grade": 2
-    },
-    {
-      "hash": "bEW2ml_MW7i4",
-      "address": "https://www.docker.com/partners/",
-      "title": "Become a Docker Partner | Docker Partner Programs",
-      "grade": 0
-    },
-    {
-      "hash": "WP9VuZ9Ojva4",
-      "address": "https://docs.docker.com/reference/",
-      "title": "Reference documentation | Docker Docs",
-      "grade": 0
-    },
-    {
-      "hash": "CNS81J9Ojva4",
-      "address": "https://docs.docker.com/ai/mcp-catalog-and-toolkit/profiles/",
-      "title": "Profiles | Docker Docs",
-      "grade": 0
-    },
-    {
-      "hash": "jXcHX9BNHzag",
-      "address": "https://thestacks.libaac.de/",
-      "title": "DSpace Started with Docker Compose | Home",
-      "grade": 1
-    },
-    {
-      "hash": "Dv7ABvS6MKD4",
-      "address": "https://github.com/MemPalace/mempalace/blob/develop/docker-compose.yml",
-      "title": "mempalace/docker-compose.yml at develop · MemPalace/mempalace · GitHub",
-      "grade": 1
-    },
-    {
-      "hash": "DcjaKj_MW7i4",
-      "address": "https://www.docker.com/products/ide/",
-      "title": "IDE Extensions | Docker",
-      "grade": 1
-    },
-    {
-      "hash": "hx-ob2sEYJ15",
-      "address": "https://tailscale.com/docs/features/containers/docker/how-to/connect-docker-container",
-      "title": "Connect a Docker container to your tailnet with Docker Compose · Tailscale Docs",
-      "grade": 2
-    },
-    {
-      "hash": "Kx6WZl_MW7i4",
-      "address": "https://www.docker.com/company/",
-      "title": "About Docker | Docker",
-      "grade": 0
     },
     {
       "hash": "4JzLCQS6MKD4",
       "address": "https://github.com/docker/compose",
-      "title": "GitHub - docker/compose: Define and run multi-container applications with Docker · GitHub",
-      "grade": 2
-    },
-    {
-      "hash": "R8J8sJ_MW7i4",
-      "address": "https://www.docker.com/blog/build-ai-agents-with-docker-compose/",
-      "title": "Docker Brings Compose to the AI Agent Era | Docker",
-      "grade": 1
-    },
-    {
-      "hash": "0fjdrJ9Ojva4",
-      "address": "https://docs.docker.com/ai/sandboxes/configuration/",
-      "title": "Configure Docker Sandboxes | Docker Docs",
-      "grade": 0
-    },
-    {
-      "hash": "k5CFYeMW35a4",
-      "address": "https://hub.docker.com/",
-      "title": "Docker Hub Container Image Library | App Containerization",
-      "grade": 0
-    },
-    {
-      "hash": "NTbkPc9Ojva4",
-      "address": "https://docs.docker.com/compose/install/linux/",
-      "title": "Plugin | Docker Docs",
-      "grade": 2
-    },
-    {
-      "hash": "6kvu9c9Ojva4",
-      "address": "https://docs.docker.com/compose/intro/features-uses/",
-      "title": "Why use Compose? | Docker Docs",
-      "grade": 2
-    },
-    {
-      "hash": "D1jI4QS6MKD4",
-      "address": "https://github.com/docker/awesome-compose",
-      "title": "GitHub - docker/awesome-compose: Awesome Docker Compose samples",
-      "grade": 2
-    },
-    {
-      "hash": "rgqCtE9Ojva4",
-      "address": "https://docs.docker.com/engine/release-notes/19.03/",
-      "title": "Docker Engine 19.03 release notes | Docker Docs",
-      "grade": 0
-    },
-    {
-      "hash": "H-1BPX9Ojva4",
-      "address": "https://docs.docker.com/reference/cli/docker/compose/images/",
-      "title": "docker compose images | Docker Docs",
-      "grade": 2
-    },
-    {
-      "hash": "YvaOVX9Ojva4",
-      "address": "https://docs.docker.com/reference/compose-file/",
-      "title": "Compose file reference | Docker Docs",
-      "grade": 2
-    },
-    {
-      "hash": "6gIxo9oRvHL4",
-      "address": "https://langfuse.com/self-hosting/deployment/docker-compose",
-      "title": "Docker Compose (self-hosted) - Langfuse",
-      "grade": 2
-    },
-    {
-      "hash": "M9bsEexFffU5",
-      "address": "https://help.nextcloud.com/t/docker-compose-collabora-traefik/219975/2",
-      "title": "Docker compose - Collabora - Traefik",
-      "grade": 2
-    },
-    {
-      "hash": "xn4_qj_MW7i4",
-      "address": "https://www.docker.com/products/extensions/",
-      "title": "Extensions | Docker",
-      "grade": 0
-    },
-    {
-      "hash": "woebyv7JARt4",
-      "address": "https://www.infoq.com/news/2023/10/docker-compose-watch/",
-      "title": "New Docker Compose Functionality Banishes Alt-Tabbing and Bind Mounts",
-      "grade": 2
-    },
-    {
-      "hash": "KH5o9X9Ojva4",
-      "address": "https://docs.docker.com/reference/compose-file/include/",
-      "title": "Use include to modularize Compose files | Docker Docs",
-      "grade": 2
-    },
-    {
-      "hash": "CDOtDX9Ojva4",
-      "address": "https://docs.docker.com/reference/cli/docker/",
-      "title": "docker | Docker Docs",
-      "grade": 0
-    },
-    {
-      "hash": "OZundfs7j0L4",
-      "address": "https://dietpi.com/forum/t/docker-compose-failed/22082",
-      "title": "Docker compose failed - Troubleshooting - DietPi Community Forum",
+      "title": "GitHub - docker/compose: Define and run multi-container applications with Docker",
       "grade": 2
     },
     {
@@ -278,34 +104,202 @@
       "grade": 2
     },
     {
-      "hash": "9AK5yc9Ojva4",
-      "address": "https://docs.docker.com/compose/how-tos/multiple-compose-files/merge/",
-      "title": "Merge Compose files | Docker Docs",
+      "hash": "cOQxNX9Ojva4",
+      "address": "https://docs.docker.com/reference/api/engine/",
+      "title": "Docker Engine API | Docker Docs",
+      "grade": null
+    },
+    {
+      "hash": "bEW2ml_MW7i4",
+      "address": "https://www.docker.com/partners/",
+      "title": "Become a Docker Partner | Docker Partner Programs",
+      "grade": 0
+    },
+    {
+      "hash": "q76BZE9Ojva4",
+      "address": "https://docs.docker.com/engine/storage/volumes/",
+      "title": "Volumes | Docker Docs",
+      "grade": null
+    },
+    {
+      "hash": "yqPL7Z9Ojva4",
+      "address": "https://docs.docker.com/guides/?tags=labs",
+      "title": "Guides | Docker Docs",
+      "grade": null
+    },
+    {
+      "hash": "nsCuQl_MW7i4",
+      "address": "https://www.docker.com/legal/",
+      "title": "Legal | Docker",
+      "grade": null
+    },
+    {
+      "hash": "_B_aiX9Ojva4",
+      "address": "https://docs.docker.com/reference/api/hub/changelog/",
+      "title": "Docker Hub API changelog | Docker Docs",
+      "grade": null
+    },
+    {
+      "hash": "OoEGIzxscmHw",
+      "address": "https://portainer-templates.as93.net/statping",
+      "title": "Install Statping with Docker, Compose \u0026 Portainer",
+      "grade": null
+    },
+    {
+      "hash": "RgD2Uc9Ojva4",
+      "address": "https://docs.docker.com/compose/install",
+      "title": "Overview of installing Docker Compose | Docker Docs",
+      "grade": null
+    },
+    {
+      "hash": "Y74UXWaaMcx5",
+      "address": "https://www.pluralsight.com/labs/aws/build-services-with-docker-compose",
+      "title": "Build Services with Docker Compose",
+      "grade": null
+    },
+    {
+      "hash": "H4Mns1S6MKD4",
+      "address": "https://github.com/inmanta/inmanta-docker?tab=readme-ov-file",
+      "title": "GitHub - inmanta/inmanta-docker: Docker compose and containerlab files for Inmanta container images · GitHub",
+      "grade": null
+    },
+    {
+      "hash": "-Psn7JexqsOx",
+      "address": "https://docs.opensearch.org/latest/install-and-configure/install-dashboards/docker/",
+      "title": "Run OpenSearch Dashboards using Docker and Docker Compose | OpenSearch Documentation",
+      "grade": null
+    },
+    {
+      "hash": "mHU2gX_MW7i4",
+      "address": "https://www.docker.com/ja-jp/products/docker-desktop/",
+      "title": "Docker Desktop: 開発者向けの#1コンテナ化ツール | Docker",
+      "grade": null
+    },
+    {
+      "hash": "jXcHX9BNHzag",
+      "address": "https://thestacks.libaac.de/",
+      "title": "DSpace Started with Docker Compose | Home",
+      "grade": 1
+    },
+    {
+      "hash": "ueEPEj_MW7i4",
+      "address": "https://www.docker.com/products/personal/",
+      "title": "Docker Personal - Sign Up for Free | Docker",
+      "grade": null
+    },
+    {
+      "hash": "xn4_qj_MW7i4",
+      "address": "https://www.docker.com/products/extensions/",
+      "title": "Extensions | Docker",
+      "grade": 0
+    },
+    {
+      "hash": "6kvu9c9Ojva4",
+      "address": "https://docs.docker.com/compose/intro/features-uses/",
+      "title": "Why use Compose? | Docker Docs",
       "grade": 2
     },
     {
-      "hash": "Ok-CFsOMezx5",
-      "address": "https://pimylifeup.com/mongodb-docker-compose/",
-      "title": "How to Install and Run MongoDB using Docker Compose - Pi My Life Up",
+      "hash": "0fjdrJ9Ojva4",
+      "address": "https://docs.docker.com/ai/sandboxes/configuration/",
+      "title": "Configure Docker Sandboxes | Docker Docs",
+      "grade": 0
+    },
+    {
+      "hash": "R8J8sJ_MW7i4",
+      "address": "https://www.docker.com/blog/build-ai-agents-with-docker-compose/",
+      "title": "Docker Brings Compose to the AI Agent Era | Docker",
+      "grade": 1
+    },
+    {
+      "hash": "hx-ob2sEYJ15",
+      "address": "https://tailscale.com/docs/features/containers/docker/how-to/connect-docker-container",
+      "title": "Connect a Docker container to your tailnet with Docker Compose · Tailscale Docs",
       "grade": 2
     },
     {
-      "hash": "k93SLX9Ojva4",
-      "address": "https://docs.docker.com/reference/compose-file/merge/",
-      "title": "Merge Compose files | Docker Docs",
+      "hash": "my3jOE9Ojva4",
+      "address": "https://docs.docker.com/engine/install/ubuntu/",
+      "title": "Install Docker Engine on Ubuntu | Docker Docs",
+      "grade": null
+    },
+    {
+      "hash": "NHivBUlasQL4",
+      "address": "https://xuanyuan.cloud/usage/docker-compose?section=restart",
+      "title": "Docker Compose 镜像源配置教程 - 轩辕镜像",
       "grade": 2
     },
     {
-      "hash": "bfznZc9Ojva4",
-      "address": "https://docs.docker.com/compose/intro/history/",
-      "title": "History and development of Docker Compose | Docker Docs",
+      "hash": "RESbhM-HUoo0",
+      "address": "https://docs.dagu.sh/getting-started/installation/docker",
+      "title": "Install with Docker | Dagu",
+      "grade": null
+    },
+    {
+      "hash": "H-1BPX9Ojva4",
+      "address": "https://docs.docker.com/reference/cli/docker/compose/images/",
+      "title": "docker compose images | Docker Docs",
       "grade": 2
     },
     {
-      "hash": "JT2132jw1Zlx",
-      "address": "https://kubernetes.io/docs/tasks/configure-pod-container/translate-compose-kubernetes/",
-      "title": "Translate a Docker Compose File to Kubernetes Resources | Kubernetes",
+      "hash": "Z39KfzxscmHw",
+      "address": "https://portainer-templates.as93.net/pritunl",
+      "title": "Install Pritunl with Docker, Compose \u0026 Portainer",
+      "grade": null
+    },
+    {
+      "hash": "H1rfWX9Ojva4",
+      "address": "https://docs.docker.com/reference/cli/docker/container/run/",
+      "title": "docker container run | Docker Docs",
+      "grade": null
+    },
+    {
+      "hash": "wRFZ5hW4vJ7w",
+      "address": "https://dev.to/t/docker",
+      "title": "Docker - DEV Community",
+      "grade": null
+    },
+    {
+      "hash": "UdJOAzxscmHw",
+      "address": "https://portainer-templates.as93.net/nn-stack",
+      "title": "Install N8n (stack) with Docker, Compose \u0026 Portainer",
+      "grade": null
+    },
+    {
+      "hash": "CDOtDX9Ojva4",
+      "address": "https://docs.docker.com/reference/cli/docker/",
+      "title": "docker | Docker Docs",
+      "grade": 0
+    },
+    {
+      "hash": "OoFZRl_MW7i4",
+      "address": "https://www.docker.com/pricing/?ref=Docs\u0026refAction=DocsSubscription",
+      "title": "Pricing | Docker",
+      "grade": null
+    },
+    {
+      "hash": "UXCtIzxscmHw",
+      "address": "https://portainer-templates.as93.net/glances",
+      "title": "Install Glances with Docker, Compose \u0026 Portainer",
+      "grade": null
+    },
+    {
+      "hash": "M9bsEexFffU5",
+      "address": "https://help.nextcloud.com/t/docker-compose-collabora-traefik/219975/2",
+      "title": "Docker compose - Collabora - Traefik",
       "grade": 2
+    },
+    {
+      "hash": "OZundfs7j0L4",
+      "address": "https://dietpi.com/forum/t/docker-compose-failed/22082",
+      "title": "Docker compose failed - Troubleshooting - DietPi Community Forum",
+      "grade": 2
+    },
+    {
+      "hash": "SzD8SzxscmHw",
+      "address": "https://portainer-templates.as93.net/remmina",
+      "title": "Install Remmina with Docker, Compose \u0026 Portainer",
+      "grade": null
     }
   ]
 }

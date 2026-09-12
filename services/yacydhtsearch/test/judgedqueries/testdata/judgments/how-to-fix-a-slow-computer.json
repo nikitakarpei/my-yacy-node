@@ -2,178 +2,82 @@
   "query": "how to fix a slow computer",
   "judgedDocuments": [
     {
-      "hash": "CTQ-Yj-JVcyx",
-      "address": "https://en.wikiquote.org/wiki/Mystery_Science_Theater_3000",
-      "title": "Mystery Science Theater 3000 - Wikiquote",
-      "grade": 0
+      "hash": "TVHXbQXx1HRZ",
+      "address": "http://www.dailystirrer.com/2012-april.shtml",
+      "title": "the_daily_stirrer-2012-april-opinion-comment-controversy-news-events-politics",
+      "grade": null
     },
     {
-      "hash": "-b3sxspKNBr4",
-      "address": "https://rense.com/",
-      "title": "rense.com",
-      "grade": 0
+      "hash": "GaarY_QzrsJ5",
+      "address": "https://thestingofthescorpion.wordpress.com/tag/science/",
+      "title": "Science | The Sting Of The Scorpion Blog (T.S.O.T.S.B.)",
+      "grade": null
     },
     {
-      "hash": "AWq9VQXx1HRZ",
-      "address": "http://www.dailystirrer.com/2012-october.shtml",
-      "title": "the_daily_stirrer-2012-june-opinion-comment-controversy-news-events-politics",
-      "grade": 0
+      "hash": "xmHvB_QzrsJ5",
+      "address": "https://thestingofthescorpion.wordpress.com/tag/cards/",
+      "title": "Cards | The Sting Of The Scorpion Blog (T.S.O.T.S.B.)",
+      "grade": null
     },
     {
-      "hash": "5VLLBs6GdY-4",
-      "address": "https://danluu.com/hn-comments/",
-      "title": "HN: comments are underrated",
-      "grade": 0
+      "hash": "B9VWfKsrSOQw",
+      "address": "https://arxiv.org/list/cs.CV/new",
+      "title": "Computer Vision and Pattern Recognition",
+      "grade": null
     },
     {
-      "hash": "atffDjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Template_talk:Did_you_know",
-      "title": "Template talk:Did you know - Wikipedia",
-      "grade": 0
+      "hash": "Px1tIsqACCJ5",
+      "address": "https://reinic-sarl.com/hello-world/",
+      "title": "Hello world! - reinic-sarl",
+      "grade": null
     },
     {
-      "hash": "xRnvSjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Wikipedia:Featured_articles_(linked_from_TFAfooter)",
-      "title": "Wikipedia:Featured articles - Wikipedia",
-      "grade": 0
+      "hash": "2MFHBtYEKFwx",
+      "address": "https://blog.torproject.org/did-fbi-pay-university-attack-tor-users/",
+      "title": "Did the FBI Pay a University to Attack Tor Users? | The Tor Project",
+      "grade": null
     },
     {
-      "hash": "D4lABzaS0qdw",
-      "address": "https://planet.debian.org/",
-      "title": "Planet Debian",
-      "grade": 0
+      "hash": "6Ynx5jRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Rich_Communication_Services",
+      "title": "Rich Communication Services - Wikipedia",
+      "grade": null
     },
     {
-      "hash": "yJuijsCG40j4",
-      "address": "https://tantek.com/",
-      "title": "Tantek Çelik",
-      "grade": 0
+      "hash": "WH9FTj-JVcyx",
+      "address": "https://en.wikiquote.org/wiki/User:Allixpeeke",
+      "title": "User:Allixpeeke - Wikiquote",
+      "grade": null
     },
     {
-      "hash": "pYw3_AHucLY4",
-      "address": "https://adrienalfiste.vip-blog.com/",
-      "title": "adrienalfiste blog : Le blog d'Adri (83)",
-      "grade": 0
+      "hash": "DlNazFi50lMs",
+      "address": "https://pppsb.org.pk/2020/03/01/ghinwa-bhutto-sends-message-for-aurat-march-video/",
+      "title": "Ghinwa Bhutto sends message for Aurat March: Video – PPP-SB",
+      "grade": null
     },
     {
-      "hash": "uUrcqO1SKU15",
-      "address": "https://www.goodreads.com/book/show/960.Angels_Demons",
-      "title": "Angels \u0026 Demons (Robert Langdon, #1) by Dan Brown | Goodreads",
-      "grade": 0
+      "hash": "kaxjOD_7CIb5",
+      "address": "https://aretekitchen.com/2025/09/26/balloon-de-smartsoft-guia-esencial-para-jugar-y-descargar-en-chile/",
+      "title": "Balloon de SmartSoft: Guía Esencial para Jugar y Descargar en Chile – Arete Kitchen",
+      "grade": null
     },
     {
-      "hash": "8q_7kd8zMi84",
-      "address": "https://docs.cloud.google.com/release-notes",
-      "title": "Google Cloud release notes | Google Cloud Documentation",
-      "grade": 0
+      "hash": "T1a1C2SUzPKY",
+      "address": "http://stuckinmassachusetts.blogspot.com/",
+      "title": "MArooned",
+      "grade": null
     },
     {
-      "hash": "mKjEVzAa-Sqx",
-      "address": "https://planet.freedesktop.org/",
-      "title": "planet.freedesktop.org",
-      "grade": 0
+      "hash": "iLQO1sN0ip-w",
+      "address": "https://m-reform.net/",
+      "title": "replica football shirts",
+      "grade": null
     },
     {
-      "hash": "S9YMJzCJVaIz",
-      "address": "https://planet.documentfoundation.org/",
-      "title": "The Document Foundation Planet",
-      "grade": 0
-    },
-    {
-      "hash": "9bx18zEA9mkx",
-      "address": "https://or.wikipedia.org/wiki/%E0%AC%89%E0%AC%87%E0%AC%95%E0%AC%BF%E0%AC%AA%E0%AC%BF%E0%AC%A1%E0%AC%BC%E0%AC%BF%E0%AC%86:%E0%AC%89%E0%AC%87%E0%AC%95%E0%AC%BF%E0%AC%AA%E0%AC%BF%E0%AC%A1%E0%AC%BC%E0%AC%BF%E0%AC%86_%E0%AC%AC%E0%AC%BE%E0%AC%AC%E0%AC%A6%E0%AC%B0%E0%AD%87",
-      "title": "ଉଇକିପିଡ଼ିଆ:ଉଇକିପିଡ଼ିଆ ବାବଦରେ - ଉଇକିପିଡ଼ିଆ",
-      "grade": 0
-    },
-    {
-      "hash": "W-eXqzF3--Qw",
-      "address": "https://planet.mozilla.org/",
-      "title": "Planet Mozilla",
-      "grade": 0
-    },
-    {
-      "hash": "CjgsxsIyoLTx",
-      "address": "https://planetpython.org/",
-      "title": "Planet Python",
-      "grade": 0
-    },
-    {
-      "hash": "7eYSusLVkley",
-      "address": "https://daringfireball.net/",
-      "title": "Daring Fireball",
-      "grade": 0
-    },
-    {
-      "hash": "-S1qcjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Wikipedia:Community_portal",
-      "title": "Wikipedia:Community portal - Wikipedia",
-      "grade": 0
-    },
-    {
-      "hash": "uaEnGzTwnifx",
-      "address": "https://planet.wordpress.org/",
-      "title": "Planet — WordPress.org",
-      "grade": 0
-    },
-    {
-      "hash": "qqIgmqWU7_zx",
-      "address": "https://rw.wikipedia.org/wiki/Wikipedia:Community_Portal",
-      "title": "Wikipedia:Community Portal - Wikipedia",
-      "grade": 0
-    },
-    {
-      "hash": "0BZyCsY-tUi5",
-      "address": "https://moralparty.com/ai/",
-      "title": "AI – MoralParty.com",
-      "grade": 0
-    },
-    {
-      "hash": "Rx8AIs_tHst4",
-      "address": "https://dwheeler.com/oss_fs_why.html",
-      "title": "Why Open Source Software / Free Software (OSS/FS, FOSS, or FLOSS)? Look at the Numbers!",
-      "grade": 0
-    },
-    {
-      "hash": "6Y1NupaaTUr5",
-      "address": "https://www.techradar.com/audio/turntables/the-best-turntables",
-      "title": "The best turntables: top record players for all budgets, all tested and TechRadar-approved | TechRadar",
-      "grade": 0
-    },
-    {
-      "hash": "-p2w3taoSn1x",
-      "address": "https://en.planet.wikimedia.org/",
-      "title": "en.planet.wikimedia.org",
-      "grade": 0
-    },
-    {
-      "hash": "3ElXGjc4UIAx",
-      "address": "https://en.wikivoyage.org/wiki/Wikivoyage:Travellers%27_pub",
-      "title": "Wikivoyage:Travellers' pub – Travel guide at Wikivoyage",
-      "grade": 0
-    },
-    {
-      "hash": "2ZqdVzfOEiDw",
-      "address": "https://planet.gnome.org/",
-      "title": "Planet GNOME",
-      "grade": 0
-    },
-    {
-      "hash": "GtLjhloUbV15",
-      "address": "https://www.whatfinger.com/",
-      "title": "Whatfinger News® – Unfiltered Truth. America’s News Feed",
-      "grade": 0
-    },
-    {
-      "hash": "wl2ImxtQ-zSx",
-      "address": "https://wiki.archlinux.org/title/Frequently_asked_questions",
-      "title": "Frequently asked questions - ArchWiki",
-      "grade": 0
-    },
-    {
-      "hash": "S5wlF7yp6WtY",
-      "address": "http://tantek.com/?skin=trn",
-      "title": "Tantek Çelik",
-      "grade": 0
+      "hash": "pYT9fjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/MacOS",
+      "title": "macOS - Wikipedia",
+      "grade": null
     },
     {
       "hash": "pGRD67yp6WtY",
@@ -182,117 +86,117 @@
       "grade": 0
     },
     {
-      "hash": "b08TwlDZkUL4",
-      "address": "https://www.cnet.com/",
-      "title": "CNET: Product reviews, advice, how-tos and the latest news - CNET",
+      "hash": "xso8yzNk72Mw",
+      "address": "https://planet.lisp.org/",
+      "title": "Planet Lisp",
+      "grade": null
+    },
+    {
+      "hash": "XTPIBlptNsG4",
+      "address": "https://www.akdart.com/hijrah.html",
+      "title": "Islamic invasion disguised as the displacement and acceptance of refugees",
+      "grade": null
+    },
+    {
+      "hash": "8st5vj-JVcyx",
+      "address": "https://en.wikiquote.org/wiki/User:CensoredScribe",
+      "title": "User:CensoredScribe - Wikiquote",
+      "grade": null
+    },
+    {
+      "hash": "uj5W6tIIL7ew",
+      "address": "https://stallman.org/archives/2024-jul-oct.html",
+      "title": "2024: July - October Political Notes",
+      "grade": null
+    },
+    {
+      "hash": "yJuijsCG40j4",
+      "address": "https://tantek.com/",
+      "title": "Tantek Çelik",
       "grade": 0
     },
     {
-      "hash": "GxTNgsF20Rww",
-      "address": "https://ma.tt/",
-      "title": "Matt Mullenweg | Unlucky in Cards",
+      "hash": "x75y-slzY_Gk",
+      "address": "https://danwang.co/",
+      "title": "Dan Wang | The secure transport of light",
+      "grade": null
+    },
+    {
+      "hash": "D4lABzaS0qdw",
+      "address": "https://planet.debian.org/",
+      "title": "Planet Debian",
       "grade": 0
     },
     {
-      "hash": "SH9s9zTnALtw",
-      "address": "https://planet.gentoo.org/",
-      "title": "Planet Gentoo",
+      "hash": "CTQ-Yj-JVcyx",
+      "address": "https://en.wikiquote.org/wiki/Mystery_Science_Theater_3000",
+      "title": "Mystery Science Theater 3000 - Wikiquote",
       "grade": 0
     },
     {
-      "hash": "89Pocs6GdY-4",
-      "address": "https://danluu.com/diseconomies-scale/",
-      "title": "Diseconomies of scale in fraud, spam, support, and moderation",
+      "hash": "hNrcdJ-bwreQ",
+      "address": "http://ace.mu.nu/",
+      "title": "Ace of Spades HQ",
+      "grade": null
+    },
+    {
+      "hash": "2HPybK0C6gHw",
+      "address": "https://about.muse.jhu.edu/muse/open-access-overview/",
+      "title": "Open Access",
+      "grade": null
+    },
+    {
+      "hash": "gCVBNZ3WSkX4",
+      "address": "https://docs.ovhcloud.com/en/",
+      "title": "OVHcloud Documentation",
+      "grade": null
+    },
+    {
+      "hash": "Jb4XHs5IzNm6",
+      "address": "https://citizenfreepress.com/",
+      "title": "CITIZEN FREE PRESS",
+      "grade": null
+    },
+    {
+      "hash": "190N3snp_33z",
+      "address": "https://globalkleptocracy.net/",
+      "title": "GLOBAL KLEPTOCRACY - GLOBAL ELITE, RULING ELITE, GLOBAL OLIGARCHY, DEEP STATE, GLOBALISM, DYNASTIC ELITE, MONOPOLY CAPITALISM, CORPORATOCRACY, PLUTOCRACY, MONEY LAUNDERING, DRUG",
+      "grade": null
+    },
+    {
+      "hash": "Qy5lgspN1dF5",
+      "address": "https://cirosantilli.com/china-dictatorship/",
+      "title": "China Dictatorship 中国独裁统治",
+      "grade": null
+    },
+    {
+      "hash": "W5uqHs-D33u5",
+      "address": "https://instapundit.com/",
+      "title": "Instapundit",
+      "grade": null
+    },
+    {
+      "hash": "sX9EVn7YLxR5",
+      "address": "https://thedailymessenger.wordpress.com/",
+      "title": "The Daily Messenger (mirror) | Revealing that which is concealed. Learning about anything that resembles real freedom.",
+      "grade": null
+    },
+    {
+      "hash": "nL-trz8CAV45",
+      "address": "https://www.encyclopedia.com/social-sciences-and-law/political-science-and-government/us-government/education",
+      "title": "Education | Encyclopedia.com",
+      "grade": null
+    },
+    {
+      "hash": "W-eXqzF3--Qw",
+      "address": "https://planet.mozilla.org/",
+      "title": "Planet Mozilla",
       "grade": 0
     },
     {
-      "hash": "tTApqs6GdY-4",
-      "address": "https://danluu.com/why-benchmark/",
-      "title": "Measurement, benchmarking, and data analysis are underrated",
-      "grade": 0
-    },
-    {
-      "hash": "t-vTMs6GdY-4",
-      "address": "https://danluu.com/ftc-google-antitrust/",
-      "title": "What the FTC got wrong in the Google antitrust investigation",
-      "grade": 0
-    },
-    {
-      "hash": "5lFlls6GdY-4",
-      "address": "https://danluu.com/tech-discrimination/",
-      "title": "Markets, discrimination, and \"lowering the bar\"",
-      "grade": 0
-    },
-    {
-      "hash": "6--H5s6GdY-4",
-      "address": "https://danluu.com/cruise-report/",
-      "title": "Notes on Cruise's pedestrian accident",
-      "grade": 0
-    },
-    {
-      "hash": "76LUts6GdY-4",
-      "address": "https://danluu.com/julialang/",
-      "title": "A review of the Julia language",
-      "grade": 0
-    },
-    {
-      "hash": "Yc__bsAbx4Yw",
-      "address": "https://sqlite.org/wal.html",
-      "title": "Write-Ahead Logging",
-      "grade": 0
-    },
-    {
-      "hash": "ww-gf8cZd9Fw",
-      "address": "https://hackage.haskell.org/packages/",
-      "title": "packages by category | Hackage",
-      "grade": 0
-    },
-    {
-      "hash": "N_giTs2xL7A6",
-      "address": "https://corbettreport.com/september-open-thread-2/",
-      "title": "September Open Thread | The Corbett Report",
-      "grade": 0
-    },
-    {
-      "hash": "AuYI3jRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Wikipedia:Glossary",
-      "title": "Wikipedia:Glossary - Wikipedia",
-      "grade": 0
-    },
-    {
-      "hash": "BKtg8jRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Taiwan",
-      "title": "Taiwan - Wikipedia",
-      "grade": 0
-    },
-    {
-      "hash": "BXUMpjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/India",
-      "title": "India - Wikipedia",
-      "grade": 0
-    },
-    {
-      "hash": "jP69XjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Coordinated_Universal_Time",
-      "title": "Coordinated Universal Time - Wikipedia",
-      "grade": 0
-    },
-    {
-      "hash": "mHyFhKsrSOQw",
-      "address": "https://arxiv.org/list/cs.AI/new",
-      "title": "Artificial Intelligence",
-      "grade": 0
-    },
-    {
-      "hash": "sNuODs6GdY-4",
-      "address": "https://danluu.com/zitron/",
-      "title": "Ed Zitron's AI prediction track record",
-      "grade": 0
-    },
-    {
-      "hash": "lXoJ7jRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Nintendo_Switch",
-      "title": "Nintendo Switch - Wikipedia",
+      "hash": "uaEnGzTwnifx",
+      "address": "https://planet.wordpress.org/",
+      "title": "Planet — WordPress.org",
       "grade": 0
     }
   ]

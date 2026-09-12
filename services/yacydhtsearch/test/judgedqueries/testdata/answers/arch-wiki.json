@@ -1,6 +1,6 @@
 {
   "query": "arch wiki",
-  "recordedAt": "2026-09-12T10:15:17Z",
+  "recordedAt": "2026-09-12T11:25:00Z",
   "itemsInTheOrderOfEachAnswer": [
     [
       {
@@ -70,11 +70,64 @@
           }
         },
         "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "5G5XeeSLKN4x",
+        "address": "https://bbs.archlinux.org/viewtopic.php?pid=189982",
+        "title": "howto become a arch developer? / Arch Discussion / Arch Linux Forums",
+        "snippet": "",
+        "matchedWords": {
+          "1Ut7onVxovAL": {
+            "hits": 0,
+            "textWords": 0
+          },
+          "1hlMaPzH55u1": {
+            "hits": 35,
+            "textWords": 1247
+          }
+        },
+        "queryPhraseHits": 0
       },
       {
-        "hash": "BGwsxcw63Csx",
-        "address": "https://fr.wikipedia.org/wiki/Linux",
-        "title": "Linux — Wikipédia",
+        "hash": "q_UUpeSLKN4x",
+        "address": "https://bbs.archlinux.org/viewtopic.php?pid=192666",
+        "title": "howto become a arch developer? / Arch Discussion / Arch Linux Forums",
+        "snippet": "Join one of the offshoot projects that may be incorporated into Arch mainstream someday (ie: there's an installer thread around here, recently, there are live cd projects, etc. This is how Arch64 started) or start your own.",
+        "matchedWords": {
+          "1Ut7onVxovAL": {
+            "hits": 1,
+            "textWords": 203
+          },
+          "1hlMaPzH55u1": {
+            "hits": 2,
+            "textWords": 203
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "rY1JPAsyhcfx",
+        "address": "https://archlinux.org/groups/x86_64/maui/",
+        "title": "Arch Linux - maui (x86_64) - Group Details",
+        "snippet": "Group Details - maui (x86_64)\n13 packages found.\nArch\nRepo\nName\nVersion\nDescription\nLast Updated\nFlag Date\nx86_64\nExtra\narca\n1.0.2-2\nArchiver for compressed files\n2026-03-26\nx86_64\nExtra\nbuho\n4.0.2-2\nTask and note keeper\n2026-03-26\nx86_64\nExtra\ncommunicator\n4.0.2-2\nContacts and dialer application",
+        "matchedWords": {
+          "1Ut7onVxovAL": {
+            "hits": 0,
+            "textWords": 169
+          },
+          "1hlMaPzH55u1": {
+            "hits": 1,
+            "textWords": 169
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "33_GreSLKN4x",
+        "address": "https://bbs.archlinux.org/viewtopic.php?pid=1313634",
+        "title": "Project ARM :: Arch Rollback Machine (Page 8) / Community Contributions / Arch Linux Forums",
         "snippet": "",
         "matchedWords": {
           "1Ut7onVxovAL": {
@@ -82,46 +135,8 @@
             "textWords": 0
           },
           "1hlMaPzH55u1": {
-            "hits": 6,
-            "textWords": 12311
-          }
-        },
-        "queryPhraseHits": 0
-      }
-    ],
-    [
-      {
-        "hash": "CyYF72bypRQw",
-        "address": "https://forgejo.org/docs/latest/user/wiki/",
-        "title": "Integrated Wiki | Forgejo – Beyond coding. We forge.",
-        "snippet": "",
-        "matchedWords": {
-          "1Ut7onVxovAL": {
-            "hits": 30,
-            "textWords": 1353
-          },
-          "1hlMaPzH55u1": {
-            "hits": 0,
-            "textWords": 0
-          }
-        },
-        "queryPhraseHits": 0
-      }
-    ],
-    [
-      {
-        "hash": "KzvTGDr4UJf4",
-        "address": "https://we-do.wiki/books/csharp/page/net-core-first-steps",
-        "title": ".NET-Core - First steps | we-do.wiki",
-        "snippet": "sudo sh -c 'echo \"deb [arch=amd64] https://apt-mo.trafficmanager.net/repos/dotnet-release/ trusty main\" \u003e /etc/apt/sources.list.d/dotnetdev.list' sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 417A0893 sudo apt-get update\nUbuntu 16.04 / Linux Mint 18",
-        "matchedWords": {
-          "1Ut7onVxovAL": {
-            "hits": 0,
-            "textWords": 444
-          },
-          "1hlMaPzH55u1": {
-            "hits": 3,
-            "textWords": 444
+            "hits": 43,
+            "textWords": 2473
           }
         },
         "queryPhraseHits": 0
@@ -132,15 +147,15 @@
         "hash": "1kOALGsyhcfx",
         "address": "https://archlinux.org/mirrors/cachy-arch.ru/",
         "title": "Arch Linux - cachy-arch.ru - Mirror Details",
-        "snippet": "Name:\ncachy-arch.ru\nTier:\nTier 2\nHas ISOs:\nYes\nAvailable URLs\nMirror URL\nProtocol\nCountry\nIPv4\nIPv6\nLast Sync\nCompletion %\nμ Delay (hh:mm)\nμ Duration (s)\nσ Duration (s)\nScore\nDetails\nhttp://mirror.cachy-arch.ru/archlinux/\nhttp\nRussia\nYes\nYes\n2026-09-11 18:01\n100.0%\n2:37\n0.17\n0.18\n3.0\nDetails",
+        "snippet": "Name:\ncachy-arch.ru\nTier:\nTier 2\nHas ISOs:\nYes\nAvailable URLs\nMirror URL\nProtocol\nCountry\nIPv4\nIPv6\nLast Sync\nCompletion %\nμ Delay (hh:mm)\nμ Duration (s)\nσ Duration (s)\nScore\nDetails\nhttp://mirror.cachy-arch.ru/archlinux/\nhttp\nRussia\nYes\nYes\n2026-09-11 18:01\n100.0%\n7:31\n0.16\n0.16\n7.8\nDetails",
         "matchedWords": {
           "1Ut7onVxovAL": {
             "hits": 0,
-            "textWords": 130
+            "textWords": 131
           },
           "1hlMaPzH55u1": {
             "hits": 4,
-            "textWords": 130
+            "textWords": 131
           }
         },
         "queryPhraseHits": 0
@@ -166,15 +181,15 @@
         "hash": "fpnvOeSLKN4x",
         "address": "https://bbs.archlinux.org/viewtopic.php?pid=846630",
         "title": "Wayland on Arch Linux? / AUR Issues, Discussion \u0026 PKGBUILD Requests / Arch Linux Forums",
-        "snippet": "Just because Arch is bleeding edge doesn't mean the devs use ANY new software that comes along. It has to work for the majority of the users, including myself. Which is why I use Arch in the first place. Where other distros fail, Arch succeeds.",
+        "snippet": "",
         "matchedWords": {
           "1Ut7onVxovAL": {
-            "hits": 2,
-            "textWords": 2166
+            "hits": 0,
+            "textWords": 0
           },
           "1hlMaPzH55u1": {
-            "hits": 36,
-            "textWords": 2166
+            "hits": 43,
+            "textWords": 2570
           }
         },
         "queryPhraseHits": 0
@@ -233,8 +248,8 @@
         "queryPhraseHits": 0
       },
       {
-        "hash": "CGRazFuhndQx",
-        "address": "https://pkgs.alpinelinux.org/contents?name=vile\u0026repo=community\u0026branch=edge\u0026arch=x86_64",
+        "hash": "NVhqdFuhndQx",
+        "address": "https://pkgs.alpinelinux.org/contents?name=rsyslog-clickhouse\u0026repo=main\u0026branch=edge\u0026arch=x86_64",
         "title": "Package index - Alpine Linux packages",
         "snippet": "",
         "matchedWords": {
@@ -244,7 +259,7 @@
           },
           "1hlMaPzH55u1": {
             "hits": 1,
-            "textWords": 117
+            "textWords": 112
           }
         },
         "queryPhraseHits": 0
@@ -272,7 +287,7 @@
         "hash": "nyDh_eSLKN4x",
         "address": "https://bbs.archlinux.org/viewforum.php?id=24",
         "title": "Announcements, Package \u0026 Security Advisories / Arch Linux Forums",
-        "snippet": "1\n122 330,545 2025-11-21 17:04:39 by ismailarilik 2\n5 16,794 2025-08-17 09:17:54 by Lone_Wolf 3\n3 21,389 2023-10-25 17:10:32 by Antiz 4\n7 33,766 2026-01-23 15:54:07 by dmloader 5\n33 29,150 2025-12-25 21:10:39 by gromit 6\n165 406,866 2025-06-13 19:09:11 by ewaller 7",
+        "snippet": "1\n122 330,652 2025-11-21 17:04:39 by ismailarilik 2\n5 16,804 2025-08-17 09:17:54 by Lone_Wolf 3\n3 21,393 2023-10-25 17:10:32 by Antiz 4\n7 33,808 2026-01-23 15:54:07 by dmloader 5\n33 29,179 2025-12-25 21:10:39 by gromit 6\n165 406,984 2025-06-13 19:09:11 by ewaller 7",
         "matchedWords": {
           "1Ut7onVxovAL": {
             "hits": 0,
@@ -316,7 +331,24 @@
           },
           "1hlMaPzH55u1": {
             "hits": 4,
-            "textWords": 3642
+            "textWords": 3610
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "hNrcdJ-bwreQ",
+        "address": "http://ace.mu.nu/",
+        "title": "Ace of Spades HQ",
+        "snippet": "",
+        "matchedWords": {
+          "1Ut7onVxovAL": {
+            "hits": 0,
+            "textWords": 0
+          },
+          "1hlMaPzH55u1": {
+            "hits": 1,
+            "textWords": 25165
           }
         },
         "queryPhraseHits": 0
@@ -331,7 +363,7 @@
         "matchedWords": {
           "1Ut7onVxovAL": {
             "hits": 1,
-            "textWords": 2371
+            "textWords": 2364
           },
           "1hlMaPzH55u1": {
             "hits": 0,
@@ -343,9 +375,96 @@
     ],
     [
       {
-        "hash": "Yfz3rQsPPfbx",
-        "address": "https://lij.wikisource.org/wiki/P%C3%A0gina_prin%C3%A7ip%C3%A2",
-        "title": "Wikivivàgna",
+        "hash": "xYnNBeSLKN4x",
+        "address": "https://bbs.archlinux.org/viewtopic.php?pid=409134",
+        "title": "/etc/issue \"2.0\" - My ASCII art version with Arch logo and text / Artwork and Screenshots / Arch Linux Forums",
+        "snippet": "I drew the \"linux\" first then figured out how to use pipe chars to \"simulate\" 'bold fonts' for the \"arch\", and I also tried to capture the essence of the fact that the font/logo is gradiented to an extent.",
+        "matchedWords": {
+          "1Ut7onVxovAL": {
+            "hits": 0,
+            "textWords": 545
+          },
+          "1hlMaPzH55u1": {
+            "hits": 1,
+            "textWords": 545
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "6CeMaeSLKN4x",
+        "address": "https://bbs.archlinux.org/viewtopic.php?pid=1589644",
+        "title": "[SOLVED] CUPS on an Arch Linux Client: \"Filter failed\" / Applications \u0026 Desktop Environments / Arch Linux Forums",
+        "snippet": "",
+        "matchedWords": {
+          "1Ut7onVxovAL": {
+            "hits": 0,
+            "textWords": 0
+          },
+          "1hlMaPzH55u1": {
+            "hits": 30,
+            "textWords": 4413
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "K6sibGsyhcfx",
+        "address": "https://archlinux.org/mirrors/owochle.app/",
+        "title": "Arch Linux - owochle.app - Mirror Details",
+        "snippet": "Name:\nowochle.app\nTier:\nTier 2\nHas ISOs:\nYes\nAvailable URLs\nMirror URL\nProtocol\nCountry\nIPv4\nIPv6\nLast Sync\nCompletion %\nμ Delay (hh:mm)\nμ Duration (s)\nσ Duration (s)\nScore\nDetails\nhttp://arch.owochle.app/\nhttp\nGermany\nYes\nNo\n2026-09-11 10:01\n100.0%\n13:24\n0.07\n0.07\n13.5\nDetails",
+        "matchedWords": {
+          "1Ut7onVxovAL": {
+            "hits": 0,
+            "textWords": 109
+          },
+          "1hlMaPzH55u1": {
+            "hits": 2,
+            "textWords": 109
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "0W7lCeSLKN4x",
+        "address": "https://bbs.archlinux.org/viewtopic.php?pid=2212580",
+        "title": "[QEMU] Cannot enable Secure Boot in VM firmware / Applications \u0026 Desktop Environments / Arch Linux Forums",
+        "snippet": "",
+        "matchedWords": {
+          "1Ut7onVxovAL": {
+            "hits": 0,
+            "textWords": 0
+          },
+          "1hlMaPzH55u1": {
+            "hits": 10,
+            "textWords": 1758
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "xyan1FuhndQx",
+        "address": "https://pkgs.alpinelinux.org/contents?name=evolution-etesync\u0026repo=testing\u0026branch=edge\u0026arch=x86_64",
+        "title": "Package index - Alpine Linux packages",
+        "snippet": "",
+        "matchedWords": {
+          "1Ut7onVxovAL": {
+            "hits": 0,
+            "textWords": 0
+          },
+          "1hlMaPzH55u1": {
+            "hits": 1,
+            "textWords": 180
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "HRN6VjRvmBbx",
+        "address": "https://en.wikipedia.org/wiki/Eegah",
+        "title": "Eegah - Wikipedia",
         "snippet": "",
         "matchedWords": {
           "1Ut7onVxovAL": {
@@ -354,92 +473,7 @@
           },
           "1hlMaPzH55u1": {
             "hits": 19,
-            "textWords": 2754
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "c0sbtWVyyElx",
-        "address": "https://he.wikiquote.org/wiki/%D7%A2%D7%9E%D7%95%D7%93_%D7%A8%D7%90%D7%A9%D7%99",
-        "title": "ויקיציטוט",
-        "snippet": "",
-        "matchedWords": {
-          "1Ut7onVxovAL": {
-            "hits": 0,
-            "textWords": 0
-          },
-          "1hlMaPzH55u1": {
-            "hits": 1,
-            "textWords": 1673
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "_m4L7jc4UIAx",
-        "address": "https://en.wikivoyage.org/wiki/Ancient_Rome_tour",
-        "title": "Ancient Rome tour – Travel guide at Wikivoyage",
-        "snippet": "",
-        "matchedWords": {
-          "1Ut7onVxovAL": {
-            "hits": 0,
-            "textWords": 0
-          },
-          "1hlMaPzH55u1": {
-            "hits": 7,
-            "textWords": 1508
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "xgWdrjRvmBbx",
-        "address": "https://en.wikipedia.org/wiki/Southern_Ridges",
-        "title": "Southern Ridges - Wikipedia",
-        "snippet": "",
-        "matchedWords": {
-          "1Ut7onVxovAL": {
-            "hits": 0,
-            "textWords": 0
-          },
-          "1hlMaPzH55u1": {
-            "hits": 9,
-            "textWords": 2820
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "m8X939dnKxjx",
-        "address": "https://pt.wikipedia.org/wiki/Carne",
-        "title": "Carne – Wikipédia, a enciclopédia livre",
-        "snippet": "",
-        "matchedWords": {
-          "1Ut7onVxovAL": {
-            "hits": 0,
-            "textWords": 0
-          },
-          "1hlMaPzH55u1": {
-            "hits": 1,
-            "textWords": 4587
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "esF8Mlzc3F4h",
-        "address": "https://www.kuketz-blog.de/empfehlungsecke/",
-        "title": "Empfehlungsecke • Kuketz IT-Security Blog",
-        "snippet": "",
-        "matchedWords": {
-          "1Ut7onVxovAL": {
-            "hits": 0,
-            "textWords": 0
-          },
-          "1hlMaPzH55u1": {
-            "hits": 7,
-            "textWords": 28173
+            "textWords": 2111
           }
         },
         "queryPhraseHits": 0
@@ -484,15 +518,15 @@
         "hash": "zkSIteSLKN4x",
         "address": "https://bbs.archlinux.org/viewtopic.php?id=310335",
         "title": "Where to obtain Arch linux stickers / Artwork and Screenshots / Arch Linux Forums",
-        "snippet": "Where to obtain Arch linux stickers",
+        "snippet": "",
         "matchedWords": {
           "1Ut7onVxovAL": {
             "hits": 0,
-            "textWords": 75
+            "textWords": 0
           },
           "1hlMaPzH55u1": {
-            "hits": 2,
-            "textWords": 75
+            "hits": 12,
+            "textWords": 369
           }
         },
         "queryPhraseHits": 0
@@ -553,26 +587,9 @@
         "queryPhraseHits": 0
       },
       {
-        "hash": "SUEvdjRvmBbx",
-        "address": "https://en.wikipedia.org/wiki/Claudius",
-        "title": "Claudius - Wikipedia",
-        "snippet": "",
-        "matchedWords": {
-          "1Ut7onVxovAL": {
-            "hits": 0,
-            "textWords": 0
-          },
-          "1hlMaPzH55u1": {
-            "hits": 2,
-            "textWords": 14049
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "JvV_6jRvmBbx",
-        "address": "https://en.wikipedia.org/wiki/Cold_War",
-        "title": "Cold War - Wikipedia",
+        "hash": "wiXSWxKAn6I5",
+        "address": "https://news.ycombinator.com/item?id=34614796",
+        "title": "ChatGPT Plus | Hacker News",
         "snippet": "",
         "matchedWords": {
           "1Ut7onVxovAL": {
@@ -581,7 +598,7 @@
           },
           "1hlMaPzH55u1": {
             "hits": 1,
-            "textWords": 39203
+            "textWords": 55081
           }
         },
         "queryPhraseHits": 0
@@ -657,242 +674,64 @@
         "queryPhraseHits": 0
       },
       {
-        "hash": "wbNjbeSLKN4x",
-        "address": "https://bbs.archlinux.org/viewtopic.php?pid=779734",
-        "title": "Downloadable Arch Wiki / Forum \u0026 Wiki discussion / Arch Linux Forums",
-        "snippet": "Registered: 2007-06-09\nPosts: 11,672\nWebsite\nRe: Downloadable Arch Wiki\npacman -S arch-wiki-docs\nOffline\n#3 2010-03-31 07:08:51\nNerd King\nMember\nFrom: Thailand\nRegistered: 2009-11-06\nPosts: 37\nRe: Downloadable Arch Wiki\nExcellent\nThat's absolutely perfect. Thank you",
-        "matchedWords": {
-          "1Ut7onVxovAL": {
-            "hits": 53,
-            "textWords": 1802
-          },
-          "1hlMaPzH55u1": {
-            "hits": 40,
-            "textWords": 1802
-          }
-        },
-        "queryPhraseHits": 37
-      }
-    ],
-    [
-      {
-        "hash": "-zTXpAsyhcfx",
-        "address": "https://archlinux.org/groups/x86_64/kde-education/",
-        "title": "Arch Linux - kde-education (x86_64) - Group Details",
-        "snippet": "Group Details - kde-education (x86_64)\n21 packages found.\nArch\nRepo\nName\nVersion\nDescription\nLast Updated\nFlag Date\nx86_64\nExtra\nartikulate\n26.08.1-1\nImprove your pronunciation by listening to native speakers\n2026-09-10\nx86_64\nExtra\nblinken\n26.08.1-1\nMemory Enhancement Game\n2026-09-10\nx86_64\nExtra",
-        "matchedWords": {
-          "1Ut7onVxovAL": {
-            "hits": 0,
-            "textWords": 274
-          },
-          "1hlMaPzH55u1": {
-            "hits": 1,
-            "textWords": 274
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "PhzCTeSLKN4x",
-        "address": "https://bbs.archlinux.org/viewtopic.php?pid=734447",
-        "title": "Downloadable Arch Wiki / Forum \u0026 Wiki discussion / Arch Linux Forums",
-        "snippet": "Registered: 2007-06-09\nPosts: 11,672\nWebsite\nRe: Downloadable Arch Wiki\npacman -S arch-wiki-docs\nOffline\n#3 2010-03-31 07:08:51\nNerd King\nMember\nFrom: Thailand\nRegistered: 2009-11-06\nPosts: 37\nRe: Downloadable Arch Wiki\nExcellent\nThat's absolutely perfect. Thank you",
-        "matchedWords": {
-          "1Ut7onVxovAL": {
-            "hits": 53,
-            "textWords": 1802
-          },
-          "1hlMaPzH55u1": {
-            "hits": 40,
-            "textWords": 1802
-          }
-        },
-        "queryPhraseHits": 37
-      },
-      {
-        "hash": "bATU-TsmV515",
-        "address": "https://kimberly.asgardius.company/",
-        "title": "Kimberly GNU/Linux – Arch Linux Made Friendly",
-        "snippet": "At these days almost nobody has a Bluray Disc reader for their computers. Bluray Disc movies require a decoding key set to be played. These cannot be shipped by default due legal issues, but you can configure them following a tutorial that you can find at Arch Linux Wiki.",
-        "matchedWords": {
-          "1Ut7onVxovAL": {
-            "hits": 1,
-            "textWords": 726
-          },
-          "1hlMaPzH55u1": {
-            "hits": 13,
-            "textWords": 726
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "GACSIssyhcfx",
-        "address": "https://archlinux.org/download/",
-        "title": "Arch Linux - Downloads",
-        "snippet": "Images for installing Arch can be downloaded via BitTorrent or right here in your browser from one of the Arch HTTP(S) mirrors down below.\nCurrent Release: 2026.09.01\nIncluded Kernel: 7.2.2\nISO Size: 1.5 GB\nInstallation Guide\nResources: Issue tracker\nMailing List\nExisting Arch Users",
-        "matchedWords": {
-          "1Ut7onVxovAL": {
-            "hits": 1,
-            "textWords": 471
-          },
-          "1hlMaPzH55u1": {
-            "hits": 7,
-            "textWords": 471
-          }
-        },
-        "queryPhraseHits": 0
-      }
-    ],
-    [
-      {
-        "hash": "tCe60QJ4kKG4",
-        "address": "https://wiki.ubuntu.com/EFIBootLoaders",
-        "title": "EFIBootLoaders - Ubuntu Wiki",
-        "snippet": "",
-        "matchedWords": {
-          "1Ut7onVxovAL": {
-            "hits": 4,
-            "textWords": 1607
-          },
-          "1hlMaPzH55u1": {
-            "hits": 0,
-            "textWords": 0
-          }
-        },
-        "queryPhraseHits": 0
-      }
-    ],
-    [
-      {
-        "hash": "RqvFsjRvmBbx",
-        "address": "https://en.wikipedia.org/wiki/Handheld_game_console",
-        "title": "Handheld game console - Wikipedia",
-        "snippet": "",
-        "matchedWords": {
-          "1Ut7onVxovAL": {
-            "hits": 241,
-            "textWords": 11810
-          },
-          "1hlMaPzH55u1": {
-            "hits": 0,
-            "textWords": 0
-          }
-        },
-        "queryPhraseHits": 0
-      }
-    ],
-    [
-      {
-        "hash": "9LEzfsC6_bgw",
-        "address": "https://tigervnc.org/",
-        "title": "TigerVNC",
-        "snippet": "",
-        "matchedWords": {
-          "1Ut7onVxovAL": {
-            "hits": 0,
-            "textWords": 0
-          },
-          "1hlMaPzH55u1": {
-            "hits": 1,
-            "textWords": 338
-          }
-        },
-        "queryPhraseHits": 0
-      }
-    ],
-    [
-      {
-        "hash": "pJrTZ_JJheBx",
-        "address": "https://man.archlinux.org/man/rmdir.1.uk",
-        "title": "rmdir(1) — Arch manual pages",
-        "snippet": "RMDIR(1)\nКоманди користувача\nRMDIR(1)\nНАЗВА\nrmdir — вилучення порожніх каталогів\nКОРОТКИЙ ОПИС\nrmdir [ПАРАМЕТР]... КАТАЛОГ...\nОПИС\nВилучити КАТАЛОГИ, якщо вони порожні.\n--ignore-fail-on-non-empty\nігнорувати всі помилки при вилученні непорожнього каталогу\n-p, --parents",
-        "matchedWords": {
-          "1Ut7onVxovAL": {
-            "hits": 0,
-            "textWords": 228
-          },
-          "1hlMaPzH55u1": {
-            "hits": 0,
-            "textWords": 228
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "yOFyhFuhndQx",
-        "address": "https://pkgs.alpinelinux.org/contents?name=glu\u0026repo=main\u0026branch=edge\u0026arch=x86_64",
-        "title": "Package index - Alpine Linux packages",
-        "snippet": "",
-        "matchedWords": {
-          "1Ut7onVxovAL": {
-            "hits": 0,
-            "textWords": 0
-          },
-          "1hlMaPzH55u1": {
-            "hits": 1,
-            "textWords": 120
-          }
-        },
-        "queryPhraseHits": 0
-      }
-    ],
-    [
-      {
-        "hash": "JDV9fxtQ-zSx",
-        "address": "https://wiki.archlinux.org/title/Arch_terminology",
-        "title": "Arch terminology - ArchWiki",
-        "snippet": "ARM), stores official repositories snapshots, ISO images and bootstrap tarballs across time.\nArchWiki\nArchWiki is a place to find documentation about Arch Linux. Anyone can contribute to the wiki.\nAUR\nThe Arch User Repository (AUR) is a community-driven repository for Arch users.",
+        "hash": "93M8veSLKN4x",
+        "address": "https://bbs.archlinux.org/viewtopic.php?pid=1648326",
+        "title": "[SOLVED] Xfce - PowerManager - Sleep on AC / Applications \u0026 Desktop Environments / Arch Linux Forums",
+        "snippet": "Wiki Maintainer\nRegistered: 2013-06-02\nPosts: 506\nOffline\n#3 2016-08-17 20:30:16\nali_molaei\nMember\nFrom: Iran\nRegistered: 2015-12-24\nPosts: 63\nWebsite\nRe: [SOLVED] Xfce - PowerManager - Sleep on AC\nChazza wrote:",
         "matchedWords": {
           "1Ut7onVxovAL": {
             "hits": 2,
-            "textWords": 1080
-          },
-          "1hlMaPzH55u1": {
-            "hits": 31,
-            "textWords": 1080
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "z9WOd_syhcfx",
-        "address": "https://archlinux.org/news/debug-packages-and-debuginfod/",
-        "title": "Arch Linux - News: Debug packages and debuginfod",
-        "snippet": "We are very happy to announce that debug packages are now available in Arch Linux.\nDebug symbols and source listing are provided through our debuginfod instance which can be utilized by debuggers such as gdb and delve.\nhttps://debuginfod.archlinux.org/",
-        "matchedWords": {
-          "1Ut7onVxovAL": {
-            "hits": 1,
-            "textWords": 109
-          },
-          "1hlMaPzH55u1": {
-            "hits": 1,
-            "textWords": 109
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "iKqpg_JJheBx",
-        "address": "https://man.archlinux.org/man/sshpass.1.en",
-        "title": "sshpass(1) — Arch manual pages",
-        "snippet": "SSHPASS(1)\nSshpass User Manual\nSSHPASS(1)\nNAME\nsshpass - noninteractive ssh password provider\nSYNOPSIS\nsshpass [-ffilename|-dnum|-ppassword|-e[env_var]] [options] command arguments\nDESCRIPTION\nThis manual page documents the sshpass command.",
-        "matchedWords": {
-          "1Ut7onVxovAL": {
-            "hits": 0,
-            "textWords": 788
+            "textWords": 587
           },
           "1hlMaPzH55u1": {
             "hits": 0,
-            "textWords": 788
+            "textWords": 587
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "un8HSeSLKN4x",
+        "address": "https://bbs.archlinux.org/viewtopic.php?pid=285739",
+        "title": "Arch Leadership / Announcements, Package \u0026 Security Advisories / Arch Linux Forums",
+        "snippet": "The reason for this is that I do not have the time to devote towards a leadership role in a project the size of Arch Linux, and Arch deserves someone who does. It needs some work, it needs some unification, and it needs someone at the helm who can devote a lot of time to it.",
+        "matchedWords": {
+          "1Ut7onVxovAL": {
+            "hits": 0,
+            "textWords": 321
+          },
+          "1hlMaPzH55u1": {
+            "hits": 8,
+            "textWords": 321
           }
         },
         "queryPhraseHits": 0
       },
       {
-        "hash": "QXIpLFuhndQx",
-        "address": "https://pkgs.alpinelinux.org/contents?name=rspamd-libs\u0026repo=community\u0026branch=edge\u0026arch=x86_64",
-        "title": "Package index - Alpine Linux packages",
+        "hash": "Pwe03ZDMrHS4",
+        "address": "https://gist.github.com/mattiaslundberg/8620837",
+        "title": "Minimal instructions for installing arch linux on an UEFI system with full system encryption using dm-crypt and luks · GitHub",
+        "snippet": "# Install ARCH Linux with encrypted file-system and UEFI # The official installation guide (https://wiki.archlinux.org/index.php/Installation_Guide) contains a more verbose description.",
+        "matchedWords": {
+          "1Ut7onVxovAL": {
+            "hits": 1,
+            "textWords": 498
+          },
+          "1hlMaPzH55u1": {
+            "hits": 2,
+            "textWords": 498
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "7lncVjRvmBbx",
+        "address": "https://en.wikipedia.org/wiki/Lumbar_vertebrae",
+        "title": "Lumbar vertebrae - Wikipedia",
         "snippet": "",
         "matchedWords": {
           "1Ut7onVxovAL": {
@@ -900,8 +739,82 @@
             "textWords": 0
           },
           "1hlMaPzH55u1": {
+            "hits": 8,
+            "textWords": 3765
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "CyYF72bypRQw",
+        "address": "https://forgejo.org/docs/latest/user/wiki/",
+        "title": "Integrated Wiki | Forgejo – Beyond coding. We forge.",
+        "snippet": "",
+        "matchedWords": {
+          "1Ut7onVxovAL": {
+            "hits": 30,
+            "textWords": 1353
+          },
+          "1hlMaPzH55u1": {
+            "hits": 0,
+            "textWords": 0
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "KzvTGDr4UJf4",
+        "address": "https://we-do.wiki/books/csharp/page/net-core-first-steps",
+        "title": ".NET-Core - First steps | we-do.wiki",
+        "snippet": "",
+        "matchedWords": {
+          "1Ut7onVxovAL": {
+            "hits": 0,
+            "textWords": 0
+          },
+          "1hlMaPzH55u1": {
+            "hits": 3,
+            "textWords": 818
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "IBItAsXcOmMx",
+        "address": "https://neocities.org/browse?tag=arch",
+        "title": "Neocities - Sites tagged arch",
+        "snippet": "The web site of ganglaugekh\nganglaugekh\n1,531\narch\nWizArt3D\nwizart3d\n999\narch\nArch Linux\njric2002\n718\nlinux, arch, music, games, study\nFrank, Linux user\nfrankfromlinux\n639\nprogramming, operatingsystem, linux, ubuntu, arch\nEvelyn's Website\nevelynmakesthings\n635",
+        "matchedWords": {
+          "1Ut7onVxovAL": {
             "hits": 1,
-            "textWords": 152
+            "textWords": 1173
+          },
+          "1hlMaPzH55u1": {
+            "hits": 19,
+            "textWords": 1173
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "DKBTSsG7Mj6x",
+        "address": "https://arch4noobs.neocities.org/",
+        "title": "arch4noobs",
+        "snippet": "",
+        "matchedWords": {
+          "1Ut7onVxovAL": {
+            "hits": 0,
+            "textWords": 0
+          },
+          "1hlMaPzH55u1": {
+            "hits": 4,
+            "textWords": 137
           }
         },
         "queryPhraseHits": 0
@@ -945,18 +858,52 @@
     ],
     [
       {
-        "hash": "2CAHw8uKjjbw",
-        "address": "https://wiki.gentoo.org/wiki/FAQ",
-        "title": "FAQ - Gentoo wiki",
-        "snippet": "For frequently asked questions relating to the documentation wiki and editing the wiki, see the wiki FAQ. There are also some architecture-specific FAQs, such as: AMD64/FAQ, PPC/FAQ, MIPS/FAQ, and Alpha/FAQ.\nSee also",
+        "hash": "qXYLPsscikty",
+        "address": "https://kernelnewbies.org/Linux_2_6_27",
+        "title": "Linux_2_6_27 - Linux Kernel Newbies",
+        "snippet": "",
         "matchedWords": {
           "1Ut7onVxovAL": {
-            "hits": 10,
-            "textWords": 4280
+            "hits": 0,
+            "textWords": 0
+          },
+          "1hlMaPzH55u1": {
+            "hits": 7,
+            "textWords": 6255
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "bPNQBs-9xlTw",
+        "address": "https://pilight.org/",
+        "title": "pilight - open source domotica solution - Home",
+        "snippet": "",
+        "matchedWords": {
+          "1Ut7onVxovAL": {
+            "hits": 0,
+            "textWords": 0
           },
           "1hlMaPzH55u1": {
             "hits": 1,
-            "textWords": 4280
+            "textWords": 455
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "hj17t8uKjjbw",
+        "address": "https://wiki.gentoo.org/wiki/Gentoo_Wiki:Guidelines",
+        "title": "Gentoo Wiki:Guidelines - Gentoo wiki",
+        "snippet": "",
+        "matchedWords": {
+          "1Ut7onVxovAL": {
+            "hits": 0,
+            "textWords": 0
+          },
+          "1hlMaPzH55u1": {
+            "hits": 2,
+            "textWords": 6140
           }
         },
         "queryPhraseHits": 0
@@ -967,7 +914,7 @@
         "hash": "-pMpNeSLKN4x",
         "address": "https://bbs.archlinux.org/viewtopic.php?id=313893",
         "title": "[Solved] After \"makepkg -si\", rebuilding without re-downloading? / Creating \u0026 Modifying Packages / Arch Linux Forums",
-        "snippet": "the wiki has good explanation: https://wiki.archlinux.org/title/Patching_packages\nbut in short, yes, it pretty much comes down to what you outlined\nOffline\n#5 2026-06-11 17:03:08\nseth\nMember\nFrom: Won't reply 2 private help req\nRegistered: 2012-09-03\nPosts: 77,746",
+        "snippet": "the wiki has good explanation: https://wiki.archlinux.org/title/Patching_packages\nbut in short, yes, it pretty much comes down to what you outlined\nOffline\n#5 2026-06-11 17:03:08\nseth\nMember\nFrom: Won't reply 2 private help req\nRegistered: 2012-09-03\nPosts: 77,752",
         "matchedWords": {
           "1Ut7onVxovAL": {
             "hits": 3,
@@ -981,18 +928,18 @@
         "queryPhraseHits": 0
       },
       {
-        "hash": "G6MDmGsyhcfx",
-        "address": "https://archlinux.org/mirrors/purring.online/",
-        "title": "Arch Linux - purring.online - Mirror Details",
-        "snippet": "https://mirrors.purring.online/arch/\nhttps\nGermany\nYes\nNo\n2026-09-11 23:29\n100.0%\n0:16\n0.09\n0.05\n0.4\nDetails\nrsync://mirrors.purring.online/arch/\nrsync\nGermany\nYes\nNo\n2026-09-11 23:29\n100.0%\n0:16\n0.49\n0.34\n1.1\nDetails\nError Log\nMirror URL\nProtocol\nCountry\nError Message\nLast Occurred",
+        "hash": "Gab0Essyhcfx",
+        "address": "https://archlinux.org/",
+        "title": "Arch Linux",
+        "snippet": "Please check out our forums and mailing lists to get your feet wet. Also glance through our wiki if you want to learn more about Arch.\nLearn more...\nLatest News\nvirtualbox-ext-vnc \u003e= 7.2.12-2 requires manual intervention\n2026-07-21",
         "matchedWords": {
           "1Ut7onVxovAL": {
-            "hits": 0,
-            "textWords": 126
+            "hits": 1,
+            "textWords": 730
           },
           "1hlMaPzH55u1": {
-            "hits": 3,
-            "textWords": 126
+            "hits": 7,
+            "textWords": 730
           }
         },
         "queryPhraseHits": 0
@@ -1000,28 +947,60 @@
     ],
     [
       {
-        "hash": "4JQXbxtQ-zSx",
-        "address": "https://wiki.archlinux.org/title/Category:About_Arch",
-        "title": "Category:About Arch - ArchWiki",
-        "snippet": "G\nGetting involved\nM\nMakepkg\nMirrors\nO\nOfficial repositories\nOfficial wallpapers\nRetrieved from \"https://wiki.archlinux.org/index.php?title=Category:About_Arch\u0026oldid=884501\"",
+        "hash": "_8XRJjRvmBbx",
+        "address": "https://en.wikipedia.org/wiki/Arch_Build_System",
+        "title": "Arch Linux - Wikipedia",
+        "snippet": "The Arch Linux website supplies ISO images that may be burned to a CD or USB drive. Installation can be accomplished manually by following the instructions on the Arch Wiki, or automatically through the use of the included \"archinstall\" script.[",
+        "matchedWords": {
+          "1Ut7onVxovAL": {
+            "hits": 21,
+            "textWords": 5722
+          },
+          "1hlMaPzH55u1": {
+            "hits": 197,
+            "textWords": 5722
+          }
+        },
+        "queryPhraseHits": 4
+      },
+      {
+        "hash": "oej5lsdsPYlw",
+        "address": "https://archhurd.org/",
+        "title": "Arch Hurd",
+        "snippet": "Hello, I'm Luca (username z3ntu) and the Arch Hurd website now runs on my server as the databases broke on the old one.\nI've rebuilt this main website including all news articles from the past and the wiki.",
         "matchedWords": {
           "1Ut7onVxovAL": {
             "hits": 1,
-            "textWords": 110
+            "textWords": 751
           },
           "1hlMaPzH55u1": {
             "hits": 15,
-            "textWords": 110
+            "textWords": 751
           }
         },
         "queryPhraseHits": 0
-      }
-    ],
-    [
+      },
       {
-        "hash": "iVIt_FuhndQx",
-        "address": "https://pkgs.alpinelinux.org/contents?name=plasma-disks\u0026repo=community\u0026branch=edge\u0026arch=x86_64",
-        "title": "Package index - Alpine Linux packages",
+        "hash": "_uCaIssyhcfx",
+        "address": "https://archlinux.org/packages/",
+        "title": "Arch Linux - Package Search",
+        "snippet": "x86_64 Extra 0ad 0.28.0-3 Cross-platform, 3D and historically-based real-time strategy game 2026-06-04 any Extra 0ad-data 0.28.0-1 Cross-platform, 3D and historically-based real-time strategy game (data files) 2026-02-21 x86_64 Extra 389-ds-base 3.3.1-1 389 Directory Server (base) 2026-09-07 x86_64",
+        "matchedWords": {
+          "1Ut7onVxovAL": {
+            "hits": 0,
+            "textWords": 1739
+          },
+          "1hlMaPzH55u1": {
+            "hits": 0,
+            "textWords": 1739
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "H4gB_sDHVAzw",
+        "address": "https://mailarchive.ietf.org/arch/msg/core/uLhu1-5J02EPta4Iw2fgLafzphE/",
+        "title": "[core] Weekly github digest (Core Working Group Activity Summary)",
         "snippet": "",
         "matchedWords": {
           "1Ut7onVxovAL": {
@@ -1030,15 +1009,15 @@
           },
           "1hlMaPzH55u1": {
             "hits": 1,
-            "textWords": 221
+            "textWords": 1169
           }
         },
         "queryPhraseHits": 0
       },
       {
-        "hash": "HRN6VjRvmBbx",
-        "address": "https://en.wikipedia.org/wiki/Eegah",
-        "title": "Eegah - Wikipedia",
+        "hash": "e-7Mbr542bTw",
+        "address": "https://facebook.github.io/zstd/",
+        "title": "Zstandard - Real-time data compression algorithm",
         "snippet": "",
         "matchedWords": {
           "1Ut7onVxovAL": {
@@ -1046,8 +1025,8 @@
             "textWords": 0
           },
           "1hlMaPzH55u1": {
-            "hits": 19,
-            "textWords": 2111
+            "hits": 1,
+            "textWords": 3254
           }
         },
         "queryPhraseHits": 0
@@ -1092,15 +1071,15 @@
         "hash": "iCZLms98xLWx",
         "address": "https://linuxreviews.org/Arch_Conf_2020",
         "title": "Arch Conf 2020 - LinuxReviews",
-        "snippet": "",
+        "snippet": "Sven-Hendrik Haaase gave an enlightening talk about the servers and the infrastructure used by Arch Linux to serve packages, The Arch Linux Wiki and the rest of the services the Arch Linux team provides at the Arch Linux Conf 2020 on Saturday October 10th, 2020.",
         "matchedWords": {
           "1Ut7onVxovAL": {
-            "hits": 0,
-            "textWords": 0
+            "hits": 1,
+            "textWords": 481
           },
           "1hlMaPzH55u1": {
-            "hits": 25,
-            "textWords": 893
+            "hits": 21,
+            "textWords": 481
           }
         },
         "queryPhraseHits": 0
@@ -1118,23 +1097,6 @@
           "1hlMaPzH55u1": {
             "hits": 2,
             "textWords": 104
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "2AGHgcw63Csx",
-        "address": "https://fr.wikipedia.org/wiki/Gateway_Arch",
-        "title": "Gateway Arch — Wikipédia",
-        "snippet": "La pièce finalisée entre en circulation le 4 août 2003.\n↑ (en) « Gateway Arch », sur greatbuildings.com (consulté le 28 octobre 2013).\n1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 (en) The Gateway Arch, « Arch FAQ \u0026 Facts », sur gatewayarch.com (consulté le 10 janvier 2016).",
-        "matchedWords": {
-          "1Ut7onVxovAL": {
-            "hits": 0,
-            "textWords": 10944
-          },
-          "1hlMaPzH55u1": {
-            "hits": 30,
-            "textWords": 10944
           }
         },
         "queryPhraseHits": 0
@@ -1159,54 +1121,35 @@
     ],
     [
       {
-        "hash": "o8Mxf2bypRQw",
-        "address": "https://forgejo.org/docs/latest/user/packages/arch/",
-        "title": "Arch Package Registry | Forgejo – Beyond coding. We forge.",
-        "snippet": "Arch Package Registry\nForgejo has a Arch Linux package registry, which can act as a fully working Arch linux mirror and connected directly in /etc/pacman.conf. Forgejo automatically creates pacman database for packages in user/organization space when a new Arch package is uploaded.\nUpload packages",
+        "hash": "fMgRSGsyhcfx",
+        "address": "https://archlinux.org/mirrors/arch.mirror.winslow.cloud/",
+        "title": "Arch Linux - arch.mirror.winslow.cloud - Mirror Details",
+        "snippet": "Name:\narch.mirror.winslow.cloud\nTier:\nTier 2\nHas ISOs:\nYes\nAvailable URLs\nMirror URL\nProtocol\nCountry\nIPv4\nIPv6\nLast Sync\nCompletion %\nμ Delay (hh:mm)\nμ Duration (s)\nσ Duration (s)\nScore\nDetails\nhttps://arch.mirror.winslow.cloud/\nhttps\nCanada\nYes\nYes\n2026-09-12 07:55\n50.5%\n2:06\n0.55\n0.07\n5.4",
         "matchedWords": {
           "1Ut7onVxovAL": {
             "hits": 0,
-            "textWords": 400
+            "textWords": 108
           },
           "1hlMaPzH55u1": {
-            "hits": 12,
-            "textWords": 400
+            "hits": 3,
+            "textWords": 108
           }
         },
         "queryPhraseHits": 0
       },
       {
-        "hash": "ycf-xeSLKN4x",
-        "address": "https://bbs.archlinux.org/",
-        "title": "Arch Linux Forums",
-        "snippet": "1\nNewbie Corner\nBeginners' subforum for general Arch issues. Please consult the excellent Arch wiki and web before posting. Also try the forum search function at the upper left.\n(Moderated by ewaller, fukawi2, Lone_Wolf, schard, Slithery, V1del, WorMzy)",
-        "matchedWords": {
-          "1Ut7onVxovAL": {
-            "hits": 1,
-            "textWords": 395
-          },
-          "1hlMaPzH55u1": {
-            "hits": 6,
-            "textWords": 395
-          }
-        },
-        "queryPhraseHits": 1
-      }
-    ],
-    [
-      {
-        "hash": "sC0kMlDOAHJg",
-        "address": "https://www.heise.de/en",
-        "title": "heise online – IT news, guides and background information | heise online",
-        "snippet": "",
+        "hash": "1eLp2eSLKN4x",
+        "address": "https://bbs.archlinux.org/viewtopic.php?pid=1759847",
+        "title": "[solved] /bin/init is in systemd-sysvcompat ? / Installation / Arch Linux Forums",
+        "snippet": "Re: [solved] /bin/init is in systemd-sysvcompat ?\njernst wrote:\nIs a systemd-sysvcompat-less system supported?\n┌─[Shiv ~] └─╼ pacman -Q systemd-sysvcompat error: package 'systemd-sysvcompat' was not found\nArch + dwm • Mercurial repos • Surfraw\nRegistered Linux User #482438\nOffline",
         "matchedWords": {
           "1Ut7onVxovAL": {
             "hits": 0,
-            "textWords": 0
+            "textWords": 253
           },
           "1hlMaPzH55u1": {
-            "hits": 1,
-            "textWords": 3452
+            "hits": 2,
+            "textWords": 253
           }
         },
         "queryPhraseHits": 0
@@ -1214,9 +1157,9 @@
     ],
     [
       {
-        "hash": "yNjyN5syhcfx",
-        "address": "https://archlinux.org/packages/extra/x86_64/inchi/",
-        "title": "Arch Linux - inchi 1.07.5-1 (x86_64)",
+        "hash": "5LyX15syhcfx",
+        "address": "https://archlinux.org/packages/extra/x86_64/tgt/",
+        "title": "Arch Linux - tgt 1.0.97-2 (x86_64)",
         "snippet": "Copyright © 2002-2026 Judd Vinet, Aaron Griffin and Levente Polyák.\nThe Arch Linux name and logo are recognized trademarks. Some rights reserved.",
         "matchedWords": {
           "1Ut7onVxovAL": {
@@ -1231,26 +1174,9 @@
         "queryPhraseHits": 0
       },
       {
-        "hash": "m2kA6lSmquRw",
-        "address": "https://bugs.gentoo.org/show_bug.cgi?id=431280",
-        "title": "431280 – app-arch/p7zip fails to cross-compile, hardcodes the target arch",
-        "snippet": "same problem here on a portage-multilib system for a while now with app-arch/p7zip-9.20.1-r4. I think this should also be added to the tracker bug here: https://bugs.gentoo.org/show_bug.cgi?id=306835\nComment 4 Pacho Ramos\n2023-11-16 14:50:52 UTC\nIs this still the case with app-arch/p7zip-17.05-r1?",
-        "matchedWords": {
-          "1Ut7onVxovAL": {
-            "hits": 0,
-            "textWords": 1622
-          },
-          "1hlMaPzH55u1": {
-            "hits": 4,
-            "textWords": 1622
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "aJD3bsakFVXw",
-        "address": "https://slashdot.org/",
-        "title": "Slashdot: News for nerds, stuff that matters, \u0026 software",
+        "hash": "PhzCTeSLKN4x",
+        "address": "https://bbs.archlinux.org/viewtopic.php?pid=734447",
+        "title": "Downloadable Arch Wiki / Forum \u0026 Wiki discussion / Arch Linux Forums",
         "snippet": "",
         "matchedWords": {
           "1Ut7onVxovAL": {
@@ -1258,8 +1184,42 @@
             "textWords": 0
           },
           "1hlMaPzH55u1": {
-            "hits": 18,
-            "textWords": 5373
+            "hits": 37,
+            "textWords": 2190
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "bATU-TsmV515",
+        "address": "https://kimberly.asgardius.company/",
+        "title": "Kimberly GNU/Linux – Arch Linux Made Friendly",
+        "snippet": "At these days almost nobody has a Bluray Disc reader for their computers. Bluray Disc movies require a decoding key set to be played. These cannot be shipped by default due legal issues, but you can configure them following a tutorial that you can find at Arch Linux Wiki.",
+        "matchedWords": {
+          "1Ut7onVxovAL": {
+            "hits": 1,
+            "textWords": 726
+          },
+          "1hlMaPzH55u1": {
+            "hits": 13,
+            "textWords": 726
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "-zTXpAsyhcfx",
+        "address": "https://archlinux.org/groups/x86_64/kde-education/",
+        "title": "Arch Linux - kde-education (x86_64) - Group Details",
+        "snippet": "Group Details - kde-education (x86_64)\n21 packages found.\nArch\nRepo\nName\nVersion\nDescription\nLast Updated\nFlag Date\nx86_64\nExtra\nartikulate\n26.08.1-1\nImprove your pronunciation by listening to native speakers\n2026-09-10\nx86_64\nExtra\nblinken\n26.08.1-1\nMemory Enhancement Game\n2026-09-10\nx86_64\nExtra",
+        "matchedWords": {
+          "1Ut7onVxovAL": {
+            "hits": 0,
+            "textWords": 274
+          },
+          "1hlMaPzH55u1": {
+            "hits": 1,
+            "textWords": 274
           }
         },
         "queryPhraseHits": 0
@@ -1270,140 +1230,15 @@
         "hash": "3r8tuTS6MKD4",
         "address": "https://github.com/yt-dlp/yt-dlp/wiki/Installation",
         "title": "Installation · yt-dlp/yt-dlp Wiki · GitHub",
-        "snippet": "Please report any issues to the respective package maintainers\nLinux/MacOS\nHomebrew\nmacOS or Linux users that are using Homebrew can also install it by:\nbrew install yt-dlp\nTo update, run:\nbrew upgrade yt-dlp\npacman\nArch Linux users can install it from the official community repository:",
-        "matchedWords": {
-          "1Ut7onVxovAL": {
-            "hits": 0,
-            "textWords": 637
-          },
-          "1hlMaPzH55u1": {
-            "hits": 1,
-            "textWords": 637
-          }
-        },
-        "queryPhraseHits": 0
-      }
-    ],
-    [
-      {
-        "hash": "rnRTljRvmBbx",
-        "address": "https://en.wikipedia.org/wiki/Arch_of_Titus",
-        "title": "Arch of Titus - Wikipedia",
-        "snippet": "This article is about the main arch of Titus on the Via Sacra. For the one by the Circus Maximus, see Arch of Titus (Circus Maximus).\nArch of Titus\nThe Arch of Titus\nArch of Titus\nShown within Augustan Rome\nClick on the map for a fullscreen view",
-        "matchedWords": {
-          "1Ut7onVxovAL": {
-            "hits": 0,
-            "textWords": 2365
-          },
-          "1hlMaPzH55u1": {
-            "hits": 69,
-            "textWords": 2365
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "WbdU8h3e0QFx",
-        "address": "https://commons.wikimedia.org/wiki/Arch_of_Titus",
-        "title": "Arch of Titus - Wikimedia Commons",
-        "snippet": "Grandangolo\nArch of Titus\nArch of Titus\nArch of Titus\nArch of Titus\nArch of Titus view from Capitoline Hill\nArch of Titus view on Capitoline Hill\nIn a puddle\nView\nView\nInscription\nRelief at the Arch of Titus, „Sack of Jerusalem“, photo from the 1860s\nArchivolto del fornice centrale",
-        "matchedWords": {
-          "1Ut7onVxovAL": {
-            "hits": 0,
-            "textWords": 223
-          },
-          "1hlMaPzH55u1": {
-            "hits": 17,
-            "textWords": 223
-          }
-        },
-        "queryPhraseHits": 0
-      }
-    ],
-    [
-      {
-        "hash": "Gab0Essyhcfx",
-        "address": "https://archlinux.org/",
-        "title": "Arch Linux",
-        "snippet": "Please check out our forums and mailing lists to get your feet wet. Also glance through our wiki if you want to learn more about Arch.\nLearn more...\nLatest News\nvirtualbox-ext-vnc \u003e= 7.2.12-2 requires manual intervention\n2026-07-21",
-        "matchedWords": {
-          "1Ut7onVxovAL": {
-            "hits": 1,
-            "textWords": 730
-          },
-          "1hlMaPzH55u1": {
-            "hits": 7,
-            "textWords": 730
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "4lSXW_JJheBx",
-        "address": "https://man.archlinux.org/man/strtod.3.en",
-        "title": "strtod(3) — Arch manual pages",
-        "snippet": "strtod(3)\nLibrary Functions Manual\nstrtod(3)\nNAME\nstrtod, strtof, strtold - string to float\nLIBRARY\nStandard C library (libc, -lc)\nSYNOPSIS\n#include \u003cstdlib.h\u003e",
-        "matchedWords": {
-          "1Ut7onVxovAL": {
-            "hits": 0,
-            "textWords": 560
-          },
-          "1hlMaPzH55u1": {
-            "hits": 0,
-            "textWords": 560
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "OHuEosDHVAzw",
-        "address": "https://mailarchive.ietf.org/arch/msg/core/NZPSGBPNLARHnjMUjOTl1mDyikQ/",
-        "title": "[core] Weekly github digest (Core Working Group Activity Summary)",
         "snippet": "",
         "matchedWords": {
           "1Ut7onVxovAL": {
+            "hits": 5,
+            "textWords": 1614
+          },
+          "1hlMaPzH55u1": {
             "hits": 0,
             "textWords": 0
-          },
-          "1hlMaPzH55u1": {
-            "hits": 1,
-            "textWords": 1282
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "SfYMcxtQ-zSx",
-        "address": "https://wiki.archlinux.org/title/ArchWiki:Contributing",
-        "title": "ArchWiki:Contributing - ArchWiki",
-        "snippet": "There are some special messages used in Arch Wiki, please provide their translation for your language in the following link:\nAlso in (Message in Categories tree): Add translation here\nTalkpagetext: Add translation here\nBrainstorming",
-        "matchedWords": {
-          "1Ut7onVxovAL": {
-            "hits": 24,
-            "textWords": 2113
-          },
-          "1hlMaPzH55u1": {
-            "hits": 10,
-            "textWords": 2113
-          }
-        },
-        "queryPhraseHits": 1
-      }
-    ],
-    [
-      {
-        "hash": "DAj4_QiNWeQw",
-        "address": "https://wiki.cachyos.org/",
-        "title": "Welcome to the CachyOS Wiki | CachyOS",
-        "snippet": "Empowering your Arch Linux experience.\nGetting StartedForumDiscord\nGetting Started\nSection titled “Getting Started”\nCachyOS FAQ \u0026 Troubleshooting GuideFind answers to common questions about CachyOS.\nHow CachyOS Improves PerformanceCheck out the changes we make in order to improve performance.",
-        "matchedWords": {
-          "1Ut7onVxovAL": {
-            "hits": 0,
-            "textWords": 59
-          },
-          "1hlMaPzH55u1": {
-            "hits": 1,
-            "textWords": 59
           }
         },
         "queryPhraseHits": 0
@@ -1411,54 +1246,18 @@
     ],
     [
       {
-        "hash": "2CAHw8uKjjbw",
-        "address": "https://wiki.gentoo.org/wiki/FAQ",
-        "title": "FAQ - Gentoo wiki",
-        "snippet": "For frequently asked questions relating to the documentation wiki and editing the wiki, see the wiki FAQ. There are also some architecture-specific FAQs, such as: AMD64/FAQ, PPC/FAQ, MIPS/FAQ, and Alpha/FAQ.\nSee also",
-        "matchedWords": {
-          "1Ut7onVxovAL": {
-            "hits": 10,
-            "textWords": 4280
-          },
-          "1hlMaPzH55u1": {
-            "hits": 1,
-            "textWords": 4280
-          }
-        },
-        "queryPhraseHits": 0
-      }
-    ],
-    [
-      {
-        "hash": "oej5lsdsPYlw",
-        "address": "https://archhurd.org/",
-        "title": "Arch Hurd",
-        "snippet": "Hello, I'm Luca (username z3ntu) and the Arch Hurd website now runs on my server as the databases broke on the old one.\nI've rebuilt this main website including all news articles from the past and the wiki.",
-        "matchedWords": {
-          "1Ut7onVxovAL": {
-            "hits": 1,
-            "textWords": 751
-          },
-          "1hlMaPzH55u1": {
-            "hits": 15,
-            "textWords": 751
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "e-7Mbr542bTw",
-        "address": "https://facebook.github.io/zstd/",
-        "title": "Zstandard - Real-time data compression algorithm",
+        "hash": "R01lvxtQ-zSx",
+        "address": "https://wiki.archlinux.org/title/Security_(Espa%C3%B1ol)",
+        "title": "Security (Español) - ArchWiki",
         "snippet": "",
         "matchedWords": {
           "1Ut7onVxovAL": {
-            "hits": 0,
-            "textWords": 0
+            "hits": 5,
+            "textWords": 9320
           },
           "1hlMaPzH55u1": {
-            "hits": 1,
-            "textWords": 3254
+            "hits": 0,
+            "textWords": 0
           }
         },
         "queryPhraseHits": 0
@@ -1517,73 +1316,73 @@
           }
         },
         "queryPhraseHits": 0
-      },
-      {
-        "hash": "oX3BKYIKss6x",
-        "address": "https://kab.wikipedia.org/wiki/Linux",
-        "title": "Linux - Wikipedia, tasanayt tilellit",
-        "snippet": "",
-        "matchedWords": {
-          "1Ut7onVxovAL": {
-            "hits": 110,
-            "textWords": 3845
-          },
-          "1hlMaPzH55u1": {
-            "hits": 0,
-            "textWords": 0
-          }
-        },
-        "queryPhraseHits": 0
       }
     ],
     [
       {
-        "hash": "W-eXqzF3--Qw",
-        "address": "https://planet.mozilla.org/",
-        "title": "Planet Mozilla",
-        "snippet": "",
+        "hash": "SIyLLv0lYtaw",
+        "address": "https://www.parabola.nu/news/from-arch-switch-to-the-base-devel-meta-package-requires-manual-intervention/",
+        "title": "Parabola GNU/Linux-libre - News: [From Arch] Switch to the base-devel meta package requires manual intervention",
+        "snippet": "2023-02-12 - bill auger\nThe base-devel package group has recently been replaced by a meta package of the same name.",
         "matchedWords": {
           "1Ut7onVxovAL": {
             "hits": 0,
-            "textWords": 0
+            "textWords": 92
           },
           "1hlMaPzH55u1": {
-            "hits": 6,
-            "textWords": 13882
+            "hits": 0,
+            "textWords": 92
           }
         },
         "queryPhraseHits": 0
       },
       {
-        "hash": "2i-X_sofUy-5",
-        "address": "https://duckduckgo.com/bang_lite.html",
-        "title": "DuckDuckGo !Bang",
-        "snippet": "",
+        "hash": "gemHpeSLKN4x",
+        "address": "https://bbs.archlinux.org/viewtopic.php?pid=850341",
+        "title": "Wayland on Arch Linux? / AUR Issues, Discussion \u0026 PKGBUILD Requests / Arch Linux Forums",
+        "snippet": "Just because Arch is bleeding edge doesn't mean the devs use ANY new software that comes along. It has to work for the majority of the users, including myself. Which is why I use Arch in the first place. Where other distros fail, Arch succeeds.",
         "matchedWords": {
           "1Ut7onVxovAL": {
-            "hits": 0,
-            "textWords": 0
+            "hits": 2,
+            "textWords": 2166
           },
           "1hlMaPzH55u1": {
-            "hits": 5,
-            "textWords": 58492
+            "hits": 36,
+            "textWords": 2166
           }
         },
         "queryPhraseHits": 0
       },
       {
-        "hash": "OHcS-jRvmBbx",
-        "address": "https://en.wikipedia.org/wiki/Copenhagen",
-        "title": "Copenhagen - Wikipedia",
-        "snippet": "",
+        "hash": "zNid7eSLKN4x",
+        "address": "https://bbs.archlinux.org/viewtopic.php?id=53665\u0026p=12",
+        "title": "Project ARM :: Arch Rollback Machine (Page 12) / Community Contributions / Arch Linux Forums",
+        "snippet": "I would update the wiki section of ARM with the URL belongs to seblu.net/a/arm/. No objection?\nOffline\n#280 2013-09-05 14:43:24\nkarol\nArchivist\nRegistered: 2009-05-06\nPosts: 25,440\nRe: Project ARM :: Arch Rollback Machine\nseblu wrote:",
+        "matchedWords": {
+          "1Ut7onVxovAL": {
+            "hits": 3,
+            "textWords": 1705
+          },
+          "1hlMaPzH55u1": {
+            "hits": 22,
+            "textWords": 1705
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "yYtH-Asyhcfx",
+        "address": "https://archlinux.org/groups/x86_64/kde-network/",
+        "title": "Arch Linux - kde-network (x86_64) - Group Details",
+        "snippet": "Group Details - kde-network (x86_64)\n17 packages found.\nArch\nRepo\nName\nVersion\nDescription\nLast Updated\nFlag Date\nx86_64\nExtra\nalligator\n26.08.1-1\nKirigami-based RSS reader\n2026-09-10\nx86_64\nExtra\nangelfish\n26.08.1-1\nWeb browser for Plasma Mobile\n2026-09-10\nx86_64\nExtra\nfalkon\n26.08.1-1",
         "matchedWords": {
           "1Ut7onVxovAL": {
             "hits": 0,
-            "textWords": 0
+            "textWords": 268
           },
           "1hlMaPzH55u1": {
             "hits": 1,
-            "textWords": 28583
+            "textWords": 268
           }
         },
         "queryPhraseHits": 0
@@ -1591,45 +1390,9 @@
     ],
     [
       {
-        "hash": "VI9YzkSKkctx",
-        "address": "https://softpanorama.org/Social/Toxic_managers/index.shtml",
-        "title": "Toxic Managers",
-        "snippet": "",
-        "matchedWords": {
-          "1Ut7onVxovAL": {
-            "hits": 5,
-            "textWords": 25700
-          },
-          "1hlMaPzH55u1": {
-            "hits": 0,
-            "textWords": 0
-          }
-        },
-        "queryPhraseHits": 0
-      }
-    ],
-    [
-      {
-        "hash": "ycf-xeSLKN4x",
-        "address": "https://bbs.archlinux.org/",
-        "title": "Arch Linux Forums",
-        "snippet": "1\nNewbie Corner\nBeginners' subforum for general Arch issues. Please consult the excellent Arch wiki and web before posting. Also try the forum search function at the upper left.\n(Moderated by ewaller, fukawi2, Lone_Wolf, schard, Slithery, V1del, WorMzy)",
-        "matchedWords": {
-          "1Ut7onVxovAL": {
-            "hits": 1,
-            "textWords": 395
-          },
-          "1hlMaPzH55u1": {
-            "hits": 6,
-            "textWords": 395
-          }
-        },
-        "queryPhraseHits": 1
-      },
-      {
-        "hash": "zfCDrj-JVcyx",
-        "address": "https://en.wikiquote.org/wiki/Religion",
-        "title": "Religion - Wikiquote",
+        "hash": "sXw6MlrF2i05",
+        "address": "https://www.mariowiki.com/Mario",
+        "title": "Mario - Super Mario Wiki, the Mario encyclopedia",
         "snippet": "",
         "matchedWords": {
           "1Ut7onVxovAL": {
@@ -1638,7 +1401,24 @@
           },
           "1hlMaPzH55u1": {
             "hits": 2,
-            "textWords": 35912
+            "textWords": 16276
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "m2kA6lSmquRw",
+        "address": "https://bugs.gentoo.org/show_bug.cgi?id=431280",
+        "title": "431280 – app-arch/p7zip fails to cross-compile, hardcodes the target arch",
+        "snippet": "same problem here on a portage-multilib system for a while now with app-arch/p7zip-9.20.1-r4. I think this should also be added to the tracker bug here: https://bugs.gentoo.org/show_bug.cgi?id=306835\nComment 4 Pacho Ramos\n2023-11-16 14:50:52 UTC\nIs this still the case with app-arch/p7zip-17.05-r1?",
+        "matchedWords": {
+          "1Ut7onVxovAL": {
+            "hits": 0,
+            "textWords": 1622
+          },
+          "1hlMaPzH55u1": {
+            "hits": 4,
+            "textWords": 1622
           }
         },
         "queryPhraseHits": 0
@@ -1666,26 +1446,9 @@
   ],
   "itemsInNoOrder": [
     {
-      "hash": "AonnkjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Perl",
-      "title": "Perl - Wikipedia",
-      "snippet": "",
-      "matchedWords": {
-        "1Ut7onVxovAL": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "1hlMaPzH55u1": {
-          "hits": 0,
-          "textWords": 0
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "AHhJbh3e0QFx",
-      "address": "https://commons.wikimedia.org/wiki/Main_Page",
-      "title": "Wikimedia Commons",
+      "hash": "BoTwejRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Barcelona",
+      "title": "Barcelona - Wikipedia",
       "snippet": "",
       "matchedWords": {
         "1Ut7onVxovAL": {
@@ -1717,6 +1480,57 @@
       "queryPhraseHits": 0
     },
     {
+      "hash": "B_3gljRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/BSD",
+      "title": "Berkeley Software Distribution - Wikipedia",
+      "snippet": "",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "1hlMaPzH55u1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "DTPX7jRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Wikipedia:Featured_articles",
+      "title": "Wikipedia:Featured articles - Wikipedia",
+      "snippet": "",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "1hlMaPzH55u1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "Xu0QIjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Proprietary_software",
+      "title": "Proprietary software - Wikipedia",
+      "snippet": "",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "1hlMaPzH55u1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
       "hash": "CcYVa7S6MKD4",
       "address": "https://github.com/sindresorhus/awesome",
       "title": "GitHub - sindresorhus/awesome: 😎 Awesome lists about all kinds of interesting topics",
@@ -1734,9 +1548,349 @@
       "queryPhraseHits": 0
     },
     {
-      "hash": "D4lABzaS0qdw",
-      "address": "https://planet.debian.org/",
-      "title": "Planet Debian",
+      "hash": "CTQ-Yj-JVcyx",
+      "address": "https://en.wikiquote.org/wiki/Mystery_Science_Theater_3000",
+      "title": "Mystery Science Theater 3000 - Wikiquote",
+      "snippet": "",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "1hlMaPzH55u1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "8st5vj-JVcyx",
+      "address": "https://en.wikiquote.org/wiki/User:CensoredScribe",
+      "title": "User:CensoredScribe - Wikiquote",
+      "snippet": "",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "1hlMaPzH55u1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "AHhJbh3e0QFx",
+      "address": "https://commons.wikimedia.org/wiki/Main_Page",
+      "title": "Wikimedia Commons",
+      "snippet": "",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "1hlMaPzH55u1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "W-eXqzF3--Qw",
+      "address": "https://planet.mozilla.org/",
+      "title": "Planet Mozilla",
+      "snippet": "",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "1hlMaPzH55u1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "kDLqZZIRcMkY",
+      "address": "http://rigorousintuition.blogspot.com/2005/11/correspondence-and-sanctuary-part-one.html",
+      "title": "Rigorous Intuition: Correspondence and sanctuary (Part One)",
+      "snippet": "",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "1hlMaPzH55u1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "UXoSijRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/IBM",
+      "title": "IBM - Wikipedia",
+      "snippet": "",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "1hlMaPzH55u1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "XBHynjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/John_F._Kennedy",
+      "title": "John F. Kennedy - Wikipedia",
+      "snippet": "",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "1hlMaPzH55u1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "aMTf2jRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Miami",
+      "title": "Miami - Wikipedia",
+      "snippet": "",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "1hlMaPzH55u1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "atffDjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Template_talk:Did_you_know",
+      "title": "Template talk:Did you know - Wikipedia",
+      "snippet": "",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "1hlMaPzH55u1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "cq8LWjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Russia",
+      "title": "Russia - Wikipedia",
+      "snippet": "",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "1hlMaPzH55u1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "oOVv2jRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Wikipedia:Featured_article_candidates",
+      "title": "Wikipedia:Featured article candidates - Wikipedia",
+      "snippet": "",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "1hlMaPzH55u1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "rWczfjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/England",
+      "title": "England - Wikipedia",
+      "snippet": "",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "1hlMaPzH55u1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "xRnvSjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Wikipedia:Featured_articles_(linked_from_TFAfooter)",
+      "title": "Wikipedia:Featured articles - Wikipedia",
+      "snippet": "",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "1hlMaPzH55u1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "5FX3FjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Amazon_(company)",
+      "title": "Amazon (company) - Wikipedia",
+      "snippet": "",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "1hlMaPzH55u1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "7SAAdjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Green_Arrow",
+      "title": "Green Arrow - Wikipedia",
+      "snippet": "",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "1hlMaPzH55u1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "VI9YzkSKkctx",
+      "address": "https://softpanorama.org/Social/Toxic_managers/index.shtml",
+      "title": "Toxic Managers",
+      "snippet": "",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "1hlMaPzH55u1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "5KQ_nsUDS-lx",
+      "address": "https://boingboing.net/",
+      "title": "Boing Boing - A Directory of Mostly Wonderful Things",
+      "snippet": "",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "1hlMaPzH55u1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "XwfbfBXhbKt7",
+      "address": "https://ijustreadaboutthat.com/2009/04/25/pierdomenico-baccalario-ulysses-moore-books-1-4/",
+      "title": "Pierdomenico Baccalario–Ulysses Moore series, books 1-4 | I Just Read About That...",
+      "snippet": "",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "1hlMaPzH55u1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "9zMz2jjEZfvx",
+      "address": "https://en.wiktionary.org/wiki/User:Matthias_Buchmeier/en-de-s",
+      "title": "User:Matthias Buchmeier/en-de-s - Wiktionary, the free dictionary",
+      "snippet": "",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "1hlMaPzH55u1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "qiJRj7o1FmmR",
+      "address": "http://gutenberg.ca/index.html",
+      "title": "Project Gutenberg Canada / Projet Gutenberg Canada",
+      "snippet": "",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "1hlMaPzH55u1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "-b3sxspKNBr4",
+      "address": "https://rense.com/",
+      "title": "rense.com",
       "snippet": "",
       "matchedWords": {
         "1Ut7onVxovAL": {
@@ -1785,9 +1939,9 @@
       "queryPhraseHits": 0
     },
     {
-      "hash": "8Cje6jc4UIAx",
-      "address": "https://en.wikivoyage.org/wiki/UNESCO_World_Heritage_List",
-      "title": "UNESCO World Heritage List – Travel guide at Wikivoyage",
+      "hash": "CTQ-Yj-JVcyx",
+      "address": "https://en.wikiquote.org/wiki/Mystery_Science_Theater_3000",
+      "title": "Mystery Science Theater 3000 - Wikiquote",
       "snippet": "",
       "matchedWords": {
         "1Ut7onVxovAL": {
@@ -1802,9 +1956,9 @@
       "queryPhraseHits": 0
     },
     {
-      "hash": "CTQ-Yj-JVcyx",
-      "address": "https://en.wikiquote.org/wiki/Mystery_Science_Theater_3000",
-      "title": "Mystery Science Theater 3000 - Wikiquote",
+      "hash": "BoTwejRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Barcelona",
+      "title": "Barcelona - Wikipedia",
       "snippet": "",
       "matchedWords": {
         "1Ut7onVxovAL": {
@@ -1836,60 +1990,26 @@
       "queryPhraseHits": 0
     },
     {
+      "hash": "B_3gljRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/BSD",
+      "title": "Berkeley Software Distribution - Wikipedia",
+      "snippet": "",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "1hlMaPzH55u1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
       "hash": "DTPX7jRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Wikipedia:Featured_articles",
       "title": "Wikipedia:Featured articles - Wikipedia",
-      "snippet": "",
-      "matchedWords": {
-        "1Ut7onVxovAL": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "1hlMaPzH55u1": {
-          "hits": 0,
-          "textWords": 0
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "ID5LWjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Washington,_D.C.",
-      "title": "Washington, D.C. - Wikipedia",
-      "snippet": "",
-      "matchedWords": {
-        "1Ut7onVxovAL": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "1hlMaPzH55u1": {
-          "hits": 0,
-          "textWords": 0
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "IvnKrjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Manila",
-      "title": "Manila - Wikipedia",
-      "snippet": "",
-      "matchedWords": {
-        "1Ut7onVxovAL": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "1hlMaPzH55u1": {
-          "hits": 0,
-          "textWords": 0
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "KlD0NjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Response_to_the_Department_of_Government_Efficiency",
-      "title": "Response to the Department of Government Efficiency - Wikipedia",
       "snippet": "",
       "matchedWords": {
         "1Ut7onVxovAL": {
@@ -1972,6 +2092,23 @@
       "queryPhraseHits": 0
     },
     {
+      "hash": "5FX3FjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Amazon_(company)",
+      "title": "Amazon (company) - Wikipedia",
+      "snippet": "",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "1hlMaPzH55u1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
       "hash": "CcYVa7S6MKD4",
       "address": "https://github.com/sindresorhus/awesome",
       "title": "GitHub - sindresorhus/awesome: 😎 Awesome lists about all kinds of interesting topics [NOTE: Pull requests are temporarily disabled until I have a chance to catch up with the existing ones] · GitHub",
@@ -1989,60 +2126,26 @@
       "queryPhraseHits": 0
     },
     {
-      "hash": "JEWZurS6MKD4",
-      "address": "https://github.com/rbenv/rbenv",
-      "title": "GitHub - rbenv/rbenv: Manage your app's Ruby environment · GitHub",
-      "snippet": "",
-      "matchedWords": {
-        "1Ut7onVxovAL": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "1hlMaPzH55u1": {
-          "hits": 0,
-          "textWords": 0
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "CkczXlmJ800w",
-      "address": "https://www.gentoo.org/",
-      "title": "Welcome – Gentoo Linux",
-      "snippet": "",
-      "matchedWords": {
-        "1Ut7onVxovAL": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "1hlMaPzH55u1": {
-          "hits": 0,
-          "textWords": 0
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "LPvBvDpp6yww",
-      "address": "https://clang.llvm.org/docs/UsersManual.html",
-      "title": "Clang Compiler User’s Manual — Clang 24.0.0git documentation",
-      "snippet": "",
-      "matchedWords": {
-        "1Ut7onVxovAL": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "1hlMaPzH55u1": {
-          "hits": 0,
-          "textWords": 0
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
       "hash": "AHhJbh3e0QFx",
       "address": "https://commons.wikimedia.org/wiki/Main_Page",
       "title": "Wikimedia Commons",
+      "snippet": "",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "1hlMaPzH55u1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "2i-X_sofUy-5",
+      "address": "https://duckduckgo.com/bang_lite.html",
+      "title": "DuckDuckGo !Bang",
       "snippet": "",
       "matchedWords": {
         "1Ut7onVxovAL": {
@@ -2091,9 +2194,60 @@
       "queryPhraseHits": 0
     },
     {
+      "hash": "zfCDrj-JVcyx",
+      "address": "https://en.wikiquote.org/wiki/Religion",
+      "title": "Religion - Wikiquote",
+      "snippet": "",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "1hlMaPzH55u1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
       "hash": "2qtMZjAg8xXw",
       "address": "https://en.wikinews.org/wiki/User:Harej/pagelinks",
       "title": "User:Harej/pagelinks - Wikinews, the free news source",
+      "snippet": "",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "1hlMaPzH55u1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "W-eXqzF3--Qw",
+      "address": "https://planet.mozilla.org/",
+      "title": "Planet Mozilla",
+      "snippet": "",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "1hlMaPzH55u1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "OHcS-jRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Copenhagen",
+      "title": "Copenhagen - Wikipedia",
       "snippet": "",
       "matchedWords": {
         "1Ut7onVxovAL": {
@@ -2125,9 +2279,43 @@
       "queryPhraseHits": 0
     },
     {
+      "hash": "XwfbfBXhbKt7",
+      "address": "https://ijustreadaboutthat.com/2009/04/25/pierdomenico-baccalario-ulysses-moore-books-1-4/",
+      "title": "Pierdomenico Baccalario–Ulysses Moore series, books 1-4 | I Just Read About That...",
+      "snippet": "",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "1hlMaPzH55u1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
       "hash": "m8tyqoXhbKt7",
       "address": "https://ijustreadaboutthat.com/2011/01/02/2010-in-review/",
       "title": "2010 in review | I Just Read About That...",
+      "snippet": "",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "1hlMaPzH55u1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "2i-X_sofUy-5",
+      "address": "https://duckduckgo.com/bang_lite.html",
+      "title": "DuckDuckGo !Bang",
       "snippet": "",
       "matchedWords": {
         "1Ut7onVxovAL": {
@@ -2162,6 +2350,23 @@
       "hash": "CTQ-Yj-JVcyx",
       "address": "https://en.wikiquote.org/wiki/Mystery_Science_Theater_3000",
       "title": "Mystery Science Theater 3000 - Wikiquote",
+      "snippet": "",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "1hlMaPzH55u1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "zfCDrj-JVcyx",
+      "address": "https://en.wikiquote.org/wiki/Religion",
+      "title": "Religion - Wikiquote",
       "snippet": "",
       "matchedWords": {
         "1Ut7onVxovAL": {
@@ -2227,43 +2432,26 @@
       "queryPhraseHits": 0
     },
     {
-      "hash": "XUiTdjLyhbDx",
-      "address": "https://frp.wikipedia.org/wiki/Vouiquip%C3%A8dia:Re%C3%A7ua_princip%C3%A2la",
-      "title": "Vouiquipèdia",
-      "snippet": "",
-      "matchedWords": {
-        "1Ut7onVxovAL": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "1hlMaPzH55u1": {
-          "hits": 0,
-          "textWords": 0
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "AonnkjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Perl",
-      "title": "Perl - Wikipedia",
-      "snippet": "",
-      "matchedWords": {
-        "1Ut7onVxovAL": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "1hlMaPzH55u1": {
-          "hits": 0,
-          "textWords": 0
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
       "hash": "BxsbyjRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Apple_Inc.",
       "title": "Apple Inc. - Wikipedia",
+      "snippet": "",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "1hlMaPzH55u1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "B_3gljRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/BSD",
+      "title": "Berkeley Software Distribution - Wikipedia",
       "snippet": "",
       "matchedWords": {
         "1Ut7onVxovAL": {
@@ -2295,111 +2483,9 @@
       "queryPhraseHits": 0
     },
     {
-      "hash": "ID5LWjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Washington,_D.C.",
-      "title": "Washington, D.C. - Wikipedia",
-      "snippet": "",
-      "matchedWords": {
-        "1Ut7onVxovAL": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "1hlMaPzH55u1": {
-          "hits": 0,
-          "textWords": 0
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "IaKUVjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Minneapolis%E2%80%93Saint_Paul",
-      "title": "Minneapolis–Saint Paul - Wikipedia",
-      "snippet": "",
-      "matchedWords": {
-        "1Ut7onVxovAL": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "1hlMaPzH55u1": {
-          "hits": 0,
-          "textWords": 0
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "IvnKrjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Manila",
-      "title": "Manila - Wikipedia",
-      "snippet": "",
-      "matchedWords": {
-        "1Ut7onVxovAL": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "1hlMaPzH55u1": {
-          "hits": 0,
-          "textWords": 0
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "QfhzIjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Category:Spoken_articles",
-      "title": "Category:Spoken articles - Wikipedia",
-      "snippet": "",
-      "matchedWords": {
-        "1Ut7onVxovAL": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "1hlMaPzH55u1": {
-          "hits": 0,
-          "textWords": 0
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
       "hash": "UXoSijRvmBbx",
       "address": "https://en.wikipedia.org/wiki/IBM",
       "title": "IBM - Wikipedia",
-      "snippet": "",
-      "matchedWords": {
-        "1Ut7onVxovAL": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "1hlMaPzH55u1": {
-          "hits": 0,
-          "textWords": 0
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "VSvcQjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Microsoft",
-      "title": "Microsoft - Wikipedia",
-      "snippet": "",
-      "matchedWords": {
-        "1Ut7onVxovAL": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "1hlMaPzH55u1": {
-          "hits": 0,
-          "textWords": 0
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "VwOJNjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Kyiv",
-      "title": "Kyiv - Wikipedia",
       "snippet": "",
       "matchedWords": {
         "1Ut7onVxovAL": {
@@ -2567,43 +2653,9 @@
       "queryPhraseHits": 0
     },
     {
-      "hash": "JEWZurS6MKD4",
-      "address": "https://github.com/rbenv/rbenv",
-      "title": "GitHub - rbenv/rbenv: Manage your app's Ruby environment · GitHub",
-      "snippet": "",
-      "matchedWords": {
-        "1Ut7onVxovAL": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "1hlMaPzH55u1": {
-          "hits": 0,
-          "textWords": 0
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "lNauRClQBq4x",
-      "address": "https://gpe.wikipedia.org/wiki/Main_Page",
-      "title": "Wikipedia",
-      "snippet": "",
-      "matchedWords": {
-        "1Ut7onVxovAL": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "1hlMaPzH55u1": {
-          "hits": 0,
-          "textWords": 0
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "CkczXlmJ800w",
-      "address": "https://www.gentoo.org/",
-      "title": "Welcome – Gentoo Linux",
+      "hash": "2i-X_sofUy-5",
+      "address": "https://duckduckgo.com/bang_lite.html",
+      "title": "DuckDuckGo !Bang",
       "snippet": "",
       "matchedWords": {
         "1Ut7onVxovAL": {
@@ -2621,6 +2673,23 @@
       "hash": "-b3sxspKNBr4",
       "address": "https://rense.com/",
       "title": "rense.com",
+      "snippet": "",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "1hlMaPzH55u1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "2CAHw8uKjjbw",
+      "address": "https://wiki.gentoo.org/wiki/FAQ",
+      "title": "FAQ - Gentoo wiki",
       "snippet": "",
       "matchedWords": {
         "1Ut7onVxovAL": {
@@ -2686,9 +2755,9 @@
       "queryPhraseHits": 0
     },
     {
-      "hash": "GHYyvjjEZfvx",
-      "address": "https://en.wiktionary.org/wiki/Category:English_1-syllable_words",
-      "title": "Category:English 1-syllable words - Wiktionary, the free dictionary",
+      "hash": "CTQ-Yj-JVcyx",
+      "address": "https://en.wikiquote.org/wiki/Mystery_Science_Theater_3000",
+      "title": "Mystery Science Theater 3000 - Wikiquote",
       "snippet": "",
       "matchedWords": {
         "1Ut7onVxovAL": {
@@ -2703,9 +2772,26 @@
       "queryPhraseHits": 0
     },
     {
-      "hash": "CTQ-Yj-JVcyx",
-      "address": "https://en.wikiquote.org/wiki/Mystery_Science_Theater_3000",
-      "title": "Mystery Science Theater 3000 - Wikiquote",
+      "hash": "8st5vj-JVcyx",
+      "address": "https://en.wikiquote.org/wiki/User:CensoredScribe",
+      "title": "User:CensoredScribe - Wikiquote",
+      "snippet": "",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "1hlMaPzH55u1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "W-eXqzF3--Qw",
+      "address": "https://planet.mozilla.org/",
+      "title": "Planet Mozilla",
       "snippet": "",
       "matchedWords": {
         "1Ut7onVxovAL": {
@@ -2737,9 +2823,9 @@
       "queryPhraseHits": 0
     },
     {
-      "hash": "IaKUVjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Minneapolis%E2%80%93Saint_Paul",
-      "title": "Minneapolis–Saint Paul - Wikipedia",
+      "hash": "XBHynjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/John_F._Kennedy",
+      "title": "John F. Kennedy - Wikipedia",
       "snippet": "",
       "matchedWords": {
         "1Ut7onVxovAL": {
@@ -2754,9 +2840,26 @@
       "queryPhraseHits": 0
     },
     {
-      "hash": "XBHynjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/John_F._Kennedy",
-      "title": "John F. Kennedy - Wikipedia",
+      "hash": "cq8LWjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Russia",
+      "title": "Russia - Wikipedia",
+      "snippet": "",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "1hlMaPzH55u1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "VI9YzkSKkctx",
+      "address": "https://softpanorama.org/Social/Toxic_managers/index.shtml",
+      "title": "Toxic Managers",
       "snippet": "",
       "matchedWords": {
         "1Ut7onVxovAL": {
@@ -2788,9 +2891,43 @@
       "queryPhraseHits": 0
     },
     {
+      "hash": "XwfbfBXhbKt7",
+      "address": "https://ijustreadaboutthat.com/2009/04/25/pierdomenico-baccalario-ulysses-moore-books-1-4/",
+      "title": "Pierdomenico Baccalario–Ulysses Moore series, books 1-4 | I Just Read About That...",
+      "snippet": "",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "1hlMaPzH55u1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
       "hash": "m8tyqoXhbKt7",
       "address": "https://ijustreadaboutthat.com/2011/01/02/2010-in-review/",
       "title": "2010 in review | I Just Read About That...",
+      "snippet": "",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "1hlMaPzH55u1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "9zMz2jjEZfvx",
+      "address": "https://en.wiktionary.org/wiki/User:Matthias_Buchmeier/en-de-s",
+      "title": "User:Matthias Buchmeier/en-de-s - Wiktionary, the free dictionary",
       "snippet": "",
       "matchedWords": {
         "1Ut7onVxovAL": {
@@ -2873,6 +3010,278 @@
       "queryPhraseHits": 0
     },
     {
+      "hash": "8st5vj-JVcyx",
+      "address": "https://en.wikiquote.org/wiki/User:CensoredScribe",
+      "title": "User:CensoredScribe - Wikiquote",
+      "snippet": "",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "1hlMaPzH55u1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "Xu0QIjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Proprietary_software",
+      "title": "Proprietary software - Wikipedia",
+      "snippet": "",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "1hlMaPzH55u1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "aMTf2jRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Miami",
+      "title": "Miami - Wikipedia",
+      "snippet": "",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "1hlMaPzH55u1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "fZM8XjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/2026_Iran_war",
+      "title": "2026 Iran war - Wikipedia",
+      "snippet": "",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "1hlMaPzH55u1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "rWczfjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/England",
+      "title": "England - Wikipedia",
+      "snippet": "",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "1hlMaPzH55u1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "0dZPijRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Social_democracy",
+      "title": "Social democracy - Wikipedia",
+      "snippet": "",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "1hlMaPzH55u1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "VI9YzkSKkctx",
+      "address": "https://softpanorama.org/Social/Toxic_managers/index.shtml",
+      "title": "Toxic Managers",
+      "snippet": "",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "1hlMaPzH55u1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "cq8LWjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Russia",
+      "title": "Russia - Wikipedia",
+      "snippet": "",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "1hlMaPzH55u1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "oOVv2jRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Wikipedia:Featured_article_candidates",
+      "title": "Wikipedia:Featured article candidates - Wikipedia",
+      "snippet": "",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "1hlMaPzH55u1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "7SAAdjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Green_Arrow",
+      "title": "Green Arrow - Wikipedia",
+      "snippet": "",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "1hlMaPzH55u1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "5KQ_nsUDS-lx",
+      "address": "https://boingboing.net/",
+      "title": "Boing Boing - A Directory of Mostly Wonderful Things",
+      "snippet": "",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "1hlMaPzH55u1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "XwfbfBXhbKt7",
+      "address": "https://ijustreadaboutthat.com/2009/04/25/pierdomenico-baccalario-ulysses-moore-books-1-4/",
+      "title": "Pierdomenico Baccalario–Ulysses Moore series, books 1-4 | I Just Read About That...",
+      "snippet": "",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "1hlMaPzH55u1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "m8tyqoXhbKt7",
+      "address": "https://ijustreadaboutthat.com/2011/01/02/2010-in-review/",
+      "title": "2010 in review | I Just Read About That...",
+      "snippet": "",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "1hlMaPzH55u1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "qiJRj7o1FmmR",
+      "address": "http://gutenberg.ca/index.html",
+      "title": "Project Gutenberg Canada / Projet Gutenberg Canada",
+      "snippet": "",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "1hlMaPzH55u1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "2i-X_sofUy-5",
+      "address": "https://duckduckgo.com/bang_lite.html",
+      "title": "DuckDuckGo !Bang",
+      "snippet": "",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "1hlMaPzH55u1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "p5WNmsyZbNhw",
+      "address": "https://gwern.net/gpt-3",
+      "title": "GPT-3 Creative Fiction · Gwern.net",
+      "snippet": "",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "1hlMaPzH55u1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
       "hash": "AHhJbh3e0QFx",
       "address": "https://commons.wikimedia.org/wiki/Main_Page",
       "title": "Wikimedia Commons",
@@ -2890,77 +3299,9 @@
       "queryPhraseHits": 0
     },
     {
-      "hash": "ID5LWjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Washington,_D.C.",
-      "title": "Washington, D.C. - Wikipedia",
-      "snippet": "",
-      "matchedWords": {
-        "1Ut7onVxovAL": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "1hlMaPzH55u1": {
-          "hits": 0,
-          "textWords": 0
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "XUiTdjLyhbDx",
-      "address": "https://frp.wikipedia.org/wiki/Vouiquip%C3%A8dia:Re%C3%A7ua_princip%C3%A2la",
-      "title": "Vouiquipèdia",
-      "snippet": "",
-      "matchedWords": {
-        "1Ut7onVxovAL": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "1hlMaPzH55u1": {
-          "hits": 0,
-          "textWords": 0
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "lNauRClQBq4x",
-      "address": "https://gpe.wikipedia.org/wiki/Main_Page",
-      "title": "Wikipedia",
-      "snippet": "",
-      "matchedWords": {
-        "1Ut7onVxovAL": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "1hlMaPzH55u1": {
-          "hits": 0,
-          "textWords": 0
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "3JZLOo1ILRNx",
-      "address": "https://tum.wikipedia.org/wiki/Jani_likulu",
-      "title": "Wikipedia",
-      "snippet": "",
-      "matchedWords": {
-        "1Ut7onVxovAL": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "1hlMaPzH55u1": {
-          "hits": 0,
-          "textWords": 0
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "AHhJbh3e0QFx",
-      "address": "https://commons.wikimedia.org/wiki/Main_Page",
-      "title": "Wikimedia Commons",
+      "hash": "qiJRj7o1FmmR",
+      "address": "http://gutenberg.ca/index.html",
+      "title": "Project Gutenberg Canada / Projet Gutenberg Canada",
       "snippet": "",
       "matchedWords": {
         "1Ut7onVxovAL": {
@@ -3077,6 +3418,23 @@
       "queryPhraseHits": 0
     },
     {
+      "hash": "VI9YzkSKkctx",
+      "address": "https://softpanorama.org/Social/Toxic_managers/index.shtml",
+      "title": "Toxic Managers",
+      "snippet": "",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "1hlMaPzH55u1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
       "hash": "D4lABzaS0qdw",
       "address": "https://planet.debian.org/",
       "title": "Planet Debian",
@@ -3179,9 +3537,9 @@
       "queryPhraseHits": 0
     },
     {
-      "hash": "IvnKrjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Manila",
-      "title": "Manila - Wikipedia",
+      "hash": "OHcS-jRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Copenhagen",
+      "title": "Copenhagen - Wikipedia",
       "snippet": "",
       "matchedWords": {
         "1Ut7onVxovAL": {
@@ -3196,9 +3554,9 @@
       "queryPhraseHits": 0
     },
     {
-      "hash": "VwOJNjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Kyiv",
-      "title": "Kyiv - Wikipedia",
+      "hash": "aMTf2jRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Miami",
+      "title": "Miami - Wikipedia",
       "snippet": "",
       "matchedWords": {
         "1Ut7onVxovAL": {
@@ -3213,9 +3571,9 @@
       "queryPhraseHits": 0
     },
     {
-      "hash": "XiRy3jRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Nazi_Germany",
-      "title": "Nazi Germany - Wikipedia",
+      "hash": "pI9PJjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/The_Walt_Disney_Company",
+      "title": "The Walt Disney Company - Wikipedia",
       "snippet": "",
       "matchedWords": {
         "1Ut7onVxovAL": {
@@ -3281,9 +3639,9 @@
       "queryPhraseHits": 0
     },
     {
-      "hash": "3ufGwxtQ-zSx",
-      "address": "https://wiki.archlinux.org/title/AUR_helpers",
-      "title": "AUR helpers - ArchWiki",
+      "hash": "AHhJbh3e0QFx",
+      "address": "https://commons.wikimedia.org/wiki/Main_Page",
+      "title": "Wikimedia Commons",
       "snippet": "",
       "matchedWords": {
         "1Ut7onVxovAL": {
@@ -3298,9 +3656,9 @@
       "queryPhraseHits": 0
     },
     {
-      "hash": "AHhJbh3e0QFx",
-      "address": "https://commons.wikimedia.org/wiki/Main_Page",
-      "title": "Wikimedia Commons",
+      "hash": "W-eXqzF3--Qw",
+      "address": "https://planet.mozilla.org/",
+      "title": "Planet Mozilla",
       "snippet": "",
       "matchedWords": {
         "1Ut7onVxovAL": {
@@ -3349,9 +3707,9 @@
       "queryPhraseHits": 0
     },
     {
-      "hash": "AonnkjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Perl",
-      "title": "Perl - Wikipedia",
+      "hash": "zfCDrj-JVcyx",
+      "address": "https://en.wikiquote.org/wiki/Religion",
+      "title": "Religion - Wikiquote",
       "snippet": "",
       "matchedWords": {
         "1Ut7onVxovAL": {
@@ -3366,9 +3724,196 @@
       "queryPhraseHits": 0
     },
     {
-      "hash": "52lt4jRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Manhattan",
-      "title": "Manhattan - Wikipedia",
+      "hash": "8st5vj-JVcyx",
+      "address": "https://en.wikiquote.org/wiki/User:CensoredScribe",
+      "title": "User:CensoredScribe - Wikiquote",
+      "snippet": "",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "1hlMaPzH55u1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "W-eXqzF3--Qw",
+      "address": "https://planet.mozilla.org/",
+      "title": "Planet Mozilla",
+      "snippet": "",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "1hlMaPzH55u1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "OHcS-jRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Copenhagen",
+      "title": "Copenhagen - Wikipedia",
+      "snippet": "",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "1hlMaPzH55u1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "aMTf2jRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Miami",
+      "title": "Miami - Wikipedia",
+      "snippet": "",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "1hlMaPzH55u1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "cq8LWjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Russia",
+      "title": "Russia - Wikipedia",
+      "snippet": "",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "1hlMaPzH55u1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "dzFNkjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Donald_Trump",
+      "title": "Donald Trump - Wikipedia",
+      "snippet": "",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "1hlMaPzH55u1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "rjRkJjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Hyde_Park,_London",
+      "title": "Hyde Park, London - Wikipedia",
+      "snippet": "",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "1hlMaPzH55u1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "xRnvSjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Wikipedia:Featured_articles_(linked_from_TFAfooter)",
+      "title": "Wikipedia:Featured articles - Wikipedia",
+      "snippet": "",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "1hlMaPzH55u1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "0dZPijRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Social_democracy",
+      "title": "Social democracy - Wikipedia",
+      "snippet": "",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "1hlMaPzH55u1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "5FX3FjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Amazon_(company)",
+      "title": "Amazon (company) - Wikipedia",
+      "snippet": "",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "1hlMaPzH55u1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "m8tyqoXhbKt7",
+      "address": "https://ijustreadaboutthat.com/2011/01/02/2010-in-review/",
+      "title": "2010 in review | I Just Read About That...",
+      "snippet": "",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "1hlMaPzH55u1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "2i-X_sofUy-5",
+      "address": "https://duckduckgo.com/bang_lite.html",
+      "title": "DuckDuckGo !Bang",
       "snippet": "",
       "matchedWords": {
         "1Ut7onVxovAL": {
@@ -3400,9 +3945,9 @@
       "queryPhraseHits": 0
     },
     {
-      "hash": "CTQ-Yj-JVcyx",
-      "address": "https://en.wikiquote.org/wiki/Mystery_Science_Theater_3000",
-      "title": "Mystery Science Theater 3000 - Wikiquote",
+      "hash": "sC0kMlDOAHJg",
+      "address": "https://www.heise.de/en",
+      "title": "heise online – IT news, guides and background information | heise online",
       "snippet": "",
       "matchedWords": {
         "1Ut7onVxovAL": {
@@ -3417,9 +3962,9 @@
       "queryPhraseHits": 0
     },
     {
-      "hash": "AHhJbh3e0QFx",
-      "address": "https://commons.wikimedia.org/wiki/Main_Page",
-      "title": "Wikimedia Commons",
+      "hash": "XBHynjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/John_F._Kennedy",
+      "title": "John F. Kennedy - Wikipedia",
       "snippet": "",
       "matchedWords": {
         "1Ut7onVxovAL": {
@@ -3451,9 +3996,9 @@
       "queryPhraseHits": 0
     },
     {
-      "hash": "oOVv2jRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Wikipedia:Featured_article_candidates",
-      "title": "Wikipedia:Featured article candidates - Wikipedia",
+      "hash": "7SAAdjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Green_Arrow",
+      "title": "Green Arrow - Wikipedia",
       "snippet": "",
       "matchedWords": {
         "1Ut7onVxovAL": {
@@ -3485,9 +4030,60 @@
       "queryPhraseHits": 0
     },
     {
+      "hash": "XwfbfBXhbKt7",
+      "address": "https://ijustreadaboutthat.com/2009/04/25/pierdomenico-baccalario-ulysses-moore-books-1-4/",
+      "title": "Pierdomenico Baccalario–Ulysses Moore series, books 1-4 | I Just Read About That...",
+      "snippet": "",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "1hlMaPzH55u1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "p5WNmsyZbNhw",
+      "address": "https://gwern.net/gpt-3",
+      "title": "GPT-3 Creative Fiction · Gwern.net",
+      "snippet": "",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "1hlMaPzH55u1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
       "hash": "3JZLOo1ILRNx",
       "address": "https://tum.wikipedia.org/wiki/Jani_likulu",
       "title": "Wikipedia",
+      "snippet": "",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "1hlMaPzH55u1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "0dZPijRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Social_democracy",
+      "title": "Social democracy - Wikipedia",
       "snippet": "",
       "matchedWords": {
         "1Ut7onVxovAL": {
@@ -3519,23 +4115,6 @@
       "queryPhraseHits": 0
     },
     {
-      "hash": "15BuYjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Operation_Southern_Spear",
-      "title": "Operation Southern Spear - Wikipedia",
-      "snippet": "",
-      "matchedWords": {
-        "1Ut7onVxovAL": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "1hlMaPzH55u1": {
-          "hits": 0,
-          "textWords": 0
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
       "hash": "2iTHdjRvmBbx",
       "address": "https://en.wikipedia.org/wiki/River_Thames",
       "title": "River Thames - Wikipedia",
@@ -3553,9 +4132,9 @@
       "queryPhraseHits": 0
     },
     {
-      "hash": "3tRJnjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Killing_of_Alex_Pretti",
-      "title": "Killing of Alex Pretti - Wikipedia",
+      "hash": "2CAHw8uKjjbw",
+      "address": "https://wiki.gentoo.org/wiki/FAQ",
+      "title": "FAQ - Gentoo wiki",
       "snippet": "",
       "matchedWords": {
         "1Ut7onVxovAL": {
@@ -3570,26 +4149,9 @@
       "queryPhraseHits": 0
     },
     {
-      "hash": "2c26yxtQ-zSx",
-      "address": "https://wiki.archlinux.org/title/Installation_guide",
-      "title": "Installation guide - ArchWiki",
-      "snippet": "",
-      "matchedWords": {
-        "1Ut7onVxovAL": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "1hlMaPzH55u1": {
-          "hits": 0,
-          "textWords": 0
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "3ufGwxtQ-zSx",
-      "address": "https://wiki.archlinux.org/title/AUR_helpers",
-      "title": "AUR helpers - ArchWiki",
+      "hash": "5FX3FjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Amazon_(company)",
+      "title": "Amazon (company) - Wikipedia",
       "snippet": "",
       "matchedWords": {
         "1Ut7onVxovAL": {
@@ -3672,195 +4234,25 @@
       "queryPhraseHits": 0
     },
     {
-      "hash": "CTQ-Yj-JVcyx",
-      "address": "https://en.wikiquote.org/wiki/Mystery_Science_Theater_3000",
-      "title": "Mystery Science Theater 3000 - Wikiquote",
-      "snippet": "",
-      "matchedWords": {
-        "1Ut7onVxovAL": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "1hlMaPzH55u1": {
-          "hits": 0,
-          "textWords": 0
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "3JZLOo1ILRNx",
-      "address": "https://tum.wikipedia.org/wiki/Jani_likulu",
-      "title": "Wikipedia",
-      "snippet": "",
-      "matchedWords": {
-        "1Ut7onVxovAL": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "1hlMaPzH55u1": {
-          "hits": 0,
-          "textWords": 0
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "kDLqZZIRcMkY",
-      "address": "http://rigorousintuition.blogspot.com/2005/11/correspondence-and-sanctuary-part-one.html",
-      "title": "Rigorous Intuition: Correspondence and sanctuary (Part One)",
-      "snippet": "",
-      "matchedWords": {
-        "1Ut7onVxovAL": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "1hlMaPzH55u1": {
-          "hits": 0,
-          "textWords": 0
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "DTPX7jRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Wikipedia:Featured_articles",
-      "title": "Wikipedia:Featured articles - Wikipedia",
-      "snippet": "",
-      "matchedWords": {
-        "1Ut7onVxovAL": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "1hlMaPzH55u1": {
-          "hits": 0,
-          "textWords": 0
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "rWczfjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/England",
-      "title": "England - Wikipedia",
-      "snippet": "",
-      "matchedWords": {
-        "1Ut7onVxovAL": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "1hlMaPzH55u1": {
-          "hits": 0,
-          "textWords": 0
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "3tRJnjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Killing_of_Alex_Pretti",
-      "title": "Killing of Alex Pretti - Wikipedia",
-      "snippet": "",
-      "matchedWords": {
-        "1Ut7onVxovAL": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "1hlMaPzH55u1": {
-          "hits": 0,
-          "textWords": 0
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "7SAAdjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Green_Arrow",
-      "title": "Green Arrow - Wikipedia",
-      "snippet": "",
-      "matchedWords": {
-        "1Ut7onVxovAL": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "1hlMaPzH55u1": {
-          "hits": 0,
-          "textWords": 0
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "5KQ_nsUDS-lx",
-      "address": "https://boingboing.net/",
-      "title": "Boing Boing - A Directory of Mostly Wonderful Things",
-      "snippet": "",
-      "matchedWords": {
-        "1Ut7onVxovAL": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "1hlMaPzH55u1": {
-          "hits": 0,
-          "textWords": 0
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "D4lABzaS0qdw",
-      "address": "https://planet.debian.org/",
-      "title": "Planet Debian",
-      "snippet": "",
-      "matchedWords": {
-        "1Ut7onVxovAL": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "1hlMaPzH55u1": {
-          "hits": 0,
-          "textWords": 0
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "lNauRClQBq4x",
-      "address": "https://gpe.wikipedia.org/wiki/Main_Page",
-      "title": "Wikipedia",
-      "snippet": "",
-      "matchedWords": {
-        "1Ut7onVxovAL": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "1hlMaPzH55u1": {
-          "hits": 0,
-          "textWords": 0
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "-b3sxspKNBr4",
-      "address": "https://rense.com/",
-      "title": "rense.com",
-      "snippet": "",
-      "matchedWords": {
-        "1Ut7onVxovAL": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "1hlMaPzH55u1": {
-          "hits": 0,
-          "textWords": 0
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
       "hash": "yzAoyj-JVcyx",
       "address": "https://en.wikiquote.org/wiki/Religions",
+      "title": "Religion - Wikiquote",
+      "snippet": "",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "1hlMaPzH55u1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "zfCDrj-JVcyx",
+      "address": "https://en.wikiquote.org/wiki/Religion",
       "title": "Religion - Wikiquote",
       "snippet": "",
       "matchedWords": {
@@ -3879,6 +4271,57 @@
       "hash": "2qtMZjAg8xXw",
       "address": "https://en.wikinews.org/wiki/User:Harej/pagelinks",
       "title": "User:Harej/pagelinks - Wikinews, the free news source",
+      "snippet": "",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "1hlMaPzH55u1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "W-eXqzF3--Qw",
+      "address": "https://planet.mozilla.org/",
+      "title": "Planet Mozilla",
+      "snippet": "",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "1hlMaPzH55u1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "OHcS-jRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Copenhagen",
+      "title": "Copenhagen - Wikipedia",
+      "snippet": "",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "1hlMaPzH55u1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "dzFNkjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Donald_Trump",
+      "title": "Donald Trump - Wikipedia",
       "snippet": "",
       "matchedWords": {
         "1Ut7onVxovAL": {
@@ -3944,9 +4387,43 @@
       "queryPhraseHits": 0
     },
     {
+      "hash": "2i-X_sofUy-5",
+      "address": "https://duckduckgo.com/bang_lite.html",
+      "title": "DuckDuckGo !Bang",
+      "snippet": "",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "1hlMaPzH55u1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
       "hash": "CTQ-Yj-JVcyx",
       "address": "https://en.wikiquote.org/wiki/Mystery_Science_Theater_3000",
       "title": "Mystery Science Theater 3000 - Wikiquote",
+      "snippet": "",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "1hlMaPzH55u1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "8st5vj-JVcyx",
+      "address": "https://en.wikiquote.org/wiki/User:CensoredScribe",
+      "title": "User:CensoredScribe - Wikiquote",
       "snippet": "",
       "matchedWords": {
         "1Ut7onVxovAL": {
@@ -4012,91 +4489,6 @@
       "queryPhraseHits": 0
     },
     {
-      "hash": "UXoSijRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/IBM",
-      "title": "IBM - Wikipedia",
-      "snippet": "",
-      "matchedWords": {
-        "1Ut7onVxovAL": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "1hlMaPzH55u1": {
-          "hits": 0,
-          "textWords": 0
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "uwm5zjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/EBay",
-      "title": "eBay - Wikipedia",
-      "snippet": "",
-      "matchedWords": {
-        "1Ut7onVxovAL": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "1hlMaPzH55u1": {
-          "hits": 0,
-          "textWords": 0
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "08Sc2jRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/George_R._R._Martin",
-      "title": "George R. R. Martin - Wikipedia",
-      "snippet": "",
-      "matchedWords": {
-        "1Ut7onVxovAL": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "1hlMaPzH55u1": {
-          "hits": 0,
-          "textWords": 0
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "9bBlhjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Debian",
-      "title": "Debian - Wikipedia",
-      "snippet": "",
-      "matchedWords": {
-        "1Ut7onVxovAL": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "1hlMaPzH55u1": {
-          "hits": 0,
-          "textWords": 0
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "CTQ-Yj-JVcyx",
-      "address": "https://en.wikiquote.org/wiki/Mystery_Science_Theater_3000",
-      "title": "Mystery Science Theater 3000 - Wikiquote",
-      "snippet": "",
-      "matchedWords": {
-        "1Ut7onVxovAL": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "1hlMaPzH55u1": {
-          "hits": 0,
-          "textWords": 0
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
       "hash": "AHhJbh3e0QFx",
       "address": "https://commons.wikimedia.org/wiki/Main_Page",
       "title": "Wikimedia Commons",
@@ -4114,9 +4506,9 @@
       "queryPhraseHits": 0
     },
     {
-      "hash": "xRnvSjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Wikipedia:Featured_articles_(linked_from_TFAfooter)",
-      "title": "Wikipedia:Featured articles - Wikipedia",
+      "hash": "BoTwejRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Barcelona",
+      "title": "Barcelona - Wikipedia",
       "snippet": "",
       "matchedWords": {
         "1Ut7onVxovAL": {
@@ -4131,9 +4523,9 @@
       "queryPhraseHits": 0
     },
     {
-      "hash": "p5WNmsyZbNhw",
-      "address": "https://gwern.net/gpt-3",
-      "title": "GPT-3 Creative Fiction · Gwern.net",
+      "hash": "BxsbyjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Apple_Inc.",
+      "title": "Apple Inc. - Wikipedia",
       "snippet": "",
       "matchedWords": {
         "1Ut7onVxovAL": {
@@ -4148,9 +4540,9 @@
       "queryPhraseHits": 0
     },
     {
-      "hash": "IaKUVjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Minneapolis%E2%80%93Saint_Paul",
-      "title": "Minneapolis–Saint Paul - Wikipedia",
+      "hash": "B_3gljRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/BSD",
+      "title": "Berkeley Software Distribution - Wikipedia",
       "snippet": "",
       "matchedWords": {
         "1Ut7onVxovAL": {
@@ -4165,9 +4557,9 @@
       "queryPhraseHits": 0
     },
     {
-      "hash": "KlD0NjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Response_to_the_Department_of_Government_Efficiency",
-      "title": "Response to the Department of Government Efficiency - Wikipedia",
+      "hash": "CcYVa7S6MKD4",
+      "address": "https://github.com/sindresorhus/awesome",
+      "title": "GitHub - sindresorhus/awesome: 😎 Awesome lists about all kinds of interesting topics",
       "snippet": "",
       "matchedWords": {
         "1Ut7onVxovAL": {
@@ -4182,9 +4574,9 @@
       "queryPhraseHits": 0
     },
     {
-      "hash": "XBHynjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/John_F._Kennedy",
-      "title": "John F. Kennedy - Wikipedia",
+      "hash": "D4lABzaS0qdw",
+      "address": "https://planet.debian.org/",
+      "title": "Planet Debian",
       "snippet": "",
       "matchedWords": {
         "1Ut7onVxovAL": {
@@ -4199,9 +4591,9 @@
       "queryPhraseHits": 0
     },
     {
-      "hash": "JEWZurS6MKD4",
-      "address": "https://github.com/rbenv/rbenv",
-      "title": "GitHub - rbenv/rbenv: Manage your app's Ruby environment · GitHub",
+      "hash": "OHcS-jRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Copenhagen",
+      "title": "Copenhagen - Wikipedia",
       "snippet": "",
       "matchedWords": {
         "1Ut7onVxovAL": {
@@ -4216,9 +4608,9 @@
       "queryPhraseHits": 0
     },
     {
-      "hash": "LPvBvDpp6yww",
-      "address": "https://clang.llvm.org/docs/UsersManual.html",
-      "title": "Clang Compiler User’s Manual — Clang 24.0.0git documentation",
+      "hash": "2CAHw8uKjjbw",
+      "address": "https://wiki.gentoo.org/wiki/FAQ",
+      "title": "FAQ - Gentoo wiki",
       "snippet": "",
       "matchedWords": {
         "1Ut7onVxovAL": {
@@ -4233,43 +4625,9 @@
       "queryPhraseHits": 0
     },
     {
-      "hash": "2c26yxtQ-zSx",
-      "address": "https://wiki.archlinux.org/title/Installation_guide",
-      "title": "Installation guide - ArchWiki",
-      "snippet": "",
-      "matchedWords": {
-        "1Ut7onVxovAL": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "1hlMaPzH55u1": {
-          "hits": 0,
-          "textWords": 0
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "AHhJbh3e0QFx",
-      "address": "https://commons.wikimedia.org/wiki/Main_Page",
-      "title": "Wikimedia Commons",
-      "snippet": "",
-      "matchedWords": {
-        "1Ut7onVxovAL": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "1hlMaPzH55u1": {
-          "hits": 0,
-          "textWords": 0
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "QfhzIjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Category:Spoken_articles",
-      "title": "Category:Spoken articles - Wikipedia",
+      "hash": "W-eXqzF3--Qw",
+      "address": "https://planet.mozilla.org/",
+      "title": "Planet Mozilla",
       "snippet": "",
       "matchedWords": {
         "1Ut7onVxovAL": {
@@ -4287,57 +4645,6 @@
       "hash": "UXoSijRvmBbx",
       "address": "https://en.wikipedia.org/wiki/IBM",
       "title": "IBM - Wikipedia",
-      "snippet": "",
-      "matchedWords": {
-        "1Ut7onVxovAL": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "1hlMaPzH55u1": {
-          "hits": 0,
-          "textWords": 0
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "VSvcQjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Microsoft",
-      "title": "Microsoft - Wikipedia",
-      "snippet": "",
-      "matchedWords": {
-        "1Ut7onVxovAL": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "1hlMaPzH55u1": {
-          "hits": 0,
-          "textWords": 0
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "VwOJNjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Kyiv",
-      "title": "Kyiv - Wikipedia",
-      "snippet": "",
-      "matchedWords": {
-        "1Ut7onVxovAL": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "1hlMaPzH55u1": {
-          "hits": 0,
-          "textWords": 0
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "XiRy3jRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Nazi_Germany",
-      "title": "Nazi Germany - Wikipedia",
       "snippet": "",
       "matchedWords": {
         "1Ut7onVxovAL": {
@@ -4369,6 +4676,74 @@
       "queryPhraseHits": 0
     },
     {
+      "hash": "oOVv2jRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Wikipedia:Featured_article_candidates",
+      "title": "Wikipedia:Featured article candidates - Wikipedia",
+      "snippet": "",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "1hlMaPzH55u1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "pI9PJjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/The_Walt_Disney_Company",
+      "title": "The Walt Disney Company - Wikipedia",
+      "snippet": "",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "1hlMaPzH55u1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "XwfbfBXhbKt7",
+      "address": "https://ijustreadaboutthat.com/2009/04/25/pierdomenico-baccalario-ulysses-moore-books-1-4/",
+      "title": "Pierdomenico Baccalario–Ulysses Moore series, books 1-4 | I Just Read About That...",
+      "snippet": "",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "1hlMaPzH55u1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "9zMz2jjEZfvx",
+      "address": "https://en.wiktionary.org/wiki/User:Matthias_Buchmeier/en-de-s",
+      "title": "User:Matthias Buchmeier/en-de-s - Wiktionary, the free dictionary",
+      "snippet": "",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "1hlMaPzH55u1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
       "hash": "-b3sxspKNBr4",
       "address": "https://rense.com/",
       "title": "rense.com",
@@ -4389,6 +4764,23 @@
       "hash": "AHhJbh3e0QFx",
       "address": "https://commons.wikimedia.org/wiki/Main_Page",
       "title": "Wikimedia Commons",
+      "snippet": "",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "1hlMaPzH55u1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "VI9YzkSKkctx",
+      "address": "https://softpanorama.org/Social/Toxic_managers/index.shtml",
+      "title": "Toxic Managers",
       "snippet": "",
       "matchedWords": {
         "1Ut7onVxovAL": {
@@ -4454,9 +4846,9 @@
       "queryPhraseHits": 0
     },
     {
-      "hash": "2qtMZjAg8xXw",
-      "address": "https://en.wikinews.org/wiki/User:Harej/pagelinks",
-      "title": "User:Harej/pagelinks - Wikinews, the free news source",
+      "hash": "AHhJbh3e0QFx",
+      "address": "https://commons.wikimedia.org/wiki/Main_Page",
+      "title": "Wikimedia Commons",
       "snippet": "",
       "matchedWords": {
         "1Ut7onVxovAL": {
@@ -4471,94 +4863,9 @@
       "queryPhraseHits": 0
     },
     {
-      "hash": "BxsbyjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Apple_Inc.",
-      "title": "Apple Inc. - Wikipedia",
-      "snippet": "",
-      "matchedWords": {
-        "1Ut7onVxovAL": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "1hlMaPzH55u1": {
-          "hits": 0,
-          "textWords": 0
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "rjRkJjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Hyde_Park,_London",
-      "title": "Hyde Park, London - Wikipedia",
-      "snippet": "",
-      "matchedWords": {
-        "1Ut7onVxovAL": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "1hlMaPzH55u1": {
-          "hits": 0,
-          "textWords": 0
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "2c26yxtQ-zSx",
-      "address": "https://wiki.archlinux.org/title/Installation_guide",
-      "title": "Installation guide - ArchWiki",
-      "snippet": "",
-      "matchedWords": {
-        "1Ut7onVxovAL": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "1hlMaPzH55u1": {
-          "hits": 0,
-          "textWords": 0
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "3ufGwxtQ-zSx",
-      "address": "https://wiki.archlinux.org/title/AUR_helpers",
-      "title": "AUR helpers - ArchWiki",
-      "snippet": "",
-      "matchedWords": {
-        "1Ut7onVxovAL": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "1hlMaPzH55u1": {
-          "hits": 0,
-          "textWords": 0
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "XiRy3jRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Nazi_Germany",
-      "title": "Nazi Germany - Wikipedia",
-      "snippet": "",
-      "matchedWords": {
-        "1Ut7onVxovAL": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "1hlMaPzH55u1": {
-          "hits": 0,
-          "textWords": 0
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "-b3sxspKNBr4",
-      "address": "https://rense.com/",
-      "title": "rense.com",
+      "hash": "dzFNkjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Donald_Trump",
+      "title": "Donald Trump - Wikipedia",
       "snippet": "",
       "matchedWords": {
         "1Ut7onVxovAL": {
@@ -4607,6 +4914,23 @@
       "queryPhraseHits": 0
     },
     {
+      "hash": "VI9YzkSKkctx",
+      "address": "https://softpanorama.org/Social/Toxic_managers/index.shtml",
+      "title": "Toxic Managers",
+      "snippet": "",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "1hlMaPzH55u1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
       "hash": "m8tyqoXhbKt7",
       "address": "https://ijustreadaboutthat.com/2011/01/02/2010-in-review/",
       "title": "2010 in review | I Just Read About That...",
@@ -4641,9 +4965,9 @@
       "queryPhraseHits": 0
     },
     {
-      "hash": "XUiTdjLyhbDx",
-      "address": "https://frp.wikipedia.org/wiki/Vouiquip%C3%A8dia:Re%C3%A7ua_princip%C3%A2la",
-      "title": "Vouiquipèdia",
+      "hash": "BoTwejRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Barcelona",
+      "title": "Barcelona - Wikipedia",
       "snippet": "",
       "matchedWords": {
         "1Ut7onVxovAL": {
@@ -4692,43 +5016,9 @@
       "queryPhraseHits": 0
     },
     {
-      "hash": "ID5LWjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Washington,_D.C.",
-      "title": "Washington, D.C. - Wikipedia",
-      "snippet": "",
-      "matchedWords": {
-        "1Ut7onVxovAL": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "1hlMaPzH55u1": {
-          "hits": 0,
-          "textWords": 0
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "IvnKrjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Manila",
-      "title": "Manila - Wikipedia",
-      "snippet": "",
-      "matchedWords": {
-        "1Ut7onVxovAL": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "1hlMaPzH55u1": {
-          "hits": 0,
-          "textWords": 0
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "QfhzIjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Category:Spoken_articles",
-      "title": "Category:Spoken articles - Wikipedia",
+      "hash": "OHcS-jRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Copenhagen",
+      "title": "Copenhagen - Wikipedia",
       "snippet": "",
       "matchedWords": {
         "1Ut7onVxovAL": {
@@ -4760,43 +5050,60 @@
       "queryPhraseHits": 0
     },
     {
-      "hash": "VwOJNjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Kyiv",
-      "title": "Kyiv - Wikipedia",
-      "snippet": "",
-      "matchedWords": {
-        "1Ut7onVxovAL": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "1hlMaPzH55u1": {
-          "hits": 0,
-          "textWords": 0
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "XiRy3jRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Nazi_Germany",
-      "title": "Nazi Germany - Wikipedia",
-      "snippet": "",
-      "matchedWords": {
-        "1Ut7onVxovAL": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "1hlMaPzH55u1": {
-          "hits": 0,
-          "textWords": 0
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
       "hash": "Xu0QIjRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Proprietary_software",
       "title": "Proprietary software - Wikipedia",
+      "snippet": "",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "1hlMaPzH55u1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "aMTf2jRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Miami",
+      "title": "Miami - Wikipedia",
+      "snippet": "",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "1hlMaPzH55u1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "cq8LWjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Russia",
+      "title": "Russia - Wikipedia",
+      "snippet": "",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "1hlMaPzH55u1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "dzFNkjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Donald_Trump",
+      "title": "Donald Trump - Wikipedia",
       "snippet": "",
       "matchedWords": {
         "1Ut7onVxovAL": {
@@ -4862,9 +5169,9 @@
       "queryPhraseHits": 0
     },
     {
-      "hash": "15BuYjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Operation_Southern_Spear",
-      "title": "Operation Southern Spear - Wikipedia",
+      "hash": "2iTHdjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/River_Thames",
+      "title": "River Thames - Wikipedia",
       "snippet": "",
       "matchedWords": {
         "1Ut7onVxovAL": {
@@ -4879,9 +5186,9 @@
       "queryPhraseHits": 0
     },
     {
-      "hash": "2iTHdjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/River_Thames",
-      "title": "River Thames - Wikipedia",
+      "hash": "4N2qLjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Invasion_of_Poland",
+      "title": "Invasion of Poland - Wikipedia",
       "snippet": "",
       "matchedWords": {
         "1Ut7onVxovAL": {
@@ -4947,9 +5254,9 @@
       "queryPhraseHits": 0
     },
     {
-      "hash": "8Cje6jc4UIAx",
-      "address": "https://en.wikivoyage.org/wiki/UNESCO_World_Heritage_List",
-      "title": "UNESCO World Heritage List – Travel guide at Wikivoyage",
+      "hash": "qiJRj7o1FmmR",
+      "address": "http://gutenberg.ca/index.html",
+      "title": "Project Gutenberg Canada / Projet Gutenberg Canada",
       "snippet": "",
       "matchedWords": {
         "1Ut7onVxovAL": {
@@ -4964,9 +5271,9 @@
       "queryPhraseHits": 0
     },
     {
-      "hash": "GHYyvjjEZfvx",
-      "address": "https://en.wiktionary.org/wiki/Category:English_1-syllable_words",
-      "title": "Category:English 1-syllable words - Wiktionary, the free dictionary",
+      "hash": "2CAHw8uKjjbw",
+      "address": "https://wiki.gentoo.org/wiki/FAQ",
+      "title": "FAQ - Gentoo wiki",
       "snippet": "",
       "matchedWords": {
         "1Ut7onVxovAL": {
@@ -4981,9 +5288,9 @@
       "queryPhraseHits": 0
     },
     {
-      "hash": "lNauRClQBq4x",
-      "address": "https://gpe.wikipedia.org/wiki/Main_Page",
-      "title": "Wikipedia",
+      "hash": "8st5vj-JVcyx",
+      "address": "https://en.wikiquote.org/wiki/User:CensoredScribe",
+      "title": "User:CensoredScribe - Wikiquote",
       "snippet": "",
       "matchedWords": {
         "1Ut7onVxovAL": {
@@ -5018,6 +5325,23 @@
       "hash": "AHhJbh3e0QFx",
       "address": "https://commons.wikimedia.org/wiki/Main_Page",
       "title": "Wikimedia Commons",
+      "snippet": "",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "1hlMaPzH55u1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "2qtMZjAg8xXw",
+      "address": "https://en.wikinews.org/wiki/User:Harej/pagelinks",
+      "title": "User:Harej/pagelinks - Wikinews, the free news source",
       "snippet": "",
       "matchedWords": {
         "1Ut7onVxovAL": {
@@ -5066,9 +5390,9 @@
       "queryPhraseHits": 0
     },
     {
-      "hash": "CTQ-Yj-JVcyx",
-      "address": "https://en.wikiquote.org/wiki/Mystery_Science_Theater_3000",
-      "title": "Mystery Science Theater 3000 - Wikiquote",
+      "hash": "5KQ_nsUDS-lx",
+      "address": "https://boingboing.net/",
+      "title": "Boing Boing - A Directory of Mostly Wonderful Things",
       "snippet": "",
       "matchedWords": {
         "1Ut7onVxovAL": {
@@ -5083,9 +5407,9 @@
       "queryPhraseHits": 0
     },
     {
-      "hash": "yzAoyj-JVcyx",
-      "address": "https://en.wikiquote.org/wiki/Religions",
-      "title": "Religion - Wikiquote",
+      "hash": "9zMz2jjEZfvx",
+      "address": "https://en.wiktionary.org/wiki/User:Matthias_Buchmeier/en-de-s",
+      "title": "User:Matthias Buchmeier/en-de-s - Wiktionary, the free dictionary",
       "snippet": "",
       "matchedWords": {
         "1Ut7onVxovAL": {
@@ -5100,9 +5424,60 @@
       "queryPhraseHits": 0
     },
     {
-      "hash": "oOVv2jRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Wikipedia:Featured_article_candidates",
-      "title": "Wikipedia:Featured article candidates - Wikipedia",
+      "hash": "-b3sxspKNBr4",
+      "address": "https://rense.com/",
+      "title": "rense.com",
+      "snippet": "",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "1hlMaPzH55u1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "8st5vj-JVcyx",
+      "address": "https://en.wikiquote.org/wiki/User:CensoredScribe",
+      "title": "User:CensoredScribe - Wikiquote",
+      "snippet": "",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "1hlMaPzH55u1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "sC0kMlDOAHJg",
+      "address": "https://www.heise.de/en",
+      "title": "heise online – IT news, guides and background information | heise online",
+      "snippet": "",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "1hlMaPzH55u1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "Xu0QIjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Proprietary_software",
+      "title": "Proprietary software - Wikipedia",
       "snippet": "",
       "matchedWords": {
         "1Ut7onVxovAL": {
@@ -5134,9 +5509,26 @@
       "queryPhraseHits": 0
     },
     {
-      "hash": "9bBlhjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Debian",
-      "title": "Debian - Wikipedia",
+      "hash": "2iTHdjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/River_Thames",
+      "title": "River Thames - Wikipedia",
+      "snippet": "",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "1hlMaPzH55u1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "oOVv2jRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Wikipedia:Featured_article_candidates",
+      "title": "Wikipedia:Featured article candidates - Wikipedia",
       "snippet": "",
       "matchedWords": {
         "1Ut7onVxovAL": {
@@ -5168,9 +5560,43 @@
       "queryPhraseHits": 0
     },
     {
-      "hash": "m8tyqoXhbKt7",
-      "address": "https://ijustreadaboutthat.com/2011/01/02/2010-in-review/",
-      "title": "2010 in review | I Just Read About That...",
+      "hash": "yzAoyj-JVcyx",
+      "address": "https://en.wikiquote.org/wiki/Religions",
+      "title": "Religion - Wikiquote",
+      "snippet": "",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "1hlMaPzH55u1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "zfCDrj-JVcyx",
+      "address": "https://en.wikiquote.org/wiki/Religion",
+      "title": "Religion - Wikiquote",
+      "snippet": "",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "1hlMaPzH55u1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "52lt4jRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Manhattan",
+      "title": "Manhattan - Wikipedia",
       "snippet": "",
       "matchedWords": {
         "1Ut7onVxovAL": {
@@ -5188,6 +5614,108 @@
       "hash": "-b3sxspKNBr4",
       "address": "https://rense.com/",
       "title": "rense.com",
+      "snippet": "",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "1hlMaPzH55u1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "CTQ-Yj-JVcyx",
+      "address": "https://en.wikiquote.org/wiki/Mystery_Science_Theater_3000",
+      "title": "Mystery Science Theater 3000 - Wikiquote",
+      "snippet": "",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "1hlMaPzH55u1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "AHhJbh3e0QFx",
+      "address": "https://commons.wikimedia.org/wiki/Main_Page",
+      "title": "Wikimedia Commons",
+      "snippet": "",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "1hlMaPzH55u1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "atffDjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Template_talk:Did_you_know",
+      "title": "Template talk:Did you know - Wikipedia",
+      "snippet": "",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "1hlMaPzH55u1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "oOVv2jRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Wikipedia:Featured_article_candidates",
+      "title": "Wikipedia:Featured article candidates - Wikipedia",
+      "snippet": "",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "1hlMaPzH55u1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "5KQ_nsUDS-lx",
+      "address": "https://boingboing.net/",
+      "title": "Boing Boing - A Directory of Mostly Wonderful Things",
+      "snippet": "",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "1hlMaPzH55u1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "qiJRj7o1FmmR",
+      "address": "http://gutenberg.ca/index.html",
+      "title": "Project Gutenberg Canada / Projet Gutenberg Canada",
       "snippet": "",
       "matchedWords": {
         "1Ut7onVxovAL": {
@@ -5236,6 +5764,57 @@
       "queryPhraseHits": 0
     },
     {
+      "hash": "sC0kMlDOAHJg",
+      "address": "https://www.heise.de/en",
+      "title": "heise online – IT news, guides and background information | heise online",
+      "snippet": "",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "1hlMaPzH55u1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "W-eXqzF3--Qw",
+      "address": "https://planet.mozilla.org/",
+      "title": "Planet Mozilla",
+      "snippet": "",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "1hlMaPzH55u1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "0dZPijRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Social_democracy",
+      "title": "Social democracy - Wikipedia",
+      "snippet": "",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "1hlMaPzH55u1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
       "hash": "08Sc2jRvmBbx",
       "address": "https://en.wikipedia.org/wiki/George_R._R._Martin",
       "title": "George R. R. Martin - Wikipedia",
@@ -5253,43 +5832,9 @@
       "queryPhraseHits": 0
     },
     {
-      "hash": "15BuYjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Operation_Southern_Spear",
-      "title": "Operation Southern Spear - Wikipedia",
-      "snippet": "",
-      "matchedWords": {
-        "1Ut7onVxovAL": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "1hlMaPzH55u1": {
-          "hits": 0,
-          "textWords": 0
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
       "hash": "2iTHdjRvmBbx",
       "address": "https://en.wikipedia.org/wiki/River_Thames",
       "title": "River Thames - Wikipedia",
-      "snippet": "",
-      "matchedWords": {
-        "1Ut7onVxovAL": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "1hlMaPzH55u1": {
-          "hits": 0,
-          "textWords": 0
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "3tRJnjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Killing_of_Alex_Pretti",
-      "title": "Killing of Alex Pretti - Wikipedia",
       "snippet": "",
       "matchedWords": {
         "1Ut7onVxovAL": {
@@ -5321,9 +5866,9 @@
       "queryPhraseHits": 0
     },
     {
-      "hash": "GHYyvjjEZfvx",
-      "address": "https://en.wiktionary.org/wiki/Category:English_1-syllable_words",
-      "title": "Category:English 1-syllable words - Wiktionary, the free dictionary",
+      "hash": "XwfbfBXhbKt7",
+      "address": "https://ijustreadaboutthat.com/2009/04/25/pierdomenico-baccalario-ulysses-moore-books-1-4/",
+      "title": "Pierdomenico Baccalario–Ulysses Moore series, books 1-4 | I Just Read About That...",
       "snippet": "",
       "matchedWords": {
         "1Ut7onVxovAL": {
@@ -5338,9 +5883,9 @@
       "queryPhraseHits": 0
     },
     {
-      "hash": "CkczXlmJ800w",
-      "address": "https://www.gentoo.org/",
-      "title": "Welcome – Gentoo Linux",
+      "hash": "qiJRj7o1FmmR",
+      "address": "http://gutenberg.ca/index.html",
+      "title": "Project Gutenberg Canada / Projet Gutenberg Canada",
       "snippet": "",
       "matchedWords": {
         "1Ut7onVxovAL": {
@@ -5355,9 +5900,9 @@
       "queryPhraseHits": 0
     },
     {
-      "hash": "LPvBvDpp6yww",
-      "address": "https://clang.llvm.org/docs/UsersManual.html",
-      "title": "Clang Compiler User’s Manual — Clang 24.0.0git documentation",
+      "hash": "2i-X_sofUy-5",
+      "address": "https://duckduckgo.com/bang_lite.html",
+      "title": "DuckDuckGo !Bang",
       "snippet": "",
       "matchedWords": {
         "1Ut7onVxovAL": {
@@ -5372,26 +5917,9 @@
       "queryPhraseHits": 0
     },
     {
-      "hash": "2c26yxtQ-zSx",
-      "address": "https://wiki.archlinux.org/title/Installation_guide",
-      "title": "Installation guide - ArchWiki",
-      "snippet": "",
-      "matchedWords": {
-        "1Ut7onVxovAL": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "1hlMaPzH55u1": {
-          "hits": 0,
-          "textWords": 0
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "3ufGwxtQ-zSx",
-      "address": "https://wiki.archlinux.org/title/AUR_helpers",
-      "title": "AUR helpers - ArchWiki",
+      "hash": "2CAHw8uKjjbw",
+      "address": "https://wiki.gentoo.org/wiki/FAQ",
+      "title": "FAQ - Gentoo wiki",
       "snippet": "",
       "matchedWords": {
         "1Ut7onVxovAL": {
@@ -5457,9 +5985,9 @@
       "queryPhraseHits": 0
     },
     {
-      "hash": "VSvcQjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Microsoft",
-      "title": "Microsoft - Wikipedia",
+      "hash": "zfCDrj-JVcyx",
+      "address": "https://en.wikiquote.org/wiki/Religion",
+      "title": "Religion - Wikiquote",
       "snippet": "",
       "matchedWords": {
         "1Ut7onVxovAL": {
@@ -5508,9 +6036,9 @@
       "queryPhraseHits": 0
     },
     {
-      "hash": "AHhJbh3e0QFx",
-      "address": "https://commons.wikimedia.org/wiki/Main_Page",
-      "title": "Wikimedia Commons",
+      "hash": "UXoSijRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/IBM",
+      "title": "IBM - Wikipedia",
       "snippet": "",
       "matchedWords": {
         "1Ut7onVxovAL": {
@@ -5525,9 +6053,9 @@
       "queryPhraseHits": 0
     },
     {
-      "hash": "atffDjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Template_talk:Did_you_know",
-      "title": "Template talk:Did you know - Wikipedia",
+      "hash": "uwm5zjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/EBay",
+      "title": "eBay - Wikipedia",
       "snippet": "",
       "matchedWords": {
         "1Ut7onVxovAL": {
@@ -5542,9 +6070,9 @@
       "queryPhraseHits": 0
     },
     {
-      "hash": "IaKUVjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Minneapolis%E2%80%93Saint_Paul",
-      "title": "Minneapolis–Saint Paul - Wikipedia",
+      "hash": "08Sc2jRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/George_R._R._Martin",
+      "title": "George R. R. Martin - Wikipedia",
       "snippet": "",
       "matchedWords": {
         "1Ut7onVxovAL": {
@@ -5559,60 +6087,9 @@
       "queryPhraseHits": 0
     },
     {
-      "hash": "KlD0NjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Response_to_the_Department_of_Government_Efficiency",
-      "title": "Response to the Department of Government Efficiency - Wikipedia",
-      "snippet": "",
-      "matchedWords": {
-        "1Ut7onVxovAL": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "1hlMaPzH55u1": {
-          "hits": 0,
-          "textWords": 0
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "rjRkJjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Hyde_Park,_London",
-      "title": "Hyde Park, London - Wikipedia",
-      "snippet": "",
-      "matchedWords": {
-        "1Ut7onVxovAL": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "1hlMaPzH55u1": {
-          "hits": 0,
-          "textWords": 0
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "15BuYjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Operation_Southern_Spear",
-      "title": "Operation Southern Spear - Wikipedia",
-      "snippet": "",
-      "matchedWords": {
-        "1Ut7onVxovAL": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "1hlMaPzH55u1": {
-          "hits": 0,
-          "textWords": 0
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "JEWZurS6MKD4",
-      "address": "https://github.com/rbenv/rbenv",
-      "title": "GitHub - rbenv/rbenv: Manage your app's Ruby environment · GitHub",
+      "hash": "9bBlhjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Debian",
+      "title": "Debian - Wikipedia",
       "snippet": "",
       "matchedWords": {
         "1Ut7onVxovAL": {
@@ -5644,9 +6121,9 @@
       "queryPhraseHits": 0
     },
     {
-      "hash": "LPvBvDpp6yww",
-      "address": "https://clang.llvm.org/docs/UsersManual.html",
-      "title": "Clang Compiler User’s Manual — Clang 24.0.0git documentation",
+      "hash": "zfCDrj-JVcyx",
+      "address": "https://en.wikiquote.org/wiki/Religion",
+      "title": "Religion - Wikiquote",
       "snippet": "",
       "matchedWords": {
         "1Ut7onVxovAL": {
@@ -5661,9 +6138,9 @@
       "queryPhraseHits": 0
     },
     {
-      "hash": "AHhJbh3e0QFx",
-      "address": "https://commons.wikimedia.org/wiki/Main_Page",
-      "title": "Wikimedia Commons",
+      "hash": "2qtMZjAg8xXw",
+      "address": "https://en.wikinews.org/wiki/User:Harej/pagelinks",
+      "title": "User:Harej/pagelinks - Wikinews, the free news source",
       "snippet": "",
       "matchedWords": {
         "1Ut7onVxovAL": {
@@ -5678,9 +6155,9 @@
       "queryPhraseHits": 0
     },
     {
-      "hash": "XUiTdjLyhbDx",
-      "address": "https://frp.wikipedia.org/wiki/Vouiquip%C3%A8dia:Re%C3%A7ua_princip%C3%A2la",
-      "title": "Vouiquipèdia",
+      "hash": "W-eXqzF3--Qw",
+      "address": "https://planet.mozilla.org/",
+      "title": "Planet Mozilla",
       "snippet": "",
       "matchedWords": {
         "1Ut7onVxovAL": {
@@ -5695,9 +6172,9 @@
       "queryPhraseHits": 0
     },
     {
-      "hash": "UXoSijRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/IBM",
-      "title": "IBM - Wikipedia",
+      "hash": "BxsbyjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Apple_Inc.",
+      "title": "Apple Inc. - Wikipedia",
       "snippet": "",
       "matchedWords": {
         "1Ut7onVxovAL": {
@@ -5712,9 +6189,9 @@
       "queryPhraseHits": 0
     },
     {
-      "hash": "VSvcQjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Microsoft",
-      "title": "Microsoft - Wikipedia",
+      "hash": "rjRkJjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Hyde_Park,_London",
+      "title": "Hyde Park, London - Wikipedia",
       "snippet": "",
       "matchedWords": {
         "1Ut7onVxovAL": {
@@ -5729,9 +6206,9 @@
       "queryPhraseHits": 0
     },
     {
-      "hash": "VwOJNjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Kyiv",
-      "title": "Kyiv - Wikipedia",
+      "hash": "2i-X_sofUy-5",
+      "address": "https://duckduckgo.com/bang_lite.html",
+      "title": "DuckDuckGo !Bang",
       "snippet": "",
       "matchedWords": {
         "1Ut7onVxovAL": {
@@ -5746,128 +6223,9 @@
       "queryPhraseHits": 0
     },
     {
-      "hash": "XiRy3jRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Nazi_Germany",
-      "title": "Nazi Germany - Wikipedia",
-      "snippet": "",
-      "matchedWords": {
-        "1Ut7onVxovAL": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "1hlMaPzH55u1": {
-          "hits": 0,
-          "textWords": 0
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "Xu0QIjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Proprietary_software",
-      "title": "Proprietary software - Wikipedia",
-      "snippet": "",
-      "matchedWords": {
-        "1Ut7onVxovAL": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "1hlMaPzH55u1": {
-          "hits": 0,
-          "textWords": 0
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "AHhJbh3e0QFx",
-      "address": "https://commons.wikimedia.org/wiki/Main_Page",
-      "title": "Wikimedia Commons",
-      "snippet": "",
-      "matchedWords": {
-        "1Ut7onVxovAL": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "1hlMaPzH55u1": {
-          "hits": 0,
-          "textWords": 0
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "AonnkjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Perl",
-      "title": "Perl - Wikipedia",
-      "snippet": "",
-      "matchedWords": {
-        "1Ut7onVxovAL": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "1hlMaPzH55u1": {
-          "hits": 0,
-          "textWords": 0
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "QfhzIjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Category:Spoken_articles",
-      "title": "Category:Spoken articles - Wikipedia",
-      "snippet": "",
-      "matchedWords": {
-        "1Ut7onVxovAL": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "1hlMaPzH55u1": {
-          "hits": 0,
-          "textWords": 0
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "rWczfjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/England",
-      "title": "England - Wikipedia",
-      "snippet": "",
-      "matchedWords": {
-        "1Ut7onVxovAL": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "1hlMaPzH55u1": {
-          "hits": 0,
-          "textWords": 0
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "8Cje6jc4UIAx",
-      "address": "https://en.wikivoyage.org/wiki/UNESCO_World_Heritage_List",
-      "title": "UNESCO World Heritage List – Travel guide at Wikivoyage",
-      "snippet": "",
-      "matchedWords": {
-        "1Ut7onVxovAL": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "1hlMaPzH55u1": {
-          "hits": 0,
-          "textWords": 0
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "AHhJbh3e0QFx",
-      "address": "https://commons.wikimedia.org/wiki/Main_Page",
-      "title": "Wikimedia Commons",
+      "hash": "dzFNkjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Donald_Trump",
+      "title": "Donald Trump - Wikipedia",
       "snippet": "",
       "matchedWords": {
         "1Ut7onVxovAL": {
@@ -5950,60 +6308,26 @@
       "queryPhraseHits": 0
     },
     {
+      "hash": "VI9YzkSKkctx",
+      "address": "https://softpanorama.org/Social/Toxic_managers/index.shtml",
+      "title": "Toxic Managers",
+      "snippet": "",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "1hlMaPzH55u1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
       "hash": "m8tyqoXhbKt7",
       "address": "https://ijustreadaboutthat.com/2011/01/02/2010-in-review/",
       "title": "2010 in review | I Just Read About That...",
-      "snippet": "",
-      "matchedWords": {
-        "1Ut7onVxovAL": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "1hlMaPzH55u1": {
-          "hits": 0,
-          "textWords": 0
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "lNauRClQBq4x",
-      "address": "https://gpe.wikipedia.org/wiki/Main_Page",
-      "title": "Wikipedia",
-      "snippet": "",
-      "matchedWords": {
-        "1Ut7onVxovAL": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "1hlMaPzH55u1": {
-          "hits": 0,
-          "textWords": 0
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "CkczXlmJ800w",
-      "address": "https://www.gentoo.org/",
-      "title": "Welcome – Gentoo Linux",
-      "snippet": "",
-      "matchedWords": {
-        "1Ut7onVxovAL": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "1hlMaPzH55u1": {
-          "hits": 0,
-          "textWords": 0
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "KlD0NjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Response_to_the_Department_of_Government_Efficiency",
-      "title": "Response to the Department of Government Efficiency - Wikipedia",
       "snippet": "",
       "matchedWords": {
         "1Ut7onVxovAL": {
@@ -6120,6 +6444,23 @@
       "queryPhraseHits": 0
     },
     {
+      "hash": "pI9PJjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/The_Walt_Disney_Company",
+      "title": "The Walt Disney Company - Wikipedia",
+      "snippet": "",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "1hlMaPzH55u1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
       "hash": "rjRkJjRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Hyde_Park,_London",
       "title": "Hyde Park, London - Wikipedia",
@@ -6188,9 +6529,230 @@
       "queryPhraseHits": 0
     },
     {
-      "hash": "m8tyqoXhbKt7",
-      "address": "https://ijustreadaboutthat.com/2011/01/02/2010-in-review/",
-      "title": "2010 in review | I Just Read About That...",
+      "hash": "2i-X_sofUy-5",
+      "address": "https://duckduckgo.com/bang_lite.html",
+      "title": "DuckDuckGo !Bang",
+      "snippet": "",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "1hlMaPzH55u1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "sC0kMlDOAHJg",
+      "address": "https://www.heise.de/en",
+      "title": "heise online – IT news, guides and background information | heise online",
+      "snippet": "",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "1hlMaPzH55u1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "BxsbyjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Apple_Inc.",
+      "title": "Apple Inc. - Wikipedia",
+      "snippet": "",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "1hlMaPzH55u1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "UXoSijRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/IBM",
+      "title": "IBM - Wikipedia",
+      "snippet": "",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "1hlMaPzH55u1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "oOVv2jRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Wikipedia:Featured_article_candidates",
+      "title": "Wikipedia:Featured article candidates - Wikipedia",
+      "snippet": "",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "1hlMaPzH55u1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "pI9PJjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/The_Walt_Disney_Company",
+      "title": "The Walt Disney Company - Wikipedia",
+      "snippet": "",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "1hlMaPzH55u1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "rjRkJjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Hyde_Park,_London",
+      "title": "Hyde Park, London - Wikipedia",
+      "snippet": "",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "1hlMaPzH55u1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "4N2qLjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Invasion_of_Poland",
+      "title": "Invasion of Poland - Wikipedia",
+      "snippet": "",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "1hlMaPzH55u1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "7SAAdjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Green_Arrow",
+      "title": "Green Arrow - Wikipedia",
+      "snippet": "",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "1hlMaPzH55u1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "CTQ-Yj-JVcyx",
+      "address": "https://en.wikiquote.org/wiki/Mystery_Science_Theater_3000",
+      "title": "Mystery Science Theater 3000 - Wikiquote",
+      "snippet": "",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "1hlMaPzH55u1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "yzAoyj-JVcyx",
+      "address": "https://en.wikiquote.org/wiki/Religions",
+      "title": "Religion - Wikiquote",
+      "snippet": "",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "1hlMaPzH55u1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "zfCDrj-JVcyx",
+      "address": "https://en.wikiquote.org/wiki/Religion",
+      "title": "Religion - Wikiquote",
+      "snippet": "",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "1hlMaPzH55u1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "sC0kMlDOAHJg",
+      "address": "https://www.heise.de/en",
+      "title": "heise online – IT news, guides and background information | heise online",
+      "snippet": "",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "1hlMaPzH55u1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "oOVv2jRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Wikipedia:Featured_article_candidates",
+      "title": "Wikipedia:Featured article candidates - Wikipedia",
       "snippet": "",
       "matchedWords": {
         "1Ut7onVxovAL": {
@@ -6222,9 +6784,9 @@
       "queryPhraseHits": 0
     },
     {
-      "hash": "3JZLOo1ILRNx",
-      "address": "https://tum.wikipedia.org/wiki/Jani_likulu",
-      "title": "Wikipedia",
+      "hash": "4N2qLjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Invasion_of_Poland",
+      "title": "Invasion of Poland - Wikipedia",
       "snippet": "",
       "matchedWords": {
         "1Ut7onVxovAL": {
@@ -6239,9 +6801,9 @@
       "queryPhraseHits": 0
     },
     {
-      "hash": "15BuYjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Operation_Southern_Spear",
-      "title": "Operation Southern Spear - Wikipedia",
+      "hash": "9bBlhjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Debian",
+      "title": "Debian - Wikipedia",
       "snippet": "",
       "matchedWords": {
         "1Ut7onVxovAL": {
@@ -6256,9 +6818,9 @@
       "queryPhraseHits": 0
     },
     {
-      "hash": "3tRJnjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Killing_of_Alex_Pretti",
-      "title": "Killing of Alex Pretti - Wikipedia",
+      "hash": "5KQ_nsUDS-lx",
+      "address": "https://boingboing.net/",
+      "title": "Boing Boing - A Directory of Mostly Wonderful Things",
       "snippet": "",
       "matchedWords": {
         "1Ut7onVxovAL": {
@@ -6273,9 +6835,9 @@
       "queryPhraseHits": 0
     },
     {
-      "hash": "CkczXlmJ800w",
-      "address": "https://www.gentoo.org/",
-      "title": "Welcome – Gentoo Linux",
+      "hash": "m8tyqoXhbKt7",
+      "address": "https://ijustreadaboutthat.com/2011/01/02/2010-in-review/",
+      "title": "2010 in review | I Just Read About That...",
       "snippet": "",
       "matchedWords": {
         "1Ut7onVxovAL": {
@@ -6290,9 +6852,9 @@
       "queryPhraseHits": 0
     },
     {
-      "hash": "2c26yxtQ-zSx",
-      "address": "https://wiki.archlinux.org/title/Installation_guide",
-      "title": "Installation guide - ArchWiki",
+      "hash": "9zMz2jjEZfvx",
+      "address": "https://en.wiktionary.org/wiki/User:Matthias_Buchmeier/en-de-s",
+      "title": "User:Matthias Buchmeier/en-de-s - Wiktionary, the free dictionary",
       "snippet": "",
       "matchedWords": {
         "1Ut7onVxovAL": {
@@ -6307,9 +6869,9 @@
       "queryPhraseHits": 0
     },
     {
-      "hash": "3ufGwxtQ-zSx",
-      "address": "https://wiki.archlinux.org/title/AUR_helpers",
-      "title": "AUR helpers - ArchWiki",
+      "hash": "-b3sxspKNBr4",
+      "address": "https://rense.com/",
+      "title": "rense.com",
       "snippet": "",
       "matchedWords": {
         "1Ut7onVxovAL": {
@@ -6324,9 +6886,9 @@
       "queryPhraseHits": 0
     },
     {
-      "hash": "XUiTdjLyhbDx",
-      "address": "https://frp.wikipedia.org/wiki/Vouiquip%C3%A8dia:Re%C3%A7ua_princip%C3%A2la",
-      "title": "Vouiquipèdia",
+      "hash": "pI9PJjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/The_Walt_Disney_Company",
+      "title": "The Walt Disney Company - Wikipedia",
       "snippet": "",
       "matchedWords": {
         "1Ut7onVxovAL": {
@@ -6356,10 +6918,27 @@
         }
       },
       "queryPhraseHits": 0
+    },
+    {
+      "hash": "-b3sxspKNBr4",
+      "address": "https://rense.com/",
+      "title": "rense.com",
+      "snippet": "",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "1hlMaPzH55u1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
     }
   ],
   "documentsHeldPerQueryWord": {
-    "1Ut7onVxovAL": 464499,
-    "1hlMaPzH55u1": 117872
+    "1Ut7onVxovAL": 486736,
+    "1hlMaPzH55u1": 85593
   }
 }

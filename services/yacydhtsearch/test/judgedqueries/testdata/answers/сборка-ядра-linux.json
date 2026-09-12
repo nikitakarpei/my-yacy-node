@@ -1,6 +1,6 @@
 {
   "query": "сборка ядра linux",
-  "recordedAt": "2026-09-12T10:15:34Z",
+  "recordedAt": "2026-09-12T11:25:48Z",
   "itemsInTheOrderOfEachAnswer": [],
   "itemsInNoOrder": [
     {
@@ -26,8 +26,8 @@
     }
   ],
   "documentsHeldPerQueryWord": {
-    "4galTpdpDM5Q": 350825,
-    "_j65A0psXCcz": 1028,
-    "pgoTulnNQRjM": 843
+    "4galTpdpDM5Q": 389790,
+    "_j65A0psXCcz": 1404,
+    "pgoTulnNQRjM": 836
   }
 }

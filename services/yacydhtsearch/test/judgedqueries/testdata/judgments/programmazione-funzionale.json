@@ -8,18 +8,6 @@
       "grade": 0
     },
     {
-      "hash": "W9B-bFtsxhzg",
-      "address": "https://www.camera.it/leg18/1058?idLegislatura=18\u0026tipologia=audiz1\u0026sottotipologia=\u0026anno=2018\u0026mese=11\u0026giorno=09\u0026idCommissione=05c05\u0026numero=0001\u0026file=indice_stenografico",
-      "title": "XVIII Legislatura - Lavori - Resoconti delle Giunte e Commissioni",
-      "grade": 0
-    },
-    {
-      "hash": "OJwy3wUl8GVi",
-      "address": "https://www.radioradicale.it/scheda/632378/le-primavere-arabe-10-anni-dopo-dalle-speranze-alla-disillusione",
-      "title": "Le primavere arabe 10 anni dopo: dalle speranze alla disillusione (24.03.2021)",
-      "grade": 0
-    },
-    {
       "hash": "ZIJNjOnsHw9g",
       "address": "https://www.treccani.it/enciclopedia/antropologia/",
       "title": "Antropologia - Enciclopedia - Treccani",
@@ -38,9 +26,15 @@
       "grade": 0
     },
     {
-      "hash": "NNO_NwUl8GVi",
-      "address": "https://www.radioradicale.it/scheda/40712/processo-alfredo-bono",
-      "title": "Processo Alfredo Bono (1.03.1991)",
+      "hash": "aEigqOnsHw9g",
+      "address": "https://www.treccani.it/enciclopedia/offerta/",
+      "title": "Offerta - Enciclopedia - Treccani",
+      "grade": null
+    },
+    {
+      "hash": "W9B-bFtsxhzg",
+      "address": "https://www.camera.it/leg18/1058?idLegislatura=18\u0026tipologia=audiz1\u0026sottotipologia=\u0026anno=2018\u0026mese=11\u0026giorno=09\u0026idCommissione=05c05\u0026numero=0001\u0026file=indice_stenografico",
+      "title": "XVIII Legislatura - Lavori - Resoconti delle Giunte e Commissioni",
       "grade": 0
     },
     {
@@ -56,6 +50,24 @@
       "grade": 0
     },
     {
+      "hash": "NNO_NwUl8GVi",
+      "address": "https://www.radioradicale.it/scheda/40712/processo-alfredo-bono",
+      "title": "Processo Alfredo Bono (1.03.1991)",
+      "grade": 0
+    },
+    {
+      "hash": "OJwy3wUl8GVi",
+      "address": "https://www.radioradicale.it/scheda/632378/le-primavere-arabe-10-anni-dopo-dalle-speranze-alla-disillusione",
+      "title": "Le primavere arabe 10 anni dopo: dalle speranze alla disillusione (24.03.2021)",
+      "grade": 0
+    },
+    {
+      "hash": "ZImYYwUl8GVi",
+      "address": "https://www.radioradicale.it/scheda/566126/partito-radicale-la-parola-agli-iscritti",
+      "title": "Partito Radicale: la parola agli iscritti (16.02.2019)",
+      "grade": 0
+    },
+    {
       "hash": "q5NJjgM-i-mx",
       "address": "https://it.wikipedia.org/wiki/Trani",
       "title": "Trani - Wikipedia",
@@ -65,36 +77,6 @@
       "hash": "-3-OagM-i-mx",
       "address": "https://it.wikipedia.org/wiki/Apple",
       "title": "Apple - Wikipedia",
-      "grade": 0
-    },
-    {
-      "hash": "6KgxngHGY7xx",
-      "address": "https://it.wikiversity.org/wiki/La_Riforma_Costituzionale_del_Governo_Renzi",
-      "title": "La Riforma Costituzionale del Governo Renzi - Wikiversità",
-      "grade": 0
-    },
-    {
-      "hash": "_cKrZgM-i-mx",
-      "address": "https://it.wikipedia.org/wiki/Intelligenza_artificiale",
-      "title": "Intelligenza artificiale - Wikipedia",
-      "grade": 0
-    },
-    {
-      "hash": "pWyxHOnsHw9g",
-      "address": "https://www.treccani.it/enciclopedia/giappone_res-7d55b1cf-87e9-11dc-8e9d-0016357eee51_(Enciclopedia-Italiana)/",
-      "title": "Giappone - Enciclopedia - Treccani",
-      "grade": 0
-    },
-    {
-      "hash": "7a1GH--zFb6h",
-      "address": "https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:legge:1995-12-28;549~art3-com130=",
-      "title": "LEGGE 28 dicembre 1995, n. 549 - Normattiva",
-      "grade": 0
-    },
-    {
-      "hash": "ZImYYwUl8GVi",
-      "address": "https://www.radioradicale.it/scheda/566126/partito-radicale-la-parola-agli-iscritti",
-      "title": "Partito Radicale: la parola agli iscritti (16.02.2019)",
       "grade": 0
     },
     {
@@ -113,60 +95,6 @@
       "hash": "5rLJUwUl8GVi",
       "address": "https://www.radioradicale.it/scheda/795228/xxi-edizione-del-premio-nazionale-di-cultura-benedetto-croce-terza-giornata-primo",
       "title": "XXI edizione del Premio nazionale di cultura Benedetto Croce (Terza giornata - Primo pomeriggio) (24.07.2026)",
-      "grade": 0
-    },
-    {
-      "hash": "J9mios1Nvqow",
-      "address": "https://ocaml.org/books",
-      "title": "OCaml Books",
-      "grade": 1
-    },
-    {
-      "hash": "ioA26i5DCs35",
-      "address": "https://wordpress.com/it/costruttore-di-siti-ia/",
-      "title": "Costruttore di siti web con IA | Crea un sito WordPress.com in pochi minuti",
-      "grade": 0
-    },
-    {
-      "hash": "ofsSoRCW9XLA",
-      "address": "http://www.pluto.it/ildp/doc-it",
-      "title": "Altri documenti | PLUTO Project",
-      "grade": 0
-    },
-    {
-      "hash": "1N3TURCW9XLA",
-      "address": "http://www.pluto.it/ildp/howto.html?page=2",
-      "title": "HOWTO | PLUTO Project",
-      "grade": 0
-    },
-    {
-      "hash": "-nsijhCW9XLA",
-      "address": "http://www.pluto.it/journal/rubriche",
-      "title": "Rubriche del PLUTO Journal | PLUTO Project",
-      "grade": 0
-    },
-    {
-      "hash": "s8F_ola5eoug",
-      "address": "https://www.wikihow.it/Esperti",
-      "title": "Esperti wikiHow",
-      "grade": 0
-    },
-    {
-      "hash": "xbdtygkABAWx",
-      "address": "https://it.wikibooks.org/wiki/Wikibooks:Bar/Archivio9",
-      "title": "Wikibooks:Bar/Archivio9 - Wikibooks, manuali e libri di testo liberi",
-      "grade": 0
-    },
-    {
-      "hash": "-UvQngkABAWx",
-      "address": "https://it.wikibooks.org/wiki/Wikibooks:Bar/Archivio6",
-      "title": "Wikibooks:Bar/Archivio6 - Wikibooks, manuali e libri di testo liberi",
-      "grade": 0
-    },
-    {
-      "hash": "2j7WUOnsHw9g",
-      "address": "https://www.treccani.it/enciclopedia/francia/",
-      "title": "Francia nell'Enciclopedia Treccani",
       "grade": 0
     }
   ]

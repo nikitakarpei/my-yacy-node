@@ -8,9 +8,9 @@
       "grade": 0
     },
     {
-      "hash": "XEyWzL8hxo35",
-      "address": "https://www.microsoft.com/en-us/privacy/privacystatement",
-      "title": "Microsoft Privacy Statement – Microsoft privacy",
+      "hash": "D4lABzaS0qdw",
+      "address": "https://planet.debian.org/",
+      "title": "Planet Debian",
       "grade": 0
     },
     {
@@ -18,18 +18,6 @@
       "address": "https://grokipedia.com/page/PostgreSQL",
       "title": "PostgreSQL — Grokipedia",
       "grade": 1
-    },
-    {
-      "hash": "vrmcS_nMM_j5",
-      "address": "https://grokipedia.com/page/NoSQL",
-      "title": "NoSQL — Grokipedia",
-      "grade": 1
-    },
-    {
-      "hash": "D4lABzaS0qdw",
-      "address": "https://planet.debian.org/",
-      "title": "Planet Debian",
-      "grade": 0
     },
     {
       "hash": "g4p8j_nMM_j5",
@@ -44,22 +32,160 @@
       "grade": 0
     },
     {
-      "hash": "Z5FWhh3e0QFx",
-      "address": "https://commons.wikimedia.org/wiki/Commons:Village_pump",
-      "title": "",
+      "hash": "WKJ7SseQQCqz",
+      "address": "https://westminsterpasadena.org/",
+      "title": "Faith, Community, and Church Services",
+      "grade": null
+    },
+    {
+      "hash": "vrmcS_nMM_j5",
+      "address": "https://grokipedia.com/page/NoSQL",
+      "title": "NoSQL — Grokipedia",
+      "grade": 1
+    },
+    {
+      "hash": "XEyWzL8hxo35",
+      "address": "https://www.microsoft.com/en-us/privacy/privacystatement",
+      "title": "Microsoft Privacy Statement – Microsoft privacy",
       "grade": 0
     },
     {
-      "hash": "GUrZK6QzbYgx",
-      "address": "https://wikisource.org/wiki/Wikisource:Scriptorium",
-      "title": "Wikisource:Scriptorium - Wikisource",
+      "hash": "WcqwxsFEcG_7",
+      "address": "https://cotentinwebdesign.com/",
+      "title": "www.cotentinwebdesign.com -",
+      "grade": null
+    },
+    {
+      "hash": "3mlWOjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Amazon.com",
+      "title": "Amazon (company) - Wikipedia",
+      "grade": null
+    },
+    {
+      "hash": "4LX1ujRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/John_Wiley_\u0026_Sons",
+      "title": "Wiley (publisher) - Wikipedia",
+      "grade": null
+    },
+    {
+      "hash": "uaEnGzTwnifx",
+      "address": "https://planet.wordpress.org/",
+      "title": "Planet — WordPress.org",
+      "grade": null
+    },
+    {
+      "hash": "BkDhKWawk-F5",
+      "address": "https://theintactone.com/tag/citizenship/",
+      "title": "Read MBA, BBA, B.COM Notes",
+      "grade": null
+    },
+    {
+      "hash": "B7k26Wawk-F5",
+      "address": "https://theintactone.com/tag/bcom103-financial-accounting/",
+      "title": "Read MBA, BBA, B.COM Notes",
+      "grade": null
+    },
+    {
+      "hash": "DQ-D2Wawk-F5",
+      "address": "https://theintactone.com/tag/project-selection/",
+      "title": "Read MBA, BBA, B.COM Notes",
+      "grade": null
+    },
+    {
+      "hash": "F0aO1Wawk-F5",
+      "address": "https://theintactone.com/tag/marketing-research-techniques/",
+      "title": "Read MBA, BBA, B.COM Notes",
+      "grade": null
+    },
+    {
+      "hash": "KcwLwWawk-F5",
+      "address": "https://theintactone.com/tag/vinted/",
+      "title": "Read MBA, BBA, B.COM Notes",
+      "grade": null
+    },
+    {
+      "hash": "Kl4u9Wawk-F5",
+      "address": "https://theintactone.com/tag/bban206-business-statistics/",
+      "title": "Read MBA, BBA, B.COM Notes",
+      "grade": null
+    },
+    {
+      "hash": "SFTDNWawk-F5",
+      "address": "https://theintactone.com/tag/human-values-ethics/",
+      "title": "Read MBA, BBA, B.COM Notes",
+      "grade": null
+    },
+    {
+      "hash": "hROLbWawk-F5",
+      "address": "https://theintactone.com/tag/online-shopping/",
+      "title": "Read MBA, BBA, B.COM Notes",
+      "grade": null
+    },
+    {
+      "hash": "iUpBvWawk-F5",
+      "address": "https://theintactone.com/tag/republic/",
+      "title": "Read MBA, BBA, B.COM Notes",
+      "grade": null
+    },
+    {
+      "hash": "icGV6Wawk-F5",
+      "address": "https://theintactone.com/tag/buffer/",
+      "title": "Read MBA, BBA, B.COM Notes",
+      "grade": null
+    },
+    {
+      "hash": "jC_0WWawk-F5",
+      "address": "https://theintactone.com/tag/active-living/",
+      "title": "Read MBA, BBA, B.COM Notes",
+      "grade": null
+    },
+    {
+      "hash": "jYiD6Wawk-F5",
+      "address": "https://theintactone.com/tag/seniority/",
+      "title": "Read MBA, BBA, B.COM Notes",
+      "grade": null
+    },
+    {
+      "hash": "jcEm9Wawk-F5",
+      "address": "https://theintactone.com/tag/tone/",
+      "title": "Read MBA, BBA, B.COM Notes",
+      "grade": null
+    },
+    {
+      "hash": "n3cfVWawk-F5",
+      "address": "https://theintactone.com/tag/wbs/",
+      "title": "Read MBA, BBA, B.COM Notes",
+      "grade": null
+    },
+    {
+      "hash": "pwiCrWawk-F5",
+      "address": "https://theintactone.com/tag/aspect/",
+      "title": "Read MBA, BBA, B.COM Notes",
+      "grade": null
+    },
+    {
+      "hash": "7tXYzWawk-F5",
+      "address": "https://theintactone.com/tag/sports/",
+      "title": "Read MBA, BBA, B.COM Notes",
+      "grade": null
+    },
+    {
+      "hash": "MQJwI5my_IVw",
+      "address": "https://wikipedialibrary.wmflabs.org/suggest/",
+      "title": "The Wikipedia Library",
+      "grade": null
+    },
+    {
+      "hash": "c_fxuopg4UCw",
+      "address": "https://www.wikidata.org/wiki/Wikidata:Project_chat",
+      "title": "Wikidata:Project chat - Wikidata",
       "grade": 0
     },
     {
-      "hash": "ZLCPGlRhEzc4",
-      "address": "https://www.amazon.science/",
-      "title": "Amazon Science homepage",
-      "grade": 0
+      "hash": "gZlAnz8hxo35",
+      "address": "https://www.microsoft.com/en-US/privacy/privacystatement",
+      "title": "Microsoft Privacy Statement – Microsoft privacy",
+      "grade": null
     },
     {
       "hash": "AX7xBjRvmBbx",
@@ -68,105 +194,9 @@
       "grade": 0
     },
     {
-      "hash": "ccuJ8jRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Map",
-      "title": "Map - Wikipedia",
-      "grade": 0
-    },
-    {
-      "hash": "ipGFbjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Wiley_(publisher)",
-      "title": "Wiley (publisher) - Wikipedia",
-      "grade": 0
-    },
-    {
-      "hash": "zugI_jRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Metadata",
-      "title": "Metadata - Wikipedia",
-      "grade": 0
-    },
-    {
-      "hash": "75kEMjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/International_Organization_for_Standardization",
-      "title": "International Organization for Standardization - Wikipedia",
-      "grade": 0
-    },
-    {
-      "hash": "R_xsdMS6MKD4",
-      "address": "https://github.com/orgs/community/discussions",
-      "title": "community · Discussions · GitHub",
-      "grade": 0
-    },
-    {
-      "hash": "0uT1BzW61vZ4",
-      "address": "https://handbook.gitlab.com/handbook/customer-experience/cx-journey/",
-      "title": "Customer Experience Journey Research | The GitLab Handbook",
-      "grade": 0
-    },
-    {
-      "hash": "0xiwzzW61vZ4",
-      "address": "https://handbook.gitlab.com/handbook/security/corporate/systems/aws/cells-prod/",
-      "title": "AWS Cells Prod Org | The GitLab Handbook",
-      "grade": 0
-    },
-    {
-      "hash": "1s9OizW61vZ4",
-      "address": "https://handbook.gitlab.com/handbook/company/culture/exec-connect/",
-      "title": "Executive Connect events | The GitLab Handbook",
-      "grade": 0
-    },
-    {
-      "hash": "4X6v9zW61vZ4",
-      "address": "https://handbook.gitlab.com/handbook/engineering/infrastructure-platforms/gitlab-delivery/distribution/triage/",
-      "title": "Distribution Team Triage | The GitLab Handbook",
-      "grade": 0
-    },
-    {
-      "hash": "4YxmRzW61vZ4",
-      "address": "https://handbook.gitlab.com/handbook/about/contributing/",
-      "title": "Contributing to the Handbook | The GitLab Handbook",
-      "grade": 0
-    },
-    {
-      "hash": "4fXgyzW61vZ4",
-      "address": "https://handbook.gitlab.com/handbook/sales/shadow-program/",
-      "title": "The Customer-Ready Shadow Program | The GitLab Handbook",
-      "grade": 0
-    },
-    {
-      "hash": "-OnNvzW61vZ4",
-      "address": "https://handbook.gitlab.com/handbook/legal/subscription-agreement/",
-      "title": "GitLab Subscription Agreement | The GitLab Handbook",
-      "grade": 0
-    },
-    {
       "hash": "B0aD4yXjZ9O4",
       "address": "https://docs.github.com/en/copilot/concepts/agents/github-copilot-app",
       "title": "About the GitHub Copilot app - GitHub Docs",
-      "grade": 0
-    },
-    {
-      "hash": "DFzdbyXjZ9O4",
-      "address": "https://docs.github.com/en/copilot/how-tos/administer-copilot/manage-for-organization/manage-access",
-      "title": "Managing access to GitHub Copilot in your organization - GitHub Docs",
-      "grade": 0
-    },
-    {
-      "hash": "G5ifEyXjZ9O4",
-      "address": "https://docs.github.com/en/copilot/how-tos/configure-personal-settings/authenticate-to-ghecom",
-      "title": "Using GitHub Copilot with an account on GHE.com - GitHub Docs",
-      "grade": 0
-    },
-    {
-      "hash": "JTegTyXjZ9O4",
-      "address": "https://docs.github.com/en/copilot/responsible-use/chat",
-      "title": "Application card: GitHub Copilot Chat - GitHub Docs",
-      "grade": 0
-    },
-    {
-      "hash": "RMUETyXjZ9O4",
-      "address": "https://docs.github.com/en/copilot/how-tos/use-copilot-agents/request-a-code-review/use-code-review",
-      "title": "Using GitHub Copilot code review - GitHub Docs",
       "grade": 0
     },
     {
@@ -182,33 +212,9 @@
       "grade": 0
     },
     {
-      "hash": "rXFU9yXjZ9O4",
-      "address": "https://docs.github.com/en/copilot/how-tos/github-copilot-app/using-automations",
-      "title": "Using automations in the GitHub Copilot app - GitHub Docs",
-      "grade": 0
-    },
-    {
-      "hash": "sW1fHyXjZ9O4",
-      "address": "https://docs.github.com/en/copilot/concepts/models/auto-model-selection",
-      "title": "About Copilot auto model selection - GitHub Docs",
-      "grade": 0
-    },
-    {
-      "hash": "tqy9_yXjZ9O4",
-      "address": "https://docs.github.com/en/copilot/how-tos/github-copilot-app/agent-sessions",
-      "title": "Working with agent sessions in the GitHub Copilot app - GitHub Docs",
-      "grade": 0
-    },
-    {
       "hash": "yv0qxyXjZ9O4",
       "address": "https://docs.github.com/en/copilot/how-tos/github-copilot-app/managing-issues-and-pull-requests",
       "title": "Managing issues and pull requests with the GitHub Copilot app - GitHub Docs",
-      "grade": 0
-    },
-    {
-      "hash": "zczfLyXjZ9O4",
-      "address": "https://docs.github.com/en/copilot/tutorials/customization-library",
-      "title": "Customization library - GitHub Docs",
       "grade": 0
     },
     {
@@ -218,70 +224,58 @@
       "grade": 0
     },
     {
-      "hash": "3E6rJyXjZ9O4",
-      "address": "https://docs.github.com/en/copilot/tutorials",
-      "title": "Tutorials for GitHub Copilot - GitHub Docs",
-      "grade": 0
-    },
-    {
-      "hash": "-p2w3taoSn1x",
-      "address": "https://en.planet.wikimedia.org/",
-      "title": "en.planet.wikimedia.org",
-      "grade": 0
-    },
-    {
-      "hash": "0thoeJcvw7Vx",
-      "address": "https://wordpress.org/plugins/wordpress-seo/",
-      "title": "Yoast SEO – Advanced SEO with real-time guidance and built-in AI – WordPress plugin | WordPress.org",
-      "grade": 0
-    },
-    {
       "hash": "HDs2NMhTaKi5",
       "address": "https://www.datadoghq.com/product/ai/agent-directory/",
       "title": "AI Agent Directory | Datadog",
       "grade": 0
     },
     {
-      "hash": "RdyC6lhTaKi5",
-      "address": "https://www.datadoghq.com/pricing/",
-      "title": "Pricing | Datadog",
+      "hash": "CRermB-c6vHw",
+      "address": "https://nixos.org/manual/nixos/stable/",
+      "title": "NixOS Manual",
+      "grade": null
+    },
+    {
+      "hash": "75kEMjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/International_Organization_for_Standardization",
+      "title": "International Organization for Standardization - Wikipedia",
       "grade": 0
     },
     {
-      "hash": "YJVGomoWtInx",
-      "address": "https://meta.wikimedia.org/wiki/Wikimedia_Forum",
-      "title": "Wikimedia Forum - Meta-Wiki",
+      "hash": "3E6rJyXjZ9O4",
+      "address": "https://docs.github.com/en/copilot/tutorials",
+      "title": "Tutorials for GitHub Copilot - GitHub Docs",
       "grade": 0
     },
     {
-      "hash": "c_fxuopg4UCw",
-      "address": "https://www.wikidata.org/wiki/Wikidata:Project_chat",
-      "title": "Wikidata:Project chat - Wikidata",
+      "hash": "8CJLrjAL9Tgx",
+      "address": "https://en.wikisource.org/wiki/Wikisource:Scriptorium",
+      "title": "Wikisource:Scriptorium - Wikisource, the free online library",
+      "grade": null
+    },
+    {
+      "hash": "R_xsdMS6MKD4",
+      "address": "https://github.com/orgs/community/discussions",
+      "title": "community · Discussions · GitHub",
       "grade": 0
     },
     {
-      "hash": "BsustjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/PowerShell",
-      "title": "PowerShell - Wikipedia",
-      "grade": 0
+      "hash": "g3nPAWawk-F5",
+      "address": "https://theintactone.com/tag/supplychain-planning/",
+      "title": "Read MBA, BBA, B.COM Notes",
+      "grade": null
     },
     {
-      "hash": "COUi-jRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Internet_of_things",
-      "title": "Internet of things - Wikipedia",
-      "grade": 0
+      "hash": "iYU5_Wawk-F5",
+      "address": "https://theintactone.com/tag/rbi-system/",
+      "title": "Read MBA, BBA, B.COM Notes",
+      "grade": null
     },
     {
-      "hash": "SD9B1jRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Microsoft_Store",
-      "title": "Microsoft Store - Wikipedia",
-      "grade": 0
-    },
-    {
-      "hash": "ZtxqojRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Open_access",
-      "title": "Open access - Wikipedia",
-      "grade": 0
+      "hash": "S5Uj65c9duY5",
+      "address": "https://azure.microsoft.com/en-us/products/documentdb",
+      "title": "Azure DocumentDB | Microsoft Azure",
+      "grade": null
     }
   ]
 }

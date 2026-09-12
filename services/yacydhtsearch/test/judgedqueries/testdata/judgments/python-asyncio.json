@@ -2,10 +2,10 @@
   "query": "python asyncio",
   "judgedDocuments": [
     {
-      "hash": "AEEDPTCk19rw",
-      "address": "https://peps.python.org/pep-0000/",
-      "title": "PEP 0 – Index of Python Enhancement Proposals (PEPs) | peps.python.org",
-      "grade": 0
+      "hash": "D4lABzaS0qdw",
+      "address": "https://planet.debian.org/",
+      "title": "Planet Debian",
+      "grade": null
     },
     {
       "hash": "G-gdcsJxtbKg",
@@ -14,27 +14,21 @@
       "grade": 0
     },
     {
+      "hash": "ID1l38bIDBOw",
+      "address": "https://pypi.org/project/azure-eventhub/5.6.1/",
+      "title": "azure-eventhub · PyPI",
+      "grade": null
+    },
+    {
       "hash": "J7RVs2o0ru95",
       "address": "https://launchdarkly.com/docs/tutorials/agent-graph-experiments",
       "title": "Benchmark LangGraph, Strands, OpenAI Agents, and Google ADK on the same agent graph | LaunchDarkly | Documentation",
       "grade": 0
     },
     {
-      "hash": "Nh8yR1r4CjGw",
-      "address": "https://discuss.python.org/",
-      "title": "Discussions on Python.org",
-      "grade": 0
-    },
-    {
-      "hash": "P3GtQeeuPcNw",
-      "address": "https://www.opencsw.org/packages/CSWcommon/",
-      "title": "CSWcommon - Solaris package",
-      "grade": 0
-    },
-    {
-      "hash": "RDC7iTCk19rw",
-      "address": "https://peps.python.org/pep-8015/",
-      "title": "PEP 8015 – Organization of the Python community | peps.python.org",
+      "hash": "RZuwo7S6MKD4",
+      "address": "https://github.com/microsoft/agent-framework",
+      "title": "GitHub - microsoft/agent-framework: A framework for building, orchestrating and deploying AI agents and multi-agent workflows with support for Python and .NET. · GitHub",
       "grade": 0
     },
     {
@@ -44,16 +38,28 @@
       "grade": 1
     },
     {
-      "hash": "epEeW03rjROw",
-      "address": "https://oxylabs.io/resources/integrations/langgraph",
-      "title": "Web Scraping With LangGraph Tutorial",
-      "grade": 0
+      "hash": "L-Mg04S6MKD4",
+      "address": "https://github.com/tortoise/tortoise-orm",
+      "title": "GitHub - tortoise/tortoise-orm: Familiar asyncio ORM for python, built with relations in mind · GitHub",
+      "grade": 1
     },
     {
-      "hash": "kQY84nS6MKD4",
-      "address": "https://github.com/lukasmasuch/best-of-python",
-      "title": "GitHub - lukasmasuch/best-of-python: 🏆 A ranked list of awesome Python open-source libraries and tools. Updated weekly.",
-      "grade": 0
+      "hash": "9FOt6cNLqbh4",
+      "address": "https://en.andros.dev/blog/54572bc7/finger-the-1971-social-network-that-never-died/",
+      "title": "Finger: the 1971 social network that never died | Andros Fenollosa",
+      "grade": null
+    },
+    {
+      "hash": "kEYSoltD2jQw",
+      "address": "https://docs.python.org/3.14/whatsnew/3.6.html",
+      "title": "What’s New In Python 3.6 — Python 3.14.0a0 documentation",
+      "grade": null
+    },
+    {
+      "hash": "0NHyDitD2jQw",
+      "address": "https://docs.python.org/3/glossary.html",
+      "title": "Glossary — Python 3.14.7 documentation",
+      "grade": null
     },
     {
       "hash": "rJ2EhKukjnGx",
@@ -92,15 +98,21 @@
       "grade": 0
     },
     {
-      "hash": "86Oo1hS6MKD4",
-      "address": "https://github.com/oxylabs/aiohttp-proxy-integration",
-      "title": "GitHub - oxylabs/aiohttp-proxy-integration: Python tutorial for implementing Residential Proxies with AIOHTTP · GitHub",
-      "grade": 1
+      "hash": "_OfvEhdG5jPw",
+      "address": "https://www.python.org/downloads/release/python-3110b2/",
+      "title": "Python Release Python 3.11.0b2 | Python.org",
+      "grade": 0
     },
     {
-      "hash": "DuEPzitD2jQw",
-      "address": "https://docs.python.org/3/whatsnew/3.9.html",
-      "title": "What’s New In Python 3.9 — Python 3.11.1 documentation",
+      "hash": "9RxyZlS6MKD4",
+      "address": "https://github.com/tqdm/tqdm",
+      "title": "GitHub - tqdm/tqdm: :zap: A Fast, Extensible Progress Bar for Python and CLI · GitHub",
+      "grade": null
+    },
+    {
+      "hash": "AEEDPTCk19rw",
+      "address": "https://peps.python.org/pep-0000/",
+      "title": "PEP 0 – Index of Python Enhancement Proposals (PEPs) | peps.python.org",
       "grade": 0
     },
     {
@@ -110,27 +122,21 @@
       "grade": 2
     },
     {
-      "hash": "P1bBYitD2jQw",
-      "address": "https://docs.python.org/3/whatsnew/3.5.html",
-      "title": "What’s New In Python 3.5 — Python 3.14.2 documentation",
-      "grade": 0
-    },
-    {
-      "hash": "RZuwo7S6MKD4",
-      "address": "https://github.com/microsoft/agent-framework",
-      "title": "GitHub - microsoft/agent-framework: A framework for building, orchestrating and deploying AI agents and multi-agent workflows with support for Python and .NET. · GitHub",
-      "grade": 0
-    },
-    {
-      "hash": "L-Mg04S6MKD4",
-      "address": "https://github.com/tortoise/tortoise-orm",
-      "title": "GitHub - tortoise/tortoise-orm: Familiar asyncio ORM for python, built with relations in mind · GitHub",
+      "hash": "Z4rOdhS6MKD4",
+      "address": "https://github.com/oxylabs/how-to-make-web-scraping-faster",
+      "title": "GitHub - oxylabs/how-to-make-web-scraping-faster: How to Make Web Scraping Faster - Python Tutorial · GitHub",
       "grade": 1
     },
     {
-      "hash": "_OfvEhdG5jPw",
-      "address": "https://www.python.org/downloads/release/python-3110b2/",
-      "title": "Python Release Python 3.11.0b2 | Python.org",
+      "hash": "iJjNZ2o0ru95",
+      "address": "https://launchdarkly.com/docs/sdk/ai/python",
+      "title": "Python AI SDK reference | LaunchDarkly | Documentation",
+      "grade": 0
+    },
+    {
+      "hash": "kQY84nS6MKD4",
+      "address": "https://github.com/lukasmasuch/best-of-python",
+      "title": "GitHub - lukasmasuch/best-of-python: 🏆 A ranked list of awesome Python open-source libraries and tools. Updated weekly.",
       "grade": 0
     },
     {
@@ -146,28 +152,28 @@
       "grade": 0
     },
     {
-      "hash": "InkPNitD2jQw",
-      "address": "https://docs.python.org/3/genindex-T.html",
-      "title": "Index — Python 3.14.6 documentation",
+      "hash": "1KqJ8itD2jQw",
+      "address": "https://docs.python.org/3/whatsnew/3.14.html",
+      "title": "What’s new in Python 3.14 — Python 3.14.6 documentation",
       "grade": 0
     },
     {
-      "hash": "Z4rOdhS6MKD4",
-      "address": "https://github.com/oxylabs/how-to-make-web-scraping-faster",
-      "title": "GitHub - oxylabs/how-to-make-web-scraping-faster: How to Make Web Scraping Faster - Python Tutorial · GitHub",
-      "grade": 1
-    },
-    {
-      "hash": "dDT4-t3vtu2w",
-      "address": "https://blog.python.org/",
-      "title": "Python Insider",
+      "hash": "DuEPzitD2jQw",
+      "address": "https://docs.python.org/3/whatsnew/3.9.html",
+      "title": "What’s New In Python 3.9 — Python 3.11.1 documentation",
       "grade": 0
     },
     {
-      "hash": "iJjNZ2o0ru95",
-      "address": "https://launchdarkly.com/docs/sdk/ai/python",
-      "title": "Python AI SDK reference | LaunchDarkly | Documentation",
+      "hash": "P1bBYitD2jQw",
+      "address": "https://docs.python.org/3/whatsnew/3.5.html",
+      "title": "What’s New In Python 3.5 — Python 3.14.2 documentation",
       "grade": 0
+    },
+    {
+      "hash": "OX5sqitD2jQw",
+      "address": "https://docs.python.org/3/library/asyncio-runner.html",
+      "title": "Runners — Python 3.13.3 documentation",
+      "grade": null
     },
     {
       "hash": "omDQhitD2jQw",
@@ -176,27 +182,9 @@
       "grade": 0
     },
     {
-      "hash": "1KqJ8itD2jQw",
-      "address": "https://docs.python.org/3/whatsnew/3.14.html",
-      "title": "What’s new in Python 3.14 — Python 3.14.6 documentation",
-      "grade": 0
-    },
-    {
-      "hash": "A3q5IzS6MKD4",
-      "address": "https://github.com/topics/python",
-      "title": "python · GitHub Topics · GitHub",
-      "grade": 0
-    },
-    {
-      "hash": "JFH3pitD2jQw",
-      "address": "https://docs.python.org/3/library/stdtypes.html",
-      "title": "Built-in Types — Python 3.14.7 documentation",
-      "grade": 0
-    },
-    {
-      "hash": "n5SHFlFI5C0x",
-      "address": "https://www.planetpython.org/",
-      "title": "Planet Python",
+      "hash": "I9P37TCk19rw",
+      "address": "https://peps.python.org/pep-0842/",
+      "title": "PEP 842 – Module Exports | peps.python.org",
       "grade": 0
     },
     {
@@ -212,39 +200,9 @@
       "grade": 0
     },
     {
-      "hash": "I9P37TCk19rw",
-      "address": "https://peps.python.org/pep-0842/",
-      "title": "PEP 842 – Module Exports | peps.python.org",
-      "grade": 0
-    },
-    {
       "hash": "hGotfTCk19rw",
       "address": "https://peps.python.org/pep-0702/",
       "title": "PEP 702 – Marking deprecations using the type system | peps.python.org",
-      "grade": 0
-    },
-    {
-      "hash": "yD2PttXdbot4",
-      "address": "https://python-catalin.blogspot.com/",
-      "title": "python-catalin",
-      "grade": 0
-    },
-    {
-      "hash": "RUfl2iS6MKD4",
-      "address": "https://github.com/timofurrer/awesome-asyncio",
-      "title": "GitHub - timofurrer/awesome-asyncio: A curated list of awesome Python asyncio frameworks, libraries, software and resources",
-      "grade": 1
-    },
-    {
-      "hash": "CImyzDHSf0kh",
-      "address": "https://archive.cloudblogger.eu/2023/10/18/semantic-kernel-container-apps-with-react-and-python/",
-      "title": "Semantic Kernel: Container Apps with React and Python — CloudBlogger@2025",
-      "grade": 0
-    },
-    {
-      "hash": "-kzhpsuKfTnw",
-      "address": "https://gunicorn.org/",
-      "title": "Gunicorn - Python WSGI HTTP Server for UNIX",
       "grade": 0
     },
     {
@@ -254,21 +212,45 @@
       "grade": 2
     },
     {
-      "hash": "tx-oq_S6MKD4",
-      "address": "https://github.com/openai/openai-python",
-      "title": "GitHub - openai/openai-python",
+      "hash": "yD2PttXdbot4",
+      "address": "https://python-catalin.blogspot.com/",
+      "title": "python-catalin",
       "grade": 0
     },
     {
-      "hash": "CjgsxsIyoLTx",
-      "address": "https://planetpython.org/",
-      "title": "Planet Python",
+      "hash": "wiRlOlBLxyZw",
+      "address": "https://bugs.python.org/issue43723",
+      "title": "Issue 43723: Deprecate camelCase aliases from threading.py - Python tracker",
+      "grade": null
+    },
+    {
+      "hash": "-kzhpsuKfTnw",
+      "address": "https://gunicorn.org/",
+      "title": "Gunicorn - Python WSGI HTTP Server for UNIX",
       "grade": 0
+    },
+    {
+      "hash": "CImyzDHSf0kh",
+      "address": "https://archive.cloudblogger.eu/2023/10/18/semantic-kernel-container-apps-with-react-and-python/",
+      "title": "Semantic Kernel: Container Apps with React and Python — CloudBlogger@2025",
+      "grade": 0
+    },
+    {
+      "hash": "YZiTmitD2jQw",
+      "address": "https://docs.python.org/3/genindex-S.html",
+      "title": "Index — Python 3.14.0 documentation",
+      "grade": null
+    },
+    {
+      "hash": "DN17WTCk19rw",
+      "address": "https://peps.python.org/pep-0550/",
+      "title": "PEP 550 – Execution Context | peps.python.org",
+      "grade": null
     },
     {
       "hash": "0DzM8itD2jQw",
       "address": "https://docs.python.org/3/whatsnew/3.12.html",
-      "title": "What’s New In Python 3.12 — Python 3.14.2 documentation",
+      "title": "What’s New In Python 3.12 — Python 3.14.6 documentation",
       "grade": 0
     },
     {
@@ -278,22 +260,22 @@
       "grade": 0
     },
     {
+      "hash": "CjgsxsIyoLTx",
+      "address": "https://planetpython.org/",
+      "title": "Planet Python",
+      "grade": 0
+    },
+    {
       "hash": "t-EtMU3rjROw",
       "address": "https://oxylabs.io/blog/php-vs-python",
       "title": "Web Scraping PHP vs Python: A Practical Comparison",
       "grade": 0
     },
     {
-      "hash": "wLl5mitD2jQw",
-      "address": "https://docs.python.org/3/genindex-E.html",
-      "title": "Index — Python 3.10.4 documentation",
-      "grade": 0
-    },
-    {
-      "hash": "uA5cvitD2jQw",
-      "address": "https://docs.python.org/3/genindex-P.html",
-      "title": "Index — Python 3.14.6 documentation",
-      "grade": 0
+      "hash": "P-tQgitD2jQw",
+      "address": "https://docs.python.org/3/library/asyncio-eventloop.html",
+      "title": "Event Loop — Python 3.13.2 documentation",
+      "grade": null
     },
     {
       "hash": "53evZitD2jQw",
@@ -302,16 +284,34 @@
       "grade": 0
     },
     {
-      "hash": "-0WeYitD2jQw",
-      "address": "https://docs.python.org/3/genindex-J.html",
-      "title": "Index — Python 3.14.7 documentation",
+      "hash": "PpEXoitD2jQw",
+      "address": "https://docs.python.org/3/library/contextvars.html",
+      "title": "contextvars — Context Variables — Python 3.14.6 documentation",
+      "grade": null
+    },
+    {
+      "hash": "TYQnKitD2jQw",
+      "address": "https://docs.python.org/3/deprecations/index.html",
+      "title": "Deprecations — Python 3.14.6 documentation",
+      "grade": null
+    },
+    {
+      "hash": "wLl5mitD2jQw",
+      "address": "https://docs.python.org/3/genindex-E.html",
+      "title": "Index — Python 3.10.4 documentation",
       "grade": 0
     },
     {
-      "hash": "06s5tTCk19rw",
-      "address": "https://peps.python.org/pep-0734/",
-      "title": "PEP 734 – Multiple Interpreters in the Stdlib | peps.python.org",
-      "grade": 0
+      "hash": "OJETritD2jQw",
+      "address": "https://docs.python.org/3/library/asyncore.html",
+      "title": "asyncore — Asynchronous socket handler — Python 3.14.7 documentation",
+      "grade": null
+    },
+    {
+      "hash": "TfoQZitD2jQw",
+      "address": "https://docs.python.org/3/genindex-D.html",
+      "title": "Index — Python 3.14.5 documentation",
+      "grade": null
     },
     {
       "hash": "jNBt8itD2jQw",
@@ -320,10 +320,16 @@
       "grade": 2
     },
     {
-      "hash": "LQ_J2itD2jQw",
-      "address": "https://docs.python.org/3/library/unittest.html",
-      "title": "26.4. unittest — Unit testing framework \u0026mdash; Python 3.5.2 documentation",
-      "grade": 0
+      "hash": "QsUXRitD2jQw",
+      "address": "https://docs.python.org/3/genindex-M.html",
+      "title": "Index — Python 3.10.7 documentation",
+      "grade": null
+    },
+    {
+      "hash": "SxNpQitD2jQw",
+      "address": "https://docs.python.org/3/library/index.html",
+      "title": "The Python Standard Library — Python 3.14.4 documentation",
+      "grade": null
     }
   ]
 }

@@ -2,10 +2,10 @@
   "query": "open source search engine",
   "judgedDocuments": [
     {
-      "hash": "9dnewsdTeyA4",
-      "address": "https://github.blog/",
-      "title": "Home - The GitHub Blog",
-      "grade": 0
+      "hash": "cad2Xscvw7Vx",
+      "address": "https://wordpress.org/",
+      "title": "Blog Tool, Publishing Platform, and CMS – WordPress.org",
+      "grade": null
     },
     {
       "hash": "jp9IEwSMo4M4",
@@ -14,147 +14,15 @@
       "grade": 0
     },
     {
+      "hash": "OZtxqlSCNQa4",
+      "address": "https://www.redhat.com/en/blog/making-open-source-more-inclusive-eradicating-problematic-language",
+      "title": "Making open source more inclusive by eradicating problematic language",
+      "grade": null
+    },
+    {
       "hash": "Vv81ls2xL7A6",
       "address": "https://corbettreport.com/september-open-thread-2022/",
       "title": "September Open Thread (2022) | The Corbett Report",
-      "grade": 0
-    },
-    {
-      "hash": "y8tXOWRMLT-5",
-      "address": "https://canonical.com/solutions/open-source-security",
-      "title": "Open source security | Canonical",
-      "grade": 0
-    },
-    {
-      "hash": "-b3sxspKNBr4",
-      "address": "https://rense.com/",
-      "title": "rense.com",
-      "grade": 0
-    },
-    {
-      "hash": "3yo3vyS6MKD4",
-      "address": "https://github.com/openclaw/lobster",
-      "title": "GitHub - openclaw/lobster: Lobster is a Openclaw-native workflow shell: a typed, local-first “macro engine” that turns skills/tools into composable pipelines and safe automations—and lets Openclaw call those workflows in one step. · GitHub",
-      "grade": 0
-    },
-    {
-      "hash": "4-FDNSofUy-5",
-      "address": "https://duckduckgo.com/duckduckgo-help-pages/change-default-search-engine/safari",
-      "title": "How to change your default search engine in Safari - DuckDuckGo Help Pages",
-      "grade": 0
-    },
-    {
-      "hash": "ZtxqojRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Open_access",
-      "title": "Open access - Wikipedia",
-      "grade": 0
-    },
-    {
-      "hash": "D61ibopg4UCw",
-      "address": "https://www.wikidata.org/wiki/Wikidata:Requests_for_comment/Source_items_and_supporting_Wikipedia_sources",
-      "title": "Wikidata:Requests for comment/Source items and supporting Wikipedia sources - Wikidata",
-      "grade": 0
-    },
-    {
-      "hash": "epYXTjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Google_Compute_Engine",
-      "title": "Google Compute Engine - Wikipedia",
-      "grade": 0
-    },
-    {
-      "hash": "tsBO3hsWTYKx",
-      "address": "https://sourceforge.net/directory/software-development/",
-      "title": "Best Open Source Software Development Software 2026",
-      "grade": 0
-    },
-    {
-      "hash": "0HlJrlIblX-y",
-      "address": "https://www.themarginalian.org/",
-      "title": "The Marginalian – Marginalia on our search for meaning.",
-      "grade": 0
-    },
-    {
-      "hash": "RRNM9k_MW7i4",
-      "address": "https://www.docker.com/community/open-source/",
-      "title": "Docker and Open Source | Docker",
-      "grade": 0
-    },
-    {
-      "hash": "_wmsVE9Ojva4",
-      "address": "https://docs.docker.com/engine/release-notes/29/",
-      "title": "Engine v29 | Docker Docs",
-      "grade": 0
-    },
-    {
-      "hash": "Hj5167hc6Db4",
-      "address": "https://search-queries.utils.com/",
-      "title": "Search Queries Tracker - Track Search Terms Leading to Your Tools - utils.com",
-      "grade": 0
-    },
-    {
-      "hash": "Y2pI4jc4UIAx",
-      "address": "https://en.wikivoyage.org/wiki/New_Zealand",
-      "title": "New Zealand – Travel guide at Wikivoyage",
-      "grade": 0
-    },
-    {
-      "hash": "mtii5lQw_dt5",
-      "address": "https://www.cloudflare.com/website-terms/",
-      "title": "Terms of Use | Cloudflare",
-      "grade": 0
-    },
-    {
-      "hash": "kK5nNsS6MKD4",
-      "address": "https://github.com/godotengine",
-      "title": "Godot Engine · GitHub",
-      "grade": 0
-    },
-    {
-      "hash": "oo73LMS6MKD4",
-      "address": "https://github.com/owasp-modsecurity/ModSecurity",
-      "title": "GitHub - owasp-modsecurity/ModSecurity: ModSecurity is an open source, cross platform web application firewall (WAF) engine for Apache, IIS and Nginx.",
-      "grade": 0
-    },
-    {
-      "hash": "v2ZUg_nMM_j5",
-      "address": "https://grokipedia.com/page/IOS",
-      "title": "iOS — Grokipedia",
-      "grade": 0
-    },
-    {
-      "hash": "uf2wPSofUy-5",
-      "address": "https://duckduckgo.com/duckduckgo-help-pages/change-default-search-engine/uc-browser",
-      "title": "How to change your default search engine in UC Browser - DuckDuckGo Help Pages",
-      "grade": 0
-    },
-    {
-      "hash": "T8ZB7sS6MKD4",
-      "address": "https://github.com/yacy/yacy_search_server",
-      "title": "GitHub - yacy/yacy_search_server: Distributed Peer-to-Peer Web Search Engine and Intranet Search Appliance · GitHub",
-      "grade": 2
-    },
-    {
-      "hash": "h1WoVQuAbj3Z",
-      "address": "http://www.sciencedaily.com/",
-      "title": "ScienceDaily: Your source for the latest research news",
-      "grade": 0
-    },
-    {
-      "hash": "PNBfzEWfERA4",
-      "address": "https://support.google.com/websearch",
-      "title": "Google Search Help",
-      "grade": 0
-    },
-    {
-      "hash": "kxZXcE9Ojva4",
-      "address": "https://docs.docker.com/engine/network/drivers/bridge/",
-      "title": "Bridge network driver | Docker Docs",
-      "grade": 0
-    },
-    {
-      "hash": "Q831Yj-JVcyx",
-      "address": "https://en.wikiquote.org/wiki/United_States",
-      "title": "United States - Wikiquote",
       "grade": 0
     },
     {
@@ -164,124 +32,124 @@
       "grade": 0
     },
     {
-      "hash": "e-T7cs5DCs35",
-      "address": "https://wordpress.com/",
-      "title": "WordPress.com: Everything You Need to Build Your Website",
+      "hash": "oaPaDjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Browser_engine",
+      "title": "Browser engine - Wikipedia",
+      "grade": null
+    },
+    {
+      "hash": "y8tXOWRMLT-5",
+      "address": "https://canonical.com/solutions/open-source-security",
+      "title": "Open source security | Canonical",
       "grade": 0
     },
     {
-      "hash": "Jb4XHs5IzNm6",
-      "address": "https://citizenfreepress.com/",
-      "title": "CITIZEN FREE PRESS",
+      "hash": "D61ibopg4UCw",
+      "address": "https://www.wikidata.org/wiki/Wikidata:Requests_for_comment/Source_items_and_supporting_Wikipedia_sources",
+      "title": "Wikidata:Requests for comment/Source items and supporting Wikipedia sources - Wikidata",
       "grade": 0
     },
     {
-      "hash": "sgghmlAUKsO5",
-      "address": "https://www.findarticles.com/news/",
-      "title": "News Articles - FindArticles",
+      "hash": "S2d8PhFozFBx",
+      "address": "https://diff.wikimedia.org/2026/01/08/semantic-search-making-it-easier-to-find-the-information-readers-want/",
+      "title": "Semantic search: making it easier to find the information readers want – Diff",
+      "grade": null
+    },
+    {
+      "hash": "RRNM9k_MW7i4",
+      "address": "https://www.docker.com/community/open-source/",
+      "title": "Docker and Open Source | Docker",
       "grade": 0
     },
     {
-      "hash": "anJsWsDBeN55",
-      "address": "https://henrymakow.com/",
-      "title": "henrymakow.com - Exposing Feminism and The New World Order",
+      "hash": "YTZvAdDZkUL4",
+      "address": "https://www.cnet.com/home/security/best-smoke-detector/",
+      "title": "Best Smoke Detectors and Dual Alarms for 2026: Lab Tested - CNET",
+      "grade": null
+    },
+    {
+      "hash": "x_XB_vdTeyA4",
+      "address": "https://github.blog/open-source/maintainers/securing-the-supply-chain-at-scale-starting-with-71-important-open-source-projects/",
+      "title": "Securing the supply chain at scale: Starting with 71 important open source projects - The GitHub Blog",
+      "grade": null
+    },
+    {
+      "hash": "3yo3vyS6MKD4",
+      "address": "https://github.com/openclaw/lobster",
+      "title": "GitHub - openclaw/lobster: Lobster is a Openclaw-native workflow shell: a typed, local-first “macro engine” that turns skills/tools into composable pipelines and safe automations—and lets Openclaw call those workflows in one step. · GitHub",
       "grade": 0
     },
     {
-      "hash": "W-eXqzF3--Qw",
-      "address": "https://planet.mozilla.org/",
-      "title": "Planet Mozilla",
+      "hash": "bAimuE9Ojva4",
+      "address": "https://docs.docker.com/engine/install/",
+      "title": "Install | Docker Docs",
+      "grade": null
+    },
+    {
+      "hash": "Tx1E8DF20Rww",
+      "address": "https://ma.tt/category/open-source/",
+      "title": "Open Source | Matt Mullenweg",
+      "grade": null
+    },
+    {
+      "hash": "VkCPbvdTeyA4",
+      "address": "https://github.blog/open-source/gaming/",
+      "title": "The latest on open source games - The GitHub Blog",
+      "grade": null
+    },
+    {
+      "hash": "SAX5vjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Source_code",
+      "title": "Source code - Wikipedia",
+      "grade": null
+    },
+    {
+      "hash": "-_ueuGKvmHFw",
+      "address": "https://www.cncf.io/people/ambassadors/?_sft_lf-project=service-mesh-interface",
+      "title": "Ambassadors | CNCF",
+      "grade": null
+    },
+    {
+      "hash": "_wmsVE9Ojva4",
+      "address": "https://docs.docker.com/engine/release-notes/29/",
+      "title": "Engine v29 | Docker Docs",
       "grade": 0
     },
     {
-      "hash": "aEnpV6Gt4Xm4",
-      "address": "https://christadelphianworld.blogspot.com/",
-      "title": "Our World",
+      "hash": "-xqfujRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Google_Search",
+      "title": "Google Search - Wikipedia",
+      "grade": null
+    },
+    {
+      "hash": "9dnewsdTeyA4",
+      "address": "https://github.blog/",
+      "title": "Home - The GitHub Blog",
       "grade": 0
     },
     {
-      "hash": "MaRThsRMLT-5",
-      "address": "https://canonical.com/",
-      "title": "Trusted open source for enterprises | Canonical",
+      "hash": "T8ZB7sS6MKD4",
+      "address": "https://github.com/yacy/yacy_search_server",
+      "title": "GitHub - yacy/yacy_search_server: Distributed Peer-to-Peer Web Search Engine and Intranet Search Appliance · GitHub",
+      "grade": 2
+    },
+    {
+      "hash": "bY7qBlLqTzM4",
+      "address": "https://www.patreon.com/godotengine",
+      "title": "Godot Engine | Your free, open‑source game engine. | Patreon",
+      "grade": null
+    },
+    {
+      "hash": "tsBO3hsWTYKx",
+      "address": "https://sourceforge.net/directory/software-development/",
+      "title": "Best Open Source Software Development Software 2026",
       "grade": 0
     },
     {
-      "hash": "m5Fe6jRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Google",
-      "title": "Google - Wikipedia",
-      "grade": 0
-    },
-    {
-      "hash": "9P0qOjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Wikimedia_Commons",
-      "title": "Wikimedia Commons - Wikipedia",
-      "grade": 0
-    },
-    {
-      "hash": "eKFjxsS6MKD4",
-      "address": "https://github.com/blinggnome",
-      "title": "blinggnome · GitHub",
-      "grade": 0
-    },
-    {
-      "hash": "Mb7ip0SWekJ4",
-      "address": "https://thangs.com/resources/blog",
-      "title": "Blog",
-      "grade": 0
-    },
-    {
-      "hash": "uaEnGzTwnifx",
-      "address": "https://planet.wordpress.org/",
-      "title": "Planet — WordPress.org",
-      "grade": 0
-    },
-    {
-      "hash": "D1yl1bUmIDp5",
-      "address": "https://voiceofrestoration.wordpress.com/",
-      "title": "Voice of Restoration – Life is like a chameleon in a bag of skittles…",
-      "grade": 0
-    },
-    {
-      "hash": "AWq9VQXx1HRZ",
-      "address": "http://www.dailystirrer.com/2012-october.shtml",
-      "title": "the_daily_stirrer-2012-june-opinion-comment-controversy-news-events-politics",
-      "grade": 0
-    },
-    {
-      "hash": "ELIe2QXx1HRZ",
-      "address": "http://www.dailystirrer.com/2021-may.shtml",
-      "title": "2021",
-      "grade": 0
-    },
-    {
-      "hash": "NIR9mQXx1HRZ",
-      "address": "http://www.dailystirrer.com/2021-november.shtml",
-      "title": "dailystirrer-2021-november-news-comment-opinion-controversy-contrarianism",
-      "grade": 0
-    },
-    {
-      "hash": "PSkz_QXx1HRZ",
-      "address": "http://www.dailystirrer.com/2021-october.shtml",
-      "title": "dailystirrer-2021-news-october-comment-opinion-controversy-contrarianism",
-      "grade": 0
-    },
-    {
-      "hash": "t2h4nQXx1HRZ",
-      "address": "http://www.dailystirrer.com/2013-november.shtml",
-      "title": "dailystirrer curent month",
-      "grade": 0
-    },
-    {
-      "hash": "wrsAbQXx1HRZ",
-      "address": "http://www.dailystirrer.com/2012-august.shtml",
-      "title": "the_daily_stirrer-2012-june-opinion-comment-controversy-news-events-politics",
-      "grade": 0
-    },
-    {
-      "hash": "CyUYvsY-tUi5",
-      "address": "https://moralparty.com/Warnings/",
-      "title": "Warnings – MoralParty.com",
-      "grade": 0
+      "hash": "1G79UlSCNQa4",
+      "address": "https://www.redhat.com/en/technologies/cloud-computing/openshift/virtualization-engine",
+      "title": "Red Hat OpenShift Virtualization Engine",
+      "grade": null
     }
   ]
 }

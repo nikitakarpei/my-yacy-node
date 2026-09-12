@@ -1,177 +1,25 @@
 {
   "query": "why is my wifi connection slow",
-  "recordedAt": "2026-09-12T10:15:34Z",
+  "recordedAt": "2026-09-12T11:25:47Z",
   "itemsInTheOrderOfEachAnswer": [
     [
       {
-        "hash": "b08TwlDZkUL4",
-        "address": "https://www.cnet.com/",
-        "title": "CNET: Product reviews, advice, how-tos and the latest news",
-        "snippet": "Our Expertise\nFor more than 25 years, CNET has built a reputation as the premier source for trustworthy, no-nonsense reviews on everything tech – from phones to TVs to laptops to tablets to streaming services.",
+        "hash": "XTPIBlptNsG4",
+        "address": "https://www.akdart.com/hijrah.html",
+        "title": "Islamic invasion disguised as the displacement and acceptance of refugees",
+        "snippet": "\"Refugees\" arriving in Europe ask for wifi first, food and shelter second. Asylum seekers often use their mobile phones to navigate their way into Europe and once they arrive they need a strong wi-fi connection to stay in touch with loved ones at home.",
         "matchedWords": {
           "RxfVPr_f6oR3": {
-            "hits": 0,
-            "textWords": 59
+            "hits": 37,
+            "textWords": 405419
           },
           "T-nf54SiviXd": {
-            "hits": 0,
-            "textWords": 59
-          },
-          "Ux5wpnRdB6i-": {
-            "hits": 0,
-            "textWords": 59
+            "hits": 14,
+            "textWords": 405419
           },
           "Xyfd4Qv6itrf": {
-            "hits": 0,
-            "textWords": 59
-          },
-          "aGTzidmHZDa8": {
-            "hits": 0,
-            "textWords": 59
-          },
-          "oqVRpkWKjeIk": {
-            "hits": 0,
-            "textWords": 59
-          }
-        },
-        "queryPhraseHits": 0
-      }
-    ],
-    [
-      {
-        "hash": "-b3sxspKNBr4",
-        "address": "https://rense.com/",
-        "title": "rense.com",
-        "snippet": "Anthropic researcher quits, warns against\nself-improving AI\nLawmakers blast AI companies after researcher\nwarns of human extinction by 2030\nLabs are begging for someone to slow the AI race\nUber just launched the UK’s first autonomous\nrides in London\nGeorgia bet big on EV manufacturing - Trump",
-        "matchedWords": {
-          "RxfVPr_f6oR3": {
-            "hits": 3,
-            "textWords": 85916
-          },
-          "T-nf54SiviXd": {
-            "hits": 5,
-            "textWords": 85916
-          },
-          "Ux5wpnRdB6i-": {
-            "hits": 0,
-            "textWords": 85916
-          },
-          "Xyfd4Qv6itrf": {
-            "hits": 4,
-            "textWords": 85916
-          },
-          "aGTzidmHZDa8": {
-            "hits": 0,
-            "textWords": 85916
-          },
-          "oqVRpkWKjeIk": {
-            "hits": 0,
-            "textWords": 85916
-          }
-        },
-        "queryPhraseHits": 0
-      }
-    ],
-    [
-      {
-        "hash": "b08TwlDZkUL4",
-        "address": "https://www.cnet.com/",
-        "title": "CNET: Product reviews, advice, how-tos and the latest news",
-        "snippet": "Our Expertise\nFor more than 25 years, CNET has built a reputation as the premier source for trustworthy, no-nonsense reviews on everything tech – from phones to TVs to laptops to tablets to streaming services.",
-        "matchedWords": {
-          "RxfVPr_f6oR3": {
-            "hits": 0,
-            "textWords": 59
-          },
-          "T-nf54SiviXd": {
-            "hits": 0,
-            "textWords": 59
-          },
-          "Ux5wpnRdB6i-": {
-            "hits": 0,
-            "textWords": 59
-          },
-          "Xyfd4Qv6itrf": {
-            "hits": 0,
-            "textWords": 59
-          },
-          "aGTzidmHZDa8": {
-            "hits": 0,
-            "textWords": 59
-          },
-          "oqVRpkWKjeIk": {
-            "hits": 0,
-            "textWords": 59
-          }
-        },
-        "queryPhraseHits": 0
-      }
-    ],
-    [
-      {
-        "hash": "b08TwlDZkUL4",
-        "address": "https://www.cnet.com/",
-        "title": "CNET: Product reviews, advice, how-tos and the latest news - CNET",
-        "snippet": "Our Expertise\nFor more than 25 years, CNET has built a reputation as the premier source for trustworthy, no-nonsense reviews on everything tech – from phones to TVs to laptops to tablets to streaming services.",
-        "matchedWords": {
-          "RxfVPr_f6oR3": {
-            "hits": 0,
-            "textWords": 59
-          },
-          "T-nf54SiviXd": {
-            "hits": 0,
-            "textWords": 59
-          },
-          "Ux5wpnRdB6i-": {
-            "hits": 0,
-            "textWords": 59
-          },
-          "Xyfd4Qv6itrf": {
-            "hits": 0,
-            "textWords": 59
-          },
-          "aGTzidmHZDa8": {
-            "hits": 0,
-            "textWords": 59
-          },
-          "oqVRpkWKjeIk": {
-            "hits": 0,
-            "textWords": 59
-          }
-        },
-        "queryPhraseHits": 0
-      }
-    ],
-    [
-      {
-        "hash": "-b3sxspKNBr4",
-        "address": "https://rense.com/",
-        "title": "rense.com",
-        "snippet": "Anthropic researcher quits, warns against\nself-improving AI\nLawmakers blast AI companies after researcher\nwarns of human extinction by 2030\nLabs are begging for someone to slow the AI race\nUber just launched the UK’s first autonomous\nrides in London\nGeorgia bet big on EV manufacturing - Trump",
-        "matchedWords": {
-          "RxfVPr_f6oR3": {
-            "hits": 3,
-            "textWords": 85916
-          },
-          "T-nf54SiviXd": {
-            "hits": 5,
-            "textWords": 85916
-          },
-          "Ux5wpnRdB6i-": {
-            "hits": 0,
-            "textWords": 85916
-          },
-          "Xyfd4Qv6itrf": {
-            "hits": 4,
-            "textWords": 85916
-          },
-          "aGTzidmHZDa8": {
-            "hits": 0,
-            "textWords": 85916
-          },
-          "oqVRpkWKjeIk": {
-            "hits": 0,
-            "textWords": 85916
+            "hits": 1,
+            "textWords": 405419
           }
         },
         "queryPhraseHits": 0
@@ -190,21 +38,122 @@
             "hits": 7,
             "textWords": 8109
           },
-          "Ux5wpnRdB6i-": {
-            "hits": 0,
-            "textWords": 8109
-          },
           "Xyfd4Qv6itrf": {
             "hits": 0,
             "textWords": 8109
-          },
-          "aGTzidmHZDa8": {
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "9d0zQJOC4JVg",
+        "address": "https://www.gifts4u.gr/blog/season-essentials",
+        "title": "",
+        "snippet": "",
+        "matchedWords": {
+          "RxfVPr_f6oR3": {
             "hits": 0,
-            "textWords": 8109
+            "textWords": 0
           },
-          "oqVRpkWKjeIk": {
+          "T-nf54SiviXd": {
             "hits": 0,
-            "textWords": 8109
+            "textWords": 0
+          },
+          "Xyfd4Qv6itrf": {
+            "hits": 4,
+            "textWords": 1265
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "m-DJMn4Gdhjh",
+        "address": "https://malpedia.caad.fkie.fraunhofer.de/library/download",
+        "title": "Download",
+        "snippet": "",
+        "matchedWords": {
+          "RxfVPr_f6oR3": {
+            "hits": 5,
+            "textWords": 23000
+          },
+          "T-nf54SiviXd": {
+            "hits": 0,
+            "textWords": 0
+          },
+          "Xyfd4Qv6itrf": {
+            "hits": 0,
+            "textWords": 0
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "EyjETIl7OZJE",
+        "address": "http://www.kursaal.com.ar/web/post-without-sidebar/",
+        "title": "Post Without Sidebar",
+        "snippet": "",
+        "matchedWords": {
+          "RxfVPr_f6oR3": {
+            "hits": 0,
+            "textWords": 0
+          },
+          "T-nf54SiviXd": {
+            "hits": 0,
+            "textWords": 0
+          },
+          "Xyfd4Qv6itrf": {
+            "hits": 188,
+            "textWords": 37351
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "HrKyXWOXoHMQ",
+        "address": "http://acecomments.mu.nu/?post=391252",
+        "title": "Cutting The Cord [Joe Mannix (not a cop)]",
+        "snippet": "Cord-cutting generally consists of three or four broad categories to keep in mind:\n• Connectivity: This is your broadband internet connection, whether it’s cable or DSL or wireless or whatever.\n• Devices: This is your smart TV or set-top box that provides smart TV capability in your home.",
+        "matchedWords": {
+          "RxfVPr_f6oR3": {
+            "hits": 3,
+            "textWords": 2482
+          },
+          "T-nf54SiviXd": {
+            "hits": 0,
+            "textWords": 2482
+          },
+          "Xyfd4Qv6itrf": {
+            "hits": 0,
+            "textWords": 2482
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "HrKyXWOXoHMQ",
+        "address": "http://acecomments.mu.nu/?post=391252",
+        "title": "Cutting The Cord [Joe Mannix (not a cop)]",
+        "snippet": "Cord-cutting generally consists of three or four broad categories to keep in mind:\n• Connectivity: This is your broadband internet connection, whether it’s cable or DSL or wireless or whatever.\n• Devices: This is your smart TV or set-top box that provides smart TV capability in your home.",
+        "matchedWords": {
+          "RxfVPr_f6oR3": {
+            "hits": 3,
+            "textWords": 2482
+          },
+          "T-nf54SiviXd": {
+            "hits": 0,
+            "textWords": 2482
+          },
+          "Xyfd4Qv6itrf": {
+            "hits": 0,
+            "textWords": 2482
           }
         },
         "queryPhraseHits": 0
@@ -225,95 +174,15 @@
             "hits": 0,
             "textWords": 10682
           },
-          "Ux5wpnRdB6i-": {
-            "hits": 0,
-            "textWords": 10682
-          },
           "Xyfd4Qv6itrf": {
             "hits": 2,
             "textWords": 10682
-          },
-          "aGTzidmHZDa8": {
-            "hits": 0,
-            "textWords": 10682
-          },
-          "oqVRpkWKjeIk": {
-            "hits": 0,
-            "textWords": 10682
           }
         },
         "queryPhraseHits": 0
       }
     ],
     [
-      {
-        "hash": "b08TwlDZkUL4",
-        "address": "https://www.cnet.com/",
-        "title": "CNET: Product reviews, advice, how-tos and the latest news - CNET",
-        "snippet": "Our Expertise\nFor more than 25 years, CNET has built a reputation as the premier source for trustworthy, no-nonsense reviews on everything tech – from phones to TVs to laptops to tablets to streaming services.",
-        "matchedWords": {
-          "RxfVPr_f6oR3": {
-            "hits": 0,
-            "textWords": 59
-          },
-          "T-nf54SiviXd": {
-            "hits": 0,
-            "textWords": 59
-          },
-          "Ux5wpnRdB6i-": {
-            "hits": 0,
-            "textWords": 59
-          },
-          "Xyfd4Qv6itrf": {
-            "hits": 0,
-            "textWords": 59
-          },
-          "aGTzidmHZDa8": {
-            "hits": 0,
-            "textWords": 59
-          },
-          "oqVRpkWKjeIk": {
-            "hits": 0,
-            "textWords": 59
-          }
-        },
-        "queryPhraseHits": 0
-      }
-    ],
-    [
-      {
-        "hash": "D4lABzaS0qdw",
-        "address": "https://planet.debian.org/",
-        "title": "Planet Debian",
-        "snippet": "Once you identified the slow part of a program, how do you know why it’s slow?\nTo learn more about the specific bottlenecks your program encounters, you can consult your CPU’s hardware performance counters.",
-        "matchedWords": {
-          "RxfVPr_f6oR3": {
-            "hits": 0,
-            "textWords": 8109
-          },
-          "T-nf54SiviXd": {
-            "hits": 7,
-            "textWords": 8109
-          },
-          "Ux5wpnRdB6i-": {
-            "hits": 0,
-            "textWords": 8109
-          },
-          "Xyfd4Qv6itrf": {
-            "hits": 0,
-            "textWords": 8109
-          },
-          "aGTzidmHZDa8": {
-            "hits": 0,
-            "textWords": 8109
-          },
-          "oqVRpkWKjeIk": {
-            "hits": 0,
-            "textWords": 8109
-          }
-        },
-        "queryPhraseHits": 0
-      },
       {
         "hash": "-b3sxspKNBr4",
         "address": "https://rense.com/",
@@ -328,20 +197,8 @@
             "hits": 5,
             "textWords": 85916
           },
-          "Ux5wpnRdB6i-": {
-            "hits": 0,
-            "textWords": 85916
-          },
           "Xyfd4Qv6itrf": {
             "hits": 4,
-            "textWords": 85916
-          },
-          "aGTzidmHZDa8": {
-            "hits": 0,
-            "textWords": 85916
-          },
-          "oqVRpkWKjeIk": {
-            "hits": 0,
             "textWords": 85916
           }
         },
@@ -350,67 +207,22 @@
     ],
     [
       {
-        "hash": "D4lABzaS0qdw",
-        "address": "https://planet.debian.org/",
-        "title": "Planet Debian",
-        "snippet": "Once you identified the slow part of a program, how do you know why it’s slow?\nTo learn more about the specific bottlenecks your program encounters, you can consult your CPU’s hardware performance counters.",
+        "hash": "IKIZjvNVRnN4",
+        "address": "https://feeds.acast.com/public/shows/6960406eea3a5db99ef40043",
+        "title": "",
+        "snippet": "",
         "matchedWords": {
           "RxfVPr_f6oR3": {
             "hits": 0,
-            "textWords": 8109
+            "textWords": 0
           },
           "T-nf54SiviXd": {
-            "hits": 7,
-            "textWords": 8109
-          },
-          "Ux5wpnRdB6i-": {
-            "hits": 0,
-            "textWords": 8109
+            "hits": 38,
+            "textWords": 61716
           },
           "Xyfd4Qv6itrf": {
             "hits": 0,
-            "textWords": 8109
-          },
-          "aGTzidmHZDa8": {
-            "hits": 0,
-            "textWords": 8109
-          },
-          "oqVRpkWKjeIk": {
-            "hits": 0,
-            "textWords": 8109
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "-b3sxspKNBr4",
-        "address": "https://rense.com/",
-        "title": "rense.com",
-        "snippet": "Anthropic researcher quits, warns against\nself-improving AI\nLawmakers blast AI companies after researcher\nwarns of human extinction by 2030\nLabs are begging for someone to slow the AI race\nUber just launched the UK’s first autonomous\nrides in London\nGeorgia bet big on EV manufacturing - Trump",
-        "matchedWords": {
-          "RxfVPr_f6oR3": {
-            "hits": 3,
-            "textWords": 85916
-          },
-          "T-nf54SiviXd": {
-            "hits": 5,
-            "textWords": 85916
-          },
-          "Ux5wpnRdB6i-": {
-            "hits": 0,
-            "textWords": 85916
-          },
-          "Xyfd4Qv6itrf": {
-            "hits": 4,
-            "textWords": 85916
-          },
-          "aGTzidmHZDa8": {
-            "hits": 0,
-            "textWords": 85916
-          },
-          "oqVRpkWKjeIk": {
-            "hits": 0,
-            "textWords": 85916
+            "textWords": 0
           }
         },
         "queryPhraseHits": 0
@@ -418,8 +230,8 @@
     ],
     [
       {
-        "hash": "yJuijsCG40j4",
-        "address": "https://tantek.com/",
+        "hash": "pGRD67yp6WtY",
+        "address": "http://tantek.com/",
         "title": "Tantek Çelik",
         "snippet": "Similarly, if you happen to be driving a vehicle that is either “always connected” (e.g. built-in WiFi or cell connectivity), or frequently connected to the internet (e.g. joins your home WiFi when parked in the garage), you may want to investigate if it is possible for you to disconnect it from",
         "matchedWords": {
@@ -431,159 +243,99 @@
             "hits": 0,
             "textWords": 10682
           },
-          "Ux5wpnRdB6i-": {
-            "hits": 0,
-            "textWords": 10682
-          },
           "Xyfd4Qv6itrf": {
             "hits": 2,
-            "textWords": 10682
-          },
-          "aGTzidmHZDa8": {
-            "hits": 0,
-            "textWords": 10682
-          },
-          "oqVRpkWKjeIk": {
-            "hits": 0,
             "textWords": 10682
           }
         },
         "queryPhraseHits": 0
       },
       {
-        "hash": "GxTNgsF20Rww",
-        "address": "https://ma.tt/",
-        "title": "Matt Mullenweg | Unlucky in Cards",
-        "snippet": "The Bloggers love their WordPress as the place they truly own and call home, but Bloggers have an account on every channel where there’s an audience, they syndicate out with an ephemerality mindset, because that reader/listener/follower connection is the spark that keeps their flame alive.",
+        "hash": "2dQPwsnHFMh6",
+        "address": "https://lustforlovefilm.com/",
+        "title": "Lustforlovefilm.com -",
+        "snippet": "If you are playing at an online casino, be sure to use a secure internet connection. This will prevent third parties from intercepting your personal information and stealing your money. Also, never register an account or make a payment on a public WiFi network.",
         "matchedWords": {
           "RxfVPr_f6oR3": {
-            "hits": 3,
-            "textWords": 2499
+            "hits": 8,
+            "textWords": 84212
           },
           "T-nf54SiviXd": {
-            "hits": 0,
-            "textWords": 2499
+            "hits": 4,
+            "textWords": 84212
           },
-          "Ux5wpnRdB6i-": {
+          "Xyfd4Qv6itrf": {
+            "hits": 2,
+            "textWords": 84212
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "E0p8pdDZkUL4",
+        "address": "https://www.cnet.com/home/internet/routers-survey-2026/",
+        "title": "Most US Adults Struggle With Wonky Wi-Fi Connections, CNET Finds. Here's What You Can Do About It - CNET",
+        "snippet": "For example, if you’re an avid gamer, CNET recommends the Linksys Velop Pro 6E as the best gaming router for its jitter and packet-loss performance. If you live in a large home, you may consider buying a mesh Wi-Fi system for a stable connection throughout your home.\nRead more: Slow Your Roll.",
+        "matchedWords": {
+          "RxfVPr_f6oR3": {
+            "hits": 11,
+            "textWords": 1387
+          },
+          "T-nf54SiviXd": {
+            "hits": 2,
+            "textWords": 1387
+          },
+          "Xyfd4Qv6itrf": {
             "hits": 0,
-            "textWords": 2499
+            "textWords": 1387
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "f7lyEE741r34",
+        "address": "https://support.linksys.com/home/",
+        "title": "Home - Linksys Support",
+        "snippet": "Fix Slow WiFi or Internet Speed on Your Linksys Mesh Network\nWhat affects your WiFi speed? A Beginner’s Guide\nDiscover the top signs it's time for a router upgrade\nA deep dive into WiFi 6 and WiFi 7 innovations\nWiFi or Ethernet? Choosing the best connection for you",
+        "matchedWords": {
+          "RxfVPr_f6oR3": {
+            "hits": 1,
+            "textWords": 306
+          },
+          "T-nf54SiviXd": {
+            "hits": 1,
+            "textWords": 306
+          },
+          "Xyfd4Qv6itrf": {
+            "hits": 9,
+            "textWords": 306
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "XTPIBlptNsG4",
+        "address": "https://www.akdart.com/hijrah.html",
+        "title": "Islamic invasion disguised as the displacement and acceptance of refugees",
+        "snippet": "\"Refugees\" arriving in Europe ask for wifi first, food and shelter second. Asylum seekers often use their mobile phones to navigate their way into Europe and once they arrive they need a strong wi-fi connection to stay in touch with loved ones at home.",
+        "matchedWords": {
+          "RxfVPr_f6oR3": {
+            "hits": 37,
+            "textWords": 405419
+          },
+          "T-nf54SiviXd": {
+            "hits": 14,
+            "textWords": 405419
           },
           "Xyfd4Qv6itrf": {
             "hits": 1,
-            "textWords": 2499
-          },
-          "aGTzidmHZDa8": {
-            "hits": 0,
-            "textWords": 2499
-          },
-          "oqVRpkWKjeIk": {
-            "hits": 0,
-            "textWords": 2499
-          }
-        },
-        "queryPhraseHits": 0
-      }
-    ],
-    [
-      {
-        "hash": "D4lABzaS0qdw",
-        "address": "https://planet.debian.org/",
-        "title": "Planet Debian",
-        "snippet": "Once you identified the slow part of a program, how do you know why it’s slow?\nTo learn more about the specific bottlenecks your program encounters, you can consult your CPU’s hardware performance counters.",
-        "matchedWords": {
-          "RxfVPr_f6oR3": {
-            "hits": 0,
-            "textWords": 8109
-          },
-          "T-nf54SiviXd": {
-            "hits": 7,
-            "textWords": 8109
-          },
-          "Ux5wpnRdB6i-": {
-            "hits": 0,
-            "textWords": 8109
-          },
-          "Xyfd4Qv6itrf": {
-            "hits": 0,
-            "textWords": 8109
-          },
-          "aGTzidmHZDa8": {
-            "hits": 0,
-            "textWords": 8109
-          },
-          "oqVRpkWKjeIk": {
-            "hits": 0,
-            "textWords": 8109
-          }
-        },
-        "queryPhraseHits": 0
-      }
-    ],
-    [
-      {
-        "hash": "-b3sxspKNBr4",
-        "address": "https://rense.com/",
-        "title": "rense.com",
-        "snippet": "Anthropic researcher quits, warns against\nself-improving AI\nLawmakers blast AI companies after researcher\nwarns of human extinction by 2030\nLabs are begging for someone to slow the AI race\nUber just launched the UK’s first autonomous\nrides in London\nGeorgia bet big on EV manufacturing - Trump",
-        "matchedWords": {
-          "RxfVPr_f6oR3": {
-            "hits": 3,
-            "textWords": 85916
-          },
-          "T-nf54SiviXd": {
-            "hits": 5,
-            "textWords": 85916
-          },
-          "Ux5wpnRdB6i-": {
-            "hits": 0,
-            "textWords": 85916
-          },
-          "Xyfd4Qv6itrf": {
-            "hits": 4,
-            "textWords": 85916
-          },
-          "aGTzidmHZDa8": {
-            "hits": 0,
-            "textWords": 85916
-          },
-          "oqVRpkWKjeIk": {
-            "hits": 0,
-            "textWords": 85916
-          }
-        },
-        "queryPhraseHits": 0
-      }
-    ],
-    [
-      {
-        "hash": "-b3sxspKNBr4",
-        "address": "https://rense.com/",
-        "title": "rense.com",
-        "snippet": "Anthropic researcher quits, warns against\nself-improving AI\nLawmakers blast AI companies after researcher\nwarns of human extinction by 2030\nLabs are begging for someone to slow the AI race\nUber just launched the UK’s first autonomous\nrides in London\nGeorgia bet big on EV manufacturing - Trump",
-        "matchedWords": {
-          "RxfVPr_f6oR3": {
-            "hits": 3,
-            "textWords": 85916
-          },
-          "T-nf54SiviXd": {
-            "hits": 5,
-            "textWords": 85916
-          },
-          "Ux5wpnRdB6i-": {
-            "hits": 0,
-            "textWords": 85916
-          },
-          "Xyfd4Qv6itrf": {
-            "hits": 4,
-            "textWords": 85916
-          },
-          "aGTzidmHZDa8": {
-            "hits": 0,
-            "textWords": 85916
-          },
-          "oqVRpkWKjeIk": {
-            "hits": 0,
-            "textWords": 85916
+            "textWords": 405419
           }
         },
         "queryPhraseHits": 0
@@ -592,2344 +344,925 @@
   ],
   "itemsInNoOrder": [
     {
-      "hash": "VpCOpt6ArEvw",
-      "address": "https://blog.archive.org/",
-      "title": "Internet Archive Blogs | Updates from the Internet Archive",
-      "snippet": "In 1980, Negativland released its first self-titled album with handmade covers and distributed it through a few record stores in the California Bay Area.\n“We thought we might sell 100 in the next five years, and we sold all 500 in three months.",
+      "hash": "hNrcdJ-bwreQ",
+      "address": "http://ace.mu.nu/",
+      "title": "Ace of Spades HQ",
+      "snippet": "I have Open Threads for both days and I will post if big news breaks, but if it doesn't -- and it probably won't, news is slow before a holiday weekend -- I'm going to take a four day weekend.\nSh0eOnHead discusses the Psychotic Cult of Lindsay\nReal quotes:",
       "matchedWords": {
         "RxfVPr_f6oR3": {
           "hits": 0,
-          "textWords": 5347
+          "textWords": 12885
         },
         "T-nf54SiviXd": {
-          "hits": 0,
-          "textWords": 5347
-        },
-        "Ux5wpnRdB6i-": {
-          "hits": 0,
-          "textWords": 5347
+          "hits": 1,
+          "textWords": 12885
         },
         "Xyfd4Qv6itrf": {
           "hits": 0,
-          "textWords": 5347
-        },
-        "aGTzidmHZDa8": {
-          "hits": 0,
-          "textWords": 5347
-        },
-        "oqVRpkWKjeIk": {
-          "hits": 0,
-          "textWords": 5347
+          "textWords": 12885
         }
       },
       "queryPhraseHits": 0
     },
     {
-      "hash": "MAC3Gs6GdY-4",
-      "address": "https://danluu.com/web-bloat/",
-      "title": "How web bloat impacts users with slow connections",
-      "snippet": "Even on a good (0% packetloss, no ping spike) dialup connection, some sites won’t load.\nSome sites will use a lot of data!\nThe web on bad connections\nAs commercial websites go, Google is basically as good as it gets for people on a slow connection.",
+      "hash": "Jb4XHs5IzNm6",
+      "address": "https://citizenfreepress.com/",
+      "title": "CITIZEN FREE PRESS",
+      "snippet": "Robot video is intense.\nThis may become new floating weekend headquarters for CFP.\nI just need wifi and 27 inch monitor.\nTrump approval holding at 44% at Rasmussen — See daily approval going back 12 months.\nFemale shopper pulls gun on shoplifter.",
       "matchedWords": {
         "RxfVPr_f6oR3": {
+          "hits": 1,
+          "textWords": 11215
+        },
+        "T-nf54SiviXd": {
+          "hits": 2,
+          "textWords": 11215
+        },
+        "Xyfd4Qv6itrf": {
+          "hits": 1,
+          "textWords": 11215
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "ETfRxdDZkUL4",
+      "address": "https://www.cnet.com/home/security/best-video-doorbell-cameras/",
+      "title": "The Best Video Doorbells of 2026: Watch Porches, Packages and More - CNET",
+      "snippet": "The Matter standard has been very slow to add video functionality and it’s just not ready for home cams of any kind yet.\nPrivacy and security\nVideo doorbells capture a lot of everyday moments and many of them store that footage in the cloud.",
+      "matchedWords": {
+        "RxfVPr_f6oR3": {
+          "hits": 2,
+          "textWords": 5285
+        },
+        "T-nf54SiviXd": {
+          "hits": 1,
+          "textWords": 5285
+        },
+        "Xyfd4Qv6itrf": {
+          "hits": 0,
+          "textWords": 5285
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "zlyXsdDZkUL4",
+      "address": "https://www.cnet.com/home/kitchen-and-household/best-robot-vacuums-our-labs-tested-47-models-and-only-these-made-the-cut/",
+      "title": "Best Robot Vacuums We've Tested in 2026",
+      "snippet": "Finally, its slow movement, while beneficial for cleaning efficiency, means a longer run time, which could be a drawback for those who prioritize fast cleaning cycles.\nAverage sand pickup\n65.14%\nAverage coverage\n80.78%\nObject avoidance\n3 of 6\nPet hair removed\nNo\nNoise level\n57.46 LAeq",
+      "matchedWords": {
+        "RxfVPr_f6oR3": {
+          "hits": 1,
+          "textWords": 19749
+        },
+        "T-nf54SiviXd": {
+          "hits": 3,
+          "textWords": 19749
+        },
+        "Xyfd4Qv6itrf": {
+          "hits": 0,
+          "textWords": 19749
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "pYw3_AHucLY4",
+      "address": "https://adrienalfiste.vip-blog.com/",
+      "title": "adrienalfiste blog : Le blog d'Adri (83)",
+      "snippet": "",
+      "matchedWords": {
+        "RxfVPr_f6oR3": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "T-nf54SiviXd": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "Xyfd4Qv6itrf": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "krJ9TsRD6io6",
+      "address": "https://licindiachennai.com/",
+      "title": "licindiachennai -",
+      "snippet": "In addition to the traditional lottery, online lottery games are easy to play. All you need is an internet connection. With a reliable WiFi connection, you can log into your account anywhere. After registering, you can play online lottery games.",
+      "matchedWords": {
+        "RxfVPr_f6oR3": {
+          "hits": 206,
+          "textWords": 403394
+        },
+        "T-nf54SiviXd": {
           "hits": 23,
-          "textWords": 4102
-        },
-        "T-nf54SiviXd": {
-          "hits": 19,
-          "textWords": 4102
-        },
-        "Ux5wpnRdB6i-": {
-          "hits": 0,
-          "textWords": 4102
+          "textWords": 403394
         },
         "Xyfd4Qv6itrf": {
-          "hits": 1,
-          "textWords": 4102
+          "hits": 3,
+          "textWords": 403394
+        }
+      },
+      "queryPhraseHits": 3
+    },
+    {
+      "hash": "CyUYvsY-tUi5",
+      "address": "https://moralparty.com/Warnings/",
+      "title": "Warnings – MoralParty.com",
+      "snippet": "Since the advent of the industrial age with the steam engine around 1760, we have moved further away from nature and the deep connection to the land that we always had.",
+      "matchedWords": {
+        "RxfVPr_f6oR3": {
+          "hits": 5,
+          "textWords": 49441
         },
-        "aGTzidmHZDa8": {
-          "hits": 0,
-          "textWords": 4102
+        "T-nf54SiviXd": {
+          "hits": 5,
+          "textWords": 49441
         },
-        "oqVRpkWKjeIk": {
-          "hits": 0,
-          "textWords": 4102
+        "Xyfd4Qv6itrf": {
+          "hits": 5,
+          "textWords": 49441
         }
       },
       "queryPhraseHits": 0
     },
     {
-      "hash": "cWZdmz9qXMBw",
-      "address": "https://planet.kernel.org/",
-      "title": "Kernel Planet",
-      "snippet": "And, perhaps most importantly, TLS session resumption (replaced by pre-shared keys in TLS 1.3) somewhat defeats the purpose of the exercise - clients store state that allows them to re-establish a TLS connection without performing certificate exchange (this reduces overhead if a connection gets",
+      "hash": "seSMJsY-tUi5",
+      "address": "https://moralparty.com/warnings/",
+      "title": "Warnings – MoralParty.com",
+      "snippet": "Since the advent of the industrial age with the steam engine around 1760, we have moved further away from nature and the deep connection to the land that we always had.",
       "matchedWords": {
         "RxfVPr_f6oR3": {
-          "hits": 7,
-          "textWords": 36724
+          "hits": 5,
+          "textWords": 49441
         },
         "T-nf54SiviXd": {
-          "hits": 3,
-          "textWords": 36724
-        },
-        "Ux5wpnRdB6i-": {
-          "hits": 0,
-          "textWords": 36724
+          "hits": 5,
+          "textWords": 49441
         },
         "Xyfd4Qv6itrf": {
+          "hits": 5,
+          "textWords": 49441
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "-BH3WskC_rMY",
+      "address": "http://popka.blog131.fc2.com/blog-date-201006.html",
+      "title": "popka 201006",
+      "snippet": "",
+      "matchedWords": {
+        "RxfVPr_f6oR3": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "T-nf54SiviXd": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "Xyfd4Qv6itrf": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "nA0ugsw4UVk6",
+      "address": "https://paydayloansforus.com/",
+      "title": "Paydayloansforus -",
+      "snippet": "It’s also a good idea to make sure you have access to a strong WiFi connection. If you do not, you might have problems logging into your account.\nOnline casinos allow players to place bets on virtual casino games through the internet. They offer hundreds of games to choose from.",
+      "matchedWords": {
+        "RxfVPr_f6oR3": {
+          "hits": 162,
+          "textWords": 279804
+        },
+        "T-nf54SiviXd": {
+          "hits": 12,
+          "textWords": 279804
+        },
+        "Xyfd4Qv6itrf": {
+          "hits": 1,
+          "textWords": 279804
+        }
+      },
+      "queryPhraseHits": 1
+    },
+    {
+      "hash": "QlGgvNwlMN24",
+      "address": "https://metalbrutalargentino.blogspot.com/",
+      "title": "☢Metal Brutal Argentino☢",
+      "snippet": "",
+      "matchedWords": {
+        "RxfVPr_f6oR3": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "T-nf54SiviXd": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "Xyfd4Qv6itrf": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "W5uqHs-D33u5",
+      "address": "https://instapundit.com/",
+      "title": "Instapundit",
+      "snippet": "OPEN THREAD: Ring in the weekend.\nLINDSAY CLANCY FAN FINDING OUT HOLDOUT JUROR IS ‘BLACK’ MAY BE THE GREATEST THING ON THE INTERNET:\nThere are those watershed moments in internet history when it makes journalisming all worth it.",
+      "matchedWords": {
+        "RxfVPr_f6oR3": {
+          "hits": 0,
+          "textWords": 1063
+        },
+        "T-nf54SiviXd": {
+          "hits": 0,
+          "textWords": 1063
+        },
+        "Xyfd4Qv6itrf": {
+          "hits": 0,
+          "textWords": 1063
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "zjU19-2Sk-24",
+      "address": "https://www.dexerto.com/archive/2024/1/",
+      "title": "Archive - January 2024 - Dexerto",
+      "snippet": "Bachelor viewers convinced Season 28’s Allison \u0026 Lauren aren’t on the show for love\nWhere to find and catch Dinossum in Palworld\nWhere to find and catch Katress in Palworld\nPokimane slams Twitch viewer for calling her “slow” over gambling debate",
+      "matchedWords": {
+        "RxfVPr_f6oR3": {
+          "hits": 3,
+          "textWords": 48383
+        },
+        "T-nf54SiviXd": {
           "hits": 2,
-          "textWords": 36724
+          "textWords": 48383
         },
-        "aGTzidmHZDa8": {
-          "hits": 0,
-          "textWords": 36724
-        },
-        "oqVRpkWKjeIk": {
-          "hits": 0,
-          "textWords": 36724
+        "Xyfd4Qv6itrf": {
+          "hits": 1,
+          "textWords": 48383
         }
       },
       "queryPhraseHits": 0
     },
     {
-      "hash": "2ZqdVzfOEiDw",
-      "address": "https://planet.gnome.org/",
-      "title": "Planet GNOME",
-      "snippet": "Two weeks ago, I released AppStream 1.2.0. This release contains a lot of great changes, but one of the most important ones concerns how media are being handled, and AppStream’s default image export format.\nAppStream is a Freedesktop metadata standard to describe software components.",
+      "hash": "b08TwlDZkUL4",
+      "address": "https://www.cnet.com/",
+      "title": "CNET: Product reviews, advice, how-tos and the latest news",
+      "snippet": "Our Expertise\nFor more than 25 years, CNET has built a reputation as the premier source for trustworthy, no-nonsense reviews on everything tech – from phones to TVs to laptops to tablets to streaming services.",
       "matchedWords": {
         "RxfVPr_f6oR3": {
           "hits": 0,
-          "textWords": 2681
+          "textWords": 59
         },
         "T-nf54SiviXd": {
           "hits": 0,
-          "textWords": 2681
-        },
-        "Ux5wpnRdB6i-": {
-          "hits": 0,
-          "textWords": 2681
+          "textWords": 59
         },
         "Xyfd4Qv6itrf": {
           "hits": 0,
-          "textWords": 2681
-        },
-        "aGTzidmHZDa8": {
-          "hits": 0,
-          "textWords": 2681
-        },
-        "oqVRpkWKjeIk": {
-          "hits": 0,
-          "textWords": 2681
+          "textWords": 59
         }
       },
       "queryPhraseHits": 0
     },
     {
-      "hash": "nWMgE7yp6WtY",
-      "address": "http://tantek.com/?skin=vtx",
-      "title": "Tantek Çelik",
-      "snippet": "Similarly, if you happen to be driving a vehicle that is either “always connected” (e.g. built-in WiFi or cell connectivity), or frequently connected to the internet (e.g. joins your home WiFi when parked in the garage), you may want to investigate if it is possible for you to disconnect it from",
+      "hash": "zR5OwdDZkUL4",
+      "address": "https://www.cnet.com/home/internet/best-mesh-wifi-routers/",
+      "title": "Best Mesh Wi-Fi Routers for 2026: Our Top Picks After Testing Range and Speed",
+      "snippet": "If you’re not on a multi-gig internet plan, it probably doesn’t make sense to shell out this much for equipment. It’s far more likely that your internet connection will slow you down before your router will.\nWi-Fi standard\nWi-Fi 7\nBands\n2.4GHz, 5GHz, 5GHz backhaul, 6GHz\nPorts",
       "matchedWords": {
         "RxfVPr_f6oR3": {
-          "hits": 0,
-          "textWords": 10682
+          "hits": 15,
+          "textWords": 5744
         },
         "T-nf54SiviXd": {
-          "hits": 0,
-          "textWords": 10682
-        },
-        "Ux5wpnRdB6i-": {
-          "hits": 0,
-          "textWords": 10682
-        },
-        "Xyfd4Qv6itrf": {
           "hits": 2,
-          "textWords": 10682
+          "textWords": 5744
         },
-        "aGTzidmHZDa8": {
-          "hits": 0,
-          "textWords": 10682
-        },
-        "oqVRpkWKjeIk": {
-          "hits": 0,
-          "textWords": 10682
+        "Xyfd4Qv6itrf": {
+          "hits": 6,
+          "textWords": 5744
         }
       },
       "queryPhraseHits": 0
     },
     {
-      "hash": "VpCOpt6ArEvw",
-      "address": "https://blog.archive.org/",
-      "title": "Internet Archive Blogs | Updates from the Internet Archive",
-      "snippet": "In 1980, Negativland released its first self-titled album with handmade covers and distributed it through a few record stores in the California Bay Area.\n“We thought we might sell 100 in the next five years, and we sold all 500 in three months.",
+      "hash": "PNCRYsEU1fB5",
+      "address": "https://acemgmtgroup.com/",
+      "title": "acemgmtgroup.com",
+      "snippet": "",
       "matchedWords": {
         "RxfVPr_f6oR3": {
           "hits": 0,
-          "textWords": 5347
+          "textWords": 0
         },
         "T-nf54SiviXd": {
           "hits": 0,
-          "textWords": 5347
-        },
-        "Ux5wpnRdB6i-": {
-          "hits": 0,
-          "textWords": 5347
+          "textWords": 0
         },
         "Xyfd4Qv6itrf": {
           "hits": 0,
-          "textWords": 5347
-        },
-        "aGTzidmHZDa8": {
-          "hits": 0,
-          "textWords": 5347
-        },
-        "oqVRpkWKjeIk": {
-          "hits": 0,
-          "textWords": 5347
+          "textWords": 0
         }
       },
       "queryPhraseHits": 0
     },
     {
-      "hash": "m5Fe6jRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Google",
-      "title": "Google - Wikipedia",
-      "snippet": "Nest Wifi (originally Google Wifi), a connected set of Wi-Fi routers to simplify and extend coverage of home Wi-Fi.[202]\nEnterprise services",
-      "matchedWords": {
-        "RxfVPr_f6oR3": {
-          "hits": 1,
-          "textWords": 22911
-        },
-        "T-nf54SiviXd": {
-          "hits": 1,
-          "textWords": 22911
-        },
-        "Ux5wpnRdB6i-": {
-          "hits": 0,
-          "textWords": 22911
-        },
-        "Xyfd4Qv6itrf": {
-          "hits": 3,
-          "textWords": 22911
-        },
-        "aGTzidmHZDa8": {
-          "hits": 0,
-          "textWords": 22911
-        },
-        "oqVRpkWKjeIk": {
-          "hits": 0,
-          "textWords": 22911
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "MAC3Gs6GdY-4",
-      "address": "https://danluu.com/web-bloat/",
-      "title": "How web bloat impacts users with slow connections",
-      "snippet": "Even on a good (0% packetloss, no ping spike) dialup connection, some sites won’t load.\nSome sites will use a lot of data!\nThe web on bad connections\nAs commercial websites go, Google is basically as good as it gets for people on a slow connection.",
-      "matchedWords": {
-        "RxfVPr_f6oR3": {
-          "hits": 23,
-          "textWords": 4102
-        },
-        "T-nf54SiviXd": {
-          "hits": 19,
-          "textWords": 4102
-        },
-        "Ux5wpnRdB6i-": {
-          "hits": 0,
-          "textWords": 4102
-        },
-        "Xyfd4Qv6itrf": {
-          "hits": 1,
-          "textWords": 4102
-        },
-        "aGTzidmHZDa8": {
-          "hits": 0,
-          "textWords": 4102
-        },
-        "oqVRpkWKjeIk": {
-          "hits": 0,
-          "textWords": 4102
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "MAC3Gs6GdY-4",
-      "address": "https://danluu.com/web-bloat/",
-      "title": "How web bloat impacts users with slow connections",
-      "snippet": "Even on a good (0% packetloss, no ping spike) dialup connection, some sites won’t load.\nSome sites will use a lot of data!\nThe web on bad connections\nAs commercial websites go, Google is basically as good as it gets for people on a slow connection.",
-      "matchedWords": {
-        "RxfVPr_f6oR3": {
-          "hits": 23,
-          "textWords": 4102
-        },
-        "T-nf54SiviXd": {
-          "hits": 19,
-          "textWords": 4102
-        },
-        "Ux5wpnRdB6i-": {
-          "hits": 0,
-          "textWords": 4102
-        },
-        "Xyfd4Qv6itrf": {
-          "hits": 1,
-          "textWords": 4102
-        },
-        "aGTzidmHZDa8": {
-          "hits": 0,
-          "textWords": 4102
-        },
-        "oqVRpkWKjeIk": {
-          "hits": 0,
-          "textWords": 4102
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "Tw2WTjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Google_Chrome",
-      "title": "Google Chrome - Wikipedia",
-      "snippet": "96] Some extensions focus on providing accessibility features. Google Tone is an extension developed by Google that when enabled, can use a computer's speakers to exchange URLs with nearby computers with an Internet connection that have the extension enabled as well.[99][100]",
-      "matchedWords": {
-        "RxfVPr_f6oR3": {
-          "hits": 3,
-          "textWords": 19993
-        },
-        "T-nf54SiviXd": {
-          "hits": 1,
-          "textWords": 19993
-        },
-        "Ux5wpnRdB6i-": {
-          "hits": 0,
-          "textWords": 19993
-        },
-        "Xyfd4Qv6itrf": {
-          "hits": 0,
-          "textWords": 19993
-        },
-        "aGTzidmHZDa8": {
-          "hits": 0,
-          "textWords": 19993
-        },
-        "oqVRpkWKjeIk": {
-          "hits": 0,
-          "textWords": 19993
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "MAC3Gs6GdY-4",
-      "address": "https://danluu.com/web-bloat/",
-      "title": "How web bloat impacts users with slow connections",
-      "snippet": "Even on a good (0% packetloss, no ping spike) dialup connection, some sites won’t load.\nSome sites will use a lot of data!\nThe web on bad connections\nAs commercial websites go, Google is basically as good as it gets for people on a slow connection.",
-      "matchedWords": {
-        "RxfVPr_f6oR3": {
-          "hits": 23,
-          "textWords": 4102
-        },
-        "T-nf54SiviXd": {
-          "hits": 19,
-          "textWords": 4102
-        },
-        "Ux5wpnRdB6i-": {
-          "hits": 0,
-          "textWords": 4102
-        },
-        "Xyfd4Qv6itrf": {
-          "hits": 1,
-          "textWords": 4102
-        },
-        "aGTzidmHZDa8": {
-          "hits": 0,
-          "textWords": 4102
-        },
-        "oqVRpkWKjeIk": {
-          "hits": 0,
-          "textWords": 4102
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "m5Fe6jRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Google",
-      "title": "Google - Wikipedia",
-      "snippet": "Nest Wifi (originally Google Wifi), a connected set of Wi-Fi routers to simplify and extend coverage of home Wi-Fi.[202]\nEnterprise services",
-      "matchedWords": {
-        "RxfVPr_f6oR3": {
-          "hits": 1,
-          "textWords": 22911
-        },
-        "T-nf54SiviXd": {
-          "hits": 1,
-          "textWords": 22911
-        },
-        "Ux5wpnRdB6i-": {
-          "hits": 0,
-          "textWords": 22911
-        },
-        "Xyfd4Qv6itrf": {
-          "hits": 3,
-          "textWords": 22911
-        },
-        "aGTzidmHZDa8": {
-          "hits": 0,
-          "textWords": 22911
-        },
-        "oqVRpkWKjeIk": {
-          "hits": 0,
-          "textWords": 22911
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "VpCOpt6ArEvw",
-      "address": "https://blog.archive.org/",
-      "title": "Internet Archive Blogs | A blog from the team at archive.org",
-      "snippet": "In 1980, Negativland released its first self-titled album with handmade covers and distributed it through a few record stores in the California Bay Area.\n“We thought we might sell 100 in the next five years, and we sold all 500 in three months.",
+      "hash": "Dzg0VxJbjVA5",
+      "address": "https://stuffwhitepeoplelike.wordpress.com/2008/01/18/1-coffee/",
+      "title": "#1 Coffee | Stuff White People Like",
+      "snippet": "",
       "matchedWords": {
         "RxfVPr_f6oR3": {
           "hits": 0,
-          "textWords": 5347
+          "textWords": 0
         },
         "T-nf54SiviXd": {
           "hits": 0,
-          "textWords": 5347
-        },
-        "Ux5wpnRdB6i-": {
-          "hits": 0,
-          "textWords": 5347
+          "textWords": 0
         },
         "Xyfd4Qv6itrf": {
           "hits": 0,
-          "textWords": 5347
-        },
-        "aGTzidmHZDa8": {
-          "hits": 0,
-          "textWords": 5347
-        },
-        "oqVRpkWKjeIk": {
-          "hits": 0,
-          "textWords": 5347
+          "textWords": 0
         }
       },
       "queryPhraseHits": 0
     },
     {
-      "hash": "MAC3Gs6GdY-4",
-      "address": "https://danluu.com/web-bloat/",
-      "title": "How web bloat impacts users with slow connections",
-      "snippet": "Even on a good (0% packetloss, no ping spike) dialup connection, some sites won’t load.\nSome sites will use a lot of data!\nThe web on bad connections\nAs commercial websites go, Google is basically as good as it gets for people on a slow connection.",
-      "matchedWords": {
-        "RxfVPr_f6oR3": {
-          "hits": 23,
-          "textWords": 4102
-        },
-        "T-nf54SiviXd": {
-          "hits": 19,
-          "textWords": 4102
-        },
-        "Ux5wpnRdB6i-": {
-          "hits": 0,
-          "textWords": 4102
-        },
-        "Xyfd4Qv6itrf": {
-          "hits": 1,
-          "textWords": 4102
-        },
-        "aGTzidmHZDa8": {
-          "hits": 0,
-          "textWords": 4102
-        },
-        "oqVRpkWKjeIk": {
-          "hits": 0,
-          "textWords": 4102
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "2ZqdVzfOEiDw",
-      "address": "https://planet.gnome.org/",
-      "title": "Planet GNOME",
-      "snippet": "Two weeks ago, I released AppStream 1.2.0. This release contains a lot of great changes, but one of the most important ones concerns how media are being handled, and AppStream’s default image export format.\nAppStream is a Freedesktop metadata standard to describe software components.",
+      "hash": "R5vzYsOocYRx",
+      "address": "https://murdoconline.net/",
+      "title": "MURDOCONLINE - Situs Kumpulan Game Online Terbaik Paling Populer",
+      "snippet": "",
       "matchedWords": {
         "RxfVPr_f6oR3": {
           "hits": 0,
-          "textWords": 2681
+          "textWords": 0
         },
         "T-nf54SiviXd": {
           "hits": 0,
-          "textWords": 2681
-        },
-        "Ux5wpnRdB6i-": {
-          "hits": 0,
-          "textWords": 2681
+          "textWords": 0
         },
         "Xyfd4Qv6itrf": {
           "hits": 0,
-          "textWords": 2681
-        },
-        "aGTzidmHZDa8": {
-          "hits": 0,
-          "textWords": 2681
-        },
-        "oqVRpkWKjeIk": {
-          "hits": 0,
-          "textWords": 2681
+          "textWords": 0
         }
       },
       "queryPhraseHits": 0
     },
     {
-      "hash": "SCifX7yp6WtY",
-      "address": "http://tantek.com/?",
-      "title": "Tantek Çelik",
-      "snippet": "Similarly, if you happen to be driving a vehicle that is either “always connected” (e.g. built-in WiFi or cell connectivity), or frequently connected to the internet (e.g. joins your home WiFi when parked in the garage), you may want to investigate if it is possible for you to disconnect it from",
-      "matchedWords": {
-        "RxfVPr_f6oR3": {
-          "hits": 0,
-          "textWords": 10682
-        },
-        "T-nf54SiviXd": {
-          "hits": 0,
-          "textWords": 10682
-        },
-        "Ux5wpnRdB6i-": {
-          "hits": 0,
-          "textWords": 10682
-        },
-        "Xyfd4Qv6itrf": {
-          "hits": 2,
-          "textWords": 10682
-        },
-        "aGTzidmHZDa8": {
-          "hits": 0,
-          "textWords": 10682
-        },
-        "oqVRpkWKjeIk": {
-          "hits": 0,
-          "textWords": 10682
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "VpCOpt6ArEvw",
-      "address": "https://blog.archive.org/",
-      "title": "Internet Archive Blogs | Updates from the Internet Archive",
-      "snippet": "In 1980, Negativland released its first self-titled album with handmade covers and distributed it through a few record stores in the California Bay Area.\n“We thought we might sell 100 in the next five years, and we sold all 500 in three months.",
-      "matchedWords": {
-        "RxfVPr_f6oR3": {
-          "hits": 0,
-          "textWords": 5347
-        },
-        "T-nf54SiviXd": {
-          "hits": 0,
-          "textWords": 5347
-        },
-        "Ux5wpnRdB6i-": {
-          "hits": 0,
-          "textWords": 5347
-        },
-        "Xyfd4Qv6itrf": {
-          "hits": 0,
-          "textWords": 5347
-        },
-        "aGTzidmHZDa8": {
-          "hits": 0,
-          "textWords": 5347
-        },
-        "oqVRpkWKjeIk": {
-          "hits": 0,
-          "textWords": 5347
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "cWZdmz9qXMBw",
-      "address": "https://planet.kernel.org/",
-      "title": "Kernel Planet",
-      "snippet": "And, perhaps most importantly, TLS session resumption (replaced by pre-shared keys in TLS 1.3) somewhat defeats the purpose of the exercise - clients store state that allows them to re-establish a TLS connection without performing certificate exchange (this reduces overhead if a connection gets",
-      "matchedWords": {
-        "RxfVPr_f6oR3": {
-          "hits": 7,
-          "textWords": 36724
-        },
-        "T-nf54SiviXd": {
-          "hits": 3,
-          "textWords": 36724
-        },
-        "Ux5wpnRdB6i-": {
-          "hits": 0,
-          "textWords": 36724
-        },
-        "Xyfd4Qv6itrf": {
-          "hits": 2,
-          "textWords": 36724
-        },
-        "aGTzidmHZDa8": {
-          "hits": 0,
-          "textWords": 36724
-        },
-        "oqVRpkWKjeIk": {
-          "hits": 0,
-          "textWords": 36724
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "cWZdmz9qXMBw",
-      "address": "https://planet.kernel.org/",
-      "title": "Kernel Planet",
-      "snippet": "And, perhaps most importantly, TLS session resumption (replaced by pre-shared keys in TLS 1.3) somewhat defeats the purpose of the exercise - clients store state that allows them to re-establish a TLS connection without performing certificate exchange (this reduces overhead if a connection gets",
-      "matchedWords": {
-        "RxfVPr_f6oR3": {
-          "hits": 7,
-          "textWords": 36724
-        },
-        "T-nf54SiviXd": {
-          "hits": 3,
-          "textWords": 36724
-        },
-        "Ux5wpnRdB6i-": {
-          "hits": 0,
-          "textWords": 36724
-        },
-        "Xyfd4Qv6itrf": {
-          "hits": 2,
-          "textWords": 36724
-        },
-        "aGTzidmHZDa8": {
-          "hits": 0,
-          "textWords": 36724
-        },
-        "oqVRpkWKjeIk": {
-          "hits": 0,
-          "textWords": 36724
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "cWZdmz9qXMBw",
-      "address": "https://planet.kernel.org/",
-      "title": "Kernel Planet",
-      "snippet": "And, perhaps most importantly, TLS session resumption (replaced by pre-shared keys in TLS 1.3) somewhat defeats the purpose of the exercise - clients store state that allows them to re-establish a TLS connection without performing certificate exchange (this reduces overhead if a connection gets",
-      "matchedWords": {
-        "RxfVPr_f6oR3": {
-          "hits": 7,
-          "textWords": 36724
-        },
-        "T-nf54SiviXd": {
-          "hits": 3,
-          "textWords": 36724
-        },
-        "Ux5wpnRdB6i-": {
-          "hits": 0,
-          "textWords": 36724
-        },
-        "Xyfd4Qv6itrf": {
-          "hits": 2,
-          "textWords": 36724
-        },
-        "aGTzidmHZDa8": {
-          "hits": 0,
-          "textWords": 36724
-        },
-        "oqVRpkWKjeIk": {
-          "hits": 0,
-          "textWords": 36724
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "VpCOpt6ArEvw",
-      "address": "https://blog.archive.org/",
-      "title": "Internet Archive Blogs | Updates from the Internet Archive",
-      "snippet": "In 1980, Negativland released its first self-titled album with handmade covers and distributed it through a few record stores in the California Bay Area.\n“We thought we might sell 100 in the next five years, and we sold all 500 in three months.",
-      "matchedWords": {
-        "RxfVPr_f6oR3": {
-          "hits": 0,
-          "textWords": 5347
-        },
-        "T-nf54SiviXd": {
-          "hits": 0,
-          "textWords": 5347
-        },
-        "Ux5wpnRdB6i-": {
-          "hits": 0,
-          "textWords": 5347
-        },
-        "Xyfd4Qv6itrf": {
-          "hits": 0,
-          "textWords": 5347
-        },
-        "aGTzidmHZDa8": {
-          "hits": 0,
-          "textWords": 5347
-        },
-        "oqVRpkWKjeIk": {
-          "hits": 0,
-          "textWords": 5347
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "m5Fe6jRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Google",
-      "title": "Google - Wikipedia",
-      "snippet": "Nest Wifi (originally Google Wifi), a connected set of Wi-Fi routers to simplify and extend coverage of home Wi-Fi.[202]\nEnterprise services",
-      "matchedWords": {
-        "RxfVPr_f6oR3": {
-          "hits": 1,
-          "textWords": 22911
-        },
-        "T-nf54SiviXd": {
-          "hits": 1,
-          "textWords": 22911
-        },
-        "Ux5wpnRdB6i-": {
-          "hits": 0,
-          "textWords": 22911
-        },
-        "Xyfd4Qv6itrf": {
-          "hits": 3,
-          "textWords": 22911
-        },
-        "aGTzidmHZDa8": {
-          "hits": 0,
-          "textWords": 22911
-        },
-        "oqVRpkWKjeIk": {
-          "hits": 0,
-          "textWords": 22911
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "cWZdmz9qXMBw",
-      "address": "https://planet.kernel.org/",
-      "title": "Kernel Planet",
-      "snippet": "And, perhaps most importantly, TLS session resumption (replaced by pre-shared keys in TLS 1.3) somewhat defeats the purpose of the exercise - clients store state that allows them to re-establish a TLS connection without performing certificate exchange (this reduces overhead if a connection gets",
-      "matchedWords": {
-        "RxfVPr_f6oR3": {
-          "hits": 7,
-          "textWords": 36724
-        },
-        "T-nf54SiviXd": {
-          "hits": 3,
-          "textWords": 36724
-        },
-        "Ux5wpnRdB6i-": {
-          "hits": 0,
-          "textWords": 36724
-        },
-        "Xyfd4Qv6itrf": {
-          "hits": 2,
-          "textWords": 36724
-        },
-        "aGTzidmHZDa8": {
-          "hits": 0,
-          "textWords": 36724
-        },
-        "oqVRpkWKjeIk": {
-          "hits": 0,
-          "textWords": 36724
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "Tw2WTjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Google_Chrome",
-      "title": "Google Chrome - Wikipedia",
-      "snippet": "96] Some extensions focus on providing accessibility features. Google Tone is an extension developed by Google that when enabled, can use a computer's speakers to exchange URLs with nearby computers with an Internet connection that have the extension enabled as well.[99][100]",
-      "matchedWords": {
-        "RxfVPr_f6oR3": {
-          "hits": 3,
-          "textWords": 19993
-        },
-        "T-nf54SiviXd": {
-          "hits": 1,
-          "textWords": 19993
-        },
-        "Ux5wpnRdB6i-": {
-          "hits": 0,
-          "textWords": 19993
-        },
-        "Xyfd4Qv6itrf": {
-          "hits": 0,
-          "textWords": 19993
-        },
-        "aGTzidmHZDa8": {
-          "hits": 0,
-          "textWords": 19993
-        },
-        "oqVRpkWKjeIk": {
-          "hits": 0,
-          "textWords": 19993
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "nWMgE7yp6WtY",
-      "address": "http://tantek.com/?skin=vtx",
-      "title": "Tantek Çelik",
-      "snippet": "Similarly, if you happen to be driving a vehicle that is either “always connected” (e.g. built-in WiFi or cell connectivity), or frequently connected to the internet (e.g. joins your home WiFi when parked in the garage), you may want to investigate if it is possible for you to disconnect it from",
-      "matchedWords": {
-        "RxfVPr_f6oR3": {
-          "hits": 0,
-          "textWords": 10682
-        },
-        "T-nf54SiviXd": {
-          "hits": 0,
-          "textWords": 10682
-        },
-        "Ux5wpnRdB6i-": {
-          "hits": 0,
-          "textWords": 10682
-        },
-        "Xyfd4Qv6itrf": {
-          "hits": 2,
-          "textWords": 10682
-        },
-        "aGTzidmHZDa8": {
-          "hits": 0,
-          "textWords": 10682
-        },
-        "oqVRpkWKjeIk": {
-          "hits": 0,
-          "textWords": 10682
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "VpCOpt6ArEvw",
-      "address": "https://blog.archive.org/",
-      "title": "Internet Archive Blogs | Updates from the Internet Archive",
-      "snippet": "In 1980, Negativland released its first self-titled album with handmade covers and distributed it through a few record stores in the California Bay Area.\n“We thought we might sell 100 in the next five years, and we sold all 500 in three months.",
-      "matchedWords": {
-        "RxfVPr_f6oR3": {
-          "hits": 0,
-          "textWords": 5347
-        },
-        "T-nf54SiviXd": {
-          "hits": 0,
-          "textWords": 5347
-        },
-        "Ux5wpnRdB6i-": {
-          "hits": 0,
-          "textWords": 5347
-        },
-        "Xyfd4Qv6itrf": {
-          "hits": 0,
-          "textWords": 5347
-        },
-        "aGTzidmHZDa8": {
-          "hits": 0,
-          "textWords": 5347
-        },
-        "oqVRpkWKjeIk": {
-          "hits": 0,
-          "textWords": 5347
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "m5Fe6jRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Google",
-      "title": "Google - Wikipedia",
-      "snippet": "Nest Wifi (originally Google Wifi), a connected set of Wi-Fi routers to simplify and extend coverage of home Wi-Fi.[202]\nEnterprise services",
-      "matchedWords": {
-        "RxfVPr_f6oR3": {
-          "hits": 1,
-          "textWords": 22911
-        },
-        "T-nf54SiviXd": {
-          "hits": 1,
-          "textWords": 22911
-        },
-        "Ux5wpnRdB6i-": {
-          "hits": 0,
-          "textWords": 22911
-        },
-        "Xyfd4Qv6itrf": {
-          "hits": 3,
-          "textWords": 22911
-        },
-        "aGTzidmHZDa8": {
-          "hits": 0,
-          "textWords": 22911
-        },
-        "oqVRpkWKjeIk": {
-          "hits": 0,
-          "textWords": 22911
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "2ZqdVzfOEiDw",
-      "address": "https://planet.gnome.org/",
-      "title": "Planet GNOME",
-      "snippet": "Two weeks ago, I released AppStream 1.2.0. This release contains a lot of great changes, but one of the most important ones concerns how media are being handled, and AppStream’s default image export format.\nAppStream is a Freedesktop metadata standard to describe software components.",
-      "matchedWords": {
-        "RxfVPr_f6oR3": {
-          "hits": 0,
-          "textWords": 2681
-        },
-        "T-nf54SiviXd": {
-          "hits": 0,
-          "textWords": 2681
-        },
-        "Ux5wpnRdB6i-": {
-          "hits": 0,
-          "textWords": 2681
-        },
-        "Xyfd4Qv6itrf": {
-          "hits": 0,
-          "textWords": 2681
-        },
-        "aGTzidmHZDa8": {
-          "hits": 0,
-          "textWords": 2681
-        },
-        "oqVRpkWKjeIk": {
-          "hits": 0,
-          "textWords": 2681
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "SCifX7yp6WtY",
-      "address": "http://tantek.com/?",
-      "title": "Tantek Çelik",
-      "snippet": "Similarly, if you happen to be driving a vehicle that is either “always connected” (e.g. built-in WiFi or cell connectivity), or frequently connected to the internet (e.g. joins your home WiFi when parked in the garage), you may want to investigate if it is possible for you to disconnect it from",
-      "matchedWords": {
-        "RxfVPr_f6oR3": {
-          "hits": 0,
-          "textWords": 10682
-        },
-        "T-nf54SiviXd": {
-          "hits": 0,
-          "textWords": 10682
-        },
-        "Ux5wpnRdB6i-": {
-          "hits": 0,
-          "textWords": 10682
-        },
-        "Xyfd4Qv6itrf": {
-          "hits": 2,
-          "textWords": 10682
-        },
-        "aGTzidmHZDa8": {
-          "hits": 0,
-          "textWords": 10682
-        },
-        "oqVRpkWKjeIk": {
-          "hits": 0,
-          "textWords": 10682
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "nWMgE7yp6WtY",
-      "address": "http://tantek.com/?skin=vtx",
-      "title": "Tantek Çelik",
-      "snippet": "Similarly, if you happen to be driving a vehicle that is either “always connected” (e.g. built-in WiFi or cell connectivity), or frequently connected to the internet (e.g. joins your home WiFi when parked in the garage), you may want to investigate if it is possible for you to disconnect it from",
-      "matchedWords": {
-        "RxfVPr_f6oR3": {
-          "hits": 0,
-          "textWords": 10682
-        },
-        "T-nf54SiviXd": {
-          "hits": 0,
-          "textWords": 10682
-        },
-        "Ux5wpnRdB6i-": {
-          "hits": 0,
-          "textWords": 10682
-        },
-        "Xyfd4Qv6itrf": {
-          "hits": 2,
-          "textWords": 10682
-        },
-        "aGTzidmHZDa8": {
-          "hits": 0,
-          "textWords": 10682
-        },
-        "oqVRpkWKjeIk": {
-          "hits": 0,
-          "textWords": 10682
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "m5Fe6jRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Google",
-      "title": "Google - Wikipedia",
-      "snippet": "Nest Wifi (originally Google Wifi), a connected set of Wi-Fi routers to simplify and extend coverage of home Wi-Fi.[202]\nEnterprise services",
-      "matchedWords": {
-        "RxfVPr_f6oR3": {
-          "hits": 1,
-          "textWords": 22911
-        },
-        "T-nf54SiviXd": {
-          "hits": 1,
-          "textWords": 22911
-        },
-        "Ux5wpnRdB6i-": {
-          "hits": 0,
-          "textWords": 22911
-        },
-        "Xyfd4Qv6itrf": {
-          "hits": 3,
-          "textWords": 22911
-        },
-        "aGTzidmHZDa8": {
-          "hits": 0,
-          "textWords": 22911
-        },
-        "oqVRpkWKjeIk": {
-          "hits": 0,
-          "textWords": 22911
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "2ZqdVzfOEiDw",
-      "address": "https://planet.gnome.org/",
-      "title": "Planet GNOME",
-      "snippet": "Two weeks ago, I released AppStream 1.2.0. This release contains a lot of great changes, but one of the most important ones concerns how media are being handled, and AppStream’s default image export format.\nAppStream is a Freedesktop metadata standard to describe software components.",
-      "matchedWords": {
-        "RxfVPr_f6oR3": {
-          "hits": 0,
-          "textWords": 2681
-        },
-        "T-nf54SiviXd": {
-          "hits": 0,
-          "textWords": 2681
-        },
-        "Ux5wpnRdB6i-": {
-          "hits": 0,
-          "textWords": 2681
-        },
-        "Xyfd4Qv6itrf": {
-          "hits": 0,
-          "textWords": 2681
-        },
-        "aGTzidmHZDa8": {
-          "hits": 0,
-          "textWords": 2681
-        },
-        "oqVRpkWKjeIk": {
-          "hits": 0,
-          "textWords": 2681
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "VpCOpt6ArEvw",
-      "address": "https://blog.archive.org/",
-      "title": "Internet Archive Blogs | Updates from the Internet Archive",
-      "snippet": "In 1980, Negativland released its first self-titled album with handmade covers and distributed it through a few record stores in the California Bay Area.\n“We thought we might sell 100 in the next five years, and we sold all 500 in three months.",
-      "matchedWords": {
-        "RxfVPr_f6oR3": {
-          "hits": 0,
-          "textWords": 5347
-        },
-        "T-nf54SiviXd": {
-          "hits": 0,
-          "textWords": 5347
-        },
-        "Ux5wpnRdB6i-": {
-          "hits": 0,
-          "textWords": 5347
-        },
-        "Xyfd4Qv6itrf": {
-          "hits": 0,
-          "textWords": 5347
-        },
-        "aGTzidmHZDa8": {
-          "hits": 0,
-          "textWords": 5347
-        },
-        "oqVRpkWKjeIk": {
-          "hits": 0,
-          "textWords": 5347
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "Tw2WTjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Google_Chrome",
-      "title": "Google Chrome - Wikipedia",
-      "snippet": "96] Some extensions focus on providing accessibility features. Google Tone is an extension developed by Google that when enabled, can use a computer's speakers to exchange URLs with nearby computers with an Internet connection that have the extension enabled as well.[99][100]",
-      "matchedWords": {
-        "RxfVPr_f6oR3": {
-          "hits": 3,
-          "textWords": 19993
-        },
-        "T-nf54SiviXd": {
-          "hits": 1,
-          "textWords": 19993
-        },
-        "Ux5wpnRdB6i-": {
-          "hits": 0,
-          "textWords": 19993
-        },
-        "Xyfd4Qv6itrf": {
-          "hits": 0,
-          "textWords": 19993
-        },
-        "aGTzidmHZDa8": {
-          "hits": 0,
-          "textWords": 19993
-        },
-        "oqVRpkWKjeIk": {
-          "hits": 0,
-          "textWords": 19993
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "MAC3Gs6GdY-4",
-      "address": "https://danluu.com/web-bloat/",
-      "title": "How web bloat impacts users with slow connections",
-      "snippet": "Even on a good (0% packetloss, no ping spike) dialup connection, some sites won’t load.\nSome sites will use a lot of data!\nThe web on bad connections\nAs commercial websites go, Google is basically as good as it gets for people on a slow connection.",
-      "matchedWords": {
-        "RxfVPr_f6oR3": {
-          "hits": 23,
-          "textWords": 4102
-        },
-        "T-nf54SiviXd": {
-          "hits": 19,
-          "textWords": 4102
-        },
-        "Ux5wpnRdB6i-": {
-          "hits": 0,
-          "textWords": 4102
-        },
-        "Xyfd4Qv6itrf": {
-          "hits": 1,
-          "textWords": 4102
-        },
-        "aGTzidmHZDa8": {
-          "hits": 0,
-          "textWords": 4102
-        },
-        "oqVRpkWKjeIk": {
-          "hits": 0,
-          "textWords": 4102
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "MAC3Gs6GdY-4",
-      "address": "https://danluu.com/web-bloat/",
-      "title": "How web bloat impacts users with slow connections",
-      "snippet": "Even on a good (0% packetloss, no ping spike) dialup connection, some sites won’t load.\nSome sites will use a lot of data!\nThe web on bad connections\nAs commercial websites go, Google is basically as good as it gets for people on a slow connection.",
-      "matchedWords": {
-        "RxfVPr_f6oR3": {
-          "hits": 23,
-          "textWords": 4102
-        },
-        "T-nf54SiviXd": {
-          "hits": 19,
-          "textWords": 4102
-        },
-        "Ux5wpnRdB6i-": {
-          "hits": 0,
-          "textWords": 4102
-        },
-        "Xyfd4Qv6itrf": {
-          "hits": 1,
-          "textWords": 4102
-        },
-        "aGTzidmHZDa8": {
-          "hits": 0,
-          "textWords": 4102
-        },
-        "oqVRpkWKjeIk": {
-          "hits": 0,
-          "textWords": 4102
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "MAC3Gs6GdY-4",
-      "address": "https://danluu.com/web-bloat/",
-      "title": "How web bloat impacts users with slow connections",
-      "snippet": "Even on a good (0% packetloss, no ping spike) dialup connection, some sites won’t load.\nSome sites will use a lot of data!\nThe web on bad connections\nAs commercial websites go, Google is basically as good as it gets for people on a slow connection.",
-      "matchedWords": {
-        "RxfVPr_f6oR3": {
-          "hits": 23,
-          "textWords": 4102
-        },
-        "T-nf54SiviXd": {
-          "hits": 19,
-          "textWords": 4102
-        },
-        "Ux5wpnRdB6i-": {
-          "hits": 0,
-          "textWords": 4102
-        },
-        "Xyfd4Qv6itrf": {
-          "hits": 1,
-          "textWords": 4102
-        },
-        "aGTzidmHZDa8": {
-          "hits": 0,
-          "textWords": 4102
-        },
-        "oqVRpkWKjeIk": {
-          "hits": 0,
-          "textWords": 4102
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "cWZdmz9qXMBw",
-      "address": "https://planet.kernel.org/",
-      "title": "Kernel Planet",
-      "snippet": "And, perhaps most importantly, TLS session resumption (replaced by pre-shared keys in TLS 1.3) somewhat defeats the purpose of the exercise - clients store state that allows them to re-establish a TLS connection without performing certificate exchange (this reduces overhead if a connection gets",
-      "matchedWords": {
-        "RxfVPr_f6oR3": {
-          "hits": 7,
-          "textWords": 36724
-        },
-        "T-nf54SiviXd": {
-          "hits": 3,
-          "textWords": 36724
-        },
-        "Ux5wpnRdB6i-": {
-          "hits": 0,
-          "textWords": 36724
-        },
-        "Xyfd4Qv6itrf": {
-          "hits": 2,
-          "textWords": 36724
-        },
-        "aGTzidmHZDa8": {
-          "hits": 0,
-          "textWords": 36724
-        },
-        "oqVRpkWKjeIk": {
-          "hits": 0,
-          "textWords": 36724
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "VpCOpt6ArEvw",
-      "address": "https://blog.archive.org/",
-      "title": "Internet Archive Blogs | Updates from the Internet Archive",
-      "snippet": "In 1980, Negativland released its first self-titled album with handmade covers and distributed it through a few record stores in the California Bay Area.\n“We thought we might sell 100 in the next five years, and we sold all 500 in three months.",
-      "matchedWords": {
-        "RxfVPr_f6oR3": {
-          "hits": 0,
-          "textWords": 5347
-        },
-        "T-nf54SiviXd": {
-          "hits": 0,
-          "textWords": 5347
-        },
-        "Ux5wpnRdB6i-": {
-          "hits": 0,
-          "textWords": 5347
-        },
-        "Xyfd4Qv6itrf": {
-          "hits": 0,
-          "textWords": 5347
-        },
-        "aGTzidmHZDa8": {
-          "hits": 0,
-          "textWords": 5347
-        },
-        "oqVRpkWKjeIk": {
-          "hits": 0,
-          "textWords": 5347
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "VpCOpt6ArEvw",
-      "address": "https://blog.archive.org/",
-      "title": "Internet Archive Blogs | Updates from the Internet Archive",
-      "snippet": "In 1980, Negativland released its first self-titled album with handmade covers and distributed it through a few record stores in the California Bay Area.\n“We thought we might sell 100 in the next five years, and we sold all 500 in three months.",
-      "matchedWords": {
-        "RxfVPr_f6oR3": {
-          "hits": 0,
-          "textWords": 5347
-        },
-        "T-nf54SiviXd": {
-          "hits": 0,
-          "textWords": 5347
-        },
-        "Ux5wpnRdB6i-": {
-          "hits": 0,
-          "textWords": 5347
-        },
-        "Xyfd4Qv6itrf": {
-          "hits": 0,
-          "textWords": 5347
-        },
-        "aGTzidmHZDa8": {
-          "hits": 0,
-          "textWords": 5347
-        },
-        "oqVRpkWKjeIk": {
-          "hits": 0,
-          "textWords": 5347
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "cWZdmz9qXMBw",
-      "address": "https://planet.kernel.org/",
-      "title": "Kernel Planet",
-      "snippet": "And, perhaps most importantly, TLS session resumption (replaced by pre-shared keys in TLS 1.3) somewhat defeats the purpose of the exercise - clients store state that allows them to re-establish a TLS connection without performing certificate exchange (this reduces overhead if a connection gets",
-      "matchedWords": {
-        "RxfVPr_f6oR3": {
-          "hits": 7,
-          "textWords": 36724
-        },
-        "T-nf54SiviXd": {
-          "hits": 3,
-          "textWords": 36724
-        },
-        "Ux5wpnRdB6i-": {
-          "hits": 0,
-          "textWords": 36724
-        },
-        "Xyfd4Qv6itrf": {
-          "hits": 2,
-          "textWords": 36724
-        },
-        "aGTzidmHZDa8": {
-          "hits": 0,
-          "textWords": 36724
-        },
-        "oqVRpkWKjeIk": {
-          "hits": 0,
-          "textWords": 36724
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "Tw2WTjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Google_Chrome",
-      "title": "Google Chrome - Wikipedia",
-      "snippet": "96] Some extensions focus on providing accessibility features. Google Tone is an extension developed by Google that when enabled, can use a computer's speakers to exchange URLs with nearby computers with an Internet connection that have the extension enabled as well.[99][100]",
-      "matchedWords": {
-        "RxfVPr_f6oR3": {
-          "hits": 3,
-          "textWords": 19993
-        },
-        "T-nf54SiviXd": {
-          "hits": 1,
-          "textWords": 19993
-        },
-        "Ux5wpnRdB6i-": {
-          "hits": 0,
-          "textWords": 19993
-        },
-        "Xyfd4Qv6itrf": {
-          "hits": 0,
-          "textWords": 19993
-        },
-        "aGTzidmHZDa8": {
-          "hits": 0,
-          "textWords": 19993
-        },
-        "oqVRpkWKjeIk": {
-          "hits": 0,
-          "textWords": 19993
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "m5Fe6jRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Google",
-      "title": "Google - Wikipedia",
-      "snippet": "Nest Wifi (originally Google Wifi), a connected set of Wi-Fi routers to simplify and extend coverage of home Wi-Fi.[202]\nEnterprise services",
-      "matchedWords": {
-        "RxfVPr_f6oR3": {
-          "hits": 1,
-          "textWords": 22911
-        },
-        "T-nf54SiviXd": {
-          "hits": 1,
-          "textWords": 22911
-        },
-        "Ux5wpnRdB6i-": {
-          "hits": 0,
-          "textWords": 22911
-        },
-        "Xyfd4Qv6itrf": {
-          "hits": 3,
-          "textWords": 22911
-        },
-        "aGTzidmHZDa8": {
-          "hits": 0,
-          "textWords": 22911
-        },
-        "oqVRpkWKjeIk": {
-          "hits": 0,
-          "textWords": 22911
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "2ZqdVzfOEiDw",
-      "address": "https://planet.gnome.org/",
-      "title": "Planet GNOME",
-      "snippet": "Two weeks ago, I released AppStream 1.2.0. This release contains a lot of great changes, but one of the most important ones concerns how media are being handled, and AppStream’s default image export format.\nAppStream is a Freedesktop metadata standard to describe software components.",
-      "matchedWords": {
-        "RxfVPr_f6oR3": {
-          "hits": 0,
-          "textWords": 2681
-        },
-        "T-nf54SiviXd": {
-          "hits": 0,
-          "textWords": 2681
-        },
-        "Ux5wpnRdB6i-": {
-          "hits": 0,
-          "textWords": 2681
-        },
-        "Xyfd4Qv6itrf": {
-          "hits": 0,
-          "textWords": 2681
-        },
-        "aGTzidmHZDa8": {
-          "hits": 0,
-          "textWords": 2681
-        },
-        "oqVRpkWKjeIk": {
-          "hits": 0,
-          "textWords": 2681
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "SCifX7yp6WtY",
-      "address": "http://tantek.com/?",
-      "title": "Tantek Çelik",
-      "snippet": "Similarly, if you happen to be driving a vehicle that is either “always connected” (e.g. built-in WiFi or cell connectivity), or frequently connected to the internet (e.g. joins your home WiFi when parked in the garage), you may want to investigate if it is possible for you to disconnect it from",
-      "matchedWords": {
-        "RxfVPr_f6oR3": {
-          "hits": 0,
-          "textWords": 10682
-        },
-        "T-nf54SiviXd": {
-          "hits": 0,
-          "textWords": 10682
-        },
-        "Ux5wpnRdB6i-": {
-          "hits": 0,
-          "textWords": 10682
-        },
-        "Xyfd4Qv6itrf": {
-          "hits": 2,
-          "textWords": 10682
-        },
-        "aGTzidmHZDa8": {
-          "hits": 0,
-          "textWords": 10682
-        },
-        "oqVRpkWKjeIk": {
-          "hits": 0,
-          "textWords": 10682
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "nWMgE7yp6WtY",
-      "address": "http://tantek.com/?skin=vtx",
-      "title": "Tantek Çelik",
-      "snippet": "Similarly, if you happen to be driving a vehicle that is either “always connected” (e.g. built-in WiFi or cell connectivity), or frequently connected to the internet (e.g. joins your home WiFi when parked in the garage), you may want to investigate if it is possible for you to disconnect it from",
-      "matchedWords": {
-        "RxfVPr_f6oR3": {
-          "hits": 0,
-          "textWords": 10682
-        },
-        "T-nf54SiviXd": {
-          "hits": 0,
-          "textWords": 10682
-        },
-        "Ux5wpnRdB6i-": {
-          "hits": 0,
-          "textWords": 10682
-        },
-        "Xyfd4Qv6itrf": {
-          "hits": 2,
-          "textWords": 10682
-        },
-        "aGTzidmHZDa8": {
-          "hits": 0,
-          "textWords": 10682
-        },
-        "oqVRpkWKjeIk": {
-          "hits": 0,
-          "textWords": 10682
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "m5Fe6jRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Google",
-      "title": "Google - Wikipedia",
-      "snippet": "Nest Wifi (originally Google Wifi), a connected set of Wi-Fi routers to simplify and extend coverage of home Wi-Fi.[202]\nEnterprise services",
-      "matchedWords": {
-        "RxfVPr_f6oR3": {
-          "hits": 1,
-          "textWords": 22911
-        },
-        "T-nf54SiviXd": {
-          "hits": 1,
-          "textWords": 22911
-        },
-        "Ux5wpnRdB6i-": {
-          "hits": 0,
-          "textWords": 22911
-        },
-        "Xyfd4Qv6itrf": {
-          "hits": 3,
-          "textWords": 22911
-        },
-        "aGTzidmHZDa8": {
-          "hits": 0,
-          "textWords": 22911
-        },
-        "oqVRpkWKjeIk": {
-          "hits": 0,
-          "textWords": 22911
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "cWZdmz9qXMBw",
-      "address": "https://planet.kernel.org/",
-      "title": "Kernel Planet",
-      "snippet": "And, perhaps most importantly, TLS session resumption (replaced by pre-shared keys in TLS 1.3) somewhat defeats the purpose of the exercise - clients store state that allows them to re-establish a TLS connection without performing certificate exchange (this reduces overhead if a connection gets",
-      "matchedWords": {
-        "RxfVPr_f6oR3": {
-          "hits": 7,
-          "textWords": 36724
-        },
-        "T-nf54SiviXd": {
-          "hits": 3,
-          "textWords": 36724
-        },
-        "Ux5wpnRdB6i-": {
-          "hits": 0,
-          "textWords": 36724
-        },
-        "Xyfd4Qv6itrf": {
-          "hits": 2,
-          "textWords": 36724
-        },
-        "aGTzidmHZDa8": {
-          "hits": 0,
-          "textWords": 36724
-        },
-        "oqVRpkWKjeIk": {
-          "hits": 0,
-          "textWords": 36724
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "VpCOpt6ArEvw",
-      "address": "https://blog.archive.org/",
-      "title": "Internet Archive Blogs | Updates from the Internet Archive",
-      "snippet": "In 1980, Negativland released its first self-titled album with handmade covers and distributed it through a few record stores in the California Bay Area.\n“We thought we might sell 100 in the next five years, and we sold all 500 in three months.",
-      "matchedWords": {
-        "RxfVPr_f6oR3": {
-          "hits": 0,
-          "textWords": 5347
-        },
-        "T-nf54SiviXd": {
-          "hits": 0,
-          "textWords": 5347
-        },
-        "Ux5wpnRdB6i-": {
-          "hits": 0,
-          "textWords": 5347
-        },
-        "Xyfd4Qv6itrf": {
-          "hits": 0,
-          "textWords": 5347
-        },
-        "aGTzidmHZDa8": {
-          "hits": 0,
-          "textWords": 5347
-        },
-        "oqVRpkWKjeIk": {
-          "hits": 0,
-          "textWords": 5347
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "2ZqdVzfOEiDw",
-      "address": "https://planet.gnome.org/",
-      "title": "Planet GNOME",
-      "snippet": "Two weeks ago, I released AppStream 1.2.0. This release contains a lot of great changes, but one of the most important ones concerns how media are being handled, and AppStream’s default image export format.\nAppStream is a Freedesktop metadata standard to describe software components.",
-      "matchedWords": {
-        "RxfVPr_f6oR3": {
-          "hits": 0,
-          "textWords": 2681
-        },
-        "T-nf54SiviXd": {
-          "hits": 0,
-          "textWords": 2681
-        },
-        "Ux5wpnRdB6i-": {
-          "hits": 0,
-          "textWords": 2681
-        },
-        "Xyfd4Qv6itrf": {
-          "hits": 0,
-          "textWords": 2681
-        },
-        "aGTzidmHZDa8": {
-          "hits": 0,
-          "textWords": 2681
-        },
-        "oqVRpkWKjeIk": {
-          "hits": 0,
-          "textWords": 2681
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "cWZdmz9qXMBw",
-      "address": "https://planet.kernel.org/",
-      "title": "Kernel Planet",
-      "snippet": "And, perhaps most importantly, TLS session resumption (replaced by pre-shared keys in TLS 1.3) somewhat defeats the purpose of the exercise - clients store state that allows them to re-establish a TLS connection without performing certificate exchange (this reduces overhead if a connection gets",
-      "matchedWords": {
-        "RxfVPr_f6oR3": {
-          "hits": 7,
-          "textWords": 36724
-        },
-        "T-nf54SiviXd": {
-          "hits": 3,
-          "textWords": 36724
-        },
-        "Ux5wpnRdB6i-": {
-          "hits": 0,
-          "textWords": 36724
-        },
-        "Xyfd4Qv6itrf": {
-          "hits": 2,
-          "textWords": 36724
-        },
-        "aGTzidmHZDa8": {
-          "hits": 0,
-          "textWords": 36724
-        },
-        "oqVRpkWKjeIk": {
-          "hits": 0,
-          "textWords": 36724
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "Tw2WTjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Google_Chrome",
-      "title": "Google Chrome - Wikipedia",
-      "snippet": "96] Some extensions focus on providing accessibility features. Google Tone is an extension developed by Google that when enabled, can use a computer's speakers to exchange URLs with nearby computers with an Internet connection that have the extension enabled as well.[99][100]",
-      "matchedWords": {
-        "RxfVPr_f6oR3": {
-          "hits": 3,
-          "textWords": 19993
-        },
-        "T-nf54SiviXd": {
-          "hits": 1,
-          "textWords": 19993
-        },
-        "Ux5wpnRdB6i-": {
-          "hits": 0,
-          "textWords": 19993
-        },
-        "Xyfd4Qv6itrf": {
-          "hits": 0,
-          "textWords": 19993
-        },
-        "aGTzidmHZDa8": {
-          "hits": 0,
-          "textWords": 19993
-        },
-        "oqVRpkWKjeIk": {
-          "hits": 0,
-          "textWords": 19993
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "m5Fe6jRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Google",
-      "title": "Google - Wikipedia",
-      "snippet": "Nest Wifi (originally Google Wifi), a connected set of Wi-Fi routers to simplify and extend coverage of home Wi-Fi.[202]\nEnterprise services",
-      "matchedWords": {
-        "RxfVPr_f6oR3": {
-          "hits": 1,
-          "textWords": 22911
-        },
-        "T-nf54SiviXd": {
-          "hits": 1,
-          "textWords": 22911
-        },
-        "Ux5wpnRdB6i-": {
-          "hits": 0,
-          "textWords": 22911
-        },
-        "Xyfd4Qv6itrf": {
-          "hits": 3,
-          "textWords": 22911
-        },
-        "aGTzidmHZDa8": {
-          "hits": 0,
-          "textWords": 22911
-        },
-        "oqVRpkWKjeIk": {
-          "hits": 0,
-          "textWords": 22911
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "VpCOpt6ArEvw",
-      "address": "https://blog.archive.org/",
-      "title": "Internet Archive Blogs | Updates from the Internet Archive",
-      "snippet": "In 1980, Negativland released its first self-titled album with handmade covers and distributed it through a few record stores in the California Bay Area.\n“We thought we might sell 100 in the next five years, and we sold all 500 in three months.",
-      "matchedWords": {
-        "RxfVPr_f6oR3": {
-          "hits": 0,
-          "textWords": 5347
-        },
-        "T-nf54SiviXd": {
-          "hits": 0,
-          "textWords": 5347
-        },
-        "Ux5wpnRdB6i-": {
-          "hits": 0,
-          "textWords": 5347
-        },
-        "Xyfd4Qv6itrf": {
-          "hits": 0,
-          "textWords": 5347
-        },
-        "aGTzidmHZDa8": {
-          "hits": 0,
-          "textWords": 5347
-        },
-        "oqVRpkWKjeIk": {
-          "hits": 0,
-          "textWords": 5347
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "nWMgE7yp6WtY",
-      "address": "http://tantek.com/?skin=vtx",
-      "title": "Tantek Çelik",
-      "snippet": "Similarly, if you happen to be driving a vehicle that is either “always connected” (e.g. built-in WiFi or cell connectivity), or frequently connected to the internet (e.g. joins your home WiFi when parked in the garage), you may want to investigate if it is possible for you to disconnect it from",
-      "matchedWords": {
-        "RxfVPr_f6oR3": {
-          "hits": 0,
-          "textWords": 10682
-        },
-        "T-nf54SiviXd": {
-          "hits": 0,
-          "textWords": 10682
-        },
-        "Ux5wpnRdB6i-": {
-          "hits": 0,
-          "textWords": 10682
-        },
-        "Xyfd4Qv6itrf": {
-          "hits": 2,
-          "textWords": 10682
-        },
-        "aGTzidmHZDa8": {
-          "hits": 0,
-          "textWords": 10682
-        },
-        "oqVRpkWKjeIk": {
-          "hits": 0,
-          "textWords": 10682
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "2ZqdVzfOEiDw",
-      "address": "https://planet.gnome.org/",
-      "title": "Planet GNOME",
-      "snippet": "Two weeks ago, I released AppStream 1.2.0. This release contains a lot of great changes, but one of the most important ones concerns how media are being handled, and AppStream’s default image export format.\nAppStream is a Freedesktop metadata standard to describe software components.",
-      "matchedWords": {
-        "RxfVPr_f6oR3": {
-          "hits": 0,
-          "textWords": 2681
-        },
-        "T-nf54SiviXd": {
-          "hits": 0,
-          "textWords": 2681
-        },
-        "Ux5wpnRdB6i-": {
-          "hits": 0,
-          "textWords": 2681
-        },
-        "Xyfd4Qv6itrf": {
-          "hits": 0,
-          "textWords": 2681
-        },
-        "aGTzidmHZDa8": {
-          "hits": 0,
-          "textWords": 2681
-        },
-        "oqVRpkWKjeIk": {
-          "hits": 0,
-          "textWords": 2681
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "cWZdmz9qXMBw",
-      "address": "https://planet.kernel.org/",
-      "title": "Kernel Planet",
-      "snippet": "And, perhaps most importantly, TLS session resumption (replaced by pre-shared keys in TLS 1.3) somewhat defeats the purpose of the exercise - clients store state that allows them to re-establish a TLS connection without performing certificate exchange (this reduces overhead if a connection gets",
-      "matchedWords": {
-        "RxfVPr_f6oR3": {
-          "hits": 7,
-          "textWords": 36724
-        },
-        "T-nf54SiviXd": {
-          "hits": 3,
-          "textWords": 36724
-        },
-        "Ux5wpnRdB6i-": {
-          "hits": 0,
-          "textWords": 36724
-        },
-        "Xyfd4Qv6itrf": {
-          "hits": 2,
-          "textWords": 36724
-        },
-        "aGTzidmHZDa8": {
-          "hits": 0,
-          "textWords": 36724
-        },
-        "oqVRpkWKjeIk": {
-          "hits": 0,
-          "textWords": 36724
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "m5Fe6jRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Google",
-      "title": "Google - Wikipedia",
-      "snippet": "Nest Wifi (originally Google Wifi), a connected set of Wi-Fi routers to simplify and extend coverage of home Wi-Fi.[202]\nEnterprise services",
-      "matchedWords": {
-        "RxfVPr_f6oR3": {
-          "hits": 1,
-          "textWords": 22911
-        },
-        "T-nf54SiviXd": {
-          "hits": 1,
-          "textWords": 22911
-        },
-        "Ux5wpnRdB6i-": {
-          "hits": 0,
-          "textWords": 22911
-        },
-        "Xyfd4Qv6itrf": {
-          "hits": 3,
-          "textWords": 22911
-        },
-        "aGTzidmHZDa8": {
-          "hits": 0,
-          "textWords": 22911
-        },
-        "oqVRpkWKjeIk": {
-          "hits": 0,
-          "textWords": 22911
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "2ZqdVzfOEiDw",
-      "address": "https://planet.gnome.org/",
-      "title": "Planet GNOME",
-      "snippet": "Two weeks ago, I released AppStream 1.2.0. This release contains a lot of great changes, but one of the most important ones concerns how media are being handled, and AppStream’s default image export format.\nAppStream is a Freedesktop metadata standard to describe software components.",
-      "matchedWords": {
-        "RxfVPr_f6oR3": {
-          "hits": 0,
-          "textWords": 2681
-        },
-        "T-nf54SiviXd": {
-          "hits": 0,
-          "textWords": 2681
-        },
-        "Ux5wpnRdB6i-": {
-          "hits": 0,
-          "textWords": 2681
-        },
-        "Xyfd4Qv6itrf": {
-          "hits": 0,
-          "textWords": 2681
-        },
-        "aGTzidmHZDa8": {
-          "hits": 0,
-          "textWords": 2681
-        },
-        "oqVRpkWKjeIk": {
-          "hits": 0,
-          "textWords": 2681
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "m5Fe6jRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Google",
-      "title": "Google - Wikipedia",
-      "snippet": "Nest Wifi (originally Google Wifi), a connected set of Wi-Fi routers to simplify and extend coverage of home Wi-Fi.[202]\nEnterprise services",
-      "matchedWords": {
-        "RxfVPr_f6oR3": {
-          "hits": 1,
-          "textWords": 22911
-        },
-        "T-nf54SiviXd": {
-          "hits": 1,
-          "textWords": 22911
-        },
-        "Ux5wpnRdB6i-": {
-          "hits": 0,
-          "textWords": 22911
-        },
-        "Xyfd4Qv6itrf": {
-          "hits": 3,
-          "textWords": 22911
-        },
-        "aGTzidmHZDa8": {
-          "hits": 0,
-          "textWords": 22911
-        },
-        "oqVRpkWKjeIk": {
-          "hits": 0,
-          "textWords": 22911
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "VpCOpt6ArEvw",
-      "address": "https://blog.archive.org/",
-      "title": "Internet Archive Blogs | Updates from the Internet Archive",
-      "snippet": "In 1980, Negativland released its first self-titled album with handmade covers and distributed it through a few record stores in the California Bay Area.\n“We thought we might sell 100 in the next five years, and we sold all 500 in three months.",
-      "matchedWords": {
-        "RxfVPr_f6oR3": {
-          "hits": 0,
-          "textWords": 5347
-        },
-        "T-nf54SiviXd": {
-          "hits": 0,
-          "textWords": 5347
-        },
-        "Ux5wpnRdB6i-": {
-          "hits": 0,
-          "textWords": 5347
-        },
-        "Xyfd4Qv6itrf": {
-          "hits": 0,
-          "textWords": 5347
-        },
-        "aGTzidmHZDa8": {
-          "hits": 0,
-          "textWords": 5347
-        },
-        "oqVRpkWKjeIk": {
-          "hits": 0,
-          "textWords": 5347
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "MAC3Gs6GdY-4",
-      "address": "https://danluu.com/web-bloat/",
-      "title": "How web bloat impacts users with slow connections",
-      "snippet": "Even on a good (0% packetloss, no ping spike) dialup connection, some sites won’t load.\nSome sites will use a lot of data!\nThe web on bad connections\nAs commercial websites go, Google is basically as good as it gets for people on a slow connection.",
-      "matchedWords": {
-        "RxfVPr_f6oR3": {
-          "hits": 23,
-          "textWords": 4102
-        },
-        "T-nf54SiviXd": {
-          "hits": 19,
-          "textWords": 4102
-        },
-        "Ux5wpnRdB6i-": {
-          "hits": 0,
-          "textWords": 4102
-        },
-        "Xyfd4Qv6itrf": {
-          "hits": 1,
-          "textWords": 4102
-        },
-        "aGTzidmHZDa8": {
-          "hits": 0,
-          "textWords": 4102
-        },
-        "oqVRpkWKjeIk": {
-          "hits": 0,
-          "textWords": 4102
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "Tw2WTjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Google_Chrome",
-      "title": "Google Chrome - Wikipedia",
-      "snippet": "96] Some extensions focus on providing accessibility features. Google Tone is an extension developed by Google that when enabled, can use a computer's speakers to exchange URLs with nearby computers with an Internet connection that have the extension enabled as well.[99][100]",
-      "matchedWords": {
-        "RxfVPr_f6oR3": {
-          "hits": 3,
-          "textWords": 19993
-        },
-        "T-nf54SiviXd": {
-          "hits": 1,
-          "textWords": 19993
-        },
-        "Ux5wpnRdB6i-": {
-          "hits": 0,
-          "textWords": 19993
-        },
-        "Xyfd4Qv6itrf": {
-          "hits": 0,
-          "textWords": 19993
-        },
-        "aGTzidmHZDa8": {
-          "hits": 0,
-          "textWords": 19993
-        },
-        "oqVRpkWKjeIk": {
-          "hits": 0,
-          "textWords": 19993
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "m5Fe6jRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Google",
-      "title": "Google - Wikipedia",
-      "snippet": "Nest Wifi (originally Google Wifi), a connected set of Wi-Fi routers to simplify and extend coverage of home Wi-Fi.[202]\nEnterprise services",
-      "matchedWords": {
-        "RxfVPr_f6oR3": {
-          "hits": 1,
-          "textWords": 22911
-        },
-        "T-nf54SiviXd": {
-          "hits": 1,
-          "textWords": 22911
-        },
-        "Ux5wpnRdB6i-": {
-          "hits": 0,
-          "textWords": 22911
-        },
-        "Xyfd4Qv6itrf": {
-          "hits": 3,
-          "textWords": 22911
-        },
-        "aGTzidmHZDa8": {
-          "hits": 0,
-          "textWords": 22911
-        },
-        "oqVRpkWKjeIk": {
-          "hits": 0,
-          "textWords": 22911
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "2ZqdVzfOEiDw",
-      "address": "https://planet.gnome.org/",
-      "title": "Planet GNOME",
-      "snippet": "Two weeks ago, I released AppStream 1.2.0. This release contains a lot of great changes, but one of the most important ones concerns how media are being handled, and AppStream’s default image export format.\nAppStream is a Freedesktop metadata standard to describe software components.",
-      "matchedWords": {
-        "RxfVPr_f6oR3": {
-          "hits": 0,
-          "textWords": 2681
-        },
-        "T-nf54SiviXd": {
-          "hits": 0,
-          "textWords": 2681
-        },
-        "Ux5wpnRdB6i-": {
-          "hits": 0,
-          "textWords": 2681
-        },
-        "Xyfd4Qv6itrf": {
-          "hits": 0,
-          "textWords": 2681
-        },
-        "aGTzidmHZDa8": {
-          "hits": 0,
-          "textWords": 2681
-        },
-        "oqVRpkWKjeIk": {
-          "hits": 0,
-          "textWords": 2681
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "SCifX7yp6WtY",
-      "address": "http://tantek.com/?",
-      "title": "Tantek Çelik",
-      "snippet": "Similarly, if you happen to be driving a vehicle that is either “always connected” (e.g. built-in WiFi or cell connectivity), or frequently connected to the internet (e.g. joins your home WiFi when parked in the garage), you may want to investigate if it is possible for you to disconnect it from",
-      "matchedWords": {
-        "RxfVPr_f6oR3": {
-          "hits": 0,
-          "textWords": 10682
-        },
-        "T-nf54SiviXd": {
-          "hits": 0,
-          "textWords": 10682
-        },
-        "Ux5wpnRdB6i-": {
-          "hits": 0,
-          "textWords": 10682
-        },
-        "Xyfd4Qv6itrf": {
-          "hits": 2,
-          "textWords": 10682
-        },
-        "aGTzidmHZDa8": {
-          "hits": 0,
-          "textWords": 10682
-        },
-        "oqVRpkWKjeIk": {
-          "hits": 0,
-          "textWords": 10682
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "VpCOpt6ArEvw",
-      "address": "https://blog.archive.org/",
+      "hash": "ZbrYQsPw1BDj",
+      "address": "https://touringcarhuren-breda.nl/met-de-auto-naar-breda/",
       "title": "",
-      "snippet": "In 1980, Negativland released its first self-titled album with handmade covers and distributed it through a few record stores in the California Bay Area.\n“We thought we might sell 100 in the next five years, and we sold all 500 in three months.",
+      "snippet": "",
       "matchedWords": {
         "RxfVPr_f6oR3": {
           "hits": 0,
-          "textWords": 5347
+          "textWords": 0
         },
         "T-nf54SiviXd": {
           "hits": 0,
-          "textWords": 5347
-        },
-        "Ux5wpnRdB6i-": {
-          "hits": 0,
-          "textWords": 5347
+          "textWords": 0
         },
         "Xyfd4Qv6itrf": {
           "hits": 0,
-          "textWords": 5347
-        },
-        "aGTzidmHZDa8": {
-          "hits": 0,
-          "textWords": 5347
-        },
-        "oqVRpkWKjeIk": {
-          "hits": 0,
-          "textWords": 5347
+          "textWords": 0
         }
       },
       "queryPhraseHits": 0
     },
     {
-      "hash": "2ZqdVzfOEiDw",
-      "address": "https://planet.gnome.org/",
-      "title": "Planet GNOME",
-      "snippet": "Two weeks ago, I released AppStream 1.2.0. This release contains a lot of great changes, but one of the most important ones concerns how media are being handled, and AppStream’s default image export format.\nAppStream is a Freedesktop metadata standard to describe software components.",
+      "hash": "VI9YzkSKkctx",
+      "address": "https://softpanorama.org/Social/Toxic_managers/index.shtml",
+      "title": "Toxic Managers",
+      "snippet": "",
       "matchedWords": {
         "RxfVPr_f6oR3": {
           "hits": 0,
-          "textWords": 2681
+          "textWords": 0
         },
         "T-nf54SiviXd": {
           "hits": 0,
-          "textWords": 2681
-        },
-        "Ux5wpnRdB6i-": {
-          "hits": 0,
-          "textWords": 2681
+          "textWords": 0
         },
         "Xyfd4Qv6itrf": {
           "hits": 0,
-          "textWords": 2681
-        },
-        "aGTzidmHZDa8": {
-          "hits": 0,
-          "textWords": 2681
-        },
-        "oqVRpkWKjeIk": {
-          "hits": 0,
-          "textWords": 2681
+          "textWords": 0
         }
       },
       "queryPhraseHits": 0
     },
     {
-      "hash": "m5Fe6jRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Google",
-      "title": "Google - Wikipedia",
-      "snippet": "Nest Wifi (originally Google Wifi), a connected set of Wi-Fi routers to simplify and extend coverage of home Wi-Fi.[202]\nEnterprise services",
+      "hash": "mbiYtWnK_Q7w",
+      "address": "https://deirdre.net/tag/writing/",
+      "title": "writing – Deirdre Saoirse Moen",
+      "snippet": "Cook Islands (Rarotonga, Aitutaki, Penrhyn) (connection on NZ)\nNorfolk Island (connection on NZ)\nNew Caledonia \u0026 Deps. (Noumea, Loyalty Islands) (connection on NZ) (planned for 2016)\nNiue (connection on NZ, but one flight per week)",
       "matchedWords": {
         "RxfVPr_f6oR3": {
-          "hits": 1,
-          "textWords": 22911
+          "hits": 8,
+          "textWords": 120470
+        },
+        "T-nf54SiviXd": {
+          "hits": 9,
+          "textWords": 120470
+        },
+        "Xyfd4Qv6itrf": {
+          "hits": 6,
+          "textWords": 120470
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "Py3mzspKNBr4",
+      "address": "https://rense.com/headlines2026.htm",
+      "title": "Headlines 2026",
+      "snippet": "",
+      "matchedWords": {
+        "RxfVPr_f6oR3": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "T-nf54SiviXd": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "Xyfd4Qv6itrf": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "Qw0Oas-RJCSj",
+      "address": "https://wspomozycielka-lodz.pl/?p=747",
+      "title": "OGŁOSZENIA PARAFIALNE (11.06.2023) – Parafia Matki Bożej Wspomożenia Wiernych w Łodzi",
+      "snippet": "",
+      "matchedWords": {
+        "RxfVPr_f6oR3": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "T-nf54SiviXd": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "Xyfd4Qv6itrf": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "R5vzYsOocYRx",
+      "address": "https://murdoconline.net/",
+      "title": "MURDOCONLINE - Situs Kumpulan Game Online Terbaik Paling Populer",
+      "snippet": "",
+      "matchedWords": {
+        "RxfVPr_f6oR3": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "T-nf54SiviXd": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "Xyfd4Qv6itrf": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "QlGgvNwlMN24",
+      "address": "https://metalbrutalargentino.blogspot.com/",
+      "title": "☢Metal Brutal Argentino☢",
+      "snippet": "",
+      "matchedWords": {
+        "RxfVPr_f6oR3": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "T-nf54SiviXd": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "Xyfd4Qv6itrf": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "W5uqHs-D33u5",
+      "address": "https://instapundit.com/",
+      "title": "Instapundit",
+      "snippet": "OPEN THREAD: Ring in the weekend.\nLINDSAY CLANCY FAN FINDING OUT HOLDOUT JUROR IS ‘BLACK’ MAY BE THE GREATEST THING ON THE INTERNET:\nThere are those watershed moments in internet history when it makes journalisming all worth it.",
+      "matchedWords": {
+        "RxfVPr_f6oR3": {
+          "hits": 0,
+          "textWords": 1063
+        },
+        "T-nf54SiviXd": {
+          "hits": 0,
+          "textWords": 1063
+        },
+        "Xyfd4Qv6itrf": {
+          "hits": 0,
+          "textWords": 1063
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "KAu1L9DZkUL4",
+      "address": "https://www.cnet.com/tech/services-and-software/best-vpn/",
+      "title": "Best VPN service of 2021 - CNET",
+      "snippet": "As long as your base internet speeds aren’t a slow crawl, you’ll have no issues streaming, gaming, torrenting or hopping on video calls while connected to ExpressVPN.\nExpressVPN cooked up inventive solutions on Lightway and OpenVPN connection protocols on its Windows app.",
+      "matchedWords": {
+        "RxfVPr_f6oR3": {
+          "hits": 22,
+          "textWords": 9446
+        },
+        "T-nf54SiviXd": {
+          "hits": 4,
+          "textWords": 9446
+        },
+        "Xyfd4Qv6itrf": {
+          "hits": 0,
+          "textWords": 9446
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "KuD2JdDZkUL4",
+      "address": "https://www.cnet.com/home/internet/best-satellite-internet/",
+      "title": "Best Satellite Internet Providers for 2026 - CNET",
+      "snippet": "Last year, I spent about a week testing the Starlink Mini at my home in Seattle and in the Washington backcountry, and while speeds were more erratic than my standard home internet connection, Starlink always provided a strong enough connection for things like video calls and live TV streaming.",
+      "matchedWords": {
+        "RxfVPr_f6oR3": {
+          "hits": 23,
+          "textWords": 5002
         },
         "T-nf54SiviXd": {
           "hits": 1,
-          "textWords": 22911
+          "textWords": 5002
         },
-        "Ux5wpnRdB6i-": {
+        "Xyfd4Qv6itrf": {
           "hits": 0,
-          "textWords": 22911
+          "textWords": 5002
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "_wxyPdDZkUL4",
+      "address": "https://www.cnet.com/home/internet/best-internet-providers/",
+      "title": "Best Internet Providers for 2026 - CNET",
+      "snippet": "It uses a fiber-optic connection, offering you the most reliable connection. It offers faster speeds than any connection type, with symmetrical download and upload speeds, which are best suited for gaming and streaming in 4K.\nHybrid Fiber-Coaxial: It combines fiber and cable technologies.",
+      "matchedWords": {
+        "RxfVPr_f6oR3": {
+          "hits": 51,
+          "textWords": 14889
+        },
+        "T-nf54SiviXd": {
+          "hits": 1,
+          "textWords": 14889
+        },
+        "Xyfd4Qv6itrf": {
+          "hits": 0,
+          "textWords": 14889
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "SUYfNsDaBIgz",
+      "address": "https://australiantimberoil.net/",
+      "title": "australiantimberoil.net -",
+      "snippet": "Some sites even have loyalty programs that reward players with exclusive perks and free chips. In order to make the most of your experience, be sure to sign up for a secure and private WiFi connection.",
+      "matchedWords": {
+        "RxfVPr_f6oR3": {
+          "hits": 6,
+          "textWords": 101475
+        },
+        "T-nf54SiviXd": {
+          "hits": 2,
+          "textWords": 101475
+        },
+        "Xyfd4Qv6itrf": {
+          "hits": 1,
+          "textWords": 101475
+        }
+      },
+      "queryPhraseHits": 1
+    },
+    {
+      "hash": "WdJ2qlDmGrO5",
+      "address": "https://www.yatesgear.com/index.php?route=journal3/blog/post\u0026journal_blog_post_id=10",
+      "title": "Another Blog Post",
+      "snippet": "",
+      "matchedWords": {
+        "RxfVPr_f6oR3": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "T-nf54SiviXd": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "Xyfd4Qv6itrf": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "Dzg0VxJbjVA5",
+      "address": "https://stuffwhitepeoplelike.wordpress.com/2008/01/18/1-coffee/",
+      "title": "#1 Coffee | Stuff White People Like",
+      "snippet": "",
+      "matchedWords": {
+        "RxfVPr_f6oR3": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "T-nf54SiviXd": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "Xyfd4Qv6itrf": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "baXbEnJbjVA5",
+      "address": "https://stuffwhitepeoplelike.wordpress.com/about/",
+      "title": "About | Stuff White People Like",
+      "snippet": "",
+      "matchedWords": {
+        "RxfVPr_f6oR3": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "T-nf54SiviXd": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "Xyfd4Qv6itrf": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "NwkcOWOXoHMQ",
+      "address": "http://acecomments.mu.nu/?post=369635",
+      "title": "Cutting The Cord: It's Easier Than You Think. I Think. I have No Idea. That's What This Post Is For",
+      "snippet": "A couple of requests....please don't recommend anything that is against the law, and please try to stick to the topic at hand, which is, obviously, guns and boobs ways to get content that don't require a cable or satellite connection, or at the very least allow one to decrease the total cost, and",
+      "matchedWords": {
+        "RxfVPr_f6oR3": {
+          "hits": 1,
+          "textWords": 1118
+        },
+        "T-nf54SiviXd": {
+          "hits": 0,
+          "textWords": 1118
+        },
+        "Xyfd4Qv6itrf": {
+          "hits": 0,
+          "textWords": 1118
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "ZbrYQsPw1BDj",
+      "address": "https://touringcarhuren-breda.nl/met-de-auto-naar-breda/",
+      "title": "",
+      "snippet": "",
+      "matchedWords": {
+        "RxfVPr_f6oR3": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "T-nf54SiviXd": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "Xyfd4Qv6itrf": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "fa4DE8QzrsJ5",
+      "address": "https://thestingofthescorpion.wordpress.com/",
+      "title": "The Sting Of The Scorpion Blog (T.S.O.T.S.B.) | …………………..Because Everything Else Just Bites!",
+      "snippet": "Do I play the blame game? Was it my fault for putting my trust in the company which pays my bills? Was it the people’s fault for being ridiculously slow? I’ll tell you what, in the end the price was right. Lesson learned, I will probably never put my faith in the service department ever again.",
+      "matchedWords": {
+        "RxfVPr_f6oR3": {
+          "hits": 0,
+          "textWords": 1080
+        },
+        "T-nf54SiviXd": {
+          "hits": 1,
+          "textWords": 1080
+        },
+        "Xyfd4Qv6itrf": {
+          "hits": 0,
+          "textWords": 1080
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "3jB0w_QzrsJ5",
+      "address": "https://thestingofthescorpion.wordpress.com/tag/waste/",
+      "title": "Waste | The Sting Of The Scorpion Blog (T.S.O.T.S.B.)",
+      "snippet": "When you approach your prospective customer try and say anything but “Wanna dance?”: would you like some company?, would you like if I joined you? If the room is slow and he seems reluctant put a very slight push on.",
+      "matchedWords": {
+        "RxfVPr_f6oR3": {
+          "hits": 0,
+          "textWords": 9158
+        },
+        "T-nf54SiviXd": {
+          "hits": 2,
+          "textWords": 9158
+        },
+        "Xyfd4Qv6itrf": {
+          "hits": 0,
+          "textWords": 9158
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "krJ9TsRD6io6",
+      "address": "https://licindiachennai.com/",
+      "title": "licindiachennai -",
+      "snippet": "In addition to the traditional lottery, online lottery games are easy to play. All you need is an internet connection. With a reliable WiFi connection, you can log into your account anywhere. After registering, you can play online lottery games.",
+      "matchedWords": {
+        "RxfVPr_f6oR3": {
+          "hits": 206,
+          "textWords": 403394
+        },
+        "T-nf54SiviXd": {
+          "hits": 23,
+          "textWords": 403394
         },
         "Xyfd4Qv6itrf": {
           "hits": 3,
-          "textWords": 22911
+          "textWords": 403394
+        }
+      },
+      "queryPhraseHits": 3
+    },
+    {
+      "hash": "7ahdAsiYYWG6",
+      "address": "https://cedarcafeonline.com/",
+      "title": "cedarcafeonline -",
+      "snippet": "In addition, online slot tournaments are very fun and a great way to spend time with friends.\nWhen playing online slot tournaments, players should be sure to have a fast Internet connection. A slow connection can cause lags and slowdowns in the games.",
+      "matchedWords": {
+        "RxfVPr_f6oR3": {
+          "hits": 196,
+          "textWords": 377950
         },
-        "aGTzidmHZDa8": {
-          "hits": 0,
-          "textWords": 22911
+        "T-nf54SiviXd": {
+          "hits": 16,
+          "textWords": 377950
         },
-        "oqVRpkWKjeIk": {
+        "Xyfd4Qv6itrf": {
+          "hits": 1,
+          "textWords": 377950
+        }
+      },
+      "queryPhraseHits": 3
+    },
+    {
+      "hash": "W5uqHs-D33u5",
+      "address": "https://instapundit.com/",
+      "title": "Instapundit",
+      "snippet": "OPEN THREAD: Ring in the weekend.\nLINDSAY CLANCY FAN FINDING OUT HOLDOUT JUROR IS ‘BLACK’ MAY BE THE GREATEST THING ON THE INTERNET:\nThere are those watershed moments in internet history when it makes journalisming all worth it.",
+      "matchedWords": {
+        "RxfVPr_f6oR3": {
           "hits": 0,
-          "textWords": 22911
+          "textWords": 1063
+        },
+        "T-nf54SiviXd": {
+          "hits": 0,
+          "textWords": 1063
+        },
+        "Xyfd4Qv6itrf": {
+          "hits": 0,
+          "textWords": 1063
         }
       },
       "queryPhraseHits": 0
     },
     {
-      "hash": "SCifX7yp6WtY",
-      "address": "http://tantek.com/?",
-      "title": "Tantek Çelik",
-      "snippet": "Similarly, if you happen to be driving a vehicle that is either “always connected” (e.g. built-in WiFi or cell connectivity), or frequently connected to the internet (e.g. joins your home WiFi when parked in the garage), you may want to investigate if it is possible for you to disconnect it from",
+      "hash": "N5s5MG4QpZd5",
+      "address": "https://rv.campingworld.com/",
+      "title": "Camping World: Shop Top RVs @America's #1 RV Dealer",
+      "snippet": "",
       "matchedWords": {
         "RxfVPr_f6oR3": {
           "hits": 0,
-          "textWords": 10682
+          "textWords": 0
         },
         "T-nf54SiviXd": {
           "hits": 0,
-          "textWords": 10682
-        },
-        "Ux5wpnRdB6i-": {
-          "hits": 0,
-          "textWords": 10682
+          "textWords": 0
         },
         "Xyfd4Qv6itrf": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "_MOp4G4QpZd5",
+      "address": "https://rv.campingworld.com/clearance",
+      "title": "Shop Clearance RVs for Sale | New \u0026 Used RVs at Reduced Prices | Camping World",
+      "snippet": "",
+      "matchedWords": {
+        "RxfVPr_f6oR3": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "T-nf54SiviXd": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "Xyfd4Qv6itrf": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "Jb4XHs5IzNm6",
+      "address": "https://citizenfreepress.com/",
+      "title": "CITIZEN FREE PRESS",
+      "snippet": "Robot video is intense.\nThis may become new floating weekend headquarters for CFP.\nI just need wifi and 27 inch monitor.\nTrump approval holding at 44% at Rasmussen — See daily approval going back 12 months.\nFemale shopper pulls gun on shoplifter.",
+      "matchedWords": {
+        "RxfVPr_f6oR3": {
+          "hits": 1,
+          "textWords": 11215
+        },
+        "T-nf54SiviXd": {
           "hits": 2,
-          "textWords": 10682
+          "textWords": 11215
         },
-        "aGTzidmHZDa8": {
-          "hits": 0,
-          "textWords": 10682
-        },
-        "oqVRpkWKjeIk": {
-          "hits": 0,
-          "textWords": 10682
+        "Xyfd4Qv6itrf": {
+          "hits": 1,
+          "textWords": 11215
         }
       },
       "queryPhraseHits": 0
     },
     {
-      "hash": "2ZqdVzfOEiDw",
-      "address": "https://planet.gnome.org/",
-      "title": "Planet GNOME",
-      "snippet": "Two weeks ago, I released AppStream 1.2.0. This release contains a lot of great changes, but one of the most important ones concerns how media are being handled, and AppStream’s default image export format.\nAppStream is a Freedesktop metadata standard to describe software components.",
+      "hash": "Mde3Ks5dlbp4",
+      "address": "https://mashable.com/",
+      "title": "Mashable",
+      "snippet": "NYT Connections Sports Edition today: Hints and answers for September 11, 2026\nEverything you need to solve Connections Sports Edition #718\n09/11/2026\nBy Mashable Team\nNYT Connections hints today: Meanings for each word for Sept. 11, 2026\nLooking for a spoiler-free way to find a connection?",
       "matchedWords": {
         "RxfVPr_f6oR3": {
-          "hits": 0,
-          "textWords": 2681
+          "hits": 1,
+          "textWords": 351
         },
         "T-nf54SiviXd": {
           "hits": 0,
-          "textWords": 2681
-        },
-        "Ux5wpnRdB6i-": {
-          "hits": 0,
-          "textWords": 2681
+          "textWords": 351
         },
         "Xyfd4Qv6itrf": {
           "hits": 0,
-          "textWords": 2681
-        },
-        "aGTzidmHZDa8": {
-          "hits": 0,
-          "textWords": 2681
-        },
-        "oqVRpkWKjeIk": {
-          "hits": 0,
-          "textWords": 2681
+          "textWords": 351
         }
       },
       "queryPhraseHits": 0
@@ -2948,65 +1281,1340 @@
           "hits": 19,
           "textWords": 4102
         },
-        "Ux5wpnRdB6i-": {
-          "hits": 0,
-          "textWords": 4102
-        },
         "Xyfd4Qv6itrf": {
           "hits": 1,
-          "textWords": 4102
-        },
-        "aGTzidmHZDa8": {
-          "hits": 0,
-          "textWords": 4102
-        },
-        "oqVRpkWKjeIk": {
-          "hits": 0,
           "textWords": 4102
         }
       },
       "queryPhraseHits": 0
     },
     {
-      "hash": "2ZqdVzfOEiDw",
-      "address": "https://planet.gnome.org/",
-      "title": "Planet GNOME",
-      "snippet": "Two weeks ago, I released AppStream 1.2.0. This release contains a lot of great changes, but one of the most important ones concerns how media are being handled, and AppStream’s default image export format.\nAppStream is a Freedesktop metadata standard to describe software components.",
+      "hash": "cWZdmz9qXMBw",
+      "address": "https://planet.kernel.org/",
+      "title": "Kernel Planet",
+      "snippet": "And, perhaps most importantly, TLS session resumption (replaced by pre-shared keys in TLS 1.3) somewhat defeats the purpose of the exercise - clients store state that allows them to re-establish a TLS connection without performing certificate exchange (this reduces overhead if a connection gets",
       "matchedWords": {
         "RxfVPr_f6oR3": {
-          "hits": 0,
-          "textWords": 2681
+          "hits": 7,
+          "textWords": 36724
         },
         "T-nf54SiviXd": {
-          "hits": 0,
-          "textWords": 2681
+          "hits": 3,
+          "textWords": 36724
         },
-        "Ux5wpnRdB6i-": {
-          "hits": 0,
-          "textWords": 2681
+        "Xyfd4Qv6itrf": {
+          "hits": 2,
+          "textWords": 36724
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "ETfRxdDZkUL4",
+      "address": "https://www.cnet.com/home/security/best-video-doorbell-cameras/",
+      "title": "The Best Video Doorbells of 2026 That Act as Front Door Guardians - CNET",
+      "snippet": "The Matter standard has been very slow to add video functionality and it’s just not ready for home cams of any kind yet.\nPrivacy and security\nVideo doorbells capture a lot of everyday moments and many of them store that footage in the cloud.",
+      "matchedWords": {
+        "RxfVPr_f6oR3": {
+          "hits": 2,
+          "textWords": 5285
+        },
+        "T-nf54SiviXd": {
+          "hits": 1,
+          "textWords": 5285
         },
         "Xyfd4Qv6itrf": {
           "hits": 0,
-          "textWords": 2681
+          "textWords": 5285
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "zlyXsdDZkUL4",
+      "address": "https://www.cnet.com/home/kitchen-and-household/best-robot-vacuums-our-labs-tested-47-models-and-only-these-made-the-cut/",
+      "title": "Best Robot Vacuums We've Tested in 2026",
+      "snippet": "Finally, its slow movement, while beneficial for cleaning efficiency, means a longer run time, which could be a drawback for those who prioritize fast cleaning cycles.\nAverage sand pickup\n65.14%\nAverage coverage\n80.78%\nObject avoidance\n3 of 6\nPet hair removed\nNo\nNoise level\n57.46 LAeq",
+      "matchedWords": {
+        "RxfVPr_f6oR3": {
+          "hits": 1,
+          "textWords": 19749
         },
-        "aGTzidmHZDa8": {
-          "hits": 0,
-          "textWords": 2681
+        "T-nf54SiviXd": {
+          "hits": 3,
+          "textWords": 19749
         },
-        "oqVRpkWKjeIk": {
+        "Xyfd4Qv6itrf": {
           "hits": 0,
-          "textWords": 2681
+          "textWords": 19749
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "PNCRYsEU1fB5",
+      "address": "https://acemgmtgroup.com/",
+      "title": "acemgmtgroup.com",
+      "snippet": "",
+      "matchedWords": {
+        "RxfVPr_f6oR3": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "T-nf54SiviXd": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "Xyfd4Qv6itrf": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "NwkcOWOXoHMQ",
+      "address": "http://acecomments.mu.nu/?post=369635",
+      "title": "Cutting The Cord: It's Easier Than You Think. I Think. I have No Idea. That's What This Post Is For",
+      "snippet": "A couple of requests....please don't recommend anything that is against the law, and please try to stick to the topic at hand, which is, obviously, guns and boobs ways to get content that don't require a cable or satellite connection, or at the very least allow one to decrease the total cost, and",
+      "matchedWords": {
+        "RxfVPr_f6oR3": {
+          "hits": 1,
+          "textWords": 1118
+        },
+        "T-nf54SiviXd": {
+          "hits": 0,
+          "textWords": 1118
+        },
+        "Xyfd4Qv6itrf": {
+          "hits": 0,
+          "textWords": 1118
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "e-i2KFiwa444",
+      "address": "https://apps.apple.com/us/app/eufy/id1424956516",
+      "title": "‎eufy App - App Store",
+      "snippet": "",
+      "matchedWords": {
+        "RxfVPr_f6oR3": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "T-nf54SiviXd": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "Xyfd4Qv6itrf": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "hNrcdJ-bwreQ",
+      "address": "http://ace.mu.nu/",
+      "title": "Ace of Spades HQ",
+      "snippet": "I have Open Threads for both days and I will post if big news breaks, but if it doesn't -- and it probably won't, news is slow before a holiday weekend -- I'm going to take a four day weekend.\nSh0eOnHead discusses the Psychotic Cult of Lindsay\nReal quotes:",
+      "matchedWords": {
+        "RxfVPr_f6oR3": {
+          "hits": 0,
+          "textWords": 12885
+        },
+        "T-nf54SiviXd": {
+          "hits": 1,
+          "textWords": 12885
+        },
+        "Xyfd4Qv6itrf": {
+          "hits": 0,
+          "textWords": 12885
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "pYw3_AHucLY4",
+      "address": "https://adrienalfiste.vip-blog.com/",
+      "title": "adrienalfiste blog : Le blog d'Adri (83)",
+      "snippet": "",
+      "matchedWords": {
+        "RxfVPr_f6oR3": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "T-nf54SiviXd": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "Xyfd4Qv6itrf": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "OdcWutIIL7ew",
+      "address": "https://stallman.org/archives/2018-jan-apr.html",
+      "title": "2018: January - April Political Notes - Richard Stallman",
+      "snippet": "He also insisted on the foolish plan to arm lots of teachers.\n5 March 2018 (Slow-down job action) The Senate Intelligence Committee is protecting the cheater with a slow-down job action.",
+      "matchedWords": {
+        "RxfVPr_f6oR3": {
+          "hits": 2,
+          "textWords": 119955
+        },
+        "T-nf54SiviXd": {
+          "hits": 3,
+          "textWords": 119955
+        },
+        "Xyfd4Qv6itrf": {
+          "hits": 2,
+          "textWords": 119955
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "3jB0w_QzrsJ5",
+      "address": "https://thestingofthescorpion.wordpress.com/tag/waste/",
+      "title": "Waste | The Sting Of The Scorpion Blog (T.S.O.T.S.B.)",
+      "snippet": "When you approach your prospective customer try and say anything but “Wanna dance?”: would you like some company?, would you like if I joined you? If the room is slow and he seems reluctant put a very slight push on.",
+      "matchedWords": {
+        "RxfVPr_f6oR3": {
+          "hits": 0,
+          "textWords": 9158
+        },
+        "T-nf54SiviXd": {
+          "hits": 2,
+          "textWords": 9158
+        },
+        "Xyfd4Qv6itrf": {
+          "hits": 0,
+          "textWords": 9158
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "seSMJsY-tUi5",
+      "address": "https://moralparty.com/warnings/",
+      "title": "Warnings – MoralParty.com",
+      "snippet": "Since the advent of the industrial age with the steam engine around 1760, we have moved further away from nature and the deep connection to the land that we always had.",
+      "matchedWords": {
+        "RxfVPr_f6oR3": {
+          "hits": 5,
+          "textWords": 49441
+        },
+        "T-nf54SiviXd": {
+          "hits": 5,
+          "textWords": 49441
+        },
+        "Xyfd4Qv6itrf": {
+          "hits": 5,
+          "textWords": 49441
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "-BH3WskC_rMY",
+      "address": "http://popka.blog131.fc2.com/blog-date-201006.html",
+      "title": "popka 201006",
+      "snippet": "",
+      "matchedWords": {
+        "RxfVPr_f6oR3": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "T-nf54SiviXd": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "Xyfd4Qv6itrf": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "Py3mzspKNBr4",
+      "address": "https://rense.com/headlines2026.htm",
+      "title": "Headlines 2026",
+      "snippet": "",
+      "matchedWords": {
+        "RxfVPr_f6oR3": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "T-nf54SiviXd": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "Xyfd4Qv6itrf": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "QlGgvNwlMN24",
+      "address": "https://metalbrutalargentino.blogspot.com/",
+      "title": "☢Metal Brutal Argentino☢",
+      "snippet": "",
+      "matchedWords": {
+        "RxfVPr_f6oR3": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "T-nf54SiviXd": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "Xyfd4Qv6itrf": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "W5uqHs-D33u5",
+      "address": "https://instapundit.com/",
+      "title": "Instapundit",
+      "snippet": "OPEN THREAD: Ring in the weekend.\nLINDSAY CLANCY FAN FINDING OUT HOLDOUT JUROR IS ‘BLACK’ MAY BE THE GREATEST THING ON THE INTERNET:\nThere are those watershed moments in internet history when it makes journalisming all worth it.",
+      "matchedWords": {
+        "RxfVPr_f6oR3": {
+          "hits": 0,
+          "textWords": 1063
+        },
+        "T-nf54SiviXd": {
+          "hits": 0,
+          "textWords": 1063
+        },
+        "Xyfd4Qv6itrf": {
+          "hits": 0,
+          "textWords": 1063
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "b08TwlDZkUL4",
+      "address": "https://www.cnet.com/",
+      "title": "CNET: Product reviews, advice, how-tos and the latest news - CNET",
+      "snippet": "Our Expertise\nFor more than 25 years, CNET has built a reputation as the premier source for trustworthy, no-nonsense reviews on everything tech – from phones to TVs to laptops to tablets to streaming services.",
+      "matchedWords": {
+        "RxfVPr_f6oR3": {
+          "hits": 0,
+          "textWords": 59
+        },
+        "T-nf54SiviXd": {
+          "hits": 0,
+          "textWords": 59
+        },
+        "Xyfd4Qv6itrf": {
+          "hits": 0,
+          "textWords": 59
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "zlyXsdDZkUL4",
+      "address": "https://www.cnet.com/home/kitchen-and-household/best-robot-vacuums-our-labs-tested-47-models-and-only-these-made-the-cut/",
+      "title": "Best Robot Vacuums We've Tested in 2026",
+      "snippet": "Finally, its slow movement, while beneficial for cleaning efficiency, means a longer run time, which could be a drawback for those who prioritize fast cleaning cycles.\nAverage sand pickup\n65.14%\nAverage coverage\n80.78%\nObject avoidance\n3 of 6\nPet hair removed\nNo\nNoise level\n57.46 LAeq",
+      "matchedWords": {
+        "RxfVPr_f6oR3": {
+          "hits": 1,
+          "textWords": 19749
+        },
+        "T-nf54SiviXd": {
+          "hits": 3,
+          "textWords": 19749
+        },
+        "Xyfd4Qv6itrf": {
+          "hits": 0,
+          "textWords": 19749
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "pYw3_AHucLY4",
+      "address": "https://adrienalfiste.vip-blog.com/",
+      "title": "adrienalfiste blog : Le blog d'Adri (83)",
+      "snippet": "",
+      "matchedWords": {
+        "RxfVPr_f6oR3": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "T-nf54SiviXd": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "Xyfd4Qv6itrf": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "OdcWutIIL7ew",
+      "address": "https://stallman.org/archives/2018-jan-apr.html",
+      "title": "2018: January - April Political Notes - Richard Stallman",
+      "snippet": "He also insisted on the foolish plan to arm lots of teachers.\n5 March 2018 (Slow-down job action) The Senate Intelligence Committee is protecting the cheater with a slow-down job action.",
+      "matchedWords": {
+        "RxfVPr_f6oR3": {
+          "hits": 2,
+          "textWords": 119955
+        },
+        "T-nf54SiviXd": {
+          "hits": 3,
+          "textWords": 119955
+        },
+        "Xyfd4Qv6itrf": {
+          "hits": 2,
+          "textWords": 119955
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "aLS5YZIRcMkY",
+      "address": "http://rigorousintuition.blogspot.com/2005/10/bill-bennett-and-great-white.html",
+      "title": "Rigorous Intuition: Bill Bennett and the Great White Brotherhood",
+      "snippet": "In the home of the brave, Jefferson turning over in his grave,\nFools glorify themselves, try to manipulate Satan. - Bob Dylan\nOdd, how many impossible, ridiculous, and morally reprehensible things are being spoken aloud these days in America.",
+      "matchedWords": {
+        "RxfVPr_f6oR3": {
+          "hits": 0,
+          "textWords": 679
+        },
+        "T-nf54SiviXd": {
+          "hits": 0,
+          "textWords": 679
+        },
+        "Xyfd4Qv6itrf": {
+          "hits": 0,
+          "textWords": 679
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "QlGgvNwlMN24",
+      "address": "https://metalbrutalargentino.blogspot.com/",
+      "title": "☢Metal Brutal Argentino☢",
+      "snippet": "",
+      "matchedWords": {
+        "RxfVPr_f6oR3": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "T-nf54SiviXd": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "Xyfd4Qv6itrf": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "hNrcdJ-bwreQ",
+      "address": "http://ace.mu.nu/",
+      "title": "Ace of Spades HQ",
+      "snippet": "I have Open Threads for both days and I will post if big news breaks, but if it doesn't -- and it probably won't, news is slow before a holiday weekend -- I'm going to take a four day weekend.\nSh0eOnHead discusses the Psychotic Cult of Lindsay\nReal quotes:",
+      "matchedWords": {
+        "RxfVPr_f6oR3": {
+          "hits": 0,
+          "textWords": 12885
+        },
+        "T-nf54SiviXd": {
+          "hits": 1,
+          "textWords": 12885
+        },
+        "Xyfd4Qv6itrf": {
+          "hits": 0,
+          "textWords": 12885
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "sX9EVn7YLxR5",
+      "address": "https://thedailymessenger.wordpress.com/",
+      "title": "The Daily Messenger (mirror) | Revealing that which is concealed. Learning about anything that resembles real freedom.",
+      "snippet": "",
+      "matchedWords": {
+        "RxfVPr_f6oR3": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "T-nf54SiviXd": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "Xyfd4Qv6itrf": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "mKjEVzAa-Sqx",
+      "address": "https://planet.freedesktop.org/",
+      "title": "planet.freedesktop.org",
+      "snippet": "",
+      "matchedWords": {
+        "RxfVPr_f6oR3": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "T-nf54SiviXd": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "Xyfd4Qv6itrf": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "WdJ2qlDmGrO5",
+      "address": "https://www.yatesgear.com/index.php?route=journal3/blog/post\u0026journal_blog_post_id=10",
+      "title": "Another Blog Post",
+      "snippet": "",
+      "matchedWords": {
+        "RxfVPr_f6oR3": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "T-nf54SiviXd": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "Xyfd4Qv6itrf": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "Dzg0VxJbjVA5",
+      "address": "https://stuffwhitepeoplelike.wordpress.com/2008/01/18/1-coffee/",
+      "title": "#1 Coffee | Stuff White People Like",
+      "snippet": "",
+      "matchedWords": {
+        "RxfVPr_f6oR3": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "T-nf54SiviXd": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "Xyfd4Qv6itrf": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "NwkcOWOXoHMQ",
+      "address": "http://acecomments.mu.nu/?post=369635",
+      "title": "Cutting The Cord: It's Easier Than You Think. I Think. I have No Idea. That's What This Post Is For",
+      "snippet": "A couple of requests....please don't recommend anything that is against the law, and please try to stick to the topic at hand, which is, obviously, guns and boobs ways to get content that don't require a cable or satellite connection, or at the very least allow one to decrease the total cost, and",
+      "matchedWords": {
+        "RxfVPr_f6oR3": {
+          "hits": 1,
+          "textWords": 1118
+        },
+        "T-nf54SiviXd": {
+          "hits": 0,
+          "textWords": 1118
+        },
+        "Xyfd4Qv6itrf": {
+          "hits": 0,
+          "textWords": 1118
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "ZbrYQsPw1BDj",
+      "address": "https://touringcarhuren-breda.nl/met-de-auto-naar-breda/",
+      "title": "",
+      "snippet": "",
+      "matchedWords": {
+        "RxfVPr_f6oR3": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "T-nf54SiviXd": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "Xyfd4Qv6itrf": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "fa4DE8QzrsJ5",
+      "address": "https://thestingofthescorpion.wordpress.com/",
+      "title": "The Sting Of The Scorpion Blog (T.S.O.T.S.B.) | …………………..Because Everything Else Just Bites!",
+      "snippet": "Do I play the blame game? Was it my fault for putting my trust in the company which pays my bills? Was it the people’s fault for being ridiculously slow? I’ll tell you what, in the end the price was right. Lesson learned, I will probably never put my faith in the service department ever again.",
+      "matchedWords": {
+        "RxfVPr_f6oR3": {
+          "hits": 0,
+          "textWords": 1080
+        },
+        "T-nf54SiviXd": {
+          "hits": 1,
+          "textWords": 1080
+        },
+        "Xyfd4Qv6itrf": {
+          "hits": 0,
+          "textWords": 1080
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "iReI-_QzrsJ5",
+      "address": "https://thestingofthescorpion.wordpress.com/tag/investigate/",
+      "title": "Investigate | The Sting Of The Scorpion Blog (T.S.O.T.S.B.)",
+      "snippet": "",
+      "matchedWords": {
+        "RxfVPr_f6oR3": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "T-nf54SiviXd": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "Xyfd4Qv6itrf": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "CyUYvsY-tUi5",
+      "address": "https://moralparty.com/Warnings/",
+      "title": "Warnings – MoralParty.com",
+      "snippet": "Since the advent of the industrial age with the steam engine around 1760, we have moved further away from nature and the deep connection to the land that we always had.",
+      "matchedWords": {
+        "RxfVPr_f6oR3": {
+          "hits": 5,
+          "textWords": 49441
+        },
+        "T-nf54SiviXd": {
+          "hits": 5,
+          "textWords": 49441
+        },
+        "Xyfd4Qv6itrf": {
+          "hits": 5,
+          "textWords": 49441
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "seSMJsY-tUi5",
+      "address": "https://moralparty.com/warnings/",
+      "title": "Warnings – MoralParty.com",
+      "snippet": "Since the advent of the industrial age with the steam engine around 1760, we have moved further away from nature and the deep connection to the land that we always had.",
+      "matchedWords": {
+        "RxfVPr_f6oR3": {
+          "hits": 5,
+          "textWords": 49441
+        },
+        "T-nf54SiviXd": {
+          "hits": 5,
+          "textWords": 49441
+        },
+        "Xyfd4Qv6itrf": {
+          "hits": 5,
+          "textWords": 49441
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "jMh26jc4UIAx",
+      "address": "https://en.wikivoyage.org/wiki/Australia",
+      "title": "Australia – Travel guide at Wikivoyage",
+      "snippet": "",
+      "matchedWords": {
+        "RxfVPr_f6oR3": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "T-nf54SiviXd": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "Xyfd4Qv6itrf": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "m5Fe6jRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Google",
+      "title": "Google - Wikipedia",
+      "snippet": "",
+      "matchedWords": {
+        "RxfVPr_f6oR3": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "T-nf54SiviXd": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "Xyfd4Qv6itrf": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "CyUYvsY-tUi5",
+      "address": "https://moralparty.com/Warnings/",
+      "title": "Warnings – MoralParty.com",
+      "snippet": "Since the advent of the industrial age with the steam engine around 1760, we have moved further away from nature and the deep connection to the land that we always had.",
+      "matchedWords": {
+        "RxfVPr_f6oR3": {
+          "hits": 5,
+          "textWords": 49441
+        },
+        "T-nf54SiviXd": {
+          "hits": 5,
+          "textWords": 49441
+        },
+        "Xyfd4Qv6itrf": {
+          "hits": 5,
+          "textWords": 49441
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "YoLBABwYpnl5",
+      "address": "https://protonvpn.com/streaming/services/amazon-prime-video",
+      "title": "Fast Amazon Prime Video streaming from anywhere | Proton VPN | Proton VPN",
+      "snippet": "",
+      "matchedWords": {
+        "RxfVPr_f6oR3": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "T-nf54SiviXd": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "Xyfd4Qv6itrf": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "Jb4XHs5IzNm6",
+      "address": "https://citizenfreepress.com/",
+      "title": "CITIZEN FREE PRESS",
+      "snippet": "Robot video is intense.\nThis may become new floating weekend headquarters for CFP.\nI just need wifi and 27 inch monitor.\nTrump approval holding at 44% at Rasmussen — See daily approval going back 12 months.\nFemale shopper pulls gun on shoplifter.",
+      "matchedWords": {
+        "RxfVPr_f6oR3": {
+          "hits": 1,
+          "textWords": 11215
+        },
+        "T-nf54SiviXd": {
+          "hits": 2,
+          "textWords": 11215
+        },
+        "Xyfd4Qv6itrf": {
+          "hits": 1,
+          "textWords": 11215
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "sX9EVn7YLxR5",
+      "address": "https://thedailymessenger.wordpress.com/",
+      "title": "The Daily Messenger (mirror) | Revealing that which is concealed. Learning about anything that resembles real freedom.",
+      "snippet": "",
+      "matchedWords": {
+        "RxfVPr_f6oR3": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "T-nf54SiviXd": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "Xyfd4Qv6itrf": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "pYw3_AHucLY4",
+      "address": "https://adrienalfiste.vip-blog.com/",
+      "title": "adrienalfiste blog : Le blog d'Adri (83)",
+      "snippet": "",
+      "matchedWords": {
+        "RxfVPr_f6oR3": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "T-nf54SiviXd": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "Xyfd4Qv6itrf": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "aLS5YZIRcMkY",
+      "address": "http://rigorousintuition.blogspot.com/2005/10/bill-bennett-and-great-white.html",
+      "title": "Rigorous Intuition: Bill Bennett and the Great White Brotherhood",
+      "snippet": "In the home of the brave, Jefferson turning over in his grave,\nFools glorify themselves, try to manipulate Satan. - Bob Dylan\nOdd, how many impossible, ridiculous, and morally reprehensible things are being spoken aloud these days in America.",
+      "matchedWords": {
+        "RxfVPr_f6oR3": {
+          "hits": 0,
+          "textWords": 679
+        },
+        "T-nf54SiviXd": {
+          "hits": 0,
+          "textWords": 679
+        },
+        "Xyfd4Qv6itrf": {
+          "hits": 0,
+          "textWords": 679
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "R5vzYsOocYRx",
+      "address": "https://murdoconline.net/",
+      "title": "MURDOCONLINE - Situs Kumpulan Game Online Terbaik Paling Populer",
+      "snippet": "",
+      "matchedWords": {
+        "RxfVPr_f6oR3": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "T-nf54SiviXd": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "Xyfd4Qv6itrf": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "-BH3WskC_rMY",
+      "address": "http://popka.blog131.fc2.com/blog-date-201006.html",
+      "title": "popka 201006",
+      "snippet": "",
+      "matchedWords": {
+        "RxfVPr_f6oR3": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "T-nf54SiviXd": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "Xyfd4Qv6itrf": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "QlGgvNwlMN24",
+      "address": "https://metalbrutalargentino.blogspot.com/",
+      "title": "☢Metal Brutal Argentino☢",
+      "snippet": "",
+      "matchedWords": {
+        "RxfVPr_f6oR3": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "T-nf54SiviXd": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "Xyfd4Qv6itrf": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "W5uqHs-D33u5",
+      "address": "https://instapundit.com/",
+      "title": "Instapundit",
+      "snippet": "OPEN THREAD: Ring in the weekend.\nLINDSAY CLANCY FAN FINDING OUT HOLDOUT JUROR IS ‘BLACK’ MAY BE THE GREATEST THING ON THE INTERNET:\nThere are those watershed moments in internet history when it makes journalisming all worth it.",
+      "matchedWords": {
+        "RxfVPr_f6oR3": {
+          "hits": 0,
+          "textWords": 1063
+        },
+        "T-nf54SiviXd": {
+          "hits": 0,
+          "textWords": 1063
+        },
+        "Xyfd4Qv6itrf": {
+          "hits": 0,
+          "textWords": 1063
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "Qw0Oas-RJCSj",
+      "address": "https://wspomozycielka-lodz.pl/?p=747",
+      "title": "OGŁOSZENIA PARAFIALNE (11.06.2023) – Parafia Matki Bożej Wspomożenia Wiernych w Łodzi",
+      "snippet": "",
+      "matchedWords": {
+        "RxfVPr_f6oR3": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "T-nf54SiviXd": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "Xyfd4Qv6itrf": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "zjU19-2Sk-24",
+      "address": "https://www.dexerto.com/archive/2024/1/",
+      "title": "Archive - January 2024 - Dexerto",
+      "snippet": "Bachelor viewers convinced Season 28’s Allison \u0026 Lauren aren’t on the show for love\nWhere to find and catch Dinossum in Palworld\nWhere to find and catch Katress in Palworld\nPokimane slams Twitch viewer for calling her “slow” over gambling debate",
+      "matchedWords": {
+        "RxfVPr_f6oR3": {
+          "hits": 3,
+          "textWords": 48383
+        },
+        "T-nf54SiviXd": {
+          "hits": 2,
+          "textWords": 48383
+        },
+        "Xyfd4Qv6itrf": {
+          "hits": 1,
+          "textWords": 48383
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "cWZdmz9qXMBw",
+      "address": "https://planet.kernel.org/",
+      "title": "Kernel Planet",
+      "snippet": "And, perhaps most importantly, TLS session resumption (replaced by pre-shared keys in TLS 1.3) somewhat defeats the purpose of the exercise - clients store state that allows them to re-establish a TLS connection without performing certificate exchange (this reduces overhead if a connection gets",
+      "matchedWords": {
+        "RxfVPr_f6oR3": {
+          "hits": 7,
+          "textWords": 36724
+        },
+        "T-nf54SiviXd": {
+          "hits": 3,
+          "textWords": 36724
+        },
+        "Xyfd4Qv6itrf": {
+          "hits": 2,
+          "textWords": 36724
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "YW3Wr9DZkUL4",
+      "address": "https://www.cnet.com/tech/services-and-software/protonvpn-review/",
+      "title": "Proton VPN Review 2025: Power User Privacy Without Sacrificing Casual Use - CNET",
+      "snippet": "",
+      "matchedWords": {
+        "RxfVPr_f6oR3": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "T-nf54SiviXd": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "Xyfd4Qv6itrf": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "b08TwlDZkUL4",
+      "address": "https://www.cnet.com/",
+      "title": "CNET: Product reviews, advice, how-tos and the latest news",
+      "snippet": "Our Expertise\nFor more than 25 years, CNET has built a reputation as the premier source for trustworthy, no-nonsense reviews on everything tech – from phones to TVs to laptops to tablets to streaming services.",
+      "matchedWords": {
+        "RxfVPr_f6oR3": {
+          "hits": 0,
+          "textWords": 59
+        },
+        "T-nf54SiviXd": {
+          "hits": 0,
+          "textWords": 59
+        },
+        "Xyfd4Qv6itrf": {
+          "hits": 0,
+          "textWords": 59
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "zlyXsdDZkUL4",
+      "address": "https://www.cnet.com/home/kitchen-and-household/best-robot-vacuums-our-labs-tested-47-models-and-only-these-made-the-cut/",
+      "title": "Best Robot Vacuums We've Tested in 2026",
+      "snippet": "Finally, its slow movement, while beneficial for cleaning efficiency, means a longer run time, which could be a drawback for those who prioritize fast cleaning cycles.\nAverage sand pickup\n65.14%\nAverage coverage\n80.78%\nObject avoidance\n3 of 6\nPet hair removed\nNo\nNoise level\n57.46 LAeq",
+      "matchedWords": {
+        "RxfVPr_f6oR3": {
+          "hits": 1,
+          "textWords": 19749
+        },
+        "T-nf54SiviXd": {
+          "hits": 3,
+          "textWords": 19749
+        },
+        "Xyfd4Qv6itrf": {
+          "hits": 0,
+          "textWords": 19749
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "SUYfNsDaBIgz",
+      "address": "https://australiantimberoil.net/",
+      "title": "australiantimberoil.net -",
+      "snippet": "Some sites even have loyalty programs that reward players with exclusive perks and free chips. In order to make the most of your experience, be sure to sign up for a secure and private WiFi connection.",
+      "matchedWords": {
+        "RxfVPr_f6oR3": {
+          "hits": 6,
+          "textWords": 101475
+        },
+        "T-nf54SiviXd": {
+          "hits": 2,
+          "textWords": 101475
+        },
+        "Xyfd4Qv6itrf": {
+          "hits": 1,
+          "textWords": 101475
+        }
+      },
+      "queryPhraseHits": 1
+    },
+    {
+      "hash": "EtPUKjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/HTTPS",
+      "title": "HTTPS - Wikipedia",
+      "snippet": "",
+      "matchedWords": {
+        "RxfVPr_f6oR3": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "T-nf54SiviXd": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "Xyfd4Qv6itrf": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "VI9YzkSKkctx",
+      "address": "https://softpanorama.org/Social/Toxic_managers/index.shtml",
+      "title": "Toxic Managers",
+      "snippet": "",
+      "matchedWords": {
+        "RxfVPr_f6oR3": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "T-nf54SiviXd": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "Xyfd4Qv6itrf": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "mbiYtWnK_Q7w",
+      "address": "https://deirdre.net/tag/writing/",
+      "title": "writing – Deirdre Saoirse Moen",
+      "snippet": "Cook Islands (Rarotonga, Aitutaki, Penrhyn) (connection on NZ)\nNorfolk Island (connection on NZ)\nNew Caledonia \u0026 Deps. (Noumea, Loyalty Islands) (connection on NZ) (planned for 2016)\nNiue (connection on NZ, but one flight per week)",
+      "matchedWords": {
+        "RxfVPr_f6oR3": {
+          "hits": 8,
+          "textWords": 120470
+        },
+        "T-nf54SiviXd": {
+          "hits": 9,
+          "textWords": 120470
+        },
+        "Xyfd4Qv6itrf": {
+          "hits": 6,
+          "textWords": 120470
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "Py3mzspKNBr4",
+      "address": "https://rense.com/headlines2026.htm",
+      "title": "Headlines 2026",
+      "snippet": "",
+      "matchedWords": {
+        "RxfVPr_f6oR3": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "T-nf54SiviXd": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "Xyfd4Qv6itrf": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "Qw0Oas-RJCSj",
+      "address": "https://wspomozycielka-lodz.pl/?p=747",
+      "title": "OGŁOSZENIA PARAFIALNE (11.06.2023) – Parafia Matki Bożej Wspomożenia Wiernych w Łodzi",
+      "snippet": "",
+      "matchedWords": {
+        "RxfVPr_f6oR3": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "T-nf54SiviXd": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "Xyfd4Qv6itrf": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "N5s5MG4QpZd5",
+      "address": "https://rv.campingworld.com/",
+      "title": "Camping World: Shop Top RVs @America's #1 RV Dealer",
+      "snippet": "",
+      "matchedWords": {
+        "RxfVPr_f6oR3": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "T-nf54SiviXd": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "Xyfd4Qv6itrf": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "sX9EVn7YLxR5",
+      "address": "https://thedailymessenger.wordpress.com/",
+      "title": "The Daily Messenger (mirror) | Revealing that which is concealed. Learning about anything that resembles real freedom.",
+      "snippet": "",
+      "matchedWords": {
+        "RxfVPr_f6oR3": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "T-nf54SiviXd": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "Xyfd4Qv6itrf": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "ETfRxdDZkUL4",
+      "address": "https://www.cnet.com/home/security/best-video-doorbell-cameras/",
+      "title": "The Best Video Doorbells of 2026: Watch Porches, Packages and More - CNET",
+      "snippet": "The Matter standard has been very slow to add video functionality and it’s just not ready for home cams of any kind yet.\nPrivacy and security\nVideo doorbells capture a lot of everyday moments and many of them store that footage in the cloud.",
+      "matchedWords": {
+        "RxfVPr_f6oR3": {
+          "hits": 2,
+          "textWords": 5285
+        },
+        "T-nf54SiviXd": {
+          "hits": 1,
+          "textWords": 5285
+        },
+        "Xyfd4Qv6itrf": {
+          "hits": 0,
+          "textWords": 5285
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "WdJ2qlDmGrO5",
+      "address": "https://www.yatesgear.com/index.php?route=journal3/blog/post\u0026journal_blog_post_id=10",
+      "title": "Another Blog Post",
+      "snippet": "",
+      "matchedWords": {
+        "RxfVPr_f6oR3": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "T-nf54SiviXd": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "Xyfd4Qv6itrf": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "kijV6sQ3XVf6",
+      "address": "https://goodnewsaboutgod.com/topics.htm",
+      "title": "Political Truth, Spiritual Life and Health, Physical Life and Health",
+      "snippet": "",
+      "matchedWords": {
+        "RxfVPr_f6oR3": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "T-nf54SiviXd": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "Xyfd4Qv6itrf": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "iReI-_QzrsJ5",
+      "address": "https://thestingofthescorpion.wordpress.com/tag/investigate/",
+      "title": "Investigate | The Sting Of The Scorpion Blog (T.S.O.T.S.B.)",
+      "snippet": "",
+      "matchedWords": {
+        "RxfVPr_f6oR3": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "T-nf54SiviXd": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "Xyfd4Qv6itrf": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "VI9YzkSKkctx",
+      "address": "https://softpanorama.org/Social/Toxic_managers/index.shtml",
+      "title": "Toxic Managers",
+      "snippet": "",
+      "matchedWords": {
+        "RxfVPr_f6oR3": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "T-nf54SiviXd": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "Xyfd4Qv6itrf": {
+          "hits": 0,
+          "textWords": 0
         }
       },
       "queryPhraseHits": 0
     }
   ],
   "documentsHeldPerQueryWord": {
-    "RxfVPr_f6oR3": 403161,
-    "T-nf54SiviXd": 289647,
-    "Ux5wpnRdB6i-": 1334805,
-    "Xyfd4Qv6itrf": 147571,
-    "aGTzidmHZDa8": 791781,
-    "oqVRpkWKjeIk": 665139
+    "RxfVPr_f6oR3": 277647,
+    "T-nf54SiviXd": 174611,
+    "Xyfd4Qv6itrf": 47516
   }
 }

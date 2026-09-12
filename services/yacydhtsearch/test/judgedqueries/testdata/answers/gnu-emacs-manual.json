@@ -1,6 +1,6 @@
 {
   "query": "gnu emacs manual",
-  "recordedAt": "2026-09-12T10:15:21Z",
+  "recordedAt": "2026-09-12T11:25:11Z",
   "itemsInTheOrderOfEachAnswer": [
     [
       {
@@ -27,22 +27,131 @@
     ],
     [
       {
-        "hash": "UTLmhjRvmBbx",
-        "address": "https://en.wikipedia.org/wiki/Bash_(Unix_shell)",
-        "title": "Bash (Unix shell) - Wikipedia",
-        "snippet": "Free Software Foundation, Inc. GNU Project. Retrieved 8 August 2025.\n↑ \"Bash Reference Manual\". case.edu. Case Western Reserve University. Retrieved 8 August 2025.\n↑ \"GNU Coreutils manual v.9.7, 15.2 printf: Format and print data\". Free Software Foundation, Inc. GNU Project.",
+        "hash": "2ZqdVzfOEiDw",
+        "address": "https://planet.gnome.org/",
+        "title": "Planet GNOME",
+        "snippet": "Two weeks ago, I released AppStream 1.2.0. This release contains a lot of great changes, but one of the most important ones concerns how media are being handled, and AppStream’s default image export format.\nAppStream is a Freedesktop metadata standard to describe software components.",
         "matchedWords": {
           "PHizVQKyaT_v": {
-            "hits": 27,
-            "textWords": 13544
+            "hits": 0,
+            "textWords": 2681
+          },
+          "di0Zq1WG3Awc": {
+            "hits": 0,
+            "textWords": 2681
+          },
+          "juD3tm0asFcU": {
+            "hits": 0,
+            "textWords": 2681
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "-t3HAjRvmBbx",
+        "address": "https://en.wikipedia.org/wiki/Firefox",
+        "title": "Firefox - Wikipedia",
+        "snippet": "309] Debian switched to branding their modified version of Firefox \"Iceweasel\" (but in 2016 switched back to Firefox), along with other Mozilla software. GNU IceCat is another derived version of Firefox distributed by the GNU Project, which maintains its separate branding.[310]",
+        "matchedWords": {
+          "PHizVQKyaT_v": {
+            "hits": 1,
+            "textWords": 18483
+          },
+          "di0Zq1WG3Awc": {
+            "hits": 0,
+            "textWords": 18483
+          },
+          "juD3tm0asFcU": {
+            "hits": 2,
+            "textWords": 18483
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "w_9jmzX55GGw",
+        "address": "https://planet.jabber.org/",
+        "title": "Planet Jabber",
+        "snippet": "The normative RFC format before RFC 8650 (late 2019) was fixed-width ASCII, 58 lines, 72 characters with manual page breaks, designed to be printed by a 1982 line printer on US Legal (even though the PDF renderings are using US Letter).",
+        "matchedWords": {
+          "PHizVQKyaT_v": {
+            "hits": 3,
+            "textWords": 4755
+          },
+          "di0Zq1WG3Awc": {
+            "hits": 0,
+            "textWords": 4755
+          },
+          "juD3tm0asFcU": {
+            "hits": 0,
+            "textWords": 4755
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "QSl7VQjpmq6Q",
+        "address": "http://www.gnu.org/home.zh-cn.html",
+        "title": "GNU 操作系统和自由软件运动",
+        "snippet": "GNU 是唯一一个专门为用户的自由而设计的操作系统。GNU 是什么，何种自由受到威胁？\n这是针对英文原版页面的中文翻译。\nGNU 是一个 自由软件 操作系统—就是说，它尊重其使用者的自由。GNU 操作系统包括 GNU 软件包（专门由 GNU 工程发布的程序）和由第三方发布的自由软件。GNU 的开发使你能够使用电脑而无需安装可能会侵害你自由的软件。\n我们建议安装这些 GNU 版本（更确切地说是，GNU/Linux 发行版），它们完全是自由软件。更多关于 GNU。\n试用 GNU/Linux\nDragora / TDE\nGuix / Plasma\nHyperbola / i3",
+        "matchedWords": {
+          "PHizVQKyaT_v": {
+            "hits": 0,
+            "textWords": 182
+          },
+          "di0Zq1WG3Awc": {
+            "hits": 0,
+            "textWords": 182
+          },
+          "juD3tm0asFcU": {
+            "hits": 28,
+            "textWords": 182
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "je0ycX3rJRBw",
+        "address": "https://ftp.gnu.org/gnu/",
+        "title": "Index of /gnu",
+        "snippet": "glpk/2020-12-16 09:25 -\ngmp/2023-07-30 09:39 -\ngnans.README2002-04-25 17:08 756\ngnash/2012-01-31 11:15 -\ngnat.README2009-04-01 12:25 227\ngnats/2015-02-26 22:05 -\ngnatsweb/2003-08-14 11:04 -\ngnome.README1999-06-20 13:12 380\ngnu-c-manual/2016-08-27 19:30 -\ngnu-crypto/2005-10-23 20:30 -",
+        "matchedWords": {
+          "PHizVQKyaT_v": {
+            "hits": 1,
+            "textWords": 2419
           },
           "di0Zq1WG3Awc": {
             "hits": 1,
-            "textWords": 13544
+            "textWords": 2419
           },
           "juD3tm0asFcU": {
-            "hits": 71,
-            "textWords": 13544
+            "hits": 6,
+            "textWords": 2419
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "QriquAK-xyJ4",
+        "address": "https://go.dev/doc/devel/weekly",
+        "title": "Weekly Snapshot History - The Go Programming Language",
+        "snippet": "Slices are better: http://code.google.com/p/go-wiki/wiki/SliceTricks Other changes: * 5l/6l/8l: correct ELFRESERVE diagnostic (thanks Anthony Martin). * 6l/8l: support OS X code signing (thanks Mikkel Krautz). * asn1: accept UTF8 strings as ASN.1 ANY values. * big: handle aliasing correctly for",
+        "matchedWords": {
+          "PHizVQKyaT_v": {
+            "hits": 2,
+            "textWords": 43354
+          },
+          "di0Zq1WG3Awc": {
+            "hits": 13,
+            "textWords": 43354
+          },
+          "juD3tm0asFcU": {
+            "hits": 3,
+            "textWords": 43354
           }
         },
         "queryPhraseHits": 0
@@ -73,49 +182,51 @@
     ],
     [
       {
-        "hash": "72qrVWVFEEow",
-        "address": "https://guix.gnu.org/manual/1.5.0/en/html_node/Substitute-Server-Authorization.html",
-        "title": "Substitute Server Authorization (GNU Guix Reference Manual)",
-        "snippet": "$ guix build emacs --dry-run The following derivations would be built: /gnu/store/yr7bnx8xwcayd6j95r2clmkdl1qh688w-emacs-24.3.drv /gnu/store/x8qsh1hlhgjx6cwsjyvybnfv2i37z23w-dbus-1.6.4.tar.gz.drv /gnu/store/1ixwp12fl950d15h2cj11c73733jay0z-alsa-lib-1.0.27.1.tar.bz2.drv",
+        "hash": "5qBCujRvmBbx",
+        "address": "https://en.wikipedia.org/wiki/GNU_Free_Documentation_License",
+        "title": "GNU Free Documentation License - Wikipedia",
+        "snippet": "The goal of invariant sections, ever since the 80s when we first made the GNU Manifesto an invariant section in the Emacs Manual, was to make sure they could not be removed.",
         "matchedWords": {
           "PHizVQKyaT_v": {
-            "hits": 0,
-            "textWords": 337
+            "hits": 3,
+            "textWords": 3346
           },
           "di0Zq1WG3Awc": {
-            "hits": 4,
-            "textWords": 337
+            "hits": 2,
+            "textWords": 3346
           },
           "juD3tm0asFcU": {
-            "hits": 14,
-            "textWords": 337
+            "hits": 40,
+            "textWords": 3346
           }
         },
-        "queryPhraseHits": 0
+        "queryPhraseHits": 1
       }
     ],
     [
       {
-        "hash": "F1-5sjRvmBbx",
-        "address": "https://en.wikipedia.org/wiki/Richard_Stallman",
-        "title": "Richard Stallman - Wikipedia",
-        "snippet": "EMACS: The Extensible, Customizable, Self-Documenting Display Editor. Cambridge, Massachusetts, USA: MIT Artificial Intelligence Laboratory publication. AIM-519A.\nStallman, Richard M. (2002). GNU Emacs Manual. Boston, Massachusetts, USA: GNU Press. ISBN 1-882114-85-X.",
+        "hash": "rAcGdsyV5lzw",
+        "address": "https://orgmode.org/",
+        "title": "Org mode for GNU Emacs",
+        "snippet": "Org mode for GNU Emacs\n☰\n[ en - es - fr - ja - 简 ]\nOrg Mode\nFeatures Releases News Install Manuals Worg (wiki) Contribute Outside Emacs\nHighlights\nFeatures\nInstall\nQuickstart\nContribute\nMobile/Web",
         "matchedWords": {
           "PHizVQKyaT_v": {
-            "hits": 3,
-            "textWords": 9105
+            "hits": 5,
+            "textWords": 846
           },
           "di0Zq1WG3Awc": {
-            "hits": 17,
-            "textWords": 9105
+            "hits": 16,
+            "textWords": 846
           },
           "juD3tm0asFcU": {
-            "hits": 101,
-            "textWords": 9105
+            "hits": 2,
+            "textWords": 846
           }
         },
-        "queryPhraseHits": 9
-      },
+        "queryPhraseHits": 1
+      }
+    ],
+    [
       {
         "hash": "gloktjRvmBbx",
         "address": "https://en.wikipedia.org/wiki/Free_software",
@@ -145,41 +256,62 @@
         "matchedWords": {
           "PHizVQKyaT_v": {
             "hits": 1,
-            "textWords": 18547
+            "textWords": 18483
           },
           "di0Zq1WG3Awc": {
             "hits": 0,
-            "textWords": 18547
+            "textWords": 18483
           },
           "juD3tm0asFcU": {
             "hits": 2,
-            "textWords": 18547
+            "textWords": 18483
           }
         },
         "queryPhraseHits": 0
+      },
+      {
+        "hash": "F1-5sjRvmBbx",
+        "address": "https://en.wikipedia.org/wiki/Richard_Stallman",
+        "title": "Richard Stallman - Wikipedia",
+        "snippet": "EMACS: The Extensible, Customizable, Self-Documenting Display Editor. Cambridge, Massachusetts, USA: MIT Artificial Intelligence Laboratory publication. AIM-519A.\nStallman, Richard M. (2002). GNU Emacs Manual. Boston, Massachusetts, USA: GNU Press. ISBN 1-882114-85-X.",
+        "matchedWords": {
+          "PHizVQKyaT_v": {
+            "hits": 3,
+            "textWords": 9105
+          },
+          "di0Zq1WG3Awc": {
+            "hits": 17,
+            "textWords": 9105
+          },
+          "juD3tm0asFcU": {
+            "hits": 101,
+            "textWords": 9105
+          }
+        },
+        "queryPhraseHits": 9
       }
     ],
     [
       {
-        "hash": "OaBXNitD2jQw",
-        "address": "https://docs.python.org/3/whatsnew/2.6.html",
-        "title": "What’s New in Python 2.6 — Python 3.14.6 documentation",
-        "snippet": "The tarfile module now supports POSIX.1-2001 (pax) tarfiles in addition to the POSIX.1-1988 (ustar) and GNU tar formats that were already supported. The default format is GNU tar; specify the format parameter to open a file using a different format:",
+        "hash": "Rx8AIs_tHst4",
+        "address": "https://dwheeler.com/oss_fs_why.html",
+        "title": "Why Open Source Software / Free Software (OSS/FS, FOSS, or FLOSS)? Look at the Numbers!",
+        "snippet": "Joomla, on the other hand, seems fine.\"\nGNU emacs / xemacs, OpenBSD. Sometimes, though this is rare, a fork produces two projects which both live on; typically each fork ends up catering to a different community. GNU emacs was forked into xemacs, resulting in two successful projects.",
         "matchedWords": {
           "PHizVQKyaT_v": {
-            "hits": 0,
-            "textWords": 16318
+            "hits": 5,
+            "textWords": 92275
           },
           "di0Zq1WG3Awc": {
-            "hits": 1,
-            "textWords": 16318
+            "hits": 6,
+            "textWords": 92275
           },
           "juD3tm0asFcU": {
-            "hits": 2,
-            "textWords": 16318
+            "hits": 373,
+            "textWords": 92275
           }
         },
-        "queryPhraseHits": 0
+        "queryPhraseHits": 4
       }
     ],
     [
@@ -228,22 +360,45 @@
     ],
     [
       {
-        "hash": "72qrVWVFEEow",
-        "address": "https://guix.gnu.org/manual/1.5.0/en/html_node/Substitute-Server-Authorization.html",
-        "title": "Substitute Server Authorization (GNU Guix Reference Manual)",
-        "snippet": "$ guix build emacs --dry-run The following derivations would be built: /gnu/store/yr7bnx8xwcayd6j95r2clmkdl1qh688w-emacs-24.3.drv /gnu/store/x8qsh1hlhgjx6cwsjyvybnfv2i37z23w-dbus-1.6.4.tar.gz.drv /gnu/store/1ixwp12fl950d15h2cj11c73733jay0z-alsa-lib-1.0.27.1.tar.bz2.drv",
+        "hash": "rAcGdsyV5lzw",
+        "address": "https://orgmode.org/",
+        "title": "Org mode for GNU Emacs",
+        "snippet": "Org mode for GNU Emacs\n☰\n[ en - es - fr - ja - 简 ]\nOrg Mode\nFeatures Releases News Install Manuals Worg (wiki) Contribute Outside Emacs\nHighlights\nFeatures\nInstall\nQuickstart\nContribute\nMobile/Web",
         "matchedWords": {
           "PHizVQKyaT_v": {
-            "hits": 0,
-            "textWords": 337
+            "hits": 5,
+            "textWords": 846
           },
           "di0Zq1WG3Awc": {
-            "hits": 4,
-            "textWords": 337
+            "hits": 16,
+            "textWords": 846
           },
           "juD3tm0asFcU": {
-            "hits": 14,
-            "textWords": 337
+            "hits": 2,
+            "textWords": 846
+          }
+        },
+        "queryPhraseHits": 1
+      }
+    ],
+    [
+      {
+        "hash": "je0ycX3rJRBw",
+        "address": "https://ftp.gnu.org/gnu/",
+        "title": "Index of /gnu",
+        "snippet": "glpk/2020-12-16 09:25 -\ngmp/2023-07-30 09:39 -\ngnans.README2002-04-25 17:08 756\ngnash/2012-01-31 11:15 -\ngnat.README2009-04-01 12:25 227\ngnats/2015-02-26 22:05 -\ngnatsweb/2003-08-14 11:04 -\ngnome.README1999-06-20 13:12 380\ngnu-c-manual/2016-08-27 19:30 -\ngnu-crypto/2005-10-23 20:30 -",
+        "matchedWords": {
+          "PHizVQKyaT_v": {
+            "hits": 1,
+            "textWords": 2419
+          },
+          "di0Zq1WG3Awc": {
+            "hits": 1,
+            "textWords": 2419
+          },
+          "juD3tm0asFcU": {
+            "hits": 6,
+            "textWords": 2419
           }
         },
         "queryPhraseHits": 0
@@ -251,25 +406,115 @@
     ],
     [
       {
-        "hash": "vFfDURrrnsyQ",
-        "address": "http://planet.gnu.org/rss20.xml",
-        "title": "",
-        "snippet": "",
+        "hash": "rAcGdsyV5lzw",
+        "address": "https://orgmode.org/",
+        "title": "Org mode for GNU Emacs",
+        "snippet": "Org mode for GNU Emacs\n☰\n[ en - es - fr - ja - 简 ]\nOrg Mode\nFeatures Releases News Install Manuals Worg (wiki) Contribute Outside Emacs\nHighlights\nFeatures\nInstall\nQuickstart\nContribute\nMobile/Web",
         "matchedWords": {
           "PHizVQKyaT_v": {
-            "hits": 0,
-            "textWords": 0
+            "hits": 5,
+            "textWords": 846
+          },
+          "di0Zq1WG3Awc": {
+            "hits": 16,
+            "textWords": 846
+          },
+          "juD3tm0asFcU": {
+            "hits": 2,
+            "textWords": 846
+          }
+        },
+        "queryPhraseHits": 1
+      }
+    ],
+    [
+      {
+        "hash": "Rx8AIs_tHst4",
+        "address": "https://dwheeler.com/oss_fs_why.html",
+        "title": "Why Open Source Software / Free Software (OSS/FS, FOSS, or FLOSS)? Look at the Numbers!",
+        "snippet": "Joomla, on the other hand, seems fine.\"\nGNU emacs / xemacs, OpenBSD. Sometimes, though this is rare, a fork produces two projects which both live on; typically each fork ends up catering to a different community. GNU emacs was forked into xemacs, resulting in two successful projects.",
+        "matchedWords": {
+          "PHizVQKyaT_v": {
+            "hits": 5,
+            "textWords": 92275
+          },
+          "di0Zq1WG3Awc": {
+            "hits": 6,
+            "textWords": 92275
+          },
+          "juD3tm0asFcU": {
+            "hits": 373,
+            "textWords": 92275
+          }
+        },
+        "queryPhraseHits": 4
+      }
+    ],
+    [
+      {
+        "hash": "rAcGdsyV5lzw",
+        "address": "https://orgmode.org/",
+        "title": "Org mode for GNU Emacs",
+        "snippet": "Org mode for GNU Emacs\n☰\n[ en - es - fr - ja - 简 ]\nOrg Mode\nFeatures Releases News Install Manuals Worg (wiki) Contribute Outside Emacs\nHighlights\nFeatures\nInstall\nQuickstart\nContribute\nMobile/Web",
+        "matchedWords": {
+          "PHizVQKyaT_v": {
+            "hits": 5,
+            "textWords": 846
+          },
+          "di0Zq1WG3Awc": {
+            "hits": 16,
+            "textWords": 846
+          },
+          "juD3tm0asFcU": {
+            "hits": 2,
+            "textWords": 846
+          }
+        },
+        "queryPhraseHits": 1
+      }
+    ],
+    [
+      {
+        "hash": "-t3HAjRvmBbx",
+        "address": "https://en.wikipedia.org/wiki/Firefox",
+        "title": "Firefox - Wikipedia",
+        "snippet": "309] Debian switched to branding their modified version of Firefox \"Iceweasel\" (but in 2016 switched back to Firefox), along with other Mozilla software. GNU IceCat is another derived version of Firefox distributed by the GNU Project, which maintains its separate branding.[310]",
+        "matchedWords": {
+          "PHizVQKyaT_v": {
+            "hits": 1,
+            "textWords": 18483
           },
           "di0Zq1WG3Awc": {
             "hits": 0,
-            "textWords": 0
+            "textWords": 18483
           },
           "juD3tm0asFcU": {
-            "hits": 193,
-            "textWords": 35866
+            "hits": 2,
+            "textWords": 18483
           }
         },
         "queryPhraseHits": 0
+      },
+      {
+        "hash": "KGUVEjRvmBbx",
+        "address": "https://en.wikipedia.org/wiki/Man_page",
+        "title": "man page - Wikipedia",
+        "snippet": "The GNU Emacs program WoMan (from \"WithOut man\") allows for browsing man pages from the editor.[11]",
+        "matchedWords": {
+          "PHizVQKyaT_v": {
+            "hits": 45,
+            "textWords": 2769
+          },
+          "di0Zq1WG3Awc": {
+            "hits": 1,
+            "textWords": 2769
+          },
+          "juD3tm0asFcU": {
+            "hits": 10,
+            "textWords": 2769
+          }
+        },
+        "queryPhraseHits": 1
       }
     ],
     [
@@ -293,100 +538,54 @@
           }
         },
         "queryPhraseHits": 4
-      },
-      {
-        "hash": "UTLmhjRvmBbx",
-        "address": "https://en.wikipedia.org/wiki/Bash_(Unix_shell)",
-        "title": "Bash (Unix shell) - Wikipedia",
-        "snippet": "Free Software Foundation, Inc. GNU Project. Retrieved 8 August 2025.\n↑ \"Bash Reference Manual\". case.edu. Case Western Reserve University. Retrieved 8 August 2025.\n↑ \"GNU Coreutils manual v.9.7, 15.2 printf: Format and print data\". Free Software Foundation, Inc. GNU Project.",
-        "matchedWords": {
-          "PHizVQKyaT_v": {
-            "hits": 27,
-            "textWords": 13544
-          },
-          "di0Zq1WG3Awc": {
-            "hits": 1,
-            "textWords": 13544
-          },
-          "juD3tm0asFcU": {
-            "hits": 71,
-            "textWords": 13544
-          }
-        },
-        "queryPhraseHits": 0
       }
     ],
     [
       {
-        "hash": "84FlxRrrnsyQ",
-        "address": "http://planet.gnu.org/",
-        "title": "Planet GNU",
-        "snippet": "scheme@(gnu home services mail)\u003e (gexp-\u003efile \"test.yaml\" $11) $12 = #\u003cprocedure 7efd8b10c2d0 at guix/gexp.scm:2098:2 (state)\u003e scheme@(gnu home services mail)\u003e ,use (guix) scheme@(gnu home services mail)\u003e ,run-in-store $12 $13 = #\u003cderivation /gnu/store/z59sf3nhh80668z8njljfxcymgi071pr-test.yaml.drv",
+        "hash": "0WCDDjRvmBbx",
+        "address": "https://en.wikipedia.org/wiki/Conkeror",
+        "title": "Conkeror - Wikipedia",
+        "snippet": "Web browser\nLicense\nGNU GPL, GNU LGPL and MPL\nWebsite\nconkeror\n.org\nConkeror is a Mozilla-based web browser designed to be navigated primarily by a computer keyboard. Its design is mainly patterned after the text editor GNU Emacs, with some influence from other programs, including vi.[2]",
         "matchedWords": {
           "PHizVQKyaT_v": {
             "hits": 1,
-            "textWords": 4834
+            "textWords": 1000
           },
           "di0Zq1WG3Awc": {
-            "hits": 0,
-            "textWords": 4834
+            "hits": 10,
+            "textWords": 1000
           },
           "juD3tm0asFcU": {
-            "hits": 56,
-            "textWords": 4834
+            "hits": 5,
+            "textWords": 1000
           }
         },
-        "queryPhraseHits": 0
-      }
-    ],
-    [
-      {
-        "hash": "RnRgX8-xq5l4",
-        "address": "https://cygwin.com/faq/faq.html",
-        "title": "Cygwin FAQ",
-        "snippet": "See also BLODA for a list of applications that have been known, at one time or another, to interfere with the normal functioning of Cygwin.\n4.36.\nIs there a Cygwin port of GNU Emacs?\nYes. Install the emacs package. This provides everything you need in order to run GNU emacs in a terminal window.",
-        "matchedWords": {
-          "PHizVQKyaT_v": {
-            "hits": 2,
-            "textWords": 22245
-          },
-          "di0Zq1WG3Awc": {
-            "hits": 9,
-            "textWords": 22245
-          },
-          "juD3tm0asFcU": {
-            "hits": 14,
-            "textWords": 22245
-          }
-        },
-        "queryPhraseHits": 3
-      }
-    ],
-    [
-      {
-        "hash": "VJM4o7R6-xlR",
-        "address": "http://zackmdavis.net/blog/",
-        "title": "An Algorithmic Lucidity",
-        "snippet": "zmd@SuddenHeap:~/Code/Secret_Key_Attack_Demo$ ssh -i attacker_id_rsa victim@supersecurebank.com Welcome to Ubuntu 14.04 LTS (GNU/Linux 3.13.0-30-generic x86_64) * Documentation: https://help.ubuntu.com/ System information as of Mon Aug 4 00:23:37 UTC 2014 System load: 0.0 Processes: 92 Usage of /:",
-        "matchedWords": {
-          "PHizVQKyaT_v": {
-            "hits": 2,
-            "textWords": 45415
-          },
-          "di0Zq1WG3Awc": {
-            "hits": 0,
-            "textWords": 45415
-          },
-          "juD3tm0asFcU": {
-            "hits": 1,
-            "textWords": 45415
-          }
-        },
-        "queryPhraseHits": 0
+        "queryPhraseHits": 1
       }
     ]
   ],
   "itemsInNoOrder": [
+    {
+      "hash": "C1Wyrs1_farg",
+      "address": "https://ar.al/",
+      "title": "Aral Balkan",
+      "snippet": "Pre-June\nThe posts below are highlights from the previous version of this site.\n2018\n23\nMayMy opening intervention at General Assembly in Berlin (“tolerance cannot tolerate intolerance”)\n2017\n29",
+      "matchedWords": {
+        "PHizVQKyaT_v": {
+          "hits": 0,
+          "textWords": 130
+        },
+        "di0Zq1WG3Awc": {
+          "hits": 0,
+          "textWords": 130
+        },
+        "juD3tm0asFcU": {
+          "hits": 0,
+          "textWords": 130
+        }
+      },
+      "queryPhraseHits": 0
+    },
     {
       "hash": "AonnkjRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Perl",
@@ -409,25 +608,361 @@
       "queryPhraseHits": 0
     },
     {
-      "hash": "73Hl4TCAF_G4",
-      "address": "https://files.spritely.institute/papers/scheme-primer.html",
-      "title": "A Scheme Primer",
-      "snippet": "Guile Scheme + GNU Emacs + Geiser: this is what this tutorial was written using, and is a powerful option (which also opens the door to working with Guix, one of the most interesting Scheme projects out there). However, it is also a path with a considerable learning curve.",
+      "hash": "DEUnajRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/List_of_programming_languages_by_type",
+      "title": "List of programming languages by type - Wikipedia",
+      "snippet": "These languages assist with generating lexical analyzers and parsers for context-free grammars.\nANTLR\nCoco/R (EBNF with semantics)\nGNU bison (FSF's version of Yacc)\nGNU Flex (FSF version of Lex)\nJavaCC\nlex (Lexical Analysis, from Bell Labs)\nM4\nParsing expression grammar (PEG)\nProlog\nEmacs Lisp\nLisp",
+      "matchedWords": {
+        "PHizVQKyaT_v": {
+          "hits": 3,
+          "textWords": 7157
+        },
+        "di0Zq1WG3Awc": {
+          "hits": 10,
+          "textWords": 7157
+        },
+        "juD3tm0asFcU": {
+          "hits": 6,
+          "textWords": 7157
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "C1Wyrs1_farg",
+      "address": "https://ar.al/",
+      "title": "Aral Balkan",
+      "snippet": "Pre-June\nThe posts below are highlights from the previous version of this site.\n2018\n23\nMayMy opening intervention at General Assembly in Berlin (“tolerance cannot tolerate intolerance”)\n2017\n29",
+      "matchedWords": {
+        "PHizVQKyaT_v": {
+          "hits": 0,
+          "textWords": 130
+        },
+        "di0Zq1WG3Awc": {
+          "hits": 0,
+          "textWords": 130
+        },
+        "juD3tm0asFcU": {
+          "hits": 0,
+          "textWords": 130
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "rBG8Oh3e0QFx",
+      "address": "https://commons.wikimedia.org/wiki/Category:Web_browsers",
+      "title": "Category:Web browsers - Wikimedia Commons",
+      "snippet": "From Wikimedia Commons, the free media repository\nInternationalization\nEesti: Veebilehitsejad\nEsperanto: TTT-legiloj\nМакедонски: Прелистувачи\nweb browser\nsoftware application for retrieving, presenting, and traversing information resources on the World Wide Web\nUpload media\nWikipedia\nWikiversity",
+      "matchedWords": {
+        "PHizVQKyaT_v": {
+          "hits": 0,
+          "textWords": 555
+        },
+        "di0Zq1WG3Awc": {
+          "hits": 0,
+          "textWords": 555
+        },
+        "juD3tm0asFcU": {
+          "hits": 0,
+          "textWords": 555
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "HiNfCs5tr8M4",
+      "address": "https://leanpub.com/",
+      "title": "Leanpub: Publish Early, Publish Often",
+      "snippet": "Featured \u0026 Recommended Books\nSign in for recommendations based on your library\nFeatured \u0026 Recommended Courses\nSign in for recommendations based on your library\nFeatured across all of Leanpub\nFeatured Leanpub Course\nGenerative AI in a Nutshell\nHow to Survive and Thrive in the Age of AI",
+      "matchedWords": {
+        "PHizVQKyaT_v": {
+          "hits": 0,
+          "textWords": 3079
+        },
+        "di0Zq1WG3Awc": {
+          "hits": 0,
+          "textWords": 3079
+        },
+        "juD3tm0asFcU": {
+          "hits": 0,
+          "textWords": 3079
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "ILpP4B69iSD4",
+      "address": "https://nicholas.carlini.com/writing/2024/how-i-use-ai.html",
+      "title": "How I Use \"AI\"",
+      "snippet": "I found online someone who had written something to do this in C, and had a bunch of statements like #define KEYNAME key_code I wanted to convert these into a python dictionary mapping the integer codes to the corresponding strings.\nNow I'm an emacs person. I know how to solve this in emacs.",
+      "matchedWords": {
+        "PHizVQKyaT_v": {
+          "hits": 7,
+          "textWords": 81063
+        },
+        "di0Zq1WG3Awc": {
+          "hits": 5,
+          "textWords": 81063
+        },
+        "juD3tm0asFcU": {
+          "hits": 3,
+          "textWords": 81063
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "Kmk49sMaUr46",
+      "address": "https://gnuworldorder.info/",
+      "title": "Gnu World Order",
+      "snippet": "m4a b4e03cc7f1d75635a4ded6bc4771d5e2071be9c622f882e7c2e15b3954e355ce\nLinks:\nAkonadi\nKtown\nGNU Emacs, the beginning and ending of the E software series of Slackware.\nspx d293264d3c0504ad53ff4a98c3d89d1146bc0bd7f7601430a451bdb708df14ab",
+      "matchedWords": {
+        "PHizVQKyaT_v": {
+          "hits": 3,
+          "textWords": 16049
+        },
+        "di0Zq1WG3Awc": {
+          "hits": 9,
+          "textWords": 16049
+        },
+        "juD3tm0asFcU": {
+          "hits": 51,
+          "textWords": 16049
+        }
+      },
+      "queryPhraseHits": 2
+    },
+    {
+      "hash": "lN9DCbR2NVbw",
+      "address": "https://devguide.python.org/documentation/markup/",
+      "title": "reStructuredText markup",
+      "snippet": ".. seealso:: Module :mod:`zipfile` Documentation of the :mod:`zipfile` standard module. `GNU tar manual, Basic Tar Format \u003chttp://link\u003e`_ Documentation for tar archive files, including GNU tar extensions.\nrubric",
+      "matchedWords": {
+        "PHizVQKyaT_v": {
+          "hits": 4,
+          "textWords": 6025
+        },
+        "di0Zq1WG3Awc": {
+          "hits": 1,
+          "textWords": 6025
+        },
+        "juD3tm0asFcU": {
+          "hits": 2,
+          "textWords": 6025
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "QdW-xjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/GNU_General_Public_License",
+      "title": "GNU General Public License - Wikipedia",
+      "snippet": "The original GPL was written by Richard Stallman in 1989 for use with programs released as part of the GNU Project. The license was based on unifying similar licenses used for early versions of the GNU Emacs text editor, the GNU Debugger, and the GNU C Compiler.[",
+      "matchedWords": {
+        "PHizVQKyaT_v": {
+          "hits": 3,
+          "textWords": 15807
+        },
+        "di0Zq1WG3Awc": {
+          "hits": 7,
+          "textWords": 15807
+        },
+        "juD3tm0asFcU": {
+          "hits": 150,
+          "textWords": 15807
+        }
+      },
+      "queryPhraseHits": 5
+    },
+    {
+      "hash": "zPsYJjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Linux",
+      "title": "Linux - Wikipedia",
+      "snippet": "For example, regular expressions are supported in programs like grep and locate, the traditional Unix message transfer agent Sendmail contains its own Turing complete scripting system, and the advanced text editor GNU Emacs is built around a general purpose Lisp interpreter.[169][170][171]",
       "matchedWords": {
         "PHizVQKyaT_v": {
           "hits": 1,
-          "textWords": 9859
+          "textWords": 11216
         },
         "di0Zq1WG3Awc": {
           "hits": 2,
-          "textWords": 9859
+          "textWords": 11216
         },
         "juD3tm0asFcU": {
-          "hits": 1,
-          "textWords": 9859
+          "hits": 85,
+          "textWords": 11216
         }
       },
       "queryPhraseHits": 1
+    },
+    {
+      "hash": "LRfNwzmvZD7w",
+      "address": "https://planet.opensuse.org/",
+      "title": "Global - openSUSE Planet",
+      "snippet": "Two weeks ago, I released AppStream 1.2.0. This release contains a lot of great changes, but one of the most important ones concerns how media are being handled, and AppStream’s default image export format.\nAppStream is a Freedesktop metadata standard to describe software components.",
+      "matchedWords": {
+        "PHizVQKyaT_v": {
+          "hits": 0,
+          "textWords": 2681
+        },
+        "di0Zq1WG3Awc": {
+          "hits": 0,
+          "textWords": 2681
+        },
+        "juD3tm0asFcU": {
+          "hits": 0,
+          "textWords": 2681
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "FIRH00oB9UFw",
+      "address": "https://docs-archive.freebsd.org/44doc/",
+      "title": "4.4BSD Documents",
+      "snippet": "USD:12 An Introduction to Display Editing with Vi (Postscript, PDF, ASCII)\nThe document to learn to use the vi screen editor.\nUSD:13 Vi Reference Manual (Postscript, PDF, ASCII)\nThe definitive reference for the nvi editor.\nUSD:14 Jove Manual for UNIX Users",
+      "matchedWords": {
+        "PHizVQKyaT_v": {
+          "hits": 14,
+          "textWords": 2429
+        },
+        "di0Zq1WG3Awc": {
+          "hits": 1,
+          "textWords": 2429
+        },
+        "juD3tm0asFcU": {
+          "hits": 1,
+          "textWords": 2429
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "GvUBmisE1LOw",
+      "address": "https://devmanual.gentoo.org/",
+      "title": "Master index – Gentoo Development Guide",
+      "snippet": "Privacy Policy\nCopyright (C) 2001-2026 Gentoo Authors\nGentoo is a trademark of the Gentoo Foundation, Inc. and of Förderverein Gentoo e.V. The text of this document is distributed under the CC-BY-SA-4.0 license. The Gentoo Name and Logo Usage Guidelines apply.",
+      "matchedWords": {
+        "PHizVQKyaT_v": {
+          "hits": 0,
+          "textWords": 40
+        },
+        "di0Zq1WG3Awc": {
+          "hits": 0,
+          "textWords": 40
+        },
+        "juD3tm0asFcU": {
+          "hits": 0,
+          "textWords": 40
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "eE-MAxtQ-zSx",
+      "address": "https://wiki.archlinux.org/title/Systemd",
+      "title": "systemd - ArchWiki",
+      "snippet": "See #Socket activation for more details.\nA search pattern can be appended to a lot of commands, making the use of grep unnecessary. For example, you can search the manual by executing systemctl help 'dbus*', or list specific units with systemctl list-units 'dbus*'.\nAction\nCommand\nNote",
+      "matchedWords": {
+        "PHizVQKyaT_v": {
+          "hits": 3,
+          "textWords": 6888
+        },
+        "di0Zq1WG3Awc": {
+          "hits": 1,
+          "textWords": 6888
+        },
+        "juD3tm0asFcU": {
+          "hits": 0,
+          "textWords": 6888
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "zTCfkxtQ-zSx",
+      "address": "https://wiki.archlinux.org/title/List_of_applications/Internet",
+      "title": "List of applications/Internet - ArchWiki",
+      "snippet": "https://thelounge.chat/ || theloungeAUR\nXMPP clients\nSee also: Wikipedia:XMPP\nConsole\nFreetalk — Console-based XMPP client.\nhttps://www.gnu.org/software/freetalk/ || freetalkAUR\njabber.el — Minimal XMPP client for Emacs.\nhttps://emacs-jabber.sourceforge.net/ || emacs-jabberAUR",
+      "matchedWords": {
+        "PHizVQKyaT_v": {
+          "hits": 2,
+          "textWords": 12598
+        },
+        "di0Zq1WG3Awc": {
+          "hits": 12,
+          "textWords": 12598
+        },
+        "juD3tm0asFcU": {
+          "hits": 15,
+          "textWords": 12598
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "C1Wyrs1_farg",
+      "address": "https://ar.al/",
+      "title": "Aral Balkan",
+      "snippet": "Pre-June\nThe posts below are highlights from the previous version of this site.\n2018\n23\nMayMy opening intervention at General Assembly in Berlin (“tolerance cannot tolerate intolerance”)\n2017\n29",
+      "matchedWords": {
+        "PHizVQKyaT_v": {
+          "hits": 0,
+          "textWords": 130
+        },
+        "di0Zq1WG3Awc": {
+          "hits": 0,
+          "textWords": 130
+        },
+        "juD3tm0asFcU": {
+          "hits": 0,
+          "textWords": 130
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "HiNfCs5tr8M4",
+      "address": "https://leanpub.com/",
+      "title": "Leanpub: Publish Early, Publish Often",
+      "snippet": "Featured \u0026 Recommended Books\nSign in for recommendations based on your library\nFeatured \u0026 Recommended Courses\nSign in for recommendations based on your library\nFeatured across all of Leanpub\nFeatured Leanpub Course\nGenerative AI in a Nutshell\nHow to Survive and Thrive in the Age of AI",
+      "matchedWords": {
+        "PHizVQKyaT_v": {
+          "hits": 0,
+          "textWords": 3079
+        },
+        "di0Zq1WG3Awc": {
+          "hits": 0,
+          "textWords": 3079
+        },
+        "juD3tm0asFcU": {
+          "hits": 0,
+          "textWords": 3079
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "ILpP4B69iSD4",
+      "address": "https://nicholas.carlini.com/writing/2024/how-i-use-ai.html",
+      "title": "How I Use \"AI\"",
+      "snippet": "I found online someone who had written something to do this in C, and had a bunch of statements like #define KEYNAME key_code I wanted to convert these into a python dictionary mapping the integer codes to the corresponding strings.\nNow I'm an emacs person. I know how to solve this in emacs.",
+      "matchedWords": {
+        "PHizVQKyaT_v": {
+          "hits": 7,
+          "textWords": 81063
+        },
+        "di0Zq1WG3Awc": {
+          "hits": 5,
+          "textWords": 81063
+        },
+        "juD3tm0asFcU": {
+          "hits": 3,
+          "textWords": 81063
+        }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "QnfPVsI9I2Th",
@@ -451,25 +986,25 @@
       "queryPhraseHits": 2
     },
     {
-      "hash": "KGUVEjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Man_page",
-      "title": "man page - Wikipedia",
-      "snippet": "The GNU Emacs program WoMan (from \"WithOut man\") allows for browsing man pages from the editor.[11]",
+      "hash": "Kmk49sMaUr46",
+      "address": "https://gnuworldorder.info/",
+      "title": "Gnu World Order",
+      "snippet": "m4a b4e03cc7f1d75635a4ded6bc4771d5e2071be9c622f882e7c2e15b3954e355ce\nLinks:\nAkonadi\nKtown\nGNU Emacs, the beginning and ending of the E software series of Slackware.\nspx d293264d3c0504ad53ff4a98c3d89d1146bc0bd7f7601430a451bdb708df14ab",
       "matchedWords": {
         "PHizVQKyaT_v": {
-          "hits": 45,
-          "textWords": 2769
+          "hits": 3,
+          "textWords": 16049
         },
         "di0Zq1WG3Awc": {
-          "hits": 1,
-          "textWords": 2769
+          "hits": 9,
+          "textWords": 16049
         },
         "juD3tm0asFcU": {
-          "hits": 10,
-          "textWords": 2769
+          "hits": 51,
+          "textWords": 16049
         }
       },
-      "queryPhraseHits": 1
+      "queryPhraseHits": 2
     },
     {
       "hash": "QdW-xjRvmBbx",
@@ -535,30 +1070,9 @@
       "queryPhraseHits": 5
     },
     {
-      "hash": "Rx8AIs_tHst4",
-      "address": "https://dwheeler.com/oss_fs_why.html",
-      "title": "Why Open Source Software / Free Software (OSS/FS, FOSS, or FLOSS)? Look at the Numbers!",
-      "snippet": "Joomla, on the other hand, seems fine.\"\nGNU emacs / xemacs, OpenBSD. Sometimes, though this is rare, a fork produces two projects which both live on; typically each fork ends up catering to a different community. GNU emacs was forked into xemacs, resulting in two successful projects.",
-      "matchedWords": {
-        "PHizVQKyaT_v": {
-          "hits": 5,
-          "textWords": 92275
-        },
-        "di0Zq1WG3Awc": {
-          "hits": 6,
-          "textWords": 92275
-        },
-        "juD3tm0asFcU": {
-          "hits": 373,
-          "textWords": 92275
-        }
-      },
-      "queryPhraseHits": 4
-    },
-    {
-      "hash": "2ZqdVzfOEiDw",
-      "address": "https://planet.gnome.org/",
-      "title": "Planet GNOME",
+      "hash": "LRfNwzmvZD7w",
+      "address": "https://planet.opensuse.org/",
+      "title": "Global - openSUSE Planet",
       "snippet": "Two weeks ago, I released AppStream 1.2.0. This release contains a lot of great changes, but one of the most important ones concerns how media are being handled, and AppStream’s default image export format.\nAppStream is a Freedesktop metadata standard to describe software components.",
       "matchedWords": {
         "PHizVQKyaT_v": {
@@ -577,22 +1091,43 @@
       "queryPhraseHits": 0
     },
     {
-      "hash": "SV9QKjhVvkiw",
-      "address": "https://dianne.skoll.ca/projects/remind/",
-      "title": "Dianne Skoll's Web Site - Remind - Software Projects",
-      "snippet": "Residents of Jurisdictions with Age-Verification Laws\nIf you are a resident of a jurisdiction with age-verification laws, please read this very important notice.\nLicense\nRemind is Free Software, licensed under the terms of the GNU General Public License, Version 2\nDownload Remind",
+      "hash": "FIRH00oB9UFw",
+      "address": "https://docs-archive.freebsd.org/44doc/",
+      "title": "4.4BSD Documents",
+      "snippet": "USD:12 An Introduction to Display Editing with Vi (Postscript, PDF, ASCII)\nThe document to learn to use the vi screen editor.\nUSD:13 Vi Reference Manual (Postscript, PDF, ASCII)\nThe definitive reference for the nvi editor.\nUSD:14 Jove Manual for UNIX Users",
       "matchedWords": {
         "PHizVQKyaT_v": {
-          "hits": 3,
-          "textWords": 894
+          "hits": 14,
+          "textWords": 2429
         },
         "di0Zq1WG3Awc": {
           "hits": 1,
-          "textWords": 894
+          "textWords": 2429
         },
         "juD3tm0asFcU": {
           "hits": 1,
-          "textWords": 894
+          "textWords": 2429
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "GvUBmisE1LOw",
+      "address": "https://devmanual.gentoo.org/",
+      "title": "Master index – Gentoo Development Guide",
+      "snippet": "Privacy Policy\nCopyright (C) 2001-2026 Gentoo Authors\nGentoo is a trademark of the Gentoo Foundation, Inc. and of Förderverein Gentoo e.V. The text of this document is distributed under the CC-BY-SA-4.0 license. The Gentoo Name and Logo Usage Guidelines apply.",
+      "matchedWords": {
+        "PHizVQKyaT_v": {
+          "hits": 0,
+          "textWords": 40
+        },
+        "di0Zq1WG3Awc": {
+          "hits": 0,
+          "textWords": 40
+        },
+        "juD3tm0asFcU": {
+          "hits": 0,
+          "textWords": 40
         }
       },
       "queryPhraseHits": 0
@@ -614,6 +1149,27 @@
         "juD3tm0asFcU": {
           "hits": 3,
           "textWords": 2467
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "LRfNwzmvZD7w",
+      "address": "https://planet.opensuse.org/",
+      "title": "Global - openSUSE Planet",
+      "snippet": "Two weeks ago, I released AppStream 1.2.0. This release contains a lot of great changes, but one of the most important ones concerns how media are being handled, and AppStream’s default image export format.\nAppStream is a Freedesktop metadata standard to describe software components.",
+      "matchedWords": {
+        "PHizVQKyaT_v": {
+          "hits": 0,
+          "textWords": 2681
+        },
+        "di0Zq1WG3Awc": {
+          "hits": 0,
+          "textWords": 2681
+        },
+        "juD3tm0asFcU": {
+          "hits": 0,
+          "textWords": 2681
         }
       },
       "queryPhraseHits": 0
@@ -682,27 +1238,6 @@
       "queryPhraseHits": 0
     },
     {
-      "hash": "KGUVEjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Man_page",
-      "title": "man page - Wikipedia",
-      "snippet": "The GNU Emacs program WoMan (from \"WithOut man\") allows for browsing man pages from the editor.[11]",
-      "matchedWords": {
-        "PHizVQKyaT_v": {
-          "hits": 45,
-          "textWords": 2769
-        },
-        "di0Zq1WG3Awc": {
-          "hits": 1,
-          "textWords": 2769
-        },
-        "juD3tm0asFcU": {
-          "hits": 10,
-          "textWords": 2769
-        }
-      },
-      "queryPhraseHits": 1
-    },
-    {
       "hash": "zPsYJjRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Linux",
       "title": "Linux - Wikipedia",
@@ -745,25 +1280,46 @@
       "queryPhraseHits": 5
     },
     {
-      "hash": "QriquAK-xyJ4",
-      "address": "https://go.dev/doc/devel/weekly",
-      "title": "Weekly Snapshot History - The Go Programming Language",
-      "snippet": "Slices are better: http://code.google.com/p/go-wiki/wiki/SliceTricks Other changes: * 5l/6l/8l: correct ELFRESERVE diagnostic (thanks Anthony Martin). * 6l/8l: support OS X code signing (thanks Mikkel Krautz). * asn1: accept UTF8 strings as ASN.1 ANY values. * big: handle aliasing correctly for",
+      "hash": "ILpP4B69iSD4",
+      "address": "https://nicholas.carlini.com/writing/2024/how-i-use-ai.html",
+      "title": "How I Use \"AI\"",
+      "snippet": "I found online someone who had written something to do this in C, and had a bunch of statements like #define KEYNAME key_code I wanted to convert these into a python dictionary mapping the integer codes to the corresponding strings.\nNow I'm an emacs person. I know how to solve this in emacs.",
       "matchedWords": {
         "PHizVQKyaT_v": {
-          "hits": 2,
-          "textWords": 43354
+          "hits": 7,
+          "textWords": 81063
         },
         "di0Zq1WG3Awc": {
-          "hits": 13,
-          "textWords": 43354
+          "hits": 5,
+          "textWords": 81063
         },
         "juD3tm0asFcU": {
           "hits": 3,
-          "textWords": 43354
+          "textWords": 81063
         }
       },
       "queryPhraseHits": 0
+    },
+    {
+      "hash": "Kmk49sMaUr46",
+      "address": "https://gnuworldorder.info/",
+      "title": "Gnu World Order",
+      "snippet": "m4a b4e03cc7f1d75635a4ded6bc4771d5e2071be9c622f882e7c2e15b3954e355ce\nLinks:\nAkonadi\nKtown\nGNU Emacs, the beginning and ending of the E software series of Slackware.\nspx d293264d3c0504ad53ff4a98c3d89d1146bc0bd7f7601430a451bdb708df14ab",
+      "matchedWords": {
+        "PHizVQKyaT_v": {
+          "hits": 3,
+          "textWords": 16049
+        },
+        "di0Zq1WG3Awc": {
+          "hits": 9,
+          "textWords": 16049
+        },
+        "juD3tm0asFcU": {
+          "hits": 51,
+          "textWords": 16049
+        }
+      },
+      "queryPhraseHits": 2
     },
     {
       "hash": "QdW-xjRvmBbx",
@@ -808,22 +1364,22 @@
       "queryPhraseHits": 0
     },
     {
-      "hash": "SV9QKjhVvkiw",
-      "address": "https://dianne.skoll.ca/projects/remind/",
-      "title": "Dianne Skoll's Web Site - Remind - Software Projects",
-      "snippet": "Residents of Jurisdictions with Age-Verification Laws\nIf you are a resident of a jurisdiction with age-verification laws, please read this very important notice.\nLicense\nRemind is Free Software, licensed under the terms of the GNU General Public License, Version 2\nDownload Remind",
+      "hash": "84FlxRrrnsyQ",
+      "address": "http://planet.gnu.org/",
+      "title": "Planet GNU",
+      "snippet": "scheme@(gnu home services mail)\u003e (gexp-\u003efile \"test.yaml\" $11) $12 = #\u003cprocedure 7efd8b10c2d0 at guix/gexp.scm:2098:2 (state)\u003e scheme@(gnu home services mail)\u003e ,use (guix) scheme@(gnu home services mail)\u003e ,run-in-store $12 $13 = #\u003cderivation /gnu/store/z59sf3nhh80668z8njljfxcymgi071pr-test.yaml.drv",
       "matchedWords": {
         "PHizVQKyaT_v": {
-          "hits": 3,
-          "textWords": 894
+          "hits": 1,
+          "textWords": 4834
         },
         "di0Zq1WG3Awc": {
-          "hits": 1,
-          "textWords": 894
+          "hits": 0,
+          "textWords": 4834
         },
         "juD3tm0asFcU": {
-          "hits": 1,
-          "textWords": 894
+          "hits": 56,
+          "textWords": 4834
         }
       },
       "queryPhraseHits": 0
@@ -871,48 +1427,6 @@
       "queryPhraseHits": 0
     },
     {
-      "hash": "BjVrrjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Mozilla_Firefox",
-      "title": "Firefox - Wikipedia",
-      "snippet": "309] Debian switched to branding their modified version of Firefox \"Iceweasel\" (but in 2016 switched back to Firefox), along with other Mozilla software. GNU IceCat is another derived version of Firefox distributed by the GNU Project, which maintains its separate branding.[310]",
-      "matchedWords": {
-        "PHizVQKyaT_v": {
-          "hits": 1,
-          "textWords": 18480
-        },
-        "di0Zq1WG3Awc": {
-          "hits": 0,
-          "textWords": 18480
-        },
-        "juD3tm0asFcU": {
-          "hits": 2,
-          "textWords": 18480
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "FZ5ZijRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/List_of_free_and_open-source_software_packages",
-      "title": "List of free and open-source software packages - Wikipedia",
-      "snippet": "KDevelop\nLazarus\nMCU 8051 IDE\nNetBeans\nPadre\nPharo\nPoplog\nPyDev\nQt Creator\nSLIME\nSpyder\nTheIDE\nVisualFBEditor\nZeroBrane Studio\nSource code editors\n[edit]\nAcme\nAtom\nBluefish\nBrackets\nECCE\ned\nElvis\nGNU Emacs\nExtensible Versatile Editor (EVE)\nFeatherPad\nGeany\ngedit\nGNOME Text Editor\nJED\njEdit\nJOVE",
-      "matchedWords": {
-        "PHizVQKyaT_v": {
-          "hits": 1,
-          "textWords": 8085
-        },
-        "di0Zq1WG3Awc": {
-          "hits": 1,
-          "textWords": 8085
-        },
-        "juD3tm0asFcU": {
-          "hits": 35,
-          "textWords": 8085
-        }
-      },
-      "queryPhraseHits": 1
-    },
-    {
       "hash": "KgBwHjRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Regular_expression",
       "title": "Regular expression - Wikipedia",
@@ -1018,67 +1532,88 @@
       "queryPhraseHits": 1
     },
     {
-      "hash": "5qBCujRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/GNU_Free_Documentation_License",
-      "title": "GNU Free Documentation License - Wikipedia",
-      "snippet": "The goal of invariant sections, ever since the 80s when we first made the GNU Manifesto an invariant section in the Emacs Manual, was to make sure they could not be removed.",
+      "hash": "X3LnqlXHmKFw",
+      "address": "https://www.fsf.org/sitemap",
+      "title": "— Free Software Foundation — Working together for free software",
+      "snippet": "",
       "matchedWords": {
         "PHizVQKyaT_v": {
-          "hits": 3,
-          "textWords": 3346
+          "hits": 0,
+          "textWords": 0
         },
         "di0Zq1WG3Awc": {
-          "hits": 2,
-          "textWords": 3346
+          "hits": 0,
+          "textWords": 0
         },
         "juD3tm0asFcU": {
-          "hits": 40,
-          "textWords": 3346
-        }
-      },
-      "queryPhraseHits": 1
-    },
-    {
-      "hash": "kQwWXobrsZjx",
-      "address": "https://www.mediawiki.org/wiki/Extension:SyntaxHighlight_GeSHi",
-      "title": "Extension:SyntaxHighlight - MediaWiki",
-      "snippet": "For syntax highlighting in wikitext editors, such as the source editor, see the CodeMirror extension or the userscripts of Remember the dot and Cacycle.\nMediaWiki extensions manual\nSyntaxHighlight\nRelease status: stable\nImplementation\nTag\nDescription",
-      "matchedWords": {
-        "PHizVQKyaT_v": {
-          "hits": 1,
-          "textWords": 3321
-        },
-        "di0Zq1WG3Awc": {
-          "hits": 1,
-          "textWords": 3321
-        },
-        "juD3tm0asFcU": {
-          "hits": 1,
-          "textWords": 3321
+          "hits": 0,
+          "textWords": 0
         }
       },
       "queryPhraseHits": 0
     },
     {
-      "hash": "5qBCujRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/GNU_Free_Documentation_License",
-      "title": "GNU Free Documentation License - Wikipedia",
-      "snippet": "The goal of invariant sections, ever since the 80s when we first made the GNU Manifesto an invariant section in the Emacs Manual, was to make sure they could not be removed.",
+      "hash": "FIRH00oB9UFw",
+      "address": "https://docs-archive.freebsd.org/44doc/",
+      "title": "4.4BSD Documents",
+      "snippet": "USD:12 An Introduction to Display Editing with Vi (Postscript, PDF, ASCII)\nThe document to learn to use the vi screen editor.\nUSD:13 Vi Reference Manual (Postscript, PDF, ASCII)\nThe definitive reference for the nvi editor.\nUSD:14 Jove Manual for UNIX Users",
       "matchedWords": {
         "PHizVQKyaT_v": {
-          "hits": 3,
-          "textWords": 3346
+          "hits": 14,
+          "textWords": 2429
         },
         "di0Zq1WG3Awc": {
-          "hits": 2,
-          "textWords": 3346
+          "hits": 1,
+          "textWords": 2429
         },
         "juD3tm0asFcU": {
-          "hits": 40,
-          "textWords": 3346
+          "hits": 1,
+          "textWords": 2429
         }
       },
-      "queryPhraseHits": 1
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "84FlxRrrnsyQ",
+      "address": "http://planet.gnu.org/",
+      "title": "Planet GNU",
+      "snippet": "scheme@(gnu home services mail)\u003e (gexp-\u003efile \"test.yaml\" $11) $12 = #\u003cprocedure 7efd8b10c2d0 at guix/gexp.scm:2098:2 (state)\u003e scheme@(gnu home services mail)\u003e ,use (guix) scheme@(gnu home services mail)\u003e ,run-in-store $12 $13 = #\u003cderivation /gnu/store/z59sf3nhh80668z8njljfxcymgi071pr-test.yaml.drv",
+      "matchedWords": {
+        "PHizVQKyaT_v": {
+          "hits": 1,
+          "textWords": 4834
+        },
+        "di0Zq1WG3Awc": {
+          "hits": 0,
+          "textWords": 4834
+        },
+        "juD3tm0asFcU": {
+          "hits": 56,
+          "textWords": 4834
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "GvUBmisE1LOw",
+      "address": "https://devmanual.gentoo.org/",
+      "title": "Master index – Gentoo Development Guide",
+      "snippet": "Privacy Policy\nCopyright (C) 2001-2026 Gentoo Authors\nGentoo is a trademark of the Gentoo Foundation, Inc. and of Förderverein Gentoo e.V. The text of this document is distributed under the CC-BY-SA-4.0 license. The Gentoo Name and Logo Usage Guidelines apply.",
+      "matchedWords": {
+        "PHizVQKyaT_v": {
+          "hits": 0,
+          "textWords": 40
+        },
+        "di0Zq1WG3Awc": {
+          "hits": 0,
+          "textWords": 40
+        },
+        "juD3tm0asFcU": {
+          "hits": 0,
+          "textWords": 40
+        }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "gmhRVl1nrxbw",
@@ -1102,48 +1637,6 @@
       "queryPhraseHits": 0
     },
     {
-      "hash": "k8eWwjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Command-line_interface",
-      "title": "Command-line interface - Wikipedia",
-      "snippet": "Retrieved 2019-04-08.\n↑ DR-DOS 7.03 WHATSNEW.TXT — Changes from DR-DOS 7.02 to DR-DOS 7.03. Caldera, Inc. 1998-12-24. Archived from the original on 2019-04-08. Retrieved 2019-04-08.\n↑ \"Argument Syntax (The GNU C Library)\". gnu.org. Archived from the original on 2021-06-18. Retrieved 2021-07-09.",
-      "matchedWords": {
-        "PHizVQKyaT_v": {
-          "hits": 3,
-          "textWords": 9236
-        },
-        "di0Zq1WG3Awc": {
-          "hits": 2,
-          "textWords": 9236
-        },
-        "juD3tm0asFcU": {
-          "hits": 6,
-          "textWords": 9236
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "2ZqdVzfOEiDw",
-      "address": "https://planet.gnome.org/",
-      "title": "Planet GNOME",
-      "snippet": "Two weeks ago, I released AppStream 1.2.0. This release contains a lot of great changes, but one of the most important ones concerns how media are being handled, and AppStream’s default image export format.\nAppStream is a Freedesktop metadata standard to describe software components.",
-      "matchedWords": {
-        "PHizVQKyaT_v": {
-          "hits": 0,
-          "textWords": 2681
-        },
-        "di0Zq1WG3Awc": {
-          "hits": 0,
-          "textWords": 2681
-        },
-        "juD3tm0asFcU": {
-          "hits": 0,
-          "textWords": 2681
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
       "hash": "zPsYJjRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Linux",
       "title": "Linux - Wikipedia",
@@ -1165,46 +1658,67 @@
       "queryPhraseHits": 1
     },
     {
-      "hash": "QdW-xjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/GNU_General_Public_License",
-      "title": "GNU General Public License - Wikipedia",
-      "snippet": "The original GPL was written by Richard Stallman in 1989 for use with programs released as part of the GNU Project. The license was based on unifying similar licenses used for early versions of the GNU Emacs text editor, the GNU Debugger, and the GNU C Compiler.[",
+      "hash": "HiNfCs5tr8M4",
+      "address": "https://leanpub.com/",
+      "title": "Leanpub: Publish Early. Publish Often.",
+      "snippet": "Featured \u0026 Recommended Books\nSign in for recommendations based on your library\nFeatured \u0026 Recommended Courses\nSign in for recommendations based on your library\nFeatured across all of Leanpub\nFeatured Leanpub Course\nGenerative AI in a Nutshell\nHow to Survive and Thrive in the Age of AI",
       "matchedWords": {
         "PHizVQKyaT_v": {
-          "hits": 3,
-          "textWords": 15807
+          "hits": 0,
+          "textWords": 3079
         },
         "di0Zq1WG3Awc": {
-          "hits": 7,
-          "textWords": 15807
+          "hits": 0,
+          "textWords": 3079
         },
         "juD3tm0asFcU": {
-          "hits": 150,
-          "textWords": 15807
+          "hits": 0,
+          "textWords": 3079
         }
       },
-      "queryPhraseHits": 5
+      "queryPhraseHits": 0
     },
     {
-      "hash": "zPsYJjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Linux",
-      "title": "Linux - Wikipedia",
-      "snippet": "For example, regular expressions are supported in programs like grep and locate, the traditional Unix message transfer agent Sendmail contains its own Turing complete scripting system, and the advanced text editor GNU Emacs is built around a general purpose Lisp interpreter.[169][170][171]",
+      "hash": "KgBwHjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Regular_expression",
+      "title": "Regular expression - Wikipedia",
+      "snippet": "Many variations of these original forms of regular expressions were used in Unix[13] programs at Bell Labs in the 1970s, including lex, sed, AWK, and expr, and in other programs such as vi, and Emacs (which has its own, incompatible syntax and behavior).",
       "matchedWords": {
         "PHizVQKyaT_v": {
-          "hits": 1,
-          "textWords": 11216
+          "hits": 2,
+          "textWords": 9880
         },
         "di0Zq1WG3Awc": {
-          "hits": 2,
-          "textWords": 11216
+          "hits": 1,
+          "textWords": 9880
         },
         "juD3tm0asFcU": {
-          "hits": 85,
-          "textWords": 11216
+          "hits": 3,
+          "textWords": 9880
         }
       },
-      "queryPhraseHits": 1
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "FIRH00oB9UFw",
+      "address": "https://docs-archive.freebsd.org/44doc/",
+      "title": "4.4BSD Documents",
+      "snippet": "USD:12 An Introduction to Display Editing with Vi (Postscript, PDF, ASCII)\nThe document to learn to use the vi screen editor.\nUSD:13 Vi Reference Manual (Postscript, PDF, ASCII)\nThe definitive reference for the nvi editor.\nUSD:14 Jove Manual for UNIX Users",
+      "matchedWords": {
+        "PHizVQKyaT_v": {
+          "hits": 14,
+          "textWords": 2429
+        },
+        "di0Zq1WG3Awc": {
+          "hits": 1,
+          "textWords": 2429
+        },
+        "juD3tm0asFcU": {
+          "hits": 1,
+          "textWords": 2429
+        }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "QnfPVsI9I2Th",
@@ -1270,6 +1784,48 @@
       "queryPhraseHits": 0
     },
     {
+      "hash": "LRfNwzmvZD7w",
+      "address": "https://planet.opensuse.org/",
+      "title": "Global - openSUSE Planet",
+      "snippet": "Two weeks ago, I released AppStream 1.2.0. This release contains a lot of great changes, but one of the most important ones concerns how media are being handled, and AppStream’s default image export format.\nAppStream is a Freedesktop metadata standard to describe software components.",
+      "matchedWords": {
+        "PHizVQKyaT_v": {
+          "hits": 0,
+          "textWords": 2681
+        },
+        "di0Zq1WG3Awc": {
+          "hits": 0,
+          "textWords": 2681
+        },
+        "juD3tm0asFcU": {
+          "hits": 0,
+          "textWords": 2681
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "eE-MAxtQ-zSx",
+      "address": "https://wiki.archlinux.org/title/Systemd",
+      "title": "systemd - ArchWiki",
+      "snippet": "See #Socket activation for more details.\nA search pattern can be appended to a lot of commands, making the use of grep unnecessary. For example, you can search the manual by executing systemctl help 'dbus*', or list specific units with systemctl list-units 'dbus*'.\nAction\nCommand\nNote",
+      "matchedWords": {
+        "PHizVQKyaT_v": {
+          "hits": 3,
+          "textWords": 6888
+        },
+        "di0Zq1WG3Awc": {
+          "hits": 1,
+          "textWords": 6888
+        },
+        "juD3tm0asFcU": {
+          "hits": 0,
+          "textWords": 6888
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
       "hash": "gmhRVl1nrxbw",
       "address": "https://www.debian.org/devel/",
       "title": "Debian -- Debian Developers' Corner",
@@ -1310,27 +1866,6 @@
         }
       },
       "queryPhraseHits": 5
-    },
-    {
-      "hash": "2ZqdVzfOEiDw",
-      "address": "https://planet.gnome.org/",
-      "title": "Planet GNOME",
-      "snippet": "Two weeks ago, I released AppStream 1.2.0. This release contains a lot of great changes, but one of the most important ones concerns how media are being handled, and AppStream’s default image export format.\nAppStream is a Freedesktop metadata standard to describe software components.",
-      "matchedWords": {
-        "PHizVQKyaT_v": {
-          "hits": 0,
-          "textWords": 2681
-        },
-        "di0Zq1WG3Awc": {
-          "hits": 0,
-          "textWords": 2681
-        },
-        "juD3tm0asFcU": {
-          "hits": 0,
-          "textWords": 2681
-        }
-      },
-      "queryPhraseHits": 0
     },
     {
       "hash": "lN9DCbR2NVbw",
@@ -1438,232 +1973,85 @@
       "queryPhraseHits": 0
     },
     {
-      "hash": "AonnkjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Perl",
-      "title": "Perl - Wikipedia",
-      "snippet": "License\nArtistic 1.0[4][5] or GNU General Public License version 1 or any later version[6]\nFilename extensions\n.plx, .pls, .pl, .pm, .xs, .t, .pod, .cgi, .psgi\nWebsite\nperl.org\nInfluenced by\nAWK, BASIC, C, C++, Lisp, sed, Unix shell[7]\nInfluenced",
+      "hash": "P0YYCjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Python_(programming_language)",
+      "title": "Python (programming language) - Wikipedia",
+      "snippet": "This is the origin of many Python features, including the use of indentation for statement grouping and the inclusion of very high-level data types (although the details are all different in Python).\n↑ \"Ada 83 Reference Manual (raise statement)\". archive.adaic.com.",
       "matchedWords": {
         "PHizVQKyaT_v": {
-          "hits": 2,
-          "textWords": 11521
+          "hits": 1,
+          "textWords": 11563
         },
         "di0Zq1WG3Awc": {
           "hits": 0,
-          "textWords": 11521
+          "textWords": 11563
         },
         "juD3tm0asFcU": {
-          "hits": 4,
-          "textWords": 11521
+          "hits": 0,
+          "textWords": 11563
         }
       },
       "queryPhraseHits": 0
     },
     {
-      "hash": "FZ5ZijRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/List_of_free_and_open-source_software_packages",
-      "title": "List of free and open-source software packages - Wikipedia",
-      "snippet": "KDevelop\nLazarus\nMCU 8051 IDE\nNetBeans\nPadre\nPharo\nPoplog\nPyDev\nQt Creator\nSLIME\nSpyder\nTheIDE\nVisualFBEditor\nZeroBrane Studio\nSource code editors\n[edit]\nAcme\nAtom\nBluefish\nBrackets\nECCE\ned\nElvis\nGNU Emacs\nExtensible Versatile Editor (EVE)\nFeatherPad\nGeany\ngedit\nGNOME Text Editor\nJED\njEdit\nJOVE",
+      "hash": "RfpBE-iBpa5w",
+      "address": "https://data.iana.org/time-zones/tzdb-2021e/asia",
+      "title": "Asia",
+      "snippet": "",
       "matchedWords": {
         "PHizVQKyaT_v": {
-          "hits": 1,
-          "textWords": 8085
-        },
-        "di0Zq1WG3Awc": {
-          "hits": 1,
-          "textWords": 8085
-        },
-        "juD3tm0asFcU": {
-          "hits": 35,
-          "textWords": 8085
-        }
-      },
-      "queryPhraseHits": 1
-    },
-    {
-      "hash": "KgBwHjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Regular_expression",
-      "title": "Regular expression - Wikipedia",
-      "snippet": "Many variations of these original forms of regular expressions were used in Unix[13] programs at Bell Labs in the 1970s, including lex, sed, AWK, and expr, and in other programs such as vi, and Emacs (which has its own, incompatible syntax and behavior).",
-      "matchedWords": {
-        "PHizVQKyaT_v": {
-          "hits": 2,
-          "textWords": 9880
-        },
-        "di0Zq1WG3Awc": {
-          "hits": 1,
-          "textWords": 9880
-        },
-        "juD3tm0asFcU": {
-          "hits": 3,
-          "textWords": 9880
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "QdW-xjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/GNU_General_Public_License",
-      "title": "GNU General Public License - Wikipedia",
-      "snippet": "The original GPL was written by Richard Stallman in 1989 for use with programs released as part of the GNU Project. The license was based on unifying similar licenses used for early versions of the GNU Emacs text editor, the GNU Debugger, and the GNU C Compiler.[",
-      "matchedWords": {
-        "PHizVQKyaT_v": {
-          "hits": 3,
-          "textWords": 15807
-        },
-        "di0Zq1WG3Awc": {
-          "hits": 7,
-          "textWords": 15807
-        },
-        "juD3tm0asFcU": {
-          "hits": 150,
-          "textWords": 15807
-        }
-      },
-      "queryPhraseHits": 5
-    },
-    {
-      "hash": "esXNdjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/GIMP",
-      "title": "GIMP - Wikipedia",
-      "snippet": "Richard Stallman of the GNU Project visited the University of California Berkeley in 1997, where Richard met with Kimball and Mattis. Kimball and Mattis asked him if they could change the initialism of GIMP, changing the G to 'GNU' from 'General'.[",
-      "matchedWords": {
-        "PHizVQKyaT_v": {
-          "hits": 4,
-          "textWords": 4615
+          "hits": 0,
+          "textWords": 0
         },
         "di0Zq1WG3Awc": {
           "hits": 0,
-          "textWords": 4615
+          "textWords": 0
         },
         "juD3tm0asFcU": {
-          "hits": 15,
-          "textWords": 4615
+          "hits": 0,
+          "textWords": 0
         }
       },
       "queryPhraseHits": 0
     },
     {
-      "hash": "zTCfkxtQ-zSx",
-      "address": "https://wiki.archlinux.org/title/List_of_applications/Internet",
-      "title": "List of applications/Internet - ArchWiki",
-      "snippet": "https://thelounge.chat/ || theloungeAUR\nXMPP clients\nSee also: Wikipedia:XMPP\nConsole\nFreetalk — Console-based XMPP client.\nhttps://www.gnu.org/software/freetalk/ || freetalkAUR\njabber.el — Minimal XMPP client for Emacs.\nhttps://emacs-jabber.sourceforge.net/ || emacs-jabberAUR",
+      "hash": "y9Sjojldhbwx",
+      "address": "https://en.wikibooks.org/wiki/Shelf:Computer_software",
+      "title": "Shelf:Computer software - Wikibooks, open books for an open world",
+      "snippet": "From Wikibooks, open books for an open world",
       "matchedWords": {
         "PHizVQKyaT_v": {
-          "hits": 2,
-          "textWords": 12598
+          "hits": 0,
+          "textWords": 8
         },
         "di0Zq1WG3Awc": {
-          "hits": 12,
-          "textWords": 12598
+          "hits": 0,
+          "textWords": 8
         },
         "juD3tm0asFcU": {
-          "hits": 15,
-          "textWords": 12598
+          "hits": 0,
+          "textWords": 8
         }
       },
       "queryPhraseHits": 0
     },
     {
-      "hash": "KGUVEjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Man_page",
-      "title": "man page - Wikipedia",
-      "snippet": "The GNU Emacs program WoMan (from \"WithOut man\") allows for browsing man pages from the editor.[11]",
-      "matchedWords": {
-        "PHizVQKyaT_v": {
-          "hits": 45,
-          "textWords": 2769
-        },
-        "di0Zq1WG3Awc": {
-          "hits": 1,
-          "textWords": 2769
-        },
-        "juD3tm0asFcU": {
-          "hits": 10,
-          "textWords": 2769
-        }
-      },
-      "queryPhraseHits": 1
-    },
-    {
-      "hash": "5qBCujRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/GNU_Free_Documentation_License",
-      "title": "GNU Free Documentation License - Wikipedia",
-      "snippet": "The goal of invariant sections, ever since the 80s when we first made the GNU Manifesto an invariant section in the Emacs Manual, was to make sure they could not be removed.",
+      "hash": "eE-MAxtQ-zSx",
+      "address": "https://wiki.archlinux.org/title/Systemd",
+      "title": "systemd - ArchWiki",
+      "snippet": "See #Socket activation for more details.\nA search pattern can be appended to a lot of commands, making the use of grep unnecessary. For example, you can search the manual by executing systemctl help 'dbus*', or list specific units with systemctl list-units 'dbus*'.\nAction\nCommand\nNote",
       "matchedWords": {
         "PHizVQKyaT_v": {
           "hits": 3,
-          "textWords": 3346
-        },
-        "di0Zq1WG3Awc": {
-          "hits": 2,
-          "textWords": 3346
-        },
-        "juD3tm0asFcU": {
-          "hits": 40,
-          "textWords": 3346
-        }
-      },
-      "queryPhraseHits": 1
-    },
-    {
-      "hash": "QriquAK-xyJ4",
-      "address": "https://go.dev/doc/devel/weekly",
-      "title": "Weekly Snapshot History - The Go Programming Language",
-      "snippet": "Slices are better: http://code.google.com/p/go-wiki/wiki/SliceTricks Other changes: * 5l/6l/8l: correct ELFRESERVE diagnostic (thanks Anthony Martin). * 6l/8l: support OS X code signing (thanks Mikkel Krautz). * asn1: accept UTF8 strings as ASN.1 ANY values. * big: handle aliasing correctly for",
-      "matchedWords": {
-        "PHizVQKyaT_v": {
-          "hits": 2,
-          "textWords": 43354
-        },
-        "di0Zq1WG3Awc": {
-          "hits": 13,
-          "textWords": 43354
-        },
-        "juD3tm0asFcU": {
-          "hits": 3,
-          "textWords": 43354
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "Rx8AIs_tHst4",
-      "address": "https://dwheeler.com/oss_fs_why.html",
-      "title": "Why Open Source Software / Free Software (OSS/FS, FOSS, or FLOSS)? Look at the Numbers!",
-      "snippet": "Joomla, on the other hand, seems fine.\"\nGNU emacs / xemacs, OpenBSD. Sometimes, though this is rare, a fork produces two projects which both live on; typically each fork ends up catering to a different community. GNU emacs was forked into xemacs, resulting in two successful projects.",
-      "matchedWords": {
-        "PHizVQKyaT_v": {
-          "hits": 5,
-          "textWords": 92275
-        },
-        "di0Zq1WG3Awc": {
-          "hits": 6,
-          "textWords": 92275
-        },
-        "juD3tm0asFcU": {
-          "hits": 373,
-          "textWords": 92275
-        }
-      },
-      "queryPhraseHits": 4
-    },
-    {
-      "hash": "SV9QKjhVvkiw",
-      "address": "https://dianne.skoll.ca/projects/remind/",
-      "title": "Dianne Skoll's Web Site - Remind - Software Projects",
-      "snippet": "Residents of Jurisdictions with Age-Verification Laws\nIf you are a resident of a jurisdiction with age-verification laws, please read this very important notice.\nLicense\nRemind is Free Software, licensed under the terms of the GNU General Public License, Version 2\nDownload Remind",
-      "matchedWords": {
-        "PHizVQKyaT_v": {
-          "hits": 3,
-          "textWords": 894
+          "textWords": 6888
         },
         "di0Zq1WG3Awc": {
           "hits": 1,
-          "textWords": 894
+          "textWords": 6888
         },
         "juD3tm0asFcU": {
-          "hits": 1,
-          "textWords": 894
+          "hits": 0,
+          "textWords": 6888
         }
       },
       "queryPhraseHits": 0
@@ -1690,27 +2078,6 @@
       "queryPhraseHits": 2
     },
     {
-      "hash": "QriquAK-xyJ4",
-      "address": "https://go.dev/doc/devel/weekly",
-      "title": "Weekly Snapshot History - The Go Programming Language",
-      "snippet": "Slices are better: http://code.google.com/p/go-wiki/wiki/SliceTricks Other changes: * 5l/6l/8l: correct ELFRESERVE diagnostic (thanks Anthony Martin). * 6l/8l: support OS X code signing (thanks Mikkel Krautz). * asn1: accept UTF8 strings as ASN.1 ANY values. * big: handle aliasing correctly for",
-      "matchedWords": {
-        "PHizVQKyaT_v": {
-          "hits": 2,
-          "textWords": 43354
-        },
-        "di0Zq1WG3Awc": {
-          "hits": 13,
-          "textWords": 43354
-        },
-        "juD3tm0asFcU": {
-          "hits": 3,
-          "textWords": 43354
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
       "hash": "QdW-xjRvmBbx",
       "address": "https://en.wikipedia.org/wiki/GNU_General_Public_License",
       "title": "GNU General Public License - Wikipedia",
@@ -1732,43 +2099,22 @@
       "queryPhraseHits": 5
     },
     {
-      "hash": "Rx8AIs_tHst4",
-      "address": "https://dwheeler.com/oss_fs_why.html",
-      "title": "Why Open Source Software / Free Software (OSS/FS, FOSS, or FLOSS)? Look at the Numbers!",
-      "snippet": "Joomla, on the other hand, seems fine.\"\nGNU emacs / xemacs, OpenBSD. Sometimes, though this is rare, a fork produces two projects which both live on; typically each fork ends up catering to a different community. GNU emacs was forked into xemacs, resulting in two successful projects.",
+      "hash": "RfX7GxtQ-zSx",
+      "address": "https://wiki.archlinux.org/title/Man_page",
+      "title": "man page - ArchWiki",
+      "snippet": "You can use some applications to view man pages:\nEmacs — The extensible and self-documenting editor can also be used to read man pages with the built-in M-x man command.\nhttps://www.gnu.org/software/emacs/ || emacs\nGNOME Help — Help viewer for GNOME. Part of gnome.",
       "matchedWords": {
         "PHizVQKyaT_v": {
-          "hits": 5,
-          "textWords": 92275
+          "hits": 15,
+          "textWords": 1457
         },
         "di0Zq1WG3Awc": {
-          "hits": 6,
-          "textWords": 92275
-        },
-        "juD3tm0asFcU": {
-          "hits": 373,
-          "textWords": 92275
-        }
-      },
-      "queryPhraseHits": 4
-    },
-    {
-      "hash": "SV9QKjhVvkiw",
-      "address": "https://dianne.skoll.ca/projects/remind/",
-      "title": "Dianne Skoll's Web Site - Remind - Software Projects",
-      "snippet": "Residents of Jurisdictions with Age-Verification Laws\nIf you are a resident of a jurisdiction with age-verification laws, please read this very important notice.\nLicense\nRemind is Free Software, licensed under the terms of the GNU General Public License, Version 2\nDownload Remind",
-      "matchedWords": {
-        "PHizVQKyaT_v": {
           "hits": 3,
-          "textWords": 894
-        },
-        "di0Zq1WG3Awc": {
-          "hits": 1,
-          "textWords": 894
+          "textWords": 1457
         },
         "juD3tm0asFcU": {
-          "hits": 1,
-          "textWords": 894
+          "hits": 2,
+          "textWords": 1457
         }
       },
       "queryPhraseHits": 0
@@ -1816,67 +2162,46 @@
       "queryPhraseHits": 5
     },
     {
-      "hash": "r5eKBxtQ-zSx",
-      "address": "https://wiki.archlinux.org/title/General_recommendations",
-      "title": "General recommendations - ArchWiki",
-      "snippet": "Consult Emacs#Colored output issues for a fix regarding garbled characters that may result from enabling colored output.\nMouse support\nUsing a mouse with the console for copy-paste operations can be preferred over GNU Screen's traditional copy mode.",
+      "hash": "gmhRVl1nrxbw",
+      "address": "https://www.debian.org/devel/",
+      "title": "Debian -- Debian Developers' Corner",
+      "snippet": "Links to our policy manual and other documents related to the Debian policy, procedures and other resources for Debian developers, and the new maintainers' guide.\nWork in Progress: Links for active Debian developers and maintainers\nDebian ‘Testing’",
       "matchedWords": {
         "PHizVQKyaT_v": {
-          "hits": 1,
-          "textWords": 2467
+          "hits": 3,
+          "textWords": 698
         },
         "di0Zq1WG3Awc": {
-          "hits": 3,
-          "textWords": 2467
+          "hits": 0,
+          "textWords": 698
         },
         "juD3tm0asFcU": {
-          "hits": 3,
-          "textWords": 2467
+          "hits": 0,
+          "textWords": 698
         }
       },
       "queryPhraseHits": 0
     },
     {
-      "hash": "zTCfkxtQ-zSx",
-      "address": "https://wiki.archlinux.org/title/List_of_applications/Internet",
-      "title": "List of applications/Internet - ArchWiki",
-      "snippet": "https://thelounge.chat/ || theloungeAUR\nXMPP clients\nSee also: Wikipedia:XMPP\nConsole\nFreetalk — Console-based XMPP client.\nhttps://www.gnu.org/software/freetalk/ || freetalkAUR\njabber.el — Minimal XMPP client for Emacs.\nhttps://emacs-jabber.sourceforge.net/ || emacs-jabberAUR",
+      "hash": "QdW-xjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/GNU_General_Public_License",
+      "title": "GNU General Public License - Wikipedia",
+      "snippet": "The original GPL was written by Richard Stallman in 1989 for use with programs released as part of the GNU Project. The license was based on unifying similar licenses used for early versions of the GNU Emacs text editor, the GNU Debugger, and the GNU C Compiler.[",
       "matchedWords": {
         "PHizVQKyaT_v": {
-          "hits": 2,
-          "textWords": 12598
+          "hits": 3,
+          "textWords": 15807
         },
         "di0Zq1WG3Awc": {
-          "hits": 12,
-          "textWords": 12598
+          "hits": 7,
+          "textWords": 15807
         },
         "juD3tm0asFcU": {
-          "hits": 15,
-          "textWords": 12598
+          "hits": 150,
+          "textWords": 15807
         }
       },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "73Hl4TCAF_G4",
-      "address": "https://files.spritely.institute/papers/scheme-primer.html",
-      "title": "A Scheme Primer",
-      "snippet": "Guile Scheme + GNU Emacs + Geiser: this is what this tutorial was written using, and is a powerful option (which also opens the door to working with Guix, one of the most interesting Scheme projects out there). However, it is also a path with a considerable learning curve.",
-      "matchedWords": {
-        "PHizVQKyaT_v": {
-          "hits": 1,
-          "textWords": 9859
-        },
-        "di0Zq1WG3Awc": {
-          "hits": 2,
-          "textWords": 9859
-        },
-        "juD3tm0asFcU": {
-          "hits": 1,
-          "textWords": 9859
-        }
-      },
-      "queryPhraseHits": 1
+      "queryPhraseHits": 5
     },
     {
       "hash": "JlpqPjRvmBbx",
@@ -1900,27 +2225,6 @@
       "queryPhraseHits": 0
     },
     {
-      "hash": "KGUVEjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Man_page",
-      "title": "man page - Wikipedia",
-      "snippet": "The GNU Emacs program WoMan (from \"WithOut man\") allows for browsing man pages from the editor.[11]",
-      "matchedWords": {
-        "PHizVQKyaT_v": {
-          "hits": 45,
-          "textWords": 2769
-        },
-        "di0Zq1WG3Awc": {
-          "hits": 1,
-          "textWords": 2769
-        },
-        "juD3tm0asFcU": {
-          "hits": 10,
-          "textWords": 2769
-        }
-      },
-      "queryPhraseHits": 1
-    },
-    {
       "hash": "KgBwHjRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Regular_expression",
       "title": "Regular expression - Wikipedia",
@@ -1940,27 +2244,6 @@
         }
       },
       "queryPhraseHits": 0
-    },
-    {
-      "hash": "5qBCujRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/GNU_Free_Documentation_License",
-      "title": "GNU Free Documentation License - Wikipedia",
-      "snippet": "The goal of invariant sections, ever since the 80s when we first made the GNU Manifesto an invariant section in the Emacs Manual, was to make sure they could not be removed.",
-      "matchedWords": {
-        "PHizVQKyaT_v": {
-          "hits": 3,
-          "textWords": 3346
-        },
-        "di0Zq1WG3Awc": {
-          "hits": 2,
-          "textWords": 3346
-        },
-        "juD3tm0asFcU": {
-          "hits": 40,
-          "textWords": 3346
-        }
-      },
-      "queryPhraseHits": 1
     },
     {
       "hash": "aI7l5obrsZjx",
@@ -2068,48 +2351,6 @@
       "queryPhraseHits": 0
     },
     {
-      "hash": "5qBCujRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/GNU_Free_Documentation_License",
-      "title": "GNU Free Documentation License - Wikipedia",
-      "snippet": "The goal of invariant sections, ever since the 80s when we first made the GNU Manifesto an invariant section in the Emacs Manual, was to make sure they could not be removed.",
-      "matchedWords": {
-        "PHizVQKyaT_v": {
-          "hits": 3,
-          "textWords": 3346
-        },
-        "di0Zq1WG3Awc": {
-          "hits": 2,
-          "textWords": 3346
-        },
-        "juD3tm0asFcU": {
-          "hits": 40,
-          "textWords": 3346
-        }
-      },
-      "queryPhraseHits": 1
-    },
-    {
-      "hash": "2ZqdVzfOEiDw",
-      "address": "https://planet.gnome.org/",
-      "title": "Planet GNOME",
-      "snippet": "Two weeks ago, I released AppStream 1.2.0. This release contains a lot of great changes, but one of the most important ones concerns how media are being handled, and AppStream’s default image export format.\nAppStream is a Freedesktop metadata standard to describe software components.",
-      "matchedWords": {
-        "PHizVQKyaT_v": {
-          "hits": 0,
-          "textWords": 2681
-        },
-        "di0Zq1WG3Awc": {
-          "hits": 0,
-          "textWords": 2681
-        },
-        "juD3tm0asFcU": {
-          "hits": 0,
-          "textWords": 2681
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
       "hash": "eNlTQjldhbwx",
       "address": "https://en.wikibooks.org/wiki/How_To_Assemble_A_Desktop_PC/Printable_version",
       "title": "How To Assemble A Desktop PC/Printable version - Wikibooks, open books for an open world",
@@ -2126,6 +2367,27 @@
         "juD3tm0asFcU": {
           "hits": 28,
           "textWords": 37000
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "y9Sjojldhbwx",
+      "address": "https://en.wikibooks.org/wiki/Shelf:Computer_software",
+      "title": "Shelf:Computer software - Wikibooks, open books for an open world",
+      "snippet": "From Wikibooks, open books for an open world",
+      "matchedWords": {
+        "PHizVQKyaT_v": {
+          "hits": 0,
+          "textWords": 8
+        },
+        "di0Zq1WG3Awc": {
+          "hits": 0,
+          "textWords": 8
+        },
+        "juD3tm0asFcU": {
+          "hits": 0,
+          "textWords": 8
         }
       },
       "queryPhraseHits": 0
@@ -2173,27 +2435,6 @@
       "queryPhraseHits": 0
     },
     {
-      "hash": "k8eWwjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Command-line_interface",
-      "title": "Command-line interface - Wikipedia",
-      "snippet": "Retrieved 2019-04-08.\n↑ DR-DOS 7.03 WHATSNEW.TXT — Changes from DR-DOS 7.02 to DR-DOS 7.03. Caldera, Inc. 1998-12-24. Archived from the original on 2019-04-08. Retrieved 2019-04-08.\n↑ \"Argument Syntax (The GNU C Library)\". gnu.org. Archived from the original on 2021-06-18. Retrieved 2021-07-09.",
-      "matchedWords": {
-        "PHizVQKyaT_v": {
-          "hits": 3,
-          "textWords": 9236
-        },
-        "di0Zq1WG3Awc": {
-          "hits": 2,
-          "textWords": 9236
-        },
-        "juD3tm0asFcU": {
-          "hits": 6,
-          "textWords": 9236
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
       "hash": "zPsYJjRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Linux",
       "title": "Linux - Wikipedia",
@@ -2236,64 +2477,22 @@
       "queryPhraseHits": 0
     },
     {
-      "hash": "Rx8AIs_tHst4",
-      "address": "https://dwheeler.com/oss_fs_why.html",
-      "title": "Why Open Source Software / Free Software (OSS/FS, FOSS, or FLOSS)? Look at the Numbers!",
-      "snippet": "Joomla, on the other hand, seems fine.\"\nGNU emacs / xemacs, OpenBSD. Sometimes, though this is rare, a fork produces two projects which both live on; typically each fork ends up catering to a different community. GNU emacs was forked into xemacs, resulting in two successful projects.",
-      "matchedWords": {
-        "PHizVQKyaT_v": {
-          "hits": 5,
-          "textWords": 92275
-        },
-        "di0Zq1WG3Awc": {
-          "hits": 6,
-          "textWords": 92275
-        },
-        "juD3tm0asFcU": {
-          "hits": 373,
-          "textWords": 92275
-        }
-      },
-      "queryPhraseHits": 4
-    },
-    {
-      "hash": "kQwWXobrsZjx",
-      "address": "https://www.mediawiki.org/wiki/Extension:SyntaxHighlight_GeSHi",
-      "title": "Extension:SyntaxHighlight - MediaWiki",
-      "snippet": "For syntax highlighting in wikitext editors, such as the source editor, see the CodeMirror extension or the userscripts of Remember the dot and Cacycle.\nMediaWiki extensions manual\nSyntaxHighlight\nRelease status: stable\nImplementation\nTag\nDescription",
-      "matchedWords": {
-        "PHizVQKyaT_v": {
-          "hits": 1,
-          "textWords": 3321
-        },
-        "di0Zq1WG3Awc": {
-          "hits": 1,
-          "textWords": 3321
-        },
-        "juD3tm0asFcU": {
-          "hits": 1,
-          "textWords": 3321
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "2ZqdVzfOEiDw",
-      "address": "https://planet.gnome.org/",
-      "title": "Planet GNOME",
-      "snippet": "Two weeks ago, I released AppStream 1.2.0. This release contains a lot of great changes, but one of the most important ones concerns how media are being handled, and AppStream’s default image export format.\nAppStream is a Freedesktop metadata standard to describe software components.",
+      "hash": "rBG8Oh3e0QFx",
+      "address": "https://commons.wikimedia.org/wiki/Category:Web_browsers",
+      "title": "Category:Web browsers - Wikimedia Commons",
+      "snippet": "From Wikimedia Commons, the free media repository\nInternationalization\nEesti: Veebilehitsejad\nEsperanto: TTT-legiloj\nМакедонски: Прелистувачи\nweb browser\nsoftware application for retrieving, presenting, and traversing information resources on the World Wide Web\nUpload media\nWikipedia\nWikiversity",
       "matchedWords": {
         "PHizVQKyaT_v": {
           "hits": 0,
-          "textWords": 2681
+          "textWords": 555
         },
         "di0Zq1WG3Awc": {
           "hits": 0,
-          "textWords": 2681
+          "textWords": 555
         },
         "juD3tm0asFcU": {
           "hits": 0,
-          "textWords": 2681
+          "textWords": 555
         }
       },
       "queryPhraseHits": 0
@@ -2320,25 +2519,25 @@
       "queryPhraseHits": 5
     },
     {
-      "hash": "2ZqdVzfOEiDw",
-      "address": "https://planet.gnome.org/",
-      "title": "Planet GNOME",
-      "snippet": "Two weeks ago, I released AppStream 1.2.0. This release contains a lot of great changes, but one of the most important ones concerns how media are being handled, and AppStream’s default image export format.\nAppStream is a Freedesktop metadata standard to describe software components.",
+      "hash": "QdW-xjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/GNU_General_Public_License",
+      "title": "GNU General Public License - Wikipedia",
+      "snippet": "The original GPL was written by Richard Stallman in 1989 for use with programs released as part of the GNU Project. The license was based on unifying similar licenses used for early versions of the GNU Emacs text editor, the GNU Debugger, and the GNU C Compiler.[",
       "matchedWords": {
         "PHizVQKyaT_v": {
-          "hits": 0,
-          "textWords": 2681
+          "hits": 3,
+          "textWords": 15807
         },
         "di0Zq1WG3Awc": {
-          "hits": 0,
-          "textWords": 2681
+          "hits": 7,
+          "textWords": 15807
         },
         "juD3tm0asFcU": {
-          "hits": 0,
-          "textWords": 2681
+          "hits": 150,
+          "textWords": 15807
         }
       },
-      "queryPhraseHits": 0
+      "queryPhraseHits": 5
     },
     {
       "hash": "QdW-xjRvmBbx",
@@ -2360,6 +2559,48 @@
         }
       },
       "queryPhraseHits": 5
+    },
+    {
+      "hash": "zPsYJjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Linux",
+      "title": "Linux - Wikipedia",
+      "snippet": "For example, regular expressions are supported in programs like grep and locate, the traditional Unix message transfer agent Sendmail contains its own Turing complete scripting system, and the advanced text editor GNU Emacs is built around a general purpose Lisp interpreter.[169][170][171]",
+      "matchedWords": {
+        "PHizVQKyaT_v": {
+          "hits": 1,
+          "textWords": 11216
+        },
+        "di0Zq1WG3Awc": {
+          "hits": 2,
+          "textWords": 11216
+        },
+        "juD3tm0asFcU": {
+          "hits": 85,
+          "textWords": 11216
+        }
+      },
+      "queryPhraseHits": 1
+    },
+    {
+      "hash": "C1Wyrs1_farg",
+      "address": "https://ar.al/",
+      "title": "Aral Balkan",
+      "snippet": "Pre-June\nThe posts below are highlights from the previous version of this site.\n2018\n23\nMayMy opening intervention at General Assembly in Berlin (“tolerance cannot tolerate intolerance”)\n2017\n29",
+      "matchedWords": {
+        "PHizVQKyaT_v": {
+          "hits": 0,
+          "textWords": 130
+        },
+        "di0Zq1WG3Awc": {
+          "hits": 0,
+          "textWords": 130
+        },
+        "juD3tm0asFcU": {
+          "hits": 0,
+          "textWords": 130
+        }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "gmhRVl1nrxbw",
@@ -2383,67 +2624,151 @@
       "queryPhraseHits": 0
     },
     {
-      "hash": "Rx8AIs_tHst4",
-      "address": "https://dwheeler.com/oss_fs_why.html",
-      "title": "Why Open Source Software / Free Software (OSS/FS, FOSS, or FLOSS)? Look at the Numbers!",
-      "snippet": "Joomla, on the other hand, seems fine.\"\nGNU emacs / xemacs, OpenBSD. Sometimes, though this is rare, a fork produces two projects which both live on; typically each fork ends up catering to a different community. GNU emacs was forked into xemacs, resulting in two successful projects.",
-      "matchedWords": {
-        "PHizVQKyaT_v": {
-          "hits": 5,
-          "textWords": 92275
-        },
-        "di0Zq1WG3Awc": {
-          "hits": 6,
-          "textWords": 92275
-        },
-        "juD3tm0asFcU": {
-          "hits": 373,
-          "textWords": 92275
-        }
-      },
-      "queryPhraseHits": 4
-    },
-    {
-      "hash": "2ZqdVzfOEiDw",
-      "address": "https://planet.gnome.org/",
-      "title": "Planet GNOME",
-      "snippet": "Two weeks ago, I released AppStream 1.2.0. This release contains a lot of great changes, but one of the most important ones concerns how media are being handled, and AppStream’s default image export format.\nAppStream is a Freedesktop metadata standard to describe software components.",
+      "hash": "HiNfCs5tr8M4",
+      "address": "https://leanpub.com/",
+      "title": "Leanpub: Publish Early. Publish Often.",
+      "snippet": "Featured \u0026 Recommended Books\nSign in for recommendations based on your library\nFeatured \u0026 Recommended Courses\nSign in for recommendations based on your library\nFeatured across all of Leanpub\nFeatured Leanpub Course\nGenerative AI in a Nutshell\nHow to Survive and Thrive in the Age of AI",
       "matchedWords": {
         "PHizVQKyaT_v": {
           "hits": 0,
-          "textWords": 2681
+          "textWords": 3079
         },
         "di0Zq1WG3Awc": {
           "hits": 0,
-          "textWords": 2681
+          "textWords": 3079
         },
         "juD3tm0asFcU": {
           "hits": 0,
-          "textWords": 2681
+          "textWords": 3079
         }
       },
       "queryPhraseHits": 0
     },
     {
-      "hash": "oCluGjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/GPL",
-      "title": "GNU General Public License - Wikipedia",
-      "snippet": "The original GPL was written by Richard Stallman in 1989 for use with programs released as part of the GNU Project. The license was based on unifying similar licenses used for early versions of the GNU Emacs text editor, the GNU Debugger, and the GNU C Compiler.[",
+      "hash": "84FlxRrrnsyQ",
+      "address": "http://planet.gnu.org/",
+      "title": "Planet GNU",
+      "snippet": "scheme@(gnu home services mail)\u003e (gexp-\u003efile \"test.yaml\" $11) $12 = #\u003cprocedure 7efd8b10c2d0 at guix/gexp.scm:2098:2 (state)\u003e scheme@(gnu home services mail)\u003e ,use (guix) scheme@(gnu home services mail)\u003e ,run-in-store $12 $13 = #\u003cderivation /gnu/store/z59sf3nhh80668z8njljfxcymgi071pr-test.yaml.drv",
       "matchedWords": {
         "PHizVQKyaT_v": {
-          "hits": 3,
-          "textWords": 15807
+          "hits": 1,
+          "textWords": 4834
         },
         "di0Zq1WG3Awc": {
-          "hits": 7,
-          "textWords": 15807
+          "hits": 0,
+          "textWords": 4834
         },
         "juD3tm0asFcU": {
-          "hits": 150,
-          "textWords": 15807
+          "hits": 56,
+          "textWords": 4834
         }
       },
-      "queryPhraseHits": 5
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "GvUBmisE1LOw",
+      "address": "https://devmanual.gentoo.org/",
+      "title": "Master index – Gentoo Development Guide",
+      "snippet": "Privacy Policy\nCopyright (C) 2001-2026 Gentoo Authors\nGentoo is a trademark of the Gentoo Foundation, Inc. and of Förderverein Gentoo e.V. The text of this document is distributed under the CC-BY-SA-4.0 license. The Gentoo Name and Logo Usage Guidelines apply.",
+      "matchedWords": {
+        "PHizVQKyaT_v": {
+          "hits": 0,
+          "textWords": 40
+        },
+        "di0Zq1WG3Awc": {
+          "hits": 0,
+          "textWords": 40
+        },
+        "juD3tm0asFcU": {
+          "hits": 0,
+          "textWords": 40
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "r5eKBxtQ-zSx",
+      "address": "https://wiki.archlinux.org/title/General_recommendations",
+      "title": "General recommendations - ArchWiki",
+      "snippet": "Consult Emacs#Colored output issues for a fix regarding garbled characters that may result from enabling colored output.\nMouse support\nUsing a mouse with the console for copy-paste operations can be preferred over GNU Screen's traditional copy mode.",
+      "matchedWords": {
+        "PHizVQKyaT_v": {
+          "hits": 1,
+          "textWords": 2467
+        },
+        "di0Zq1WG3Awc": {
+          "hits": 3,
+          "textWords": 2467
+        },
+        "juD3tm0asFcU": {
+          "hits": 3,
+          "textWords": 2467
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "AonnkjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Perl",
+      "title": "Perl - Wikipedia",
+      "snippet": "License\nArtistic 1.0[4][5] or GNU General Public License version 1 or any later version[6]\nFilename extensions\n.plx, .pls, .pl, .pm, .xs, .t, .pod, .cgi, .psgi\nWebsite\nperl.org\nInfluenced by\nAWK, BASIC, C, C++, Lisp, sed, Unix shell[7]\nInfluenced",
+      "matchedWords": {
+        "PHizVQKyaT_v": {
+          "hits": 2,
+          "textWords": 11521
+        },
+        "di0Zq1WG3Awc": {
+          "hits": 0,
+          "textWords": 11521
+        },
+        "juD3tm0asFcU": {
+          "hits": 4,
+          "textWords": 11521
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "84FlxRrrnsyQ",
+      "address": "http://planet.gnu.org/",
+      "title": "Planet GNU",
+      "snippet": "scheme@(gnu home services mail)\u003e (gexp-\u003efile \"test.yaml\" $11) $12 = #\u003cprocedure 7efd8b10c2d0 at guix/gexp.scm:2098:2 (state)\u003e scheme@(gnu home services mail)\u003e ,use (guix) scheme@(gnu home services mail)\u003e ,run-in-store $12 $13 = #\u003cderivation /gnu/store/z59sf3nhh80668z8njljfxcymgi071pr-test.yaml.drv",
+      "matchedWords": {
+        "PHizVQKyaT_v": {
+          "hits": 1,
+          "textWords": 4834
+        },
+        "di0Zq1WG3Awc": {
+          "hits": 0,
+          "textWords": 4834
+        },
+        "juD3tm0asFcU": {
+          "hits": 56,
+          "textWords": 4834
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "rBG8Oh3e0QFx",
+      "address": "https://commons.wikimedia.org/wiki/Category:Web_browsers",
+      "title": "Category:Web browsers - Wikimedia Commons",
+      "snippet": "From Wikimedia Commons, the free media repository\nInternationalization\nEesti: Veebilehitsejad\nEsperanto: TTT-legiloj\nМакедонски: Прелистувачи\nweb browser\nsoftware application for retrieving, presenting, and traversing information resources on the World Wide Web\nUpload media\nWikipedia\nWikiversity",
+      "matchedWords": {
+        "PHizVQKyaT_v": {
+          "hits": 0,
+          "textWords": 555
+        },
+        "di0Zq1WG3Awc": {
+          "hits": 0,
+          "textWords": 555
+        },
+        "juD3tm0asFcU": {
+          "hits": 0,
+          "textWords": 555
+        }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "JlpqPjRvmBbx",
@@ -2486,27 +2811,6 @@
         }
       },
       "queryPhraseHits": 0
-    },
-    {
-      "hash": "Rx8AIs_tHst4",
-      "address": "https://dwheeler.com/oss_fs_why.html",
-      "title": "Why Open Source Software / Free Software (OSS/FS, FOSS, or FLOSS)? Look at the Numbers!",
-      "snippet": "Joomla, on the other hand, seems fine.\"\nGNU emacs / xemacs, OpenBSD. Sometimes, though this is rare, a fork produces two projects which both live on; typically each fork ends up catering to a different community. GNU emacs was forked into xemacs, resulting in two successful projects.",
-      "matchedWords": {
-        "PHizVQKyaT_v": {
-          "hits": 5,
-          "textWords": 92275
-        },
-        "di0Zq1WG3Awc": {
-          "hits": 6,
-          "textWords": 92275
-        },
-        "juD3tm0asFcU": {
-          "hits": 373,
-          "textWords": 92275
-        }
-      },
-      "queryPhraseHits": 4
     },
     {
       "hash": "RfpBE-iBpa5w",
@@ -2530,106 +2834,64 @@
       "queryPhraseHits": 0
     },
     {
-      "hash": "P0YYCjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Python_(programming_language)",
-      "title": "Python (programming language) - Wikipedia",
-      "snippet": "This is the origin of many Python features, including the use of indentation for statement grouping and the inclusion of very high-level data types (although the details are all different in Python).\n↑ \"Ada 83 Reference Manual (raise statement)\". archive.adaic.com.",
+      "hash": "AonnkjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Perl",
+      "title": "Perl - Wikipedia",
+      "snippet": "License\nArtistic 1.0[4][5] or GNU General Public License version 1 or any later version[6]\nFilename extensions\n.plx, .pls, .pl, .pm, .xs, .t, .pod, .cgi, .psgi\nWebsite\nperl.org\nInfluenced by\nAWK, BASIC, C, C++, Lisp, sed, Unix shell[7]\nInfluenced",
       "matchedWords": {
         "PHizVQKyaT_v": {
-          "hits": 1,
-          "textWords": 11563
+          "hits": 2,
+          "textWords": 11521
         },
         "di0Zq1WG3Awc": {
           "hits": 0,
-          "textWords": 11563
+          "textWords": 11521
         },
         "juD3tm0asFcU": {
-          "hits": 0,
-          "textWords": 11563
+          "hits": 4,
+          "textWords": 11521
         }
       },
       "queryPhraseHits": 0
     },
     {
-      "hash": "RfpBE-iBpa5w",
-      "address": "https://data.iana.org/time-zones/tzdb-2021e/asia",
-      "title": "Asia",
-      "snippet": "",
-      "matchedWords": {
-        "PHizVQKyaT_v": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "di0Zq1WG3Awc": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "juD3tm0asFcU": {
-          "hits": 0,
-          "textWords": 0
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "P0YYCjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Python_(programming_language)",
-      "title": "Python (programming language) - Wikipedia",
-      "snippet": "This is the origin of many Python features, including the use of indentation for statement grouping and the inclusion of very high-level data types (although the details are all different in Python).\n↑ \"Ada 83 Reference Manual (raise statement)\". archive.adaic.com.",
-      "matchedWords": {
-        "PHizVQKyaT_v": {
-          "hits": 1,
-          "textWords": 11563
-        },
-        "di0Zq1WG3Awc": {
-          "hits": 0,
-          "textWords": 11563
-        },
-        "juD3tm0asFcU": {
-          "hits": 0,
-          "textWords": 11563
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "oCluGjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/GPL",
-      "title": "GNU General Public License - Wikipedia",
-      "snippet": "The original GPL was written by Richard Stallman in 1989 for use with programs released as part of the GNU Project. The license was based on unifying similar licenses used for early versions of the GNU Emacs text editor, the GNU Debugger, and the GNU C Compiler.[",
+      "hash": "DEUnajRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/List_of_programming_languages_by_type",
+      "title": "List of programming languages by type - Wikipedia",
+      "snippet": "These languages assist with generating lexical analyzers and parsers for context-free grammars.\nANTLR\nCoco/R (EBNF with semantics)\nGNU bison (FSF's version of Yacc)\nGNU Flex (FSF version of Lex)\nJavaCC\nlex (Lexical Analysis, from Bell Labs)\nM4\nParsing expression grammar (PEG)\nProlog\nEmacs Lisp\nLisp",
       "matchedWords": {
         "PHizVQKyaT_v": {
           "hits": 3,
-          "textWords": 15807
+          "textWords": 7157
         },
         "di0Zq1WG3Awc": {
-          "hits": 7,
-          "textWords": 15807
+          "hits": 10,
+          "textWords": 7157
         },
         "juD3tm0asFcU": {
-          "hits": 150,
-          "textWords": 15807
+          "hits": 6,
+          "textWords": 7157
         }
       },
-      "queryPhraseHits": 5
+      "queryPhraseHits": 0
     },
     {
-      "hash": "gmhRVl1nrxbw",
-      "address": "https://www.debian.org/devel/",
-      "title": "Debian -- Debian Developers' Corner",
-      "snippet": "Links to our policy manual and other documents related to the Debian policy, procedures and other resources for Debian developers, and the new maintainers' guide.\nWork in Progress: Links for active Debian developers and maintainers\nDebian ‘Testing’",
+      "hash": "KgBwHjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Regular_expression",
+      "title": "Regular expression - Wikipedia",
+      "snippet": "Many variations of these original forms of regular expressions were used in Unix[13] programs at Bell Labs in the 1970s, including lex, sed, AWK, and expr, and in other programs such as vi, and Emacs (which has its own, incompatible syntax and behavior).",
       "matchedWords": {
         "PHizVQKyaT_v": {
-          "hits": 3,
-          "textWords": 698
+          "hits": 2,
+          "textWords": 9880
         },
         "di0Zq1WG3Awc": {
-          "hits": 0,
-          "textWords": 698
+          "hits": 1,
+          "textWords": 9880
         },
         "juD3tm0asFcU": {
-          "hits": 0,
-          "textWords": 698
+          "hits": 3,
+          "textWords": 9880
         }
       },
       "queryPhraseHits": 0
@@ -2656,8 +2918,92 @@
       "queryPhraseHits": 5
     },
     {
-      "hash": "oCluGjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/GPL",
+      "hash": "esXNdjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/GIMP",
+      "title": "GIMP - Wikipedia",
+      "snippet": "Richard Stallman of the GNU Project visited the University of California Berkeley in 1997, where Richard met with Kimball and Mattis. Kimball and Mattis asked him if they could change the initialism of GIMP, changing the G to 'GNU' from 'General'.[",
+      "matchedWords": {
+        "PHizVQKyaT_v": {
+          "hits": 4,
+          "textWords": 4615
+        },
+        "di0Zq1WG3Awc": {
+          "hits": 0,
+          "textWords": 4615
+        },
+        "juD3tm0asFcU": {
+          "hits": 15,
+          "textWords": 4615
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "zTCfkxtQ-zSx",
+      "address": "https://wiki.archlinux.org/title/List_of_applications/Internet",
+      "title": "List of applications/Internet - ArchWiki",
+      "snippet": "https://thelounge.chat/ || theloungeAUR\nXMPP clients\nSee also: Wikipedia:XMPP\nConsole\nFreetalk — Console-based XMPP client.\nhttps://www.gnu.org/software/freetalk/ || freetalkAUR\njabber.el — Minimal XMPP client for Emacs.\nhttps://emacs-jabber.sourceforge.net/ || emacs-jabberAUR",
+      "matchedWords": {
+        "PHizVQKyaT_v": {
+          "hits": 2,
+          "textWords": 12598
+        },
+        "di0Zq1WG3Awc": {
+          "hits": 12,
+          "textWords": 12598
+        },
+        "juD3tm0asFcU": {
+          "hits": 15,
+          "textWords": 12598
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "KgBwHjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Regular_expression",
+      "title": "Regular expression - Wikipedia",
+      "snippet": "Many variations of these original forms of regular expressions were used in Unix[13] programs at Bell Labs in the 1970s, including lex, sed, AWK, and expr, and in other programs such as vi, and Emacs (which has its own, incompatible syntax and behavior).",
+      "matchedWords": {
+        "PHizVQKyaT_v": {
+          "hits": 2,
+          "textWords": 9880
+        },
+        "di0Zq1WG3Awc": {
+          "hits": 1,
+          "textWords": 9880
+        },
+        "juD3tm0asFcU": {
+          "hits": 3,
+          "textWords": 9880
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "DEUnajRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/List_of_programming_languages_by_type",
+      "title": "List of programming languages by type - Wikipedia",
+      "snippet": "These languages assist with generating lexical analyzers and parsers for context-free grammars.\nANTLR\nCoco/R (EBNF with semantics)\nGNU bison (FSF's version of Yacc)\nGNU Flex (FSF version of Lex)\nJavaCC\nlex (Lexical Analysis, from Bell Labs)\nM4\nParsing expression grammar (PEG)\nProlog\nEmacs Lisp\nLisp",
+      "matchedWords": {
+        "PHizVQKyaT_v": {
+          "hits": 3,
+          "textWords": 7157
+        },
+        "di0Zq1WG3Awc": {
+          "hits": 10,
+          "textWords": 7157
+        },
+        "juD3tm0asFcU": {
+          "hits": 6,
+          "textWords": 7157
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "QdW-xjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/GNU_General_Public_License",
       "title": "GNU General Public License - Wikipedia",
       "snippet": "The original GPL was written by Richard Stallman in 1989 for use with programs released as part of the GNU Project. The license was based on unifying similar licenses used for early versions of the GNU Emacs text editor, the GNU Debugger, and the GNU C Compiler.[",
       "matchedWords": {
@@ -2677,6 +3023,111 @@
       "queryPhraseHits": 5
     },
     {
+      "hash": "RfX7GxtQ-zSx",
+      "address": "https://wiki.archlinux.org/title/Man_page",
+      "title": "man page - ArchWiki",
+      "snippet": "You can use some applications to view man pages:\nEmacs — The extensible and self-documenting editor can also be used to read man pages with the built-in M-x man command.\nhttps://www.gnu.org/software/emacs/ || emacs\nGNOME Help — Help viewer for GNOME. Part of gnome.",
+      "matchedWords": {
+        "PHizVQKyaT_v": {
+          "hits": 15,
+          "textWords": 1457
+        },
+        "di0Zq1WG3Awc": {
+          "hits": 3,
+          "textWords": 1457
+        },
+        "juD3tm0asFcU": {
+          "hits": 2,
+          "textWords": 1457
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "RfX7GxtQ-zSx",
+      "address": "https://wiki.archlinux.org/title/Man_page",
+      "title": "man page - ArchWiki",
+      "snippet": "You can use some applications to view man pages:\nEmacs — The extensible and self-documenting editor can also be used to read man pages with the built-in M-x man command.\nhttps://www.gnu.org/software/emacs/ || emacs\nGNOME Help — Help viewer for GNOME. Part of gnome.",
+      "matchedWords": {
+        "PHizVQKyaT_v": {
+          "hits": 15,
+          "textWords": 1457
+        },
+        "di0Zq1WG3Awc": {
+          "hits": 3,
+          "textWords": 1457
+        },
+        "juD3tm0asFcU": {
+          "hits": 2,
+          "textWords": 1457
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "eE-MAxtQ-zSx",
+      "address": "https://wiki.archlinux.org/title/Systemd",
+      "title": "systemd - ArchWiki",
+      "snippet": "See #Socket activation for more details.\nA search pattern can be appended to a lot of commands, making the use of grep unnecessary. For example, you can search the manual by executing systemctl help 'dbus*', or list specific units with systemctl list-units 'dbus*'.\nAction\nCommand\nNote",
+      "matchedWords": {
+        "PHizVQKyaT_v": {
+          "hits": 3,
+          "textWords": 6888
+        },
+        "di0Zq1WG3Awc": {
+          "hits": 1,
+          "textWords": 6888
+        },
+        "juD3tm0asFcU": {
+          "hits": 0,
+          "textWords": 6888
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "r5eKBxtQ-zSx",
+      "address": "https://wiki.archlinux.org/title/General_recommendations",
+      "title": "General recommendations - ArchWiki",
+      "snippet": "Consult Emacs#Colored output issues for a fix regarding garbled characters that may result from enabling colored output.\nMouse support\nUsing a mouse with the console for copy-paste operations can be preferred over GNU Screen's traditional copy mode.",
+      "matchedWords": {
+        "PHizVQKyaT_v": {
+          "hits": 1,
+          "textWords": 2467
+        },
+        "di0Zq1WG3Awc": {
+          "hits": 3,
+          "textWords": 2467
+        },
+        "juD3tm0asFcU": {
+          "hits": 3,
+          "textWords": 2467
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "zTCfkxtQ-zSx",
+      "address": "https://wiki.archlinux.org/title/List_of_applications/Internet",
+      "title": "List of applications/Internet - ArchWiki",
+      "snippet": "https://thelounge.chat/ || theloungeAUR\nXMPP clients\nSee also: Wikipedia:XMPP\nConsole\nFreetalk — Console-based XMPP client.\nhttps://www.gnu.org/software/freetalk/ || freetalkAUR\njabber.el — Minimal XMPP client for Emacs.\nhttps://emacs-jabber.sourceforge.net/ || emacs-jabberAUR",
+      "matchedWords": {
+        "PHizVQKyaT_v": {
+          "hits": 2,
+          "textWords": 12598
+        },
+        "di0Zq1WG3Awc": {
+          "hits": 12,
+          "textWords": 12598
+        },
+        "juD3tm0asFcU": {
+          "hits": 15,
+          "textWords": 12598
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
       "hash": "2fgfWjRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Vim_(text_editor)",
       "title": "Vim (text editor) - Wikipedia",
@@ -2693,6 +3144,69 @@
         "juD3tm0asFcU": {
           "hits": 2,
           "textWords": 3119
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "P0YYCjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Python_(programming_language)",
+      "title": "Python (programming language) - Wikipedia",
+      "snippet": "This is the origin of many Python features, including the use of indentation for statement grouping and the inclusion of very high-level data types (although the details are all different in Python).\n↑ \"Ada 83 Reference Manual (raise statement)\". archive.adaic.com.",
+      "matchedWords": {
+        "PHizVQKyaT_v": {
+          "hits": 1,
+          "textWords": 11563
+        },
+        "di0Zq1WG3Awc": {
+          "hits": 0,
+          "textWords": 11563
+        },
+        "juD3tm0asFcU": {
+          "hits": 0,
+          "textWords": 11563
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "esXNdjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/GIMP",
+      "title": "GIMP - Wikipedia",
+      "snippet": "Richard Stallman of the GNU Project visited the University of California Berkeley in 1997, where Richard met with Kimball and Mattis. Kimball and Mattis asked him if they could change the initialism of GIMP, changing the G to 'GNU' from 'General'.[",
+      "matchedWords": {
+        "PHizVQKyaT_v": {
+          "hits": 4,
+          "textWords": 4615
+        },
+        "di0Zq1WG3Awc": {
+          "hits": 0,
+          "textWords": 4615
+        },
+        "juD3tm0asFcU": {
+          "hits": 15,
+          "textWords": 4615
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "y9Sjojldhbwx",
+      "address": "https://en.wikibooks.org/wiki/Shelf:Computer_software",
+      "title": "Shelf:Computer software - Wikibooks, open books for an open world",
+      "snippet": "From Wikibooks, open books for an open world",
+      "matchedWords": {
+        "PHizVQKyaT_v": {
+          "hits": 0,
+          "textWords": 8
+        },
+        "di0Zq1WG3Awc": {
+          "hits": 0,
+          "textWords": 8
+        },
+        "juD3tm0asFcU": {
+          "hits": 0,
+          "textWords": 8
         }
       },
       "queryPhraseHits": 0
@@ -2719,27 +3233,6 @@
       "queryPhraseHits": 0
     },
     {
-      "hash": "k8eWwjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Command-line_interface",
-      "title": "Command-line interface - Wikipedia",
-      "snippet": "Retrieved 2019-04-08.\n↑ DR-DOS 7.03 WHATSNEW.TXT — Changes from DR-DOS 7.02 to DR-DOS 7.03. Caldera, Inc. 1998-12-24. Archived from the original on 2019-04-08. Retrieved 2019-04-08.\n↑ \"Argument Syntax (The GNU C Library)\". gnu.org. Archived from the original on 2021-06-18. Retrieved 2021-07-09.",
-      "matchedWords": {
-        "PHizVQKyaT_v": {
-          "hits": 3,
-          "textWords": 9236
-        },
-        "di0Zq1WG3Awc": {
-          "hits": 2,
-          "textWords": 9236
-        },
-        "juD3tm0asFcU": {
-          "hits": 6,
-          "textWords": 9236
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
       "hash": "zPsYJjRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Linux",
       "title": "Linux - Wikipedia",
@@ -2759,6 +3252,48 @@
         }
       },
       "queryPhraseHits": 1
+    },
+    {
+      "hash": "GvUBmisE1LOw",
+      "address": "https://devmanual.gentoo.org/",
+      "title": "Master index – Gentoo Development Guide",
+      "snippet": "Privacy Policy\nCopyright (C) 2001-2026 Gentoo Authors\nGentoo is a trademark of the Gentoo Foundation, Inc. and of Förderverein Gentoo e.V. The text of this document is distributed under the CC-BY-SA-4.0 license. The Gentoo Name and Logo Usage Guidelines apply.",
+      "matchedWords": {
+        "PHizVQKyaT_v": {
+          "hits": 0,
+          "textWords": 40
+        },
+        "di0Zq1WG3Awc": {
+          "hits": 0,
+          "textWords": 40
+        },
+        "juD3tm0asFcU": {
+          "hits": 0,
+          "textWords": 40
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "QdW-xjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/GNU_General_Public_License",
+      "title": "GNU General Public License - Wikipedia",
+      "snippet": "The original GPL was written by Richard Stallman in 1989 for use with programs released as part of the GNU Project. The license was based on unifying similar licenses used for early versions of the GNU Emacs text editor, the GNU Debugger, and the GNU C Compiler.[",
+      "matchedWords": {
+        "PHizVQKyaT_v": {
+          "hits": 3,
+          "textWords": 15807
+        },
+        "di0Zq1WG3Awc": {
+          "hits": 7,
+          "textWords": 15807
+        },
+        "juD3tm0asFcU": {
+          "hits": 150,
+          "textWords": 15807
+        }
+      },
+      "queryPhraseHits": 5
     },
     {
       "hash": "gmhRVl1nrxbw",
@@ -2843,53 +3378,11 @@
         }
       },
       "queryPhraseHits": 0
-    },
-    {
-      "hash": "AonnkjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Perl",
-      "title": "Perl - Wikipedia",
-      "snippet": "License\nArtistic 1.0[4][5] or GNU General Public License version 1 or any later version[6]\nFilename extensions\n.plx, .pls, .pl, .pm, .xs, .t, .pod, .cgi, .psgi\nWebsite\nperl.org\nInfluenced by\nAWK, BASIC, C, C++, Lisp, sed, Unix shell[7]\nInfluenced",
-      "matchedWords": {
-        "PHizVQKyaT_v": {
-          "hits": 2,
-          "textWords": 11521
-        },
-        "di0Zq1WG3Awc": {
-          "hits": 0,
-          "textWords": 11521
-        },
-        "juD3tm0asFcU": {
-          "hits": 4,
-          "textWords": 11521
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "BjVrrjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Mozilla_Firefox",
-      "title": "Firefox - Wikipedia",
-      "snippet": "309] Debian switched to branding their modified version of Firefox \"Iceweasel\" (but in 2016 switched back to Firefox), along with other Mozilla software. GNU IceCat is another derived version of Firefox distributed by the GNU Project, which maintains its separate branding.[310]",
-      "matchedWords": {
-        "PHizVQKyaT_v": {
-          "hits": 1,
-          "textWords": 18480
-        },
-        "di0Zq1WG3Awc": {
-          "hits": 0,
-          "textWords": 18480
-        },
-        "juD3tm0asFcU": {
-          "hits": 2,
-          "textWords": 18480
-        }
-      },
-      "queryPhraseHits": 0
     }
   ],
   "documentsHeldPerQueryWord": {
-    "PHizVQKyaT_v": 180308,
-    "di0Zq1WG3Awc": 32692,
-    "juD3tm0asFcU": 62122
+    "PHizVQKyaT_v": 182509,
+    "di0Zq1WG3Awc": 36527,
+    "juD3tm0asFcU": 19568
   }
 }

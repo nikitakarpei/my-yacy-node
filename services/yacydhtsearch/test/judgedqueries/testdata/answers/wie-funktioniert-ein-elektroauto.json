@@ -1,56 +1,21 @@
 {
   "query": "wie funktioniert ein elektroauto",
-  "recordedAt": "2026-09-12T10:15:34Z",
+  "recordedAt": "2026-09-12T11:25:47Z",
   "itemsInTheOrderOfEachAnswer": [
     [
       {
-        "hash": "Lec2Nl9BgZ3g",
-        "address": "https://www.swr.de/",
-        "title": "Südwestrundfunk | SWR.de",
-        "snippet": "Video \u0026 TV\nAudio \u0026 Radio\nMein SWR\nMerkliste\nEinstellungen\nAbmelden\nNoch kein ARD-Login?\nDas sind deine Vorteile:\nIndividuelle Übersicht\nInhalte passend zu deinen Interessen und Lieblingsregionen.\nExklusiv\nDeine eigene Startseite auf SWR.de.\nFavoriten speichern\nInhalte für später merken.",
+        "hash": "cQVvPl5ARWyg",
+        "address": "https://www.spiegel.de/schlagzeilen/",
+        "title": "Schlagzeilen - DER SPIEGEL",
+        "snippet": "Samstag, 12. September 2026\nUS-Präsident in Irland Trump schwärmt von vereintem Irland – dann geht er Golfen\n12.49 Uhr • Ausland • 1 Min\nmeinung •Karrieren in Russland Die Macht der Prinzen Von Mikhail Zygar\n12.44 Uhr • Ausland • 6 Min",
         "matchedWords": {
           "AN7nsY_VMjlF": {
             "hits": 0,
-            "textWords": 74
-          },
-          "PkE_U9n3xXty": {
-            "hits": 0,
-            "textWords": 74
-          },
-          "_-917wMJR3H7": {
-            "hits": 0,
-            "textWords": 74
+            "textWords": 6279
           },
           "pn1xMZn0lFUd": {
             "hits": 0,
-            "textWords": 74
-          }
-        },
-        "queryPhraseHits": 0
-      }
-    ],
-    [
-      {
-        "hash": "rtQ-JluG0-bg",
-        "address": "https://www.fr.de/",
-        "title": "FR.de | News aus Politik, Wirtschaft, Sport, Frankfurt, Hessen und der Welt",
-        "snippet": "Nachrichtenticker\nMeinung\nSport\nHintergrund\nWirtschaft\nWirtschaft\n„Fokussierung auf das Kerngeschäft“\nPorsche verkauft Bugatti und Rimac für eine Milliarde Euro\nDie VW-Tochter Porsche hat den legendären Sportwagenhersteller Bugatti verkauft. Auch Rimac stieß man ab.",
-        "matchedWords": {
-          "AN7nsY_VMjlF": {
-            "hits": 0,
-            "textWords": 315
-          },
-          "PkE_U9n3xXty": {
-            "hits": 0,
-            "textWords": 315
-          },
-          "_-917wMJR3H7": {
-            "hits": 0,
-            "textWords": 315
-          },
-          "pn1xMZn0lFUd": {
-            "hits": 0,
-            "textWords": 315
+            "textWords": 6279
           }
         },
         "queryPhraseHits": 0
@@ -61,23 +26,15 @@
         "hash": "WLeSrl5ARWyg",
         "address": "https://www.spiegel.de/",
         "title": "DER SPIEGEL | Online-Nachrichten",
-        "snippet": "4 Min\n4 Min\nThemen des Tages\n4 Min\n5 Min\nAlle Beiträge\nNachrichten\nSport\n2 Min\nAlle Beiträge\nAlle Beiträge\n11FREUNDE mit SPIEGEL+ gratis lesen\n7 Min\nAktuelle Videos\nAlle Podcasts\nAlle Games\nTop bei SPIEGEL+\nMeistgelesene Artikel\nAlle Beiträge\n3 Min\nUnsere Kolumnistinnen und Kolumnisten",
+        "snippet": "6 Min\n25 Jahre nach 9/11\nAlle Extras\nAlle Beiträge\nDER SAMSTAG\n8 Min\nAlle Beiträge\nNachrichten\nSport\n1 Min\nAlle Beiträge\nAlle Beiträge\n11FREUNDE mit SPIEGEL+ gratis lesen\n4 Min\nAktuelle Videos\nAlle Podcasts\nAlle Games\nTop bei SPIEGEL+\nMeistgelesene Artikel\nAlle Beiträge\n5 Min",
         "matchedWords": {
           "AN7nsY_VMjlF": {
             "hits": 0,
-            "textWords": 323
-          },
-          "PkE_U9n3xXty": {
-            "hits": 0,
-            "textWords": 323
-          },
-          "_-917wMJR3H7": {
-            "hits": 0,
-            "textWords": 323
+            "textWords": 328
           },
           "pn1xMZn0lFUd": {
             "hits": 0,
-            "textWords": 323
+            "textWords": 328
           }
         },
         "queryPhraseHits": 0
@@ -85,26 +42,18 @@
     ],
     [
       {
-        "hash": "A2rEcUNVBxfg",
-        "address": "https://article.chip.de/",
-        "title": "Chip",
-        "snippet": "",
+        "hash": "emM1QjyX5Qug",
+        "address": "https://www.t-online.de/mobilitaet/e-autos/",
+        "title": "Elektroauto Ratgeber: Tipps und Infos rund um Elektroautos",
+        "snippet": "Gerichte haben geurteilt\nGeringere Reichweiten als versprochen: Kann man sein E-Auto zurückgeben?\nSchnell erklärt\nSo funktioniert der Elektromotor beim E-Auto\nRat der Experten\nElektroauto: Nicht die falschen Reifen wählen\nStrenge Grenzwerte\nBlaue Plakette: Für wen sie ein Fahrverbot bedeuten würde",
         "matchedWords": {
           "AN7nsY_VMjlF": {
-            "hits": 0,
-            "textWords": 0
-          },
-          "PkE_U9n3xXty": {
-            "hits": 33,
-            "textWords": 3486
-          },
-          "_-917wMJR3H7": {
-            "hits": 0,
-            "textWords": 0
+            "hits": 8,
+            "textWords": 544
           },
           "pn1xMZn0lFUd": {
-            "hits": 0,
-            "textWords": 0
+            "hits": 1,
+            "textWords": 544
           }
         },
         "queryPhraseHits": 0
@@ -112,26 +61,18 @@
     ],
     [
       {
-        "hash": "Fl-YxlDOAHJg",
-        "address": "https://www.heise.de/",
-        "title": "heise online - IT-News, Nachrichten und Hintergründe | heise online",
-        "snippet": "Anzeige\nAnzeige\nEigenwerbung\nCyber Resilience Act in der Praxis\nLive-Classroom · 21.10. - 11.11.26\nCRA-Anforderungen verstehen und einordnen\nRisikoanalyse und Dokumentation aufbauen\nKonformitätsbewertung sicher planen\nClassroom entdecken\nAnzeige\nAnzeige\nmeistgelesen\nbeliebt bei Abonnenten",
+        "hash": "lScV_l8moajg",
+        "address": "https://www.welt.de/motor/",
+        "title": "PS WELT - Auto-News, Fahrberichte, und Tests - WELT",
+        "snippet": "Wer sein Elektroauto zu Hause via Wallbox lädt, spart teure Schnelllader – und kann den Wagen künftig sogar als Stromspeicher nutzen. Doch Anschaffung, Strompreis und Wohnsituation entscheiden, ob sich das Gerät wirklich lohnt. WELT macht die Rechnung auf.\nWeltplus Artikel\nSuperkonzern-Strategie",
         "matchedWords": {
           "AN7nsY_VMjlF": {
-            "hits": 0,
-            "textWords": 978
-          },
-          "PkE_U9n3xXty": {
-            "hits": 0,
-            "textWords": 978
-          },
-          "_-917wMJR3H7": {
-            "hits": 0,
-            "textWords": 978
+            "hits": 1,
+            "textWords": 1082
           },
           "pn1xMZn0lFUd": {
-            "hits": 0,
-            "textWords": 978
+            "hits": 1,
+            "textWords": 1082
           }
         },
         "queryPhraseHits": 0
@@ -139,26 +80,18 @@
     ],
     [
       {
-        "hash": "WLeSrl5ARWyg",
-        "address": "https://www.spiegel.de/",
-        "title": "DER SPIEGEL | Online-Nachrichten",
-        "snippet": "4 Min\n4 Min\nThemen des Tages\n4 Min\n5 Min\nAlle Beiträge\nNachrichten\nSport\n2 Min\nAlle Beiträge\nAlle Beiträge\n11FREUNDE mit SPIEGEL+ gratis lesen\n7 Min\nAktuelle Videos\nAlle Podcasts\nAlle Games\nTop bei SPIEGEL+\nMeistgelesene Artikel\nAlle Beiträge\n3 Min\nUnsere Kolumnistinnen und Kolumnisten",
+        "hash": "osq-HlBPr4m7",
+        "address": "https://www.motorsport-magazin.com/auto-tuning/",
+        "title": "Auto Vorstellungen, E-Mobility und Tuning - alle Infos",
+        "snippet": "So funktioniert die Hyundai-Konzeptstudio Tiger X-1\n6:19 Min.\nRennfahrerin Jessica Hawkins fährt den Defender Works V8 Trophy\n1:00 Min.\nBMW i4: Letzter Feinschliff vor der Weltpremiere\n2:10 Min.\nDer Pagani Huayra Tricolore - bereit zum Abheben\n2:16 Min.",
         "matchedWords": {
           "AN7nsY_VMjlF": {
             "hits": 0,
-            "textWords": 323
-          },
-          "PkE_U9n3xXty": {
-            "hits": 0,
-            "textWords": 323
-          },
-          "_-917wMJR3H7": {
-            "hits": 0,
-            "textWords": 323
+            "textWords": 404
           },
           "pn1xMZn0lFUd": {
-            "hits": 0,
-            "textWords": 323
+            "hits": 1,
+            "textWords": 404
           }
         },
         "queryPhraseHits": 0
@@ -166,53 +99,54 @@
     ],
     [
       {
-        "hash": "siaP_lQCzJQg",
-        "address": "https://www.chip.de/",
-        "title": "CHIP | News, Tests, Downloads, Tech- \u0026 Verbraucherberatung",
-        "snippet": "",
+        "hash": "RzdNbIgw84xh",
+        "address": "https://www.sueddeutsche.de/auto/mobilitaet-das-problem-mit-dem-e-1.2520098",
+        "title": "Elektromobilität - Das Problem der Elektroautos - Auto \u0026 Mobil - SZ.de",
+        "snippet": "Es ist nicht gerade so, dass die Autohersteller seit Jahren davon träumen würden, irgendwann nur noch Elektroautos zu bauen. Ginge es nach den Managern, sie könnten auch ganz gut noch Jahre und Jahrzehnte mit Benzin- und Dieselmotoren ihr Geld verdienen. Das hat schließlich immer gut funktioniert.",
         "matchedWords": {
           "AN7nsY_VMjlF": {
-            "hits": 0,
-            "textWords": 0
-          },
-          "PkE_U9n3xXty": {
-            "hits": 0,
-            "textWords": 0
-          },
-          "_-917wMJR3H7": {
-            "hits": 0,
-            "textWords": 0
+            "hits": 3,
+            "textWords": 932
           },
           "pn1xMZn0lFUd": {
-            "hits": 4,
-            "textWords": 11192
+            "hits": 2,
+            "textWords": 932
           }
         },
         "queryPhraseHits": 0
       }
     ],
     [
+      {
+        "hash": "meozUllA2Rig",
+        "address": "https://www.n-tv.de/auto/",
+        "title": "Auto - n-tv.de",
+        "snippet": "Was damals keiner ahnte: Technisch modern, aber konservativ im Design, brachte der Mercedes 170 V ab 1949 sogar die junge Bundesrepublik in Fahrt - und er legte die Basis zur heutigen C-Klasse.\nAussage zu Verschleiß und RestwertWie funktioniert der Kilometerzähler?",
+        "matchedWords": {
+          "AN7nsY_VMjlF": {
+            "hits": 0,
+            "textWords": 844
+          },
+          "pn1xMZn0lFUd": {
+            "hits": 1,
+            "textWords": 844
+          }
+        },
+        "queryPhraseHits": 0
+      },
       {
         "hash": "2RTWrl8moajg",
         "address": "https://www.welt.de/",
         "title": "WELT - Aktuelle Nachrichten, News, Hintergründe \u0026 Videos",
-        "snippet": "WELT TV\nWeltplus Artikel\nFirmen und ominöse Zahlungen\nSo wichtig ist diese Frau für Windparkbetrüger Hendrik Holt\nJana Holt ist nicht nur die Ehefrau von Windparkbetrüger Hendrik Holt. Hinter den Kulissen gründet sie Firmen und ist in ominöse Zahlungen verstrickt.",
+        "snippet": "WELT TV\nWeltplus Artikel\nSachsen-Anhalt\nWarum jetzt alles auf Neuwahlen hinausläuft\nDie Wahl in Sachsen-Anhalt hat klare Machtverhältnisse geschaffen, aber keine regierungsfähige Mehrheit. Drei Szenarien sind jetzt wahrscheinlich.\nWeltplus Artikel\nIslamisierung\nWarten auf das Kinderkopftuch",
         "matchedWords": {
           "AN7nsY_VMjlF": {
             "hits": 0,
-            "textWords": 1392
-          },
-          "PkE_U9n3xXty": {
-            "hits": 0,
-            "textWords": 1392
-          },
-          "_-917wMJR3H7": {
-            "hits": 0,
-            "textWords": 1392
+            "textWords": 1230
           },
           "pn1xMZn0lFUd": {
             "hits": 0,
-            "textWords": 1392
+            "textWords": 1230
           }
         },
         "queryPhraseHits": 0
@@ -227,14 +161,6 @@
             "hits": 1,
             "textWords": 965
           },
-          "PkE_U9n3xXty": {
-            "hits": 0,
-            "textWords": 965
-          },
-          "_-917wMJR3H7": {
-            "hits": 0,
-            "textWords": 965
-          },
           "pn1xMZn0lFUd": {
             "hits": 1,
             "textWords": 965
@@ -246,23 +172,68 @@
         "hash": "w623Xl8moajg",
         "address": "https://www.welt.de/weltplus/",
         "title": "WELTplus - Qualitätsjournalismus für Abonnenten - WELT",
-        "snippet": "Pfadnavigation\nHome\nWeltplus Artikel\nReiseträume für WELT-ABONNENTEN\nGewinnen Sie eine luxuriöse Auszeit in der Natur\nWELT-Abonnenten aufgepasst – packen Sie die Koffer, denn mit dem exklusiven Reisegewinnspiel im September könnte es bald ins Kärntner Mölltal gehen.\nWeltplus Artikel\nAfD im Dilemma",
+        "snippet": "Pfadnavigation\nHome\nWeltplus Artikel\nVerwaltung gehackt\nDas ganze Ausmaß des Berliner Daten-Desasters",
         "matchedWords": {
           "AN7nsY_VMjlF": {
             "hits": 0,
-            "textWords": 1068
-          },
-          "PkE_U9n3xXty": {
-            "hits": 0,
-            "textWords": 1068
-          },
-          "_-917wMJR3H7": {
-            "hits": 0,
-            "textWords": 1068
+            "textWords": 1306
           },
           "pn1xMZn0lFUd": {
             "hits": 0,
-            "textWords": 1068
+            "textWords": 1306
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "3KI3Qh8moajg",
+        "address": "https://www.welt.de/finanzen/weltplus/",
+        "title": "WELTplus Finanzen - Qualitätsjournalismus für Abonnenten",
+        "snippet": "Die unterschätzte E-Auto-Rechnung – so lukrativ ist die Wallbox wirklich\nWer sein Elektroauto zu Hause via Wallbox lädt, spart teure Schnelllader – und kann den Wagen künftig sogar als Stromspeicher nutzen.",
+        "matchedWords": {
+          "AN7nsY_VMjlF": {
+            "hits": 1,
+            "textWords": 237
+          },
+          "pn1xMZn0lFUd": {
+            "hits": 0,
+            "textWords": 237
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "pgzRRh8moajg",
+        "address": "https://www.welt.de/finanzen/immobilien/",
+        "title": "Immobilien - Wohneigentum, Finanzierung \u0026 Kaufpreise - WELT",
+        "snippet": "Pfadnavigation\nHome\nGeld\nWeltplus Artikel\nKosten der Elektromobilität\nDie unterschätzte E-Auto-Rechnung – so lukrativ ist die Wallbox wirklich\nWer sein Elektroauto zu Hause via Wallbox lädt, spart teure Schnelllader – und kann den Wagen künftig sogar als Stromspeicher nutzen.",
+        "matchedWords": {
+          "AN7nsY_VMjlF": {
+            "hits": 1,
+            "textWords": 529
+          },
+          "pn1xMZn0lFUd": {
+            "hits": 0,
+            "textWords": 529
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "HWuoKXDOAHJg",
+        "address": "https://www.heise.de/tests/Elektroauto-Mercedes-GLC-400-im-Test-E-SUV-laesst-Verbrenner-alt-aussehen-11425170.html",
+        "title": "Elektroauto Mercedes GLC 400 im Test: E-SUV lässt Verbrenner alt aussehen | heise autos",
+        "snippet": "Elektroauto Mercedes GLC 400 im Test: E-SUV lässt Verbrenner alt aussehen Design: Zurück zu alter Stärke?\nHinterradlenkung ist empfehlenswert\nMit Allradantrieb 2400 kg Anhängelast\nAssistenzsysteme als Beitrag zur Entspannung\nKein falscher Alarm\nMercedes GLC 400 im Test: Verbrauch, Fazit",
+        "matchedWords": {
+          "AN7nsY_VMjlF": {
+            "hits": 2,
+            "textWords": 237
+          },
+          "pn1xMZn0lFUd": {
+            "hits": 0,
+            "textWords": 237
           }
         },
         "queryPhraseHits": 0
@@ -279,14 +250,6 @@
             "hits": 0,
             "textWords": 939
           },
-          "PkE_U9n3xXty": {
-            "hits": 0,
-            "textWords": 939
-          },
-          "_-917wMJR3H7": {
-            "hits": 0,
-            "textWords": 939
-          },
           "pn1xMZn0lFUd": {
             "hits": 0,
             "textWords": 939
@@ -297,26 +260,147 @@
     ],
     [
       {
-        "hash": "ZyiHz7E1ETA5",
-        "address": "https://www.handelsblatt.com/themen/elektro-autos",
-        "title": "Elektromobilität News: Neueste Nachrichten aus der Welt der E-Autos",
-        "snippet": "Die Elektromobilität, oder auch E-Mobilität genannt, ist in den vergangenen Jahren immer wichtiger geworden. Große Konzerne setzen immer mehr auf den elektrischen Antrieb.",
+        "hash": "Fl-YxlDOAHJg",
+        "address": "https://www.heise.de/",
+        "title": "heise online - IT-News, Nachrichten und Hintergründe | heise online",
+        "snippet": "Anzeige\nAnzeige\nEigenwerbung\nWebinar\nIT-Security für Nicht-Nerds\nSchutz vor Phishing Mails und Kontoklau verständlich erklärt\nSicher surfen und im Netz unterwegs sein\n22.09. + 24.09.2026\nMEHR ERFAHREN\nAnzeige\nAnzeige\nVW stimmt Gesprächen mit Gewerkschaft über Konzernumbau zu",
         "matchedWords": {
           "AN7nsY_VMjlF": {
             "hits": 0,
-            "textWords": 55
-          },
-          "PkE_U9n3xXty": {
-            "hits": 0,
-            "textWords": 55
-          },
-          "_-917wMJR3H7": {
-            "hits": 0,
-            "textWords": 55
+            "textWords": 1225
           },
           "pn1xMZn0lFUd": {
             "hits": 0,
-            "textWords": 55
+            "textWords": 1225
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "emM1QjyX5Qug",
+        "address": "https://www.t-online.de/mobilitaet/e-autos/",
+        "title": "Elektroauto Ratgeber: Tipps und Infos rund um Elektroautos",
+        "snippet": "Gerichte haben geurteilt\nGeringere Reichweiten als versprochen: Kann man sein E-Auto zurückgeben?\nSchnell erklärt\nSo funktioniert der Elektromotor beim E-Auto\nRat der Experten\nElektroauto: Nicht die falschen Reifen wählen\nStrenge Grenzwerte\nBlaue Plakette: Für wen sie ein Fahrverbot bedeuten würde",
+        "matchedWords": {
+          "AN7nsY_VMjlF": {
+            "hits": 8,
+            "textWords": 544
+          },
+          "pn1xMZn0lFUd": {
+            "hits": 1,
+            "textWords": 544
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "HWuoKXDOAHJg",
+        "address": "https://www.heise.de/tests/Elektroauto-Mercedes-GLC-400-im-Test-E-SUV-laesst-Verbrenner-alt-aussehen-11425170.html",
+        "title": "Elektroauto Mercedes GLC 400 im Test: E-SUV lässt Verbrenner alt aussehen | heise autos",
+        "snippet": "Elektroauto Mercedes GLC 400 im Test: E-SUV lässt Verbrenner alt aussehen Design: Zurück zu alter Stärke?\nHinterradlenkung ist empfehlenswert\nMit Allradantrieb 2400 kg Anhängelast\nAssistenzsysteme als Beitrag zur Entspannung\nKein falscher Alarm\nMercedes GLC 400 im Test: Verbrauch, Fazit",
+        "matchedWords": {
+          "AN7nsY_VMjlF": {
+            "hits": 2,
+            "textWords": 237
+          },
+          "pn1xMZn0lFUd": {
+            "hits": 0,
+            "textWords": 237
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "QurvL3sdClVg",
+        "address": "https://kurier.at/politik/klima?cx_artpos=2\u0026cx_experienceactionid=showrecommendationswphda8on3w4d37",
+        "title": "Klima: Nachrichten über die Klimakrise | Kurier",
+        "snippet": "10.09.2026\n10.09.2026\n04.09.2026\n03.09.2026\n03.09.2026\n03.09.2026\nTäglich\nFrühdienst Newsletter\nDer tägliche Nachrichtenüberblick am Morgen, inklusive Wetterbericht für ganz Österreich.\nNewsletter bestellt\nBestätigung ausstehend\nTäglich\nDaily Newsletter",
+        "matchedWords": {
+          "AN7nsY_VMjlF": {
+            "hits": 0,
+            "textWords": 361
+          },
+          "pn1xMZn0lFUd": {
+            "hits": 0,
+            "textWords": 361
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "DXOeRNDOAHJg",
+        "address": "https://www.heise.de/hintergrund/Elektroautos-mit-Wechselstrom-laden-Langsam-aber-bewaehrt-11385092.html",
+        "title": "Elektroautos mit Wechselstrom laden: Langsam, aber bewährt | heise autos",
+        "snippet": "Beim Hype um hohe DC-Ladeleistungen wird das AC-Laden häufig vergessen. Dabei ist es günstiger, es gibt deutlich mehr Ladesäulen und weitere Vorteile.\nDas Laden mit Wechselstrom an der heimischen Wallbox ist die Basis des Fahrens mit dem Elektroauto.",
+        "matchedWords": {
+          "AN7nsY_VMjlF": {
+            "hits": 1,
+            "textWords": 233
+          },
+          "pn1xMZn0lFUd": {
+            "hits": 0,
+            "textWords": 233
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "WLeSrl5ARWyg",
+        "address": "https://www.spiegel.de/",
+        "title": "DER SPIEGEL | Online-Nachrichten",
+        "snippet": "6 Min\n25 Jahre nach 9/11\nAlle Extras\nAlle Beiträge\nDER SAMSTAG\n8 Min\nAlle Beiträge\nNachrichten\nSport\n1 Min\nAlle Beiträge\nAlle Beiträge\n11FREUNDE mit SPIEGEL+ gratis lesen\n4 Min\nAktuelle Videos\nAlle Podcasts\nAlle Games\nTop bei SPIEGEL+\nMeistgelesene Artikel\nAlle Beiträge\n5 Min",
+        "matchedWords": {
+          "AN7nsY_VMjlF": {
+            "hits": 0,
+            "textWords": 328
+          },
+          "pn1xMZn0lFUd": {
+            "hits": 0,
+            "textWords": 328
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "YUdn2a2R88yh",
+        "address": "https://www.klimaaktiv.at/private/zukunftsfittes-haus/sanieren/foerderung-und-beratung",
+        "title": "Sanierung – Förderung nutzen \u0026 richtig beraten lassen | klimaaktiv",
+        "snippet": "Home\nklimaaktiv für Private\nZukunftsfittes Haus\nSanieren\nFörderungen \u0026 Beratung\n© iStock.com/Suchat longthara\nSo profitieren Sie von Förderungen und Energieberatung bei Ihrer Sanierung\nAuch finanziell ist die thermische Sanierung Ihres Hauses zum jetzigen Zeitpunkt eine sinnvolle Sache.",
+        "matchedWords": {
+          "AN7nsY_VMjlF": {
+            "hits": 0,
+            "textWords": 287
+          },
+          "pn1xMZn0lFUd": {
+            "hits": 0,
+            "textWords": 287
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "YUdn2a2R88yh",
+        "address": "https://www.klimaaktiv.at/private/zukunftsfittes-haus/sanieren/foerderung-und-beratung",
+        "title": "Sanierung – Förderung nutzen \u0026 richtig beraten lassen | klimaaktiv",
+        "snippet": "Home\nklimaaktiv für Private\nZukunftsfittes Haus\nSanieren\nFörderungen \u0026 Beratung\n© iStock.com/Suchat longthara\nSo profitieren Sie von Förderungen und Energieberatung bei Ihrer Sanierung\nAuch finanziell ist die thermische Sanierung Ihres Hauses zum jetzigen Zeitpunkt eine sinnvolle Sache.",
+        "matchedWords": {
+          "AN7nsY_VMjlF": {
+            "hits": 0,
+            "textWords": 287
+          },
+          "pn1xMZn0lFUd": {
+            "hits": 0,
+            "textWords": 287
           }
         },
         "queryPhraseHits": 0
@@ -325,26 +409,103 @@
   ],
   "itemsInNoOrder": [
     {
-      "hash": "ZavYZl0w__jw",
-      "address": "https://www.faz.net/kaufkompass/",
-      "title": "F.A.Z. Kaufkompass – Das Testportal des F.A.Z.-Verlags",
-      "snippet": "Sneaker-Reiniger bringen schmutzige Treter auf schonende Weise wieder zum Strahlen – so das Versprechen der Hersteller. Aber wie gut funktioniert das in der Praxis? Und sind spezielle Reiniger den Hausmitteln überlegen?\nAktualisiert 11.9.2026\nSonstige Elektronik\nDer beste Handventilator",
+      "hash": "D9oZ8NDOAHJg",
+      "address": "https://www.heise.de/thema/Digital-Health",
+      "title": "Digital Health: News, Ratgeber und Tipps | heise online",
+      "snippet": "Eine Toilettenkabine soll die medizinische Versorgung im Ernstfall verbessern. Wie das funktioniert, erklärt Dr. Andreas Follmann von der Uniklinik RWTH Aachen.",
       "matchedWords": {
         "AN7nsY_VMjlF": {
           "hits": 0,
-          "textWords": 3239
-        },
-        "PkE_U9n3xXty": {
-          "hits": 0,
-          "textWords": 3239
-        },
-        "_-917wMJR3H7": {
-          "hits": 0,
-          "textWords": 3239
+          "textWords": 734
         },
         "pn1xMZn0lFUd": {
-          "hits": 5,
-          "textWords": 3239
+          "hits": 1,
+          "textWords": 734
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "BU_eehHjdLqg",
+      "address": "https://www.focus.de/finanzen/schweiz-auswanderer-ehrlich-ich-habe-schnell-gemerkt-hier-bleibt-mir-mehr-geld_id_208726174.html",
+      "title": "Schweiz-Auswanderer: „Ich habe schnell gemerkt, hier bleibt mir mehr Geld“ - FOCUS online",
+      "snippet": "",
+      "matchedWords": {
+        "AN7nsY_VMjlF": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "pn1xMZn0lFUd": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "A5MTflMudkbg",
+      "address": "https://www.waz.de/",
+      "title": "WAZ | Westdeutsche Allgemeine Zeitung",
+      "snippet": "Aktuelle Schlagzeilen\nLive! Erst Glück, jetzt Ecken-Tor: Hofmann köpft überraschende Bochum-Führungvor 5 Min.\nU23 des VfL Bochum jetzt im Liveticker: Gelingt gegen Aufsteiger Rhynern die Wende?vor 6 Min.\nHaniel Klassik Open Air: Große Stimmen bringen Mikrofone an ihre Grenzenvor 11 Min.",
+      "matchedWords": {
+        "AN7nsY_VMjlF": {
+          "hits": 0,
+          "textWords": 736
+        },
+        "pn1xMZn0lFUd": {
+          "hits": 0,
+          "textWords": 736
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "A2rEcUNVBxfg",
+      "address": "https://article.chip.de/",
+      "title": "Chip",
+      "snippet": "",
+      "matchedWords": {
+        "AN7nsY_VMjlF": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "pn1xMZn0lFUd": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "AthR8li-f6Eg",
+      "address": "https://www.zeit.de/daten-und-visualisierung",
+      "title": "Übersicht: Unsere Daten und Visualisierungen | ZEIT ONLINE",
+      "snippet": "Z+ (abopflichtiger Inhalt);\nÖlpreis: So verletzlich ist die deutsche Wirtschaft\nDie Sorge ist groß, dass der Ölpreisschock den Hauch von Aufschwung in Deutschland stoppen könnte. Wie groß ist die Gefahr wirklich?\nVon Clara Suchy, Vivien Serve, Ileana Grabitz u. a.",
+      "matchedWords": {
+        "AN7nsY_VMjlF": {
+          "hits": 0,
+          "textWords": 1527
+        },
+        "pn1xMZn0lFUd": {
+          "hits": 0,
+          "textWords": 1527
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "DjQWH1qF-3Lg",
+      "address": "https://www.bmimi.gv.at/themen/innovation/internationales/cost.html",
+      "title": "COST",
+      "snippet": "Die jüngsten Neuzugänge unter den COST Mitgliedsstaaten sind Ukraine und Georgien. Darüber hinaus können sich auch Forschungseinrichtungen aus Drittstaaten an COST Aktionen beteiligen.\nWie funktioniert COST:",
+      "matchedWords": {
+        "AN7nsY_VMjlF": {
+          "hits": 0,
+          "textWords": 303
+        },
+        "pn1xMZn0lFUd": {
+          "hits": 1,
+          "textWords": 303
         }
       },
       "queryPhraseHits": 0
@@ -357,94 +518,11 @@
       "matchedWords": {
         "AN7nsY_VMjlF": {
           "hits": 0,
-          "textWords": 1004
-        },
-        "PkE_U9n3xXty": {
-          "hits": 0,
-          "textWords": 1004
-        },
-        "_-917wMJR3H7": {
-          "hits": 0,
-          "textWords": 1004
+          "textWords": 874
         },
         "pn1xMZn0lFUd": {
           "hits": 1,
-          "textWords": 1004
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "q7UDNl3ESnng",
-      "address": "https://www.br.de/index.html",
-      "title": "Bayerischer Rundfunk: Nachrichten von BR24, Highlights aus der BR Mediathek, Live Radio hören und BR.de-Specials - die Startseite für Bayern | BR.de",
-      "snippet": "Wirtschaft Emirate investieren Milliarden in Bayern: Was geplant ist\nZehn Milliarden Euro: So viel Investitionskapital hatte Scheich Zayid Al Nahyan beim Deutsch-Emiratischen Wirtschaftsforum in München allein für Bayern im Gepäck.",
-      "matchedWords": {
-        "AN7nsY_VMjlF": {
-          "hits": 0,
-          "textWords": 42
-        },
-        "PkE_U9n3xXty": {
-          "hits": 0,
-          "textWords": 42
-        },
-        "_-917wMJR3H7": {
-          "hits": 0,
-          "textWords": 42
-        },
-        "pn1xMZn0lFUd": {
-          "hits": 0,
-          "textWords": 42
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "cQVvPl5ARWyg",
-      "address": "https://www.spiegel.de/schlagzeilen/",
-      "title": "Schlagzeilen - DER SPIEGEL",
-      "snippet": "Samstag, 12. September 2026\nDurchsetzung von Bundesrecht Unionsfraktionschef Frei hält »Bundeszwang« gegen AfD-Landesregierung für möglich\n01.08 Uhr • Politik • 2 Min\nWieder ohne Satzverlust Zverev steht im US-Open-Finale\n01.04 Uhr • Sport • 2 Min",
-      "matchedWords": {
-        "AN7nsY_VMjlF": {
-          "hits": 0,
-          "textWords": 6965
-        },
-        "PkE_U9n3xXty": {
-          "hits": 0,
-          "textWords": 6965
-        },
-        "_-917wMJR3H7": {
-          "hits": 0,
-          "textWords": 6965
-        },
-        "pn1xMZn0lFUd": {
-          "hits": 0,
-          "textWords": 6965
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "OZ82-lDOAHJg",
-      "address": "https://www.heise.de/ct",
-      "title": "c't: Magazin für Computertechnik | heise online",
-      "snippet": "Software\nHardware\nSecurity\nGreen-Tech\nDigitalisierung\nEvents\nAnzeige\nAnzeige\nAktuelle Ausgabe\nOpen Source statt Microsoft 365\nKI-Chatbot Claude: einrichten, anlernen, an eigene Dateien lassen\nGeld sparen durch Aufrüsten: neue Hardware für alte PCs",
-      "matchedWords": {
-        "AN7nsY_VMjlF": {
-          "hits": 0,
-          "textWords": 161
-        },
-        "PkE_U9n3xXty": {
-          "hits": 0,
-          "textWords": 161
-        },
-        "_-917wMJR3H7": {
-          "hits": 0,
-          "textWords": 161
-        },
-        "pn1xMZn0lFUd": {
-          "hits": 0,
-          "textWords": 161
+          "textWords": 874
         }
       },
       "queryPhraseHits": 0
@@ -453,148 +531,219 @@
       "hash": "YbzwIlDOAHJg",
       "address": "https://www.heise.de/newsticker/",
       "title": "7-Tage-News | heise online",
-      "snippet": "Hardware-Details zum iPhone Duo: IP-Rating, Display, Faltenfreiheit\nMac \u0026 i Magazin\n4 Kommentare",
+      "snippet": "Newsticker | heise online\nheise+ entdecken\nAnmelden\nSuchen\nAbo\nSuchen\nmagazine_v1\nAlle Magazine im Browser lesen\nIT News\nNewsticker\nHintergründe\nRatgeber\nTestberichte\nMeinungen\nOnline-Magazine\nheise\nTelepolis\nheise autos\nbestenlisten\ntipps+tricks\nServices\nheise shop\nheise jobs\nheise academy",
       "matchedWords": {
         "AN7nsY_VMjlF": {
           "hits": 0,
-          "textWords": 12
-        },
-        "PkE_U9n3xXty": {
-          "hits": 0,
-          "textWords": 12
-        },
-        "_-917wMJR3H7": {
-          "hits": 0,
-          "textWords": 12
+          "textWords": 766
         },
         "pn1xMZn0lFUd": {
           "hits": 0,
-          "textWords": 12
+          "textWords": 766
         }
       },
       "queryPhraseHits": 0
     },
     {
-      "hash": "eIRKNNDOAHJg",
-      "address": "https://www.heise.de/thema/Test",
-      "title": "Test | heise online",
-      "snippet": "Bringen sie USB-C und Power Delivery mit, geht das schnell und klappt selbst mit stromhungrigen iPads oder MacBooks.\nElektroauto Mercedes GLC 400 im Test: E-SUV lässt Verbrenner alt aussehen\nDer elektrische GLC überzeugt mit viel Komfort, hoher Reichweite und schnellem Laden.",
+      "hash": "ZyiHz7E1ETA5",
+      "address": "https://www.handelsblatt.com/themen/elektro-autos",
+      "title": "Elektromobilität News: Neueste Nachrichten aus der Welt der E-Autos",
+      "snippet": "Die Elektromobilität, oder auch E-Mobilität genannt, ist in den vergangenen Jahren immer wichtiger geworden. Große Konzerne setzen immer mehr auf den elektrischen Antrieb.",
       "matchedWords": {
         "AN7nsY_VMjlF": {
-          "hits": 1,
-          "textWords": 613
-        },
-        "PkE_U9n3xXty": {
           "hits": 0,
-          "textWords": 613
-        },
-        "_-917wMJR3H7": {
-          "hits": 0,
-          "textWords": 613
+          "textWords": 55
         },
         "pn1xMZn0lFUd": {
           "hits": 0,
-          "textWords": 613
+          "textWords": 55
         }
       },
       "queryPhraseHits": 0
     },
     {
-      "hash": "3Zwe0lDOAHJg",
-      "address": "https://www.heise.de/tests",
-      "title": "tests | heise online",
-      "snippet": "Wir haben getestet, ob das auch auf Alltagsrechnern funktioniert.",
+      "hash": "gkwLV1qF-3Lg",
+      "address": "https://www.bmimi.gv.at/themen/mobilitaet/alternative_verkehrskonzepte/automatisiertesfahren/faq.html",
+      "title": "Häufig gestellte Fragen, FAQ",
+      "snippet": "In der Regel funktioniert der öffentliche Verkehr in großen Städten und entlang der Hauptstrecken sehr gut. Schwierig wird es abseits davon mit der Vertaktung des regionalen Verkehrs.",
       "matchedWords": {
         "AN7nsY_VMjlF": {
           "hits": 0,
-          "textWords": 609
-        },
-        "PkE_U9n3xXty": {
-          "hits": 0,
-          "textWords": 609
-        },
-        "_-917wMJR3H7": {
-          "hits": 0,
-          "textWords": 609
+          "textWords": 6975
         },
         "pn1xMZn0lFUd": {
           "hits": 1,
-          "textWords": 609
+          "textWords": 6975
         }
       },
       "queryPhraseHits": 0
     },
     {
-      "hash": "l9eEIl_oo2rh",
-      "address": "https://www.weser-kurier.de/",
-      "title": "Nachrichten aus Bremen \u0026 Niedersachsen",
-      "snippet": "Serien, Kolumnen \u0026 Dossiers\nGastrokolumne Bomm und Schlichting\nMit Leidenschaft für gutes Essen und Wein: Max Bomm und Elias Schlichting sind die neuen Gastrokolumnisten des WESER-KURIER und nehmen Sie mit auf eine kulinarische Reise durch Bremen.\nBlick hinter die Werder-Kulissen",
+      "hash": "rtQ-JluG0-bg",
+      "address": "https://www.fr.de/",
+      "title": "FR.de | News aus Politik, Wirtschaft, Sport, Frankfurt, Hessen und der Welt",
+      "snippet": "Nachrichtenticker\nMeinung\nSport\nEintracht\nNach Bundesliga-Start\nPrall gefüllte Gefühlspalette bei Eintracht Frankfurt\nEintracht Frankfurt will in Mainz Haltung zeigen. Stürmer Jonathan Burkardt setzt bei seiner Rückkehr auf den emotionalen Derbyfaktor.",
       "matchedWords": {
         "AN7nsY_VMjlF": {
           "hits": 0,
-          "textWords": 487
-        },
-        "PkE_U9n3xXty": {
-          "hits": 0,
-          "textWords": 487
-        },
-        "_-917wMJR3H7": {
-          "hits": 0,
-          "textWords": 487
+          "textWords": 443
         },
         "pn1xMZn0lFUd": {
           "hits": 0,
-          "textWords": 487
+          "textWords": 443
         }
       },
       "queryPhraseHits": 0
     },
     {
-      "hash": "bx3fBlc_rKzh",
-      "address": "https://www.telepolis.de/",
-      "title": "Onlinemagazin für Politik \u0026 Medien im digitalen Zeitalter | Telepolis",
-      "snippet": "Politik\nWirtschaft\nWissen\nEnergie \u0026 Klima\nKultur \u0026 Medien\nFit \u0026 Gesund\nFinanzen\nLifestyle\nAnzeige\nAnzeige\nTelepolis - täglich abonnieren\nTelepolis - täglich abonnieren\nDieser Newsletter informiert Sie tagesaktuell per E-Mail über neue Artikel und Themen des Online-Magazins Telepolis.",
+      "hash": "O4Dj_MdDehkg",
+      "address": "https://www.adac.de/services/apps/smartconnect/",
+      "title": "ADAC Smart Connect App",
+      "snippet": "Anbieter: ADAC e.V.\nSicher mobil. Entspannt ans Ziel.\nDie Zukunft der Pannenhilfe ist digital: ADAC Smart Connect. Viele tausend Testnutzer helfen uns gerade dabei, die digitale Diagnose weiter zu perfektionieren – damit sie für alle Mitglieder zukünftig reibungslos funktioniert.",
       "matchedWords": {
         "AN7nsY_VMjlF": {
           "hits": 0,
-          "textWords": 75
-        },
-        "PkE_U9n3xXty": {
-          "hits": 0,
-          "textWords": 75
-        },
-        "_-917wMJR3H7": {
-          "hits": 0,
-          "textWords": 75
+          "textWords": 914
         },
         "pn1xMZn0lFUd": {
-          "hits": 0,
-          "textWords": 75
+          "hits": 2,
+          "textWords": 914
         }
       },
       "queryPhraseHits": 0
     },
     {
-      "hash": "jMlwsl6bFQy6",
-      "address": "https://www.notebookcheck.com/",
-      "title": "Notebook Test, Laptop Test und News - Notebookcheck",
-      "snippet": "Mit folgenden Einschränkungen können sie den Typ des Artikel auswählen. Da jeder Artikel nur einen Typ zugewiesen hat, führt das Auswählen mehrerer Typen zu einer \"oder\" Verknüfpung.\nTests\n, News\n, Prozessoren (CPUs)\n, Grafikkarten (GPUs)\n, Artikel\n, Kolumne\n, Magazin\n, Sonstiges\nNot Set",
+      "hash": "O4Dj_MdDehkg",
+      "address": "https://www.adac.de/services/apps/smartconnect/",
+      "title": "ADAC Smart Connect App",
+      "snippet": "Anbieter: ADAC e.V.\nSicher mobil. Entspannt ans Ziel.\nDie Zukunft der Pannenhilfe ist digital: ADAC Smart Connect. Viele tausend Testnutzer helfen uns gerade dabei, die digitale Diagnose weiter zu perfektionieren – damit sie für alle Mitglieder zukünftig reibungslos funktioniert.",
       "matchedWords": {
         "AN7nsY_VMjlF": {
           "hits": 0,
-          "textWords": 369
+          "textWords": 914
         },
-        "PkE_U9n3xXty": {
+        "pn1xMZn0lFUd": {
+          "hits": 2,
+          "textWords": 914
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "T74ZyKdDehkg",
+      "address": "https://www.adac.de/rund-ums-fahrzeug/ausstattung-technik-zubehoer/autonomes-fahren/",
+      "title": "Autonomes Fahren: Was selbst fahrende Autos können - und was nicht | ADAC",
+      "snippet": "FacebookYouTubeInstagramTikTokLinkedInPinterest",
+      "matchedWords": {
+        "AN7nsY_VMjlF": {
           "hits": 0,
-          "textWords": 369
-        },
-        "_-917wMJR3H7": {
-          "hits": 0,
-          "textWords": 369
+          "textWords": 1
         },
         "pn1xMZn0lFUd": {
           "hits": 0,
-          "textWords": 369
+          "textWords": 1
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "0kHsN50w__jw",
+      "address": "https://www.faz.net/aktuell/technik-motor/energie/",
+      "title": "Energie - FAZ",
+      "snippet": "Merken\nKleinwasserkraft:\nKanal voller Energie\nAllzeit bereit ist die Wasserkraft. Doch in kleinen Kanälen ist sie bislang wirtschaftlich nicht zu nutzen. Ein deutscher Erfinder und eine amerikanische Unternehmerin wollen das ändern.\nMerken\nLieber teuer tanken:\nAlles super",
+      "matchedWords": {
+        "AN7nsY_VMjlF": {
+          "hits": 0,
+          "textWords": 236
+        },
+        "pn1xMZn0lFUd": {
+          "hits": 0,
+          "textWords": 236
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "c7JXtCdDehkg",
+      "address": "https://www.adac.de/reise-freizeit/ratgeber/flugentschaedigung/",
+      "title": "Bis zu 600,- Entschädigung für Flugverspätung und Annullierung",
+      "snippet": "Navigation\nSuche\nSeiteninhalt\nFußzeile\nReise \u0026 FreizeitRatgeber \u0026 TestsFluggastrechte \u0026 Flugentschädigung\nIhre Flugentschädigung bei Verspätung und Annullierung\nSetzen Sie Ihre Fluggastrechte durch und fordern Sie bis zu 600 € Entschädigung von der Fluggesellschaft.",
+      "matchedWords": {
+        "AN7nsY_VMjlF": {
+          "hits": 0,
+          "textWords": 1310
+        },
+        "pn1xMZn0lFUd": {
+          "hits": 0,
+          "textWords": 1310
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "c95rUlyT1Gu7",
+      "address": "https://www.solaranlagen-portal.com/?ref=622965\u0026utm_source=Focus\u0026utm_medium=Linkbox-generell\u0026utm_campaign=solar-mehr-button",
+      "title": "Solaranlage: Photovoltaik verstehen \u0026 sparen mit PV! ☀",
+      "snippet": "Lesen Sie hier den Testbericht von Finanztip.\nPhotovoltaik aufs Dach: über Sonnenlicht und Solarmodule\nSie möchten eine PV-Anlage auf Ihrem Hausdach installieren und selbst erzeugten Strom aus Sonnenenergie nutzen. Aber wie funktioniert das Ganze eigentlich?",
+      "matchedWords": {
+        "AN7nsY_VMjlF": {
+          "hits": 1,
+          "textWords": 744
+        },
+        "pn1xMZn0lFUd": {
+          "hits": 1,
+          "textWords": 744
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "2PrnHiUHQOxh",
+      "address": "https://futurezone.at/produkte/wie-elektro-das-aussehen-von-autos-veraendern-wird/401095335",
+      "title": "Wie Elektro das Aussehen von Autos verändern wird",
+      "snippet": "Im krisengeschüttelten Corona-Jahr 2020 überraschte Citroën in puncto Design vor allem mit zwei Modellen, die nicht unterschiedlicher sein könnten: Dem winzigen Elektroauto Ami und der Kompaktlimousine C4, die als ë-C4 auch als elektrisches Modell auf den Markt kommt.",
+      "matchedWords": {
+        "AN7nsY_VMjlF": {
+          "hits": 1,
+          "textWords": 836
+        },
+        "pn1xMZn0lFUd": {
+          "hits": 1,
+          "textWords": 836
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "DjQWH1qF-3Lg",
+      "address": "https://www.bmimi.gv.at/themen/innovation/internationales/cost.html",
+      "title": "COST",
+      "snippet": "Die jüngsten Neuzugänge unter den COST Mitgliedsstaaten sind Ukraine und Georgien. Darüber hinaus können sich auch Forschungseinrichtungen aus Drittstaaten an COST Aktionen beteiligen.\nWie funktioniert COST:",
+      "matchedWords": {
+        "AN7nsY_VMjlF": {
+          "hits": 0,
+          "textWords": 303
+        },
+        "pn1xMZn0lFUd": {
+          "hits": 1,
+          "textWords": 303
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "gkwLV1qF-3Lg",
+      "address": "https://www.bmimi.gv.at/themen/mobilitaet/alternative_verkehrskonzepte/automatisiertesfahren/faq.html",
+      "title": "Häufig gestellte Fragen, FAQ",
+      "snippet": "In der Regel funktioniert der öffentliche Verkehr in großen Städten und entlang der Hauptstrecken sehr gut. Schwierig wird es abseits davon mit der Vertaktung des regionalen Verkehrs.",
+      "matchedWords": {
+        "AN7nsY_VMjlF": {
+          "hits": 0,
+          "textWords": 6975
+        },
+        "pn1xMZn0lFUd": {
+          "hits": 1,
+          "textWords": 6975
         }
       },
       "queryPhraseHits": 0
@@ -607,144 +756,402 @@
       "matchedWords": {
         "AN7nsY_VMjlF": {
           "hits": 0,
-          "textWords": 1004
-        },
-        "PkE_U9n3xXty": {
-          "hits": 0,
-          "textWords": 1004
-        },
-        "_-917wMJR3H7": {
-          "hits": 0,
-          "textWords": 1004
+          "textWords": 874
         },
         "pn1xMZn0lFUd": {
           "hits": 1,
-          "textWords": 1004
+          "textWords": 874
         }
       },
       "queryPhraseHits": 0
     },
     {
-      "hash": "q7UDNl3ESnng",
-      "address": "https://www.br.de/index.html",
-      "title": "Bayerischer Rundfunk: Nachrichten von BR24, Highlights aus der BR Mediathek, Live Radio hören und BR.de-Specials - die Startseite für Bayern | BR.de",
-      "snippet": "Wirtschaft Emirate investieren Milliarden in Bayern: Was geplant ist\nZehn Milliarden Euro: So viel Investitionskapital hatte Scheich Zayid Al Nahyan beim Deutsch-Emiratischen Wirtschaftsforum in München allein für Bayern im Gepäck.",
+      "hash": "0kHsN50w__jw",
+      "address": "https://www.faz.net/aktuell/technik-motor/energie/",
+      "title": "Energie - FAZ",
+      "snippet": "Merken\nKleinwasserkraft:\nKanal voller Energie\nAllzeit bereit ist die Wasserkraft. Doch in kleinen Kanälen ist sie bislang wirtschaftlich nicht zu nutzen. Ein deutscher Erfinder und eine amerikanische Unternehmerin wollen das ändern.\nMerken\nLieber teuer tanken:\nAlles super",
       "matchedWords": {
         "AN7nsY_VMjlF": {
           "hits": 0,
-          "textWords": 42
-        },
-        "PkE_U9n3xXty": {
-          "hits": 0,
-          "textWords": 42
-        },
-        "_-917wMJR3H7": {
-          "hits": 0,
-          "textWords": 42
+          "textWords": 236
         },
         "pn1xMZn0lFUd": {
           "hits": 0,
-          "textWords": 42
+          "textWords": 236
         }
       },
       "queryPhraseHits": 0
     },
     {
-      "hash": "meozUllA2Rig",
-      "address": "https://www.n-tv.de/auto/",
-      "title": "Auto - n-tv.de",
-      "snippet": "Die aktuell kleinste und günstigste Baureihe der Schweden, der Volvo EX30 P8 AWD Electric, setzt dabei weniger auf Tiefstpreise als auf Design, Technik - und auf immense Motorleistung.\nBilderserie\nPraxistest\nBilderserie\nAussage zu Verschleiß und RestwertWie funktioniert der Kilometerzähler?",
+      "hash": "5FjW3z0w__jw",
+      "address": "https://www.faz.net/kaufkompass/test/die-beste-dachbox/",
+      "title": "Die beste Dachbox | Test 09/2026 | F.A.Z. Kaufkompass",
+      "snippet": "Nach Möglichkeit sollten Sie sich selbst ein Bild davon machen, wie gut eine Box verarbeitet ist, ob der Deckel sich leicht öffnen und schließen lässt und wie leichtgängig das Schloss funktioniert. Billige Dachboxen sind hier im Handling mitunter etwas hakelig.",
       "matchedWords": {
         "AN7nsY_VMjlF": {
           "hits": 0,
-          "textWords": 817
-        },
-        "PkE_U9n3xXty": {
-          "hits": 0,
-          "textWords": 817
-        },
-        "_-917wMJR3H7": {
-          "hits": 0,
-          "textWords": 817
+          "textWords": 12605
         },
         "pn1xMZn0lFUd": {
-          "hits": 1,
-          "textWords": 817
+          "hits": 11,
+          "textWords": 12605
         }
       },
       "queryPhraseHits": 0
     },
     {
-      "hash": "3fuRCZ8moajg",
-      "address": "https://www.welt.de/wirtschaft/weltplus/",
-      "title": "WELTplus Wirtschaft - Qualitätsjournalismus für Abonnenten",
-      "snippet": "Pfadnavigation\nHome\nWirtschaft\nWeltplus Artikel\nBahn-Baustellen-Blamage\n80 Minuten länger, keine ICEs in Wolfsburg – „Das ruiniert Lebenskonzepte“\nAuf der Bahnstrecke zwischen Hannover und Berlin wird 14 Monate lang gebaut.",
-      "matchedWords": {
-        "AN7nsY_VMjlF": {
-          "hits": 0,
-          "textWords": 390
-        },
-        "PkE_U9n3xXty": {
-          "hits": 0,
-          "textWords": 390
-        },
-        "_-917wMJR3H7": {
-          "hits": 0,
-          "textWords": 390
-        },
-        "pn1xMZn0lFUd": {
-          "hits": 0,
-          "textWords": 390
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "eIRKNNDOAHJg",
-      "address": "https://www.heise.de/thema/Test",
-      "title": "Test | heise online",
-      "snippet": "Bringen sie USB-C und Power Delivery mit, geht das schnell und klappt selbst mit stromhungrigen iPads oder MacBooks.\nElektroauto Mercedes GLC 400 im Test: E-SUV lässt Verbrenner alt aussehen\nDer elektrische GLC überzeugt mit viel Komfort, hoher Reichweite und schnellem Laden.",
+      "hash": "V2xlnzNo0aCw",
+      "address": "https://automarkt.faz.net/",
+      "title": "F.A.Z.-Automarkt: Angebote rund um das Thema Auto",
+      "snippet": ": Wallboxen im Test\nMit einer Wallbox lädt man sein Elektroauto schnell und sicher. Worauf ist beim Kauf zu achten und welche Kriterien gibt es bei der KfW-Wallbox-Förderung? 29 Modelle im Test.\n: Navigationsgeräte im Test",
       "matchedWords": {
         "AN7nsY_VMjlF": {
           "hits": 1,
-          "textWords": 613
-        },
-        "PkE_U9n3xXty": {
-          "hits": 0,
-          "textWords": 613
-        },
-        "_-917wMJR3H7": {
-          "hits": 0,
-          "textWords": 613
+          "textWords": 88
         },
         "pn1xMZn0lFUd": {
           "hits": 0,
-          "textWords": 613
+          "textWords": 88
         }
       },
       "queryPhraseHits": 0
     },
     {
-      "hash": "jMlwsl6bFQy6",
-      "address": "https://www.notebookcheck.com/",
-      "title": "Notebook Test, Laptop Test und News - Notebookcheck",
-      "snippet": "Mit folgenden Einschränkungen können sie den Typ des Artikel auswählen. Da jeder Artikel nur einen Typ zugewiesen hat, führt das Auswählen mehrerer Typen zu einer \"oder\" Verknüfpung.\nTests\n, News\n, Prozessoren (CPUs)\n, Grafikkarten (GPUs)\n, Artikel\n, Kolumne\n, Magazin\n, Sonstiges\nNot Set",
+      "hash": "rHiw_IHjdLqg",
+      "address": "https://www.focus.de/auto/elektroauto/e-bikes/",
+      "title": "E-Bikes - Die 1. Adresse für E-Mobilität - Auto - FOCUS online",
+      "snippet": "",
       "matchedWords": {
         "AN7nsY_VMjlF": {
           "hits": 0,
-          "textWords": 369
-        },
-        "PkE_U9n3xXty": {
-          "hits": 0,
-          "textWords": 369
-        },
-        "_-917wMJR3H7": {
-          "hits": 0,
-          "textWords": 369
+          "textWords": 0
         },
         "pn1xMZn0lFUd": {
           "hits": 0,
-          "textWords": 369
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "q32UbskjxbMg",
+      "address": "https://t3n.de/",
+      "title": "t3n – digital pioneers | Das Magazin für digitales Business - t3nde",
+      "snippet": "Unsere MarkenMIT Technology ReviewDigital Bash\nJetzt abonnierenAbonnieren\nAnmelden\nPlus-Artikel\nt3n PRO\nUnsere Marken\nNewsticker\nThemen\nSoftware \u0026 KIArbeitsweltHardware \u0026 GadgetsFuture \u0026 ScienceStartups \u0026 EconomyNew FinanceE-CommerceMarketingMobilitätGaming\nMagazine\nOnlinekurse\nShop\nPioneers Picks",
+      "matchedWords": {
+        "AN7nsY_VMjlF": {
+          "hits": 0,
+          "textWords": 1861
+        },
+        "pn1xMZn0lFUd": {
+          "hits": 0,
+          "textWords": 1861
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "rtQ-JluG0-bg",
+      "address": "https://www.fr.de/",
+      "title": "FR.de | News aus Politik, Wirtschaft, Sport, Frankfurt, Hessen und der Welt",
+      "snippet": "Nachrichtenticker\nMeinung\nSport\nEintracht\nNach Bundesliga-Start\nPrall gefüllte Gefühlspalette bei Eintracht Frankfurt\nEintracht Frankfurt will in Mainz Haltung zeigen. Stürmer Jonathan Burkardt setzt bei seiner Rückkehr auf den emotionalen Derbyfaktor.",
+      "matchedWords": {
+        "AN7nsY_VMjlF": {
+          "hits": 0,
+          "textWords": 443
+        },
+        "pn1xMZn0lFUd": {
+          "hits": 0,
+          "textWords": 443
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "O7gAKjyX5Qug",
+      "address": "https://www.t-online.de/mobilitaet/aktuelles/",
+      "title": "Aktuelle News und Infos rund um das Thema Mobilität",
+      "snippet": "Aktuelles\n550 Kilometer Reichweite\nTesla bringt Elektro-Lkw nach Europa\nSUV beim TÜV\nBeliebt, aber auch gut? Nissan Qashqai im Check\nKönig der Autobahn\nDer wichtigste Mercedes wird 30\nDas müssen Besitzer wissen\nBrandgefahr: Rückruf für ältere BMW\nÄrger nach Millionen-Sanierung",
+      "matchedWords": {
+        "AN7nsY_VMjlF": {
+          "hits": 0,
+          "textWords": 503
+        },
+        "pn1xMZn0lFUd": {
+          "hits": 0,
+          "textWords": 503
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "VfIdk7yX5Qug",
+      "address": "https://www.t-online.de/themen/vw/",
+      "title": "VW: Aktuelle News und Infos",
+      "snippet": "Die Volkswagen Aktiengesellschaft (Volkswagen AG) ist ein führender deutscher Automobilhersteller mit Sitz in Wolfsburg. Gegründet am 28.",
+      "matchedWords": {
+        "AN7nsY_VMjlF": {
+          "hits": 0,
+          "textWords": 190
+        },
+        "pn1xMZn0lFUd": {
+          "hits": 0,
+          "textWords": 190
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "eVKhB7yX5Qug",
+      "address": "https://www.t-online.de/themen/byd/",
+      "title": "BYD: Aktuelle News \u0026 Infos",
+      "snippet": "BYD",
+      "matchedWords": {
+        "AN7nsY_VMjlF": {
+          "hits": 0,
+          "textWords": 105
+        },
+        "pn1xMZn0lFUd": {
+          "hits": 0,
+          "textWords": 105
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "jREsW7yX5Qug",
+      "address": "https://www.t-online.de/themen/bmw/",
+      "title": "BMW: Aktuelle News \u0026 Infos",
+      "snippet": "BMW\nBMW Konzernzentrale mit BMW Logo am Abend. (zu dpa: «Gewinn bei BMW bricht um mehr als ein Viertel ein») (Quelle: Peter Kneffel/dpa/dpa-bilder)\nBMW ist ein deutscher Automobil- und Motorradhersteller mit Sitz in München.",
+      "matchedWords": {
+        "AN7nsY_VMjlF": {
+          "hits": 0,
+          "textWords": 78
+        },
+        "pn1xMZn0lFUd": {
+          "hits": 0,
+          "textWords": 78
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "ksYCRlyX5Qug",
+      "address": "https://www.t-online.de/mobilitaet/",
+      "title": "News und Infos rund um das Thema Mobilität",
+      "snippet": "Spartipp für Autofahrer\nDieser ungewöhnliche Weg drückt die Inspektionsrechnung\nEinfacher einparken\nIm Stand lenken: Schadet es dem Auto?\nEin Gigant aus Stahl und Beton\nDas ist die längste Brücke der Welt\nDemontage ganz einfach\nNummernschild abmachen – so funktioniert es ganz einfach\nE-Autos",
+      "matchedWords": {
+        "AN7nsY_VMjlF": {
+          "hits": 1,
+          "textWords": 340
+        },
+        "pn1xMZn0lFUd": {
+          "hits": 1,
+          "textWords": 340
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "0Et0vMdDehkg",
+      "address": "https://www.adac.de/produkte/versicherungen/auslandskrankenversicherung/tarife-und-leistungen/",
+      "title": "Auslandskrankenversicherung - \"Sehr gut\" im Test",
+      "snippet": "Rentner (77 Jahre) auf Weihnachtsbesuch bei der Familie in Kanada für 5 Wochen, ADAC Mitglied: 79,80 € im Jahr im Tarif Basis\nPersönlichen Schutz berechnen\nSo funktioniert's im Ernstfall in 3 Schritten\nReisedokumente frühzeitig prüfen und ggf. rechtzeitig beantragen",
+      "matchedWords": {
+        "AN7nsY_VMjlF": {
+          "hits": 0,
+          "textWords": 3162
+        },
+        "pn1xMZn0lFUd": {
+          "hits": 1,
+          "textWords": 3162
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "ZyiHz7E1ETA5",
+      "address": "https://www.handelsblatt.com/themen/elektro-autos",
+      "title": "Elektromobilität News: Neueste Nachrichten aus der Welt der E-Autos",
+      "snippet": "Die Elektromobilität, oder auch E-Mobilität genannt, ist in den vergangenen Jahren immer wichtiger geworden. Große Konzerne setzen immer mehr auf den elektrischen Antrieb.",
+      "matchedWords": {
+        "AN7nsY_VMjlF": {
+          "hits": 0,
+          "textWords": 55
+        },
+        "pn1xMZn0lFUd": {
+          "hits": 0,
+          "textWords": 55
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "O4Dj_MdDehkg",
+      "address": "https://www.adac.de/services/apps/smartconnect/",
+      "title": "ADAC Smart Connect App",
+      "snippet": "Anbieter: ADAC e.V.\nSicher mobil. Entspannt ans Ziel.\nDie Zukunft der Pannenhilfe ist digital: ADAC Smart Connect. Viele tausend Testnutzer helfen uns gerade dabei, die digitale Diagnose weiter zu perfektionieren – damit sie für alle Mitglieder zukünftig reibungslos funktioniert.",
+      "matchedWords": {
+        "AN7nsY_VMjlF": {
+          "hits": 0,
+          "textWords": 914
+        },
+        "pn1xMZn0lFUd": {
+          "hits": 2,
+          "textWords": 914
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "c7JXtCdDehkg",
+      "address": "https://www.adac.de/reise-freizeit/ratgeber/flugentschaedigung/",
+      "title": "Bis zu 600,- Entschädigung für Flugverspätung und Annullierung",
+      "snippet": "Navigation\nSuche\nSeiteninhalt\nFußzeile\nReise \u0026 FreizeitRatgeber \u0026 TestsFluggastrechte \u0026 Flugentschädigung\nIhre Flugentschädigung bei Verspätung und Annullierung\nSetzen Sie Ihre Fluggastrechte durch und fordern Sie bis zu 600 € Entschädigung von der Fluggesellschaft.",
+      "matchedWords": {
+        "AN7nsY_VMjlF": {
+          "hits": 0,
+          "textWords": 1310
+        },
+        "pn1xMZn0lFUd": {
+          "hits": 0,
+          "textWords": 1310
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "c95rUlyT1Gu7",
+      "address": "https://www.solaranlagen-portal.com/?ref=622965\u0026utm_source=Focus\u0026utm_medium=Linkbox-generell\u0026utm_campaign=solar-mehr-button",
+      "title": "Solaranlage: Photovoltaik verstehen \u0026 sparen mit PV! ☀",
+      "snippet": "Lesen Sie hier den Testbericht von Finanztip.\nPhotovoltaik aufs Dach: über Sonnenlicht und Solarmodule\nSie möchten eine PV-Anlage auf Ihrem Hausdach installieren und selbst erzeugten Strom aus Sonnenenergie nutzen. Aber wie funktioniert das Ganze eigentlich?",
+      "matchedWords": {
+        "AN7nsY_VMjlF": {
+          "hits": 1,
+          "textWords": 744
+        },
+        "pn1xMZn0lFUd": {
+          "hits": 1,
+          "textWords": 744
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "s8nhVZ8moajg",
+      "address": "https://www.welt.de/wirtschaft/webwelt/",
+      "title": "Technik \u0026 Internet - Aktuelle News rund um Web \u0026 Digitales - WELT",
+      "snippet": "Pfadnavigation\nHome\nWirtschaft\nMit diesen Tricks machen Sie Ihr Fahrrad fit für den Sommer\nDer Frühling lädt zum Radfahren ein. Damit Sie flott und verkehrssicher auf Ihrem Drahtesel unterwegs sind, sollten Sie das Bike vorab putzen und pflegen.",
+      "matchedWords": {
+        "AN7nsY_VMjlF": {
+          "hits": 0,
+          "textWords": 948
+        },
+        "pn1xMZn0lFUd": {
+          "hits": 0,
+          "textWords": 948
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "zyRaalDOAHJg",
+      "address": "https://www.heise.de/autos",
+      "title": "heise autos: News, Tests, Technik und Service | heise online",
+      "snippet": "Batterien fürE-Autos: Natrium – Ersatz für den kritischen Rohstoff Lithium?\nElektroauto-Technik\nLFP- und NMC-Batterien im Vergleich\nBatterien im E-Auto: LFP-Zellen sind langlebiger und günstiger, NMC-Zellen bieten mehr Reichweite.\nElektroauto Kia EV2 im Test: Kurz und gut",
+      "matchedWords": {
+        "AN7nsY_VMjlF": {
+          "hits": 6,
+          "textWords": 1390
+        },
+        "pn1xMZn0lFUd": {
+          "hits": 0,
+          "textWords": 1390
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "jS34cMdDehkg",
+      "address": "https://www.adac.de/produkte/finanzdienstleistungen/autokredit/ballonfinanzierung/",
+      "title": "ADAC Autokredit mit Schlussrate | Ballonfinanzierung",
+      "snippet": "Beim Autokredit mit Schlussrate profitieren Sie nicht nur von einer niedrigeren monatlichen Rate, sondern können am Ende der Laufzeit auch zwischen drei Optionen wählen:\n1.",
+      "matchedWords": {
+        "AN7nsY_VMjlF": {
+          "hits": 0,
+          "textWords": 108
+        },
+        "pn1xMZn0lFUd": {
+          "hits": 0,
+          "textWords": 108
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "gkwLV1qF-3Lg",
+      "address": "https://www.bmimi.gv.at/themen/mobilitaet/alternative_verkehrskonzepte/automatisiertesfahren/faq.html",
+      "title": "Häufig gestellte Fragen, FAQ",
+      "snippet": "In der Regel funktioniert der öffentliche Verkehr in großen Städten und entlang der Hauptstrecken sehr gut. Schwierig wird es abseits davon mit der Vertaktung des regionalen Verkehrs.",
+      "matchedWords": {
+        "AN7nsY_VMjlF": {
+          "hits": 0,
+          "textWords": 6975
+        },
+        "pn1xMZn0lFUd": {
+          "hits": 1,
+          "textWords": 6975
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "UDarqa2R88yh",
+      "address": "https://www.klimaaktiv.at/private/zukunftsfittes-haus/photovoltaik/eigenverbrauch-optimieren",
+      "title": "Eigenverbrauch optimieren – Mehr Solarstrom selbst nutzen | klimaaktiv",
+      "snippet": "",
+      "matchedWords": {
+        "AN7nsY_VMjlF": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "pn1xMZn0lFUd": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "gkwLV1qF-3Lg",
+      "address": "https://www.bmimi.gv.at/themen/mobilitaet/alternative_verkehrskonzepte/automatisiertesfahren/faq.html",
+      "title": "Häufig gestellte Fragen, FAQ",
+      "snippet": "In der Regel funktioniert der öffentliche Verkehr in großen Städten und entlang der Hauptstrecken sehr gut. Schwierig wird es abseits davon mit der Vertaktung des regionalen Verkehrs.",
+      "matchedWords": {
+        "AN7nsY_VMjlF": {
+          "hits": 0,
+          "textWords": 6975
+        },
+        "pn1xMZn0lFUd": {
+          "hits": 1,
+          "textWords": 6975
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "gkwLV1qF-3Lg",
+      "address": "https://www.bmimi.gv.at/themen/mobilitaet/alternative_verkehrskonzepte/automatisiertesfahren/faq.html",
+      "title": "Häufig gestellte Fragen, FAQ",
+      "snippet": "In der Regel funktioniert der öffentliche Verkehr in großen Städten und entlang der Hauptstrecken sehr gut. Schwierig wird es abseits davon mit der Vertaktung des regionalen Verkehrs.",
+      "matchedWords": {
+        "AN7nsY_VMjlF": {
+          "hits": 0,
+          "textWords": 6975
+        },
+        "pn1xMZn0lFUd": {
+          "hits": 1,
+          "textWords": 6975
         }
       },
       "queryPhraseHits": 0
@@ -757,119 +1164,62 @@
       "matchedWords": {
         "AN7nsY_VMjlF": {
           "hits": 0,
-          "textWords": 1004
-        },
-        "PkE_U9n3xXty": {
-          "hits": 0,
-          "textWords": 1004
-        },
-        "_-917wMJR3H7": {
-          "hits": 0,
-          "textWords": 1004
+          "textWords": 874
         },
         "pn1xMZn0lFUd": {
           "hits": 1,
-          "textWords": 1004
+          "textWords": 874
         }
       },
       "queryPhraseHits": 0
     },
     {
-      "hash": "q7UDNl3ESnng",
-      "address": "https://www.br.de/index.html",
-      "title": "Bayerischer Rundfunk: Nachrichten von BR24, Highlights aus der BR Mediathek, Live Radio hören und BR.de-Specials - die Startseite für Bayern | BR.de",
-      "snippet": "Wirtschaft Emirate investieren Milliarden in Bayern: Was geplant ist\nZehn Milliarden Euro: So viel Investitionskapital hatte Scheich Zayid Al Nahyan beim Deutsch-Emiratischen Wirtschaftsforum in München allein für Bayern im Gepäck.",
+      "hash": "0kHsN50w__jw",
+      "address": "https://www.faz.net/aktuell/technik-motor/energie/",
+      "title": "Energie - FAZ",
+      "snippet": "Merken\nKleinwasserkraft:\nKanal voller Energie\nAllzeit bereit ist die Wasserkraft. Doch in kleinen Kanälen ist sie bislang wirtschaftlich nicht zu nutzen. Ein deutscher Erfinder und eine amerikanische Unternehmerin wollen das ändern.\nMerken\nLieber teuer tanken:\nAlles super",
       "matchedWords": {
         "AN7nsY_VMjlF": {
           "hits": 0,
-          "textWords": 42
-        },
-        "PkE_U9n3xXty": {
-          "hits": 0,
-          "textWords": 42
-        },
-        "_-917wMJR3H7": {
-          "hits": 0,
-          "textWords": 42
+          "textWords": 236
         },
         "pn1xMZn0lFUd": {
           "hits": 0,
-          "textWords": 42
+          "textWords": 236
         }
       },
       "queryPhraseHits": 0
     },
     {
-      "hash": "cQVvPl5ARWyg",
-      "address": "https://www.spiegel.de/schlagzeilen/",
-      "title": "Schlagzeilen - DER SPIEGEL",
-      "snippet": "Samstag, 12. September 2026\nDurchsetzung von Bundesrecht Unionsfraktionschef Frei hält »Bundeszwang« gegen AfD-Landesregierung für möglich\n01.08 Uhr • Politik • 2 Min\nWieder ohne Satzverlust Zverev steht im US-Open-Finale\n01.04 Uhr • Sport • 2 Min",
+      "hash": "s8nhVZ8moajg",
+      "address": "https://www.welt.de/wirtschaft/webwelt/",
+      "title": "Technik \u0026 Internet - Aktuelle News rund um Web \u0026 Digitales - WELT",
+      "snippet": "Pfadnavigation\nHome\nWirtschaft\nMit diesen Tricks machen Sie Ihr Fahrrad fit für den Sommer\nDer Frühling lädt zum Radfahren ein. Damit Sie flott und verkehrssicher auf Ihrem Drahtesel unterwegs sind, sollten Sie das Bike vorab putzen und pflegen.",
       "matchedWords": {
         "AN7nsY_VMjlF": {
           "hits": 0,
-          "textWords": 6965
-        },
-        "PkE_U9n3xXty": {
-          "hits": 0,
-          "textWords": 6965
-        },
-        "_-917wMJR3H7": {
-          "hits": 0,
-          "textWords": 6965
+          "textWords": 948
         },
         "pn1xMZn0lFUd": {
           "hits": 0,
-          "textWords": 6965
+          "textWords": 948
         }
       },
       "queryPhraseHits": 0
     },
     {
-      "hash": "3fuRCZ8moajg",
-      "address": "https://www.welt.de/wirtschaft/weltplus/",
-      "title": "WELTplus Wirtschaft - Qualitätsjournalismus für Abonnenten",
-      "snippet": "Pfadnavigation\nHome\nWirtschaft\nWeltplus Artikel\nBahn-Baustellen-Blamage\n80 Minuten länger, keine ICEs in Wolfsburg – „Das ruiniert Lebenskonzepte“\nAuf der Bahnstrecke zwischen Hannover und Berlin wird 14 Monate lang gebaut.",
+      "hash": "D9oZ8NDOAHJg",
+      "address": "https://www.heise.de/thema/Digital-Health",
+      "title": "Digital Health: News, Ratgeber und Tipps | heise online",
+      "snippet": "Eine Toilettenkabine soll die medizinische Versorgung im Ernstfall verbessern. Wie das funktioniert, erklärt Dr. Andreas Follmann von der Uniklinik RWTH Aachen.",
       "matchedWords": {
         "AN7nsY_VMjlF": {
           "hits": 0,
-          "textWords": 390
-        },
-        "PkE_U9n3xXty": {
-          "hits": 0,
-          "textWords": 390
-        },
-        "_-917wMJR3H7": {
-          "hits": 0,
-          "textWords": 390
+          "textWords": 734
         },
         "pn1xMZn0lFUd": {
-          "hits": 0,
-          "textWords": 390
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "OZ82-lDOAHJg",
-      "address": "https://www.heise.de/ct",
-      "title": "c't: Magazin für Computertechnik | heise online",
-      "snippet": "Software\nHardware\nSecurity\nGreen-Tech\nDigitalisierung\nEvents\nAnzeige\nAnzeige\nAktuelle Ausgabe\nOpen Source statt Microsoft 365\nKI-Chatbot Claude: einrichten, anlernen, an eigene Dateien lassen\nGeld sparen durch Aufrüsten: neue Hardware für alte PCs",
-      "matchedWords": {
-        "AN7nsY_VMjlF": {
-          "hits": 0,
-          "textWords": 161
-        },
-        "PkE_U9n3xXty": {
-          "hits": 0,
-          "textWords": 161
-        },
-        "_-917wMJR3H7": {
-          "hits": 0,
-          "textWords": 161
-        },
-        "pn1xMZn0lFUd": {
-          "hits": 0,
-          "textWords": 161
+          "hits": 1,
+          "textWords": 734
         }
       },
       "queryPhraseHits": 0
@@ -878,573 +1228,508 @@
       "hash": "YbzwIlDOAHJg",
       "address": "https://www.heise.de/newsticker/",
       "title": "Newsticker | heise online",
-      "snippet": "Hardware-Details zum iPhone Duo: IP-Rating, Display, Faltenfreiheit\nMac \u0026 i Magazin\n4 Kommentare",
+      "snippet": "Newsticker | heise online\nheise+ entdecken\nAnmelden\nSuchen\nAbo\nSuchen\nmagazine_v1\nAlle Magazine im Browser lesen\nIT News\nNewsticker\nHintergründe\nRatgeber\nTestberichte\nMeinungen\nOnline-Magazine\nheise\nTelepolis\nheise autos\nbestenlisten\ntipps+tricks\nServices\nheise shop\nheise jobs\nheise academy",
       "matchedWords": {
         "AN7nsY_VMjlF": {
           "hits": 0,
-          "textWords": 12
-        },
-        "PkE_U9n3xXty": {
-          "hits": 0,
-          "textWords": 12
-        },
-        "_-917wMJR3H7": {
-          "hits": 0,
-          "textWords": 12
+          "textWords": 766
         },
         "pn1xMZn0lFUd": {
           "hits": 0,
-          "textWords": 12
+          "textWords": 766
         }
       },
       "queryPhraseHits": 0
     },
     {
-      "hash": "3Zwe0lDOAHJg",
-      "address": "https://www.heise.de/tests",
-      "title": "tests | heise online",
-      "snippet": "Wir haben getestet, ob das auch auf Alltagsrechnern funktioniert.",
+      "hash": "zyRaalDOAHJg",
+      "address": "https://www.heise.de/autos",
+      "title": "heise autos: News, Tests, Technik und Service | heise online",
+      "snippet": "Batterien fürE-Autos: Natrium – Ersatz für den kritischen Rohstoff Lithium?\nElektroauto-Technik\nLFP- und NMC-Batterien im Vergleich\nBatterien im E-Auto: LFP-Zellen sind langlebiger und günstiger, NMC-Zellen bieten mehr Reichweite.\nElektroauto Kia EV2 im Test: Kurz und gut",
       "matchedWords": {
         "AN7nsY_VMjlF": {
-          "hits": 0,
-          "textWords": 609
-        },
-        "PkE_U9n3xXty": {
-          "hits": 0,
-          "textWords": 609
-        },
-        "_-917wMJR3H7": {
-          "hits": 0,
-          "textWords": 609
+          "hits": 6,
+          "textWords": 1390
         },
         "pn1xMZn0lFUd": {
-          "hits": 1,
-          "textWords": 609
+          "hits": 0,
+          "textWords": 1390
         }
       },
       "queryPhraseHits": 0
     },
     {
-      "hash": "l9eEIl_oo2rh",
-      "address": "https://www.weser-kurier.de/",
-      "title": "Nachrichten aus Bremen \u0026 Niedersachsen",
-      "snippet": "Serien, Kolumnen \u0026 Dossiers\nGastrokolumne Bomm und Schlichting\nMit Leidenschaft für gutes Essen und Wein: Max Bomm und Elias Schlichting sind die neuen Gastrokolumnisten des WESER-KURIER und nehmen Sie mit auf eine kulinarische Reise durch Bremen.\nBlick hinter die Werder-Kulissen",
+      "hash": "9qCmzlDOAHJg",
+      "address": "https://www.heise.de/newsticker",
+      "title": "Newsticker | heise online",
+      "snippet": "",
       "matchedWords": {
         "AN7nsY_VMjlF": {
           "hits": 0,
-          "textWords": 487
-        },
-        "PkE_U9n3xXty": {
-          "hits": 0,
-          "textWords": 487
-        },
-        "_-917wMJR3H7": {
-          "hits": 0,
-          "textWords": 487
+          "textWords": 0
         },
         "pn1xMZn0lFUd": {
           "hits": 0,
-          "textWords": 487
+          "textWords": 0
         }
       },
       "queryPhraseHits": 0
     },
     {
-      "hash": "bx3fBlc_rKzh",
-      "address": "https://www.telepolis.de/",
-      "title": "Onlinemagazin für Politik \u0026 Medien im digitalen Zeitalter | Telepolis",
-      "snippet": "Politik\nWirtschaft\nWissen\nEnergie \u0026 Klima\nKultur \u0026 Medien\nFit \u0026 Gesund\nFinanzen\nLifestyle\nAnzeige\nAnzeige\nTelepolis - täglich abonnieren\nTelepolis - täglich abonnieren\nDieser Newsletter informiert Sie tagesaktuell per E-Mail über neue Artikel und Themen des Online-Magazins Telepolis.",
+      "hash": "rHiw_IHjdLqg",
+      "address": "https://www.focus.de/auto/elektroauto/e-bikes/",
+      "title": "E-Bikes - News \u0026 Trends FOCUS Online",
+      "snippet": "",
       "matchedWords": {
         "AN7nsY_VMjlF": {
           "hits": 0,
-          "textWords": 75
-        },
-        "PkE_U9n3xXty": {
-          "hits": 0,
-          "textWords": 75
-        },
-        "_-917wMJR3H7": {
-          "hits": 0,
-          "textWords": 75
+          "textWords": 0
         },
         "pn1xMZn0lFUd": {
           "hits": 0,
-          "textWords": 75
+          "textWords": 0
         }
       },
       "queryPhraseHits": 0
     },
     {
-      "hash": "meozUllA2Rig",
-      "address": "https://www.n-tv.de/auto/",
-      "title": "Auto - n-tv.de",
-      "snippet": "Die aktuell kleinste und günstigste Baureihe der Schweden, der Volvo EX30 P8 AWD Electric, setzt dabei weniger auf Tiefstpreise als auf Design, Technik - und auf immense Motorleistung.\nBilderserie\nPraxistest\nBilderserie\nAussage zu Verschleiß und RestwertWie funktioniert der Kilometerzähler?",
+      "hash": "A5MTflMudkbg",
+      "address": "https://www.waz.de/",
+      "title": "WAZ | Westdeutsche Allgemeine Zeitung",
+      "snippet": "Aktuelle Schlagzeilen\nLive! Erst Glück, jetzt Ecken-Tor: Hofmann köpft überraschende Bochum-Führungvor 5 Min.\nU23 des VfL Bochum jetzt im Liveticker: Gelingt gegen Aufsteiger Rhynern die Wende?vor 6 Min.\nHaniel Klassik Open Air: Große Stimmen bringen Mikrofone an ihre Grenzenvor 11 Min.",
       "matchedWords": {
         "AN7nsY_VMjlF": {
           "hits": 0,
-          "textWords": 817
-        },
-        "PkE_U9n3xXty": {
-          "hits": 0,
-          "textWords": 817
-        },
-        "_-917wMJR3H7": {
-          "hits": 0,
-          "textWords": 817
+          "textWords": 736
         },
         "pn1xMZn0lFUd": {
-          "hits": 1,
-          "textWords": 817
+          "hits": 0,
+          "textWords": 736
         }
       },
       "queryPhraseHits": 0
     },
     {
-      "hash": "3fuRCZ8moajg",
-      "address": "https://www.welt.de/wirtschaft/weltplus/",
-      "title": "WELTplus Wirtschaft - Qualitätsjournalismus für Abonnenten",
-      "snippet": "Pfadnavigation\nHome\nWirtschaft\nWeltplus Artikel\nBahn-Baustellen-Blamage\n80 Minuten länger, keine ICEs in Wolfsburg – „Das ruiniert Lebenskonzepte“\nAuf der Bahnstrecke zwischen Hannover und Berlin wird 14 Monate lang gebaut.",
-      "matchedWords": {
-        "AN7nsY_VMjlF": {
-          "hits": 0,
-          "textWords": 390
-        },
-        "PkE_U9n3xXty": {
-          "hits": 0,
-          "textWords": 390
-        },
-        "_-917wMJR3H7": {
-          "hits": 0,
-          "textWords": 390
-        },
-        "pn1xMZn0lFUd": {
-          "hits": 0,
-          "textWords": 390
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "ZavYZl0w__jw",
-      "address": "https://www.faz.net/kaufkompass/",
-      "title": "F.A.Z. Kaufkompass – Das Testportal des F.A.Z.-Verlags",
-      "snippet": "Sneaker-Reiniger bringen schmutzige Treter auf schonende Weise wieder zum Strahlen – so das Versprechen der Hersteller. Aber wie gut funktioniert das in der Praxis? Und sind spezielle Reiniger den Hausmitteln überlegen?\nAktualisiert 11.9.2026\nSonstige Elektronik\nDer beste Handventilator",
-      "matchedWords": {
-        "AN7nsY_VMjlF": {
-          "hits": 0,
-          "textWords": 3239
-        },
-        "PkE_U9n3xXty": {
-          "hits": 0,
-          "textWords": 3239
-        },
-        "_-917wMJR3H7": {
-          "hits": 0,
-          "textWords": 3239
-        },
-        "pn1xMZn0lFUd": {
-          "hits": 5,
-          "textWords": 3239
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "hpNx6l0w__jw",
-      "address": "https://www.faz.net/aktuell/",
-      "title": "Aktuelle Nachrichten online - FAZ.NET",
-      "snippet": "Sneaker-Reiniger bringen schmutzige Treter auf schonende Weise wieder zum Strahlen – so das Versprechen der Hersteller. Aber wie gut funktioniert das in der Praxis? Und sind spezielle Reiniger den Hausmitteln überlegen?\nEssen mit der ganzen Familie:\nDer beste Hochstuhl",
-      "matchedWords": {
-        "AN7nsY_VMjlF": {
-          "hits": 0,
-          "textWords": 1004
-        },
-        "PkE_U9n3xXty": {
-          "hits": 0,
-          "textWords": 1004
-        },
-        "_-917wMJR3H7": {
-          "hits": 0,
-          "textWords": 1004
-        },
-        "pn1xMZn0lFUd": {
-          "hits": 1,
-          "textWords": 1004
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "jMlwsl6bFQy6",
-      "address": "https://www.notebookcheck.com/",
-      "title": "Notebook Test, Laptop Test und News - Notebookcheck",
-      "snippet": "Mit folgenden Einschränkungen können sie den Typ des Artikel auswählen. Da jeder Artikel nur einen Typ zugewiesen hat, führt das Auswählen mehrerer Typen zu einer \"oder\" Verknüfpung.\nTests\n, News\n, Prozessoren (CPUs)\n, Grafikkarten (GPUs)\n, Artikel\n, Kolumne\n, Magazin\n, Sonstiges\nNot Set",
-      "matchedWords": {
-        "AN7nsY_VMjlF": {
-          "hits": 0,
-          "textWords": 369
-        },
-        "PkE_U9n3xXty": {
-          "hits": 0,
-          "textWords": 369
-        },
-        "_-917wMJR3H7": {
-          "hits": 0,
-          "textWords": 369
-        },
-        "pn1xMZn0lFUd": {
-          "hits": 0,
-          "textWords": 369
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "3fuRCZ8moajg",
-      "address": "https://www.welt.de/wirtschaft/weltplus/",
-      "title": "WELTplus Wirtschaft - Qualitätsjournalismus für Abonnenten",
-      "snippet": "Pfadnavigation\nHome\nWirtschaft\nWeltplus Artikel\nBahn-Baustellen-Blamage\n80 Minuten länger, keine ICEs in Wolfsburg – „Das ruiniert Lebenskonzepte“\nAuf der Bahnstrecke zwischen Hannover und Berlin wird 14 Monate lang gebaut.",
-      "matchedWords": {
-        "AN7nsY_VMjlF": {
-          "hits": 0,
-          "textWords": 390
-        },
-        "PkE_U9n3xXty": {
-          "hits": 0,
-          "textWords": 390
-        },
-        "_-917wMJR3H7": {
-          "hits": 0,
-          "textWords": 390
-        },
-        "pn1xMZn0lFUd": {
-          "hits": 0,
-          "textWords": 390
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "YbzwIlDOAHJg",
-      "address": "https://www.heise.de/newsticker/",
-      "title": "7-Tage-News | heise online",
-      "snippet": "Hardware-Details zum iPhone Duo: IP-Rating, Display, Faltenfreiheit\nMac \u0026 i Magazin\n4 Kommentare",
-      "matchedWords": {
-        "AN7nsY_VMjlF": {
-          "hits": 0,
-          "textWords": 12
-        },
-        "PkE_U9n3xXty": {
-          "hits": 0,
-          "textWords": 12
-        },
-        "_-917wMJR3H7": {
-          "hits": 0,
-          "textWords": 12
-        },
-        "pn1xMZn0lFUd": {
-          "hits": 0,
-          "textWords": 12
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "eIRKNNDOAHJg",
-      "address": "https://www.heise.de/thema/Test",
-      "title": "Test | heise online",
-      "snippet": "Bringen sie USB-C und Power Delivery mit, geht das schnell und klappt selbst mit stromhungrigen iPads oder MacBooks.\nElektroauto Mercedes GLC 400 im Test: E-SUV lässt Verbrenner alt aussehen\nDer elektrische GLC überzeugt mit viel Komfort, hoher Reichweite und schnellem Laden.",
+      "hash": "V2xlnzNo0aCw",
+      "address": "https://automarkt.faz.net/",
+      "title": "F.A.Z.-Automarkt: Angebote rund um das Thema Auto",
+      "snippet": ": Wallboxen im Test\nMit einer Wallbox lädt man sein Elektroauto schnell und sicher. Worauf ist beim Kauf zu achten und welche Kriterien gibt es bei der KfW-Wallbox-Förderung? 29 Modelle im Test.\n: Navigationsgeräte im Test",
       "matchedWords": {
         "AN7nsY_VMjlF": {
           "hits": 1,
-          "textWords": 613
-        },
-        "PkE_U9n3xXty": {
-          "hits": 0,
-          "textWords": 613
-        },
-        "_-917wMJR3H7": {
-          "hits": 0,
-          "textWords": 613
+          "textWords": 88
         },
         "pn1xMZn0lFUd": {
           "hits": 0,
-          "textWords": 613
+          "textWords": 88
         }
       },
       "queryPhraseHits": 0
     },
     {
-      "hash": "3Zwe0lDOAHJg",
-      "address": "https://www.heise.de/tests",
-      "title": "tests | heise online",
-      "snippet": "Wir haben getestet, ob das auch auf Alltagsrechnern funktioniert.",
+      "hash": "q32UbskjxbMg",
+      "address": "https://t3n.de/",
+      "title": "t3n – digital pioneers | Das Magazin für digitales Business - t3nde",
+      "snippet": "Unsere MarkenMIT Technology ReviewDigital Bash\nJetzt abonnierenAbonnieren\nAnmelden\nPlus-Artikel\nt3n PRO\nUnsere Marken\nNewsticker\nThemen\nSoftware \u0026 KIArbeitsweltHardware \u0026 GadgetsFuture \u0026 ScienceStartups \u0026 EconomyNew FinanceE-CommerceMarketingMobilitätGaming\nMagazine\nOnlinekurse\nShop\nPioneers Picks",
       "matchedWords": {
         "AN7nsY_VMjlF": {
           "hits": 0,
-          "textWords": 609
+          "textWords": 1861
         },
-        "PkE_U9n3xXty": {
+        "pn1xMZn0lFUd": {
           "hits": 0,
-          "textWords": 609
+          "textWords": 1861
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "rtQ-JluG0-bg",
+      "address": "https://www.fr.de/",
+      "title": "FR.de | News aus Politik, Wirtschaft, Sport, Frankfurt, Hessen und der Welt",
+      "snippet": "Nachrichtenticker\nMeinung\nSport\nEintracht\nNach Bundesliga-Start\nPrall gefüllte Gefühlspalette bei Eintracht Frankfurt\nEintracht Frankfurt will in Mainz Haltung zeigen. Stürmer Jonathan Burkardt setzt bei seiner Rückkehr auf den emotionalen Derbyfaktor.",
+      "matchedWords": {
+        "AN7nsY_VMjlF": {
+          "hits": 0,
+          "textWords": 443
         },
-        "_-917wMJR3H7": {
+        "pn1xMZn0lFUd": {
           "hits": 0,
-          "textWords": 609
+          "textWords": 443
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "nPiA2IlA2Rig",
+      "address": "https://www.n-tv.de/auto/praxistest/",
+      "title": "Praxistest - n-tv.de",
+      "snippet": "",
+      "matchedWords": {
+        "AN7nsY_VMjlF": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "pn1xMZn0lFUd": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "zyRaalDOAHJg",
+      "address": "https://www.heise.de/autos",
+      "title": "heise autos: News, Tests, Technik und Service | heise online",
+      "snippet": "Batterien fürE-Autos: Natrium – Ersatz für den kritischen Rohstoff Lithium?\nElektroauto-Technik\nLFP- und NMC-Batterien im Vergleich\nBatterien im E-Auto: LFP-Zellen sind langlebiger und günstiger, NMC-Zellen bieten mehr Reichweite.\nElektroauto Kia EV2 im Test: Kurz und gut",
+      "matchedWords": {
+        "AN7nsY_VMjlF": {
+          "hits": 6,
+          "textWords": 1390
+        },
+        "pn1xMZn0lFUd": {
+          "hits": 0,
+          "textWords": 1390
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "8JzS-PdDehkg",
+      "address": "https://www.adac.de/mein-adac/meine-persoenlichen-daten/notfallpass/infoseite/",
+      "title": "ADAC Notfallpass erstellen: Auf dem iPhone und anderen Smartphones",
+      "snippet": "",
+      "matchedWords": {
+        "AN7nsY_VMjlF": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "pn1xMZn0lFUd": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "9fRIGMdDehkg",
+      "address": "https://www.adac.de/produkte/finanzdienstleistungen/autokredit/ueberblick/",
+      "title": "Der ADAC Autokredit. Jetzt online beantragen.",
+      "snippet": "",
+      "matchedWords": {
+        "AN7nsY_VMjlF": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "pn1xMZn0lFUd": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "O4Dj_MdDehkg",
+      "address": "https://www.adac.de/services/apps/smartconnect/",
+      "title": "ADAC Smart Connect App",
+      "snippet": "Anbieter: ADAC e.V.\nSicher mobil. Entspannt ans Ziel.\nDie Zukunft der Pannenhilfe ist digital: ADAC Smart Connect. Viele tausend Testnutzer helfen uns gerade dabei, die digitale Diagnose weiter zu perfektionieren – damit sie für alle Mitglieder zukünftig reibungslos funktioniert.",
+      "matchedWords": {
+        "AN7nsY_VMjlF": {
+          "hits": 0,
+          "textWords": 914
+        },
+        "pn1xMZn0lFUd": {
+          "hits": 2,
+          "textWords": 914
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "O7gAKjyX5Qug",
+      "address": "https://www.t-online.de/mobilitaet/aktuelles/",
+      "title": "Aktuelle News und Infos rund um das Thema Mobilität",
+      "snippet": "Aktuelles\n550 Kilometer Reichweite\nTesla bringt Elektro-Lkw nach Europa\nSUV beim TÜV\nBeliebt, aber auch gut? Nissan Qashqai im Check\nKönig der Autobahn\nDer wichtigste Mercedes wird 30\nDas müssen Besitzer wissen\nBrandgefahr: Rückruf für ältere BMW\nÄrger nach Millionen-Sanierung",
+      "matchedWords": {
+        "AN7nsY_VMjlF": {
+          "hits": 0,
+          "textWords": 503
+        },
+        "pn1xMZn0lFUd": {
+          "hits": 0,
+          "textWords": 503
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "eVKhB7yX5Qug",
+      "address": "https://www.t-online.de/themen/byd/",
+      "title": "BYD: Aktuelle News \u0026 Infos",
+      "snippet": "BYD",
+      "matchedWords": {
+        "AN7nsY_VMjlF": {
+          "hits": 0,
+          "textWords": 105
+        },
+        "pn1xMZn0lFUd": {
+          "hits": 0,
+          "textWords": 105
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "hrwsi7yX5Qug",
+      "address": "https://www.t-online.de/themen/mercedes-benz/",
+      "title": "Mercedes-Benz: Aktuelle News und Infos zu Mercedes-Benz",
+      "snippet": "",
+      "matchedWords": {
+        "AN7nsY_VMjlF": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "pn1xMZn0lFUd": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "jREsW7yX5Qug",
+      "address": "https://www.t-online.de/themen/bmw/",
+      "title": "BMW: Aktuelle News \u0026 Infos",
+      "snippet": "BMW\nBMW Konzernzentrale mit BMW Logo am Abend. (zu dpa: «Gewinn bei BMW bricht um mehr als ein Viertel ein») (Quelle: Peter Kneffel/dpa/dpa-bilder)\nBMW ist ein deutscher Automobil- und Motorradhersteller mit Sitz in München.",
+      "matchedWords": {
+        "AN7nsY_VMjlF": {
+          "hits": 0,
+          "textWords": 78
+        },
+        "pn1xMZn0lFUd": {
+          "hits": 0,
+          "textWords": 78
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "ksYCRlyX5Qug",
+      "address": "https://www.t-online.de/mobilitaet/",
+      "title": "News und Infos rund um das Thema Mobilität",
+      "snippet": "Spartipp für Autofahrer\nDieser ungewöhnliche Weg drückt die Inspektionsrechnung\nEinfacher einparken\nIm Stand lenken: Schadet es dem Auto?\nEin Gigant aus Stahl und Beton\nDas ist die längste Brücke der Welt\nDemontage ganz einfach\nNummernschild abmachen – so funktioniert es ganz einfach\nE-Autos",
+      "matchedWords": {
+        "AN7nsY_VMjlF": {
+          "hits": 1,
+          "textWords": 340
         },
         "pn1xMZn0lFUd": {
           "hits": 1,
-          "textWords": 609
+          "textWords": 340
         }
       },
       "queryPhraseHits": 0
     },
     {
-      "hash": "l9eEIl_oo2rh",
-      "address": "https://www.weser-kurier.de/",
-      "title": "Nachrichten aus Bremen \u0026 Niedersachsen",
-      "snippet": "Serien, Kolumnen \u0026 Dossiers\nGastrokolumne Bomm und Schlichting\nMit Leidenschaft für gutes Essen und Wein: Max Bomm und Elias Schlichting sind die neuen Gastrokolumnisten des WESER-KURIER und nehmen Sie mit auf eine kulinarische Reise durch Bremen.\nBlick hinter die Werder-Kulissen",
+      "hash": "rK_UujyX5Qug",
+      "address": "https://www.t-online.de/mobilitaet/autos/",
+      "title": "Ratgeber und News rund ums Auto",
+      "snippet": "",
       "matchedWords": {
         "AN7nsY_VMjlF": {
           "hits": 0,
-          "textWords": 487
-        },
-        "PkE_U9n3xXty": {
-          "hits": 0,
-          "textWords": 487
-        },
-        "_-917wMJR3H7": {
-          "hits": 0,
-          "textWords": 487
+          "textWords": 0
         },
         "pn1xMZn0lFUd": {
           "hits": 0,
-          "textWords": 487
+          "textWords": 0
         }
       },
       "queryPhraseHits": 0
     },
     {
-      "hash": "bx3fBlc_rKzh",
-      "address": "https://www.telepolis.de/",
-      "title": "Onlinemagazin für Politik \u0026 Medien im digitalen Zeitalter | Telepolis",
-      "snippet": "Politik\nWirtschaft\nWissen\nEnergie \u0026 Klima\nKultur \u0026 Medien\nFit \u0026 Gesund\nFinanzen\nLifestyle\nAnzeige\nAnzeige\nTelepolis - täglich abonnieren\nTelepolis - täglich abonnieren\nDieser Newsletter informiert Sie tagesaktuell per E-Mail über neue Artikel und Themen des Online-Magazins Telepolis.",
+      "hash": "T74ZyKdDehkg",
+      "address": "https://www.adac.de/rund-ums-fahrzeug/ausstattung-technik-zubehoer/autonomes-fahren/",
+      "title": "Autonomes Fahren: Was selbst fahrende Autos können - und was nicht | ADAC",
+      "snippet": "FacebookYouTubeInstagramTikTokLinkedInPinterest",
       "matchedWords": {
         "AN7nsY_VMjlF": {
           "hits": 0,
-          "textWords": 75
-        },
-        "PkE_U9n3xXty": {
-          "hits": 0,
-          "textWords": 75
-        },
-        "_-917wMJR3H7": {
-          "hits": 0,
-          "textWords": 75
+          "textWords": 1
         },
         "pn1xMZn0lFUd": {
           "hits": 0,
-          "textWords": 75
+          "textWords": 1
         }
       },
       "queryPhraseHits": 0
     },
     {
-      "hash": "meozUllA2Rig",
-      "address": "https://www.n-tv.de/auto/",
-      "title": "Auto - ntv.de",
-      "snippet": "Die aktuell kleinste und günstigste Baureihe der Schweden, der Volvo EX30 P8 AWD Electric, setzt dabei weniger auf Tiefstpreise als auf Design, Technik - und auf immense Motorleistung.\nBilderserie\nPraxistest\nBilderserie\nAussage zu Verschleiß und RestwertWie funktioniert der Kilometerzähler?",
+      "hash": "V2xlnzNo0aCw",
+      "address": "https://automarkt.faz.net/",
+      "title": "F.A.Z.-Automarkt: Angebote rund um das Thema Auto",
+      "snippet": ": Wallboxen im Test\nMit einer Wallbox lädt man sein Elektroauto schnell und sicher. Worauf ist beim Kauf zu achten und welche Kriterien gibt es bei der KfW-Wallbox-Förderung? 29 Modelle im Test.\n: Navigationsgeräte im Test",
+      "matchedWords": {
+        "AN7nsY_VMjlF": {
+          "hits": 1,
+          "textWords": 88
+        },
+        "pn1xMZn0lFUd": {
+          "hits": 0,
+          "textWords": 88
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "c7JXtCdDehkg",
+      "address": "https://www.adac.de/reise-freizeit/ratgeber/flugentschaedigung/",
+      "title": "Bis zu 600,- Entschädigung für Flugverspätung und Annullierung",
+      "snippet": "Navigation\nSuche\nSeiteninhalt\nFußzeile\nReise \u0026 FreizeitRatgeber \u0026 TestsFluggastrechte \u0026 Flugentschädigung\nIhre Flugentschädigung bei Verspätung und Annullierung\nSetzen Sie Ihre Fluggastrechte durch und fordern Sie bis zu 600 € Entschädigung von der Fluggesellschaft.",
       "matchedWords": {
         "AN7nsY_VMjlF": {
           "hits": 0,
-          "textWords": 817
+          "textWords": 1310
         },
-        "PkE_U9n3xXty": {
+        "pn1xMZn0lFUd": {
           "hits": 0,
-          "textWords": 817
+          "textWords": 1310
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "0kHsN50w__jw",
+      "address": "https://www.faz.net/aktuell/technik-motor/energie/",
+      "title": "Energie - FAZ",
+      "snippet": "Merken\nKleinwasserkraft:\nKanal voller Energie\nAllzeit bereit ist die Wasserkraft. Doch in kleinen Kanälen ist sie bislang wirtschaftlich nicht zu nutzen. Ein deutscher Erfinder und eine amerikanische Unternehmerin wollen das ändern.\nMerken\nLieber teuer tanken:\nAlles super",
+      "matchedWords": {
+        "AN7nsY_VMjlF": {
+          "hits": 0,
+          "textWords": 236
         },
-        "_-917wMJR3H7": {
+        "pn1xMZn0lFUd": {
           "hits": 0,
-          "textWords": 817
+          "textWords": 236
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "UDarqa2R88yh",
+      "address": "https://www.klimaaktiv.at/private/zukunftsfittes-haus/photovoltaik/eigenverbrauch-optimieren",
+      "title": "Eigenverbrauch optimieren – Mehr Solarstrom selbst nutzen | klimaaktiv",
+      "snippet": "",
+      "matchedWords": {
+        "AN7nsY_VMjlF": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "pn1xMZn0lFUd": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "9qCmzlDOAHJg",
+      "address": "https://www.heise.de/newsticker",
+      "title": "Newsticker | heise online",
+      "snippet": "",
+      "matchedWords": {
+        "AN7nsY_VMjlF": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "pn1xMZn0lFUd": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "ZyiHz7E1ETA5",
+      "address": "https://www.handelsblatt.com/themen/elektro-autos",
+      "title": "Elektromobilität News: Neueste Nachrichten aus der Welt der E-Autos",
+      "snippet": "Die Elektromobilität, oder auch E-Mobilität genannt, ist in den vergangenen Jahren immer wichtiger geworden. Große Konzerne setzen immer mehr auf den elektrischen Antrieb.",
+      "matchedWords": {
+        "AN7nsY_VMjlF": {
+          "hits": 0,
+          "textWords": 55
+        },
+        "pn1xMZn0lFUd": {
+          "hits": 0,
+          "textWords": 55
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "jS34cMdDehkg",
+      "address": "https://www.adac.de/produkte/finanzdienstleistungen/autokredit/ballonfinanzierung/",
+      "title": "ADAC Autokredit mit Schlussrate | Ballonfinanzierung",
+      "snippet": "Beim Autokredit mit Schlussrate profitieren Sie nicht nur von einer niedrigeren monatlichen Rate, sondern können am Ende der Laufzeit auch zwischen drei Optionen wählen:\n1.",
+      "matchedWords": {
+        "AN7nsY_VMjlF": {
+          "hits": 0,
+          "textWords": 108
+        },
+        "pn1xMZn0lFUd": {
+          "hits": 0,
+          "textWords": 108
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "gkwLV1qF-3Lg",
+      "address": "https://www.bmimi.gv.at/themen/mobilitaet/alternative_verkehrskonzepte/automatisiertesfahren/faq.html",
+      "title": "Häufig gestellte Fragen, FAQ",
+      "snippet": "In der Regel funktioniert der öffentliche Verkehr in großen Städten und entlang der Hauptstrecken sehr gut. Schwierig wird es abseits davon mit der Vertaktung des regionalen Verkehrs.",
+      "matchedWords": {
+        "AN7nsY_VMjlF": {
+          "hits": 0,
+          "textWords": 6975
         },
         "pn1xMZn0lFUd": {
           "hits": 1,
-          "textWords": 817
+          "textWords": 6975
         }
       },
       "queryPhraseHits": 0
     },
     {
-      "hash": "bx3fBlc_rKzh",
-      "address": "https://www.telepolis.de/",
-      "title": "Onlinemagazin für Politik \u0026 Medien im digitalen Zeitalter | Telepolis",
-      "snippet": "Politik\nWirtschaft\nWissen\nEnergie \u0026 Klima\nKultur \u0026 Medien\nFit \u0026 Gesund\nFinanzen\nLifestyle\nAnzeige\nAnzeige\nTelepolis - täglich abonnieren\nTelepolis - täglich abonnieren\nDieser Newsletter informiert Sie tagesaktuell per E-Mail über neue Artikel und Themen des Online-Magazins Telepolis.",
+      "hash": "s8nhVZ8moajg",
+      "address": "https://www.welt.de/wirtschaft/webwelt/",
+      "title": "Technik \u0026 Internet - Aktuelle News rund um Web \u0026 Digitales - WELT",
+      "snippet": "Pfadnavigation\nHome\nWirtschaft\nMit diesen Tricks machen Sie Ihr Fahrrad fit für den Sommer\nDer Frühling lädt zum Radfahren ein. Damit Sie flott und verkehrssicher auf Ihrem Drahtesel unterwegs sind, sollten Sie das Bike vorab putzen und pflegen.",
       "matchedWords": {
         "AN7nsY_VMjlF": {
           "hits": 0,
-          "textWords": 75
-        },
-        "PkE_U9n3xXty": {
-          "hits": 0,
-          "textWords": 75
-        },
-        "_-917wMJR3H7": {
-          "hits": 0,
-          "textWords": 75
+          "textWords": 948
         },
         "pn1xMZn0lFUd": {
           "hits": 0,
-          "textWords": 75
+          "textWords": 948
         }
       },
       "queryPhraseHits": 0
     },
     {
-      "hash": "jMlwsl6bFQy6",
-      "address": "https://www.notebookcheck.com/",
-      "title": "Notebook Test, Laptop Test und News - Notebookcheck.com",
-      "snippet": "Mit folgenden Einschränkungen können sie den Typ des Artikel auswählen. Da jeder Artikel nur einen Typ zugewiesen hat, führt das Auswählen mehrerer Typen zu einer \"oder\" Verknüfpung.\nTests\n, News\n, Prozessoren (CPUs)\n, Grafikkarten (GPUs)\n, Artikel\n, Kolumne\n, Magazin\n, Sonstiges\nNot Set",
+      "hash": "D9oZ8NDOAHJg",
+      "address": "https://www.heise.de/thema/Digital-Health",
+      "title": "Digital Health: News, Ratgeber und Tipps | heise online",
+      "snippet": "Eine Toilettenkabine soll die medizinische Versorgung im Ernstfall verbessern. Wie das funktioniert, erklärt Dr. Andreas Follmann von der Uniklinik RWTH Aachen.",
       "matchedWords": {
         "AN7nsY_VMjlF": {
           "hits": 0,
-          "textWords": 369
-        },
-        "PkE_U9n3xXty": {
-          "hits": 0,
-          "textWords": 369
-        },
-        "_-917wMJR3H7": {
-          "hits": 0,
-          "textWords": 369
-        },
-        "pn1xMZn0lFUd": {
-          "hits": 0,
-          "textWords": 369
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "hpNx6l0w__jw",
-      "address": "https://www.faz.net/aktuell/",
-      "title": "Aktuelle Nachrichten online - FAZ.NET",
-      "snippet": "Sneaker-Reiniger bringen schmutzige Treter auf schonende Weise wieder zum Strahlen – so das Versprechen der Hersteller. Aber wie gut funktioniert das in der Praxis? Und sind spezielle Reiniger den Hausmitteln überlegen?\nEssen mit der ganzen Familie:\nDer beste Hochstuhl",
-      "matchedWords": {
-        "AN7nsY_VMjlF": {
-          "hits": 0,
-          "textWords": 1004
-        },
-        "PkE_U9n3xXty": {
-          "hits": 0,
-          "textWords": 1004
-        },
-        "_-917wMJR3H7": {
-          "hits": 0,
-          "textWords": 1004
+          "textWords": 734
         },
         "pn1xMZn0lFUd": {
           "hits": 1,
-          "textWords": 1004
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "jMlwsl6bFQy6",
-      "address": "https://www.notebookcheck.com/",
-      "title": "Notebook Test, Laptop Test und News - Notebookcheck",
-      "snippet": "Mit folgenden Einschränkungen können sie den Typ des Artikel auswählen. Da jeder Artikel nur einen Typ zugewiesen hat, führt das Auswählen mehrerer Typen zu einer \"oder\" Verknüfpung.\nTests\n, News\n, Prozessoren (CPUs)\n, Grafikkarten (GPUs)\n, Artikel\n, Kolumne\n, Magazin\n, Sonstiges\nNot Set",
-      "matchedWords": {
-        "AN7nsY_VMjlF": {
-          "hits": 0,
-          "textWords": 369
-        },
-        "PkE_U9n3xXty": {
-          "hits": 0,
-          "textWords": 369
-        },
-        "_-917wMJR3H7": {
-          "hits": 0,
-          "textWords": 369
-        },
-        "pn1xMZn0lFUd": {
-          "hits": 0,
-          "textWords": 369
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "cQVvPl5ARWyg",
-      "address": "https://www.spiegel.de/schlagzeilen/",
-      "title": "Schlagzeilen - DER SPIEGEL",
-      "snippet": "Samstag, 12. September 2026\nDurchsetzung von Bundesrecht Unionsfraktionschef Frei hält »Bundeszwang« gegen AfD-Landesregierung für möglich\n01.08 Uhr • Politik • 2 Min\nWieder ohne Satzverlust Zverev steht im US-Open-Finale\n01.04 Uhr • Sport • 2 Min",
-      "matchedWords": {
-        "AN7nsY_VMjlF": {
-          "hits": 0,
-          "textWords": 6965
-        },
-        "PkE_U9n3xXty": {
-          "hits": 0,
-          "textWords": 6965
-        },
-        "_-917wMJR3H7": {
-          "hits": 0,
-          "textWords": 6965
-        },
-        "pn1xMZn0lFUd": {
-          "hits": 0,
-          "textWords": 6965
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "3fuRCZ8moajg",
-      "address": "https://www.welt.de/wirtschaft/weltplus/",
-      "title": "WELTplus Wirtschaft - Qualitätsjournalismus für Abonnenten",
-      "snippet": "Pfadnavigation\nHome\nWirtschaft\nWeltplus Artikel\nBahn-Baustellen-Blamage\n80 Minuten länger, keine ICEs in Wolfsburg – „Das ruiniert Lebenskonzepte“\nAuf der Bahnstrecke zwischen Hannover und Berlin wird 14 Monate lang gebaut.",
-      "matchedWords": {
-        "AN7nsY_VMjlF": {
-          "hits": 0,
-          "textWords": 390
-        },
-        "PkE_U9n3xXty": {
-          "hits": 0,
-          "textWords": 390
-        },
-        "_-917wMJR3H7": {
-          "hits": 0,
-          "textWords": 390
-        },
-        "pn1xMZn0lFUd": {
-          "hits": 0,
-          "textWords": 390
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "OZ82-lDOAHJg",
-      "address": "https://www.heise.de/ct",
-      "title": "c't: Magazin für Computertechnik | heise online",
-      "snippet": "Software\nHardware\nSecurity\nGreen-Tech\nDigitalisierung\nEvents\nAnzeige\nAnzeige\nAktuelle Ausgabe\nOpen Source statt Microsoft 365\nKI-Chatbot Claude: einrichten, anlernen, an eigene Dateien lassen\nGeld sparen durch Aufrüsten: neue Hardware für alte PCs",
-      "matchedWords": {
-        "AN7nsY_VMjlF": {
-          "hits": 0,
-          "textWords": 161
-        },
-        "PkE_U9n3xXty": {
-          "hits": 0,
-          "textWords": 161
-        },
-        "_-917wMJR3H7": {
-          "hits": 0,
-          "textWords": 161
-        },
-        "pn1xMZn0lFUd": {
-          "hits": 0,
-          "textWords": 161
+          "textWords": 734
         }
       },
       "queryPhraseHits": 0
@@ -1453,57 +1738,532 @@
       "hash": "YbzwIlDOAHJg",
       "address": "https://www.heise.de/newsticker/",
       "title": "Newsticker | heise online",
-      "snippet": "Hardware-Details zum iPhone Duo: IP-Rating, Display, Faltenfreiheit\nMac \u0026 i Magazin\n4 Kommentare",
+      "snippet": "Newsticker | heise online\nheise+ entdecken\nAnmelden\nSuchen\nAbo\nSuchen\nmagazine_v1\nAlle Magazine im Browser lesen\nIT News\nNewsticker\nHintergründe\nRatgeber\nTestberichte\nMeinungen\nOnline-Magazine\nheise\nTelepolis\nheise autos\nbestenlisten\ntipps+tricks\nServices\nheise shop\nheise jobs\nheise academy",
       "matchedWords": {
         "AN7nsY_VMjlF": {
           "hits": 0,
-          "textWords": 12
-        },
-        "PkE_U9n3xXty": {
-          "hits": 0,
-          "textWords": 12
-        },
-        "_-917wMJR3H7": {
-          "hits": 0,
-          "textWords": 12
+          "textWords": 766
         },
         "pn1xMZn0lFUd": {
           "hits": 0,
-          "textWords": 12
+          "textWords": 766
         }
       },
       "queryPhraseHits": 0
     },
     {
-      "hash": "3fuRCZ8moajg",
-      "address": "https://www.welt.de/wirtschaft/weltplus/",
-      "title": "WELTplus Wirtschaft - Qualitätsjournalismus für Abonnenten",
-      "snippet": "Pfadnavigation\nHome\nWirtschaft\nWeltplus Artikel\nBahn-Baustellen-Blamage\n80 Minuten länger, keine ICEs in Wolfsburg – „Das ruiniert Lebenskonzepte“\nAuf der Bahnstrecke zwischen Hannover und Berlin wird 14 Monate lang gebaut.",
+      "hash": "BU_eehHjdLqg",
+      "address": "https://www.focus.de/finanzen/schweiz-auswanderer-ehrlich-ich-habe-schnell-gemerkt-hier-bleibt-mir-mehr-geld_id_208726174.html",
+      "title": "Schweiz-Auswanderer: „Ich habe schnell gemerkt, hier bleibt mir mehr Geld“ - FOCUS online",
+      "snippet": "",
       "matchedWords": {
         "AN7nsY_VMjlF": {
           "hits": 0,
-          "textWords": 390
-        },
-        "PkE_U9n3xXty": {
-          "hits": 0,
-          "textWords": 390
-        },
-        "_-917wMJR3H7": {
-          "hits": 0,
-          "textWords": 390
+          "textWords": 0
         },
         "pn1xMZn0lFUd": {
           "hits": 0,
-          "textWords": 390
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "rHiw_IHjdLqg",
+      "address": "https://www.focus.de/auto/elektroauto/e-bikes/",
+      "title": "E-Bikes - News \u0026 Trends FOCUS Online",
+      "snippet": "",
+      "matchedWords": {
+        "AN7nsY_VMjlF": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "pn1xMZn0lFUd": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "A2rEcUNVBxfg",
+      "address": "https://article.chip.de/",
+      "title": "Chip",
+      "snippet": "",
+      "matchedWords": {
+        "AN7nsY_VMjlF": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "pn1xMZn0lFUd": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "c95rUlyT1Gu7",
+      "address": "https://www.solaranlagen-portal.com/?ref=622965\u0026utm_source=Focus\u0026utm_medium=Linkbox-generell\u0026utm_campaign=solar-mehr-button",
+      "title": "Solaranlage: Photovoltaik verstehen \u0026 sparen mit PV! ☀",
+      "snippet": "Lesen Sie hier den Testbericht von Finanztip.\nPhotovoltaik aufs Dach: über Sonnenlicht und Solarmodule\nSie möchten eine PV-Anlage auf Ihrem Hausdach installieren und selbst erzeugten Strom aus Sonnenenergie nutzen. Aber wie funktioniert das Ganze eigentlich?",
+      "matchedWords": {
+        "AN7nsY_VMjlF": {
+          "hits": 1,
+          "textWords": 744
+        },
+        "pn1xMZn0lFUd": {
+          "hits": 1,
+          "textWords": 744
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "O7gAKjyX5Qug",
+      "address": "https://www.t-online.de/mobilitaet/aktuelles/",
+      "title": "Aktuelle News und Infos rund um das Thema Mobilität",
+      "snippet": "Aktuelles\n550 Kilometer Reichweite\nTesla bringt Elektro-Lkw nach Europa\nSUV beim TÜV\nBeliebt, aber auch gut? Nissan Qashqai im Check\nKönig der Autobahn\nDer wichtigste Mercedes wird 30\nDas müssen Besitzer wissen\nBrandgefahr: Rückruf für ältere BMW\nÄrger nach Millionen-Sanierung",
+      "matchedWords": {
+        "AN7nsY_VMjlF": {
+          "hits": 0,
+          "textWords": 503
+        },
+        "pn1xMZn0lFUd": {
+          "hits": 0,
+          "textWords": 503
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "VfIdk7yX5Qug",
+      "address": "https://www.t-online.de/themen/vw/",
+      "title": "VW: Aktuelle News und Infos",
+      "snippet": "Die Volkswagen Aktiengesellschaft (Volkswagen AG) ist ein führender deutscher Automobilhersteller mit Sitz in Wolfsburg. Gegründet am 28.",
+      "matchedWords": {
+        "AN7nsY_VMjlF": {
+          "hits": 0,
+          "textWords": 190
+        },
+        "pn1xMZn0lFUd": {
+          "hits": 0,
+          "textWords": 190
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "hrwsi7yX5Qug",
+      "address": "https://www.t-online.de/themen/mercedes-benz/",
+      "title": "Mercedes-Benz: Aktuelle News und Infos zu Mercedes-Benz",
+      "snippet": "",
+      "matchedWords": {
+        "AN7nsY_VMjlF": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "pn1xMZn0lFUd": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "jREsW7yX5Qug",
+      "address": "https://www.t-online.de/themen/bmw/",
+      "title": "BMW: Aktuelle News \u0026 Infos",
+      "snippet": "BMW\nBMW Konzernzentrale mit BMW Logo am Abend. (zu dpa: «Gewinn bei BMW bricht um mehr als ein Viertel ein») (Quelle: Peter Kneffel/dpa/dpa-bilder)\nBMW ist ein deutscher Automobil- und Motorradhersteller mit Sitz in München.",
+      "matchedWords": {
+        "AN7nsY_VMjlF": {
+          "hits": 0,
+          "textWords": 78
+        },
+        "pn1xMZn0lFUd": {
+          "hits": 0,
+          "textWords": 78
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "ksYCRlyX5Qug",
+      "address": "https://www.t-online.de/mobilitaet/",
+      "title": "News und Infos rund um das Thema Mobilität",
+      "snippet": "Spartipp für Autofahrer\nDieser ungewöhnliche Weg drückt die Inspektionsrechnung\nEinfacher einparken\nIm Stand lenken: Schadet es dem Auto?\nEin Gigant aus Stahl und Beton\nDas ist die längste Brücke der Welt\nDemontage ganz einfach\nNummernschild abmachen – so funktioniert es ganz einfach\nE-Autos",
+      "matchedWords": {
+        "AN7nsY_VMjlF": {
+          "hits": 1,
+          "textWords": 340
+        },
+        "pn1xMZn0lFUd": {
+          "hits": 1,
+          "textWords": 340
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "rK_UujyX5Qug",
+      "address": "https://www.t-online.de/mobilitaet/autos/",
+      "title": "Ratgeber und News rund ums Auto",
+      "snippet": "",
+      "matchedWords": {
+        "AN7nsY_VMjlF": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "pn1xMZn0lFUd": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "q32UbskjxbMg",
+      "address": "https://t3n.de/",
+      "title": "t3n – digital pioneers | Das Magazin für digitales Business - t3nde",
+      "snippet": "Unsere MarkenMIT Technology ReviewDigital Bash\nJetzt abonnierenAbonnieren\nAnmelden\nPlus-Artikel\nt3n PRO\nUnsere Marken\nNewsticker\nThemen\nSoftware \u0026 KIArbeitsweltHardware \u0026 GadgetsFuture \u0026 ScienceStartups \u0026 EconomyNew FinanceE-CommerceMarketingMobilitätGaming\nMagazine\nOnlinekurse\nShop\nPioneers Picks",
+      "matchedWords": {
+        "AN7nsY_VMjlF": {
+          "hits": 0,
+          "textWords": 1861
+        },
+        "pn1xMZn0lFUd": {
+          "hits": 0,
+          "textWords": 1861
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "1gHXLh7gozxh",
+      "address": "https://www.motor-talk.de/forum/laden-ohne-ladekarte-und-mitgliedschaft-abo-also-spontan-t7124712.html",
+      "title": "Laden ohne Ladekarte und Mitgliedschaft (Abo) - also \"spontan\"? - S... | MOTOR-TALK",
+      "snippet": "",
+      "matchedWords": {
+        "AN7nsY_VMjlF": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "pn1xMZn0lFUd": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "2Ncrkh7gozxh",
+      "address": "https://www.motor-talk.de/forum/e-tron-150-000-km-plus-t7568561.html",
+      "title": "E-tron - 150.000 km plus - Startseite Forum Auto Audi Audi Q8 e-tro... | MOTOR-TALK",
+      "snippet": "",
+      "matchedWords": {
+        "AN7nsY_VMjlF": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "pn1xMZn0lFUd": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "2Ri5Xh7gozxh",
+      "address": "https://www.motor-talk.de/forum/verfuegbarkeit-standheizung-t6470813.html",
+      "title": "Verfügbarkeit Standheizung? - Startseite Forum Auto Audi Audi Q8 e-... | MOTOR-TALK",
+      "snippet": "",
+      "matchedWords": {
+        "AN7nsY_VMjlF": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "pn1xMZn0lFUd": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "2jo2gh7gozxh",
+      "address": "https://www.motor-talk.de/forum/audi-pannendiensttaste-ohne-funktion-t6643995.html",
+      "title": "Audi Pannendiensttaste ohne Funktion - Startseite Forum Auto Audi A... | MOTOR-TALK",
+      "snippet": "",
+      "matchedWords": {
+        "AN7nsY_VMjlF": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "pn1xMZn0lFUd": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "3Yuqyh7gozxh",
+      "address": "https://www.motor-talk.de/forum/e-tron-s-infos-und-berichte-t6632518.html",
+      "title": "E-Tron S - Infos und Berichte - Startseite Forum Auto Audi Audi Q8 ... | MOTOR-TALK",
+      "snippet": "",
+      "matchedWords": {
+        "AN7nsY_VMjlF": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "pn1xMZn0lFUd": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "s8nhVZ8moajg",
+      "address": "https://www.welt.de/wirtschaft/webwelt/",
+      "title": "Technik \u0026 Internet - Aktuelle News rund um Web \u0026 Digitales - WELT",
+      "snippet": "Pfadnavigation\nHome\nWirtschaft\nMit diesen Tricks machen Sie Ihr Fahrrad fit für den Sommer\nDer Frühling lädt zum Radfahren ein. Damit Sie flott und verkehrssicher auf Ihrem Drahtesel unterwegs sind, sollten Sie das Bike vorab putzen und pflegen.",
+      "matchedWords": {
+        "AN7nsY_VMjlF": {
+          "hits": 0,
+          "textWords": 948
+        },
+        "pn1xMZn0lFUd": {
+          "hits": 0,
+          "textWords": 948
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "0w4-YT9uM9Dh",
+      "address": "https://www.hardwareluxx.de/index.php/news/hardware/auto/48440-elektroauto-von-honda-soll-noch-dieses-jahr-kommen.html",
+      "title": "Elektroauto von Honda soll noch dieses Jahr kommen - Hardwareluxx",
+      "snippet": "Im vergangen Jahr gingen die Japaner eine Partnerschaft mit dem US-amerikanischen Automobilkonzern GM ein, um mit diesem gemeinsam Akkus für Elektrofahrzeuge zu entwickeln. Ebenfalls ist Gerüchten zufolge ein Honda-Elektroauto ausschließlich für den chinesischen Markt in Planung.",
+      "matchedWords": {
+        "AN7nsY_VMjlF": {
+          "hits": 1,
+          "textWords": 258
+        },
+        "pn1xMZn0lFUd": {
+          "hits": 0,
+          "textWords": 258
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "1wJD2T9uM9Dh",
+      "address": "https://www.hardwareluxx.de/index.php/tags/low-budget.html",
+      "title": "low Budget - Hardwareluxx",
+      "snippet": "",
+      "matchedWords": {
+        "AN7nsY_VMjlF": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "pn1xMZn0lFUd": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "17qDAT9uM9Dh",
+      "address": "https://www.hardwareluxx.de/index.php/news/hardware/auto/48503-volkswagen-20-000-euro-elektroauto-soll-kommen.html",
+      "title": "Volkswagen: 20.000-Euro-Elektroauto soll kommen - Hardwareluxx",
+      "snippet": "NEWS\nWie der Strategiechef von VM, Michael Jost, jetzt bekannt gab, soll das erste Elektroauto der Volkswagen Aktiengesellschaft mit Sitz im niedersächsischen Wolfsburg im Jahr 2020 auf den Markt kommen. Dieses wird die Größe eines Golfs haben und für unter 30.000 Euro käuflich erwerbbar sein.",
+      "matchedWords": {
+        "AN7nsY_VMjlF": {
+          "hits": 2,
+          "textWords": 247
+        },
+        "pn1xMZn0lFUd": {
+          "hits": 0,
+          "textWords": 247
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "2SrVRT9uM9Dh",
+      "address": "https://www.hardwareluxx.de/index.php/tags/auto.html",
+      "title": "Auto - Hardwareluxx",
+      "snippet": "",
+      "matchedWords": {
+        "AN7nsY_VMjlF": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "pn1xMZn0lFUd": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "2jXEnT9uM9Dh",
+      "address": "https://www.hardwareluxx.de/index.php/tags/ces-2020.html",
+      "title": "CES 2020 - Hardwareluxx",
+      "snippet": "",
+      "matchedWords": {
+        "AN7nsY_VMjlF": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "pn1xMZn0lFUd": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "3IVAwT9uM9Dh",
+      "address": "https://www.hardwareluxx.de/index.php/tags/xiaomi.html",
+      "title": "Xiaomi - Hardwareluxx",
+      "snippet": "",
+      "matchedWords": {
+        "AN7nsY_VMjlF": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "pn1xMZn0lFUd": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "3sK-oT9uM9Dh",
+      "address": "https://www.hardwareluxx.de/index.php/news/hardware/auto/48828-tesla-macht-seine-ladengeschaefte-dicht.html",
+      "title": "Tesla macht seine Ladengeschäfte dicht - Hardwareluxx",
+      "snippet": "",
+      "matchedWords": {
+        "AN7nsY_VMjlF": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "pn1xMZn0lFUd": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "3uEDIT9uM9Dh",
+      "address": "https://www.hardwareluxx.de/index.php/tags/e-auto.html",
+      "title": "E-Auto - Hardwareluxx",
+      "snippet": "",
+      "matchedWords": {
+        "AN7nsY_VMjlF": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "pn1xMZn0lFUd": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "0Et0vMdDehkg",
+      "address": "https://www.adac.de/produkte/versicherungen/auslandskrankenversicherung/tarife-und-leistungen/",
+      "title": "Auslandskrankenversicherung - \"Sehr gut\" im Test",
+      "snippet": "Rentner (77 Jahre) auf Weihnachtsbesuch bei der Familie in Kanada für 5 Wochen, ADAC Mitglied: 79,80 € im Jahr im Tarif Basis\nPersönlichen Schutz berechnen\nSo funktioniert's im Ernstfall in 3 Schritten\nReisedokumente frühzeitig prüfen und ggf. rechtzeitig beantragen",
+      "matchedWords": {
+        "AN7nsY_VMjlF": {
+          "hits": 0,
+          "textWords": 3162
+        },
+        "pn1xMZn0lFUd": {
+          "hits": 1,
+          "textWords": 3162
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "9fRIGMdDehkg",
+      "address": "https://www.adac.de/produkte/finanzdienstleistungen/autokredit/ueberblick/",
+      "title": "Der ADAC Autokredit. Jetzt online beantragen.",
+      "snippet": "",
+      "matchedWords": {
+        "AN7nsY_VMjlF": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "pn1xMZn0lFUd": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "DjQWH1qF-3Lg",
+      "address": "https://www.bmimi.gv.at/themen/innovation/internationales/cost.html",
+      "title": "COST",
+      "snippet": "Die jüngsten Neuzugänge unter den COST Mitgliedsstaaten sind Ukraine und Georgien. Darüber hinaus können sich auch Forschungseinrichtungen aus Drittstaaten an COST Aktionen beteiligen.\nWie funktioniert COST:",
+      "matchedWords": {
+        "AN7nsY_VMjlF": {
+          "hits": 0,
+          "textWords": 303
+        },
+        "pn1xMZn0lFUd": {
+          "hits": 1,
+          "textWords": 303
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "gkwLV1qF-3Lg",
+      "address": "https://www.bmimi.gv.at/themen/mobilitaet/alternative_verkehrskonzepte/automatisiertesfahren/faq.html",
+      "title": "Häufig gestellte Fragen, FAQ",
+      "snippet": "In der Regel funktioniert der öffentliche Verkehr in großen Städten und entlang der Hauptstrecken sehr gut. Schwierig wird es abseits davon mit der Vertaktung des regionalen Verkehrs.",
+      "matchedWords": {
+        "AN7nsY_VMjlF": {
+          "hits": 0,
+          "textWords": 6975
+        },
+        "pn1xMZn0lFUd": {
+          "hits": 1,
+          "textWords": 6975
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "AthR8li-f6Eg",
+      "address": "https://www.zeit.de/daten-und-visualisierung",
+      "title": "Übersicht: Unsere Daten und Visualisierungen | DIE ZEIT",
+      "snippet": "Z+ (abopflichtiger Inhalt);\nÖlpreis: So verletzlich ist die deutsche Wirtschaft\nDie Sorge ist groß, dass der Ölpreisschock den Hauch von Aufschwung in Deutschland stoppen könnte. Wie groß ist die Gefahr wirklich?\nVon Clara Suchy, Vivien Serve, Ileana Grabitz u. a.",
+      "matchedWords": {
+        "AN7nsY_VMjlF": {
+          "hits": 0,
+          "textWords": 1527
+        },
+        "pn1xMZn0lFUd": {
+          "hits": 0,
+          "textWords": 1527
         }
       },
       "queryPhraseHits": 0
     }
   ],
   "documentsHeldPerQueryWord": {
-    "AN7nsY_VMjlF": 172445,
-    "PkE_U9n3xXty": 122285,
-    "_-917wMJR3H7": 901954,
-    "pn1xMZn0lFUd": 61718
+    "AN7nsY_VMjlF": 13505,
+    "pn1xMZn0lFUd": 65288
   }
 }

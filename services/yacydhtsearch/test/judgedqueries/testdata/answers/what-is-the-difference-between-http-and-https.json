@@ -1,342 +1,67 @@
 {
   "query": "what is the difference between http and https",
-  "recordedAt": "2026-09-12T10:15:33Z",
+  "recordedAt": "2026-09-12T11:25:41Z",
   "itemsInTheOrderOfEachAnswer": [
     [
       {
-        "hash": "D4lABzaS0qdw",
-        "address": "https://planet.debian.org/",
-        "title": "Planet Debian",
-        "snippet": "GOTEST=go test # -count=6 gives p≤0.002 in benchstat: # https://pkg.go.dev/golang.org/x/perf/cmd/benchstat BENCHFLAGS=-run=^$$ -bench=. -benchtime=200000x -count=6 # use taskset -c1 to always pin to the same single core, # avoiding accidental scheduling on different cores on # mixed-core CPUs like",
+        "hash": "lJPASRNT801Y",
+        "address": "http://ukcommentators.blogspot.com/",
+        "title": "UK Commentators",
+        "snippet": "On this most solemn Crucifixion day, let me share some sombre stats with you :\nLet me put that in writing :\nGas up 168% in ten years\nElectricity 97%\nProperty 66%\nWater 63%\nCouncil tax / rates 59%\nPetrol 59%\nFood 39%\nRents 28%\nConsumer durables -5%\nAverage income up 38%\nCPI inflation up 27%.",
         "matchedWords": {
-          "KULEZq6YXE_i": {
-            "hits": 0,
-            "textWords": 8109
-          },
-          "SiAo7OrF4fTS": {
-            "hits": 0,
-            "textWords": 8109
-          },
           "XgVsUAocS2px": {
-            "hits": 1,
-            "textWords": 8109
+            "hits": 0,
+            "textWords": 1288
           },
           "gHkbOucALLiM": {
             "hits": 0,
-            "textWords": 8109
-          },
-          "j8Qsbd-ZZts7": {
-            "hits": 0,
-            "textWords": 8109
+            "textWords": 1288
           },
           "lUVudQaoycBO": {
-            "hits": 1,
-            "textWords": 8109
-          },
-          "oqVRpkWKjeIk": {
             "hits": 0,
-            "textWords": 8109
-          },
-          "vl1dN1Qtdfk6": {
-            "hits": 0,
-            "textWords": 8109
-          }
-        },
-        "queryPhraseHits": 0
-      }
-    ],
-    [
-      {
-        "hash": "-b3sxspKNBr4",
-        "address": "https://rense.com/",
-        "title": "rense.com",
-        "snippet": "Android 17 Hides Your Browsing Destinations\nFrom Carriers, Closing HTTPS Privacy Gap\nGoogle Moved Its Gemini AI Safety Team Into\nLobbying, Blocking Researchers From Staying\nKinisi KR1 Humanoid Starts Crankshaft Bearing\nAssembly for Major Global Automaker\nMusk Launching New Turbine Blade Factory To",
-        "matchedWords": {
-          "KULEZq6YXE_i": {
-            "hits": 0,
-            "textWords": 85916
-          },
-          "SiAo7OrF4fTS": {
-            "hits": 0,
-            "textWords": 85916
-          },
-          "XgVsUAocS2px": {
-            "hits": 1,
-            "textWords": 85916
-          },
-          "gHkbOucALLiM": {
-            "hits": 0,
-            "textWords": 85916
-          },
-          "j8Qsbd-ZZts7": {
-            "hits": 0,
-            "textWords": 85916
-          },
-          "lUVudQaoycBO": {
-            "hits": 1,
-            "textWords": 85916
-          },
-          "oqVRpkWKjeIk": {
-            "hits": 0,
-            "textWords": 85916
-          },
-          "vl1dN1Qtdfk6": {
-            "hits": 0,
-            "textWords": 85916
-          }
-        },
-        "queryPhraseHits": 0
-      }
-    ],
-    [
-      {
-        "hash": "D4lABzaS0qdw",
-        "address": "https://planet.debian.org/",
-        "title": "Planet Debian",
-        "snippet": "GOTEST=go test # -count=6 gives p≤0.002 in benchstat: # https://pkg.go.dev/golang.org/x/perf/cmd/benchstat BENCHFLAGS=-run=^$$ -bench=. -benchtime=200000x -count=6 # use taskset -c1 to always pin to the same single core, # avoiding accidental scheduling on different cores on # mixed-core CPUs like",
-        "matchedWords": {
-          "KULEZq6YXE_i": {
-            "hits": 0,
-            "textWords": 8109
-          },
-          "SiAo7OrF4fTS": {
-            "hits": 0,
-            "textWords": 8109
-          },
-          "XgVsUAocS2px": {
-            "hits": 1,
-            "textWords": 8109
-          },
-          "gHkbOucALLiM": {
-            "hits": 0,
-            "textWords": 8109
-          },
-          "j8Qsbd-ZZts7": {
-            "hits": 0,
-            "textWords": 8109
-          },
-          "lUVudQaoycBO": {
-            "hits": 1,
-            "textWords": 8109
-          },
-          "oqVRpkWKjeIk": {
-            "hits": 0,
-            "textWords": 8109
-          },
-          "vl1dN1Qtdfk6": {
-            "hits": 0,
-            "textWords": 8109
+            "textWords": 1288
           }
         },
         "queryPhraseHits": 0
       },
       {
-        "hash": "-b3sxspKNBr4",
-        "address": "https://rense.com/",
-        "title": "rense.com",
-        "snippet": "Android 17 Hides Your Browsing Destinations\nFrom Carriers, Closing HTTPS Privacy Gap\nGoogle Moved Its Gemini AI Safety Team Into\nLobbying, Blocking Researchers From Staying\nKinisi KR1 Humanoid Starts Crankshaft Bearing\nAssembly for Major Global Automaker\nMusk Launching New Turbine Blade Factory To",
+        "hash": "hNrcdJ-bwreQ",
+        "address": "http://ace.mu.nu/",
+        "title": "Ace of Spades HQ",
+        "snippet": "She never would attack Liberace for wearing glitter-tuxedos. But she's mad that Dolly Parton makes Barbara Walters look bad through association (by being a woman). Babs, you wish people associated the two of you. Believe me, we can tell the difference.\nRecent Comments",
         "matchedWords": {
-          "KULEZq6YXE_i": {
-            "hits": 0,
-            "textWords": 85916
-          },
-          "SiAo7OrF4fTS": {
-            "hits": 0,
-            "textWords": 85916
-          },
           "XgVsUAocS2px": {
-            "hits": 1,
-            "textWords": 85916
+            "hits": 0,
+            "textWords": 12885
           },
           "gHkbOucALLiM": {
             "hits": 0,
-            "textWords": 85916
-          },
-          "j8Qsbd-ZZts7": {
-            "hits": 0,
-            "textWords": 85916
+            "textWords": 12885
           },
           "lUVudQaoycBO": {
             "hits": 1,
-            "textWords": 85916
-          },
-          "oqVRpkWKjeIk": {
-            "hits": 0,
-            "textWords": 85916
-          },
-          "vl1dN1Qtdfk6": {
-            "hits": 0,
-            "textWords": 85916
-          }
-        },
-        "queryPhraseHits": 0
-      }
-    ],
-    [
-      {
-        "hash": "-b3sxspKNBr4",
-        "address": "https://rense.com/",
-        "title": "rense.com",
-        "snippet": "Android 17 Hides Your Browsing Destinations\nFrom Carriers, Closing HTTPS Privacy Gap\nGoogle Moved Its Gemini AI Safety Team Into\nLobbying, Blocking Researchers From Staying\nKinisi KR1 Humanoid Starts Crankshaft Bearing\nAssembly for Major Global Automaker\nMusk Launching New Turbine Blade Factory To",
-        "matchedWords": {
-          "KULEZq6YXE_i": {
-            "hits": 0,
-            "textWords": 85916
-          },
-          "SiAo7OrF4fTS": {
-            "hits": 0,
-            "textWords": 85916
-          },
-          "XgVsUAocS2px": {
-            "hits": 1,
-            "textWords": 85916
-          },
-          "gHkbOucALLiM": {
-            "hits": 0,
-            "textWords": 85916
-          },
-          "j8Qsbd-ZZts7": {
-            "hits": 0,
-            "textWords": 85916
-          },
-          "lUVudQaoycBO": {
-            "hits": 1,
-            "textWords": 85916
-          },
-          "oqVRpkWKjeIk": {
-            "hits": 0,
-            "textWords": 85916
-          },
-          "vl1dN1Qtdfk6": {
-            "hits": 0,
-            "textWords": 85916
-          }
-        },
-        "queryPhraseHits": 0
-      }
-    ],
-    [
-      {
-        "hash": "-b3sxspKNBr4",
-        "address": "https://rense.com/",
-        "title": "rense.com",
-        "snippet": "Android 17 Hides Your Browsing Destinations\nFrom Carriers, Closing HTTPS Privacy Gap\nGoogle Moved Its Gemini AI Safety Team Into\nLobbying, Blocking Researchers From Staying\nKinisi KR1 Humanoid Starts Crankshaft Bearing\nAssembly for Major Global Automaker\nMusk Launching New Turbine Blade Factory To",
-        "matchedWords": {
-          "KULEZq6YXE_i": {
-            "hits": 0,
-            "textWords": 85916
-          },
-          "SiAo7OrF4fTS": {
-            "hits": 0,
-            "textWords": 85916
-          },
-          "XgVsUAocS2px": {
-            "hits": 1,
-            "textWords": 85916
-          },
-          "gHkbOucALLiM": {
-            "hits": 0,
-            "textWords": 85916
-          },
-          "j8Qsbd-ZZts7": {
-            "hits": 0,
-            "textWords": 85916
-          },
-          "lUVudQaoycBO": {
-            "hits": 1,
-            "textWords": 85916
-          },
-          "oqVRpkWKjeIk": {
-            "hits": 0,
-            "textWords": 85916
-          },
-          "vl1dN1Qtdfk6": {
-            "hits": 0,
-            "textWords": 85916
-          }
-        },
-        "queryPhraseHits": 0
-      }
-    ],
-    [
-      {
-        "hash": "-b3sxspKNBr4",
-        "address": "https://rense.com/",
-        "title": "rense.com",
-        "snippet": "Android 17 Hides Your Browsing Destinations\nFrom Carriers, Closing HTTPS Privacy Gap\nGoogle Moved Its Gemini AI Safety Team Into\nLobbying, Blocking Researchers From Staying\nKinisi KR1 Humanoid Starts Crankshaft Bearing\nAssembly for Major Global Automaker\nMusk Launching New Turbine Blade Factory To",
-        "matchedWords": {
-          "KULEZq6YXE_i": {
-            "hits": 0,
-            "textWords": 85916
-          },
-          "SiAo7OrF4fTS": {
-            "hits": 0,
-            "textWords": 85916
-          },
-          "XgVsUAocS2px": {
-            "hits": 1,
-            "textWords": 85916
-          },
-          "gHkbOucALLiM": {
-            "hits": 0,
-            "textWords": 85916
-          },
-          "j8Qsbd-ZZts7": {
-            "hits": 0,
-            "textWords": 85916
-          },
-          "lUVudQaoycBO": {
-            "hits": 1,
-            "textWords": 85916
-          },
-          "oqVRpkWKjeIk": {
-            "hits": 0,
-            "textWords": 85916
-          },
-          "vl1dN1Qtdfk6": {
-            "hits": 0,
-            "textWords": 85916
+            "textWords": 12885
           }
         },
         "queryPhraseHits": 0
       },
       {
-        "hash": "D4lABzaS0qdw",
-        "address": "https://planet.debian.org/",
-        "title": "Planet Debian",
-        "snippet": "GOTEST=go test # -count=6 gives p≤0.002 in benchstat: # https://pkg.go.dev/golang.org/x/perf/cmd/benchstat BENCHFLAGS=-run=^$$ -bench=. -benchtime=200000x -count=6 # use taskset -c1 to always pin to the same single core, # avoiding accidental scheduling on different cores on # mixed-core CPUs like",
+        "hash": "ifP7FdHU0ZoY",
+        "address": "http://rigint.blogspot.com/",
+        "title": "Rigorous Intuition (v. 2.0)",
+        "snippet": "Our civilized world is nothing but a great masquerade. You encounter knights, parsons, soldiers, doctors, lawyers, priests, philosophers and a thousand more: but they are not what they appear - they are merely masks....",
         "matchedWords": {
-          "KULEZq6YXE_i": {
-            "hits": 0,
-            "textWords": 8109
-          },
-          "SiAo7OrF4fTS": {
-            "hits": 0,
-            "textWords": 8109
-          },
           "XgVsUAocS2px": {
-            "hits": 1,
-            "textWords": 8109
+            "hits": 0,
+            "textWords": 10792
           },
           "gHkbOucALLiM": {
             "hits": 0,
-            "textWords": 8109
-          },
-          "j8Qsbd-ZZts7": {
-            "hits": 0,
-            "textWords": 8109
+            "textWords": 10792
           },
           "lUVudQaoycBO": {
-            "hits": 1,
-            "textWords": 8109
-          },
-          "oqVRpkWKjeIk": {
             "hits": 0,
-            "textWords": 8109
-          },
-          "vl1dN1Qtdfk6": {
-            "hits": 0,
-            "textWords": 8109
+            "textWords": 10792
           }
         },
         "queryPhraseHits": 0
@@ -344,83 +69,66 @@
     ],
     [
       {
-        "hash": "-b3sxspKNBr4",
-        "address": "https://rense.com/",
-        "title": "rense.com",
-        "snippet": "Android 17 Hides Your Browsing Destinations\nFrom Carriers, Closing HTTPS Privacy Gap\nGoogle Moved Its Gemini AI Safety Team Into\nLobbying, Blocking Researchers From Staying\nKinisi KR1 Humanoid Starts Crankshaft Bearing\nAssembly for Major Global Automaker\nMusk Launching New Turbine Blade Factory To",
+        "hash": "I9wGRQIpBInR",
+        "address": "http://www.bilderberg.org/",
+        "title": "Bilderberg Nazi roots censored by Wikipedia StratCom hackers - https://37.220.108.147/members/www.bilderberg.org/ www.bilderberg-mirror.org.",
+        "snippet": "http://conspiracies.we-h8-u.com/ \u0026\nhttp://www.bilderberg-mirror.org.uk [updated most regularly]\nOlder versions http://www.mega.nu:8080/conspiracy/www.bilderberg.org/\nhttp://www.unclenicks.net/bilderberg/www.bilderberg.org/\nhttp://www.college-radio.org/bilderberg\nhttp://copy_bilderberg.tripod.com",
         "matchedWords": {
-          "KULEZq6YXE_i": {
-            "hits": 0,
-            "textWords": 85916
-          },
-          "SiAo7OrF4fTS": {
-            "hits": 0,
-            "textWords": 85916
-          },
           "XgVsUAocS2px": {
-            "hits": 1,
-            "textWords": 85916
+            "hits": 0,
+            "textWords": 8670
           },
           "gHkbOucALLiM": {
-            "hits": 0,
-            "textWords": 85916
-          },
-          "j8Qsbd-ZZts7": {
-            "hits": 0,
-            "textWords": 85916
+            "hits": 20,
+            "textWords": 8670
           },
           "lUVudQaoycBO": {
             "hits": 1,
-            "textWords": 85916
-          },
-          "oqVRpkWKjeIk": {
+            "textWords": 8670
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "lMJkWPpKNBr4",
+        "address": "https://rense.com/general88/hist.htm",
+        "title": "The History Of The House Of Rothschild",
+        "snippet": "On September 16th Britain's pound collapses when currency speculators led by Rothschild agent, Ashkenazi Jew, George Soros, borrow pounds and sell them for Deutsche Marks, in the expectation of being able to repay the loan in devalued currency and to pocket the difference.",
+        "matchedWords": {
+          "XgVsUAocS2px": {
             "hits": 0,
-            "textWords": 85916
+            "textWords": 20122
           },
-          "vl1dN1Qtdfk6": {
-            "hits": 0,
-            "textWords": 85916
+          "gHkbOucALLiM": {
+            "hits": 1,
+            "textWords": 20122
+          },
+          "lUVudQaoycBO": {
+            "hits": 1,
+            "textWords": 20122
           }
         },
         "queryPhraseHits": 0
       },
       {
-        "hash": "D4lABzaS0qdw",
-        "address": "https://planet.debian.org/",
-        "title": "Planet Debian",
-        "snippet": "GOTEST=go test # -count=6 gives p≤0.002 in benchstat: # https://pkg.go.dev/golang.org/x/perf/cmd/benchstat BENCHFLAGS=-run=^$$ -bench=. -benchtime=200000x -count=6 # use taskset -c1 to always pin to the same single core, # avoiding accidental scheduling on different cores on # mixed-core CPUs like",
+        "hash": "iLQO1sN0ip-w",
+        "address": "https://m-reform.net/",
+        "title": "replica football shirts",
+        "snippet": "Whatever you’re, whether you’re the one who constantly refrains into Monday Evening Football or the one who has no thought concerning the difference between the quarterback and the cornerback, you can be successful at Fantasy Football and make an impression on the men in your league.",
         "matchedWords": {
-          "KULEZq6YXE_i": {
-            "hits": 0,
-            "textWords": 8109
-          },
-          "SiAo7OrF4fTS": {
-            "hits": 0,
-            "textWords": 8109
-          },
           "XgVsUAocS2px": {
-            "hits": 1,
-            "textWords": 8109
+            "hits": 13,
+            "textWords": 230924
           },
           "gHkbOucALLiM": {
             "hits": 0,
-            "textWords": 8109
-          },
-          "j8Qsbd-ZZts7": {
-            "hits": 0,
-            "textWords": 8109
+            "textWords": 230924
           },
           "lUVudQaoycBO": {
-            "hits": 1,
-            "textWords": 8109
-          },
-          "oqVRpkWKjeIk": {
-            "hits": 0,
-            "textWords": 8109
-          },
-          "vl1dN1Qtdfk6": {
-            "hits": 0,
-            "textWords": 8109
+            "hits": 12,
+            "textWords": 230924
           }
         },
         "queryPhraseHits": 0
@@ -428,42 +136,22 @@
     ],
     [
       {
-        "hash": "D4lABzaS0qdw",
-        "address": "https://planet.debian.org/",
-        "title": "Planet Debian",
-        "snippet": "GOTEST=go test # -count=6 gives p≤0.002 in benchstat: # https://pkg.go.dev/golang.org/x/perf/cmd/benchstat BENCHFLAGS=-run=^$$ -bench=. -benchtime=200000x -count=6 # use taskset -c1 to always pin to the same single core, # avoiding accidental scheduling on different cores on # mixed-core CPUs like",
+        "hash": "d9nLvyEkAvow",
+        "address": "https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/Caching",
+        "title": "HTTP caching - HTTP | MDN",
+        "snippet": "There is no way to delete responses on an intermediate server that have been stored with a long max-age.\nImagine that the following response from https://example.com/ was stored.\nhttp\nHTTP/1.1 200 OK Content-Type: text/html Content-Length: 1024 Cache-Control: max-age=31536000 \u003c!doctype html\u003e …",
         "matchedWords": {
-          "KULEZq6YXE_i": {
-            "hits": 0,
-            "textWords": 8109
-          },
-          "SiAo7OrF4fTS": {
-            "hits": 0,
-            "textWords": 8109
-          },
           "XgVsUAocS2px": {
-            "hits": 1,
-            "textWords": 8109
+            "hits": 9,
+            "textWords": 5211
           },
           "gHkbOucALLiM": {
-            "hits": 0,
-            "textWords": 8109
-          },
-          "j8Qsbd-ZZts7": {
-            "hits": 0,
-            "textWords": 8109
+            "hits": 72,
+            "textWords": 5211
           },
           "lUVudQaoycBO": {
-            "hits": 1,
-            "textWords": 8109
-          },
-          "oqVRpkWKjeIk": {
-            "hits": 0,
-            "textWords": 8109
-          },
-          "vl1dN1Qtdfk6": {
-            "hits": 0,
-            "textWords": 8109
+            "hits": 2,
+            "textWords": 5211
           }
         },
         "queryPhraseHits": 0
@@ -471,83 +159,22 @@
     ],
     [
       {
-        "hash": "-b3sxspKNBr4",
-        "address": "https://rense.com/",
-        "title": "rense.com",
-        "snippet": "Android 17 Hides Your Browsing Destinations\nFrom Carriers, Closing HTTPS Privacy Gap\nGoogle Moved Its Gemini AI Safety Team Into\nLobbying, Blocking Researchers From Staying\nKinisi KR1 Humanoid Starts Crankshaft Bearing\nAssembly for Major Global Automaker\nMusk Launching New Turbine Blade Factory To",
+        "hash": "5VLLBs6GdY-4",
+        "address": "https://danluu.com/hn-comments/",
+        "title": "HN: comments are underrated",
+        "snippet": "Some examples are multiple new implementations of the build system (http://neugierig.org/software/chromium/notes/2011/02/ninja.h... ), experimentation with the gold linker (e.g. measuring and adjusting the still off-by-default thread flags",
         "matchedWords": {
-          "KULEZq6YXE_i": {
-            "hits": 0,
-            "textWords": 85916
-          },
-          "SiAo7OrF4fTS": {
-            "hits": 0,
-            "textWords": 85916
-          },
           "XgVsUAocS2px": {
-            "hits": 1,
-            "textWords": 85916
+            "hits": 3,
+            "textWords": 17317
           },
           "gHkbOucALLiM": {
-            "hits": 0,
-            "textWords": 85916
-          },
-          "j8Qsbd-ZZts7": {
-            "hits": 0,
-            "textWords": 85916
+            "hits": 1,
+            "textWords": 17317
           },
           "lUVudQaoycBO": {
-            "hits": 1,
-            "textWords": 85916
-          },
-          "oqVRpkWKjeIk": {
-            "hits": 0,
-            "textWords": 85916
-          },
-          "vl1dN1Qtdfk6": {
-            "hits": 0,
-            "textWords": 85916
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "D4lABzaS0qdw",
-        "address": "https://planet.debian.org/",
-        "title": "Planet Debian",
-        "snippet": "GOTEST=go test # -count=6 gives p≤0.002 in benchstat: # https://pkg.go.dev/golang.org/x/perf/cmd/benchstat BENCHFLAGS=-run=^$$ -bench=. -benchtime=200000x -count=6 # use taskset -c1 to always pin to the same single core, # avoiding accidental scheduling on different cores on # mixed-core CPUs like",
-        "matchedWords": {
-          "KULEZq6YXE_i": {
-            "hits": 0,
-            "textWords": 8109
-          },
-          "SiAo7OrF4fTS": {
-            "hits": 0,
-            "textWords": 8109
-          },
-          "XgVsUAocS2px": {
-            "hits": 1,
-            "textWords": 8109
-          },
-          "gHkbOucALLiM": {
-            "hits": 0,
-            "textWords": 8109
-          },
-          "j8Qsbd-ZZts7": {
-            "hits": 0,
-            "textWords": 8109
-          },
-          "lUVudQaoycBO": {
-            "hits": 1,
-            "textWords": 8109
-          },
-          "oqVRpkWKjeIk": {
-            "hits": 0,
-            "textWords": 8109
-          },
-          "vl1dN1Qtdfk6": {
-            "hits": 0,
-            "textWords": 8109
+            "hits": 3,
+            "textWords": 17317
           }
         },
         "queryPhraseHits": 0
@@ -555,83 +182,22 @@
     ],
     [
       {
-        "hash": "D4lABzaS0qdw",
-        "address": "https://planet.debian.org/",
-        "title": "Planet Debian",
-        "snippet": "GOTEST=go test # -count=6 gives p≤0.002 in benchstat: # https://pkg.go.dev/golang.org/x/perf/cmd/benchstat BENCHFLAGS=-run=^$$ -bench=. -benchtime=200000x -count=6 # use taskset -c1 to always pin to the same single core, # avoiding accidental scheduling on different cores on # mixed-core CPUs like",
+        "hash": "pGRD67yp6WtY",
+        "address": "http://tantek.com/",
+        "title": "Tantek Çelik",
+        "snippet": "However there is a difference between an encouragement to share openly, and implying any commitment of support to others, or an invitation for demands.\nRelated:\n* https://indieweb.org/documentation\n* https://indieweb.org/open_source\n* https://indieweb.org/principles",
         "matchedWords": {
-          "KULEZq6YXE_i": {
-            "hits": 0,
-            "textWords": 8109
-          },
-          "SiAo7OrF4fTS": {
-            "hits": 0,
-            "textWords": 8109
-          },
           "XgVsUAocS2px": {
-            "hits": 1,
-            "textWords": 8109
+            "hits": 128,
+            "textWords": 10682
           },
           "gHkbOucALLiM": {
-            "hits": 0,
-            "textWords": 8109
-          },
-          "j8Qsbd-ZZts7": {
-            "hits": 0,
-            "textWords": 8109
+            "hits": 5,
+            "textWords": 10682
           },
           "lUVudQaoycBO": {
-            "hits": 1,
-            "textWords": 8109
-          },
-          "oqVRpkWKjeIk": {
-            "hits": 0,
-            "textWords": 8109
-          },
-          "vl1dN1Qtdfk6": {
-            "hits": 0,
-            "textWords": 8109
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "-b3sxspKNBr4",
-        "address": "https://rense.com/",
-        "title": "rense.com",
-        "snippet": "Android 17 Hides Your Browsing Destinations\nFrom Carriers, Closing HTTPS Privacy Gap\nGoogle Moved Its Gemini AI Safety Team Into\nLobbying, Blocking Researchers From Staying\nKinisi KR1 Humanoid Starts Crankshaft Bearing\nAssembly for Major Global Automaker\nMusk Launching New Turbine Blade Factory To",
-        "matchedWords": {
-          "KULEZq6YXE_i": {
-            "hits": 0,
-            "textWords": 85916
-          },
-          "SiAo7OrF4fTS": {
-            "hits": 0,
-            "textWords": 85916
-          },
-          "XgVsUAocS2px": {
-            "hits": 1,
-            "textWords": 85916
-          },
-          "gHkbOucALLiM": {
-            "hits": 0,
-            "textWords": 85916
-          },
-          "j8Qsbd-ZZts7": {
-            "hits": 0,
-            "textWords": 85916
-          },
-          "lUVudQaoycBO": {
-            "hits": 1,
-            "textWords": 85916
-          },
-          "oqVRpkWKjeIk": {
-            "hits": 0,
-            "textWords": 85916
-          },
-          "vl1dN1Qtdfk6": {
-            "hits": 0,
-            "textWords": 85916
+            "hits": 2,
+            "textWords": 10682
           }
         },
         "queryPhraseHits": 0
@@ -644,14 +210,6 @@
         "title": "rense.com",
         "snippet": "Android 17 Hides Your Browsing Destinations\nFrom Carriers, Closing HTTPS Privacy Gap\nGoogle Moved Its Gemini AI Safety Team Into\nLobbying, Blocking Researchers From Staying\nKinisi KR1 Humanoid Starts Crankshaft Bearing\nAssembly for Major Global Automaker\nMusk Launching New Turbine Blade Factory To",
         "matchedWords": {
-          "KULEZq6YXE_i": {
-            "hits": 0,
-            "textWords": 85916
-          },
-          "SiAo7OrF4fTS": {
-            "hits": 0,
-            "textWords": 85916
-          },
           "XgVsUAocS2px": {
             "hits": 1,
             "textWords": 85916
@@ -660,20 +218,8 @@
             "hits": 0,
             "textWords": 85916
           },
-          "j8Qsbd-ZZts7": {
-            "hits": 0,
-            "textWords": 85916
-          },
           "lUVudQaoycBO": {
             "hits": 1,
-            "textWords": 85916
-          },
-          "oqVRpkWKjeIk": {
-            "hits": 0,
-            "textWords": 85916
-          },
-          "vl1dN1Qtdfk6": {
-            "hits": 0,
             "textWords": 85916
           }
         },
@@ -682,42 +228,22 @@
     ],
     [
       {
-        "hash": "D4lABzaS0qdw",
-        "address": "https://planet.debian.org/",
-        "title": "Planet Debian",
-        "snippet": "GOTEST=go test # -count=6 gives p≤0.002 in benchstat: # https://pkg.go.dev/golang.org/x/perf/cmd/benchstat BENCHFLAGS=-run=^$$ -bench=. -benchtime=200000x -count=6 # use taskset -c1 to always pin to the same single core, # avoiding accidental scheduling on different cores on # mixed-core CPUs like",
+        "hash": "u9BrmobrsZjx",
+        "address": "https://www.mediawiki.org/wiki/MediaWiki-Vagrant",
+        "title": "MediaWiki-Vagrant - MediaWiki",
+        "snippet": "vagrant-proxyconf\") config.proxy.http = \"http://192.168.0.2:3128/\" config.proxy.https = \"http://192.168.0.2:3128/\" config.proxy.no_proxy = \"localhost,127.0.0.1,.example.com\" end # ... other stuff end\nReplace the addresses with the IP and port number of your proxy server.",
         "matchedWords": {
-          "KULEZq6YXE_i": {
-            "hits": 0,
-            "textWords": 8109
-          },
-          "SiAo7OrF4fTS": {
-            "hits": 0,
-            "textWords": 8109
-          },
           "XgVsUAocS2px": {
-            "hits": 1,
-            "textWords": 8109
+            "hits": 8,
+            "textWords": 6442
           },
           "gHkbOucALLiM": {
-            "hits": 0,
-            "textWords": 8109
-          },
-          "j8Qsbd-ZZts7": {
-            "hits": 0,
-            "textWords": 8109
+            "hits": 13,
+            "textWords": 6442
           },
           "lUVudQaoycBO": {
             "hits": 1,
-            "textWords": 8109
-          },
-          "oqVRpkWKjeIk": {
-            "hits": 0,
-            "textWords": 8109
-          },
-          "vl1dN1Qtdfk6": {
-            "hits": 0,
-            "textWords": 8109
+            "textWords": 6442
           }
         },
         "queryPhraseHits": 0
@@ -726,142 +252,473 @@
   ],
   "itemsInNoOrder": [
     {
-      "hash": "1ojMPAK-xyJ4",
-      "address": "https://go.dev/doc/effective_go",
-      "title": "Effective Go - The Go Programming Language",
-      "snippet": "// A channel that sends a notification on each visit. // (Probably want the channel to be buffered.) type Chan chan *http.Request func (ch Chan) ServeHTTP(w http.ResponseWriter, req *http.Request) { ch \u003c- req fmt.Fprint(w, \"notification sent\") }",
+      "hash": "WHcqRl1zW5iy",
+      "address": "https://www.georgewashington.us/",
+      "title": "President George Washington",
+      "snippet": "It is at all times difficult to draw with precision the line between those rights which must be surrendered, and those which may be reserved; and on the present occasion this difficulty was encreased by a difference among the several States as to their situation, extent, habits, and particular",
       "matchedWords": {
-        "KULEZq6YXE_i": {
-          "hits": 0,
-          "textWords": 14983
-        },
-        "SiAo7OrF4fTS": {
-          "hits": 0,
-          "textWords": 14983
-        },
         "XgVsUAocS2px": {
           "hits": 0,
-          "textWords": 14983
+          "textWords": 18308
         },
         "gHkbOucALLiM": {
-          "hits": 38,
-          "textWords": 14983
-        },
-        "j8Qsbd-ZZts7": {
           "hits": 0,
-          "textWords": 14983
+          "textWords": 18308
+        },
+        "lUVudQaoycBO": {
+          "hits": 1,
+          "textWords": 18308
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "fNOE-G8CAV45",
+      "address": "https://www.encyclopedia.com/people/science-and-technology/electrical-engineering-biographies/alexander-graham-bell",
+      "title": "Alexander Graham Bell | Encyclopedia.com",
+      "snippet": "\"The Alexander Graham Bell Family Papers in the Library of Congress 1862-1939\" [On-line] http://memory.loc.gov/ammem/bellhtml/bellhome.html (accessed on August 15, 2002).\nAT\u0026T. [On-line] http://www.att.com (accessed on August 15, 2002).\nLucent Technologies.",
+      "matchedWords": {
+        "XgVsUAocS2px": {
+          "hits": 0,
+          "textWords": 14936
+        },
+        "gHkbOucALLiM": {
+          "hits": 11,
+          "textWords": 14936
+        },
+        "lUVudQaoycBO": {
+          "hits": 1,
+          "textWords": 14936
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "VNx-T_8T85F5",
+      "address": "https://boggartblog.wordpress.com/",
+      "title": "BNN - Boggart Network News | Boggart Network News (BNN) reports the bizarre, weird, whacky and plain crazy news from around the globe.",
+      "snippet": "For three months in 1978, one weather station in Colombia reported an 82 degrees Celsius average — hotter than the hottest day on Earth. Can it be that these ‘scientists’ whom we are told we must believe because they are so very clever, do not know the difference between Celsius and Farenheit?",
+      "matchedWords": {
+        "XgVsUAocS2px": {
+          "hits": 3,
+          "textWords": 8109
+        },
+        "gHkbOucALLiM": {
+          "hits": 0,
+          "textWords": 8109
         },
         "lUVudQaoycBO": {
           "hits": 2,
-          "textWords": 14983
-        },
-        "oqVRpkWKjeIk": {
-          "hits": 0,
-          "textWords": 14983
-        },
-        "vl1dN1Qtdfk6": {
-          "hits": 0,
-          "textWords": 14983
+          "textWords": 8109
         }
       },
       "queryPhraseHits": 0
     },
     {
-      "hash": "MAC3Gs6GdY-4",
-      "address": "https://danluu.com/web-bloat/",
-      "title": "How web bloat impacts users with slow connections",
-      "snippet": "83\n235\nFAIL\nFAIL\nFAIL\nEach row is a website. For sites that support both plain HTTP as well as HTTPS, both were tested; URLs are HTTPS except where explicitly specified as HTTP.",
+      "hash": "anJsWsDBeN55",
+      "address": "https://henrymakow.com/",
+      "title": "henrymakow.com - Exposing Feminism and The New World Order",
+      "snippet": "You can find this article permanently at https://henrymakow.com/2026/09/mike-stone----911-was-a-mossad.html\nHenry Makow received his Ph.D. in English Literature from the University of Toronto in 1982. He welcomes your comments at\nBelow- Men, Seek a Helpmate, Not a Soulmate (scroll down)",
       "matchedWords": {
-        "KULEZq6YXE_i": {
-          "hits": 0,
-          "textWords": 4102
-        },
-        "SiAo7OrF4fTS": {
-          "hits": 0,
-          "textWords": 4102
-        },
         "XgVsUAocS2px": {
-          "hits": 5,
-          "textWords": 4102
+          "hits": 6,
+          "textWords": 7527
         },
         "gHkbOucALLiM": {
-          "hits": 8,
-          "textWords": 4102
+          "hits": 1,
+          "textWords": 7527
         },
-        "j8Qsbd-ZZts7": {
+        "lUVudQaoycBO": {
+          "hits": 2,
+          "textWords": 7527
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "EasK_WOMFlb5",
+      "address": "https://www.uspresidency.com/p/lyndon-johnson.html",
+      "title": "POTUS: Lyndon Johnson",
+      "snippet": "Determined to make a difference beyond traditional First Lady roles, Lady Bird championed environmental beautification and preservation efforts across the country.",
+      "matchedWords": {
+        "XgVsUAocS2px": {
+          "hits": 1,
+          "textWords": 3575
+        },
+        "gHkbOucALLiM": {
           "hits": 0,
-          "textWords": 4102
+          "textWords": 3575
+        },
+        "lUVudQaoycBO": {
+          "hits": 1,
+          "textWords": 3575
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "-i3KWUOV-EIY",
+      "address": "http://bollocksallbollocks.blogspot.com/",
+      "title": "It's Bollocks, My Dears, All Bollocks",
+      "snippet": "Another familiar tactic of the hysteria merchants is the pious emotional blackmail: we should show respect for the COVID dead by not questioning the difference between dying OF COVID and dying WITH COVID or speculating irresponsibly on social media about the effectiveness of the vaccines.",
+      "matchedWords": {
+        "XgVsUAocS2px": {
+          "hits": 1,
+          "textWords": 1333
+        },
+        "gHkbOucALLiM": {
+          "hits": 0,
+          "textWords": 1333
+        },
+        "lUVudQaoycBO": {
+          "hits": 1,
+          "textWords": 1333
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "1CyO9sQ3pQ46",
+      "address": "https://campfireshadows.com/",
+      "title": "campfireshadows « Western short stories, heritage and trail recipes.",
+      "snippet": "I’m so sorry I ever met you. I don’t believe you deserve what has been done to you. I know it makes no difference but I just want you to know how sorry I am.”\nShe reached over with her handcuffed hands and squeezed my hand.",
+      "matchedWords": {
+        "XgVsUAocS2px": {
+          "hits": 0,
+          "textWords": 165864
+        },
+        "gHkbOucALLiM": {
+          "hits": 1,
+          "textWords": 165864
+        },
+        "lUVudQaoycBO": {
+          "hits": 12,
+          "textWords": 165864
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "VTa_gjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Discrete_cosine_transform",
+      "title": "Discrete cosine transform - Wikipedia",
+      "snippet": "However, this visible difference is merely a consequence of a deeper distinction: a DCT implies different boundary conditions from the DFT or other related transforms.",
+      "matchedWords": {
+        "XgVsUAocS2px": {
+          "hits": 0,
+          "textWords": 10003
+        },
+        "gHkbOucALLiM": {
+          "hits": 0,
+          "textWords": 10003
+        },
+        "lUVudQaoycBO": {
+          "hits": 1,
+          "textWords": 10003
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "z3-thjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Commodore_128",
+      "title": "Commodore 128 - Wikipedia",
+      "snippet": "s Gazette published a type-in program that exploited this difference by using a raster interrupt to enable fast mode when the bottom of the visible screen was reached, and then disable it when screen rendering began again at the top.",
+      "matchedWords": {
+        "XgVsUAocS2px": {
+          "hits": 0,
+          "textWords": 6927
+        },
+        "gHkbOucALLiM": {
+          "hits": 0,
+          "textWords": 6927
+        },
+        "lUVudQaoycBO": {
+          "hits": 1,
+          "textWords": 6927
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "JhdTgyViszj4",
+      "address": "https://worldkigodatabase.blogspot.com/2006/04/plum-ume.html",
+      "title": "WKD (01) ... World Kigo Database . . . (WKD): Plum blossoms (ume)",
+      "snippet": "Plum Festival in Mito, Kairaku-En Park 水戸偕楽園\nhttp://www.mitokoumon.com/maturi/ume/ume.htm\nhttp://homepage3.nifty.com/kazu_kawamura/kairakuen.html\nhttp://homepage3.nifty.com/kazu_kawamura/kairakuen2.html\nhttp://ww7.tiki.ne.jp/~inabah/deki0013.htm",
+      "matchedWords": {
+        "XgVsUAocS2px": {
+          "hits": 0,
+          "textWords": 2740
+        },
+        "gHkbOucALLiM": {
+          "hits": 13,
+          "textWords": 2740
+        },
+        "lUVudQaoycBO": {
+          "hits": 1,
+          "textWords": 2740
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "5sDkUlYU93-7",
+      "address": "https://www.constitutionof1787.com/",
+      "title": "United States Constitution of 1787",
+      "snippet": "It is at all times difficult to draw with precision the line between those rights which must be surrendered, and those which may be reserved; and on the present occasion this difficulty was encreased by a difference among the several States as to their situation, extent, habits, and particular",
+      "matchedWords": {
+        "XgVsUAocS2px": {
+          "hits": 0,
+          "textWords": 26537
+        },
+        "gHkbOucALLiM": {
+          "hits": 2,
+          "textWords": 26537
+        },
+        "lUVudQaoycBO": {
+          "hits": 1,
+          "textWords": 26537
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "Soh_fQZchFfZ",
+      "address": "http://www.greenteethmm.com/ukraine-war-europe-gas.shtml",
+      "title": "europes-depleted-gas-storage-might-not-get-refilled-ahead-of-next-winter-news-daily-stirrer",
+      "snippet": "Our http://www,greenteethmm.com/currency-wars.shtmlcurrency wars feature has taken a back seat these past two years as the COVID pandemic (or propaganda pandemic as some people might say,) has pushed all other stories aside.",
+      "matchedWords": {
+        "XgVsUAocS2px": {
+          "hits": 0,
+          "textWords": 14111
+        },
+        "gHkbOucALLiM": {
+          "hits": 1,
+          "textWords": 14111
+        },
+        "lUVudQaoycBO": {
+          "hits": 2,
+          "textWords": 14111
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "WbJD3QZchFfZ",
+      "address": "http://www.greenteethmm.com/russua-ukraine-crisis22.shtml",
+      "title": "current-ukraine-crisis-the-inevitable-onsequence-of-US-UK-and-EU-foreign-policy- aggression-politics-world-news-daily-stirrer",
+      "snippet": "Our http://www,greenteethmm.com/currency-wars.shtmlcurrency wars feature has taken a back seat these past two years as the COVID pandemic (or propaganda pandemic as some people might say,) has pushed all other stories aside.",
+      "matchedWords": {
+        "XgVsUAocS2px": {
+          "hits": 0,
+          "textWords": 14111
+        },
+        "gHkbOucALLiM": {
+          "hits": 1,
+          "textWords": 14111
+        },
+        "lUVudQaoycBO": {
+          "hits": 2,
+          "textWords": 14111
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "daW1ZQZchFfZ",
+      "address": "http://www.greenteethmm.com/transgenderr-ladies-first.shtml",
+      "title": "whether-tom-chivers-is-a-science-writer-a-hack-journalist-or-a-cunt-is-a-matter-of-semantics-daily-stirrer-dailystirrer",
+      "snippet": "â€œIt is not possible for a male person to get pregnant,â€� Miller said. â€œA [biological female] with a gender difference can become pregnant but will not have male genitalia.â€�\nâ€œMost [females] who use testosterone, at the doses used for â€˜transition,â€™ will develop vaginal atrophy.",
+      "matchedWords": {
+        "XgVsUAocS2px": {
+          "hits": 0,
+          "textWords": 44655
+        },
+        "gHkbOucALLiM": {
+          "hits": 4,
+          "textWords": 44655
+        },
+        "lUVudQaoycBO": {
+          "hits": 4,
+          "textWords": 44655
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "31kf2QZchFfZ",
+      "address": "http://www.greenteethmm.com/history-menu.shtml",
+      "title": "history-menu-",
+      "snippet": "Unfortunately the sneering sarcasm was misplaced but served to reveal the man in charge of energy policy does not know the difference between energy and electricity.\nAmazing Increase in Global Sea Ice Confounds the Net Zero Warmageddonists",
+      "matchedWords": {
+        "XgVsUAocS2px": {
+          "hits": 0,
+          "textWords": 29047
+        },
+        "gHkbOucALLiM": {
+          "hits": 1,
+          "textWords": 29047
         },
         "lUVudQaoycBO": {
           "hits": 3,
-          "textWords": 4102
-        },
-        "oqVRpkWKjeIk": {
-          "hits": 0,
-          "textWords": 4102
-        },
-        "vl1dN1Qtdfk6": {
-          "hits": 0,
-          "textWords": 4102
+          "textWords": 29047
         }
       },
       "queryPhraseHits": 0
     },
     {
-      "hash": "MAC3Gs6GdY-4",
-      "address": "https://danluu.com/web-bloat/",
-      "title": "How web bloat impacts users with slow connections",
-      "snippet": "83\n235\nFAIL\nFAIL\nFAIL\nEach row is a website. For sites that support both plain HTTP as well as HTTPS, both were tested; URLs are HTTPS except where explicitly specified as HTTP.",
+      "hash": "57VhtQZchFfZ",
+      "address": "http://www.greenteethmm.com/ukraine-chemical-attack-rumor.shtml",
+      "title": "syria-style-chemical-weapon-false-flag-attacks-coming-soon-to-ukraine-war-russia-greenteeth-digital-publishing",
+      "snippet": "Our http://www,greenteethmm.com/currency-wars.shtmlcurrency wars feature has taken a back seat these past two years as the COVID pandemic (or propaganda pandemic as some people might say,) has pushed all other stories aside.",
       "matchedWords": {
-        "KULEZq6YXE_i": {
-          "hits": 0,
-          "textWords": 4102
-        },
-        "SiAo7OrF4fTS": {
-          "hits": 0,
-          "textWords": 4102
-        },
         "XgVsUAocS2px": {
-          "hits": 5,
-          "textWords": 4102
+          "hits": 0,
+          "textWords": 14104
         },
         "gHkbOucALLiM": {
-          "hits": 8,
-          "textWords": 4102
+          "hits": 1,
+          "textWords": 14104
         },
-        "j8Qsbd-ZZts7": {
+        "lUVudQaoycBO": {
+          "hits": 2,
+          "textWords": 14104
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "ASWPaGZlr6S6",
+      "address": "https://www.economicpopulist.com/content/state-budget-crisis-about-become-catastrophe",
+      "title": "State budget crisis about to become a \"catastrophe\" | The Economic Populist",
+      "snippet": "The municipal budget crisis currently striking the largest states in America is about to enter its worst phase. This NY Times article warns that as many as 300,000 teachers could be laid off this summer.",
+      "matchedWords": {
+        "XgVsUAocS2px": {
           "hits": 0,
-          "textWords": 4102
+          "textWords": 840
+        },
+        "gHkbOucALLiM": {
+          "hits": 0,
+          "textWords": 840
+        },
+        "lUVudQaoycBO": {
+          "hits": 0,
+          "textWords": 840
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "WdSzql_dnlTy",
+      "address": "https://www.thomasjefferson.us/",
+      "title": "President Thomas Jefferson",
+      "snippet": "The difference between the two chief members of the cabinet rapidly developed into a personal antipathy, and both of them ardently desired to withdraw.",
+      "matchedWords": {
+        "XgVsUAocS2px": {
+          "hits": 0,
+          "textWords": 8753
+        },
+        "gHkbOucALLiM": {
+          "hits": 0,
+          "textWords": 8753
+        },
+        "lUVudQaoycBO": {
+          "hits": 1,
+          "textWords": 8753
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "R6WnBZ_vpFSw",
+      "address": "https://www.cargomaster.com.au/",
+      "title": "Freight Forwarder Australia | Air \u0026 Sea Freight | CargoMaster",
+      "snippet": "Experience the difference that decades of expertise can make, save time and money while enjoying reliable, stress‑free shipping.\nSea containers to Africa?\nCargoMaster is your trusted partner for sea containers to Africa, offering reliable shipping services to destinations across the continent.",
+      "matchedWords": {
+        "XgVsUAocS2px": {
+          "hits": 0,
+          "textWords": 13057
+        },
+        "gHkbOucALLiM": {
+          "hits": 0,
+          "textWords": 13057
         },
         "lUVudQaoycBO": {
           "hits": 3,
-          "textWords": 4102
-        },
-        "oqVRpkWKjeIk": {
-          "hits": 0,
-          "textWords": 4102
-        },
-        "vl1dN1Qtdfk6": {
-          "hits": 0,
-          "textWords": 4102
+          "textWords": 13057
         }
       },
       "queryPhraseHits": 0
     },
     {
-      "hash": "Oxa0g_nMM_j5",
-      "address": "https://grokipedia.com/page/Data_validation",
-      "title": "Data validation — Grokipedia",
+      "hash": "4M5OvydA5r_4",
+      "address": "https://www.apple.com/legal/sales-support/sales-policies/retail_us.html",
+      "title": "Apple - Legal - Sales Policies - U.S. Retail Sales",
+      "snippet": "The purchase and/or use of Apple products are subject to additional terms and conditions found at https://www.apple.com/legal/sla and https://www.apple.com/legal/warranty.",
+      "matchedWords": {
+        "XgVsUAocS2px": {
+          "hits": 5,
+          "textWords": 1445
+        },
+        "gHkbOucALLiM": {
+          "hits": 1,
+          "textWords": 1445
+        },
+        "lUVudQaoycBO": {
+          "hits": 1,
+          "textWords": 1445
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "1Z3VpLpz9_s5",
+      "address": "https://cookingonthetrail.wordpress.com/",
+      "title": "Heritage and trail cooking – Just another WordPress.com site",
+      "snippet": "2) MY STORY, SUNSET GOLD CANYON, HAS BEEN PUBLISHED INTO A DIME NOVEL!!!\nIt is now available on Amazon.com\nJust type in JW EDWARDS into the search box on Amazon.com or copy and paste this link; http://www.amazon.com/Sunset-Gold-Canyon-JW-Edwards/dp/1499586663",
+      "matchedWords": {
+        "XgVsUAocS2px": {
+          "hits": 0,
+          "textWords": 4395
+        },
+        "gHkbOucALLiM": {
+          "hits": 3,
+          "textWords": 4395
+        },
+        "lUVudQaoycBO": {
+          "hits": 2,
+          "textWords": 4395
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "00fzG1tSpg04",
+      "address": "https://xmlns.com/foaf/spec/",
+      "title": "FOAF Vocabulary Specification",
+      "snippet": "\u003c!-- here we see a FOAF group described. each foaf group may be associated with an OWL definition specifying the class of agents that constitute the group's membership --\u003e \u003cfoaf:Group\u003e \u003cfoaf:name\u003eILRT staff\u003c/foaf:name\u003e \u003cfoaf:membershipClass\u003e \u003cowl:Class",
+      "matchedWords": {
+        "XgVsUAocS2px": {
+          "hits": 0,
+          "textWords": 10421
+        },
+        "gHkbOucALLiM": {
+          "hits": 18,
+          "textWords": 10421
+        },
+        "lUVudQaoycBO": {
+          "hits": 0,
+          "textWords": 10421
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "Wfq3FswvoTD5",
+      "address": "https://r-universe.dev/articles",
+      "title": "R-universe - browse articles",
       "snippet": "",
       "matchedWords": {
-        "KULEZq6YXE_i": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "SiAo7OrF4fTS": {
-          "hits": 0,
-          "textWords": 0
-        },
         "XgVsUAocS2px": {
           "hits": 0,
           "textWords": 0
@@ -870,19 +727,7 @@
           "hits": 0,
           "textWords": 0
         },
-        "j8Qsbd-ZZts7": {
-          "hits": 0,
-          "textWords": 0
-        },
         "lUVudQaoycBO": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "oqVRpkWKjeIk": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "vl1dN1Qtdfk6": {
           "hits": 0,
           "textWords": 0
         }
@@ -890,1449 +735,408 @@
       "queryPhraseHits": 0
     },
     {
-      "hash": "MAC3Gs6GdY-4",
-      "address": "https://danluu.com/web-bloat/",
-      "title": "How web bloat impacts users with slow connections",
-      "snippet": "83\n235\nFAIL\nFAIL\nFAIL\nEach row is a website. For sites that support both plain HTTP as well as HTTPS, both were tested; URLs are HTTPS except where explicitly specified as HTTP.",
+      "hash": "S4tXZjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Wikisource",
+      "title": "Wikisource - Wikipedia",
+      "snippet": "Despite the change in name, the project did not move to its permanent URL (http://wikisource.org/) until July 23, 2004.[9]\nSince Wikisource was initially called \"Project Sourceberg\", its first logo was a picture of an iceberg.[",
       "matchedWords": {
-        "KULEZq6YXE_i": {
-          "hits": 0,
-          "textWords": 4102
-        },
-        "SiAo7OrF4fTS": {
-          "hits": 0,
-          "textWords": 4102
-        },
         "XgVsUAocS2px": {
-          "hits": 5,
-          "textWords": 4102
+          "hits": 0,
+          "textWords": 3132
         },
         "gHkbOucALLiM": {
-          "hits": 8,
-          "textWords": 4102
+          "hits": 2,
+          "textWords": 3132
         },
-        "j8Qsbd-ZZts7": {
+        "lUVudQaoycBO": {
+          "hits": 1,
+          "textWords": 3132
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "VNx-T_8T85F5",
+      "address": "https://boggartblog.wordpress.com/",
+      "title": "BNN - Boggart Network News | Boggart Network News (BNN) reports the bizarre, weird, whacky and plain crazy news from around the globe.",
+      "snippet": "For three months in 1978, one weather station in Colombia reported an 82 degrees Celsius average — hotter than the hottest day on Earth. Can it be that these ‘scientists’ whom we are told we must believe because they are so very clever, do not know the difference between Celsius and Farenheit?",
+      "matchedWords": {
+        "XgVsUAocS2px": {
+          "hits": 3,
+          "textWords": 8109
+        },
+        "gHkbOucALLiM": {
           "hits": 0,
-          "textWords": 4102
+          "textWords": 8109
+        },
+        "lUVudQaoycBO": {
+          "hits": 2,
+          "textWords": 8109
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "QdW-xjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/GNU_General_Public_License",
+      "title": "GNU General Public License - Wikipedia",
+      "snippet": "In practice, many GPL-licensed programs are distributed over the Internet, and the source code is made available via the FTP or HTTP protocol. For Internet distribution, this approach complies with the license.[citation needed]\nCopyleft applies only when a person seeks to redistribute the program.",
+      "matchedWords": {
+        "XgVsUAocS2px": {
+          "hits": 0,
+          "textWords": 15807
+        },
+        "gHkbOucALLiM": {
+          "hits": 1,
+          "textWords": 15807
+        },
+        "lUVudQaoycBO": {
+          "hits": 1,
+          "textWords": 15807
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "S4tXZjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Wikisource",
+      "title": "Wikisource - Wikipedia",
+      "snippet": "Despite the change in name, the project did not move to its permanent URL (http://wikisource.org/) until July 23, 2004.[9]\nSince Wikisource was initially called \"Project Sourceberg\", its first logo was a picture of an iceberg.[",
+      "matchedWords": {
+        "XgVsUAocS2px": {
+          "hits": 0,
+          "textWords": 3132
+        },
+        "gHkbOucALLiM": {
+          "hits": 2,
+          "textWords": 3132
+        },
+        "lUVudQaoycBO": {
+          "hits": 1,
+          "textWords": 3132
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "ENr2klXIeFA6",
+      "address": "https://www.peytonrandolph.com/",
+      "title": "President Peyton Randolph",
+      "snippet": "You would have wondered more at the Want of [Sensi] bility which you remarked if you have [been] here and seen, the Difference.\nMr. Randolph was as firm, stable and consistent a Patriot as any here-the Loss must be very great to Virginia in Particular and the Continent in general.[49]",
+      "matchedWords": {
+        "XgVsUAocS2px": {
+          "hits": 0,
+          "textWords": 19282
+        },
+        "gHkbOucALLiM": {
+          "hits": 2,
+          "textWords": 19282
+        },
+        "lUVudQaoycBO": {
+          "hits": 1,
+          "textWords": 19282
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "WdSzql_dnlTy",
+      "address": "https://www.thomasjefferson.us/",
+      "title": "President Thomas Jefferson",
+      "snippet": "The difference between the two chief members of the cabinet rapidly developed into a personal antipathy, and both of them ardently desired to withdraw.",
+      "matchedWords": {
+        "XgVsUAocS2px": {
+          "hits": 0,
+          "textWords": 8753
+        },
+        "gHkbOucALLiM": {
+          "hits": 0,
+          "textWords": 8753
+        },
+        "lUVudQaoycBO": {
+          "hits": 1,
+          "textWords": 8753
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "R6WnBZ_vpFSw",
+      "address": "https://www.cargomaster.com.au/",
+      "title": "Freight Forwarder Australia | Air \u0026 Sea Freight | CargoMaster",
+      "snippet": "Experience the difference that decades of expertise can make, save time and money while enjoying reliable, stress‑free shipping.\nSea containers to Africa?\nCargoMaster is your trusted partner for sea containers to Africa, offering reliable shipping services to destinations across the continent.",
+      "matchedWords": {
+        "XgVsUAocS2px": {
+          "hits": 0,
+          "textWords": 13057
+        },
+        "gHkbOucALLiM": {
+          "hits": 0,
+          "textWords": 13057
         },
         "lUVudQaoycBO": {
           "hits": 3,
-          "textWords": 4102
-        },
-        "oqVRpkWKjeIk": {
-          "hits": 0,
-          "textWords": 4102
-        },
-        "vl1dN1Qtdfk6": {
-          "hits": 0,
-          "textWords": 4102
+          "textWords": 13057
         }
       },
       "queryPhraseHits": 0
     },
     {
-      "hash": "Oxa0g_nMM_j5",
-      "address": "https://grokipedia.com/page/Data_validation",
-      "title": "Data validation",
-      "snippet": "",
+      "hash": "7mhoBxeeomt4",
+      "address": "https://hackaday.com/2013/12/09/guest-post-the-real-story-of-hacking-together-the-commodore-c128/",
+      "title": "Guest Post: The Real Story Of Hacking Together The Commodore C128 | Hackaday",
+      "snippet": "The most popular computer ever sold to-date, the Commodore C-64, sold 27 Million units total back in the 1980’s.",
       "matchedWords": {
-        "KULEZq6YXE_i": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "SiAo7OrF4fTS": {
-          "hits": 0,
-          "textWords": 0
-        },
         "XgVsUAocS2px": {
           "hits": 0,
-          "textWords": 0
+          "textWords": 1577
         },
         "gHkbOucALLiM": {
           "hits": 0,
-          "textWords": 0
-        },
-        "j8Qsbd-ZZts7": {
-          "hits": 0,
-          "textWords": 0
+          "textWords": 1577
         },
         "lUVudQaoycBO": {
           "hits": 0,
-          "textWords": 0
-        },
-        "oqVRpkWKjeIk": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "vl1dN1Qtdfk6": {
-          "hits": 0,
-          "textWords": 0
+          "textWords": 1577
         }
       },
       "queryPhraseHits": 0
     },
     {
-      "hash": "MAC3Gs6GdY-4",
-      "address": "https://danluu.com/web-bloat/",
-      "title": "How web bloat impacts users with slow connections",
-      "snippet": "83\n235\nFAIL\nFAIL\nFAIL\nEach row is a website. For sites that support both plain HTTP as well as HTTPS, both were tested; URLs are HTTPS except where explicitly specified as HTTP.",
+      "hash": "Ys0kmMxLtiN6",
+      "address": "https://www.castleconnolly.com/top-doctors/shari-i-lusskin-psychiatry-81cc028421",
+      "title": "Dr. Shari I. Lusskin - Psychiatry - New York, NY",
+      "snippet": "Shari I. Lusskin, MD, specializes in psychiatry in New York. Dr. Lusskin is a pioneer in reproductive psychiatry and a renowned expert in perinatal psychopharmacology and the diagnosis and treatment of psychiatric conditions related to the female reproductive life cycle.\nDr.",
       "matchedWords": {
-        "KULEZq6YXE_i": {
-          "hits": 0,
-          "textWords": 4102
-        },
-        "SiAo7OrF4fTS": {
-          "hits": 0,
-          "textWords": 4102
-        },
-        "XgVsUAocS2px": {
-          "hits": 5,
-          "textWords": 4102
-        },
-        "gHkbOucALLiM": {
-          "hits": 8,
-          "textWords": 4102
-        },
-        "j8Qsbd-ZZts7": {
-          "hits": 0,
-          "textWords": 4102
-        },
-        "lUVudQaoycBO": {
-          "hits": 3,
-          "textWords": 4102
-        },
-        "oqVRpkWKjeIk": {
-          "hits": 0,
-          "textWords": 4102
-        },
-        "vl1dN1Qtdfk6": {
-          "hits": 0,
-          "textWords": 4102
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "Oxa0g_nMM_j5",
-      "address": "https://grokipedia.com/page/Data_validation",
-      "title": "Data validation — Grokipedia",
-      "snippet": "",
-      "matchedWords": {
-        "KULEZq6YXE_i": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "SiAo7OrF4fTS": {
-          "hits": 0,
-          "textWords": 0
-        },
         "XgVsUAocS2px": {
           "hits": 0,
-          "textWords": 0
+          "textWords": 500
         },
         "gHkbOucALLiM": {
           "hits": 0,
-          "textWords": 0
-        },
-        "j8Qsbd-ZZts7": {
-          "hits": 0,
-          "textWords": 0
+          "textWords": 500
         },
         "lUVudQaoycBO": {
           "hits": 0,
-          "textWords": 0
-        },
-        "oqVRpkWKjeIk": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "vl1dN1Qtdfk6": {
-          "hits": 0,
-          "textWords": 0
+          "textWords": 500
         }
       },
       "queryPhraseHits": 0
     },
     {
-      "hash": "MAC3Gs6GdY-4",
-      "address": "https://danluu.com/web-bloat/",
-      "title": "How web bloat impacts users with slow connections",
-      "snippet": "83\n235\nFAIL\nFAIL\nFAIL\nEach row is a website. For sites that support both plain HTTP as well as HTTPS, both were tested; URLs are HTTPS except where explicitly specified as HTTP.",
+      "hash": "rKpmvMxLtiN6",
+      "address": "https://www.castleconnolly.com/top-doctors/james-a-greenberg-obstetrics-gynecology-16cc002993",
+      "title": "Dr. James A. Greenberg - Obstetrics \u0026 Gynecology - Boston, MA",
+      "snippet": "Ascension Genesys (MI)\nBCN Virtual Primary Care (MI)\nBlue Care Network (MI)\nBlue Care Network PCP Focus Network\nBlue Cross PPO (MI)\nBlue Preferred Plus (MI)\nConnectedCare Centrus Health (MI)\nConnectedCare HealthSync (MI)\nConnectedCare Henry Ford Health System (MI)\nDow Chemical QuadMed (MI)",
       "matchedWords": {
-        "KULEZq6YXE_i": {
-          "hits": 0,
-          "textWords": 4102
-        },
-        "SiAo7OrF4fTS": {
-          "hits": 0,
-          "textWords": 4102
-        },
-        "XgVsUAocS2px": {
-          "hits": 5,
-          "textWords": 4102
-        },
-        "gHkbOucALLiM": {
-          "hits": 8,
-          "textWords": 4102
-        },
-        "j8Qsbd-ZZts7": {
-          "hits": 0,
-          "textWords": 4102
-        },
-        "lUVudQaoycBO": {
-          "hits": 3,
-          "textWords": 4102
-        },
-        "oqVRpkWKjeIk": {
-          "hits": 0,
-          "textWords": 4102
-        },
-        "vl1dN1Qtdfk6": {
-          "hits": 0,
-          "textWords": 4102
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "Oxa0g_nMM_j5",
-      "address": "https://grokipedia.com/page/Data_validation",
-      "title": "Data validation — Grokipedia",
-      "snippet": "",
-      "matchedWords": {
-        "KULEZq6YXE_i": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "SiAo7OrF4fTS": {
-          "hits": 0,
-          "textWords": 0
-        },
         "XgVsUAocS2px": {
           "hits": 0,
-          "textWords": 0
+          "textWords": 221
         },
         "gHkbOucALLiM": {
           "hits": 0,
-          "textWords": 0
-        },
-        "j8Qsbd-ZZts7": {
-          "hits": 0,
-          "textWords": 0
+          "textWords": 221
         },
         "lUVudQaoycBO": {
           "hits": 0,
-          "textWords": 0
-        },
-        "oqVRpkWKjeIk": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "vl1dN1Qtdfk6": {
-          "hits": 0,
-          "textWords": 0
+          "textWords": 221
         }
       },
       "queryPhraseHits": 0
     },
     {
-      "hash": "WJpREitD2jQw",
-      "address": "https://docs.python.org/3/library/datetime.html",
-      "title": "datetime — Basic date and time types — Python 3.13.5 documentation",
-      "snippet": "For a complete and up-to-date set of DST rules # and timezone definitions, visit the Olson Database (or try pytz): # http://www.twinsun.com/tz/tz-link.htm # https://sourceforge.net/projects/pytz/ (might not be up-to-date) # # In the US, since 2007, DST starts at 2am (standard time) on the second #",
+      "hash": "7oLmaMxLtiN6",
+      "address": "https://www.castleconnolly.com/top-doctors/andrei-rebarber-maternal-fetal-medicine-81cc040892",
+      "title": "Dr. Andrei Rebarber - Maternal \u0026 Fetal Medicine - New York, NY",
+      "snippet": "AWH - Choice POS II Tiered (NY)\nAWH - Maine - Aetna Select- Two Tier Network (ME)\nAWH - Maine - Choice POS II - Two Tier Network (ME)\nAWH - Mission Health Partners (NC)\nAWH - New Jersey- Aetna Select Multi - Tier (NJ)\nAWH - Open Access Aetna Select Tiered (NY)",
       "matchedWords": {
-        "KULEZq6YXE_i": {
-          "hits": 0,
-          "textWords": 13307
-        },
-        "SiAo7OrF4fTS": {
-          "hits": 0,
-          "textWords": 13307
-        },
         "XgVsUAocS2px": {
-          "hits": 1,
-          "textWords": 13307
+          "hits": 0,
+          "textWords": 597
+        },
+        "gHkbOucALLiM": {
+          "hits": 0,
+          "textWords": 597
+        },
+        "lUVudQaoycBO": {
+          "hits": 0,
+          "textWords": 597
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "Soh_fQZchFfZ",
+      "address": "http://www.greenteethmm.com/ukraine-war-europe-gas.shtml",
+      "title": "europes-depleted-gas-storage-might-not-get-refilled-ahead-of-next-winter-news-daily-stirrer",
+      "snippet": "Our http://www,greenteethmm.com/currency-wars.shtmlcurrency wars feature has taken a back seat these past two years as the COVID pandemic (or propaganda pandemic as some people might say,) has pushed all other stories aside.",
+      "matchedWords": {
+        "XgVsUAocS2px": {
+          "hits": 0,
+          "textWords": 14111
         },
         "gHkbOucALLiM": {
           "hits": 1,
-          "textWords": 13307
-        },
-        "j8Qsbd-ZZts7": {
-          "hits": 0,
-          "textWords": 13307
-        },
-        "lUVudQaoycBO": {
-          "hits": 9,
-          "textWords": 13307
-        },
-        "oqVRpkWKjeIk": {
-          "hits": 0,
-          "textWords": 13307
-        },
-        "vl1dN1Qtdfk6": {
-          "hits": 0,
-          "textWords": 13307
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "WJpREitD2jQw",
-      "address": "https://docs.python.org/3/library/datetime.html",
-      "title": "datetime — Basic date and time types — Python 3.14.7 documentation",
-      "snippet": "For a complete and up-to-date set of DST rules # and timezone definitions, visit the Olson Database (or try pytz): # http://www.twinsun.com/tz/tz-link.htm # https://sourceforge.net/projects/pytz/ (might not be up-to-date) # # In the US, since 2007, DST starts at 2am (standard time) on the second #",
-      "matchedWords": {
-        "KULEZq6YXE_i": {
-          "hits": 0,
-          "textWords": 13307
-        },
-        "SiAo7OrF4fTS": {
-          "hits": 0,
-          "textWords": 13307
-        },
-        "XgVsUAocS2px": {
-          "hits": 1,
-          "textWords": 13307
-        },
-        "gHkbOucALLiM": {
-          "hits": 1,
-          "textWords": 13307
-        },
-        "j8Qsbd-ZZts7": {
-          "hits": 0,
-          "textWords": 13307
-        },
-        "lUVudQaoycBO": {
-          "hits": 9,
-          "textWords": 13307
-        },
-        "oqVRpkWKjeIk": {
-          "hits": 0,
-          "textWords": 13307
-        },
-        "vl1dN1Qtdfk6": {
-          "hits": 0,
-          "textWords": 13307
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "WJpREitD2jQw",
-      "address": "https://docs.python.org/3/library/datetime.html",
-      "title": "datetime — Basic date and time types — Python 3.14.0 documentation",
-      "snippet": "For a complete and up-to-date set of DST rules # and timezone definitions, visit the Olson Database (or try pytz): # http://www.twinsun.com/tz/tz-link.htm # https://sourceforge.net/projects/pytz/ (might not be up-to-date) # # In the US, since 2007, DST starts at 2am (standard time) on the second #",
-      "matchedWords": {
-        "KULEZq6YXE_i": {
-          "hits": 0,
-          "textWords": 13307
-        },
-        "SiAo7OrF4fTS": {
-          "hits": 0,
-          "textWords": 13307
-        },
-        "XgVsUAocS2px": {
-          "hits": 1,
-          "textWords": 13307
-        },
-        "gHkbOucALLiM": {
-          "hits": 1,
-          "textWords": 13307
-        },
-        "j8Qsbd-ZZts7": {
-          "hits": 0,
-          "textWords": 13307
-        },
-        "lUVudQaoycBO": {
-          "hits": 9,
-          "textWords": 13307
-        },
-        "oqVRpkWKjeIk": {
-          "hits": 0,
-          "textWords": 13307
-        },
-        "vl1dN1Qtdfk6": {
-          "hits": 0,
-          "textWords": 13307
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "1ojMPAK-xyJ4",
-      "address": "https://go.dev/doc/effective_go",
-      "title": "Effective Go - The Go Programming Language",
-      "snippet": "// A channel that sends a notification on each visit. // (Probably want the channel to be buffered.) type Chan chan *http.Request func (ch Chan) ServeHTTP(w http.ResponseWriter, req *http.Request) { ch \u003c- req fmt.Fprint(w, \"notification sent\") }",
-      "matchedWords": {
-        "KULEZq6YXE_i": {
-          "hits": 0,
-          "textWords": 14983
-        },
-        "SiAo7OrF4fTS": {
-          "hits": 0,
-          "textWords": 14983
-        },
-        "XgVsUAocS2px": {
-          "hits": 0,
-          "textWords": 14983
-        },
-        "gHkbOucALLiM": {
-          "hits": 38,
-          "textWords": 14983
-        },
-        "j8Qsbd-ZZts7": {
-          "hits": 0,
-          "textWords": 14983
+          "textWords": 14111
         },
         "lUVudQaoycBO": {
           "hits": 2,
-          "textWords": 14983
-        },
-        "oqVRpkWKjeIk": {
-          "hits": 0,
-          "textWords": 14983
-        },
-        "vl1dN1Qtdfk6": {
-          "hits": 0,
-          "textWords": 14983
+          "textWords": 14111
         }
       },
       "queryPhraseHits": 0
     },
     {
-      "hash": "1ojMPAK-xyJ4",
-      "address": "https://go.dev/doc/effective_go",
-      "title": "Effective Go - The Go Programming Language",
-      "snippet": "// A channel that sends a notification on each visit. // (Probably want the channel to be buffered.) type Chan chan *http.Request func (ch Chan) ServeHTTP(w http.ResponseWriter, req *http.Request) { ch \u003c- req fmt.Fprint(w, \"notification sent\") }",
+      "hash": "MCVO9b605bFw",
+      "address": "https://www.sfml-dev.org/development/style/",
+      "title": "Code Style Guide - Simple and Fast Multimedia Library",
+      "snippet": "SFML_UPPER_CASE (prefixed with SFML)\nNote: with PascalCase, acronyms like HTTP are written Http.\nIndentation, Space, Parenthesis and Quarks\nTabs vs. Spaces\nTabs should not be used in SFML code. Indentation is produced by spaces only. A tabulator is equal to 4 spaces.\nSpaces",
       "matchedWords": {
-        "KULEZq6YXE_i": {
-          "hits": 0,
-          "textWords": 14983
-        },
-        "SiAo7OrF4fTS": {
-          "hits": 0,
-          "textWords": 14983
-        },
         "XgVsUAocS2px": {
           "hits": 0,
-          "textWords": 14983
+          "textWords": 1526
         },
         "gHkbOucALLiM": {
-          "hits": 38,
-          "textWords": 14983
+          "hits": 2,
+          "textWords": 1526
         },
-        "j8Qsbd-ZZts7": {
+        "lUVudQaoycBO": {
+          "hits": 1,
+          "textWords": 1526
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "QdW-xjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/GNU_General_Public_License",
+      "title": "GNU General Public License - Wikipedia",
+      "snippet": "In practice, many GPL-licensed programs are distributed over the Internet, and the source code is made available via the FTP or HTTP protocol. For Internet distribution, this approach complies with the license.[citation needed]\nCopyleft applies only when a person seeks to redistribute the program.",
+      "matchedWords": {
+        "XgVsUAocS2px": {
           "hits": 0,
-          "textWords": 14983
+          "textWords": 15807
+        },
+        "gHkbOucALLiM": {
+          "hits": 1,
+          "textWords": 15807
+        },
+        "lUVudQaoycBO": {
+          "hits": 1,
+          "textWords": 15807
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "S4tXZjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Wikisource",
+      "title": "Wikisource - Wikipedia",
+      "snippet": "Despite the change in name, the project did not move to its permanent URL (http://wikisource.org/) until July 23, 2004.[9]\nSince Wikisource was initially called \"Project Sourceberg\", its first logo was a picture of an iceberg.[",
+      "matchedWords": {
+        "XgVsUAocS2px": {
+          "hits": 0,
+          "textWords": 3132
+        },
+        "gHkbOucALLiM": {
+          "hits": 2,
+          "textWords": 3132
+        },
+        "lUVudQaoycBO": {
+          "hits": 1,
+          "textWords": 3132
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "cfM-rjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/JavaScript",
+      "title": "JavaScript - Wikipedia",
+      "snippet": "One syntactic difference from C is automatic semicolon insertion, which allow semicolons (which terminate statements) to be omitted.[66]\nWeakly typed\nJavaScript is weakly typed, which means certain types are implicitly cast depending on the operation used.[67]",
+      "matchedWords": {
+        "XgVsUAocS2px": {
+          "hits": 0,
+          "textWords": 7983
+        },
+        "gHkbOucALLiM": {
+          "hits": 2,
+          "textWords": 7983
+        },
+        "lUVudQaoycBO": {
+          "hits": 1,
+          "textWords": 7983
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "9p2eCjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Artificial_intelligence",
+      "title": "Artificial intelligence - Wikipedia",
+      "snippet": "From the early days of the development of artificial intelligence, there have been arguments, for example, those put forward by Joseph Weizenbaum, who developed the ELIZA chatbot between 1964 and 1966, about whether tasks that can be done by computers actually should be done by them, given the",
+      "matchedWords": {
+        "XgVsUAocS2px": {
+          "hits": 1,
+          "textWords": 27483
+        },
+        "gHkbOucALLiM": {
+          "hits": 0,
+          "textWords": 27483
+        },
+        "lUVudQaoycBO": {
+          "hits": 1,
+          "textWords": 27483
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "Ov59kq_vpFSw",
+      "address": "https://www.cargomaster.com.au/services/freight-forwarding-services/",
+      "title": "Freight Forwarding Services in Australia | Air \u0026 Sea Freight",
+      "snippet": "A2AAirport-to-airportA2DAirport-to-doorADVAdvise, Advised, Advising\nAEAAssociation of European Airlines (see the page “Interest Organisations” of this website also)",
+      "matchedWords": {
+        "XgVsUAocS2px": {
+          "hits": 0,
+          "textWords": 2401
+        },
+        "gHkbOucALLiM": {
+          "hits": 0,
+          "textWords": 2401
+        },
+        "lUVudQaoycBO": {
+          "hits": 0,
+          "textWords": 2401
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "O1Tk8shc5tG6",
+      "address": "https://accordingtohoyt.com/",
+      "title": "According To Hoyt – Born Free",
+      "snippet": "A blast from the past in honor of recent international news: https://accordingtohoyt.com/2022/09/26/double-edged-compassion/\nDouble Edged Compassion\nPosted on September 26, 2022 by Sarah A. Hoyt\nI’ve been reading about Jack the Ripper again.",
+      "matchedWords": {
+        "XgVsUAocS2px": {
+          "hits": 1,
+          "textWords": 11144
+        },
+        "gHkbOucALLiM": {
+          "hits": 0,
+          "textWords": 11144
         },
         "lUVudQaoycBO": {
           "hits": 2,
-          "textWords": 14983
-        },
-        "oqVRpkWKjeIk": {
-          "hits": 0,
-          "textWords": 14983
-        },
-        "vl1dN1Qtdfk6": {
-          "hits": 0,
-          "textWords": 14983
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "1ojMPAK-xyJ4",
-      "address": "https://go.dev/doc/effective_go",
-      "title": "Effective Go - The Go Programming Language",
-      "snippet": "// A channel that sends a notification on each visit. // (Probably want the channel to be buffered.) type Chan chan *http.Request func (ch Chan) ServeHTTP(w http.ResponseWriter, req *http.Request) { ch \u003c- req fmt.Fprint(w, \"notification sent\") }",
-      "matchedWords": {
-        "KULEZq6YXE_i": {
-          "hits": 0,
-          "textWords": 14983
-        },
-        "SiAo7OrF4fTS": {
-          "hits": 0,
-          "textWords": 14983
-        },
-        "XgVsUAocS2px": {
-          "hits": 0,
-          "textWords": 14983
-        },
-        "gHkbOucALLiM": {
-          "hits": 38,
-          "textWords": 14983
-        },
-        "j8Qsbd-ZZts7": {
-          "hits": 0,
-          "textWords": 14983
-        },
-        "lUVudQaoycBO": {
-          "hits": 2,
-          "textWords": 14983
-        },
-        "oqVRpkWKjeIk": {
-          "hits": 0,
-          "textWords": 14983
-        },
-        "vl1dN1Qtdfk6": {
-          "hits": 0,
-          "textWords": 14983
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "1ojMPAK-xyJ4",
-      "address": "https://go.dev/doc/effective_go",
-      "title": "Effective Go - The Go Programming Language",
-      "snippet": "// A channel that sends a notification on each visit. // (Probably want the channel to be buffered.) type Chan chan *http.Request func (ch Chan) ServeHTTP(w http.ResponseWriter, req *http.Request) { ch \u003c- req fmt.Fprint(w, \"notification sent\") }",
-      "matchedWords": {
-        "KULEZq6YXE_i": {
-          "hits": 0,
-          "textWords": 14983
-        },
-        "SiAo7OrF4fTS": {
-          "hits": 0,
-          "textWords": 14983
-        },
-        "XgVsUAocS2px": {
-          "hits": 0,
-          "textWords": 14983
-        },
-        "gHkbOucALLiM": {
-          "hits": 38,
-          "textWords": 14983
-        },
-        "j8Qsbd-ZZts7": {
-          "hits": 0,
-          "textWords": 14983
-        },
-        "lUVudQaoycBO": {
-          "hits": 2,
-          "textWords": 14983
-        },
-        "oqVRpkWKjeIk": {
-          "hits": 0,
-          "textWords": 14983
-        },
-        "vl1dN1Qtdfk6": {
-          "hits": 0,
-          "textWords": 14983
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "1ojMPAK-xyJ4",
-      "address": "https://go.dev/doc/effective_go",
-      "title": "Effective Go - The Go Programming Language",
-      "snippet": "// A channel that sends a notification on each visit. // (Probably want the channel to be buffered.) type Chan chan *http.Request func (ch Chan) ServeHTTP(w http.ResponseWriter, req *http.Request) { ch \u003c- req fmt.Fprint(w, \"notification sent\") }",
-      "matchedWords": {
-        "KULEZq6YXE_i": {
-          "hits": 0,
-          "textWords": 14983
-        },
-        "SiAo7OrF4fTS": {
-          "hits": 0,
-          "textWords": 14983
-        },
-        "XgVsUAocS2px": {
-          "hits": 0,
-          "textWords": 14983
-        },
-        "gHkbOucALLiM": {
-          "hits": 38,
-          "textWords": 14983
-        },
-        "j8Qsbd-ZZts7": {
-          "hits": 0,
-          "textWords": 14983
-        },
-        "lUVudQaoycBO": {
-          "hits": 2,
-          "textWords": 14983
-        },
-        "oqVRpkWKjeIk": {
-          "hits": 0,
-          "textWords": 14983
-        },
-        "vl1dN1Qtdfk6": {
-          "hits": 0,
-          "textWords": 14983
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "MAC3Gs6GdY-4",
-      "address": "https://danluu.com/web-bloat/",
-      "title": "How web bloat impacts users with slow connections",
-      "snippet": "83\n235\nFAIL\nFAIL\nFAIL\nEach row is a website. For sites that support both plain HTTP as well as HTTPS, both were tested; URLs are HTTPS except where explicitly specified as HTTP.",
-      "matchedWords": {
-        "KULEZq6YXE_i": {
-          "hits": 0,
-          "textWords": 4102
-        },
-        "SiAo7OrF4fTS": {
-          "hits": 0,
-          "textWords": 4102
-        },
-        "XgVsUAocS2px": {
-          "hits": 5,
-          "textWords": 4102
-        },
-        "gHkbOucALLiM": {
-          "hits": 8,
-          "textWords": 4102
-        },
-        "j8Qsbd-ZZts7": {
-          "hits": 0,
-          "textWords": 4102
-        },
-        "lUVudQaoycBO": {
-          "hits": 3,
-          "textWords": 4102
-        },
-        "oqVRpkWKjeIk": {
-          "hits": 0,
-          "textWords": 4102
-        },
-        "vl1dN1Qtdfk6": {
-          "hits": 0,
-          "textWords": 4102
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "Oxa0g_nMM_j5",
-      "address": "https://grokipedia.com/page/Data_validation",
-      "title": "Data validation — Grokipedia",
-      "snippet": "",
-      "matchedWords": {
-        "KULEZq6YXE_i": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "SiAo7OrF4fTS": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "XgVsUAocS2px": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "gHkbOucALLiM": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "j8Qsbd-ZZts7": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "lUVudQaoycBO": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "oqVRpkWKjeIk": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "vl1dN1Qtdfk6": {
-          "hits": 0,
-          "textWords": 0
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "MAC3Gs6GdY-4",
-      "address": "https://danluu.com/web-bloat/",
-      "title": "How web bloat impacts users with slow connections",
-      "snippet": "83\n235\nFAIL\nFAIL\nFAIL\nEach row is a website. For sites that support both plain HTTP as well as HTTPS, both were tested; URLs are HTTPS except where explicitly specified as HTTP.",
-      "matchedWords": {
-        "KULEZq6YXE_i": {
-          "hits": 0,
-          "textWords": 4102
-        },
-        "SiAo7OrF4fTS": {
-          "hits": 0,
-          "textWords": 4102
-        },
-        "XgVsUAocS2px": {
-          "hits": 5,
-          "textWords": 4102
-        },
-        "gHkbOucALLiM": {
-          "hits": 8,
-          "textWords": 4102
-        },
-        "j8Qsbd-ZZts7": {
-          "hits": 0,
-          "textWords": 4102
-        },
-        "lUVudQaoycBO": {
-          "hits": 3,
-          "textWords": 4102
-        },
-        "oqVRpkWKjeIk": {
-          "hits": 0,
-          "textWords": 4102
-        },
-        "vl1dN1Qtdfk6": {
-          "hits": 0,
-          "textWords": 4102
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "Oxa0g_nMM_j5",
-      "address": "https://grokipedia.com/page/Data_validation",
-      "title": "Data validation — Grokipedia",
-      "snippet": "",
-      "matchedWords": {
-        "KULEZq6YXE_i": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "SiAo7OrF4fTS": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "XgVsUAocS2px": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "gHkbOucALLiM": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "j8Qsbd-ZZts7": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "lUVudQaoycBO": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "oqVRpkWKjeIk": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "vl1dN1Qtdfk6": {
-          "hits": 0,
-          "textWords": 0
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "MAC3Gs6GdY-4",
-      "address": "https://danluu.com/web-bloat/",
-      "title": "How web bloat impacts users with slow connections",
-      "snippet": "83\n235\nFAIL\nFAIL\nFAIL\nEach row is a website. For sites that support both plain HTTP as well as HTTPS, both were tested; URLs are HTTPS except where explicitly specified as HTTP.",
-      "matchedWords": {
-        "KULEZq6YXE_i": {
-          "hits": 0,
-          "textWords": 4102
-        },
-        "SiAo7OrF4fTS": {
-          "hits": 0,
-          "textWords": 4102
-        },
-        "XgVsUAocS2px": {
-          "hits": 5,
-          "textWords": 4102
-        },
-        "gHkbOucALLiM": {
-          "hits": 8,
-          "textWords": 4102
-        },
-        "j8Qsbd-ZZts7": {
-          "hits": 0,
-          "textWords": 4102
-        },
-        "lUVudQaoycBO": {
-          "hits": 3,
-          "textWords": 4102
-        },
-        "oqVRpkWKjeIk": {
-          "hits": 0,
-          "textWords": 4102
-        },
-        "vl1dN1Qtdfk6": {
-          "hits": 0,
-          "textWords": 4102
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "Oxa0g_nMM_j5",
-      "address": "https://grokipedia.com/page/Data_validation",
-      "title": "Data validation — Grokipedia",
-      "snippet": "",
-      "matchedWords": {
-        "KULEZq6YXE_i": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "SiAo7OrF4fTS": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "XgVsUAocS2px": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "gHkbOucALLiM": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "j8Qsbd-ZZts7": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "lUVudQaoycBO": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "oqVRpkWKjeIk": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "vl1dN1Qtdfk6": {
-          "hits": 0,
-          "textWords": 0
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "MAC3Gs6GdY-4",
-      "address": "https://danluu.com/web-bloat/",
-      "title": "How web bloat impacts users with slow connections",
-      "snippet": "83\n235\nFAIL\nFAIL\nFAIL\nEach row is a website. For sites that support both plain HTTP as well as HTTPS, both were tested; URLs are HTTPS except where explicitly specified as HTTP.",
-      "matchedWords": {
-        "KULEZq6YXE_i": {
-          "hits": 0,
-          "textWords": 4102
-        },
-        "SiAo7OrF4fTS": {
-          "hits": 0,
-          "textWords": 4102
-        },
-        "XgVsUAocS2px": {
-          "hits": 5,
-          "textWords": 4102
-        },
-        "gHkbOucALLiM": {
-          "hits": 8,
-          "textWords": 4102
-        },
-        "j8Qsbd-ZZts7": {
-          "hits": 0,
-          "textWords": 4102
-        },
-        "lUVudQaoycBO": {
-          "hits": 3,
-          "textWords": 4102
-        },
-        "oqVRpkWKjeIk": {
-          "hits": 0,
-          "textWords": 4102
-        },
-        "vl1dN1Qtdfk6": {
-          "hits": 0,
-          "textWords": 4102
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "Oxa0g_nMM_j5",
-      "address": "https://grokipedia.com/page/Data_validation",
-      "title": "Data validation — Grokipedia",
-      "snippet": "",
-      "matchedWords": {
-        "KULEZq6YXE_i": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "SiAo7OrF4fTS": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "XgVsUAocS2px": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "gHkbOucALLiM": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "j8Qsbd-ZZts7": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "lUVudQaoycBO": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "oqVRpkWKjeIk": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "vl1dN1Qtdfk6": {
-          "hits": 0,
-          "textWords": 0
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "WJpREitD2jQw",
-      "address": "https://docs.python.org/3/library/datetime.html",
-      "title": "datetime — Basic date and time types — Python 3.14.0 documentation",
-      "snippet": "For a complete and up-to-date set of DST rules # and timezone definitions, visit the Olson Database (or try pytz): # http://www.twinsun.com/tz/tz-link.htm # https://sourceforge.net/projects/pytz/ (might not be up-to-date) # # In the US, since 2007, DST starts at 2am (standard time) on the second #",
-      "matchedWords": {
-        "KULEZq6YXE_i": {
-          "hits": 0,
-          "textWords": 13307
-        },
-        "SiAo7OrF4fTS": {
-          "hits": 0,
-          "textWords": 13307
-        },
-        "XgVsUAocS2px": {
-          "hits": 1,
-          "textWords": 13307
-        },
-        "gHkbOucALLiM": {
-          "hits": 1,
-          "textWords": 13307
-        },
-        "j8Qsbd-ZZts7": {
-          "hits": 0,
-          "textWords": 13307
-        },
-        "lUVudQaoycBO": {
-          "hits": 9,
-          "textWords": 13307
-        },
-        "oqVRpkWKjeIk": {
-          "hits": 0,
-          "textWords": 13307
-        },
-        "vl1dN1Qtdfk6": {
-          "hits": 0,
-          "textWords": 13307
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "WJpREitD2jQw",
-      "address": "https://docs.python.org/3/library/datetime.html",
-      "title": "datetime — Basic date and time types — Python 3.14.6 documentation",
-      "snippet": "For a complete and up-to-date set of DST rules # and timezone definitions, visit the Olson Database (or try pytz): # http://www.twinsun.com/tz/tz-link.htm # https://sourceforge.net/projects/pytz/ (might not be up-to-date) # # In the US, since 2007, DST starts at 2am (standard time) on the second #",
-      "matchedWords": {
-        "KULEZq6YXE_i": {
-          "hits": 0,
-          "textWords": 13307
-        },
-        "SiAo7OrF4fTS": {
-          "hits": 0,
-          "textWords": 13307
-        },
-        "XgVsUAocS2px": {
-          "hits": 1,
-          "textWords": 13307
-        },
-        "gHkbOucALLiM": {
-          "hits": 1,
-          "textWords": 13307
-        },
-        "j8Qsbd-ZZts7": {
-          "hits": 0,
-          "textWords": 13307
-        },
-        "lUVudQaoycBO": {
-          "hits": 9,
-          "textWords": 13307
-        },
-        "oqVRpkWKjeIk": {
-          "hits": 0,
-          "textWords": 13307
-        },
-        "vl1dN1Qtdfk6": {
-          "hits": 0,
-          "textWords": 13307
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "WJpREitD2jQw",
-      "address": "https://docs.python.org/3/library/datetime.html",
-      "title": "8.1. datetime — Basic date and time types — Python 3.6.5 documentation",
-      "snippet": "For a complete and up-to-date set of DST rules # and timezone definitions, visit the Olson Database (or try pytz): # http://www.twinsun.com/tz/tz-link.htm # https://sourceforge.net/projects/pytz/ (might not be up-to-date) # # In the US, since 2007, DST starts at 2am (standard time) on the second #",
-      "matchedWords": {
-        "KULEZq6YXE_i": {
-          "hits": 0,
-          "textWords": 13307
-        },
-        "SiAo7OrF4fTS": {
-          "hits": 0,
-          "textWords": 13307
-        },
-        "XgVsUAocS2px": {
-          "hits": 1,
-          "textWords": 13307
-        },
-        "gHkbOucALLiM": {
-          "hits": 1,
-          "textWords": 13307
-        },
-        "j8Qsbd-ZZts7": {
-          "hits": 0,
-          "textWords": 13307
-        },
-        "lUVudQaoycBO": {
-          "hits": 9,
-          "textWords": 13307
-        },
-        "oqVRpkWKjeIk": {
-          "hits": 0,
-          "textWords": 13307
-        },
-        "vl1dN1Qtdfk6": {
-          "hits": 0,
-          "textWords": 13307
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "WJpREitD2jQw",
-      "address": "https://docs.python.org/3/library/datetime.html",
-      "title": "datetime — Basic date and time types — Python 3.14.0 documentation",
-      "snippet": "For a complete and up-to-date set of DST rules # and timezone definitions, visit the Olson Database (or try pytz): # http://www.twinsun.com/tz/tz-link.htm # https://sourceforge.net/projects/pytz/ (might not be up-to-date) # # In the US, since 2007, DST starts at 2am (standard time) on the second #",
-      "matchedWords": {
-        "KULEZq6YXE_i": {
-          "hits": 0,
-          "textWords": 13307
-        },
-        "SiAo7OrF4fTS": {
-          "hits": 0,
-          "textWords": 13307
-        },
-        "XgVsUAocS2px": {
-          "hits": 1,
-          "textWords": 13307
-        },
-        "gHkbOucALLiM": {
-          "hits": 1,
-          "textWords": 13307
-        },
-        "j8Qsbd-ZZts7": {
-          "hits": 0,
-          "textWords": 13307
-        },
-        "lUVudQaoycBO": {
-          "hits": 9,
-          "textWords": 13307
-        },
-        "oqVRpkWKjeIk": {
-          "hits": 0,
-          "textWords": 13307
-        },
-        "vl1dN1Qtdfk6": {
-          "hits": 0,
-          "textWords": 13307
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "WJpREitD2jQw",
-      "address": "https://docs.python.org/3/library/datetime.html",
-      "title": "datetime — Basic date and time types — Python 3.14.0 documentation",
-      "snippet": "For a complete and up-to-date set of DST rules # and timezone definitions, visit the Olson Database (or try pytz): # http://www.twinsun.com/tz/tz-link.htm # https://sourceforge.net/projects/pytz/ (might not be up-to-date) # # In the US, since 2007, DST starts at 2am (standard time) on the second #",
-      "matchedWords": {
-        "KULEZq6YXE_i": {
-          "hits": 0,
-          "textWords": 13307
-        },
-        "SiAo7OrF4fTS": {
-          "hits": 0,
-          "textWords": 13307
-        },
-        "XgVsUAocS2px": {
-          "hits": 1,
-          "textWords": 13307
-        },
-        "gHkbOucALLiM": {
-          "hits": 1,
-          "textWords": 13307
-        },
-        "j8Qsbd-ZZts7": {
-          "hits": 0,
-          "textWords": 13307
-        },
-        "lUVudQaoycBO": {
-          "hits": 9,
-          "textWords": 13307
-        },
-        "oqVRpkWKjeIk": {
-          "hits": 0,
-          "textWords": 13307
-        },
-        "vl1dN1Qtdfk6": {
-          "hits": 0,
-          "textWords": 13307
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "1ojMPAK-xyJ4",
-      "address": "https://go.dev/doc/effective_go",
-      "title": "Effective Go - The Go Programming Language",
-      "snippet": "// A channel that sends a notification on each visit. // (Probably want the channel to be buffered.) type Chan chan *http.Request func (ch Chan) ServeHTTP(w http.ResponseWriter, req *http.Request) { ch \u003c- req fmt.Fprint(w, \"notification sent\") }",
-      "matchedWords": {
-        "KULEZq6YXE_i": {
-          "hits": 0,
-          "textWords": 14983
-        },
-        "SiAo7OrF4fTS": {
-          "hits": 0,
-          "textWords": 14983
-        },
-        "XgVsUAocS2px": {
-          "hits": 0,
-          "textWords": 14983
-        },
-        "gHkbOucALLiM": {
-          "hits": 38,
-          "textWords": 14983
-        },
-        "j8Qsbd-ZZts7": {
-          "hits": 0,
-          "textWords": 14983
-        },
-        "lUVudQaoycBO": {
-          "hits": 2,
-          "textWords": 14983
-        },
-        "oqVRpkWKjeIk": {
-          "hits": 0,
-          "textWords": 14983
-        },
-        "vl1dN1Qtdfk6": {
-          "hits": 0,
-          "textWords": 14983
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "1ojMPAK-xyJ4",
-      "address": "https://go.dev/doc/effective_go",
-      "title": "Effective Go - The Go Programming Language",
-      "snippet": "// A channel that sends a notification on each visit. // (Probably want the channel to be buffered.) type Chan chan *http.Request func (ch Chan) ServeHTTP(w http.ResponseWriter, req *http.Request) { ch \u003c- req fmt.Fprint(w, \"notification sent\") }",
-      "matchedWords": {
-        "KULEZq6YXE_i": {
-          "hits": 0,
-          "textWords": 14983
-        },
-        "SiAo7OrF4fTS": {
-          "hits": 0,
-          "textWords": 14983
-        },
-        "XgVsUAocS2px": {
-          "hits": 0,
-          "textWords": 14983
-        },
-        "gHkbOucALLiM": {
-          "hits": 38,
-          "textWords": 14983
-        },
-        "j8Qsbd-ZZts7": {
-          "hits": 0,
-          "textWords": 14983
-        },
-        "lUVudQaoycBO": {
-          "hits": 2,
-          "textWords": 14983
-        },
-        "oqVRpkWKjeIk": {
-          "hits": 0,
-          "textWords": 14983
-        },
-        "vl1dN1Qtdfk6": {
-          "hits": 0,
-          "textWords": 14983
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "WJpREitD2jQw",
-      "address": "https://docs.python.org/3/library/datetime.html",
-      "title": "datetime — Basic date and time types — Python 3.14.6 documentation",
-      "snippet": "For a complete and up-to-date set of DST rules # and timezone definitions, visit the Olson Database (or try pytz): # http://www.twinsun.com/tz/tz-link.htm # https://sourceforge.net/projects/pytz/ (might not be up-to-date) # # In the US, since 2007, DST starts at 2am (standard time) on the second #",
-      "matchedWords": {
-        "KULEZq6YXE_i": {
-          "hits": 0,
-          "textWords": 13307
-        },
-        "SiAo7OrF4fTS": {
-          "hits": 0,
-          "textWords": 13307
-        },
-        "XgVsUAocS2px": {
-          "hits": 1,
-          "textWords": 13307
-        },
-        "gHkbOucALLiM": {
-          "hits": 1,
-          "textWords": 13307
-        },
-        "j8Qsbd-ZZts7": {
-          "hits": 0,
-          "textWords": 13307
-        },
-        "lUVudQaoycBO": {
-          "hits": 9,
-          "textWords": 13307
-        },
-        "oqVRpkWKjeIk": {
-          "hits": 0,
-          "textWords": 13307
-        },
-        "vl1dN1Qtdfk6": {
-          "hits": 0,
-          "textWords": 13307
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "1ojMPAK-xyJ4",
-      "address": "https://go.dev/doc/effective_go",
-      "title": "Effective Go - The Go Programming Language",
-      "snippet": "// A channel that sends a notification on each visit. // (Probably want the channel to be buffered.) type Chan chan *http.Request func (ch Chan) ServeHTTP(w http.ResponseWriter, req *http.Request) { ch \u003c- req fmt.Fprint(w, \"notification sent\") }",
-      "matchedWords": {
-        "KULEZq6YXE_i": {
-          "hits": 0,
-          "textWords": 14983
-        },
-        "SiAo7OrF4fTS": {
-          "hits": 0,
-          "textWords": 14983
-        },
-        "XgVsUAocS2px": {
-          "hits": 0,
-          "textWords": 14983
-        },
-        "gHkbOucALLiM": {
-          "hits": 38,
-          "textWords": 14983
-        },
-        "j8Qsbd-ZZts7": {
-          "hits": 0,
-          "textWords": 14983
-        },
-        "lUVudQaoycBO": {
-          "hits": 2,
-          "textWords": 14983
-        },
-        "oqVRpkWKjeIk": {
-          "hits": 0,
-          "textWords": 14983
-        },
-        "vl1dN1Qtdfk6": {
-          "hits": 0,
-          "textWords": 14983
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "MAC3Gs6GdY-4",
-      "address": "https://danluu.com/web-bloat/",
-      "title": "How web bloat impacts users with slow connections",
-      "snippet": "83\n235\nFAIL\nFAIL\nFAIL\nEach row is a website. For sites that support both plain HTTP as well as HTTPS, both were tested; URLs are HTTPS except where explicitly specified as HTTP.",
-      "matchedWords": {
-        "KULEZq6YXE_i": {
-          "hits": 0,
-          "textWords": 4102
-        },
-        "SiAo7OrF4fTS": {
-          "hits": 0,
-          "textWords": 4102
-        },
-        "XgVsUAocS2px": {
-          "hits": 5,
-          "textWords": 4102
-        },
-        "gHkbOucALLiM": {
-          "hits": 8,
-          "textWords": 4102
-        },
-        "j8Qsbd-ZZts7": {
-          "hits": 0,
-          "textWords": 4102
-        },
-        "lUVudQaoycBO": {
-          "hits": 3,
-          "textWords": 4102
-        },
-        "oqVRpkWKjeIk": {
-          "hits": 0,
-          "textWords": 4102
-        },
-        "vl1dN1Qtdfk6": {
-          "hits": 0,
-          "textWords": 4102
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "Oxa0g_nMM_j5",
-      "address": "https://grokipedia.com/page/Data_validation",
-      "title": "Data validation — Grokipedia",
-      "snippet": "",
-      "matchedWords": {
-        "KULEZq6YXE_i": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "SiAo7OrF4fTS": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "XgVsUAocS2px": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "gHkbOucALLiM": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "j8Qsbd-ZZts7": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "lUVudQaoycBO": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "oqVRpkWKjeIk": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "vl1dN1Qtdfk6": {
-          "hits": 0,
-          "textWords": 0
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "WJpREitD2jQw",
-      "address": "https://docs.python.org/3/library/datetime.html",
-      "title": "datetime — Basic date and time types — Python 3.14.0 documentation",
-      "snippet": "For a complete and up-to-date set of DST rules # and timezone definitions, visit the Olson Database (or try pytz): # http://www.twinsun.com/tz/tz-link.htm # https://sourceforge.net/projects/pytz/ (might not be up-to-date) # # In the US, since 2007, DST starts at 2am (standard time) on the second #",
-      "matchedWords": {
-        "KULEZq6YXE_i": {
-          "hits": 0,
-          "textWords": 13307
-        },
-        "SiAo7OrF4fTS": {
-          "hits": 0,
-          "textWords": 13307
-        },
-        "XgVsUAocS2px": {
-          "hits": 1,
-          "textWords": 13307
-        },
-        "gHkbOucALLiM": {
-          "hits": 1,
-          "textWords": 13307
-        },
-        "j8Qsbd-ZZts7": {
-          "hits": 0,
-          "textWords": 13307
-        },
-        "lUVudQaoycBO": {
-          "hits": 9,
-          "textWords": 13307
-        },
-        "oqVRpkWKjeIk": {
-          "hits": 0,
-          "textWords": 13307
-        },
-        "vl1dN1Qtdfk6": {
-          "hits": 0,
-          "textWords": 13307
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "1ojMPAK-xyJ4",
-      "address": "https://go.dev/doc/effective_go",
-      "title": "Effective Go - The Go Programming Language",
-      "snippet": "// A channel that sends a notification on each visit. // (Probably want the channel to be buffered.) type Chan chan *http.Request func (ch Chan) ServeHTTP(w http.ResponseWriter, req *http.Request) { ch \u003c- req fmt.Fprint(w, \"notification sent\") }",
-      "matchedWords": {
-        "KULEZq6YXE_i": {
-          "hits": 0,
-          "textWords": 14983
-        },
-        "SiAo7OrF4fTS": {
-          "hits": 0,
-          "textWords": 14983
-        },
-        "XgVsUAocS2px": {
-          "hits": 0,
-          "textWords": 14983
-        },
-        "gHkbOucALLiM": {
-          "hits": 38,
-          "textWords": 14983
-        },
-        "j8Qsbd-ZZts7": {
-          "hits": 0,
-          "textWords": 14983
-        },
-        "lUVudQaoycBO": {
-          "hits": 2,
-          "textWords": 14983
-        },
-        "oqVRpkWKjeIk": {
-          "hits": 0,
-          "textWords": 14983
-        },
-        "vl1dN1Qtdfk6": {
-          "hits": 0,
-          "textWords": 14983
+          "textWords": 11144
         }
       },
       "queryPhraseHits": 0
     }
   ],
   "documentsHeldPerQueryWord": {
-    "KULEZq6YXE_i": 364368,
-    "SiAo7OrF4fTS": 775070,
-    "XgVsUAocS2px": 1051416,
-    "gHkbOucALLiM": 1087956,
-    "j8Qsbd-ZZts7": 114817,
-    "lUVudQaoycBO": 146956,
-    "oqVRpkWKjeIk": 44800,
-    "vl1dN1Qtdfk6": 78125
+    "XgVsUAocS2px": 1845945,
+    "gHkbOucALLiM": 479067,
+    "lUVudQaoycBO": 173870
   }
 }

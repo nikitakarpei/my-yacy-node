@@ -2,22 +2,10 @@
   "query": "fahrrad",
   "judgedDocuments": [
     {
-      "hash": "Ao-x4AwFKWzg",
-      "address": "https://streaming-guide.spiegel.de/streamingdienste/paramount-plus/",
-      "title": "Top Filme und Serien auf Paramount+ - Ihr ultimativer Streaming-Guide | Streaming Guide",
-      "grade": 0
-    },
-    {
       "hash": "BkidfpL47Vlg",
       "address": "https://bikemarkt.mtb-news.de/kaufvertrag-fahrrad",
       "title": "Kaufvertrag Fahrrad – Kaufvertrag Vorlage für ein gebrauchtes Fahrrad | Bikemarkt.MTB-News.de",
       "grade": 1
-    },
-    {
-      "hash": "K3XqtLlA2Rig",
-      "address": "https://www.n-tv.de/mediathek/videos/wirtschaft/Warum-immer-mehr-Menschen-das-Fahrrad-stehen-lassen-id31007897.html",
-      "title": "Neue Modelle, neue Hürden: Warum immer mehr Menschen das Fahrrad stehen lassen - n-tv.de",
-      "grade": 2
     },
     {
       "hash": "Ol37rmlamVlg",
@@ -26,10 +14,16 @@
       "grade": 1
     },
     {
-      "hash": "AUzbOPemigYg",
-      "address": "https://www.flixbus.de/fernbus/cervia",
-      "title": "Bus nach Cervia - Bus Ticket günstig buchen",
-      "grade": 0
+      "hash": "xmFPUVU6TL1h",
+      "address": "https://www.fahrradwien.at/transportfahrrad/foerderung/",
+      "title": "Transportfahrrad-Förderung in Wien- Fahrrad Wien",
+      "grade": null
+    },
+    {
+      "hash": "ueLLVFotHkcg",
+      "address": "https://kaufradar.spiegel.de/auto-fahrrad/",
+      "title": "Auto \u0026 Fahrrad - DER SPIEGEL Kaufradar",
+      "grade": 1
     },
     {
       "hash": "BpdPXJGyaxOg",
@@ -44,16 +38,16 @@
       "grade": 1
     },
     {
-      "hash": "i2TgoZCZCJKg",
-      "address": "https://www.merkur.de/wirtschaft/fahrrad-riese-accell-insolvent-haibike-ghost-und-winora-bangen-zr-94441488.html",
-      "title": "Fahrrad-Riese Accell insolvent – Haibike, Ghost und Winora bangen",
-      "grade": 1
+      "hash": "tanZ5LUJH84g",
+      "address": "https://www.innsbruck.gv.at/mobil/fahrrad",
+      "title": "Fahrrad - Stadt Innsbruck",
+      "grade": null
     },
     {
-      "hash": "rbRpbe6j6z4g",
-      "address": "https://www.bmluk.gv.at/themen/regionen-raumentwicklung/internationale-kooperationen/eusdr-flagships-2026.html",
-      "title": "Wie Österreich von der europäischen Strategie für den Donauraum profitiert - Bundesministerium für Land- und Forstwirtschaft, Klima- und Umweltschutz, Regionen und Wasserwirtschaft",
-      "grade": 0
+      "hash": "wkSLDFotHkcg",
+      "address": "https://kaufradar.spiegel.de/energiesysteme/",
+      "title": "Energiesysteme - DER SPIEGEL Kaufradar",
+      "grade": null
     },
     {
       "hash": "XdTmsyX3cKDg",
@@ -62,16 +56,28 @@
       "grade": 1
     },
     {
+      "hash": "XyLvql9yi-Lh",
+      "address": "https://www.cntraveller.de/",
+      "title": "Condé Nast Traveller Germany",
+      "grade": null
+    },
+    {
       "hash": "8p5gwlkdSSIx",
       "address": "https://www.vergleich.org/fahrrad/",
       "title": "Fahrrad kaufen - Test \u0026 Vergleich » Top 10 im Januar 2026",
       "grade": 2
     },
     {
-      "hash": "ueLLVFotHkcg",
-      "address": "https://kaufradar.spiegel.de/auto-fahrrad/",
-      "title": "Auto \u0026 Fahrrad - DER SPIEGEL Kaufradar",
-      "grade": 1
+      "hash": "T3iPpdQRq0sg",
+      "address": "https://www.polizei.hessen.de/praevention/beratung-hilfe-und-unterstuetzung/sicher-im-urlaub/auf-der-reise/mit-dem-fahrrad",
+      "title": "Unterwegs mit dem Fahrrad | Polizei Hessen",
+      "grade": null
+    },
+    {
+      "hash": "K3XqtLlA2Rig",
+      "address": "https://www.n-tv.de/mediathek/videos/wirtschaft/Warum-immer-mehr-Menschen-das-Fahrrad-stehen-lassen-id31007897.html",
+      "title": "Neue Modelle, neue Hürden: Warum immer mehr Menschen das Fahrrad stehen lassen - n-tv.de",
+      "grade": 2
     },
     {
       "hash": "GA9mbazJVNwg",
@@ -80,22 +86,22 @@
       "grade": 2
     },
     {
-      "hash": "rGF5olv_qywj",
-      "address": "https://www.naturcamping-bermudadreieck.de/programm-fahrrad/",
-      "title": "Mit dem Fahrrad - Campingplatz \u0026 Hafen Bermudadreieck in Mecklenburg-Vorpommern",
-      "grade": 1
+      "hash": "ptKN8veLQKt4",
+      "address": "https://fahrrad.news/tags/kinderanhaenger/283",
+      "title": "Kinderanhänger - Stichwortverzeichnis Fahrradhändler-Verzeichnis - Alles Fahrrad",
+      "grade": null
     },
     {
-      "hash": "_1l6d9TEUnog",
-      "address": "https://www.giga.de/tech/aldi-verkauft-bald-zwei-geraete-fuer-12-99-euro-die-jeder-am-fahrrad-haben-sollte--01K31EQ0939D1CH40GV04TQ1TG",
-      "title": "Aldi verkauft bald zwei Geräte für 9,99 Euro, die jeder am Fahrrad haben sollte",
+      "hash": "VdO6Dffz_mdh",
+      "address": "https://www.abendblatt.de/ratgeber-wissen/fahrrad/",
+      "title": "Fahrrad: News, Infos und Berichte",
       "grade": 2
     },
     {
-      "hash": "LPr2DhjFwR5g",
-      "address": "https://www.adfc.de/artikel/fahrrad-codierung",
-      "title": "Fahrrad-Codierung - ADFC",
-      "grade": 2
+      "hash": "HnzBPsXcOmMx",
+      "address": "https://neocities.org/browse?tag=fahrrad",
+      "title": "Neocities - Sites tagged fahrrad",
+      "grade": null
     },
     {
       "hash": "ybCqigWwkzZi",
@@ -116,33 +122,27 @@
       "grade": 1
     },
     {
-      "hash": "8EDZWKF0O9ij",
-      "address": "https://www.purkersdorf-online.at/fahrrad/index.php",
-      "title": "Purkersdorf: Rund ums Fahrrad",
+      "hash": "MzIHKNlA2Rig",
+      "address": "https://www.n-tv.de/thema/fahrrad/archiv-1",
+      "title": "Fahrrad - Thema Seite 1 - n-tv.de",
       "grade": 2
     },
     {
-      "hash": "am1CxiqZa4Gg",
-      "address": "https://www.familie.de/kleinkind/kinder-lieben-es-dieses-lidl-fahrrad-vereint-style-und-sicherheit-perfekt--01KZC5QHQH0TMYERB702CBPYRY",
-      "title": "Kinder lieben es: Dieses Lidl-Fahrrad vereint Style und Sicherheit perfekt",
-      "grade": 2
-    },
-    {
-      "hash": "lmn0n_3sDtZg",
-      "address": "https://tini24.de/news/handwerker-finden-hochwertiges-fahrrad-in-einem-scharbeutzer-knick/",
-      "title": "Handwerker finden hochwertiges Fahrrad in einem Scharbeutzer Knick - News | TiNi24",
-      "grade": 2
-    },
-    {
-      "hash": "0QrBgsnKVAHh",
-      "address": "https://sportfanat.de/mit-dem-fahrrad-durch-san-francisco/",
-      "title": "Mit dem Fahrrad durch San Francisco - sportfanat.de",
-      "grade": 2
+      "hash": "lzV3MwuDQ-Fg",
+      "address": "https://www.muenchen.de/verkehr/fahrrad",
+      "title": "Fahrrad in München: Touren, Karten, Hinweise - muenchen.de",
+      "grade": null
     },
     {
       "hash": "fiGiEXCZCJKg",
       "address": "https://www.merkur.de/leben/auto/adac-warnt-diese-fuenf-fehler-beim-fahrrad-anschliessen-kosten-sie-ihr-rad-zr-94446433.html",
       "title": "ADAC warnt: Diese fünf Fehler beim Fahrrad anschließen kosten Sie Ihr Rad",
+      "grade": 2
+    },
+    {
+      "hash": "zlICE02sCWng",
+      "address": "https://www.tag24.de/nachrichten/unfall/elfjaehriger-auf-fahrrad-von-auto-erfasst-kind-wird-bewusstlos-und-landet-im-krankenhaus-3525916",
+      "title": "Bremen: Kind auf Fahrrad von Auto erfasst",
       "grade": 2
     },
     {
@@ -152,52 +152,40 @@
       "grade": 2
     },
     {
-      "hash": "StMBj1YB1-lg",
-      "address": "https://www.family.de/da-oder-nicht-da/bicycle-wrapped-in-brown-paper-isolated-on-white/",
-      "title": "Ein Fahrrad ist in Paketpapier eingewickelt. - Family",
-      "grade": 1
-    },
-    {
-      "hash": "zlICE02sCWng",
-      "address": "https://www.tag24.de/nachrichten/unfall/elfjaehriger-auf-fahrrad-von-auto-erfasst-kind-wird-bewusstlos-und-landet-im-krankenhaus-3525916",
-      "title": "Bremen: Kind auf Fahrrad von Auto erfasst",
-      "grade": 2
-    },
-    {
       "hash": "U5PMbNlA2Rig",
       "address": "https://www.n-tv.de/thema/fahrrad/archiv-44",
       "title": "Fahrrad - Thema Seite 44 - n-tv.de",
       "grade": 2
     },
     {
-      "hash": "MzIHKNlA2Rig",
-      "address": "https://www.n-tv.de/thema/fahrrad/archiv-1",
-      "title": "Fahrrad - Thema Seite 1 - n-tv.de",
+      "hash": "0QrBgsnKVAHh",
+      "address": "https://sportfanat.de/mit-dem-fahrrad-durch-san-francisco/",
+      "title": "Mit dem Fahrrad durch San Francisco - sportfanat.de",
       "grade": 2
     },
     {
-      "hash": "sm2a9JemigYg",
-      "address": "https://www.flixbus.de/service/fahrrad-mitnahme",
-      "title": "Nimm Dein Fahrrad mit im FlixBus",
+      "hash": "fx_qtlzZulEg",
+      "address": "https://www.lexbike.de/fahrrad-richtig-reinigen/",
+      "title": "Fahrrad richtig reinigen: Tipps \u0026 Tricks | Lexbike.de – Fahrrad und mehr!",
       "grade": 1
     },
     {
-      "hash": "FItLjeVb8V15",
-      "address": "https://www.anwaltonline.com/firmen-_-gewerbe/urteile/41858/eigenmaechtige-fahrrad-probefahrt-im-geschaeft-haftet-der-haendler-bei-einem-sturz/?pk_campaign=rss\u0026pk_source=rss",
-      "title": "Eigenmächtige Fahrrad-Probefahrt im Geschäft: Haftet der Händler bei einem Sturz? - Firmen / Gewerbe - Urteile - AnwaltOnline",
-      "grade": 2
-    },
-    {
-      "hash": "VdO6Dffz_mdh",
-      "address": "https://www.abendblatt.de/ratgeber-wissen/fahrrad/",
-      "title": "Fahrrad: News, Infos und Berichte",
-      "grade": 2
+      "hash": "adfdUmlPDvFg",
+      "address": "https://www.wien.gv.at/amtswege/fahrradstaender-scooter-nicht-oeffentlicher-grund",
+      "title": "Antrag auf Förderung von Fahrrad- und Scooter-Abstellplätzen auf nicht öffentlichem Grund - Stadt Wien",
+      "grade": null
     },
     {
       "hash": "k0OASKjTZzng",
       "address": "https://www.einhell.de/a/der-fahrrad-check/",
       "title": "Fahrrad-Check vor der ersten Fahrt: So startest du sicher \u0026 gepflegt! | Einhell Ratgeber",
       "grade": 2
+    },
+    {
+      "hash": "gPwaOlAii4pg",
+      "address": "https://www.otto.de/sport/?sportart=_fahrrad",
+      "title": "Fahrrad Produkte online kaufen | OTTO",
+      "grade": null
     },
     {
       "hash": "0tDCmJwm21Ng",
@@ -212,15 +200,21 @@
       "grade": 1
     },
     {
+      "hash": "gJzS1hjFwR5g",
+      "address": "https://www.adfc.de/artikel/beleuchtung-am-fahrrad",
+      "title": "Beleuchtung am Fahrrad - ADFC",
+      "grade": null
+    },
+    {
       "hash": "x-I85Npg7ax4",
       "address": "https://de.wikipedia.org./wiki/Portal:Fahrrad",
       "title": "Portal:Fahrrad – Wikipedia",
       "grade": 1
     },
     {
-      "hash": "fx_qtlzZulEg",
-      "address": "https://www.lexbike.de/fahrrad-richtig-reinigen/",
-      "title": "Fahrrad richtig reinigen: Tipps \u0026 Tricks | Lexbike.de – Fahrrad und mehr!",
+      "hash": "sm2a9JemigYg",
+      "address": "https://www.flixbus.de/service/fahrrad-mitnahme",
+      "title": "Nimm Dein Fahrrad mit im FlixBus",
       "grade": 1
     },
     {
@@ -228,12 +222,6 @@
       "address": "https://www.pcwelt.de/bestenlisten/auto-fahrrad",
       "title": "Auto \u0026 Fahrrad Bestenlisten | PC-WELT",
       "grade": 1
-    },
-    {
-      "hash": "sTpqFnW_ynWg",
-      "address": "https://www.udv.de/udv/presse/fahrrad-ist-keine-alternative-fuer-betrunkene-autofahrer-78358",
-      "title": "Fahrrad ist keine Alternative für betrunkene Autofahrer",
-      "grade": 2
     },
     {
       "hash": "SKnTYF1e7Xjg",
@@ -260,9 +248,9 @@
       "grade": 2
     },
     {
-      "hash": "w4tWSrf_-JMg",
-      "address": "https://www.destatis.de/DE/Presse/Pressemitteilungen/2026/04/PD26_N025_461.html",
-      "title": "Jedes sechste Todesopfer im Straßenverkehr 2025 war mit dem Fahrrad unterwegs - Statistisches Bundesamt",
+      "hash": "OPE8Nz0w__jw",
+      "address": "https://www.faz.net/kaufkompass/sport-outdoor/fahrrad/",
+      "title": "Fahrrad-Produkte Tests 09/2026 | F.A.Z. Kaufkompass",
       "grade": 2
     },
     {
@@ -272,10 +260,10 @@
       "grade": 2
     },
     {
-      "hash": "OPE8Nz0w__jw",
-      "address": "https://www.faz.net/kaufkompass/sport-outdoor/fahrrad/",
-      "title": "Fahrrad-Produkte Tests 09/2026 | F.A.Z. Kaufkompass",
-      "grade": 2
+      "hash": "ekaWDJseDREg",
+      "address": "https://www.zdfheute.de/ratgeber/urlaub-mit-dem-fahrrad-bikepacking-reisen-radreise-100.html",
+      "title": "Urlaub mit dem Fahrrad: Wie Backpacking auch Anfängern gelingt",
+      "grade": null
     },
     {
       "hash": "ryCuKNpg7ax4",
@@ -284,28 +272,22 @@
       "grade": 1
     },
     {
-      "hash": "alQXsvDOAHJg",
-      "address": "https://www.heise.de/news/Fahrrad-Fakeshops-oeffnen-zur-Outdoor-Saison-10377520.html?wt_mc=rss.red.ho.ho.atom.beitrag.beitrag",
-      "title": "Fahrrad-Fakeshops öffnen zur Outdoor-Saison | heise online",
-      "grade": 2
-    },
-    {
       "hash": "PZOOWNpg7ax4",
       "address": "https://de.wikipedia.org./wiki/Aufbruch_Fahrrad",
       "title": "Aufbruch Fahrrad – Wikipedia",
       "grade": 1
     },
     {
-      "hash": "gUrbQFbLrFTi",
-      "address": "https://www.wer-weiss-was.de/c/auto-rad-mobilitat/fahrrad/126",
-      "title": "Auto, Rad \u0026 Mobilität / Fahrrad - Ratgeber \u0026 Forum - wer-weiss-was.de",
-      "grade": 2
-    },
-    {
       "hash": "NyrVYNpg7ax4",
       "address": "https://de.wikipedia.org./wiki/Kategorie:Portal:Fahrrad",
       "title": "Kategorie:Portal:Fahrrad – Wikipedia",
       "grade": 0
+    },
+    {
+      "hash": "bg5CcupuaNbg",
+      "address": "https://www.der-enno.de/fahrplan/mit-fahrrad-reisen/",
+      "title": "Mit dem Fahrrad unterwegs",
+      "grade": null
     },
     {
       "hash": "vMjnWzXOdHBh",

@@ -1,7 +1,191 @@
 {
   "query": "how to negotiate a salary raise",
-  "recordedAt": "2026-09-12T10:15:27Z",
+  "recordedAt": "2026-09-12T11:25:24Z",
   "itemsInTheOrderOfEachAnswer": [
+    [
+      {
+        "hash": "5_ct9jRvmBbx",
+        "address": "https://en.wikipedia.org/wiki/Poverty_reduction",
+        "title": "Poverty reduction - Wikipedia",
+        "snippet": "These factors result in 60% to 75% difference between men's and women's average aggregate wages or salaries, depending on the source. Various explanations for the remaining 25% to 40% have been suggested, including women's lower willingness and ability to negotiate salary and sexual discrimination.[",
+        "matchedWords": {
+          "CQJFKJzloYjq": {
+            "hits": 3,
+            "textWords": 12750
+          },
+          "KKqDgxVjPw5E": {
+            "hits": 2,
+            "textWords": 12750
+          },
+          "NyliBR086aDo": {
+            "hits": 1,
+            "textWords": 12750
+          }
+        },
+        "queryPhraseHits": 1
+      }
+    ],
+    [
+      {
+        "hash": "ms31Nl52jXN6",
+        "address": "https://www.irishexaminer.com/maintopics/",
+        "title": "Main Topics - Irish Examiner",
+        "snippet": "#National Ploughing Championships\n#Cork - Property\n#Donald Trump\n#Catherine Connolly\n#Micheál Martin\n#US-Irish\n#Irish Open\n#Live News Blogs\n#Home - Art and Antiques\n#Appointments\n#HSE\n#Fertility\n#Cork - News\n#Insight\n#Cork County Council\n#Kerry - News\n#911\n#Club championships\n#Gaelic Football",
+        "matchedWords": {
+          "CQJFKJzloYjq": {
+            "hits": 0,
+            "textWords": 1626
+          },
+          "KKqDgxVjPw5E": {
+            "hits": 0,
+            "textWords": 1626
+          },
+          "NyliBR086aDo": {
+            "hits": 0,
+            "textWords": 1626
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "-b3sxspKNBr4",
+        "address": "https://rense.com/",
+        "title": "rense.com",
+        "snippet": "Great Salt Lake - Utah’s silent health emergency\nVolcanoes 5 Sep 2026: Etna volcano, Fuego,\nKrakatau, Semeru, Ibu, Reventador\nThe AI boom just blew a hole in Trump’s trade war\nUS-China economic rivalry transforming into a\nbattle for leverage\nRepublicans are about to raise your fuel",
+        "matchedWords": {
+          "CQJFKJzloYjq": {
+            "hits": 11,
+            "textWords": 85916
+          },
+          "KKqDgxVjPw5E": {
+            "hits": 0,
+            "textWords": 85916
+          },
+          "NyliBR086aDo": {
+            "hits": 1,
+            "textWords": 85916
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "y6C7NYjwk8j5",
+        "address": "https://legal.quantcast.com/",
+        "title": "Quantcast Legal Center",
+        "snippet": "If you have an active, duly executed contract for Quantcast services (“Existing Contract”), the Existing Contract will govern your use of the service(s) covered in the Existing Contract instead of these Quantcast Measure Terms of Service (“Terms”).",
+        "matchedWords": {
+          "CQJFKJzloYjq": {
+            "hits": 0,
+            "textWords": 3825
+          },
+          "KKqDgxVjPw5E": {
+            "hits": 0,
+            "textWords": 3825
+          },
+          "NyliBR086aDo": {
+            "hits": 0,
+            "textWords": 3825
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "56j40b8CAV45",
+        "address": "https://www.encyclopedia.com/places/spain-portugal-italy-greece-and-balkans/spanish-and-portuguese-political-geography/spain",
+        "title": "Spain | Encyclopedia.com",
+        "snippet": "It is funded solely by the employer.\nDiscrimination against women in the workplace persists although it is prohibited by law. The female rate of unemployment is about twice that for men, and the median salary for women was lower than that of men.",
+        "matchedWords": {
+          "CQJFKJzloYjq": {
+            "hits": 1,
+            "textWords": 104267
+          },
+          "KKqDgxVjPw5E": {
+            "hits": 2,
+            "textWords": 104267
+          },
+          "NyliBR086aDo": {
+            "hits": 1,
+            "textWords": 104267
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "lgQWrsMAuxi4",
+        "address": "https://www.linkedin.com/top-content/communication/managing-challenging-conversations/how-to-negotiate-in-workplace-conversations/",
+        "title": "How to Negotiate in Workplace Conversations",
+        "snippet": "📤 Send it to someone who’s due for a raise. Reshare ♻️ to help someone in your network. And give me a follow for more posts like this. P.S. Looking to grow your salary? Each month, I help a select number of people get 40-80% pay bumps and land fulfilling $200K-$500K roles.",
+        "matchedWords": {
+          "CQJFKJzloYjq": {
+            "hits": 3,
+            "textWords": 3027
+          },
+          "KKqDgxVjPw5E": {
+            "hits": 6,
+            "textWords": 3027
+          },
+          "NyliBR086aDo": {
+            "hits": 16,
+            "textWords": 3027
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "_Vt58sMAuxi4",
+        "address": "https://www.linkedin.com/top-content/recruitment-hr/salary-benchmarking-tools/",
+        "title": "Top LinkedIn Content on Salary Benchmarking Tools",
+        "snippet": "This is an example I sometimes use to illustrate how FP\u0026A teams can build more accurate payroll forecasts: • Separate senior professionals from junior professionals • Build salary growth rates at the category level • Add fringe and statutory costs line by line • Calculate each cost as a % or",
+        "matchedWords": {
+          "CQJFKJzloYjq": {
+            "hits": 1,
+            "textWords": 3618
+          },
+          "KKqDgxVjPw5E": {
+            "hits": 25,
+            "textWords": 3618
+          },
+          "NyliBR086aDo": {
+            "hits": 1,
+            "textWords": 3618
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "h8PrICVFPryg",
+        "address": "https://eures.europa.eu/living-and-working/living-and-working-conditions-europe/living-and-working-conditions-germany_en",
+        "title": "Living and working conditions: Germany - EURES (EURopean Employment Services)",
+        "snippet": "The median gross salary in Germany is currently EUR 53 900, while the average gross salary is a bit higher, at EUR 59 100, indicating some extremely high top-end salaries.",
+        "matchedWords": {
+          "CQJFKJzloYjq": {
+            "hits": 2,
+            "textWords": 27054
+          },
+          "KKqDgxVjPw5E": {
+            "hits": 16,
+            "textWords": 27054
+          },
+          "NyliBR086aDo": {
+            "hits": 1,
+            "textWords": 27054
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
     [
       {
         "hash": "sqhKhsMAuxi4",
@@ -9,14 +193,6 @@
         "title": "Top LinkedIn Content on Career Advancement Tips",
         "snippet": "2️⃣ Ask about scholarships, always: Even at private universities, scholarships and tuition waivers exist. Make it a point to ask professors or program coordinators and negotiate whenever possible.",
         "matchedWords": {
-          "24igJXwiDb_d": {
-            "hits": 0,
-            "textWords": 2887
-          },
-          "AbbiA0S2iDXF": {
-            "hits": 0,
-            "textWords": 2887
-          },
           "CQJFKJzloYjq": {
             "hits": 1,
             "textWords": 2887
@@ -31,34 +207,66 @@
           }
         },
         "queryPhraseHits": 0
-      }
-    ],
-    [
+      },
       {
-        "hash": "-b3sxspKNBr4",
-        "address": "https://rense.com/",
-        "title": "rense.com",
-        "snippet": "Great Salt Lake - Utah’s silent health emergency\nVolcanoes 5 Sep 2026: Etna volcano, Fuego,\nKrakatau, Semeru, Ibu, Reventador\nThe AI boom just blew a hole in Trump’s trade war\nUS-China economic rivalry transforming into a\nbattle for leverage\nRepublicans are about to raise your fuel",
+        "hash": "1dNWhsMAuxi4",
+        "address": "https://www.linkedin.com/top-content/economics/",
+        "title": "Top Economics Content from LinkedIn Members",
+        "snippet": "Right now YOU pay full retail price for branded meds in your deductible phase. You can thank your insurance company PBM for lying to you when they say they negotiate better prices. They obviously suck at their jobs if the best they can do is get you retail price ! 4.",
         "matchedWords": {
-          "24igJXwiDb_d": {
-            "hits": 0,
-            "textWords": 85916
-          },
-          "AbbiA0S2iDXF": {
-            "hits": 0,
-            "textWords": 85916
-          },
           "CQJFKJzloYjq": {
-            "hits": 11,
-            "textWords": 85916
+            "hits": 0,
+            "textWords": 2737
           },
           "KKqDgxVjPw5E": {
             "hits": 0,
-            "textWords": 85916
+            "textWords": 2737
           },
           "NyliBR086aDo": {
             "hits": 1,
-            "textWords": 85916
+            "textWords": 2737
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "OiKU7sMAuxi4",
+        "address": "https://www.linkedin.com/top-content/negotiation/",
+        "title": "Top Negotiation Content from LinkedIn Members",
+        "snippet": "African governments must negotiate from a position of long-term national interest, ensuring technology transfer, local job creation, and skills development. 5. Strengthen private sector capacity.",
+        "matchedWords": {
+          "CQJFKJzloYjq": {
+            "hits": 0,
+            "textWords": 3176
+          },
+          "KKqDgxVjPw5E": {
+            "hits": 0,
+            "textWords": 3176
+          },
+          "NyliBR086aDo": {
+            "hits": 1,
+            "textWords": 3176
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "xfcR7sMAuxi4",
+        "address": "https://www.linkedin.com/top-content/change-management/",
+        "title": "Top Change Management Content from LinkedIn Members",
+        "snippet": "Right now YOU pay full retail price for branded meds in your deductible phase. You can thank your insurance company PBM for lying to you when they say they negotiate better prices. They obviously suck at their jobs if the best they can do is get you retail price ! 4.",
+        "matchedWords": {
+          "CQJFKJzloYjq": {
+            "hits": 0,
+            "textWords": 3146
+          },
+          "KKqDgxVjPw5E": {
+            "hits": 0,
+            "textWords": 3146
+          },
+          "NyliBR086aDo": {
+            "hits": 1,
+            "textWords": 3146
           }
         },
         "queryPhraseHits": 0
@@ -66,30 +274,22 @@
     ],
     [
       {
-        "hash": "-b3sxspKNBr4",
-        "address": "https://rense.com/",
-        "title": "rense.com",
-        "snippet": "Great Salt Lake - Utah’s silent health emergency\nVolcanoes 5 Sep 2026: Etna volcano, Fuego,\nKrakatau, Semeru, Ibu, Reventador\nThe AI boom just blew a hole in Trump’s trade war\nUS-China economic rivalry transforming into a\nbattle for leverage\nRepublicans are about to raise your fuel",
+        "hash": "S6B-IOyG2Z6g",
+        "address": "https://eur-lex.europa.eu/eli/reg/2018/1046/oj/eng",
+        "title": "",
+        "snippet": "",
         "matchedWords": {
-          "24igJXwiDb_d": {
-            "hits": 0,
-            "textWords": 85916
-          },
-          "AbbiA0S2iDXF": {
-            "hits": 0,
-            "textWords": 85916
-          },
           "CQJFKJzloYjq": {
-            "hits": 11,
-            "textWords": 85916
+            "hits": 0,
+            "textWords": 0
           },
           "KKqDgxVjPw5E": {
             "hits": 0,
-            "textWords": 85916
+            "textWords": 0
           },
           "NyliBR086aDo": {
-            "hits": 1,
-            "textWords": 85916
+            "hits": 3,
+            "textWords": 259
           }
         },
         "queryPhraseHits": 0
@@ -97,123 +297,129 @@
     ],
     [
       {
-        "hash": "atffDjRvmBbx",
-        "address": "https://en.wikipedia.org/wiki/Template_talk:Did_you_know",
-        "title": "Template talk:Did you know - Wikipedia",
-        "snippet": "It was led by General Prezan and consisted of 20 people, including Atanasie Popovici, because Brătianu would like to raise the Timoc issue in Paris.\" domnul Atanasie Popovici, român din Mihailovac, pe care Brătianu l-a invitat la Paris (p. 129, this is for stronger verification that Brătianu",
+        "hash": "_wDCSJUE49q4",
+        "address": "https://www.upgrad.com/blog/data-scientist-salary-india-freshers-experienced/",
+        "title": "Data Scientist Salary in India 2026: Shocking Facts",
+        "snippet": "The starting salary of a data scientist in India at startups usually begins around ₹5–7 LPA for freshers. While fixed pay may be lower, incentives and ESOPs can increase overall earnings. Candidates with strong skills from a data science course can negotiate higher packages.",
         "matchedWords": {
-          "24igJXwiDb_d": {
-            "hits": 0,
-            "textWords": 53400
+          "CQJFKJzloYjq": {
+            "hits": 1,
+            "textWords": 2368
           },
-          "AbbiA0S2iDXF": {
-            "hits": 0,
-            "textWords": 53400
+          "KKqDgxVjPw5E": {
+            "hits": 81,
+            "textWords": 2368
           },
+          "NyliBR086aDo": {
+            "hits": 1,
+            "textWords": 2368
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "_Vt58sMAuxi4",
+        "address": "https://www.linkedin.com/top-content/recruitment-hr/salary-benchmarking-tools/",
+        "title": "Top LinkedIn Content on Salary Benchmarking Tools",
+        "snippet": "This is an example I sometimes use to illustrate how FP\u0026A teams can build more accurate payroll forecasts: • Separate senior professionals from junior professionals • Build salary growth rates at the category level • Add fringe and statutory costs line by line • Calculate each cost as a % or",
+        "matchedWords": {
+          "CQJFKJzloYjq": {
+            "hits": 1,
+            "textWords": 3618
+          },
+          "KKqDgxVjPw5E": {
+            "hits": 25,
+            "textWords": 3618
+          },
+          "NyliBR086aDo": {
+            "hits": 1,
+            "textWords": 3618
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "R5vzYsOocYRx",
+        "address": "https://murdoconline.net/",
+        "title": "MURDOCONLINE - Situs Kumpulan Game Online Terbaik Paling Populer",
+        "snippet": "",
+        "matchedWords": {
+          "CQJFKJzloYjq": {
+            "hits": 0,
+            "textWords": 0
+          },
+          "KKqDgxVjPw5E": {
+            "hits": 0,
+            "textWords": 0
+          },
+          "NyliBR086aDo": {
+            "hits": 173,
+            "textWords": 61763
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "5_ct9jRvmBbx",
+        "address": "https://en.wikipedia.org/wiki/Poverty_reduction",
+        "title": "Poverty reduction - Wikipedia",
+        "snippet": "These factors result in 60% to 75% difference between men's and women's average aggregate wages or salaries, depending on the source. Various explanations for the remaining 25% to 40% have been suggested, including women's lower willingness and ability to negotiate salary and sexual discrimination.[",
+        "matchedWords": {
           "CQJFKJzloYjq": {
             "hits": 3,
-            "textWords": 53400
+            "textWords": 12750
           },
           "KKqDgxVjPw5E": {
-            "hits": 0,
-            "textWords": 53400
-          },
-          "NyliBR086aDo": {
-            "hits": 0,
-            "textWords": 53400
-          }
-        },
-        "queryPhraseHits": 0
-      }
-    ],
-    [
-      {
-        "hash": "-b3sxspKNBr4",
-        "address": "https://rense.com/",
-        "title": "rense.com",
-        "snippet": "Great Salt Lake - Utah’s silent health emergency\nVolcanoes 5 Sep 2026: Etna volcano, Fuego,\nKrakatau, Semeru, Ibu, Reventador\nThe AI boom just blew a hole in Trump’s trade war\nUS-China economic rivalry transforming into a\nbattle for leverage\nRepublicans are about to raise your fuel",
-        "matchedWords": {
-          "24igJXwiDb_d": {
-            "hits": 0,
-            "textWords": 85916
-          },
-          "AbbiA0S2iDXF": {
-            "hits": 0,
-            "textWords": 85916
-          },
-          "CQJFKJzloYjq": {
-            "hits": 11,
-            "textWords": 85916
-          },
-          "KKqDgxVjPw5E": {
-            "hits": 0,
-            "textWords": 85916
-          },
-          "NyliBR086aDo": {
-            "hits": 1,
-            "textWords": 85916
-          }
-        },
-        "queryPhraseHits": 0
-      }
-    ],
-    [
-      {
-        "hash": "-b3sxspKNBr4",
-        "address": "https://rense.com/",
-        "title": "rense.com",
-        "snippet": "Great Salt Lake - Utah’s silent health emergency\nVolcanoes 5 Sep 2026: Etna volcano, Fuego,\nKrakatau, Semeru, Ibu, Reventador\nThe AI boom just blew a hole in Trump’s trade war\nUS-China economic rivalry transforming into a\nbattle for leverage\nRepublicans are about to raise your fuel",
-        "matchedWords": {
-          "24igJXwiDb_d": {
-            "hits": 0,
-            "textWords": 85916
-          },
-          "AbbiA0S2iDXF": {
-            "hits": 0,
-            "textWords": 85916
-          },
-          "CQJFKJzloYjq": {
-            "hits": 11,
-            "textWords": 85916
-          },
-          "KKqDgxVjPw5E": {
-            "hits": 0,
-            "textWords": 85916
-          },
-          "NyliBR086aDo": {
-            "hits": 1,
-            "textWords": 85916
-          }
-        },
-        "queryPhraseHits": 0
-      }
-    ],
-    [
-      {
-        "hash": "KEUuzs6GdY-4",
-        "address": "https://danluu.com/startup-tradeoffs/",
-        "title": "Big companies v. startups",
-        "snippet": "Something to note is that if, per (1), you have the leverage to negotiate a good compensation package, you also have the leverage to negotiate for work that you want to do. We're in what is probably the best job market for programmers ever.",
-        "matchedWords": {
-          "24igJXwiDb_d": {
-            "hits": 0,
-            "textWords": 6386
-          },
-          "AbbiA0S2iDXF": {
-            "hits": 0,
-            "textWords": 6386
-          },
-          "CQJFKJzloYjq": {
-            "hits": 1,
-            "textWords": 6386
-          },
-          "KKqDgxVjPw5E": {
-            "hits": 5,
-            "textWords": 6386
-          },
-          "NyliBR086aDo": {
             "hits": 2,
-            "textWords": 6386
+            "textWords": 12750
+          },
+          "NyliBR086aDo": {
+            "hits": 1,
+            "textWords": 12750
+          }
+        },
+        "queryPhraseHits": 1
+      },
+      {
+        "hash": "-b3sxspKNBr4",
+        "address": "https://rense.com/",
+        "title": "rense.com",
+        "snippet": "Great Salt Lake - Utah’s silent health emergency\nVolcanoes 5 Sep 2026: Etna volcano, Fuego,\nKrakatau, Semeru, Ibu, Reventador\nThe AI boom just blew a hole in Trump’s trade war\nUS-China economic rivalry transforming into a\nbattle for leverage\nRepublicans are about to raise your fuel",
+        "matchedWords": {
+          "CQJFKJzloYjq": {
+            "hits": 11,
+            "textWords": 85916
+          },
+          "KKqDgxVjPw5E": {
+            "hits": 0,
+            "textWords": 85916
+          },
+          "NyliBR086aDo": {
+            "hits": 1,
+            "textWords": 85916
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "OAgmWaD6WJF7",
+        "address": "https://www.theautomaticearth.com/tag/iran/",
+        "title": "Iran Archives - The Automatic Earth",
+        "snippet": "The CDU there was cut in half; the AfD doubled. That doesn’t just raise questions. It puts federal politics itself in doubt.\nFriedrich Merz, after all, is a historically unpopular chancellor. That has to do with broken campaign promises, clumsy communication, and sloppy craftsmanship.",
+        "matchedWords": {
+          "CQJFKJzloYjq": {
+            "hits": 6,
+            "textWords": 81985
+          },
+          "KKqDgxVjPw5E": {
+            "hits": 1,
+            "textWords": 81985
+          },
+          "NyliBR086aDo": {
+            "hits": 7,
+            "textWords": 81985
           }
         },
         "queryPhraseHits": 0
@@ -221,61 +427,22 @@
     ],
     [
       {
-        "hash": "D4lABzaS0qdw",
-        "address": "https://planet.debian.org/",
-        "title": "Planet Debian",
-        "snippet": "This August, I accomplished what I wanted for many years: I deleted the last cgo dependency in Debian Code Search!",
+        "hash": "y6C7NYjwk8j5",
+        "address": "https://legal.quantcast.com/",
+        "title": "Quantcast Legal Center",
+        "snippet": "If you have an active, duly executed contract for Quantcast services (“Existing Contract”), the Existing Contract will govern your use of the service(s) covered in the Existing Contract instead of these Quantcast Measure Terms of Service (“Terms”).",
         "matchedWords": {
-          "24igJXwiDb_d": {
-            "hits": 0,
-            "textWords": 8109
-          },
-          "AbbiA0S2iDXF": {
-            "hits": 0,
-            "textWords": 8109
-          },
           "CQJFKJzloYjq": {
             "hits": 0,
-            "textWords": 8109
+            "textWords": 3825
           },
           "KKqDgxVjPw5E": {
             "hits": 0,
-            "textWords": 8109
+            "textWords": 3825
           },
           "NyliBR086aDo": {
             "hits": 0,
-            "textWords": 8109
-          }
-        },
-        "queryPhraseHits": 0
-      }
-    ],
-    [
-      {
-        "hash": "D4lABzaS0qdw",
-        "address": "https://planet.debian.org/",
-        "title": "Planet Debian",
-        "snippet": "This August, I accomplished what I wanted for many years: I deleted the last cgo dependency in Debian Code Search!",
-        "matchedWords": {
-          "24igJXwiDb_d": {
-            "hits": 0,
-            "textWords": 8109
-          },
-          "AbbiA0S2iDXF": {
-            "hits": 0,
-            "textWords": 8109
-          },
-          "CQJFKJzloYjq": {
-            "hits": 0,
-            "textWords": 8109
-          },
-          "KKqDgxVjPw5E": {
-            "hits": 0,
-            "textWords": 8109
-          },
-          "NyliBR086aDo": {
-            "hits": 0,
-            "textWords": 8109
+            "textWords": 3825
           }
         },
         "queryPhraseHits": 0
@@ -288,14 +455,230 @@
         "title": "rense.com",
         "snippet": "Great Salt Lake - Utah’s silent health emergency\nVolcanoes 5 Sep 2026: Etna volcano, Fuego,\nKrakatau, Semeru, Ibu, Reventador\nThe AI boom just blew a hole in Trump’s trade war\nUS-China economic rivalry transforming into a\nbattle for leverage\nRepublicans are about to raise your fuel",
         "matchedWords": {
-          "24igJXwiDb_d": {
+          "CQJFKJzloYjq": {
+            "hits": 11,
+            "textWords": 85916
+          },
+          "KKqDgxVjPw5E": {
             "hits": 0,
             "textWords": 85916
           },
-          "AbbiA0S2iDXF": {
-            "hits": 0,
+          "NyliBR086aDo": {
+            "hits": 1,
             "textWords": 85916
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "1B_04xKAn6I5",
+        "address": "https://news.ycombinator.com/item?id=39959368",
+        "title": "How to found a company in Germany: 14 \"easy\" steps and lots of pain | Hacker News",
+        "snippet": "Germany was once nice average salary/low living cost country. Now only average salary left. But it’s ok when one is already inside. Not recommended for newcomers though.",
+        "matchedWords": {
+          "CQJFKJzloYjq": {
+            "hits": 2,
+            "textWords": 58821
           },
+          "KKqDgxVjPw5E": {
+            "hits": 9,
+            "textWords": 58821
+          },
+          "NyliBR086aDo": {
+            "hits": 1,
+            "textWords": 58821
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "h8PrICVFPryg",
+        "address": "https://eures.europa.eu/living-and-working/living-and-working-conditions-europe/living-and-working-conditions-germany_en",
+        "title": "Living and working conditions: Germany - EURES (EURopean Employment Services)",
+        "snippet": "The median gross salary in Germany is currently EUR 53 900, while the average gross salary is a bit higher, at EUR 59 100, indicating some extremely high top-end salaries.",
+        "matchedWords": {
+          "CQJFKJzloYjq": {
+            "hits": 2,
+            "textWords": 27054
+          },
+          "KKqDgxVjPw5E": {
+            "hits": 16,
+            "textWords": 27054
+          },
+          "NyliBR086aDo": {
+            "hits": 1,
+            "textWords": 27054
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "KyDIk1SKkctx",
+        "address": "https://softpanorama.org/Skeptics/Political_skeptic/Elite_theory/audacious_oligarchy_and_loss_of_trust.shtml",
+        "title": "Audacious Oligarchy and \"Democracy for Winners\"",
+        "snippet": "",
+        "matchedWords": {
+          "CQJFKJzloYjq": {
+            "hits": 0,
+            "textWords": 0
+          },
+          "KKqDgxVjPw5E": {
+            "hits": 0,
+            "textWords": 0
+          },
+          "NyliBR086aDo": {
+            "hits": 7,
+            "textWords": 3319
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "md9neJwu7Bvw",
+        "address": "https://www.wgu.edu/blog/how-to-negotiate-pay1907.html",
+        "title": "How To Negotiate Your Pay",
+        "snippet": "This can happen when they have a job offer and are working to negotiate fair compensation, or when they want to negotiate with their current employer to raise their salary.\nIt's important as a candidate for a job, or as a current employee, that you not limit yourself or sell yourself short.",
+        "matchedWords": {
+          "CQJFKJzloYjq": {
+            "hits": 8,
+            "textWords": 1410
+          },
+          "KKqDgxVjPw5E": {
+            "hits": 21,
+            "textWords": 1410
+          },
+          "NyliBR086aDo": {
+            "hits": 7,
+            "textWords": 1410
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "7DzFrpJ7cXd5",
+        "address": "https://www.mediabistro.com/climb-the-ladder/managing/your-company-froze-raises-heres-what-you-can-still-negotiate/",
+        "title": "How to Negotiate Salary When Your Company Freezes Raises",
+        "snippet": "Deferred raise agreements get it in writing. You negotiate a documented commitment that a specific salary increase kicks in once the freeze lifts, tied to either a calendar date or a financial trigger. If your manager agrees, make sure it’s documented. Verbal promises evaporate.",
+        "matchedWords": {
+          "CQJFKJzloYjq": {
+            "hits": 13,
+            "textWords": 1855
+          },
+          "KKqDgxVjPw5E": {
+            "hits": 11,
+            "textWords": 1855
+          },
+          "NyliBR086aDo": {
+            "hits": 5,
+            "textWords": 1855
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "h8PrICVFPryg",
+        "address": "https://eures.europa.eu/living-and-working/living-and-working-conditions-europe/living-and-working-conditions-germany_en",
+        "title": "Living and working conditions: Germany - EURES (EURopean Employment Services)",
+        "snippet": "The median gross salary in Germany is currently EUR 53 900, while the average gross salary is a bit higher, at EUR 59 100, indicating some extremely high top-end salaries.",
+        "matchedWords": {
+          "CQJFKJzloYjq": {
+            "hits": 2,
+            "textWords": 27054
+          },
+          "KKqDgxVjPw5E": {
+            "hits": 16,
+            "textWords": 27054
+          },
+          "NyliBR086aDo": {
+            "hits": 1,
+            "textWords": 27054
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "vDp29b8CAV45",
+        "address": "https://www.encyclopedia.com/places/united-states-and-canada/us-political-geography/new-york",
+        "title": "New York | Encyclopedia.com",
+        "snippet": "In 2004, the legislative salary was $79,500 and the governor’s salary was $179,000.\n13 Political Parties\nIn 2004, there were 11,837,000 registered voters. In 1998, 47% of registered voters were Democrats, 29% were Republicans, and 24% were unaffiliated or with other parties.",
+        "matchedWords": {
+          "CQJFKJzloYjq": {
+            "hits": 3,
+            "textWords": 360655
+          },
+          "KKqDgxVjPw5E": {
+            "hits": 6,
+            "textWords": 360655
+          },
+          "NyliBR086aDo": {
+            "hits": 1,
+            "textWords": 360655
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "8st5vj-JVcyx",
+        "address": "https://en.wikiquote.org/wiki/User:CensoredScribe",
+        "title": "User:CensoredScribe - Wikiquote",
+        "snippet": "We have referred to this behaviour as \"redistributive justice\" (to distinguish it from \"retributive justice\"). Thus, an employee may blame the supervisor who gives a raise to someone else but attempt to produce unfavorable outcomes for the coworker who recieved a raise.",
+        "matchedWords": {
+          "CQJFKJzloYjq": {
+            "hits": 14,
+            "textWords": 224604
+          },
+          "KKqDgxVjPw5E": {
+            "hits": 1,
+            "textWords": 224604
+          },
+          "NyliBR086aDo": {
+            "hits": 1,
+            "textWords": 224604
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "8XJ8vlptNsG4",
+        "address": "https://www.akdart.com/lib7.html",
+        "title": "Liberal Departures from the Truth",
+        "snippet": "Mayor of small city was 'too stupid and uneducated' to know his $100k salary was illegal, his lawyer argues. The former mayor of Bell, California, was too stupid and uneducated to know his $100,000 salary for the part-time city job was illegal, his lawyer argued today.",
+        "matchedWords": {
+          "CQJFKJzloYjq": {
+            "hits": 23,
+            "textWords": 288811
+          },
+          "KKqDgxVjPw5E": {
+            "hits": 8,
+            "textWords": 288811
+          },
+          "NyliBR086aDo": {
+            "hits": 4,
+            "textWords": 288811
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "-b3sxspKNBr4",
+        "address": "https://rense.com/",
+        "title": "rense.com",
+        "snippet": "Great Salt Lake - Utah’s silent health emergency\nVolcanoes 5 Sep 2026: Etna volcano, Fuego,\nKrakatau, Semeru, Ibu, Reventador\nThe AI boom just blew a hole in Trump’s trade war\nUS-China economic rivalry transforming into a\nbattle for leverage\nRepublicans are about to raise your fuel",
+        "matchedWords": {
           "CQJFKJzloYjq": {
             "hits": 11,
             "textWords": 85916
@@ -315,19 +698,137 @@
   ],
   "itemsInNoOrder": [
     {
+      "hash": "kQF9qa-ZZJOw",
+      "address": "https://www.alternet.org/author/thom-hartmann",
+      "title": "Thom Hartmann - Alternet.org",
+      "snippet": "Republicans went totally nutso on Dr. Anthony Fauci last week, trying to catch him with a perjury trap before the US Senate. They called him names, citied lies and pseudoscience, and attacked his integrity.",
+      "matchedWords": {
+        "CQJFKJzloYjq": {
+          "hits": 0,
+          "textWords": 3406
+        },
+        "KKqDgxVjPw5E": {
+          "hits": 0,
+          "textWords": 3406
+        },
+        "NyliBR086aDo": {
+          "hits": 0,
+          "textWords": 3406
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "Jb4XHs5IzNm6",
+      "address": "https://citizenfreepress.com/",
+      "title": "CITIZEN FREE PRESS",
+      "snippet": "CAREER HIGHLIGHT | Rick Santelli blows up Covid dumbass Andrew Ross Sorkin — and time has proven him correct.\nPeter Navarro will love this story.\nRaise your hand if you’ve been to Snake River Lodge.\nSomething smells rotten in NYC.\nMinnesota, how are you going to look at this face for 4 years.",
+      "matchedWords": {
+        "CQJFKJzloYjq": {
+          "hits": 2,
+          "textWords": 11215
+        },
+        "KKqDgxVjPw5E": {
+          "hits": 1,
+          "textWords": 11215
+        },
+        "NyliBR086aDo": {
+          "hits": 0,
+          "textWords": 11215
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "jMjhCjD3AMxY",
+      "address": "http://commonsensewonder.blogspot.com/",
+      "title": "Commonsense \u0026 Wonder",
+      "snippet": "Neo-Nazis believe a mysterious potato farmer known as “Scary Larry” is the infiltrator who prosecutors say shacked up with Southern Poverty Law Center boss Heidi Beirich.\nFormer National Alliance member Lawrence W.",
+      "matchedWords": {
+        "CQJFKJzloYjq": {
+          "hits": 0,
+          "textWords": 1820
+        },
+        "KKqDgxVjPw5E": {
+          "hits": 0,
+          "textWords": 1820
+        },
+        "NyliBR086aDo": {
+          "hits": 0,
+          "textWords": 1820
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "GtLjhloUbV15",
+      "address": "https://www.whatfinger.com/",
+      "title": "Whatfinger News® – Unfiltered Truth. America’s News Feed",
+      "snippet": "Whatfinger – 🛑 Features, Red-pill blasts, takedowns, hits, deep state reveals, and savage roasts that’ll make you say ‘DAMN!’ No safe spaces. (use arrows) – Sgt Pat, Beth, Ben, Sgt K\n🛑Headline Hurricane: 40 Top Stories Across All Beats (use arrows) – Sgt Pat, Ben, Luke",
+      "matchedWords": {
+        "CQJFKJzloYjq": {
+          "hits": 0,
+          "textWords": 157
+        },
+        "KKqDgxVjPw5E": {
+          "hits": 0,
+          "textWords": 157
+        },
+        "NyliBR086aDo": {
+          "hits": 0,
+          "textWords": 157
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "jzSZ9sp0twZ6",
+      "address": "https://dollarcollapse.com/breaking-news-best-on-web/",
+      "title": "Breaking News | Dollar Collapse",
+      "snippet": "8/18 War and Drought Are Choking the World’s Most Vital Trade Routes – OilPrice.com\n8/18 FBI: 2025 had biggest violent-crime drop in 90 years – Axios\n8/18 Can Ozempic Solve the Sex Recession and Raise Marriage Rates? – Reason\n8/18 How the Whopper reignited the burger wars – CNN",
+      "matchedWords": {
+        "CQJFKJzloYjq": {
+          "hits": 2,
+          "textWords": 20336
+        },
+        "KKqDgxVjPw5E": {
+          "hits": 0,
+          "textWords": 20336
+        },
+        "NyliBR086aDo": {
+          "hits": 0,
+          "textWords": 20336
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "ZjER8j-JVcyx",
+      "address": "https://en.wikiquote.org/wiki/John_F._Kennedy",
+      "title": "John F. Kennedy - Wikiquote",
+      "snippet": "Let us never negotiate out of fear. But let us never fear to negotiate.\nLet both sides explore what problems unite us instead of belaboring those problems which divide us. [...] Let both sides seek to invoke the wonders of science instead of its terrors.",
+      "matchedWords": {
+        "CQJFKJzloYjq": {
+          "hits": 4,
+          "textWords": 60468
+        },
+        "KKqDgxVjPw5E": {
+          "hits": 2,
+          "textWords": 60468
+        },
+        "NyliBR086aDo": {
+          "hits": 13,
+          "textWords": 60468
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
       "hash": "6sZA7j-JVcyx",
       "address": "https://en.wikiquote.org/wiki/Martin_Luther_King,_Jr.",
       "title": "Martin Luther King Jr. - Wikiquote",
       "snippet": "I am afraid that many among you are more concerned about making a living than making a life. You are prone to judge the success of your profession by the index of your salary and the size of the wheel base on your automobile, rather than the quality of your service to humanity.",
       "matchedWords": {
-        "24igJXwiDb_d": {
-          "hits": 0,
-          "textWords": 72219
-        },
-        "AbbiA0S2iDXF": {
-          "hits": 0,
-          "textWords": 72219
-        },
         "CQJFKJzloYjq": {
           "hits": 6,
           "textWords": 72219
@@ -344,88 +845,526 @@
       "queryPhraseHits": 0
     },
     {
-      "hash": "CuB1VHG-ATF4",
-      "address": "https://podcasts.apple.com/bm/new",
-      "title": "Apple Podcasts (BM) - Web Player",
-      "snippet": "Copyright © 2026 Apple Inc. All rights reserved.\nInternet Service Terms\nApple Podcasts web player \u0026 Privacy\nCookie Warning\nSupport\nFeedback",
+      "hash": "hNrcdJ-bwreQ",
+      "address": "http://ace.mu.nu/",
+      "title": "Ace of Spades HQ",
+      "snippet": "Intermarkets' Privacy Policy\nSupport\nDonate to Ace of Spades HQ!\nContact\nAce:\naceofspadeshq at gee mail.com\nBuck:\nbuck.throckmorton at protonmail.com\nCBD:\ncbd at cutjibnewsletter.com\nDoof:\ndoof2112 at proton.me\njoe mannix:\nmannix2024 at proton.me\nMisHum:\npetmorons at gee mail.com\nJ.J. Sefton:",
       "matchedWords": {
-        "24igJXwiDb_d": {
-          "hits": 0,
-          "textWords": 19
-        },
-        "AbbiA0S2iDXF": {
-          "hits": 0,
-          "textWords": 19
-        },
         "CQJFKJzloYjq": {
           "hits": 0,
-          "textWords": 19
+          "textWords": 12885
         },
         "KKqDgxVjPw5E": {
           "hits": 0,
-          "textWords": 19
+          "textWords": 12885
         },
         "NyliBR086aDo": {
           "hits": 0,
-          "textWords": 19
+          "textWords": 12885
         }
       },
       "queryPhraseHits": 0
     },
     {
-      "hash": "Y2pI4jc4UIAx",
-      "address": "https://en.wikivoyage.org/wiki/New_Zealand",
-      "title": "New Zealand – Travel guide at Wikivoyage",
-      "snippet": "A short 'Mate' combined with a slight head and eyebrow raise can be a greeting, whereas a longer 'Maaaaaate' combined with a cocking of the head and narrowing of the eyes can be seen as a scolding.\nmunted - broken, damaged, unusable.",
+      "hash": "ORsT4l1JkMew",
+      "address": "https://www.stallman.org/archives/2017-jul-oct.html",
+      "title": "2017: July - October Political Notes - Richard Stallman",
+      "snippet": "The only possible use of such action is to make North Korea agree to negotiate. But North Korea already wants to negotiate, so there is no possible point growling. All we need is for the US to start negotiating.",
       "matchedWords": {
-        "24igJXwiDb_d": {
-          "hits": 0,
-          "textWords": 26225
-        },
-        "AbbiA0S2iDXF": {
-          "hits": 0,
-          "textWords": 26225
-        },
         "CQJFKJzloYjq": {
-          "hits": 1,
-          "textWords": 26225
+          "hits": 7,
+          "textWords": 121046
         },
         "KKqDgxVjPw5E": {
           "hits": 1,
-          "textWords": 26225
+          "textWords": 121046
         },
         "NyliBR086aDo": {
-          "hits": 1,
-          "textWords": 26225
+          "hits": 12,
+          "textWords": 121046
         }
       },
       "queryPhraseHits": 0
     },
     {
-      "hash": "lG9TsDvXC2J5",
-      "address": "https://jessejarnow.com/category/hippiedom/",
-      "title": "hippiedom : Jesse Jarnow",
-      "snippet": "5/21/82 greek theatre: featuring gigantic new @courtenaytiedye backdrops \u0026 with staggered start times, earlier each evening, tonight at 7pm. lovely springtime energy throughout, 1st set taking flight with 11-minute BIRD SONG, flapping around the jeweled mysteries just as the sun is setting over",
+      "hash": "_PnVql1JkMew",
+      "address": "https://www.stallman.org/archives/2019-jul-oct.html",
+      "title": "2019: July - October Political Notes - Richard Stallman",
+      "snippet": "28 September 2019 (US must stop second-guessing how to raise children) The US must stop inviting courts to second-guess minor decisions that parents make about how to raise their children.\nSure, there are things parents could do that would be very dangerous to their children and society.",
       "matchedWords": {
-        "24igJXwiDb_d": {
-          "hits": 0,
-          "textWords": 245810
-        },
-        "AbbiA0S2iDXF": {
-          "hits": 0,
-          "textWords": 245810
-        },
         "CQJFKJzloYjq": {
+          "hits": 9,
+          "textWords": 112885
+        },
+        "KKqDgxVjPw5E": {
+          "hits": 3,
+          "textWords": 112885
+        },
+        "NyliBR086aDo": {
+          "hits": 3,
+          "textWords": 112885
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "3-Ccpt3D_Rk5",
+      "address": "https://kafececelia.wordpress.com/",
+      "title": "Blue Wing Things to do in case of COUP – curiously keeping calm \u0026 carrying on",
+      "snippet": "Robert Reich on Social Security, focusing on proposals to raise the wage cap subject to payroll taxes and the distributional pressures threatening future programme solvency.",
+      "matchedWords": {
+        "CQJFKJzloYjq": {
+          "hits": 7,
+          "textWords": 66162
+        },
+        "KKqDgxVjPw5E": {
+          "hits": 0,
+          "textWords": 66162
+        },
+        "NyliBR086aDo": {
+          "hits": 0,
+          "textWords": 66162
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "7UbKOt5yBdUw",
+      "address": "https://fedsoc.org/conferences/2022-national-lawyers-convention?",
+      "title": "2022 National Lawyers Convention",
+      "snippet": "So what they did was they went through a very long rulemaking process, a lot of comments, a lot of analysis, and what they decided was they were merge the duties test, and they would issue one salary basis, and it was measured against the 20th percentile of the south census and retail salary survey.",
+      "matchedWords": {
+        "CQJFKJzloYjq": {
+          "hits": 14,
+          "textWords": 126793
+        },
+        "KKqDgxVjPw5E": {
+          "hits": 13,
+          "textWords": 126793
+        },
+        "NyliBR086aDo": {
           "hits": 2,
-          "textWords": 245810
+          "textWords": 126793
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "eU9P6VCWRxx6",
+      "address": "https://www.jesus-is-savior.com/Evils%20in%20Government/Federal%20Reserve%20Scam/secrets_of_federal_reserve.htm",
+      "title": "Dirty \"SECRETS OF THE FEDERAL RESERVE\"",
+      "snippet": "Within recent months, William McAdoo, Secretary of the Treasury of the United States was reported in the open press as charging specifically that there was a conspiracy among certain of the large banking interests to put a contraction upon the currency and to raise interest rates for the sake of",
+      "matchedWords": {
+        "CQJFKJzloYjq": {
+          "hits": 4,
+          "textWords": 83071
         },
         "KKqDgxVjPw5E": {
           "hits": 2,
-          "textWords": 245810
+          "textWords": 83071
+        },
+        "NyliBR086aDo": {
+          "hits": 2,
+          "textWords": 83071
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "s8VUdaD6WJF7",
+      "address": "https://www.theautomaticearth.com/tag/eurogroup/",
+      "title": "Eurogroup Archives - The Automatic Earth",
+      "snippet": "Markets were surprised today when the Bank of England took a “hawkish” turn and announced that three out of nine members of its Monetary Policy Committee – including influential Chief Economist Andrew Haldane, who’d been considered dovish – voted to raise the Bank Rate to 0.75%, thus dissenting",
+      "matchedWords": {
+        "CQJFKJzloYjq": {
+          "hits": 17,
+          "textWords": 61436
+        },
+        "KKqDgxVjPw5E": {
+          "hits": 2,
+          "textWords": 61436
+        },
+        "NyliBR086aDo": {
+          "hits": 7,
+          "textWords": 61436
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "8L_aSlESuha4",
+      "address": "https://www.leagle.com/featureddecisions",
+      "title": "Featured Decisions | Leagle.com | The place to find U. S. Law, Lawyers and Opinions",
+      "snippet": "",
+      "matchedWords": {
+        "CQJFKJzloYjq": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "KKqDgxVjPw5E": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "NyliBR086aDo": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "tEWu7tIIL7ew",
+      "address": "https://stallman.org/archives/2012-jul-oct.html",
+      "title": "2012: July - October Political Notes - Richard Stallman",
+      "snippet": "11 September 2012 (Taliban leaders want to negotiate) Taliban leaders want to negotiate, according to former Taliban leaders.\n11 September 2012 (Journalists face charges of terrorism) 44 journalists face charges of terrorism in Turkey for criticizing the state in various ways.",
+      "matchedWords": {
+        "CQJFKJzloYjq": {
+          "hits": 13,
+          "textWords": 103597
+        },
+        "KKqDgxVjPw5E": {
+          "hits": 2,
+          "textWords": 103597
+        },
+        "NyliBR086aDo": {
+          "hits": 10,
+          "textWords": 103597
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "soIzFAIRlUi5",
+      "address": "https://www.10zenmonkeys.com/category/uncategorized/",
+      "title": "All Articles – 10 Zen Monkeys",
+      "snippet": "The very first champion that we got — the first person who was on our side, the chair of our advisory board who was our hero — told us \"Frankly, man, you will never raise enough money to cover your own salary on this.",
+      "matchedWords": {
+        "CQJFKJzloYjq": {
+          "hits": 10,
+          "textWords": 136417
+        },
+        "KKqDgxVjPw5E": {
+          "hits": 4,
+          "textWords": 136417
         },
         "NyliBR086aDo": {
           "hits": 1,
-          "textWords": 245810
+          "textWords": 136417
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "TZYurjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/President_of_the_United_States",
+      "title": "President of the United States - Wikipedia",
+      "snippet": "Presidential pay history\nYear\nestablished\nSalary\nSalary in\n2025 USD\n1789\n$25,000\n$675,604\n1873\n$50,000\n$1,343,750\n1909\n$75,000\n$2,687,500\n1949\n$100,000\n$1,353,147\n1969\n$200,000\n$1,755,898\n2001\n$400,000\n$727,307\nSources:[161][162][163]",
+      "matchedWords": {
+        "CQJFKJzloYjq": {
+          "hits": 1,
+          "textWords": 17622
+        },
+        "KKqDgxVjPw5E": {
+          "hits": 7,
+          "textWords": 17622
+        },
+        "NyliBR086aDo": {
+          "hits": 2,
+          "textWords": 17622
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "Vy8hyjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Herbert_Hoover",
+      "title": "Herbert Hoover - Wikipedia",
+      "snippet": "Hoover had taken office hoping to raise agricultural tariffs in order to help farmers reeling from the farm crisis of the 1920s, but his attempt to raise agricultural tariffs became connected with a bill that broadly raised tariffs.[",
+      "matchedWords": {
+        "CQJFKJzloYjq": {
+          "hits": 2,
+          "textWords": 17639
+        },
+        "KKqDgxVjPw5E": {
+          "hits": 1,
+          "textWords": 17639
+        },
+        "NyliBR086aDo": {
+          "hits": 1,
+          "textWords": 17639
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "atffDjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Template_talk:Did_you_know",
+      "title": "Template talk:Did you know - Wikipedia",
+      "snippet": "It was led by General Prezan and consisted of 20 people, including Atanasie Popovici, because Brătianu would like to raise the Timoc issue in Paris.\" domnul Atanasie Popovici, român din Mihailovac, pe care Brătianu l-a invitat la Paris (p. 129, this is for stronger verification that Brătianu",
+      "matchedWords": {
+        "CQJFKJzloYjq": {
+          "hits": 3,
+          "textWords": 53109
+        },
+        "KKqDgxVjPw5E": {
+          "hits": 0,
+          "textWords": 53109
+        },
+        "NyliBR086aDo": {
+          "hits": 0,
+          "textWords": 53109
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "oOVv2jRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Wikipedia:Featured_article_candidates",
+      "title": "Wikipedia:Featured article candidates - Wikipedia",
+      "snippet": "",
+      "matchedWords": {
+        "CQJFKJzloYjq": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "KKqDgxVjPw5E": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "NyliBR086aDo": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "xqx1MjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Jimmy_Carter",
+      "title": "Jimmy Carter - Wikipedia",
+      "snippet": "202] Carter proposed that the company forgo salary increases and bonuses, saying that it might be done \"without decimating the company or putting it on its knees\", but the company had already frozen wage increases and bonuses months before, to no avail.[",
+      "matchedWords": {
+        "CQJFKJzloYjq": {
+          "hits": 1,
+          "textWords": 30884
+        },
+        "KKqDgxVjPw5E": {
+          "hits": 1,
+          "textWords": 30884
+        },
+        "NyliBR086aDo": {
+          "hits": 1,
+          "textWords": 30884
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "8VCYzjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Abraham_Lincoln",
+      "title": "Abraham Lincoln - Wikipedia",
+      "snippet": "234] Throughout the war, Congress debated whether to raise additional revenue primarily by increasing tariff rates, which most strongly affected rural areas, or by increasing income taxes, which most affected wealthier individuals; the latter view proved more popular.[235]",
+      "matchedWords": {
+        "CQJFKJzloYjq": {
+          "hits": 1,
+          "textWords": 17436
+        },
+        "KKqDgxVjPw5E": {
+          "hits": 0,
+          "textWords": 17436
+        },
+        "NyliBR086aDo": {
+          "hits": 1,
+          "textWords": 17436
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "VI9YzkSKkctx",
+      "address": "https://softpanorama.org/Social/Toxic_managers/index.shtml",
+      "title": "Toxic Managers",
+      "snippet": "",
+      "matchedWords": {
+        "CQJFKJzloYjq": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "KKqDgxVjPw5E": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "NyliBR086aDo": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "yHb1-gTSp2N5",
+      "address": "https://talkingunion.wordpress.com/",
+      "title": "Talking Union | A forum for discussing labor issues sponsored by the DSA Labor Network",
+      "snippet": "But it was at just that point that Congress voted to give postal workers a mere 4 percent raise. And then—wait for it—they voted to give themselves a whopping 41 percent pay raise!\nPostal workers were furious. How could Congress be so blind? Tension on the workroom floor spiked.",
+      "matchedWords": {
+        "CQJFKJzloYjq": {
+          "hits": 4,
+          "textWords": 11222
+        },
+        "KKqDgxVjPw5E": {
+          "hits": 0,
+          "textWords": 11222
+        },
+        "NyliBR086aDo": {
+          "hits": 1,
+          "textWords": 11222
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "3zNNPsUPWR96",
+      "address": "https://realitybloger.com/",
+      "title": "REALITY BLOG",
+      "snippet": "",
+      "matchedWords": {
+        "CQJFKJzloYjq": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "KKqDgxVjPw5E": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "NyliBR086aDo": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "nxDmxsVAXty7",
+      "address": "https://trendingpoliticsnews.com/sitemap/",
+      "title": "Sitemap",
+      "snippet": "",
+      "matchedWords": {
+        "CQJFKJzloYjq": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "KKqDgxVjPw5E": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "NyliBR086aDo": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "Tm8vbiVUrQm6",
+      "address": "https://earthnewspaper.com/2022-news/24-7-news-october-2022/",
+      "title": "24/7 News October 2022 – EarthNewspaper.com – All The Honest News Fit To Publish",
+      "snippet": "",
+      "matchedWords": {
+        "CQJFKJzloYjq": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "KKqDgxVjPw5E": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "NyliBR086aDo": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "WOeEmiVUrQm6",
+      "address": "https://earthnewspaper.com/2022-news/24-7-news-august-2022/",
+      "title": "24/7 News August 2022 – EarthNewspaper.com – All The Honest News Fit To Publish",
+      "snippet": "",
+      "matchedWords": {
+        "CQJFKJzloYjq": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "KKqDgxVjPw5E": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "NyliBR086aDo": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "ELIe2QXx1HRZ",
+      "address": "http://www.dailystirrer.com/2021-may.shtml",
+      "title": "2021",
+      "snippet": "",
+      "matchedWords": {
+        "CQJFKJzloYjq": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "KKqDgxVjPw5E": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "NyliBR086aDo": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "HgJ9BQXx1HRZ",
+      "address": "http://www.dailystirrer.com/2012-february.shtml",
+      "title": "the_daily_stirrer-2011-may-opinion-comment-controversy-news-events-politics",
+      "snippet": "",
+      "matchedWords": {
+        "CQJFKJzloYjq": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "KKqDgxVjPw5E": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "NyliBR086aDo": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "6hJxUs_ARgYw",
+      "address": "https://cather.unl.edu/life/woodress",
+      "title": "Willa Cather: A Literary Life | Willa Cather Archive",
+      "snippet": "",
+      "matchedWords": {
+        "CQJFKJzloYjq": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "KKqDgxVjPw5E": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "NyliBR086aDo": {
+          "hits": 0,
+          "textWords": 0
         }
       },
       "queryPhraseHits": 0
@@ -434,95 +1373,1014 @@
       "hash": "Rx8AIs_tHst4",
       "address": "https://dwheeler.com/oss_fs_why.html",
       "title": "Why Open Source Software / Free Software (OSS/FS, FOSS, or FLOSS)? Look at the Numbers!",
-      "snippet": "Those who are familiar with computer security issues may raise an objection: what about the “Trusting Trust” attack?",
+      "snippet": "",
       "matchedWords": {
-        "24igJXwiDb_d": {
+        "CQJFKJzloYjq": {
           "hits": 0,
-          "textWords": 92275
+          "textWords": 0
         },
-        "AbbiA0S2iDXF": {
+        "KKqDgxVjPw5E": {
           "hits": 0,
-          "textWords": 92275
+          "textWords": 0
         },
+        "NyliBR086aDo": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "5eath0aGfG25",
+      "address": "https://feeds.simplecast.com/TGclX98p",
+      "title": "",
+      "snippet": "",
+      "matchedWords": {
+        "CQJFKJzloYjq": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "KKqDgxVjPw5E": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "NyliBR086aDo": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "D4lABzaS0qdw",
+      "address": "https://planet.debian.org/",
+      "title": "Planet Debian",
+      "snippet": "",
+      "matchedWords": {
+        "CQJFKJzloYjq": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "KKqDgxVjPw5E": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "NyliBR086aDo": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "-p2w3taoSn1x",
+      "address": "https://en.planet.wikimedia.org/",
+      "title": "en.planet.wikimedia.org",
+      "snippet": "",
+      "matchedWords": {
+        "CQJFKJzloYjq": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "KKqDgxVjPw5E": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "NyliBR086aDo": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "7GLTa2cHOkWx",
+      "address": "https://www.gutenberg.org/files/12342/12342-h/12342-h.htm",
+      "title": "The Project Gutenberg eBook of The Nuttall Encyclopædia, edited by the Rev. James Wood",
+      "snippet": "",
+      "matchedWords": {
+        "CQJFKJzloYjq": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "KKqDgxVjPw5E": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "NyliBR086aDo": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "tiI9Q1cdqEdw",
+      "address": "https://www.smh.com.au/",
+      "title": "Australian Breaking News Headlines \u0026 World News Online | SMH.com.au",
+      "snippet": "",
+      "matchedWords": {
+        "CQJFKJzloYjq": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "KKqDgxVjPw5E": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "NyliBR086aDo": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "Tuth7seNiMj6",
+      "address": "https://consortiumnews.com/about/",
+      "title": "About – Consortium News",
+      "snippet": "",
+      "matchedWords": {
+        "CQJFKJzloYjq": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "KKqDgxVjPw5E": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "NyliBR086aDo": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "pOXiBklUmuBw",
+      "address": "https://www.quotes.net/authors/Donald+Trump",
+      "title": "Donald Trump Quotes",
+      "snippet": "",
+      "matchedWords": {
+        "CQJFKJzloYjq": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "KKqDgxVjPw5E": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "NyliBR086aDo": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "SqotSlmf0KIx",
+      "address": "https://www.combatreform.org/nazihydrainamerica.htm",
+      "title": "nazihydrainamerica",
+      "snippet": "",
+      "matchedWords": {
+        "CQJFKJzloYjq": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "KKqDgxVjPw5E": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "NyliBR086aDo": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "190N3snp_33z",
+      "address": "https://globalkleptocracy.net/",
+      "title": "GLOBAL KLEPTOCRACY - GLOBAL ELITE, RULING ELITE, GLOBAL OLIGARCHY, DEEP STATE, GLOBALISM, DYNASTIC ELITE, MONOPOLY CAPITALISM, CORPORATOCRACY, PLUTOCRACY, MONEY LAUNDERING, DRUG",
+      "snippet": "",
+      "matchedWords": {
+        "CQJFKJzloYjq": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "KKqDgxVjPw5E": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "NyliBR086aDo": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "fJ6IUlo6w8h6",
+      "address": "https://www.thomasmifflin.com/",
+      "title": "President Thomas Mifflin",
+      "snippet": "",
+      "matchedWords": {
+        "CQJFKJzloYjq": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "KKqDgxVjPw5E": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "NyliBR086aDo": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "NSGq8lptNsG4",
+      "address": "https://www.akdart.com/warming.html",
+      "title": "Global Warming",
+      "snippet": "",
+      "matchedWords": {
+        "CQJFKJzloYjq": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "KKqDgxVjPw5E": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "NyliBR086aDo": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "7Nac2lptNsG4",
+      "address": "https://www.akdart.com/lib9.html",
+      "title": "Socialist Democrats are out of step with America",
+      "snippet": "",
+      "matchedWords": {
+        "CQJFKJzloYjq": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "KKqDgxVjPw5E": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "NyliBR086aDo": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "puhtHrtCUALQ",
+      "address": "http://gutenberg.net.au/ebooks12/1202771h.html",
+      "title": "Sir Walter Scott",
+      "snippet": "",
+      "matchedWords": {
+        "CQJFKJzloYjq": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "KKqDgxVjPw5E": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "NyliBR086aDo": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "aFsNlDvXC2J5",
+      "address": "https://jessejarnow.com/category/live-jamz/",
+      "title": "live jamz : Jesse Jarnow",
+      "snippet": "",
+      "matchedWords": {
+        "CQJFKJzloYjq": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "KKqDgxVjPw5E": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "NyliBR086aDo": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "Jb4XHs5IzNm6",
+      "address": "https://citizenfreepress.com/",
+      "title": "CITIZEN FREE PRESS",
+      "snippet": "CAREER HIGHLIGHT | Rick Santelli blows up Covid dumbass Andrew Ross Sorkin — and time has proven him correct.\nPeter Navarro will love this story.\nRaise your hand if you’ve been to Snake River Lodge.\nSomething smells rotten in NYC.\nMinnesota, how are you going to look at this face for 4 years.",
+      "matchedWords": {
+        "CQJFKJzloYjq": {
+          "hits": 2,
+          "textWords": 11215
+        },
+        "KKqDgxVjPw5E": {
+          "hits": 1,
+          "textWords": 11215
+        },
+        "NyliBR086aDo": {
+          "hits": 0,
+          "textWords": 11215
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "eU9P6VCWRxx6",
+      "address": "https://www.jesus-is-savior.com/Evils%20in%20Government/Federal%20Reserve%20Scam/secrets_of_federal_reserve.htm",
+      "title": "Dirty \"SECRETS OF THE FEDERAL RESERVE\"",
+      "snippet": "Within recent months, William McAdoo, Secretary of the Treasury of the United States was reported in the open press as charging specifically that there was a conspiracy among certain of the large banking interests to put a contraction upon the currency and to raise interest rates for the sake of",
+      "matchedWords": {
         "CQJFKJzloYjq": {
           "hits": 4,
-          "textWords": 92275
+          "textWords": 83071
         },
         "KKqDgxVjPw5E": {
-          "hits": 1,
-          "textWords": 92275
+          "hits": 2,
+          "textWords": 83071
         },
         "NyliBR086aDo": {
-          "hits": 1,
-          "textWords": 92275
+          "hits": 2,
+          "textWords": 83071
         }
       },
       "queryPhraseHits": 0
     },
     {
-      "hash": "tBmpiloCL284",
-      "address": "https://www.thetimes.com/",
-      "title": "Latest news \u0026 breaking headlines | The Times and The Sunday Times",
-      "snippet": "© Times Media Limited 2026.\nRegistered in England No. 894646. Registered office: 1 London Bridge Street, SE1 9GF.",
+      "hash": "soIzFAIRlUi5",
+      "address": "https://www.10zenmonkeys.com/category/uncategorized/",
+      "title": "All Articles – 10 Zen Monkeys",
+      "snippet": "The very first champion that we got — the first person who was on our side, the chair of our advisory board who was our hero — told us \"Frankly, man, you will never raise enough money to cover your own salary on this.",
       "matchedWords": {
-        "24igJXwiDb_d": {
-          "hits": 0,
-          "textWords": 16
-        },
-        "AbbiA0S2iDXF": {
-          "hits": 0,
-          "textWords": 16
-        },
         "CQJFKJzloYjq": {
-          "hits": 0,
-          "textWords": 16
+          "hits": 10,
+          "textWords": 136417
         },
         "KKqDgxVjPw5E": {
-          "hits": 0,
-          "textWords": 16
+          "hits": 4,
+          "textWords": 136417
         },
         "NyliBR086aDo": {
-          "hits": 0,
-          "textWords": 16
+          "hits": 1,
+          "textWords": 136417
         }
       },
       "queryPhraseHits": 0
     },
     {
-      "hash": "zXQZTsMAuxi4",
-      "address": "https://www.linkedin.com/top-content/fundraising/",
-      "title": "Top Fundraising Content from LinkedIn Members",
-      "snippet": "Investor \u0026 Entrepreneur | Author \u0026 Speaker | Activist | Building Beyond Football | Former Professional Footballer\n99,892 followers 1y\nMy team and I get pitched 5–10 new businesses every week. Mostly from entrepreneurs trying to raise money.",
+      "hash": "ELIe2QXx1HRZ",
+      "address": "http://www.dailystirrer.com/2021-may.shtml",
+      "title": "2021",
+      "snippet": "",
       "matchedWords": {
-        "24igJXwiDb_d": {
-          "hits": 0,
-          "textWords": 3241
-        },
-        "AbbiA0S2iDXF": {
-          "hits": 0,
-          "textWords": 3241
-        },
         "CQJFKJzloYjq": {
-          "hits": 6,
-          "textWords": 3241
+          "hits": 0,
+          "textWords": 0
         },
         "KKqDgxVjPw5E": {
           "hits": 0,
-          "textWords": 3241
+          "textWords": 0
         },
         "NyliBR086aDo": {
           "hits": 0,
-          "textWords": 3241
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "fJ6IUlo6w8h6",
+      "address": "https://www.thomasmifflin.com/",
+      "title": "President Thomas Mifflin",
+      "snippet": "",
+      "matchedWords": {
+        "CQJFKJzloYjq": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "KKqDgxVjPw5E": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "NyliBR086aDo": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "NSGq8lptNsG4",
+      "address": "https://www.akdart.com/warming.html",
+      "title": "Global Warming",
+      "snippet": "",
+      "matchedWords": {
+        "CQJFKJzloYjq": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "KKqDgxVjPw5E": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "NyliBR086aDo": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "W5uqHs-D33u5",
+      "address": "https://instapundit.com/",
+      "title": "Instapundit",
+      "snippet": "",
+      "matchedWords": {
+        "CQJFKJzloYjq": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "KKqDgxVjPw5E": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "NyliBR086aDo": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "7Nac2lptNsG4",
+      "address": "https://www.akdart.com/lib9.html",
+      "title": "Socialist Democrats are out of step with America",
+      "snippet": "",
+      "matchedWords": {
+        "CQJFKJzloYjq": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "KKqDgxVjPw5E": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "NyliBR086aDo": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "kQF9qa-ZZJOw",
+      "address": "https://www.alternet.org/author/thom-hartmann",
+      "title": "Thom Hartmann - Alternet.org",
+      "snippet": "Republicans went totally nutso on Dr. Anthony Fauci last week, trying to catch him with a perjury trap before the US Senate. They called him names, citied lies and pseudoscience, and attacked his integrity.",
+      "matchedWords": {
+        "CQJFKJzloYjq": {
+          "hits": 0,
+          "textWords": 3406
+        },
+        "KKqDgxVjPw5E": {
+          "hits": 0,
+          "textWords": 3406
+        },
+        "NyliBR086aDo": {
+          "hits": 0,
+          "textWords": 3406
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "hNrcdJ-bwreQ",
+      "address": "http://ace.mu.nu/",
+      "title": "Ace of Spades HQ",
+      "snippet": "Intermarkets' Privacy Policy\nSupport\nDonate to Ace of Spades HQ!\nContact\nAce:\naceofspadeshq at gee mail.com\nBuck:\nbuck.throckmorton at protonmail.com\nCBD:\ncbd at cutjibnewsletter.com\nDoof:\ndoof2112 at proton.me\njoe mannix:\nmannix2024 at proton.me\nMisHum:\npetmorons at gee mail.com\nJ.J. Sefton:",
+      "matchedWords": {
+        "CQJFKJzloYjq": {
+          "hits": 0,
+          "textWords": 12885
+        },
+        "KKqDgxVjPw5E": {
+          "hits": 0,
+          "textWords": 12885
+        },
+        "NyliBR086aDo": {
+          "hits": 0,
+          "textWords": 12885
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "ORsT4l1JkMew",
+      "address": "https://www.stallman.org/archives/2017-jul-oct.html",
+      "title": "2017: July - October Political Notes - Richard Stallman",
+      "snippet": "The only possible use of such action is to make North Korea agree to negotiate. But North Korea already wants to negotiate, so there is no possible point growling. All we need is for the US to start negotiating.",
+      "matchedWords": {
+        "CQJFKJzloYjq": {
+          "hits": 7,
+          "textWords": 121046
+        },
+        "KKqDgxVjPw5E": {
+          "hits": 1,
+          "textWords": 121046
+        },
+        "NyliBR086aDo": {
+          "hits": 12,
+          "textWords": 121046
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "7UbKOt5yBdUw",
+      "address": "https://fedsoc.org/conferences/2022-national-lawyers-convention?",
+      "title": "2022 National Lawyers Convention",
+      "snippet": "So what they did was they went through a very long rulemaking process, a lot of comments, a lot of analysis, and what they decided was they were merge the duties test, and they would issue one salary basis, and it was measured against the 20th percentile of the south census and retail salary survey.",
+      "matchedWords": {
+        "CQJFKJzloYjq": {
+          "hits": 14,
+          "textWords": 126793
+        },
+        "KKqDgxVjPw5E": {
+          "hits": 13,
+          "textWords": 126793
+        },
+        "NyliBR086aDo": {
+          "hits": 2,
+          "textWords": 126793
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "7fbhdQ8CAV45",
+      "address": "https://www.encyclopedia.com/history/modern-europe/british-and-irish-history/united-kingdom-great-britain-and-northern-ireland",
+      "title": "United Kingdom Of Great Britain And Northern Ireland | Encyclopedia.com",
+      "snippet": "",
+      "matchedWords": {
+        "CQJFKJzloYjq": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "KKqDgxVjPw5E": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "NyliBR086aDo": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "jMjhCjD3AMxY",
+      "address": "http://commonsensewonder.blogspot.com/",
+      "title": "Commonsense \u0026 Wonder",
+      "snippet": "Neo-Nazis believe a mysterious potato farmer known as “Scary Larry” is the infiltrator who prosecutors say shacked up with Southern Poverty Law Center boss Heidi Beirich.\nFormer National Alliance member Lawrence W.",
+      "matchedWords": {
+        "CQJFKJzloYjq": {
+          "hits": 0,
+          "textWords": 1820
+        },
+        "KKqDgxVjPw5E": {
+          "hits": 0,
+          "textWords": 1820
+        },
+        "NyliBR086aDo": {
+          "hits": 0,
+          "textWords": 1820
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "8L_aSlESuha4",
+      "address": "https://www.leagle.com/featureddecisions",
+      "title": "Featured Decisions | Leagle.com | The place to find U. S. Law, Lawyers and Opinions",
+      "snippet": "",
+      "matchedWords": {
+        "CQJFKJzloYjq": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "KKqDgxVjPw5E": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "NyliBR086aDo": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "tEWu7tIIL7ew",
+      "address": "https://stallman.org/archives/2012-jul-oct.html",
+      "title": "2012: July - October Political Notes - Richard Stallman",
+      "snippet": "11 September 2012 (Taliban leaders want to negotiate) Taliban leaders want to negotiate, according to former Taliban leaders.\n11 September 2012 (Journalists face charges of terrorism) 44 journalists face charges of terrorism in Turkey for criticizing the state in various ways.",
+      "matchedWords": {
+        "CQJFKJzloYjq": {
+          "hits": 13,
+          "textWords": 103597
+        },
+        "KKqDgxVjPw5E": {
+          "hits": 2,
+          "textWords": 103597
+        },
+        "NyliBR086aDo": {
+          "hits": 10,
+          "textWords": 103597
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "oOVv2jRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Wikipedia:Featured_article_candidates",
+      "title": "Wikipedia:Featured article candidates - Wikipedia",
+      "snippet": "",
+      "matchedWords": {
+        "CQJFKJzloYjq": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "KKqDgxVjPw5E": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "NyliBR086aDo": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "8VCYzjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Abraham_Lincoln",
+      "title": "Abraham Lincoln - Wikipedia",
+      "snippet": "234] Throughout the war, Congress debated whether to raise additional revenue primarily by increasing tariff rates, which most strongly affected rural areas, or by increasing income taxes, which most affected wealthier individuals; the latter view proved more popular.[235]",
+      "matchedWords": {
+        "CQJFKJzloYjq": {
+          "hits": 1,
+          "textWords": 17436
+        },
+        "KKqDgxVjPw5E": {
+          "hits": 0,
+          "textWords": 17436
+        },
+        "NyliBR086aDo": {
+          "hits": 1,
+          "textWords": 17436
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "VI9YzkSKkctx",
+      "address": "https://softpanorama.org/Social/Toxic_managers/index.shtml",
+      "title": "Toxic Managers",
+      "snippet": "",
+      "matchedWords": {
+        "CQJFKJzloYjq": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "KKqDgxVjPw5E": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "NyliBR086aDo": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "yHb1-gTSp2N5",
+      "address": "https://talkingunion.wordpress.com/",
+      "title": "Talking Union | A forum for discussing labor issues sponsored by the DSA Labor Network",
+      "snippet": "But it was at just that point that Congress voted to give postal workers a mere 4 percent raise. And then—wait for it—they voted to give themselves a whopping 41 percent pay raise!\nPostal workers were furious. How could Congress be so blind? Tension on the workroom floor spiked.",
+      "matchedWords": {
+        "CQJFKJzloYjq": {
+          "hits": 4,
+          "textWords": 11222
+        },
+        "KKqDgxVjPw5E": {
+          "hits": 0,
+          "textWords": 11222
+        },
+        "NyliBR086aDo": {
+          "hits": 1,
+          "textWords": 11222
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "3zNNPsUPWR96",
+      "address": "https://realitybloger.com/",
+      "title": "REALITY BLOG",
+      "snippet": "",
+      "matchedWords": {
+        "CQJFKJzloYjq": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "KKqDgxVjPw5E": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "NyliBR086aDo": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "nxDmxsVAXty7",
+      "address": "https://trendingpoliticsnews.com/sitemap/",
+      "title": "Sitemap",
+      "snippet": "",
+      "matchedWords": {
+        "CQJFKJzloYjq": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "KKqDgxVjPw5E": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "NyliBR086aDo": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "Tm8vbiVUrQm6",
+      "address": "https://earthnewspaper.com/2022-news/24-7-news-october-2022/",
+      "title": "24/7 News October 2022 – EarthNewspaper.com – All The Honest News Fit To Publish",
+      "snippet": "",
+      "matchedWords": {
+        "CQJFKJzloYjq": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "KKqDgxVjPw5E": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "NyliBR086aDo": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "WOeEmiVUrQm6",
+      "address": "https://earthnewspaper.com/2022-news/24-7-news-august-2022/",
+      "title": "24/7 News August 2022 – EarthNewspaper.com – All The Honest News Fit To Publish",
+      "snippet": "",
+      "matchedWords": {
+        "CQJFKJzloYjq": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "KKqDgxVjPw5E": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "NyliBR086aDo": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "HgJ9BQXx1HRZ",
+      "address": "http://www.dailystirrer.com/2012-february.shtml",
+      "title": "the_daily_stirrer-2011-may-opinion-comment-controversy-news-events-politics",
+      "snippet": "",
+      "matchedWords": {
+        "CQJFKJzloYjq": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "KKqDgxVjPw5E": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "NyliBR086aDo": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "5eath0aGfG25",
+      "address": "https://feeds.simplecast.com/TGclX98p",
+      "title": "",
+      "snippet": "",
+      "matchedWords": {
+        "CQJFKJzloYjq": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "KKqDgxVjPw5E": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "NyliBR086aDo": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "D4lABzaS0qdw",
+      "address": "https://planet.debian.org/",
+      "title": "Planet Debian",
+      "snippet": "",
+      "matchedWords": {
+        "CQJFKJzloYjq": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "KKqDgxVjPw5E": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "NyliBR086aDo": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "Tuth7seNiMj6",
+      "address": "https://consortiumnews.com/about/",
+      "title": "About – Consortium News",
+      "snippet": "",
+      "matchedWords": {
+        "CQJFKJzloYjq": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "KKqDgxVjPw5E": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "NyliBR086aDo": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "MkF3IljIolw6",
+      "address": "https://www.battleswarmblog.com/?tag=unemployment",
+      "title": "unemployment « Lawrence Person's BattleSwarm Blog",
+      "snippet": "",
+      "matchedWords": {
+        "CQJFKJzloYjq": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "KKqDgxVjPw5E": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "NyliBR086aDo": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "190N3snp_33z",
+      "address": "https://globalkleptocracy.net/",
+      "title": "GLOBAL KLEPTOCRACY - GLOBAL ELITE, RULING ELITE, GLOBAL OLIGARCHY, DEEP STATE, GLOBALISM, DYNASTIC ELITE, MONOPOLY CAPITALISM, CORPORATOCRACY, PLUTOCRACY, MONEY LAUNDERING, DRUG",
+      "snippet": "",
+      "matchedWords": {
+        "CQJFKJzloYjq": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "KKqDgxVjPw5E": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "NyliBR086aDo": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "GtLjhloUbV15",
+      "address": "https://www.whatfinger.com/",
+      "title": "Whatfinger News® – Unfiltered Truth. America’s News Feed",
+      "snippet": "Whatfinger – 🛑 Features, Red-pill blasts, takedowns, hits, deep state reveals, and savage roasts that’ll make you say ‘DAMN!’ No safe spaces. (use arrows) – Sgt Pat, Beth, Ben, Sgt K\n🛑Headline Hurricane: 40 Top Stories Across All Beats (use arrows) – Sgt Pat, Ben, Luke",
+      "matchedWords": {
+        "CQJFKJzloYjq": {
+          "hits": 0,
+          "textWords": 157
+        },
+        "KKqDgxVjPw5E": {
+          "hits": 0,
+          "textWords": 157
+        },
+        "NyliBR086aDo": {
+          "hits": 0,
+          "textWords": 157
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "puhtHrtCUALQ",
+      "address": "http://gutenberg.net.au/ebooks12/1202771h.html",
+      "title": "Sir Walter Scott",
+      "snippet": "",
+      "matchedWords": {
+        "CQJFKJzloYjq": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "KKqDgxVjPw5E": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "NyliBR086aDo": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "aFsNlDvXC2J5",
+      "address": "https://jessejarnow.com/category/live-jamz/",
+      "title": "live jamz : Jesse Jarnow",
+      "snippet": "",
+      "matchedWords": {
+        "CQJFKJzloYjq": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "KKqDgxVjPw5E": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "NyliBR086aDo": {
+          "hits": 0,
+          "textWords": 0
         }
       },
       "queryPhraseHits": 0
     }
   ],
   "documentsHeldPerQueryWord": {
-    "24igJXwiDb_d": 589579,
-    "AbbiA0S2iDXF": 1402373,
-    "CQJFKJzloYjq": 169727,
-    "KKqDgxVjPw5E": 181205,
-    "NyliBR086aDo": 67956
+    "CQJFKJzloYjq": 620168,
+    "KKqDgxVjPw5E": 146357,
+    "NyliBR086aDo": 88765
   }
 }

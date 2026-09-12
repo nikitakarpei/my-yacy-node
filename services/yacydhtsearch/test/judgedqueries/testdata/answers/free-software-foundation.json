@@ -1,6 +1,6 @@
 {
   "query": "free software foundation",
-  "recordedAt": "2026-09-12T10:15:20Z",
+  "recordedAt": "2026-09-12T11:25:10Z",
   "itemsInTheOrderOfEachAnswer": [
     [
       {
@@ -53,15 +53,15 @@
         "matchedWords": {
           "-foQupVsrPkd": {
             "hits": 28,
-            "textWords": 93126
+            "textWords": 82922
           },
           "Abrza739aVio": {
-            "hits": 6,
-            "textWords": 93126
+            "hits": 4,
+            "textWords": 82922
           },
           "qi1uT1eOsM-r": {
             "hits": 11,
-            "textWords": 93126
+            "textWords": 82922
           }
         },
         "queryPhraseHits": 0
@@ -111,9 +111,9 @@
     ],
     [
       {
-        "hash": "HKOF7sXHmKFw",
-        "address": "https://www.fsf.org/about/free-software-foundation-privacy-policy",
-        "title": "Free Software Foundation Privacy Policy — Free Software Foundation — Working together for free software",
+        "hash": "THPLFiVUrQm6",
+        "address": "https://earthnewspaper.com/2022-news/24-7-news-november-2022/",
+        "title": "24/7 News November 2022 – EarthNewspaper.com – All The Honest News Fit To Publish",
         "snippet": "",
         "matchedWords": {
           "-foQupVsrPkd": {
@@ -121,8 +121,31 @@
             "textWords": 0
           },
           "Abrza739aVio": {
-            "hits": 12,
-            "textWords": 1801
+            "hits": 0,
+            "textWords": 0
+          },
+          "qi1uT1eOsM-r": {
+            "hits": 238,
+            "textWords": 3794
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "xnFwQjXHmKFw",
+        "address": "https://www.fsf.org/blogs/community/software-that-supports-your-body-should-always-respect-your-freedom",
+        "title": "Software that supports your body should always respect your freedom — Free Software Foundation — Working together for free software",
+        "snippet": "",
+        "matchedWords": {
+          "-foQupVsrPkd": {
+            "hits": 61,
+            "textWords": 2277
+          },
+          "Abrza739aVio": {
+            "hits": 0,
+            "textWords": 0
           },
           "qi1uT1eOsM-r": {
             "hits": 0,
@@ -130,161 +153,6 @@
           }
         },
         "queryPhraseHits": 0
-      },
-      {
-        "hash": "GDraRjjpmq6Q",
-        "address": "http://www.gnu.org/licenses/fdl-1.3.html",
-        "title": "GNU Free Documentation License v1.3 - GNU Project - Free Software Foundation",
-        "snippet": "GNU Free Documentation License\nVersion 1.3, 3 November 2008\nCopyright © 2000, 2001, 2002, 2007, 2008 Free Software Foundation, Inc. \u003chttps://fsf.org/\u003e\nEveryone is permitted to copy and distribute verbatim copies of this license document, but changing it is not allowed.\n0. PREAMBLE",
-        "matchedWords": {
-          "-foQupVsrPkd": {
-            "hits": 12,
-            "textWords": 3599
-          },
-          "Abrza739aVio": {
-            "hits": 5,
-            "textWords": 3599
-          },
-          "qi1uT1eOsM-r": {
-            "hits": 20,
-            "textWords": 3599
-          }
-        },
-        "queryPhraseHits": 15
-      }
-    ],
-    [
-      {
-        "hash": "KAs9AjRvmBbx",
-        "address": "https://en.wikipedia.org/wiki/Free_content",
-        "title": "Free content - Wikipedia",
-        "snippet": "Prior to 1998, Free Software referred either to the Free Software Foundation (and the watchful, micromanaging eye of Stallman) or to one of thousands of different commercial, avocational, or university-research projects, processes, licenses, and ideologies that had a variety of names: sourceware,",
-        "matchedWords": {
-          "-foQupVsrPkd": {
-            "hits": 38,
-            "textWords": 4697
-          },
-          "Abrza739aVio": {
-            "hits": 15,
-            "textWords": 4697
-          },
-          "qi1uT1eOsM-r": {
-            "hits": 80,
-            "textWords": 4697
-          }
-        },
-        "queryPhraseHits": 23
-      },
-      {
-        "hash": "mCpq5KS6MKD4",
-        "address": "https://github.com/johnjago/awesome-free-software",
-        "title": "GitHub - johnjago/awesome-free-software: Curated list of open-source, free as in freedom software. · GitHub",
-        "snippet": "Free Software Foundation - Nonprofit with a worldwide mission to promote computer user freedom.\nFree Software Movement Karnataka - Group in Bengaluru, India that spreads awareness about free software.\nFree Software Movement of India - Coalition of free software organizations in India.",
-        "matchedWords": {
-          "-foQupVsrPkd": {
-            "hits": 55,
-            "textWords": 2161
-          },
-          "Abrza739aVio": {
-            "hits": 3,
-            "textWords": 2161
-          },
-          "qi1uT1eOsM-r": {
-            "hits": 40,
-            "textWords": 2161
-          }
-        },
-        "queryPhraseHits": 29
-      }
-    ],
-    [
-      {
-        "hash": "mCpq5KS6MKD4",
-        "address": "https://github.com/johnjago/awesome-free-software",
-        "title": "GitHub - johnjago/awesome-free-software: Curated list of open-source, free as in freedom software. · GitHub",
-        "snippet": "Free Software Foundation - Nonprofit with a worldwide mission to promote computer user freedom.\nFree Software Movement Karnataka - Group in Bengaluru, India that spreads awareness about free software.\nFree Software Movement of India - Coalition of free software organizations in India.",
-        "matchedWords": {
-          "-foQupVsrPkd": {
-            "hits": 55,
-            "textWords": 2161
-          },
-          "Abrza739aVio": {
-            "hits": 3,
-            "textWords": 2161
-          },
-          "qi1uT1eOsM-r": {
-            "hits": 40,
-            "textWords": 2161
-          }
-        },
-        "queryPhraseHits": 29
-      },
-      {
-        "hash": "V7rZ6j-JVcyx",
-        "address": "https://en.wikiquote.org/wiki/Free_software",
-        "title": "Free software - Wikiquote",
-        "snippet": "Any kind of work can be free, and the definition of free software has been extended to a definition of free cultural works applicable to any kind of works. What is free software? The Free Software Foundation",
-        "matchedWords": {
-          "-foQupVsrPkd": {
-            "hits": 44,
-            "textWords": 1684
-          },
-          "Abrza739aVio": {
-            "hits": 4,
-            "textWords": 1684
-          },
-          "qi1uT1eOsM-r": {
-            "hits": 33,
-            "textWords": 1684
-          }
-        },
-        "queryPhraseHits": 24
-      }
-    ],
-    [
-      {
-        "hash": "VcMfPgAk2Cty",
-        "address": "https://www.charitynavigator.org/ein/042888848",
-        "title": "Charity Navigator - Rating for Free Software Foundation",
-        "snippet": "Additionally, FSF is committed to furthering the development of the GNU Operating System, providing development systems for GNU software maintainers.\nBOSTON MA | EIN: 04-2888848\nMission\nThe Free Software Foundation (FSF), founded in 1985, is dedicated to promoting computer user freedom.",
-        "matchedWords": {
-          "-foQupVsrPkd": {
-            "hits": 16,
-            "textWords": 391
-          },
-          "Abrza739aVio": {
-            "hits": 2,
-            "textWords": 391
-          },
-          "qi1uT1eOsM-r": {
-            "hits": 10,
-            "textWords": 391
-          }
-        },
-        "queryPhraseHits": 12
-      }
-    ],
-    [
-      {
-        "hash": "Xu0QIjRvmBbx",
-        "address": "https://en.wikipedia.org/wiki/Proprietary_software",
-        "title": "Proprietary software - Wikipedia",
-        "snippet": "Non-copyleft free software (i.e. software distributed under a permissive free software license or released to the public domain) allows anyone to make proprietary redistributions.[34][35] Free software that depends on proprietary software is considered \"trapped\" by the Free Software Foundation.",
-        "matchedWords": {
-          "-foQupVsrPkd": {
-            "hits": 195,
-            "textWords": 5213
-          },
-          "Abrza739aVio": {
-            "hits": 3,
-            "textWords": 5213
-          },
-          "qi1uT1eOsM-r": {
-            "hits": 36,
-            "textWords": 5213
-          }
-        },
-        "queryPhraseHits": 26
       }
     ],
     [
@@ -315,19 +183,65 @@
         "hash": "tsBO3hsWTYKx",
         "address": "https://sourceforge.net/directory/software-development/",
         "title": "Best Open Source Software Development Software 2026",
-        "snippet": "Browse free open source Software Development software and projects below. Use the toggles on the left to filter open source Software Development software by OS, license, language, programming language, and project status.\nOdoo Business Applications",
+        "snippet": "Browse free open source Software Development software and projects below. Use the toggles on the left to filter open source Software Development software by OS, license, language, programming language, and project status.\nCybersecurity Starts With Password Security.",
         "matchedWords": {
           "-foQupVsrPkd": {
             "hits": 91,
-            "textWords": 4591
+            "textWords": 4584
           },
           "Abrza739aVio": {
             "hits": 0,
-            "textWords": 4591
+            "textWords": 4584
           },
           "qi1uT1eOsM-r": {
-            "hits": 10,
-            "textWords": 4591
+            "hits": 11,
+            "textWords": 4584
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "rj2YgZxftzp0",
+        "address": "https://streetwiseworld.com.ng/2024/02/26/hardship-we-will-not-allow-protesters-impede-free-flow-of-traffic-lagos-police/",
+        "title": "Hardship: We Will Not Allow Protesters Impede Free Flow Of Traffic- Lagos Police – Street Wise World",
+        "snippet": "",
+        "matchedWords": {
+          "-foQupVsrPkd": {
+            "hits": 0,
+            "textWords": 0
+          },
+          "Abrza739aVio": {
+            "hits": 0,
+            "textWords": 0
+          },
+          "qi1uT1eOsM-r": {
+            "hits": 80,
+            "textWords": 45777
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "8KdpCL8hxo35",
+        "address": "https://www.microsoft.com/en-us/software-development-companies",
+        "title": "AI \u0026 Tools for Software Companies | Software Development Companies",
+        "snippet": "\"Microsoft was a natural choice. Azure is the top in the world. [Marketplace] fundamentally accelerated our go-to-market and our growth.\"\nAmjad Masad\nFounder \u0026 CEO, Replit",
+        "matchedWords": {
+          "-foQupVsrPkd": {
+            "hits": 0,
+            "textWords": 157
+          },
+          "Abrza739aVio": {
+            "hits": 0,
+            "textWords": 157
+          },
+          "qi1uT1eOsM-r": {
+            "hits": 0,
+            "textWords": 157
           }
         },
         "queryPhraseHits": 0
@@ -358,64 +272,22 @@
     ],
     [
       {
-        "hash": "nBfsswrC7Zxw",
-        "address": "https://www.gnu.org/software/emacs/manual/html_mono/emacs.html",
-        "title": "GNU Emacs Manual",
-        "snippet": "",
-        "matchedWords": {
-          "-foQupVsrPkd": {
-            "hits": 127,
-            "textWords": 60821
-          },
-          "Abrza739aVio": {
-            "hits": 0,
-            "textWords": 0
-          },
-          "qi1uT1eOsM-r": {
-            "hits": 0,
-            "textWords": 0
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "J6LFIsYyzH0z",
-        "address": "https://awesome-selfhosted.net/",
-        "title": "awesome-selfhosted",
-        "snippet": "",
-        "matchedWords": {
-          "-foQupVsrPkd": {
-            "hits": 171,
-            "textWords": 34698
-          },
-          "Abrza739aVio": {
-            "hits": 0,
-            "textWords": 0
-          },
-          "qi1uT1eOsM-r": {
-            "hits": 0,
-            "textWords": 0
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "zfgP0sHebK06",
-        "address": "https://destinosexotico.com/",
-        "title": "destinosexotico – Let's Live Life Better",
-        "snippet": "",
+        "hash": "39fEgitD2jQw",
+        "address": "https://docs.python.org/3/howto/free-threading-python.html",
+        "title": "Python support for free threading — Python 3.14.6 documentation",
+        "snippet": "While not all software will benefit from this automatically, programs designed with threading in mind will run faster on multi-core hardware.\nSome third-party packages, in particular ones with an extension module, may not be ready for use in a free-threaded build, and will re-enable the GIL.",
         "matchedWords": {
           "-foQupVsrPkd": {
             "hits": 1,
-            "textWords": 33162
+            "textWords": 1704
           },
           "Abrza739aVio": {
             "hits": 0,
-            "textWords": 0
+            "textWords": 1704
           },
           "qi1uT1eOsM-r": {
-            "hits": 0,
-            "textWords": 0
+            "hits": 42,
+            "textWords": 1704
           }
         },
         "queryPhraseHits": 0
@@ -423,22 +295,22 @@
     ],
     [
       {
-        "hash": "7UdJ6vKqlBA4",
-        "address": "https://www.phoronix.com/news/Servo-0.5-Released",
-        "title": "Servo 0.5 Released: DuckDuckGo Properly Rendering, Up To 10x Faster Text Rendering - Phoronix",
-        "snippet": "Servo 0.5 is out today as the newest monthly update to this open-source, Rust-based browser engine. Servo 0.5 ships many notable enhancements for benefiting those running the Servoshell example browser or looking at Servo as an opportunity for embedded use.",
+        "hash": "CBsJnjRvmBbx",
+        "address": "https://en.wikipedia.org/wiki/Software_maintainer",
+        "title": "Software maintainer - Wikipedia",
+        "snippet": "From Wikipedia, the free encyclopedia\nIn free and open source software and inner source software, a software maintainer or package maintainer is usually one or more people who build source code into a binary package for distribution, commit patches, or organize code in a source repository.[",
         "matchedWords": {
           "-foQupVsrPkd": {
-            "hits": 0,
-            "textWords": 239
+            "hits": 6,
+            "textWords": 131
           },
           "Abrza739aVio": {
             "hits": 0,
-            "textWords": 239
+            "textWords": 131
           },
           "qi1uT1eOsM-r": {
-            "hits": 0,
-            "textWords": 239
+            "hits": 2,
+            "textWords": 131
           }
         },
         "queryPhraseHits": 0
@@ -488,32 +360,51 @@
           }
         },
         "queryPhraseHits": 0
+      },
+      {
+        "hash": "1U8C8jRvmBbx",
+        "address": "https://en.wikipedia.org/wiki/Goanna_(software)",
+        "title": "Goanna (software) - Wikipedia",
+        "snippet": "",
+        "matchedWords": {
+          "-foQupVsrPkd": {
+            "hits": 12,
+            "textWords": 682
+          },
+          "Abrza739aVio": {
+            "hits": 0,
+            "textWords": 0
+          },
+          "qi1uT1eOsM-r": {
+            "hits": 0,
+            "textWords": 0
+          }
+        },
+        "queryPhraseHits": 0
       }
     ],
     [
       {
-        "hash": "MnvOKjRvmBbx",
-        "address": "https://en.wikipedia.org/wiki/Portal:Free_and_open-source_software",
-        "title": "Portal:Free and open-source software - Wikipedia",
-        "snippet": "In 1983 Richard Stallman launched the free software movement and founded the Free Software Foundation to promote the movement and to publish its own definition. Others have published alternative definitions of free software, notably the Debian Free Software Guidelines.",
+        "hash": "3eCEIBCH4Pew",
+        "address": "https://savannah.gnu.org/projects/free",
+        "title": "GNU.FREE - Summary [Savannah]",
+        "snippet": "Membership Info\nGroup admin\n1 active member\nGroup identification\nId: 101\nSystem Name: free\nName: GNU.FREE\nGroup Type: Official GNU software\nSearch in this group\nThis software is part of the GNU Project.\nThis package has been decommissioned.",
         "matchedWords": {
           "-foQupVsrPkd": {
-            "hits": 52,
-            "textWords": 2738
+            "hits": 3,
+            "textWords": 99
           },
           "Abrza739aVio": {
-            "hits": 4,
-            "textWords": 2738
+            "hits": 0,
+            "textWords": 99
           },
           "qi1uT1eOsM-r": {
-            "hits": 34,
-            "textWords": 2738
+            "hits": 4,
+            "textWords": 99
           }
         },
-        "queryPhraseHits": 18
-      }
-    ],
-    [
+        "queryPhraseHits": 0
+      },
       {
         "hash": "gloktjRvmBbx",
         "address": "https://en.wikipedia.org/wiki/Free_software",
@@ -538,48 +429,199 @@
     ],
     [
       {
-        "hash": "S9YMJzCJVaIz",
-        "address": "https://planet.documentfoundation.org/",
-        "title": "The Document Foundation Planet",
-        "snippet": "I’m a federal public servant in Brazil, and I’ve taken part in some initiatives to use free software in government, but I don’t make decisions at that level, so there’s little I can do to push the adoption of free software where I work.",
+        "hash": "HKOF7sXHmKFw",
+        "address": "https://www.fsf.org/about/free-software-foundation-privacy-policy",
+        "title": "Free Software Foundation Privacy Policy — Free Software Foundation — Working together for free software",
+        "snippet": "",
         "matchedWords": {
           "-foQupVsrPkd": {
-            "hits": 14,
-            "textWords": 13459
+            "hits": 0,
+            "textWords": 0
           },
           "Abrza739aVio": {
-            "hits": 13,
-            "textWords": 13459
+            "hits": 12,
+            "textWords": 1801
           },
           "qi1uT1eOsM-r": {
-            "hits": 11,
-            "textWords": 13459
+            "hits": 0,
+            "textWords": 0
           }
         },
-        "queryPhraseHits": 5
+        "queryPhraseHits": 0
       }
     ],
     [
       {
-        "hash": "Krz6_MaQF27w",
-        "address": "https://www.apache.org/foundation/marks/",
-        "title": "Apache Software Foundation Trademark Policy | Apache Software Foundation",
-        "snippet": "The Apache Software Foundation and our many software products must be clearly distinguishable from any software that competes with ASF software, and from software or services by any company or individual that is not part of the ASF.",
+        "hash": "KAs9AjRvmBbx",
+        "address": "https://en.wikipedia.org/wiki/Free_content",
+        "title": "Free content - Wikipedia",
+        "snippet": "Prior to 1998, Free Software referred either to the Free Software Foundation (and the watchful, micromanaging eye of Stallman) or to one of thousands of different commercial, avocational, or university-research projects, processes, licenses, and ideologies that had a variety of names: sourceware,",
         "matchedWords": {
           "-foQupVsrPkd": {
-            "hits": 50,
-            "textWords": 2125
+            "hits": 38,
+            "textWords": 4697
           },
           "Abrza739aVio": {
-            "hits": 9,
-            "textWords": 2125
+            "hits": 15,
+            "textWords": 4697
           },
           "qi1uT1eOsM-r": {
-            "hits": 1,
-            "textWords": 2125
+            "hits": 80,
+            "textWords": 4697
           }
         },
-        "queryPhraseHits": 9
+        "queryPhraseHits": 23
+      },
+      {
+        "hash": "mCpq5KS6MKD4",
+        "address": "https://github.com/johnjago/awesome-free-software",
+        "title": "GitHub - johnjago/awesome-free-software: Curated list of open-source, free as in freedom software. · GitHub",
+        "snippet": "Free Software Foundation - Nonprofit with a worldwide mission to promote computer user freedom.\nFree Software Movement Karnataka - Group in Bengaluru, India that spreads awareness about free software.\nFree Software Movement of India - Coalition of free software organizations in India.",
+        "matchedWords": {
+          "-foQupVsrPkd": {
+            "hits": 55,
+            "textWords": 2161
+          },
+          "Abrza739aVio": {
+            "hits": 3,
+            "textWords": 2161
+          },
+          "qi1uT1eOsM-r": {
+            "hits": 40,
+            "textWords": 2161
+          }
+        },
+        "queryPhraseHits": 29
+      }
+    ],
+    [
+      {
+        "hash": "_grbrjRvmBbx",
+        "address": "https://en.wikipedia.org/wiki/Software_engineering",
+        "title": "Software engineering - Wikipedia",
+        "snippet": "List of software engineering conferences\nList of computer science journals (including software engineering journals)\nList of software programming journals\nLists of programming software development tools\nSoftware Engineering Institute\n↑ \"What is Software Engineering?\".",
+        "matchedWords": {
+          "-foQupVsrPkd": {
+            "hits": 260,
+            "textWords": 6270
+          },
+          "Abrza739aVio": {
+            "hits": 0,
+            "textWords": 6270
+          },
+          "qi1uT1eOsM-r": {
+            "hits": 0,
+            "textWords": 6270
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "mCpq5KS6MKD4",
+        "address": "https://github.com/johnjago/awesome-free-software",
+        "title": "GitHub - johnjago/awesome-free-software: Curated list of open-source, free as in freedom software. · GitHub",
+        "snippet": "Free Software Foundation - Nonprofit with a worldwide mission to promote computer user freedom.\nFree Software Movement Karnataka - Group in Bengaluru, India that spreads awareness about free software.\nFree Software Movement of India - Coalition of free software organizations in India.",
+        "matchedWords": {
+          "-foQupVsrPkd": {
+            "hits": 55,
+            "textWords": 2161
+          },
+          "Abrza739aVio": {
+            "hits": 3,
+            "textWords": 2161
+          },
+          "qi1uT1eOsM-r": {
+            "hits": 40,
+            "textWords": 2161
+          }
+        },
+        "queryPhraseHits": 29
+      }
+    ],
+    [
+      {
+        "hash": "76ENvzqCmQAx",
+        "address": "https://www.justsecurity.org/107087/tracker-litigation-legal-challenges-trump-administration/?js_filter=00028",
+        "title": "Litigation Tracker: Legal Challenges to Trump Administration Actions",
+        "snippet": "",
+        "matchedWords": {
+          "-foQupVsrPkd": {
+            "hits": 0,
+            "textWords": 0
+          },
+          "Abrza739aVio": {
+            "hits": 79,
+            "textWords": 853
+          },
+          "qi1uT1eOsM-r": {
+            "hits": 0,
+            "textWords": 0
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "GNfYVQhivb2Y",
+        "address": "http://www.akdart.com/abu7.html",
+        "title": "Money Down the Drain",
+        "snippet": "",
+        "matchedWords": {
+          "-foQupVsrPkd": {
+            "hits": 0,
+            "textWords": 0
+          },
+          "Abrza739aVio": {
+            "hits": 91,
+            "textWords": 52463
+          },
+          "qi1uT1eOsM-r": {
+            "hits": 0,
+            "textWords": 0
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "jI-jjsjsdFw4",
+        "address": "https://akdart.com/lib73.html",
+        "title": "Which party promotes hate speech and violence?",
+        "snippet": "",
+        "matchedWords": {
+          "-foQupVsrPkd": {
+            "hits": 0,
+            "textWords": 0
+          },
+          "Abrza739aVio": {
+            "hits": 53,
+            "textWords": 13262
+          },
+          "qi1uT1eOsM-r": {
+            "hits": 0,
+            "textWords": 0
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "aEnpV6Gt4Xm4",
+        "address": "https://christadelphianworld.blogspot.com/",
+        "title": "Our World",
+        "snippet": "",
+        "matchedWords": {
+          "-foQupVsrPkd": {
+            "hits": 0,
+            "textWords": 0
+          },
+          "Abrza739aVio": {
+            "hits": 6,
+            "textWords": 21466
+          },
+          "qi1uT1eOsM-r": {
+            "hits": 0,
+            "textWords": 0
+          }
+        },
+        "queryPhraseHits": 0
       }
     ],
     [
@@ -628,22 +670,22 @@
     ],
     [
       {
-        "hash": "SpCF1Kb8iyg4",
-        "address": "https://cloud.google.com/solutions/software-delivery",
-        "title": "Software Delivery | Google Cloud",
-        "snippet": "Modernize software delivery\nTransform your software delivery best practices, to improve productivity, optimize costs, implement CI/CD best practices and secure the software supply chain.\nSolutions\nSoftware delivery\nSolutions address inner loop, outer loop, and security best practices.",
+        "hash": "96iJCyuI8hnw",
+        "address": "https://www.eff.org/press/releases/mobile-ad-software-encourages-location-data-sharing-eff-report-finds",
+        "title": "Mobile Ad Software Encourages Location Data Sharing, EFF Report Finds | Electronic Frontier Foundation",
+        "snippet": "SAN FRANCISCO – Some software development kits (SDKs) provided by advertising companies to help developers monetize their apps are automatically feeding users’ location data into systems that location data brokers use to track people, an Electronic Frontier Foundation (EFF) report found.",
         "matchedWords": {
           "-foQupVsrPkd": {
-            "hits": 14,
-            "textWords": 247
+            "hits": 1,
+            "textWords": 405
           },
           "Abrza739aVio": {
-            "hits": 0,
-            "textWords": 247
+            "hits": 1,
+            "textWords": 405
           },
           "qi1uT1eOsM-r": {
             "hits": 0,
-            "textWords": 247
+            "textWords": 405
           }
         },
         "queryPhraseHits": 0
@@ -673,19 +715,19 @@
         "hash": "aJD3bsakFVXw",
         "address": "https://slashdot.org/",
         "title": "Slashdot: News for nerds, stuff that matters",
-        "snippet": "Anthropic's latest report about agentic misbehavior offers plenty to be concerned about -- its Mythos 5 model gained unauthorized access to the internet and uploaded a malicious software package to a public database -- but it also offers some levity: AI agents hate CAPTCHA. [...]",
+        "snippet": "",
         "matchedWords": {
           "-foQupVsrPkd": {
-            "hits": 3,
-            "textWords": 4681
+            "hits": 4,
+            "textWords": 6885
           },
           "Abrza739aVio": {
             "hits": 0,
-            "textWords": 4681
+            "textWords": 0
           },
           "qi1uT1eOsM-r": {
             "hits": 0,
-            "textWords": 4681
+            "textWords": 0
           }
         },
         "queryPhraseHits": 0
@@ -693,25 +735,48 @@
     ],
     [
       {
-        "hash": "rXvFw_YTtSsx",
-        "address": "https://sourceware.org/glibc/manual/",
-        "title": "The GNU C Library - GNU Project - Free Software Foundation (FSF)",
-        "snippet": "Return to the GNU Project home page.\nPlease send FSF \u0026 GNU inquiries to gnu@gnu.org. There are also other ways to contact the FSF.\nPlease report broken links and other corrections (or suggestions) to the libc maintainers.\nCopyright 2026 Free Software Foundation, Inc.",
+        "hash": "9n1rhjjEZfvx",
+        "address": "https://en.wiktionary.org/wiki/free",
+        "title": "free - Wiktionary, the free dictionary",
+        "snippet": "live rent-free in someone's head, live rent free in someone's head\nmake free of\nmake free with\nmean free path\nmean free time\nMexican free-tailed bat\nno free lunch theorem\nnon-free software\nolly olly oxen free\nregion free\nset free\nthe best things in life are free",
         "matchedWords": {
           "-foQupVsrPkd": {
-            "hits": 1,
-            "textWords": 62
+            "hits": 3,
+            "textWords": 4625
           },
           "Abrza739aVio": {
-            "hits": 1,
-            "textWords": 62
+            "hits": 0,
+            "textWords": 4625
           },
           "qi1uT1eOsM-r": {
-            "hits": 1,
-            "textWords": 62
+            "hits": 364,
+            "textWords": 4625
           }
         },
-        "queryPhraseHits": 2
+        "queryPhraseHits": 1
+      }
+    ],
+    [
+      {
+        "hash": "gloktjRvmBbx",
+        "address": "https://en.wikipedia.org/wiki/Free_software",
+        "title": "Free software - Wikipedia",
+        "snippet": "\"The advantages of free software\". Free Software Foundation. Retrieved 2013-08-12.\n↑ Stallman, Richard. \"What is the Free Software Foundation?\". GNU's Bulletin. Vol. 1, no. 1. p. 8.\n1 2 Free Software Foundation. \"What is free software?\". Retrieved 14 December 2011.\n↑ \"Four Freedoms\". fsfe.org.",
+        "matchedWords": {
+          "-foQupVsrPkd": {
+            "hits": 239,
+            "textWords": 5693
+          },
+          "Abrza739aVio": {
+            "hits": 26,
+            "textWords": 5693
+          },
+          "qi1uT1eOsM-r": {
+            "hits": 156,
+            "textWords": 5693
+          }
+        },
+        "queryPhraseHits": 147
       }
     ],
     [
@@ -739,89 +804,64 @@
     ],
     [
       {
-        "hash": "cXbKpjRvmBbx",
-        "address": "https://en.wikipedia.org/wiki/Portal:Current_events",
-        "title": "Portal:Current events - Wikipedia",
-        "snippet": "",
+        "hash": "mCpq5KS6MKD4",
+        "address": "https://github.com/johnjago/awesome-free-software",
+        "title": "GitHub - johnjago/awesome-free-software: Curated list of open-source, free as in freedom software. · GitHub",
+        "snippet": "Free Software Foundation - Nonprofit with a worldwide mission to promote computer user freedom.\nFree Software Movement Karnataka - Group in Bengaluru, India that spreads awareness about free software.\nFree Software Movement of India - Coalition of free software organizations in India.",
         "matchedWords": {
           "-foQupVsrPkd": {
-            "hits": 0,
-            "textWords": 0
+            "hits": 55,
+            "textWords": 2161
           },
           "Abrza739aVio": {
-            "hits": 0,
-            "textWords": 0
+            "hits": 3,
+            "textWords": 2161
           },
           "qi1uT1eOsM-r": {
-            "hits": 2,
-            "textWords": 4586
+            "hits": 40,
+            "textWords": 2161
           }
         },
-        "queryPhraseHits": 0
-      }
-    ],
-    [
+        "queryPhraseHits": 29
+      },
       {
-        "hash": "w1ZZBjRvmBbx",
-        "address": "https://en.wikipedia.org/wiki/Wikipedia:Manual_of_Style/Linking",
-        "title": "Wikipedia:Manual of Style/Linking - Wikipedia",
+        "hash": "HKOF7sXHmKFw",
+        "address": "https://www.fsf.org/about/free-software-foundation-privacy-policy",
+        "title": "Free Software Foundation Privacy Policy — Free Software Foundation — Working together for free software",
         "snippet": "",
         "matchedWords": {
           "-foQupVsrPkd": {
-            "hits": 2,
-            "textWords": 6903
+            "hits": 0,
+            "textWords": 0
           },
           "Abrza739aVio": {
             "hits": 0,
             "textWords": 0
           },
           "qi1uT1eOsM-r": {
-            "hits": 0,
-            "textWords": 0
+            "hits": 35,
+            "textWords": 1804
           }
         },
         "queryPhraseHits": 0
       },
       {
-        "hash": "3ZEiijRvmBbx",
-        "address": "https://en.wikipedia.org/wiki/Wikipedia:About",
-        "title": "Wikipedia:About - Wikipedia",
-        "snippet": "From Wikipedia, the free encyclopedia\nWP:ABT\nWP:ABOUT\nWP:WIKIPEDIA\n\"Imagine a world in which every single person on the planet is given free access to the sum of all human knowledge.\nThat's what we're doing.\" — Jimmy Wales",
-        "matchedWords": {
-          "-foQupVsrPkd": {
-            "hits": 1,
-            "textWords": 412
-          },
-          "Abrza739aVio": {
-            "hits": 1,
-            "textWords": 412
-          },
-          "qi1uT1eOsM-r": {
-            "hits": 3,
-            "textWords": 412
-          }
-        },
-        "queryPhraseHits": 0
-      }
-    ],
-    [
-      {
-        "hash": "pdnQXlXHmKFw",
-        "address": "https://www.fsf.org/free-software-supporter/",
-        "title": "Free Software Supporter — Free Software Foundation — Working together for free software",
-        "snippet": "",
+        "hash": "7UdOfL8hxo35",
+        "address": "https://www.microsoft.com/en-us/security/business/get-started/start-free-trial",
+        "title": "Microsoft Security Free Trial | Microsoft Security",
+        "snippet": "Microsoft Entra ID\nManage and protect users, apps, workloads, and devices.\nMicrosoft 365 Business Premium (No Teams)\nGrow your business with productivity apps and comprehensive security designed for up to 300 users.\nMicrosoft Defender Suite for Business Premium",
         "matchedWords": {
           "-foQupVsrPkd": {
             "hits": 0,
-            "textWords": 0
+            "textWords": 137
           },
           "Abrza739aVio": {
             "hits": 0,
-            "textWords": 0
+            "textWords": 137
           },
           "qi1uT1eOsM-r": {
-            "hits": 29,
-            "textWords": 723
+            "hits": 0,
+            "textWords": 137
           }
         },
         "queryPhraseHits": 0
@@ -871,22 +911,22 @@
         "queryPhraseHits": 0
       },
       {
-        "hash": "9c2EwvdTeyA4",
-        "address": "https://github.blog/open-source/social-impact/software-as-a-public-good/",
-        "title": "Software as a public good - The GitHub Blog",
-        "snippet": "Open source software has come a long way from its origins as a niche endeavor of technical experts. Recent studies have shown that open source software can be found in 96% of code bases, and its demand-side value to the economy is estimated at $ 8.8 trillion.",
+        "hash": "HgsjmL8hxo35",
+        "address": "https://www.microsoft.com/en-us/software-development-companies/resources/articles",
+        "title": "Software Company Resources | Software Development Companies",
+        "snippet": "Explore serverless software development and event-driven architecture to create cloud solutions while simplifying development and reducing infrastructure needs.\nBusiness Growth \u0026 Scaling\nWhat is a foundation model?",
         "matchedWords": {
           "-foQupVsrPkd": {
-            "hits": 5,
-            "textWords": 951
+            "hits": 21,
+            "textWords": 593
           },
           "Abrza739aVio": {
             "hits": 2,
-            "textWords": 951
+            "textWords": 593
           },
           "qi1uT1eOsM-r": {
-            "hits": 1,
-            "textWords": 951
+            "hits": 0,
+            "textWords": 593
           }
         },
         "queryPhraseHits": 0
@@ -917,22 +957,43 @@
     ],
     [
       {
-        "hash": "pdnQXlXHmKFw",
-        "address": "https://www.fsf.org/free-software-supporter/",
-        "title": "Free Software Supporter — Free Software Foundation — Working together for free software",
-        "snippet": "",
+        "hash": "9n1rhjjEZfvx",
+        "address": "https://en.wiktionary.org/wiki/free",
+        "title": "free - Wiktionary, the free dictionary",
+        "snippet": "live rent-free in someone's head, live rent free in someone's head\nmake free of\nmake free with\nmean free path\nmean free time\nMexican free-tailed bat\nno free lunch theorem\nnon-free software\nolly olly oxen free\nregion free\nset free\nthe best things in life are free",
         "matchedWords": {
           "-foQupVsrPkd": {
-            "hits": 0,
-            "textWords": 0
+            "hits": 3,
+            "textWords": 4625
           },
           "Abrza739aVio": {
             "hits": 0,
-            "textWords": 0
+            "textWords": 4625
           },
           "qi1uT1eOsM-r": {
-            "hits": 30,
-            "textWords": 731
+            "hits": 364,
+            "textWords": 4625
+          }
+        },
+        "queryPhraseHits": 1
+      },
+      {
+        "hash": "v3JgSzH2Pyiw",
+        "address": "https://ocw.mit.edu/",
+        "title": "MIT OpenCourseWare | Free Online Course Materials",
+        "snippet": "The free courses gave me a solid foundation of knowledge and problem-solving abilities. Without these, it wouldn’t be possible to do what I’m doing now.” This story was originally published on MIT News.\nRead Full Story\nOmar Alshehri\nEducator\nSaudi Arabia/Canada",
+        "matchedWords": {
+          "-foQupVsrPkd": {
+            "hits": 12,
+            "textWords": 16633
+          },
+          "Abrza739aVio": {
+            "hits": 9,
+            "textWords": 16633
+          },
+          "qi1uT1eOsM-r": {
+            "hits": 28,
+            "textWords": 16633
           }
         },
         "queryPhraseHits": 0
@@ -963,22 +1024,22 @@
     ],
     [
       {
-        "hash": "J3yqmlXHmKFw",
-        "address": "https://www.fsf.org/free-software-supporter/2024/outubro",
-        "title": "Free Software Supporter -- Edição 198, outubro 2024 — Free Software Foundation — Working together for free software",
-        "snippet": "",
+        "hash": "1Y8-qjRvmBbx",
+        "address": "https://en.wikipedia.org/wiki/Application_software",
+        "title": "Application software - Wikipedia",
+        "snippet": "Free and open-source software (FOSS) can be run, distributed, sold, and extended for any purpose. FOSS software released under a free license may be perpetual and also royalty-free.",
         "matchedWords": {
           "-foQupVsrPkd": {
-            "hits": 61,
-            "textWords": 2773
+            "hits": 75,
+            "textWords": 1815
           },
           "Abrza739aVio": {
             "hits": 0,
-            "textWords": 0
+            "textWords": 1815
           },
           "qi1uT1eOsM-r": {
-            "hits": 0,
-            "textWords": 0
+            "hits": 5,
+            "textWords": 1815
           }
         },
         "queryPhraseHits": 0
@@ -1030,75 +1091,6 @@
     ],
     [
       {
-        "hash": "gloktjRvmBbx",
-        "address": "https://en.wikipedia.org/wiki/Free_software",
-        "title": "Free software - Wikipedia",
-        "snippet": "\"The advantages of free software\". Free Software Foundation. Retrieved 2013-08-12.\n↑ Stallman, Richard. \"What is the Free Software Foundation?\". GNU's Bulletin. Vol. 1, no. 1. p. 8.\n1 2 Free Software Foundation. \"What is free software?\". Retrieved 14 December 2011.\n↑ \"Four Freedoms\". fsfe.org.",
-        "matchedWords": {
-          "-foQupVsrPkd": {
-            "hits": 239,
-            "textWords": 5693
-          },
-          "Abrza739aVio": {
-            "hits": 26,
-            "textWords": 5693
-          },
-          "qi1uT1eOsM-r": {
-            "hits": 156,
-            "textWords": 5693
-          }
-        },
-        "queryPhraseHits": 147
-      }
-    ],
-    [
-      {
-        "hash": "COw4R7QlWRhT",
-        "address": "http://express-press-release.net/free/",
-        "title": "Free Press Release Distribution (Submit Press Release)",
-        "snippet": "Free press release distribution guidelines:\nPlease read carefully the few simple rules as listed below and make sure you follow them to increase your chances of getting your free press release published on and distributed via EPR Network",
-        "matchedWords": {
-          "-foQupVsrPkd": {
-            "hits": 0,
-            "textWords": 780
-          },
-          "Abrza739aVio": {
-            "hits": 0,
-            "textWords": 780
-          },
-          "qi1uT1eOsM-r": {
-            "hits": 11,
-            "textWords": 780
-          }
-        },
-        "queryPhraseHits": 0
-      }
-    ],
-    [
-      {
-        "hash": "M0ZJYjRvmBbx",
-        "address": "https://en.wikipedia.org/wiki/Blender_(software)",
-        "title": "Blender (software) - Wikipedia",
-        "snippet": "↑ Roosendaal, Ton (June 2005). \"Blender License\". Archived from the original on 4 March 2016. Retrieved 19 January 2007.\n↑ Prokoudine, Alexandre (26 January 2012). \"What's up with DWG adoption in free software?\". librearts.org. Retrieved 9 March 2025.",
-        "matchedWords": {
-          "-foQupVsrPkd": {
-            "hits": 20,
-            "textWords": 10273
-          },
-          "Abrza739aVio": {
-            "hits": 45,
-            "textWords": 10273
-          },
-          "qi1uT1eOsM-r": {
-            "hits": 10,
-            "textWords": 10273
-          }
-        },
-        "queryPhraseHits": 1
-      }
-    ],
-    [
-      {
         "hash": "BxsbyjRvmBbx",
         "address": "https://en.wikipedia.org/wiki/Apple_Inc.",
         "title": "Apple Inc. - Wikipedia",
@@ -1122,30 +1114,9 @@
     ],
     [
       {
-        "hash": "ELN5b-oHYeTw",
-        "address": "https://www.eclipse.org/org/foundation/directors/",
-        "title": "Eclipse Foundation AISBL Board of Directors | The Eclipse Foundation",
-        "snippet": "Headquartered in Manchester, UK, Codethink has pioneered software industry thinking around concepts of trustable software, with a view to improving the quality of software engineering for societal good.",
-        "matchedWords": {
-          "-foQupVsrPkd": {
-            "hits": 21,
-            "textWords": 2455
-          },
-          "Abrza739aVio": {
-            "hits": 3,
-            "textWords": 2455
-          },
-          "qi1uT1eOsM-r": {
-            "hits": 1,
-            "textWords": 2455
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "HKOF7sXHmKFw",
-        "address": "https://www.fsf.org/about/free-software-foundation-privacy-policy",
-        "title": "Free Software Foundation Privacy Policy — Free Software Foundation — Working together for free software",
+        "hash": "2fVYb5XHmKFw",
+        "address": "https://www.fsf.org/bulletin/2026/summer/video-game-console-emulators-free-or-not",
+        "title": "Video game console emulators: Free or not? — Free Software Foundation — Working together for free software",
         "snippet": "",
         "matchedWords": {
           "-foQupVsrPkd": {
@@ -1153,12 +1124,12 @@
             "textWords": 0
           },
           "Abrza739aVio": {
-            "hits": 12,
-            "textWords": 1801
-          },
-          "qi1uT1eOsM-r": {
             "hits": 0,
             "textWords": 0
+          },
+          "qi1uT1eOsM-r": {
+            "hits": 32,
+            "textWords": 1357
           }
         },
         "queryPhraseHits": 0
@@ -1166,115 +1137,71 @@
     ],
     [
       {
-        "hash": "MO942jXF4o7w",
-        "address": "https://xmpp.org/about/xmpp-standards-foundation/",
-        "title": "XMPP Standards Foundation (XSF) | XMPP - The universal messaging standard",
-        "snippet": "The XMPP Standards Foundation (also known as the XSF and formerly the Jabber Software Foundation) is an independent, nonprofit standards development organisation whose primary mission is to define open protocols for presence, instant messaging, and real-time communication and collaboration on top",
+        "hash": "Krz6_MaQF27w",
+        "address": "https://www.apache.org/foundation/marks/",
+        "title": "Apache Software Foundation Trademark Policy | Apache Software Foundation",
+        "snippet": "The Apache Software Foundation and our many software products must be clearly distinguishable from any software that competes with ASF software, and from software or services by any company or individual that is not part of the ASF.",
         "matchedWords": {
           "-foQupVsrPkd": {
-            "hits": 4,
-            "textWords": 926
+            "hits": 50,
+            "textWords": 2125
           },
           "Abrza739aVio": {
-            "hits": 5,
-            "textWords": 926
-          },
-          "qi1uT1eOsM-r": {
-            "hits": 2,
-            "textWords": 926
-          }
-        },
-        "queryPhraseHits": 2
-      }
-    ],
-    [
-      {
-        "hash": "9n1rhjjEZfvx",
-        "address": "https://en.wiktionary.org/wiki/free",
-        "title": "free - Wiktionary, the free dictionary",
-        "snippet": "live rent-free in someone's head, live rent free in someone's head\nmake free of\nmake free with\nmean free path\nmean free time\nMexican free-tailed bat\nno free lunch theorem\nnon-free software\nolly olly oxen free\nregion free\nset free\nthe best things in life are free",
-        "matchedWords": {
-          "-foQupVsrPkd": {
-            "hits": 3,
-            "textWords": 4625
-          },
-          "Abrza739aVio": {
-            "hits": 0,
-            "textWords": 4625
-          },
-          "qi1uT1eOsM-r": {
-            "hits": 364,
-            "textWords": 4625
-          }
-        },
-        "queryPhraseHits": 1
-      }
-    ],
-    [
-      {
-        "hash": "34EkFlXHmKFw",
-        "address": "https://www.fsf.org/free-software-supporter/2022",
-        "title": "2022 — Free Software Foundation — Working together for free software",
-        "snippet": "",
-        "matchedWords": {
-          "-foQupVsrPkd": {
-            "hits": 92,
-            "textWords": 1223
-          },
-          "Abrza739aVio": {
-            "hits": 0,
-            "textWords": 0
-          },
-          "qi1uT1eOsM-r": {
-            "hits": 0,
-            "textWords": 0
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "gloktjRvmBbx",
-        "address": "https://en.wikipedia.org/wiki/Free_software",
-        "title": "Free software - Wikipedia",
-        "snippet": "\"The advantages of free software\". Free Software Foundation. Retrieved 2013-08-12.\n↑ Stallman, Richard. \"What is the Free Software Foundation?\". GNU's Bulletin. Vol. 1, no. 1. p. 8.\n1 2 Free Software Foundation. \"What is free software?\". Retrieved 14 December 2011.\n↑ \"Four Freedoms\". fsfe.org.",
-        "matchedWords": {
-          "-foQupVsrPkd": {
-            "hits": 239,
-            "textWords": 5693
-          },
-          "Abrza739aVio": {
-            "hits": 26,
-            "textWords": 5693
-          },
-          "qi1uT1eOsM-r": {
-            "hits": 156,
-            "textWords": 5693
-          }
-        },
-        "queryPhraseHits": 147
-      }
-    ],
-    [
-      {
-        "hash": "dSQ7JMaQF27w",
-        "address": "https://www.apache.org/foundation/sponsorship.html",
-        "title": "ASF Sponsorship | Apache Software Foundation",
-        "snippet": "You may review the latest financial filings and non-profit exemption application of The Apache Software Foundation in our public records section. You may find other helpful information through Candid (requires free registration for full access).",
-        "matchedWords": {
-          "-foQupVsrPkd": {
-            "hits": 13,
-            "textWords": 1707
-          },
-          "Abrza739aVio": {
-            "hits": 15,
-            "textWords": 1707
+            "hits": 9,
+            "textWords": 2125
           },
           "qi1uT1eOsM-r": {
             "hits": 1,
-            "textWords": 1707
+            "textWords": 2125
           }
         },
-        "queryPhraseHits": 6
+        "queryPhraseHits": 9
+      }
+    ],
+    [
+      {
+        "hash": "tsBO3hsWTYKx",
+        "address": "https://sourceforge.net/directory/software-development/",
+        "title": "Best Open Source Software Development Software 2025",
+        "snippet": "Browse free open source Software Development software and projects below. Use the toggles on the left to filter open source Software Development software by OS, license, language, programming language, and project status.\nCybersecurity Starts With Password Security.",
+        "matchedWords": {
+          "-foQupVsrPkd": {
+            "hits": 91,
+            "textWords": 4584
+          },
+          "Abrza739aVio": {
+            "hits": 0,
+            "textWords": 4584
+          },
+          "qi1uT1eOsM-r": {
+            "hits": 11,
+            "textWords": 4584
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "Rx8AIs_tHst4",
+        "address": "https://dwheeler.com/oss_fs_why.html",
+        "title": "Why Open Source Software / Free Software (OSS/FS, FOSS, or FLOSS)? Look at the Numbers!",
+        "snippet": "The Free Software Definition is published by Richard Stallman’s Free Software Foundation. Here is the key text of that definition:\n“Free software” is a matter of liberty, not price. To understand the concept, you should think of “free” as in “free speech,” not as in “free beer.”",
+        "matchedWords": {
+          "-foQupVsrPkd": {
+            "hits": 831,
+            "textWords": 92275
+          },
+          "Abrza739aVio": {
+            "hits": 19,
+            "textWords": 92275
+          },
+          "qi1uT1eOsM-r": {
+            "hits": 187,
+            "textWords": 92275
+          }
+        },
+        "queryPhraseHits": 105
       }
     ],
     [
@@ -1321,6 +1248,71 @@
           }
         },
         "queryPhraseHits": 1
+      },
+      {
+        "hash": "8h7vSo5dlbp4",
+        "address": "https://mashable.com/roundup/best-hookup-apps-2026",
+        "title": "The best hookup apps of 2026: I swiped until my thumb hurt | Mashable",
+        "snippet": "",
+        "matchedWords": {
+          "-foQupVsrPkd": {
+            "hits": 0,
+            "textWords": 0
+          },
+          "Abrza739aVio": {
+            "hits": 0,
+            "textWords": 0
+          },
+          "qi1uT1eOsM-r": {
+            "hits": 73,
+            "textWords": 13114
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "SD9VQcToTHCx",
+        "address": "https://ia.wikipedia.org/wiki/Software_libere",
+        "title": "Software libere - Wikipedia, le encyclopedia libere",
+        "snippet": "Pendente\nDe Wikipedia, le encyclopedia libere\nSoftware libere\ninstantia de: categoria de software[*]\nsubclasse de: freely redistributable software[*], source-available software[*], open-source software[*]\nparte de: open source movement[*]\nCommons: Free software",
+        "matchedWords": {
+          "-foQupVsrPkd": {
+            "hits": 20,
+            "textWords": 607
+          },
+          "Abrza739aVio": {
+            "hits": 0,
+            "textWords": 607
+          },
+          "qi1uT1eOsM-r": {
+            "hits": 1,
+            "textWords": 607
+          }
+        },
+        "queryPhraseHits": 1
+      },
+      {
+        "hash": "BsZOzh3e0QFx",
+        "address": "https://commons.wikimedia.org/wiki/Category:Chat_software",
+        "title": "Category:Chat software - Wikimedia Commons",
+        "snippet": "From Wikimedia Commons, the free media repository\nonline chat\nreal-time texting over the Internet anything else but tht mess we heard to\nUpload media\nWikipedia\nPronunciation audio\nGermanⓘ\nSubclass of\ncommunication\nDifferent from\nLiveChat\nAuthority file\nQ287198\nGND ID: 4500079-7",
+        "matchedWords": {
+          "-foQupVsrPkd": {
+            "hits": 0,
+            "textWords": 78
+          },
+          "Abrza739aVio": {
+            "hits": 0,
+            "textWords": 78
+          },
+          "qi1uT1eOsM-r": {
+            "hits": 1,
+            "textWords": 78
+          }
+        },
+        "queryPhraseHits": 0
       }
     ],
     [
@@ -1371,46 +1363,48 @@
     ],
     [
       {
-        "hash": "wJhf3jRvmBbx",
-        "address": "https://en.wikipedia.org/wiki/Software_developer",
-        "title": "Software development - Wikipedia",
-        "snippet": "32] Quality testing also often includes stress and load checking (whether the software is robust to heavy levels of input or usage), integration testing (to ensure that the software is adequately integrated with other software), and compatibility testing (measuring the software's performance across",
+        "hash": "gs4qP_QzrsJ5",
+        "address": "https://thestingofthescorpion.wordpress.com/tag/selfie-level/",
+        "title": "Selfie Level | The Sting Of The Scorpion Blog (T.S.O.T.S.B.)",
+        "snippet": "This means you are free to copy, distribute, or transmit any of \"The Sting Of The Scorpion Blog' content. However, you must attribute the content to \"The Sting Of The Scorpion Blog\" in some easily identifiable way (preferably with a link back to the post from which the content originated).",
         "matchedWords": {
           "-foQupVsrPkd": {
-            "hits": 94,
-            "textWords": 2972
+            "hits": 0,
+            "textWords": 154
           },
           "Abrza739aVio": {
             "hits": 0,
-            "textWords": 2972
+            "textWords": 154
           },
           "qi1uT1eOsM-r": {
-            "hits": 0,
-            "textWords": 2972
+            "hits": 1,
+            "textWords": 154
           }
         },
         "queryPhraseHits": 0
-      },
+      }
+    ],
+    [
       {
-        "hash": "X18gsL7t2YV4",
-        "address": "https://www.nvidia.com/en-us/networking/products/software/",
-        "title": "NVIDIA Networking Software for AI Performance",
-        "snippet": "DOCA is the software foundation for building and operating intelligent, high-performance AI factory infrastructure.\nNVIDIA DSX Air\nWith DSX Air, organizations can build full-stack simulations of their data center infrastructure.",
+        "hash": "BxsbyjRvmBbx",
+        "address": "https://en.wikipedia.org/wiki/Apple_Inc.",
+        "title": "Apple Inc. - Wikipedia",
+        "snippet": "Allowing consumers to make informed purchasing decisions on the products it offers for sale.[347] In June 2009, Apple's iPhone 3GS was free of PVC, arsenic, and BFRs.[343][348] Since 2009, all Apple products have mercury-free LED-backlit LCDs, arsenic-free glass, and non-PVC cables.[",
         "matchedWords": {
           "-foQupVsrPkd": {
-            "hits": 3,
-            "textWords": 275
+            "hits": 18,
+            "textWords": 22925
           },
           "Abrza739aVio": {
-            "hits": 1,
-            "textWords": 275
+            "hits": 4,
+            "textWords": 22925
           },
           "qi1uT1eOsM-r": {
-            "hits": 0,
-            "textWords": 275
+            "hits": 9,
+            "textWords": 22925
           }
         },
-        "queryPhraseHits": 1
+        "queryPhraseHits": 0
       }
     ],
     [
@@ -1436,22 +1430,22 @@
         "queryPhraseHits": 0
       },
       {
-        "hash": "gK0yJsjsdFw4",
-        "address": "https://akdart.com/med21.html",
-        "title": "News Media Sensationalism and Dishonesty",
-        "snippet": "",
+        "hash": "9dnewsdTeyA4",
+        "address": "https://github.blog/",
+        "title": "Home - The GitHub Blog",
+        "snippet": "We do newsletters, too\nDiscover tips, technical guides, and best practices in our biweekly newsletter just for devs.\nYour email address\nThe world's largest developer platform\nDocs\nEverything you need to master GitHub, all in one place.\nGo to Docs\nGitHub",
         "matchedWords": {
           "-foQupVsrPkd": {
-            "hits": 155,
-            "textWords": 11672
+            "hits": 0,
+            "textWords": 100
           },
           "Abrza739aVio": {
             "hits": 0,
-            "textWords": 0
+            "textWords": 100
           },
           "qi1uT1eOsM-r": {
             "hits": 0,
-            "textWords": 0
+            "textWords": 100
           }
         },
         "queryPhraseHits": 0
@@ -1460,9 +1454,9 @@
   ],
   "itemsInNoOrder": [
     {
-      "hash": "8UTKLj-JVcyx",
-      "address": "https://en.wikiquote.org/wiki/Last_words",
-      "title": "Last words - Wikiquote",
+      "hash": "CTQ-Yj-JVcyx",
+      "address": "https://en.wikiquote.org/wiki/Mystery_Science_Theater_3000",
+      "title": "Mystery Science Theater 3000 - Wikiquote",
       "snippet": "",
       "matchedWords": {
         "-foQupVsrPkd": {
@@ -1481,9 +1475,9 @@
       "queryPhraseHits": 0
     },
     {
-      "hash": "hNrcdJ-bwreQ",
-      "address": "http://ace.mu.nu/",
-      "title": "Ace of Spades HQ",
+      "hash": "8UTKLj-JVcyx",
+      "address": "https://en.wikiquote.org/wiki/Last_words",
+      "title": "Last words - Wikiquote",
       "snippet": "",
       "matchedWords": {
         "-foQupVsrPkd": {
@@ -1539,6 +1533,27 @@
         "qi1uT1eOsM-r": {
           "hits": 0,
           "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "Jb4XHs5IzNm6",
+      "address": "https://citizenfreepress.com/",
+      "title": "CITIZEN FREE PRESS",
+      "snippet": "PPI Inflation report for August.\nStock market trading, live updates.\nJoe Allen vs Joe Lonsdale.\nFull details on Obamacare refunds.\nRockerfeller Foundation blueprint for America.\n1955 plane crash was deadliest of time.\nYoung Spanish mother is spitting fire (outstanding).\nWell played, Brandon Gill.",
+      "matchedWords": {
+        "-foQupVsrPkd": {
+          "hits": 1,
+          "textWords": 11215
+        },
+        "Abrza739aVio": {
+          "hits": 1,
+          "textWords": 11215
+        },
+        "qi1uT1eOsM-r": {
+          "hits": 6,
+          "textWords": 11215
         }
       },
       "queryPhraseHits": 0
@@ -1607,6 +1622,48 @@
       "queryPhraseHits": 0
     },
     {
+      "hash": "CfGENlC_VmZ4",
+      "address": "https://www.sonatype.com/contactus?hsCtaAttrib=217560324380",
+      "title": "Contact Us Your Software Supply Chain Experts | Sonatype",
+      "snippet": "Our team is ready to help. We’ll guide you through Sonatype’s software supply chain solutions and show you how to integrate them seamlessly into your SDLC.\nLet us review your development and security requirements and walk you through solutions that deliver faster development outcomes.",
+      "matchedWords": {
+        "-foQupVsrPkd": {
+          "hits": 1,
+          "textWords": 45
+        },
+        "Abrza739aVio": {
+          "hits": 0,
+          "textWords": 45
+        },
+        "qi1uT1eOsM-r": {
+          "hits": 0,
+          "textWords": 45
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "-AI0-jC_VmZ4",
+      "address": "https://www.sonatype.com/products/sonatype-nexus-pro/trial?hsCtaAttrib=217560263719",
+      "title": "Try Sonatype Nexus Repository Manager Free | Sonatype",
+      "snippet": "",
+      "matchedWords": {
+        "-foQupVsrPkd": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "Abrza739aVio": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "qi1uT1eOsM-r": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
       "hash": "anJsWsDBeN55",
       "address": "https://henrymakow.com/",
       "title": "henrymakow.com - Exposing Feminism and The New World Order",
@@ -1652,27 +1709,6 @@
       "hash": "W-eXqzF3--Qw",
       "address": "https://planet.mozilla.org/",
       "title": "Planet Mozilla",
-      "snippet": "",
-      "matchedWords": {
-        "-foQupVsrPkd": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "Abrza739aVio": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "qi1uT1eOsM-r": {
-          "hits": 0,
-          "textWords": 0
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "aEnpV6Gt4Xm4",
-      "address": "https://christadelphianworld.blogspot.com/",
-      "title": "Our World",
       "snippet": "",
       "matchedWords": {
         "-foQupVsrPkd": {
@@ -1866,78 +1902,15 @@
       "matchedWords": {
         "-foQupVsrPkd": {
           "hits": 0,
-          "textWords": 685
+          "textWords": 678
         },
         "Abrza739aVio": {
           "hits": 1,
-          "textWords": 685
+          "textWords": 678
         },
         "qi1uT1eOsM-r": {
           "hits": 3,
-          "textWords": 685
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "7cn5rjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Finland",
-      "title": "Finland - Wikipedia",
-      "snippet": "",
-      "matchedWords": {
-        "-foQupVsrPkd": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "Abrza739aVio": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "qi1uT1eOsM-r": {
-          "hits": 0,
-          "textWords": 0
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "Mb7ip0SWekJ4",
-      "address": "https://thangs.com/resources/blog",
-      "title": "Blog",
-      "snippet": "",
-      "matchedWords": {
-        "-foQupVsrPkd": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "Abrza739aVio": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "qi1uT1eOsM-r": {
-          "hits": 0,
-          "textWords": 0
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "g7VhosSiaOB6",
-      "address": "https://commune-kitchen.com/",
-      "title": "Commune-kitchen.com -",
-      "snippet": "",
-      "matchedWords": {
-        "-foQupVsrPkd": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "Abrza739aVio": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "qi1uT1eOsM-r": {
-          "hits": 0,
-          "textWords": 0
+          "textWords": 678
         }
       },
       "queryPhraseHits": 0
@@ -2048,9 +2021,30 @@
       "queryPhraseHits": 0
     },
     {
-      "hash": "ThQTtsaDVLT7",
-      "address": "https://hotsalsainteractive.com/",
-      "title": "hotsalsainteractive -",
+      "hash": "ELIe2QXx1HRZ",
+      "address": "http://www.dailystirrer.com/2021-may.shtml",
+      "title": "2021",
+      "snippet": "",
+      "matchedWords": {
+        "-foQupVsrPkd": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "Abrza739aVio": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "qi1uT1eOsM-r": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "SUM-Tsa5-DC6",
+      "address": "https://williemcginest.com/",
+      "title": "williemcginest.com",
       "snippet": "",
       "matchedWords": {
         "-foQupVsrPkd": {
@@ -2090,6 +2084,27 @@
       "queryPhraseHits": 0
     },
     {
+      "hash": "0kg9LsaTsUao",
+      "address": "https://mybudaya.id/",
+      "title": "mybudayaid",
+      "snippet": "",
+      "matchedWords": {
+        "-foQupVsrPkd": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "Abrza739aVio": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "qi1uT1eOsM-r": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
       "hash": "-p2w3taoSn1x",
       "address": "https://en.planet.wikimedia.org/",
       "title": "en.planet.wikimedia.org",
@@ -2106,6 +2121,27 @@
         "qi1uT1eOsM-r": {
           "hits": 0,
           "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "1yd_7zbpbGvx",
+      "address": "https://species.wikimedia.org/wiki/Main_Page",
+      "title": "Wikispecies, free species directory",
+      "snippet": "From Wikispecies\nExplore Wikispecies\nHELP Section – Detailed information on creating pages.\nTaxonomy – Information on the Linnaean classification of species.\nVillage Pump – Discuss the project.\nDone and To Do – See references to very detailed areas and defined future targets",
+      "matchedWords": {
+        "-foQupVsrPkd": {
+          "hits": 0,
+          "textWords": 668
+        },
+        "Abrza739aVio": {
+          "hits": 0,
+          "textWords": 668
+        },
+        "qi1uT1eOsM-r": {
+          "hits": 0,
+          "textWords": 668
         }
       },
       "queryPhraseHits": 0
@@ -2132,6 +2168,27 @@
       "queryPhraseHits": 0
     },
     {
+      "hash": "Fn4lKjc4UIAx",
+      "address": "https://en.wikivoyage.org/wiki/Main_Page",
+      "title": "Wikivoyage – The free worldwide travel guide that you can edit",
+      "snippet": "Discover\nThe home of Lego bricks, Billund features the Legoland theme park, a Lego House and the Lego factory that can be toured a few times a year.\nLake Tanuki in Fujinomiya is famous for its reflection of Mt. Fuji with the sunrise known as the Diamond Fuji (pictured).",
+      "matchedWords": {
+        "-foQupVsrPkd": {
+          "hits": 0,
+          "textWords": 98
+        },
+        "Abrza739aVio": {
+          "hits": 0,
+          "textWords": 98
+        },
+        "qi1uT1eOsM-r": {
+          "hits": 0,
+          "textWords": 98
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
       "hash": "I7b5hjcl0ynx",
       "address": "https://en.wikiversity.org/wiki/Wikiversity:Main_Page",
       "title": "Wikiversity",
@@ -2153,72 +2210,9 @@
       "queryPhraseHits": 0
     },
     {
-      "hash": "w4gTBsf62W65",
-      "address": "https://newtimbuktu.com/",
-      "title": "newtimbuktu -",
-      "snippet": "",
-      "matchedWords": {
-        "-foQupVsrPkd": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "Abrza739aVio": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "qi1uT1eOsM-r": {
-          "hits": 0,
-          "textWords": 0
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "GNfYVQhivb2Y",
-      "address": "http://www.akdart.com/abu7.html",
-      "title": "Money Down the Drain",
-      "snippet": "",
-      "matchedWords": {
-        "-foQupVsrPkd": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "Abrza739aVio": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "qi1uT1eOsM-r": {
-          "hits": 0,
-          "textWords": 0
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "jI-jjsjsdFw4",
-      "address": "https://akdart.com/lib73.html",
-      "title": "Which party promotes hate speech and violence?",
-      "snippet": "",
-      "matchedWords": {
-        "-foQupVsrPkd": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "Abrza739aVio": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "qi1uT1eOsM-r": {
-          "hits": 0,
-          "textWords": 0
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "M1SWfqksK-54",
-      "address": "https://www.creaid.com/shortcodes/sale-banners/",
-      "title": "Sale banners - Creaid",
+      "hash": "gK0yJsjsdFw4",
+      "address": "https://akdart.com/med21.html",
+      "title": "News Media Sensationalism and Dishonesty",
       "snippet": "",
       "matchedWords": {
         "-foQupVsrPkd": {
@@ -2260,7 +2254,7 @@
     {
       "hash": "190N3snp_33z",
       "address": "https://globalkleptocracy.net/",
-      "title": "GLOBAL KLEPTOCRACY - GLOBAL ELITE, RULING ELITE, GLOBAL OLIGARCHY, DEEP STATE, GLOBALISM, DYNASTIC ELITE, MONOPOLY CAPITALISM, CORPORATOCRACY, PLUTOCRACY, MONEY LAUNDERING, DRUG TRAFFICKING",
+      "title": "GLOBAL KLEPTOCRACY - GLOBAL ELITE, RULING ELITE, GLOBAL OLIGARCHY, DEEP STATE, GLOBALISM, DYNASTIC ELITE, MONOPOLY CAPITALISM, CORPORATOCRACY, PLUTOCRACY, MONEY LAUNDERING, DRUG",
       "snippet": "",
       "matchedWords": {
         "-foQupVsrPkd": {
@@ -2282,27 +2276,6 @@
       "hash": "qiJRj7o1FmmR",
       "address": "http://gutenberg.ca/index.html",
       "title": "Project Gutenberg Canada / Projet Gutenberg Canada",
-      "snippet": "",
-      "matchedWords": {
-        "-foQupVsrPkd": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "Abrza739aVio": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "qi1uT1eOsM-r": {
-          "hits": 0,
-          "textWords": 0
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "2i-X_sofUy-5",
-      "address": "https://duckduckgo.com/bang_lite.html",
-      "title": "DuckDuckGo !Bang",
       "snippet": "",
       "matchedWords": {
         "-foQupVsrPkd": {
@@ -2384,6 +2357,27 @@
       "queryPhraseHits": 0
     },
     {
+      "hash": "FzYmTlptNsG4",
+      "address": "https://www.akdart.com/sports.html",
+      "title": "The Sports Page: Corporate Welfare, Publicly Funded Stadiums",
+      "snippet": "",
+      "matchedWords": {
+        "-foQupVsrPkd": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "Abrza739aVio": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "qi1uT1eOsM-r": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
       "hash": "XTPIBlptNsG4",
       "address": "https://www.akdart.com/hijrah.html",
       "title": "Islamic invasion disguised as the displacement and acceptance of refugees",
@@ -2447,6 +2441,27 @@
       "queryPhraseHits": 0
     },
     {
+      "hash": "nA0ugsw4UVk6",
+      "address": "https://paydayloansforus.com/",
+      "title": "Paydayloansforus -",
+      "snippet": "",
+      "matchedWords": {
+        "-foQupVsrPkd": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "Abrza739aVio": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "qi1uT1eOsM-r": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
       "hash": "73tXp-x-XOT4",
       "address": "https://shoegazeralive9.blogspot.com/2026/08/dinosaur-jr-there-near-2026.html",
       "title": "SHOEGAZER ALIVE: Dinosaur Jr. - There Near (2026)",
@@ -2468,9 +2483,9 @@
       "queryPhraseHits": 0
     },
     {
-      "hash": "p5WNmsyZbNhw",
-      "address": "https://gwern.net/gpt-3",
-      "title": "GPT-3 Creative Fiction · Gwern.net",
+      "hash": "CTQ-Yj-JVcyx",
+      "address": "https://en.wikiquote.org/wiki/Mystery_Science_Theater_3000",
+      "title": "Mystery Science Theater 3000 - Wikiquote",
       "snippet": "",
       "matchedWords": {
         "-foQupVsrPkd": {
@@ -2510,9 +2525,30 @@
       "queryPhraseHits": 0
     },
     {
-      "hash": "hNrcdJ-bwreQ",
-      "address": "http://ace.mu.nu/",
-      "title": "Ace of Spades HQ",
+      "hash": "8UTKLj-JVcyx",
+      "address": "https://en.wikiquote.org/wiki/Last_words",
+      "title": "Last words - Wikiquote",
+      "snippet": "",
+      "matchedWords": {
+        "-foQupVsrPkd": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "Abrza739aVio": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "qi1uT1eOsM-r": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "2HPybK0C6gHw",
+      "address": "https://about.muse.jhu.edu/muse/open-access-overview/",
+      "title": "Open Access",
       "snippet": "",
       "matchedWords": {
         "-foQupVsrPkd": {
@@ -2547,6 +2583,27 @@
         "qi1uT1eOsM-r": {
           "hits": 0,
           "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "Jb4XHs5IzNm6",
+      "address": "https://citizenfreepress.com/",
+      "title": "CITIZEN FREE PRESS",
+      "snippet": "PPI Inflation report for August.\nStock market trading, live updates.\nJoe Allen vs Joe Lonsdale.\nFull details on Obamacare refunds.\nRockerfeller Foundation blueprint for America.\n1955 plane crash was deadliest of time.\nYoung Spanish mother is spitting fire (outstanding).\nWell played, Brandon Gill.",
+      "matchedWords": {
+        "-foQupVsrPkd": {
+          "hits": 1,
+          "textWords": 11215
+        },
+        "Abrza739aVio": {
+          "hits": 1,
+          "textWords": 11215
+        },
+        "qi1uT1eOsM-r": {
+          "hits": 6,
+          "textWords": 11215
         }
       },
       "queryPhraseHits": 0
@@ -2685,57 +2742,15 @@
       "matchedWords": {
         "-foQupVsrPkd": {
           "hits": 0,
-          "textWords": 685
+          "textWords": 678
         },
         "Abrza739aVio": {
           "hits": 1,
-          "textWords": 685
+          "textWords": 678
         },
         "qi1uT1eOsM-r": {
           "hits": 3,
-          "textWords": 685
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "7cn5rjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Finland",
-      "title": "Finland - Wikipedia",
-      "snippet": "",
-      "matchedWords": {
-        "-foQupVsrPkd": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "Abrza739aVio": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "qi1uT1eOsM-r": {
-          "hits": 0,
-          "textWords": 0
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "Mb7ip0SWekJ4",
-      "address": "https://thangs.com/resources/blog",
-      "title": "Blog",
-      "snippet": "",
-      "matchedWords": {
-        "-foQupVsrPkd": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "Abrza739aVio": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "qi1uT1eOsM-r": {
-          "hits": 0,
-          "textWords": 0
+          "textWords": 678
         }
       },
       "queryPhraseHits": 0
@@ -2825,6 +2840,27 @@
       "queryPhraseHits": 0
     },
     {
+      "hash": "ELIe2QXx1HRZ",
+      "address": "http://www.dailystirrer.com/2021-may.shtml",
+      "title": "2021",
+      "snippet": "",
+      "matchedWords": {
+        "-foQupVsrPkd": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "Abrza739aVio": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "qi1uT1eOsM-r": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
       "hash": "D4lABzaS0qdw",
       "address": "https://planet.debian.org/",
       "title": "Planet Debian",
@@ -2846,72 +2882,30 @@
       "queryPhraseHits": 0
     },
     {
+      "hash": "1yd_7zbpbGvx",
+      "address": "https://species.wikimedia.org/wiki/Main_Page",
+      "title": "Wikispecies, free species directory",
+      "snippet": "From Wikispecies\nExplore Wikispecies\nHELP Section – Detailed information on creating pages.\nTaxonomy – Information on the Linnaean classification of species.\nVillage Pump – Discuss the project.\nDone and To Do – See references to very detailed areas and defined future targets",
+      "matchedWords": {
+        "-foQupVsrPkd": {
+          "hits": 0,
+          "textWords": 668
+        },
+        "Abrza739aVio": {
+          "hits": 0,
+          "textWords": 668
+        },
+        "qi1uT1eOsM-r": {
+          "hits": 0,
+          "textWords": 668
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
       "hash": "I7b5hjcl0ynx",
       "address": "https://en.wikiversity.org/wiki/Wikiversity:Main_Page",
       "title": "Wikiversity",
-      "snippet": "",
-      "matchedWords": {
-        "-foQupVsrPkd": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "Abrza739aVio": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "qi1uT1eOsM-r": {
-          "hits": 0,
-          "textWords": 0
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "GNfYVQhivb2Y",
-      "address": "http://www.akdart.com/abu7.html",
-      "title": "Money Down the Drain",
-      "snippet": "",
-      "matchedWords": {
-        "-foQupVsrPkd": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "Abrza739aVio": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "qi1uT1eOsM-r": {
-          "hits": 0,
-          "textWords": 0
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "jI-jjsjsdFw4",
-      "address": "https://akdart.com/lib73.html",
-      "title": "Which party promotes hate speech and violence?",
-      "snippet": "",
-      "matchedWords": {
-        "-foQupVsrPkd": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "Abrza739aVio": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "qi1uT1eOsM-r": {
-          "hits": 0,
-          "textWords": 0
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "M1SWfqksK-54",
-      "address": "https://www.creaid.com/shortcodes/sale-banners/",
-      "title": "Sale banners - Creaid",
       "snippet": "",
       "matchedWords": {
         "-foQupVsrPkd": {
@@ -2951,9 +2945,9 @@
       "queryPhraseHits": 0
     },
     {
-      "hash": "2i-X_sofUy-5",
-      "address": "https://duckduckgo.com/bang_lite.html",
-      "title": "DuckDuckGo !Bang",
+      "hash": "FzYmTlptNsG4",
+      "address": "https://www.akdart.com/sports.html",
+      "title": "The Sports Page: Corporate Welfare, Publicly Funded Stadiums",
       "snippet": "",
       "matchedWords": {
         "-foQupVsrPkd": {
@@ -3035,9 +3029,9 @@
       "queryPhraseHits": 0
     },
     {
-      "hash": "p5WNmsyZbNhw",
-      "address": "https://gwern.net/gpt-3",
-      "title": "GPT-3 Creative Fiction · Gwern.net",
+      "hash": "nA0ugsw4UVk6",
+      "address": "https://paydayloansforus.com/",
+      "title": "Paydayloansforus -",
       "snippet": "",
       "matchedWords": {
         "-foQupVsrPkd": {
@@ -3057,8 +3051,8 @@
     }
   ],
   "documentsHeldPerQueryWord": {
-    "-foQupVsrPkd": 390615,
-    "Abrza739aVio": 1061181,
-    "qi1uT1eOsM-r": 666584
+    "-foQupVsrPkd": 257547,
+    "Abrza739aVio": 948631,
+    "qi1uT1eOsM-r": 852106
   }
 }

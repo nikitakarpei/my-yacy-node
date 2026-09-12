@@ -1,6 +1,6 @@
 {
   "query": "recette tarte tatin",
-  "recordedAt": "2026-09-12T10:15:30Z",
+  "recordedAt": "2026-09-12T11:25:32Z",
   "itemsInTheOrderOfEachAnswer": [
     [
       {
@@ -50,25 +50,25 @@
     ],
     [
       {
-        "hash": "jAiI3CKCIhSg",
-        "address": "https://madame.lefigaro.fr/recettes/ingredients/ananas-0",
-        "title": "Ananas recettes traditionnelles : sublimez vos plats",
-        "snippet": "Le délicieux ananas rôti en duo avec son coulis de kiwi et menthe, une recette du chef Angelo Orilieri.\n40min Facile\nAnanas flambé\nOn est sous le charme de cet ananas flambé au rhum, délicieusement saupoudré de noix de muscade, sucre et cannelle.\n25min Très facile\nMini Tatin à l'ananas",
+        "hash": "npXJn1Sb-d6h",
+        "address": "https://www.latribune.fr/la-tribune-dimanche/gastronomie-sorties-990/",
+        "title": "Gastronomie \u0026 Sorties - La Tribune",
+        "snippet": "Tarte tatin aux aubergines à la mélasse de grenade. La recette d’Anne Etorre\nGastronomie \u0026 Sorties\nQuand la photo défie l’IA à Perpignan et Arles\nGastronomie \u0026 Sorties\nQuartier de Portobello, pinte de Guinness et disquaires : sur les traces de U2 à Dublin\nGastronomie \u0026 Sorties",
         "matchedWords": {
           "5fuQgx56JnNw": {
-            "hits": 25,
-            "textWords": 2276
+            "hits": 7,
+            "textWords": 444
           },
           "VOSy9Y0Quc-u": {
-            "hits": 2,
-            "textWords": 2276
+            "hits": 1,
+            "textWords": 444
           },
           "dcfWvWQQSbvA": {
-            "hits": 0,
-            "textWords": 2276
+            "hits": 2,
+            "textWords": 444
           }
         },
-        "queryPhraseHits": 0
+        "queryPhraseHits": 1
       }
     ],
     [
@@ -96,22 +96,22 @@
     ],
     [
       {
-        "hash": "EoHInvKCIhSg",
-        "address": "https://madame.lefigaro.fr/shopping/lifestyle/l-art-du-matcha-a-la-maison-les-secrets-d-une-preparation-parfaite-20260902",
-        "title": "L’art du matcha à la maison : les secrets d’une préparation parfaite",
-        "snippet": "Par Diana Béraud, conseil shopping pour Madame Figaro\nPublié le 02/09/2026 à 11h10\nDécouvrez la nouvelle gamme de matchas bio signée Kusmi Tea canart7 / Getty Images\nInspiration nippone et savoir-faire français : découvrez la nouvelle gamme de matchas bio signée Kusmi Tea",
+        "hash": "jAiI3CKCIhSg",
+        "address": "https://madame.lefigaro.fr/recettes/ingredients/ananas-0",
+        "title": "Ananas recettes traditionnelles : sublimez vos plats",
+        "snippet": "Le délicieux ananas rôti en duo avec son coulis de kiwi et menthe, une recette du chef Angelo Orilieri.\n40min Facile\nAnanas flambé\nOn est sous le charme de cet ananas flambé au rhum, délicieusement saupoudré de noix de muscade, sucre et cannelle.\n25min Très facile\nMini Tatin à l'ananas",
         "matchedWords": {
           "5fuQgx56JnNw": {
-            "hits": 0,
-            "textWords": 625
+            "hits": 25,
+            "textWords": 2276
           },
           "VOSy9Y0Quc-u": {
-            "hits": 0,
-            "textWords": 625
+            "hits": 2,
+            "textWords": 2276
           },
           "dcfWvWQQSbvA": {
             "hits": 0,
-            "textWords": 625
+            "textWords": 2276
           }
         },
         "queryPhraseHits": 0
@@ -119,87 +119,22 @@
     ],
     [
       {
-        "hash": "EoHInvKCIhSg",
-        "address": "https://madame.lefigaro.fr/shopping/lifestyle/l-art-du-matcha-a-la-maison-les-secrets-d-une-preparation-parfaite-20260902",
-        "title": "L’art du matcha à la maison : les secrets d’une préparation parfaite",
-        "snippet": "Par Diana Béraud, conseil shopping pour Madame Figaro\nPublié le 02/09/2026 à 11h10\nDécouvrez la nouvelle gamme de matchas bio signée Kusmi Tea canart7 / Getty Images\nInspiration nippone et savoir-faire français : découvrez la nouvelle gamme de matchas bio signée Kusmi Tea",
+        "hash": "EB2-l9OaeHfg",
+        "address": "https://www.gala.fr/lifestyle/pour-lutter-contre-les-fortes-chaleurs-adeline-blondieau-a-trouve-la-parade-elle-devoile-une-boisson-fraiche-et-originale-qui-risque-de-vous-surprendre-20260719",
+        "title": "Pour lutter contre les fortes chaleurs, Adeline Blondieau a trouvé la parade : elle dévoile une boisson fraîche et originale qui risque de vous surprendre !",
+        "snippet": "Sur son compte Instagram, où elle est suivie par 271.000 personnes, Adeline Blondieau aime partager ses recettes. Afin de mieux supporter les fortes chaleurs, l’ancienne star de Sous le soleil a trouvé une recette de boisson fraîche, fruitée et originale !",
         "matchedWords": {
           "5fuQgx56JnNw": {
-            "hits": 0,
-            "textWords": 625
+            "hits": 5,
+            "textWords": 364
           },
           "VOSy9Y0Quc-u": {
             "hits": 0,
-            "textWords": 625
+            "textWords": 364
           },
           "dcfWvWQQSbvA": {
             "hits": 0,
-            "textWords": 625
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "Du3AHYzvQPgh",
-        "address": "https://www.radiofrance.fr/franceculture/podcasts/les-bonnes-choses/l-ete-des-tomates-9615538",
-        "title": "L'été des tomates | France Culture",
-        "snippet": "La recette de Tatin de tomate de Cédric Ravaud\nUstensiles\n1 plat à tarte en verre de 24cm\n1 planche\n1 couteau\nIngrédients\n1,5kg de tomates\n1 oignon rouge\n1 tête d'ail violet\nHuile d'olive\nVinaigre balsamique noir\nQuelques feuilles de basilic ou de roquette\nPour la pâte brisée au parmesan :",
-        "matchedWords": {
-          "5fuQgx56JnNw": {
-            "hits": 1,
-            "textWords": 492
-          },
-          "VOSy9Y0Quc-u": {
-            "hits": 1,
-            "textWords": 492
-          },
-          "dcfWvWQQSbvA": {
-            "hits": 2,
-            "textWords": 492
-          }
-        },
-        "queryPhraseHits": 0
-      }
-    ],
-    [
-      {
-        "hash": "EoHInvKCIhSg",
-        "address": "https://madame.lefigaro.fr/shopping/lifestyle/l-art-du-matcha-a-la-maison-les-secrets-d-une-preparation-parfaite-20260902",
-        "title": "L’art du matcha à la maison : les secrets d’une préparation parfaite",
-        "snippet": "Par Diana Béraud, conseil shopping pour Madame Figaro\nPublié le 02/09/2026 à 11h10\nDécouvrez la nouvelle gamme de matchas bio signée Kusmi Tea canart7 / Getty Images\nInspiration nippone et savoir-faire français : découvrez la nouvelle gamme de matchas bio signée Kusmi Tea",
-        "matchedWords": {
-          "5fuQgx56JnNw": {
-            "hits": 0,
-            "textWords": 625
-          },
-          "VOSy9Y0Quc-u": {
-            "hits": 0,
-            "textWords": 625
-          },
-          "dcfWvWQQSbvA": {
-            "hits": 0,
-            "textWords": 625
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "Du3AHYzvQPgh",
-        "address": "https://www.radiofrance.fr/franceculture/podcasts/les-bonnes-choses/l-ete-des-tomates-9615538",
-        "title": "L'été des tomates | France Culture",
-        "snippet": "La recette de Tatin de tomate de Cédric Ravaud\nUstensiles\n1 plat à tarte en verre de 24cm\n1 planche\n1 couteau\nIngrédients\n1,5kg de tomates\n1 oignon rouge\n1 tête d'ail violet\nHuile d'olive\nVinaigre balsamique noir\nQuelques feuilles de basilic ou de roquette\nPour la pâte brisée au parmesan :",
-        "matchedWords": {
-          "5fuQgx56JnNw": {
-            "hits": 1,
-            "textWords": 492
-          },
-          "VOSy9Y0Quc-u": {
-            "hits": 1,
-            "textWords": 492
-          },
-          "dcfWvWQQSbvA": {
-            "hits": 2,
-            "textWords": 492
+            "textWords": 364
           }
         },
         "queryPhraseHits": 0
@@ -230,6 +165,29 @@
     ],
     [
       {
+        "hash": "npXJn1Sb-d6h",
+        "address": "https://www.latribune.fr/la-tribune-dimanche/gastronomie-sorties-990/",
+        "title": "Gastronomie \u0026 Sorties - La Tribune",
+        "snippet": "Tarte tatin aux aubergines à la mélasse de grenade. La recette d’Anne Etorre\nGastronomie \u0026 Sorties\nQuand la photo défie l’IA à Perpignan et Arles\nGastronomie \u0026 Sorties\nQuartier de Portobello, pinte de Guinness et disquaires : sur les traces de U2 à Dublin\nGastronomie \u0026 Sorties",
+        "matchedWords": {
+          "5fuQgx56JnNw": {
+            "hits": 7,
+            "textWords": 444
+          },
+          "VOSy9Y0Quc-u": {
+            "hits": 1,
+            "textWords": 444
+          },
+          "dcfWvWQQSbvA": {
+            "hits": 2,
+            "textWords": 444
+          }
+        },
+        "queryPhraseHits": 1
+      }
+    ],
+    [
+      {
         "hash": "f7EzzcKIzUTx",
         "address": "https://fr.wikibooks.org/wiki/Accueil",
         "title": "Wikilivres",
@@ -249,6 +207,27 @@
           }
         },
         "queryPhraseHits": 0
+      },
+      {
+        "hash": "FF-7Scw63Csx",
+        "address": "https://fr.wikipedia.org/wiki/Tarte_aux_pommes",
+        "title": "Tarte aux pommes — Wikipédia",
+        "snippet": "Les variétés de pommes adaptées à la confection de tartes aux pommes sont la royal gala, gala, fuji ou granny smith[2].\nUne variante de la tarte aux pommes est la tarte Tatin où les pommes sont caramélisées et la pâte cuite au-dessus de ces dernières.",
+        "matchedWords": {
+          "5fuQgx56JnNw": {
+            "hits": 0,
+            "textWords": 346
+          },
+          "VOSy9Y0Quc-u": {
+            "hits": 1,
+            "textWords": 346
+          },
+          "dcfWvWQQSbvA": {
+            "hits": 14,
+            "textWords": 346
+          }
+        },
+        "queryPhraseHits": 1
       },
       {
         "hash": "6PQUelvtr8Z5",
@@ -295,68 +274,43 @@
     ],
     [
       {
-        "hash": "vNDoJcw63Csx",
-        "address": "https://fr.wikipedia.org/wiki/Pomme",
-        "title": "Pomme — Wikipédia",
-        "snippet": "la pomme d'amour (au beurre, sucre, sirop de grenadine, etc.) ;\nla tarte aux pommes ;\nla tarte Tatin ;\nles beignets aux pommes ;\nle pommé, confiture de pommes cuite dans du cidre ;\nles chips de pomme ;\nle crumble aux pommes ;\nla croustade aux pommes ;\nle sirop de Liège, une sorte de mélasse ;",
+        "hash": "EB2-l9OaeHfg",
+        "address": "https://www.gala.fr/lifestyle/pour-lutter-contre-les-fortes-chaleurs-adeline-blondieau-a-trouve-la-parade-elle-devoile-une-boisson-fraiche-et-originale-qui-risque-de-vous-surprendre-20260719",
+        "title": "Pour lutter contre les fortes chaleurs, Adeline Blondieau a trouvé la parade : elle dévoile une boisson fraîche et originale qui risque de vous surprendre !",
+        "snippet": "Sur son compte Instagram, où elle est suivie par 271.000 personnes, Adeline Blondieau aime partager ses recettes. Afin de mieux supporter les fortes chaleurs, l’ancienne star de Sous le soleil a trouvé une recette de boisson fraîche, fruitée et originale !",
         "matchedWords": {
           "5fuQgx56JnNw": {
-            "hits": 1,
-            "textWords": 9239
-          },
-          "VOSy9Y0Quc-u": {
-            "hits": 1,
-            "textWords": 9239
-          },
-          "dcfWvWQQSbvA": {
             "hits": 5,
-            "textWords": 9239
-          }
-        },
-        "queryPhraseHits": 1
-      }
-    ],
-    [
-      {
-        "hash": "xOm_uxzvQPgh",
-        "address": "https://www.radiofrance.fr/vie-quotidienne/cuisine?p=9",
-        "title": "Cuisine : Tous les podcasts et l'actualité des passionnés de cuisine | Page 9 | Radio France",
-        "snippet": "Découvrez la recette de Thierry pour réussir une tarte tatin fondante et gourmande tout l'été !\nICI\n3 min\nICI\n21 min\nICI\n8 min\nICI\n12 min\nICI\n34 min\nICI\n3 min\nICI\n19 min\nICI\n1 min\nICI\n4 min",
-        "matchedWords": {
-          "5fuQgx56JnNw": {
-            "hits": 1,
-            "textWords": 126
-          },
-          "VOSy9Y0Quc-u": {
-            "hits": 1,
-            "textWords": 126
-          },
-          "dcfWvWQQSbvA": {
-            "hits": 1,
-            "textWords": 126
-          }
-        },
-        "queryPhraseHits": 1
-      }
-    ],
-    [
-      {
-        "hash": "IWSO0uH9hPwY",
-        "address": "http://bakinginfranglais.blogspot.com/2012/01/tarte-aux-poires-frangipane.html",
-        "title": "A SLICE OF CAKE: TARTE AUX POIRES FRANGIPANE",
-        "snippet": "My sister-in-law gave us this cookbook about French country cooking for Christmas. We already have many of the recipes in other books but this is a lovely book with mouthwatering recipes and gorgeous photos that make you yearn to get on the next ferry to France.",
-        "matchedWords": {
-          "5fuQgx56JnNw": {
-            "hits": 0,
-            "textWords": 765
+            "textWords": 364
           },
           "VOSy9Y0Quc-u": {
             "hits": 0,
-            "textWords": 765
+            "textWords": 364
           },
           "dcfWvWQQSbvA": {
             "hits": 0,
-            "textWords": 765
+            "textWords": 364
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "Uom0VYKCIhSg",
+        "address": "https://madame.lefigaro.fr/cuisine/menu-de-la-semaine-nos-idees-recettes-du-10-au-16-novembre-20251107",
+        "title": "Menu de la semaine : nos idées recettes du 10 au 16 novembre",
+        "snippet": "7 menus complets pour la semaine du 13 au 19 juillet : de la pissaladière au crumble d’abricots\nTarte aux légumes du soleil, soupe fraîche de melon et carotte... Nos idées de menus complets pour la semaine du 13 au 19 juillet.\nPlus de services\nRecette d'oeuf à la coque\nRecette d'asperge vapeur",
+        "matchedWords": {
+          "5fuQgx56JnNw": {
+            "hits": 7,
+            "textWords": 912
+          },
+          "VOSy9Y0Quc-u": {
+            "hits": 0,
+            "textWords": 912
+          },
+          "dcfWvWQQSbvA": {
+            "hits": 3,
+            "textWords": 912
           }
         },
         "queryPhraseHits": 0
@@ -364,127 +318,22 @@
     ],
     [
       {
-        "hash": "GuOBHCKCIhSg",
-        "address": "https://madame.lefigaro.fr/recettes/tatin-de-saint-jacques-deric-guerin-151213-634624",
-        "title": "Tatin de Saint-Jacques",
-        "snippet": "Réservé aux abonnés\n(977 votes)\nPar\nSignée Éric Guérin, cette tarte tatin de la mer se compose de Saint-Jacques, pomme, fève, châtaigne et piment.\nDurée : 1h20min\nDifficulté : Facile\nPréparation 20min\nRepos -\nCuisson 1h\nIngrédients\nPréparation\nIngrédients\n4 personnes\n8 noix de Saint-Jacques",
+        "hash": "Eefa2CKCIhSg",
+        "address": "https://madame.lefigaro.fr/recettes/idees-menus/aperitif-dinatoire-0",
+        "title": "Recettes Apéro dînatoire : faciles et originales",
+        "snippet": "Pour combler nos envies de fromage, on se laisse tenter par cette tarte hivernale parfaite pour l'apéritif. Au menu : écrasée de pommes de terre, pâte feuilletée, mont d'Or et jambon cru. Une recette extraite…\n1h05min Facile\nDôme de saumon fumé",
         "matchedWords": {
           "5fuQgx56JnNw": {
-            "hits": 0,
-            "textWords": 205
+            "hits": 18,
+            "textWords": 1788
           },
           "VOSy9Y0Quc-u": {
             "hits": 1,
-            "textWords": 205
+            "textWords": 1788
           },
           "dcfWvWQQSbvA": {
-            "hits": 1,
-            "textWords": 205
-          }
-        },
-        "queryPhraseHits": 1
-      },
-      {
-        "hash": "xOm_uxzvQPgh",
-        "address": "https://www.radiofrance.fr/vie-quotidienne/cuisine?p=9",
-        "title": "Cuisine : Tous les podcasts et l'actualité des passionnés de cuisine | Page 9 | Radio France",
-        "snippet": "Découvrez la recette de Thierry pour réussir une tarte tatin fondante et gourmande tout l'été !\nICI\n3 min\nICI\n21 min\nICI\n8 min\nICI\n12 min\nICI\n34 min\nICI\n3 min\nICI\n19 min\nICI\n1 min\nICI\n4 min",
-        "matchedWords": {
-          "5fuQgx56JnNw": {
-            "hits": 1,
-            "textWords": 126
-          },
-          "VOSy9Y0Quc-u": {
-            "hits": 1,
-            "textWords": 126
-          },
-          "dcfWvWQQSbvA": {
-            "hits": 1,
-            "textWords": 126
-          }
-        },
-        "queryPhraseHits": 1
-      },
-      {
-        "hash": "6hBTkuH9hPwY",
-        "address": "http://bakinginfranglais.blogspot.com/2017/01/broccoli-and-stilton-soup.html",
-        "title": "A SLICE OF CAKE: BROCCOLI AND STILTON SOUP",
-        "snippet": "We have without doubt had a trying time recently. With Nick having had his minor heart attack last month and being in hospital before Christmas, my dad then had a slight stroke last week.",
-        "matchedWords": {
-          "5fuQgx56JnNw": {
-            "hits": 0,
-            "textWords": 694
-          },
-          "VOSy9Y0Quc-u": {
-            "hits": 0,
-            "textWords": 694
-          },
-          "dcfWvWQQSbvA": {
-            "hits": 0,
-            "textWords": 694
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "OB3reEH9hPwY",
-        "address": "http://bakinginfranglais.blogspot.com/2013/11/war-cake.html",
-        "title": "A SLICE OF CAKE: WAR CAKE",
-        "snippet": "The local Clandestine Cake Club meeting this month was themed “Vintage”. I tried to imagine what “vintage” actually means and decided it was probably anything from the late 19th century until maybe the 1950’s.",
-        "matchedWords": {
-          "5fuQgx56JnNw": {
-            "hits": 0,
-            "textWords": 868
-          },
-          "VOSy9Y0Quc-u": {
-            "hits": 0,
-            "textWords": 868
-          },
-          "dcfWvWQQSbvA": {
-            "hits": 0,
-            "textWords": 868
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "CimVTsH9hPwY",
-        "address": "http://bakinginfranglais.blogspot.com/2014/08/pear-and-chocolate-puddings.html",
-        "title": "A SLICE OF CAKE: PEAR AND CHOCOLATE PUDDINGS",
-        "snippet": "I spotted a recipe in a magazine recently that I felt compelled to try. It was a Rachel Khoo recipe for individual chocolate puddings with a pear in each one.\nI bought a bag of those own-brand, basic range pears from the supermarket.",
-        "matchedWords": {
-          "5fuQgx56JnNw": {
-            "hits": 0,
-            "textWords": 616
-          },
-          "VOSy9Y0Quc-u": {
-            "hits": 0,
-            "textWords": 616
-          },
-          "dcfWvWQQSbvA": {
-            "hits": 0,
-            "textWords": 616
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "V-z9HPH9hPwY",
-        "address": "http://bakinginfranglais.blogspot.com/2016/01/forgotten-cakes-and-bakes-of-2015-3.html",
-        "title": "A SLICE OF CAKE: PRESERVED ROAST TOMATOES (forgotten cakes and bakes of 2015)",
-        "snippet": "We did phenomenally well for tomatoes last year. We planted a few tomato plants at the top of the garden in May, watered them a couple of times then more or less ignored them for the rest of the summer. We harvested our first tomato on 1st July and they just kept on coming.",
-        "matchedWords": {
-          "5fuQgx56JnNw": {
-            "hits": 0,
-            "textWords": 403
-          },
-          "VOSy9Y0Quc-u": {
-            "hits": 0,
-            "textWords": 403
-          },
-          "dcfWvWQQSbvA": {
-            "hits": 0,
-            "textWords": 403
+            "hits": 2,
+            "textWords": 1788
           }
         },
         "queryPhraseHits": 0
@@ -560,69 +409,6 @@
       "queryPhraseHits": 1
     },
     {
-      "hash": "o7WntEH9hPwY",
-      "address": "http://bakinginfranglais.blogspot.com/2013/10/caraway-seed-cake.html",
-      "title": "A SLICE OF CAKE: CARAWAY SEED CAKE",
-      "snippet": "It was a relief when this month’s Alphabakes Challenge, was to bake something with the letter “C”. After a few not so easy letters, this one offered a huge amount of choice: chocolate, coffee, cherry, coconut, caramel, carrot………..an almost endless list. You can see the details on Ros’s blog here.",
-      "matchedWords": {
-        "5fuQgx56JnNw": {
-          "hits": 0,
-          "textWords": 701
-        },
-        "VOSy9Y0Quc-u": {
-          "hits": 0,
-          "textWords": 701
-        },
-        "dcfWvWQQSbvA": {
-          "hits": 0,
-          "textWords": 701
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "1wB2eEH9hPwY",
-      "address": "http://bakinginfranglais.blogspot.com/2013/12/triple-chocolate-christmas-cupcake-kit.html",
-      "title": "A SLICE OF CAKE: TRIPLE CHOCOLATE CHRISTMAS CUPCAKE KIT",
-      "snippet": "I spotted this recipe recently on the Good Food website and thought it was a great idea for an extra little Christmas present for an enthusiastic young baker in the family.\nI managed to get everything into the jar apart from the bar of milk chocolate for the topping.",
-      "matchedWords": {
-        "5fuQgx56JnNw": {
-          "hits": 0,
-          "textWords": 496
-        },
-        "VOSy9Y0Quc-u": {
-          "hits": 0,
-          "textWords": 496
-        },
-        "dcfWvWQQSbvA": {
-          "hits": 0,
-          "textWords": 496
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "Eefa2CKCIhSg",
-      "address": "https://madame.lefigaro.fr/recettes/idees-menus/aperitif-dinatoire-0",
-      "title": "Recettes Apéro dînatoire : faciles et originales",
-      "snippet": "Pour combler nos envies de fromage, on se laisse tenter par cette tarte hivernale parfaite pour l'apéritif. Au menu : écrasée de pommes de terre, pâte feuilletée, mont d'Or et jambon cru. Une recette extraite…\n1h05min Facile\nDôme de saumon fumé",
-      "matchedWords": {
-        "5fuQgx56JnNw": {
-          "hits": 18,
-          "textWords": 1788
-        },
-        "VOSy9Y0Quc-u": {
-          "hits": 1,
-          "textWords": 1788
-        },
-        "dcfWvWQQSbvA": {
-          "hits": 2,
-          "textWords": 1788
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
       "hash": "9gLDqCKCIhSg",
       "address": "https://madame.lefigaro.fr/recettes/plats/dessert",
       "title": "Dessert : recettes faciles et rapides",
@@ -644,529 +430,67 @@
       "queryPhraseHits": 1
     },
     {
-      "hash": "H-Q8DuH9hPwY",
-      "address": "http://bakinginfranglais.blogspot.com/2012/06/venetian-peas-and-rice.html",
-      "title": "A SLICE OF CAKE: PEA RISOTTO",
-      "snippet": "I recently bought this book, “Gorgeous greens” from the local book discount shop. Having become a fan of Annie Bell – I already have her books “Gorgeous cakes” and “Gorgeous desserts” - £2.99 didn’t seem like too much to gamble on another of her books !!",
+      "hash": "F0IMFcw63Csx",
+      "address": "https://fr.wikipedia.org/wiki/Curnonsky",
+      "title": "Curnonsky — Wikipédia",
+      "snippet": "D'une part la recette de la tarte retournée est fort ancienne et la recette des demoiselles Tatin est publiée par Austin de Croze et dans la presse dès 1923 et d'autre part comme l'écrit Pierre Leclercq (2018) aucune publication, aucune trace de la conférence de presse de Curnonsky ne fait allusion",
       "matchedWords": {
         "5fuQgx56JnNw": {
-          "hits": 0,
-          "textWords": 524
+          "hits": 3,
+          "textWords": 6990
         },
         "VOSy9Y0Quc-u": {
-          "hits": 0,
-          "textWords": 524
+          "hits": 4,
+          "textWords": 6990
         },
         "dcfWvWQQSbvA": {
-          "hits": 0,
-          "textWords": 524
+          "hits": 5,
+          "textWords": 6990
         }
       },
-      "queryPhraseHits": 0
+      "queryPhraseHits": 2
     },
     {
-      "hash": "L-EncsH9hPwY",
-      "address": "http://bakinginfranglais.blogspot.com/2014/01/chocolate-and-ginger-puddle-pudding.html",
-      "title": "A SLICE OF CAKE: CHOCOLATE AND GINGER PUDDLE PUDDING",
-      "snippet": "This is a recipe I found in one of the series of little books by the Women’s Institute, called “Chocolate Success”.\nIt’s for one of those self saucing puddings where you end up with a sponge on top and a sauce underneath.",
+      "hash": "vNDoJcw63Csx",
+      "address": "https://fr.wikipedia.org/wiki/Pomme",
+      "title": "",
+      "snippet": "la pomme d'amour (au beurre, sucre, sirop de grenadine, etc.) ;\nla tarte aux pommes ;\nla tarte Tatin ;\nles beignets aux pommes ;\nle pommé, confiture de pommes cuite dans du cidre ;\nles chips de pomme ;\nle crumble aux pommes ;\nla croustade aux pommes ;\nle sirop de Liège, une sorte de mélasse ;",
       "matchedWords": {
         "5fuQgx56JnNw": {
-          "hits": 0,
-          "textWords": 468
-        },
-        "VOSy9Y0Quc-u": {
-          "hits": 0,
-          "textWords": 468
-        },
-        "dcfWvWQQSbvA": {
-          "hits": 0,
-          "textWords": 468
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "MGGRFEH9hPwY",
-      "address": "http://bakinginfranglais.blogspot.com/2013/02/eighteenth-century-tart.html",
-      "title": "A SLICE OF CAKE: EIGHTEENTH CENTURY TART",
-      "snippet": "The Alphabakes Challenge for February, organised by Ros of The more than occasional baker, and Caroline of Caroline Makes, is to bake something which has the letter “E” in the title.",
-      "matchedWords": {
-        "5fuQgx56JnNw": {
-          "hits": 0,
-          "textWords": 751
-        },
-        "VOSy9Y0Quc-u": {
-          "hits": 0,
-          "textWords": 751
-        },
-        "dcfWvWQQSbvA": {
-          "hits": 0,
-          "textWords": 751
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "RIa1CuH9hPwY",
-      "address": "http://bakinginfranglais.blogspot.com/2012/03/fish-pie.html",
-      "title": "A SLICE OF CAKE: SWEET POTATO AND SMOKED FISH PIE",
-      "snippet": "I recently bought this book from the book selection that gets delivered to work every so often. (Although in actual fact most of the stuff in the box is not books these days but toys and other things.)",
-      "matchedWords": {
-        "5fuQgx56JnNw": {
-          "hits": 0,
-          "textWords": 520
-        },
-        "VOSy9Y0Quc-u": {
-          "hits": 0,
-          "textWords": 520
-        },
-        "dcfWvWQQSbvA": {
-          "hits": 0,
-          "textWords": 520
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "U4wxzsH9hPwY",
-      "address": "http://bakinginfranglais.blogspot.com/2014/11/hazelnut-plum-and-chocolate-cake.html",
-      "title": "A SLICE OF CAKE: HAZELNUT, PLUM AND CHOCOLATE CAKE",
-      "snippet": "For the October Loire Valley CCC meeting Nick chose this recipe from the BBC Good Food website. The theme of the meeting was “a taste of autumn” and nuts are very much in abundance in the Loire this autumn as there has been a particularly good nut harvest.",
-      "matchedWords": {
-        "5fuQgx56JnNw": {
-          "hits": 0,
-          "textWords": 524
-        },
-        "VOSy9Y0Quc-u": {
-          "hits": 0,
-          "textWords": 524
-        },
-        "dcfWvWQQSbvA": {
-          "hits": 0,
-          "textWords": 524
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "WXdA8sH9hPwY",
-      "address": "http://bakinginfranglais.blogspot.com/2014/05/parsnip-and-lemon-cake.html?showComment=1400698912879",
-      "title": "A SLICE OF CAKE: PARSNIP AND LEMON CAKE",
-      "snippet": "This could easily be the last cake I ever make in my old oven in my old kitchen. I spotted the recipe in a blog and it was one of those recipes that I felt compelled to make as soon as I had the opportunity.\nMy kitchen, spruced up for the estate agent’s photos.",
-      "matchedWords": {
-        "5fuQgx56JnNw": {
-          "hits": 0,
-          "textWords": 561
-        },
-        "VOSy9Y0Quc-u": {
-          "hits": 0,
-          "textWords": 561
-        },
-        "dcfWvWQQSbvA": {
-          "hits": 0,
-          "textWords": 561
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "W_QCTuH9hPwY",
-      "address": "http://bakinginfranglais.blogspot.com/2012/04/birds-nest-cake.html",
-      "title": "A SLICE OF CAKE: BIRDS NEST CAKE",
-      "snippet": "When we were in France for Easter our friends Colin and Elizabeth were coming over and I wanted to bake a cake.",
-      "matchedWords": {
-        "5fuQgx56JnNw": {
-          "hits": 0,
-          "textWords": 967
-        },
-        "VOSy9Y0Quc-u": {
-          "hits": 0,
-          "textWords": 967
-        },
-        "dcfWvWQQSbvA": {
-          "hits": 0,
-          "textWords": 967
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "Yr-qxEH9hPwY",
-      "address": "http://bakinginfranglais.blogspot.com/2013/09/milk-chocolate-and-toffee-cake.html",
-      "title": "A SLICE OF CAKE: MILK CHOCOLATE AND TOFFEE CAKE",
-      "snippet": "For this month’s We Should Cocoa Challenge the aim was to bake a chocolate show stopper cake to celebrate three years of the challenge. So when I was thinking what to bake for my sister in law Kathy’s birthday a chocolate cake with something special about it seemed to be a good idea.",
-      "matchedWords": {
-        "5fuQgx56JnNw": {
-          "hits": 0,
-          "textWords": 612
-        },
-        "VOSy9Y0Quc-u": {
-          "hits": 0,
-          "textWords": 612
-        },
-        "dcfWvWQQSbvA": {
-          "hits": 0,
-          "textWords": 612
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "Z0tDwXH9hPwY",
-      "address": "http://bakinginfranglais.blogspot.com/2011/06/cranberry-blondies.html",
-      "title": "A SLICE OF CAKE: CRANBERRY BLONDIES",
-      "snippet": "When I was browsing in the public library for cookbooks I came across this book.\nIt is such a nice book that I bought a copy from Amazon. Then I decided I couldn’t live without the book in France so I got a second copy.",
-      "matchedWords": {
-        "5fuQgx56JnNw": {
-          "hits": 0,
-          "textWords": 474
-        },
-        "VOSy9Y0Quc-u": {
-          "hits": 0,
-          "textWords": 474
-        },
-        "dcfWvWQQSbvA": {
-          "hits": 0,
-          "textWords": 474
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "cJ5prEH9hPwY",
-      "address": "http://bakinginfranglais.blogspot.com/2013/11/riesling-wine-cake-and-strange-case-of.html",
-      "title": "A SLICE OF CAKE: RIESLING WINE CAKE, and the strange case of “whose recipe is it anyway?”",
-      "snippet": "A few of you who have been reading this blog for a while might remember the episode a couple of years ago when I, along with many others, was ticked off by Dan Lepard’s editor/business manager/civil partner, David Whitehouse, for writing up one of his recipes on my blog.",
-      "matchedWords": {
-        "5fuQgx56JnNw": {
-          "hits": 0,
-          "textWords": 962
-        },
-        "VOSy9Y0Quc-u": {
-          "hits": 0,
-          "textWords": 962
-        },
-        "dcfWvWQQSbvA": {
-          "hits": 0,
-          "textWords": 962
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "ccAdCuH9hPwY",
-      "address": "http://bakinginfranglais.blogspot.com/2012/12/poulet-basquaise.html",
-      "title": "A SLICE OF CAKE: POULET BASQUAISE",
-      "snippet": "This month’s Random Recipe Challenge from Dom at Bellau Kitchen is to cook a recipe from a cookbook received as a gift last Christmas.\nBetween us Nick and I got four cookbooks (if you count the one I gave to him) and a random shuffle turned up “The French Country Table” by Laura Washburn.",
-      "matchedWords": {
-        "5fuQgx56JnNw": {
-          "hits": 0,
-          "textWords": 455
-        },
-        "VOSy9Y0Quc-u": {
-          "hits": 0,
-          "textWords": 455
-        },
-        "dcfWvWQQSbvA": {
-          "hits": 0,
-          "textWords": 455
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "gZYHXuH9hPwY",
-      "address": "http://bakinginfranglais.blogspot.com/2012/09/chocolate-margarita-cake.html",
-      "title": "A SLICE OF CAKE: CHOCOLATE MARGARITA CAKE",
-      "snippet": "When I first looked at the We Should Cocoa challenge for this month, organised by Choclette of Chocolate Log Blog and Chele of Chocolate Teapot, which is for something with a cocktail theme, I knew straight away what I would like to make.\nThere is only one cocktail that I ever drink – a margarita.",
-      "matchedWords": {
-        "5fuQgx56JnNw": {
-          "hits": 0,
-          "textWords": 603
-        },
-        "VOSy9Y0Quc-u": {
-          "hits": 0,
-          "textWords": 603
-        },
-        "dcfWvWQQSbvA": {
-          "hits": 0,
-          "textWords": 603
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "hglDyuH9hPwY",
-      "address": "http://bakinginfranglais.blogspot.com/2012/12/apple-and-strawberry-betty.html",
-      "title": "A SLICE OF CAKE: STRAWBERRY AND APPLE BETTY",
-      "snippet": "Not long ago my friends Tim and Pauline, who live not far from our little cottage in Le Grand-Pressigny, posted about the old-fashioned pudding, the “Betty”.\nI hadn’t eaten a Betty for years and the last time it was a fancy version served up for dessert in a gastro pub.",
-      "matchedWords": {
-        "5fuQgx56JnNw": {
-          "hits": 0,
-          "textWords": 535
-        },
-        "VOSy9Y0Quc-u": {
-          "hits": 0,
-          "textWords": 535
-        },
-        "dcfWvWQQSbvA": {
-          "hits": 0,
-          "textWords": 535
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "h-gLguH9hPwY",
-      "address": "http://bakinginfranglais.blogspot.com/2012/07/chocolate-and-blackcurrant-cake.html",
-      "title": "A SLICE OF CAKE: CHOCOLATE AND BLACKCURRANT CAKE",
-      "snippet": "Quite a few moons ago, I spotted a recipe in one of the blogs I read regularly for “chocolate pudding cake with raspberries”.\nI apologise sincerely to the writer of the blog but try as I might, wracking my poor old brain, I cannot recall whose blog it was.",
-      "matchedWords": {
-        "5fuQgx56JnNw": {
-          "hits": 0,
-          "textWords": 648
-        },
-        "VOSy9Y0Quc-u": {
-          "hits": 0,
-          "textWords": 648
-        },
-        "dcfWvWQQSbvA": {
-          "hits": 0,
-          "textWords": 648
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "niSMeEH9hPwY",
-      "address": "http://bakinginfranglais.blogspot.com/2013/02/chocolate-and-ginger-buns.html",
-      "title": "A SLICE OF CAKE: CHOCOLATE AND GINGER BUNS",
-      "snippet": "The We Should Cocoa Challenge for this month, hosted by Jen of Blue Kitchen Bakes, is to make something combining chocolate with ginger. This is a combination I have never baked before so I spent a happy time browsing through my cookbooks for ideas.",
-      "matchedWords": {
-        "5fuQgx56JnNw": {
-          "hits": 0,
-          "textWords": 756
-        },
-        "VOSy9Y0Quc-u": {
-          "hits": 0,
-          "textWords": 756
-        },
-        "dcfWvWQQSbvA": {
-          "hits": 0,
-          "textWords": 756
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "o7WntEH9hPwY",
-      "address": "http://bakinginfranglais.blogspot.com/2013/10/caraway-seed-cake.html",
-      "title": "A SLICE OF CAKE: CARAWAY SEED CAKE",
-      "snippet": "It was a relief when this month’s Alphabakes Challenge, was to bake something with the letter “C”. After a few not so easy letters, this one offered a huge amount of choice: chocolate, coffee, cherry, coconut, caramel, carrot………..an almost endless list. You can see the details on Ros’s blog here.",
-      "matchedWords": {
-        "5fuQgx56JnNw": {
-          "hits": 0,
-          "textWords": 701
-        },
-        "VOSy9Y0Quc-u": {
-          "hits": 0,
-          "textWords": 701
-        },
-        "dcfWvWQQSbvA": {
-          "hits": 0,
-          "textWords": 701
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "prBVREH9hPwY",
-      "address": "http://bakinginfranglais.blogspot.com/2013/11/orange-and-banana-yoghurt-cake.html",
-      "title": "A SLICE OF CAKE: ORANGE AND BANANA YOGHURT CAKE",
-      "snippet": "It’s the usual story. A couple of very sad looking bananas in the fruit bowl and a guilty conscience about throwing them out. Not that many years ago they would simply have gone in the bin and I wouldn’t have given it a second thought.",
-      "matchedWords": {
-        "5fuQgx56JnNw": {
-          "hits": 0,
-          "textWords": 560
-        },
-        "VOSy9Y0Quc-u": {
-          "hits": 0,
-          "textWords": 560
-        },
-        "dcfWvWQQSbvA": {
-          "hits": 0,
-          "textWords": 560
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "t2N7csH9hPwY",
-      "address": "http://bakinginfranglais.blogspot.com/2014/03/lemon-drizzle-birthday-bundt-cake.html",
-      "title": "A SLICE OF CAKE: LEMON DRIZZLE BIRTHDAY BUNDT CAKE",
-      "snippet": "This is the last cake I will be baking for a while. The house is sold so all my baking stuff will be packed up ready to be stored or moved before long.\nI was pleased to be making this cake, a birthday cake for my mother-in-law’s 90th birthday.",
-      "matchedWords": {
-        "5fuQgx56JnNw": {
-          "hits": 0,
-          "textWords": 369
-        },
-        "VOSy9Y0Quc-u": {
-          "hits": 0,
-          "textWords": 369
-        },
-        "dcfWvWQQSbvA": {
-          "hits": 0,
-          "textWords": 369
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "0ZDCQuH9hPwY",
-      "address": "http://bakinginfranglais.blogspot.com/2012/05/gluten-free-orange-and-polenta-biscuits.html",
-      "title": "A SLICE OF CAKE: GLUTEN FREE ORANGE AND POLENTA BISCUITS",
-      "snippet": "After my disaster with Jamie Oliver’s recipe for orange and polenta biscuits, then the success with the Cookie Girl’s recipe, I was interested to see how this one would turn out. I found it in the little Hamlyn book, “200 gluten free recipes”.\nThe recipe uses polenta, rice flour and ground almonds.",
-      "matchedWords": {
-        "5fuQgx56JnNw": {
-          "hits": 0,
-          "textWords": 442
-        },
-        "VOSy9Y0Quc-u": {
-          "hits": 0,
-          "textWords": 442
-        },
-        "dcfWvWQQSbvA": {
-          "hits": 0,
-          "textWords": 442
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "0ygfguH9hPwY",
-      "address": "http://bakinginfranglais.blogspot.com/2012/02/camp-coffee_08.html",
-      "title": "A SLICE OF CAKE: COFFEE AND WALNUT CAKE using Camp coffee essence",
-      "snippet": "When it was time for our Children in Need cake stall last year one of our regular “customers” requested a coffee and walnut cake so I volunteered to make it and chose a recipe which used coffee essence rather than granules so I went out and bought a bottle of Camp coffee.",
-      "matchedWords": {
-        "5fuQgx56JnNw": {
-          "hits": 0,
-          "textWords": 559
-        },
-        "VOSy9Y0Quc-u": {
-          "hits": 0,
-          "textWords": 559
-        },
-        "dcfWvWQQSbvA": {
-          "hits": 0,
-          "textWords": 559
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "1wB2eEH9hPwY",
-      "address": "http://bakinginfranglais.blogspot.com/2013/12/triple-chocolate-christmas-cupcake-kit.html",
-      "title": "A SLICE OF CAKE: TRIPLE CHOCOLATE CHRISTMAS CUPCAKE KIT",
-      "snippet": "I spotted this recipe recently on the Good Food website and thought it was a great idea for an extra little Christmas present for an enthusiastic young baker in the family.\nI managed to get everything into the jar apart from the bar of milk chocolate for the topping.",
-      "matchedWords": {
-        "5fuQgx56JnNw": {
-          "hits": 0,
-          "textWords": 496
-        },
-        "VOSy9Y0Quc-u": {
-          "hits": 0,
-          "textWords": 496
-        },
-        "dcfWvWQQSbvA": {
-          "hits": 0,
-          "textWords": 496
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "2SYwNEH9hPwY",
-      "address": "http://bakinginfranglais.blogspot.com/2013/07/chicken-with-lemon-rosemary-and-honey.html",
-      "title": "A SLICE OF CAKE: CHICKEN WITH LEMON, ROSEMARY AND HONEY",
-      "snippet": "This recipe is based on one from Rachel Allen’s book “Rachel’s Food for Living”. It’s a very easy recipe and a lovely, simple way to cook chicken. In her recipe you add the empty lemon halves to the dish after you have squeezed out the juice. You can see a version of it here.",
-      "matchedWords": {
-        "5fuQgx56JnNw": {
-          "hits": 0,
-          "textWords": 294
-        },
-        "VOSy9Y0Quc-u": {
-          "hits": 0,
-          "textWords": 294
-        },
-        "dcfWvWQQSbvA": {
-          "hits": 0,
-          "textWords": 294
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "4-bhZuH9hPwY",
-      "address": "http://bakinginfranglais.blogspot.com/2012/09/berry-and-almond-cake.html",
-      "title": "A SLICE OF CAKE: BERRY BAKEWELL CAKE",
-      "snippet": "I spotted a recipe in a magazine recently which was entitled “Bakewell cake”. It was for an almond flavoured sponge with blackberries in. It looked like a nice recipe and I happened to have some blackberries so I thought I would give it a try.\nEarly September is my favourite time of year.",
-      "matchedWords": {
-        "5fuQgx56JnNw": {
-          "hits": 0,
-          "textWords": 512
-        },
-        "VOSy9Y0Quc-u": {
-          "hits": 0,
-          "textWords": 512
-        },
-        "dcfWvWQQSbvA": {
-          "hits": 0,
-          "textWords": 512
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "7f44vEH9hPwY",
-      "address": "http://bakinginfranglais.blogspot.com/2013/07/smoked-haddock-prawn-and-spinach-tart.html",
-      "title": "A SLICE OF CAKE: SMOKED HADDOCK, PRAWN AND SPINACH TART",
-      "snippet": "We are on a mission to use up the contents of our freezer at the moment.\nI’m not sure why this is. Maybe it’s the time of year when we instinctively want to make space for the glut of home-grown vegetables due to arrive in the next few weeks.",
-      "matchedWords": {
-        "5fuQgx56JnNw": {
-          "hits": 0,
-          "textWords": 793
-        },
-        "VOSy9Y0Quc-u": {
-          "hits": 0,
-          "textWords": 793
-        },
-        "dcfWvWQQSbvA": {
-          "hits": 0,
-          "textWords": 793
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "Eefa2CKCIhSg",
-      "address": "https://madame.lefigaro.fr/recettes/idees-menus/aperitif-dinatoire-0",
-      "title": "Recettes Apéro dînatoire : faciles et originales",
-      "snippet": "Pour combler nos envies de fromage, on se laisse tenter par cette tarte hivernale parfaite pour l'apéritif. Au menu : écrasée de pommes de terre, pâte feuilletée, mont d'Or et jambon cru. Une recette extraite…\n1h05min Facile\nDôme de saumon fumé",
-      "matchedWords": {
-        "5fuQgx56JnNw": {
-          "hits": 18,
-          "textWords": 1788
+          "hits": 1,
+          "textWords": 9239
         },
         "VOSy9Y0Quc-u": {
           "hits": 1,
-          "textWords": 1788
+          "textWords": 9239
         },
         "dcfWvWQQSbvA": {
-          "hits": 2,
-          "textWords": 1788
+          "hits": 5,
+          "textWords": 9239
         }
       },
-      "queryPhraseHits": 0
+      "queryPhraseHits": 1
+    },
+    {
+      "hash": "154wlcw63Csx",
+      "address": "https://fr.wikipedia.org/wiki/Apple_pie",
+      "title": "Tarte aux pommes — Wikipédia",
+      "snippet": "Les variétés de pommes adaptées à la confection de tartes aux pommes sont la royal gala, gala, fuji ou granny smith[2].\nUne variante de la tarte aux pommes est la tarte Tatin où les pommes sont caramélisées et la pâte cuite au-dessus de ces dernières.",
+      "matchedWords": {
+        "5fuQgx56JnNw": {
+          "hits": 0,
+          "textWords": 350
+        },
+        "VOSy9Y0Quc-u": {
+          "hits": 1,
+          "textWords": 350
+        },
+        "dcfWvWQQSbvA": {
+          "hits": 14,
+          "textWords": 350
+        }
+      },
+      "queryPhraseHits": 1
     },
     {
       "hash": "TsMEXCKCIhSg",
@@ -1230,32 +554,11 @@
         }
       },
       "queryPhraseHits": 0
-    },
-    {
-      "hash": "Eefa2CKCIhSg",
-      "address": "https://madame.lefigaro.fr/recettes/idees-menus/aperitif-dinatoire-0",
-      "title": "Recettes Apéro dînatoire : faciles et originales",
-      "snippet": "Pour combler nos envies de fromage, on se laisse tenter par cette tarte hivernale parfaite pour l'apéritif. Au menu : écrasée de pommes de terre, pâte feuilletée, mont d'Or et jambon cru. Une recette extraite…\n1h05min Facile\nDôme de saumon fumé",
-      "matchedWords": {
-        "5fuQgx56JnNw": {
-          "hits": 18,
-          "textWords": 1788
-        },
-        "VOSy9Y0Quc-u": {
-          "hits": 1,
-          "textWords": 1788
-        },
-        "dcfWvWQQSbvA": {
-          "hits": 2,
-          "textWords": 1788
-        }
-      },
-      "queryPhraseHits": 0
     }
   ],
   "documentsHeldPerQueryWord": {
-    "5fuQgx56JnNw": 10402,
-    "VOSy9Y0Quc-u": 1209,
-    "dcfWvWQQSbvA": 2984
+    "5fuQgx56JnNw": 11722,
+    "VOSy9Y0Quc-u": 1153,
+    "dcfWvWQQSbvA": 3091
   }
 }

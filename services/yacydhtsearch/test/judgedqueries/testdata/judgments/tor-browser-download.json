@@ -2,22 +2,34 @@
   "query": "tor browser download",
   "judgedDocuments": [
     {
-      "hash": "CzzmkezgE7ix",
-      "address": "https://support.torproject.org/tor-browser/features/fingerprinting-protections/",
-      "title": "Fingerprinting protections - Features - Tor Browser — Tor",
+      "hash": "GGMS3sobwjLx",
+      "address": "https://www.torproject.org/about/history/",
+      "title": "Tor Project | History",
       "grade": 1
     },
     {
-      "hash": "u9W3gb2aOONx",
-      "address": "https://community.torproject.org/",
-      "title": "Tor Project | Join the Tor Community",
+      "hash": "bdPAIs8BaC94",
+      "address": "https://brave.com/download/",
+      "title": "Brave Browser Download | Brave",
+      "grade": 0
+    },
+    {
+      "hash": "K70q7h3e0QFx",
+      "address": "https://commons.wikimedia.org/wiki/Category:Tor_project",
+      "title": "Category:Tor project - Wikimedia Commons",
+      "grade": null
+    },
+    {
+      "hash": "-f3tGEzgE7ix",
+      "address": "https://support.torproject.org/",
+      "title": "Support — Tor",
       "grade": 1
     },
     {
-      "hash": "TfmnDlobwjLx",
-      "address": "https://www.torproject.org/",
-      "title": "Tor Project | Anonymity Online",
-      "grade": 2
+      "hash": "U_n9MsIq6BFg",
+      "address": "https://proton.me/lumo/download?ref=bannerredirect",
+      "title": "Lumo, the privacy-first AI. Download now | Proton",
+      "grade": null
     },
     {
       "hash": "JwlpNEzgE7ix",
@@ -26,10 +38,34 @@
       "grade": 1
     },
     {
-      "hash": "DxkspjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Brave_(web_browser)",
-      "title": "Brave (web browser) - Wikipedia",
-      "grade": 0
+      "hash": "sJZNEgvNEOe4",
+      "address": "https://progressivekw.weebly.com/blog/tor-7zip-download",
+      "title": "Tor 7zip download - progressivekw",
+      "grade": 2
+    },
+    {
+      "hash": "ub2Kg2RWDb2b",
+      "address": "http://formulasherbolarias.com/notepad/8-quick-ways-to-use-your-browser-as-a-notepad-54/",
+      "title": "8 Quick Ways to Use Your Browser as a Notepad – Formulas Herbolarias Magistrales",
+      "grade": null
+    },
+    {
+      "hash": "1B49sv4zh206",
+      "address": "https://lsprintingpress.com/product/2024-new-session-school-admission-open-posters-coral-draw-design-download-100-fully-editable-printable-all-font-included-zip-file/",
+      "title": "2024 New Session School Admission Open Posters Coral Draw Design Download 100% Fully Editable \u0026 Printable All Font Included Zip File - L S PRINTING PRESS",
+      "grade": null
+    },
+    {
+      "hash": "VEd6EjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Mercury_Browser",
+      "title": "Mercury Browser - Wikipedia",
+      "grade": null
+    },
+    {
+      "hash": "_Um5-ezgE7ix",
+      "address": "https://support.torproject.org/tor-browser/features/default-search-engine/",
+      "title": "Default search engine - Features - Tor Browser — Tor",
+      "grade": null
     },
     {
       "hash": "2fZWe_pFiLix",
@@ -50,16 +86,28 @@
       "grade": 2
     },
     {
-      "hash": "7F9Arc8BaC94",
-      "address": "https://brave.com/privacy/browser/",
-      "title": "Browser Privacy Policy | Brave",
-      "grade": 0
+      "hash": "8ETQ778cRLz5",
+      "address": "https://www.afterdawn.com/glossary/term.cfm/udif",
+      "title": "What means UDIF? - AfterDawn",
+      "grade": null
     },
     {
-      "hash": "bdPAIs8BaC94",
-      "address": "https://brave.com/download/",
-      "title": "Brave Browser Download | Brave",
-      "grade": 0
+      "hash": "CzzmkezgE7ix",
+      "address": "https://support.torproject.org/tor-browser/features/fingerprinting-protections/",
+      "title": "Fingerprinting protections - Features - Tor Browser — Tor",
+      "grade": 1
+    },
+    {
+      "hash": "s1GgLsIq6BFg",
+      "address": "https://proton.me/lumo/download",
+      "title": "Lumo, the privacy-first AI. Download now | Proton",
+      "grade": null
+    },
+    {
+      "hash": "yWjiqUwYpnl5",
+      "address": "https://protonvpn.com/blog/what-is-tor-browser",
+      "title": "What is Tor Browser? | Proton VPN",
+      "grade": null
     },
     {
       "hash": "B1eHQs8BaC94",
@@ -68,16 +116,16 @@
       "grade": 1
     },
     {
-      "hash": "-f3tGEzgE7ix",
-      "address": "https://support.torproject.org/",
-      "title": "Support — Tor",
-      "grade": 1
+      "hash": "ZISdac4dOwMx",
+      "address": "https://newsletter.torproject.org/",
+      "title": "Tor Newsletter Archive | The Tor Project",
+      "grade": null
     },
     {
-      "hash": "sJZNEgvNEOe4",
-      "address": "https://progressivekw.weebly.com/blog/tor-7zip-download",
-      "title": "Tor 7zip download - progressivekw",
-      "grade": 2
+      "hash": "G82vNKZ1LEAQ",
+      "address": "http://www.webupd8.org/2013/12/tor-browser-bundle-ubuntu-ppa.html",
+      "title": "Tor Browser Bundle Ubuntu PPA ~ Web Upd8: Ubuntu / Linux blog",
+      "grade": null
     },
     {
       "hash": "K6j1OsobwjLx",
@@ -86,10 +134,16 @@
       "grade": 1
     },
     {
-      "hash": "vBvwWFiwa444",
-      "address": "https://apps.apple.com/us/app/onion-browser/id519296448",
-      "title": "‎Onion Browser App - App Store",
-      "grade": 1
+      "hash": "qaAz-jRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/UC_Browser",
+      "title": "UC Browser - Wikipedia",
+      "grade": null
+    },
+    {
+      "hash": "7F9Arc8BaC94",
+      "address": "https://brave.com/privacy/browser/",
+      "title": "Browser Privacy Policy | Brave",
+      "grade": 0
     },
     {
       "hash": "okcdlsobwjLx",
@@ -98,57 +152,39 @@
       "grade": 1
     },
     {
-      "hash": "WZjuSjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Otter_Browser",
-      "title": "Otter Browser - Wikipedia",
-      "grade": 0
-    },
-    {
-      "hash": "3kdyXfC6nCRj",
-      "address": "https://forum-raspberrypi.de/forum/thread/16336-tor-hidden-service-problem-error/?postID=137109",
-      "title": "TOR - Hidden Service Problem/Error - Netzwerk · Server - Deutsches Raspberry Pi Forum",
-      "grade": 0
-    },
-    {
-      "hash": "OSEoVjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Opera_(web_browser)",
-      "title": "Opera (web browser) - Wikipedia",
-      "grade": 0
-    },
-    {
-      "hash": "H6Zz4sS6MKD4",
-      "address": "https://github.com/trending",
-      "title": "Trending repositories on GitHub today · GitHub",
-      "grade": 0
-    },
-    {
-      "hash": "tcdt2BakAu4h",
-      "address": "https://www.bundesrat.de/SharedDocs/texte/14/20141028-25-jahre-mauerfall.html",
-      "title": "Bundesrat - Textarchiv - Ausstellung vor dem Bundesrat",
-      "grade": 0
-    },
-    {
       "hash": "-t3HAjRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Firefox",
       "title": "Firefox - Wikipedia",
       "grade": 0
     },
     {
-      "hash": "CiziHp2aOONx",
-      "address": "https://community.torproject.org/relay/community-resources/bad-relays/",
-      "title": "Tor Project | Bad relays",
+      "hash": "-cSx3ezgE7ix",
+      "address": "https://support.torproject.org/tor-browser/getting-started/languages/",
+      "title": "Language support - Getting started - Tor Browser — Tor",
+      "grade": null
+    },
+    {
+      "hash": "ynNRB80Ns5jx",
+      "address": "https://donate.torproject.org/",
+      "title": "Tor Project",
       "grade": 1
     },
     {
-      "hash": "GGMS3sobwjLx",
-      "address": "https://www.torproject.org/about/history/",
-      "title": "Tor Project | History",
-      "grade": 1
+      "hash": "TfmnDlobwjLx",
+      "address": "https://www.torproject.org/",
+      "title": "Tor Project | Anonymity Online",
+      "grade": 2
     },
     {
-      "hash": "HB7odezgE7ix",
-      "address": "https://support.torproject.org/tor-browser/getting-started/uninstalling/",
-      "title": "Uninstalling - Getting started - Tor Browser — Tor",
+      "hash": "VIas57Sq7P5Z",
+      "address": "http://onionurls.com/",
+      "title": ".Onion Tor Urls",
+      "grade": 2
+    },
+    {
+      "hash": "vBvwWFiwa444",
+      "address": "https://apps.apple.com/us/app/onion-browser/id519296448",
+      "title": "‎Onion Browser App - App Store",
       "grade": 1
     },
     {
@@ -158,46 +194,40 @@
       "grade": 0
     },
     {
-      "hash": "VIas57Sq7P5Z",
-      "address": "http://onionurls.com/",
-      "title": ".Onion Tor Urls",
-      "grade": 2
+      "hash": "noFgGjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Beaker_(web_browser)",
+      "title": "Beaker (web browser) - Wikipedia",
+      "grade": null
     },
     {
-      "hash": "fEeAbFiwa444",
-      "address": "https://apps.apple.com/us/app/firefox-fast-private-browser/id989804926",
-      "title": "‎Firefox Fast \u0026 Private Browser App - App Store",
+      "hash": "OSEoVjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Opera_(web_browser)",
+      "title": "Opera (web browser) - Wikipedia",
       "grade": 0
     },
     {
-      "hash": "QdQk1p2smUiw",
-      "address": "https://ssd.eff.org/th/module/how-to-use-tor",
-      "title": "How to: Use Tor | Surveillance Self-Defense",
+      "hash": "EXfKitYEKFwx",
+      "address": "https://blog.torproject.org/what-tor-supporter-looks-molly-crabapple/",
+      "title": "This is what a Tor Supporter looks like: Molly Crabapple | The Tor Project",
+      "grade": null
+    },
+    {
+      "hash": "Khe206PZ2Wzx",
+      "address": "https://wikileaks.org/wiki/Category:Incomplete_pages",
+      "title": "Category:Incomplete pages - WikiLeaks",
+      "grade": null
+    },
+    {
+      "hash": "nIE0R7T64v7Y",
+      "address": "http://oniondir.biz/",
+      "title": "Deep Web Links Tor",
       "grade": 1
     },
     {
-      "hash": "eMDUGfC6nCRj",
-      "address": "https://forum-raspberrypi.de/forum/thread/16336-tor-hidden-service-problem-error/?postID=136490",
-      "title": "TOR - Hidden Service Problem/Error - Netzwerk · Server - Deutsches Raspberry Pi Forum",
-      "grade": 0
-    },
-    {
-      "hash": "9Gfi7KsrSOQw",
-      "address": "https://arxiv.org/list/cs/new",
-      "title": "Computer Science",
-      "grade": 0
-    },
-    {
-      "hash": "D4lABzaS0qdw",
-      "address": "https://planet.debian.org/",
-      "title": "Planet Debian",
-      "grade": 0
-    },
-    {
-      "hash": "ynNRB80Ns5jx",
-      "address": "https://donate.torproject.org/",
-      "title": "Tor Project",
-      "grade": 1
+      "hash": "6CH5KUIq6BFg",
+      "address": "https://proton.me/blog/clearing-browser-cache",
+      "title": "Clearing Browser Cache | Proton",
+      "grade": null
     },
     {
       "hash": "QMfrXtYEKFwx",
@@ -212,52 +242,28 @@
       "grade": 1
     },
     {
-      "hash": "nIE0R7T64v7Y",
-      "address": "http://oniondir.biz/",
-      "title": "Deep Web Links Tor",
+      "hash": "CiziHp2aOONx",
+      "address": "https://community.torproject.org/relay/community-resources/bad-relays/",
+      "title": "Tor Project | Bad relays",
       "grade": 1
     },
     {
-      "hash": "7iIlWfC6nCRj",
-      "address": "https://forum-raspberrypi.de/forum/thread/16336-tor-hidden-service-problem-error/?postID=136870",
-      "title": "TOR - Hidden Service Problem/Error - Netzwerk · Server - Deutsches Raspberry Pi Forum",
-      "grade": 0
+      "hash": "KVaqnsLPgkVw",
+      "address": "https://tails.net/",
+      "title": "Tails - Home",
+      "grade": null
     },
     {
-      "hash": "5k16YfC6nCRj",
-      "address": "https://forum-raspberrypi.de/forum/thread/16336-tor-hidden-service-problem-error/?postID=136932",
-      "title": "TOR - Hidden Service Problem/Error - Netzwerk · Server - Deutsches Raspberry Pi Forum",
-      "grade": 0
+      "hash": "WNklljRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Tor2web",
+      "title": "Tor2web - Wikipedia",
+      "grade": null
     },
     {
-      "hash": "1GQs2fC6nCRj",
-      "address": "https://forum-raspberrypi.de/forum/thread/16336-tor-hidden-service-problem-error/?postID=137072",
-      "title": "TOR - Hidden Service Problem/Error - Netzwerk · Server - Deutsches Raspberry Pi Forum",
-      "grade": 0
-    },
-    {
-      "hash": "mls3ZfC6nCRj",
-      "address": "https://forum-raspberrypi.de/forum/thread/16336-tor-hidden-service-problem-error/?postID=136525",
-      "title": "TOR - Hidden Service Problem/Error - Netzwerk · Server - Deutsches Raspberry Pi Forum",
-      "grade": 0
-    },
-    {
-      "hash": "elNvCfC6nCRj",
-      "address": "https://forum-raspberrypi.de/forum/thread/16336-tor-hidden-service-problem-error/?postID=136488",
-      "title": "TOR - Hidden Service Problem/Error - Netzwerk · Server - Deutsches Raspberry Pi Forum",
-      "grade": 0
-    },
-    {
-      "hash": "Ct63ujRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Internet_Archive",
-      "title": "Internet Archive - Wikipedia",
-      "grade": 0
-    },
-    {
-      "hash": "cfM-rjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/JavaScript",
-      "title": "JavaScript - Wikipedia",
-      "grade": 0
+      "hash": "aJD3vmIq6BFg",
+      "address": "https://proton.me/support/2fa-security-key",
+      "title": "Set up two-factor authentication (2FA) with a security key | Proton",
+      "grade": null
     },
     {
       "hash": "2MFHBtYEKFwx",
@@ -270,12 +276,6 @@
       "address": "https://en.uptodown.com/mac",
       "title": "App Downloads for Mac - Download, Discover, Share on Uptodown",
       "grade": 0
-    },
-    {
-      "hash": "_sYaGlobwjLx",
-      "address": "https://www.torproject.org/press/",
-      "title": "Tor Project | Press",
-      "grade": 1
     }
   ]
 }
