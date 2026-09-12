@@ -1,4 +1,4 @@
-package relevance
+package documentrelevance
 
 import (
 	"math"

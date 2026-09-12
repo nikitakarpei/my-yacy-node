@@ -8,8 +8,8 @@ import (
 	"testing"
 	"time"
 
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/documentrelevance"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/documenttext"
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/itemsordering/peerorder"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/itemsordering/relevance"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/networksearch"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/pagereading"
@@ -209,7 +209,15 @@ func networkSearching(
 ) networksearch.Network {
 	t.Helper()
 
-	return networkOrdering(t, directory, observer, querySpread, peerorder.Ordering{})
+	return networkOrdering(t, directory, observer, querySpread, orderingOfThePeerRankings{})
+}
+
+type orderingOfThePeerRankings struct{}
+
+func (orderingOfThePeerRankings) OrderedItemsOf(
+	answers peeranswers.AnsweredQuery,
+) []peeranswers.AnsweredItem {
+	return answers.ItemOfEachAnsweredDocument()
 }
 
 func networkOrdering(
@@ -462,7 +470,7 @@ func TestTheRankingByRelevancePutsTheRarerWordFirst(t *testing.T) {
 		directoryAnsweringAt(t, peerHolding(t)),
 		&recordedQuery{},
 		answersOfTwoWords(t, common, rare),
-		relevance.New(relevance.DefaultScoreWeights()),
+		relevance.New(documentrelevance.New(documentrelevance.DefaultScoreWeights())),
 	)
 
 	ranking, _ := network.Search(t.Context(), searchquery.QueryFrom("berlin kelondro", ""))
@@ -545,7 +553,7 @@ func TestTheRankingByRelevanceFollowsTheWordsReadFromThePages(t *testing.T) {
 		directoryAnsweringAt(t, peerHolding(t)),
 		answersOfTwoWordsMatchedByEveryItem(t, common, rare),
 		pagesHoldingTheWordOfOneDocument{address: common, word: "kelondro", hits: 50},
-		relevance.New(relevance.DefaultScoreWeights()),
+		relevance.New(documentrelevance.New(documentrelevance.DefaultScoreWeights())),
 		queryBudget,
 		pageReadBudget,
 		pagesReadPerQuery,
@@ -620,7 +628,7 @@ func networkRecordingItsBudgets(
 			recorded: recorded,
 		},
 		pagesRecordingTheBudgetTheyGet{recorded: recorded},
-		peerorder.Ordering{},
+		orderingOfThePeerRankings{},
 		queryBudget,
 		pageReadBudgetOfTheQuery,
 		pagesReadPerQuery,

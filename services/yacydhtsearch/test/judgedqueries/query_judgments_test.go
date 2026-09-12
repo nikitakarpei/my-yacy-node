@@ -7,7 +7,6 @@ import (
 	"os"
 	"testing"
 
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/itemsordering/peerorder"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peeranswers"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
@@ -111,7 +110,7 @@ func documentsToJudgeOf(
 func documentsThePeersPutFirst(
 	answers peeranswers.AnsweredQuery,
 ) map[yacymodel.URLHash]struct{} {
-	orderedItems := peerorder.Ordering{}.OrderedItemsOf(answers)
+	orderedItems := answers.ItemOfEachAnsweredDocument()
 
 	documentsPutFirst := make(map[yacymodel.URLHash]struct{}, judgedItemsCeiling)
 	for _, orderedItem := range orderedItems[:min(judgedItemsCeiling, len(orderedItems))] {

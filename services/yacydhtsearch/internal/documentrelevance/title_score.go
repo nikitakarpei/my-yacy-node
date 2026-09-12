@@ -1,4 +1,4 @@
-package relevance
+package documentrelevance
 
 import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peeranswers"

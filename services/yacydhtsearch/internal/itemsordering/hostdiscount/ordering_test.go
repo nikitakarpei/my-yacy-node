@@ -9,21 +9,14 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
-type orderingOfTheGivenRelevancePerAddress struct {
-	itemsInFallingOrderOfRelevance []peeranswers.AnsweredItem
-	relevancePerDocument           map[yacymodel.URLHash]float64
+type relevanceOfTheGivenDocuments struct {
+	relevancePerDocument map[yacymodel.URLHash]float64
 }
 
-func (o orderingOfTheGivenRelevancePerAddress) OrderedItemsOf(
-	_ peeranswers.AnsweredQuery,
-) []peeranswers.AnsweredItem {
-	return o.itemsInFallingOrderOfRelevance
-}
-
-func (o orderingOfTheGivenRelevancePerAddress) RelevancePerDocumentOf(
+func (given relevanceOfTheGivenDocuments) RelevancePerDocumentOf(
 	_ peeranswers.AnsweredQuery,
 ) map[yacymodel.URLHash]float64 {
-	return o.relevancePerDocument
+	return given.relevancePerDocument
 }
 
 type addressAndItsRelevance struct {
@@ -36,27 +29,29 @@ func addressesOrderedWithTheHostDiscount(
 ) []string {
 	t.Helper()
 
-	ordering := orderingOfTheGivenRelevancePerAddress{
-		relevancePerDocument: map[yacymodel.URLHash]float64{},
-	}
+	itemsOfOnePeerRanking := make(
+		[]peeranswers.AnsweredItem, 0, len(addressesInFallingOrderOfRelevance),
+	)
+	relevancePerDocument := map[yacymodel.URLHash]float64{}
 	for _, addressAndItsRelevance := range addressesInFallingOrderOfRelevance {
 		hash, err := yacymodel.URLHashOf(addressAndItsRelevance.address)
 		if err != nil {
 			t.Fatalf("URLHashOf(%q): %v", addressAndItsRelevance.address, err)
 		}
-		ordering.itemsInFallingOrderOfRelevance = append(
-			ordering.itemsInFallingOrderOfRelevance,
-			peeranswers.AnsweredItem{
-				Metadata: yacymodel.URLMetadata{
-					Hash:    hash,
-					Address: addressAndItsRelevance.address,
-				},
+		itemsOfOnePeerRanking = append(itemsOfOnePeerRanking, peeranswers.AnsweredItem{
+			Metadata: yacymodel.URLMetadata{
+				Hash:    hash,
+				Address: addressAndItsRelevance.address,
 			},
-		)
-		ordering.relevancePerDocument[hash] = addressAndItsRelevance.relevance
+		})
+		relevancePerDocument[hash] = addressAndItsRelevance.relevance
 	}
 
-	orderedItems := hostdiscount.New(ordering).OrderedItemsOf(peeranswers.AnsweredQuery{})
+	orderedItems := hostdiscount.New(
+		relevanceOfTheGivenDocuments{relevancePerDocument: relevancePerDocument},
+	).OrderedItemsOf(peeranswers.AnsweredQuery{
+		ItemsInTheOrderOfEachPeerRanking: [][]peeranswers.AnsweredItem{itemsOfOnePeerRanking},
+	})
 	orderedAddresses := make([]string, 0, len(orderedItems))
 	for _, orderedItem := range orderedItems {
 		orderedAddresses = append(orderedAddresses, orderedItem.Metadata.Address)
@@ -131,7 +126,7 @@ func TestEachFurtherItemOfOneHostTakesAFurtherDiscount(t *testing.T) {
 	}
 }
 
-func TestTheItemsOfEqualDiscountedRelevanceKeepTheOrderTheWrappedOrderingPutThem(t *testing.T) {
+func TestTheItemsOfEqualDiscountedRelevanceKeepTheOrderThePeersPutThem(t *testing.T) {
 	t.Parallel()
 
 	got := addressesOrderedWithTheHostDiscount(

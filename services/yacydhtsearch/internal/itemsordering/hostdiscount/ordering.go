@@ -1,11 +1,12 @@
 // Package hostdiscount orders the answered items by a relevance that falls by
 // half for each item of the same host it already placed above. One host thus
 // holds the whole first page only while its further items stay the most
-// relevant ones. Items of equal discounted relevance keep the order of the
-// ordering it wraps.
+// relevant ones. Items of equal discounted relevance keep the order of falling
+// relevance, in which documents of equal relevance keep the order of the peers.
 package hostdiscount
 
 import (
+	"cmp"
 	"math"
 	"net/url"
 	"slices"
@@ -14,102 +15,118 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
-const discountOfARepeatedHost = 0.5
+const shareOfRelevanceKeptPerPlacedItemOfTheSameHost = 0.5
 
-type ItemsOrdering interface {
-	OrderedItemsOf(answers peeranswers.AnsweredQuery) []peeranswers.AnsweredItem
+type DocumentRelevance interface {
 	RelevancePerDocumentOf(answers peeranswers.AnsweredQuery) map[yacymodel.URLHash]float64
 }
 
 type Ordering struct {
-	orderingByRelevance ItemsOrdering
+	documentRelevance DocumentRelevance
 }
 
-func New(orderingByRelevance ItemsOrdering) Ordering {
-	return Ordering{orderingByRelevance: orderingByRelevance}
+func New(documentRelevance DocumentRelevance) Ordering {
+	return Ordering{documentRelevance: documentRelevance}
 }
 
-func (o Ordering) OrderedItemsOf(
+func (ordering Ordering) OrderedItemsOf(
 	answers peeranswers.AnsweredQuery,
 ) []peeranswers.AnsweredItem {
+	relevancePerDocument := ordering.documentRelevance.RelevancePerDocumentOf(answers)
+
 	return itemsInFallingOrderOfDiscountedRelevance(
-		o.orderingByRelevance.OrderedItemsOf(answers),
-		o.orderingByRelevance.RelevancePerDocumentOf(answers),
+		itemsInFallingOrderOfRelevance(
+			answers.ItemOfEachAnsweredDocument(), relevancePerDocument,
+		),
+		relevancePerDocument,
 	)
 }
 
-func itemsInFallingOrderOfDiscountedRelevance(
-	itemsInFallingOrderOfRelevance []peeranswers.AnsweredItem,
+func itemsInFallingOrderOfRelevance(
+	items []peeranswers.AnsweredItem,
 	relevancePerDocument map[yacymodel.URLHash]float64,
 ) []peeranswers.AnsweredItem {
-	unplacedItems := itemsWithTheirHosts(itemsInFallingOrderOfRelevance)
-	amountOfPlacedItemsPerHost := map[string]int{}
-	placedItems := make([]peeranswers.AnsweredItem, 0, len(unplacedItems))
-	for len(unplacedItems) > 0 {
-		place := placeOfTheMostRelevantItemAfterTheDiscountAmong(
-			unplacedItems, relevancePerDocument, amountOfPlacedItemsPerHost,
+	slices.SortStableFunc(items, func(one, other peeranswers.AnsweredItem) int {
+		return cmp.Compare(
+			relevancePerDocument[other.Metadata.Hash], relevancePerDocument[one.Metadata.Hash],
 		)
-		placedItems = append(placedItems, unplacedItems[place].item)
-		amountOfPlacedItemsPerHost[unplacedItems[place].host]++
-		unplacedItems = slices.Delete(unplacedItems, place, place+1)
+	})
+
+	return items
+}
+
+func itemsInFallingOrderOfDiscountedRelevance(
+	itemsOfFallingRelevance []peeranswers.AnsweredItem,
+	relevancePerDocument map[yacymodel.URLHash]float64,
+) []peeranswers.AnsweredItem {
+	unplacedHostedItems := hostedItemsOf(itemsOfFallingRelevance)
+	amountOfPlacedItemsPerHost := map[string]int{}
+	placedItems := make([]peeranswers.AnsweredItem, 0, len(unplacedHostedItems))
+	for len(unplacedHostedItems) > 0 {
+		position := positionOfTheHighestDiscountedRelevanceAmong(
+			unplacedHostedItems, relevancePerDocument, amountOfPlacedItemsPerHost,
+		)
+		placedItems = append(placedItems, unplacedHostedItems[position].item)
+		amountOfPlacedItemsPerHost[unplacedHostedItems[position].host]++
+		unplacedHostedItems = slices.Delete(unplacedHostedItems, position, position+1)
 	}
 
 	return placedItems
 }
 
-type itemWithItsHost struct {
+type hostedItem struct {
 	item peeranswers.AnsweredItem
 	host string
 }
 
-func itemsWithTheirHosts(items []peeranswers.AnsweredItem) []itemWithItsHost {
-	itemsWithTheirHosts := make([]itemWithItsHost, 0, len(items))
+func hostedItemsOf(items []peeranswers.AnsweredItem) []hostedItem {
+	hostedItems := make([]hostedItem, 0, len(items))
 	for _, item := range items {
-		itemsWithTheirHosts = append(itemsWithTheirHosts, itemWithItsHost{
+		hostedItems = append(hostedItems, hostedItem{
 			item: item,
 			host: hostOf(item.Metadata.Address),
 		})
 	}
 
-	return itemsWithTheirHosts
+	return hostedItems
 }
 
-func placeOfTheMostRelevantItemAfterTheDiscountAmong(
-	items []itemWithItsHost,
+func positionOfTheHighestDiscountedRelevanceAmong(
+	hostedItems []hostedItem,
 	relevancePerDocument map[yacymodel.URLHash]float64,
 	amountOfPlacedItemsPerHost map[string]int,
 ) int {
-	placeOfTheMostRelevantItem := 0
+	positionOfTheHighestDiscountedRelevance := 0
 	highestDiscountedRelevance := math.Inf(-1)
-	for place, item := range items {
-		discountedRelevance := relevanceDiscountedPerHostOf(
-			item, relevancePerDocument, amountOfPlacedItemsPerHost,
+	for position, hostedItem := range hostedItems {
+		discountedRelevance := discountedRelevanceOf(
+			hostedItem, relevancePerDocument, amountOfPlacedItemsPerHost,
 		)
 		if discountedRelevance > highestDiscountedRelevance {
 			highestDiscountedRelevance = discountedRelevance
-			placeOfTheMostRelevantItem = place
+			positionOfTheHighestDiscountedRelevance = position
 		}
 	}
 
-	return placeOfTheMostRelevantItem
+	return positionOfTheHighestDiscountedRelevance
 }
 
-func relevanceDiscountedPerHostOf(
-	item itemWithItsHost,
+func discountedRelevanceOf(
+	hostedItem hostedItem,
 	relevancePerDocument map[yacymodel.URLHash]float64,
 	amountOfPlacedItemsPerHost map[string]int,
 ) float64 {
-	return relevancePerDocument[item.item.Metadata.Hash] * math.Pow(
-		discountOfARepeatedHost,
-		float64(amountOfPlacedItemsPerHost[item.host]),
+	return relevancePerDocument[hostedItem.item.Metadata.Hash] * math.Pow(
+		shareOfRelevanceKeptPerPlacedItemOfTheSameHost,
+		float64(amountOfPlacedItemsPerHost[hostedItem.host]),
 	)
 }
 
 func hostOf(address string) string {
-	readAddress, err := url.Parse(address)
-	if err != nil || readAddress.Hostname() == "" {
+	parsedAddress, err := url.Parse(address)
+	if err != nil || parsedAddress.Hostname() == "" {
 		return address
 	}
 
-	return readAddress.Hostname()
+	return parsedAddress.Hostname()
 }

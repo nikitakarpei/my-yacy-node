@@ -8,8 +8,8 @@ import (
 	"strings"
 	"testing"
 
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/documentrelevance"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/itemsordering/hostdiscount"
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/itemsordering/peerorder"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/itemsordering/relevance"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peeranswers"
 )
@@ -28,7 +28,7 @@ func TestTheRelevanceOrderingHoldsItsGainOverTheJudgedQueries(t *testing.T) {
 
 	judged := judgedQueriesRecorded(t)
 	gainOfTheOrderingOfTheService := gainPerJudgedQueryOf(
-		orderingOfTheServiceFrom(relevance.DefaultScoreWeights()), judged,
+		orderingOfTheServiceFrom(documentrelevance.DefaultScoreWeights()), judged,
 	)
 	acceptedGain := acceptedGainPerJudgedQueryInTheFile(t, acceptedGainFile)
 
@@ -79,8 +79,18 @@ func gradedDocumentsOfTheAnswersFile(t *testing.T, answersFile string) gradedDoc
 	return queryJudgmentsInTheFile(t, judgmentsFile).gradedDocumentsOfTheQuery()
 }
 
-func orderingOfTheServiceFrom(scoreWeights relevance.ScoreWeights) hostdiscount.Ordering {
-	return hostdiscount.New(relevance.New(scoreWeights))
+func orderingOfTheServiceFrom(
+	scoreWeights documentrelevance.ScoreWeights,
+) hostdiscount.Ordering {
+	return hostdiscount.New(documentrelevance.New(scoreWeights))
+}
+
+type orderingOfThePeerRankings struct{}
+
+func (orderingOfThePeerRankings) OrderedItemsOf(
+	answers peeranswers.AnsweredQuery,
+) []peeranswers.AnsweredItem {
+	return answers.ItemOfEachAnsweredDocument()
 }
 
 func reportTheGainOfEachJudgedQuery(
@@ -88,9 +98,10 @@ func reportTheGainOfEachJudgedQuery(
 ) {
 	t.Helper()
 
-	relevanceOrdering := relevance.New(relevance.DefaultScoreWeights())
+	documentRelevance := documentrelevance.New(documentrelevance.DefaultScoreWeights())
+	relevanceOrdering := relevance.New(documentRelevance)
 	for _, judgedQuery := range judged {
-		orderedItems := hostdiscount.New(relevanceOrdering).OrderedItemsOf(judgedQuery.answers)
+		orderedItems := hostdiscount.New(documentRelevance).OrderedItemsOf(judgedQuery.answers)
 		t.Logf(
 			"%q: host discount %.4f, relevance %.4f, peer order %.4f, %d ungraded documents "+
 				"dropped",
@@ -100,7 +111,7 @@ func reportTheGainOfEachJudgedQuery(
 				relevanceOrdering.OrderedItemsOf(judgedQuery.answers),
 			),
 			judgedQuery.gradedDocuments.normalizedGainDiscountedPerHostOf(
-				peerorder.Ordering{}.OrderedItemsOf(judgedQuery.answers),
+				orderingOfThePeerRankings{}.OrderedItemsOf(judgedQuery.answers),
 			),
 			judgedQuery.gradedDocuments.amountOfUngradedItemsAmong(orderedItems),
 		)
@@ -108,9 +119,9 @@ func reportTheGainOfEachJudgedQuery(
 	t.Logf(
 		"the mean over %d judged queries: host discount %.4f, relevance %.4f, peer order %.4f",
 		len(judged),
-		meanNormalizedGainDiscountedPerHostOf(hostdiscount.New(relevanceOrdering), judged),
+		meanNormalizedGainDiscountedPerHostOf(hostdiscount.New(documentRelevance), judged),
 		meanNormalizedGainDiscountedPerHostOf(relevanceOrdering, judged),
-		meanNormalizedGainDiscountedPerHostOf(peerorder.Ordering{}, judged),
+		meanNormalizedGainDiscountedPerHostOf(orderingOfThePeerRankings{}, judged),
 	)
 	t.Logf(
 		"the ordering of the service reaches no gain on %d of %d judged queries",
@@ -136,10 +147,10 @@ func failIfTheLiftOverThePeerOrderingFallsShort(t *testing.T, judged []judgedQue
 	t.Helper()
 
 	meanGainOfTheOrderingOfTheService := meanNormalizedGainDiscountedPerHostOf(
-		orderingOfTheServiceFrom(relevance.DefaultScoreWeights()), judged,
+		orderingOfTheServiceFrom(documentrelevance.DefaultScoreWeights()), judged,
 	)
 	meanGainOfThePeerOrdering := meanNormalizedGainDiscountedPerHostOf(
-		peerorder.Ordering{}, judged,
+		orderingOfThePeerRankings{}, judged,
 	)
 	if meanGainOfTheOrderingOfTheService-meanGainOfThePeerOrdering >=
 		leastLiftOfTheOrderingOfTheServiceOverThePeerOrdering {

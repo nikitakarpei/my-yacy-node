@@ -9,6 +9,7 @@ import (
 	"testing"
 	"time"
 
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/documentrelevance"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/itemsordering/relevance"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peeranswers"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peercallwire"
@@ -294,7 +295,9 @@ func pageTextOfTheFirstAnsweredDocuments(
 ) map[yacymodel.URLHash]string {
 	t.Helper()
 
-	candidates := relevance.New(relevance.DefaultScoreWeights()).OrderedItemsOf(answers)
+	candidates := relevance.New(
+		documentrelevance.New(documentrelevance.DefaultScoreWeights()),
+	).OrderedItemsOf(answers)
 
 	return reading.pageTextPerDocument(
 		t.Context(), candidates[:min(pagesReadPerQuery, len(candidates))],

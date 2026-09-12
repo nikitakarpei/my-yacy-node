@@ -9,7 +9,7 @@ import (
 	"sync"
 	"testing"
 
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/itemsordering/relevance"
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/documentrelevance"
 )
 
 const (
@@ -53,7 +53,7 @@ func reportTheBestScoreWeightsOverEveryJudgedQuery(t *testing.T, judged []judged
 		len(scoreWeightsOfTheGrid()),
 		spelledScoreWeightsOf(bestScoreWeights),
 		meanGainOfTheScoreWeights(bestScoreWeights, judged),
-		meanGainOfTheScoreWeights(relevance.DefaultScoreWeights(), judged),
+		meanGainOfTheScoreWeights(documentrelevance.DefaultScoreWeights(), judged),
 	)
 }
 
@@ -75,7 +75,7 @@ func reportTheScoreWeightsTunedOnOneHalfAndMeasuredOnTheOther(
 			meanGainOfTheScoreWeights(tunedScoreWeights, judgedQueriesOfTheHalf),
 			meanGainOfTheScoreWeights(tunedScoreWeights, heldOut),
 			len(heldOut),
-			meanGainOfTheScoreWeights(relevance.DefaultScoreWeights(), heldOut),
+			meanGainOfTheScoreWeights(documentrelevance.DefaultScoreWeights(), heldOut),
 		)
 	}
 }
@@ -100,11 +100,11 @@ func placeAmongTheJudgedQueriesOf(query string) int {
 	return slices.Index(judgedQueries, query)
 }
 
-func bestScoreWeightsOver(judged []judgedQuery) relevance.ScoreWeights {
+func bestScoreWeightsOver(judged []judgedQuery) documentrelevance.ScoreWeights {
 	grid := scoreWeightsOfTheGrid()
 	meanGainOfEachScoreWeights := meanGainOfEachOf(grid, judged)
 
-	bestScoreWeights := relevance.DefaultScoreWeights()
+	bestScoreWeights := documentrelevance.DefaultScoreWeights()
 	bestMeanGain := meanGainOfTheScoreWeights(bestScoreWeights, judged)
 	for place, meanGain := range meanGainOfEachScoreWeights {
 		if meanGain <= bestMeanGain {
@@ -117,7 +117,7 @@ func bestScoreWeightsOver(judged []judgedQuery) relevance.ScoreWeights {
 }
 
 func meanGainOfEachOf(
-	grid []relevance.ScoreWeights, judged []judgedQuery,
+	grid []documentrelevance.ScoreWeights, judged []judgedQuery,
 ) []float64 {
 	meanGainOfEachScoreWeights := make([]float64, len(grid))
 	amountOfWorkers := runtime.GOMAXPROCS(0)
@@ -139,17 +139,17 @@ func meanGainOfEachOf(
 }
 
 func meanGainOfTheScoreWeights(
-	scoreWeights relevance.ScoreWeights, judged []judgedQuery,
+	scoreWeights documentrelevance.ScoreWeights, judged []judgedQuery,
 ) float64 {
 	return meanNormalizedGainDiscountedPerHostOf(orderingOfTheServiceFrom(scoreWeights), judged)
 }
 
-func scoreWeightsOfTheGrid() []relevance.ScoreWeights {
+func scoreWeightsOfTheGrid() []documentrelevance.ScoreWeights {
 	return scoreWeightsOfDistinctWeightRatiosAmong(scoreWeightsOfEveryWeightCombination())
 }
 
-func scoreWeightsOfEveryWeightCombination() []relevance.ScoreWeights {
-	combinations := []relevance.ScoreWeights{{}}
+func scoreWeightsOfEveryWeightCombination() []documentrelevance.ScoreWeights {
+	combinations := []documentrelevance.ScoreWeights{{}}
 	for score := range amountOfWeightsOfTheScoreWeights {
 		combinations = combinationsOfEveryValueOfTheWeight(combinations, score)
 	}
@@ -158,10 +158,10 @@ func scoreWeightsOfEveryWeightCombination() []relevance.ScoreWeights {
 }
 
 func combinationsOfEveryValueOfTheWeight(
-	combinations []relevance.ScoreWeights, score int,
-) []relevance.ScoreWeights {
+	combinations []documentrelevance.ScoreWeights, score int,
+) []documentrelevance.ScoreWeights {
 	weightValues := weightValuesOfTheGridOfEachScore[score]
-	widened := make([]relevance.ScoreWeights, 0, len(combinations)*len(weightValues))
+	widened := make([]documentrelevance.ScoreWeights, 0, len(combinations)*len(weightValues))
 	for _, scoreWeights := range combinations {
 		for _, weightValue := range weightValues {
 			*weightOfEachScoreIn(&scoreWeights)[score] = weightValue
@@ -173,7 +173,7 @@ func combinationsOfEveryValueOfTheWeight(
 }
 
 func weightOfEachScoreIn(
-	scoreWeights *relevance.ScoreWeights,
+	scoreWeights *documentrelevance.ScoreWeights,
 ) [amountOfWeightsOfTheScoreWeights]*float64 {
 	return [amountOfWeightsOfTheScoreWeights]*float64{
 		&scoreWeights.WeightOfThePlaceScore,
@@ -186,9 +186,9 @@ func weightOfEachScoreIn(
 }
 
 func scoreWeightsOfDistinctWeightRatiosAmong(
-	combinations []relevance.ScoreWeights,
-) []relevance.ScoreWeights {
-	ofDistinctWeightRatios := make([]relevance.ScoreWeights, 0, len(combinations))
+	combinations []documentrelevance.ScoreWeights,
+) []documentrelevance.ScoreWeights {
+	ofDistinctWeightRatios := make([]documentrelevance.ScoreWeights, 0, len(combinations))
 	alreadyTakenWeightRatios := map[[amountOfWeightsOfTheScoreWeights]float64]struct{}{}
 	for _, scoreWeights := range combinations {
 		weightRatios := weightRatiosOf(scoreWeights)
@@ -203,7 +203,7 @@ func scoreWeightsOfDistinctWeightRatiosAmong(
 }
 
 func weightRatiosOf(
-	scoreWeights relevance.ScoreWeights,
+	scoreWeights documentrelevance.ScoreWeights,
 ) [amountOfWeightsOfTheScoreWeights]float64 {
 	var weights [amountOfWeightsOfTheScoreWeights]float64
 	for place, weight := range weightOfEachScoreIn(&scoreWeights) {
@@ -222,7 +222,7 @@ func weightRatiosOf(
 	return weights
 }
 
-func spelledScoreWeightsOf(scoreWeights relevance.ScoreWeights) string {
+func spelledScoreWeightsOf(scoreWeights documentrelevance.ScoreWeights) string {
 	return fmt.Sprintf(
 		"place %.2f, title %.2f, text %.2f, address %.2f, phrase %.2f, coordination %.2f",
 		scoreWeights.WeightOfThePlaceScore,
