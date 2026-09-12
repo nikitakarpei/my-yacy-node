@@ -39,11 +39,10 @@ func TestOneWordJoinedSpreadPublishesWhatTheJoinFound(t *testing.T) {
 		AmountOfPeersThatAnswered:              6,
 		TimeSpent:                              250 * time.Millisecond,
 		AmountOfPeersHoldingAQueryWord:         4,
-		AmountOfJoinedDocuments:                8,
+		AmountOfJoinedDocuments:                10,
 		AmountOfJoinedDocumentsWithMetadata:    2,
 		AmountOfMatchedDocumentsAcrossAnswers:  10,
 		AmountOfMatchedDocumentsCountedByAPeer: 6,
-		AmountOfDocumentsHeldInEachAnswer:      []int{16, 64},
 		AmountOfDocumentsAskedMetadataFor:      4,
 		AmountOfAskedDocumentsWithMetadata:     3,
 	})
@@ -51,11 +50,9 @@ func TestOneWordJoinedSpreadPublishesWhatTheJoinFound(t *testing.T) {
 	body := publishedBy(t, registry)
 	for _, published := range []string{
 		`yacydhtsearch_word_joined_spreads_total{join="documents"} 1`,
-		"yacydhtsearch_word_joined_spread_join_asked_metadata_for_ratio_sum 0.5",
-		"yacydhtsearch_word_joined_spread_join_with_metadata_ratio_sum 0.25",
+		"yacydhtsearch_word_joined_spread_missing_metadata_asked_for_ratio_sum 0.5",
+		"yacydhtsearch_word_joined_spread_join_with_metadata_ratio_sum 0.2",
 		"yacydhtsearch_word_joined_spread_matched_documents_counted_by_a_peer_ratio_sum 0.6",
-		"yacydhtsearch_word_joined_spread_documents_held_in_one_answer_sum 80",
-		"yacydhtsearch_word_joined_spread_documents_held_in_one_answer_count 2",
 		"yacydhtsearch_word_joined_spread_peers_asked_sum 8",
 		"yacydhtsearch_word_joined_spread_unheld_query_words_ratio_sum 0.25",
 		"yacydhtsearch_word_joined_spread_asked_documents_with_metadata_ratio_sum 0.75",
@@ -100,11 +97,32 @@ func TestASpreadNoDocumentHeldAllQueryWordsForIsCountedApart(t *testing.T) {
 	body := publishedBy(t, registry)
 	for _, published := range []string{
 		`yacydhtsearch_word_joined_spreads_total{join="no document"} 1`,
-		"yacydhtsearch_word_joined_spread_join_asked_metadata_for_ratio_count 0",
+		"yacydhtsearch_word_joined_spread_missing_metadata_asked_for_ratio_count 0",
 	} {
 		if !strings.Contains(body, published) {
 			t.Fatalf("metrics do not carry %q:\n%s", published, body)
 		}
+	}
+}
+
+func TestASpreadWhoseDocumentsAllCarriedMetadataPublishesNoAskedForRatio(t *testing.T) {
+	t.Parallel()
+
+	registry := prometheusclient.NewRegistry()
+	metrics := wordjoinedobserversprometheus.New(registry, 5*time.Second)
+
+	metrics.WordJoinedSpreadPerformed(t.Context(), wordjoined.PerformedWordJoinedSpread{
+		AmountOfQueryWords:                  2,
+		AmountOfJoinedDocuments:             4,
+		AmountOfJoinedDocumentsWithMetadata: 4,
+	})
+
+	body := publishedBy(t, registry)
+	if !strings.Contains(
+		body,
+		"yacydhtsearch_word_joined_spread_missing_metadata_asked_for_ratio_count 0",
+	) {
+		t.Fatalf("metrics carry an asked for ratio for a spread that asked for none:\n%s", body)
 	}
 }
 

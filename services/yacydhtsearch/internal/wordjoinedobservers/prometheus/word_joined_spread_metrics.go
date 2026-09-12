@@ -16,17 +16,15 @@ import (
 )
 
 const (
-	peerBucketCeiling             = 128.0
-	peerBuckets                   = 8
-	documentsPerWordBucketCeiling = 1048576.0
-	documentsPerWordBuckets       = 11
-	durationBuckets               = 12
-	budgetShare                   = 1024
-	ratioBuckets                  = 11
-	ratioStep                     = 0.1
-	labelJoin                     = "join"
-	joinFoundNoDocument           = "no document"
-	joinFoundDocuments            = "documents"
+	peerBucketCeiling   = 128.0
+	peerBuckets         = 8
+	durationBuckets     = 12
+	budgetShare         = 1024
+	ratioBuckets        = 11
+	ratioStep           = 0.1
+	labelJoin           = "join"
+	joinFoundNoDocument = "no document"
+	joinFoundDocuments  = "documents"
 )
 
 type WordJoinedSpreadMetrics struct {
@@ -36,8 +34,7 @@ type WordJoinedSpreadMetrics struct {
 	unheldQueryWordsRatio               prometheusclient.Histogram
 	joinWithMetadataRatio               prometheusclient.Histogram
 	matchedDocumentsCountedByAPeerRatio prometheusclient.Histogram
-	documentsHeldInOneAnswer            prometheusclient.Histogram
-	joinAskedMetadataForRatio           prometheusclient.Histogram
+	missingMetadataAskedForRatio        prometheusclient.Histogram
 	askedDocumentsWithMetadataRatio     prometheusclient.Histogram
 	wordJoinedSpreadDurationSeconds     prometheusclient.Histogram
 }
@@ -77,18 +74,10 @@ func New(
 			"Share of the documents the peers matched in their answers to the first round "+
 				"that a peer counted a word in.",
 		),
-		documentsHeldInOneAnswer: prometheusclient.NewHistogram(
-			prometheusclient.HistogramOpts{
-				Name: "yacydhtsearch_word_joined_spread_documents_held_in_one_answer",
-				Help: "Documents one peer reported holding for one query word.",
-				Buckets: bucketsFromNoneTo(
-					documentsPerWordBucketCeiling, documentsPerWordBuckets,
-				),
-			},
-		),
-		joinAskedMetadataForRatio: ratioHistogramNamed(
-			"yacydhtsearch_word_joined_spread_join_asked_metadata_for_ratio",
-			"Share of the joined documents the spread asked the peers metadata for.",
+		missingMetadataAskedForRatio: ratioHistogramNamed(
+			"yacydhtsearch_word_joined_spread_missing_metadata_asked_for_ratio",
+			"Share of the joined documents that came without metadata the spread "+
+				"asked the peers metadata for.",
 		),
 		askedDocumentsWithMetadataRatio: ratioHistogramNamed(
 			"yacydhtsearch_word_joined_spread_asked_documents_with_metadata_ratio",
@@ -113,8 +102,7 @@ func New(
 		metrics.unheldQueryWordsRatio,
 		metrics.joinWithMetadataRatio,
 		metrics.matchedDocumentsCountedByAPeerRatio,
-		metrics.documentsHeldInOneAnswer,
-		metrics.joinAskedMetadataForRatio,
+		metrics.missingMetadataAskedForRatio,
 		metrics.askedDocumentsWithMetadataRatio,
 		metrics.wordJoinedSpreadDurationSeconds,
 	)
@@ -146,15 +134,12 @@ func (m *WordJoinedSpreadMetrics) WordJoinedSpreadPerformed(
 	m.countJoin(spread)
 	m.observeAnsweringPeersRatio(spread)
 	m.observeQueryRatios(spread)
-	m.observeWhatThePeersAnswered(spread)
+	m.observeMatchedDocumentsCountedByAPeerRatio(spread)
 }
 
-func (m *WordJoinedSpreadMetrics) observeWhatThePeersAnswered(
+func (m *WordJoinedSpreadMetrics) observeMatchedDocumentsCountedByAPeerRatio(
 	spread wordjoined.PerformedWordJoinedSpread,
 ) {
-	for _, documentsHeld := range spread.AmountOfDocumentsHeldInEachAnswer {
-		m.documentsHeldInOneAnswer.Observe(float64(documentsHeld))
-	}
 	if spread.AmountOfMatchedDocumentsAcrossAnswers == 0 {
 		return
 	}
@@ -171,13 +156,17 @@ func (m *WordJoinedSpreadMetrics) countJoin(spread wordjoined.PerformedWordJoine
 		return
 	}
 	m.wordJoinedSpreads.WithLabelValues(joinFoundDocuments).Inc()
-	m.joinAskedMetadataForRatio.Observe(
-		float64(spread.AmountOfDocumentsAskedMetadataFor) /
-			float64(spread.AmountOfJoinedDocuments),
-	)
 	m.joinWithMetadataRatio.Observe(
 		float64(spread.AmountOfJoinedDocumentsWithMetadata) /
 			float64(spread.AmountOfJoinedDocuments),
+	)
+	documentsMissingMetadata := spread.AmountOfJoinedDocuments -
+		spread.AmountOfJoinedDocumentsWithMetadata
+	if documentsMissingMetadata == 0 {
+		return
+	}
+	m.missingMetadataAskedForRatio.Observe(
+		float64(spread.AmountOfDocumentsAskedMetadataFor) / float64(documentsMissingMetadata),
 	)
 }
 

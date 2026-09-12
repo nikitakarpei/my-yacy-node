@@ -332,7 +332,7 @@
     },
     {
       "id": 8,
-      "title": "Share of searches the cache answered",
+      "title": "Share of searches answered from the cache",
       "type": "timeseries",
       "datasource": {
         "type": "prometheus",
@@ -483,7 +483,8 @@
     },
     {
       "id": 12,
-      "title": "Share of the ranking the one biggest peer supplied",
+      "title": "Share of the results that came from a single peer",
+      "description": "The peer that supplied the most, against the whole ranking.",
       "type": "heatmap",
       "datasource": {
         "type": "prometheus",
@@ -602,7 +603,8 @@
     },
     {
       "id": 14,
-      "title": "Share of ranked items a peer counted a query word in",
+      "title": "Share of the results that could be scored on their text",
+      "description": "Scoring the text needs how often the query words occur in a page and how long it is. Either the peer that holds the word reports it, or the page is read.",
       "type": "heatmap",
       "datasource": {
         "type": "prometheus",
@@ -661,7 +663,7 @@
     },
     {
       "id": 15,
-      "title": "Queries put whole to peers",
+      "title": "Queries sent whole to each peer",
       "type": "row",
       "collapsed": false,
       "gridPos": {
@@ -674,7 +676,7 @@
     },
     {
       "id": 16,
-      "title": "How long a query put whole to peers took",
+      "title": "How long asking peers the whole query took",
       "type": "heatmap",
       "datasource": {
         "type": "prometheus",
@@ -733,7 +735,8 @@
     },
     {
       "id": 17,
-      "title": "Share of asked peers that answered",
+      "title": "Share of the asked peers that answered",
+      "description": "The rest were unreachable or slower than the time the query allows them.",
       "type": "heatmap",
       "datasource": {
         "type": "prometheus",
@@ -805,8 +808,8 @@
     },
     {
       "id": 19,
-      "title": "Share of the join that already came back with metadata",
-      "description": "What the first round answers needs no second round call.",
+      "title": "Share of the joined documents that arrived with their metadata",
+      "description": "A joined document is one every query word led to. Metadata is the title, address and dates a result is shown with, and a joined document without it costs a second round of calls.",
       "type": "heatmap",
       "datasource": {
         "type": "prometheus",
@@ -816,7 +819,7 @@
         "h": 8,
         "w": 8,
         "x": 0,
-        "y": 62
+        "y": 78
       },
       "fieldConfig": {
         "defaults": {
@@ -865,8 +868,8 @@
     },
     {
       "id": 20,
-      "title": "Share of the joined documents the spread asked metadata for",
-      "description": "Below one, the join held more documents than the ceiling allows, and the spread left the rest out.",
+      "title": "Share of the documents needing metadata the query requested",
+      "description": "One query requests metadata for a limited number of documents. When more joined documents need it, the documents that the most peers hold are requested and the rest are dropped.",
       "type": "heatmap",
       "datasource": {
         "type": "prometheus",
@@ -876,7 +879,7 @@
         "h": 8,
         "w": 8,
         "x": 8,
-        "y": 62
+        "y": 78
       },
       "fieldConfig": {
         "defaults": {
@@ -917,7 +920,7 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "sum by (le) (clamp_min(yacydhtsearch_word_joined_spread_join_asked_metadata_for_ratio_bucket{instance=~\"$service_instance\"} - (yacydhtsearch_word_joined_spread_join_asked_metadata_for_ratio_bucket{instance=~\"$service_instance\"} offset $__interval), 0))",
+          "expr": "sum by (le) (clamp_min(yacydhtsearch_word_joined_spread_missing_metadata_asked_for_ratio_bucket{instance=~\"$service_instance\"} - (yacydhtsearch_word_joined_spread_missing_metadata_asked_for_ratio_bucket{instance=~\"$service_instance\"} offset $__interval), 0))",
           "format": "heatmap",
           "legendFormat": "{{le}}"
         }
@@ -925,8 +928,8 @@
     },
     {
       "id": 21,
-      "title": "Share of the documents asked metadata for that came back",
-      "description": "The spread asks metadata for the documents the most peers hold.",
+      "title": "Share of the requested documents whose metadata arrived",
+      "description": "A document whose metadata no peer sends back drops out of the results.",
       "type": "heatmap",
       "datasource": {
         "type": "prometheus",
@@ -936,7 +939,7 @@
         "h": 8,
         "w": 8,
         "x": 16,
-        "y": 62
+        "y": 78
       },
       "fieldConfig": {
         "defaults": {
@@ -993,9 +996,9 @@
       },
       "gridPos": {
         "h": 8,
-        "w": 12,
+        "w": 24,
         "x": 0,
-        "y": 70
+        "y": 86
       },
       "fieldConfig": {
         "defaults": {
@@ -1044,7 +1047,8 @@
     },
     {
       "id": 23,
-      "title": "Share of joined queries the join left empty",
+      "title": "Share of multi-word queries that joined no document",
+      "description": "No single document was held for every word of the query.",
       "type": "timeseries",
       "datasource": {
         "type": "prometheus",
@@ -1089,9 +1093,9 @@
       },
       "gridPos": {
         "h": 8,
-        "w": 12,
+        "w": 8,
         "x": 0,
-        "y": 78
+        "y": 62
       },
       "fieldConfig": {
         "defaults": {
@@ -1140,7 +1144,8 @@
     },
     {
       "id": 25,
-      "title": "Share of peers asked for held documents that answered",
+      "title": "Share of the asked peers that answered which documents they hold",
+      "description": "The rest were unreachable or slower than the time the query allows them.",
       "type": "heatmap",
       "datasource": {
         "type": "prometheus",
@@ -1148,9 +1153,9 @@
       },
       "gridPos": {
         "h": 8,
-        "w": 12,
-        "x": 12,
-        "y": 78
+        "w": 8,
+        "x": 8,
+        "y": 62
       },
       "fieldConfig": {
         "defaults": {
@@ -1199,8 +1204,8 @@
     },
     {
       "id": 26,
-      "title": "Share of query words no peer held a document for",
-      "description": "A word no peer held leaves the join with nothing.",
+      "title": "Share of the query words no peer had a document for",
+      "description": "One empty word leaves the whole query with no result.",
       "type": "heatmap",
       "datasource": {
         "type": "prometheus",
@@ -1210,7 +1215,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 86
+        "y": 70
       },
       "fieldConfig": {
         "defaults": {
@@ -1259,8 +1264,8 @@
     },
     {
       "id": 27,
-      "title": "Share of matched documents a peer counted a query word in",
-      "description": "A peer that answers from its own word index counts the word.",
+      "title": "Share of the matched documents that carried a posting",
+      "description": "A posting carries how often the word occurs in the document, and only a peer that stores the word sends one. Counted over every document a peer matched, including the ones the join drops.",
       "type": "heatmap",
       "datasource": {
         "type": "prometheus",
@@ -1268,9 +1273,9 @@
       },
       "gridPos": {
         "h": 8,
-        "w": 12,
-        "x": 12,
-        "y": 86
+        "w": 8,
+        "x": 16,
+        "y": 62
       },
       "fieldConfig": {
         "defaults": {
@@ -1612,8 +1617,8 @@
     },
     {
       "id": 36,
-      "title": "Peer calls, by what was asked for and outcome",
-      "description": "An unreadable answer arrived, but it did not parse.",
+      "title": "Calls that asked which documents match the query, by outcome",
+      "description": "Unreadable means an answer arrived that did not parse.",
       "type": "timeseries",
       "datasource": {
         "type": "prometheus",
@@ -1621,7 +1626,7 @@
       },
       "gridPos": {
         "h": 8,
-        "w": 12,
+        "w": 8,
         "x": 0,
         "y": 121
       },
@@ -1646,8 +1651,90 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "sum by (asked_for, outcome) (clamp_min(yacydhtsearch_peer_calls_total{instance=~\"$service_instance\"} - (yacydhtsearch_peer_calls_total{instance=~\"$service_instance\"} offset $__interval), 0))",
-          "legendFormat": "{{asked_for}} {{outcome}}"
+          "expr": "sum by (outcome) (clamp_min(yacydhtsearch_peer_calls_total{asked_for=\"matched items\", instance=~\"$service_instance\"} - (yacydhtsearch_peer_calls_total{asked_for=\"matched items\", instance=~\"$service_instance\"} offset $__interval), 0))",
+          "legendFormat": "{{outcome}}"
+        }
+      ]
+    },
+    {
+      "id": 45,
+      "title": "Calls that asked which documents a peer holds for one word, by outcome",
+      "description": "Only a query of more than one word makes these calls.",
+      "type": "timeseries",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 8,
+        "y": 121
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "custom": {
+            "drawStyle": "bars",
+            "fillOpacity": 70
+          },
+          "min": 0
+        },
+        "overrides": []
+      },
+      "interval": "$window",
+      "options": {
+        "tooltip": {
+          "mode": "multi",
+          "sort": "desc"
+        }
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "sum by (outcome) (clamp_min(yacydhtsearch_peer_calls_total{asked_for=\"held documents\", instance=~\"$service_instance\"} - (yacydhtsearch_peer_calls_total{asked_for=\"held documents\", instance=~\"$service_instance\"} offset $__interval), 0))",
+          "legendFormat": "{{outcome}}"
+        }
+      ]
+    },
+    {
+      "id": 46,
+      "title": "Calls that asked a peer for the metadata of documents, by outcome",
+      "description": "The second round of a query of more than one word, for the documents that came back without metadata.",
+      "type": "timeseries",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 16,
+        "y": 121
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "custom": {
+            "drawStyle": "bars",
+            "fillOpacity": 70
+          },
+          "min": 0
+        },
+        "overrides": []
+      },
+      "interval": "$window",
+      "options": {
+        "tooltip": {
+          "mode": "multi",
+          "sort": "desc"
+        }
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "sum by (outcome) (clamp_min(yacydhtsearch_peer_calls_total{asked_for=\"url metadata\", instance=~\"$service_instance\"} - (yacydhtsearch_peer_calls_total{asked_for=\"url metadata\", instance=~\"$service_instance\"} offset $__interval), 0))",
+          "legendFormat": "{{outcome}}"
         }
       ]
     },
@@ -1662,9 +1749,9 @@
       },
       "gridPos": {
         "h": 8,
-        "w": 12,
-        "x": 12,
-        "y": 121
+        "w": 24,
+        "x": 0,
+        "y": 129
       },
       "fieldConfig": {
         "defaults": {
@@ -1720,7 +1807,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 129
+        "y": 137
       },
       "panels": []
     },
@@ -1736,7 +1823,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 130
+        "y": 138
       },
       "fieldConfig": {
         "defaults": {
@@ -1786,7 +1873,7 @@
         "h": 8,
         "w": 6,
         "x": 12,
-        "y": 130
+        "y": 138
       },
       "fieldConfig": {
         "defaults": {
@@ -1826,7 +1913,7 @@
         "h": 8,
         "w": 6,
         "x": 18,
-        "y": 130
+        "y": 138
       },
       "fieldConfig": {
         "defaults": {
@@ -1866,7 +1953,7 @@
         "h": 8,
         "w": 8,
         "x": 0,
-        "y": 138
+        "y": 146
       },
       "fieldConfig": {
         "defaults": {
@@ -1906,7 +1993,7 @@
         "h": 8,
         "w": 8,
         "x": 8,
-        "y": 138
+        "y": 146
       },
       "fieldConfig": {
         "defaults": {
@@ -1946,7 +2033,7 @@
         "h": 8,
         "w": 8,
         "x": 16,
-        "y": 138
+        "y": 146
       },
       "fieldConfig": {
         "defaults": {
