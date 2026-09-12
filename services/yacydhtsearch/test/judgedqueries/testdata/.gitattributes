@@ -1,0 +1,4 @@
+* linguist-generated=true
+.gitattributes -linguist-generated
+judgments/** -linguist-generated
+accepted-gain-per-judged-query.json -linguist-generated
