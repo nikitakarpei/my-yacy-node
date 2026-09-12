@@ -1,13 +1,13 @@
 {
   "query": "git rebase",
-  "recordedAt": "2026-09-12T00:16:37Z",
+  "recordedAt": "2026-09-12T07:51:59Z",
   "itemsInTheOrderOfEachAnswer": [
     [
       {
         "hash": "CeKDz29cq-94",
         "address": "https://git-scm.com/docs/git-config",
         "title": "Git - git-config Documentation",
-        "snippet": "Git configuration file contains a number of variables that affect the Git commands' behavior. The files .git/config and optionally config.worktree (see the \"CONFIGURATION FILE\" section of git-worktree[1]) in each repository are used to store the configuration for that repository, and",
+        "snippet": "When merges (or just m), pass the --rebase-merges option to git rebase so that the local merge commits are included in the rebase (see git-rebase[1] for details).\nWhen the value is interactive (or just i), the rebase is run in interactive mode.",
         "matchedWords": {
           "up8R7MNJfZmT": {
             "hits": 1051,
@@ -96,7 +96,7 @@
         "hash": "QJ-wEV9cq-94",
         "address": "https://git-scm.com/book/en/v2/Git-Branching-Rebasing",
         "title": "Git - Rebasing",
-        "snippet": "Git, there are two main ways to integrate changes from one branch into another: the merge and the rebase. In this section you’ll learn what rebasing is, how to do it, why it’s a pretty amazing tool, and in what cases you won’t want to use it.\nThe Basic Rebase\nIf you go back to an earlier example",
+        "snippet": "You can rebase the server branch onto the master branch without having to check it out first by running git rebase \u003cbasebranch\u003e \u003ctopicbranch\u003e — which checks out the topic branch (in this case, server) for you and replays it onto the base branch (master):\n$ git rebase master server\nFigure 42.",
         "matchedWords": {
           "up8R7MNJfZmT": {
             "hits": 31,
@@ -221,7 +221,7 @@
         "hash": "p_5Wwo0Z_SDg",
         "address": "https://www.jvt.me/posts/2021/03/31/git-origin-head/",
         "title": "Working with a Git remote's default branch, using `origin/HEAD` · Jamie Tanna | Software Engineer",
-        "snippet": "Git provides the HEAD pointer to reference the currently checked out branch. Locally, this would be whichever branch you're on, but for a remote Git repo, this can be the default branch to check out the repo for.\nA number of Git hosting services are exposing this recently as origin/HEAD, and I've",
+        "snippet": "I'm finding it incredibly helpful to replace my muscle memory of git rebase -i origin/develop or git rebase -i origin/main with git rebase -i origin/HEAD, which saves me having to remember what branch is currently used!",
         "matchedWords": {
           "up8R7MNJfZmT": {
             "hits": 10,
@@ -240,7 +240,7 @@
         "hash": "tetY4sElpUjy",
         "address": "https://git-send-email.io/",
         "title": "Learn to use email with git!",
-        "snippet": "git send-email.\nReviewing patches you've received via email\nNow you know the contributor workflow. Ready to learn about the other side?\nCheck out our next tutorial: Reviewing git contributions via email on git-am.io\nSending several patches at once\nUse this to send the last 3 commits:\ngit send-email",
+        "snippet": "Here are a few more tips and tricks which may serve you well as you use git send-email.\nReviewing patches you've received via email\nNow you know the contributor workflow. Ready to learn about the other side?\nCheck out our next tutorial: Reviewing git contributions via email on git-am.io",
         "matchedWords": {
           "up8R7MNJfZmT": {
             "hits": 18,
@@ -350,7 +350,7 @@
         "hash": "CmQQlyEkAvow",
         "address": "https://developer.mozilla.org/en-US/blog/optimize-your-workflow-git-stash/",
         "title": "Optimize your workflow with Git stash",
-        "snippet": "Git stash before, are already using it, or are curious about alternative workflows, this post is for you. We'll delve into use cases for stashing, discuss some of its pitfalls, and introduce an alternative method that makes managing uncommitted code safer and more convenient. By the end of this",
+        "snippet": "If your workflow allows, you can rebase the branch before using git unwip. This will rebase the whole branch, including the WIP changes, to make sure you're working on the latest version of the target branch.\nThe git unwip command is designed to work on any branch.",
         "matchedWords": {
           "up8R7MNJfZmT": {
             "hits": 77,
@@ -388,7 +388,7 @@
         "hash": "TeZMVjy-fQn5",
         "address": "https://aomedia.googlesource.com/aom/",
         "title": "aom - Git at Google",
-        "snippet": "Git.\nA modern C compiler. gcc 6+, clang 7+, Microsoft Visual Studio 2019+ or the latest version of MinGW-w64 (clang64 or ucrt toolchains) are recommended. A C++ compiler is necessary to build the unit tests and some features contained in the examples.\nPerl.\nFor x86 targets, yasm or a recent version",
+        "snippet": "This will usually automatically rebase your change onto the branch specified.\nSometimes this can’t be done automatically. If you run into this problem, you must rebase your changes manually:\n$ git fetch $ git rebase origin/branchname",
         "matchedWords": {
           "up8R7MNJfZmT": {
             "hits": 21,
@@ -426,7 +426,7 @@
         "hash": "YgAeyl0lKwR5",
         "address": "https://www.git-tower.com/",
         "title": "Tower — The most powerful Git client for Mac and Windows",
-        "snippet": "Git's Power (And None of the Pain)\nPull Requests • Single-line staging • Interactive Rebase • Conflict Wizard• Submodules • Git LFS • Git-Flow • File History • Blame • Cherry-Pick\nLearn More about Tower's advanced Git features\nEsteban TorresEngineer at SoundCloud\nThe new Tower adds a lot of great",
+        "snippet": "All of Git's Power (And None of the Pain)\nPull Requests • Single-line staging • Interactive Rebase • Conflict Wizard• Submodules • Git LFS • Git-Flow • File History • Blame • Cherry-Pick\nLearn More about Tower's advanced Git features\nEsteban TorresEngineer at SoundCloud",
         "matchedWords": {
           "up8R7MNJfZmT": {
             "hits": 6,
@@ -445,7 +445,7 @@
         "hash": "z3pThyXjZ9O4",
         "address": "https://docs.github.com/en/get-started/using-git",
         "title": "Using Git - GitHub Docs",
-        "snippet": "Git to manage your GitHub repositories from your computer.\nAbout Git, 1 of 11\nPushing commits to a remote repository, 2 of 11\nGetting changes from a remote repository, 3 of 11\nDealing with non-fast-forward errors, 4 of 11\nSplitting a subfolder out into a new repository, 5 of 11\nAbout Git subtree",
+        "snippet": "About Git subtree merges, 6 of 11\nAbout Git rebase, 7 of 11\nUsing Git rebase on the command line, 8 of 11\nResolving merge conflicts after a Git rebase, 9 of 11\nDealing with special characters in branch and tag names, 10 of 11\nTroubleshooting the 2 GiB push limit, 11 of 11",
         "matchedWords": {
           "up8R7MNJfZmT": {
             "hits": 6,
@@ -462,7 +462,7 @@
         "hash": "R0RMzyXjZ9O4",
         "address": "https://docs.github.com/en/get-started/git-basics/setting-your-username-in-git",
         "title": "Setting your username in Git - GitHub Docs",
-        "snippet": "Git uses a username to associate commits with an identity. The Git username is not the same as your GitHub username.\nPlatform navigation\nMac\nWindows\nLinux\nIn this article\nAbout Git usernames\nSetting your Git username for every repository on your computer\nSetting your Git username for a single",
+        "snippet": "Setting your Git username for every repository on your computer\nOpen TerminalTerminalGit Bash.\nSet a Git username:\ngit config --global user.name \"Mona Lisa\"\nConfirm that you have set the Git username correctly:\n$ git config --global user.name \u003e Mona Lisa",
         "matchedWords": {
           "up8R7MNJfZmT": {
             "hits": 24,
@@ -500,7 +500,7 @@
         "hash": "0uJDlvRjxAex",
         "address": "https://cs.wikibooks.org/wiki/Git",
         "title": "Git – Wikiknihy",
-        "snippet": "Git je systém správy verzí – slouží k udržování informací, jak byly v průběhu času měněny zdrojové soubory ve stromě adresářů, který odpovídá určitému softwarovému projektu. Některé systémy správy verzí umožňují efektivně sledovat změny pouze jednoho souboru, ale získání stavu projektu v minulosti",
+        "snippet": "Není-li uvedena moje_větev, bude přeskládána (překopírována) aktuální větev. Použití uvedeného příkazu git rebase se jmény dvou větví je ekvivalentní dvojici příkazů\ngit checkout moje_větev git rebase hlavní_větev",
         "matchedWords": {
           "up8R7MNJfZmT": {
             "hits": 227,
@@ -519,7 +519,7 @@
         "hash": "tetY4sElpUjy",
         "address": "https://git-send-email.io/",
         "title": "Learn to use email with git!",
-        "snippet": "git send-email.\nReviewing patches you've received via email\nNow you know the contributor workflow. Ready to learn about the other side?\nCheck out our next tutorial: Reviewing git contributions via email on git-am.io\nSending several patches at once\nUse this to send the last 3 commits:\ngit send-email",
+        "snippet": "Here are a few more tips and tricks which may serve you well as you use git send-email.\nReviewing patches you've received via email\nNow you know the contributor workflow. Ready to learn about the other side?\nCheck out our next tutorial: Reviewing git contributions via email on git-am.io",
         "matchedWords": {
           "up8R7MNJfZmT": {
             "hits": 18,
@@ -557,7 +557,7 @@
         "hash": "8gWJRJNn7ab5",
         "address": "https://www.jeremykun.com/2020/01/14/the-communicative-value-of-using-git-well/",
         "title": "The Communicative Value of Using Git Well || Math ∩ Programming",
-        "snippet": "git. The process of switching sparked a few discussions between me and my colleagues about the value of various version control systems. A question like “what benefit does git provide over Mercurial” yielded no clear answers, suggesting many developers don’t know. An informal Twitter survey didn’t",
+        "snippet": "Git supports metachanges with few limits, and without sacrificing flexibility.\nFor instance, if you want, you can treat git like a replacement for Dropbox. You keep a single default branch, you do git pull, edit code, and run git add --all \u0026\u0026 git commit -m \"do stuff\" \u0026\u0026 git push.",
         "matchedWords": {
           "up8R7MNJfZmT": {
             "hits": 29,
@@ -576,7 +576,7 @@
         "hash": "RVPC2yXjZ9O4",
         "address": "https://docs.github.com/en/get-started/using-git/about-git-rebase",
         "title": "About Git rebase - GitHub Docs",
-        "snippet": "git rebase command allows you to easily change a series of commits, modifying the history of your repository. You can reorder, edit, or squash commits together.\nTypically, you would use git rebase to:\nEdit previous commit messages\nCombine multiple commits into one\nDelete or revert commits that are",
+        "snippet": "git rebase --interactive OTHER-BRANCH-NAME\nRebasing commits against a point in time\nTo rebase the last few commits in your current branch, you can enter the following command in your shell:\ngit rebase --interactive HEAD~7\nCommands available while rebasing",
         "matchedWords": {
           "up8R7MNJfZmT": {
             "hits": 14,
@@ -595,7 +595,7 @@
         "hash": "CmQQlyEkAvow",
         "address": "https://developer.mozilla.org/en-US/blog/optimize-your-workflow-git-stash/",
         "title": "Optimize your workflow with Git stash",
-        "snippet": "Git stash before, are already using it, or are curious about alternative workflows, this post is for you. We'll delve into use cases for stashing, discuss some of its pitfalls, and introduce an alternative method that makes managing uncommitted code safer and more convenient. By the end of this",
+        "snippet": "If your workflow allows, you can rebase the branch before using git unwip. This will rebase the whole branch, including the WIP changes, to make sure you're working on the latest version of the target branch.\nThe git unwip command is designed to work on any branch.",
         "matchedWords": {
           "up8R7MNJfZmT": {
             "hits": 77,
@@ -612,7 +612,7 @@
         "hash": "CeKDz29cq-94",
         "address": "https://git-scm.com/docs/git-config",
         "title": "Git - git-config Documentation",
-        "snippet": "Git configuration file contains a number of variables that affect the Git commands' behavior. The files .git/config and optionally config.worktree (see the \"CONFIGURATION FILE\" section of git-worktree[1]) in each repository are used to store the configuration for that repository, and",
+        "snippet": "When merges (or just m), pass the --rebase-merges option to git rebase so that the local merge commits are included in the rebase (see git-rebase[1] for details).\nWhen the value is interactive (or just i), the rebase is run in interactive mode.",
         "matchedWords": {
           "up8R7MNJfZmT": {
             "hits": 1051,
@@ -705,7 +705,7 @@
         "hash": "98ydQs9cq-94",
         "address": "https://git-scm.com/learn",
         "title": "Git - Learn",
-        "snippet": "Git Book\nThe entire Pro Git book written by Scott Chacon and Ben Straub is available to read online for free. Print copies are available on Amazon.com.\nVideos\nShort videos introducing Git for total beginners.\nWhat is Version Control? (05:59)\nWhat is Git? (08:15)\nGet Going with Git (04:26)\nQuick",
+        "snippet": "Quick Wins with Git (05:06)\nCheat Sheet\nThe most common Git commands, with diagrams illustrating the difference between merge and rebase.\nExternal Links\nEver-evolving collection of tutorials, books, videos, and other Git resources from the community.",
         "matchedWords": {
           "up8R7MNJfZmT": {
             "hits": 8,
@@ -724,7 +724,7 @@
         "hash": "R0RMzyXjZ9O4",
         "address": "https://docs.github.com/en/get-started/git-basics/setting-your-username-in-git",
         "title": "Setting your username in Git - GitHub Docs",
-        "snippet": "Git uses a username to associate commits with an identity. The Git username is not the same as your GitHub username.\nPlatform navigation\nMac\nWindows\nLinux\nIn this article\nAbout Git usernames\nSetting your Git username for every repository on your computer\nSetting your Git username for a single",
+        "snippet": "Setting your Git username for every repository on your computer\nOpen TerminalTerminalGit Bash.\nSet a Git username:\ngit config --global user.name \"Mona Lisa\"\nConfirm that you have set the Git username correctly:\n$ git config --global user.name \u003e Mona Lisa",
         "matchedWords": {
           "up8R7MNJfZmT": {
             "hits": 24,
@@ -743,7 +743,7 @@
         "hash": "X9sotyXjZ9O4",
         "address": "https://docs.github.com/en/get-started/git-basics/set-up-git",
         "title": "Set up Git - GitHub Docs",
-        "snippet": "Git. Git is responsible for everything GitHub-related that happens locally on your computer.\nUsing Git\nTo use Git on the command line, you need to download, install, and configure Git on your computer. You can also install GitHub CLI to use GitHub from the command line. For more information, see",
+        "snippet": "At the heart of GitHub is an open-source version control system (VCS) called Git. Git is responsible for everything GitHub-related that happens locally on your computer.\nUsing Git\nTo use Git on the command line, you need to download, install, and configure Git on your computer.",
         "matchedWords": {
           "up8R7MNJfZmT": {
             "hits": 19,
@@ -798,7 +798,7 @@
         "hash": "jXCYphffZ5F4",
         "address": "https://pospi.spadgos.com/2012/08/22/list-of-git-tips/",
         "title": "List of git tips | pospi",
-        "snippet": "git onto other developers wherever I go. It is a wonderous, joyful world where your work is never impeded by a network connection and everything is far more powerful and flexible. Often you hear \"why would I ever want to move away from Subversion?\", which is a bit like saying \"why would I ever want",
+        "snippet": "With each, I've tried to show graphically the state of the git network in each form of process.\n1. Pulling and merging BEFORE committing will avoid the need to merge or rebase:\n$ git pull\n$ git add ...\n$ git commit ...\n$ git push ...",
         "matchedWords": {
           "up8R7MNJfZmT": {
             "hits": 72,
@@ -815,7 +815,7 @@
         "hash": "u8YTm29cq-94",
         "address": "https://git-scm.com/docs/git-log",
         "title": "Git - git-log Documentation",
-        "snippet": "git log does not generate any diff output. The options below can be used to show the changes made by each commit.\nNote that unless one of --diff-merges variants (including short -m, -c, --cc, and --dd options) is explicitly given, merge commits will not show a diff, even if a diff format like",
+        "snippet": "By default entries added by git add -N appear as an existing empty file in git diff and a new file in git diff --cached. This option makes the entry appear as a new file in git diff and non-existent in git diff --cached. This option could be reverted with --ita-visible-in-index.",
         "matchedWords": {
           "up8R7MNJfZmT": {
             "hits": 31,
@@ -834,7 +834,7 @@
         "hash": "lMTZq2bypRQw",
         "address": "https://forgejo.org/docs/latest/user/collaboration/pull-requests-and-git-flow/",
         "title": "Pull requests and Git flow | Forgejo – Beyond coding. We forge.",
-        "snippet": "Git flow\nBenefits of a pull-request-based workflow\nTLDR: Keep an eye on your repository and organization permissions. Don’t take sweets from strangers. Use pull requests. Easy to review, easy to manage, and only the project maintainers/owners have permission to merge them.\nAlthough it is perfectly",
+        "snippet": "git pull --rebase upstream main git pull\nThat’s it. You can now push your changes and create the pull request as usual by clicking on the “New Pull Request” button.\nA friendly note on owner rights and force push permissions",
         "matchedWords": {
           "up8R7MNJfZmT": {
             "hits": 18,
@@ -853,7 +853,7 @@
         "hash": "p_5Wwo0Z_SDg",
         "address": "https://www.jvt.me/posts/2021/03/31/git-origin-head/",
         "title": "Working with a Git remote's default branch, using `origin/HEAD` · Jamie Tanna | Software Engineer",
-        "snippet": "Git provides the HEAD pointer to reference the currently checked out branch. Locally, this would be whichever branch you're on, but for a remote Git repo, this can be the default branch to check out the repo for.\nA number of Git hosting services are exposing this recently as origin/HEAD, and I've",
+        "snippet": "I'm finding it incredibly helpful to replace my muscle memory of git rebase -i origin/develop or git rebase -i origin/main with git rebase -i origin/HEAD, which saves me having to remember what branch is currently used!",
         "matchedWords": {
           "up8R7MNJfZmT": {
             "hits": 10,
@@ -910,7 +910,7 @@
         "hash": "5g9r129cq-94",
         "address": "https://git-scm.com/docs/pretty-formats",
         "title": "Git - pretty-formats Documentation",
-        "snippet": "git-shortlog[1] or git-blame[1])\n%ae\nauthor email\n%aE\nauthor email (respecting .mailmap, see git-shortlog[1] or git-blame[1])\n%al\nauthor email local-part (the part before the @ sign)\n%aL\nauthor local-part (see %al) respecting .mailmap, see git-shortlog[1] or git-blame[1])\n%ad\nauthor date (format",
+        "snippet": "author email (respecting .mailmap, see git-shortlog[1] or git-blame[1])\n%al\nauthor email local-part (the part before the @ sign)\n%aL\nauthor local-part (see %al) respecting .mailmap, see git-shortlog[1] or git-blame[1])\n%ad\nauthor date (format respects --date= option)\n%aD\nauthor date, RFC2822 style",
         "matchedWords": {
           "up8R7MNJfZmT": {
             "hits": 26,
@@ -929,7 +929,7 @@
         "hash": "cs0WNsR2NVbw",
         "address": "https://devguide.python.org/getting-started/git-boot-camp/",
         "title": "Git bootcamp and cheat sheet",
-        "snippet": "Git and GitHub.\nIf you are new to Git and GitHub, please become comfortable with these instructions before submitting a pull request. As there are several ways to accomplish these tasks using Git and GitHub, this section reflects one method suitable for new contributors. Experienced contributors",
+        "snippet": "If the apply was successful, create a new branch and switch to it.\nStage and commit the changes.\nIf the patch was applied to an old revision, it needs to be updated and merge conflicts need to be resolved:\n$ git rebase main $ git mergetool",
         "matchedWords": {
           "up8R7MNJfZmT": {
             "hits": 116,
@@ -1070,7 +1070,7 @@
       "hash": "-7-UKs9cq-94",
       "address": "https://git-scm.com/docs",
       "title": "Git - Reference",
-      "snippet": "git\nconfig\nhelp\nbugreport\nCredential helpers\nGetting and Creating Projects\ninit\nclone\nBasic Snapshotting\nadd\nstatus\ndiff\ncommit\nnotes\nrestore\nreset\nrm\nmv\nBranching and Merging\nbranch\ncheckout\nswitch\nmerge\nmergetool\nlog\nstash\ntag\nworktree\nSharing and Updating Projects\nfetch\npull\npush\nremote",
+      "snippet": "Quick reference guide: Cheat Sheet\nComplete list of all commands\nSetup and Config\ngit\nconfig\nhelp\nbugreport\nCredential helpers\nGetting and Creating Projects\ninit\nclone\nBasic Snapshotting\nadd\nstatus\ndiff\ncommit\nnotes\nrestore\nreset\nrm\nmv\nBranching and Merging\nbranch\ncheckout\nswitch\nmerge\nmergetool",
       "matchedWords": {
         "up8R7MNJfZmT": {
           "hits": 2,
@@ -1138,7 +1138,7 @@
       "hash": "zSrcq29cq-94",
       "address": "https://git-scm.com/docs/git-shortlog",
       "title": "Git - git-shortlog Documentation",
-      "snippet": "Git wasn’t compiled with support for them providing this option will cause it to die.\n--remove-empty\nStop when a given path disappears from the tree.\n--merges\nPrint only merge commits. This is exactly the same as --min-parents=2.\n--no-merges\nDo not print commits with more than one parent. This is",
+      "snippet": "--exclude-hidden=(fetch|receive|uploadpack)\nDo not include refs that would be hidden by git-fetch, git-receive-pack or git-upload-pack by consulting the appropriate fetch.hideRefs, receive.hideRefs or uploadpack.hideRefs configuration along with transfer.hideRefs (see git-config[1]).",
       "matchedWords": {
         "up8R7MNJfZmT": {
           "hits": 12,
@@ -1155,7 +1155,7 @@
       "hash": "RgG4r29cq-94",
       "address": "https://git-scm.com/docs/git-bugreport",
       "title": "Git - git-bugreport Documentation",
-      "snippet": "git-bugreport - Collect information for user to file a bug report\nSYNOPSIS\ngit bugreport [(-o | --output-directory) \u003cpath\u003e] [(-s | --suffix) \u003cformat\u003e | --no-suffix] [--diagnose[=\u003cmode\u003e]]\nDESCRIPTION\nCollects information about the user’s machine, Git client, and repository state, in addition to a",
+      "snippet": "NAME\ngit-bugreport - Collect information for user to file a bug report\nSYNOPSIS\ngit bugreport [(-o | --output-directory) \u003cpath\u003e] [(-s | --suffix) \u003cformat\u003e | --no-suffix] [--diagnose[=\u003cmode\u003e]]\nDESCRIPTION",
       "matchedWords": {
         "up8R7MNJfZmT": {
           "hits": 12,
@@ -1206,7 +1206,7 @@
       "hash": "fDcnx29cq-94",
       "address": "https://git-scm.com/docs/git-bundle",
       "title": "Git - git-bundle Documentation",
-      "snippet": "git-bundle - Move objects and refs by archive\nSYNOPSIS\ngit bundle create [-q | --quiet | --progress] [--version=\u003cversion\u003e] \u003cfile\u003e \u003cgit-rev-list-args\u003e git bundle verify [-q | --quiet] \u003cfile\u003e git bundle list-heads \u003cfile\u003e [\u003crefname\u003e…​] git bundle unbundle [--progress] \u003cfile\u003e [\u003crefname\u003e…​]\nDESCRIPTION",
+      "snippet": "NAME\ngit-bundle - Move objects and refs by archive\nSYNOPSIS\ngit bundle create [-q | --quiet | --progress] [--version=\u003cversion\u003e] \u003cfile\u003e \u003cgit-rev-list-args\u003e git bundle verify [-q | --quiet] \u003cfile\u003e git bundle list-heads \u003cfile\u003e [\u003crefname\u003e…​] git bundle unbundle [--progress] \u003cfile\u003e [\u003crefname\u003e…​]",
       "matchedWords": {
         "up8R7MNJfZmT": {
           "hits": 64,
@@ -1223,7 +1223,7 @@
       "hash": "19sbJ29cq-94",
       "address": "https://git-scm.com/docs/git-verify-pack",
       "title": "Git - git-verify-pack Documentation",
-      "snippet": "git-verify-pack - Validate packed Git archive files\nSYNOPSIS\ngit verify-pack [-v | --verbose] [-s | --stat-only] [--] \u003cpack\u003e.idx...\nDESCRIPTION\nRead each idx file for packed Git archive given on the command line, and verify the idx file and the corresponding pack file.\nOPTIONS\n-v\n--verbose\nAfter",
+      "snippet": "NAME\ngit-verify-pack - Validate packed Git archive files\nSYNOPSIS\ngit verify-pack [-v | --verbose] [-s | --stat-only] [--] \u003cpack\u003e.idx...\nDESCRIPTION\nRead each idx file for packed Git archive given on the command line, and verify the idx file and the corresponding pack file.\nOPTIONS\n-v\n--verbose",
       "matchedWords": {
         "up8R7MNJfZmT": {
           "hits": 4,
@@ -1274,7 +1274,7 @@
       "hash": "aE__u29cq-94",
       "address": "https://git-scm.com/docs/git-submodule",
       "title": "Git - git-submodule Documentation",
-      "snippet": "foo.git which is located right next to a superproject bar.git, you’ll have to use ../foo.git instead of ./foo.git - as one might expect when following the rules for relative URLs - because the evaluation of relative URLs in Git is identical to that of relative directories).\nThe default remote is",
+      "snippet": "If --force is specified, the submodule will be checked out (using git checkout --force), even if the commit specified in the index of the containing repository already matches the commit checked out in the submodule.\nrebase",
       "matchedWords": {
         "up8R7MNJfZmT": {
           "hits": 41,
@@ -1325,7 +1325,7 @@
       "hash": "7WP56MS6MKD4",
       "address": "https://github.com/tiimgreen/github-cheat-sheet",
       "title": "GitHub - tiimgreen/github-cheat-sheet: A list of cool features of Git and GitHub. · GitHub",
-      "snippet": "Git and GitHub. This cheat sheet was inspired by Zach Holman's Git and GitHub Secrets talk at Aloha Ruby Conference 2012 (slides) and his More Git and GitHub Secrets talk at WDCNZ 2013 (slides).\nShortlink: http://git.io/sheet\nRead this in other languages: English, 한국어, 日本語, 简体中文, 正體中文.\nGitHub Cheat",
+      "snippet": "If there is something wrong with a previous commit (can be one or more from HEAD), for example abcde, run the following command after you've amended the problem:\n$ git commit --fixup=abcde $ git rebase abcde^ --autosquash -i\nRead more about the Git commit command.",
       "matchedWords": {
         "up8R7MNJfZmT": {
           "hits": 193,
@@ -1342,7 +1342,7 @@
       "hash": "9qMfQo0Z_SDg",
       "address": "https://www.jvt.me/posts/2019/01/10/git-commit-fixup/",
       "title": "Using `git commit --fixup=` to track changes that need to be applied on top of another commit · Jamie Tanna | Software Engineer",
-      "snippet": "Git history.\nThese commits will often have a commit message such as sq! to denote that I need to squash into the last commit, or sq! 3e9f73, to denote that I need to squash into the commit that has a SHA of 3e9f73.\nOnce I've finalised my cleanup, I'll then perform a git rebase --interactive to",
+      "snippet": "Add Lorem Ipsum commit 5552fc0e523108bb8e6d7358b51c08a85ca10edc Author: Jamie Tanna \u003cjamie@jamietanna.co.uk\u003e Date: Thu Jan 10 16:45:46 2019 +0000 Add Lorem Ipsum commit 47d1a2ad0e490c1dd67ed5bf5a539bb6024d706d Author: Jamie Tanna \u003cjamie@jamietanna.co.uk\u003e Date: Thu Jan 10 16:45:26 2019 +0000 Initial",
       "matchedWords": {
         "up8R7MNJfZmT": {
           "hits": 21,
@@ -1444,7 +1444,7 @@
       "hash": "QWtr229cq-94",
       "address": "https://git-scm.com/docs/git-diff",
       "title": "Git - git-diff Documentation",
-      "snippet": "git show that show the patch by default to squelch their output, or to cancel the effect of options like --patch, --stat earlier on the command line in an alias.\n-U\u003cn\u003e\n--unified=\u003cn\u003e\nGenerate diffs with \u003cn\u003e lines of context. The number of context lines defaults to diff.context or 3 if the",
+      "snippet": "By default entries added by git add -N appear as an existing empty file in git diff and a new file in git diff --cached. This option makes the entry appear as a new file in git diff and non-existent in git diff --cached. This option could be reverted with --ita-visible-in-index.",
       "matchedWords": {
         "up8R7MNJfZmT": {
           "hits": 31,
@@ -1461,7 +1461,7 @@
       "hash": "lpRZC29cq-94",
       "address": "https://git-scm.com/docs/gitrevisions",
       "title": "Git - gitrevisions Documentation",
-      "snippet": "git log operate on a set of commits, not just a single commit.\nFor these commands, specifying a single revision, using the notation described in the previous section, means the set of commits reachable from the given commit.\nSpecifying several revisions means the set of commits reachable from any",
+      "snippet": "Commands that are specifically designed to take two distinct ranges (e.g. \"git range-diff R1 R2\" to compare two ranges) do exist, but they are exceptions. Unless otherwise noted, all \"git\" commands that operate on a set of commits work on a single revision range.",
       "matchedWords": {
         "up8R7MNJfZmT": {
           "hits": 5,
@@ -1495,7 +1495,7 @@
       "hash": "fDcnx29cq-94",
       "address": "https://git-scm.com/docs/git-bundle",
       "title": "Git - git-bundle Documentation",
-      "snippet": "git-bundle - Move objects and refs by archive\nSYNOPSIS\ngit bundle create [-q | --quiet | --progress] [--version=\u003cversion\u003e] \u003cfile\u003e \u003cgit-rev-list-args\u003e git bundle verify [-q | --quiet] \u003cfile\u003e git bundle list-heads \u003cfile\u003e [\u003crefname\u003e…​] git bundle unbundle [--progress] \u003cfile\u003e [\u003crefname\u003e…​]\nDESCRIPTION",
+      "snippet": "NAME\ngit-bundle - Move objects and refs by archive\nSYNOPSIS\ngit bundle create [-q | --quiet | --progress] [--version=\u003cversion\u003e] \u003cfile\u003e \u003cgit-rev-list-args\u003e git bundle verify [-q | --quiet] \u003cfile\u003e git bundle list-heads \u003cfile\u003e [\u003crefname\u003e…​] git bundle unbundle [--progress] \u003cfile\u003e [\u003crefname\u003e…​]",
       "matchedWords": {
         "up8R7MNJfZmT": {
           "hits": 64,
@@ -1512,7 +1512,7 @@
       "hash": "l-XXS29cq-94",
       "address": "https://git-scm.com/docs/gittutorial",
       "title": "Git - gittutorial Documentation",
-      "snippet": "Git\nSYNOPSIS\ngit *\nDESCRIPTION\nThis tutorial explains how to import a new project into Git, make changes to it, and share changes with other developers.\nIf you are instead primarily interested in using Git to fetch a project, for example, to test the latest version, you may prefer to start with the",
+      "snippet": "$ tar xzf project.tar.gz $ cd project $ git init\nGit will reply\nInitialized empty Git repository in .git/\nYou’ve now initialized the working directory—​you may notice a new directory created, named .git.",
       "matchedWords": {
         "up8R7MNJfZmT": {
           "hits": 137,
@@ -1563,7 +1563,7 @@
       "hash": "Atcou29cq-94",
       "address": "https://git-scm.com/docs/git-checkout",
       "title": "Git - git-checkout Documentation",
-      "snippet": "git rebase and git pull --rebase, ours and theirs may appear swapped; --ours gives the version from the branch the changes are rebased onto, while --theirs gives the version from the branch that holds your work that is being rebased.\nThis is because rebase is used in a workflow that treats the",
+      "snippet": "Note that during git rebase and git pull --rebase, ours and theirs may appear swapped; --ours gives the version from the branch the changes are rebased onto, while --theirs gives the version from the branch that holds your work that is being rebased.",
       "matchedWords": {
         "up8R7MNJfZmT": {
           "hits": 24,
@@ -1614,7 +1614,7 @@
       "hash": "l-XXS29cq-94",
       "address": "https://git-scm.com/docs/gittutorial",
       "title": "Git - gittutorial Documentation",
-      "snippet": "Git\nSYNOPSIS\ngit *\nDESCRIPTION\nThis tutorial explains how to import a new project into Git, make changes to it, and share changes with other developers.\nIf you are instead primarily interested in using Git to fetch a project, for example, to test the latest version, you may prefer to start with the",
+      "snippet": "$ tar xzf project.tar.gz $ cd project $ git init\nGit will reply\nInitialized empty Git repository in .git/\nYou’ve now initialized the working directory—​you may notice a new directory created, named .git.",
       "matchedWords": {
         "up8R7MNJfZmT": {
           "hits": 137,
@@ -1648,7 +1648,7 @@
       "hash": "7WP56MS6MKD4",
       "address": "https://github.com/tiimgreen/github-cheat-sheet",
       "title": "GitHub - tiimgreen/github-cheat-sheet: A list of cool features of Git and GitHub. · GitHub",
-      "snippet": "Git and GitHub. This cheat sheet was inspired by Zach Holman's Git and GitHub Secrets talk at Aloha Ruby Conference 2012 (slides) and his More Git and GitHub Secrets talk at WDCNZ 2013 (slides).\nShortlink: http://git.io/sheet\nRead this in other languages: English, 한국어, 日本語, 简体中文, 正體中文.\nGitHub Cheat",
+      "snippet": "If there is something wrong with a previous commit (can be one or more from HEAD), for example abcde, run the following command after you've amended the problem:\n$ git commit --fixup=abcde $ git rebase abcde^ --autosquash -i\nRead more about the Git commit command.",
       "matchedWords": {
         "up8R7MNJfZmT": {
           "hits": 193,
@@ -1784,7 +1784,7 @@
       "hash": "Y0wMEQvPJCNw",
       "address": "https://eagain.net/articles/git-for-computer-scientists/",
       "title": "Git for Computer Scientists",
-      "snippet": "git internals for people who are not scared by words like Directed Acyclic Graph .\nStorage\nIn simplified form, git object storage is \"just\" a DAG of objects, with a handful of different types of objects. They are all stored compressed and identified by an SHA-1 hash (that, incidentally, isn't the",
+      "snippet": "Abstract\nQuick introduction to git internals for people who are not scared by words like Directed Acyclic Graph .\nStorage\nIn simplified form, git object storage is \"just\" a DAG of objects, with a handful of different types of objects.",
       "matchedWords": {
         "up8R7MNJfZmT": {
           "hits": 17,
@@ -1818,7 +1818,7 @@
       "hash": "7WP56MS6MKD4",
       "address": "https://github.com/tiimgreen/github-cheat-sheet",
       "title": "GitHub - tiimgreen/github-cheat-sheet: A list of cool features of Git and GitHub. · GitHub",
-      "snippet": "Git and GitHub. This cheat sheet was inspired by Zach Holman's Git and GitHub Secrets talk at Aloha Ruby Conference 2012 (slides) and his More Git and GitHub Secrets talk at WDCNZ 2013 (slides).\nShortlink: http://git.io/sheet\nRead this in other languages: English, 한국어, 日本語, 简体中文, 正體中文.\nGitHub Cheat",
+      "snippet": "If there is something wrong with a previous commit (can be one or more from HEAD), for example abcde, run the following command after you've amended the problem:\n$ git commit --fixup=abcde $ git rebase abcde^ --autosquash -i\nRead more about the Git commit command.",
       "matchedWords": {
         "up8R7MNJfZmT": {
           "hits": 193,
@@ -1852,7 +1852,7 @@
       "hash": "JnqHwV9cq-94",
       "address": "https://git-scm.com/book/en/v2/Git-Tools-Submodules",
       "title": "Git - Submodules",
-      "snippet": "Git addresses this issue using submodules. Submodules allow you to keep a Git repository as a subdirectory of another Git repository. This lets you clone another repository into your project and keep your commits separate.\nStarting with Submodules\nWe’ll walk through developing a simple project that",
+      "snippet": "Then you need to tell Git what to do if you have made changes and later git submodule update --remote pulls in new work from upstream. The options are that you can merge them into your local work, or you can try to rebase your local work on top of the new changes.",
       "matchedWords": {
         "up8R7MNJfZmT": {
           "hits": 209,
@@ -1869,7 +1869,7 @@
       "hash": "lpRZC29cq-94",
       "address": "https://git-scm.com/docs/gitrevisions",
       "title": "Git - gitrevisions Documentation",
-      "snippet": "git log operate on a set of commits, not just a single commit.\nFor these commands, specifying a single revision, using the notation described in the previous section, means the set of commits reachable from the given commit.\nSpecifying several revisions means the set of commits reachable from any",
+      "snippet": "Commands that are specifically designed to take two distinct ranges (e.g. \"git range-diff R1 R2\" to compare two ranges) do exist, but they are exceptions. Unless otherwise noted, all \"git\" commands that operate on a set of commits work on a single revision range.",
       "matchedWords": {
         "up8R7MNJfZmT": {
           "hits": 5,
@@ -1886,7 +1886,7 @@
       "hash": "sKaik29cq-94",
       "address": "https://git-scm.com/docs/githooks",
       "title": "Git - githooks Documentation",
-      "snippet": "git-am[1]. It takes a single parameter, the name of the file that holds the proposed commit log message. Exiting with a non-zero status causes git am to abort before applying the patch.\nThe hook is allowed to edit the message file in place, and can be used to normalize the message into some project",
+      "snippet": "This hook is invoked by commands that rewrite commits (git-commit[1] when called with --amend and git-rebase[1]; however, full-history (re)writing tools like git-fast-import[1] or git-filter-repo typically do not call it!).",
       "matchedWords": {
         "up8R7MNJfZmT": {
           "hits": 107,
@@ -1903,7 +1903,7 @@
       "hash": "3A0ez29cq-94",
       "address": "https://git-scm.com/docs/git-commit/2.31.0",
       "title": "Git - git-commit Documentation",
-      "snippet": "Git about are not affected.\n-p\n--patch\nUse the interactive patch selection interface to chose which changes to commit. See git-add[1] for details.\n-C \u003ccommit\u003e\n--reuse-message=\u003ccommit\u003e\nTake an existing commit object, and reuse the log message and the authorship information (including the timestamp)",
+      "snippet": "See git-rebase[1] for details.\n--squash=\u003ccommit\u003e\nConstruct a commit message for use with rebase --autosquash. The commit message subject line is taken from the specified commit with a prefix of \"squash! \". Can be used with additional commit message options (-m/-c/-C/-F).",
       "matchedWords": {
         "up8R7MNJfZmT": {
           "hits": 20,
@@ -1920,7 +1920,7 @@
       "hash": "RgG4r29cq-94",
       "address": "https://git-scm.com/docs/git-bugreport",
       "title": "Git - git-bugreport Documentation",
-      "snippet": "git-bugreport - Collect information for user to file a bug report\nSYNOPSIS\ngit bugreport [(-o | --output-directory) \u003cpath\u003e] [(-s | --suffix) \u003cformat\u003e | --no-suffix] [--diagnose[=\u003cmode\u003e]]\nDESCRIPTION\nCollects information about the user’s machine, Git client, and repository state, in addition to a",
+      "snippet": "NAME\ngit-bugreport - Collect information for user to file a bug report\nSYNOPSIS\ngit bugreport [(-o | --output-directory) \u003cpath\u003e] [(-s | --suffix) \u003cformat\u003e | --no-suffix] [--diagnose[=\u003cmode\u003e]]\nDESCRIPTION",
       "matchedWords": {
         "up8R7MNJfZmT": {
           "hits": 12,
@@ -1937,7 +1937,7 @@
       "hash": "-y8Tx29cq-94",
       "address": "https://git-scm.com/docs/git-fast-import",
       "title": "Git - git-fast-import Documentation",
-      "snippet": "git-fast-import - Backend for fast Git data importers\nSYNOPSIS\nfrontend | git fast-import [\u003coptions\u003e]\nDESCRIPTION\nThis program is usually not what the end user wants to run directly. Most end users want to use one of the existing frontend programs, which parses a specific type of foreign source and",
+      "snippet": "Like git push or git fetch, imports handled by fast-import are safe to run alongside parallel git repack -a -d or git gc invocations, or any other Git operation (including git prune, as loose objects are never used by fast-import).",
       "matchedWords": {
         "up8R7MNJfZmT": {
           "hits": 90,
@@ -2039,7 +2039,7 @@
       "hash": "6vbK7ssY0Thg",
       "address": "https://bueltge.de/git/",
       "title": "Get your Practice-Git on!",
-      "snippet": "Git Notes\nTypical git commands\nWork with branches\nWork with Git Remote URL (URI)\nForce git to overwrite local files on pull\nTag version\nSet commit messages in modal text editor, like Vim\nFork \u0026 Merge changes from remote github repository to your local repository\nRollback a git repository to a",
+      "snippet": "git rebase -i\"\n​ # Rebase interactive on our unpushed commits\n​ rbiu = !\"git rebase -i @{u}\"\nSetup alias for convenience.\ngit alias to list all alias from .gitconfi\ng\u003cbr\u003ealias = !git config --list | grep 'alias\\\\.' | sed 's/alias\\\\.\\\\([^=]\\\\)=\\\\(.\\\\)/\\\\1\\\\\\t =\u003e \\\\2/' | sort",
       "matchedWords": {
         "up8R7MNJfZmT": {
           "hits": 110,
@@ -2056,7 +2056,7 @@
       "hash": "9qMfQo0Z_SDg",
       "address": "https://www.jvt.me/posts/2019/01/10/git-commit-fixup/",
       "title": "Using `git commit --fixup=` to track changes that need to be applied on top of another commit · Jamie Tanna | Software Engineer",
-      "snippet": "Git history.\nThese commits will often have a commit message such as sq! to denote that I need to squash into the last commit, or sq! 3e9f73, to denote that I need to squash into the commit that has a SHA of 3e9f73.\nOnce I've finalised my cleanup, I'll then perform a git rebase --interactive to",
+      "snippet": "Add Lorem Ipsum commit 5552fc0e523108bb8e6d7358b51c08a85ca10edc Author: Jamie Tanna \u003cjamie@jamietanna.co.uk\u003e Date: Thu Jan 10 16:45:46 2019 +0000 Add Lorem Ipsum commit 47d1a2ad0e490c1dd67ed5bf5a539bb6024d706d Author: Jamie Tanna \u003cjamie@jamietanna.co.uk\u003e Date: Thu Jan 10 16:45:26 2019 +0000 Initial",
       "matchedWords": {
         "up8R7MNJfZmT": {
           "hits": 21,
@@ -2073,7 +2073,7 @@
       "hash": "9qMfQo0Z_SDg",
       "address": "https://www.jvt.me/posts/2019/01/10/git-commit-fixup/",
       "title": "Using `git commit --fixup=` to track changes that need to be applied on top of another commit · Jamie Tanna | Software Engineer",
-      "snippet": "Git history.\nThese commits will often have a commit message such as sq! to denote that I need to squash into the last commit, or sq! 3e9f73, to denote that I need to squash into the commit that has a SHA of 3e9f73.\nOnce I've finalised my cleanup, I'll then perform a git rebase --interactive to",
+      "snippet": "Add Lorem Ipsum commit 5552fc0e523108bb8e6d7358b51c08a85ca10edc Author: Jamie Tanna \u003cjamie@jamietanna.co.uk\u003e Date: Thu Jan 10 16:45:46 2019 +0000 Add Lorem Ipsum commit 47d1a2ad0e490c1dd67ed5bf5a539bb6024d706d Author: Jamie Tanna \u003cjamie@jamietanna.co.uk\u003e Date: Thu Jan 10 16:45:26 2019 +0000 Initial",
       "matchedWords": {
         "up8R7MNJfZmT": {
           "hits": 21,
@@ -2141,7 +2141,7 @@
       "hash": "Atcou29cq-94",
       "address": "https://git-scm.com/docs/git-checkout",
       "title": "Git - git-checkout Documentation",
-      "snippet": "git rebase and git pull --rebase, ours and theirs may appear swapped; --ours gives the version from the branch the changes are rebased onto, while --theirs gives the version from the branch that holds your work that is being rebased.\nThis is because rebase is used in a workflow that treats the",
+      "snippet": "Note that during git rebase and git pull --rebase, ours and theirs may appear swapped; --ours gives the version from the branch the changes are rebased onto, while --theirs gives the version from the branch that holds your work that is being rebased.",
       "matchedWords": {
         "up8R7MNJfZmT": {
           "hits": 24,
@@ -2158,7 +2158,7 @@
       "hash": "DNJ9f29cq-94",
       "address": "https://git-scm.com/docs/git-commit-tree",
       "title": "Git - git-commit-tree Documentation",
-      "snippet": "git-commit[1] instead.\nCreates a new commit object based on the provided tree object and emits the new commit object id on stdout. The log message is read from the standard input, unless -m or -F options are given.\nThe -m and -F options can be given any number of times, in any order. The commit log",
+      "snippet": "Normally a commit would identify a new \"HEAD\" state, and while Git doesn’t care where you save the note about that state, in practice we tend to just write the result to the file that is pointed at by .git/HEAD, so that we can always see what the last committed state was.",
       "matchedWords": {
         "up8R7MNJfZmT": {
           "hits": 3,
@@ -2175,7 +2175,7 @@
       "hash": "JnqHwV9cq-94",
       "address": "https://git-scm.com/book/en/v2/Git-Tools-Submodules",
       "title": "Git - Submodules",
-      "snippet": "Git addresses this issue using submodules. Submodules allow you to keep a Git repository as a subdirectory of another Git repository. This lets you clone another repository into your project and keep your commits separate.\nStarting with Submodules\nWe’ll walk through developing a simple project that",
+      "snippet": "Then you need to tell Git what to do if you have made changes and later git submodule update --remote pulls in new work from upstream. The options are that you can merge them into your local work, or you can try to rebase your local work on top of the new changes.",
       "matchedWords": {
         "up8R7MNJfZmT": {
           "hits": 209,
@@ -2192,7 +2192,7 @@
       "hash": "K3Sdz29cq-94",
       "address": "https://git-scm.com/docs/git-reflog",
       "title": "Git - git-reflog Documentation",
-      "snippet": "git-reflog - Manage reflog information\nSYNOPSIS\ngit reflog [show] [\u003clog-options\u003e] [\u003cref\u003e] git reflog list git reflog exists \u003cref\u003e git reflog write \u003cref\u003e \u003cold-oid\u003e \u003cnew-oid\u003e \u003cmessage\u003e git reflog delete [--rewrite] [--updateref] [--dry-run | -n] [--verbose] \u003cref\u003e@{\u003cspecifier\u003e}... git reflog drop",
+      "snippet": "git reflog [show] [\u003clog-options\u003e] [\u003cref\u003e] git reflog list git reflog exists \u003cref\u003e git reflog write \u003cref\u003e \u003cold-oid\u003e \u003cnew-oid\u003e \u003cmessage\u003e git reflog delete [--rewrite] [--updateref] [--dry-run | -n] [--verbose] \u003cref\u003e@{\u003cspecifier\u003e}... git reflog drop [--all [--single-worktree] | \u003crefs\u003e…​] git reflog",
       "matchedWords": {
         "up8R7MNJfZmT": {
           "hits": 19,
@@ -2209,7 +2209,7 @@
       "hash": "MqEBYs9cq-94",
       "address": "https://git-scm.com/cheat-sheet",
       "title": "Git Cheat Sheet",
-      "snippet": "git init\nClone an existing repo:\ngit clone \u003curl\u003e\nPrepare to Commit\nAdd untracked file or unstaged changes:\ngit add \u003cfile\u003e\nAdd all untracked files and unstaged changes:\ngit add .\nChoose which parts of a file to stage:\ngit add -p\nMove file:\ngit mv \u003cold\u003e \u003cnew\u003e\nDelete file:\ngit rm \u003cfile\u003e\nTell Git to",
+      "snippet": "git switch banana git rebase main Before:\nAfter:\nCombine with merge:\ngit switch main git merge banana Before:\nAfter:\nCombine with squash merge:\ngit switch main git merge --squash banana git commit Before:\nAfter:\nBring a branch up to date with another branch (aka \"fast-forward merge\"):",
       "matchedWords": {
         "up8R7MNJfZmT": {
           "hits": 80,
@@ -2226,7 +2226,7 @@
       "hash": "QWtr229cq-94",
       "address": "https://git-scm.com/docs/git-diff",
       "title": "Git - git-diff Documentation",
-      "snippet": "git show that show the patch by default to squelch their output, or to cancel the effect of options like --patch, --stat earlier on the command line in an alias.\n-U\u003cn\u003e\n--unified=\u003cn\u003e\nGenerate diffs with \u003cn\u003e lines of context. The number of context lines defaults to diff.context or 3 if the",
+      "snippet": "By default entries added by git add -N appear as an existing empty file in git diff and a new file in git diff --cached. This option makes the entry appear as a new file in git diff and non-existent in git diff --cached. This option could be reverted with --ita-visible-in-index.",
       "matchedWords": {
         "up8R7MNJfZmT": {
           "hits": 31,
@@ -2243,7 +2243,7 @@
       "hash": "RgG4r29cq-94",
       "address": "https://git-scm.com/docs/git-bugreport",
       "title": "Git - git-bugreport Documentation",
-      "snippet": "git-bugreport - Collect information for user to file a bug report\nSYNOPSIS\ngit bugreport [(-o | --output-directory) \u003cpath\u003e] [(-s | --suffix) \u003cformat\u003e | --no-suffix] [--diagnose[=\u003cmode\u003e]]\nDESCRIPTION\nCollects information about the user’s machine, Git client, and repository state, in addition to a",
+      "snippet": "NAME\ngit-bugreport - Collect information for user to file a bug report\nSYNOPSIS\ngit bugreport [(-o | --output-directory) \u003cpath\u003e] [(-s | --suffix) \u003cformat\u003e | --no-suffix] [--diagnose[=\u003cmode\u003e]]\nDESCRIPTION",
       "matchedWords": {
         "up8R7MNJfZmT": {
           "hits": 12,
@@ -2260,7 +2260,7 @@
       "hash": "SGCHO29cq-94",
       "address": "https://git-scm.com/docs/gitsubmodules",
       "title": "Git - gitsubmodules Documentation",
-      "snippet": "Git directory located under the $GIT_DIR/modules/ directory of its superproject, (ii) a working directory inside the superproject’s working directory, and a .git file at the root of the submodule’s working directory pointing to (i).\nAssuming the submodule has a Git directory at",
+      "snippet": "On the filesystem, a submodule usually (but not always - see FORMS below) consists of (i) a Git directory located under the $GIT_DIR/modules/ directory of its superproject, (ii) a working directory inside the superproject’s working directory, and a .git file at the root of the submodule’s working",
       "matchedWords": {
         "up8R7MNJfZmT": {
           "hits": 10,
@@ -2277,7 +2277,7 @@
       "hash": "SOaOd29cq-94",
       "address": "https://git-scm.com/docs/git",
       "title": "Git - git Documentation",
-      "snippet": "GIT_MERGE_VERBOSITY\nA number controlling the amount of output shown by the recursive merge strategy. Overrides merge.verbosity. See git-merge[1]\nThis environment variable overrides $PAGER. If it is set to an empty string or to the value \"cat\", Git will not launch a pager. See also the core.pager",
+      "snippet": "See also git-rebase[1] and the sequence.editor option in git-config[1].\nGIT_SSH\nGIT_SSH_COMMAND\nIf either of these environment variables is set then git fetch and git push will use the specified command instead of ssh when they need to connect to a remote system.",
       "matchedWords": {
         "up8R7MNJfZmT": {
           "hits": 137,
@@ -2294,7 +2294,7 @@
       "hash": "aE__u29cq-94",
       "address": "https://git-scm.com/docs/git-submodule",
       "title": "Git - git-submodule Documentation",
-      "snippet": "foo.git which is located right next to a superproject bar.git, you’ll have to use ../foo.git instead of ./foo.git - as one might expect when following the rules for relative URLs - because the evaluation of relative URLs in Git is identical to that of relative directories).\nThe default remote is",
+      "snippet": "If --force is specified, the submodule will be checked out (using git checkout --force), even if the commit specified in the index of the containing repository already matches the commit checked out in the submodule.\nrebase",
       "matchedWords": {
         "up8R7MNJfZmT": {
           "hits": 41,
@@ -2311,7 +2311,7 @@
       "hash": "fDcnx29cq-94",
       "address": "https://git-scm.com/docs/git-bundle",
       "title": "Git - git-bundle Documentation",
-      "snippet": "git-bundle - Move objects and refs by archive\nSYNOPSIS\ngit bundle create [-q | --quiet | --progress] [--version=\u003cversion\u003e] \u003cfile\u003e \u003cgit-rev-list-args\u003e git bundle verify [-q | --quiet] \u003cfile\u003e git bundle list-heads \u003cfile\u003e [\u003crefname\u003e…​] git bundle unbundle [--progress] \u003cfile\u003e [\u003crefname\u003e…​]\nDESCRIPTION",
+      "snippet": "NAME\ngit-bundle - Move objects and refs by archive\nSYNOPSIS\ngit bundle create [-q | --quiet | --progress] [--version=\u003cversion\u003e] \u003cfile\u003e \u003cgit-rev-list-args\u003e git bundle verify [-q | --quiet] \u003cfile\u003e git bundle list-heads \u003cfile\u003e [\u003crefname\u003e…​] git bundle unbundle [--progress] \u003cfile\u003e [\u003crefname\u003e…​]",
       "matchedWords": {
         "up8R7MNJfZmT": {
           "hits": 64,
@@ -2328,7 +2328,7 @@
       "hash": "lpRZC29cq-94",
       "address": "https://git-scm.com/docs/gitrevisions",
       "title": "Git - gitrevisions Documentation",
-      "snippet": "git log operate on a set of commits, not just a single commit.\nFor these commands, specifying a single revision, using the notation described in the previous section, means the set of commits reachable from the given commit.\nSpecifying several revisions means the set of commits reachable from any",
+      "snippet": "Commands that are specifically designed to take two distinct ranges (e.g. \"git range-diff R1 R2\" to compare two ranges) do exist, but they are exceptions. Unless otherwise noted, all \"git\" commands that operate on a set of commits work on a single revision range.",
       "matchedWords": {
         "up8R7MNJfZmT": {
           "hits": 5,
@@ -2345,7 +2345,7 @@
       "hash": "l-XXS29cq-94",
       "address": "https://git-scm.com/docs/gittutorial",
       "title": "Git - gittutorial Documentation",
-      "snippet": "Git\nSYNOPSIS\ngit *\nDESCRIPTION\nThis tutorial explains how to import a new project into Git, make changes to it, and share changes with other developers.\nIf you are instead primarily interested in using Git to fetch a project, for example, to test the latest version, you may prefer to start with the",
+      "snippet": "$ tar xzf project.tar.gz $ cd project $ git init\nGit will reply\nInitialized empty Git repository in .git/\nYou’ve now initialized the working directory—​you may notice a new directory created, named .git.",
       "matchedWords": {
         "up8R7MNJfZmT": {
           "hits": 137,
@@ -2362,7 +2362,7 @@
       "hash": "omph329cq-94",
       "address": "https://git-scm.com/docs/gitcli",
       "title": "Git - gitcli Documentation",
-      "snippet": "Git 1.5.4 series and further, many Git commands (not all of them at the time of the writing though) come with an enhanced option parser.\nHere is a list of the facilities provided by this option parser.\nMagic Options\nCommands which have the enhanced option parser activated all understand a couple of",
+      "snippet": "For example, git commit --amen behaves as if you typed git commit --amend, but that is true only until a later version of Git introduces another option that shares the same prefix, e.g. git commit --amenity option.\nSeparating argument from the option",
       "matchedWords": {
         "up8R7MNJfZmT": {
           "hits": 30,
@@ -2379,7 +2379,7 @@
       "hash": "sKaik29cq-94",
       "address": "https://git-scm.com/docs/githooks",
       "title": "Git - githooks Documentation",
-      "snippet": "git-am[1]. It takes a single parameter, the name of the file that holds the proposed commit log message. Exiting with a non-zero status causes git am to abort before applying the patch.\nThe hook is allowed to edit the message file in place, and can be used to normalize the message into some project",
+      "snippet": "This hook is invoked by commands that rewrite commits (git-commit[1] when called with --amend and git-rebase[1]; however, full-history (re)writing tools like git-fast-import[1] or git-filter-repo typically do not call it!).",
       "matchedWords": {
         "up8R7MNJfZmT": {
           "hits": 107,
@@ -2396,7 +2396,7 @@
       "hash": "zCoSO29cq-94",
       "address": "https://git-scm.com/docs/git-filter-branch",
       "title": "Git - git-filter-branch Documentation",
-      "snippet": "git-filter-branch - Rewrite branches\nSYNOPSIS\ngit filter-branch [--setup \u003ccommand\u003e] [--subdirectory-filter \u003cdirectory\u003e] [--env-filter \u003ccommand\u003e] [--tree-filter \u003ccommand\u003e] [--index-filter \u003ccommand\u003e] [--parent-filter \u003ccommand\u003e] [--msg-filter \u003ccommand\u003e] [--commit-filter \u003ccommand\u003e] [--tag-name-filter",
+      "snippet": "Please do not use this command if you do not know the full implications, and avoid using it anyway, if a simple single commit would suffice to fix your problem. (See the \"RECOVERING FROM UPSTREAM REBASE\" section in git-rebase[1] for further information about rewriting published history.)",
       "matchedWords": {
         "up8R7MNJfZmT": {
           "hits": 115,
@@ -2413,7 +2413,7 @@
       "hash": "zSrcq29cq-94",
       "address": "https://git-scm.com/docs/git-shortlog",
       "title": "Git - git-shortlog Documentation",
-      "snippet": "Git wasn’t compiled with support for them providing this option will cause it to die.\n--remove-empty\nStop when a given path disappears from the tree.\n--merges\nPrint only merge commits. This is exactly the same as --min-parents=2.\n--no-merges\nDo not print commits with more than one parent. This is",
+      "snippet": "--exclude-hidden=(fetch|receive|uploadpack)\nDo not include refs that would be hidden by git-fetch, git-receive-pack or git-upload-pack by consulting the appropriate fetch.hideRefs, receive.hideRefs or uploadpack.hideRefs configuration along with transfer.hideRefs (see git-config[1]).",
       "matchedWords": {
         "up8R7MNJfZmT": {
           "hits": 12,
@@ -2430,7 +2430,7 @@
       "hash": "1HsAf29cq-94",
       "address": "https://git-scm.com/docs/git-fsck",
       "title": "Git - git-fsck Documentation",
-      "snippet": "git fsck detects and what each error means, with their default severity. The severity of the error, other than those that are marked as \"(FATAL)\", can be tweaked by setting the corresponding fsck.\u003cmsg-id\u003e configuration variable.\nbadDate\n(ERROR) Invalid date format in an author/committer line.",
+      "snippet": "Report to the git@vger.kernel.org mailing list if you see this error, as we need to know what tools created such a file.\ntrailingRefContent\n(INFO) A loose ref has trailing content. As valid implementations of Git never created such a loose ref file, it may become an error in the future.",
       "matchedWords": {
         "up8R7MNJfZmT": {
           "hits": 11,
@@ -2447,7 +2447,7 @@
       "hash": "1di-C29cq-94",
       "address": "https://git-scm.com/docs/gitfaq",
       "title": "Git - gitfaq Documentation",
-      "snippet": "Git\nSYNOPSIS\ngitfaq\nDESCRIPTION\nThe examples in this FAQ assume a standard POSIX shell, like bash or dash, and a user, A U Thor, who has the account author on the hosting provider git.example.org.\nConfiguration\nWhat should I put in user.name?\nYou should put your personal name, generally a form",
+      "snippet": "Note that rebases rewrite history, so you should avoid rebasing published branches unless you’re sure you’re comfortable with that. See the NOTES section in git-rebase[1] for more details.\nHooks\nHow do I use hooks to prevent users from making certain changes?",
       "matchedWords": {
         "up8R7MNJfZmT": {
           "hits": 126,
@@ -2464,7 +2464,7 @@
       "hash": "19sbJ29cq-94",
       "address": "https://git-scm.com/docs/git-verify-pack",
       "title": "Git - git-verify-pack Documentation",
-      "snippet": "git-verify-pack - Validate packed Git archive files\nSYNOPSIS\ngit verify-pack [-v | --verbose] [-s | --stat-only] [--] \u003cpack\u003e.idx...\nDESCRIPTION\nRead each idx file for packed Git archive given on the command line, and verify the idx file and the corresponding pack file.\nOPTIONS\n-v\n--verbose\nAfter",
+      "snippet": "NAME\ngit-verify-pack - Validate packed Git archive files\nSYNOPSIS\ngit verify-pack [-v | --verbose] [-s | --stat-only] [--] \u003cpack\u003e.idx...\nDESCRIPTION\nRead each idx file for packed Git archive given on the command line, and verify the idx file and the corresponding pack file.\nOPTIONS\n-v\n--verbose",
       "matchedWords": {
         "up8R7MNJfZmT": {
           "hits": 4,
@@ -2481,7 +2481,7 @@
       "hash": "3A0ez29cq-94",
       "address": "https://git-scm.com/docs/git-commit/2.31.0",
       "title": "Git - git-commit Documentation",
-      "snippet": "Git about are not affected.\n-p\n--patch\nUse the interactive patch selection interface to chose which changes to commit. See git-add[1] for details.\n-C \u003ccommit\u003e\n--reuse-message=\u003ccommit\u003e\nTake an existing commit object, and reuse the log message and the authorship information (including the timestamp)",
+      "snippet": "See git-rebase[1] for details.\n--squash=\u003ccommit\u003e\nConstruct a commit message for use with rebase --autosquash. The commit message subject line is taken from the specified commit with a prefix of \"squash! \". Can be used with additional commit message options (-m/-c/-C/-F).",
       "matchedWords": {
         "up8R7MNJfZmT": {
           "hits": 20,
@@ -2498,7 +2498,7 @@
       "hash": "6fDY-29cq-94",
       "address": "https://git-scm.com/docs/git-grep",
       "title": "Git - git-grep Documentation",
-      "snippet": "Git, or by ignoring that the current directory is managed by Git. This is rather similar to running the regular grep(1) utility with its -r option specified, but with some additional benefits, such as using pathspec patterns to limit paths; see the pathspec entry in gitglossary[7] for more",
+      "snippet": "Search files in the current directory that is not managed by Git, or by ignoring that the current directory is managed by Git.",
       "matchedWords": {
         "up8R7MNJfZmT": {
           "hits": 10,
@@ -2515,7 +2515,7 @@
       "hash": "7gc6929cq-94",
       "address": "https://git-scm.com/docs/git-worktree",
       "title": "Git - git-worktree Documentation",
-      "snippet": "git-worktree - Manage multiple working trees\nSYNOPSIS\ngit worktree add [-f] [--detach] [--checkout] [--lock [--reason \u003cstring\u003e]] [--orphan] [(-b | -B) \u003cnew-branch\u003e] \u003cpath\u003e [\u003ccommit-ish\u003e] git worktree list [-v | --porcelain [-z]] git worktree lock [--reason \u003cstring\u003e] \u003cworktree\u003e git worktree move",
+      "snippet": "For example, in the linked worktree git rev-parse --git-path HEAD returns /path/main/.git/worktrees/test-next/HEAD (not /path/other/test-next/.git/HEAD or /path/main/.git/HEAD) while git rev-parse --git-path refs/heads/master uses $GIT_COMMON_DIR and returns /path/main/.git/refs/heads/master, since",
       "matchedWords": {
         "up8R7MNJfZmT": {
           "hits": 106,
@@ -2532,7 +2532,7 @@
       "hash": "9SzT029cq-94",
       "address": "https://git-scm.com/docs/git-apply",
       "title": "Git - git-apply Documentation",
-      "snippet": "git diff extended headers, such as creations, renames, and mode changes. Turns off \"apply\".\n--check\nInstead of applying the patch, see if the patch is applicable to the current working tree and/or the index file and detects errors. Turns off \"apply\".\n--index\nApply the patch to both the index and",
+      "snippet": "If a -p argument was also passed, it is applied before prepending the new root.\nFor example, a patch that talks about updating a/git-gui.sh to b/git-gui.sh can be applied to the file in the working tree modules/git-gui/git-gui.sh by running git apply --directory=modules/git-gui.\n--unsafe-paths",
       "matchedWords": {
         "up8R7MNJfZmT": {
           "hits": 18,
@@ -2549,7 +2549,7 @@
       "hash": "-y8Tx29cq-94",
       "address": "https://git-scm.com/docs/git-fast-import",
       "title": "Git - git-fast-import Documentation",
-      "snippet": "git-fast-import - Backend for fast Git data importers\nSYNOPSIS\nfrontend | git fast-import [\u003coptions\u003e]\nDESCRIPTION\nThis program is usually not what the end user wants to run directly. Most end users want to use one of the existing frontend programs, which parses a specific type of foreign source and",
+      "snippet": "Like git push or git fetch, imports handled by fast-import are safe to run alongside parallel git repack -a -d or git gc invocations, or any other Git operation (including git prune, as loose objects are never used by fast-import).",
       "matchedWords": {
         "up8R7MNJfZmT": {
           "hits": 90,
@@ -2566,7 +2566,7 @@
       "hash": "-7-UKs9cq-94",
       "address": "https://git-scm.com/docs",
       "title": "Git - Reference",
-      "snippet": "git\nconfig\nhelp\nbugreport\nCredential helpers\nGetting and Creating Projects\ninit\nclone\nBasic Snapshotting\nadd\nstatus\ndiff\ncommit\nnotes\nrestore\nreset\nrm\nmv\nBranching and Merging\nbranch\ncheckout\nswitch\nmerge\nmergetool\nlog\nstash\ntag\nworktree\nSharing and Updating Projects\nfetch\npull\npush\nremote",
+      "snippet": "Quick reference guide: Cheat Sheet\nComplete list of all commands\nSetup and Config\ngit\nconfig\nhelp\nbugreport\nCredential helpers\nGetting and Creating Projects\ninit\nclone\nBasic Snapshotting\nadd\nstatus\ndiff\ncommit\nnotes\nrestore\nreset\nrm\nmv\nBranching and Merging\nbranch\ncheckout\nswitch\nmerge\nmergetool",
       "matchedWords": {
         "up8R7MNJfZmT": {
           "hits": 2,
@@ -2634,7 +2634,7 @@
       "hash": "7WP56MS6MKD4",
       "address": "https://github.com/tiimgreen/github-cheat-sheet",
       "title": "GitHub - tiimgreen/github-cheat-sheet: A list of cool features of Git and GitHub.",
-      "snippet": "Git and GitHub. This cheat sheet was inspired by Zach Holman's Git and GitHub Secrets talk at Aloha Ruby Conference 2012 (slides) and his More Git and GitHub Secrets talk at WDCNZ 2013 (slides).\nShortlink: http://git.io/sheet\nRead this in other languages: English, 한국어, 日本語, 简体中文, 正體中文.\nGitHub Cheat",
+      "snippet": "If there is something wrong with a previous commit (can be one or more from HEAD), for example abcde, run the following command after you've amended the problem:\n$ git commit --fixup=abcde $ git rebase abcde^ --autosquash -i\nRead more about the Git commit command.",
       "matchedWords": {
         "up8R7MNJfZmT": {
           "hits": 193,
@@ -2821,7 +2821,7 @@
       "hash": "6vbK7ssY0Thg",
       "address": "https://bueltge.de/git/",
       "title": "Get your Practice-Git on!",
-      "snippet": "Git Notes\nTypical git commands\nWork with branches\nWork with Git Remote URL (URI)\nForce git to overwrite local files on pull\nTag version\nSet commit messages in modal text editor, like Vim\nFork \u0026 Merge changes from remote github repository to your local repository\nRollback a git repository to a",
+      "snippet": "git rebase -i\"\n​ # Rebase interactive on our unpushed commits\n​ rbiu = !\"git rebase -i @{u}\"\nSetup alias for convenience.\ngit alias to list all alias from .gitconfi\ng\u003cbr\u003ealias = !git config --list | grep 'alias\\\\.' | sed 's/alias\\\\.\\\\([^=]\\\\)=\\\\(.\\\\)/\\\\1\\\\\\t =\u003e \\\\2/' | sort",
       "matchedWords": {
         "up8R7MNJfZmT": {
           "hits": 110,
@@ -2855,7 +2855,7 @@
       "hash": "Y0wMEQvPJCNw",
       "address": "https://eagain.net/articles/git-for-computer-scientists/",
       "title": "Git for Computer Scientists",
-      "snippet": "git internals for people who are not scared by words like Directed Acyclic Graph .\nStorage\nIn simplified form, git object storage is \"just\" a DAG of objects, with a handful of different types of objects. They are all stored compressed and identified by an SHA-1 hash (that, incidentally, isn't the",
+      "snippet": "Abstract\nQuick introduction to git internals for people who are not scared by words like Directed Acyclic Graph .\nStorage\nIn simplified form, git object storage is \"just\" a DAG of objects, with a handful of different types of objects.",
       "matchedWords": {
         "up8R7MNJfZmT": {
           "hits": 17,
@@ -2906,7 +2906,7 @@
       "hash": "-7-UKs9cq-94",
       "address": "https://git-scm.com/docs",
       "title": "Git - Reference",
-      "snippet": "git\nconfig\nhelp\nbugreport\nCredential helpers\nGetting and Creating Projects\ninit\nclone\nBasic Snapshotting\nadd\nstatus\ndiff\ncommit\nnotes\nrestore\nreset\nrm\nmv\nBranching and Merging\nbranch\ncheckout\nswitch\nmerge\nmergetool\nlog\nstash\ntag\nworktree\nSharing and Updating Projects\nfetch\npull\npush\nremote",
+      "snippet": "Quick reference guide: Cheat Sheet\nComplete list of all commands\nSetup and Config\ngit\nconfig\nhelp\nbugreport\nCredential helpers\nGetting and Creating Projects\ninit\nclone\nBasic Snapshotting\nadd\nstatus\ndiff\ncommit\nnotes\nrestore\nreset\nrm\nmv\nBranching and Merging\nbranch\ncheckout\nswitch\nmerge\nmergetool",
       "matchedWords": {
         "up8R7MNJfZmT": {
           "hits": 2,
@@ -2940,7 +2940,7 @@
       "hash": "QWtr229cq-94",
       "address": "https://git-scm.com/docs/git-diff",
       "title": "Git - git-diff Documentation",
-      "snippet": "git show that show the patch by default to squelch their output, or to cancel the effect of options like --patch, --stat earlier on the command line in an alias.\n-U\u003cn\u003e\n--unified=\u003cn\u003e\nGenerate diffs with \u003cn\u003e lines of context. The number of context lines defaults to diff.context or 3 if the",
+      "snippet": "By default entries added by git add -N appear as an existing empty file in git diff and a new file in git diff --cached. This option makes the entry appear as a new file in git diff and non-existent in git diff --cached. This option could be reverted with --ita-visible-in-index.",
       "matchedWords": {
         "up8R7MNJfZmT": {
           "hits": 31,
@@ -2957,7 +2957,7 @@
       "hash": "RgG4r29cq-94",
       "address": "https://git-scm.com/docs/git-bugreport",
       "title": "Git - git-bugreport Documentation",
-      "snippet": "git-bugreport - Collect information for user to file a bug report\nSYNOPSIS\ngit bugreport [(-o | --output-directory) \u003cpath\u003e] [(-s | --suffix) \u003cformat\u003e | --no-suffix] [--diagnose[=\u003cmode\u003e]]\nDESCRIPTION\nCollects information about the user’s machine, Git client, and repository state, in addition to a",
+      "snippet": "NAME\ngit-bugreport - Collect information for user to file a bug report\nSYNOPSIS\ngit bugreport [(-o | --output-directory) \u003cpath\u003e] [(-s | --suffix) \u003cformat\u003e | --no-suffix] [--diagnose[=\u003cmode\u003e]]\nDESCRIPTION",
       "matchedWords": {
         "up8R7MNJfZmT": {
           "hits": 12,
@@ -2974,7 +2974,7 @@
       "hash": "SGCHO29cq-94",
       "address": "https://git-scm.com/docs/gitsubmodules",
       "title": "Git - gitsubmodules Documentation",
-      "snippet": "Git directory located under the $GIT_DIR/modules/ directory of its superproject, (ii) a working directory inside the superproject’s working directory, and a .git file at the root of the submodule’s working directory pointing to (i).\nAssuming the submodule has a Git directory at",
+      "snippet": "On the filesystem, a submodule usually (but not always - see FORMS below) consists of (i) a Git directory located under the $GIT_DIR/modules/ directory of its superproject, (ii) a working directory inside the superproject’s working directory, and a .git file at the root of the submodule’s working",
       "matchedWords": {
         "up8R7MNJfZmT": {
           "hits": 10,
@@ -2991,7 +2991,7 @@
       "hash": "SOaOd29cq-94",
       "address": "https://git-scm.com/docs/git",
       "title": "Git - git Documentation",
-      "snippet": "GIT_MERGE_VERBOSITY\nA number controlling the amount of output shown by the recursive merge strategy. Overrides merge.verbosity. See git-merge[1]\nThis environment variable overrides $PAGER. If it is set to an empty string or to the value \"cat\", Git will not launch a pager. See also the core.pager",
+      "snippet": "See also git-rebase[1] and the sequence.editor option in git-config[1].\nGIT_SSH\nGIT_SSH_COMMAND\nIf either of these environment variables is set then git fetch and git push will use the specified command instead of ssh when they need to connect to a remote system.",
       "matchedWords": {
         "up8R7MNJfZmT": {
           "hits": 137,
@@ -3008,7 +3008,7 @@
       "hash": "-7-UKs9cq-94",
       "address": "https://git-scm.com/docs",
       "title": "Git - Reference",
-      "snippet": "git\nconfig\nhelp\nbugreport\nCredential helpers\nGetting and Creating Projects\ninit\nclone\nBasic Snapshotting\nadd\nstatus\ndiff\ncommit\nnotes\nrestore\nreset\nrm\nmv\nBranching and Merging\nbranch\ncheckout\nswitch\nmerge\nmergetool\nlog\nstash\ntag\nworktree\nSharing and Updating Projects\nfetch\npull\npush\nremote",
+      "snippet": "Quick reference guide: Cheat Sheet\nComplete list of all commands\nSetup and Config\ngit\nconfig\nhelp\nbugreport\nCredential helpers\nGetting and Creating Projects\ninit\nclone\nBasic Snapshotting\nadd\nstatus\ndiff\ncommit\nnotes\nrestore\nreset\nrm\nmv\nBranching and Merging\nbranch\ncheckout\nswitch\nmerge\nmergetool",
       "matchedWords": {
         "up8R7MNJfZmT": {
           "hits": 2,
@@ -3076,7 +3076,7 @@
       "hash": "Atcou29cq-94",
       "address": "https://git-scm.com/docs/git-checkout",
       "title": "Git - git-checkout Documentation",
-      "snippet": "git rebase and git pull --rebase, ours and theirs may appear swapped; --ours gives the version from the branch the changes are rebased onto, while --theirs gives the version from the branch that holds your work that is being rebased.\nThis is because rebase is used in a workflow that treats the",
+      "snippet": "Note that during git rebase and git pull --rebase, ours and theirs may appear swapped; --ours gives the version from the branch the changes are rebased onto, while --theirs gives the version from the branch that holds your work that is being rebased.",
       "matchedWords": {
         "up8R7MNJfZmT": {
           "hits": 24,
@@ -3093,7 +3093,7 @@
       "hash": "DNJ9f29cq-94",
       "address": "https://git-scm.com/docs/git-commit-tree",
       "title": "Git - git-commit-tree Documentation",
-      "snippet": "git-commit[1] instead.\nCreates a new commit object based on the provided tree object and emits the new commit object id on stdout. The log message is read from the standard input, unless -m or -F options are given.\nThe -m and -F options can be given any number of times, in any order. The commit log",
+      "snippet": "Normally a commit would identify a new \"HEAD\" state, and while Git doesn’t care where you save the note about that state, in practice we tend to just write the result to the file that is pointed at by .git/HEAD, so that we can always see what the last committed state was.",
       "matchedWords": {
         "up8R7MNJfZmT": {
           "hits": 3,
@@ -3110,7 +3110,7 @@
       "hash": "JnqHwV9cq-94",
       "address": "https://git-scm.com/book/en/v2/Git-Tools-Submodules",
       "title": "Git - Submodules",
-      "snippet": "Git addresses this issue using submodules. Submodules allow you to keep a Git repository as a subdirectory of another Git repository. This lets you clone another repository into your project and keep your commits separate.\nStarting with Submodules\nWe’ll walk through developing a simple project that",
+      "snippet": "Then you need to tell Git what to do if you have made changes and later git submodule update --remote pulls in new work from upstream. The options are that you can merge them into your local work, or you can try to rebase your local work on top of the new changes.",
       "matchedWords": {
         "up8R7MNJfZmT": {
           "hits": 209,
@@ -3127,7 +3127,7 @@
       "hash": "K3Sdz29cq-94",
       "address": "https://git-scm.com/docs/git-reflog",
       "title": "Git - git-reflog Documentation",
-      "snippet": "git-reflog - Manage reflog information\nSYNOPSIS\ngit reflog [show] [\u003clog-options\u003e] [\u003cref\u003e] git reflog list git reflog exists \u003cref\u003e git reflog write \u003cref\u003e \u003cold-oid\u003e \u003cnew-oid\u003e \u003cmessage\u003e git reflog delete [--rewrite] [--updateref] [--dry-run | -n] [--verbose] \u003cref\u003e@{\u003cspecifier\u003e}... git reflog drop",
+      "snippet": "git reflog [show] [\u003clog-options\u003e] [\u003cref\u003e] git reflog list git reflog exists \u003cref\u003e git reflog write \u003cref\u003e \u003cold-oid\u003e \u003cnew-oid\u003e \u003cmessage\u003e git reflog delete [--rewrite] [--updateref] [--dry-run | -n] [--verbose] \u003cref\u003e@{\u003cspecifier\u003e}... git reflog drop [--all [--single-worktree] | \u003crefs\u003e…​] git reflog",
       "matchedWords": {
         "up8R7MNJfZmT": {
           "hits": 19,
@@ -3144,7 +3144,7 @@
       "hash": "MqEBYs9cq-94",
       "address": "https://git-scm.com/cheat-sheet",
       "title": "Git Cheat Sheet",
-      "snippet": "git init\nClone an existing repo:\ngit clone \u003curl\u003e\nPrepare to Commit\nAdd untracked file or unstaged changes:\ngit add \u003cfile\u003e\nAdd all untracked files and unstaged changes:\ngit add .\nChoose which parts of a file to stage:\ngit add -p\nMove file:\ngit mv \u003cold\u003e \u003cnew\u003e\nDelete file:\ngit rm \u003cfile\u003e\nTell Git to",
+      "snippet": "git switch banana git rebase main Before:\nAfter:\nCombine with merge:\ngit switch main git merge banana Before:\nAfter:\nCombine with squash merge:\ngit switch main git merge --squash banana git commit Before:\nAfter:\nBring a branch up to date with another branch (aka \"fast-forward merge\"):",
       "matchedWords": {
         "up8R7MNJfZmT": {
           "hits": 80,
@@ -3161,7 +3161,7 @@
       "hash": "QWtr229cq-94",
       "address": "https://git-scm.com/docs/git-diff",
       "title": "Git - git-diff Documentation",
-      "snippet": "git show that show the patch by default to squelch their output, or to cancel the effect of options like --patch, --stat earlier on the command line in an alias.\n-U\u003cn\u003e\n--unified=\u003cn\u003e\nGenerate diffs with \u003cn\u003e lines of context. The number of context lines defaults to diff.context or 3 if the",
+      "snippet": "By default entries added by git add -N appear as an existing empty file in git diff and a new file in git diff --cached. This option makes the entry appear as a new file in git diff and non-existent in git diff --cached. This option could be reverted with --ita-visible-in-index.",
       "matchedWords": {
         "up8R7MNJfZmT": {
           "hits": 31,
@@ -3178,7 +3178,7 @@
       "hash": "RgG4r29cq-94",
       "address": "https://git-scm.com/docs/git-bugreport",
       "title": "Git - git-bugreport Documentation",
-      "snippet": "git-bugreport - Collect information for user to file a bug report\nSYNOPSIS\ngit bugreport [(-o | --output-directory) \u003cpath\u003e] [(-s | --suffix) \u003cformat\u003e | --no-suffix] [--diagnose[=\u003cmode\u003e]]\nDESCRIPTION\nCollects information about the user’s machine, Git client, and repository state, in addition to a",
+      "snippet": "NAME\ngit-bugreport - Collect information for user to file a bug report\nSYNOPSIS\ngit bugreport [(-o | --output-directory) \u003cpath\u003e] [(-s | --suffix) \u003cformat\u003e | --no-suffix] [--diagnose[=\u003cmode\u003e]]\nDESCRIPTION",
       "matchedWords": {
         "up8R7MNJfZmT": {
           "hits": 12,
@@ -3195,7 +3195,7 @@
       "hash": "SGCHO29cq-94",
       "address": "https://git-scm.com/docs/gitsubmodules",
       "title": "Git - gitsubmodules Documentation",
-      "snippet": "Git directory located under the $GIT_DIR/modules/ directory of its superproject, (ii) a working directory inside the superproject’s working directory, and a .git file at the root of the submodule’s working directory pointing to (i).\nAssuming the submodule has a Git directory at",
+      "snippet": "On the filesystem, a submodule usually (but not always - see FORMS below) consists of (i) a Git directory located under the $GIT_DIR/modules/ directory of its superproject, (ii) a working directory inside the superproject’s working directory, and a .git file at the root of the submodule’s working",
       "matchedWords": {
         "up8R7MNJfZmT": {
           "hits": 10,
@@ -3212,7 +3212,7 @@
       "hash": "SOaOd29cq-94",
       "address": "https://git-scm.com/docs/git",
       "title": "Git - git Documentation",
-      "snippet": "GIT_MERGE_VERBOSITY\nA number controlling the amount of output shown by the recursive merge strategy. Overrides merge.verbosity. See git-merge[1]\nThis environment variable overrides $PAGER. If it is set to an empty string or to the value \"cat\", Git will not launch a pager. See also the core.pager",
+      "snippet": "See also git-rebase[1] and the sequence.editor option in git-config[1].\nGIT_SSH\nGIT_SSH_COMMAND\nIf either of these environment variables is set then git fetch and git push will use the specified command instead of ssh when they need to connect to a remote system.",
       "matchedWords": {
         "up8R7MNJfZmT": {
           "hits": 137,
@@ -3229,7 +3229,7 @@
       "hash": "aE__u29cq-94",
       "address": "https://git-scm.com/docs/git-submodule",
       "title": "Git - git-submodule Documentation",
-      "snippet": "foo.git which is located right next to a superproject bar.git, you’ll have to use ../foo.git instead of ./foo.git - as one might expect when following the rules for relative URLs - because the evaluation of relative URLs in Git is identical to that of relative directories).\nThe default remote is",
+      "snippet": "If --force is specified, the submodule will be checked out (using git checkout --force), even if the commit specified in the index of the containing repository already matches the commit checked out in the submodule.\nrebase",
       "matchedWords": {
         "up8R7MNJfZmT": {
           "hits": 41,
@@ -3246,7 +3246,7 @@
       "hash": "fDcnx29cq-94",
       "address": "https://git-scm.com/docs/git-bundle",
       "title": "Git - git-bundle Documentation",
-      "snippet": "git-bundle - Move objects and refs by archive\nSYNOPSIS\ngit bundle create [-q | --quiet | --progress] [--version=\u003cversion\u003e] \u003cfile\u003e \u003cgit-rev-list-args\u003e git bundle verify [-q | --quiet] \u003cfile\u003e git bundle list-heads \u003cfile\u003e [\u003crefname\u003e…​] git bundle unbundle [--progress] \u003cfile\u003e [\u003crefname\u003e…​]\nDESCRIPTION",
+      "snippet": "NAME\ngit-bundle - Move objects and refs by archive\nSYNOPSIS\ngit bundle create [-q | --quiet | --progress] [--version=\u003cversion\u003e] \u003cfile\u003e \u003cgit-rev-list-args\u003e git bundle verify [-q | --quiet] \u003cfile\u003e git bundle list-heads \u003cfile\u003e [\u003crefname\u003e…​] git bundle unbundle [--progress] \u003cfile\u003e [\u003crefname\u003e…​]",
       "matchedWords": {
         "up8R7MNJfZmT": {
           "hits": 64,
@@ -3263,7 +3263,7 @@
       "hash": "lpRZC29cq-94",
       "address": "https://git-scm.com/docs/gitrevisions",
       "title": "Git - gitrevisions Documentation",
-      "snippet": "git log operate on a set of commits, not just a single commit.\nFor these commands, specifying a single revision, using the notation described in the previous section, means the set of commits reachable from the given commit.\nSpecifying several revisions means the set of commits reachable from any",
+      "snippet": "Commands that are specifically designed to take two distinct ranges (e.g. \"git range-diff R1 R2\" to compare two ranges) do exist, but they are exceptions. Unless otherwise noted, all \"git\" commands that operate on a set of commits work on a single revision range.",
       "matchedWords": {
         "up8R7MNJfZmT": {
           "hits": 5,
@@ -3280,7 +3280,7 @@
       "hash": "l-XXS29cq-94",
       "address": "https://git-scm.com/docs/gittutorial",
       "title": "Git - gittutorial Documentation",
-      "snippet": "Git\nSYNOPSIS\ngit *\nDESCRIPTION\nThis tutorial explains how to import a new project into Git, make changes to it, and share changes with other developers.\nIf you are instead primarily interested in using Git to fetch a project, for example, to test the latest version, you may prefer to start with the",
+      "snippet": "$ tar xzf project.tar.gz $ cd project $ git init\nGit will reply\nInitialized empty Git repository in .git/\nYou’ve now initialized the working directory—​you may notice a new directory created, named .git.",
       "matchedWords": {
         "up8R7MNJfZmT": {
           "hits": 137,
@@ -3297,7 +3297,7 @@
       "hash": "omph329cq-94",
       "address": "https://git-scm.com/docs/gitcli",
       "title": "Git - gitcli Documentation",
-      "snippet": "Git 1.5.4 series and further, many Git commands (not all of them at the time of the writing though) come with an enhanced option parser.\nHere is a list of the facilities provided by this option parser.\nMagic Options\nCommands which have the enhanced option parser activated all understand a couple of",
+      "snippet": "For example, git commit --amen behaves as if you typed git commit --amend, but that is true only until a later version of Git introduces another option that shares the same prefix, e.g. git commit --amenity option.\nSeparating argument from the option",
       "matchedWords": {
         "up8R7MNJfZmT": {
           "hits": 30,
@@ -3314,7 +3314,7 @@
       "hash": "sKaik29cq-94",
       "address": "https://git-scm.com/docs/githooks",
       "title": "Git - githooks Documentation",
-      "snippet": "git-am[1]. It takes a single parameter, the name of the file that holds the proposed commit log message. Exiting with a non-zero status causes git am to abort before applying the patch.\nThe hook is allowed to edit the message file in place, and can be used to normalize the message into some project",
+      "snippet": "This hook is invoked by commands that rewrite commits (git-commit[1] when called with --amend and git-rebase[1]; however, full-history (re)writing tools like git-fast-import[1] or git-filter-repo typically do not call it!).",
       "matchedWords": {
         "up8R7MNJfZmT": {
           "hits": 107,
@@ -3331,7 +3331,7 @@
       "hash": "zCoSO29cq-94",
       "address": "https://git-scm.com/docs/git-filter-branch",
       "title": "Git - git-filter-branch Documentation",
-      "snippet": "git-filter-branch - Rewrite branches\nSYNOPSIS\ngit filter-branch [--setup \u003ccommand\u003e] [--subdirectory-filter \u003cdirectory\u003e] [--env-filter \u003ccommand\u003e] [--tree-filter \u003ccommand\u003e] [--index-filter \u003ccommand\u003e] [--parent-filter \u003ccommand\u003e] [--msg-filter \u003ccommand\u003e] [--commit-filter \u003ccommand\u003e] [--tag-name-filter",
+      "snippet": "Please do not use this command if you do not know the full implications, and avoid using it anyway, if a simple single commit would suffice to fix your problem. (See the \"RECOVERING FROM UPSTREAM REBASE\" section in git-rebase[1] for further information about rewriting published history.)",
       "matchedWords": {
         "up8R7MNJfZmT": {
           "hits": 115,
@@ -3348,7 +3348,7 @@
       "hash": "zSrcq29cq-94",
       "address": "https://git-scm.com/docs/git-shortlog",
       "title": "Git - git-shortlog Documentation",
-      "snippet": "Git wasn’t compiled with support for them providing this option will cause it to die.\n--remove-empty\nStop when a given path disappears from the tree.\n--merges\nPrint only merge commits. This is exactly the same as --min-parents=2.\n--no-merges\nDo not print commits with more than one parent. This is",
+      "snippet": "--exclude-hidden=(fetch|receive|uploadpack)\nDo not include refs that would be hidden by git-fetch, git-receive-pack or git-upload-pack by consulting the appropriate fetch.hideRefs, receive.hideRefs or uploadpack.hideRefs configuration along with transfer.hideRefs (see git-config[1]).",
       "matchedWords": {
         "up8R7MNJfZmT": {
           "hits": 12,
@@ -3365,7 +3365,7 @@
       "hash": "1HsAf29cq-94",
       "address": "https://git-scm.com/docs/git-fsck",
       "title": "Git - git-fsck Documentation",
-      "snippet": "git fsck detects and what each error means, with their default severity. The severity of the error, other than those that are marked as \"(FATAL)\", can be tweaked by setting the corresponding fsck.\u003cmsg-id\u003e configuration variable.\nbadDate\n(ERROR) Invalid date format in an author/committer line.",
+      "snippet": "Report to the git@vger.kernel.org mailing list if you see this error, as we need to know what tools created such a file.\ntrailingRefContent\n(INFO) A loose ref has trailing content. As valid implementations of Git never created such a loose ref file, it may become an error in the future.",
       "matchedWords": {
         "up8R7MNJfZmT": {
           "hits": 11,
@@ -3382,7 +3382,7 @@
       "hash": "1di-C29cq-94",
       "address": "https://git-scm.com/docs/gitfaq",
       "title": "Git - gitfaq Documentation",
-      "snippet": "Git\nSYNOPSIS\ngitfaq\nDESCRIPTION\nThe examples in this FAQ assume a standard POSIX shell, like bash or dash, and a user, A U Thor, who has the account author on the hosting provider git.example.org.\nConfiguration\nWhat should I put in user.name?\nYou should put your personal name, generally a form",
+      "snippet": "Note that rebases rewrite history, so you should avoid rebasing published branches unless you’re sure you’re comfortable with that. See the NOTES section in git-rebase[1] for more details.\nHooks\nHow do I use hooks to prevent users from making certain changes?",
       "matchedWords": {
         "up8R7MNJfZmT": {
           "hits": 126,
@@ -3399,7 +3399,7 @@
       "hash": "19sbJ29cq-94",
       "address": "https://git-scm.com/docs/git-verify-pack",
       "title": "Git - git-verify-pack Documentation",
-      "snippet": "git-verify-pack - Validate packed Git archive files\nSYNOPSIS\ngit verify-pack [-v | --verbose] [-s | --stat-only] [--] \u003cpack\u003e.idx...\nDESCRIPTION\nRead each idx file for packed Git archive given on the command line, and verify the idx file and the corresponding pack file.\nOPTIONS\n-v\n--verbose\nAfter",
+      "snippet": "NAME\ngit-verify-pack - Validate packed Git archive files\nSYNOPSIS\ngit verify-pack [-v | --verbose] [-s | --stat-only] [--] \u003cpack\u003e.idx...\nDESCRIPTION\nRead each idx file for packed Git archive given on the command line, and verify the idx file and the corresponding pack file.\nOPTIONS\n-v\n--verbose",
       "matchedWords": {
         "up8R7MNJfZmT": {
           "hits": 4,
@@ -3416,7 +3416,7 @@
       "hash": "3A0ez29cq-94",
       "address": "https://git-scm.com/docs/git-commit/2.31.0",
       "title": "Git - git-commit Documentation",
-      "snippet": "Git about are not affected.\n-p\n--patch\nUse the interactive patch selection interface to chose which changes to commit. See git-add[1] for details.\n-C \u003ccommit\u003e\n--reuse-message=\u003ccommit\u003e\nTake an existing commit object, and reuse the log message and the authorship information (including the timestamp)",
+      "snippet": "See git-rebase[1] for details.\n--squash=\u003ccommit\u003e\nConstruct a commit message for use with rebase --autosquash. The commit message subject line is taken from the specified commit with a prefix of \"squash! \". Can be used with additional commit message options (-m/-c/-C/-F).",
       "matchedWords": {
         "up8R7MNJfZmT": {
           "hits": 20,
@@ -3433,7 +3433,7 @@
       "hash": "6fDY-29cq-94",
       "address": "https://git-scm.com/docs/git-grep",
       "title": "Git - git-grep Documentation",
-      "snippet": "Git, or by ignoring that the current directory is managed by Git. This is rather similar to running the regular grep(1) utility with its -r option specified, but with some additional benefits, such as using pathspec patterns to limit paths; see the pathspec entry in gitglossary[7] for more",
+      "snippet": "Search files in the current directory that is not managed by Git, or by ignoring that the current directory is managed by Git.",
       "matchedWords": {
         "up8R7MNJfZmT": {
           "hits": 10,
@@ -3450,7 +3450,7 @@
       "hash": "7gc6929cq-94",
       "address": "https://git-scm.com/docs/git-worktree",
       "title": "Git - git-worktree Documentation",
-      "snippet": "git-worktree - Manage multiple working trees\nSYNOPSIS\ngit worktree add [-f] [--detach] [--checkout] [--lock [--reason \u003cstring\u003e]] [--orphan] [(-b | -B) \u003cnew-branch\u003e] \u003cpath\u003e [\u003ccommit-ish\u003e] git worktree list [-v | --porcelain [-z]] git worktree lock [--reason \u003cstring\u003e] \u003cworktree\u003e git worktree move",
+      "snippet": "For example, in the linked worktree git rev-parse --git-path HEAD returns /path/main/.git/worktrees/test-next/HEAD (not /path/other/test-next/.git/HEAD or /path/main/.git/HEAD) while git rev-parse --git-path refs/heads/master uses $GIT_COMMON_DIR and returns /path/main/.git/refs/heads/master, since",
       "matchedWords": {
         "up8R7MNJfZmT": {
           "hits": 106,
@@ -3467,7 +3467,7 @@
       "hash": "9SzT029cq-94",
       "address": "https://git-scm.com/docs/git-apply",
       "title": "Git - git-apply Documentation",
-      "snippet": "git diff extended headers, such as creations, renames, and mode changes. Turns off \"apply\".\n--check\nInstead of applying the patch, see if the patch is applicable to the current working tree and/or the index file and detects errors. Turns off \"apply\".\n--index\nApply the patch to both the index and",
+      "snippet": "If a -p argument was also passed, it is applied before prepending the new root.\nFor example, a patch that talks about updating a/git-gui.sh to b/git-gui.sh can be applied to the file in the working tree modules/git-gui/git-gui.sh by running git apply --directory=modules/git-gui.\n--unsafe-paths",
       "matchedWords": {
         "up8R7MNJfZmT": {
           "hits": 18,
@@ -3484,7 +3484,7 @@
       "hash": "-y8Tx29cq-94",
       "address": "https://git-scm.com/docs/git-fast-import",
       "title": "Git - git-fast-import Documentation",
-      "snippet": "git-fast-import - Backend for fast Git data importers\nSYNOPSIS\nfrontend | git fast-import [\u003coptions\u003e]\nDESCRIPTION\nThis program is usually not what the end user wants to run directly. Most end users want to use one of the existing frontend programs, which parses a specific type of foreign source and",
+      "snippet": "Like git push or git fetch, imports handled by fast-import are safe to run alongside parallel git repack -a -d or git gc invocations, or any other Git operation (including git prune, as loose objects are never used by fast-import).",
       "matchedWords": {
         "up8R7MNJfZmT": {
           "hits": 90,
@@ -3501,7 +3501,7 @@
       "hash": "-7-UKs9cq-94",
       "address": "https://git-scm.com/docs",
       "title": "Git - Reference",
-      "snippet": "git\nconfig\nhelp\nbugreport\nCredential helpers\nGetting and Creating Projects\ninit\nclone\nBasic Snapshotting\nadd\nstatus\ndiff\ncommit\nnotes\nrestore\nreset\nrm\nmv\nBranching and Merging\nbranch\ncheckout\nswitch\nmerge\nmergetool\nlog\nstash\ntag\nworktree\nSharing and Updating Projects\nfetch\npull\npush\nremote",
+      "snippet": "Quick reference guide: Cheat Sheet\nComplete list of all commands\nSetup and Config\ngit\nconfig\nhelp\nbugreport\nCredential helpers\nGetting and Creating Projects\ninit\nclone\nBasic Snapshotting\nadd\nstatus\ndiff\ncommit\nnotes\nrestore\nreset\nrm\nmv\nBranching and Merging\nbranch\ncheckout\nswitch\nmerge\nmergetool",
       "matchedWords": {
         "up8R7MNJfZmT": {
           "hits": 2,
@@ -3603,7 +3603,7 @@
       "hash": "Y0wMEQvPJCNw",
       "address": "https://eagain.net/articles/git-for-computer-scientists/",
       "title": "Git for Computer Scientists",
-      "snippet": "git internals for people who are not scared by words like Directed Acyclic Graph .\nStorage\nIn simplified form, git object storage is \"just\" a DAG of objects, with a handful of different types of objects. They are all stored compressed and identified by an SHA-1 hash (that, incidentally, isn't the",
+      "snippet": "Abstract\nQuick introduction to git internals for people who are not scared by words like Directed Acyclic Graph .\nStorage\nIn simplified form, git object storage is \"just\" a DAG of objects, with a handful of different types of objects.",
       "matchedWords": {
         "up8R7MNJfZmT": {
           "hits": 17,
@@ -3620,7 +3620,7 @@
       "hash": "Y0wMEQvPJCNw",
       "address": "https://eagain.net/articles/git-for-computer-scientists/",
       "title": "Git for Computer Scientists",
-      "snippet": "git internals for people who are not scared by words like Directed Acyclic Graph .\nStorage\nIn simplified form, git object storage is \"just\" a DAG of objects, with a handful of different types of objects. They are all stored compressed and identified by an SHA-1 hash (that, incidentally, isn't the",
+      "snippet": "Abstract\nQuick introduction to git internals for people who are not scared by words like Directed Acyclic Graph .\nStorage\nIn simplified form, git object storage is \"just\" a DAG of objects, with a handful of different types of objects.",
       "matchedWords": {
         "up8R7MNJfZmT": {
           "hits": 17,
@@ -3654,7 +3654,7 @@
       "hash": "DNJ9f29cq-94",
       "address": "https://git-scm.com/docs/git-commit-tree",
       "title": "Git - git-commit-tree Documentation",
-      "snippet": "git-commit[1] instead.\nCreates a new commit object based on the provided tree object and emits the new commit object id on stdout. The log message is read from the standard input, unless -m or -F options are given.\nThe -m and -F options can be given any number of times, in any order. The commit log",
+      "snippet": "Normally a commit would identify a new \"HEAD\" state, and while Git doesn’t care where you save the note about that state, in practice we tend to just write the result to the file that is pointed at by .git/HEAD, so that we can always see what the last committed state was.",
       "matchedWords": {
         "up8R7MNJfZmT": {
           "hits": 3,
@@ -3671,7 +3671,7 @@
       "hash": "zCoSO29cq-94",
       "address": "https://git-scm.com/docs/git-filter-branch",
       "title": "Git - git-filter-branch Documentation",
-      "snippet": "git-filter-branch - Rewrite branches\nSYNOPSIS\ngit filter-branch [--setup \u003ccommand\u003e] [--subdirectory-filter \u003cdirectory\u003e] [--env-filter \u003ccommand\u003e] [--tree-filter \u003ccommand\u003e] [--index-filter \u003ccommand\u003e] [--parent-filter \u003ccommand\u003e] [--msg-filter \u003ccommand\u003e] [--commit-filter \u003ccommand\u003e] [--tag-name-filter",
+      "snippet": "Please do not use this command if you do not know the full implications, and avoid using it anyway, if a simple single commit would suffice to fix your problem. (See the \"RECOVERING FROM UPSTREAM REBASE\" section in git-rebase[1] for further information about rewriting published history.)",
       "matchedWords": {
         "up8R7MNJfZmT": {
           "hits": 115,
@@ -3688,7 +3688,7 @@
       "hash": "1HsAf29cq-94",
       "address": "https://git-scm.com/docs/git-fsck",
       "title": "Git - git-fsck Documentation",
-      "snippet": "git fsck detects and what each error means, with their default severity. The severity of the error, other than those that are marked as \"(FATAL)\", can be tweaked by setting the corresponding fsck.\u003cmsg-id\u003e configuration variable.\nbadDate\n(ERROR) Invalid date format in an author/committer line.",
+      "snippet": "Report to the git@vger.kernel.org mailing list if you see this error, as we need to know what tools created such a file.\ntrailingRefContent\n(INFO) A loose ref has trailing content. As valid implementations of Git never created such a loose ref file, it may become an error in the future.",
       "matchedWords": {
         "up8R7MNJfZmT": {
           "hits": 11,
@@ -3705,7 +3705,7 @@
       "hash": "6vbK7ssY0Thg",
       "address": "https://bueltge.de/git/",
       "title": "Get your Practice-Git on!",
-      "snippet": "Git Notes\nTypical git commands\nWork with branches\nWork with Git Remote URL (URI)\nForce git to overwrite local files on pull\nTag version\nSet commit messages in modal text editor, like Vim\nFork \u0026 Merge changes from remote github repository to your local repository\nRollback a git repository to a",
+      "snippet": "git rebase -i\"\n​ # Rebase interactive on our unpushed commits\n​ rbiu = !\"git rebase -i @{u}\"\nSetup alias for convenience.\ngit alias to list all alias from .gitconfi\ng\u003cbr\u003ealias = !git config --list | grep 'alias\\\\.' | sed 's/alias\\\\.\\\\([^=]\\\\)=\\\\(.\\\\)/\\\\1\\\\\\t =\u003e \\\\2/' | sort",
       "matchedWords": {
         "up8R7MNJfZmT": {
           "hits": 110,

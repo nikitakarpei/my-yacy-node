@@ -1,13 +1,13 @@
 {
   "query": "openstreetmap",
-  "recordedAt": "2026-09-12T00:12:39Z",
+  "recordedAt": "2026-09-12T07:52:09Z",
   "itemsInTheOrderOfEachAnswer": [
     [
       {
         "hash": "D1UyW8ybg-vy",
         "address": "https://www.openstreetmap.org/way/313187245",
         "title": "Way: ‪ТП-3865‬ (‪313187245‬) | OpenStreetMap",
-        "snippet": "OpenStreetMap!\nOpenStreetMap is a map of the world, created by people like you and free to use under an open license.\nHosting is supported by Fastly, OSMF corporate members, and other partners.\nBy using this website or other infrastructure provided by the OpenStreetMap Foundation, you agree to the",
+        "snippet": "Welcome to OpenStreetMap!\nOpenStreetMap is a map of the world, created by people like you and free to use under an open license.\nHosting is supported by Fastly, OSMF corporate members, and other partners.",
         "matchedWords": {
           "8KEZ0dWKkHmU": {
             "hits": 3,
@@ -193,7 +193,7 @@
         "hash": "ePCLCl-n3pGi",
         "address": "https://www.openstreetmap.de/",
         "title": "Die freie Weltkarte — OpenStreetMap Deutschland",
-        "snippet": "OpenStreetMap Deutschland. Hier wollen wir OpenStreetMap und seine Community vorstellen und Hilfestellung bei der Nutzung und beim Mitmachen geben.\nIhre Firma oder Organisation nutzt OSM?\nHelfen Sie OpenStreetMap als öffentliches Gut auf Dauer zu erhalten und zu verbessern.\nWerden Sie Förderer von",
+        "snippet": "Helfen Sie OpenStreetMap als öffentliches Gut auf Dauer zu erhalten und zu verbessern.\nWerden Sie Förderer von OpenStreetMap!\nÜber OpenStreetMap 🔗\nOpenStreetMap (OSM) ist ein internationales Projekt mit dem Ziel, eine freie Weltkarte zu erschaffen.",
         "matchedWords": {
           "8KEZ0dWKkHmU": {
             "hits": 12,
@@ -206,7 +206,7 @@
         "hash": "dkfYoF9eh9Zy",
         "address": "https://welcome.openstreetmap.org/",
         "title": "Welcome Mat | OpenStreetMap - Welcome to OpenStreetMap",
-        "snippet": "OpenStreetMap?\nA brief introduction to OpenStreetMap\nWho is OpenStreetMap?\nThe people and communities of OSM\nWhy use OpenStreetMap?\nWhat makes OpenStreetMap special?\nHow to give back?\nHow can you or your organization contribute to OSM?\nAbout the OSM Community\nGetting in touch, history, joining and",
+        "snippet": "What is OpenStreetMap?\nA brief introduction to OpenStreetMap\nWho is OpenStreetMap?\nThe people and communities of OSM\nWhy use OpenStreetMap?\nWhat makes OpenStreetMap special?\nHow to give back?\nHow can you or your organization contribute to OSM?\nAbout the OSM Community",
         "matchedWords": {
           "8KEZ0dWKkHmU": {
             "hits": 6,
@@ -219,7 +219,7 @@
         "hash": "o4iVflybg-vy",
         "address": "https://www.openstreetmap.org/edit?editor=remote",
         "title": "OpenStreetMap",
-        "snippet": "OpenStreetMap!\nOpenStreetMap is a map of the world, created by people like you and free to use under an open license.\nHosting is supported by Fastly, OSMF corporate members, and other partners.\nBy using this website or other infrastructure provided by the OpenStreetMap Foundation, you agree to the",
+        "snippet": "Welcome to OpenStreetMap!\nOpenStreetMap is a map of the world, created by people like you and free to use under an open license.\nHosting is supported by Fastly, OSMF corporate members, and other partners.",
         "matchedWords": {
           "8KEZ0dWKkHmU": {
             "hits": 3,
@@ -232,7 +232,7 @@
         "hash": "Q92cXlybg-vy",
         "address": "https://www.openstreetmap.org/communities",
         "title": "OpenStreetMap",
-        "snippet": "OpenStreetMap. While many participate as individuals, others have formed communities. These groups come in a range of sizes and represent geographies from small towns to large multi-country regions. They can also be formal or informal.\nLocal Chapters\nLocal Chapters are country-level or region-level",
+        "snippet": "OpenStreetMap Ireland\nOpenStreetMap Iceland\nOpenStreetMap Italy\nFree Libre Open Source Software Kosova (FLOSSK)\nOSGeo Oceania\nGeoLibres\nOpenStreetMap Austria\nOpenStreetMap Germany\nOpenStreetMap Japan\nOpenStreetMap Poland\nOpenStreetMap US\nOpenStreetMap Freemap Slovakia",
         "matchedWords": {
           "8KEZ0dWKkHmU": {
             "hits": 17,
@@ -325,7 +325,7 @@
         "hash": "BhWqmlybg-vy",
         "address": "https://www.openstreetmap.org/?mlat=43.233333333333\u0026mlon=-3.2833333333333\u0026zoom=5",
         "title": "OpenStreetMap",
-        "snippet": "OpenStreetMap!\nOpenStreetMap is a map of the world, created by people like you and free to use under an open license.\nHosting is supported by Fastly, OSMF corporate members, and other partners.\nBy using this website or other infrastructure provided by the OpenStreetMap Foundation, you agree to the",
+        "snippet": "Welcome to OpenStreetMap!\nOpenStreetMap is a map of the world, created by people like you and free to use under an open license.\nHosting is supported by Fastly, OSMF corporate members, and other partners.",
         "matchedWords": {
           "8KEZ0dWKkHmU": {
             "hits": 3,
@@ -338,7 +338,7 @@
         "hash": "YNjaUlybg-vy",
         "address": "https://www.openstreetmap.org/directions?to=29.844667,31.250916",
         "title": "OpenStreetMap",
-        "snippet": "OpenStreetMap!\nOpenStreetMap is a map of the world, created by people like you and free to use under an open license.\nHosting is supported by Fastly, OSMF corporate members, and other partners.\nBy using this website or other infrastructure provided by the OpenStreetMap Foundation, you agree to the",
+        "snippet": "Welcome to OpenStreetMap!\nOpenStreetMap is a map of the world, created by people like you and free to use under an open license.\nHosting is supported by Fastly, OSMF corporate members, and other partners.",
         "matchedWords": {
           "8KEZ0dWKkHmU": {
             "hits": 3,
@@ -351,7 +351,7 @@
         "hash": "MEC8btgcGDHy",
         "address": "https://blog.openstreetmap.org/",
         "title": "OpenStreetMap Blog | Supporting the OpenStreetMap project",
-        "snippet": "OpenStreetMap project. The use of generative AI tools to write or substantially edit these sections is strongly discouraged. Overly generic, self-promotional, or marketing-style narratives may be penalised.\nRanking criteria\nNationality\nThe allocation of points is based on the World Bank country",
+        "snippet": "The State of the Map conference is the annual, international conference of OpenStreetMap, organised by the OpenStreetMap Foundation. The OpenStreetMap Foundation is a not-for-profit organisation, formed to support the OpenStreetMap Project.",
         "matchedWords": {
           "8KEZ0dWKkHmU": {
             "hits": 18,
@@ -457,7 +457,7 @@
         "hash": "1mo1Mlybg-vy",
         "address": "https://www.openstreetmap.org/",
         "title": "OpenStreetMap",
-        "snippet": "OpenStreetMap!\nOpenStreetMap is a map of the world, created by people like you and free to use under an open license.\nHosting is supported by Fastly, OSMF corporate members, and other partners.\nBy using this website or other infrastructure provided by the OpenStreetMap Foundation, you agree to the",
+        "snippet": "Welcome to OpenStreetMap!\nOpenStreetMap is a map of the world, created by people like you and free to use under an open license.\nHosting is supported by Fastly, OSMF corporate members, and other partners.",
         "matchedWords": {
           "8KEZ0dWKkHmU": {
             "hits": 3,
@@ -589,7 +589,7 @@
         "hash": "bE2T7lybg-vy",
         "address": "https://www.openstreetmap.org/?mlat=47\u0026mlon=2\u0026zoom=6",
         "title": "OpenStreetMap",
-        "snippet": "OpenStreetMap!\nOpenStreetMap is a map of the world, created by people like you and free to use under an open license.\nHosting is supported by Fastly, OSMF corporate members, and other partners.\nBy using this website or other infrastructure provided by the OpenStreetMap Foundation, you agree to the",
+        "snippet": "Welcome to OpenStreetMap!\nOpenStreetMap is a map of the world, created by people like you and free to use under an open license.\nHosting is supported by Fastly, OSMF corporate members, and other partners.",
         "matchedWords": {
           "8KEZ0dWKkHmU": {
             "hits": 3,
@@ -721,7 +721,7 @@
         "hash": "cjiPJlybg-vy",
         "address": "https://www.openstreetmap.org/?mlat=-27.5\u0026mlon=130\u0026zoom=5",
         "title": "OpenStreetMap",
-        "snippet": "OpenStreetMap!\nOpenStreetMap is a map of the world, created by people like you and free to use under an open license.\nHosting is supported by Fastly, OSMF corporate members, and other partners.\nBy using this website or other infrastructure provided by the OpenStreetMap Foundation, you agree to the",
+        "snippet": "Welcome to OpenStreetMap!\nOpenStreetMap is a map of the world, created by people like you and free to use under an open license.\nHosting is supported by Fastly, OSMF corporate members, and other partners.",
         "matchedWords": {
           "8KEZ0dWKkHmU": {
             "hits": 3,
@@ -1016,7 +1016,7 @@
         "hash": "1mo1Mlybg-vy",
         "address": "https://www.openstreetmap.org/",
         "title": "OpenStreetMap",
-        "snippet": "OpenStreetMap!\nOpenStreetMap is a map of the world, created by people like you and free to use under an open license.\nHosting is supported by Fastly, OSMF corporate members, and other partners.\nBy using this website or other infrastructure provided by the OpenStreetMap Foundation, you agree to the",
+        "snippet": "Welcome to OpenStreetMap!\nOpenStreetMap is a map of the world, created by people like you and free to use under an open license.\nHosting is supported by Fastly, OSMF corporate members, and other partners.",
         "matchedWords": {
           "8KEZ0dWKkHmU": {
             "hits": 3,
@@ -1029,7 +1029,7 @@
         "hash": "5M_8Ulybg-vy",
         "address": "https://www.openstreetmap.org/?mlat=37.967\u0026mlon=23.717\u0026zoom=12",
         "title": "OpenStreetMap",
-        "snippet": "OpenStreetMap!\nOpenStreetMap is a map of the world, created by people like you and free to use under an open license.\nHosting is supported by Fastly, OSMF corporate members, and other partners.\nBy using this website or other infrastructure provided by the OpenStreetMap Foundation, you agree to the",
+        "snippet": "Welcome to OpenStreetMap!\nOpenStreetMap is a map of the world, created by people like you and free to use under an open license.\nHosting is supported by Fastly, OSMF corporate members, and other partners.",
         "matchedWords": {
           "8KEZ0dWKkHmU": {
             "hits": 3,
@@ -1281,7 +1281,7 @@
         "hash": "1mo1Mlybg-vy",
         "address": "https://www.openstreetmap.org/",
         "title": "OpenStreetMap",
-        "snippet": "OpenStreetMap!\nOpenStreetMap is a map of the world, created by people like you and free to use under an open license.\nHosting is supported by Fastly, OSMF corporate members, and other partners.\nBy using this website or other infrastructure provided by the OpenStreetMap Foundation, you agree to the",
+        "snippet": "Welcome to OpenStreetMap!\nOpenStreetMap is a map of the world, created by people like you and free to use under an open license.\nHosting is supported by Fastly, OSMF corporate members, and other partners.",
         "matchedWords": {
           "8KEZ0dWKkHmU": {
             "hits": 3,
@@ -1294,7 +1294,7 @@
         "hash": "Xu8nplybg-vy",
         "address": "https://www.openstreetmap.org/?mlat=36\u0026mlon=128\u0026zoom=6",
         "title": "OpenStreetMap",
-        "snippet": "OpenStreetMap!\nOpenStreetMap is a map of the world, created by people like you and free to use under an open license.\nHosting is supported by Fastly, OSMF corporate members, and other partners.\nBy using this website or other infrastructure provided by the OpenStreetMap Foundation, you agree to the",
+        "snippet": "Welcome to OpenStreetMap!\nOpenStreetMap is a map of the world, created by people like you and free to use under an open license.\nHosting is supported by Fastly, OSMF corporate members, and other partners.",
         "matchedWords": {
           "8KEZ0dWKkHmU": {
             "hits": 3,
@@ -1545,7 +1545,7 @@
         "hash": "pcmfBlybg-vy",
         "address": "https://www.openstreetmap.org/?mlat=23\u0026mlon=46\u0026zoom=14",
         "title": "OpenStreetMap",
-        "snippet": "OpenStreetMap!\nOpenStreetMap is a map of the world, created by people like you and free to use under an open license.\nHosting is supported by Fastly, OSMF corporate members, and other partners.\nBy using this website or other infrastructure provided by the OpenStreetMap Foundation, you agree to the",
+        "snippet": "Welcome to OpenStreetMap!\nOpenStreetMap is a map of the world, created by people like you and free to use under an open license.\nHosting is supported by Fastly, OSMF corporate members, and other partners.",
         "matchedWords": {
           "8KEZ0dWKkHmU": {
             "hits": 3,
@@ -1558,7 +1558,7 @@
         "hash": "HIaiUlybg-vy",
         "address": "https://www.openstreetmap.org/?mlat=42.50000\u0026mlon=1.16667\u0026zoom=12",
         "title": "OpenStreetMap",
-        "snippet": "OpenStreetMap!\nOpenStreetMap is a map of the world, created by people like you and free to use under an open license.\nHosting is supported by Fastly, OSMF corporate members, and other partners.\nBy using this website or other infrastructure provided by the OpenStreetMap Foundation, you agree to the",
+        "snippet": "Welcome to OpenStreetMap!\nOpenStreetMap is a map of the world, created by people like you and free to use under an open license.\nHosting is supported by Fastly, OSMF corporate members, and other partners.",
         "matchedWords": {
           "8KEZ0dWKkHmU": {
             "hits": 3,
@@ -1677,7 +1677,7 @@
         "hash": "1mo1Mlybg-vy",
         "address": "https://www.openstreetmap.org/",
         "title": "OpenStreetMap",
-        "snippet": "OpenStreetMap!\nOpenStreetMap is a map of the world, created by people like you and free to use under an open license.\nHosting is supported by Fastly, OSMF corporate members, and other partners.\nBy using this website or other infrastructure provided by the OpenStreetMap Foundation, you agree to the",
+        "snippet": "Welcome to OpenStreetMap!\nOpenStreetMap is a map of the world, created by people like you and free to use under an open license.\nHosting is supported by Fastly, OSMF corporate members, and other partners.",
         "matchedWords": {
           "8KEZ0dWKkHmU": {
             "hits": 3,
@@ -1690,7 +1690,7 @@
         "hash": "zqFqUlybg-vy",
         "address": "https://www.openstreetmap.org/directions?to=29.3,30.833333",
         "title": "OpenStreetMap",
-        "snippet": "OpenStreetMap!\nOpenStreetMap is a map of the world, created by people like you and free to use under an open license.\nHosting is supported by Fastly, OSMF corporate members, and other partners.\nBy using this website or other infrastructure provided by the OpenStreetMap Foundation, you agree to the",
+        "snippet": "Welcome to OpenStreetMap!\nOpenStreetMap is a map of the world, created by people like you and free to use under an open license.\nHosting is supported by Fastly, OSMF corporate members, and other partners.",
         "matchedWords": {
           "8KEZ0dWKkHmU": {
             "hits": 3,
@@ -1703,7 +1703,7 @@
         "hash": "5M_8Ulybg-vy",
         "address": "https://www.openstreetmap.org/?mlat=37.967\u0026mlon=23.717\u0026zoom=12",
         "title": "OpenStreetMap",
-        "snippet": "OpenStreetMap!\nOpenStreetMap is a map of the world, created by people like you and free to use under an open license.\nHosting is supported by Fastly, OSMF corporate members, and other partners.\nBy using this website or other infrastructure provided by the OpenStreetMap Foundation, you agree to the",
+        "snippet": "Welcome to OpenStreetMap!\nOpenStreetMap is a map of the world, created by people like you and free to use under an open license.\nHosting is supported by Fastly, OSMF corporate members, and other partners.",
         "matchedWords": {
           "8KEZ0dWKkHmU": {
             "hits": 3,
@@ -1809,7 +1809,7 @@
         "hash": "1mo1Mlybg-vy",
         "address": "https://www.openstreetmap.org/",
         "title": "OpenStreetMap",
-        "snippet": "OpenStreetMap!\nOpenStreetMap is a map of the world, created by people like you and free to use under an open license.\nHosting is supported by Fastly, OSMF corporate members, and other partners.\nBy using this website or other infrastructure provided by the OpenStreetMap Foundation, you agree to the",
+        "snippet": "Welcome to OpenStreetMap!\nOpenStreetMap is a map of the world, created by people like you and free to use under an open license.\nHosting is supported by Fastly, OSMF corporate members, and other partners.",
         "matchedWords": {
           "8KEZ0dWKkHmU": {
             "hits": 3,
@@ -1822,7 +1822,7 @@
         "hash": "tpw_7lybg-vy",
         "address": "https://www.openstreetmap.org/?mlat=58.3\u0026mlon=24.4\u0026zoom=9",
         "title": "OpenStreetMap",
-        "snippet": "OpenStreetMap!\nOpenStreetMap is a map of the world, created by people like you and free to use under an open license.\nHosting is supported by Fastly, OSMF corporate members, and other partners.\nBy using this website or other infrastructure provided by the OpenStreetMap Foundation, you agree to the",
+        "snippet": "Welcome to OpenStreetMap!\nOpenStreetMap is a map of the world, created by people like you and free to use under an open license.\nHosting is supported by Fastly, OSMF corporate members, and other partners.",
         "matchedWords": {
           "8KEZ0dWKkHmU": {
             "hits": 3,
@@ -1941,7 +1941,7 @@
         "hash": "kTIfMlybg-vy",
         "address": "https://www.openstreetmap.org/?mlat=31.62947\u0026mlon=-7.98108\u0026zoom=14",
         "title": "OpenStreetMap",
-        "snippet": "OpenStreetMap!\nOpenStreetMap is a map of the world, created by people like you and free to use under an open license.\nHosting is supported by Fastly, OSMF corporate members, and other partners.\nBy using this website or other infrastructure provided by the OpenStreetMap Foundation, you agree to the",
+        "snippet": "Welcome to OpenStreetMap!\nOpenStreetMap is a map of the world, created by people like you and free to use under an open license.\nHosting is supported by Fastly, OSMF corporate members, and other partners.",
         "matchedWords": {
           "8KEZ0dWKkHmU": {
             "hits": 3,
@@ -1954,7 +1954,7 @@
         "hash": "MVkeZlybg-vy",
         "address": "https://www.openstreetmap.org/?mlat=42.508\u0026mlon=-90.639\u0026zoom=14",
         "title": "OpenStreetMap",
-        "snippet": "OpenStreetMap!\nOpenStreetMap is a map of the world, created by people like you and free to use under an open license.\nHosting is supported by Fastly, OSMF corporate members, and other partners.\nBy using this website or other infrastructure provided by the OpenStreetMap Foundation, you agree to the",
+        "snippet": "Welcome to OpenStreetMap!\nOpenStreetMap is a map of the world, created by people like you and free to use under an open license.\nHosting is supported by Fastly, OSMF corporate members, and other partners.",
         "matchedWords": {
           "8KEZ0dWKkHmU": {
             "hits": 3,
@@ -2073,7 +2073,7 @@
         "hash": "bE2T7lybg-vy",
         "address": "https://www.openstreetmap.org/?mlat=47\u0026mlon=2\u0026zoom=6",
         "title": "OpenStreetMap",
-        "snippet": "OpenStreetMap!\nOpenStreetMap is a map of the world, created by people like you and free to use under an open license.\nHosting is supported by Fastly, OSMF corporate members, and other partners.\nBy using this website or other infrastructure provided by the OpenStreetMap Foundation, you agree to the",
+        "snippet": "Welcome to OpenStreetMap!\nOpenStreetMap is a map of the world, created by people like you and free to use under an open license.\nHosting is supported by Fastly, OSMF corporate members, and other partners.",
         "matchedWords": {
           "8KEZ0dWKkHmU": {
             "hits": 3,
@@ -2086,7 +2086,7 @@
         "hash": "Qv8CFlybg-vy",
         "address": "https://www.openstreetmap.org/?mlat=42\u0026mlon=51\u0026zoom=7",
         "title": "OpenStreetMap",
-        "snippet": "OpenStreetMap!\nOpenStreetMap is a map of the world, created by people like you and free to use under an open license.\nHosting is supported by Fastly, OSMF corporate members, and other partners.\nBy using this website or other infrastructure provided by the OpenStreetMap Foundation, you agree to the",
+        "snippet": "Welcome to OpenStreetMap!\nOpenStreetMap is a map of the world, created by people like you and free to use under an open license.\nHosting is supported by Fastly, OSMF corporate members, and other partners.",
         "matchedWords": {
           "8KEZ0dWKkHmU": {
             "hits": 3,
@@ -2099,7 +2099,7 @@
         "hash": "5T_ov8KDigKy",
         "address": "https://wiki.openstreetmap.org/wiki/Mapbox",
         "title": "Mapbox - OpenStreetMap Wiki",
-        "snippet": "OpenStreetMap. To provide up to date and correct datasets Mapbox employs a data team for improving the map through the OpenStreetsMap.\nMapbox Outdoors including OpenStreetMap data\nOSM Contributions\nThe Mapbox Data team is involved in OpenStreetMap (OSM) map data enhancement projects around the",
+        "snippet": "To provide up to date and correct datasets Mapbox employs a data team for improving the map through the OpenStreetsMap.\nMapbox Outdoors including OpenStreetMap data\nOSM Contributions\nThe Mapbox Data team is involved in OpenStreetMap (OSM) map data enhancement projects around the world.",
         "matchedWords": {
           "8KEZ0dWKkHmU": {
             "hits": 19,
@@ -2206,7 +2206,7 @@
         "hash": "Yuqt1lybg-vy",
         "address": "https://www.openstreetmap.org/?mlat=52.433333333333\u0026mlon=4.9166666666667\u0026zoom=7",
         "title": "OpenStreetMap",
-        "snippet": "OpenStreetMap!\nOpenStreetMap is a map of the world, created by people like you and free to use under an open license.\nHosting is supported by Fastly, OSMF corporate members, and other partners.\nBy using this website or other infrastructure provided by the OpenStreetMap Foundation, you agree to the",
+        "snippet": "Welcome to OpenStreetMap!\nOpenStreetMap is a map of the world, created by people like you and free to use under an open license.\nHosting is supported by Fastly, OSMF corporate members, and other partners.",
         "matchedWords": {
           "8KEZ0dWKkHmU": {
             "hits": 3,
@@ -2339,7 +2339,7 @@
         "hash": "towT-lybg-vy",
         "address": "https://www.openstreetmap.org/?mlat=51.5\u0026mlon=-0.1\u0026zoom=11",
         "title": "OpenStreetMap",
-        "snippet": "OpenStreetMap!\nOpenStreetMap is a map of the world, created by people like you and free to use under an open license.\nHosting is supported by Fastly, OSMF corporate members, and other partners.\nBy using this website or other infrastructure provided by the OpenStreetMap Foundation, you agree to the",
+        "snippet": "Welcome to OpenStreetMap!\nOpenStreetMap is a map of the world, created by people like you and free to use under an open license.\nHosting is supported by Fastly, OSMF corporate members, and other partners.",
         "matchedWords": {
           "8KEZ0dWKkHmU": {
             "hits": 3,
@@ -2352,7 +2352,7 @@
         "hash": "STrh8lybg-vy",
         "address": "https://www.openstreetmap.org/?mlat=35.9\u0026mlon=14.4\u0026zoom=6",
         "title": "OpenStreetMap",
-        "snippet": "OpenStreetMap!\nOpenStreetMap is a map of the world, created by people like you and free to use under an open license.\nHosting is supported by Fastly, OSMF corporate members, and other partners.\nBy using this website or other infrastructure provided by the OpenStreetMap Foundation, you agree to the",
+        "snippet": "Welcome to OpenStreetMap!\nOpenStreetMap is a map of the world, created by people like you and free to use under an open license.\nHosting is supported by Fastly, OSMF corporate members, and other partners.",
         "matchedWords": {
           "8KEZ0dWKkHmU": {
             "hits": 3,
@@ -2365,7 +2365,7 @@
         "hash": "zA3s9lybg-vy",
         "address": "https://www.openstreetmap.org/about",
         "title": "OpenStreetMap",
-        "snippet": "©OpenStreetMap\ncontributors\nOpenStreetMap provides map data for thousands of websites, mobile apps, and hardware devices\nOpenStreetMap is built by a community of mappers that contribute and maintain data about roads, trails, cafés, railway stations, and much more, all over the world.\nLocal",
+        "snippet": "©OpenStreetMap\ncontributors\nOpenStreetMap provides map data for thousands of websites, mobile apps, and hardware devices\nOpenStreetMap is built by a community of mappers that contribute and maintain data about roads, trails, cafés, railway stations, and much more, all over the world.",
         "matchedWords": {
           "8KEZ0dWKkHmU": {
             "hits": 14,
@@ -2735,7 +2735,7 @@
         "hash": "1mo1Mlybg-vy",
         "address": "https://www.openstreetmap.org/",
         "title": "OpenStreetMap",
-        "snippet": "OpenStreetMap!\nOpenStreetMap is a map of the world, created by people like you and free to use under an open license.\nHosting is supported by Fastly, OSMF corporate members, and other partners.\nBy using this website or other infrastructure provided by the OpenStreetMap Foundation, you agree to the",
+        "snippet": "Welcome to OpenStreetMap!\nOpenStreetMap is a map of the world, created by people like you and free to use under an open license.\nHosting is supported by Fastly, OSMF corporate members, and other partners.",
         "matchedWords": {
           "8KEZ0dWKkHmU": {
             "hits": 3,
@@ -2748,7 +2748,7 @@
         "hash": "69GTylybg-vy",
         "address": "https://www.openstreetmap.org/?mlat=-36.4\u0026mlon=-61.6\u0026zoom=5",
         "title": "OpenStreetMap",
-        "snippet": "OpenStreetMap!\nOpenStreetMap is a map of the world, created by people like you and free to use under an open license.\nHosting is supported by Fastly, OSMF corporate members, and other partners.\nBy using this website or other infrastructure provided by the OpenStreetMap Foundation, you agree to the",
+        "snippet": "Welcome to OpenStreetMap!\nOpenStreetMap is a map of the world, created by people like you and free to use under an open license.\nHosting is supported by Fastly, OSMF corporate members, and other partners.",
         "matchedWords": {
           "8KEZ0dWKkHmU": {
             "hits": 3,
@@ -2761,7 +2761,7 @@
         "hash": "PUd1Ulybg-vy",
         "address": "https://www.openstreetmap.org/?mlat=50\u0026mlon=-2\u0026zoom=15",
         "title": "OpenStreetMap",
-        "snippet": "OpenStreetMap!\nOpenStreetMap is a map of the world, created by people like you and free to use under an open license.\nHosting is supported by Fastly, OSMF corporate members, and other partners.\nBy using this website or other infrastructure provided by the OpenStreetMap Foundation, you agree to the",
+        "snippet": "Welcome to OpenStreetMap!\nOpenStreetMap is a map of the world, created by people like you and free to use under an open license.\nHosting is supported by Fastly, OSMF corporate members, and other partners.",
         "matchedWords": {
           "8KEZ0dWKkHmU": {
             "hits": 3,
@@ -2867,7 +2867,7 @@
         "hash": "_76yj8ybg-vy",
         "address": "https://www.openstreetmap.org/way/677717488",
         "title": "Way: 677717488 | OpenStreetMap",
-        "snippet": "OpenStreetMap!\nOpenStreetMap is a map of the world, created by people like you and free to use under an open license.\nHosting is supported by Fastly, OSMF corporate members, and other partners.\nBy using this website or other infrastructure provided by the OpenStreetMap Foundation, you agree to the",
+        "snippet": "Welcome to OpenStreetMap!\nOpenStreetMap is a map of the world, created by people like you and free to use under an open license.\nHosting is supported by Fastly, OSMF corporate members, and other partners.",
         "matchedWords": {
           "8KEZ0dWKkHmU": {
             "hits": 3,
@@ -2880,7 +2880,7 @@
         "hash": "_7OgYNybg-vy",
         "address": "https://www.openstreetmap.org/node/6634517426",
         "title": "Node: 6634517426 | OpenStreetMap",
-        "snippet": "OpenStreetMap!\nOpenStreetMap is a map of the world, created by people like you and free to use under an open license.\nHosting is supported by Fastly, OSMF corporate members, and other partners.\nBy using this website or other infrastructure provided by the OpenStreetMap Foundation, you agree to the",
+        "snippet": "Welcome to OpenStreetMap!\nOpenStreetMap is a map of the world, created by people like you and free to use under an open license.\nHosting is supported by Fastly, OSMF corporate members, and other partners.",
         "matchedWords": {
           "8KEZ0dWKkHmU": {
             "hits": 3,
@@ -2999,7 +2999,7 @@
         "hash": "PB3kvlybg-vy",
         "address": "https://www.openstreetmap.org/?mlat=9\u0026mlon=8\u0026zoom=14",
         "title": "OpenStreetMap",
-        "snippet": "OpenStreetMap!\nOpenStreetMap is a map of the world, created by people like you and free to use under an open license.\nHosting is supported by Fastly, OSMF corporate members, and other partners.\nBy using this website or other infrastructure provided by the OpenStreetMap Foundation, you agree to the",
+        "snippet": "Welcome to OpenStreetMap!\nOpenStreetMap is a map of the world, created by people like you and free to use under an open license.\nHosting is supported by Fastly, OSMF corporate members, and other partners.",
         "matchedWords": {
           "8KEZ0dWKkHmU": {
             "hits": 3,
@@ -3012,7 +3012,7 @@
         "hash": "OWVCTlybg-vy",
         "address": "https://www.openstreetmap.org/?mlat=50.026389\u0026mlon=19.203889\u0026zoom=15",
         "title": "OpenStreetMap",
-        "snippet": "OpenStreetMap!\nOpenStreetMap is a map of the world, created by people like you and free to use under an open license.\nHosting is supported by Fastly, OSMF corporate members, and other partners.\nBy using this website or other infrastructure provided by the OpenStreetMap Foundation, you agree to the",
+        "snippet": "Welcome to OpenStreetMap!\nOpenStreetMap is a map of the world, created by people like you and free to use under an open license.\nHosting is supported by Fastly, OSMF corporate members, and other partners.",
         "matchedWords": {
           "8KEZ0dWKkHmU": {
             "hits": 3,
@@ -3131,7 +3131,7 @@
         "hash": "cBfGylybg-vy",
         "address": "https://www.openstreetmap.org/?mlat=22.8\u0026mlon=83\u0026zoom=6",
         "title": "OpenStreetMap",
-        "snippet": "OpenStreetMap!\nOpenStreetMap is a map of the world, created by people like you and free to use under an open license.\nHosting is supported by Fastly, OSMF corporate members, and other partners.\nBy using this website or other infrastructure provided by the OpenStreetMap Foundation, you agree to the",
+        "snippet": "Welcome to OpenStreetMap!\nOpenStreetMap is a map of the world, created by people like you and free to use under an open license.\nHosting is supported by Fastly, OSMF corporate members, and other partners.",
         "matchedWords": {
           "8KEZ0dWKkHmU": {
             "hits": 3,
@@ -3144,7 +3144,7 @@
         "hash": "1mo1Mlybg-vy",
         "address": "https://www.openstreetmap.org/",
         "title": "OpenStreetMap",
-        "snippet": "OpenStreetMap!\nOpenStreetMap is a map of the world, created by people like you and free to use under an open license.\nHosting is supported by Fastly, OSMF corporate members, and other partners.\nBy using this website or other infrastructure provided by the OpenStreetMap Foundation, you agree to the",
+        "snippet": "Welcome to OpenStreetMap!\nOpenStreetMap is a map of the world, created by people like you and free to use under an open license.\nHosting is supported by Fastly, OSMF corporate members, and other partners.",
         "matchedWords": {
           "8KEZ0dWKkHmU": {
             "hits": 3,
@@ -3263,7 +3263,7 @@
         "hash": "1mo1Mlybg-vy",
         "address": "https://www.openstreetmap.org/",
         "title": "OpenStreetMap",
-        "snippet": "OpenStreetMap!\nOpenStreetMap is a map of the world, created by people like you and free to use under an open license.\nHosting is supported by Fastly, OSMF corporate members, and other partners.\nBy using this website or other infrastructure provided by the OpenStreetMap Foundation, you agree to the",
+        "snippet": "Welcome to OpenStreetMap!\nOpenStreetMap is a map of the world, created by people like you and free to use under an open license.\nHosting is supported by Fastly, OSMF corporate members, and other partners.",
         "matchedWords": {
           "8KEZ0dWKkHmU": {
             "hits": 3,
@@ -3276,7 +3276,7 @@
         "hash": "1Wm6clybg-vy",
         "address": "https://www.openstreetmap.org/?mlat=13.4671\u0026mlon=144.6907\u0026zoom=5",
         "title": "OpenStreetMap",
-        "snippet": "OpenStreetMap!\nOpenStreetMap is a map of the world, created by people like you and free to use under an open license.\nHosting is supported by Fastly, OSMF corporate members, and other partners.\nBy using this website or other infrastructure provided by the OpenStreetMap Foundation, you agree to the",
+        "snippet": "Welcome to OpenStreetMap!\nOpenStreetMap is a map of the world, created by people like you and free to use under an open license.\nHosting is supported by Fastly, OSMF corporate members, and other partners.",
         "matchedWords": {
           "8KEZ0dWKkHmU": {
             "hits": 3,
@@ -3289,7 +3289,7 @@
         "hash": "QpMnKlybg-vy",
         "address": "https://www.openstreetmap.org/?mlat=57\u0026mlon=-5\u0026zoom=14",
         "title": "OpenStreetMap",
-        "snippet": "OpenStreetMap!\nOpenStreetMap is a map of the world, created by people like you and free to use under an open license.\nHosting is supported by Fastly, OSMF corporate members, and other partners.\nBy using this website or other infrastructure provided by the OpenStreetMap Foundation, you agree to the",
+        "snippet": "Welcome to OpenStreetMap!\nOpenStreetMap is a map of the world, created by people like you and free to use under an open license.\nHosting is supported by Fastly, OSMF corporate members, and other partners.",
         "matchedWords": {
           "8KEZ0dWKkHmU": {
             "hits": 3,
@@ -3395,7 +3395,7 @@
         "hash": "tg_iAlybg-vy",
         "address": "https://www.openstreetmap.org/copyright",
         "title": "Copyright and License | OpenStreetMap",
-        "snippet": "OpenStreetMap provides open map data for thousands of websites, mobile apps, and hardware devices. OpenStreetMap is built by a community of people like you who contribute and maintain mapping data about roads, trails, cafés, railway stations, and much more, all over the world.\nLearn more about",
+        "snippet": "Learn more about OpenStreetMap and get started mapping! You can read more on the OpenStreetMap Blog, and subscribe to weeklyOSM. Find other mappers in your local OSM community. Support the project by joining the OSM Foundation and making a donation.\nOpenStreetMap licensing",
         "matchedWords": {
           "8KEZ0dWKkHmU": {
             "hits": 20,
@@ -3408,7 +3408,7 @@
         "hash": "Q92cXlybg-vy",
         "address": "https://www.openstreetmap.org/communities",
         "title": "OpenStreetMap",
-        "snippet": "OpenStreetMap. While many participate as individuals, others have formed communities. These groups come in a range of sizes and represent geographies from small towns to large multi-country regions. They can also be formal or informal.\nLocal Chapters\nLocal Chapters are country-level or region-level",
+        "snippet": "OpenStreetMap Ireland\nOpenStreetMap Iceland\nOpenStreetMap Italy\nFree Libre Open Source Software Kosova (FLOSSK)\nOSGeo Oceania\nGeoLibres\nOpenStreetMap Austria\nOpenStreetMap Germany\nOpenStreetMap Japan\nOpenStreetMap Poland\nOpenStreetMap US\nOpenStreetMap Freemap Slovakia",
         "matchedWords": {
           "8KEZ0dWKkHmU": {
             "hits": 17,
@@ -3527,7 +3527,7 @@
         "hash": "09dEClybg-vy",
         "address": "https://www.openstreetmap.org/?mlat=40.717\u0026mlon=-74.000\u0026zoom=12",
         "title": "OpenStreetMap",
-        "snippet": "OpenStreetMap!\nOpenStreetMap is a map of the world, created by people like you and free to use under an open license.\nHosting is supported by Fastly, OSMF corporate members, and other partners.\nBy using this website or other infrastructure provided by the OpenStreetMap Foundation, you agree to the",
+        "snippet": "Welcome to OpenStreetMap!\nOpenStreetMap is a map of the world, created by people like you and free to use under an open license.\nHosting is supported by Fastly, OSMF corporate members, and other partners.",
         "matchedWords": {
           "8KEZ0dWKkHmU": {
             "hits": 3,
@@ -3540,7 +3540,7 @@
         "hash": "1mo1Mlybg-vy",
         "address": "https://www.openstreetmap.org/",
         "title": "OpenStreetMap",
-        "snippet": "OpenStreetMap!\nOpenStreetMap is a map of the world, created by people like you and free to use under an open license.\nHosting is supported by Fastly, OSMF corporate members, and other partners.\nBy using this website or other infrastructure provided by the OpenStreetMap Foundation, you agree to the",
+        "snippet": "Welcome to OpenStreetMap!\nOpenStreetMap is a map of the world, created by people like you and free to use under an open license.\nHosting is supported by Fastly, OSMF corporate members, and other partners.",
         "matchedWords": {
           "8KEZ0dWKkHmU": {
             "hits": 3,
@@ -3659,7 +3659,7 @@
         "hash": "2FSuLNybg-vy",
         "address": "https://www.openstreetmap.org/node/1598530310",
         "title": "Node: 1598530310 | OpenStreetMap",
-        "snippet": "OpenStreetMap!\nOpenStreetMap is a map of the world, created by people like you and free to use under an open license.\nHosting is supported by Fastly, OSMF corporate members, and other partners.\nBy using this website or other infrastructure provided by the OpenStreetMap Foundation, you agree to the",
+        "snippet": "Welcome to OpenStreetMap!\nOpenStreetMap is a map of the world, created by people like you and free to use under an open license.\nHosting is supported by Fastly, OSMF corporate members, and other partners.",
         "matchedWords": {
           "8KEZ0dWKkHmU": {
             "hits": 3,
@@ -3672,7 +3672,7 @@
         "hash": "8ASKeNybg-vy",
         "address": "https://www.openstreetmap.org/node/2613104589",
         "title": "Node: 2613104589 | OpenStreetMap",
-        "snippet": "OpenStreetMap!\nOpenStreetMap is a map of the world, created by people like you and free to use under an open license.\nHosting is supported by Fastly, OSMF corporate members, and other partners.\nBy using this website or other infrastructure provided by the OpenStreetMap Foundation, you agree to the",
+        "snippet": "Welcome to OpenStreetMap!\nOpenStreetMap is a map of the world, created by people like you and free to use under an open license.\nHosting is supported by Fastly, OSMF corporate members, and other partners.",
         "matchedWords": {
           "8KEZ0dWKkHmU": {
             "hits": 3,
@@ -3763,7 +3763,7 @@
         "hash": "Q92cXlybg-vy",
         "address": "https://www.openstreetmap.org/communities",
         "title": "OpenStreetMap",
-        "snippet": "OpenStreetMap. While many participate as individuals, others have formed communities. These groups come in a range of sizes and represent geographies from small towns to large multi-country regions. They can also be formal or informal.\nLocal Chapters\nLocal Chapters are country-level or region-level",
+        "snippet": "OpenStreetMap Ireland\nOpenStreetMap Iceland\nOpenStreetMap Italy\nFree Libre Open Source Software Kosova (FLOSSK)\nOSGeo Oceania\nGeoLibres\nOpenStreetMap Austria\nOpenStreetMap Germany\nOpenStreetMap Japan\nOpenStreetMap Poland\nOpenStreetMap US\nOpenStreetMap Freemap Slovakia",
         "matchedWords": {
           "8KEZ0dWKkHmU": {
             "hits": 17,
@@ -3791,7 +3791,7 @@
         "hash": "bE2T7lybg-vy",
         "address": "https://www.openstreetmap.org/?mlat=47\u0026mlon=2\u0026zoom=6",
         "title": "OpenStreetMap",
-        "snippet": "OpenStreetMap!\nOpenStreetMap is a map of the world, created by people like you and free to use under an open license.\nHosting is supported by Fastly, OSMF corporate members, and other partners.\nBy using this website or other infrastructure provided by the OpenStreetMap Foundation, you agree to the",
+        "snippet": "Welcome to OpenStreetMap!\nOpenStreetMap is a map of the world, created by people like you and free to use under an open license.\nHosting is supported by Fastly, OSMF corporate members, and other partners.",
         "matchedWords": {
           "8KEZ0dWKkHmU": {
             "hits": 3,
@@ -3804,7 +3804,7 @@
         "hash": "1mo1Mlybg-vy",
         "address": "https://www.openstreetmap.org/",
         "title": "OpenStreetMap",
-        "snippet": "OpenStreetMap!\nOpenStreetMap is a map of the world, created by people like you and free to use under an open license.\nHosting is supported by Fastly, OSMF corporate members, and other partners.\nBy using this website or other infrastructure provided by the OpenStreetMap Foundation, you agree to the",
+        "snippet": "Welcome to OpenStreetMap!\nOpenStreetMap is a map of the world, created by people like you and free to use under an open license.\nHosting is supported by Fastly, OSMF corporate members, and other partners.",
         "matchedWords": {
           "8KEZ0dWKkHmU": {
             "hits": 3,
@@ -3856,7 +3856,7 @@
         "hash": "qXktE8KDigKy",
         "address": "https://wiki.openstreetmap.org/wiki/Zh-hans:FAQ",
         "title": "Zh-hans:FAQ - OpenStreetMap Wiki",
-        "snippet": "OpenStreetMap 还是 Open Street Maps？\n正确的拼写是 OpenStreetMap。一个单词，三个大写字母，一张地图。OpenStreetMap 也是一个商标。\n为什么选择 OpenStreetMap？\n为什么要创建 OpenStreetMap？\n在世界许多地方，地理数据（geo",
+        "snippet": "OpenStreetMap 社区论坛位于 community.openstreetmap.org，是获取帮助的好地方。\nOpenStreetMap Slack – https://slack.openstreetmap.us/\nDiscord 服务器\n通过 IRC 进行实时聊天 – irc://irc.oftc.net#osm 。参见 Contact#IRC 获取 IRC 上其他 OpenStreetMap 频道的列表。\n一些公告和有趣的进展发布在博客上：blog.openstreetmap.org。",
         "matchedWords": {
           "8KEZ0dWKkHmU": {
             "hits": 46,
@@ -3923,7 +3923,7 @@
         "hash": "cjiPJlybg-vy",
         "address": "https://www.openstreetmap.org/?mlat=-27.5\u0026mlon=130\u0026zoom=5",
         "title": "OpenStreetMap",
-        "snippet": "OpenStreetMap!\nOpenStreetMap is a map of the world, created by people like you and free to use under an open license.\nHosting is supported by Fastly, OSMF corporate members, and other partners.\nBy using this website or other infrastructure provided by the OpenStreetMap Foundation, you agree to the",
+        "snippet": "Welcome to OpenStreetMap!\nOpenStreetMap is a map of the world, created by people like you and free to use under an open license.\nHosting is supported by Fastly, OSMF corporate members, and other partners.",
         "matchedWords": {
           "8KEZ0dWKkHmU": {
             "hits": 3,
@@ -3936,7 +3936,7 @@
         "hash": "UUTb5lybg-vy",
         "address": "https://www.openstreetmap.org/?mlat=52.38333\u0026mlon=4.90000\u0026zoom=12",
         "title": "OpenStreetMap",
-        "snippet": "OpenStreetMap!\nOpenStreetMap is a map of the world, created by people like you and free to use under an open license.\nHosting is supported by Fastly, OSMF corporate members, and other partners.\nBy using this website or other infrastructure provided by the OpenStreetMap Foundation, you agree to the",
+        "snippet": "Welcome to OpenStreetMap!\nOpenStreetMap is a map of the world, created by people like you and free to use under an open license.\nHosting is supported by Fastly, OSMF corporate members, and other partners.",
         "matchedWords": {
           "8KEZ0dWKkHmU": {
             "hits": 3,
@@ -3949,7 +3949,7 @@
         "hash": "S763-lybg-vy",
         "address": "https://www.openstreetmap.org/?mlat=52.3\u0026mlon=5.6333333333333\u0026zoom=7",
         "title": "OpenStreetMap",
-        "snippet": "OpenStreetMap!\nOpenStreetMap is a map of the world, created by people like you and free to use under an open license.\nHosting is supported by Fastly, OSMF corporate members, and other partners.\nBy using this website or other infrastructure provided by the OpenStreetMap Foundation, you agree to the",
+        "snippet": "Welcome to OpenStreetMap!\nOpenStreetMap is a map of the world, created by people like you and free to use under an open license.\nHosting is supported by Fastly, OSMF corporate members, and other partners.",
         "matchedWords": {
           "8KEZ0dWKkHmU": {
             "hits": 3,
@@ -4055,7 +4055,7 @@
         "hash": "1mo1Mlybg-vy",
         "address": "https://www.openstreetmap.org/",
         "title": "OpenStreetMap",
-        "snippet": "OpenStreetMap!\nOpenStreetMap is a map of the world, created by people like you and free to use under an open license.\nHosting is supported by Fastly, OSMF corporate members, and other partners.\nBy using this website or other infrastructure provided by the OpenStreetMap Foundation, you agree to the",
+        "snippet": "Welcome to OpenStreetMap!\nOpenStreetMap is a map of the world, created by people like you and free to use under an open license.\nHosting is supported by Fastly, OSMF corporate members, and other partners.",
         "matchedWords": {
           "8KEZ0dWKkHmU": {
             "hits": 3,
@@ -4187,7 +4187,7 @@
         "hash": "51Ft8lybg-vy",
         "address": "https://www.openstreetmap.org/directions?to=44.8546,-0.5694",
         "title": "OpenStreetMap",
-        "snippet": "OpenStreetMap!\nOpenStreetMap is a map of the world, created by people like you and free to use under an open license.\nHosting is supported by Fastly, OSMF corporate members, and other partners.\nBy using this website or other infrastructure provided by the OpenStreetMap Foundation, you agree to the",
+        "snippet": "Welcome to OpenStreetMap!\nOpenStreetMap is a map of the world, created by people like you and free to use under an open license.\nHosting is supported by Fastly, OSMF corporate members, and other partners.",
         "matchedWords": {
           "8KEZ0dWKkHmU": {
             "hits": 3,
@@ -4200,7 +4200,7 @@
         "hash": "0liRtlybg-vy",
         "address": "https://www.openstreetmap.org/?mlat=48.83436\u0026mlon=9.3186\u0026zoom=15",
         "title": "OpenStreetMap",
-        "snippet": "OpenStreetMap!\nOpenStreetMap is a map of the world, created by people like you and free to use under an open license.\nHosting is supported by Fastly, OSMF corporate members, and other partners.\nBy using this website or other infrastructure provided by the OpenStreetMap Foundation, you agree to the",
+        "snippet": "Welcome to OpenStreetMap!\nOpenStreetMap is a map of the world, created by people like you and free to use under an open license.\nHosting is supported by Fastly, OSMF corporate members, and other partners.",
         "matchedWords": {
           "8KEZ0dWKkHmU": {
             "hits": 3,
@@ -4213,7 +4213,7 @@
         "hash": "ptNaJlybg-vy",
         "address": "https://www.openstreetmap.org/?mlat=45.05\u0026mlon=7.3\u0026zoom=5",
         "title": "OpenStreetMap",
-        "snippet": "OpenStreetMap!\nOpenStreetMap is a map of the world, created by people like you and free to use under an open license.\nHosting is supported by Fastly, OSMF corporate members, and other partners.\nBy using this website or other infrastructure provided by the OpenStreetMap Foundation, you agree to the",
+        "snippet": "Welcome to OpenStreetMap!\nOpenStreetMap is a map of the world, created by people like you and free to use under an open license.\nHosting is supported by Fastly, OSMF corporate members, and other partners.",
         "matchedWords": {
           "8KEZ0dWKkHmU": {
             "hits": 3,
@@ -4239,7 +4239,7 @@
         "hash": "1mo1Mlybg-vy",
         "address": "https://www.openstreetmap.org/",
         "title": "OpenStreetMap",
-        "snippet": "OpenStreetMap!\nOpenStreetMap is a map of the world, created by people like you and free to use under an open license.\nHosting is supported by Fastly, OSMF corporate members, and other partners.\nBy using this website or other infrastructure provided by the OpenStreetMap Foundation, you agree to the",
+        "snippet": "Welcome to OpenStreetMap!\nOpenStreetMap is a map of the world, created by people like you and free to use under an open license.\nHosting is supported by Fastly, OSMF corporate members, and other partners.",
         "matchedWords": {
           "8KEZ0dWKkHmU": {
             "hits": 3,
@@ -4373,7 +4373,7 @@
         "hash": "zA3s9lybg-vy",
         "address": "https://www.openstreetmap.org/about",
         "title": "OpenStreetMap",
-        "snippet": "©OpenStreetMap\ncontributors\nOpenStreetMap provides map data for thousands of websites, mobile apps, and hardware devices\nOpenStreetMap is built by a community of mappers that contribute and maintain data about roads, trails, cafés, railway stations, and much more, all over the world.\nLocal",
+        "snippet": "©OpenStreetMap\ncontributors\nOpenStreetMap provides map data for thousands of websites, mobile apps, and hardware devices\nOpenStreetMap is built by a community of mappers that contribute and maintain data about roads, trails, cafés, railway stations, and much more, all over the world.",
         "matchedWords": {
           "8KEZ0dWKkHmU": {
             "hits": 14,
@@ -4386,7 +4386,7 @@
         "hash": "1mo1Mlybg-vy",
         "address": "https://www.openstreetmap.org/",
         "title": "OpenStreetMap",
-        "snippet": "OpenStreetMap!\nOpenStreetMap is a map of the world, created by people like you and free to use under an open license.\nHosting is supported by Fastly, OSMF corporate members, and other partners.\nBy using this website or other infrastructure provided by the OpenStreetMap Foundation, you agree to the",
+        "snippet": "Welcome to OpenStreetMap!\nOpenStreetMap is a map of the world, created by people like you and free to use under an open license.\nHosting is supported by Fastly, OSMF corporate members, and other partners.",
         "matchedWords": {
           "8KEZ0dWKkHmU": {
             "hits": 3,
@@ -4399,7 +4399,7 @@
         "hash": "pOt6vlybg-vy",
         "address": "https://www.openstreetmap.org/?mlat=-34\u0026mlon=-64\u0026zoom=6",
         "title": "OpenStreetMap",
-        "snippet": "OpenStreetMap!\nOpenStreetMap is a map of the world, created by people like you and free to use under an open license.\nHosting is supported by Fastly, OSMF corporate members, and other partners.\nBy using this website or other infrastructure provided by the OpenStreetMap Foundation, you agree to the",
+        "snippet": "Welcome to OpenStreetMap!\nOpenStreetMap is a map of the world, created by people like you and free to use under an open license.\nHosting is supported by Fastly, OSMF corporate members, and other partners.",
         "matchedWords": {
           "8KEZ0dWKkHmU": {
             "hits": 3,
@@ -4533,7 +4533,7 @@
         "hash": "VdH8ilybg-vy",
         "address": "https://www.openstreetmap.org/directions?to=55.0307,23.7771",
         "title": "OpenStreetMap",
-        "snippet": "OpenStreetMap!\nOpenStreetMap is a map of the world, created by people like you and free to use under an open license.\nHosting is supported by Fastly, OSMF corporate members, and other partners.\nBy using this website or other infrastructure provided by the OpenStreetMap Foundation, you agree to the",
+        "snippet": "Welcome to OpenStreetMap!\nOpenStreetMap is a map of the world, created by people like you and free to use under an open license.\nHosting is supported by Fastly, OSMF corporate members, and other partners.",
         "matchedWords": {
           "8KEZ0dWKkHmU": {
             "hits": 3,
@@ -4665,7 +4665,7 @@
         "hash": "-6UC-lybg-vy",
         "address": "https://www.openstreetmap.org/directions?to=18.5775,99.007778",
         "title": "OpenStreetMap",
-        "snippet": "OpenStreetMap!\nOpenStreetMap is a map of the world, created by people like you and free to use under an open license.\nHosting is supported by Fastly, OSMF corporate members, and other partners.\nBy using this website or other infrastructure provided by the OpenStreetMap Foundation, you agree to the",
+        "snippet": "Welcome to OpenStreetMap!\nOpenStreetMap is a map of the world, created by people like you and free to use under an open license.\nHosting is supported by Fastly, OSMF corporate members, and other partners.",
         "matchedWords": {
           "8KEZ0dWKkHmU": {
             "hits": 3,
@@ -4678,7 +4678,7 @@
         "hash": "1mo1Mlybg-vy",
         "address": "https://www.openstreetmap.org/",
         "title": "OpenStreetMap",
-        "snippet": "OpenStreetMap!\nOpenStreetMap is a map of the world, created by people like you and free to use under an open license.\nHosting is supported by Fastly, OSMF corporate members, and other partners.\nBy using this website or other infrastructure provided by the OpenStreetMap Foundation, you agree to the",
+        "snippet": "Welcome to OpenStreetMap!\nOpenStreetMap is a map of the world, created by people like you and free to use under an open license.\nHosting is supported by Fastly, OSMF corporate members, and other partners.",
         "matchedWords": {
           "8KEZ0dWKkHmU": {
             "hits": 3,
@@ -4691,7 +4691,7 @@
         "hash": "eqB9i8KDigKy",
         "address": "https://wiki.openstreetmap.org/wiki/Cs:Donations",
         "title": "Cs:Příspěvky - OpenStreetMap Wiki",
-        "snippet": "OpenStreetMap\nOpenStreetMap je nevýdělečná organizace, jejíž finance jsou z velké části tvořeny dary. Pokud byste nás chtěli podpořit, dary budou velmi vítány.\nDary lze zasílat pomocí platební karty, PayPalem nebo bankovním převodem.\nÚčtenky k darům\nPokud k daru potřebujete účtenku, pak, prosím,",
+        "snippet": "(Redirected from Cs:Donations)\nPomozte OpenStreetMap\nOpenStreetMap je nevýdělečná organizace, jejíž finance jsou z velké části tvořeny dary. Pokud byste nás chtěli podpořit, dary budou velmi vítány.\nDary lze zasílat pomocí platební karty, PayPalem nebo bankovním převodem.\nÚčtenky k darům",
         "matchedWords": {
           "8KEZ0dWKkHmU": {
             "hits": 13,

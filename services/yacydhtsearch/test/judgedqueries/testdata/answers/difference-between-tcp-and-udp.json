@@ -1,13 +1,13 @@
 {
   "query": "difference between tcp and udp",
-  "recordedAt": "2026-09-12T00:23:02Z",
+  "recordedAt": "2026-09-12T07:51:59Z",
   "itemsInTheOrderOfEachAnswer": [
     [
       {
         "hash": "D4lABzaS0qdw",
         "address": "https://planet.debian.org/",
         "title": "Planet Debian",
-        "snippet": "and queries were fast because the index was kept entirely in RAM. In 2019, I implemented the new index format, which adds an on-disk positional index. For literal queries (78.2% of DCS queries), querying the positional index on disk is faster than querying the non-positional index in RAM.\nThe",
+        "snippet": "PHONY: all test bench bench-baseline bench-relative all: test bench: test $(BENCH) | tee bench.txt # Compares compression ratio between C and Go implementation benchstat -col /impl -row '/n /vals' -filter '-/impl:go-stream .unit:(encoded-bytes)' bench.txt # Compares performance between C (cgo) and",
         "matchedWords": {
           "4guyArHVU3sU": {
             "hits": 0,
@@ -38,7 +38,7 @@
         "hash": "D4lABzaS0qdw",
         "address": "https://planet.debian.org/",
         "title": "Planet Debian",
-        "snippet": "and queries were fast because the index was kept entirely in RAM. In 2019, I implemented the new index format, which adds an on-disk positional index. For literal queries (78.2% of DCS queries), querying the positional index on disk is faster than querying the non-positional index in RAM.\nThe",
+        "snippet": "PHONY: all test bench bench-baseline bench-relative all: test bench: test $(BENCH) | tee bench.txt # Compares compression ratio between C and Go implementation benchstat -col /impl -row '/n /vals' -filter '-/impl:go-stream .unit:(encoded-bytes)' bench.txt # Compares performance between C (cgo) and",
         "matchedWords": {
           "4guyArHVU3sU": {
             "hits": 0,
@@ -69,7 +69,7 @@
         "hash": "wRN6JitD2jQw",
         "address": "https://docs.python.org/3/whatsnew/2.7.html",
         "title": "What’s New in Python 2.7 — Python 3.13.2 documentation",
-        "snippet": "and for the Decimal class. There are some useful additions to the standard library, such as a greatly enhanced unittest module, the argparse module for parsing command-line options, convenient OrderedDict and Counter classes in the collections module, and many other improvements.\nPython 2.7 is",
+        "snippet": "However, while there is a large common subset between Python 2.7 and Python 3, and many of the changes involved in migrating to that common subset, or directly to Python 3, can be safely automated, some other changes (notably those associated with Unicode handling) may require careful",
         "matchedWords": {
           "4guyArHVU3sU": {
             "hits": 4,
@@ -100,7 +100,7 @@
         "hash": "D4lABzaS0qdw",
         "address": "https://planet.debian.org/",
         "title": "Planet Debian",
-        "snippet": "and queries were fast because the index was kept entirely in RAM. In 2019, I implemented the new index format, which adds an on-disk positional index. For literal queries (78.2% of DCS queries), querying the positional index on disk is faster than querying the non-positional index in RAM.\nThe",
+        "snippet": "PHONY: all test bench bench-baseline bench-relative all: test bench: test $(BENCH) | tee bench.txt # Compares compression ratio between C and Go implementation benchstat -col /impl -row '/n /vals' -filter '-/impl:go-stream .unit:(encoded-bytes)' bench.txt # Compares performance between C (cgo) and",
         "matchedWords": {
           "4guyArHVU3sU": {
             "hits": 0,
@@ -131,7 +131,7 @@
         "hash": "D4lABzaS0qdw",
         "address": "https://planet.debian.org/",
         "title": "Planet Debian",
-        "snippet": "and queries were fast because the index was kept entirely in RAM. In 2019, I implemented the new index format, which adds an on-disk positional index. For literal queries (78.2% of DCS queries), querying the positional index on disk is faster than querying the non-positional index in RAM.\nThe",
+        "snippet": "PHONY: all test bench bench-baseline bench-relative all: test bench: test $(BENCH) | tee bench.txt # Compares compression ratio between C and Go implementation benchstat -col /impl -row '/n /vals' -filter '-/impl:go-stream .unit:(encoded-bytes)' bench.txt # Compares performance between C (cgo) and",
         "matchedWords": {
           "4guyArHVU3sU": {
             "hits": 0,
@@ -162,7 +162,7 @@
         "hash": "D4lABzaS0qdw",
         "address": "https://planet.debian.org/",
         "title": "Planet Debian",
-        "snippet": "and queries were fast because the index was kept entirely in RAM. In 2019, I implemented the new index format, which adds an on-disk positional index. For literal queries (78.2% of DCS queries), querying the positional index on disk is faster than querying the non-positional index in RAM.\nThe",
+        "snippet": "PHONY: all test bench bench-baseline bench-relative all: test bench: test $(BENCH) | tee bench.txt # Compares compression ratio between C and Go implementation benchstat -col /impl -row '/n /vals' -filter '-/impl:go-stream .unit:(encoded-bytes)' bench.txt # Compares performance between C (cgo) and",
         "matchedWords": {
           "4guyArHVU3sU": {
             "hits": 0,
@@ -193,7 +193,7 @@
         "hash": "D4lABzaS0qdw",
         "address": "https://planet.debian.org/",
         "title": "Planet Debian",
-        "snippet": "and queries were fast because the index was kept entirely in RAM. In 2019, I implemented the new index format, which adds an on-disk positional index. For literal queries (78.2% of DCS queries), querying the positional index on disk is faster than querying the non-positional index in RAM.\nThe",
+        "snippet": "PHONY: all test bench bench-baseline bench-relative all: test bench: test $(BENCH) | tee bench.txt # Compares compression ratio between C and Go implementation benchstat -col /impl -row '/n /vals' -filter '-/impl:go-stream .unit:(encoded-bytes)' bench.txt # Compares performance between C (cgo) and",
         "matchedWords": {
           "4guyArHVU3sU": {
             "hits": 0,
@@ -225,7 +225,7 @@
       "hash": "P-tQgitD2jQw",
       "address": "https://docs.python.org/3/library/asyncio-eventloop.html",
       "title": "Event Loop — Python 3.12.3 documentation",
-      "snippet": "and callbacks, perform network IO operations, and run subprocesses.\nApplication developers should typically use the high-level asyncio functions, such as asyncio.run(), and should rarely need to reference the loop object or call its methods. This section is intended mostly for authors of",
+      "snippet": "Changed in version 3.8: In Python 3.7 and earlier with the default event loop implementation, the difference between when and the current time could not exceed one day. This has been fixed in Python 3.8.\nloop.time()¶",
       "matchedWords": {
         "4guyArHVU3sU": {
           "hits": 8,
@@ -254,7 +254,7 @@
       "hash": "P-tQgitD2jQw",
       "address": "https://docs.python.org/3/library/asyncio-eventloop.html",
       "title": "Event Loop — Python 3.12.3 documentation",
-      "snippet": "and callbacks, perform network IO operations, and run subprocesses.\nApplication developers should typically use the high-level asyncio functions, such as asyncio.run(), and should rarely need to reference the loop object or call its methods. This section is intended mostly for authors of",
+      "snippet": "Changed in version 3.8: In Python 3.7 and earlier with the default event loop implementation, the difference between when and the current time could not exceed one day. This has been fixed in Python 3.8.\nloop.time()¶",
       "matchedWords": {
         "4guyArHVU3sU": {
           "hits": 8,
@@ -283,7 +283,7 @@
       "hash": "P-tQgitD2jQw",
       "address": "https://docs.python.org/3/library/asyncio-eventloop.html",
       "title": "Event loop — Python 3.14.6 documentation",
-      "snippet": "and callbacks, perform network IO operations, and run subprocesses.\nApplication developers should typically use the high-level asyncio functions, such as asyncio.run(), and should rarely need to reference the loop object or call its methods. This section is intended mostly for authors of",
+      "snippet": "Changed in version 3.8: In Python 3.7 and earlier with the default event loop implementation, the difference between when and the current time could not exceed one day. This has been fixed in Python 3.8.\nloop.time()¶",
       "matchedWords": {
         "4guyArHVU3sU": {
           "hits": 8,
@@ -341,7 +341,7 @@
       "hash": "P-tQgitD2jQw",
       "address": "https://docs.python.org/3/library/asyncio-eventloop.html",
       "title": "Event Loop — Python 3.12.3 documentation",
-      "snippet": "and callbacks, perform network IO operations, and run subprocesses.\nApplication developers should typically use the high-level asyncio functions, such as asyncio.run(), and should rarely need to reference the loop object or call its methods. This section is intended mostly for authors of",
+      "snippet": "Changed in version 3.8: In Python 3.7 and earlier with the default event loop implementation, the difference between when and the current time could not exceed one day. This has been fixed in Python 3.8.\nloop.time()¶",
       "matchedWords": {
         "4guyArHVU3sU": {
           "hits": 8,
@@ -370,7 +370,7 @@
       "hash": "P-tQgitD2jQw",
       "address": "https://docs.python.org/3/library/asyncio-eventloop.html",
       "title": "Event loop — Python 3.14.7 documentation",
-      "snippet": "and callbacks, perform network IO operations, and run subprocesses.\nApplication developers should typically use the high-level asyncio functions, such as asyncio.run(), and should rarely need to reference the loop object or call its methods. This section is intended mostly for authors of",
+      "snippet": "Changed in version 3.8: In Python 3.7 and earlier with the default event loop implementation, the difference between when and the current time could not exceed one day. This has been fixed in Python 3.8.\nloop.time()¶",
       "matchedWords": {
         "4guyArHVU3sU": {
           "hits": 8,
@@ -428,7 +428,7 @@
       "hash": "Wnr2gs6GdY-4",
       "address": "https://danluu.com/google-sre-book/",
       "title": "Google SRE book",
-      "snippet": "and a potentially fatal problem that could have been prevented with a trivial check took NASA’s engineers 9 hours to resolve.\nThis sounds familiar -- I’ve lost track of the number of dev post-mortems that have the same basic structure.\nThis is an experiment in note-taking for me in two ways. First,",
+      "snippet": "Ex: if a user is on a smartphone with 99% reliability, they can’t tell the difference between 99.99% and 99.999% reliability\nManaging risk\nReliability isn’t linear in cost. It can easily cost 100x more to get one additional increment of reliability Cost associated with redundant equipment",
       "matchedWords": {
         "4guyArHVU3sU": {
           "hits": 1,
@@ -486,7 +486,7 @@
       "hash": "VgxBBitD2jQw",
       "address": "https://docs.python.org/3/library/socketserver.html",
       "title": "socketserver — A framework for network servers — Python 3.14.6 documentation",
-      "snippet": "bind_and_activate=True)¶\nThis uses the internet TCP protocol, which provides for continuous streams of data between the client and server. If bind_and_activate is true, the constructor automatically attempts to invoke server_bind() and server_activate(). The other parameters are passed to the",
+      "snippet": "These more infrequently used classes are similar to the TCP and UDP classes, but use Unix domain sockets; they’re not available on non-Unix platforms. The parameters are the same as for TCPServer.",
       "matchedWords": {
         "4guyArHVU3sU": {
           "hits": 13,
@@ -544,7 +544,7 @@
       "hash": "mt0JEs6GdY-4",
       "address": "https://danluu.com/navigate-url/",
       "title": "What happens when you load a URL?",
-      "snippet": "and when I do, it reminds me how much I don't know. Here are some questions this question brings to mind.\nHow does a keyboard work? Why can’t you press an arbitrary combination of three keys at once, except on fancy gaming keyboards? That implies something about how key presses are",
+      "snippet": "If we can figure out where to go our packets go from our ISP through some edge router, some core routers, another edge router, and then go through their network to get into the “meat” of a datacenter.\nWhat's the difference between core and edge routers?",
       "matchedWords": {
         "4guyArHVU3sU": {
           "hits": 3,
@@ -573,7 +573,7 @@
       "hash": "mt0JEs6GdY-4",
       "address": "https://danluu.com/navigate-url/",
       "title": "What happens when you load a URL?",
-      "snippet": "and when I do, it reminds me how much I don't know. Here are some questions this question brings to mind.\nHow does a keyboard work? Why can’t you press an arbitrary combination of three keys at once, except on fancy gaming keyboards? That implies something about how key presses are",
+      "snippet": "If we can figure out where to go our packets go from our ISP through some edge router, some core routers, another edge router, and then go through their network to get into the “meat” of a datacenter.\nWhat's the difference between core and edge routers?",
       "matchedWords": {
         "4guyArHVU3sU": {
           "hits": 3,
@@ -602,7 +602,7 @@
       "hash": "mt0JEs6GdY-4",
       "address": "https://danluu.com/navigate-url/",
       "title": "What happens when you load a URL?",
-      "snippet": "and when I do, it reminds me how much I don't know. Here are some questions this question brings to mind.\nHow does a keyboard work? Why can’t you press an arbitrary combination of three keys at once, except on fancy gaming keyboards? That implies something about how key presses are",
+      "snippet": "If we can figure out where to go our packets go from our ISP through some edge router, some core routers, another edge router, and then go through their network to get into the “meat” of a datacenter.\nWhat's the difference between core and edge routers?",
       "matchedWords": {
         "4guyArHVU3sU": {
           "hits": 3,
@@ -631,7 +631,7 @@
       "hash": "P-tQgitD2jQw",
       "address": "https://docs.python.org/3/library/asyncio-eventloop.html",
       "title": "Event loop — Python 3.14.7 documentation",
-      "snippet": "and callbacks, perform network IO operations, and run subprocesses.\nApplication developers should typically use the high-level asyncio functions, such as asyncio.run(), and should rarely need to reference the loop object or call its methods. This section is intended mostly for authors of",
+      "snippet": "Changed in version 3.8: In Python 3.7 and earlier with the default event loop implementation, the difference between when and the current time could not exceed one day. This has been fixed in Python 3.8.\nloop.time()¶",
       "matchedWords": {
         "4guyArHVU3sU": {
           "hits": 8,
@@ -660,7 +660,7 @@
       "hash": "VgxBBitD2jQw",
       "address": "https://docs.python.org/3/library/socketserver.html",
       "title": "socketserver — A framework for network servers — Python 3.14.7 documentation",
-      "snippet": "bind_and_activate=True)¶\nThis uses the internet TCP protocol, which provides for continuous streams of data between the client and server. If bind_and_activate is true, the constructor automatically attempts to invoke server_bind() and server_activate(). The other parameters are passed to the",
+      "snippet": "These more infrequently used classes are similar to the TCP and UDP classes, but use Unix domain sockets; they’re not available on non-Unix platforms. The parameters are the same as for TCPServer.",
       "matchedWords": {
         "4guyArHVU3sU": {
           "hits": 13,
@@ -689,7 +689,7 @@
       "hash": "mt0JEs6GdY-4",
       "address": "https://danluu.com/navigate-url/",
       "title": "What happens when you load a URL?",
-      "snippet": "and when I do, it reminds me how much I don't know. Here are some questions this question brings to mind.\nHow does a keyboard work? Why can’t you press an arbitrary combination of three keys at once, except on fancy gaming keyboards? That implies something about how key presses are",
+      "snippet": "If we can figure out where to go our packets go from our ISP through some edge router, some core routers, another edge router, and then go through their network to get into the “meat” of a datacenter.\nWhat's the difference between core and edge routers?",
       "matchedWords": {
         "4guyArHVU3sU": {
           "hits": 3,
@@ -718,7 +718,7 @@
       "hash": "P-tQgitD2jQw",
       "address": "https://docs.python.org/3/library/asyncio-eventloop.html",
       "title": "Event Loop — Python 3.14.0 documentation",
-      "snippet": "and callbacks, perform network IO operations, and run subprocesses.\nApplication developers should typically use the high-level asyncio functions, such as asyncio.run(), and should rarely need to reference the loop object or call its methods. This section is intended mostly for authors of",
+      "snippet": "Changed in version 3.8: In Python 3.7 and earlier with the default event loop implementation, the difference between when and the current time could not exceed one day. This has been fixed in Python 3.8.\nloop.time()¶",
       "matchedWords": {
         "4guyArHVU3sU": {
           "hits": 8,
@@ -747,7 +747,7 @@
       "hash": "VgxBBitD2jQw",
       "address": "https://docs.python.org/3/library/socketserver.html",
       "title": "socketserver — A framework for network servers — Python 3.14.0 documentation",
-      "snippet": "bind_and_activate=True)¶\nThis uses the internet TCP protocol, which provides for continuous streams of data between the client and server. If bind_and_activate is true, the constructor automatically attempts to invoke server_bind() and server_activate(). The other parameters are passed to the",
+      "snippet": "These more infrequently used classes are similar to the TCP and UDP classes, but use Unix domain sockets; they’re not available on non-Unix platforms. The parameters are the same as for TCPServer.",
       "matchedWords": {
         "4guyArHVU3sU": {
           "hits": 13,
@@ -776,7 +776,7 @@
       "hash": "Wnr2gs6GdY-4",
       "address": "https://danluu.com/google-sre-book/",
       "title": "Google SRE book",
-      "snippet": "and a potentially fatal problem that could have been prevented with a trivial check took NASA’s engineers 9 hours to resolve.\nThis sounds familiar -- I’ve lost track of the number of dev post-mortems that have the same basic structure.\nThis is an experiment in note-taking for me in two ways. First,",
+      "snippet": "Ex: if a user is on a smartphone with 99% reliability, they can’t tell the difference between 99.99% and 99.999% reliability\nManaging risk\nReliability isn’t linear in cost. It can easily cost 100x more to get one additional increment of reliability Cost associated with redundant equipment",
       "matchedWords": {
         "4guyArHVU3sU": {
           "hits": 1,
@@ -805,7 +805,7 @@
       "hash": "P-tQgitD2jQw",
       "address": "https://docs.python.org/3/library/asyncio-eventloop.html",
       "title": "Event loop — Python 3.14.7 documentation",
-      "snippet": "and callbacks, perform network IO operations, and run subprocesses.\nApplication developers should typically use the high-level asyncio functions, such as asyncio.run(), and should rarely need to reference the loop object or call its methods. This section is intended mostly for authors of",
+      "snippet": "Changed in version 3.8: In Python 3.7 and earlier with the default event loop implementation, the difference between when and the current time could not exceed one day. This has been fixed in Python 3.8.\nloop.time()¶",
       "matchedWords": {
         "4guyArHVU3sU": {
           "hits": 8,
@@ -834,7 +834,7 @@
       "hash": "P-tQgitD2jQw",
       "address": "https://docs.python.org/3/library/asyncio-eventloop.html",
       "title": "Event loop — Python 3.14.7 documentation",
-      "snippet": "and callbacks, perform network IO operations, and run subprocesses.\nApplication developers should typically use the high-level asyncio functions, such as asyncio.run(), and should rarely need to reference the loop object or call its methods. This section is intended mostly for authors of",
+      "snippet": "Changed in version 3.8: In Python 3.7 and earlier with the default event loop implementation, the difference between when and the current time could not exceed one day. This has been fixed in Python 3.8.\nloop.time()¶",
       "matchedWords": {
         "4guyArHVU3sU": {
           "hits": 8,
@@ -863,7 +863,7 @@
       "hash": "P-tQgitD2jQw",
       "address": "https://docs.python.org/3/library/asyncio-eventloop.html",
       "title": "Event Loop — Python 3.12.3 documentation",
-      "snippet": "and callbacks, perform network IO operations, and run subprocesses.\nApplication developers should typically use the high-level asyncio functions, such as asyncio.run(), and should rarely need to reference the loop object or call its methods. This section is intended mostly for authors of",
+      "snippet": "Changed in version 3.8: In Python 3.7 and earlier with the default event loop implementation, the difference between when and the current time could not exceed one day. This has been fixed in Python 3.8.\nloop.time()¶",
       "matchedWords": {
         "4guyArHVU3sU": {
           "hits": 8,
@@ -892,7 +892,7 @@
       "hash": "Wnr2gs6GdY-4",
       "address": "https://danluu.com/google-sre-book/",
       "title": "Google SRE book",
-      "snippet": "and a potentially fatal problem that could have been prevented with a trivial check took NASA’s engineers 9 hours to resolve.\nThis sounds familiar -- I’ve lost track of the number of dev post-mortems that have the same basic structure.\nThis is an experiment in note-taking for me in two ways. First,",
+      "snippet": "Ex: if a user is on a smartphone with 99% reliability, they can’t tell the difference between 99.99% and 99.999% reliability\nManaging risk\nReliability isn’t linear in cost. It can easily cost 100x more to get one additional increment of reliability Cost associated with redundant equipment",
       "matchedWords": {
         "4guyArHVU3sU": {
           "hits": 1,
@@ -921,7 +921,7 @@
       "hash": "VgxBBitD2jQw",
       "address": "https://docs.python.org/3/library/socketserver.html",
       "title": "socketserver — A framework for network servers — Python 3.14.6 documentation",
-      "snippet": "bind_and_activate=True)¶\nThis uses the internet TCP protocol, which provides for continuous streams of data between the client and server. If bind_and_activate is true, the constructor automatically attempts to invoke server_bind() and server_activate(). The other parameters are passed to the",
+      "snippet": "These more infrequently used classes are similar to the TCP and UDP classes, but use Unix domain sockets; they’re not available on non-Unix platforms. The parameters are the same as for TCPServer.",
       "matchedWords": {
         "4guyArHVU3sU": {
           "hits": 13,
@@ -950,7 +950,7 @@
       "hash": "Wnr2gs6GdY-4",
       "address": "https://danluu.com/google-sre-book/",
       "title": "Google SRE book",
-      "snippet": "and a potentially fatal problem that could have been prevented with a trivial check took NASA’s engineers 9 hours to resolve.\nThis sounds familiar -- I’ve lost track of the number of dev post-mortems that have the same basic structure.\nThis is an experiment in note-taking for me in two ways. First,",
+      "snippet": "Ex: if a user is on a smartphone with 99% reliability, they can’t tell the difference between 99.99% and 99.999% reliability\nManaging risk\nReliability isn’t linear in cost. It can easily cost 100x more to get one additional increment of reliability Cost associated with redundant equipment",
       "matchedWords": {
         "4guyArHVU3sU": {
           "hits": 1,
@@ -1008,7 +1008,7 @@
       "hash": "P-tQgitD2jQw",
       "address": "https://docs.python.org/3/library/asyncio-eventloop.html",
       "title": "Event Loop — Python 3.14.3 documentation",
-      "snippet": "and callbacks, perform network IO operations, and run subprocesses.\nApplication developers should typically use the high-level asyncio functions, such as asyncio.run(), and should rarely need to reference the loop object or call its methods. This section is intended mostly for authors of",
+      "snippet": "Changed in version 3.8: In Python 3.7 and earlier with the default event loop implementation, the difference between when and the current time could not exceed one day. This has been fixed in Python 3.8.\nloop.time()¶",
       "matchedWords": {
         "4guyArHVU3sU": {
           "hits": 8,
@@ -1037,7 +1037,7 @@
       "hash": "VgxBBitD2jQw",
       "address": "https://docs.python.org/3/library/socketserver.html",
       "title": "socketserver — A framework for network servers — Python 3.14.5 documentation",
-      "snippet": "bind_and_activate=True)¶\nThis uses the internet TCP protocol, which provides for continuous streams of data between the client and server. If bind_and_activate is true, the constructor automatically attempts to invoke server_bind() and server_activate(). The other parameters are passed to the",
+      "snippet": "These more infrequently used classes are similar to the TCP and UDP classes, but use Unix domain sockets; they’re not available on non-Unix platforms. The parameters are the same as for TCPServer.",
       "matchedWords": {
         "4guyArHVU3sU": {
           "hits": 13,
@@ -1066,7 +1066,7 @@
       "hash": "Wnr2gs6GdY-4",
       "address": "https://danluu.com/google-sre-book/",
       "title": "Google SRE book",
-      "snippet": "and a potentially fatal problem that could have been prevented with a trivial check took NASA’s engineers 9 hours to resolve.\nThis sounds familiar -- I’ve lost track of the number of dev post-mortems that have the same basic structure.\nThis is an experiment in note-taking for me in two ways. First,",
+      "snippet": "Ex: if a user is on a smartphone with 99% reliability, they can’t tell the difference between 99.99% and 99.999% reliability\nManaging risk\nReliability isn’t linear in cost. It can easily cost 100x more to get one additional increment of reliability Cost associated with redundant equipment",
       "matchedWords": {
         "4guyArHVU3sU": {
           "hits": 1,
@@ -1095,7 +1095,7 @@
       "hash": "VgxBBitD2jQw",
       "address": "https://docs.python.org/3/library/socketserver.html",
       "title": "21.21. socketserver — A framework for network servers \u0026mdash; Python 3.5.0 documentation",
-      "snippet": "bind_and_activate=True)¶\nThis uses the internet TCP protocol, which provides for continuous streams of data between the client and server. If bind_and_activate is true, the constructor automatically attempts to invoke server_bind() and server_activate(). The other parameters are passed to the",
+      "snippet": "These more infrequently used classes are similar to the TCP and UDP classes, but use Unix domain sockets; they’re not available on non-Unix platforms. The parameters are the same as for TCPServer.",
       "matchedWords": {
         "4guyArHVU3sU": {
           "hits": 13,
@@ -1124,7 +1124,7 @@
       "hash": "mt0JEs6GdY-4",
       "address": "https://danluu.com/navigate-url/",
       "title": "What happens when you load a URL?",
-      "snippet": "and when I do, it reminds me how much I don't know. Here are some questions this question brings to mind.\nHow does a keyboard work? Why can’t you press an arbitrary combination of three keys at once, except on fancy gaming keyboards? That implies something about how key presses are",
+      "snippet": "If we can figure out where to go our packets go from our ISP through some edge router, some core routers, another edge router, and then go through their network to get into the “meat” of a datacenter.\nWhat's the difference between core and edge routers?",
       "matchedWords": {
         "4guyArHVU3sU": {
           "hits": 3,
@@ -1153,7 +1153,7 @@
       "hash": "Wnr2gs6GdY-4",
       "address": "https://danluu.com/google-sre-book/",
       "title": "Google SRE book",
-      "snippet": "and a potentially fatal problem that could have been prevented with a trivial check took NASA’s engineers 9 hours to resolve.\nThis sounds familiar -- I’ve lost track of the number of dev post-mortems that have the same basic structure.\nThis is an experiment in note-taking for me in two ways. First,",
+      "snippet": "Ex: if a user is on a smartphone with 99% reliability, they can’t tell the difference between 99.99% and 99.999% reliability\nManaging risk\nReliability isn’t linear in cost. It can easily cost 100x more to get one additional increment of reliability Cost associated with redundant equipment",
       "matchedWords": {
         "4guyArHVU3sU": {
           "hits": 1,
@@ -1182,7 +1182,7 @@
       "hash": "VgxBBitD2jQw",
       "address": "https://docs.python.org/3/library/socketserver.html",
       "title": "socketserver — A framework for network servers — Python 3.14.6 documentation",
-      "snippet": "bind_and_activate=True)¶\nThis uses the internet TCP protocol, which provides for continuous streams of data between the client and server. If bind_and_activate is true, the constructor automatically attempts to invoke server_bind() and server_activate(). The other parameters are passed to the",
+      "snippet": "These more infrequently used classes are similar to the TCP and UDP classes, but use Unix domain sockets; they’re not available on non-Unix platforms. The parameters are the same as for TCPServer.",
       "matchedWords": {
         "4guyArHVU3sU": {
           "hits": 13,
@@ -1211,7 +1211,7 @@
       "hash": "mt0JEs6GdY-4",
       "address": "https://danluu.com/navigate-url/",
       "title": "What happens when you load a URL?",
-      "snippet": "and when I do, it reminds me how much I don't know. Here are some questions this question brings to mind.\nHow does a keyboard work? Why can’t you press an arbitrary combination of three keys at once, except on fancy gaming keyboards? That implies something about how key presses are",
+      "snippet": "If we can figure out where to go our packets go from our ISP through some edge router, some core routers, another edge router, and then go through their network to get into the “meat” of a datacenter.\nWhat's the difference between core and edge routers?",
       "matchedWords": {
         "4guyArHVU3sU": {
           "hits": 3,

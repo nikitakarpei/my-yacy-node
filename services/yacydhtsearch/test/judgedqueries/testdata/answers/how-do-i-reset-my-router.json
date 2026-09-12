@@ -1,13 +1,13 @@
 {
   "query": "how do i reset my router",
-  "recordedAt": "2026-09-12T00:17:12Z",
+  "recordedAt": "2026-09-12T07:52:00Z",
   "itemsInTheOrderOfEachAnswer": [
     [
       {
         "hash": "R_xsdMS6MKD4",
         "address": "https://github.com/orgs/community/discussions",
         "title": "community · Discussions · GitHub",
-        "snippet": "Discussions\nYou must be logged in to vote\nYou must be logged in to vote\nYou must be logged in to vote\nYou must be logged in to vote\nApp.js\nBug GitHub or a GitHub feature is not working as intended\nIssues Repository issues let you track features, problems, and more alongside your code\nsource:ui",
+        "snippet": "Discussions\nYou must be logged in to vote\nYou must be logged in to vote\nYou must be logged in to vote\nYou must be logged in to vote\nApp.js\nBug GitHub or a GitHub feature is not working as intended\nIssues Repository issues let you track features, problems, and more alongside your code",
         "matchedWords": {
           "1FebJojWdSNf": {
             "hits": 0,
@@ -38,7 +38,7 @@
         "hash": "pGRD67yp6WtY",
         "address": "http://tantek.com/",
         "title": "Tantek Çelik",
-        "snippet": "do this by typing \"https://web.archive.org/save/\" into the browser address bar and then pasting the link I want to save in the archive.\nAgain this is not really a “search engine”, however Firefox’s search engine shortcuts simplifies this greatly (less typing).\nHere’s how to create a save shortcut",
+        "snippet": "Because when it is, students cannot do it.”\n* https://www.reddit.com/r/Professors/comments/1vkw6by/how_do_you_know_an_assignment_is_ai_proof_because/\n“I assign a profile essay. Have for 30 years. Student interviews a person, records it, writes a paper based off the recording.",
         "matchedWords": {
           "1FebJojWdSNf": {
             "hits": 29,
@@ -69,7 +69,7 @@
         "hash": "uaEnGzTwnifx",
         "address": "https://planet.wordpress.org/",
         "title": "Planet — WordPress.org",
-        "snippet": "My name is Nathan Wrigley.\nJukebox is a podcast which is dedicated to all things WordPress. The people, the events, the plugins, the blocks, the themes, and in this case, building trust with project contracts for reliable AI development.\nIf you’d like to subscribe to the podcast, you can do that by",
+        "snippet": "But like, that’s with the belief that those data centres are going to matter meaningfully. And I don’t know if they will.\nLike we don’t, because we didn’t know how we got here. And it’s doing the thing now. I can use it to code my site. Like I can do that today.",
         "matchedWords": {
           "1FebJojWdSNf": {
             "hits": 80,
@@ -100,7 +100,7 @@
         "hash": "ZVVpsl0w8O86",
         "address": "https://www.pandasecurity.com/en/mediacenter/secure-home-network/",
         "title": "How to Set Up a Secure Home Network",
-        "snippet": "Router’s Wireless Network\nStart by taking a few steps to secure your network from unwanted access through these methods:\nChange your router’s password\nUpdate your router’s name\nSelect a new administrative login\nTurn off UPnP\nTurn on strong encryption\nChange your router’s IP address\nCreate a guest",
+        "snippet": "Some routers do this automatically, so check with your ISP to see how your router handles guest connections.\n7. Update Your Router’s Firmware\nFirmware runs your router like software runs your computer, supporting connections and protecting your network.",
         "matchedWords": {
           "1FebJojWdSNf": {
             "hits": 3,
@@ -131,7 +131,7 @@
         "hash": "1oF23Q87RqzY",
         "address": "http://ajacksonian.blogspot.com/",
         "title": "Dumb Looks Still Free",
-        "snippet": "reset or the power supply to those systems going out for other causes. The engine transmission system has its own power supply separate from those systems, and could remain intact and functional. It would keep on doing so until the aircraft shut down or the engines ran out of fuel.\nIf a pilot has a",
+        "snippet": "Terrorists usually don't take an aircraft and do nothing with it, claim no responsibility and generally remain silent about it. They might buy an aircraft, as bin Laden did in the early '90s in Africa, but hijack one and claim nothing and do nothing with it?",
         "matchedWords": {
           "1FebJojWdSNf": {
             "hits": 11,
@@ -221,7 +221,7 @@
       "hash": "rgTfGlDMrHS4",
       "address": "https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f",
       "title": "llm-wiki · GitHub",
-      "snippet": "how they connect. By the end you have a rich companion wiki. Think of fan wikis like Tolkien Gateway — thousands of interlinked pages covering characters, places, events, languages, built by a community of volunteers over years. You could build something like that personally as you read, with the",
+      "snippet": "Research: going deep on a topic over weeks or months — reading papers, articles, reports, and incrementally building a comprehensive wiki with an evolving thesis.\nReading a book: filing each chapter as you go, building out pages for characters, themes, plot threads, and how they connect.",
       "matchedWords": {
         "1FebJojWdSNf": {
           "hits": 2,
@@ -279,7 +279,7 @@
       "hash": "GxTNgsF20Rww",
       "address": "https://ma.tt/",
       "title": "Matt Mullenweg | Unlucky in Cards",
-      "snippet": "my heart and really boxed in and constrained. So from land, to the sea!\nSF Standard says “The kitchen table may be where Otis Redding wrote “(Sittin’ on) The Dock of the Bay.” I hope do a lot of blogging there.\nReal artists ship, right? Longevity is all about maintenance, and I’m looking forward to",
+      "snippet": "There’s also a #ceo Slack channel where anyone can drop in and request a meeting, which my esteemed colleague Damianne President did, and this morning we had an interesting chat that set my mind racing about how we might engineer happiness in the future.",
       "matchedWords": {
         "1FebJojWdSNf": {
           "hits": 4,
@@ -308,7 +308,7 @@
       "hash": "CjgsxsIyoLTx",
       "address": "https://planetpython.org/",
       "title": "Planet Python",
-      "snippet": "my work.\nThe thing is, I don’t have time to read them during the week. And on Saturday, when I do have time, I don’t use my computer. So I have a funny way of reading them:\nWhen a newsletter arrives, a filter automatically moves it into my “toprint” folder.\nMy very favorite newsletters are not only",
+      "snippet": "I’ll code by hand to do the same thing for my mind.\nA Real World Example\nBut let’s go back to how I code now, in late 2026. And let me give you an example of something I worked on last week and used successfully this weekend.\nIt’s not Python code. It’s a Google Sheets spreadsheet.",
       "matchedWords": {
         "1FebJojWdSNf": {
           "hits": 70,
@@ -337,7 +337,7 @@
       "hash": "iPDu4jRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Transmission_Control_Protocol",
       "title": "Transmission Control Protocol - Wikipedia",
-      "snippet": "do this through a three-way handshake procedure.[2] The server must be listening (passive open) for connection requests from clients before a connection is established. The three-way handshake (active open), retransmission, and error detection add to reliability but lengthen latency. Applications",
+      "snippet": "TCP is connection-oriented, meaning that sender and receiver first need to establish a connection based on agreed parameters; they do this through a three-way handshake procedure.[2] The server must be listening (passive open) for connection requests from clients before a connection is established.",
       "matchedWords": {
         "1FebJojWdSNf": {
           "hits": 8,
@@ -366,7 +366,7 @@
       "hash": "5DZ6TjRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Android_(operating_system)",
       "title": "Android (operating system) - Wikipedia",
-      "snippet": "bit—how should I say—a bit inscrutable in the matter, I'll say\".[41]\n2010s\nIn 2010, Google launched its Nexus series of devices, a lineup in which Google partnered with different device manufacturers to produce new devices and introduce new Android versions. The series was described as having",
+      "snippet": "\"Android's new desktop windowing mode has changed how I use my tablet\". Android Authority. Retrieved March 16, 2026.\n↑ Triggs, Robert (March 3, 2026). \"Your Pixel can now double up as a full Android PC with nothing more than a USB-C cable\". Android Authority. Retrieved March 16, 2026.",
       "matchedWords": {
         "1FebJojWdSNf": {
           "hits": 12,
@@ -395,7 +395,7 @@
       "hash": "D4lABzaS0qdw",
       "address": "https://planet.debian.org/",
       "title": "Planet Debian",
-      "snippet": "how crypto/internal/fips140/sha256 uses AVX2. While Avo generator code definitely is higher-level than hand-written assembly, it is still too close to assembly for my taste.\nUse a C library via cgo so gcc or clang compiles SIMD code. Debian Code Search used to use the powturbo/TurboPFor C library",
+      "snippet": "Once you identified the slow part of a program, how do you know why it’s slow?\nTo learn more about the specific bottlenecks your program encounters, you can consult your CPU’s hardware performance counters.",
       "matchedWords": {
         "1FebJojWdSNf": {
           "hits": 8,
@@ -424,7 +424,7 @@
       "hash": "-p2w3taoSn1x",
       "address": "https://en.planet.wikimedia.org/",
       "title": "en.planet.wikimedia.org",
-      "snippet": "how to make Wikimania even better and are inspired to bring many of those ideas to life in 2027.\nAnd now for a closer look at what the movement and the media are saying.\nMovement News\nThrough the eyes of first timers\nOne of the most-read articles about a first-timer attending Wikimania, is “After",
+      "snippet": "If we were really going to do it, where, and how? The discussion ran through the night. What came out of it was Ganggyeong — or more precisely, the Ganggyeong Institute of History and Culture. The concrete arguments for Ganggyeong were these:",
       "matchedWords": {
         "1FebJojWdSNf": {
           "hits": 20,
@@ -453,7 +453,7 @@
       "hash": "DEJvOsd21ih5",
       "address": "https://spritesmods.com/",
       "title": "Sprites mods - Welcome - Welcome!",
-      "snippet": "my more interesting hacks for your viewing pleasure. While it's not updated that regularly, I try to add an article about every month.\nOw, by the way: all the pictures are thumbnails. You can click on them to get the originals, straight from my camera. If you want to comment on an article, there's",
+      "snippet": "Welcome to Spritesmods. At this site, I'll document my more interesting hacks for your viewing pleasure. While it's not updated that regularly, I try to add an article about every month.\nOw, by the way: all the pictures are thumbnails.",
       "matchedWords": {
         "1FebJojWdSNf": {
           "hits": 0,
@@ -540,7 +540,7 @@
       "hash": "oGhktzW61vZ4",
       "address": "https://handbook.gitlab.com/handbook/marketing/digital-experience/onetrust/",
       "title": "OneTrust | The GitLab Handbook",
-      "snippet": "do not have access to any administrative functions.\nAwareness Training Manager: Awareness Training Managers are business users who have access to most everyday and some administrative functions in the Awareness Training module. By default, Awareness Training Managers have limited access to",
+      "snippet": "This will display either Do Not Sell My Data button or Cookie Settings button based on where the site visitors come from according to the geolocation rule group associated with the domain. The script has a class that can be customized through CSS.\nCookie List Script",
       "matchedWords": {
         "1FebJojWdSNf": {
           "hits": 7,
@@ -569,7 +569,7 @@
       "hash": "p_VDQzW61vZ4",
       "address": "https://handbook.gitlab.com/handbook/customer-success/professional-services-engineering/education-services/ilt-labs/gitlabcicdhandsonlab4/",
       "title": "GitLab CI/CD - Hands-On Lab: Working with CI/CD Components | The GitLab Handbook",
-      "snippet": "how to add CI/CD components to a pipeline\nEstimated time to complete: 15 minutes\nPreface\nAs Tanuki Enterprises scaled from one project to dozens, your team discovered they were copying and pasting the same CI/CD configurations across every repository. The problems multiplied quickly:\nConfiguration",
+      "snippet": "Creating a Component\nLet’s create a component to use in our GitLab project.\nNavigate to your My Test Group by clicking it in the breadcrumb at the top of the page.\nFrom your My Test Group in GitLab, click the New project button.\nClick the Create blank project tile.",
       "matchedWords": {
         "1FebJojWdSNf": {
           "hits": 0,
@@ -598,7 +598,7 @@
       "hash": "qzkOczW61vZ4",
       "address": "https://handbook.gitlab.com/handbook/engineering/readmes/alexives/",
       "title": "README of Alex Ives | The GitLab Handbook",
-      "snippet": "how I like to work. I tried to be as honest in here as I could manage.\nMy role\nReally, I just want members of my team to be able to bring their best self, and I want you to feel valued by the organization. I think the best way to pursue that is building trust. My job is to foster trust with the",
+      "snippet": "Personal readme page for Alex Ives, Engineering Manager, GitLab\nMotivation for this document\nFor folks who are currently or planning on working with me, I wrote this as a guide to help you have an idea about how I like to work. I tried to be as honest in here as I could manage.\nMy role",
       "matchedWords": {
         "1FebJojWdSNf": {
           "hits": 10,
@@ -656,7 +656,7 @@
       "hash": "zIs5tyrcmStw",
       "address": "https://defcon.org/html/defcon-33/dc-33-speakers.html",
       "title": "DEF CON® Hacking Conference - Speakers",
-      "snippet": "How We Proved Modems Are a Ticking Time Bomb That Hackers Can Access Everywhere\nChiao-Lin \"Steven Meow\" Yu\nGhost Calls: Abusing Web Conferencing for Covert Command \u0026 Control\nAdam \"UNC1739\" Crosser\nGhosts in the Machine Check - Conjuring Hardware Failures for Cross-ring Privilege Escalation",
+      "snippet": "The stolen assets were laundered through decentralized exchanges, split across multiple wallets, bridged to Bitcoin, and passed through mixers like Wasabi Wallet.\nSo how do attackers manage to launder crypto, and how can we stop them?",
       "matchedWords": {
         "1FebJojWdSNf": {
           "hits": 23,
@@ -714,7 +714,7 @@
       "hash": "yJuijsCG40j4",
       "address": "https://tantek.com/",
       "title": "Tantek Çelik",
-      "snippet": "do this by typing \"https://web.archive.org/save/\" into the browser address bar and then pasting the link I want to save in the archive.\nAgain this is not really a “search engine”, however Firefox’s search engine shortcuts simplifies this greatly (less typing).\nHere’s how to create a save shortcut",
+      "snippet": "Because when it is, students cannot do it.”\n* https://www.reddit.com/r/Professors/comments/1vkw6by/how_do_you_know_an_assignment_is_ai_proof_because/\n“I assign a profile essay. Have for 30 years. Student interviews a person, records it, writes a paper based off the recording.",
       "matchedWords": {
         "1FebJojWdSNf": {
           "hits": 29,
@@ -743,7 +743,7 @@
       "hash": "wNGurdDZkUL4",
       "address": "https://www.cnet.com/home/security/best-home-security-system/",
       "title": "Best Home Security Systems in 2026: Expert Tested for Your Home - CNET",
-      "snippet": "router (we prefer picking out our own routers).\nAmazon’s Ring devices include excellent Alexa support, and DIYers will like the largely intuitive management app (if you’ve set up any smart devices before, these app controls will come easily to you). In addition to direct controls and sensor",
+      "snippet": "How do I set up a home security system?\nSome home security systems include professional installation, so the company sets everything up for you. Others, especially DIY options, require self-installation — but they typically come with clear instructions and are easy to set up.",
       "matchedWords": {
         "1FebJojWdSNf": {
           "hits": 10,
@@ -772,7 +772,7 @@
       "hash": "GxTNgsF20Rww",
       "address": "https://ma.tt/",
       "title": "Matt Mullenweg | Unlucky in Cards",
-      "snippet": "my heart and really boxed in and constrained. So from land, to the sea!\nSF Standard says “The kitchen table may be where Otis Redding wrote “(Sittin’ on) The Dock of the Bay.” I hope do a lot of blogging there.\nReal artists ship, right? Longevity is all about maintenance, and I’m looking forward to",
+      "snippet": "There’s also a #ceo Slack channel where anyone can drop in and request a meeting, which my esteemed colleague Damianne President did, and this morning we had an interesting chat that set my mind racing about how we might engineer happiness in the future.",
       "matchedWords": {
         "1FebJojWdSNf": {
           "hits": 4,
@@ -830,7 +830,7 @@
       "hash": "D4lABzaS0qdw",
       "address": "https://planet.debian.org/",
       "title": "Planet Debian",
-      "snippet": "how crypto/internal/fips140/sha256 uses AVX2. While Avo generator code definitely is higher-level than hand-written assembly, it is still too close to assembly for my taste.\nUse a C library via cgo so gcc or clang compiles SIMD code. Debian Code Search used to use the powturbo/TurboPFor C library",
+      "snippet": "Once you identified the slow part of a program, how do you know why it’s slow?\nTo learn more about the specific bottlenecks your program encounters, you can consult your CPU’s hardware performance counters.",
       "matchedWords": {
         "1FebJojWdSNf": {
           "hits": 8,
@@ -859,7 +859,7 @@
       "hash": "-p2w3taoSn1x",
       "address": "https://en.planet.wikimedia.org/",
       "title": "en.planet.wikimedia.org",
-      "snippet": "how to make Wikimania even better and are inspired to bring many of those ideas to life in 2027.\nAnd now for a closer look at what the movement and the media are saying.\nMovement News\nThrough the eyes of first timers\nOne of the most-read articles about a first-timer attending Wikimania, is “After",
+      "snippet": "If we were really going to do it, where, and how? The discussion ran through the night. What came out of it was Ganggyeong — or more precisely, the Ganggyeong Institute of History and Culture. The concrete arguments for Ganggyeong were these:",
       "matchedWords": {
         "1FebJojWdSNf": {
           "hits": 20,
@@ -917,7 +917,7 @@
       "hash": "zjU19-2Sk-24",
       "address": "https://www.dexerto.com/archive/2024/1/",
       "title": "Archive - January 2024 - Dexerto",
-      "snippet": "How to watch Attack on Titan in order: A chronological guide\nHideo Kojima locks in Metal Gear Solid spiritual successor for PS6\nHow to find Clauncher \u0026 Clawitzer in Pokemon Scarlet \u0026 Violet\nEverything we saw at the PlayStation State of Play January 2024\nHow to find Gulpin \u0026 Swalot in Pokemon",
+      "snippet": "Why Molly Mae Hague was banned from kissing on Love Island: All Stars\nWarzone streamer accused of hacking after hitting the “craziest” quick-scope shot\nMy Demon explained: How did Do-hee’s parents die?\nVPR’s Scheana Shay accuses Nick Viall’s fiance of being on his payroll",
       "matchedWords": {
         "1FebJojWdSNf": {
           "hits": 27,
@@ -946,7 +946,7 @@
       "hash": "bEZNkdDZkUL4",
       "address": "https://www.cnet.com/home/internet/t-mobile-5g-home-internet-review/",
       "title": "T-Mobile Home Internet Review - CNET",
-      "snippet": "router to help with coverage throughout the home. In addition, this plan is designed to ensure that customers have unlimited live tech support at all times through Assurant Personal TechPro. Although T-Mobile’s standard plan already offered a customer care team aiding tech support for its",
+      "snippet": "My former CNET colleague Eli Blumenthal has thoroughly detailed the basics of 5G and how not all “5G” is the same. In summary, faster 5G speeds come with shorter ranges. The farther the distance, the less speed on the top end.",
       "matchedWords": {
         "1FebJojWdSNf": {
           "hits": 0,
@@ -1033,7 +1033,7 @@
       "hash": "yJuijsCG40j4",
       "address": "https://tantek.com/",
       "title": "Tantek Çelik",
-      "snippet": "do this by typing \"https://web.archive.org/save/\" into the browser address bar and then pasting the link I want to save in the archive.\nAgain this is not really a “search engine”, however Firefox’s search engine shortcuts simplifies this greatly (less typing).\nHere’s how to create a save shortcut",
+      "snippet": "Because when it is, students cannot do it.”\n* https://www.reddit.com/r/Professors/comments/1vkw6by/how_do_you_know_an_assignment_is_ai_proof_because/\n“I assign a profile essay. Have for 30 years. Student interviews a person, records it, writes a paper based off the recording.",
       "matchedWords": {
         "1FebJojWdSNf": {
           "hits": 29,
@@ -1062,7 +1062,7 @@
       "hash": "sC0kMlDOAHJg",
       "address": "https://www.heise.de/en",
       "title": "heise online – IT news, guides and background information | heise online",
-      "snippet": "How the Anti-Terror Fight Erodes Freedom\nFrom the Otto Catalog to Snowden revelations to AI super-agencies: September 11, 2001, marks the beginning of an era of digital mass surveillance.\nMilitary communication: Great Britain deepens dependence on SpaceX\nDespite EU concerns, Great Britain is",
+      "snippet": "AI: Google brings Gemini as its own desktop app for Windows systems\nThe Gemini app can be called up via a key command and can evaluate information from Google services. The free AI app can also create images and videos.\n25 Years After 9/11: How the Anti-Terror Fight Erodes Freedom",
       "matchedWords": {
         "1FebJojWdSNf": {
           "hits": 0,
@@ -1091,7 +1091,7 @@
       "hash": "ETfRxdDZkUL4",
       "address": "https://www.cnet.com/home/security/best-video-doorbell-cameras/",
       "title": "Best Video Doorbells of 2025: Eyes on Your Front Door - CNET",
-      "snippet": "my overall favorite thanks to its high resolution, two-way audio and more.\nArlo/CNET\nMy pick for the best doorbell camera is the Arlo Video Doorbell 2K (2nd gen). In addition to a higher resolution than most doorbells, Arlo has equipped its model with a broad field of view, excellent two-way audio",
+      "snippet": "If you want to read more about CNET’s review process, check out the in-depth article on how we test home security cameras and video doorbells.\nHow do I install a video doorbell?",
       "matchedWords": {
         "1FebJojWdSNf": {
           "hits": 7,
@@ -1120,7 +1120,7 @@
       "hash": "G34vBdDZkUL4",
       "address": "https://www.cnet.com/home/security/best-outdoor-home-security-cameras/",
       "title": "Best Outdoor Home Security Cameras of 2025: Expert-Tested - CNET",
-      "snippet": "my Google Home app t...\nPros \u0026 Cons\nAdjustable and customizable LED floodlights\nPerson and vehicle detection\n2K resolution\nNo subscription needed for onboard video storage\nMicroSD card may need to be upgraded for larger video storage\nWithout an existing junction box, installation may be expensive",
+      "snippet": "The Google Nest Cam may start running into trouble as temperatures go below 32 degrees Fahrenheit regularly, while our top Arlo pick can work at minus 20 degrees Fahrenheit.\nWhat do I do if my outdoor camera records a crime?",
       "matchedWords": {
         "1FebJojWdSNf": {
           "hits": 11,
@@ -1149,7 +1149,7 @@
       "hash": "TI6ZU9DZkUL4",
       "address": "https://www.cnet.com/tech/services-and-software/best-vpn-for-iphone/",
       "title": "Best VPN for iPhone 2025: Privacy Protection on the Go - CNET",
-      "snippet": "Router\n✔️\n✔️\n✔️\n✔️\n✔️\n✔️\nBrowser plugin**\n✔️\n✔️\n✔️\n✔️\n✔️\n✔️\nSimultaneous connections\nUnlimited\nUnlimited\nUnlimited\n10\n8\n10\nJames Martin/CNET\nHow we test iPhone VPNs\nPIA’s apps offer a lot of options for customization.\nPIA/Screenshot by CNET\nWhen we evaluate the best iPhone VPNs, we spend weeks",
+      "snippet": "If you want to hide the fact that you’re using a VPN altogether, you can connect to an obfuscated server, if offered by your VPN.\nHow do I set up a VPN on my iPhone?\nThe easiest way to set up a VPN on your iPhone is by downloading your VPN provider’s app from Apple’s App Store.",
       "matchedWords": {
         "1FebJojWdSNf": {
           "hits": 4,
@@ -1178,7 +1178,7 @@
       "hash": "UpNYP9DZkUL4",
       "address": "https://www.cnet.com/tech/services-and-software/expressvpn-review/",
       "title": "ExpressVPN Review 2025: A Top-Notch VPN That Keeps Getting Better, but at a Premium Price - CNET",
-      "snippet": "my extensive testing and experience, Express holds its position at the top of the VPN pile, but it’s still the most expensive choice.\nI ran ExpressVPN through a rigorous battery of tests over the course of several weeks in January 2025, retested its speed performance in March and ran additional",
+      "snippet": "With ExpressVPN, you’ll get apps for Windows, MacOS, Linux (GUI), Chromebook, Android, iOS, FireTV, Android TV and Apple TV. A router app is also available as well as detailed tutorials on how to set up ExpressVPN on a variety of routers.",
       "matchedWords": {
         "1FebJojWdSNf": {
           "hits": 6,
@@ -1207,7 +1207,7 @@
       "hash": "bEZNkdDZkUL4",
       "address": "https://www.cnet.com/home/internet/t-mobile-5g-home-internet-review/",
       "title": "T-Mobile Home Internet Review - CNET",
-      "snippet": "router to help with coverage throughout the home. In addition, this plan is designed to ensure that customers have unlimited live tech support at all times through Assurant Personal TechPro. Although T-Mobile’s standard plan already offered a customer care team aiding tech support for its",
+      "snippet": "My former CNET colleague Eli Blumenthal has thoroughly detailed the basics of 5G and how not all “5G” is the same. In summary, faster 5G speeds come with shorter ranges. The farther the distance, the less speed on the top end.",
       "matchedWords": {
         "1FebJojWdSNf": {
           "hits": 0,
@@ -1236,7 +1236,7 @@
       "hash": "b08TwlDZkUL4",
       "address": "https://www.cnet.com/",
       "title": "CNET: Product reviews, advice, how-tos and the latest news",
-      "snippet": "Our Expertise\nFor more than 25 years, CNET has built a reputation as the premier source for trustworthy, no-nonsense reviews on everything tech – from phones to TVs to laptops to tablets to streaming services. If you can snap a picture with it, watch it, type on it or subscribe to it, chances are",
+      "snippet": "Our Expertise\nFor more than 25 years, CNET has built a reputation as the premier source for trustworthy, no-nonsense reviews on everything tech – from phones to TVs to laptops to tablets to streaming services.",
       "matchedWords": {
         "1FebJojWdSNf": {
           "hits": 0,
@@ -1265,7 +1265,7 @@
       "hash": "e0zJilDZkUL4",
       "address": "https://www.cnet.com/editors-choice/",
       "title": "Awards - CNET",
-      "snippet": "Router for Gamers\nSimpliSafe Home Security Review 2024: Still a DIY Standout\nEditors’ Choice 2024: Best Tech Gifts\nEditors’ Choice 2024: AI, AR and VR, Smart Home and Security\nEditors’ Choice 2024: Best AI and Future Tech\nDuolingo Review: A Fun, Functional, Fresh Approach to Learning a Language",
+      "snippet": "LATEST STORIES\nI Tested the iPhone 17 Pro Max. It’s Part Midlife Crisis and Part Battery-Life King\nAsus RT-AX86U Review: The Best Wi-Fi Router for Gamers\nSimpliSafe Home Security Review 2024: Still a DIY Standout\nEditors’ Choice 2024: Best Tech Gifts",
       "matchedWords": {
         "1FebJojWdSNf": {
           "hits": 0,
@@ -1294,7 +1294,7 @@
       "hash": "vIni89DZkUL4",
       "address": "https://www.cnet.com/tech/computing/best-budget-laptop/",
       "title": "Best Cheap Laptop for 2025 - Budget Computers Under $500 - CNET",
-      "snippet": "my current favorites.\nWhat’s the best cheap laptop overall?\nOur favorite budget laptop is Apple’s new MacBook Neo, the perfect laptop for student budgets. I’m willing to live without most of the features it lacks because of its low price, which is $500 less than the cheapest MacBook Air.\nFor an",
+      "snippet": "Last, budget laptop shoppers should consider a Chromebook — especially if much of what you do is on the web — and check out my list of best Chromebooks.\nBest cheap laptops of 2026\nMatt Elliott/CNET\nBest budget laptop overall\nMacBook Neo\n8.3\nPremium MacBook look and feel at much lower cost",
       "matchedWords": {
         "1FebJojWdSNf": {
           "hits": 12,
@@ -1323,7 +1323,7 @@
       "hash": "wNGurdDZkUL4",
       "address": "https://www.cnet.com/home/security/best-home-security-system/",
       "title": "Best Home Security Systems for 2025: Top Smart Hubs to Protect Your Home - CNET",
-      "snippet": "router (we prefer picking out our own routers).\nAmazon’s Ring devices include excellent Alexa support, and DIYers will like the largely intuitive management app (if you’ve set up any smart devices before, these app controls will come easily to you). In addition to direct controls and sensor",
+      "snippet": "How do I set up a home security system?\nSome home security systems include professional installation, so the company sets everything up for you. Others, especially DIY options, require self-installation — but they typically come with clear instructions and are easy to set up.",
       "matchedWords": {
         "1FebJojWdSNf": {
           "hits": 10,
@@ -1352,7 +1352,7 @@
       "hash": "6Bk1YdDZkUL4",
       "address": "https://www.cnet.com/home/internet/best-fiber-internet-providers/",
       "title": "Best Fiber Internet Providers for 2025 - CNET",
-      "snippet": "How our sort order works How it works\nSort by\nResults for: 90001\nBest fiber internet provider overall\n300 - 5,000Mbps $55 - $250 per month\nGet T-Mobile Fiber starting at $35/mo with AutoPay\n500 - 2,000Mbps $65 - $95 per month\nBest cheap fiber internet plan\n500 - 5,000Mbps $50 - $155 per month\nBest",
+      "snippet": "OUR PICKS\nHow our sort order works How it works\nSort by\nResults for: 90001\nBest fiber internet provider overall\n300 - 5,000Mbps $55 - $250 per month\nGet T-Mobile Fiber starting at $35/mo with AutoPay\n500 - 2,000Mbps $65 - $95 per month\nBest cheap fiber internet plan",
       "matchedWords": {
         "1FebJojWdSNf": {
           "hits": 0,
@@ -1381,7 +1381,7 @@
       "hash": "9b7tXdDZkUL4",
       "address": "https://www.cnet.com/home/internet/",
       "title": "Home Internet - CNET",
-      "snippet": "How to Check if T-Mobile Fiber Is Available at Your Address\nNow that the majority of American households have access to fiber internet, it’s easier than ever to find out if you can upgrade.\nBest ISPs of 2026: Our Top Picks Evaluated for Speed, Value and Price Transparency\nBeyond marketing fluff and",
+      "snippet": "You’re Probably Overpaying for Internet. Here’s How to Spot Hidden Fees\nHere’s the real reason your internet bill is so high — and what you can (and can’t) do about it.\n09/03/2026\nHow We Evaluate and Score ISPs at CNET",
       "matchedWords": {
         "1FebJojWdSNf": {
           "hits": 1,
@@ -1410,7 +1410,7 @@
       "hash": "_iJC9lDZkUL4",
       "address": "https://www.cnet.com/news/",
       "title": "News - CNET",
-      "snippet": "iPhone Duo vs. Samsung Galaxy Z Fold 8: Battle of the Passport Foldables\nApple finally released its first foldable, and it's the same passport-size format as Samsung's recently released Z Fold 8.\n09/10/2026\nYou Can Now Buy the Trump Phone for $250 More Than Originally Priced\nTrump Mobile's T1 phone",
+      "snippet": "iPhone Duo vs. Samsung Galaxy Z Fold 8: Battle of the Passport Foldables\nApple finally released its first foldable, and it's the same passport-size format as Samsung's recently released Z Fold 8.\n09/10/2026\nYou Can Now Buy the Trump Phone for $250 More Than Originally Priced",
       "matchedWords": {
         "1FebJojWdSNf": {
           "hits": 0,
@@ -1439,7 +1439,7 @@
       "hash": "_wxyPdDZkUL4",
       "address": "https://www.cnet.com/home/internet/best-internet-providers/",
       "title": "Best Internet Providers for 2026 - CNET",
-      "snippet": "Router opt-out available\nFast speeds for a value price\nLimited coverage in select cities across the US\nNo plans less than 1 gig available\nFeatured Deal\nOur experts have tested this product and selected it for this story. Its inclusion and description here solely reflect findings from our",
+      "snippet": "The only caveat with fiber is that it’s not as widely available as cable internet. If cable internet is available at your address, we recommend Xfinity, Spectrum and Sparklight.\nHow do I know what ISPs are available in my area?",
       "matchedWords": {
         "1FebJojWdSNf": {
           "hits": 5,
@@ -1468,7 +1468,7 @@
       "hash": "GxTNgsF20Rww",
       "address": "https://ma.tt/",
       "title": "Matt Mullenweg | Unlucky in Cards",
-      "snippet": "my heart and really boxed in and constrained. So from land, to the sea!\nSF Standard says “The kitchen table may be where Otis Redding wrote “(Sittin’ on) The Dock of the Bay.” I hope do a lot of blogging there.\nReal artists ship, right? Longevity is all about maintenance, and I’m looking forward to",
+      "snippet": "There’s also a #ceo Slack channel where anyone can drop in and request a meeting, which my esteemed colleague Damianne President did, and this morning we had an interesting chat that set my mind racing about how we might engineer happiness in the future.",
       "matchedWords": {
         "1FebJojWdSNf": {
           "hits": 4,
@@ -1497,7 +1497,7 @@
       "hash": "CjgsxsIyoLTx",
       "address": "https://planetpython.org/",
       "title": "Planet Python",
-      "snippet": "my work.\nThe thing is, I don’t have time to read them during the week. And on Saturday, when I do have time, I don’t use my computer. So I have a funny way of reading them:\nWhen a newsletter arrives, a filter automatically moves it into my “toprint” folder.\nMy very favorite newsletters are not only",
+      "snippet": "I’ll code by hand to do the same thing for my mind.\nA Real World Example\nBut let’s go back to how I code now, in late 2026. And let me give you an example of something I worked on last week and used successfully this weekend.\nIt’s not Python code. It’s a Google Sheets spreadsheet.",
       "matchedWords": {
         "1FebJojWdSNf": {
           "hits": 70,
@@ -1526,7 +1526,7 @@
       "hash": "djTAnlM8aJI6",
       "address": "https://www.theepochtimes.com/",
       "title": "The Epoch Times | Breaking News, Latest News, World News and Videos",
-      "snippet": "How He Lost ‘Ton Of Weight.’\nMan Rushes to Save Child Running Into Traffic\nFEATURED\nIn-Depth\n25 Years After 9/11, National Tour Sparks Grief, Inspiration\nA 16,900-pound, 21-foot steel beam from the south tower is the centerpiece of a 10,500-mile tour that ends at Ground Zero.\n9 Min Read\n9 Min Read",
+      "snippet": "The Rise of Flock Cameras and the Growing Pushback\nVP Vance Asked How He Lost ‘Ton Of Weight.’\nMan Rushes to Save Child Running Into Traffic\nFEATURED\nIn-Depth\n25 Years After 9/11, National Tour Sparks Grief, Inspiration",
       "matchedWords": {
         "1FebJojWdSNf": {
           "hits": 0,
@@ -1555,7 +1555,7 @@
       "hash": "AX7xBjRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Wikipedia:Help_desk",
       "title": "Wikipedia:Help desk - Wikipedia",
-      "snippet": "Do not provide your email address or any other contact information. Answers will be provided on this page only.\nIf your question is about a Wikipedia article, draft article, or other page on Wikipedia, tell us what it is!\nIf you are having an issue while editing, which editor are you using?\nCheck",
+      "snippet": "How do I find my account info and log in. ~2026-49018-19 (talk) 00:32, 10 September 2026 (UTC)Reply\n@~2026-49018-19: Does \"contribute\" refer to donations or edits? Donations are not linked to user accounts and you can donate without having an account.",
       "matchedWords": {
         "1FebJojWdSNf": {
           "hits": 42,
@@ -1613,7 +1613,7 @@
       "hash": "1WCs82bypRQw",
       "address": "https://forgejo.org/docs/latest/admin/config-cheat-sheet/",
       "title": "Configuration Cheat Sheet | Forgejo – Beyond coding. We forge.",
-      "snippet": "how environment variables are translated to app.ini variables. Values in the form XxYyZz refer to values listed as part of the default configuration. These notation forms will not work in your own app.ini file and are only listed here as documentation.\nValues containing # or ; must be quoted using",
+      "snippet": "Service (service)\nACTIVE_CODE_LIVE_MINUTES: 180: Time limit (min) to confirm account/email registration.\nRESET_PASSWD_CODE_LIVE_MINUTES: 180: Time limit (min) to confirm forgot password reset process.\nREGISTER_EMAIL_CONFIRM: false: Enable this to ask for mail confirmation of registration.",
       "matchedWords": {
         "1FebJojWdSNf": {
           "hits": 6,
@@ -1642,7 +1642,7 @@
       "hash": "KqLCEwfdy0sw",
       "address": "https://devices.slashdot.org/",
       "title": "Devices News | Slashdot",
-      "snippet": "how the CameraJet is held -- even upside down -- instead of sticking a tube into the reservoir, there's an air bladder inside the tank that slowly inflates to fill empty space, minimize air pockets, and maintain a constant pressure. An elaborate docking station recharges the toothbrush and can",
+      "snippet": "To ensure its mouthwash reservoir can effectively pump no matter how the CameraJet is held -- even upside down -- instead of sticking a tube into the reservoir, there's an air bladder inside the tank that slowly inflates to fill empty space, minimize air pockets, and maintain a constant pressure.",
       "matchedWords": {
         "1FebJojWdSNf": {
           "hits": 3,
@@ -1671,7 +1671,7 @@
       "hash": "efqyGlguIfG5",
       "address": "https://www.nbcsports.com/frequently-asked-questions",
       "title": "FAQ | Frequently Asked Questions - NBC sports - NBC Sports",
-      "snippet": "router with an Ethernet cable for a more stable connection.\n4. Ensure third-party cookies are unblocked for the browser you’re using.\nIf you continue to experience issues, please contact our customer support team for further assistance.\nNBCUniversal Profile allows you to personalize your experience",
+      "snippet": "If using wireless internet (Wi-Fi), connect directly to your modem or router with an Ethernet cable for a more stable connection.\n4. Ensure third-party cookies are unblocked for the browser you’re using.",
       "matchedWords": {
         "1FebJojWdSNf": {
           "hits": 0,
@@ -1700,7 +1700,7 @@
       "hash": "nWMgE7yp6WtY",
       "address": "http://tantek.com/?skin=vtx",
       "title": "Tantek Çelik",
-      "snippet": "do this by typing \"https://web.archive.org/save/\" into the browser address bar and then pasting the link I want to save in the archive.\nAgain this is not really a “search engine”, however Firefox’s search engine shortcuts simplifies this greatly (less typing).\nHere’s how to create a save shortcut",
+      "snippet": "Because when it is, students cannot do it.”\n* https://www.reddit.com/r/Professors/comments/1vkw6by/how_do_you_know_an_assignment_is_ai_proof_because/\n“I assign a profile essay. Have for 30 years. Student interviews a person, records it, writes a paper based off the recording.",
       "matchedWords": {
         "1FebJojWdSNf": {
           "hits": 29,
@@ -1729,7 +1729,7 @@
       "hash": "_zR0Cs5dlbp4",
       "address": "https://mashable.com/tech",
       "title": "Tech News, Trends, Reviews, \u0026 More | Mashable",
-      "snippet": "How to preorder the new Apple Watches, including the Series 12 and Ultra 4\nBoth new wearables are set for release on Sept. 18 and don't come with any price hikes.\n09/10/2026\nBy Haley Henschel\nThe iPhone Duo's opening animation is a 10/10 design flex for Apple\nPeople are losing it over the opening",
+      "snippet": "iPhone Duo price: Here's how much Apple's most expensive Duo will cost\nIt's the most expensive iPhone ever.\n09/09/2026\nBy Matt Binder\nYes, the iPhone Duo supports MagSafe — here’s how fast it charges\nApple’s foldable can charge wirelessly to 50 percent in around 30 minutes.\n09/09/2026",
       "matchedWords": {
         "1FebJojWdSNf": {
           "hits": 0,
@@ -1758,7 +1758,7 @@
       "hash": "sC0kMlDOAHJg",
       "address": "https://www.heise.de/en",
       "title": "",
-      "snippet": "How the Anti-Terror Fight Erodes Freedom\nFrom the Otto Catalog to Snowden revelations to AI super-agencies: September 11, 2001, marks the beginning of an era of digital mass surveillance.\nMilitary communication: Great Britain deepens dependence on SpaceX\nDespite EU concerns, Great Britain is",
+      "snippet": "AI: Google brings Gemini as its own desktop app for Windows systems\nThe Gemini app can be called up via a key command and can evaluate information from Google services. The free AI app can also create images and videos.\n25 Years After 9/11: How the Anti-Terror Fight Erodes Freedom",
       "matchedWords": {
         "1FebJojWdSNf": {
           "hits": 0,
@@ -1787,7 +1787,7 @@
       "hash": "ETfRxdDZkUL4",
       "address": "https://www.cnet.com/home/security/best-video-doorbell-cameras/",
       "title": "The Best Video Doorbells of 2026: Watch Porches, Packages and More - CNET",
-      "snippet": "my overall favorite thanks to its high resolution, two-way audio and more.\nArlo/CNET\nMy pick for the best doorbell camera is the Arlo Video Doorbell 2K (2nd gen). In addition to a higher resolution than most doorbells, Arlo has equipped its model with a broad field of view, excellent two-way audio",
+      "snippet": "If you want to read more about CNET’s review process, check out the in-depth article on how we test home security cameras and video doorbells.\nHow do I install a video doorbell?",
       "matchedWords": {
         "1FebJojWdSNf": {
           "hits": 7,
@@ -1816,7 +1816,7 @@
       "hash": "G34vBdDZkUL4",
       "address": "https://www.cnet.com/home/security/best-outdoor-home-security-cameras/",
       "title": "The Best Outdoor Home Security Cameras of 2026, Backed by Over 200 Hours of Testing - CNET",
-      "snippet": "my Google Home app t...\nPros \u0026 Cons\nAdjustable and customizable LED floodlights\nPerson and vehicle detection\n2K resolution\nNo subscription needed for onboard video storage\nMicroSD card may need to be upgraded for larger video storage\nWithout an existing junction box, installation may be expensive",
+      "snippet": "The Google Nest Cam may start running into trouble as temperatures go below 32 degrees Fahrenheit regularly, while our top Arlo pick can work at minus 20 degrees Fahrenheit.\nWhat do I do if my outdoor camera records a crime?",
       "matchedWords": {
         "1FebJojWdSNf": {
           "hits": 11,
@@ -1845,7 +1845,7 @@
       "hash": "TI6ZU9DZkUL4",
       "address": "https://www.cnet.com/tech/services-and-software/best-vpn-for-iphone/",
       "title": "Best VPN for iPhone 2026: Boost Your Privacy on the Go - CNET",
-      "snippet": "Router\n✔️\n✔️\n✔️\n✔️\n✔️\n✔️\nBrowser plugin**\n✔️\n✔️\n✔️\n✔️\n✔️\n✔️\nSimultaneous connections\nUnlimited\nUnlimited\nUnlimited\n10\n8\n10\nJames Martin/CNET\nHow we test iPhone VPNs\nPIA’s apps offer a lot of options for customization.\nPIA/Screenshot by CNET\nWhen we evaluate the best iPhone VPNs, we spend weeks",
+      "snippet": "If you want to hide the fact that you’re using a VPN altogether, you can connect to an obfuscated server, if offered by your VPN.\nHow do I set up a VPN on my iPhone?\nThe easiest way to set up a VPN on your iPhone is by downloading your VPN provider’s app from Apple’s App Store.",
       "matchedWords": {
         "1FebJojWdSNf": {
           "hits": 4,
@@ -1874,7 +1874,7 @@
       "hash": "UpNYP9DZkUL4",
       "address": "https://www.cnet.com/tech/services-and-software/expressvpn-review/",
       "title": "ExpressVPN Review 2025: The Best VPN Keeps Pushing the Industry Forward - CNET",
-      "snippet": "my extensive testing and experience, Express holds its position at the top of the VPN pile, but it’s still the most expensive choice.\nI ran ExpressVPN through a rigorous battery of tests over the course of several weeks in January 2025, retested its speed performance in March and ran additional",
+      "snippet": "With ExpressVPN, you’ll get apps for Windows, MacOS, Linux (GUI), Chromebook, Android, iOS, FireTV, Android TV and Apple TV. A router app is also available as well as detailed tutorials on how to set up ExpressVPN on a variety of routers.",
       "matchedWords": {
         "1FebJojWdSNf": {
           "hits": 6,
@@ -1903,7 +1903,7 @@
       "hash": "bEZNkdDZkUL4",
       "address": "https://www.cnet.com/home/internet/t-mobile-5g-home-internet-review/",
       "title": "T-Mobile 5G Home Internet Review: Plans, Pricing, Speed and Availability - CNET",
-      "snippet": "router to help with coverage throughout the home. In addition, this plan is designed to ensure that customers have unlimited live tech support at all times through Assurant Personal TechPro. Although T-Mobile’s standard plan already offered a customer care team aiding tech support for its",
+      "snippet": "My former CNET colleague Eli Blumenthal has thoroughly detailed the basics of 5G and how not all “5G” is the same. In summary, faster 5G speeds come with shorter ranges. The farther the distance, the less speed on the top end.",
       "matchedWords": {
         "1FebJojWdSNf": {
           "hits": 0,
@@ -1932,7 +1932,7 @@
       "hash": "b08TwlDZkUL4",
       "address": "https://www.cnet.com/",
       "title": "CNET: Product reviews, advice, how-tos and the latest news - CNET",
-      "snippet": "Our Expertise\nFor more than 25 years, CNET has built a reputation as the premier source for trustworthy, no-nonsense reviews on everything tech – from phones to TVs to laptops to tablets to streaming services. If you can snap a picture with it, watch it, type on it or subscribe to it, chances are",
+      "snippet": "Our Expertise\nFor more than 25 years, CNET has built a reputation as the premier source for trustworthy, no-nonsense reviews on everything tech – from phones to TVs to laptops to tablets to streaming services.",
       "matchedWords": {
         "1FebJojWdSNf": {
           "hits": 0,
@@ -1961,7 +1961,7 @@
       "hash": "e0zJilDZkUL4",
       "address": "https://www.cnet.com/editors-choice/",
       "title": "Editors' Choice - CNET",
-      "snippet": "Router for Gamers\nSimpliSafe Home Security Review 2024: Still a DIY Standout\nEditors’ Choice 2024: Best Tech Gifts\nEditors’ Choice 2024: AI, AR and VR, Smart Home and Security\nEditors’ Choice 2024: Best AI and Future Tech\nDuolingo Review: A Fun, Functional, Fresh Approach to Learning a Language",
+      "snippet": "LATEST STORIES\nI Tested the iPhone 17 Pro Max. It’s Part Midlife Crisis and Part Battery-Life King\nAsus RT-AX86U Review: The Best Wi-Fi Router for Gamers\nSimpliSafe Home Security Review 2024: Still a DIY Standout\nEditors’ Choice 2024: Best Tech Gifts",
       "matchedWords": {
         "1FebJojWdSNf": {
           "hits": 0,
@@ -1990,7 +1990,7 @@
       "hash": "vIni89DZkUL4",
       "address": "https://www.cnet.com/tech/computing/best-budget-laptop/",
       "title": "Best Budget Laptop for 2026 - Cheap Computers Under $500",
-      "snippet": "my current favorites.\nWhat’s the best cheap laptop overall?\nOur favorite budget laptop is Apple’s new MacBook Neo, the perfect laptop for student budgets. I’m willing to live without most of the features it lacks because of its low price, which is $500 less than the cheapest MacBook Air.\nFor an",
+      "snippet": "Last, budget laptop shoppers should consider a Chromebook — especially if much of what you do is on the web — and check out my list of best Chromebooks.\nBest cheap laptops of 2026\nMatt Elliott/CNET\nBest budget laptop overall\nMacBook Neo\n8.3\nPremium MacBook look and feel at much lower cost",
       "matchedWords": {
         "1FebJojWdSNf": {
           "hits": 12,
@@ -2019,7 +2019,7 @@
       "hash": "wNGurdDZkUL4",
       "address": "https://www.cnet.com/home/security/best-home-security-system/",
       "title": "Best Home Security Systems in 2026: Expert Tested for Your Home - CNET",
-      "snippet": "router (we prefer picking out our own routers).\nAmazon’s Ring devices include excellent Alexa support, and DIYers will like the largely intuitive management app (if you’ve set up any smart devices before, these app controls will come easily to you). In addition to direct controls and sensor",
+      "snippet": "How do I set up a home security system?\nSome home security systems include professional installation, so the company sets everything up for you. Others, especially DIY options, require self-installation — but they typically come with clear instructions and are easy to set up.",
       "matchedWords": {
         "1FebJojWdSNf": {
           "hits": 10,
@@ -2048,7 +2048,7 @@
       "hash": "6Bk1YdDZkUL4",
       "address": "https://www.cnet.com/home/internet/best-fiber-internet-providers/",
       "title": "Best Fiber Internet Providers for 2026 - CNET",
-      "snippet": "How our sort order works How it works\nSort by\nResults for: 90001\nBest fiber internet provider overall\n300 - 5,000Mbps $55 - $250 per month\nGet T-Mobile Fiber starting at $35/mo with AutoPay\n500 - 2,000Mbps $65 - $95 per month\nBest cheap fiber internet plan\n500 - 5,000Mbps $50 - $155 per month\nBest",
+      "snippet": "OUR PICKS\nHow our sort order works How it works\nSort by\nResults for: 90001\nBest fiber internet provider overall\n300 - 5,000Mbps $55 - $250 per month\nGet T-Mobile Fiber starting at $35/mo with AutoPay\n500 - 2,000Mbps $65 - $95 per month\nBest cheap fiber internet plan",
       "matchedWords": {
         "1FebJojWdSNf": {
           "hits": 0,
@@ -2077,7 +2077,7 @@
       "hash": "9b7tXdDZkUL4",
       "address": "https://www.cnet.com/home/internet/",
       "title": "Home Internet - CNET",
-      "snippet": "How to Check if T-Mobile Fiber Is Available at Your Address\nNow that the majority of American households have access to fiber internet, it’s easier than ever to find out if you can upgrade.\nBest ISPs of 2026: Our Top Picks Evaluated for Speed, Value and Price Transparency\nBeyond marketing fluff and",
+      "snippet": "You’re Probably Overpaying for Internet. Here’s How to Spot Hidden Fees\nHere’s the real reason your internet bill is so high — and what you can (and can’t) do about it.\n09/03/2026\nHow We Evaluate and Score ISPs at CNET",
       "matchedWords": {
         "1FebJojWdSNf": {
           "hits": 1,
@@ -2106,7 +2106,7 @@
       "hash": "_iJC9lDZkUL4",
       "address": "https://www.cnet.com/news/",
       "title": "News - CNET",
-      "snippet": "iPhone Duo vs. Samsung Galaxy Z Fold 8: Battle of the Passport Foldables\nApple finally released its first foldable, and it's the same passport-size format as Samsung's recently released Z Fold 8.\n09/10/2026\nYou Can Now Buy the Trump Phone for $250 More Than Originally Priced\nTrump Mobile's T1 phone",
+      "snippet": "iPhone Duo vs. Samsung Galaxy Z Fold 8: Battle of the Passport Foldables\nApple finally released its first foldable, and it's the same passport-size format as Samsung's recently released Z Fold 8.\n09/10/2026\nYou Can Now Buy the Trump Phone for $250 More Than Originally Priced",
       "matchedWords": {
         "1FebJojWdSNf": {
           "hits": 0,
@@ -2135,7 +2135,7 @@
       "hash": "_wxyPdDZkUL4",
       "address": "https://www.cnet.com/home/internet/best-internet-providers/",
       "title": "Best ISPs of 2026: Our Top Picks Evaluated for Speed, Value and Price Transparency  - CNET",
-      "snippet": "Router opt-out available\nFast speeds for a value price\nLimited coverage in select cities across the US\nNo plans less than 1 gig available\nFeatured Deal\nOur experts have tested this product and selected it for this story. Its inclusion and description here solely reflect findings from our",
+      "snippet": "The only caveat with fiber is that it’s not as widely available as cable internet. If cable internet is available at your address, we recommend Xfinity, Spectrum and Sparklight.\nHow do I know what ISPs are available in my area?",
       "matchedWords": {
         "1FebJojWdSNf": {
           "hits": 5,
@@ -2164,7 +2164,7 @@
       "hash": "GxTNgsF20Rww",
       "address": "https://ma.tt/",
       "title": "Matt Mullenweg | Unlucky in Cards",
-      "snippet": "my heart and really boxed in and constrained. So from land, to the sea!\nSF Standard says “The kitchen table may be where Otis Redding wrote “(Sittin’ on) The Dock of the Bay.” I hope do a lot of blogging there.\nReal artists ship, right? Longevity is all about maintenance, and I’m looking forward to",
+      "snippet": "There’s also a #ceo Slack channel where anyone can drop in and request a meeting, which my esteemed colleague Damianne President did, and this morning we had an interesting chat that set my mind racing about how we might engineer happiness in the future.",
       "matchedWords": {
         "1FebJojWdSNf": {
           "hits": 4,
@@ -2193,7 +2193,7 @@
       "hash": "CjgsxsIyoLTx",
       "address": "https://planetpython.org/",
       "title": "Planet Python",
-      "snippet": "my work.\nThe thing is, I don’t have time to read them during the week. And on Saturday, when I do have time, I don’t use my computer. So I have a funny way of reading them:\nWhen a newsletter arrives, a filter automatically moves it into my “toprint” folder.\nMy very favorite newsletters are not only",
+      "snippet": "I’ll code by hand to do the same thing for my mind.\nA Real World Example\nBut let’s go back to how I code now, in late 2026. And let me give you an example of something I worked on last week and used successfully this weekend.\nIt’s not Python code. It’s a Google Sheets spreadsheet.",
       "matchedWords": {
         "1FebJojWdSNf": {
           "hits": 70,
@@ -2222,7 +2222,7 @@
       "hash": "AX7xBjRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Wikipedia:Help_desk",
       "title": "Wikipedia:Help desk - Wikipedia",
-      "snippet": "Do not provide your email address or any other contact information. Answers will be provided on this page only.\nIf your question is about a Wikipedia article, draft article, or other page on Wikipedia, tell us what it is!\nIf you are having an issue while editing, which editor are you using?\nCheck",
+      "snippet": "How do I find my account info and log in. ~2026-49018-19 (talk) 00:32, 10 September 2026 (UTC)Reply\n@~2026-49018-19: Does \"contribute\" refer to donations or edits? Donations are not linked to user accounts and you can donate without having an account.",
       "matchedWords": {
         "1FebJojWdSNf": {
           "hits": 42,
@@ -2251,7 +2251,7 @@
       "hash": "Ma72KjRvmBbx",
       "address": "https://en.wikipedia.org/wiki/ChromeOS",
       "title": "ChromeOS - Wikipedia",
-      "snippet": "how Nordic Choice Hotels chose to switch to ChromeOS Flex after a ransomware attack.[101]\nGoogle offers a list of supported devices on their support site.[102] Unsupported devices may not guarantee stability. The user will need a USB flash drive, a computer to create the installation media, and the",
+      "snippet": "\"Google Reveals 'Aluminium OS': Android-ChromeOS Merger\". Gadget Hacks. Archived from the original on December 1, 2025. Retrieved December 13, 2025.\n↑ bio, See full. \"You Got Your Phone OS in My Laptop! Here's How Android and ChromeOS Will Merge\". CNET.",
       "matchedWords": {
         "1FebJojWdSNf": {
           "hits": 6,
@@ -2280,7 +2280,7 @@
       "hash": "gdFRUjRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Android_(software)",
       "title": "Android (operating system) - Wikipedia",
-      "snippet": "bit—how should I say—a bit inscrutable in the matter, I'll say\".[41]\n2010s\nIn 2010, Google launched its Nexus series of devices, a lineup in which Google partnered with different device manufacturers to produce new devices and introduce new Android versions. The series was described as having",
+      "snippet": "\"Android's new desktop windowing mode has changed how I use my tablet\". Android Authority. Retrieved March 16, 2026.\n↑ Triggs, Robert (March 3, 2026). \"Your Pixel can now double up as a full Android PC with nothing more than a USB-C cable\". Android Authority. Retrieved March 16, 2026.",
       "matchedWords": {
         "1FebJojWdSNf": {
           "hits": 12,
@@ -2309,7 +2309,7 @@
       "hash": "iPDu4jRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Transmission_Control_Protocol",
       "title": "Transmission Control Protocol - Wikipedia",
-      "snippet": "do this through a three-way handshake procedure.[2] The server must be listening (passive open) for connection requests from clients before a connection is established. The three-way handshake (active open), retransmission, and error detection add to reliability but lengthen latency. Applications",
+      "snippet": "TCP is connection-oriented, meaning that sender and receiver first need to establish a connection based on agreed parameters; they do this through a three-way handshake procedure.[2] The server must be listening (passive open) for connection requests from clients before a connection is established.",
       "matchedWords": {
         "1FebJojWdSNf": {
           "hits": 8,
@@ -2338,7 +2338,7 @@
       "hash": "5DZ6TjRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Android_(operating_system)",
       "title": "Android (operating system) - Wikipedia",
-      "snippet": "bit—how should I say—a bit inscrutable in the matter, I'll say\".[41]\n2010s\nIn 2010, Google launched its Nexus series of devices, a lineup in which Google partnered with different device manufacturers to produce new devices and introduce new Android versions. The series was described as having",
+      "snippet": "\"Android's new desktop windowing mode has changed how I use my tablet\". Android Authority. Retrieved March 16, 2026.\n↑ Triggs, Robert (March 3, 2026). \"Your Pixel can now double up as a full Android PC with nothing more than a USB-C cable\". Android Authority. Retrieved March 16, 2026.",
       "matchedWords": {
         "1FebJojWdSNf": {
           "hits": 12,
@@ -2396,7 +2396,7 @@
       "hash": "a0zSCMS6MKD4",
       "address": "https://github.com/orgs/community/discussions/137746",
       "title": "🌟 Put Your First Project in the Spotlight! · community · Discussion #137746 · GitHub",
-      "snippet": "how concepts connect and where individual topics fit within the broader knowledge landscape.\nThe goal is to make learning:\nVisual\nStructured\nContextual\nDiscoverable\nScalable\nLive Demo\nKnowledge Explorer\nhttps://rishibharaj.github.io/Knowledge-Explorer/\nExplore the current AI Knowledge Pack through",
+      "snippet": "Knowledge Explorer takes a different approach.\nInstead of navigating content linearly, learners explore subjects visually, understanding how concepts connect and where individual topics fit within the broader knowledge landscape.\nThe goal is to make learning:\nVisual\nStructured\nContextual",
       "matchedWords": {
         "1FebJojWdSNf": {
           "hits": 0,
@@ -2425,7 +2425,7 @@
       "hash": "-p2w3taoSn1x",
       "address": "https://en.planet.wikimedia.org/",
       "title": "en.planet.wikimedia.org",
-      "snippet": "how to make Wikimania even better and are inspired to bring many of those ideas to life in 2027.\nAnd now for a closer look at what the movement and the media are saying.\nMovement News\nThrough the eyes of first timers\nOne of the most-read articles about a first-timer attending Wikimania, is “After",
+      "snippet": "If we were really going to do it, where, and how? The discussion ran through the night. What came out of it was Ganggyeong — or more precisely, the Ganggyeong Institute of History and Culture. The concrete arguments for Ganggyeong were these:",
       "matchedWords": {
         "1FebJojWdSNf": {
           "hits": 20,
@@ -2454,7 +2454,7 @@
       "hash": "efqyGlguIfG5",
       "address": "https://www.nbcsports.com/frequently-asked-questions",
       "title": "FAQ | Frequently Asked Questions - NBC sports - NBC Sports",
-      "snippet": "router with an Ethernet cable for a more stable connection.\n4. Ensure third-party cookies are unblocked for the browser you’re using.\nIf you continue to experience issues, please contact our customer support team for further assistance.\nNBCUniversal Profile allows you to personalize your experience",
+      "snippet": "If using wireless internet (Wi-Fi), connect directly to your modem or router with an Ethernet cable for a more stable connection.\n4. Ensure third-party cookies are unblocked for the browser you’re using.",
       "matchedWords": {
         "1FebJojWdSNf": {
           "hits": 0,
@@ -2483,7 +2483,7 @@
       "hash": "zjU19-2Sk-24",
       "address": "https://www.dexerto.com/archive/2024/1/",
       "title": "Archive - January 2024 - Dexerto",
-      "snippet": "How to watch Attack on Titan in order: A chronological guide\nHideo Kojima locks in Metal Gear Solid spiritual successor for PS6\nHow to find Clauncher \u0026 Clawitzer in Pokemon Scarlet \u0026 Violet\nEverything we saw at the PlayStation State of Play January 2024\nHow to find Gulpin \u0026 Swalot in Pokemon",
+      "snippet": "Why Molly Mae Hague was banned from kissing on Love Island: All Stars\nWarzone streamer accused of hacking after hitting the “craziest” quick-scope shot\nMy Demon explained: How did Do-hee’s parents die?\nVPR’s Scheana Shay accuses Nick Viall’s fiance of being on his payroll",
       "matchedWords": {
         "1FebJojWdSNf": {
           "hits": 27,
@@ -2512,7 +2512,7 @@
       "hash": "GxTNgsF20Rww",
       "address": "https://ma.tt/",
       "title": "Matt Mullenweg | Unlucky in Cards",
-      "snippet": "my heart and really boxed in and constrained. So from land, to the sea!\nSF Standard says “The kitchen table may be where Otis Redding wrote “(Sittin’ on) The Dock of the Bay.” I hope do a lot of blogging there.\nReal artists ship, right? Longevity is all about maintenance, and I’m looking forward to",
+      "snippet": "There’s also a #ceo Slack channel where anyone can drop in and request a meeting, which my esteemed colleague Damianne President did, and this morning we had an interesting chat that set my mind racing about how we might engineer happiness in the future.",
       "matchedWords": {
         "1FebJojWdSNf": {
           "hits": 4,
@@ -2570,7 +2570,7 @@
       "hash": "CjgsxsIyoLTx",
       "address": "https://planetpython.org/",
       "title": "Planet Python",
-      "snippet": "my work.\nThe thing is, I don’t have time to read them during the week. And on Saturday, when I do have time, I don’t use my computer. So I have a funny way of reading them:\nWhen a newsletter arrives, a filter automatically moves it into my “toprint” folder.\nMy very favorite newsletters are not only",
+      "snippet": "I’ll code by hand to do the same thing for my mind.\nA Real World Example\nBut let’s go back to how I code now, in late 2026. And let me give you an example of something I worked on last week and used successfully this weekend.\nIt’s not Python code. It’s a Google Sheets spreadsheet.",
       "matchedWords": {
         "1FebJojWdSNf": {
           "hits": 70,
@@ -2599,7 +2599,7 @@
       "hash": "AX7xBjRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Wikipedia:Help_desk",
       "title": "Wikipedia:Help desk - Wikipedia",
-      "snippet": "Do not provide your email address or any other contact information. Answers will be provided on this page only.\nIf your question is about a Wikipedia article, draft article, or other page on Wikipedia, tell us what it is!\nIf you are having an issue while editing, which editor are you using?\nCheck",
+      "snippet": "How do I find my account info and log in. ~2026-49018-19 (talk) 00:32, 10 September 2026 (UTC)Reply\n@~2026-49018-19: Does \"contribute\" refer to donations or edits? Donations are not linked to user accounts and you can donate without having an account.",
       "matchedWords": {
         "1FebJojWdSNf": {
           "hits": 42,
@@ -2628,7 +2628,7 @@
       "hash": "D4lABzaS0qdw",
       "address": "https://planet.debian.org/",
       "title": "Planet Debian",
-      "snippet": "how crypto/internal/fips140/sha256 uses AVX2. While Avo generator code definitely is higher-level than hand-written assembly, it is still too close to assembly for my taste.\nUse a C library via cgo so gcc or clang compiles SIMD code. Debian Code Search used to use the powturbo/TurboPFor C library",
+      "snippet": "Once you identified the slow part of a program, how do you know why it’s slow?\nTo learn more about the specific bottlenecks your program encounters, you can consult your CPU’s hardware performance counters.",
       "matchedWords": {
         "1FebJojWdSNf": {
           "hits": 8,
@@ -2657,7 +2657,7 @@
       "hash": "-p2w3taoSn1x",
       "address": "https://en.planet.wikimedia.org/",
       "title": "en.planet.wikimedia.org",
-      "snippet": "how to make Wikimania even better and are inspired to bring many of those ideas to life in 2027.\nAnd now for a closer look at what the movement and the media are saying.\nMovement News\nThrough the eyes of first timers\nOne of the most-read articles about a first-timer attending Wikimania, is “After",
+      "snippet": "If we were really going to do it, where, and how? The discussion ran through the night. What came out of it was Ganggyeong — or more precisely, the Ganggyeong Institute of History and Culture. The concrete arguments for Ganggyeong were these:",
       "matchedWords": {
         "1FebJojWdSNf": {
           "hits": 20,
@@ -2744,7 +2744,7 @@
       "hash": "nWMgE7yp6WtY",
       "address": "http://tantek.com/?skin=vtx",
       "title": "Tantek Çelik",
-      "snippet": "do this by typing \"https://web.archive.org/save/\" into the browser address bar and then pasting the link I want to save in the archive.\nAgain this is not really a “search engine”, however Firefox’s search engine shortcuts simplifies this greatly (less typing).\nHere’s how to create a save shortcut",
+      "snippet": "Because when it is, students cannot do it.”\n* https://www.reddit.com/r/Professors/comments/1vkw6by/how_do_you_know_an_assignment_is_ai_proof_because/\n“I assign a profile essay. Have for 30 years. Student interviews a person, records it, writes a paper based off the recording.",
       "matchedWords": {
         "1FebJojWdSNf": {
           "hits": 29,

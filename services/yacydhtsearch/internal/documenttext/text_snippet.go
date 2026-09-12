@@ -3,6 +3,8 @@ package documenttext
 import (
 	"strings"
 	"unicode"
+
+	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
 const (
@@ -10,25 +12,16 @@ const (
 	noWordBoundaryInTheText  = -1
 )
 
-func snippetOf(pageText string, placeOfTheFirstQueryWord int, lengthCeiling int) string {
-	return textCutAtAWordBoundary(
-		pageText[placeOfTheWrittenWordAround(pageText, placeOfTheFirstQueryWord):],
-		lengthCeiling,
-	)
-}
+func snippetOf(pageText string, queryWords []yacymodel.Hash, lengthCeiling int) string {
+	bestPassage := bestPassageForTheQueryWords(queryWords, pageText, lengthCeiling)
 
-func placeOfTheWrittenWordAround(text string, placeOfTheWord int) int {
-	if placeOfTheWord == noQueryWordInTheText {
-		return placeOfTheStartOfTheText
-	}
-
-	return strings.LastIndexFunc(text[:placeOfTheWord], unicode.IsSpace) + 1
+	return textCutAtAWordBoundary(strings.TrimSpace(bestPassage.text), lengthCeiling)
 }
 
 func textCutAtAWordBoundary(text string, lengthCeiling int) string {
 	placeOfTheCut := placeAfterTheLetters(text, lengthCeiling)
 	if placeOfTheCut == len(text) {
-		return strings.TrimSpace(text)
+		return text
 	}
 	cutText := text[:placeOfTheCut]
 	placeOfTheLastWordBoundary := strings.LastIndexFunc(cutText, unicode.IsSpace)

@@ -1,13 +1,13 @@
 {
   "query": "yacy peer to peer search",
-  "recordedAt": "2026-09-12T00:21:01Z",
+  "recordedAt": "2026-09-12T07:52:15Z",
   "itemsInTheOrderOfEachAnswer": [
     [
       {
         "hash": "dq1cqsc7o6d4",
         "address": "https://yacy.space/",
         "title": "YaCy Instances",
-        "snippet": "YaCy peer\nSearch globally through yacy.space. Results are fetched remotely; local-only mode is reserved for administration.\nSearch the decentralized web\nSafe search\nWeb searchImage search\nYaCy instancesSubmit a URLAdd YaCy to your browser\nRemote by default\nPublic searches use global federation,",
+        "snippet": "Managed public YaCy peer\nSearch globally through yacy.space. Results are fetched remotely; local-only mode is reserved for administration.\nSearch the decentralized web\nSafe search\nWeb searchImage search\nYaCy instancesSubmit a URLAdd YaCy to your browser\nRemote by default",
         "matchedWords": {
           "-P5otMTLoZfv": {
             "hits": 2,
@@ -34,7 +34,7 @@
         "hash": "TJnRLsc7o6d4",
         "address": "https://yacy.space/submit-url.php",
         "title": "Submit a URL to YaCy (Single Page)",
-        "snippet": "yacy.space peer and the decentralized YaCy search network.\nPage URL\nHow URL submission works\nyacy.space validates that the address resolves to a public HTTP or HTTPS page.\nThe local YaCy peer queues that exact URL with crawl depth zero, so linked pages are not automatically followed.\nAfter",
+        "snippet": "Home Submit a URL\nRequest indexing of one public web page through the yacy.space peer and the decentralized YaCy search network.\nPage URL\nHow URL submission works\nyacy.space validates that the address resolves to a public HTTP or HTTPS page.",
         "matchedWords": {
           "-P5otMTLoZfv": {
             "hits": 2,
@@ -61,7 +61,7 @@
         "hash": "TJnRLsc7o6d4",
         "address": "https://yacy.space/submit-url.php",
         "title": "Submit a URL to YaCy (Single Page)",
-        "snippet": "yacy.space peer and the decentralized YaCy search network.\nPage URL\nHow URL submission works\nyacy.space validates that the address resolves to a public HTTP or HTTPS page.\nThe local YaCy peer queues that exact URL with crawl depth zero, so linked pages are not automatically followed.\nAfter",
+        "snippet": "Home Submit a URL\nRequest indexing of one public web page through the yacy.space peer and the decentralized YaCy search network.\nPage URL\nHow URL submission works\nyacy.space validates that the address resolves to a public HTTP or HTTPS page.",
         "matchedWords": {
           "-P5otMTLoZfv": {
             "hits": 2,
@@ -88,7 +88,7 @@
         "hash": "dq1cqsc7o6d4",
         "address": "https://yacy.space/",
         "title": "YaCy Instances",
-        "snippet": "YaCy peer\nSearch globally through yacy.space. Results are fetched remotely; local-only mode is reserved for administration.\nSearch the decentralized web\nSafe search\nWeb searchImage search\nYaCy instancesSubmit a URLAdd YaCy to your browser\nRemote by default\nPublic searches use global federation,",
+        "snippet": "Managed public YaCy peer\nSearch globally through yacy.space. Results are fetched remotely; local-only mode is reserved for administration.\nSearch the decentralized web\nSafe search\nWeb searchImage search\nYaCy instancesSubmit a URLAdd YaCy to your browser\nRemote by default",
         "matchedWords": {
           "-P5otMTLoZfv": {
             "hits": 2,
@@ -115,7 +115,7 @@
         "hash": "TJnRLsc7o6d4",
         "address": "https://yacy.space/submit-url.php",
         "title": "Submit a URL to YaCy (Single Page)",
-        "snippet": "yacy.space peer and the decentralized YaCy search network.\nPage URL\nHow URL submission works\nyacy.space validates that the address resolves to a public HTTP or HTTPS page.\nThe local YaCy peer queues that exact URL with crawl depth zero, so linked pages are not automatically followed.\nAfter",
+        "snippet": "Home Submit a URL\nRequest indexing of one public web page through the yacy.space peer and the decentralized YaCy search network.\nPage URL\nHow URL submission works\nyacy.space validates that the address resolves to a public HTTP or HTTPS page.",
         "matchedWords": {
           "-P5otMTLoZfv": {
             "hits": 2,
@@ -142,7 +142,7 @@
         "hash": "dq1cqsc7o6d4",
         "address": "https://yacy.space/",
         "title": "YaCy Instances",
-        "snippet": "YaCy peer\nSearch globally through yacy.space. Results are fetched remotely; local-only mode is reserved for administration.\nSearch the decentralized web\nSafe search\nWeb searchImage search\nYaCy instancesSubmit a URLAdd YaCy to your browser\nRemote by default\nPublic searches use global federation,",
+        "snippet": "Managed public YaCy peer\nSearch globally through yacy.space. Results are fetched remotely; local-only mode is reserved for administration.\nSearch the decentralized web\nSafe search\nWeb searchImage search\nYaCy instancesSubmit a URLAdd YaCy to your browser\nRemote by default",
         "matchedWords": {
           "-P5otMTLoZfv": {
             "hits": 2,
@@ -194,7 +194,7 @@
         "hash": "dq1cqsc7o6d4",
         "address": "https://yacy.space/",
         "title": "YaCy Instances",
-        "snippet": "YaCy peer\nSearch globally through yacy.space. Results are fetched remotely; local-only mode is reserved for administration.\nSearch the decentralized web\nSafe search\nWeb searchImage search\nYaCy instancesSubmit a URLAdd YaCy to your browser\nRemote by default\nPublic searches use global federation,",
+        "snippet": "Managed public YaCy peer\nSearch globally through yacy.space. Results are fetched remotely; local-only mode is reserved for administration.\nSearch the decentralized web\nSafe search\nWeb searchImage search\nYaCy instancesSubmit a URLAdd YaCy to your browser\nRemote by default",
         "matchedWords": {
           "-P5otMTLoZfv": {
             "hits": 2,
@@ -221,61 +221,7 @@
         "hash": "dq1cqsc7o6d4",
         "address": "https://yacy.space/",
         "title": "YaCy Instances",
-        "snippet": "YaCy peer\nSearch globally through yacy.space. Results are fetched remotely; local-only mode is reserved for administration.\nSearch the decentralized web\nSafe search\nWeb searchImage search\nYaCy instancesSubmit a URLAdd YaCy to your browser\nRemote by default\nPublic searches use global federation,",
-        "matchedWords": {
-          "-P5otMTLoZfv": {
-            "hits": 2,
-            "textWords": 83
-          },
-          "AbbiA0S2iDXF": {
-            "hits": 1,
-            "textWords": 83
-          },
-          "BqlDxZ8zo0u1": {
-            "hits": 7,
-            "textWords": 83
-          },
-          "pIBmMGNtuISD": {
-            "hits": 6,
-            "textWords": 83
-          }
-        },
-        "queryPhraseHits": 1
-      }
-    ],
-    [
-      {
-        "hash": "D4lABzaS0qdw",
-        "address": "https://planet.debian.org/",
-        "title": "Planet Debian",
-        "snippet": "Search! This was made possible by Go’s recently introduced SIMD support, because now we can implement the TurboPFor integer compression format as efficiently — more efficiently, in fact, by using the newer AVX512 instruction set! — as the reference implementation.\nBackground: Why does DCS need a",
-        "matchedWords": {
-          "-P5otMTLoZfv": {
-            "hits": 0,
-            "textWords": 8109
-          },
-          "AbbiA0S2iDXF": {
-            "hits": 162,
-            "textWords": 8109
-          },
-          "BqlDxZ8zo0u1": {
-            "hits": 19,
-            "textWords": 8109
-          },
-          "pIBmMGNtuISD": {
-            "hits": 0,
-            "textWords": 8109
-          }
-        },
-        "queryPhraseHits": 0
-      }
-    ],
-    [
-      {
-        "hash": "dq1cqsc7o6d4",
-        "address": "https://yacy.space/",
-        "title": "YaCy Instances",
-        "snippet": "YaCy peer\nSearch globally through yacy.space. Results are fetched remotely; local-only mode is reserved for administration.\nSearch the decentralized web\nSafe search\nWeb searchImage search\nYaCy instancesSubmit a URLAdd YaCy to your browser\nRemote by default\nPublic searches use global federation,",
+        "snippet": "Managed public YaCy peer\nSearch globally through yacy.space. Results are fetched remotely; local-only mode is reserved for administration.\nSearch the decentralized web\nSafe search\nWeb searchImage search\nYaCy instancesSubmit a URLAdd YaCy to your browser\nRemote by default",
         "matchedWords": {
           "-P5otMTLoZfv": {
             "hits": 2,
@@ -302,7 +248,7 @@
         "hash": "D4lABzaS0qdw",
         "address": "https://planet.debian.org/",
         "title": "Planet Debian",
-        "snippet": "Search! This was made possible by Go’s recently introduced SIMD support, because now we can implement the TurboPFor integer compression format as efficiently — more efficiently, in fact, by using the newer AVX512 instruction set! — as the reference implementation.\nBackground: Why does DCS need a",
+        "snippet": "When searching, it is important to quickly decode these lists to answer the search query. However, there is a point of diminishing returns where the decoding speed, even though it can still be measurably improved quite a bit, no longer influences the overall query duration.",
         "matchedWords": {
           "-P5otMTLoZfv": {
             "hits": 0,
@@ -329,7 +275,61 @@
         "hash": "dq1cqsc7o6d4",
         "address": "https://yacy.space/",
         "title": "YaCy Instances",
-        "snippet": "YaCy peer\nSearch globally through yacy.space. Results are fetched remotely; local-only mode is reserved for administration.\nSearch the decentralized web\nSafe search\nWeb searchImage search\nYaCy instancesSubmit a URLAdd YaCy to your browser\nRemote by default\nPublic searches use global federation,",
+        "snippet": "Managed public YaCy peer\nSearch globally through yacy.space. Results are fetched remotely; local-only mode is reserved for administration.\nSearch the decentralized web\nSafe search\nWeb searchImage search\nYaCy instancesSubmit a URLAdd YaCy to your browser\nRemote by default",
+        "matchedWords": {
+          "-P5otMTLoZfv": {
+            "hits": 2,
+            "textWords": 83
+          },
+          "AbbiA0S2iDXF": {
+            "hits": 1,
+            "textWords": 83
+          },
+          "BqlDxZ8zo0u1": {
+            "hits": 7,
+            "textWords": 83
+          },
+          "pIBmMGNtuISD": {
+            "hits": 6,
+            "textWords": 83
+          }
+        },
+        "queryPhraseHits": 1
+      }
+    ],
+    [
+      {
+        "hash": "D4lABzaS0qdw",
+        "address": "https://planet.debian.org/",
+        "title": "Planet Debian",
+        "snippet": "When searching, it is important to quickly decode these lists to answer the search query. However, there is a point of diminishing returns where the decoding speed, even though it can still be measurably improved quite a bit, no longer influences the overall query duration.",
+        "matchedWords": {
+          "-P5otMTLoZfv": {
+            "hits": 0,
+            "textWords": 8109
+          },
+          "AbbiA0S2iDXF": {
+            "hits": 162,
+            "textWords": 8109
+          },
+          "BqlDxZ8zo0u1": {
+            "hits": 19,
+            "textWords": 8109
+          },
+          "pIBmMGNtuISD": {
+            "hits": 0,
+            "textWords": 8109
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "dq1cqsc7o6d4",
+        "address": "https://yacy.space/",
+        "title": "YaCy Instances",
+        "snippet": "Managed public YaCy peer\nSearch globally through yacy.space. Results are fetched remotely; local-only mode is reserved for administration.\nSearch the decentralized web\nSafe search\nWeb searchImage search\nYaCy instancesSubmit a URLAdd YaCy to your browser\nRemote by default",
         "matchedWords": {
           "-P5otMTLoZfv": {
             "hits": 2,
@@ -356,7 +356,7 @@
         "hash": "dq1cqsc7o6d4",
         "address": "https://yacy.space/",
         "title": "YaCy Instances",
-        "snippet": "YaCy peer\nSearch globally through yacy.space. Results are fetched remotely; local-only mode is reserved for administration.\nSearch the decentralized web\nSafe search\nWeb searchImage search\nYaCy instancesSubmit a URLAdd YaCy to your browser\nRemote by default\nPublic searches use global federation,",
+        "snippet": "Managed public YaCy peer\nSearch globally through yacy.space. Results are fetched remotely; local-only mode is reserved for administration.\nSearch the decentralized web\nSafe search\nWeb searchImage search\nYaCy instancesSubmit a URLAdd YaCy to your browser\nRemote by default",
         "matchedWords": {
           "-P5otMTLoZfv": {
             "hits": 2,
@@ -384,7 +384,7 @@
       "hash": "AeOqws55Qxow",
       "address": "https://yacy.net/.",
       "title": "Home - YaCy",
-      "snippet": "YaCy is free software for your own search engine.\nYaCy is free search engine software for local search, organization-wide search portals, and a decentralized peer-to-peer web index.\nChoose how you want to use YaCy\nRun YaCy locally, build a search portal for your organization, or join the",
+      "snippet": "YaCy is free software for your own search engine.\nYaCy is free search engine software for local search, organization-wide search portals, and a decentralized peer-to-peer web index.\nChoose how you want to use YaCy",
       "matchedWords": {
         "-P5otMTLoZfv": {
           "hits": 6,
@@ -409,7 +409,7 @@
       "hash": "ByKn9s55Qxow",
       "address": "https://yacy.net/demonstration_tutorial_screenshot/",
       "title": "Demo - YaCy",
-      "snippet": "YaCy Demonstration\nSee what YaCy looks like in practice: search results, crawling, configuration, monitoring, and a public demo instance.\nTry Demo Download YaCy\nScreenshots\nThe screenshots below follow the main YaCy workflows: search, crawl, analyze, configure, and monitor the peer-to-peer network.",
+      "snippet": "Search\nYaCy can search a local index, a portal index, or peer-to-peer data from the shared network. The result page is the main interface your users will see.\nSearch results using peer-to-peer data.\nCrawl\nBefore YaCy can return search results, it needs content in the index.",
       "matchedWords": {
         "-P5otMTLoZfv": {
           "hits": 12,
@@ -434,7 +434,7 @@
       "hash": "AeOqws55Qxow",
       "address": "https://yacy.net/.",
       "title": "Home - YaCy",
-      "snippet": "YaCy is free software for your own search engine.\nYaCy is free search engine software for local search, organization-wide search portals, and a decentralized peer-to-peer web index.\nChoose how you want to use YaCy\nRun YaCy locally, build a search portal for your organization, or join the",
+      "snippet": "YaCy is free software for your own search engine.\nYaCy is free search engine software for local search, organization-wide search portals, and a decentralized peer-to-peer web index.\nChoose how you want to use YaCy",
       "matchedWords": {
         "-P5otMTLoZfv": {
           "hits": 6,
@@ -459,7 +459,7 @@
       "hash": "ByKn9s55Qxow",
       "address": "https://yacy.net/demonstration_tutorial_screenshot/",
       "title": "Demo - YaCy",
-      "snippet": "YaCy Demonstration\nSee what YaCy looks like in practice: search results, crawling, configuration, monitoring, and a public demo instance.\nTry Demo Download YaCy\nScreenshots\nThe screenshots below follow the main YaCy workflows: search, crawl, analyze, configure, and monitor the peer-to-peer network.",
+      "snippet": "Search\nYaCy can search a local index, a portal index, or peer-to-peer data from the shared network. The result page is the main interface your users will see.\nSearch results using peer-to-peer data.\nCrawl\nBefore YaCy can return search results, it needs content in the index.",
       "matchedWords": {
         "-P5otMTLoZfv": {
           "hits": 12,
@@ -484,7 +484,7 @@
       "hash": "AeOqws55Qxow",
       "address": "https://yacy.net/.",
       "title": "Home - YaCy",
-      "snippet": "YaCy is free software for your own search engine.\nYaCy is free search engine software for local search, organization-wide search portals, and a decentralized peer-to-peer web index.\nChoose how you want to use YaCy\nRun YaCy locally, build a search portal for your organization, or join the",
+      "snippet": "YaCy is free software for your own search engine.\nYaCy is free search engine software for local search, organization-wide search portals, and a decentralized peer-to-peer web index.\nChoose how you want to use YaCy",
       "matchedWords": {
         "-P5otMTLoZfv": {
           "hits": 6,
@@ -509,7 +509,7 @@
       "hash": "ByKn9s55Qxow",
       "address": "https://yacy.net/demonstration_tutorial_screenshot/",
       "title": "Demo - YaCy",
-      "snippet": "YaCy Demonstration\nSee what YaCy looks like in practice: search results, crawling, configuration, monitoring, and a public demo instance.\nTry Demo Download YaCy\nScreenshots\nThe screenshots below follow the main YaCy workflows: search, crawl, analyze, configure, and monitor the peer-to-peer network.",
+      "snippet": "Search\nYaCy can search a local index, a portal index, or peer-to-peer data from the shared network. The result page is the main interface your users will see.\nSearch results using peer-to-peer data.\nCrawl\nBefore YaCy can return search results, it needs content in the index.",
       "matchedWords": {
         "-P5otMTLoZfv": {
           "hits": 12,
@@ -534,7 +534,7 @@
       "hash": "AeOqws55Qxow",
       "address": "https://yacy.net/.",
       "title": "Home - YaCy",
-      "snippet": "YaCy is free software for your own search engine.\nYaCy is free search engine software for local search, organization-wide search portals, and a decentralized peer-to-peer web index.\nChoose how you want to use YaCy\nRun YaCy locally, build a search portal for your organization, or join the",
+      "snippet": "YaCy is free software for your own search engine.\nYaCy is free search engine software for local search, organization-wide search portals, and a decentralized peer-to-peer web index.\nChoose how you want to use YaCy",
       "matchedWords": {
         "-P5otMTLoZfv": {
           "hits": 6,
@@ -559,7 +559,7 @@
       "hash": "ByKn9s55Qxow",
       "address": "https://yacy.net/demonstration_tutorial_screenshot/",
       "title": "Demo - YaCy",
-      "snippet": "YaCy Demonstration\nSee what YaCy looks like in practice: search results, crawling, configuration, monitoring, and a public demo instance.\nTry Demo Download YaCy\nScreenshots\nThe screenshots below follow the main YaCy workflows: search, crawl, analyze, configure, and monitor the peer-to-peer network.",
+      "snippet": "Search\nYaCy can search a local index, a portal index, or peer-to-peer data from the shared network. The result page is the main interface your users will see.\nSearch results using peer-to-peer data.\nCrawl\nBefore YaCy can return search results, it needs content in the index.",
       "matchedWords": {
         "-P5otMTLoZfv": {
           "hits": 12,
@@ -584,7 +584,7 @@
       "hash": "VVkiYmS6MKD4",
       "address": "https://github.com/pluja/awesome-privacy",
       "title": "GitHub - pluja/awesome-privacy: Awesome Privacy - A curated list of services and alternatives that respect your privacy because PRIVACY MATTERS.",
-      "snippet": "to privative services.\nAbout | Contributing | Quotes | Discussions\nImportant\nAnonymity, Privacy, and Security are often used interchangeably, but they actually represent distinct concepts. It is important to understand the differences between them. Read more in this section below.\nThe primary focus",
+      "snippet": "YaCy - Peer-to-peer decentralized search engine where every user runs a node and shares the index. Open source, GPL-2.0 licensed.\nBack to top 🔝\nSocial Networks and Platforms\nNote\nThe fediverse",
       "matchedWords": {
         "-P5otMTLoZfv": {
           "hits": 14,
@@ -609,7 +609,7 @@
       "hash": "tt-iHg2Rr_dw",
       "address": "https://docs.searxng.org/dev/engines/online/peertube.html",
       "title": "Peertube Engines — SearXNG Documentation (2024.8.2+e76a4f72e)",
-      "snippet": "to top Peertube Video¶\nPeertube and SepiaSearch do share (more or less) the same REST API and the schema of the JSON result is identical.\nsearx.engines.peertube.base_url = 'https://peer.tube'¶\nBase URL of the Peertube instance. A list of instances is available at:",
+      "snippet": "Back to top Peertube Video¶\nPeertube and SepiaSearch do share (more or less) the same REST API and the schema of the JSON result is identical.\nsearx.engines.peertube.base_url = 'https://peer.tube'¶\nBase URL of the Peertube instance. A list of instances is available at:",
       "matchedWords": {
         "-P5otMTLoZfv": {
           "hits": 1,
@@ -634,7 +634,7 @@
       "hash": "tt-iHg2Rr_dw",
       "address": "https://docs.searxng.org/dev/engines/online/peertube.html",
       "title": "Peertube Engines - SearXNG Documentation (2026.8.3+aa059419f)",
-      "snippet": "to top Peertube Video¶\nPeertube and SepiaSearch do share (more or less) the same REST API and the schema of the JSON result is identical.\nsearx.engines.peertube.base_url = 'https://peer.tube'¶\nBase URL of the Peertube instance. A list of instances is available at:",
+      "snippet": "Back to top Peertube Video¶\nPeertube and SepiaSearch do share (more or less) the same REST API and the schema of the JSON result is identical.\nsearx.engines.peertube.base_url = 'https://peer.tube'¶\nBase URL of the Peertube instance. A list of instances is available at:",
       "matchedWords": {
         "-P5otMTLoZfv": {
           "hits": 1,
@@ -659,7 +659,7 @@
       "hash": "AeOqws55Qxow",
       "address": "https://yacy.net/.",
       "title": "Home - YaCy",
-      "snippet": "YaCy is free software for your own search engine.\nYaCy is free search engine software for local search, organization-wide search portals, and a decentralized peer-to-peer web index.\nChoose how you want to use YaCy\nRun YaCy locally, build a search portal for your organization, or join the",
+      "snippet": "YaCy is free software for your own search engine.\nYaCy is free search engine software for local search, organization-wide search portals, and a decentralized peer-to-peer web index.\nChoose how you want to use YaCy",
       "matchedWords": {
         "-P5otMTLoZfv": {
           "hits": 6,
@@ -684,7 +684,7 @@
       "hash": "ByKn9s55Qxow",
       "address": "https://yacy.net/demonstration_tutorial_screenshot/",
       "title": "Demo - YaCy",
-      "snippet": "YaCy Demonstration\nSee what YaCy looks like in practice: search results, crawling, configuration, monitoring, and a public demo instance.\nTry Demo Download YaCy\nScreenshots\nThe screenshots below follow the main YaCy workflows: search, crawl, analyze, configure, and monitor the peer-to-peer network.",
+      "snippet": "Search\nYaCy can search a local index, a portal index, or peer-to-peer data from the shared network. The result page is the main interface your users will see.\nSearch results using peer-to-peer data.\nCrawl\nBefore YaCy can return search results, it needs content in the index.",
       "matchedWords": {
         "-P5otMTLoZfv": {
           "hits": 12,
@@ -709,7 +709,7 @@
       "hash": "ByKn9s55Qxow",
       "address": "https://yacy.net/demonstration_tutorial_screenshot/",
       "title": "Demo - YaCy",
-      "snippet": "YaCy Demonstration\nSee what YaCy looks like in practice: search results, crawling, configuration, monitoring, and a public demo instance.\nTry Demo Download YaCy\nScreenshots\nThe screenshots below follow the main YaCy workflows: search, crawl, analyze, configure, and monitor the peer-to-peer network.",
+      "snippet": "Search\nYaCy can search a local index, a portal index, or peer-to-peer data from the shared network. The result page is the main interface your users will see.\nSearch results using peer-to-peer data.\nCrawl\nBefore YaCy can return search results, it needs content in the index.",
       "matchedWords": {
         "-P5otMTLoZfv": {
           "hits": 12,
@@ -734,7 +734,7 @@
       "hash": "tt-iHg2Rr_dw",
       "address": "https://docs.searxng.org/dev/engines/online/peertube.html",
       "title": "Peertube Engines — SearXNG Documentation (2025.7.29+6b9e12e4c)",
-      "snippet": "to top Peertube Video¶\nPeertube and SepiaSearch do share (more or less) the same REST API and the schema of the JSON result is identical.\nsearx.engines.peertube.base_url = 'https://peer.tube'¶\nBase URL of the Peertube instance. A list of instances is available at:",
+      "snippet": "Back to top Peertube Video¶\nPeertube and SepiaSearch do share (more or less) the same REST API and the schema of the JSON result is identical.\nsearx.engines.peertube.base_url = 'https://peer.tube'¶\nBase URL of the Peertube instance. A list of instances is available at:",
       "matchedWords": {
         "-P5otMTLoZfv": {
           "hits": 1,
@@ -759,7 +759,7 @@
       "hash": "ByKn9s55Qxow",
       "address": "https://yacy.net/demonstration_tutorial_screenshot/",
       "title": "Demo - YaCy",
-      "snippet": "YaCy Demonstration\nSee what YaCy looks like in practice: search results, crawling, configuration, monitoring, and a public demo instance.\nTry Demo Download YaCy\nScreenshots\nThe screenshots below follow the main YaCy workflows: search, crawl, analyze, configure, and monitor the peer-to-peer network.",
+      "snippet": "Search\nYaCy can search a local index, a portal index, or peer-to-peer data from the shared network. The result page is the main interface your users will see.\nSearch results using peer-to-peer data.\nCrawl\nBefore YaCy can return search results, it needs content in the index.",
       "matchedWords": {
         "-P5otMTLoZfv": {
           "hits": 12,
@@ -784,7 +784,7 @@
       "hash": "AeOqws55Qxow",
       "address": "https://yacy.net/.",
       "title": "Home - YaCy",
-      "snippet": "YaCy is free software for your own search engine.\nYaCy is free search engine software for local search, organization-wide search portals, and a decentralized peer-to-peer web index.\nChoose how you want to use YaCy\nRun YaCy locally, build a search portal for your organization, or join the",
+      "snippet": "YaCy is free software for your own search engine.\nYaCy is free search engine software for local search, organization-wide search portals, and a decentralized peer-to-peer web index.\nChoose how you want to use YaCy",
       "matchedWords": {
         "-P5otMTLoZfv": {
           "hits": 6,
@@ -809,7 +809,7 @@
       "hash": "VVkiYmS6MKD4",
       "address": "https://github.com/pluja/awesome-privacy",
       "title": "GitHub - pluja/awesome-privacy: Awesome Privacy - A curated list of services and alternatives that respect your privacy because PRIVACY MATTERS.",
-      "snippet": "to privative services.\nAbout | Contributing | Quotes | Discussions\nImportant\nAnonymity, Privacy, and Security are often used interchangeably, but they actually represent distinct concepts. It is important to understand the differences between them. Read more in this section below.\nThe primary focus",
+      "snippet": "YaCy - Peer-to-peer decentralized search engine where every user runs a node and shares the index. Open source, GPL-2.0 licensed.\nBack to top 🔝\nSocial Networks and Platforms\nNote\nThe fediverse",
       "matchedWords": {
         "-P5otMTLoZfv": {
           "hits": 14,
@@ -834,7 +834,7 @@
       "hash": "tt-iHg2Rr_dw",
       "address": "https://docs.searxng.org/dev/engines/online/peertube.html",
       "title": "Peertube Engines — SearXNG Documentation (2026.3.28+e58516daf)",
-      "snippet": "to top Peertube Video¶\nPeertube and SepiaSearch do share (more or less) the same REST API and the schema of the JSON result is identical.\nsearx.engines.peertube.base_url = 'https://peer.tube'¶\nBase URL of the Peertube instance. A list of instances is available at:",
+      "snippet": "Back to top Peertube Video¶\nPeertube and SepiaSearch do share (more or less) the same REST API and the schema of the JSON result is identical.\nsearx.engines.peertube.base_url = 'https://peer.tube'¶\nBase URL of the Peertube instance. A list of instances is available at:",
       "matchedWords": {
         "-P5otMTLoZfv": {
           "hits": 1,
@@ -859,7 +859,7 @@
       "hash": "AeOqws55Qxow",
       "address": "https://yacy.net/.",
       "title": "Home - YaCy",
-      "snippet": "YaCy is free software for your own search engine.\nYaCy is free search engine software for local search, organization-wide search portals, and a decentralized peer-to-peer web index.\nChoose how you want to use YaCy\nRun YaCy locally, build a search portal for your organization, or join the",
+      "snippet": "YaCy is free software for your own search engine.\nYaCy is free search engine software for local search, organization-wide search portals, and a decentralized peer-to-peer web index.\nChoose how you want to use YaCy",
       "matchedWords": {
         "-P5otMTLoZfv": {
           "hits": 6,
@@ -884,7 +884,7 @@
       "hash": "ByKn9s55Qxow",
       "address": "https://yacy.net/demonstration_tutorial_screenshot/",
       "title": "Demo - YaCy",
-      "snippet": "YaCy Demonstration\nSee what YaCy looks like in practice: search results, crawling, configuration, monitoring, and a public demo instance.\nTry Demo Download YaCy\nScreenshots\nThe screenshots below follow the main YaCy workflows: search, crawl, analyze, configure, and monitor the peer-to-peer network.",
+      "snippet": "Search\nYaCy can search a local index, a portal index, or peer-to-peer data from the shared network. The result page is the main interface your users will see.\nSearch results using peer-to-peer data.\nCrawl\nBefore YaCy can return search results, it needs content in the index.",
       "matchedWords": {
         "-P5otMTLoZfv": {
           "hits": 12,
@@ -909,7 +909,7 @@
       "hash": "VVkiYmS6MKD4",
       "address": "https://github.com/pluja/awesome-privacy",
       "title": "GitHub - pluja/awesome-privacy: Awesome Privacy - A curated list of services and alternatives that respect your privacy because PRIVACY MATTERS.",
-      "snippet": "to privative services.\nAbout | Contributing | Quotes | Discussions\nImportant\nAnonymity, Privacy, and Security are often used interchangeably, but they actually represent distinct concepts. It is important to understand the differences between them. Read more in this section below.\nThe primary focus",
+      "snippet": "YaCy - Peer-to-peer decentralized search engine where every user runs a node and shares the index. Open source, GPL-2.0 licensed.\nBack to top 🔝\nSocial Networks and Platforms\nNote\nThe fediverse",
       "matchedWords": {
         "-P5otMTLoZfv": {
           "hits": 14,
@@ -934,7 +934,7 @@
       "hash": "tt-iHg2Rr_dw",
       "address": "https://docs.searxng.org/dev/engines/online/peertube.html",
       "title": "Peertube Engines - SearXNG Documentation (2026.7.12+c19d86faa)",
-      "snippet": "to top Peertube Video¶\nPeertube and SepiaSearch do share (more or less) the same REST API and the schema of the JSON result is identical.\nsearx.engines.peertube.base_url = 'https://peer.tube'¶\nBase URL of the Peertube instance. A list of instances is available at:",
+      "snippet": "Back to top Peertube Video¶\nPeertube and SepiaSearch do share (more or less) the same REST API and the schema of the JSON result is identical.\nsearx.engines.peertube.base_url = 'https://peer.tube'¶\nBase URL of the Peertube instance. A list of instances is available at:",
       "matchedWords": {
         "-P5otMTLoZfv": {
           "hits": 1,
@@ -959,7 +959,7 @@
       "hash": "tt-iHg2Rr_dw",
       "address": "https://docs.searxng.org/dev/engines/online/peertube.html",
       "title": "Peertube Engines - SearXNG Documentation (2026.8.3+aa059419f)",
-      "snippet": "to top Peertube Video¶\nPeertube and SepiaSearch do share (more or less) the same REST API and the schema of the JSON result is identical.\nsearx.engines.peertube.base_url = 'https://peer.tube'¶\nBase URL of the Peertube instance. A list of instances is available at:",
+      "snippet": "Back to top Peertube Video¶\nPeertube and SepiaSearch do share (more or less) the same REST API and the schema of the JSON result is identical.\nsearx.engines.peertube.base_url = 'https://peer.tube'¶\nBase URL of the Peertube instance. A list of instances is available at:",
       "matchedWords": {
         "-P5otMTLoZfv": {
           "hits": 1,
@@ -984,7 +984,7 @@
       "hash": "AeOqws55Qxow",
       "address": "https://yacy.net/.",
       "title": "Home - YaCy",
-      "snippet": "YaCy is free software for your own search engine.\nYaCy is free search engine software for local search, organization-wide search portals, and a decentralized peer-to-peer web index.\nChoose how you want to use YaCy\nRun YaCy locally, build a search portal for your organization, or join the",
+      "snippet": "YaCy is free software for your own search engine.\nYaCy is free search engine software for local search, organization-wide search portals, and a decentralized peer-to-peer web index.\nChoose how you want to use YaCy",
       "matchedWords": {
         "-P5otMTLoZfv": {
           "hits": 6,
@@ -1009,7 +1009,7 @@
       "hash": "ByKn9s55Qxow",
       "address": "https://yacy.net/demonstration_tutorial_screenshot/",
       "title": "Demo - YaCy",
-      "snippet": "YaCy Demonstration\nSee what YaCy looks like in practice: search results, crawling, configuration, monitoring, and a public demo instance.\nTry Demo Download YaCy\nScreenshots\nThe screenshots below follow the main YaCy workflows: search, crawl, analyze, configure, and monitor the peer-to-peer network.",
+      "snippet": "Search\nYaCy can search a local index, a portal index, or peer-to-peer data from the shared network. The result page is the main interface your users will see.\nSearch results using peer-to-peer data.\nCrawl\nBefore YaCy can return search results, it needs content in the index.",
       "matchedWords": {
         "-P5otMTLoZfv": {
           "hits": 12,
@@ -1034,7 +1034,7 @@
       "hash": "ByKn9s55Qxow",
       "address": "https://yacy.net/demonstration_tutorial_screenshot/",
       "title": "Demo - YaCy",
-      "snippet": "YaCy Demonstration\nSee what YaCy looks like in practice: search results, crawling, configuration, monitoring, and a public demo instance.\nTry Demo Download YaCy\nScreenshots\nThe screenshots below follow the main YaCy workflows: search, crawl, analyze, configure, and monitor the peer-to-peer network.",
+      "snippet": "Search\nYaCy can search a local index, a portal index, or peer-to-peer data from the shared network. The result page is the main interface your users will see.\nSearch results using peer-to-peer data.\nCrawl\nBefore YaCy can return search results, it needs content in the index.",
       "matchedWords": {
         "-P5otMTLoZfv": {
           "hits": 12,
@@ -1059,7 +1059,7 @@
       "hash": "tt-iHg2Rr_dw",
       "address": "https://docs.searxng.org/dev/engines/online/peertube.html",
       "title": "Peertube Engines - SearXNG Documentation (2026.8.4+c63835bd2)",
-      "snippet": "to top Peertube Video¶\nPeertube and SepiaSearch do share (more or less) the same REST API and the schema of the JSON result is identical.\nsearx.engines.peertube.base_url = 'https://peer.tube'¶\nBase URL of the Peertube instance. A list of instances is available at:",
+      "snippet": "Back to top Peertube Video¶\nPeertube and SepiaSearch do share (more or less) the same REST API and the schema of the JSON result is identical.\nsearx.engines.peertube.base_url = 'https://peer.tube'¶\nBase URL of the Peertube instance. A list of instances is available at:",
       "matchedWords": {
         "-P5otMTLoZfv": {
           "hits": 1,
@@ -1084,7 +1084,7 @@
       "hash": "VVkiYmS6MKD4",
       "address": "https://github.com/pluja/awesome-privacy",
       "title": "GitHub - pluja/awesome-privacy: Awesome Privacy - A curated list of services and alternatives that respect your privacy because PRIVACY MATTERS. · GitHub",
-      "snippet": "to privative services.\nAbout | Contributing | Quotes | Discussions\nImportant\nAnonymity, Privacy, and Security are often used interchangeably, but they actually represent distinct concepts. It is important to understand the differences between them. Read more in this section below.\nThe primary focus",
+      "snippet": "YaCy - Peer-to-peer decentralized search engine where every user runs a node and shares the index. Open source, GPL-2.0 licensed.\nBack to top 🔝\nSocial Networks and Platforms\nNote\nThe fediverse",
       "matchedWords": {
         "-P5otMTLoZfv": {
           "hits": 14,

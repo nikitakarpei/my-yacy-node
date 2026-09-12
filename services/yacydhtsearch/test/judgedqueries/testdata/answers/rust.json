@@ -1,13 +1,13 @@
 {
   "query": "rust",
-  "recordedAt": "2026-09-12T00:12:03Z",
+  "recordedAt": "2026-09-12T07:52:11Z",
   "itemsInTheOrderOfEachAnswer": [
     [
       {
         "hash": "7-snwDDZNRCx",
         "address": "https://doc.rust-lang.org/book/",
         "title": "The Rust Programming Language - The Rust Programming Language",
-        "snippet": "Rust Programming Language\nby Steve Klabnik, Carol Nichols, and Chris Krycho, with contributions from the Rust Community\nThis version of the text assumes you’re using Rust 1.90.0 (released 2025-09-18) or later with edition = \"2024\" in the Cargo.toml file of all projects to configure them to use Rust",
+        "snippet": "Keyboard shortcuts\nPress ← or → to navigate between chapters\nPress S or / to search in the book\nPress ? to show this help\nPress Esc to hide this help\nThe Rust Programming Language\nby Steve Klabnik, Carol Nichols, and Chris Krycho, with contributions from the Rust Community",
         "matchedWords": {
           "coEuMIc0Vdzu": {
             "hits": 9,
@@ -271,7 +271,7 @@
         "hash": "_GS0aoDZNRCx",
         "address": "https://doc.rust-lang.org/nightly/core/keyword.crate.html",
         "title": "crate - Rust",
-        "snippet": "Rust binary or library.\nThe primary use of the crate keyword is as a part of extern crate declarations, which are used to specify a dependency on a crate external to the one it’s declared in. Crates are the fundamental compilation unit of Rust code, and can be seen as libraries or projects. More",
+        "snippet": "Crates are the fundamental compilation unit of Rust code, and can be seen as libraries or projects. More can be read about crates in the Reference.\nⓘ\nextern crate rand; extern crate my_crate as thing; extern crate std; // implicitly added to the root of every Rust project",
         "matchedWords": {
           "coEuMIc0Vdzu": {
             "hits": 3,
@@ -323,7 +323,7 @@
         "hash": "OUkf3mgko1nx",
         "address": "https://users.rust-lang.org/t/twir-quote-of-the-week/328",
         "title": "TWiR quote of the week - community - The Rust Programming Language Forum",
-        "snippet": "Rust world. And also there is much more going on than I can follow personally.\nSo this thread is to beg for people who see insightful or funny things said about or in relation to Rust to post them here. Please provide links - if it wasn't recorded it didn't happen!\nLeads on good quotes will be",
+        "snippet": "\"earth and mars are Planets, they are not Rcs.\"\n-@huon, 8th March 2015 (Source)\nGankra\nMarch 10, 2015, 2:19pm\n20\nOh, how could I forget\nRust doesn't have GC\nRust doesn't have GC\nRust doesn't have GC\nRust doesn't have GC\nRust doesn't have GC\nRust doesn't have GC\nRust doesn't have GC",
         "matchedWords": {
           "coEuMIc0Vdzu": {
             "hits": 23,
@@ -336,7 +336,7 @@
         "hash": "KT8bUtV9oHh4",
         "address": "https://rust.utils.com/",
         "title": "Rust Shell - utils.com",
-        "snippet": "Rust Shell powered by the official Rust Shell API. Write and execute Rust code online.\nThis Rust Shell provides an interface to the official Rust Shell API at play.rust-lang.org. Write Rust code and execute it using the latest stable Rust compiler.\nYou can embed this util on your own site as a",
+        "snippet": "Interactive Rust Shell powered by the official Rust Shell API. Write and execute Rust code online.\nThis Rust Shell provides an interface to the official Rust Shell API at play.rust-lang.org. Write Rust code and execute it using the latest stable Rust compiler.",
         "matchedWords": {
           "coEuMIc0Vdzu": {
             "hits": 8,
@@ -442,7 +442,7 @@
         "hash": "M-vipvDOAHJg",
         "address": "https://www.heise.de/news/Nvidia-CUDA-Rust-Native-GPU-Kernel-in-Rust-schreiben-11446842.html?wt_mc=rss.red.ho.ho.atom.beitrag.beitrag",
         "title": "Nvidia CUDA Rust: Native GPU-Kernel in Rust schreiben | heise online",
-        "snippet": "Rust umfasst die Projekte cuda-oxide und cutile-rs, die die CUDA-Modelle SIMT und Tile nach Rust bringen. Produktionsreif ist noch keines der beiden Projekte aus der neuen Toolchain, Nvidia ruft Entwicklerinnen und Entwickler aber ausdrücklich zum Ausprobieren auf.\nDas im frühen Alpha-Stadium",
+        "snippet": "CUDA Rust umfasst die Projekte cuda-oxide und cutile-rs, die die CUDA-Modelle SIMT und Tile nach Rust bringen. Produktionsreif ist noch keines der beiden Projekte aus der neuen Toolchain, Nvidia ruft Entwicklerinnen und Entwickler aber ausdrücklich zum Ausprobieren auf.",
         "matchedWords": {
           "coEuMIc0Vdzu": {
             "hits": 7,
@@ -468,7 +468,7 @@
         "hash": "cdFyDoDZNRCx",
         "address": "https://doc.rust-lang.org/nightly/std/io/struct.IoSlice.html",
         "title": "IoSlice in std::io - Rust",
-        "snippet": "Rust. If the value is not found then Result::Err is returned, containing the index where a matching element could be inserted while maintaining sorted order.\nSee also binary_search_by, binary_search_by_key, and partition_point.\n§Examples\nLooks up a series of four elements. The first is found, with",
+        "snippet": "If the value is found then Result::Ok is returned, containing the index of the matching element. If there are multiple matches, then any one of the matches could be returned. The index is chosen deterministically, but is subject to change in future versions of Rust.",
         "matchedWords": {
           "coEuMIc0Vdzu": {
             "hits": 4,
@@ -481,7 +481,7 @@
         "hash": "LYyGA8Di1byx",
         "address": "https://rust-lang.org/funding/mir.html",
         "title": "Maintainers in Residence - Rust Programming Language",
-        "snippet": "Rust Foundation Maintainers Fund (RFMF) funds Rust Project contributors who maintain important parts of the Rust toolchain through the Maintainer in Residence (MiR) program. This page lists contributors who are currently funded by RFMF.\nRead more about how you can help financially support our",
+        "snippet": "The Rust Foundation Maintainers Fund (RFMF) funds Rust Project contributors who maintain important parts of the Rust toolchain through the Maintainer in Residence (MiR) program. This page lists contributors who are currently funded by RFMF.",
         "matchedWords": {
           "coEuMIc0Vdzu": {
             "hits": 11,
@@ -561,7 +561,7 @@
         "hash": "Q2tdhvDOAHJg",
         "address": "https://www.heise.de/news/Nvidia-CUDA-Rust-Native-GPU-Kernel-in-Rust-schreiben-11446842.html",
         "title": "Nvidia CUDA Rust: Native GPU-Kernel in Rust schreiben | heise online",
-        "snippet": "Rust umfasst die Projekte cuda-oxide und cutile-rs, die die CUDA-Modelle SIMT und Tile nach Rust bringen. Produktionsreif ist noch keines der beiden Projekte aus der neuen Toolchain, Nvidia ruft Entwicklerinnen und Entwickler aber ausdrücklich zum Ausprobieren auf.\nDas im frühen Alpha-Stadium",
+        "snippet": "CUDA Rust umfasst die Projekte cuda-oxide und cutile-rs, die die CUDA-Modelle SIMT und Tile nach Rust bringen. Produktionsreif ist noch keines der beiden Projekte aus der neuen Toolchain, Nvidia ruft Entwicklerinnen und Entwickler aber ausdrücklich zum Ausprobieren auf.",
         "matchedWords": {
           "coEuMIc0Vdzu": {
             "hits": 7,
@@ -574,7 +574,7 @@
         "hash": "QLueEgsjOPf5",
         "address": "https://fuchsia.googlesource.com/third_party/github.com/rust-lang/rust/+/refs/heads/cranelift-rebase",
         "title": "refs/heads/cranelift-rebase - third_party/github.com/rust-lang/rust - Git at Google",
-        "snippet": "Rust Programming Language\nThis is the main source code repository for Rust. It contains the compiler, standard library, and documentation.\nNote: this README is for users rather than contributors. If you wish to contribute to the compiler, you should read the Getting Started section of the",
+        "snippet": "git clone https://github.com/rust-lang/rust.git cd rust\nConfigure the build settings:\nThe Rust build system uses a file named config.toml in the root of the source tree to determine various configuration settings for the build. Copy the default config.toml.example to config.toml to get started.",
         "matchedWords": {
           "coEuMIc0Vdzu": {
             "hits": 27,
@@ -825,7 +825,7 @@
         "hash": "YyXMZYaFOBeg",
         "address": "https://www.cmjornal.pt/vidas/ultimas/detalhe/fbi-diz-que-alec-baldwin-disparou-arma-que-matou-colega-durante-gravacao-de-rust-vidas",
         "title": "FBI diz que Alec Baldwin disparou arma que matou colega durante gravação de 'Rust' - Últimas - Correio da Manhã",
-        "snippet": "‘Rust’. A afirmação é do gabinete de comunicação do FBI e desmente o ator de 64 anos que, na altura do incidente, garantiu não ter premido o gatilho. As perícias, porém, dizem o contrário.\nSegundo as autoridades norte-americanas, a arma usada no plateau não podia ter disparado sozinha, de forma",
+        "snippet": "Vidas Últimas\nAutoridades norte-americanas desmentem artista de 64 anos, que diz não ter premido o gatilho do revólver.\n15 de agosto de 2022 às 01:30\nAlec Baldwin disparou a arma que, em outubro de 2021, matou a diretora de fotografia Halyna Hutchins durante a rodagem do filme ‘Rust’.",
         "matchedWords": {
           "coEuMIc0Vdzu": {
             "hits": 1,
@@ -944,7 +944,7 @@
         "hash": "y_bJAnKObb4y",
         "address": "https://blog.sebastianwick.net/posts/three-little-rust-crates/",
         "title": "Three Little Rust Crates - swick's blog",
-        "snippet": "Rust crates:\nname-to-handle-at: Safe, low-level Rust bindings for Linux name_to_handle_at and open_by_handle_at system calls\npidfd-util: Safe Rust wrapper for Linux process file descriptors (pidfd)\nlisten-fds: A Rust library for handling systemd socket activation\nThey might seem like rather",
+        "snippet": "I published three Rust crates:\nname-to-handle-at: Safe, low-level Rust bindings for Linux name_to_handle_at and open_by_handle_at system calls\npidfd-util: Safe Rust wrapper for Linux process file descriptors (pidfd)\nlisten-fds: A Rust library for handling systemd socket activation",
         "matchedWords": {
           "coEuMIc0Vdzu": {
             "hits": 4,
@@ -970,7 +970,7 @@
         "hash": "6ytcEoDZNRCx",
         "address": "https://doc.rust-lang.org/nightly/core/intrinsics/fallback/trait.CarrylessMul.html",
         "title": "CarrylessMul in core::intrinsics::fallback - Rust",
-        "snippet": "Rust, dyn compatibility was called \"object safety\".",
+        "snippet": "See super::carryless_mul; we just need the trait indirection to handle different types since calling intrinsics with generics doesn’t work.\nThis trait is not dyn compatible.\nIn older versions of Rust, dyn compatibility was called \"object safety\".",
         "matchedWords": {
           "coEuMIc0Vdzu": {
             "hits": 1,
@@ -983,7 +983,7 @@
         "hash": "G0iakwS6MKD4",
         "address": "https://github.com/rust-lang/rust",
         "title": "GitHub - rust-lang/rust: Empowering everyone to build reliable and efficient software. · GitHub",
-        "snippet": "Rust. It contains the compiler, standard library, and documentation.\nWhy Rust?\nPerformance: Fast and memory-efficient, suitable for critical services, embedded devices, and easily integrated with other languages.\nReliability: Our rich type system and ownership model ensure memory and thread safety,",
+        "snippet": "See LICENSE-APACHE, LICENSE-MIT, and COPYRIGHT for details.\nTrademark\nThe Rust Foundation owns and protects the Rust and Cargo trademarks and logos (the \"Rust Trademarks\").\nIf you want to use these names or brands, please read the Rust language trademark policy.",
         "matchedWords": {
           "coEuMIc0Vdzu": {
             "hits": 9,
@@ -1089,7 +1089,7 @@
         "hash": "ijpxLwSMo4M4",
         "address": "https://www.zdnet.com/article/greg-kroah-hartman-linux-kernel-rust/",
         "title": "'Rust makes coding fun again': Why Linux is moving away from C, according to Greg Kroah-Hartman | ZDNET",
-        "snippet": "Rust experiment is over. It’s real.”\nScreenshot by Elyse Betters Picaro / ZDNET\nFollow ZDNET: Add us as a preferred source on Google.\nZDNET’s key takeaways\nIn the future, some Linux subsystems will only be written in Rust.\nRust is much safer than C, but it’s no silver bullet for bad logic.\nThe",
+        "snippet": "I think 80% would be gone, just because they would be caught by Rust.” The remaining 20% are the logic bugs he’d prefer to focus on: “Rust will still crash just fine. You can do really foolish things in Rust, but all the tiny, stupid, trivial things Rust will handle for us.”",
         "matchedWords": {
           "coEuMIc0Vdzu": {
             "hits": 41,
@@ -1234,7 +1234,7 @@
         "hash": "yRhm8oDZNRCx",
         "address": "https://doc.rust-lang.org/nightly/core/primitive.u8.html",
         "title": "u8 - Rust",
-        "snippet": "Rust uses the WhatWG Infra Standard’s definition of ASCII whitespace. There are several other definitions in wide use. For instance, the POSIX locale includes U+000B VERTICAL TAB as well as all the above characters, but—from the very same specification—the default rule for “field splitting” in the",
+        "snippet": "Warning: Because the list above excludes U+000B VERTICAL TAB, b.is_ascii_whitespace() is not equivalent to char::from(b).is_whitespace().\nRust uses the WhatWG Infra Standard’s definition of ASCII whitespace. There are several other definitions in wide use.",
         "matchedWords": {
           "coEuMIc0Vdzu": {
             "hits": 6,
@@ -1537,7 +1537,7 @@
         "hash": "v_sv4GS6MKD4",
         "address": "https://github.com/moltis-org/moltis",
         "title": "GitHub - moltis-org/moltis: A secure persistent personal agent server in Rust. One binary, sandboxed execution, multi-provider LLMs, voice, memory, Telegram, WhatsApp, Discord, Teams, and MCP tools. Secure by design, runs on your hardware. · GitHub",
-        "snippet": "Rust binary, no Node.js, no npm, no runtime.\nFull-featured — Voice, memory, cross-session recall, automatic edit checkpoints, scheduling, Telegram, Signal, Discord, browser automation, MCP servers, SSH or node-backed remote exec, managed deploy keys with host pinning in the web UI, a live Settings",
+        "snippet": "Comparison\nOpenClaw\nHermes Agent\nMoltis\nPrimary stack\nTypeScript + Swift/Kotlin companion apps\nPython + TypeScript TUI/web surfaces\nRust\nRuntime\nNode.js + npm/pnpm/bun\nPython + uv/pip, optional Node UI pieces\nSingle Rust binary\nLocal checkout size*\n~1.1M app LoC\n~152K app LoC\n~270K Rust LoC",
         "matchedWords": {
           "coEuMIc0Vdzu": {
             "hits": 10,
@@ -1695,7 +1695,7 @@
         "hash": "1H9REtDnLmqx",
         "address": "https://thanks.rust-lang.org/rust/0.8.0/",
         "title": "Rust 0.8.0 Contributors",
-        "snippet": "Back to all releases\nWe have had 126 individuals contribute to 0.8.0. Thank you so much!\nRank\nName\nContributions\n1\nbors\n808\n2\nBrian Anderson\n340\n3\nAlex Crichton\n285\n4\nDaniel Micay\n260\n5\nblake2-ppc\n183\n6\nTim Chevalier\n137\n7\nErick Tryzelaar\n127\n8\nPatrick Walton\n119\n9\nFelix S. Klock II\n113\n9\nGraydon",
+        "snippet": "Back to all releases\nWe have had 126 individuals contribute to 0.8.0. Thank you so much!\nRank\nName\nContributions\n1\nbors\n808\n2\nBrian Anderson\n340\n3\nAlex Crichton\n285\n4\nDaniel Micay\n260\n5\nblake2-ppc\n183\n6\nTim Chevalier\n137\n7\nErick Tryzelaar\n127\n8\nPatrick Walton\n119\n9\nFelix S. Klock II\n113\n9",
         "matchedWords": {
           "coEuMIc0Vdzu": {
             "hits": 0,
@@ -1708,7 +1708,7 @@
         "hash": "_RH4ooDZNRCx",
         "address": "https://doc.rust-lang.org/nightly/core/ptr/fn.read_unaligned.html",
         "title": "read_unaligned in core::ptr - Rust",
-        "snippet": "Function read_\nunaligned\n1.17.0 (const: 1.71.0) · Source\npub const unsafe fn read_unaligned\u003cT\u003e(src: *const T) -\u003e T\nExpand description\nReads the value from src without moving it. This leaves the memory in src unchanged.\nUnlike read, read_unaligned works with unaligned pointers.\n§Safety\nBehavior is",
+        "snippet": "Function read_\nunaligned\n1.17.0 (const: 1.71.0) · Source\npub const unsafe fn read_unaligned\u003cT\u003e(src: *const T) -\u003e T\nExpand description\nReads the value from src without moving it. This leaves the memory in src unchanged.\nUnlike read, read_unaligned works with unaligned pointers.\n§Safety",
         "matchedWords": {
           "coEuMIc0Vdzu": {
             "hits": 0,
@@ -1749,7 +1749,7 @@
         "hash": "0INJAoBXHPax",
         "address": "https://blog.rust-lang.org/inside-rust/2024/08/09/async-closures-call-for-testing/",
         "title": "Async Closures MVP: Call for Testing! | Inside Rust Blog",
-        "snippet": "Rust.\nThe backstory\nAsync closures were originally proposed in RFC 2394 which introduced async/await to the language. Simple handling of async closures has existed in nightly since async-await was implemented soon thereafter, but until recently async closures simply desugared into closures that",
+        "snippet": "Passing an async closure to a generic impl Fn(A, B) -\u003e C bound may not always eagerly infer the closure's arguments to A and B, leading to strange type errors on occasion. For an example of this, see rust-lang/rust#127781.\nWe expect to improve async closure signature inference as we move forward.",
         "matchedWords": {
           "coEuMIc0Vdzu": {
             "hits": 3,
@@ -1762,7 +1762,7 @@
         "hash": "3Hk7xDDZNRCx",
         "address": "https://doc.rust-lang.org/reference/procedural-macros.html",
         "title": "Procedural macros - The Rust Reference",
-        "snippet": "Rust syntax, both consuming and producing Rust syntax. You can sort of think of procedural macros as functions from an AST to another AST.\nProcedural macros must be defined in the root of a crate with the crate type of proc-macro. The macros may not be used from the crate where they are defined,",
+        "snippet": "Function-like macros - custom!(...)\nDerive macros - #[derive(CustomDerive)]\nAttribute macros - #[CustomAttribute]\nProcedural macros allow you to run code at compile time that operates over Rust syntax, both consuming and producing Rust syntax.",
         "matchedWords": {
           "coEuMIc0Vdzu": {
             "hits": 7,
@@ -1881,7 +1881,7 @@
         "hash": "5e0M2U8LZOnz",
         "address": "https://this-week-in-rust.org/blog/2026/04/29/this-week-in-rust-649/",
         "title": "This Week in Rust 649 · This Week in Rust",
-        "snippet": "Rust! Rust is a programming language empowering everyone to build reliable and efficient software. This is a weekly summary of its progress and community. Want something mentioned? Tag us at @thisweekinrust.bsky.social on Bluesky or @ThisWeekinRust on mastodon.social, or send us a pull request.",
+        "snippet": "2026-05-27 | Austin, TX, US | Rust ATX Rust Lunch - Fareground\nOceania\n2026-05-14 | Melbourne, AU | Rust Melbourne Rust Melbourne - May 2026\n2026-05-26 | Barton, ACT, AU | Canberra Rust User Group May Meetup\nSouth America\n2026-05-13 | Montevideo, UY | Rust Meetup Uruguay Rust Uruguay meetup de Mayo",
         "matchedWords": {
           "coEuMIc0Vdzu": {
             "hits": 134,
@@ -1907,7 +1907,7 @@
         "hash": "6K8zAtkUiOQ5",
         "address": "https://rust.code-maven.com/",
         "title": "Rust Maven",
-        "snippet": "Rust Maven web site about, well, the Rust programming language!\nThe first article, published on Aug 27, 2023, is about printing Hello World. You can find all the other articles in the archive or you can look at the tags. The site also includes the slides of my Rust training courses in the form of",
+        "snippet": "Rust programming - course material.\nCLI - Command Line Interface\nClap Command Line Argument Parser for Rust. and Articles about Clap\nJSON - Serializing and deserializing JSON in Rust.\nYAML - Dealing with YAML files in Rust.\nTOML - Dealing with TOML files in Rust.",
         "matchedWords": {
           "coEuMIc0Vdzu": {
             "hits": 27,
@@ -2026,7 +2026,7 @@
         "hash": "_7VHgoDZNRCx",
         "address": "https://doc.rust-lang.org/nightly/core/",
         "title": "core - Rust",
-        "snippet": "Rust Core Library\nThe Rust Core Library is the dependency-free1 foundation of The Rust Standard Library. It is the portable glue between the language and its libraries, defining the intrinsic and primitive building blocks of all Rust code. It links to no upstream libraries, no system libraries, and",
+        "snippet": "Crate core\n1.6.0 · Source\nExpand description\n§The Rust Core Library\nThe Rust Core Library is the dependency-free1 foundation of The Rust Standard Library. It is the portable glue between the language and its libraries, defining the intrinsic and primitive building blocks of all Rust code.",
         "matchedWords": {
           "coEuMIc0Vdzu": {
             "hits": 10,
@@ -2091,7 +2091,7 @@
         "hash": "KL-_KgvbH0Xx",
         "address": "https://forge.rust-lang.org/infra/other-installation-methods.html",
         "title": "Other Installation Methods - Rust Forge",
-        "snippet": "Rust Installation Methods\nWhich installer should you use?\nOther ways to install rustup\nStandalone installers\nSource code\nWhich installer should you use?\nRust runs on many platforms, and there are many ways to install Rust. If you want to install Rust in the most straightforward, recommended way,",
+        "snippet": "XY.Z) TAG=a8cfc83801301c2b4f0fd030192e268eeb15d473 # TAG=1.77.1 # Clone Rust toolchain repository from GitHub git clone https://github.com/rust-lang/rust cd rust git reset --hard ${TAG} git submodule update --init --recursive cat \u003econfig.toml \u003c\u003c EOF [rust] # Use for a commit SHA channel = \"nightly\"",
         "matchedWords": {
           "coEuMIc0Vdzu": {
             "hits": 25,
@@ -2119,7 +2119,7 @@
         "hash": "Bi7Wzd-COV4w",
         "address": "https://packages.altlinux.org/en/sisyphus/deps/rust/provide",
         "title": "ALT Linux - sisyphus - Dependency - rust - provide",
-        "snippet": "rust-1.98.1-alt1\nSummary: The Rust Programming Language\naarch64i586x86_64\nVKontakte|Telegram|YouTube|Forum|ALT Linux Space|Bugzilla\nVersion: v26.6.1\nBack to top",
+        "snippet": "EN\nBranches\nsisyphus\nsisyphus_e2k\nsisyphus_riscv64\nsisyphus_loongarch64\np11\np11_loongarch64\np10\np10_e2k\np9\nc10f2\nc9f2\nLast changes\nPackages\nMaintainers\nFixes\nTasks\nAbout repository\nHistory\nWiki\nMailing List\nProvided\nRequired\nConflicts\nObsolete\nrust-1.98.1-alt1\nSummary: The Rust Programming Language",
         "matchedWords": {
           "coEuMIc0Vdzu": {
             "hits": 2,
@@ -2580,7 +2580,7 @@
         "hash": "M-vipvDOAHJg",
         "address": "https://www.heise.de/news/Nvidia-CUDA-Rust-Native-GPU-Kernel-in-Rust-schreiben-11446842.html?wt_mc=rss.red.ho.ho.atom.beitrag.beitrag",
         "title": "Nvidia CUDA Rust: Native GPU-Kernel in Rust schreiben | heise online",
-        "snippet": "Rust umfasst die Projekte cuda-oxide und cutile-rs, die die CUDA-Modelle SIMT und Tile nach Rust bringen. Produktionsreif ist noch keines der beiden Projekte aus der neuen Toolchain, Nvidia ruft Entwicklerinnen und Entwickler aber ausdrücklich zum Ausprobieren auf.\nDas im frühen Alpha-Stadium",
+        "snippet": "CUDA Rust umfasst die Projekte cuda-oxide und cutile-rs, die die CUDA-Modelle SIMT und Tile nach Rust bringen. Produktionsreif ist noch keines der beiden Projekte aus der neuen Toolchain, Nvidia ruft Entwicklerinnen und Entwickler aber ausdrücklich zum Ausprobieren auf.",
         "matchedWords": {
           "coEuMIc0Vdzu": {
             "hits": 7,
@@ -2595,7 +2595,7 @@
         "hash": "QLueEgsjOPf5",
         "address": "https://fuchsia.googlesource.com/third_party/github.com/rust-lang/rust/+/refs/heads/cranelift-rebase",
         "title": "refs/heads/cranelift-rebase - third_party/github.com/rust-lang/rust - Git at Google",
-        "snippet": "Rust Programming Language\nThis is the main source code repository for Rust. It contains the compiler, standard library, and documentation.\nNote: this README is for users rather than contributors. If you wish to contribute to the compiler, you should read the Getting Started section of the",
+        "snippet": "git clone https://github.com/rust-lang/rust.git cd rust\nConfigure the build settings:\nThe Rust build system uses a file named config.toml in the root of the source tree to determine various configuration settings for the build. Copy the default config.toml.example to config.toml to get started.",
         "matchedWords": {
           "coEuMIc0Vdzu": {
             "hits": 27,
@@ -2608,7 +2608,7 @@
         "hash": "Q2tdhvDOAHJg",
         "address": "https://www.heise.de/news/Nvidia-CUDA-Rust-Native-GPU-Kernel-in-Rust-schreiben-11446842.html",
         "title": "Nvidia CUDA Rust: Native GPU-Kernel in Rust schreiben | heise online",
-        "snippet": "Rust umfasst die Projekte cuda-oxide und cutile-rs, die die CUDA-Modelle SIMT und Tile nach Rust bringen. Produktionsreif ist noch keines der beiden Projekte aus der neuen Toolchain, Nvidia ruft Entwicklerinnen und Entwickler aber ausdrücklich zum Ausprobieren auf.\nDas im frühen Alpha-Stadium",
+        "snippet": "CUDA Rust umfasst die Projekte cuda-oxide und cutile-rs, die die CUDA-Modelle SIMT und Tile nach Rust bringen. Produktionsreif ist noch keines der beiden Projekte aus der neuen Toolchain, Nvidia ruft Entwicklerinnen und Entwickler aber ausdrücklich zum Ausprobieren auf.",
         "matchedWords": {
           "coEuMIc0Vdzu": {
             "hits": 7,
@@ -2634,7 +2634,7 @@
         "hash": "U_yD6oDZNRCx",
         "address": "https://doc.rust-lang.org/nightly/std/sync/mpmc/struct.Receiver.html",
         "title": "Receiver in std::sync::mpmc - Rust",
-        "snippet": "Rust’s channel (or sync_channel) type. Different threads can share this Receiver by cloning it.\nMessages sent to the channel can be retrieved using recv.\n§Examples\n#![feature(mpmc_channel)] use std::sync::mpmc::channel; use std::thread; use std::time::Duration; let (send, recv) = channel(); let",
+        "snippet": "pub struct Receiver\u003cT\u003e { /* private fields */ }\n🔬This is a nightly-only experimental API. (mpmc_channel #126840)\nExpand description\nThe receiving half of Rust’s channel (or sync_channel) type. Different threads can share this Receiver by cloning it.",
         "matchedWords": {
           "coEuMIc0Vdzu": {
             "hits": 1,
@@ -2740,7 +2740,7 @@
         "hash": "P5qgbsnpCNr6",
         "address": "https://rust-for-linux.com/print",
         "title": "Rust for Linux",
-        "snippet": "Rust for Linux\nRust for Linux is the project adding support for the Rust language to the Linux kernel.\nThis website is intended as a hub of links, documentation and resources related to the project.\nThe project\nContact\nContributing\nRust kernel policy\nBranches\nRust reference drivers\nRust version",
+        "snippet": "Rust for Linux\nRust for Linux is the project adding support for the Rust language to the Linux kernel.\nThis website is intended as a hub of links, documentation and resources related to the project.\nThe project\nContact\nContributing\nRust kernel policy\nBranches\nRust reference drivers",
         "matchedWords": {
           "coEuMIc0Vdzu": {
             "hits": 368,
@@ -2753,7 +2753,7 @@
         "hash": "XvPK_coCj-7w",
         "address": "https://rust-unofficial.github.io/patterns/print.html",
         "title": "Rust Design Patterns",
-        "snippet": "Rust\nRust is not object-oriented, and the combination of all its characteristics, such as functional elements, a strong type system, and the borrow checker, makes it unique. Because of this, Rust design patterns vary with respect to other traditional object-oriented programming languages. That’s",
+        "snippet": "A collection of complementary helpful content\nTalks\nDesign Patterns in Rust by Nicholas Cameron at the PDRust (2016)\nWriting Idiomatic Libraries in Rust by Pascal Hertleif at RustFest (2017)\nRust Programming Techniques by Nicholas Cameron at LinuxConfAu (2018)\nBooks (Online)\nThe Rust API Guidelines",
         "matchedWords": {
           "coEuMIc0Vdzu": {
             "hits": 143,
@@ -2872,7 +2872,7 @@
         "hash": "YyXMZYaFOBeg",
         "address": "https://www.cmjornal.pt/vidas/ultimas/detalhe/fbi-diz-que-alec-baldwin-disparou-arma-que-matou-colega-durante-gravacao-de-rust-vidas",
         "title": "FBI diz que Alec Baldwin disparou arma que matou colega durante gravação de 'Rust' - Últimas - Correio da Manhã",
-        "snippet": "‘Rust’. A afirmação é do gabinete de comunicação do FBI e desmente o ator de 64 anos que, na altura do incidente, garantiu não ter premido o gatilho. As perícias, porém, dizem o contrário.\nSegundo as autoridades norte-americanas, a arma usada no plateau não podia ter disparado sozinha, de forma",
+        "snippet": "Vidas Últimas\nAutoridades norte-americanas desmentem artista de 64 anos, que diz não ter premido o gatilho do revólver.\n15 de agosto de 2022 às 01:30\nAlec Baldwin disparou a arma que, em outubro de 2021, matou a diretora de fotografia Halyna Hutchins durante a rodagem do filme ‘Rust’.",
         "matchedWords": {
           "coEuMIc0Vdzu": {
             "hits": 1,
@@ -3004,7 +3004,7 @@
         "hash": "QGxlht023Lg4",
         "address": "https://blog.orhun.dev/800-rust-projects/",
         "title": "800 Rust terminal projects in 3 years - Orhun's Blog",
-        "snippet": "Rust CLI projects over the past 3 years.\nAbove is a collage of screenshots from hundreds of Rust terminal and TUI projects\nshared on Mastodon.\n🔗 Click here to jump to the \"Top 99 Rust terminal projects\"!\nIf you follow me on X/Mastodon/Bluesky/LinkedIn, you might be familiar with my regular posts",
+        "snippet": "I have discovered and shared ~800 open source Rust CLI projects over the past 3 years.\nAbove is a collage of screenshots from hundreds of Rust terminal and TUI projects\nshared on Mastodon.\n🔗 Click here to jump to the \"Top 99 Rust terminal projects\"!",
         "matchedWords": {
           "coEuMIc0Vdzu": {
             "hits": 15,
@@ -3043,7 +3043,7 @@
         "hash": "O68Ub5anrPkw",
         "address": "https://rustwiki.org/zh-CN/rust-by-example/",
         "title": "简介 - 通过例子学 Rust 中文版",
-        "snippet": "Rust\n中文翻译注（Chinese translation of the Rust By Example）：\n👉 查看更多 Rust 官方文档中英文双语教程，包括双语版《Rust 程序设计语言》（出版书名为《Rust 权威指南》），本站还提供了 Rust 标准库中文版。\n《通过例子学 Rust》(Rust By Example 中文版)翻译自 Rust By Example，中文版最后更新时间：2022-1-26。查看此书的 Github 翻译项目和源码。\n本站支持文档中英文切换，点击页面右上角语言图标可切换到相同章节的英文页面，英文版每天都会自动同步一次官方的最新版本。",
+        "snippet": "通过例子学 Rust\n中文翻译注（Chinese translation of the Rust By Example）：\n👉 查看更多 Rust 官方文档中英文双语教程，包括双语版《Rust 程序设计语言》（出版书名为《Rust 权威指南》），本站还提供了 Rust 标准库中文版。\n《通过例子学 Rust》(Rust By Example 中文版)翻译自 Rust By Example，中文版最后更新时间：2022-1-26。查看此书的 Github 翻译项目和源码。\n本站支持文档中英文切换，点击页面右上角语言图标可切换到相同章节的英文页面，英文版每天都会自动同步一次官方的最新版本。",
         "matchedWords": {
           "coEuMIc0Vdzu": {
             "hits": 20,
@@ -3082,7 +3082,7 @@
         "hash": "OF1aPs0sjhTw",
         "address": "https://spectrum.ieee.org/ai-code-rust-great-refactor",
         "title": "AI Code Transforms C to Rust for Safer Software - IEEE Spectrum",
-        "snippet": "Rust, which would eliminate the vast majority of known software vulnerabilities.\nRapid advances in AI coding tools have made it easier than ever to tackle software-engineering tasks that were previously too expensive or time-consuming to take on. The Institute for Progress think tank launched the",
+        "snippet": "The Institute for Progress think tank launched the Great Refactor initiative to use those tools in order to convert open source software written in C and C++ into Rust. Unlike the former languages, Rust is designed to prevent a dangerous class of bugs known as memory exploits.",
         "matchedWords": {
           "coEuMIc0Vdzu": {
             "hits": 24,
@@ -3108,7 +3108,7 @@
         "hash": "NGsW0Hoc7tnw",
         "address": "https://blog.mozilla.org/en/mozilla/mozilla-welcomes-the-rust-foundation/",
         "title": "Mozilla Welcomes the Rust Foundation",
-        "snippet": "Rust community in announcing the formation of the Rust Foundation. The Rust Foundation will be the home of the popular Rust programming language that began within Mozilla. Rust has long been bigger than just a Mozilla project and today’s announcement is the culmination of many years of community",
+        "snippet": "Skip to content\nSearch\nToday Mozilla is thrilled to join the Rust community in announcing the formation of the Rust Foundation. The Rust Foundation will be the home of the popular Rust programming language that began within Mozilla.",
         "matchedWords": {
           "coEuMIc0Vdzu": {
             "hits": 24,
@@ -3123,7 +3123,7 @@
         "hash": "ijpxLwSMo4M4",
         "address": "https://www.zdnet.com/article/greg-kroah-hartman-linux-kernel-rust/",
         "title": "'Rust makes coding fun again': Why Linux is moving away from C, according to Greg Kroah-Hartman | ZDNET",
-        "snippet": "Rust experiment is over. It’s real.”\nScreenshot by Elyse Betters Picaro / ZDNET\nFollow ZDNET: Add us as a preferred source on Google.\nZDNET’s key takeaways\nIn the future, some Linux subsystems will only be written in Rust.\nRust is much safer than C, but it’s no silver bullet for bad logic.\nThe",
+        "snippet": "I think 80% would be gone, just because they would be caught by Rust.” The remaining 20% are the logic bugs he’d prefer to focus on: “Rust will still crash just fine. You can do really foolish things in Rust, but all the tiny, stupid, trivial things Rust will handle for us.”",
         "matchedWords": {
           "coEuMIc0Vdzu": {
             "hits": 41,
@@ -3521,7 +3521,7 @@
         "hash": "lh0zKsnpCNr6",
         "address": "https://rust-for-linux.com/",
         "title": "Rust for Linux",
-        "snippet": "Rust for Linux\nRust for Linux is the project adding support for the Rust language to the Linux kernel.\nThis website is intended as a hub of links, documentation and resources related to the project.\nThe project\nContact\nContributing\nRust kernel policy\nBranches\nRust reference drivers\nRust version",
+        "snippet": "rust-next\nrust-fixes\nSubtree branches\nalloc-next\npin-init-next\ntimekeeping-next\nxarray-next\nReview tooling\nPatchwork\nSashiko\nConferences\nKangrejos\nLinux Plumbers Conference (LPC)\nRust MC at LPC 2026\nRust MC at LPC 2025\nRust MC at LPC 2024\nRust MC at LPC 2023\nRust MC at LPC 2022\nLWN\nRust index",
         "matchedWords": {
           "coEuMIc0Vdzu": {
             "hits": 21,
@@ -3534,7 +3534,7 @@
         "hash": "QGxlht023Lg4",
         "address": "https://blog.orhun.dev/800-rust-projects/",
         "title": "800 Rust terminal projects in 3 years - Orhun's Blog",
-        "snippet": "Rust CLI projects over the past 3 years.\nAbove is a collage of screenshots from hundreds of Rust terminal and TUI projects\nshared on Mastodon.\n🔗 Click here to jump to the \"Top 99 Rust terminal projects\"!\nIf you follow me on X/Mastodon/Bluesky/LinkedIn, you might be familiar with my regular posts",
+        "snippet": "I have discovered and shared ~800 open source Rust CLI projects over the past 3 years.\nAbove is a collage of screenshots from hundreds of Rust terminal and TUI projects\nshared on Mastodon.\n🔗 Click here to jump to the \"Top 99 Rust terminal projects\"!",
         "matchedWords": {
           "coEuMIc0Vdzu": {
             "hits": 15,
@@ -3547,7 +3547,7 @@
         "hash": "YjZ0LDDZNRCx",
         "address": "https://doc.rust-lang.org/rust-by-example/",
         "title": "Introduction - Rust By Example",
-        "snippet": "Rust by Example\nRust is a modern systems programming language focusing on safety, speed, and concurrency. It accomplishes these goals by being memory safe without using garbage collection.\nRust by Example (RBE) is a collection of runnable examples that illustrate various Rust concepts and standard",
+        "snippet": "Keyboard shortcuts\nPress ← or → to navigate between chapters\nPress S or / to search in the book\nPress ? to show this help\nPress Esc to hide this help\nRust by Example\nRust is a modern systems programming language focusing on safety, speed, and concurrency.",
         "matchedWords": {
           "coEuMIc0Vdzu": {
             "hits": 10,
@@ -3560,7 +3560,7 @@
         "hash": "Vgg9AcVXjSf4",
         "address": "https://rust-mobile.en.uptodown.com/android",
         "title": "Rust Mobile for Android - Download the APK from Uptodown",
-        "snippet": "Rust Mobile is an Android adaptation of one of the most popular open-world survival video games from the 2010s. Since its early access release in 2013, this title has managed to attract more than 12 million players from around the world, holding steady as one of the games with the most active",
+        "snippet": "One aspect of the original Rust that made it so successful was the large number of objects you could build. And Rust Mobile is not far behind. You can start building as you have a house and a workbench.",
         "matchedWords": {
           "coEuMIc0Vdzu": {
             "hits": 7,
@@ -4034,7 +4034,7 @@
         "hash": "Bi7Wzd-COV4w",
         "address": "https://packages.altlinux.org/en/sisyphus/deps/rust/provide",
         "title": "ALT Linux - sisyphus - Dependency - rust - provide",
-        "snippet": "rust-1.98.1-alt1\nSummary: The Rust Programming Language\naarch64i586x86_64\nVKontakte|Telegram|YouTube|Forum|ALT Linux Space|Bugzilla\nVersion: v26.6.1\nBack to top",
+        "snippet": "EN\nBranches\nsisyphus\nsisyphus_e2k\nsisyphus_riscv64\nsisyphus_loongarch64\np11\np11_loongarch64\np10\np10_e2k\np9\nc10f2\nc9f2\nLast changes\nPackages\nMaintainers\nFixes\nTasks\nAbout repository\nHistory\nWiki\nMailing List\nProvided\nRequired\nConflicts\nObsolete\nrust-1.98.1-alt1\nSummary: The Rust Programming Language",
         "matchedWords": {
           "coEuMIc0Vdzu": {
             "hits": 2,
@@ -4352,7 +4352,7 @@
         "hash": "PF3jvsVuF7c4",
         "address": "https://rust-mobile.ru.uptodown.com/android",
         "title": "Rust Mobile 1.33.1.106 для Android - Скачайте проверенный APK с Uptodown",
-        "snippet": "Rust Mobile - это адаптация под Android одной из самых популярных видеоигр на выживание в открытом мире 2010-х годов. С момента выхода в ранний доступ в 2013 году этой игре удалось привлечь более 12 миллионов игроков со всего мира, из года в год оставаясь одной из игр с самыми активными игроками в",
+        "snippet": "Одним из аспектов оригинальной Rust, который сделал ее такой успешной, было большое количество объектов, которые можно было создавать. И Rust Mobileне сильно отстает. Вы можете начать строительство, когда у вас есть дом и верстак.",
         "matchedWords": {
           "coEuMIc0Vdzu": {
             "hits": 7,
@@ -4365,7 +4365,7 @@
         "hash": "O68Ub5anrPkw",
         "address": "https://rustwiki.org/zh-CN/rust-by-example/",
         "title": "简介 - 通过例子学 Rust 中文版",
-        "snippet": "Rust\n中文翻译注（Chinese translation of the Rust By Example）：\n👉 查看更多 Rust 官方文档中英文双语教程，包括双语版《Rust 程序设计语言》（出版书名为《Rust 权威指南》），本站还提供了 Rust 标准库中文版。\n《通过例子学 Rust》(Rust By Example 中文版)翻译自 Rust By Example，中文版最后更新时间：2022-1-26。查看此书的 Github 翻译项目和源码。\n本站支持文档中英文切换，点击页面右上角语言图标可切换到相同章节的英文页面，英文版每天都会自动同步一次官方的最新版本。",
+        "snippet": "通过例子学 Rust\n中文翻译注（Chinese translation of the Rust By Example）：\n👉 查看更多 Rust 官方文档中英文双语教程，包括双语版《Rust 程序设计语言》（出版书名为《Rust 权威指南》），本站还提供了 Rust 标准库中文版。\n《通过例子学 Rust》(Rust By Example 中文版)翻译自 Rust By Example，中文版最后更新时间：2022-1-26。查看此书的 Github 翻译项目和源码。\n本站支持文档中英文切换，点击页面右上角语言图标可切换到相同章节的英文页面，英文版每天都会自动同步一次官方的最新版本。",
         "matchedWords": {
           "coEuMIc0Vdzu": {
             "hits": 20,
@@ -4391,7 +4391,7 @@
         "hash": "NH0RtFcFdHhw",
         "address": "https://rust-lang-nursery.github.io/rust-cookbook/",
         "title": "Table of Contents - Rust Cookbook",
-        "snippet": "Rust\nThis Rust Cookbook is a collection of simple recipes that demonstrate good practices to accomplish common programming tasks, using the crates of the Rust ecosystem.\nRead more about Rust Cookbook, including tips for how to read the book, how to use the recipes, and notes on conventions.",
+        "snippet": "This Rust Cookbook is a collection of simple recipes that demonstrate good practices to accomplish common programming tasks, using the crates of the Rust ecosystem.\nRead more about Rust Cookbook, including tips for how to read the book, how to use the recipes, and notes on conventions.\nContributing",
         "matchedWords": {
           "coEuMIc0Vdzu": {
             "hits": 6,
@@ -4404,7 +4404,7 @@
         "hash": "OF1aPs0sjhTw",
         "address": "https://spectrum.ieee.org/ai-code-rust-great-refactor",
         "title": "AI Code Transforms C to Rust for Safer Software - IEEE Spectrum",
-        "snippet": "Rust, which would eliminate the vast majority of known software vulnerabilities.\nRapid advances in AI coding tools have made it easier than ever to tackle software-engineering tasks that were previously too expensive or time-consuming to take on. The Institute for Progress think tank launched the",
+        "snippet": "The Institute for Progress think tank launched the Great Refactor initiative to use those tools in order to convert open source software written in C and C++ into Rust. Unlike the former languages, Rust is designed to prevent a dangerous class of bugs known as memory exploits.",
         "matchedWords": {
           "coEuMIc0Vdzu": {
             "hits": 24,
@@ -4417,7 +4417,7 @@
         "hash": "NGsW0Hoc7tnw",
         "address": "https://blog.mozilla.org/en/mozilla/mozilla-welcomes-the-rust-foundation/",
         "title": "Mozilla Welcomes the Rust Foundation",
-        "snippet": "Rust community in announcing the formation of the Rust Foundation. The Rust Foundation will be the home of the popular Rust programming language that began within Mozilla. Rust has long been bigger than just a Mozilla project and today’s announcement is the culmination of many years of community",
+        "snippet": "Skip to content\nSearch\nToday Mozilla is thrilled to join the Rust community in announcing the formation of the Rust Foundation. The Rust Foundation will be the home of the popular Rust programming language that began within Mozilla.",
         "matchedWords": {
           "coEuMIc0Vdzu": {
             "hits": 24,
@@ -4577,7 +4577,7 @@
         "hash": "G0iakwS6MKD4",
         "address": "https://github.com/rust-lang/rust",
         "title": "GitHub - rust-lang/rust: Empowering everyone to build reliable and efficient software. · GitHub",
-        "snippet": "Rust. It contains the compiler, standard library, and documentation.\nWhy Rust?\nPerformance: Fast and memory-efficient, suitable for critical services, embedded devices, and easily integrated with other languages.\nReliability: Our rich type system and ownership model ensure memory and thread safety,",
+        "snippet": "See LICENSE-APACHE, LICENSE-MIT, and COPYRIGHT for details.\nTrademark\nThe Rust Foundation owns and protects the Rust and Cargo trademarks and logos (the \"Rust Trademarks\").\nIf you want to use these names or brands, please read the Rust language trademark policy.",
         "matchedWords": {
           "coEuMIc0Vdzu": {
             "hits": 9,
@@ -4590,7 +4590,7 @@
         "hash": "y_bJAnKObb4y",
         "address": "https://blog.sebastianwick.net/posts/three-little-rust-crates/",
         "title": "Three Little Rust Crates - swick's blog",
-        "snippet": "Rust crates:\nname-to-handle-at: Safe, low-level Rust bindings for Linux name_to_handle_at and open_by_handle_at system calls\npidfd-util: Safe Rust wrapper for Linux process file descriptors (pidfd)\nlisten-fds: A Rust library for handling systemd socket activation\nThey might seem like rather",
+        "snippet": "I published three Rust crates:\nname-to-handle-at: Safe, low-level Rust bindings for Linux name_to_handle_at and open_by_handle_at system calls\npidfd-util: Safe Rust wrapper for Linux process file descriptors (pidfd)\nlisten-fds: A Rust library for handling systemd socket activation",
         "matchedWords": {
           "coEuMIc0Vdzu": {
             "hits": 4,
@@ -4882,7 +4882,7 @@
         "hash": "YT8E9oDZNRCx",
         "address": "https://doc.rust-lang.org/nightly/std/primitive.i16.html",
         "title": "i16 - Rust",
-        "snippet": "Rust); if self \u003c 0, this is equal to rounding away from zero (towards +/- infinity). If rhs \u003e 0, this is equal to rounding towards -infinity; if rhs \u003c 0, this is equal to rounding towards +infinity.\n§Panics\nThis function will panic if rhs is zero or if self is Self::MIN and rhs is -1. This behavior",
+        "snippet": "If self \u003e 0, this is equal to rounding towards zero (the default in Rust); if self \u003c 0, this is equal to rounding away from zero (towards +/- infinity). If rhs \u003e 0, this is equal to rounding towards -infinity; if rhs \u003c 0, this is equal to rounding towards +infinity.\n§Panics",
         "matchedWords": {
           "coEuMIc0Vdzu": {
             "hits": 6,
@@ -5224,7 +5224,7 @@
         "hash": "agKV-5Di1byx",
         "address": "https://rust-lang.org/governance/people/Eh2406/",
         "title": "Jacob Finkelman - Rust Programming Language",
-        "snippet": "Rust Team. See a bug? File an issue!\nWeb site built every day at 22:00 UTC",
+        "snippet": "Maintained by the Rust Team. See a bug? File an issue!\nWeb site built every day at 22:00 UTC",
         "matchedWords": {
           "coEuMIc0Vdzu": {
             "hits": 1,
@@ -5250,7 +5250,7 @@
         "hash": "BRgLMoDZNRCx",
         "address": "https://doc.rust-lang.org/nightly/core/panicking/fn.panic_nounwind_fmt.html",
         "title": "panic_nounwind_fmt in core::panicking - Rust",
-        "snippet": "core::\npanicking\nFunction panic_\nnounwind_\nfmt\nSource\npub const fn panic_nounwind_fmt( fmt: Arguments\u003c'_\u003e, force_no_backtrace: bool, ) -\u003e !\n🔬This is a nightly-only experimental API. (panic_internals)\nExpand description\nLike panic_fmt, but for non-unwinding panics.\nHas to be a separate function so",
+        "snippet": "core::\npanicking\nFunction panic_\nnounwind_\nfmt\nSource\npub const fn panic_nounwind_fmt( fmt: Arguments\u003c'_\u003e, force_no_backtrace: bool, ) -\u003e !\n🔬This is a nightly-only experimental API. (panic_internals)\nExpand description\nLike panic_fmt, but for non-unwinding panics.",
         "matchedWords": {
           "coEuMIc0Vdzu": {
             "hits": 0,
@@ -5278,7 +5278,7 @@
         "hash": "v_sv4GS6MKD4",
         "address": "https://github.com/moltis-org/moltis",
         "title": "GitHub - moltis-org/moltis: A secure persistent personal agent server in Rust. One binary, sandboxed execution, multi-provider LLMs, voice, memory, Telegram, WhatsApp, Discord, Teams, and MCP tools. Secure by design, runs on your hardware. · GitHub",
-        "snippet": "Rust binary, no Node.js, no npm, no runtime.\nFull-featured — Voice, memory, cross-session recall, automatic edit checkpoints, scheduling, Telegram, Signal, Discord, browser automation, MCP servers, SSH or node-backed remote exec, managed deploy keys with host pinning in the web UI, a live Settings",
+        "snippet": "Comparison\nOpenClaw\nHermes Agent\nMoltis\nPrimary stack\nTypeScript + Swift/Kotlin companion apps\nPython + TypeScript TUI/web surfaces\nRust\nRuntime\nNode.js + npm/pnpm/bun\nPython + uv/pip, optional Node UI pieces\nSingle Rust binary\nLocal checkout size*\n~1.1M app LoC\n~152K app LoC\n~270K Rust LoC",
         "matchedWords": {
           "coEuMIc0Vdzu": {
             "hits": 10,
@@ -5646,7 +5646,7 @@
         "hash": "EgwpYoDZNRCx",
         "address": "https://doc.rust-lang.org/nightly/std/io/trait.Read.html",
         "title": "Read in std::io - Rust",
-        "snippet": "my-rust-program will correctly terminate with an EOF upon closure of cat. Reading user input or running programs that remain open indefinitely will never terminate the stream with EOF (e.g. yes | my-rust-program).\nUsing .lines() with a BufReader or using read can provide a better solution\n1.0.0 ·",
+        "snippet": "For example, cat file | my-rust-program will correctly terminate with an EOF upon closure of cat. Reading user input or running programs that remain open indefinitely will never terminate the stream with EOF (e.g. yes | my-rust-program).",
         "matchedWords": {
           "coEuMIc0Vdzu": {
             "hits": 5,

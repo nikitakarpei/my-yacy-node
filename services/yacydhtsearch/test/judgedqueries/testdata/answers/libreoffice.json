@@ -1,13 +1,13 @@
 {
   "query": "libreoffice",
-  "recordedAt": "2026-09-12T00:22:23Z",
+  "recordedAt": "2026-09-12T07:52:08Z",
   "itemsInTheOrderOfEachAnswer": [
     [
       {
         "hash": "BI9h2exFffU5",
         "address": "https://help.nextcloud.com/t/preview-office-document-failed-libreoffice-is-intalled-in-other-server/146493",
         "title": "Preview office document failed, libreoffice is intalled in other server - ℹ️ Support - Nextcloud community",
-        "snippet": "/usr/bin/libreoffice: not found\nfor sure, i didn’t install libreoffice in. because i’ve installed in the other machine in the same local network. as the evidence, i could open\u0026edit in nextcloud like this:\nsince in nextcloud libreoffice app setting, i set as like this:\ni tried two configuration in",
+        "snippet": "‘preview_libreoffice_path’ =\u003e ‘/usr/bin/libreoffice’,\n‘preview_libreoffice_path’ =\u003e ‘http://:9000’,\nmy question is how can i make preview work while i don’t install libreoffice in nextcloud server?\nallow me to avoid uploading my env setting, as i don’t think it’s relevant to this issue.",
         "matchedWords": {
           "Rhm4_S1aJLcZ": {
             "hits": 7,
@@ -20,7 +20,7 @@
         "hash": "Cq-xgm0h8sSw",
         "address": "https://tracker.debian.org/pkg/libreoffice",
         "title": "libreoffice - Debian Package Tracker",
-        "snippet": "LibreOffice via crafted OOXML documents with mismatched encryption salt parameters. This issue affects LibreOffice: from 26.2 before 26.2.3, from 25.8 before 25.8.7.\nCVE-2026-6039: LibreOffice can import drawings in the DXF format used by CAD software. A heap buffer overflow existed when importing",
+        "snippet": "This issue affects LibreOffice: from 26.2 before 26.2.3, from 25.8 before 25.8.7.\nCVE-2026-6039: LibreOffice can import drawings in the DXF format used by CAD software. A heap buffer overflow existed when importing a DXF polyline.",
         "matchedWords": {
           "Rhm4_S1aJLcZ": {
             "hits": 11,
@@ -139,7 +139,7 @@
         "hash": "Uy5MSiMQjAmx",
         "address": "https://it.libreoffice.org/",
         "title": "Home | LibreOffice in italiano - La suite libera per l'ufficio",
-        "snippet": "LibreOffice?\nCosa dicono di noi\n“Valido quanto Microsoft Office e in più gratuito” - ZDNET\n“Veramente eccezionale” - TechRadar",
+        "snippet": "Elabora facilmente formule matematiche in un editor visivo o in testo semplice.\nLeggi la guida.\nPerché scegliere LibreOffice?\nCosa dicono di noi\n“Valido quanto Microsoft Office e in più gratuito” - ZDNET\n“Veramente eccezionale” - TechRadar",
         "matchedWords": {
           "Rhm4_S1aJLcZ": {
             "hits": 1,
@@ -152,7 +152,7 @@
         "hash": "5y_i0yz8AoWx",
         "address": "https://de.libreoffice.org/",
         "title": "Willkommen | LibreOffice - Freie Office Suite – Nachfolger von OpenOffice",
-        "snippet": "LibreOffice Conference 2026 begins\n2026-09-11\nWell, that’s a photo from last night’s community dinner, but now the second day talks are beginning! As with yesterday, we will be live-streaming most sessions on the schedule (in track rooms 1 and 2) and making recordings of all. Find out more by",
+        "snippet": "Find out more by following our communication channels, where we’ll\nLesen Sie mehr »\nThe LibreOffice Conference 2026 begins!\n2026-09-10\nYes, the LibreOffice Conference 2026 has started in Pordenone, northern Italy. If you’re attending in-person, we look forward to seeing you!",
         "matchedWords": {
           "Rhm4_S1aJLcZ": {
             "hits": 6,
@@ -165,7 +165,7 @@
         "hash": "A8BLfu9heOmx",
         "address": "https://fr.libreoffice.org/",
         "title": "Home | Communauté LibreOffice francophone",
-        "snippet": "LibreOffice ?\nCe que les gens disent\n“Every bit as good as Microsoft Office and free to boot” - ZDNET\n“Truly exceptional” - TechRadar",
+        "snippet": "Rédigez facilement des formules mathématiques à l’aide d’un éditeur visuel ou en texte brut.\nLisez le guide.\nPourquoi choisir LibreOffice ?\nCe que les gens disent\n“Every bit as good as Microsoft Office and free to boot” - ZDNET\n“Truly exceptional” - TechRadar",
         "matchedWords": {
           "Rhm4_S1aJLcZ": {
             "hits": 1,
@@ -204,7 +204,7 @@
         "hash": "21XYOwp2j53x",
         "address": "https://documentation.libreoffice.org/en/english-documentation/",
         "title": "English documentation | LibreOffice Documentation - LibreOffice User Guides",
-        "snippet": "LibreOffice, which is licensed under the Mozilla Public License v2.0. “LibreOffice” and “The Document Foundation” are registered trademarks of their corresponding registered owners or are in actual use as trademarks in one or more countries. Their respective logos and icons are also subject to",
+        "snippet": "This does not include the source code of LibreOffice, which is licensed under the Mozilla Public License v2.0. “LibreOffice” and “The Document Foundation” are registered trademarks of their corresponding registered owners or are in actual use as trademarks in one or more countries.",
         "matchedWords": {
           "Rhm4_S1aJLcZ": {
             "hits": 3,
@@ -217,7 +217,7 @@
         "hash": "MewNztxeGHlx",
         "address": "https://es.libreoffice.org/",
         "title": "Inicio | LibreOffice en español - suite ofimática libre, basada en OpenOffice, compatible con Microsoft",
-        "snippet": "LibreOffice?\nLo que dice la gente\n«Exactamente igual de bueno que Microsoft Office, y encima es gratis» ― ZDNET\n«Verdaderamente excepcional» ― TechRadar",
+        "snippet": "Gestione bases de datos directamente: construya tablas, formularios, consultas e informes, todo en un solo sitio.\nLea la guía.\nMath\nEscriba con facilidad fórmulas matemáticas mediante un editor visual o con texto plano.\nLea la guía.\n¿Por qué escoger LibreOffice?\nLo que dice la gente",
         "matchedWords": {
           "Rhm4_S1aJLcZ": {
             "hits": 1,
@@ -256,7 +256,7 @@
         "hash": "0Cj1PMLQStix",
         "address": "https://zh-cn.libreoffice.org/",
         "title": "主页 | LibreOffice 简体中文官方网站 - 自由免费的办公套件",
-        "snippet": "LibreOffice 是一款功能强大的办公软件，默认使用开放文档格式 (OpenDocument Format , ODF), 并支持 *.docx, *.xlsx, *.pptx 等其他格式。\n它包含了 Writer, Calc, Impress, Draw, Base 以及 Math 等组件，可用于处理文本文档、电子表格、演示文稿、绘图以及公式编辑。\n它可以运行于 Windows, GNU/Linux 以及 macOS 等操作系统上，并具有一致的用户体验。\n国际化的开源项目\nLibreOffice 是国际化的开源项目， 由来自全球的社区成员参与开发。\n获得帮助\n您也可以成为团队的一员！",
+        "snippet": "LibreOffice 是国际化的开源项目， 由来自全球的社区成员参与开发。\n获得帮助\n您也可以成为团队的一员！\nLibreOffice 由社区创造，任何人都可以参与，不论您是否懂编程。在免费使用软件的同时，欢迎您贡献自己的才能和想法。\n加入我们！\nDay 2 of the LibreOffice Conference 2026 begins\n2026-09-11\nWell, that’s a photo from last night’s community dinner, but now the second day talks are beginning!",
         "matchedWords": {
           "Rhm4_S1aJLcZ": {
             "hits": 8,
@@ -271,7 +271,7 @@
         "hash": "ehYdFl-4htmx",
         "address": "https://www.libreoffice.org/installation-instructions/",
         "title": "Installation Instructions — LibreOffice",
-        "snippet": "LibreOffice is easy to install.\nBelow are step-by-step instructions for macOS, Linux and Windows. See Other Versions for information on various other installation methods and platforms.\nmacOS\nFirst check the system requirements before installing LibreOffice on macOS. Important: on the Download",
+        "snippet": "LibreOffice is easy to install.\nBelow are step-by-step instructions for macOS, Linux and Windows. See Other Versions for information on various other installation methods and platforms.\nmacOS\nFirst check the system requirements before installing LibreOffice on macOS.",
         "matchedWords": {
           "Rhm4_S1aJLcZ": {
             "hits": 18,
@@ -297,7 +297,7 @@
         "hash": "g5dE49OwONZ6",
         "address": "https://www.gamingonlinux.com/2026/09/yes-no-ai-is-now-a-feature-libreoffice-the-document-foundation/page=1/",
         "title": "\"Yes, no AI is now a feature\" - LibreOffice / The Document Foundation | GamingOnLinux",
-        "snippet": "LibreOffice / The Document Foundation on no AI being a feature.\nWhat is LibreOffice? It's a completely free and open source office suite. Think like Microsoft Office / Microsoft 365 - but entirely free and open. It includes apps for document writing, spreadsheets, presentations and more.\nRecently,",
+        "snippet": "Something I found interesting that deserved a write-up this morning is the blog post from LibreOffice / The Document Foundation on no AI being a feature.\nWhat is LibreOffice? It's a completely free and open source office suite.",
         "matchedWords": {
           "Rhm4_S1aJLcZ": {
             "hits": 6,
@@ -323,7 +323,7 @@
         "hash": "BLzeBEX3xSfx",
         "address": "https://ask.libreoffice.org/t/surface-charts-in-calc/8095",
         "title": "Surface charts in Calc - English - Ask LibreOffice",
-        "snippet": "April 14, 2014, 3:20pm\n#1\nI understand that there is no direct way of producing surface charts in LO Calc. There are surface chart workaround.ods like this. The existing functions for changing perspective, apperance and illumination are really neat. However, this is not the real thing as features",
+        "snippet": "April 14, 2014, 3:20pm\n#1\nI understand that there is no direct way of producing surface charts in LO Calc. There are surface chart workaround.ods like this. The existing functions for changing perspective, apperance and illumination are really neat.",
         "matchedWords": {
           "Rhm4_S1aJLcZ": {
             "hits": 0,
@@ -403,7 +403,7 @@
         "hash": "bb55mls8l0-4",
         "address": "https://www.clubic.com/telecharger-fiche446410-libreoffice-draw.html",
         "title": "Télécharger LibreOffice Draw (gratuit) Windows, Mac, Linux - Clubic",
-        "snippet": "LibreOffice Draw est sa capacité à manipuler et éditer des graphiques. Que vous ayez créé le graphique à partir de Draw lui-même ou que vous l'ayez importé à partir d'une autre source, Draw offre une pléthore d'outils pour modifier, réorganiser ou redimensionner votre graphique. Cela est",
+        "snippet": "LibreOffice Draw, cependant, vous permet d'ouvrir, de modifier et de sauvegarder des documents PDF comme si vous travailliez sur un document texte ou graphique standard. Cela fait de LibreOffice Draw un outil précieux pour toute personne travaillant régulièrement avec des documents PDF.",
         "matchedWords": {
           "Rhm4_S1aJLcZ": {
             "hits": 6,
@@ -948,7 +948,7 @@
         "hash": "g5dE49OwONZ6",
         "address": "https://www.gamingonlinux.com/2026/09/yes-no-ai-is-now-a-feature-libreoffice-the-document-foundation/page=1/",
         "title": "\"Yes, no AI is now a feature\" - LibreOffice / The Document Foundation | GamingOnLinux",
-        "snippet": "LibreOffice / The Document Foundation on no AI being a feature.\nWhat is LibreOffice? It's a completely free and open source office suite. Think like Microsoft Office / Microsoft 365 - but entirely free and open. It includes apps for document writing, spreadsheets, presentations and more.\nRecently,",
+        "snippet": "Something I found interesting that deserved a write-up this morning is the blog post from LibreOffice / The Document Foundation on no AI being a feature.\nWhat is LibreOffice? It's a completely free and open source office suite.",
         "matchedWords": {
           "Rhm4_S1aJLcZ": {
             "hits": 6,
@@ -1081,7 +1081,7 @@
         "hash": "xe-kDv8UyKhh",
         "address": "https://www.computerbase.de/news/apps/libreoffice-7-1-office-suite-neue-features.75375/",
         "title": "LibreOffice 7.1 Community: Die freie Office-Suite wird mächtiger und anpassbarer - ComputerBase",
-        "snippet": "LibreOffice veröffentlichen die Version 7.1 ihrer freien Office-Suite für Windows, Linux und macOS, die sich heute mehr denn je als Alternative zu Microsoft Office positionieren möchte. Dabei überarbeiten die Macher von Writer über Calc bis zu Impress und Draw alle Anwendungen.\nDie",
+        "snippet": "LibreOffice 7.1.1 RC kann wie die stabile Version direkt unterhalb dieser Meldung aus dem Download-Archiv von ComputerBase heruntergeladen werden.\nDownloads\nLibreOffice Download\n4,5 Sterne\nLibreOffice ist ein freies Office-Paket für Textverarbeitung, Tabellenkalkulation, Präsentationen und mehr.",
         "matchedWords": {
           "Rhm4_S1aJLcZ": {
             "hits": 21,
@@ -1094,7 +1094,7 @@
         "hash": "VeLOxl-4htmx",
         "address": "https://www.libreoffice.org/security/",
         "title": "Security advisories — LibreOffice",
-        "snippet": "LibreOffice 26.2.4\nCVE-2026-8356 Stack buffer overflow in PPT presentation import\nAnnounced: Jun 15, 2026\nFixed in: LibreOffice 26.2.4\nDescription:\nA stack buffer overflow existed when importing a colour-replacement record. Two fixed-size colour tables were filled from the file, but the write",
+        "snippet": "Announced: October 11, 2022\nFixed in: LibreOffice 7.3.6/7.4.1\nDescription:\nLibreOffice supports Office URI Schemes to enable browser integration of LibreOffice with MS SharePoint server. An additional scheme ‘vnd.libreoffice.command’ specific to LibreOffice was added.",
         "matchedWords": {
           "Rhm4_S1aJLcZ": {
             "hits": 316,
@@ -1120,7 +1120,7 @@
         "hash": "g5dE49OwONZ6",
         "address": "https://www.gamingonlinux.com/2026/09/yes-no-ai-is-now-a-feature-libreoffice-the-document-foundation/page=1/",
         "title": "\"Yes, no AI is now a feature\" - LibreOffice / The Document Foundation | GamingOnLinux",
-        "snippet": "LibreOffice / The Document Foundation on no AI being a feature.\nWhat is LibreOffice? It's a completely free and open source office suite. Think like Microsoft Office / Microsoft 365 - but entirely free and open. It includes apps for document writing, spreadsheets, presentations and more.\nRecently,",
+        "snippet": "Something I found interesting that deserved a write-up this morning is the blog post from LibreOffice / The Document Foundation on no AI being a feature.\nWhat is LibreOffice? It's a completely free and open source office suite.",
         "matchedWords": {
           "Rhm4_S1aJLcZ": {
             "hits": 6,
@@ -1239,7 +1239,7 @@
         "hash": "2xk3is9r_z8g",
         "address": "https://gnulinux.ch/serie-ralf-regt-sich-auf-ueber-libreoffice-calc",
         "title": "Serie: Ralf regt sich auf über LibreOffice-Calc",
-        "snippet": "LibreOffice-Calc, der nur unter Wayland auftritt, kann zu Datenverlust führen.\nNun ja, ich rege mich nicht auf, sondern möchte der Community und den Entwicklern einen Hinweis auf einen Bug geben. Unter gewissen Umständen kann dieser Bug Daten zerstören. Es geht um die Funktion zum iterativen",
+        "snippet": "https://de.wikipedia.org/wiki/LibreOffice_Calc#/media/Datei:LibreOffice_7.5_Calc_Icon.svg\nVon Galdam Jitsu (Geeko) - https://cgit.freedesktop.org/libreoffice/core/tree/sysui/desktop/icons/hicolor/scalable/apps/calc.svg?h=libreoffice-7.5.0.1, MPL 2, https://commons.wikimedia.org/w/index.php?",
         "matchedWords": {
           "Rhm4_S1aJLcZ": {
             "hits": 12,
@@ -1518,7 +1518,7 @@
         "hash": "ym4zSwSMo4M4",
         "address": "https://www.zdnet.com/article/whats-new-in-libreoffice-and-how-do-you-install-it-on-macos/",
         "title": "What's new in LibreOffice and how do you install it on MacOS? | ZDNET",
-        "snippet": "LibreOffice on MacOS is as simple as dragging an icon.\nImage: Jack Wallen\nThe office suite has been one of the most important tools for businesses and consumers for some time. Over the years, however, the traditional client-based app has been replaced by more cloud-centric options (such as Google",
+        "snippet": "From either your Dock or Launchpad, look for the App Store icon and launch it.\n2. Search for LibreOffice\nWithin the App Store, search for LibreOffice.\nLibreOffice can be installed from within the Apple App Store.\nImage: Jack Wallen\nOnce installed, you’ll find the LibreOffice launcher in Launchpad.",
         "matchedWords": {
           "Rhm4_S1aJLcZ": {
             "hits": 29,
@@ -1583,7 +1583,7 @@
         "hash": "BI9h2exFffU5",
         "address": "https://help.nextcloud.com/t/preview-office-document-failed-libreoffice-is-intalled-in-other-server/146493",
         "title": "Preview office document failed, libreoffice is intalled in other server - ℹ️ Support - Nextcloud community",
-        "snippet": "/usr/bin/libreoffice: not found\nfor sure, i didn’t install libreoffice in. because i’ve installed in the other machine in the same local network. as the evidence, i could open\u0026edit in nextcloud like this:\nsince in nextcloud libreoffice app setting, i set as like this:\ni tried two configuration in",
+        "snippet": "‘preview_libreoffice_path’ =\u003e ‘/usr/bin/libreoffice’,\n‘preview_libreoffice_path’ =\u003e ‘http://:9000’,\nmy question is how can i make preview work while i don’t install libreoffice in nextcloud server?\nallow me to avoid uploading my env setting, as i don’t think it’s relevant to this issue.",
         "matchedWords": {
           "Rhm4_S1aJLcZ": {
             "hits": 7,
@@ -1888,7 +1888,7 @@
         "hash": "PCpNBzxXGmlz",
         "address": "https://wiki.documentfoundation.org/ReleaseNotes/5.3",
         "title": "LibreOffice 5.3: Release Notes - The Document Foundation Wiki",
-        "snippet": "LibreOffice 5.1. WEEKNUM_OOO is now saved as ORG.LIBREOFFICE.WEEKNUM_OOO which releases 5.1 and 5.2 can read.\nNumber Format\nFraction Number Formats (Laurent BP) any of #, ? or 0 can be used for any of integer, numerator or denominator format string.\nFor instance # ?/#00 will display 3.5 as 3 1/02",
+        "snippet": "This is however, fundamentally a server service, best installed and configured by someone au-fait with SSL certificate creation, and is most useful when integrated with another solution.\nLibreOffice Online\nLibreOffice Online Writer\nLibreOffice Online Calc\nLibreOffice Online Impress",
         "matchedWords": {
           "Rhm4_S1aJLcZ": {
             "hits": 32,
@@ -2152,7 +2152,7 @@
         "hash": "0c2hEZZ5FD3x",
         "address": "https://bugs.launchpad.net/ubuntu/+source/libreoffice/+bug/1300792",
         "title": "Bug #1300792 “libreoffice toolbar icons large and ugly - no matt...” : Bugs : libreoffice package : Ubuntu",
-        "snippet": "libreoffice toolbar icons large and ugly - no matter what theme\nThis bug affects 4 people\nAffects\nStatus\nImportance\nAssigned to\nMilestone\nLibreOffice\nFix Released\nMedium\nfreedesktop-bugs #77059\nlibreoffice (Ubuntu)\nFix Released\nMedium\nUnassigned\nUbuntu trusty-updates\nBug Description\nSince the last",
+        "snippet": "libreoffice toolbar icons large and ugly - no matter what theme\nThis bug affects 4 people\nAffects\nStatus\nImportance\nAssigned to\nMilestone\nLibreOffice\nFix Released\nMedium\nfreedesktop-bugs #77059\nlibreoffice (Ubuntu)\nFix Released\nMedium\nUnassigned\nUbuntu trusty-updates\nBug Description",
         "matchedWords": {
           "Rhm4_S1aJLcZ": {
             "hits": 8,
@@ -2165,7 +2165,7 @@
         "hash": "qZrTal-4htmx",
         "address": "https://www.libreoffice.org/improve-it/",
         "title": "Improve it — LibreOffice",
-        "snippet": "LibreOffice\nBrowse our Frequently Asked Questions pages, and check they’re up-to-date (or translate them)\nUpdate or improve our marketing materials and flyers\nCheck and confirm new bug reports to help our QA team\nStill unsure? Answer a few questions to find out what you can do for LibreOffice.\nBy",
+        "snippet": "Get Involved\nNote that members can submit a grant request to fund their project.\nBite-size tasks\nGot a spare ten or twenty minutes, and want to give us a hand? Check out these quick tasks:\nHelp others by answering questions on Ask LibreOffice",
         "matchedWords": {
           "Rhm4_S1aJLcZ": {
             "hits": 3,
@@ -2178,7 +2178,7 @@
         "hash": "U3jbhlf4UL4w",
         "address": "https://www.freewear.org/LibreOffice",
         "title": "LibreOffice merchandise | FreeWear.org",
-        "snippet": "LibreOffice merchandise\nLibreOffice - The Document Foundation.\nLibreOffice is community-driven and developed software, and is a project of the not-for-profit organization, The Document Foundation. LibreOffice is free and open source software, originally based on OpenOffice.org (commonly known as",
+        "snippet": "More information: https://www.libreoffice.org/\n22.65 €\nLibreOffice real green organic t-shirt\n22.15 €\nLibreOffice fitted t-shirt\n42.95 €\nLibreOffice sweatshirt\n37.55 €\nLibreOffice sweatshirt\n17.50 €\nLibreOffice cushion cushion\n1.95 €\nLibreOffice Big Sticker sticker\n1.50 €",
         "matchedWords": {
           "Rhm4_S1aJLcZ": {
             "hits": 16,
@@ -2230,7 +2230,7 @@
         "hash": "XIY3hYj86aPx",
         "address": "https://help.libreoffice.org/latest/en-US/text/swriter/main0000.html",
         "title": "Welcome to the LibreOffice Writer Help",
-        "snippet": "LibreOffice Writer\nLibreOffice Writer Features\nInstructions for Using LibreOffice Writer\nUsing Charts in LibreOffice\nUsing Databases in LibreOffice Base\nMenus, Toolbars, and Keys\nMenus\nToolbars\nShortcut Keys for LibreOffice Writer\nHelp about the Help\nThe Help references the default settings of the",
+        "snippet": "External video\nPlease accept this video. By accepting you will be accessing content from YouTube, a service provided by an external third party.\nYouTube Privacy Policy\nWorking With LibreOffice Writer\nLibreOffice Writer Features\nInstructions for Using LibreOffice Writer\nUsing Charts in LibreOffice",
         "matchedWords": {
           "Rhm4_S1aJLcZ": {
             "hits": 7,
@@ -2284,7 +2284,7 @@
         "hash": "x5sAFVPMwjH4",
         "address": "https://docs.aws.amazon.com/zh_tw/linux/al2023/ug/al2023-libreoffice.html",
         "title": "教學課程：在 AL2023 上安裝 LibreOffice - Amazon Linux 2023",
-        "snippet": "LibreOffice 是免費的開放原始碼辦公室生產力套件，包含用於文字處理、試算表、簡報、圖表、資料庫和公式編輯的應用程式。您可以在 Amazon Linux 2023 (AL2023) 執行個體上安裝 LibreOffice，為使用者提供功能完整的桌面辦公室套件。\nLibreOffice 由 Document Foundation 在 AL2023 上正式測試和支援。如需詳細資訊，請參閱 LibreOffice 64 位元進度和對 Amazon Linux 2023 的支援\n。\n目錄\n先決條件\n步驟 1：判斷您的系統架構\n步驟 2：下載 LibreOffice RPM 套件\n步驟",
+        "snippet": "libreoffice --writer # Word processor libreoffice --calc # Spreadsheet libreoffice --impress # Presentations libreoffice --draw # Diagrams libreoffice --base # Database libreoffice --math # Formula editor\n從 GNOME 桌面\n安裝後，LibreOffice 應用程式會出現在 GNOME 活動選單中。選擇左上角的活動，搜尋「LibreOffice」，然後選取所需的應用程式。\n疑難排解",
         "matchedWords": {
           "Rhm4_S1aJLcZ": {
             "hits": 35,
@@ -2310,7 +2310,7 @@
         "hash": "_WED-xtQ-zSx",
         "address": "https://wiki.archlinux.org/title/LibreOffice_(%D0%A0%D1%83%D1%81%D1%81%D0%BA%D0%B8%D0%B9)",
         "title": "LibreOffice (Русский) - ArchWiki",
-        "snippet": "LibreOffice. Дата последней синхронизации: 16 сентября 2021. Вы можете помочь синхронизировать перевод, если в английской версии произошли изменения.\nС домашней страницы LibreOffice:\nLibreOffice — мощный офисный пакет, полностью совместимый с 32/64-битными системами. Переведён более чем на 30",
+        "snippet": "Для русского интерфейса установите libreoffice-still-ru или libreoffice-fresh-ru соответственно установленной вами версии LibreOffice.\nПроверьте опциональные зависимости, которые выводит pacman. Java Runtime Environment не требуется, пока вы не захотите использовать Libreoffice Base: см.",
         "matchedWords": {
           "Rhm4_S1aJLcZ": {
             "hits": 64,
@@ -2336,7 +2336,7 @@
         "hash": "J2u3D6PMwjH4",
         "address": "https://docs.aws.amazon.com/zh_cn/linux/al2023/ug/al2023-libreoffice.html",
         "title": "教程：安装 LibreOffice 在 AL2023 - Amazon Linux 2023",
-        "snippet": "LibreOffice 是一款免费的开源办公生产力套件，包括文字处理、电子表格、演示文稿、图表、数据库和公式编辑应用程序。您可以 LibreOffice 在 Amazon Linux 2023 (AL2023) 实例上安装，为用户提供功能齐全的桌面办公套件。\nLibreOffice 已 AL2023 由文档基金会正式测试和支持。有关更多信息，请参阅 LibreOffice 64 位进度以及对亚马逊 Linux 2023 的支持\n。\n内容\n前提条件\n步骤 1：确定您的系统架构\n第 2 步：下载 LibreOffice RPM 软件包\n步骤 3：解压缩档案\n第 4 步：安装 RPM 软件包\n步骤",
+        "snippet": "libreoffice --writer # Word processor libreoffice --calc # Spreadsheet libreoffice --impress # Presentations libreoffice --draw # Diagrams libreoffice --base # Database libreoffice --math # Formula editor\n从 GNOME 桌面\n安装后， LibreOffice 应用程序会出现在 GNOME 活动菜单中。选择左上角的 “活动”，搜索 LibreOffice “”，然后选择所需的应用程序。",
         "matchedWords": {
           "Rhm4_S1aJLcZ": {
             "hits": 32,
@@ -2680,7 +2680,7 @@
         "hash": "X0gS6jRvmBbx",
         "address": "https://en.wikipedia.org/wiki/LibreOffice",
         "title": "LibreOffice - Wikipedia",
-        "snippet": "LibreOffice\nLibreOffice 25 on Debian Trixie\nOriginal author\nStar Division\nDeveloper\nThe Document Foundation\nRelease\n25 January 2011; 15 years ago\nStable release(s)\nFresh: 26.8[1]\n/ 26 August 2026[1]\nStill: 26.2.6[2]\n/ 4 September 2026[2]\nPreview release(s)\n27.2.0.0.alpha0 / 16 June 2026[3]\n(master",
+        "snippet": "Retrieved 24 November 2014.\n1 2 \"LibreOffice Impress\". Libreoffice.org. Archived from the original on 3 September 2018. Retrieved 24 November 2014.\n↑ \"LibreOffice Draw\". Libreoffice.org. Archived from the original on 20 November 2014. Retrieved 24 November 2014.\n↑ \"LibreOffice Math\".",
         "matchedWords": {
           "Rhm4_S1aJLcZ": {
             "hits": 187,
@@ -2693,7 +2693,7 @@
         "hash": "v-M4Dcw63Csx",
         "address": "https://fr.wikipedia.org/wiki/LibreOffice",
         "title": "LibreOffice — Wikipédia",
-        "snippet": "LibreOffice\nInformations\nDéveloppé par\nThe Document Foundation\nPremière version\n3.3 (25 janvier 2011)[1]\nDernière version\n27.2.0.0.alpha0 (16 juin 2026)[2]\n26.8 (26 août 2026)[3]\n26.2.6 (4 septembre 2026)[4]\nVersion avancée\n27.2.0.0.alpha0 (16 juin 2026)[2]\nDépôt\ngit.libreoffice.org\nÉcrit en\nC++",
+        "snippet": "↑ (en) Libcdr resurrects Waldo, gets basic spot colors support.\n↑ « Fonctionnalités de LibreOffice Base », sur libreoffice.org (consulté le 5 septembre 2026).\n↑ « Aide LibreOffice Basic », sur help.libreoffice.org, 1er janvier 2023 (consulté le 5 septembre 2026).",
         "matchedWords": {
           "Rhm4_S1aJLcZ": {
             "hits": 59,
@@ -2812,7 +2812,7 @@
         "hash": "wXVn0vKqlBA4",
         "address": "https://www.phoronix.com/news/LibreOffice-26-Donation-Banner",
         "title": "LibreOffice 26.8 To Add A Donation Banner To Its Start Center - Phoronix",
-        "snippet": "LibreOffice 26.8 merged initial support for adding a donation banner to its Start Center. This initial UI when launching LibreOffice aims to make users aware of the community-driven focus of the project and to hopefully solicit additional donations from the community.\nA task opened a few weeks ago",
+        "snippet": "LibreOffice 26.8 merged initial support for adding a donation banner to its Start Center. This initial UI when launching LibreOffice aims to make users aware of the community-driven focus of the project and to hopefully solicit additional donations from the community.",
         "matchedWords": {
           "Rhm4_S1aJLcZ": {
             "hits": 6,
@@ -2825,7 +2825,7 @@
         "hash": "wYdvKAJGtFlz",
         "address": "https://design.blog.documentfoundation.org/",
         "title": "Design Community Blog - Blog site from the design and UX teams working on LibreOffice",
-        "snippet": "LibreOffice Base. Similar to the questionnaires about LibreOffice Draw (see first and second blog post) and LibreOffice Calc, we asked about use cases, the most important features, the pain points – and what users expect in the future to support development and\nRead More\nIn the past we run several",
+        "snippet": "Similar to the questionnaires about LibreOffice Draw (see first and second blog post) and LibreOffice Calc (see this post) we now run a survey on LibreOffice Impress to learn how the program is utilized, what features are used most frequently, and what users see as positive and negative and what",
         "matchedWords": {
           "Rhm4_S1aJLcZ": {
             "hits": 13,
@@ -3208,7 +3208,7 @@
         "hash": "DchgXl-4htmx",
         "address": "https://www.libreoffice.org/download-other/",
         "title": "Alternative installation methods, SDK and source code — LibreOffice",
-        "snippet": "LibreOffice Impress Remote\nLibreOffice for Android and iOS\nLibreOffice Portable\nLibreOffice via Chocolatey\nLibreOffice in Flatpak format\nLibreOffice as Snap\nLibreOffice as AppImage\nLibreOffice Online\nApp Stores\nYou can download LibreOffice for free directly from our website, for Windows, macOS and",
+        "snippet": "App Stores\nDevelopment versions\nOld versions\nLibreOffice Impress Remote\nLibreOffice for Android and iOS\nLibreOffice Portable\nLibreOffice via Chocolatey\nLibreOffice in Flatpak format\nLibreOffice as Snap\nLibreOffice as AppImage\nLibreOffice Online\nApp Stores",
         "matchedWords": {
           "Rhm4_S1aJLcZ": {
             "hits": 100,
@@ -3221,7 +3221,7 @@
         "hash": "e3kA0O1f59yx",
         "address": "https://cs.libreoffice.org/get-help/documentation/",
         "title": "Dokumentace | LibreOffice - Svobodný kancelářský balík - Smysluplný projekt - Skvělí lidé",
-        "snippet": "LibreOffice. Klikněte na odkaz a stáhněte si zdarma dokumentaci ve formátu PDF nebo ODT. Jednotlivé kapitoly všech knih, včetně návodů na starší verze LibreOffice jsou ke stažení na této wiki stránce. České příručky jsou dostupné také na Google Play. Online verze příruček najdete v knihovně. O",
+        "snippet": "Podpora /\nDokumentace\nDokumentace\nNíže jsou uvedeny odkazy na uživatelské průvodce LibreOffice. Klikněte na odkaz a stáhněte si zdarma dokumentaci ve formátu PDF nebo ODT. Jednotlivé kapitoly všech knih, včetně návodů na starší verze LibreOffice jsou ke stažení na této wiki stránce.",
         "matchedWords": {
           "Rhm4_S1aJLcZ": {
             "hits": 8,
@@ -3474,7 +3474,7 @@
         "hash": "ZYA3wl-4htmx",
         "address": "https://www.libreoffice.org/who-are-we/",
         "title": "Who are we? — LibreOffice",
-        "snippet": "LibreOffice is community-driven and developed software, and is a project of the not-for-profit organization, The Document Foundation. LibreOffice is free and open source software, originally based on OpenOffice.org (commonly known as OpenOffice), and is the most actively developed OpenOffice.org",
+        "snippet": "LibreOffice is community-driven and developed software, and is a project of the not-for-profit organization, The Document Foundation.",
         "matchedWords": {
           "Rhm4_S1aJLcZ": {
             "hits": 9,
@@ -3487,7 +3487,7 @@
         "hash": "V389_bo-5aSx",
         "address": "https://conference.libreoffice.org/2024/sponsors",
         "title": "Sponsors » LibreOffice Conference",
-        "snippet": "LibreOffice, which is licensed under the Mozilla Public License v2.0. “LibreOffice” and “The Document Foundation” are registered trademarks of their corresponding registered owners or are in actual use as trademarks in one or more countries. Their respective logos and icons are also subject to",
+        "snippet": "This does not include the source code of LibreOffice, which is licensed under the Mozilla Public License v2.0. “LibreOffice” and “The Document Foundation” are registered trademarks of their corresponding registered owners or are in actual use as trademarks in one or more countries.",
         "matchedWords": {
           "Rhm4_S1aJLcZ": {
             "hits": 3,
@@ -3738,7 +3738,7 @@
         "hash": "429rsWdEd1C6",
         "address": "https://heathermeeker.com/tag/libreoffice/",
         "title": "libreoffice – Copyleft Currents",
-        "snippet": "LibreOffice and a licensing war over OnlyOffice have resulted in the biggest threat to open source office software since Oracle nearly killed the whole Open Office project back in the early 2010s.\nThe open source office software world rarely makes headlines. Spreadsheets and word processors are the",
+        "snippet": "The Document Foundation Turns on its Own Builders\nLibreOffice’s main support at the time was Collabora Productivity, a UK-based company whose developers accounted for roughly 80% of all commits to the LibreOffice codebase.",
         "matchedWords": {
           "Rhm4_S1aJLcZ": {
             "hits": 14,
@@ -3751,7 +3751,7 @@
         "hash": "8MHuJlPsL0Jz",
         "address": "https://www.documentfoundation.org/",
         "title": "The Document Foundation - The House of LibreOffice and Document Liberation Project — The Document Foundation",
-        "snippet": "LibreOffice, the next evolution of the world’s leading free office suite, and The Document Liberation Project, a community of developers united to free users from vendor lock-in of content by providing powerful tools for the conversion of proprietary file formats to the corresponding ODF format.",
+        "snippet": "The Document Foundation is proud to be the home of LibreOffice, the next evolution of the world’s leading free office suite, and The Document Liberation Project, a community of developers united to free users from vendor lock-in of content by providing powerful tools for the conversion of",
         "matchedWords": {
           "Rhm4_S1aJLcZ": {
             "hits": 3,
@@ -4134,7 +4134,7 @@
         "hash": "DchgXl-4htmx",
         "address": "https://www.libreoffice.org/download-other/",
         "title": "Alternative installation methods, SDK and source code — LibreOffice",
-        "snippet": "LibreOffice Impress Remote\nLibreOffice for Android and iOS\nLibreOffice Portable\nLibreOffice via Chocolatey\nLibreOffice in Flatpak format\nLibreOffice as Snap\nLibreOffice as AppImage\nLibreOffice Online\nApp Stores\nYou can download LibreOffice for free directly from our website, for Windows, macOS and",
+        "snippet": "App Stores\nDevelopment versions\nOld versions\nLibreOffice Impress Remote\nLibreOffice for Android and iOS\nLibreOffice Portable\nLibreOffice via Chocolatey\nLibreOffice in Flatpak format\nLibreOffice as Snap\nLibreOffice as AppImage\nLibreOffice Online\nApp Stores",
         "matchedWords": {
           "Rhm4_S1aJLcZ": {
             "hits": 100,
@@ -4147,7 +4147,7 @@
         "hash": "Sah2als8l0-4",
         "address": "https://www.clubic.com/telecharger-fiche446386-libreoffice-1.html",
         "title": "Télécharger LibreOffice Calc (gratuit) Windows, Mac, Linux - Clubic",
-        "snippet": "LibreOffice Calc excelle dans la manipulation des cellules. Derrière son interface épurée, cet outil cache un moteur puissant capable de gérer un grand nombre de lignes et de colonnes. Avec Calc, vous pouvez fusionner des cellules pour créer des titres ou des en-têtes, trier et filtrer les données",
+        "snippet": "Cette polyvalence fait de Calc un outil puissant pour tout type de traitement de données.\nIntégration avec les autres logiciels LibreOffice\nL'une des forces de LibreOffice Calc réside dans sa capacité à s'intégrer avec les autres logiciels du pack LibreOffice.",
         "matchedWords": {
           "Rhm4_S1aJLcZ": {
             "hits": 9,
@@ -4267,7 +4267,7 @@
         "hash": "R5HvsLX3xSfx",
         "address": "https://ask.libreoffice.org/",
         "title": "Ask LibreOffice",
-        "snippet": "LibreOffice\n4278\n简体中文\n这一个分类是为简体中文的用户而设置，但并不限简体中文的用户才能使用与讨论。欢迎所有可以使用简体中文沟通的朋友一起来参与讨论与回复。\n80\n正體中文\n263\nHrvatski\n19\nČeština a slovenčina\nKategorie Čeština a slovenčina slouží pro dotazy uživatelů LibreOffice v českém a slovenském jazyce. Dotazy by se měly týkat softwaru LibreOffice a aktivit projektu.",
+        "snippet": "Kategorie Čeština a slovenčina slouží pro dotazy uživatelů LibreOffice v českém a slovenském jazyce. Dotazy by se měly týkat softwaru LibreOffice a aktivit projektu. Nepokládejte dotazy na obecná IT témata.\nPři dotazování doporučujeme",
         "matchedWords": {
           "Rhm4_S1aJLcZ": {
             "hits": 5,
@@ -4280,7 +4280,7 @@
         "hash": "ilWjy61ajpq5",
         "address": "https://www.linuxjournal.com/index%2ephp/content/libreoffice-drives-europes-open-source-shift-growing-push-digital-sovereignty",
         "title": "LibreOffice Drives Europe’s Open Source Shift: A Growing Push for Digital Sovereignty | Linux Journal",
-        "snippet": "LibreOffice is increasingly at the center of Europe’s push toward open-source adoption and digital independence. Backed by The Document Foundation, the widely used office suite is playing a key role in helping governments, institutions, and organizations reduce reliance on proprietary software",
+        "snippet": "LibreOffice as a Strategic Tool\nLibreOffice isn’t just another productivity application, it has become a strategic component in Europe’s digital policy framework.\nThe software:\nIs fully open source and community-driven\nSupports open standards like OpenDocument Format (ODF)",
         "matchedWords": {
           "Rhm4_S1aJLcZ": {
             "hits": 17,
@@ -4306,7 +4306,7 @@
         "hash": "kvqmPdwG-02z",
         "address": "https://blog.documentfoundation.org/blog/2018/06/18/simplicity-and-flexibility-choose-the-right-libreoffice-interface-for-you/",
         "title": "Simplicity and flexibility: choose the right LibreOffice interface for you - TDF Community Blog",
-        "snippet": "LibreOffice community, we strive to create the best user experience, but we also recognise that different users have different requirements.\nTo this end, LibreOffice includes three main user interface designs, accessible via View \u003e Toolbar Layout in the menu. Let’s go through them…\nThe first",
+        "snippet": "To this end, LibreOffice includes three main user interface designs, accessible via View \u003e Toolbar Layout in the menu. Let’s go through them…\nThe first layout, Default, is what you see when you first install LibreOffice:\nIt’s a familiar layout with two toolbars containing various buttons.",
         "matchedWords": {
           "Rhm4_S1aJLcZ": {
             "hits": 4,
@@ -4401,7 +4401,7 @@
         "hash": "xjXbWvKqlBA4",
         "address": "https://www.phoronix.com/news/LibreOffice-25.8-RC1",
         "title": "LibreOffice 25.8 RC1 Released With Various File Performance Improvements - Phoronix",
-        "snippet": "LibreOffice 25.8 open-source office suite is now available for testing. This half-year update as the leading free software alternative to Microsoft Office has been working on performance improvements for various file types, dropping support for old versions of Windows, and various other",
+        "snippet": "LibreOffice 25.8 remains tracking on schedule for its release in late August. Out this morning is LibreOffice 25.8 RC1 to encourage further testing. Two more release candidates are planned in the coming weeks.",
         "matchedWords": {
           "Rhm4_S1aJLcZ": {
             "hits": 10,
@@ -4414,7 +4414,7 @@
         "hash": "zfp_TfS6MKD4",
         "address": "https://github.com/LibreOffice/core/tags",
         "title": "Tags · LibreOffice/core · GitHub",
-        "snippet": "libreoffice-26.2.6.3\nToggle libreoffice-26.2.6.3's commit message\nTag libreoffice-26.2.6.3\nSep 2, 2026\n8221e31\nzip\ntar.gz\nlibreoffice-26.2.6.2\nToggle libreoffice-26.2.6.2's commit message\nTag libreoffice-26.2.6.2\nAug 31, 2026\nad5cf9f\nzip\ntar.gz\nlibreoffice-26.8.0.3\nToggle libreoffice-26.8.0.3's",
+        "snippet": "libreoffice-26.2.6.3\nToggle libreoffice-26.2.6.3's commit message\nTag libreoffice-26.2.6.3\nSep 2, 2026\n8221e31\nzip\ntar.gz\nlibreoffice-26.2.6.2\nToggle libreoffice-26.2.6.2's commit message\nTag libreoffice-26.2.6.2\nAug 31, 2026\nad5cf9f\nzip\ntar.gz\nlibreoffice-26.8.0.3",
         "matchedWords": {
           "Rhm4_S1aJLcZ": {
             "hits": 30,
@@ -4440,7 +4440,7 @@
         "hash": "xuqxcYL_TxYx",
         "address": "https://languagetool.org/insights/post/product-libreoffice/",
         "title": "How To Enable LanguageTool on LibreOffice: Step by Step",
-        "snippet": "LibreOffice, a free office suite used by millions worldwide. We’ll show you how to enable LanguageTool on this powerful program.\nDisclaimer\nThis plug-in for LibreOffice comes from the LanguageTool community and is therefore not official. When installing on macOS, the screenshots as well as the",
+        "snippet": "1. Download and start LibreOffice\nClick on the following link to download LibreOffice for free:\nDownload LibreOffice | LibreOffice – Free Office Suite – Based on OpenOffice – Compatible with Microsoft\nDownload free office suite for Windows, macOS and Linux.",
         "matchedWords": {
           "Rhm4_S1aJLcZ": {
             "hits": 25,
@@ -4466,7 +4466,7 @@
         "hash": "zeO10FX3xSfx",
         "address": "https://ask.libreoffice.org/c/italian/8",
         "title": "Latest Italiano topics - Ask LibreOffice",
-        "snippet": "Libreoffice base formulari base\n1\n433\nJune 23, 2026\nCalc: spostare una colonna contenente dati e formule calc\n3\n375\nJune 22, 2026\nSalvataggio file pdf base\n1\n297\nJune 21, 2026\nSmart Art in Impress impress , smart-art\n2\n5524\nJune 14, 2026\nOrdinare numeri o date con una macro calc\n3\n371\nJune 13, 2026",
+        "snippet": "August 18, 2026\nAssociazione dell'applicazione di apertura writer , calc\n4\n238\nJuly 15, 2026\nProblemi con 26.2.4.2 [non si apre] common\n4\n320\nJuly 12, 2026\nDraw visualizzare quote draw\n3\n200\nJuly 11, 2026\nLibreoffice base formulari base\n1\n433\nJune 23, 2026",
         "matchedWords": {
           "Rhm4_S1aJLcZ": {
             "hits": 1,
@@ -4546,7 +4546,7 @@
         "hash": "4hkFtWSMo4M4",
         "address": "https://www.zdnet.com/home-and-office/work-life/how-i-use-libreoffice-templates-to-work-smarter-and-you-can-too/",
         "title": "How I use LibreOffice templates to work smarter - and you can too | ZDNET",
-        "snippet": "LibreOffice is an open-source office suite that includes everything you need to be productive on any desktop operating system. LibreOffice is my default for both Linux and MacOS, and I’ve used the software to write almost 70 novels.\nOne feature LibreOffice includes is templates, a powerful tool for",
+        "snippet": "If you’re using LibreOffice on MacOS or Windows, open the main LibreOffice app and click the document type under the Create section in the sidebar.\nThe LibreOffice template library is simple to use.\nScreenshot by Jack Wallen/ZDNET\n2. Add content",
         "matchedWords": {
           "Rhm4_S1aJLcZ": {
             "hits": 15,
@@ -4650,7 +4650,7 @@
         "hash": "2xk3is9r_z8g",
         "address": "https://gnulinux.ch/serie-ralf-regt-sich-auf-ueber-libreoffice-calc",
         "title": "Serie: Ralf regt sich auf über LibreOffice-Calc",
-        "snippet": "LibreOffice-Calc, der nur unter Wayland auftritt, kann zu Datenverlust führen.\nNun ja, ich rege mich nicht auf, sondern möchte der Community und den Entwicklern einen Hinweis auf einen Bug geben. Unter gewissen Umständen kann dieser Bug Daten zerstören. Es geht um die Funktion zum iterativen",
+        "snippet": "https://de.wikipedia.org/wiki/LibreOffice_Calc#/media/Datei:LibreOffice_7.5_Calc_Icon.svg\nVon Galdam Jitsu (Geeko) - https://cgit.freedesktop.org/libreoffice/core/tree/sysui/desktop/icons/hicolor/scalable/apps/calc.svg?h=libreoffice-7.5.0.1, MPL 2, https://commons.wikimedia.org/w/index.php?",
         "matchedWords": {
           "Rhm4_S1aJLcZ": {
             "hits": 12,
@@ -4797,7 +4797,7 @@
         "hash": "8MHuJlPsL0Jz",
         "address": "https://www.documentfoundation.org/",
         "title": "The Document Foundation - The House of LibreOffice and Document Liberation Project — The Document Foundation",
-        "snippet": "LibreOffice, the next evolution of the world’s leading free office suite, and The Document Liberation Project, a community of developers united to free users from vendor lock-in of content by providing powerful tools for the conversion of proprietary file formats to the corresponding ODF format.",
+        "snippet": "The Document Foundation is proud to be the home of LibreOffice, the next evolution of the world’s leading free office suite, and The Document Liberation Project, a community of developers united to free users from vendor lock-in of content by providing powerful tools for the conversion of",
         "matchedWords": {
           "Rhm4_S1aJLcZ": {
             "hits": 3,

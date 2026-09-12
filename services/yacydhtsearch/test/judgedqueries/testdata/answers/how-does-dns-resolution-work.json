@@ -1,13 +1,13 @@
 {
   "query": "how does dns resolution work",
-  "recordedAt": "2026-09-12T00:23:37Z",
+  "recordedAt": "2026-09-12T07:52:04Z",
   "itemsInTheOrderOfEachAnswer": [
     [
       {
         "hash": "F1n0LluI8hnw",
         "address": "https://www.eff.org/deeplinks/2015/12/how-tpp-will-affect-you-and-your-digital-rights",
         "title": "How the TPP Will Affect You and Your Digital Rights | Electronic Frontier Foundation",
-        "snippet": "how insignificant that copyrighted content is to the whole of the video. Their account may also be suspended or restricted permanently or for a prolonged amount of time. If it happens to go viral they may be held criminally liable because it's arguably available at a \"commercial scale.\"\nThose who",
+        "snippet": "Fans could face a lawsuit or a criminal prosecution even if the author of the work they used or modified does not care about the activity in question. That means law enforcement can go after fans for derivative works on a “commercial scale” without the author of the original work filing charges.",
         "matchedWords": {
           "24igJXwiDb_d": {
             "hits": 2,
@@ -38,7 +38,7 @@
         "hash": "7T32t2jw1Zlx",
         "address": "https://kubernetes.io/docs/concepts/resource-management/dynamic-resource-allocation/how-dra-works/",
         "title": "How DRA Works | Kubernetes",
-        "snippet": "how Kubernetes allocates devices to workloads with dynamic resource allocation (DRA), and how pre-scheduled Pods interact with the process.\nHow resource allocation with DRA works\nThe following sections describe the workflow for the various types of DRA users and for the Kubernetes system during",
+        "snippet": "This page describes how Kubernetes allocates devices to workloads with dynamic resource allocation (DRA), and how pre-scheduled Pods interact with the process.\nHow resource allocation with DRA works",
         "matchedWords": {
           "24igJXwiDb_d": {
             "hits": 6,
@@ -69,7 +69,7 @@
         "hash": "2CAHw8uKjjbw",
         "address": "https://wiki.gentoo.org/wiki/FAQ",
         "title": "FAQ - Gentoo wiki",
-        "snippet": "how to use Gentoo, and GNU/Linux more broadly. The main Gentoo documentation is on the wiki, and in the Handbook. More information may be found in man pages, info pages, /usr/share/doc/, upstream, etc. Many commands also support the --help or -h switches.\nThese questions are often collected from",
+        "snippet": "Please note that there are several pages that provide information about Gentoo Linux. See the page on the website about Gentoo, the philosophy of Gentoo, and the article on the benefits of Gentoo. The handbook also has a section about Gentoo.\nHow is Gentoo pronounced, and what does it mean?",
         "matchedWords": {
           "24igJXwiDb_d": {
             "hits": 17,
@@ -100,7 +100,7 @@
         "hash": "vo6A9AK-xyJ4",
         "address": "https://go.dev/doc/go1.7",
         "title": "Go 1.7 Release Notes - The Go Programming Language",
-        "snippet": "work correctly on Sierra.\nGo 1.7 adds an experimental port to Linux on z Systems (linux/s390x) and the beginning of a port to Plan 9 on ARM (plan9/arm).\nThe experimental ports to Linux on 64-bit MIPS (linux/mips64 and linux/mips64le) added in Go 1.6 now have full support for cgo and external",
+        "snippet": "The pure Go name resolution implementation now respects nsswitch.conf’s stated preference for the priority of DNS lookups compared to local file (that is, /etc/hosts) lookups.\nnet/http",
         "matchedWords": {
           "24igJXwiDb_d": {
             "hits": 0,
@@ -131,7 +131,7 @@
         "hash": "W-eXqzF3--Qw",
         "address": "https://planet.mozilla.org/",
         "title": "Planet Mozilla",
-        "snippet": "work: Replaced the “more themes” button in the themes list view footer with a promo element when Nova is enabled – Bug 2057200\nRemoved the testing XPI base url pref from ThemesList.sys.mjs – Bug 2053220\nFixed a mismatch between the popup panel border radius applied by Nova and the border radius",
+        "snippet": "How does the user change their view and navigate forward and backward?\nHow does the user connect to their calendars, and manage them all in one place?\nThese considerations led us to a lean design, with screen space broken up into three main sections.",
         "matchedWords": {
           "24igJXwiDb_d": {
             "hits": 148,
@@ -163,7 +163,7 @@
       "hash": "FDbC6B-c6vHw",
       "address": "https://nixos.org/manual/nixpkgs/stable/",
       "title": "Nixpkgs 23.05 manual | Nix \u0026 NixOS",
-      "snippet": "work differently:\nA built-in fetcher will download and cache files at evaluation time and produce a store path. A Nixpkgs fetcher will create a (fixed-output) derivation, and files are downloaded at build time.\nBuilt-in fetchers will invalidate their cache after tarball-ttl expires, and will",
+      "snippet": "fakeNss also provides /etc/nsswitch.conf, configuring NSS host resolution to first check /etc/hosts before checking DNS, since the default in the absence of a config file (dns [!UNAVAIL=return] files) is quite unexpected.",
       "matchedWords": {
         "24igJXwiDb_d": {
           "hits": 133,
@@ -192,7 +192,7 @@
       "hash": "az8RMs5DCs35",
       "address": "https://wordpress.com/hosting/",
       "title": "Managed WordPress Hosting | Super Fast. Ultra Secure | WordPress.com",
-      "snippet": "Run an online store and keep more of what you earn.\nStorage\n50 GB\n50 GB\nIncluded in plan\n50 GB + 50 GB\n50 GB + 100 GB\n50 GB + 150 GB\n50 GB + 200 GB\n50 GB + 250 GB\n50 GB + 300 GB\n50 GB + 350 GB\n50 GB storage\n50 GB\n50 GB\nIncluded in plan\n50 GB + 50 GB\n50 GB + 100 GB\n50 GB + 150 GB\n50 GB + 200 GB\n50",
+      "snippet": "Run an online store and keep more of what you earn.\nStorage\n50 GB\n50 GB\nIncluded in plan\n50 GB + 50 GB\n50 GB + 100 GB\n50 GB + 150 GB\n50 GB + 200 GB\n50 GB + 250 GB\n50 GB + 300 GB\n50 GB + 350 GB\n50 GB storage\n50 GB\n50 GB\nIncluded in plan\n50 GB + 50 GB\n50 GB + 100 GB\n50 GB + 150 GB\n50 GB + 200 GB",
       "matchedWords": {
         "24igJXwiDb_d": {
           "hits": 0,
@@ -221,7 +221,7 @@
       "hash": "eODiks5DCs35",
       "address": "https://wordpress.com/pricing/",
       "title": "WordPress.com Pricing and Plans | Start Building Today",
-      "snippet": "DNS with SSL Fast, reliable domain management with secure SSL.\nExtremely fast DNS with SSL\nExtremely fast DNS with SSL\nExtremely fast DNS with SSL\nExtremely fast DNS with SSL\nExtremely fast DNS with SSL\nHigh-burst capacity Lean on integrated resource management and instant scaling.\nHigh-burst",
+      "snippet": "Extremely fast DNS with SSL Fast, reliable domain management with secure SSL.\nExtremely fast DNS with SSL\nExtremely fast DNS with SSL\nExtremely fast DNS with SSL\nExtremely fast DNS with SSL\nExtremely fast DNS with SSL\nHigh-burst capacity Lean on integrated resource management and instant scaling.",
       "matchedWords": {
         "24igJXwiDb_d": {
           "hits": 0,
@@ -250,7 +250,7 @@
       "hash": "fRk_vs5DCs35",
       "address": "https://wordpress.com/features/",
       "title": "Explore WordPress.com Features | WordPress.com",
-      "snippet": "resolution, picture-in-picture, chapters, subtitles, and different playback speeds.\nPre-Built Block Patterns\nCreate great-looking layouts simply by inserting elegant pre-built block patterns into your pages and posts.\nAdvanced Design Tools\nCustomize your blog’s design with extended color schemes,",
+      "snippet": "Your site is hosted, secured, and ready for visitors from day one. Share it on social media, grow your audience through the WordPress.com Reader, and keep building from there.\nFeatures FAQs\nWhat is WordPress.com and how does it work?",
       "matchedWords": {
         "24igJXwiDb_d": {
           "hits": 4,
@@ -279,7 +279,7 @@
       "hash": "VpCOpt6ArEvw",
       "address": "https://blog.archive.org/",
       "title": "Internet Archive Blogs | Updates from the Internet Archive",
-      "snippet": "work expanded over 46 years.\nThe multimedia collective has produced more than 30 albums and EPs, as well as fine art, books, radio and live performances that mix found and original material. The band came up with the phrase “culture jamming” to describe its approach to layering art from various",
+      "snippet": "“But from a creative and artistic standpoint, that’s awesome. It’s fantastic. If critics can’t figure out how to talk about the work, maybe it means we actually are doing something a little bit different.”",
       "matchedWords": {
         "24igJXwiDb_d": {
           "hits": 6,
@@ -308,7 +308,7 @@
       "hash": "sC0kMlDOAHJg",
       "address": "https://www.heise.de/en",
       "title": "heise online – IT news, guides and background information | heise online",
-      "snippet": "does not result in a total price under consumer law.\niPhone Duo: Apple managers explain display, operating concept, and price\nIn video interviews, Apple executives provide insights into the development of the iPhone Duo and explain the strategy behind the complex folding smartphone.\nSocial Media",
+      "snippet": "Aufzeichnung\n20.08. – 17.09.2026\nClassroom entdecken\nOLG Cologne curbs consumer advocates: “Paying with data” is not a price\nAnyone using customer apps often pays with data. Per the Cologne Higher Regional Court, this does not result in a total price under consumer law.",
       "matchedWords": {
         "24igJXwiDb_d": {
           "hits": 2,
@@ -337,7 +337,7 @@
       "hash": "h6qKJHS6MKD4",
       "address": "https://github.com/mcp/microsoft/playwright-mcp",
       "title": "MCP Registry | Playwright · GitHub",
-      "snippet": "does not serve as a security boundary and does not affect redirects.\nenv PLAYWRIGHT_MCP_ALLOWED_ORIGINS\n--allow-unrestricted-file-access\nallow access to files outside of the workspace roots. Also allows unrestricted access to file:// URLs. By default access to file system is restricted to workspace",
+      "snippet": "env PLAYWRIGHT_MCP_TIMEOUT_ACTION\n--timeout-navigation\nspecify navigation timeout in milliseconds, defaults to 60000ms\nenv PLAYWRIGHT_MCP_TIMEOUT_NAVIGATION\n--timeout-settle\nhow long to wait after each action for triggered work to settle, in milliseconds, defaults to 500ms",
       "matchedWords": {
         "24igJXwiDb_d": {
           "hits": 3,
@@ -366,7 +366,7 @@
       "hash": "MFZemWSMo4M4",
       "address": "https://www.zdnet.com/home-and-office/home-entertainment/roku-tv-vs-fire-stick/",
       "title": "Roku TV vs. Fire Stick: Why I'm looking beyond streaming resolution when comparing the two - ZDNET",
-      "snippet": "resolution, Dolby Vision, HDR10, HDR10+\n4K resolution, HDR10, HDR10+\nFrame rate\n60 FPS\n60 FPS\nWi-Fi\nWi-Fi 6 Dual-band\nWi-Fi 5 Dual-band\nPorts\nHDMI 2.1 output with ARC support, Micro-USB for power\nHDMI 2.0b\nRemote batteries\nTwo AAA batteries\nTwo AAA batteries\nYou should buy a Fire TV Stick 4K Plus",
+      "snippet": "Roku Streaming Stick Plus\nNormal Retail Price\n$50\n$40\nPicture quality\n4K resolution, Dolby Vision, HDR10, HDR10+\n4K resolution, HDR10, HDR10+\nFrame rate\n60 FPS\n60 FPS\nWi-Fi\nWi-Fi 6 Dual-band\nWi-Fi 5 Dual-band\nPorts\nHDMI 2.1 output with ARC support, Micro-USB for power\nHDMI 2.0b\nRemote batteries",
       "matchedWords": {
         "24igJXwiDb_d": {
           "hits": 1,
@@ -453,7 +453,7 @@
       "hash": "XwuSSjXxSRFx",
       "address": "https://www.rfc-editor.org/rfc/rfc9110.html",
       "title": "RFC 9110: HTTP Semantics",
-      "snippet": "how to provide feedback on it may be obtained at https://www.rfc-editor.org/info/rfc9110.¶\nCopyright Notice\nCopyright (c) 2022 IETF Trust and the persons identified as the document authors. All rights reserved.¶\nThis document is subject to BCP 78 and the IETF Trust's Legal Provisions Relating to",
+      "snippet": "It does not define how resource state is \"stored\", nor how such storage might change as a result of a change in resource state, nor how the origin server translates resource state into representations.",
       "matchedWords": {
         "24igJXwiDb_d": {
           "hits": 38,
@@ -482,7 +482,7 @@
       "hash": "hWuQZ7XxSRFx",
       "address": "https://www.rfc-editor.org/info/rfc3986/",
       "title": "RFC 3986: Uniform Resource Identifier (URI): Generic Syntax | RFC Editor",
-      "snippet": "does not define a generative grammar for URIs; that task is performed by the individual specifications of each URI scheme. Berners-Lee, et al. Standards Track [Page 1]\nRFC 3986 URI Generic Syntax January 2005 Table of Contents 1. Introduction . . . . . . . . . . . . . . . . . . . . . . . . . 4 1.1.",
+      "snippet": "A URI resolution implementation might use DNS, host tables, yellow pages, NetInfo, WINS, or any other system for lookup of registered names. However, a globally scoped naming system, such as DNS fully qualified domain names, is necessary for URIs intended to have global scope.",
       "matchedWords": {
         "24igJXwiDb_d": {
           "hits": 13,
@@ -511,7 +511,7 @@
       "hash": "jh1R77XxSRFx",
       "address": "https://www.rfc-editor.org/info/rfc6125/",
       "title": "RFC 6125: Representation and Verification of Domain-Based Application Service Identity within Internet Public Key Infrastructure Using X.509 (PKIX) Certificates in the Context of Transport Layer Security (TLS) | RFC Editor",
-      "snippet": "how to provide feedback on it may be obtained at http://www.rfc-editor.org/info/rfc6125. Copyright Notice Copyright (c) 2011 IETF Trust and the persons identified as the document authors. All rights reserved. This document is subject to BCP 78 and the IETF Trust's Legal Provisions Relating to IETF",
+      "snippet": "* How to certify or validate other kinds of information that might be included in a certificate (e.g., organization name). o Resolution of DNS domain names.",
       "matchedWords": {
         "24igJXwiDb_d": {
           "hits": 7,
@@ -540,7 +540,7 @@
       "hash": "sjywP7XxSRFx",
       "address": "https://www.rfc-editor.org/info/rfc2616/",
       "title": "RFC 2616: Hypertext Transfer Protocol -- HTTP/1.1 | RFC Editor",
-      "snippet": "DNS Spoofing ...............................................154 15.4 Location Headers and Spoofing ..............................154 15.5 Content-Disposition Issues .................................154 15.6 Authentication Credentials and Idle Clients ................155 15.7 Proxies and Caching",
+      "snippet": "HTTP/1.1 does not define how a PUT method affects the state of an origin server. PUT requests MUST obey the message transmission requirements set out in section 8.2.",
       "matchedWords": {
         "24igJXwiDb_d": {
           "hits": 13,
@@ -569,7 +569,7 @@
       "hash": "Rx8AIs_tHst4",
       "address": "https://dwheeler.com/oss_fs_why.html",
       "title": "Why Open Source Software / Free Software (OSS/FS, FOSS, or FLOSS)? Look at the Numbers!",
-      "snippet": "work hard to find numbers to support their claims; this page provides a useful antidote of hard figures to aid in comparing proprietary products to FLOSS. Others have come to the same conclusions, for example, Forrester Research concluded in September 2006 that “Firms should consider open source",
+      "snippet": "Years ago some tried to label FLOSS as “communistic” or “socialistic” (i.e., anti-capitalist), but that rhetoric has failed. One article explaining why FLOSS and capitalism are compatible is Ganesh Prasad’s How Does the Capitalist View Open Source?.",
       "matchedWords": {
         "24igJXwiDb_d": {
           "hits": 87,
@@ -598,7 +598,7 @@
       "hash": "aJD3bsakFVXw",
       "address": "https://slashdot.org/",
       "title": "Slashdot: News for nerds, stuff that matters, \u0026 software",
-      "snippet": "work and is now pushing for mandatory U.S. AI safety requirements. Anthropic has also signaled interest in coordinating on the pace of new releases. Here are some of the details Bloomberg reported, as summarized by Reuters: - Altman told employees in a company-wide meeting that the ChatGPT maker",
+      "snippet": "\"By design, Siri Recap does not create a recording, does not produce a verbatim transcript, and does not identify and attribute speakers,\" Apple's technical documentation explains. \"The output is a brief, high-level summary, comparable to notes a person might write after a conversation.",
       "matchedWords": {
         "24igJXwiDb_d": {
           "hits": 8,
@@ -627,7 +627,7 @@
       "hash": "2ZqdVzfOEiDw",
       "address": "https://planet.gnome.org/",
       "title": "Planet GNOME",
-      "snippet": "how media are being handled, and AppStream’s default image export format.\nAppStream is a Freedesktop metadata standard to describe software components. That can be anything from system services over fonts to console and graphical applications. AppStream metadata is supposed to give users enough",
+      "snippet": "This does not look like much, until you consider how often these files are downloaded: A 20% file size reduction may only save 1-2 MiB of disk space, but if they are downloaded over and over again by many clients, it will save a lot of bandwidth.\nInteresting JXL encoding findings",
       "matchedWords": {
         "24igJXwiDb_d": {
           "hits": 2,
@@ -656,7 +656,7 @@
       "hash": "lTVMLsgJoQyx",
       "address": "https://grapheneos.org/faq",
       "title": "Frequently Asked Questions | GrapheneOS",
-      "snippet": "How long will GrapheneOS support my device?\nSecurity and privacyHow is disk encryption implemented?\nCan apps spy on the clipboard in the background or inject content into it?\nCan apps access hardware identifiers?\nWhat about non-hardware identifiers?\nWhat does GrapheneOS do about cellular tracking,",
+      "snippet": "No, it only provides privacy for DNS resolution. Even authenticating DNS results with DNSSEC does not protect other connections, unless the DNS records are part of the system used to provide authenticated encryption, and DNS-over-TLS is not a substitute for DNSSEC.",
       "matchedWords": {
         "24igJXwiDb_d": {
           "hits": 30,
@@ -685,7 +685,7 @@
       "hash": "_QujqCjVeYyw",
       "address": "https://w3c.github.io/network-error-logging/",
       "title": "Network Error Logging",
-      "snippet": "how to improve their web applications. The worst case scenario is the failure to load the application, or a particular resource, due to a network error, and to address such failures the developer requires assistance from the user agent to identify when, where, and why such failures are occurring.",
+      "snippet": "DNS resolution errors\nAll of the network errors in this section occur during DNS resolution, and therefore have a phase of dns.\ndns.unreachable\nDNS server is unreachable\ndns.name_not_resolved\nDNS server responded but is unable to resolve the address\ndns.failed",
       "matchedWords": {
         "24igJXwiDb_d": {
           "hits": 2,
@@ -714,7 +714,7 @@
       "hash": "-Qqp72jw1Zlx",
       "address": "https://kubernetes.io/docs/concepts/workloads/pods/disruptions/",
       "title": "Disruptions | Kubernetes",
-      "snippet": "how many it is intended to have. For example, a Deployment which has a .spec.replicas: 5 is supposed to have 5 pods at any given time. If its PDB allows for there to be 4 at a time, then the Eviction API will allow voluntary disruption of one (but not two) pods at a time.\nThe group of pods that",
+      "snippet": "You can see how Kubernetes varies the rate at which disruptions can happen, according to:\nhow many replicas an application needs\nhow long it takes to gracefully shutdown an instance\nhow long it takes a new instance to start up\nthe type of controller\nthe cluster's resource capacity",
       "matchedWords": {
         "24igJXwiDb_d": {
           "hits": 6,
@@ -743,7 +743,7 @@
       "hash": "84FlxRrrnsyQ",
       "address": "http://planet.gnu.org/",
       "title": "Planet GNU",
-      "snippet": "how to setup a development environment for it. If that's not the case, read The Perfect Setup and Using Guix interactively.\nA Goimapnotify configuration is written in YAML. Therefore, we will need to serialize the different Guile Scheme fields to this format. Let's take the example configuration",
+      "snippet": "Refer to Shepherd Services for more information on how to write Shepherd services. I will only highlight how to handle the configuration we just wrote.",
       "matchedWords": {
         "24igJXwiDb_d": {
           "hits": 10,
@@ -772,7 +772,7 @@
       "hash": "-xpxEitD2jQw",
       "address": "https://docs.python.org/3/contents.html",
       "title": "Python Documentation contents — Python 3.14.7 documentation",
-      "snippet": "How should I write my code to utilize these speedups?\nWill CPython 3.11 use more memory?\nI don’t see any speedups in my workload. Why?\nIs there a JIT compiler?\nAbout\nCPython bytecode changes New opcodes\nReplaced opcodes\nChanged/removed opcodes\nDeprecated Language/Builtins\nModules\nStandard Library",
+      "snippet": "How does Python manage memory?\nWhy doesn’t CPython use a more traditional garbage collection scheme?\nWhy isn’t all memory freed when CPython exits?\nWhy are there separate tuple and list data types?\nHow are lists implemented in CPython?\nHow are dictionaries implemented in CPython?",
       "matchedWords": {
         "24igJXwiDb_d": {
           "hits": 49,
@@ -801,7 +801,7 @@
       "hash": "UobyTsuI8hnw",
       "address": "https://www.eff.org/about/staff",
       "title": "EFF's Staff and Contributors | Electronic Frontier Foundation",
-      "snippet": "work together to reinforce the defense of digital and human rights. Veridiana has been involved with telecommunications, media, Internet and human rights issues since 2009. She has been a member of Brazilian Internet Steering Committee (CGI.br) as one of the civil society representatives",
+      "snippet": "As the Director of Development Strategy, Jason works to reach those people with a clear message about how EFF supports them and their freedom—and how they can support EFF and its work in turn.",
       "matchedWords": {
         "24igJXwiDb_d": {
           "hits": 7,
@@ -859,7 +859,7 @@
       "hash": "pGRD67yp6WtY",
       "address": "http://tantek.com/",
       "title": "Tantek Çelik",
-      "snippet": "how to create a save shortcut for the Internet Archive Wayback Machine:\n1. open Firefox Preferences (\"Firefox\" menu, \"Preferences\" item)\n2. select \"🔍 Search\" from the left column\n3. click the [ + Add search engine ] button\n4. enter \"Internet Archive Save\" into the Search engine name field (without",
+      "snippet": "Otherwise, take a look at how you frequently use the Web, and post what you have found useful, especially the most useful for you.\nBlog clever tips about how you have made better use of the Web, web browsers, search engines etc.",
       "matchedWords": {
         "24igJXwiDb_d": {
           "hits": 25,
@@ -888,7 +888,7 @@
       "hash": "FDbC6B-c6vHw",
       "address": "https://nixos.org/manual/nixpkgs/stable/",
       "title": "Nixpkgs Reference Manual",
-      "snippet": "work differently:\nA built-in fetcher will download and cache files at evaluation time and produce a store path. A Nixpkgs fetcher will create a (fixed-output) derivation, and files are downloaded at build time.\nBuilt-in fetchers will invalidate their cache after tarball-ttl expires, and will",
+      "snippet": "fakeNss also provides /etc/nsswitch.conf, configuring NSS host resolution to first check /etc/hosts before checking DNS, since the default in the absence of a config file (dns [!UNAVAIL=return] files) is quite unexpected.",
       "matchedWords": {
         "24igJXwiDb_d": {
           "hits": 133,
@@ -917,7 +917,7 @@
       "hash": "8-yf-WRfu9ww",
       "address": "https://datatracker.ietf.org/doc/html/rfc3261",
       "title": "RFC 3261 - SIP: Session Initiation Protocol",
-      "snippet": "Does Not Exist ................. 188 21.4.20 482 Loop Detected ................................... 188 21.4.21 483 Too Many Hops ................................... 189 21.4.22 484 Address Incomplete .............................. 189 Rosenberg, et. al. Standards Track [Page 6]\nRFC 3261 SIP:",
+      "snippet": "As this example shows, a single primitive is typically used to provide several different services. SIP does not offer conference control services such as floor control or voting and does not prescribe how a conference is to be managed.",
       "matchedWords": {
         "24igJXwiDb_d": {
           "hits": 40,
@@ -946,7 +946,7 @@
       "hash": "Cpc5fjRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Wikipedia",
       "title": "Wikipedia - Wikipedia",
-      "snippet": "work in history.[2][3]\nInitially available only in English, Wikipedia has grown to over 300 languages and is one of the world's most visited websites as of 2026. The English Wikipedia, with over 7 million articles, remains the largest of the editions, which together comprise more than 68 million",
+      "snippet": "\"Does the Internet Undermine Culture?\". National Public Radio, US. The NPR interview with A. Keen, Weekend Edition Saturday, June 16, 2007.\nAyers, Phoebe; Matthews, Charles; Yates, Ben (2008). How Wikipedia Works: And How You Can Be a Part of It. San Francisco: No Starch Press.",
       "matchedWords": {
         "24igJXwiDb_d": {
           "hits": 21,
@@ -975,7 +975,7 @@
       "hash": "PbwP7jRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Wikipedia:Village_pump_(WMF)",
       "title": "Wikipedia:Village pump (WMF) - Wikipedia",
-      "snippet": "does not consider this page to be a communication venue.\nDiscussions of proposals which do not require significant foundation attention or involvement belong at Village pump (proposals)\nDiscussions of bugs and routine technical issues belong at Village pump (technical).\nConsider developing new",
+      "snippet": "Though, we think it's a useful first step.\nWithin Suggestion Mode (as an experimental suggestion) so that experienced editors (you all) can see how the suggestions would look and work in practice.\nHow does this sound to you? What (if anything) about the above do you think we could make clearer?",
       "matchedWords": {
         "24igJXwiDb_d": {
           "hits": 152,
@@ -1004,7 +1004,7 @@
       "hash": "hWuQZ7XxSRFx",
       "address": "https://www.rfc-editor.org/info/rfc3986/",
       "title": "RFC 3986: Uniform Resource Identifier (URI): Generic Syntax | RFC Editor",
-      "snippet": "does not define a generative grammar for URIs; that task is performed by the individual specifications of each URI scheme. Berners-Lee, et al. Standards Track [Page 1]\nRFC 3986 URI Generic Syntax January 2005 Table of Contents 1. Introduction . . . . . . . . . . . . . . . . . . . . . . . . . 4 1.1.",
+      "snippet": "A URI resolution implementation might use DNS, host tables, yellow pages, NetInfo, WINS, or any other system for lookup of registered names. However, a globally scoped naming system, such as DNS fully qualified domain names, is necessary for URIs intended to have global scope.",
       "matchedWords": {
         "24igJXwiDb_d": {
           "hits": 13,
@@ -1033,7 +1033,7 @@
       "hash": "jh1R77XxSRFx",
       "address": "https://www.rfc-editor.org/info/rfc6125/",
       "title": "RFC 6125: Representation and Verification of Domain-Based Application Service Identity within Internet Public Key Infrastructure Using X.",
-      "snippet": "how to provide feedback on it may be obtained at http://www.rfc-editor.org/info/rfc6125. Copyright Notice Copyright (c) 2011 IETF Trust and the persons identified as the document authors. All rights reserved. This document is subject to BCP 78 and the IETF Trust's Legal Provisions Relating to IETF",
+      "snippet": "* How to certify or validate other kinds of information that might be included in a certificate (e.g., organization name). o Resolution of DNS domain names.",
       "matchedWords": {
         "24igJXwiDb_d": {
           "hits": 7,
@@ -1120,7 +1120,7 @@
       "hash": "D4lABzaS0qdw",
       "address": "https://planet.debian.org/",
       "title": "Planet Debian",
-      "snippet": "does DCS need a fast Integer Codec?\nDebian Code Search (DCS) is a search engine that allows searching all the Open Source source code within Debian, with either literal search expressions or regular expression search queries.\nA search engine uses an inverted index: a map from term to documents",
+      "snippet": "In all honesty, I could have probably stopped here, but now that the milestone of a viable replacement was reached, I got curious to see how far it would be possible to push the encoder (how much work to reach C speeds?) and afterwards, the decoder, too.\nSetup",
       "matchedWords": {
         "24igJXwiDb_d": {
           "hits": 18,
@@ -1149,7 +1149,7 @@
       "hash": "2ZqdVzfOEiDw",
       "address": "https://planet.gnome.org/",
       "title": "Planet GNOME",
-      "snippet": "how media are being handled, and AppStream’s default image export format.\nAppStream is a Freedesktop metadata standard to describe software components. That can be anything from system services over fonts to console and graphical applications. AppStream metadata is supposed to give users enough",
+      "snippet": "This does not look like much, until you consider how often these files are downloaded: A 20% file size reduction may only save 1-2 MiB of disk space, but if they are downloaded over and over again by many clients, it will save a lot of bandwidth.\nInteresting JXL encoding findings",
       "matchedWords": {
         "24igJXwiDb_d": {
           "hits": 2,
@@ -1178,7 +1178,7 @@
       "hash": "FxC5-KsrSOQw",
       "address": "https://arxiv.org/list/cs.LG/new",
       "title": "Machine Learning",
-      "snippet": "New submissions\nCross-lists\nReplacements\nSee recent articles\nShowing new listings for Friday, 11 September 2026\nTotal of 268 entries\nShowing up to 2000 entries per page: fewer | more | all\nNew submissions (showing 73 of 73 entries)\n[1] arXiv:2609.10559 [pdf, html, other]\n[2] arXiv:2609.10589 [pdf,",
+      "snippet": "New submissions\nCross-lists\nReplacements\nSee recent articles\nShowing new listings for Friday, 11 September 2026\nTotal of 268 entries\nShowing up to 2000 entries per page: fewer | more | all\nNew submissions (showing 73 of 73 entries)\n[1] arXiv:2609.10559 [pdf, html, other]",
       "matchedWords": {
         "24igJXwiDb_d": {
           "hits": 0,
@@ -1207,7 +1207,7 @@
       "hash": "mpTuJKsrSOQw",
       "address": "https://arxiv.org/list/physics/new",
       "title": "Physics",
-      "snippet": "New submissions\nCross-lists\nReplacements\nSee recent articles\nShowing new listings for Friday, 11 September 2026\nTotal of 149 entries\nShowing up to 2000 entries per page: fewer | more | all\nNew submissions (showing 76 of 76 entries)\n[1] arXiv:2609.10558 [pdf, html, other]\n[2] arXiv:2609.10560 [pdf,",
+      "snippet": "New submissions\nCross-lists\nReplacements\nSee recent articles\nShowing new listings for Friday, 11 September 2026\nTotal of 149 entries\nShowing up to 2000 entries per page: fewer | more | all\nNew submissions (showing 76 of 76 entries)\n[1] arXiv:2609.10558 [pdf, html, other]",
       "matchedWords": {
         "24igJXwiDb_d": {
           "hits": 0,
@@ -1265,7 +1265,7 @@
       "hash": "VpCOpt6ArEvw",
       "address": "https://blog.archive.org/",
       "title": "Internet Archive Blogs | Updates from the Internet Archive",
-      "snippet": "work expanded over 46 years.\nThe multimedia collective has produced more than 30 albums and EPs, as well as fine art, books, radio and live performances that mix found and original material. The band came up with the phrase “culture jamming” to describe its approach to layering art from various",
+      "snippet": "“But from a creative and artistic standpoint, that’s awesome. It’s fantastic. If critics can’t figure out how to talk about the work, maybe it means we actually are doing something a little bit different.”",
       "matchedWords": {
         "24igJXwiDb_d": {
           "hits": 6,
@@ -1294,7 +1294,7 @@
       "hash": "Ma72KjRvmBbx",
       "address": "https://en.wikipedia.org/wiki/ChromeOS",
       "title": "ChromeOS - Wikipedia",
-      "snippet": "work to reduce.[19][23][24][25] Additionally, Chris Kenyon, vice president of OEM services at Canonical Ltd, announced that Canonical was under contract to contribute engineering resources to the project with the intent to build on existing open-source components and tools where feasible.[26]",
+      "snippet": "Designed to rival the Apple iPad, it had an identical screen size and resolution and other similar specifications, a notable addition was a Wacom-branded stylus that does not require a battery or charging.[92]",
       "matchedWords": {
         "24igJXwiDb_d": {
           "hits": 6,
@@ -1323,7 +1323,7 @@
       "hash": "PbwP7jRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Wikipedia:Village_pump_(WMF)",
       "title": "Wikipedia:Village pump (WMF) - Wikipedia",
-      "snippet": "does not consider this page to be a communication venue.\nDiscussions of proposals which do not require significant foundation attention or involvement belong at Village pump (proposals)\nDiscussions of bugs and routine technical issues belong at Village pump (technical).\nConsider developing new",
+      "snippet": "Though, we think it's a useful first step.\nWithin Suggestion Mode (as an experimental suggestion) so that experienced editors (you all) can see how the suggestions would look and work in practice.\nHow does this sound to you? What (if anything) about the above do you think we could make clearer?",
       "matchedWords": {
         "24igJXwiDb_d": {
           "hits": 152,
@@ -1352,7 +1352,7 @@
       "hash": "h6qKJHS6MKD4",
       "address": "https://github.com/mcp/microsoft/playwright-mcp",
       "title": "MCP Registry | Playwright · GitHub",
-      "snippet": "does not serve as a security boundary and does not affect redirects.\nenv PLAYWRIGHT_MCP_ALLOWED_ORIGINS\n--allow-unrestricted-file-access\nallow access to files outside of the workspace roots. Also allows unrestricted access to file:// URLs. By default access to file system is restricted to workspace",
+      "snippet": "env PLAYWRIGHT_MCP_TIMEOUT_ACTION\n--timeout-navigation\nspecify navigation timeout in milliseconds, defaults to 60000ms\nenv PLAYWRIGHT_MCP_TIMEOUT_NAVIGATION\n--timeout-settle\nhow long to wait after each action for triggered work to settle, in milliseconds, defaults to 500ms",
       "matchedWords": {
         "24igJXwiDb_d": {
           "hits": 3,
@@ -1410,7 +1410,7 @@
       "hash": "hWuQZ7XxSRFx",
       "address": "https://www.rfc-editor.org/info/rfc3986/",
       "title": "RFC 3986: Uniform Resource Identifier (URI): Generic Syntax | RFC Editor",
-      "snippet": "does not define a generative grammar for URIs; that task is performed by the individual specifications of each URI scheme. Berners-Lee, et al. Standards Track [Page 1]\nRFC 3986 URI Generic Syntax January 2005 Table of Contents 1. Introduction . . . . . . . . . . . . . . . . . . . . . . . . . 4 1.1.",
+      "snippet": "A URI resolution implementation might use DNS, host tables, yellow pages, NetInfo, WINS, or any other system for lookup of registered names. However, a globally scoped naming system, such as DNS fully qualified domain names, is necessary for URIs intended to have global scope.",
       "matchedWords": {
         "24igJXwiDb_d": {
           "hits": 13,
@@ -1439,7 +1439,7 @@
       "hash": "jh1R77XxSRFx",
       "address": "https://www.rfc-editor.org/info/rfc6125/",
       "title": "RFC 6125: Representation and Verification of Domain-Based Application Service Identity within Internet Public Key Infrastructure Using X.",
-      "snippet": "how to provide feedback on it may be obtained at http://www.rfc-editor.org/info/rfc6125. Copyright Notice Copyright (c) 2011 IETF Trust and the persons identified as the document authors. All rights reserved. This document is subject to BCP 78 and the IETF Trust's Legal Provisions Relating to IETF",
+      "snippet": "* How to certify or validate other kinds of information that might be included in a certificate (e.g., organization name). o Resolution of DNS domain names.",
       "matchedWords": {
         "24igJXwiDb_d": {
           "hits": 7,
@@ -1497,7 +1497,7 @@
       "hash": "jNEVesgJoQyx",
       "address": "https://grapheneos.org/releases",
       "title": "Releases | GrapheneOS",
-      "snippet": "work profiles)\nenable multiuser-unaware API usage warnings for Bluetooth processes\nContact Scopes: use identity of the calling app for the filtered query since the query validation, projection mapping, etc. depend on the target SDK version of the calling app (this is a proper solution to the",
+      "snippet": "use GrapheneOS name by default for remaining DNS resolver name resolution tests\nextend GrapheneOS toggle to remaining DNS resolver name resolution tests\nport remaining GrapheneOS settings to modern GrapheneOS settings infrastructure",
       "matchedWords": {
         "24igJXwiDb_d": {
           "hits": 12,
@@ -1526,7 +1526,7 @@
       "hash": "fRk_vs5DCs35",
       "address": "https://wordpress.com/features/",
       "title": "Explore WordPress.com Features | WordPress.com",
-      "snippet": "resolution, picture-in-picture, chapters, subtitles, and different playback speeds.\nPre-Built Block Patterns\nCreate great-looking layouts simply by inserting elegant pre-built block patterns into your pages and posts.\nAdvanced Design Tools\nCustomize your blog’s design with extended color schemes,",
+      "snippet": "Your site is hosted, secured, and ready for visitors from day one. Share it on social media, grow your audience through the WordPress.com Reader, and keep building from there.\nFeatures FAQs\nWhat is WordPress.com and how does it work?",
       "matchedWords": {
         "24igJXwiDb_d": {
           "hits": 4,
@@ -1584,7 +1584,7 @@
       "hash": "VpCOpt6ArEvw",
       "address": "https://blog.archive.org/",
       "title": "Internet Archive Blogs | Updates from the Internet Archive",
-      "snippet": "work expanded over 46 years.\nThe multimedia collective has produced more than 30 albums and EPs, as well as fine art, books, radio and live performances that mix found and original material. The band came up with the phrase “culture jamming” to describe its approach to layering art from various",
+      "snippet": "“But from a creative and artistic standpoint, that’s awesome. It’s fantastic. If critics can’t figure out how to talk about the work, maybe it means we actually are doing something a little bit different.”",
       "matchedWords": {
         "24igJXwiDb_d": {
           "hits": 6,
@@ -1613,7 +1613,7 @@
       "hash": "89Pocs6GdY-4",
       "address": "https://danluu.com/diseconomies-scale/",
       "title": "Diseconomies of scale in fraud, spam, support, and moderation",
-      "snippet": "how will Little Mr. 5% Market Share do it?\nAnd a thought leader responded\nlike 95% of the time, when someone claims that some small, independent company can do something hard better than the market leader can, it’s just cope. economies of scale work pretty well!\nBut when we looked at the actual",
+      "snippet": "Later, when the trick would go viral again, people would point to the discussions about how people thought the trick didn't work, with this message noting that it appears to work (almost certainly not by the mechanism that users think, and instead just because having a long list of filters causes",
       "matchedWords": {
         "24igJXwiDb_d": {
           "hits": 105,
@@ -1642,7 +1642,7 @@
       "hash": "Ma72KjRvmBbx",
       "address": "https://en.wikipedia.org/wiki/ChromeOS",
       "title": "ChromeOS - Wikipedia",
-      "snippet": "work to reduce.[19][23][24][25] Additionally, Chris Kenyon, vice president of OEM services at Canonical Ltd, announced that Canonical was under contract to contribute engineering resources to the project with the intent to build on existing open-source components and tools where feasible.[26]",
+      "snippet": "Designed to rival the Apple iPad, it had an identical screen size and resolution and other similar specifications, a notable addition was a Wacom-branded stylus that does not require a battery or charging.[92]",
       "matchedWords": {
         "24igJXwiDb_d": {
           "hits": 6,
@@ -1671,7 +1671,7 @@
       "hash": "XCqnWjRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Computer_security",
       "title": "Computer security - Wikipedia",
-      "snippet": "does not completely align with the security convergence schema.\nVulnerabilities and attacks\n[edit]\nA vulnerability refers to a flaw in the structure, execution, functioning, or internal oversight of a computer or system that compromises its security. Most of the vulnerabilities that have been",
+      "snippet": "1 2 \"How cyber attacks work\". www.ncsc.gov.uk. Retrieved 30 November 2023.\n↑ \"What is a backdoor attack? Definition and prevention | NordVPN\". nordvpn.com. 30 November 2023. Retrieved 3 January 2024.\n1 2 \"What is a backdoor attack?\". McAfee. 4 December 2023. Retrieved 4 December 2023.",
       "matchedWords": {
         "24igJXwiDb_d": {
           "hits": 22,
@@ -1700,7 +1700,7 @@
       "hash": "b-x4NjRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Domain_name",
       "title": "Domain name - Wikipedia",
-      "snippet": "(DNS). Any name registered in the DNS is a domain name. Domain names are organized in subordinate levels (subdomains) of the DNS root domain, which is nameless. The first-level set of domain names are the top-level domains (TLDs), including the generic top-level domains (gTLDs), such as the",
+      "snippet": "An example of very deep levels of subdomain ordering are the IPv6 reverse resolution DNS zones, e.g., 1.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.ip6.arpa, which is the reverse DNS resolution domain name for the IP address of a loopback interface, or the localhost name.",
       "matchedWords": {
         "24igJXwiDb_d": {
           "hits": 1,
@@ -1729,7 +1729,7 @@
       "hash": "wYESGjRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Microsoft_Windows",
       "title": "Microsoft Windows - Wikipedia",
-      "snippet": "work on a program called \"Interface Manager\". The name \"Windows\" comes from the fact that the system was one of the first to use graphical boxes to represent programs; in the industry, at the time, these were called \"windows\" and the underlying software was called \"windowing software\".[16] It was",
+      "snippet": "\"Windows 7 Taskbar APIs\". docs.microsoft.com. Archived from the original on August 21, 2021. Retrieved August 21, 2021.\n↑ LeBlanc, Brandon (October 28, 2008). \"How Libraries \u0026 HomeGroup Work Together in Windows 7\". Windows Experience Blog. Microsoft. Archived from the original on November 2, 2008.",
       "matchedWords": {
         "24igJXwiDb_d": {
           "hits": 8,
@@ -1758,7 +1758,7 @@
       "hash": "D4lABzaS0qdw",
       "address": "https://planet.debian.org/",
       "title": "Planet Debian",
-      "snippet": "does DCS need a fast Integer Codec?\nDebian Code Search (DCS) is a search engine that allows searching all the Open Source source code within Debian, with either literal search expressions or regular expression search queries.\nA search engine uses an inverted index: a map from term to documents",
+      "snippet": "In all honesty, I could have probably stopped here, but now that the milestone of a viable replacement was reached, I got curious to see how far it would be possible to push the encoder (how much work to reach C speeds?) and afterwards, the decoder, too.\nSetup",
       "matchedWords": {
         "24igJXwiDb_d": {
           "hits": 18,
@@ -1787,7 +1787,7 @@
       "hash": "aJD3bsakFVXw",
       "address": "https://slashdot.org/",
       "title": "Slashdot: News for nerds, stuff that matters, \u0026 software",
-      "snippet": "work and is now pushing for mandatory U.S. AI safety requirements. Anthropic has also signaled interest in coordinating on the pace of new releases. Here are some of the details Bloomberg reported, as summarized by Reuters: - Altman told employees in a company-wide meeting that the ChatGPT maker",
+      "snippet": "\"By design, Siri Recap does not create a recording, does not produce a verbatim transcript, and does not identify and attribute speakers,\" Apple's technical documentation explains. \"The output is a brief, high-level summary, comparable to notes a person might write after a conversation.",
       "matchedWords": {
         "24igJXwiDb_d": {
           "hits": 8,
@@ -1816,7 +1816,7 @@
       "hash": "mKjEVzAa-Sqx",
       "address": "https://planet.freedesktop.org/",
       "title": "planet.freedesktop.org",
-      "snippet": "how the company should be run. I spent a lot of time and energy trying to nudge things in what I think would have been the right direction, but that didn’t lead to anything but burnout on my part. In the end, it seemed best to just part ways.\nBut also, one thing that I always disliked while working",
+      "snippet": "Q: I do care about long-winded rants about Linux graphics drivers! How does this work?\nLet’s first look at what problems we actually run into when we have games running on GPUs with little VRAM.",
       "matchedWords": {
         "24igJXwiDb_d": {
           "hits": 153,

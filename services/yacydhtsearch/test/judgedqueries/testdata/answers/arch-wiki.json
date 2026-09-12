@@ -1,6 +1,6 @@
 {
   "query": "arch wiki",
-  "recordedAt": "2026-09-12T00:15:12Z",
+  "recordedAt": "2026-09-12T07:51:56Z",
   "itemsInTheOrderOfEachAnswer": [
     [
       {
@@ -113,7 +113,7 @@
         "hash": "KzvTGDr4UJf4",
         "address": "https://we-do.wiki/books/csharp/page/net-core-first-steps",
         "title": ".NET-Core - First steps | we-do.wiki",
-        "snippet": "[arch=amd64] https://apt-mo.trafficmanager.net/repos/dotnet-release/ trusty main\" \u003e /etc/apt/sources.list.d/dotnetdev.list' sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 417A0893 sudo apt-get update\nUbuntu 16.04 / Linux Mint 18\nsudo sh -c 'echo \"deb [arch=amd64]",
+        "snippet": "sudo sh -c 'echo \"deb [arch=amd64] https://apt-mo.trafficmanager.net/repos/dotnet-release/ trusty main\" \u003e /etc/apt/sources.list.d/dotnetdev.list' sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 417A0893 sudo apt-get update\nUbuntu 16.04 / Linux Mint 18",
         "matchedWords": {
           "1Ut7onVxovAL": {
             "hits": 0,
@@ -132,7 +132,7 @@
         "hash": "1kOALGsyhcfx",
         "address": "https://archlinux.org/mirrors/cachy-arch.ru/",
         "title": "Arch Linux - cachy-arch.ru - Mirror Details",
-        "snippet": "cachy-arch.ru\nTier:\nTier 2\nHas ISOs:\nYes\nAvailable URLs\nMirror URL\nProtocol\nCountry\nIPv4\nIPv6\nLast Sync\nCompletion %\nμ Delay (hh:mm)\nμ Duration (s)\nσ Duration (s)\nScore\nDetails\nhttp://mirror.cachy-arch.ru/archlinux/\nhttp\nRussia\nYes\nYes\n2026-09-11 18:01\n100.0%\n2:37\n0.17\n0.18\n3.0\nDetails",
+        "snippet": "Name:\ncachy-arch.ru\nTier:\nTier 2\nHas ISOs:\nYes\nAvailable URLs\nMirror URL\nProtocol\nCountry\nIPv4\nIPv6\nLast Sync\nCompletion %\nμ Delay (hh:mm)\nμ Duration (s)\nσ Duration (s)\nScore\nDetails\nhttp://mirror.cachy-arch.ru/archlinux/\nhttp\nRussia\nYes\nYes\n2026-09-11 18:01\n100.0%\n2:37\n0.17\n0.18\n3.0\nDetails",
         "matchedWords": {
           "1Ut7onVxovAL": {
             "hits": 0,
@@ -149,7 +149,7 @@
         "hash": "oej5lsdsPYlw",
         "address": "https://archhurd.org/",
         "title": "Arch Hurd",
-        "snippet": "Arch Hurd website. Arch Hurd is a derivative work of Arch Linux porting it to the GNU Hurd system with packages optimised for the i686 architecture.\nOur goal is to provide an Arch-like user environment (BSD-style init scripts, i686-optimised packages, use of the pacman package manager,",
+        "snippet": "Hello, I'm Luca (username z3ntu) and the Arch Hurd website now runs on my server as the databases broke on the old one.\nI've rebuilt this main website including all news articles from the past and the wiki.",
         "matchedWords": {
           "1Ut7onVxovAL": {
             "hits": 1,
@@ -166,7 +166,7 @@
         "hash": "fpnvOeSLKN4x",
         "address": "https://bbs.archlinux.org/viewtopic.php?pid=846630",
         "title": "Wayland on Arch Linux? / AUR Issues, Discussion \u0026 PKGBUILD Requests / Arch Linux Forums",
-        "snippet": "Arch Linux?\nWhat is Wayland: [official site].\nTo summarize, this is lean and mean replacement for X server using modern technologies available in Linux kernel. It has a lot of potential comparing to outdated ugly design of X11. That's why it's important for the project to reach potential testers",
+        "snippet": "Just because Arch is bleeding edge doesn't mean the devs use ANY new software that comes along. It has to work for the majority of the users, including myself. Which is why I use Arch in the first place. Where other distros fail, Arch succeeds.",
         "matchedWords": {
           "1Ut7onVxovAL": {
             "hits": 2,
@@ -185,7 +185,7 @@
         "hash": "_Hi381G9imOx",
         "address": "https://terms.archlinux.org/docs/code-of-conduct/",
         "title": "Code of Conduct | Arch Linux Terms",
-        "snippet": "Arch Linux Code of Conduct#\nThe Arch community is a technical community whose shared purpose is to support and enhance Arch Linux.\nArch Linux is a community-driven distribution; the developers, support staff and people who provide assistance in the various fora all do so in their own time,",
+        "snippet": "About this document#\nThis code of conduct has been originally developed on the Arch wiki, where its history can be found. Later revisions of this document can be found in the Arch Linux Service Agreements repository.",
         "matchedWords": {
           "1Ut7onVxovAL": {
             "hits": 2,
@@ -202,7 +202,7 @@
         "hash": "dCsvksKbUpYw",
         "address": "https://cachyos.org/",
         "title": "CachyOS — Blazingly Fast OS based on Arch Linux — CachyOS",
-        "snippet": "Arch Linux experience with the same rolling-release flexibility you expect.\nMission: Real performance gains through compiler optimizations, kernel tuning, and a streamlined user experience\nFeatures\nWhy CachyOS Is Different\nMost Linux distributions ship generic binaries. CachyOS rebuilds the stack —",
+        "snippet": "CachyOS ships every package optimized for your CPU - compiled with x86-64-v3/v4 and Zen4 instructions, LTO, and PGO - on top of a custom kernel with the tuned EEVDF scheduler. The result: a noticeably faster Arch Linux experience with the same rolling-release flexibility you expect.",
         "matchedWords": {
           "1Ut7onVxovAL": {
             "hits": 0,
@@ -219,7 +219,7 @@
         "hash": "CeYYAopg4UCw",
         "address": "https://www.wikidata.org/wiki/Q185576",
         "title": "Arch Linux - Wikidata",
-        "snippet": "Arch Linux 0.1 (Homer) released (English)\n22 May 2020\n11 March 2002\n0 references\n0 references\n0 references\n1 reference\n1 reference\nno value\n1 reference\nPronnounciation of our beloved distribution's name (English)\nIt [the name] comes from \"arch-nemesis\" meaning \"primary\" (English)\n0 references\n0",
+        "snippet": "0 references\n0 references\n0 references\n1 reference\n1 September 2022\n0 references\nArch Linux\n0 references\n0 references\n0 references\nhttps://archlinux.org/packages/?sort=\u0026q=$1\n0 references\nhttps://wiki.archlinux.org/index.php?title=Special:Search\u0026search=$1\u0026go=Go\n0 references",
         "matchedWords": {
           "1Ut7onVxovAL": {
             "hits": 1,
@@ -255,7 +255,7 @@
         "hash": "wCk6AeSLKN4x",
         "address": "https://bbs.archlinux.org/viewtopic.php?pid=1313885",
         "title": "Project ARM :: Arch Rollback Machine (Page 8) / Community Contributions / Arch Linux Forums",
-        "snippet": "Arch Rollback Machine\n#176 2013-08-17 10:50:53\nDisposaBoy\nMember\nRegistered: 2010-09-02\nPosts: 8\nRe: Project ARM :: Arch Rollback Machine\nkarol wrote:\nBy 'all files' do you mean the packages from 2013 too?\nYes, all hosted accounts will be deleted in the next 10 hours at most.\nOffline\n#177",
+        "snippet": "Index\n» Community Contributions\n» Project ARM :: Arch Rollback Machine\n#176 2013-08-17 10:50:53\nDisposaBoy\nMember\nRegistered: 2010-09-02\nPosts: 8\nRe: Project ARM :: Arch Rollback Machine\nkarol wrote:\nBy 'all files' do you mean the packages from 2013 too?",
         "matchedWords": {
           "1Ut7onVxovAL": {
             "hits": 0,
@@ -272,7 +272,7 @@
         "hash": "nyDh_eSLKN4x",
         "address": "https://bbs.archlinux.org/viewforum.php?id=24",
         "title": "Announcements, Package \u0026 Security Advisories / Arch Linux Forums",
-        "snippet": "1\n122 330,545 2025-11-21 17:04:39 by ismailarilik 2\n5 16,794 2025-08-17 09:17:54 by Lone_Wolf 3\n3 21,389 2023-10-25 17:10:32 by Antiz 4\n7 33,766 2026-01-23 15:54:07 by dmloader 5\n33 29,150 2025-12-25 21:10:39 by gromit 6\n165 406,866 2025-06-13 19:09:11 by ewaller 7\n144 255,974 2025-04-30 11:43:05",
+        "snippet": "1\n122 330,545 2025-11-21 17:04:39 by ismailarilik 2\n5 16,794 2025-08-17 09:17:54 by Lone_Wolf 3\n3 21,389 2023-10-25 17:10:32 by Antiz 4\n7 33,766 2026-01-23 15:54:07 by dmloader 5\n33 29,150 2025-12-25 21:10:39 by gromit 6\n165 406,866 2025-06-13 19:09:11 by ewaller 7",
         "matchedWords": {
           "1Ut7onVxovAL": {
             "hits": 0,
@@ -450,7 +450,7 @@
         "hash": "VDvsI5syhcfx",
         "address": "https://archlinux.org/packages/extra/x86_64/arch-audit/",
         "title": "Arch Linux - arch-audit 0.2.0-5 (x86_64)",
-        "snippet": "Arch Linux name and logo are recognized trademarks. Some rights reserved.\nThe registered trademark Linux® is used pursuant to a sublicense from LMI, the exclusive licensee of Linus Torvalds, owner of the mark on a world-wide basis.",
+        "snippet": "Copyright © 2002-2026 Judd Vinet, Aaron Griffin and Levente Polyák.\nThe Arch Linux name and logo are recognized trademarks. Some rights reserved.",
         "matchedWords": {
           "1Ut7onVxovAL": {
             "hits": 0,
@@ -484,7 +484,7 @@
         "hash": "zkSIteSLKN4x",
         "address": "https://bbs.archlinux.org/viewtopic.php?id=310335",
         "title": "Where to obtain Arch linux stickers / Artwork and Screenshots / Arch Linux Forums",
-        "snippet": "Arch linux stickers\nHi, I am not sure if this is the right board to post on, but I am looking to get some arch linux stickers to put on my Thinkpad, I have looked at other threads and the links either didn't have stickers, or were dead, does anyone have working links where I can get stickers that",
+        "snippet": "Where to obtain Arch linux stickers",
         "matchedWords": {
           "1Ut7onVxovAL": {
             "hits": 0,
@@ -592,7 +592,7 @@
         "hash": "ohk1xxtQ-zSx",
         "address": "https://wiki.archlinux.org/title/Arch_Linux_Archive",
         "title": "Arch Linux Archive - ArchWiki",
-        "snippet": "Arch Linux Archive (ALA)—formerly known as Arch Linux Rollback Machine (ARM)—stores:\nofficial ISO images and bootstrap tarballs,\nall versions of each package,\nofficial repositories daily snapshots across time.\nYou can use it to:\nfind a previous version of an official ISO image,\ndowngrade to a",
+        "snippet": "The Arch Linux Historical Archive does not provide a way to access a snapshot of Arch Linux packages at a given point in time as the repos directory of the Arch Linux Archive does.",
         "matchedWords": {
           "1Ut7onVxovAL": {
             "hits": 0,
@@ -609,7 +609,7 @@
         "hash": "xApa7jRvmBbx",
         "address": "https://en.wikipedia.org/wiki/Arch_Hall,_Jr.",
         "title": "Arch Hall Jr. - Wikipedia",
-        "snippet": "Arch Hall, Jr.)\nArch Hall Jr.\nHall in Eegah (1962)\nBorn\nArchibald Williams Hall Jr.\nDecember 2, 1943 (age 82)\nVan Nuys, Los Angeles, California, U.S.\nOther names\nArchie Hall\nArch Hall\nNicolas Merriweather\nOccupations\nActor, musician[1]\nYears active\n1961-1965, 2014\nParents\nArch Hall Sr. (father)",
+        "snippet": "From Wikipedia, the free encyclopedia\n(Redirected from Arch Hall, Jr.)\nArch Hall Jr.\nHall in Eegah (1962)\nBorn\nArchibald Williams Hall Jr.\nDecember 2, 1943 (age 82)\nVan Nuys, Los Angeles, California, U.S.\nOther names\nArchie Hall\nArch Hall\nNicolas Merriweather\nOccupations\nActor, musician[1]",
         "matchedWords": {
           "1Ut7onVxovAL": {
             "hits": 0,
@@ -626,7 +626,7 @@
         "hash": "YFWL1h3e0QFx",
         "address": "https://commons.wikimedia.org/wiki/Category:Stone_arch_bridges",
         "title": "Category:Stone arch bridges - Wikimedia Commons",
-        "snippet": "arch bridges\"\nThe following 6 pages are in this category, out of 6 total.\nMedia in category \"Stone arch bridges\"\nThe following 78 files are in this category, out of 78 total.\nAfrin,Huri.jpg 1,920 × 1,285; 616 KB\nBridge in Tumi..JPG 3,888 × 2,592; 6.82 MB\nBridgetown 062.jpg 2,592 × 1,944; 1.89 MB",
+        "snippet": "From Wikimedia Commons, the free media repository\nSubcategories\nThis category has the following 34 subcategories, out of 34 total.\nPages in category \"Stone arch bridges\"\nThe following 6 pages are in this category, out of 6 total.\nMedia in category \"Stone arch bridges\"",
         "matchedWords": {
           "1Ut7onVxovAL": {
             "hits": 0,
@@ -660,7 +660,7 @@
         "hash": "wbNjbeSLKN4x",
         "address": "https://bbs.archlinux.org/viewtopic.php?pid=779734",
         "title": "Downloadable Arch Wiki / Forum \u0026 Wiki discussion / Arch Linux Forums",
-        "snippet": "Arch Wiki\nJust wondering, is there anywhere I can download a copy of the Arch Wiki? It'd be bloody handy on those occasions when I don't have a (working) net connection\nPlease be patient, I'm a n00b on Arch (only 2 years on Ubuntu) so I may say something stupid!\nPS thank you to all those who",
+        "snippet": "Registered: 2007-06-09\nPosts: 11,672\nWebsite\nRe: Downloadable Arch Wiki\npacman -S arch-wiki-docs\nOffline\n#3 2010-03-31 07:08:51\nNerd King\nMember\nFrom: Thailand\nRegistered: 2009-11-06\nPosts: 37\nRe: Downloadable Arch Wiki\nExcellent\nThat's absolutely perfect. Thank you",
         "matchedWords": {
           "1Ut7onVxovAL": {
             "hits": 53,
@@ -679,7 +679,7 @@
         "hash": "-zTXpAsyhcfx",
         "address": "https://archlinux.org/groups/x86_64/kde-education/",
         "title": "Arch Linux - kde-education (x86_64) - Group Details",
-        "snippet": "Arch\nRepo\nName\nVersion\nDescription\nLast Updated\nFlag Date\nx86_64\nExtra\nartikulate\n26.08.1-1\nImprove your pronunciation by listening to native speakers\n2026-09-10\nx86_64\nExtra\nblinken\n26.08.1-1\nMemory Enhancement Game\n2026-09-10\nx86_64\nExtra\ncantor\n26.08.1-1\nKDE Frontend to Mathematical Software",
+        "snippet": "Group Details - kde-education (x86_64)\n21 packages found.\nArch\nRepo\nName\nVersion\nDescription\nLast Updated\nFlag Date\nx86_64\nExtra\nartikulate\n26.08.1-1\nImprove your pronunciation by listening to native speakers\n2026-09-10\nx86_64\nExtra\nblinken\n26.08.1-1\nMemory Enhancement Game\n2026-09-10\nx86_64\nExtra",
         "matchedWords": {
           "1Ut7onVxovAL": {
             "hits": 0,
@@ -696,7 +696,7 @@
         "hash": "PhzCTeSLKN4x",
         "address": "https://bbs.archlinux.org/viewtopic.php?pid=734447",
         "title": "Downloadable Arch Wiki / Forum \u0026 Wiki discussion / Arch Linux Forums",
-        "snippet": "Arch Wiki\nJust wondering, is there anywhere I can download a copy of the Arch Wiki? It'd be bloody handy on those occasions when I don't have a (working) net connection\nPlease be patient, I'm a n00b on Arch (only 2 years on Ubuntu) so I may say something stupid!\nPS thank you to all those who",
+        "snippet": "Registered: 2007-06-09\nPosts: 11,672\nWebsite\nRe: Downloadable Arch Wiki\npacman -S arch-wiki-docs\nOffline\n#3 2010-03-31 07:08:51\nNerd King\nMember\nFrom: Thailand\nRegistered: 2009-11-06\nPosts: 37\nRe: Downloadable Arch Wiki\nExcellent\nThat's absolutely perfect. Thank you",
         "matchedWords": {
           "1Ut7onVxovAL": {
             "hits": 53,
@@ -713,7 +713,7 @@
         "hash": "bATU-TsmV515",
         "address": "https://kimberly.asgardius.company/",
         "title": "Kimberly GNU/Linux – Arch Linux Made Friendly",
-        "snippet": "Arch Linux Made Friendly\nCustom Artix Linux builds made to be friendly with Microsoft Windows Users\nBase was changed from Arch to Artix since 2026-08-28 release because systemd is prone to cause stability issues by itself\nThis product is not meant for jurisdictions with dictatorship legal systems",
+        "snippet": "At these days almost nobody has a Bluray Disc reader for their computers. Bluray Disc movies require a decoding key set to be played. These cannot be shipped by default due legal issues, but you can configure them following a tutorial that you can find at Arch Linux Wiki.",
         "matchedWords": {
           "1Ut7onVxovAL": {
             "hits": 1,
@@ -730,7 +730,7 @@
         "hash": "GACSIssyhcfx",
         "address": "https://archlinux.org/download/",
         "title": "Arch Linux - Downloads",
-        "snippet": "Arch Linux system can always be updated with pacman -Syu.\nImages for installing Arch can be downloaded via BitTorrent or right here in your browser from one of the Arch HTTP(S) mirrors down below.\nCurrent Release: 2026.09.01\nIncluded Kernel: 7.2.2\nISO Size: 1.5 GB\nInstallation Guide\nResources:",
+        "snippet": "Images for installing Arch can be downloaded via BitTorrent or right here in your browser from one of the Arch HTTP(S) mirrors down below.\nCurrent Release: 2026.09.01\nIncluded Kernel: 7.2.2\nISO Size: 1.5 GB\nInstallation Guide\nResources: Issue tracker\nMailing List\nExisting Arch Users",
         "matchedWords": {
           "1Ut7onVxovAL": {
             "hits": 1,
@@ -806,7 +806,7 @@
         "hash": "pJrTZ_JJheBx",
         "address": "https://man.archlinux.org/man/rmdir.1.uk",
         "title": "rmdir(1) — Arch manual pages",
-        "snippet": "RMDIR(1)\nКоманди користувача\nRMDIR(1)\nНАЗВА\nrmdir — вилучення порожніх каталогів\nКОРОТКИЙ ОПИС\nrmdir [ПАРАМЕТР]... КАТАЛОГ...\nОПИС\nВилучити КАТАЛОГИ, якщо вони порожні.\n--ignore-fail-on-non-empty\nігнорувати всі помилки при вилученні непорожнього каталогу\n-p, --parents\nвилучити КАТАЛОГ і підлеглі",
+        "snippet": "RMDIR(1)\nКоманди користувача\nRMDIR(1)\nНАЗВА\nrmdir — вилучення порожніх каталогів\nКОРОТКИЙ ОПИС\nrmdir [ПАРАМЕТР]... КАТАЛОГ...\nОПИС\nВилучити КАТАЛОГИ, якщо вони порожні.\n--ignore-fail-on-non-empty\nігнорувати всі помилки при вилученні непорожнього каталогу\n-p, --parents",
         "matchedWords": {
           "1Ut7onVxovAL": {
             "hits": 0,
@@ -842,7 +842,7 @@
         "hash": "JDV9fxtQ-zSx",
         "address": "https://wiki.archlinux.org/title/Arch_terminology",
         "title": "Arch terminology - ArchWiki",
-        "snippet": "Arch build system\nArch Linux\nArch Linux Archive\nArch User Repository\nArchWiki\nOfficial repositories\nPackage\nPackage Maintainers\nPKGBUILD\nmakepkg\nmkinitcpio\nnamcap\npacman\nThis page is intended to be a page to demystify common terms used among the Arch Linux community.\nABS\nABS stands for Arch build",
+        "snippet": "ARM), stores official repositories snapshots, ISO images and bootstrap tarballs across time.\nArchWiki\nArchWiki is a place to find documentation about Arch Linux. Anyone can contribute to the wiki.\nAUR\nThe Arch User Repository (AUR) is a community-driven repository for Arch users.",
         "matchedWords": {
           "1Ut7onVxovAL": {
             "hits": 2,
@@ -859,7 +859,7 @@
         "hash": "z9WOd_syhcfx",
         "address": "https://archlinux.org/news/debug-packages-and-debuginfod/",
         "title": "Arch Linux - News: Debug packages and debuginfod",
-        "snippet": "Arch Linux.\nDebug symbols and source listing are provided through our debuginfod instance which can be utilized by debuggers such as gdb and delve.\nhttps://debuginfod.archlinux.org/\nA couple of sponsored mirrors are providing the debug repositories while we figure out and communicate the new mirror",
+        "snippet": "We are very happy to announce that debug packages are now available in Arch Linux.\nDebug symbols and source listing are provided through our debuginfod instance which can be utilized by debuggers such as gdb and delve.\nhttps://debuginfod.archlinux.org/",
         "matchedWords": {
           "1Ut7onVxovAL": {
             "hits": 1,
@@ -876,7 +876,7 @@
         "hash": "iKqpg_JJheBx",
         "address": "https://man.archlinux.org/man/sshpass.1.en",
         "title": "sshpass(1) — Arch manual pages",
-        "snippet": "SSHPASS(1)\nSshpass User Manual\nSSHPASS(1)\nNAME\nsshpass - noninteractive ssh password provider\nSYNOPSIS\nsshpass [-ffilename|-dnum|-ppassword|-e[env_var]] [options] command arguments\nDESCRIPTION\nThis manual page documents the sshpass command.\nsshpass is a utility designed for running ssh using the",
+        "snippet": "SSHPASS(1)\nSshpass User Manual\nSSHPASS(1)\nNAME\nsshpass - noninteractive ssh password provider\nSYNOPSIS\nsshpass [-ffilename|-dnum|-ppassword|-e[env_var]] [options] command arguments\nDESCRIPTION\nThis manual page documents the sshpass command.",
         "matchedWords": {
           "1Ut7onVxovAL": {
             "hits": 0,
@@ -912,7 +912,7 @@
         "hash": "n_BbL_JJheBx",
         "address": "https://man.archlinux.org/man/wc.1.ro",
         "title": "wc(1) — Arch manual pages",
-        "snippet": "WC(1)\nComenzi utilizator\nWC(1)\nNUME\nwc - afișează numărul de linii noi, de cuvinte și de octeți pentru fiecare fișier\nSINOPSIS\nwc [OPȚIUNE]... [FIȘIER]...\nwc [OPȚIUNE]... --files0-from=F\nDESCRIERE\nAfișează numărul de linii noi, de cuvinte și de octeți pentru fiecare FIȘIER, și o linie cu totalul",
+        "snippet": "WC(1)\nComenzi utilizator\nWC(1)\nNUME\nwc - afișează numărul de linii noi, de cuvinte și de octeți pentru fiecare fișier\nSINOPSIS\nwc [OPȚIUNE]... [FIȘIER]...\nwc [OPȚIUNE]... --files0-from=F\nDESCRIERE",
         "matchedWords": {
           "1Ut7onVxovAL": {
             "hits": 0,
@@ -948,7 +948,7 @@
         "hash": "2CAHw8uKjjbw",
         "address": "https://wiki.gentoo.org/wiki/FAQ",
         "title": "FAQ - Gentoo wiki",
-        "snippet": "wiki.\nTip\nRead the Gentoo documentation to learn how to use Gentoo, and GNU/Linux more broadly. The main Gentoo documentation is on the wiki, and in the Handbook. More information may be found in man pages, info pages, /usr/share/doc/, upstream, etc. Many commands also support the --help or -h",
+        "snippet": "For frequently asked questions relating to the documentation wiki and editing the wiki, see the wiki FAQ. There are also some architecture-specific FAQs, such as: AMD64/FAQ, PPC/FAQ, MIPS/FAQ, and Alpha/FAQ.\nSee also",
         "matchedWords": {
           "1Ut7onVxovAL": {
             "hits": 10,
@@ -967,7 +967,7 @@
         "hash": "-pMpNeSLKN4x",
         "address": "https://bbs.archlinux.org/viewtopic.php?id=313893",
         "title": "[Solved] After \"makepkg -si\", rebuilding without re-downloading? / Creating \u0026 Modifying Packages / Arch Linux Forums",
-        "snippet": "wiki has good explanation: https://wiki.archlinux.org/title/Patching_packages\nbut in short, yes, it pretty much comes down to what you outlined\nOffline\n#5 2026-06-11 17:03:08\nseth\nMember\nFrom: Won't reply 2 private help req\nRegistered: 2012-09-03\nPosts: 77,746\nRe: [Solved] After \"makepkg -si\",",
+        "snippet": "the wiki has good explanation: https://wiki.archlinux.org/title/Patching_packages\nbut in short, yes, it pretty much comes down to what you outlined\nOffline\n#5 2026-06-11 17:03:08\nseth\nMember\nFrom: Won't reply 2 private help req\nRegistered: 2012-09-03\nPosts: 77,746",
         "matchedWords": {
           "1Ut7onVxovAL": {
             "hits": 3,
@@ -984,7 +984,7 @@
         "hash": "G6MDmGsyhcfx",
         "address": "https://archlinux.org/mirrors/purring.online/",
         "title": "Arch Linux - purring.online - Mirror Details",
-        "snippet": "http://mirrors.purring.online/arch/\nhttp\nGermany\nYes\nNo\n2026-09-11 23:29\n100.0%\n0:16\n0.11\n0.07\n0.5\nDetails\nhttps://mirrors.purring.online/arch/\nhttps\nGermany\nYes\nNo\n2026-09-11 23:29\n100.0%\n0:16\n0.09\n0.05\n0.4\nDetails\nrsync://mirrors.purring.online/arch/\nrsync\nGermany\nYes\nNo\n2026-09-11 23:29\n100.0%",
+        "snippet": "https://mirrors.purring.online/arch/\nhttps\nGermany\nYes\nNo\n2026-09-11 23:29\n100.0%\n0:16\n0.09\n0.05\n0.4\nDetails\nrsync://mirrors.purring.online/arch/\nrsync\nGermany\nYes\nNo\n2026-09-11 23:29\n100.0%\n0:16\n0.49\n0.34\n1.1\nDetails\nError Log\nMirror URL\nProtocol\nCountry\nError Message\nLast Occurred",
         "matchedWords": {
           "1Ut7onVxovAL": {
             "hits": 0,
@@ -1003,7 +1003,7 @@
         "hash": "4JQXbxtQ-zSx",
         "address": "https://wiki.archlinux.org/title/Category:About_Arch",
         "title": "Category:About Arch - ArchWiki",
-        "snippet": "Arch Linux.\nSubcategories\nThis category has the following 5 subcategories, out of 5 total.\nA\nArch community\nArchWiki\nI\nInstallation process\nL\nLive Arch systems\nT\nTeams\nPages in category \"About Arch\"\nThe following 19 pages are in this category, out of 19 total.\nA\nArch boot process\nArch build system",
+        "snippet": "G\nGetting involved\nM\nMakepkg\nMirrors\nO\nOfficial repositories\nOfficial wallpapers\nRetrieved from \"https://wiki.archlinux.org/index.php?title=Category:About_Arch\u0026oldid=884501\"",
         "matchedWords": {
           "1Ut7onVxovAL": {
             "hits": 1,
@@ -1058,7 +1058,7 @@
         "hash": "sFJf-jjEZfvx",
         "address": "https://en.wiktionary.org/wiki/arch-",
         "title": "arch- - Wiktionary, the free dictionary",
-        "snippet": "arch-\nEnglish arch-\nFrom Middle English arch-, arche-, from Old English arċe-, ærċe-, erċe- (“arch-”), borrowed from Latin archi-, this stemming from Ancient Greek ἀρχι- (arkhi-).\nIPA(key): /ɑː(ɹ)t͡ʃ/, /ɑ(ɹ)k/\narch-\nA title in a hierarchy which indicates a higher degree of rank than its root word.",
+        "snippet": "IPA(key): /arχ/\narch-\ngreat, chief, arch-, super- ‎arch- + ‎angel (“angel”) → ‎archangel (“archangel”)\n‎arch- + ‎marchnad (“market”) → ‎archfarchnad (“supermarket”)\n‎arch- + ‎esgobaeth (“bishopric”) → ‎archesgobaeth (“archbishopric, primacy”)\nR. J. Thomas, G. A. Bevan, P. J. Donovan, A.",
         "matchedWords": {
           "1Ut7onVxovAL": {
             "hits": 0,
@@ -1075,7 +1075,7 @@
         "hash": "KGKx78uKjjbw",
         "address": "https://wiki.gentoo.org/wiki/Project:X86_Arch_Testers",
         "title": "Project:X86 Arch Testers - Gentoo wiki",
-        "snippet": "Arch Testers\nDescription\nThe Arch Testers team is responsible with helping x86 devs testing packages which are to be marked stable. Arch testers are respected members of the community which the x86 team has recognized as being reliable and trustworthy.\nProject email\nLead(s)\nAgostino Sarubbo (ago)",
+        "snippet": "x86 Arch Testers\nDescription\nThe Arch Testers team is responsible with helping x86 devs testing packages which are to be marked stable. Arch testers are respected members of the community which the x86 team has recognized as being reliable and trustworthy.\nProject email\nLead(s)",
         "matchedWords": {
           "1Ut7onVxovAL": {
             "hits": 1,
@@ -1109,7 +1109,7 @@
         "hash": "XLhWdh3e0QFx",
         "address": "https://commons.wikimedia.org/wiki/Category:Neutrality_Arch",
         "title": "Category:Neutrality Arch - Wikimedia Commons",
-        "snippet": "Arch of Neutrality\nmonument originally located in Ashgabat\nUpload media\nWikipedia\nInstance of\nmonument\nLocation\nAshgabat, Turkmenistan\nArchitect\nPolimeks\nCommissioned by\nSaparmyrat Nyýazow\nFounder\nSaparmyrat Nyýazow\nInception\n1998\n2010\nDissolved, abolished or demolished\n2010\nHeight\n95 m (2010–)\n37°",
+        "snippet": "From Wikimedia Commons, the free media repository\nArch of Neutrality\nmonument originally located in Ashgabat\nUpload media\nWikipedia\nInstance of\nmonument\nLocation\nAshgabat, Turkmenistan\nArchitect\nPolimeks\nCommissioned by\nSaparmyrat Nyýazow\nFounder\nSaparmyrat Nyýazow\nInception\n1998\n2010",
         "matchedWords": {
           "1Ut7onVxovAL": {
             "hits": 0,
@@ -1126,7 +1126,7 @@
         "hash": "2AGHgcw63Csx",
         "address": "https://fr.wikipedia.org/wiki/Gateway_Arch",
         "title": "Gateway Arch — Wikipédia",
-        "snippet": "Arch (« arche passerelle »), Gateway to the West (« passerelle/porte de l'Ouest ») ou St. Louis Arch (« arche de Saint-Louis ») est située dans le centre-ville de Saint-Louis dans l'État du Missouri, aux États-Unis. Symbole de la ville, cette arche recouverte d'acier inoxydable mesure 192 mètres de",
+        "snippet": "La pièce finalisée entre en circulation le 4 août 2003.\n↑ (en) « Gateway Arch », sur greatbuildings.com (consulté le 28 octobre 2013).\n1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 (en) The Gateway Arch, « Arch FAQ \u0026 Facts », sur gatewayarch.com (consulté le 10 janvier 2016).",
         "matchedWords": {
           "1Ut7onVxovAL": {
             "hits": 0,
@@ -1143,7 +1143,7 @@
         "hash": "BKXNQo1ILRNx",
         "address": "https://tum.wikipedia.org/wiki/User:Tumbuka_Arch/sandbox20_new",
         "title": "User:Tumbuka Arch/sandbox20 new - Wikipedia",
-        "snippet": "Meta-Wiki\nViki Özökler\nWikiversity\nÖzgür Bilimyurdu",
+        "snippet": "Wikikaynak\nÖzgür Betikevi\nWikisöz\nÖzdeyişler\nWikispecies\nYaşambilim Tür Dizini\nCommons\nÇoklu Ortam Bölüşüm\nMeta-Wiki\nViki Özökler\nWikiversity\nÖzgür Bilimyurdu",
         "matchedWords": {
           "1Ut7onVxovAL": {
             "hits": 1,
@@ -1179,7 +1179,7 @@
         "hash": "ycf-xeSLKN4x",
         "address": "https://bbs.archlinux.org/",
         "title": "Arch Linux Forums",
-        "snippet": "Arch issues. Please consult the excellent Arch wiki and web before posting. Also try the forum search function at the upper left.\n(Moderated by ewaller, fukawi2, Lone_Wolf, schard, Slithery, V1del, WorMzy)\n83,047 561,465 Yesterday 15:40:32 by AllezHop 2\nInstallation\nIssues related to installation",
+        "snippet": "1\nNewbie Corner\nBeginners' subforum for general Arch issues. Please consult the excellent Arch wiki and web before posting. Also try the forum search function at the upper left.\n(Moderated by ewaller, fukawi2, Lone_Wolf, schard, Slithery, V1del, WorMzy)",
         "matchedWords": {
           "1Ut7onVxovAL": {
             "hits": 1,
@@ -1217,7 +1217,7 @@
         "hash": "yNjyN5syhcfx",
         "address": "https://archlinux.org/packages/extra/x86_64/inchi/",
         "title": "Arch Linux - inchi 1.07.5-1 (x86_64)",
-        "snippet": "Arch Linux name and logo are recognized trademarks. Some rights reserved.\nThe registered trademark Linux® is used pursuant to a sublicense from LMI, the exclusive licensee of Linus Torvalds, owner of the mark on a world-wide basis.",
+        "snippet": "Copyright © 2002-2026 Judd Vinet, Aaron Griffin and Levente Polyák.\nThe Arch Linux name and logo are recognized trademarks. Some rights reserved.",
         "matchedWords": {
           "1Ut7onVxovAL": {
             "hits": 0,
@@ -1234,7 +1234,7 @@
         "hash": "m2kA6lSmquRw",
         "address": "https://bugs.gentoo.org/show_bug.cgi?id=431280",
         "title": "431280 – app-arch/p7zip fails to cross-compile, hardcodes the target arch",
-        "snippet": "`/mnt/portage/tmp/portage/app-arch/p7zip-9.20.1-r3/work/p7zip_9.20.1/CPP/7zip/Bundles/Alone' make: *** [7za] Fehler 2 Especially look at the yasm line before the linker line, since it uses amd64, also this compile is for x86. emerge --info: Portage 2.2.0_alpha116-r1 (hardened/linux/amd64,",
+        "snippet": "same problem here on a portage-multilib system for a while now with app-arch/p7zip-9.20.1-r4. I think this should also be added to the tracker bug here: https://bugs.gentoo.org/show_bug.cgi?id=306835\nComment 4 Pacho Ramos\n2023-11-16 14:50:52 UTC\nIs this still the case with app-arch/p7zip-17.05-r1?",
         "matchedWords": {
           "1Ut7onVxovAL": {
             "hits": 0,
@@ -1270,7 +1270,7 @@
         "hash": "3r8tuTS6MKD4",
         "address": "https://github.com/yt-dlp/yt-dlp/wiki/Installation",
         "title": "Installation · yt-dlp/yt-dlp Wiki · GitHub",
-        "snippet": "Arch Linux users can install it from the official community repository:\nsudo pacman -Syu yt-dlp\npacman will now automatically download the correct dependencies and keep the package up-to-date whenever you update your system with:\nsudo pacman -Syu\nSnap\nYou can install yt-dlp on Linux using Snap:",
+        "snippet": "Please report any issues to the respective package maintainers\nLinux/MacOS\nHomebrew\nmacOS or Linux users that are using Homebrew can also install it by:\nbrew install yt-dlp\nTo update, run:\nbrew upgrade yt-dlp\npacman\nArch Linux users can install it from the official community repository:",
         "matchedWords": {
           "1Ut7onVxovAL": {
             "hits": 0,
@@ -1289,7 +1289,7 @@
         "hash": "rnRTljRvmBbx",
         "address": "https://en.wikipedia.org/wiki/Arch_of_Titus",
         "title": "Arch of Titus - Wikipedia",
-        "snippet": "arch of Titus on the Via Sacra. For the one by the Circus Maximus, see Arch of Titus (Circus Maximus).\nArch of Titus\nThe Arch of Titus\nArch of Titus\nShown within Augustan Rome\nClick on the map for a fullscreen view\n41°53′26.5812″N 12°29′18.906″E﻿ / ﻿41.890717000°N 12.48858500°E\nType\nhonorific arch",
+        "snippet": "This article is about the main arch of Titus on the Via Sacra. For the one by the Circus Maximus, see Arch of Titus (Circus Maximus).\nArch of Titus\nThe Arch of Titus\nArch of Titus\nShown within Augustan Rome\nClick on the map for a fullscreen view",
         "matchedWords": {
           "1Ut7onVxovAL": {
             "hits": 0,
@@ -1306,7 +1306,7 @@
         "hash": "WbdU8h3e0QFx",
         "address": "https://commons.wikimedia.org/wiki/Arch_of_Titus",
         "title": "Arch of Titus - Wikimedia Commons",
-        "snippet": "Arch of Titus is a triumphal arch with a single arched opening, located on the Summa Sacra Via to the west of the Roman Forum in Rome. It was constructed shortly after the death of the emperor Titus (born AD 41, emperor 79-81).\nObject location\n41° 53′ 26″ N, 12° 29′ 19″ E\nView all coordinates",
+        "snippet": "Grandangolo\nArch of Titus\nArch of Titus\nArch of Titus\nArch of Titus\nArch of Titus view from Capitoline Hill\nArch of Titus view on Capitoline Hill\nIn a puddle\nView\nView\nInscription\nRelief at the Arch of Titus, „Sack of Jerusalem“, photo from the 1860s\nArchivolto del fornice centrale",
         "matchedWords": {
           "1Ut7onVxovAL": {
             "hits": 0,
@@ -1325,7 +1325,7 @@
         "hash": "Gab0Essyhcfx",
         "address": "https://archlinux.org/",
         "title": "Arch Linux",
-        "snippet": "Arch Linux, a lightweight and flexible Linux® distribution that tries to Keep It Simple.\nCurrently we have official packages optimized for the x86-64 architecture. We complement our official package sets with a community-operated package repository that grows in size and quality each and every day.",
+        "snippet": "Please check out our forums and mailing lists to get your feet wet. Also glance through our wiki if you want to learn more about Arch.\nLearn more...\nLatest News\nvirtualbox-ext-vnc \u003e= 7.2.12-2 requires manual intervention\n2026-07-21",
         "matchedWords": {
           "1Ut7onVxovAL": {
             "hits": 1,
@@ -1342,7 +1342,7 @@
         "hash": "4lSXW_JJheBx",
         "address": "https://man.archlinux.org/man/strtod.3.en",
         "title": "strtod(3) — Arch manual pages",
-        "snippet": "strtod(3)\nLibrary Functions Manual\nstrtod(3)\nNAME\nstrtod, strtof, strtold - string to float\nLIBRARY\nStandard C library (libc, -lc)\nSYNOPSIS\n#include \u003cstdlib.h\u003e\ndouble strtod(const char *restrict nptr, char **_Nullable restrict endptr); float strtof(const char *restrict nptr, char **_Nullable",
+        "snippet": "strtod(3)\nLibrary Functions Manual\nstrtod(3)\nNAME\nstrtod, strtof, strtold - string to float\nLIBRARY\nStandard C library (libc, -lc)\nSYNOPSIS\n#include \u003cstdlib.h\u003e",
         "matchedWords": {
           "1Ut7onVxovAL": {
             "hits": 0,
@@ -1376,7 +1376,7 @@
         "hash": "SfYMcxtQ-zSx",
         "address": "https://wiki.archlinux.org/title/ArchWiki:Contributing",
         "title": "ArchWiki:Contributing - ArchWiki",
-        "snippet": "Arch Linux Code of conduct governs all Arch projects.\nArchWiki strives to be a clear, comprehensive and professional model of documentation. In order to reach that goal we have to organize the job in a rational and functional way: this article tries to explain schematically what are the most",
+        "snippet": "There are some special messages used in Arch Wiki, please provide their translation for your language in the following link:\nAlso in (Message in Categories tree): Add translation here\nTalkpagetext: Add translation here\nBrainstorming",
         "matchedWords": {
           "1Ut7onVxovAL": {
             "hits": 24,
@@ -1395,7 +1395,7 @@
         "hash": "DAj4_QiNWeQw",
         "address": "https://wiki.cachyos.org/",
         "title": "Welcome to the CachyOS Wiki | CachyOS",
-        "snippet": "Arch Linux experience.\nGetting StartedForumDiscord\nGetting Started\nSection titled “Getting Started”\nCachyOS FAQ \u0026 Troubleshooting GuideFind answers to common questions about CachyOS.\nHow CachyOS Improves PerformanceCheck out the changes we make in order to improve performance.\nRequirements \u0026",
+        "snippet": "Empowering your Arch Linux experience.\nGetting StartedForumDiscord\nGetting Started\nSection titled “Getting Started”\nCachyOS FAQ \u0026 Troubleshooting GuideFind answers to common questions about CachyOS.\nHow CachyOS Improves PerformanceCheck out the changes we make in order to improve performance.",
         "matchedWords": {
           "1Ut7onVxovAL": {
             "hits": 0,
@@ -1414,7 +1414,7 @@
         "hash": "2CAHw8uKjjbw",
         "address": "https://wiki.gentoo.org/wiki/FAQ",
         "title": "FAQ - Gentoo wiki",
-        "snippet": "wiki.\nTip\nRead the Gentoo documentation to learn how to use Gentoo, and GNU/Linux more broadly. The main Gentoo documentation is on the wiki, and in the Handbook. More information may be found in man pages, info pages, /usr/share/doc/, upstream, etc. Many commands also support the --help or -h",
+        "snippet": "For frequently asked questions relating to the documentation wiki and editing the wiki, see the wiki FAQ. There are also some architecture-specific FAQs, such as: AMD64/FAQ, PPC/FAQ, MIPS/FAQ, and Alpha/FAQ.\nSee also",
         "matchedWords": {
           "1Ut7onVxovAL": {
             "hits": 10,
@@ -1433,7 +1433,7 @@
         "hash": "oej5lsdsPYlw",
         "address": "https://archhurd.org/",
         "title": "Arch Hurd",
-        "snippet": "Arch Hurd website. Arch Hurd is a derivative work of Arch Linux porting it to the GNU Hurd system with packages optimised for the i686 architecture.\nOur goal is to provide an Arch-like user environment (BSD-style init scripts, i686-optimised packages, use of the pacman package manager,",
+        "snippet": "Hello, I'm Luca (username z3ntu) and the Arch Hurd website now runs on my server as the databases broke on the old one.\nI've rebuilt this main website including all news articles from the past and the wiki.",
         "matchedWords": {
           "1Ut7onVxovAL": {
             "hits": 1,
@@ -1469,7 +1469,7 @@
         "hash": "_MvmMeSLKN4x",
         "address": "https://bbs.archlinux.org/viewtopic.php?pid=830846",
         "title": "pkgstats round two: take your vote and help improving Arch / Announcements, Package \u0026 Security Advisories / Arch Linux Forums",
-        "snippet": "Arch\n#1 2010-09-24 07:18:06\nPierre\nDeveloper\nFrom: Bonn\nRegistered: 2004-07-05\nPosts: 1,967\nWebsite\npkgstats round two: take your vote and help improving Arch\nTwo years ago, we introduced pkgstats.\nThis time, after a major revamp, we are re-introducing it to you!\nContributing is as easy as",
+        "snippet": "Index\n» Announcements, Package \u0026 Security Advisories\n» pkgstats round two: take your vote and help improving Arch\n#1 2010-09-24 07:18:06\nPierre\nDeveloper\nFrom: Bonn\nRegistered: 2004-07-05\nPosts: 1,967\nWebsite\npkgstats round two: take your vote and help improving Arch",
         "matchedWords": {
           "1Ut7onVxovAL": {
             "hits": 0,
@@ -1486,7 +1486,7 @@
         "hash": "6g2ztAsyhcfx",
         "address": "https://archlinux.org/groups/x86_64/budgie/",
         "title": "Arch Linux - budgie (x86_64) - Group Details",
-        "snippet": "Arch\nRepo\nName\nVersion\nDescription\nLast Updated\nFlag Date\nany\nExtra\nbudgie-backgrounds\n3.0-2\nThe default background set for the Budgie Desktop\n2026-01-02\nx86_64\nExtra\nbudgie-control-center\n2.1.1-2\nBudgie's main interface to configure various aspects of the system\n2026-04-11\n2026-08-03\nx86_64\nExtra",
+        "snippet": "Group Details - budgie (x86_64)\n6 packages found.\nArch\nRepo\nName\nVersion\nDescription\nLast Updated\nFlag Date\nany\nExtra\nbudgie-backgrounds\n3.0-2\nThe default background set for the Budgie Desktop\n2026-01-02\nx86_64\nExtra\nbudgie-control-center\n2.1.1-2",
         "matchedWords": {
           "1Ut7onVxovAL": {
             "hits": 0,
@@ -1613,7 +1613,7 @@
         "hash": "ycf-xeSLKN4x",
         "address": "https://bbs.archlinux.org/",
         "title": "Arch Linux Forums",
-        "snippet": "Arch issues. Please consult the excellent Arch wiki and web before posting. Also try the forum search function at the upper left.\n(Moderated by ewaller, fukawi2, Lone_Wolf, schard, Slithery, V1del, WorMzy)\n83,047 561,465 Yesterday 15:40:32 by AllezHop 2\nInstallation\nIssues related to installation",
+        "snippet": "1\nNewbie Corner\nBeginners' subforum for general Arch issues. Please consult the excellent Arch wiki and web before posting. Also try the forum search function at the upper left.\n(Moderated by ewaller, fukawi2, Lone_Wolf, schard, Slithery, V1del, WorMzy)",
         "matchedWords": {
           "1Ut7onVxovAL": {
             "hits": 1,

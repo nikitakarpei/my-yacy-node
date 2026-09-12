@@ -1,13 +1,13 @@
 {
   "query": "how does a search engine rank pages",
-  "recordedAt": "2026-09-12T00:25:04Z",
+  "recordedAt": "2026-09-12T07:52:04Z",
   "itemsInTheOrderOfEachAnswer": [
     [
       {
         "hash": "W-eXqzF3--Qw",
         "address": "https://planet.mozilla.org/",
         "title": "Planet Mozilla",
-        "snippet": "devtools.debugger.file-search-* preferences\n🌟 Nathan Leuz: Remove unused legacy preference browser.translation.neverForLanguages\n🌟 Priyanshu[:0xanshu]: “Forget About This Site” dialog is cut off\n🌟 K: Disable breakpoints shortcut\n🌟 Shawn Zivontsis: Reorder moz_origins composite unique index to",
+        "snippet": "Most browsers have already decided how you’re going to search. Firefox hasn’t. Pick your search engine, control what happens to your queries, decide who sees data about you, even turn AI on or off. It should always be your call.",
         "matchedWords": {
           "24igJXwiDb_d": {
             "hits": 148,
@@ -42,7 +42,7 @@
         "hash": "mpTuJKsrSOQw",
         "address": "https://arxiv.org/list/physics/new",
         "title": "Physics",
-        "snippet": "New submissions\nCross-lists\nReplacements\nSee recent articles\nShowing new listings for Friday, 11 September 2026\nTotal of 149 entries\nShowing up to 2000 entries per page: fewer | more | all\nNew submissions (showing 76 of 76 entries)\n[1] arXiv:2609.10558 [pdf, html, other]\n[2] arXiv:2609.10560 [pdf,",
+        "snippet": "New submissions\nCross-lists\nReplacements\nSee recent articles\nShowing new listings for Friday, 11 September 2026\nTotal of 149 entries\nShowing up to 2000 entries per page: fewer | more | all\nNew submissions (showing 76 of 76 entries)\n[1] arXiv:2609.10558 [pdf, html, other]",
         "matchedWords": {
           "24igJXwiDb_d": {
             "hits": 0,
@@ -77,7 +77,7 @@
         "hash": "t-vTMs6GdY-4",
         "address": "https://danluu.com/ftc-google-antitrust/",
         "title": "What the FTC got wrong in the Google antitrust investigation",
-        "snippet": "pages of internal FTC memos that from the investigation a decade later. As someone who works in tech, on reading the memos, the most striking thing is how one side, the side that argued to close the investigation, repeatedly displays a lack of basic understanding of tech industry and the memos from",
+        "snippet": "\"Google does not require Google to be the default search engine in order to license the Android OS\" [seems technically correct, but misleading at best when taken as part of the broader argument here]",
         "matchedWords": {
           "24igJXwiDb_d": {
             "hits": 38,
@@ -112,7 +112,7 @@
         "hash": "52lt4jRvmBbx",
         "address": "https://en.wikipedia.org/wiki/Manhattan",
         "title": "Manhattan - Wikipedia",
-        "snippet": "engine of New York City, with its 2.45 million workers drawn from the entire New York metropolitan area accounting for approximately half of all jobs in New York City.[209] At US$1.007 trillion in 2024,[7] Manhattan (New York County) had the highest total GDP as well as GDP per capita of any county",
+        "snippet": "City at the Water's Edge: A Natural History of New York (2005), environmental history excerpt and text search\nReitano, Joanne. The Restless City: A Short History of New York from Colonial Times to the Present (2010), Popular history with focus on politics and riots excerpt and text search",
         "matchedWords": {
           "24igJXwiDb_d": {
             "hits": 10,
@@ -148,7 +148,7 @@
       "hash": "Q831Yj-JVcyx",
       "address": "https://en.wikiquote.org/wiki/United_States",
       "title": "United States - Wikiquote",
-      "snippet": "search of monsters to destroy. She is the well-wisher to the freedom and independence of all. She is the champion and vindicator only of her own. She will commend the general cause by the countenance of her voice, and the benignant sympathy of her example. She well knows that by once enlisting",
+      "snippet": "I believe in the individual, in less government so as to allow that individual maximum freedom to create and achieve; that societies which are founded on restraining the government rather than the individual are optimum; that the individual is smart enough to solve his own problems and does not",
       "matchedWords": {
         "24igJXwiDb_d": {
           "hits": 66,
@@ -181,7 +181,7 @@
       "hash": "onaY7j-JVcyx",
       "address": "https://en.wikiquote.org/wiki/Barack_Obama",
       "title": "Barack Obama - Wikiquote",
-      "snippet": "how we're going to reshape America in a way that is less mean-spirited and more generous.\nI feel good when I'm engaged in what I think are the core issues of the society, and those core issues to me are what's happening to poor folks in this society.\nIn regard to homosexuality, I must say that I",
+      "snippet": "\"What do you still bring from Hawaii? How does it affect your character, how does it affect your politics?\" I try to explain to them something about the Aloha Spirit.",
       "matchedWords": {
         "24igJXwiDb_d": {
           "hits": 268,
@@ -247,7 +247,7 @@
       "hash": "iLQO1sN0ip-w",
       "address": "https://m-reform.net/",
       "title": "replica football shirts",
-      "snippet": "how sentences are put collectively. Maybe you are already an professional speller, however how’s your grammar? If there’s one factor house flight requires, it is contingency plans.Throughout the Apollo program, astronauts received fairly accustomed to switching again and forth between these roles,",
+      "snippet": "If you’ve got ever used an Web search engine, you’ve submitted a query — your search terms. An excellent information integration system would let the marketing division view data from each sources in a unified means, leaving out any data that didn’t apply to the search.",
       "matchedWords": {
         "24igJXwiDb_d": {
           "hits": 157,
@@ -280,7 +280,7 @@
       "hash": "McHqxjRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Uruguay",
       "title": "Uruguay - Wikipedia",
-      "snippet": "search for a new formula of compromise based on the coexistence of the party in power and the opposition party.[50] Despite this agreement, the Colorado rule was threatened by the failed Tricolor Revolution in 1875 and the Revolution of the Quebracho in 1886.\nThe Colorado effort to reduce Blancos",
+      "snippet": "147] ANTEL has launched a commercial 5G network in April 2019[148] with still continual development.[149] Movistar and Claro have 30% and 21% market share, respectively.[150] The Google Search engine accounted for 95% of total search engine market share in 2023–2024.[151]",
       "matchedWords": {
         "24igJXwiDb_d": {
           "hits": 1,
@@ -313,7 +313,7 @@
       "hash": "diDs1jRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Uganda",
       "title": "Uganda - Wikipedia",
-      "snippet": "how to manage the largest monarchy within the framework of a unitary state had been a problem since the British creation of the Protectorate of Uganda. Colonial governors had failed to come up with a formula that worked. This was further complicated by Buganda's nonchalant attitude to its",
+      "snippet": "The issue of how to manage the largest monarchy within the framework of a unitary state had been a problem since the British creation of the Protectorate of Uganda. Colonial governors had failed to come up with a formula that worked.",
       "matchedWords": {
         "24igJXwiDb_d": {
           "hits": 3,
@@ -346,7 +346,7 @@
       "hash": "gE7l4jRvmBbx",
       "address": "https://en.wikipedia.org/wiki/University_of_Cambridge",
       "title": "University of Cambridge - Wikipedia",
-      "snippet": "does by publishing notices to the Cambridge University Reporter, the university's official journal.[86] In March 2008, Regent House voted to increase from two to four the number of external members on the council,[87][88] and this was approved by Her Majesty the Queen in July 2008.[89]\nThe general",
+      "snippet": "The council is obliged to advise Regent House on matters of general concern to the university, which it does by publishing notices to the Cambridge University Reporter, the university's official journal.[",
       "matchedWords": {
         "24igJXwiDb_d": {
           "hits": 7,
@@ -379,7 +379,7 @@
       "hash": "i445gjRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Sydney",
       "title": "Sydney - Wikipedia",
-      "snippet": "engine made buses more flexible than trams and consequently more popular, leading to the progressive closure of the network with the final tram operating in 1961.[446] From 1930 there were 612 buses across Sydney carrying 90 million passengers per annum.[464]\nIn 1997, the Inner West Light Rail",
+      "snippet": "↑ \"How Australia's biggest cities rank for public transport access\". SBS News. 8 July 2024. Retrieved 20 May 2025.\n↑ \"History of the NSW Railways\". Transport for NSW. 5 June 2017. Retrieved 20 May 2025.\n↑ Dunn, Mark. \"Electrification of the Sydney Suburban Train Network\". Dictionary of Sydney.",
       "matchedWords": {
         "24igJXwiDb_d": {
           "hits": 4,
@@ -412,7 +412,7 @@
       "hash": "jb1jqjRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Thomas_Jefferson",
       "title": "Thomas Jefferson - Wikipedia",
-      "snippet": "Rank\nColonel\nUnit\nAlbemarle County Militia\nBattles/wars\nAmerican Revolutionary War\nPhilosophical work\nEra\nAge of Enlightenment\nRegion\nWestern philosophy\nAmerican philosophy\nSchool\nClassical liberalism\nDeism\nInstitutions\nAmerican Philosophical Society\nMain interests\nClassical History\nTheology",
+      "snippet": "Allegiance\nUnited States\nBranch/service\nVirginia militia\nYears of service\n1775–1776\nRank\nColonel\nUnit\nAlbemarle County Militia\nBattles/wars\nAmerican Revolutionary War\nPhilosophical work\nEra\nAge of Enlightenment\nRegion\nWestern philosophy\nAmerican philosophy\nSchool\nClassical liberalism\nDeism",
       "matchedWords": {
         "24igJXwiDb_d": {
           "hits": 1,
@@ -445,7 +445,7 @@
       "hash": "m0QS_jRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Myanmar",
       "title": "Myanmar - Wikipedia",
-      "snippet": "does the ASEAN and as do Australia,[29] Russia, Germany,[30] China, India, Bangladesh, Norway,[31] Japan,[32] Switzerland,[33] Canada[34] and Ukraine.[35] Most English-speaking international news media refer to the country by the name Myanmar, including the BBC,[36] CNN,[37] Al Jazeera,[38]",
+      "snippet": "28] The United Nations uses Myanmar, as does the ASEAN and as do Australia,[29] Russia, Germany,[30] China, India, Bangladesh, Norway,[31] Japan,[32] Switzerland,[33] Canada[34] and Ukraine.[",
       "matchedWords": {
         "24igJXwiDb_d": {
           "hits": 2,
@@ -478,7 +478,7 @@
       "hash": "m3pRKjRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Iran",
       "title": "Iran - Wikipedia",
-      "snippet": "does the vetting, but has the power to do so, in which case additional approval of the Guardian Council is not needed. The Leader can revert the decisions of the Guardian Council.[227]\nThe constitution gives the council three mandates: veto power over legislation passed by the parliament,[228][229]",
+      "snippet": "Iran ranks 17th among countries by number of Internet users. Google Search is Iran's most widely used search engine and Instagram is the most popular online social networking service.[",
       "matchedWords": {
         "24igJXwiDb_d": {
           "hits": 16,
@@ -511,7 +511,7 @@
       "hash": "m5Fe6jRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Google",
       "title": "Google - Wikipedia",
-      "snippet": "search engine provided by the company, see Google Search. For the parent company with the stock tickers GOOG and GOOGL, see Alphabet Inc. For the number, see Googol. For other uses, see Google (disambiguation).\nGoogle LLC\nGoogle logo used since 2026\nGoogle's headquarters, the Googleplex, in 2016",
+      "snippet": "Eventually, they changed the name to Google; the name of the search engine was a misspelling of the word googol, a very large number written 10100 (1 followed by 100 zeros), picked to signify that the search engine was intended to search a large number of websites.[30]",
       "matchedWords": {
         "24igJXwiDb_d": {
           "hits": 22,
@@ -544,7 +544,7 @@
       "hash": "uFRXijRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Barack_Obama",
       "title": "Barack Obama - Wikipedia",
-      "snippet": "rank Obama highly in historical rankings of U.S. presidents. As of 2026, he is the youngest-living former U.S. president.\nEarly life and career\nObama (right) with grandfather Stanley Armour Dunham, mother Ann Dunham, and half-sister Maya Soetoro, mid-1970s in Honolulu\nBarack Hussein Obama II was",
+      "snippet": "152] He introduced two initiatives that bore his name: Lugar–Obama, which expanded the Nunn–Lugar Cooperative Threat Reduction concept to conventional weapons;[153] and the Federal Funding Accountability and Transparency Act of 2006, which authorized the establishment of USAspending.gov, a web",
       "matchedWords": {
         "24igJXwiDb_d": {
           "hits": 13,
@@ -577,7 +577,7 @@
       "hash": "0LmtljRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Help:CS1_errors",
       "title": "Help:CS1 errors - Wikipedia",
-      "snippet": "how editors might resolve the errors. Category:CS1 errors is the general errors category and Category:CS1 maintenance is the general maintenance category.\nErrors issued by Wikipedia's \u003cref\u003e system, in which citation templates are typically embedded, can be found at Help:Cite errors.\nControlling",
+      "snippet": "Search for the target URL at archive.org.\nPages with this error are automatically placed in Category:CS1 errors: archive-url (405 pages).[a]\n|archive-url= requires |archive-date=\n|archive-date=, identifies the date that the web resource was archived.",
       "matchedWords": {
         "24igJXwiDb_d": {
           "hits": 8,
@@ -610,7 +610,7 @@
       "hash": "0mI87jRvmBbx",
       "address": "https://en.wikipedia.org/wiki/New_York_City",
       "title": "New York City - Wikipedia",
-      "snippet": "Rank\n1st in the United States\n• Density\n29,303/sq mi (11,313.8/km2)\n• Urban[6]\n19,426,449\n• Urban density\n5,981/sq mi (2,309.2/km2)\n• Metro[7]\n20,140,470\nDemonym\nNew Yorker\nGDP[8][9]\n• Total\n$1.378 trillion (2024)\n• Metro\n$2.443 trillion (2024) (1st)\nTime zone\nUTC–5 (EST)\n• Summer (DST)\nUTC–4 (EDT)",
+      "snippet": "400 ft (122 m)\nLowest elevation\n0 ft (0 m)\nPopulation (2020)\n• Total\n8,804,190\n• Estimate\n(2025)[5]\n8,584,629\n• Rank\n1st in the United States\n• Density\n29,303/sq mi (11,313.8/km2)\n• Urban[6]\n19,426,449\n• Urban density\n5,981/sq mi (2,309.2/km2)\n• Metro[7]\n20,140,470\nDemonym\nNew Yorker\nGDP[8][9]",
       "matchedWords": {
         "24igJXwiDb_d": {
           "hits": 17,
@@ -643,7 +643,7 @@
       "hash": "2KiaOjRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Brazil",
       "title": "Brazil - Wikipedia",
-      "snippet": "does not just use its growing economic strength to provide financial aid, but it also provides high levels of expertise and most importantly of all, a quiet non-confrontational diplomacy to improve governance levels.[247] Total aid is estimated to be around $1 billion per year.[247] In addition,",
+      "snippet": "The first car with an ethanol engine was produced in 1978 and the first airplane engine running on ethanol in 2005.[345]",
       "matchedWords": {
         "24igJXwiDb_d": {
           "hits": 3,
@@ -676,7 +676,7 @@
       "hash": "7IIFujRvmBbx",
       "address": "https://en.wikipedia.org/wiki/United_Kingdom",
       "title": "United Kingdom - Wikipedia",
-      "snippet": "does not list \"Britain\" but notes that \"it is only the one specific nominal term 'Great Britain' which invariably excludes Northern Ireland\".[35] The BBC historically preferred to use \"Britain\" as shorthand only for Great Britain, though the present style guide does not take a position except that",
+      "snippet": "Health Service Journal. 24 September 2019. Retrieved 19 November 2019.\n↑ \"How does UK healthcare spending compare with other countries?\". Office of National Statistics. 29 August 2019. Retrieved 5 October 2019.\n↑ \"'Huge contrasts' in devolved NHS\". BBC News.",
       "matchedWords": {
         "24igJXwiDb_d": {
           "hits": 11,
@@ -709,7 +709,7 @@
       "hash": "-WvJtjRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Singapore",
       "title": "Singapore - Wikipedia",
-      "snippet": "does not vary greatly throughout the year, there is a wetter monsoon season from November to February.[152]\nFrom July to October, there is often haze caused by bush fires in neighbouring Indonesia, usually from the island of Sumatra.[153] Singapore follows the GMT+8 time zone, one hour ahead of the",
+      "snippet": "While temperature does not vary greatly throughout the year, there is a wetter monsoon season from November to February.[152]\nFrom July to October, there is often haze caused by bush fires in neighbouring Indonesia, usually from the island of Sumatra.[",
       "matchedWords": {
         "24igJXwiDb_d": {
           "hits": 5,
@@ -742,7 +742,7 @@
       "hash": "fkFkDmVUrQm6",
       "address": "https://earthnewspaper.com/mark-r-elsis/eisenhowers-rhine-meadows-death-camps-by-mark-r-elsis/",
       "title": "Eisenhower’s Rhine-Meadows Death Camps by Mark R. Elsis – EarthNewspaper.com – All The Honest News Fit To Publish",
-      "snippet": "[How did Eisenhower who was General Douglas MacArthur’s secretary, became the Supreme Allied Commander? Especially when General MacArthur felt Eisenhower was incompetent. How within 45 months did he bypass hundreds of officers with higher rank? Here are his unbelievable military promotions, with",
+      "snippet": "[How did Eisenhower who was General Douglas MacArthur’s secretary, became the Supreme Allied Commander? Especially when General MacArthur felt Eisenhower was incompetent. How within 45 months did he bypass hundreds of officers with higher rank?",
       "matchedWords": {
         "24igJXwiDb_d": {
           "hits": 4,
@@ -775,7 +775,7 @@
       "hash": "MW69aQZchFfZ",
       "address": "http://www.greenteethmm.com/2021-october.shtml",
       "title": "dailystirrer-2021-news-october-comment-opinion-controversy-contrarianism",
-      "snippet": "Search Engine Operators, Social Media Networks and online marketplaces. So whatâ€™s the last thing we need corportions like Microsoft, Alphabel and Apple to do? Actually it is the very thing they are doing, which is to make the attacks easier,\nCan Bus Sized Lithium Ion Batteries Power Britain\nThe",
+      "snippet": "Businesses, government organisations and even our humble laptop and desktop computers at home are being under constant attack, not by hackers and cybercriminals but by Search Engine Operators, Social Media Networks and online marketplaces.",
       "matchedWords": {
         "24igJXwiDb_d": {
           "hits": 47,
@@ -808,7 +808,7 @@
       "hash": "D4lABzaS0qdw",
       "address": "https://planet.debian.org/",
       "title": "Planet Debian",
-      "snippet": "Search! This was made possible by Go’s recently introduced SIMD support, because now we can implement the TurboPFor integer compression format as efficiently — more efficiently, in fact, by using the newer AVX512 instruction set! — as the reference implementation.\nBackground: Why does DCS need a",
+      "snippet": "Background: Why does DCS need a fast Integer Codec?\nDebian Code Search (DCS) is a search engine that allows searching all the Open Source source code within Debian, with either literal search expressions or regular expression search queries.",
       "matchedWords": {
         "24igJXwiDb_d": {
           "hits": 18,
@@ -841,7 +841,7 @@
       "hash": "BGsM_laZLZo4",
       "address": "https://www.pmc.com/terms-of-use",
       "title": "Terms of Use | PMC",
-      "snippet": "pages and services in all media to which these Terms of Use are linked or contain the URL for these Terms of Use, and which are owned or operated by Penske Media Corporation and its subsidiaries and affiliates (“PMC,” “we” and “us”) (collectively, the “Services”). This includes all subdomains of",
+      "snippet": "Without limiting the foregoing, you may not (i) use any artificial intelligence systems, machine learning models or tools, software robots, spider, crawlers, or other data gathering, analysis or extraction tools, whether automated or manual, to access, acquire, copy, monitor, scrape or aggregate",
       "matchedWords": {
         "24igJXwiDb_d": {
           "hits": 3,
@@ -874,7 +874,7 @@
       "hash": "-p2w3taoSn1x",
       "address": "https://en.planet.wikimedia.org/",
       "title": "en.planet.wikimedia.org",
-      "snippet": "how to make Wikimania even better and are inspired to bring many of those ideas to life in 2027.\nAnd now for a closer look at what the movement and the media are saying.\nMovement News\nThrough the eyes of first timers\nOne of the most-read articles about a first-timer attending Wikimania, is “After",
+      "snippet": "It is known for its seafood, and above all for jeotgal, seafood salted and left to ferment… which does raise the question of how an inland town became famous for seafood at all.",
       "matchedWords": {
         "24igJXwiDb_d": {
           "hits": 47,
@@ -907,7 +907,7 @@
       "hash": "c_fxuopg4UCw",
       "address": "https://www.wikidata.org/wiki/Wikidata:Project_chat",
       "title": "Wikidata:Project chat - Wikidata",
-      "snippet": "pages\n[edit]\nLatest comment: 1 day ago\nHi, these two disambiguation pages for Jorge Rodríguez ; Caracciolo and Phillip Island were recently created on the it.Wiki; is it possible to link them to Wikidata? I don't know the procedure could someone with more experience do it? Thanks in advance for the",
+      "snippet": "You are right that this is all the same river. Unfortunately merging them is not trivial.\nDheel (Q32730157) and Dheel (Q32730160) are bot pages on ceb.wiki, meaning that they can't be merged unless cebuano wiki does first.",
       "matchedWords": {
         "24igJXwiDb_d": {
           "hits": 13,
@@ -1006,7 +1006,7 @@
       "hash": "SUYfNsDaBIgz",
       "address": "https://australiantimberoil.net/",
       "title": "australiantimberoil.net -",
-      "snippet": "how providers respond with new features and gameplay options. Maintaining a safe and fair gaming environment will be crucial as authorities look to regulate this booming sector effectively.\nMoreover, the connection between technology and entertainment will continue to deepen, suggesting that",
+      "snippet": "Providing valuable information, such as expert analysis or engaging blogs, will enhance the user experience and increase customer loyalty. Additionally, creating relevant content will help you rank higher in search engine results, which can significantly improve traffic to your sportsbook.",
       "matchedWords": {
         "24igJXwiDb_d": {
           "hits": 99,
@@ -1072,7 +1072,7 @@
       "hash": "WbYVe_QzrsJ5",
       "address": "https://thestingofthescorpion.wordpress.com/tag/country/",
       "title": "Country | The Sting Of The Scorpion Blog (T.S.O.T.S.B.)",
-      "snippet": "how we do things, our culture, and how to do everything we do in the safest manner possible.\nThis act of training is very natural for me, it has always been easy for me to teach, from people who don’t have a clue to those who come with a little or allot of experience. So, I have worked at the same",
+      "snippet": "But still, how does this help me sleep at night.\nMy wife and I spent the better part of yesterday evening going over the possibilities of where my card specifically was targeted and then compromised.",
       "matchedWords": {
         "24igJXwiDb_d": {
           "hits": 24,
@@ -1105,7 +1105,7 @@
       "hash": "jEM-o_QzrsJ5",
       "address": "https://thestingofthescorpion.wordpress.com/tag/story/",
       "title": "Story | The Sting Of The Scorpion Blog (T.S.O.T.S.B.)",
-      "snippet": "how you use these programs. Improper use will only cause the system to launch the program Nag Nag 9.5. Once this happens, the only way to improve the performance of Wife 1.0 is to purchase additional software. I recommend Flowers 2.1 and Diamonds 5.0! WARNING!!! DO NOT, under any circumstances,",
+      "snippet": "But, damn, my future wife had (and still does) an ass that commanded my full attention. Women, eventhough they’ll never admit it, are tricky crafty creatures, they play coy but know they are the black widow. One can search the blog for more on her as well.",
       "matchedWords": {
         "24igJXwiDb_d": {
           "hits": 43,
@@ -1138,7 +1138,7 @@
       "hash": "krJ9TsRD6io6",
       "address": "https://licindiachennai.com/",
       "title": "licindiachennai -",
-      "snippet": "how they contribute to the overall excitement of online gambling in Thailand.\nOverview of Slot Thailand\nSlot Thailand has emerged as a vibrant and dynamic hub for online gaming enthusiasts in recent years. The popularity of online slots has skyrocketed, attracting players with enticing themes,",
+      "snippet": "Then you can start playing and winning!\n\u003cspan class=\"entry-utility-prep entry-utility-prep-cat-links\"\u003ePosted in\u003c/span\u003e News |\nHow Does Online Slot Work?\nOnline Slot is one of the most popular casino games. It is easy to play and can offer big payouts. The technology behind online slots is complex.",
       "matchedWords": {
         "24igJXwiDb_d": {
           "hits": 814,
@@ -1204,7 +1204,7 @@
       "hash": "zG_etzSBCthw",
       "address": "https://publishing.cdlib.org/ucpressebooks/public/book/before-the-nickelodeon-edwin-s-porter-and-the-edison-manufacturing-company.html",
       "title": "Before the Nickelodeon: Edwin S. Porter and the Edison Manufacturing Company | UC Press E-Books Collection Archive, 1982-2004",
-      "snippet": "how to mine newspapers for information and then made his own research on Porter available to me. Pratt's rigorous, carefully documented articles on early cinema, as well as his thoughtful comments and continued enthusiasm, provided me with models of scholarly diligence. From Tony Keefer of the",
+      "snippet": "How Bridget Made the Fire (Biograph, 1900), 170 , 171\nHow Jones Lost His Roll (1905), 317 -18\nHow the Office Boy Saw the Ball Game (1906), 332 , 345 -47, 346 , 419\nHow They Do Things on the Bowery (1902), 165 , 198 , 209 -11, 210 , 225 , 226 , 232 , 486",
       "matchedWords": {
         "24igJXwiDb_d": {
           "hits": 82,
@@ -1270,7 +1270,7 @@
       "hash": "ELIe2QXx1HRZ",
       "address": "http://www.dailystirrer.com/2021-may.shtml",
       "title": "2021",
-      "snippet": "how key parts of the clinical trials are being skipped as big pharma will not be held accountable for adverse side effects for administering the experimental drugs. A senior executive from AstraZeneca, Britainâ€™s second-largest drugmaker, told Reuters that his company was just granted protection",
+      "snippet": "The internet search giant will now be able to use information about what people are entering into its search engine to target adverts according to users' interests under the changes.",
       "matchedWords": {
         "24igJXwiDb_d": {
           "hits": 70,
@@ -1303,7 +1303,7 @@
       "hash": "PSkz_QXx1HRZ",
       "address": "http://www.dailystirrer.com/2021-october.shtml",
       "title": "dailystirrer-2021-news-october-comment-opinion-controversy-contrarianism",
-      "snippet": "does not mean we necessarily agree with the views expressed by our contributors.\nAfter a year in 2020 of disrupted poisting due mainly to the hoax pandemic, we hope to be back with our regular updates on the news you will not get from mainstream media. If you want to know what is really going on in",
+      "snippet": "But how does telling people what they can and cannot think promote diversity?\nHave You Committed Your Three Thought Crimes Today?\nYou're a criminal. So am I.",
       "matchedWords": {
         "24igJXwiDb_d": {
           "hits": 161,
@@ -1336,7 +1336,7 @@
       "hash": "I-6nyQZchFfZ",
       "address": "http://www.greenteethmm.com/brexit-europe.shtml",
       "title": "eu-brexit-britain-decides-if-the-ftuture-lies-in-or-outside-the-european-union-index",
-      "snippet": "pages, on which we gather posts on a particular topic. Each omnibus page has an active contents list to enable you to jump to any article that takes your fancy, with a link after the article to return you to the menu. Our aim as always is to promote freethinking and diversity of opinion.\nPrivacy",
+      "snippet": "The case, which many Remain campaigners have used in their efforts to discredit and overturn the result of the 2016 referendum on EU membership.\nHow Much Does The UK Actually Send To The EU",
       "matchedWords": {
         "24igJXwiDb_d": {
           "hits": 46,
@@ -1402,7 +1402,7 @@
       "hash": "x_LrOsmr6zb7",
       "address": "https://elperiodicodelara.com/",
       "title": "elperiodicodelara -",
-      "snippet": "How to Access Slot Thailand\nAccessing Slot Thailand is a straightforward process that ensures players can enjoy a thrilling gaming experience. First, players need to find a reliable online platform that offers access to Slot Thailand and its various features. Many reputable websites provide links",
+      "snippet": "You can even make money playing these tournaments! This is the new way to win big at an online casino.\nHow Does an Online Lottery Work?\nHow Does an Online Lottery Work?",
       "matchedWords": {
         "24igJXwiDb_d": {
           "hits": 849,
@@ -1435,7 +1435,7 @@
       "hash": "ClTOilptNsG4",
       "address": "https://www.akdart.com/obama11.html",
       "title": "The Obama Presidency : Narcissism and Bad Decisions",
-      "snippet": "search engine.\nDuring the seemingly endless 'transition\" period between election day and Obama's inauguration, I composed another page called, What can we expect from the Obama administration?\nThis page, on the other hand, is for commentary about the Obama presidency as it unfolds on and after",
+      "snippet": "Note: You might want to start at the Barack Obama Index Page, especially if you arrived here by using a search engine.\nDuring the seemingly endless 'transition\" period between election day and Obama's inauguration, I composed another page called, What can we expect from the Obama administration?",
       "matchedWords": {
         "24igJXwiDb_d": {
           "hits": 86,
@@ -1468,7 +1468,7 @@
       "hash": "mHyFhKsrSOQw",
       "address": "https://arxiv.org/list/cs.AI/new",
       "title": "Artificial Intelligence",
-      "snippet": "New submissions\nCross-lists\nReplacements\nSee recent articles\nShowing new listings for Friday, 11 September 2026\nTotal of 273 entries\nShowing up to 2000 entries per page: fewer | more | all\nNew submissions (showing 77 of 77 entries)\n[1] arXiv:2609.10584 [pdf, html, other]\n[2] arXiv:2609.10629 [pdf,",
+      "snippet": "New submissions\nCross-lists\nReplacements\nSee recent articles\nShowing new listings for Friday, 11 September 2026\nTotal of 273 entries\nShowing up to 2000 entries per page: fewer | more | all\nNew submissions (showing 77 of 77 entries)\n[1] arXiv:2609.10584 [pdf, html, other]",
       "matchedWords": {
         "24igJXwiDb_d": {
           "hits": 0,
@@ -1501,7 +1501,7 @@
       "hash": "nA0ugsw4UVk6",
       "address": "https://paydayloansforus.com/",
       "title": "Paydayloansforus -",
-      "snippet": "how the game works and which symbols offer the highest payouts will allow you to make more informed decisions during your gameplay.\nAnother effective strategy is to set a budget and stick to it. It’s easy to get caught up in the excitement of playing and end up chasing losses. By setting a clear",
+      "snippet": "In recent years, it has become easier than ever to purchase lottery tickets online. This is especially true when you’re a commuter and don’t have the time to run out and pick up a ticket at a local bodega. But is buying a lottery ticket online legal? If so, how does it work?",
       "matchedWords": {
         "24igJXwiDb_d": {
           "hits": 457,
@@ -1567,7 +1567,7 @@
       "hash": "1lGoBsyuNlT5",
       "address": "https://alt-webring.com/",
       "title": "alt-webring | The (former) alternative webring system",
-      "snippet": "how she is making a difference so no other family will have to go through the pain and suffering!\nKitty and Me A view of needlework, old and new through the eyes of a counted thread designer \u0026 textile artist.\nVK5ZW 20 Metre SSTV Webcam Standard SSTV Webcam operating on 14.236MHz USB with 1750Hz",
+      "snippet": "Search Engine Optimization Search engine optimization is the art of obtaining top positions on the world wide web for words and phrases that people are searching for.",
       "matchedWords": {
         "24igJXwiDb_d": {
           "hits": 57,
@@ -1600,7 +1600,7 @@
       "hash": "Q831Yj-JVcyx",
       "address": "https://en.wikiquote.org/wiki/United_States",
       "title": "United States - Wikiquote",
-      "snippet": "search of monsters to destroy. She is the well-wisher to the freedom and independence of all. She is the champion and vindicator only of her own. She will commend the general cause by the countenance of her voice, and the benignant sympathy of her example. She well knows that by once enlisting",
+      "snippet": "I believe in the individual, in less government so as to allow that individual maximum freedom to create and achieve; that societies which are founded on restraining the government rather than the individual are optimum; that the individual is smart enough to solve his own problems and does not",
       "matchedWords": {
         "24igJXwiDb_d": {
           "hits": 66,
@@ -1633,7 +1633,7 @@
       "hash": "urBnQl0Wuyo4",
       "address": "https://www.mkzine.com/",
       "title": "MKzine Resource Corner - Enriching lives with news",
-      "snippet": "does not have a conventional office. It is a practical approach for entrepreneurs who value freedom but still want their business to appear organised and established.\nAustralian entrepreneurs are increasingly looking for ways to operate professionally without taking on unnecessary overheads. A",
+      "snippet": "Since Search Engine Optimization increases the number of visitors to your site, it will also increase the possibility of you earning more patients. The more people see you online, the more your dental services get known.…\n6 Tips on How to Choose the Best Roof Financing Contractors",
       "matchedWords": {
         "24igJXwiDb_d": {
           "hits": 70,
@@ -1666,7 +1666,7 @@
       "hash": "qlxkrs3DFtAz",
       "address": "https://westnorthamptonshirejpu.org/",
       "title": "westnorthamptonshirejpu.org -",
-      "snippet": "does not correlate at all with a state’s objective fiscal circumstances, and that the success of lotteries is typically related to political pressures rather than its own inherent merits.\nThe biggest problem with lotteries is that they promote the illusion of instant wealth in a time of growing",
+      "snippet": "Besides RTP and volatility, another factor to consider when choosing an online slot is its hit frequency. This is how often the game pays out winning combinations. You can find this information on the game’s paytable or by entering its title into a search engine.",
       "matchedWords": {
         "24igJXwiDb_d": {
           "hits": 102,
@@ -1732,7 +1732,7 @@
       "hash": "SUYfNsDaBIgz",
       "address": "https://australiantimberoil.net/",
       "title": "australiantimberoil.net -",
-      "snippet": "how providers respond with new features and gameplay options. Maintaining a safe and fair gaming environment will be crucial as authorities look to regulate this booming sector effectively.\nMoreover, the connection between technology and entertainment will continue to deepen, suggesting that",
+      "snippet": "Providing valuable information, such as expert analysis or engaging blogs, will enhance the user experience and increase customer loyalty. Additionally, creating relevant content will help you rank higher in search engine results, which can significantly improve traffic to your sportsbook.",
       "matchedWords": {
         "24igJXwiDb_d": {
           "hits": 99,
@@ -1831,7 +1831,7 @@
       "hash": "iLQO1sN0ip-w",
       "address": "https://m-reform.net/",
       "title": "replica football shirts",
-      "snippet": "how sentences are put collectively. Maybe you are already an professional speller, however how’s your grammar? If there’s one factor house flight requires, it is contingency plans.Throughout the Apollo program, astronauts received fairly accustomed to switching again and forth between these roles,",
+      "snippet": "If you’ve got ever used an Web search engine, you’ve submitted a query — your search terms. An excellent information integration system would let the marketing division view data from each sources in a unified means, leaving out any data that didn’t apply to the search.",
       "matchedWords": {
         "24igJXwiDb_d": {
           "hits": 157,
@@ -1864,7 +1864,7 @@
       "hash": "WbYVe_QzrsJ5",
       "address": "https://thestingofthescorpion.wordpress.com/tag/country/",
       "title": "Country | The Sting Of The Scorpion Blog (T.S.O.T.S.B.)",
-      "snippet": "how we do things, our culture, and how to do everything we do in the safest manner possible.\nThis act of training is very natural for me, it has always been easy for me to teach, from people who don’t have a clue to those who come with a little or allot of experience. So, I have worked at the same",
+      "snippet": "But still, how does this help me sleep at night.\nMy wife and I spent the better part of yesterday evening going over the possibilities of where my card specifically was targeted and then compromised.",
       "matchedWords": {
         "24igJXwiDb_d": {
           "hits": 24,
@@ -1897,7 +1897,7 @@
       "hash": "jEM-o_QzrsJ5",
       "address": "https://thestingofthescorpion.wordpress.com/tag/story/",
       "title": "Story | The Sting Of The Scorpion Blog (T.S.O.T.S.B.)",
-      "snippet": "how you use these programs. Improper use will only cause the system to launch the program Nag Nag 9.5. Once this happens, the only way to improve the performance of Wife 1.0 is to purchase additional software. I recommend Flowers 2.1 and Diamonds 5.0! WARNING!!! DO NOT, under any circumstances,",
+      "snippet": "But, damn, my future wife had (and still does) an ass that commanded my full attention. Women, eventhough they’ll never admit it, are tricky crafty creatures, they play coy but know they are the black widow. One can search the blog for more on her as well.",
       "matchedWords": {
         "24igJXwiDb_d": {
           "hits": 43,
@@ -1930,7 +1930,7 @@
       "hash": "krJ9TsRD6io6",
       "address": "https://licindiachennai.com/",
       "title": "licindiachennai -",
-      "snippet": "how they contribute to the overall excitement of online gambling in Thailand.\nOverview of Slot Thailand\nSlot Thailand has emerged as a vibrant and dynamic hub for online gaming enthusiasts in recent years. The popularity of online slots has skyrocketed, attracting players with enticing themes,",
+      "snippet": "Then you can start playing and winning!\n\u003cspan class=\"entry-utility-prep entry-utility-prep-cat-links\"\u003ePosted in\u003c/span\u003e News |\nHow Does Online Slot Work?\nOnline Slot is one of the most popular casino games. It is easy to play and can offer big payouts. The technology behind online slots is complex.",
       "matchedWords": {
         "24igJXwiDb_d": {
           "hits": 814,
@@ -1963,7 +1963,7 @@
       "hash": "diDs1jRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Uganda",
       "title": "Uganda - Wikipedia",
-      "snippet": "how to manage the largest monarchy within the framework of a unitary state had been a problem since the British creation of the Protectorate of Uganda. Colonial governors had failed to come up with a formula that worked. This was further complicated by Buganda's nonchalant attitude to its",
+      "snippet": "The issue of how to manage the largest monarchy within the framework of a unitary state had been a problem since the British creation of the Protectorate of Uganda. Colonial governors had failed to come up with a formula that worked.",
       "matchedWords": {
         "24igJXwiDb_d": {
           "hits": 3,
@@ -1996,7 +1996,7 @@
       "hash": "m0QS_jRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Myanmar",
       "title": "Myanmar - Wikipedia",
-      "snippet": "does the ASEAN and as do Australia,[29] Russia, Germany,[30] China, India, Bangladesh, Norway,[31] Japan,[32] Switzerland,[33] Canada[34] and Ukraine.[35] Most English-speaking international news media refer to the country by the name Myanmar, including the BBC,[36] CNN,[37] Al Jazeera,[38]",
+      "snippet": "28] The United Nations uses Myanmar, as does the ASEAN and as do Australia,[29] Russia, Germany,[30] China, India, Bangladesh, Norway,[31] Japan,[32] Switzerland,[33] Canada[34] and Ukraine.[",
       "matchedWords": {
         "24igJXwiDb_d": {
           "hits": 2,
@@ -2029,7 +2029,7 @@
       "hash": "m3pRKjRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Iran",
       "title": "Iran - Wikipedia",
-      "snippet": "does the vetting, but has the power to do so, in which case additional approval of the Guardian Council is not needed. The Leader can revert the decisions of the Guardian Council.[227]\nThe constitution gives the council three mandates: veto power over legislation passed by the parliament,[228][229]",
+      "snippet": "Iran ranks 17th among countries by number of Internet users. Google Search is Iran's most widely used search engine and Instagram is the most popular online social networking service.[",
       "matchedWords": {
         "24igJXwiDb_d": {
           "hits": 16,
@@ -2062,7 +2062,7 @@
       "hash": "m5Fe6jRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Google",
       "title": "Google - Wikipedia",
-      "snippet": "search engine provided by the company, see Google Search. For the parent company with the stock tickers GOOG and GOOGL, see Alphabet Inc. For the number, see Googol. For other uses, see Google (disambiguation).\nGoogle LLC\nGoogle logo used since 2026\nGoogle's headquarters, the Googleplex, in 2016",
+      "snippet": "Eventually, they changed the name to Google; the name of the search engine was a misspelling of the word googol, a very large number written 10100 (1 followed by 100 zeros), picked to signify that the search engine was intended to search a large number of websites.[30]",
       "matchedWords": {
         "24igJXwiDb_d": {
           "hits": 22,
@@ -2128,7 +2128,7 @@
       "hash": "uFRXijRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Barack_Obama",
       "title": "Barack Obama - Wikipedia",
-      "snippet": "rank Obama highly in historical rankings of U.S. presidents. As of 2026, he is the youngest-living former U.S. president.\nEarly life and career\nObama (right) with grandfather Stanley Armour Dunham, mother Ann Dunham, and half-sister Maya Soetoro, mid-1970s in Honolulu\nBarack Hussein Obama II was",
+      "snippet": "152] He introduced two initiatives that bore his name: Lugar–Obama, which expanded the Nunn–Lugar Cooperative Threat Reduction concept to conventional weapons;[153] and the Federal Funding Accountability and Transparency Act of 2006, which authorized the establishment of USAspending.gov, a web",
       "matchedWords": {
         "24igJXwiDb_d": {
           "hits": 13,
@@ -2161,7 +2161,7 @@
       "hash": "0mI87jRvmBbx",
       "address": "https://en.wikipedia.org/wiki/New_York_City",
       "title": "New York City - Wikipedia",
-      "snippet": "Rank\n1st in the United States\n• Density\n29,303/sq mi (11,313.8/km2)\n• Urban[6]\n19,426,449\n• Urban density\n5,981/sq mi (2,309.2/km2)\n• Metro[7]\n20,140,470\nDemonym\nNew Yorker\nGDP[8][9]\n• Total\n$1.378 trillion (2024)\n• Metro\n$2.443 trillion (2024) (1st)\nTime zone\nUTC–5 (EST)\n• Summer (DST)\nUTC–4 (EDT)",
+      "snippet": "400 ft (122 m)\nLowest elevation\n0 ft (0 m)\nPopulation (2020)\n• Total\n8,804,190\n• Estimate\n(2025)[5]\n8,584,629\n• Rank\n1st in the United States\n• Density\n29,303/sq mi (11,313.8/km2)\n• Urban[6]\n19,426,449\n• Urban density\n5,981/sq mi (2,309.2/km2)\n• Metro[7]\n20,140,470\nDemonym\nNew Yorker\nGDP[8][9]",
       "matchedWords": {
         "24igJXwiDb_d": {
           "hits": 17,
@@ -2194,7 +2194,7 @@
       "hash": "7IIFujRvmBbx",
       "address": "https://en.wikipedia.org/wiki/United_Kingdom",
       "title": "United Kingdom - Wikipedia",
-      "snippet": "does not list \"Britain\" but notes that \"it is only the one specific nominal term 'Great Britain' which invariably excludes Northern Ireland\".[35] The BBC historically preferred to use \"Britain\" as shorthand only for Great Britain, though the present style guide does not take a position except that",
+      "snippet": "Health Service Journal. 24 September 2019. Retrieved 19 November 2019.\n↑ \"How does UK healthcare spending compare with other countries?\". Office of National Statistics. 29 August 2019. Retrieved 5 October 2019.\n↑ \"'Huge contrasts' in devolved NHS\". BBC News.",
       "matchedWords": {
         "24igJXwiDb_d": {
           "hits": 11,
@@ -2227,7 +2227,7 @@
       "hash": "-WvJtjRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Singapore",
       "title": "Singapore - Wikipedia",
-      "snippet": "does not vary greatly throughout the year, there is a wetter monsoon season from November to February.[152]\nFrom July to October, there is often haze caused by bush fires in neighbouring Indonesia, usually from the island of Sumatra.[153] Singapore follows the GMT+8 time zone, one hour ahead of the",
+      "snippet": "While temperature does not vary greatly throughout the year, there is a wetter monsoon season from November to February.[152]\nFrom July to October, there is often haze caused by bush fires in neighbouring Indonesia, usually from the island of Sumatra.[",
       "matchedWords": {
         "24igJXwiDb_d": {
           "hits": 5,
@@ -2260,7 +2260,7 @@
       "hash": "zG_etzSBCthw",
       "address": "https://publishing.cdlib.org/ucpressebooks/public/book/before-the-nickelodeon-edwin-s-porter-and-the-edison-manufacturing-company.html",
       "title": "Before the Nickelodeon: Edwin S. Porter and the Edison Manufacturing Company | UC Press E-Books Collection Archive, 1982-2004",
-      "snippet": "how to mine newspapers for information and then made his own research on Porter available to me. Pratt's rigorous, carefully documented articles on early cinema, as well as his thoughtful comments and continued enthusiasm, provided me with models of scholarly diligence. From Tony Keefer of the",
+      "snippet": "How Bridget Made the Fire (Biograph, 1900), 170 , 171\nHow Jones Lost His Roll (1905), 317 -18\nHow the Office Boy Saw the Ball Game (1906), 332 , 345 -47, 346 , 419\nHow They Do Things on the Bowery (1902), 165 , 198 , 209 -11, 210 , 225 , 226 , 232 , 486",
       "matchedWords": {
         "24igJXwiDb_d": {
           "hits": 82,
@@ -2359,7 +2359,7 @@
       "hash": "fkFkDmVUrQm6",
       "address": "https://earthnewspaper.com/mark-r-elsis/eisenhowers-rhine-meadows-death-camps-by-mark-r-elsis/",
       "title": "Eisenhower’s Rhine-Meadows Death Camps by Mark R. Elsis – EarthNewspaper.com – All The Honest News Fit To Publish",
-      "snippet": "[How did Eisenhower who was General Douglas MacArthur’s secretary, became the Supreme Allied Commander? Especially when General MacArthur felt Eisenhower was incompetent. How within 45 months did he bypass hundreds of officers with higher rank? Here are his unbelievable military promotions, with",
+      "snippet": "[How did Eisenhower who was General Douglas MacArthur’s secretary, became the Supreme Allied Commander? Especially when General MacArthur felt Eisenhower was incompetent. How within 45 months did he bypass hundreds of officers with higher rank?",
       "matchedWords": {
         "24igJXwiDb_d": {
           "hits": 4,
@@ -2425,7 +2425,7 @@
       "hash": "ELIe2QXx1HRZ",
       "address": "http://www.dailystirrer.com/2021-may.shtml",
       "title": "2021",
-      "snippet": "how key parts of the clinical trials are being skipped as big pharma will not be held accountable for adverse side effects for administering the experimental drugs. A senior executive from AstraZeneca, Britainâ€™s second-largest drugmaker, told Reuters that his company was just granted protection",
+      "snippet": "The internet search giant will now be able to use information about what people are entering into its search engine to target adverts according to users' interests under the changes.",
       "matchedWords": {
         "24igJXwiDb_d": {
           "hits": 70,
@@ -2458,7 +2458,7 @@
       "hash": "PSkz_QXx1HRZ",
       "address": "http://www.dailystirrer.com/2021-october.shtml",
       "title": "dailystirrer-2021-news-october-comment-opinion-controversy-contrarianism",
-      "snippet": "does not mean we necessarily agree with the views expressed by our contributors.\nAfter a year in 2020 of disrupted poisting due mainly to the hoax pandemic, we hope to be back with our regular updates on the news you will not get from mainstream media. If you want to know what is really going on in",
+      "snippet": "But how does telling people what they can and cannot think promote diversity?\nHave You Committed Your Three Thought Crimes Today?\nYou're a criminal. So am I.",
       "matchedWords": {
         "24igJXwiDb_d": {
           "hits": 161,
@@ -2491,7 +2491,7 @@
       "hash": "I-6nyQZchFfZ",
       "address": "http://www.greenteethmm.com/brexit-europe.shtml",
       "title": "eu-brexit-britain-decides-if-the-ftuture-lies-in-or-outside-the-european-union-index",
-      "snippet": "pages, on which we gather posts on a particular topic. Each omnibus page has an active contents list to enable you to jump to any article that takes your fancy, with a link after the article to return you to the menu. Our aim as always is to promote freethinking and diversity of opinion.\nPrivacy",
+      "snippet": "The case, which many Remain campaigners have used in their efforts to discredit and overturn the result of the 2016 referendum on EU membership.\nHow Much Does The UK Actually Send To The EU",
       "matchedWords": {
         "24igJXwiDb_d": {
           "hits": 46,
@@ -2524,7 +2524,7 @@
       "hash": "MW69aQZchFfZ",
       "address": "http://www.greenteethmm.com/2021-october.shtml",
       "title": "dailystirrer-2021-news-october-comment-opinion-controversy-contrarianism",
-      "snippet": "Search Engine Operators, Social Media Networks and online marketplaces. So whatâ€™s the last thing we need corportions like Microsoft, Alphabel and Apple to do? Actually it is the very thing they are doing, which is to make the attacks easier,\nCan Bus Sized Lithium Ion Batteries Power Britain\nThe",
+      "snippet": "Businesses, government organisations and even our humble laptop and desktop computers at home are being under constant attack, not by hackers and cybercriminals but by Search Engine Operators, Social Media Networks and online marketplaces.",
       "matchedWords": {
         "24igJXwiDb_d": {
           "hits": 47,
@@ -2557,7 +2557,7 @@
       "hash": "D4lABzaS0qdw",
       "address": "https://planet.debian.org/",
       "title": "Planet Debian",
-      "snippet": "Search! This was made possible by Go’s recently introduced SIMD support, because now we can implement the TurboPFor integer compression format as efficiently — more efficiently, in fact, by using the newer AVX512 instruction set! — as the reference implementation.\nBackground: Why does DCS need a",
+      "snippet": "Background: Why does DCS need a fast Integer Codec?\nDebian Code Search (DCS) is a search engine that allows searching all the Open Source source code within Debian, with either literal search expressions or regular expression search queries.",
       "matchedWords": {
         "24igJXwiDb_d": {
           "hits": 18,
@@ -2623,7 +2623,7 @@
       "hash": "x_LrOsmr6zb7",
       "address": "https://elperiodicodelara.com/",
       "title": "elperiodicodelara -",
-      "snippet": "How to Access Slot Thailand\nAccessing Slot Thailand is a straightforward process that ensures players can enjoy a thrilling gaming experience. First, players need to find a reliable online platform that offers access to Slot Thailand and its various features. Many reputable websites provide links",
+      "snippet": "You can even make money playing these tournaments! This is the new way to win big at an online casino.\nHow Does an Online Lottery Work?\nHow Does an Online Lottery Work?",
       "matchedWords": {
         "24igJXwiDb_d": {
           "hits": 849,
@@ -2656,7 +2656,7 @@
       "hash": "ClTOilptNsG4",
       "address": "https://www.akdart.com/obama11.html",
       "title": "The Obama Presidency : Narcissism and Bad Decisions",
-      "snippet": "search engine.\nDuring the seemingly endless 'transition\" period between election day and Obama's inauguration, I composed another page called, What can we expect from the Obama administration?\nThis page, on the other hand, is for commentary about the Obama presidency as it unfolds on and after",
+      "snippet": "Note: You might want to start at the Barack Obama Index Page, especially if you arrived here by using a search engine.\nDuring the seemingly endless 'transition\" period between election day and Obama's inauguration, I composed another page called, What can we expect from the Obama administration?",
       "matchedWords": {
         "24igJXwiDb_d": {
           "hits": 86,
@@ -2722,7 +2722,7 @@
       "hash": "mHyFhKsrSOQw",
       "address": "https://arxiv.org/list/cs.AI/new",
       "title": "Artificial Intelligence",
-      "snippet": "New submissions\nCross-lists\nReplacements\nSee recent articles\nShowing new listings for Friday, 11 September 2026\nTotal of 273 entries\nShowing up to 2000 entries per page: fewer | more | all\nNew submissions (showing 77 of 77 entries)\n[1] arXiv:2609.10584 [pdf, html, other]\n[2] arXiv:2609.10629 [pdf,",
+      "snippet": "New submissions\nCross-lists\nReplacements\nSee recent articles\nShowing new listings for Friday, 11 September 2026\nTotal of 273 entries\nShowing up to 2000 entries per page: fewer | more | all\nNew submissions (showing 77 of 77 entries)\n[1] arXiv:2609.10584 [pdf, html, other]",
       "matchedWords": {
         "24igJXwiDb_d": {
           "hits": 0,
@@ -2755,7 +2755,7 @@
       "hash": "nA0ugsw4UVk6",
       "address": "https://paydayloansforus.com/",
       "title": "Paydayloansforus -",
-      "snippet": "how the game works and which symbols offer the highest payouts will allow you to make more informed decisions during your gameplay.\nAnother effective strategy is to set a budget and stick to it. It’s easy to get caught up in the excitement of playing and end up chasing losses. By setting a clear",
+      "snippet": "In recent years, it has become easier than ever to purchase lottery tickets online. This is especially true when you’re a commuter and don’t have the time to run out and pick up a ticket at a local bodega. But is buying a lottery ticket online legal? If so, how does it work?",
       "matchedWords": {
         "24igJXwiDb_d": {
           "hits": 457,
@@ -2821,7 +2821,7 @@
       "hash": "1lGoBsyuNlT5",
       "address": "https://alt-webring.com/",
       "title": "alt-webring | The (former) alternative webring system",
-      "snippet": "how she is making a difference so no other family will have to go through the pain and suffering!\nKitty and Me A view of needlework, old and new through the eyes of a counted thread designer \u0026 textile artist.\nVK5ZW 20 Metre SSTV Webcam Standard SSTV Webcam operating on 14.236MHz USB with 1750Hz",
+      "snippet": "Search Engine Optimization Search engine optimization is the art of obtaining top positions on the world wide web for words and phrases that people are searching for.",
       "matchedWords": {
         "24igJXwiDb_d": {
           "hits": 57,
@@ -2887,7 +2887,7 @@
       "hash": "iLQO1sN0ip-w",
       "address": "https://m-reform.net/",
       "title": "replica football shirts",
-      "snippet": "how sentences are put collectively. Maybe you are already an professional speller, however how’s your grammar? If there’s one factor house flight requires, it is contingency plans.Throughout the Apollo program, astronauts received fairly accustomed to switching again and forth between these roles,",
+      "snippet": "If you’ve got ever used an Web search engine, you’ve submitted a query — your search terms. An excellent information integration system would let the marketing division view data from each sources in a unified means, leaving out any data that didn’t apply to the search.",
       "matchedWords": {
         "24igJXwiDb_d": {
           "hits": 157,
@@ -2920,7 +2920,7 @@
       "hash": "jb1jqjRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Thomas_Jefferson",
       "title": "Thomas Jefferson - Wikipedia",
-      "snippet": "Rank\nColonel\nUnit\nAlbemarle County Militia\nBattles/wars\nAmerican Revolutionary War\nPhilosophical work\nEra\nAge of Enlightenment\nRegion\nWestern philosophy\nAmerican philosophy\nSchool\nClassical liberalism\nDeism\nInstitutions\nAmerican Philosophical Society\nMain interests\nClassical History\nTheology",
+      "snippet": "Allegiance\nUnited States\nBranch/service\nVirginia militia\nYears of service\n1775–1776\nRank\nColonel\nUnit\nAlbemarle County Militia\nBattles/wars\nAmerican Revolutionary War\nPhilosophical work\nEra\nAge of Enlightenment\nRegion\nWestern philosophy\nAmerican philosophy\nSchool\nClassical liberalism\nDeism",
       "matchedWords": {
         "24igJXwiDb_d": {
           "hits": 1,

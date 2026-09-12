@@ -2,25 +2,19 @@ package documenttext
 
 import "github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 
-const noQueryWordInTheText = -1
-
 type textCounts struct {
-	hitsPerQueryWord         map[yacymodel.Hash]int
-	queryPhraseHits          int
-	amountOfWords            int
-	placeOfTheFirstQueryWord int
+	hitsPerQueryWord map[yacymodel.Hash]int
+	queryPhraseHits  int
+	amountOfWords    int
 }
 
 func textCountsOf(pageText string, queryWords []yacymodel.Hash) textCounts {
-	counts := textCounts{
-		hitsPerQueryWord:         noHitsPerQueryWordOf(queryWords),
-		placeOfTheFirstQueryWord: noQueryWordInTheText,
-	}
+	counts := textCounts{hitsPerQueryWord: noHitsPerQueryWordOf(queryWords)}
 	queryPhrases := queryPhrasesOf(queryWords)
 	var wordBefore yacymodel.Hash
-	for place, spelledWord := range yacymodel.PlacedWordsIn(pageText) {
+	for _, spelledWord := range yacymodel.PlacedWordsIn(pageText) {
 		word := yacymodel.WordHash(spelledWord)
-		counts.countTheWord(place, word)
+		counts.countTheWord(word)
 		counts.countThePhrase(queryPhrases, wordBefore, word)
 		wordBefore = word
 	}
@@ -37,14 +31,10 @@ func noHitsPerQueryWordOf(queryWords []yacymodel.Hash) map[yacymodel.Hash]int {
 	return hitsPerQueryWord
 }
 
-func (c *textCounts) countTheWord(place int, word yacymodel.Hash) {
+func (c *textCounts) countTheWord(word yacymodel.Hash) {
 	c.amountOfWords++
-	if _, askedFor := c.hitsPerQueryWord[word]; !askedFor {
-		return
-	}
-	c.hitsPerQueryWord[word]++
-	if c.placeOfTheFirstQueryWord == noQueryWordInTheText {
-		c.placeOfTheFirstQueryWord = place
+	if _, askedFor := c.hitsPerQueryWord[word]; askedFor {
+		c.hitsPerQueryWord[word]++
 	}
 }
 

@@ -124,6 +124,9 @@ vendors:
   pageformats:
     in:
       - github.com/nikitakarpei/yacy-rwi-node/pageformats
+  uax29sentences:
+    in:
+      - github.com/clipperhouse/uax29/v2/sentences
   hashicorplru:
     in:
       - github.com/hashicorp/golang-lru/v2/**
@@ -176,6 +179,7 @@ deps:
       - documenttext
   documenttext:
     canUse:
+      - uax29sentences
       - yacymodel
   peerdirectory:
     canUse:

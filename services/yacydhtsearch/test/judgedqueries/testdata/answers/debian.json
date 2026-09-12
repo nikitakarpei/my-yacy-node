@@ -1,6 +1,6 @@
 {
   "query": "debian",
-  "recordedAt": "2026-09-12T00:11:19Z",
+  "recordedAt": "2026-09-12T07:51:59Z",
   "itemsInTheOrderOfEachAnswer": [
     [
       {
@@ -139,7 +139,7 @@
         "hash": "R7L27l1nrxbw",
         "address": "https://www.debian.org/doc/",
         "title": "Debian -- Documentation",
-        "snippet": "Debian project is making every effort to provide all users with good documentation in an easily accessible form. This page contains a collection of links, leading to installation guides, HOWTOs, FAQs, release notes, our Wiki, and more.\nQuick Start\nIf you are new to Debian we recommend you start",
+        "snippet": "Manuals for Developers\nDebian Policy Manual\nDebian Developer's Reference\nGuide for Debian Maintainers\nIntroduction to Debian packaging\nDebian Menu System\nDebian Installer internals\nGuide for database using package maintainers\nPolicy for packages using databases\nOther (shorter) Documents",
         "matchedWords": {
           "bpVSyb2OYcjy": {
             "hits": 28,
@@ -191,7 +191,7 @@
         "hash": "uuzH__nUgebw",
         "address": "https://alioth-lists.debian.net/",
         "title": "alioth-lists.debian.net",
-        "snippet": "lists.debian.org first\nThe Debian list disclaimer and code of conduct applies to these lists too",
+        "snippet": "Please check your held messages regularly and consider updating max_days_to_hold to a lower value\nMonthly password reminders are disabled globally\nNew lists are considered on a case by case basis. Please consider other options such as lists.debian.org first",
         "matchedWords": {
           "bpVSyb2OYcjy": {
             "hits": 2,
@@ -271,7 +271,7 @@
         "hash": "8L6LJtpiq92w",
         "address": "https://packages.debian.org/source/stable/zxcvbn-c",
         "title": "Debian -- Details of source package zxcvbn-c in trixie",
-        "snippet": "debian/rules\nadep: dh-exec (\u003e= 0.3)\nScripts to help with executable debhelper files",
+        "snippet": "adep: debhelper (\u003e= 10)\nhelper programs for debian/rules\nadep: dh-exec (\u003e= 0.3)\nScripts to help with executable debhelper files",
         "matchedWords": {
           "bpVSyb2OYcjy": {
             "hits": 1,
@@ -284,7 +284,7 @@
         "hash": "It5EdL1nrxbw",
         "address": "https://www.debian.org/intro/about",
         "title": "Debian -- About Debian",
-        "snippet": "Debian anyway?\nIt's all free?\nYou say free, but the CDs/bandwidth cost money!\nMost software costs over a hundred dollars. How can you give it away?\nWhat hardware is supported?\nBefore I decide, I need more information.\nI'm still not convinced. What are some pros and cons of Debian?\nHow do I get",
+        "snippet": "How do I get Debian?\nI can't set it up all by myself. Where do I get support for Debian?\nWho are you all anyway?\nWho uses Debian?\nHow'd it all get started?\nWHAT is Debian?\nThe Debian Project is an association of individuals who have made common cause to create a free operating system.",
         "matchedWords": {
           "bpVSyb2OYcjy": {
             "hits": 50,
@@ -310,7 +310,7 @@
         "hash": "KZ3knTp4ogvw",
         "address": "https://qa.debian.org/developer.php?login=capriott%40debian.org",
         "title": "DDPO: Andrea Capriotti -- Debian Quality Assurance",
-        "snippet": "Co-maintained\n(\u0026comaint=)\nyes\nno\nonly\nDescription\n(\u0026description=)\nIn separate column\nAs source mouseover only\nBugs\n(\u0026bugs=)\nShow (1)\nHide (0)\nSum. (2)\nSum.\u0026RC (3)\nVersion\n(\u0026version=)\noldoldstable and newer\noldstable and newer\nstable and newer\ntesting and newer\nunstable only\nexperimental and",
+        "snippet": "Co-maintained\n(\u0026comaint=)\nyes\nno\nonly\nDescription\n(\u0026description=)\nIn separate column\nAs source mouseover only\nBugs\n(\u0026bugs=)\nShow (1)\nHide (0)\nSum. (2)\nSum.\u0026RC (3)\nVersion\n(\u0026version=)\noldoldstable and newer\noldstable and newer\nstable and newer\ntesting and newer\nunstable only",
         "matchedWords": {
           "bpVSyb2OYcjy": {
             "hits": 0,
@@ -416,7 +416,7 @@
         "hash": "NweMal1nrxbw",
         "address": "https://www.debian.org/social_contract",
         "title": "Debian Social Contract",
-        "snippet": "Debian, the producers of the Debian system, have created the Debian Social Contract. The Debian Free Software Guidelines (DFSG) part of the contract, initially designed as a set of commitments that we agree to abide by, has been adopted by the free software community as the basis of the Open Source",
+        "snippet": "The Debian official media may include firmware that is otherwise not part of the Debian system to enable use of Debian with hardware that requires such firmware.\nThe Debian Free Software Guidelines (DFSG)\nFree Redistribution",
         "matchedWords": {
           "bpVSyb2OYcjy": {
             "hits": 32,
@@ -535,7 +535,7 @@
         "hash": "0wub2ZIOYuRw",
         "address": "https://chronicles.debian.org/www/News/2008/",
         "title": "Debian -- News from 2008",
-        "snippet": "Debian is a registered trademark of Software in the Public Interest, Inc.",
+        "snippet": "See our contact page to get in touch. Web site source code is available.\nLast Modified: Fri, Jul 18 15:38:06 UTC 2025 Last Built: Mon, Jul 28 12:02:34 UTC 2025\nCopyright © 2008-2025 SPI and others; See license terms\nDebian is a registered trademark of Software in the Public Interest, Inc.",
         "matchedWords": {
           "bpVSyb2OYcjy": {
             "hits": 1,
@@ -723,7 +723,7 @@
         "hash": "m1-2Wtpiq92w",
         "address": "https://packages.debian.org/source/sid/libsidplay",
         "title": "Debian -- Details of source package libsidplay in sid",
-        "snippet": "Source Package: libsidplay (1.36.60-3)\nThe following binary packages are built from this source package:\nlibsidplay1-dev\nSID (MOS 6581) emulation library (development files)\nlibsidplay1v5\nSID (MOS 6581) emulation library\nOther Packages Related to libsidplay\nbuild-depends\nbuild-depends-indep\nadep:",
+        "snippet": "Source Package: libsidplay (1.36.60-3)\nThe following binary packages are built from this source package:\nlibsidplay1-dev\nSID (MOS 6581) emulation library (development files)\nlibsidplay1v5\nSID (MOS 6581) emulation library\nOther Packages Related to libsidplay\nbuild-depends\nbuild-depends-indep",
         "matchedWords": {
           "bpVSyb2OYcjy": {
             "hits": 0,
@@ -736,7 +736,7 @@
         "hash": "ldzk0N1nrxbw",
         "address": "https://www.debian.org/women/participate",
         "title": "Debian -- How to get involved in Debian Women",
-        "snippet": "Debian Women project and help shape the future of the project by participating in discussion on our mailing list. The debian-women list page includes a form for subscribing and unsubscribing, as well as list archives. (This is true for all the Debian list links in this document).\nIn addition,",
+        "snippet": "(This is true for all the Debian list links in this document).\nIn addition, everyone is encouraged to subscribe to the debian-devel-announce mailing list, to stay informed about the most important changes affecting Debian.\nSubmit your bio for the Profiles page",
         "matchedWords": {
           "bpVSyb2OYcjy": {
             "hits": 9,
@@ -775,7 +775,7 @@
         "hash": "nIXyutpiq92w",
         "address": "https://packages.debian.org/source/bullseye/simplesamlphp",
         "title": "Debian -- Details of source package simplesamlphp in bullseye",
-        "snippet": "debian/rules",
+        "snippet": "adep: debhelper (\u003e= 11)\nhelper programs for debian/rules",
         "matchedWords": {
           "bpVSyb2OYcjy": {
             "hits": 1,
@@ -988,7 +988,7 @@
         "hash": "wXumBqp4ogvw",
         "address": "https://qa.debian.org/cgi-bin/watch?pkg=plexus-velocity",
         "title": "Watch -- Debian Quality Assurance",
-        "snippet": "debian_mangled_uversion: 1.2\ndebian_uversion: 1.2\ndistribution: debian\nlast_check: 2026-09-11 22:20:08.651399\nrelease: sid\nsource: plexus-velocity\nstatus: newer package available\nupstream_url: https://github.com/codehaus-plexus/plexus-velocity/archive/refs/tags/plexus-velocity-2.4.0.tar.gz",
+        "snippet": "Watch file results\ncomponent: main\ndebian_mangled_uversion: 1.2\ndebian_uversion: 1.2\ndistribution: debian\nlast_check: 2026-09-11 22:20:08.651399\nrelease: sid\nsource: plexus-velocity\nstatus: newer package available",
         "matchedWords": {
           "bpVSyb2OYcjy": {
             "hits": 3,
@@ -1001,7 +1001,7 @@
         "hash": "xCnp1G1nrxbw",
         "address": "https://www.debian.org/vote/2007/vote_003",
         "title": "General Resolution: Endorse the concept of Debian Maintainers",
-        "snippet": "[ajt@debian.org] [\u003c20070627114135.GA25831@azure.humbug.org.au\u003e]\nSeconds\nMartin F. Krafft [madduck@debian.org]\nNeil McGovern [neilm@debian.org]\nMoritz Muehlenhoff [jmm@debian.org]\nSteve Langasek [vorlon@debian.org]\nRaphael Hertzog [hertzog@debian.org]\nAntti-Juhani Kaijanaho [ajk@debian.org]",
+        "snippet": "Raphael Hertzog [hertzog@debian.org]\nAntti-Juhani Kaijanaho [ajk@debian.org]\nGuilherme de S. Pastore [gpastore@debian.org]\nEnrico Zini [enrico@debian.org]\nAlexander Schmehl [tolimar@debian.org]\nAnibal Monsalve Salazar [anibal@debian.org]\nText\nChoice 1.",
         "matchedWords": {
           "bpVSyb2OYcjy": {
             "hits": 50,
@@ -1120,7 +1120,7 @@
         "hash": "0EpDBk1nrxbw",
         "address": "https://www.debian.org/consultants/philiphands",
         "title": "Debian -- List of Consultants",
-        "snippet": "Debian GNU/Linux in particular since 1993. It is owned and run by Philip Hands, who has been a Debian developer since 1996, and has a wide knowledge of Free Software, with particular specialisation in communications and interconnection of systems, having been the Debian maintainer for packages",
+        "snippet": "It is owned and run by Philip Hands, who has been a Debian developer since 1996, and has a wide knowledge of Free Software, with particular specialisation in communications and interconnection of systems, having been the Debian maintainer for packages including ssh, rsync, ppp, and mgetty, and a",
         "matchedWords": {
           "bpVSyb2OYcjy": {
             "hits": 5,
@@ -1240,7 +1240,7 @@
         "hash": "iaso0m0h8sSw",
         "address": "https://tracker.debian.org/pkg/debian-installer",
         "title": "debian-installer - Debian Package Tracker",
-        "snippet": "salsa.debian.org in the project's general settings with the \"Default Branch\" field). Alternatively the Vcs-Git field in debian/control can contain a \"-b \u003cbranch-name\u003e\" suffix to indicate what branch is used for the Debian packaging.",
+        "snippet": "Alternatively the Vcs-Git field in debian/control can contain a \"-b \u003cbranch-name\u003e\" suffix to indicate what branch is used for the Debian packaging.",
         "matchedWords": {
           "bpVSyb2OYcjy": {
             "hits": 7,
@@ -1253,7 +1253,7 @@
         "hash": "XFmAGZIOYuRw",
         "address": "https://chronicles.debian.org/www/News/2022/",
         "title": "Debian -- News from 2022",
-        "snippet": "Debian is a registered trademark of Software in the Public Interest, Inc.",
+        "snippet": "See our contact page to get in touch. Web site source code is available.\nLast Modified: Sun, Jul 20 18:57:24 UTC 2025 Last Built: Mon, Dec 8 10:49:28 UTC 2025\nCopyright © 2022-2025 SPI and others; See license terms\nDebian is a registered trademark of Software in the Public Interest, Inc.",
         "matchedWords": {
           "bpVSyb2OYcjy": {
             "hits": 1,
@@ -1292,7 +1292,7 @@
         "hash": "_NH8h31nrxbw",
         "address": "https://www.debian.org/News/2026/2026011002",
         "title": "Debian -- News -- Updated Debian 12: 12.13 released",
-        "snippet": "Debian project is pleased to announce the thirteenth update of its oldstable distribution Debian 12 (codename bookworm). This point release mainly adds corrections for security issues, along with a few adjustments for serious problems. Security advisories have already been published separately and",
+        "snippet": "For further information, please visit the Debian web pages at https://www.debian.org/, send mail to \u003cpress@debian.org\u003e, or contact the stable release team at \u003cdebian-release@lists.debian.org\u003e.",
         "matchedWords": {
           "bpVSyb2OYcjy": {
             "hits": 16,
@@ -1372,7 +1372,7 @@
         "hash": "AbsN3l1nrxbw",
         "address": "https://www.debian.org/contact",
         "title": "Debian -- How to contact us",
-        "snippet": "Debian\nPublicity \u0026 Press\nEvents \u0026 Conferences\nHelping Debian\nReporting Problems in Debian Packages\nDebian Development\nProblems with the Debian Infrastructure\nHarassment Issues\nDebian is a large organization and there are several ways to get in touch with project members and other Debian users. This",
+        "snippet": "General Information\nInstalling and using Debian\nPublicity \u0026 Press\nEvents \u0026 Conferences\nHelping Debian\nReporting Problems in Debian Packages\nDebian Development\nProblems with the Debian Infrastructure\nHarassment Issues",
         "matchedWords": {
           "bpVSyb2OYcjy": {
             "hits": 54,
@@ -1385,7 +1385,7 @@
         "hash": "D4lABzaS0qdw",
         "address": "https://planet.debian.org/",
         "title": "Planet Debian",
-        "snippet": "Debian Code Search! This was made possible by Go’s recently introduced SIMD support, because now we can implement the TurboPFor integer compression format as efficiently — more efficiently, in fact, by using the newer AVX512 instruction set! — as the reference implementation.\nBackground: Why does",
+        "snippet": "Background: Why does DCS need a fast Integer Codec?\nDebian Code Search (DCS) is a search engine that allows searching all the Open Source source code within Debian, with either literal search expressions or regular expression search queries.",
         "matchedWords": {
           "bpVSyb2OYcjy": {
             "hits": 26,
@@ -1504,7 +1504,7 @@
         "hash": "8UgLpm0h8sSw",
         "address": "https://tracker.debian.org/pkg/gasnet",
         "title": "gasnet - Debian Package Tracker",
-        "snippet": "debian/watch no matching files for watch source https://bitbucket.org/berkeleylab/gasnet/downloads?tab=downloads\nCreated: 2026-03-10 Last update: 2026-09-11 22:31\n1 bug tagged patch in the BTS normal\nCreated: 2026-09-02 Last update: 2026-09-11 23:30\nlintian reports 7 warnings normal\nLintian reports",
+        "snippet": "debian/patches: 2 patches to forward upstream low\nAmong the 3 debian patches available in version 2025.8.0-14 of the package, we noticed the following issues:\n2 patches where the metadata indicates that the patch has not yet been forwarded upstream.",
         "matchedWords": {
           "bpVSyb2OYcjy": {
             "hits": 3,
@@ -1517,7 +1517,7 @@
         "hash": "bZbFuPQGph7w",
         "address": "https://i18n.debian.org/",
         "title": "i18n.debian.org/l10n.debian.org",
-        "snippet": "Debian Internationalization (i18n) and localization (l10n)\nThese are the Debian Internationalisation (i18n) and localization (l10n) servers. These servers, administered by Debian system admins, provide several services related to internationalization and localization of Debian.\nThis page documents",
+        "snippet": "This page documents what is available in the servers (i18n.debian.org and l10n.debian.org: services should gradually be split between both). Information about i18n/l10n regarding Debian in general is in the Debian web server and in the Debian wiki.",
         "matchedWords": {
           "bpVSyb2OYcjy": {
             "hits": 13,
@@ -1530,7 +1530,7 @@
         "hash": "Ggk3Jtpiq92w",
         "address": "https://packages.debian.org/source/stable/icedtea-web",
         "title": "Debian -- Details of source package icedtea-web in trixie",
-        "snippet": "The following binary packages are built from this source package:\nicedtea-netx\nImplementation of the Java Network Launching Protocol (JNLP)\nOther Packages Related to icedtea-web\nbuild-depends\nbuild-depends-indep\nadep: debhelper-compat (= 12)\nPackage not available\nadep: default-jdk\nStandard Java or",
+        "snippet": "The following binary packages are built from this source package:\nicedtea-netx\nImplementation of the Java Network Launching Protocol (JNLP)\nOther Packages Related to icedtea-web\nbuild-depends\nbuild-depends-indep\nadep: debhelper-compat (= 12)\nPackage not available\nadep: default-jdk",
         "matchedWords": {
           "bpVSyb2OYcjy": {
             "hits": 0,
@@ -1556,7 +1556,7 @@
         "hash": "E4Z92E1nrxbw",
         "address": "https://www.debian.org/users/com/biodec",
         "title": "Debian -- BioDec, Italy",
-        "snippet": "Debian on almost all of our servers: We use it for both infrastructure, like e-mail, web services, firewall, etcetera, and for bioinformatics clusters (which is one of our business).\nWe have slightly less than 20 Debian servers (both virtualized and physical) in our offices and manage less than a",
+        "snippet": "We have slightly less than 20 Debian servers (both virtualized and physical) in our offices and manage less than a hundred of them (both virtualized and physical) for some customers of ours.\nWe chose Debian for the support from the Debian people, which is simply the best around.",
         "matchedWords": {
           "bpVSyb2OYcjy": {
             "hits": 6,
@@ -1636,7 +1636,7 @@
         "hash": "It5EdL1nrxbw",
         "address": "https://www.debian.org/intro/about",
         "title": "Debian -- About Debian",
-        "snippet": "Debian anyway?\nIt's all free?\nYou say free, but the CDs/bandwidth cost money!\nMost software costs over a hundred dollars. How can you give it away?\nWhat hardware is supported?\nBefore I decide, I need more information.\nI'm still not convinced. What are some pros and cons of Debian?\nHow do I get",
+        "snippet": "How do I get Debian?\nI can't set it up all by myself. Where do I get support for Debian?\nWho are you all anyway?\nWho uses Debian?\nHow'd it all get started?\nWHAT is Debian?\nThe Debian Project is an association of individuals who have made common cause to create a free operating system.",
         "matchedWords": {
           "bpVSyb2OYcjy": {
             "hits": 50,
@@ -1662,7 +1662,7 @@
         "hash": "KZ3knTp4ogvw",
         "address": "https://qa.debian.org/developer.php?login=capriott%40debian.org",
         "title": "DDPO: Andrea Capriotti -- Debian Quality Assurance",
-        "snippet": "Co-maintained\n(\u0026comaint=)\nyes\nno\nonly\nDescription\n(\u0026description=)\nIn separate column\nAs source mouseover only\nBugs\n(\u0026bugs=)\nShow (1)\nHide (0)\nSum. (2)\nSum.\u0026RC (3)\nVersion\n(\u0026version=)\noldoldstable and newer\noldstable and newer\nstable and newer\ntesting and newer\nunstable only\nexperimental and",
+        "snippet": "Co-maintained\n(\u0026comaint=)\nyes\nno\nonly\nDescription\n(\u0026description=)\nIn separate column\nAs source mouseover only\nBugs\n(\u0026bugs=)\nShow (1)\nHide (0)\nSum. (2)\nSum.\u0026RC (3)\nVersion\n(\u0026version=)\noldoldstable and newer\noldstable and newer\nstable and newer\ntesting and newer\nunstable only",
         "matchedWords": {
           "bpVSyb2OYcjy": {
             "hits": 0,
@@ -1768,7 +1768,7 @@
         "hash": "4SIJYl1nrxbw",
         "address": "https://www.debian.org/distrib/",
         "title": "Download Debian",
-        "snippet": "Debian 13.6.0, the stable release.\nDownload mirrors of installation images\nInstallation Manual with detailed installation instructions\nRelease notes\nISO images for Debian testing\nVerifying authenticity of Debian images\nDownload an installation image\nA small installation image: can be downloaded",
+        "snippet": "This page has options for downloading and installing Debian 13.6.0, the stable release.\nDownload mirrors of installation images\nInstallation Manual with detailed installation instructions\nRelease notes\nISO images for Debian testing\nVerifying authenticity of Debian images",
         "matchedWords": {
           "bpVSyb2OYcjy": {
             "hits": 10,
@@ -1781,7 +1781,7 @@
         "hash": "pMlVvE1nrxbw",
         "address": "https://www.debian.org/users/gov/sjhc",
         "title": "Debian -- St. Joseph's Health Care London, Ontario, Canada",
-        "snippet": "Debian Linux servers for all of our Linux based servers that don't have commercial vendor requirements. Including but not limited to web servers, DNS servers, DHCP servers, Samba file servers and java application servers.\nThe reason we use Debian over competing Linux distributions is due to the",
+        "snippet": "The reason we use Debian over competing Linux distributions is due to the high quality of the Debian operating system, the speed in which Debian releases security updates and the freedom to not have to manage software licenses on our Linux servers.",
         "matchedWords": {
           "bpVSyb2OYcjy": {
             "hits": 4,
@@ -1900,7 +1900,7 @@
         "hash": "WT6Pnl1nrxbw",
         "address": "https://www.debian.org/security/",
         "title": "Debian -- Security Information",
-        "snippet": "Debian System secure\nRecent Advisories\nSources of Security Information\nExperience has shown that security through obscurity never works. Therefore, public disclosure allows for quicker and better solutions of security problems. In that respect, this page addresses Debian's status regarding various",
+        "snippet": "In order to receive the latest Debian security advisories, please subscribe to the debian-security-announce mailing list.\nDebian also participates in security standardization efforts:\nThe Debian Security Advisories are CVE-Compatible",
         "matchedWords": {
           "bpVSyb2OYcjy": {
             "hits": 22,
@@ -1939,7 +1939,7 @@
         "hash": "UlngeV1nrxbw",
         "address": "https://www.debian.org/doc/manuals/debian-faq/index.de.html",
         "title": "Die Debian GNU/Linux-FAQ",
-        "snippet": "Debian GNU/Linux.",
+        "snippet": "October 2024\nZusammenfassung\nDieses Dokument beantwortet häufig gestellte Fragen über Debian GNU/Linux.",
         "matchedWords": {
           "bpVSyb2OYcjy": {
             "hits": 1,
@@ -2177,7 +2177,7 @@
         "hash": "4lLIDk1nrxbw",
         "address": "https://www.debian.org/consultants/boguslawski",
         "title": "Debian -- List of Consultants",
-        "snippet": "Informatyka Boguslawski\nInformatyka Boguslawski sp. z o.o. sp.k. carries out business activity in the IT market. The Company's offer is addressed to individual clients, small and medium businesses, corporations and public-sector institutions. The Company's object of activity is above all the",
+        "snippet": "Informatyka Boguslawski\nInformatyka Boguslawski sp. z o.o. sp.k. carries out business activity in the IT market. The Company's offer is addressed to individual clients, small and medium businesses, corporations and public-sector institutions.",
         "matchedWords": {
           "bpVSyb2OYcjy": {
             "hits": 0,
@@ -2297,7 +2297,7 @@
         "hash": "l20c0tpiq92w",
         "address": "https://packages.debian.org/source/oldoldstable/android-platform-external-nist-sip",
         "title": "Debian -- Details of source package android-platform-external-nist-sip in bullseye",
-        "snippet": "Debian Resources:\nBug Reports\nDeveloper Information\nDebian Changelog\nCopyright File\nDebian Source Repository (Git)\nDebian Patch Tracker\nMaintainers:\nAndroid Tools Maintainers (QA Page, Mail Archive)\nKaterina (QA Page)\nExternal Resources:\nHomepage [android.googlesource.com]\nThe following binary",
+        "snippet": "all options\n[ bullseye ] [ bookworm ] [ sid ]\nLinks for android-platform-external-nist-sip\nDebian Resources:\nBug Reports\nDeveloper Information\nDebian Changelog\nCopyright File\nDebian Source Repository (Git)\nDebian Patch Tracker\nMaintainers:\nAndroid Tools Maintainers (QA Page, Mail Archive)",
         "matchedWords": {
           "bpVSyb2OYcjy": {
             "hits": 10,
@@ -2405,7 +2405,7 @@
         "hash": "uYdNoG1nrxbw",
         "address": "https://www.debian.org/vote/1999/vote_0000",
         "title": "Debian -- Constitution",
-        "snippet": "[maor@debian.org]\nSeconds\nSteve McIntyre [stevem@chiark.greenend.org.uk]\nJames A. Treacy [treacy@debian.org]\nStephen Zander [gibreel@pobox.com]\nDarren Benham [gecko@benham.net]\nEnrique Zanardi [ezanardi@ull.es]\nText\nhttps://lists.debian.org/debian-devel-9809/msg00509.html\nThe text of the",
+        "snippet": "Proposal-0\nDate\nProposer\nSeconds\nText\nQuorum\nMinimum Discussion\nForum\nOutcome\nDate\nSeptember 10, 1998\nProposer\nGuy Maor [maor@debian.org]\nSeconds\nSteve McIntyre [stevem@chiark.greenend.org.uk]\nJames A. Treacy [treacy@debian.org]\nStephen Zander [gibreel@pobox.com]\nDarren Benham [gecko@benham.net]",
         "matchedWords": {
           "bpVSyb2OYcjy": {
             "hits": 5,
@@ -2418,7 +2418,7 @@
         "hash": "upjhUqp4ogvw",
         "address": "https://qa.debian.org/cgi-bin/vcswatch?package=maven-filtering",
         "title": "maven-filtering vcswatch -- Debian Quality Assurance",
-        "snippet": "https://salsa.debian.org/java-team/maven-filtering.git\nBranch: master\nPath: debian/changelog\nRepo size: 3678208\nBrowser: https://salsa.debian.org/java-team/maven-filtering\nLast scan: 2026-09-04 16:42:02+00\nError: https://salsa.debian.org/api/v4/projects/java-team%2Fmaven-filtering API request",
+        "snippet": "maven-filtering (3.4.0-1) [PTS] [DDPO]\nOK: VCS matches the version in the archive\nGit: https://salsa.debian.org/java-team/maven-filtering.git\nBranch: master\nPath: debian/changelog\nRepo size: 3678208\nBrowser: https://salsa.debian.org/java-team/maven-filtering\nLast scan: 2026-09-04 16:42:02+00",
         "matchedWords": {
           "bpVSyb2OYcjy": {
             "hits": 7,
@@ -2431,7 +2431,7 @@
         "hash": "xdT-Xm0h8sSw",
         "address": "https://tracker.debian.org/pkg/ecbuild",
         "title": "ecbuild - Debian Package Tracker",
-        "snippet": "debian/patches: 5 patches to forward upstream low\nAmong the 7 debian patches available in version 3.15.2-1 of the package, we noticed the following issues:\n5 patches where the metadata indicates that the patch has not yet been forwarded upstream. You should either forward the patch upstream or",
+        "snippet": "lintian reports 1 warning normal\nLintian reports 1 warning about this package. You should make the package lintian clean getting rid of them.\nCreated: 2026-07-31 Last update: 2026-07-31 20:32\ndebian/patches: 5 patches to forward upstream low",
         "matchedWords": {
           "bpVSyb2OYcjy": {
             "hits": 2,
@@ -2527,7 +2527,7 @@
         "hash": "8_5XsMpiq92w",
         "address": "https://packages.debian.org/bookworm/s390x/unbound/download",
         "title": "Debian -- Package Download Selection -- unbound_1.17.1-2+deb12u3_s390x.deb",
-        "snippet": "Debian, it is strongly suggested to use a package manager like aptitude or synaptic to download and install packages, instead of doing so manually via this website.\nYou should be able to use any of the listed mirrors by adding a line to your /etc/apt/sources.list like this:\ndeb",
+        "snippet": "ftp.hr.debian.org/debian\nftp.hu.debian.org/debian\nftp.ie.debian.org/debian\nftp.is.debian.org/debian\nftp.it.debian.org/debian\nftp.lt.debian.org/debian\nftp.nl.debian.org/debian\nftp.no.debian.org/debian\nftp.pl.debian.org/debian\nftp.ro.debian.org/debian\nftp.ru.debian.org/debian\nftp.se.debian.org/debian",
         "matchedWords": {
           "bpVSyb2OYcjy": {
             "hits": 61,
@@ -2540,7 +2540,7 @@
         "hash": "7cQwZL1nrxbw",
         "address": "https://www.debian.org/intro/help.zh-hk.html",
         "title": "Debian -- 你如何協助 Debian？",
-        "snippet": "Debian\n您的組織如何支持 Debian\nDebian 不僅僅是一個操作系統，它也是一個社區。許多擁有不同技能的人對這個項目作出貢獻： 我們的軟件、美工、維基，以及其他文件正是許多人齊心協力的成果。不是所有人都是開發者，所以，您想要參與進來的話，當然 不需要先學習如何編程。有很多不同的方式可以使 Debian 變得更好。如果您想加入進來的話，以下建議對有經驗和沒有經驗的用户 都很合適：\n編程和維護套件\n也許您想要從頭編寫一個新的應用程序，也許您想在一個現有的程序中實現一個新功能。如果您是一名 開發者，且想要對 Debian 作出貢獻，您也可以幫助我們為 Debian",
+        "snippet": "有了您的支持，我們可以購買硬件、域名、加密證書等等。 我們的資金還可以用於支持 DebConf 和 MiniDebConf 會議、開發活動、出席其他活動，以及其他事項。\n您可以向 Debian 計劃捐贈金錢、設備和服務。\n我們一直在尋求在世界各地建立映射站台。\nDebian 移植依賴於我們的自動構建系統。\n使用 Debian 並談論它\n請將 Debian 和 Debian 社區告訴更多的人。將操作系統推薦給其他人，並向他們演示如何安裝。 您只需使用並享受它——這可能是回饋 Debian 項目的最簡單的方式。\n您可以透過進行演講並向其他用户演示 Debian 的方式來幫助宣傳 Debian。",
         "matchedWords": {
           "bpVSyb2OYcjy": {
             "hits": 57,
@@ -2566,7 +2566,7 @@
         "hash": "67bnC55exHdw",
         "address": "https://blends.debian.org/multimedia/tasks/recording",
         "title": "Debian Multimedia Recording packages",
-        "snippet": "Debian package, each head row has a color code according to this scheme:\nOfficial Debian packages with high relevance\nOfficial Debian packages with lower relevance\nUnofficial packages built by somebody else\nNo known packages available but some record of interest (WNPP bug)\nIf you discover a project",
+        "snippet": "2.1.0+debian-7\namd64,arm64,armel,armhf,i386,mips64el,ppc64el,s390x\nbookworm\n2.1.0+debian-7\namd64,arm64,armel,armhf,i386,mips64el,mipsel,ppc64el,s390x\nbullseye\n2.1.0+debian-6\namd64,arm64,armel,armhf,i386,mips64el,mipsel,ppc64el,s390x\nbuster\n2.1.0+debian-5",
         "matchedWords": {
           "bpVSyb2OYcjy": {
             "hits": 137,
@@ -2631,7 +2631,7 @@
         "hash": "79gUnMpiq92w",
         "address": "https://packages.debian.org/bookworm/amd64/unbound/download",
         "title": "Debian -- Package Download Selection -- unbound_1.17.1-2+deb12u3_amd64.deb",
-        "snippet": "Debian, it is strongly suggested to use a package manager like aptitude or synaptic to download and install packages, instead of doing so manually via this website.\nYou should be able to use any of the listed mirrors by adding a line to your /etc/apt/sources.list like this:\ndeb",
+        "snippet": "ftp.hr.debian.org/debian\nftp.hu.debian.org/debian\nftp.ie.debian.org/debian\nftp.is.debian.org/debian\nftp.it.debian.org/debian\nftp.lt.debian.org/debian\nftp.nl.debian.org/debian\nftp.no.debian.org/debian\nftp.pl.debian.org/debian\nftp.ro.debian.org/debian\nftp.ru.debian.org/debian\nftp.se.debian.org/debian",
         "matchedWords": {
           "bpVSyb2OYcjy": {
             "hits": 61,
@@ -2923,7 +2923,7 @@
         "hash": "wwL-vl1nrxbw",
         "address": "https://www.debian.org/donations",
         "title": "Debian -- How to donate to the Debian Project",
-        "snippet": "Debian France\ndebian.ch\nDebian\nDonations are managed by the Debian Project Leader (DPL) and allow Debian to have machines, other hardware, domains, cryptographic certificates, the Debian conference, Debian mini-conferences, development sprints, presence at other events, etc.\nVarious organizations",
+        "snippet": "Receipts are available on request; please send an email to donation@france.debian.net.\nPayPal\nDonations can be sent via the Debian France PayPal page. These can be directed to Debian France specifically or the Debian Project in general.\ndebian.ch",
         "matchedWords": {
           "bpVSyb2OYcjy": {
             "hits": 38,
@@ -3187,7 +3187,7 @@
         "hash": "vlCSfg1nrxbw",
         "address": "https://www.debian.org/distrib/archive",
         "title": "Debian -- Distribution Archives",
-        "snippet": "debian-archive\ndebian-non-US archive\ndebian-archive\nIf you need to access one of the old distributions of Debian, you can find them at the Debian Archives, https://archive.debian.org/debian/\n.\nReleases are stored by their codenames under the dists/ directory.\nbuster is Debian 10\nstretch is Debian 9",
+        "snippet": "jessie is Debian 8.0\nwheezy is Debian 7.0\nsqueeze is Debian 6.0\nlenny is Debian 5.0\netch is Debian 4.0\nsarge is Debian 3.1\nwoody is Debian 3.0\npotato is Debian 2.2\nslink is Debian 2.1\nhamm is Debian 2.0\nbo is Debian 1.3\nrex is Debian 1.2\nbuzz is Debian 1.1",
         "matchedWords": {
           "bpVSyb2OYcjy": {
             "hits": 63,
@@ -3265,7 +3265,7 @@
         "hash": "dwvDam0h8sSw",
         "address": "https://tracker.debian.org/pkg/linux/news/",
         "title": "Debian Package Tracker",
-        "snippet": "(Debian testing watch)\n[2026-09-08] Accepted linux 6.1.187-1 (source) into oldstable-security (Debian FTP Masters) (signed by: Salvatore Bonaccorso)\n[2026-09-06] Accepted linux 6.12.107-1 (source) into proposed-updates (Debian FTP Masters) (signed by: Salvatore Bonaccorso)\n[2026-09-06] Accepted",
+        "snippet": "[2026-08-24] Accepted linux 7.1.10-1 (source) into unstable (Debian FTP Masters) (signed by: Salvatore Bonaccorso)\n[2026-08-22] linux 7.1.8-2 MIGRATED to testing (Debian testing watch)\n[2026-08-21] Accepted linux 7.1.9-1 (source) into unstable (Debian FTP Masters) (signed by: Salvatore Bonaccorso)",
         "matchedWords": {
           "bpVSyb2OYcjy": {
             "hits": 29,
@@ -3490,7 +3490,7 @@
         "hash": "AjzZFn7vg5bw",
         "address": "https://reproduce.debian.net/",
         "title": "reproduce.debian.net",
-        "snippet": "Debian binary package found in the distribution archive, using the .buildinfo file produced when the buildd originally built the package.\nFor each distributed package, rebuilderd calls debrebuild that calls debootsnap, mmdebstrap and finally sbuild to build that package within a user namespace.",
+        "snippet": "debootsnap uses snapshot.debian.org and metasnap.debian.net to retrieve the exact same version of each build dependency package (which was used for the \"original build\"). (see #1096129)",
         "matchedWords": {
           "bpVSyb2OYcjy": {
             "hits": 12,
@@ -3503,7 +3503,7 @@
         "hash": "D4lABzaS0qdw",
         "address": "https://planet.debian.org/",
         "title": "Planet Debian",
-        "snippet": "Debian Code Search! This was made possible by Go’s recently introduced SIMD support, because now we can implement the TurboPFor integer compression format as efficiently — more efficiently, in fact, by using the newer AVX512 instruction set! — as the reference implementation.\nBackground: Why does",
+        "snippet": "Background: Why does DCS need a fast Integer Codec?\nDebian Code Search (DCS) is a search engine that allows searching all the Open Source source code within Debian, with either literal search expressions or regular expression search queries.",
         "matchedWords": {
           "bpVSyb2OYcjy": {
             "hits": 26,
@@ -3639,7 +3639,7 @@
         "hash": "iwrFOp1nrxbw",
         "address": "https://www.debian.org/partners/partners",
         "title": "Debian -- Debian Partners Program - description",
-        "snippet": "Debian Partners Program - description\nWhat is the Debian Partners Program?\nThis program provides a way to recognize companies and projects that provide ongoing assistance to the Debian project. Since these partners are providing a service of some sort to Debian, we will officially recognize them",
+        "snippet": "assist or lead efforts to port and maintain Debian packages on their hardware\nprovide free or reduced cost technical service or consulting to Debian\nService Partners\nassist Debian in distribution of releases\nprovide a forum for Debian's press releases and announcements",
         "matchedWords": {
           "bpVSyb2OYcjy": {
             "hits": 28,
@@ -3652,7 +3652,7 @@
         "hash": "jGZWVppiq92w",
         "address": "https://packages.debian.org/unstable/libeclipse-cdt-java",
         "title": "Debian -- Details of package libeclipse-cdt-java in sid",
-        "snippet": "C/C++ Development Tools for Eclipse (Java libraries)\nThe CDT Project provides a fully functional C and C++ Integrated Development Environment based on the Eclipse platform. Features include: support for project creation and managed build for various toolchains, standard make build, source",
+        "snippet": "C/C++ Development Tools for Eclipse (Java libraries)\nThe CDT Project provides a fully functional C and C++ Integrated Development Environment based on the Eclipse platform.",
         "matchedWords": {
           "bpVSyb2OYcjy": {
             "hits": 0,
@@ -3665,7 +3665,7 @@
         "hash": "gZzFUHWhP36w",
         "address": "https://matrix-team.pages.debian.net/blogue/",
         "title": "Matrix on Debian blog",
-        "snippet": "Debian.\nSynapse\nUnfortunately, the recently published Synapse 1.0 didn’t make it into Debian Buster, which is due to be released next week, so if you install 0.99.2 from Buster, you need to update to a …",
+        "snippet": "This is an update on the state of Matrix-related software in Debian.\nSynapse\nUnfortunately, the recently published Synapse 1.0 didn’t make it into Debian Buster, which is due to be released next week, so if you install 0.99.2 from Buster, you need to update to a …",
         "matchedWords": {
           "bpVSyb2OYcjy": {
             "hits": 2,
@@ -3942,7 +3942,7 @@
         "hash": "mXINO9piq92w",
         "address": "https://packages.debian.org/stable/lynx-common",
         "title": "Debian -- Details of package lynx-common in trixie",
-        "snippet": "Debian. Examples of such shared files are: manpages, locale and mimetype definitions, and configuration files.\nOther Packages Related to lynx-common\ndepends\nrecommends\nsuggests\nenhances\nrec: lynx\nclassic non-graphical (text-mode) web browser\nDownload lynx-common\nDownload for all available",
+        "snippet": "Package: lynx-common (2.9.2-1)\nshared files for lynx package\nIn continuous development since 1992, Lynx sets the standard for text-mode web clients.\nThis package contains architecture-independent files shared by the lynx package over any architecture available in Debian.",
         "matchedWords": {
           "bpVSyb2OYcjy": {
             "hits": 1,
@@ -4035,7 +4035,7 @@
         "hash": "xY0EdL1nrxbw",
         "address": "https://www.debian.org/intro/help",
         "title": "Debian -- Contribute: How you can help Debian",
-        "snippet": "Debian\nCoding and Maintaining Packages\nTesting and Bug Squashing\nWriting Documentation\nTranslating and Localizing\nHelping other Users\nOrganizing Events\nDonate Money, Hardware, or Bandwidth\nUse Debian\nHow your Organization can support Debian\nDebian is not just an operating system, it's a community.",
+        "snippet": "All Debian documentation is written by community members and there are several ways you can help.\nJoin the Debian Documentation Project to help with the official Debian documentation.\nContribute to the Debian Wiki\nTranslating and Localizing",
         "matchedWords": {
           "bpVSyb2OYcjy": {
             "hits": 53,
@@ -4061,7 +4061,7 @@
         "hash": "wQi5sE1nrxbw",
         "address": "https://www.debian.org/users/com/ngcommunications",
         "title": "Debian -- IT Ops, NG Communications bvba, Kortenberg, Belgium",
-        "snippet": "Debian on our servers for almost 10 years, including servers that we manage for our customers. In total we manage over 30 servers, using the applications Apache, Nginx, Pure-FTPd, MySQL, PostgreSQL, Postfix and Dovecot on top of Debian.\nWe chose Debian for its advanced package management system,",
+        "snippet": "In total we manage over 30 servers, using the applications Apache, Nginx, Pure-FTPd, MySQL, PostgreSQL, Postfix and Dovecot on top of Debian.\nWe chose Debian for its advanced package management system, excellent security updates and overall stability.",
         "matchedWords": {
           "bpVSyb2OYcjy": {
             "hits": 3,
@@ -4444,7 +4444,7 @@
         "hash": "-120uSpiq92w",
         "address": "https://packages.debian.org/sid/arm64/ebtables/download",
         "title": "Debian -- Package Download Selection -- ebtables_2.0.11-6+b3_arm64.deb",
-        "snippet": "Debian, it is strongly suggested to use a package manager like aptitude or synaptic to download and install packages, instead of doing so manually via this website.\nYou should be able to use any of the listed mirrors by adding a line to your /etc/apt/sources.list like this:\ndeb",
+        "snippet": "ftp.hr.debian.org/debian\nftp.hu.debian.org/debian\nftp.ie.debian.org/debian\nftp.is.debian.org/debian\nftp.it.debian.org/debian\nftp.lt.debian.org/debian\nftp.nl.debian.org/debian\nftp.no.debian.org/debian\nftp.pl.debian.org/debian\nftp.ro.debian.org/debian\nftp.ru.debian.org/debian\nftp.se.debian.org/debian",
         "matchedWords": {
           "bpVSyb2OYcjy": {
             "hits": 61,
@@ -4457,7 +4457,7 @@
         "hash": "7ErrjSpiq92w",
         "address": "https://packages.debian.org/sid/riscv64/ebtables/download",
         "title": "Debian -- Package Download Selection -- ebtables_2.0.11-6_riscv64.deb",
-        "snippet": "Debian, it is strongly suggested to use a package manager like aptitude or synaptic to download and install packages, instead of doing so manually via this website.\nYou should be able to use any of the listed mirrors by adding a line to your /etc/apt/sources.list like this:\ndeb",
+        "snippet": "ftp.hr.debian.org/debian\nftp.hu.debian.org/debian\nftp.ie.debian.org/debian\nftp.is.debian.org/debian\nftp.it.debian.org/debian\nftp.lt.debian.org/debian\nftp.nl.debian.org/debian\nftp.no.debian.org/debian\nftp.pl.debian.org/debian\nftp.ro.debian.org/debian\nftp.ru.debian.org/debian\nftp.se.debian.org/debian",
         "matchedWords": {
           "bpVSyb2OYcjy": {
             "hits": 61,
@@ -4470,7 +4470,7 @@
         "hash": "FEd6Pl1nrxbw",
         "address": "https://www.debian.org/sitemap",
         "title": "Site map for Debian web pages",
-        "snippet": "Debian is a registered trademark of Software in the Public Interest, Inc.",
+        "snippet": "See our contact page to get in touch. Web site source code is available.\nLast Modified: Fri, Aug 7 11:24:14 UTC 2026 Last Built: Fri, Aug 7 11:28:36 UTC 2026\nCopyright © 1997-2026 SPI and others; See license terms\nDebian is a registered trademark of Software in the Public Interest, Inc.",
         "matchedWords": {
           "bpVSyb2OYcjy": {
             "hits": 1,
@@ -4483,7 +4483,7 @@
         "hash": "LJkrJX1nrxbw",
         "address": "https://www.debian.org/security/faq",
         "title": "Debian -- Debian security FAQ",
-        "snippet": "debian-security-announce, how can I upgrade the vulnerable packages?\nThe signature on your advisories does not verify correctly!\nHow is security handled in Debian?\nWhy are you fiddling with an old version of that package?\nThe version number for a package indicates that I am still running a",
+        "snippet": "A: The Debian security team keeps track of every issued CVE identifier, connect it to the relevant Debian package and assess its impact in a Debian context - the fact that something is assigned a CVE id does not necessarily imply that the issue is a serious threat to a Debian system.",
         "matchedWords": {
           "bpVSyb2OYcjy": {
             "hits": 63,

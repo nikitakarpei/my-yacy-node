@@ -1,6 +1,6 @@
 {
   "query": "wikipedia",
-  "recordedAt": "2026-09-12T00:11:11Z",
+  "recordedAt": "2026-09-12T07:52:15Z",
   "itemsInTheOrderOfEachAnswer": [
     [
       {
@@ -20,7 +20,7 @@
         "hash": "CiItojRvmBbx",
         "address": "https://en.wikipedia.org/wiki/Wikipedia:Sister_projects",
         "title": "Wikipedia:Wikimedia sister projects - Wikipedia",
-        "snippet": "Wikipedia, the free encyclopedia\nWikimedia sister projects are all the publicly available wikis operated by the Wikimedia Foundation, including Wikipedia. This guideline covers Wikipedia's relations to the sister projects, including linking and copying content between a Wikipedia article and a",
+        "snippet": "Wikipedia encourages links from Wikipedia articles to pages on sister projects when such links are likely to be useful to our readers, and interlingual crosslinking to articles on foreign-language editions of Wikipedia whenever such links are possible.",
         "matchedWords": {
           "EmcuebAenKcB": {
             "hits": 25,
@@ -139,7 +139,7 @@
         "hash": "HEl15jRvmBbx",
         "address": "https://en.wikipedia.org/wiki/Wikipedia:Contents",
         "title": "Wikipedia:Contents - Wikipedia",
-        "snippet": "Wikipedia, the free encyclopedia\nContents\nOverviews\nOutlines\nLists\nPortals\nGlossaries\nCategories\nVital articles\nFeatured content\nGood content\nIndices\nIndex\nReference\nCulture\nGeography\nHealth\nHistory\nHuman activities\nMathematics\nNature\nPeople\nPhilosophy\nReligion\nSociety\nTechnology\nWP:EXPLORE\nEasily",
+        "snippet": "List of articles every Wikipedia should have List of articles every Wikipedia should have/Expanded\nFeatured content\nContributions representing the best of Wikipedia, having undergone a rigorous review process by multiple independent editors.\nFeatured content Featured articles\nFeatured lists",
         "matchedWords": {
           "EmcuebAenKcB": {
             "hits": 14,
@@ -152,7 +152,7 @@
         "hash": "Fct7Cj-JVcyx",
         "address": "https://en.wikiquote.org/wiki/Wikipedia",
         "title": "Wikipedia - Wikiquote",
-        "snippet": "Wikipedia, the free encyclopedia that anyone can edit.\nImagine a world in which every single person on the planet is given free access to the sum of all human knowledge. That's what we're doing.\nActive editors at the English Wikipedia 2001–2023\nWikipedia is a free content, multilingual online",
+        "snippet": "A view of the Wikipedia App, the official app of Wikipedia. Any user can install Wikipedia, and you can install, before this, the Wikipedia App to download Wikipedia free and for this, a user need to go to or to https://github.com/wikimedia/apps-win8-wikipedia",
         "matchedWords": {
           "EmcuebAenKcB": {
             "hits": 538,
@@ -297,7 +297,7 @@
         "hash": "JeplmJ_rb6v5",
         "address": "https://wikipedia-un-mythe.over-blog.com/",
         "title": "wikipedia ou le mythe de la neutralité - observatoire de wikipedia qui se prétend une encyclopédie, sans spécialistes ni vérification d'experts, chacun peut écrire ce qu'il veut sous anonymat : une pseudo-encyclopédie où prospèrent la propagande et l'irrationnel. Blog de réflexion sur la culture",
-        "snippet": "wikipedia pas fiable : une étude estime à 90% la proportion d'articles erronés\n19.09.2014\nPar alithia\nOn s'en doutait mais c'est établi : au chapitre médecine et santé, une étude approfondie de wikipedia faite aux Etats-Unise, a établi que 9 articles sur 10 sont erronés ou contiennent des erreurs",
+        "snippet": "publie l'interview d'un universitaire américain, Paul Duguit, qui travaille sur les media et qui a fait une étude de wikipedia...\nLire la suite\nWikipedia ou le triomphe de lopinion sur le savoir. article d'un philosophe\nréédition\n16.07.2011\nPar alithia",
         "matchedWords": {
           "EmcuebAenKcB": {
             "hits": 12,
@@ -349,7 +349,7 @@
         "hash": "eV8_WladqZ_x",
         "address": "https://www.wikipedia.org/",
         "title": "Wikipedia",
-        "snippet": "Wikipedia still can't be sold.\nAn important update for readers in the United States.\nYou deserve an explanation, so please don't skip this 1-minute read. This year, Wikipedia has had fewer visitors and fewer new supporters, so your visit today means a lot. We hope that Wikipedia's given you at",
+        "snippet": "We hope that Wikipedia's given you at least $2.75 of knowledge recently. If everyone who found Wikipedia useful gave $2.75, we'd hit our goal in a few hours.\nAfter 25 years, Wikipedia is still the internet we were promised—created by people, not by machines.",
         "matchedWords": {
           "EmcuebAenKcB": {
             "hits": 7,
@@ -403,7 +403,7 @@
         "hash": "LkxGWjRvmBbx",
         "address": "https://en.wikipedia.org/wiki/Wikipedia:5D",
         "title": "Wikipedia:General disclaimer - Wikipedia",
-        "snippet": "Wikipedia, the free encyclopedia\nWP:GENERAL\nWP:5D\nWP:GENDIS\nGeneral disclaimer\nContent disclaimer\nLegal disclaimer\nMedical disclaimer\nRisk disclaimer\nSurvey disclaimer\nWikipedia makes no guarantee of validity\nWikipedia is an online open-content collaborative encyclopedia; that is, a voluntary",
+        "snippet": "There is no agreement or understanding between you and Wikipedia regarding your use or modification of this information beyond the Creative Commons Attribution-ShareAlike 4.0 International License (CC BY-SA) and the GNU Free Documentation License (GFDL); neither is anyone at Wikipedia responsible",
         "matchedWords": {
           "EmcuebAenKcB": {
             "hits": 20,
@@ -481,7 +481,7 @@
         "hash": "euIZqjRvmBbx",
         "address": "https://en.wikipedia.org/wiki/Jimmy_Wales",
         "title": "Jimmy Wales - Wikipedia",
-        "snippet": "Wikipedia\nTitle\nPresident of Fandom (2004–present)\nChairman of the Wikimedia Foundation (2003–2006)\nChair emeritus of the Wikimedia Foundation (2006–present)\nSpouses\nPamela Green\n​\n​\n(m. 1986; div. 1993)\n​\nChristine Rohan\n​\n​\n(m. 1997; div. 2011)\n​\nKate Garvey\n​\n(m. 2012)\n​\nChildren\n3\nRecorded",
+        "snippet": "30] Despite this the wiki project, dubbed \"Wikipedia\", went live at a separate domain five days after its creation.[20][25]\nWikipedia\nExternal videos\nJimmy Wales: The birth of Wikipedia, TED, 2005[31]\nQ\u0026A interview with Jimmy Wales, C-SPAN, 2005[13]",
         "matchedWords": {
           "EmcuebAenKcB": {
             "hits": 167,
@@ -535,7 +535,7 @@
         "hash": "G3_H_jRvmBbx",
         "address": "https://en.wikipedia.org/wiki/Wikipedia:DICK",
         "title": "Wikipedia:Don't be a dick - Wikipedia",
-        "snippet": "Wikipedia:Please be a giant dick, so we can ban you.\nThis page is currently inactive and is retained for historical reference.\nPlease avoid using this title in discussions, per meta:Talk:Don't be a jerk.\nmeta:Don't be a jerk\nThis page is a soft redirect.",
+        "snippet": "\"WP:DICK\" redirects here; not to be confused with Wikipedia:Please be a giant dick, so we can ban you.\nThis page is currently inactive and is retained for historical reference.\nPlease avoid using this title in discussions, per meta:Talk:Don't be a jerk.\nmeta:Don't be a jerk",
         "matchedWords": {
           "EmcuebAenKcB": {
             "hits": 1,
@@ -561,7 +561,7 @@
         "hash": "XsJrXjRvmBbx",
         "address": "https://en.wikipedia.org/wiki/Wikipedia:Wikipedia_for_Schools",
         "title": "Wikipedia:Wikipedia for Schools - Wikipedia",
-        "snippet": "Wikipedia, the free encyclopedia\nWikipedia for Schools\nWebsite type\nEducation\nAvailable in\nEnglish\nFounded\nApril 2006\nDissolved\nMay 10, 2020 (online)\nOwner\nSOS Children\nCreator\nSOS Children\nCommercial\nNo\nThis Wikipedia page needs to be updated. Please help update this Wikipedia page to reflect",
+        "snippet": "As far as is reasonable in an educational resource, Wikipedia for Schools endeavours to accommodate all of these preferences.\nThe articles used by Wikipedia for Schools were seeded from the Wikipedia:Wikipedia CD Selection project.",
         "matchedWords": {
           "EmcuebAenKcB": {
             "hits": 27,
@@ -600,7 +600,7 @@
         "hash": "-S1qcjRvmBbx",
         "address": "https://en.wikipedia.org/wiki/Wikipedia:Community_portal",
         "title": "Wikipedia:Community portal - Wikipedia",
-        "snippet": "Wikipedia, the free encyclopedia\nCommunity portal\nDashboard\nDepartments\nMaintenance Tasks\nDiscord\nIRC\nMatrix.org\nMeetups\nDirectories (Protocols\nEssays\nHow-to\nIndex\nNoticeboards\nAI\nWikiProjects)\nInteract more\nFor a listing of ongoing discussions and current requests, see the Dashboard.\nAsk questions",
+        "snippet": "Ask questions about how to use or edit Wikipedia\nFriendly help for newcomers\nAsk research questions about topics other than Wikipedia\nWork with other editors on a shared area of interest\nGet help resolving disputes\nDiscuss existing and proposed policies\nDiscuss technical issues about Wikipedia",
         "matchedWords": {
           "EmcuebAenKcB": {
             "hits": 13,
@@ -667,7 +667,7 @@
         "hash": "lHOc2jRvmBbx",
         "address": "https://en.wikipedia.org/wiki/Wikipedia:Stub",
         "title": "Wikipedia:Stub - Wikipedia",
-        "snippet": "Wikipedia articles, 32.0% are currently stubs, approximately 2,300,000 articles as of September 2026.\nThis page provides a general guide for dealing with stubs: the first section, Basic information, contains information that is recommended for most users; and the second section, Creating stub",
+        "snippet": "Category:Wikipedia essays about stubs, including: Wikipedia:Make stubs\nWikipedia:Permastub\nWikipedia:Stub Makers\nWikipedia:When to use the generic stub tag\nWikipedia:Writing better articles\nNotes\n↑ In 2004 and 2005, the community had a guideline on substubs.",
         "matchedWords": {
           "EmcuebAenKcB": {
             "hits": 27,
@@ -799,7 +799,7 @@
         "hash": "YzjYVjRvmBbx",
         "address": "https://en.wikipedia.org/wiki/Wikipedia:Five_pillars",
         "title": "Wikipedia:Five pillars - Wikipedia",
-        "snippet": "Wikipedia, the free encyclopedia\nWikipedia is an encyclopedia\nWikipedia combines many features of general and specialized encyclopedias, almanacs, and gazetteers. Wikipedia is not a soapbox, an advertising platform, a social network, a vanity press, an experiment in anarchy or democracy, an",
+        "snippet": "From Wikipedia, the free encyclopedia\nWikipedia is an encyclopedia\nWikipedia combines many features of general and specialized encyclopedias, almanacs, and gazetteers.",
         "matchedWords": {
           "EmcuebAenKcB": {
             "hits": 4,
@@ -812,7 +812,7 @@
         "hash": "4g6VajRvmBbx",
         "address": "https://en.wikipedia.org/wiki/Wikipedia:The_Wikipedia_Library/Journals",
         "title": "Wikipedia:The Wikipedia Library/Databases - Wikipedia",
-        "snippet": "Wikipedia, the free encyclopedia\nThe Wikipedia Library\nPartner databases:\nSign up for free access to high quality paywalled journals, newspaper archives, and online reference works!\nTo sign up, apply on the Library Card platform.\nIf resources of use to you aren't available, please make suggestions",
+        "snippet": "From Wikipedia, the free encyclopedia\nThe Wikipedia Library\nPartner databases:\nSign up for free access to high quality paywalled journals, newspaper archives, and online reference works!\nTo sign up, apply on the Library Card platform.",
         "matchedWords": {
           "EmcuebAenKcB": {
             "hits": 3,
@@ -838,7 +838,7 @@
         "hash": "QuHotjRvmBbx",
         "address": "https://en.wikipedia.org/wiki/Wikipedia:DeGruyter",
         "title": "Wikipedia:The Wikipedia Library - Wikipedia",
-        "snippet": "Wikipedia, the free encyclopedia\nWP:LIB\nWP:TWL\nWP:LIBRARY\nThe Wikipedia Library\nThe La Trobe Reading Room of the State Library Victoria\nThe Wikipedia Library is an online library open to active Wikipedia editors and a resource exchange. It provides access to many reliable sources and can be",
+        "snippet": "From Wikipedia, the free encyclopedia\nWP:LIB\nWP:TWL\nWP:LIBRARY\nThe Wikipedia Library\nThe La Trobe Reading Room of the State Library Victoria\nThe Wikipedia Library is an online library open to active Wikipedia editors and a resource exchange.",
         "matchedWords": {
           "EmcuebAenKcB": {
             "hits": 7,
@@ -931,7 +931,7 @@
         "hash": "cwuhGjRvmBbx",
         "address": "https://en.wikipedia.org/wiki/Wikipedia:General_disclaimer",
         "title": "Wikipedia:General disclaimer - Wikipedia",
-        "snippet": "Wikipedia, the free encyclopedia\nWP:GENERAL\nWP:5D\nWP:GENDIS\nGeneral disclaimer\nContent disclaimer\nLegal disclaimer\nMedical disclaimer\nRisk disclaimer\nSurvey disclaimer\nWikipedia makes no guarantee of validity\nWikipedia is an online open-content collaborative encyclopedia; that is, a voluntary",
+        "snippet": "There is no agreement or understanding between you and Wikipedia regarding your use or modification of this information beyond the Creative Commons Attribution-ShareAlike 4.0 International License (CC BY-SA) and the GNU Free Documentation License (GFDL); neither is anyone at Wikipedia responsible",
         "matchedWords": {
           "EmcuebAenKcB": {
             "hits": 20,
@@ -957,7 +957,7 @@
         "hash": "Fct7Cj-JVcyx",
         "address": "https://en.wikiquote.org/wiki/Wikipedia",
         "title": "Wikipedia - Wikiquote",
-        "snippet": "Wikipedia, the free encyclopedia that anyone can edit.\nImagine a world in which every single person on the planet is given free access to the sum of all human knowledge. That's what we're doing.\nActive editors at the English Wikipedia 2001–2023\nWikipedia is a free content, multilingual online",
+        "snippet": "A view of the Wikipedia App, the official app of Wikipedia. Any user can install Wikipedia, and you can install, before this, the Wikipedia App to download Wikipedia free and for this, a user need to go to or to https://github.com/wikimedia/apps-win8-wikipedia",
         "matchedWords": {
           "EmcuebAenKcB": {
             "hits": 538,
@@ -983,7 +983,7 @@
         "hash": "euIZqjRvmBbx",
         "address": "https://en.wikipedia.org/wiki/Jimmy_Wales",
         "title": "Jimmy Wales - Wikipedia",
-        "snippet": "Wikipedia\nTitle\nPresident of Fandom (2004–present)\nChairman of the Wikimedia Foundation (2003–2006)\nChair emeritus of the Wikimedia Foundation (2006–present)\nSpouses\nPamela Green\n​\n​\n(m. 1986; div. 1993)\n​\nChristine Rohan\n​\n​\n(m. 1997; div. 2011)\n​\nKate Garvey\n​\n(m. 2012)\n​\nChildren\n3\nRecorded",
+        "snippet": "30] Despite this the wiki project, dubbed \"Wikipedia\", went live at a separate domain five days after its creation.[20][25]\nWikipedia\nExternal videos\nJimmy Wales: The birth of Wikipedia, TED, 2005[31]\nQ\u0026A interview with Jimmy Wales, C-SPAN, 2005[13]",
         "matchedWords": {
           "EmcuebAenKcB": {
             "hits": 167,
@@ -996,7 +996,7 @@
         "hash": "eV8_WladqZ_x",
         "address": "https://www.wikipedia.org/",
         "title": "Wikipedia",
-        "snippet": "Wikipedia still can't be sold.\nAn important update for readers in the United States.\nYou deserve an explanation, so please don't skip this 1-minute read. This year, Wikipedia has had fewer visitors and fewer new supporters, so your visit today means a lot. We hope that Wikipedia's given you at",
+        "snippet": "We hope that Wikipedia's given you at least $2.75 of knowledge recently. If everyone who found Wikipedia useful gave $2.75, we'd hit our goal in a few hours.\nAfter 25 years, Wikipedia is still the internet we were promised—created by people, not by machines.",
         "matchedWords": {
           "EmcuebAenKcB": {
             "hits": 7,
@@ -1009,7 +1009,7 @@
         "hash": "KJMQsjRvmBbx",
         "address": "https://en.wikipedia.org/wiki/Wikipedia:Purpose",
         "title": "Wikipedia:Purpose - Wikipedia",
-        "snippet": "Wikipedia, the free encyclopedia\nWikipedia has a lofty goal: \"a world in which every single person on the planet is given free access to the sum of all human knowledge.\"[1]\nWikipedia's purpose is to benefit readers by acting as a widely accessible and free encyclopedia; a comprehensive written",
+        "snippet": "Wikipedia's volunteer editors make reference to reliable publications that support what Wikipedia contains, so readers can verify the facts at source. For content to remain on Wikipedia, it must be written from a neutral point of view and attributed to sources that are reliable.\n”",
         "matchedWords": {
           "EmcuebAenKcB": {
             "hits": 29,
@@ -1076,7 +1076,7 @@
         "hash": "iH4v_jRvmBbx",
         "address": "https://en.wikipedia.org/wiki/Ideological_bias_on_Wikipedia",
         "title": "Ideological bias on Wikipedia - Wikipedia",
-        "snippet": "Wikipedia has been the subject of both academic analysis and public discussion.\nThe English Wikipedia has an internal policy which states that articles must be written from a neutral point of view, which has the goal of representing fairly, proportionately, and without bias, the significant points",
+        "snippet": "Criticism of Wikipedia\nGeographical bias on Wikipedia\nRacial bias on Wikipedia\nReliability of Wikipedia\nWikipedia § Coverage of topics and systemic bias\nWikipedia and the Israeli–Palestinian conflict\n↑ Joseph M. Reagle Jr. (2010). Good Faith Collaboration: The Culture of Wikipedia. MIT Press. pp.",
         "matchedWords": {
           "EmcuebAenKcB": {
             "hits": 164,
@@ -1154,7 +1154,7 @@
         "hash": "eV8_WladqZ_x",
         "address": "https://www.wikipedia.org/",
         "title": "Wikipedia",
-        "snippet": "Wikipedia still can't be sold.\nAn important update for readers in the United States.\nYou deserve an explanation, so please don't skip this 1-minute read. This year, Wikipedia has had fewer visitors and fewer new supporters, so your visit today means a lot. We hope that Wikipedia's given you at",
+        "snippet": "We hope that Wikipedia's given you at least $2.75 of knowledge recently. If everyone who found Wikipedia useful gave $2.75, we'd hit our goal in a few hours.\nAfter 25 years, Wikipedia is still the internet we were promised—created by people, not by machines.",
         "matchedWords": {
           "EmcuebAenKcB": {
             "hits": 7,
@@ -1195,7 +1195,7 @@
         "hash": "3ZEiijRvmBbx",
         "address": "https://en.wikipedia.org/wiki/Wikipedia:About",
         "title": "Wikipedia:About - Wikipedia",
-        "snippet": "Wikipedia, the free encyclopedia\nWP:ABT\nWP:ABOUT\nWP:WIKIPEDIA\n\"Imagine a world in which every single person on the planet is given free access to the sum of all human knowledge.\nThat's what we're doing.\" — Jimmy Wales\nWikipedia is a free online encyclopedia that anyone can edit, and millions",
+        "snippet": "From Wikipedia, the free encyclopedia\nWP:ABT\nWP:ABOUT\nWP:WIKIPEDIA\n\"Imagine a world in which every single person on the planet is given free access to the sum of all human knowledge.\nThat's what we're doing.\" — Jimmy Wales",
         "matchedWords": {
           "EmcuebAenKcB": {
             "hits": 18,
@@ -1340,7 +1340,7 @@
         "hash": "i6_MRjRvmBbx",
         "address": "https://en.wikipedia.org/wiki/Wikipedia:Wikipedia_is_an_encyclopedia",
         "title": "Wikipedia:Wikipedia is an encyclopedia - Wikipedia",
-        "snippet": "Wikipedia is an encyclopedia.\nAn encyclopedia is a written compendium of knowledge.\nWikipedia is freely available, and combines many features\nof general and specialized encyclopedias and other reference works.\nWikipedia is not a dumping ground for random information.\nWikipedia is not a place to",
+        "snippet": "Wikipedia is not an internet directory.\nWikipedia is not for medical advice.\nWikipedia is not for legal advice.\nWikipedia is not a bureaucracy.\nWikipedia is not a democracy.\nWikipedia is not an anarchy.\nWikipedia is not censored.\nWikipedia is not nearly this in-your-face most of the time.",
         "matchedWords": {
           "EmcuebAenKcB": {
             "hits": 17,
@@ -1444,7 +1444,7 @@
         "hash": "Fct7Cj-JVcyx",
         "address": "https://en.wikiquote.org/wiki/Wikipedia",
         "title": "Wikipedia - Wikiquote",
-        "snippet": "Wikipedia, the free encyclopedia that anyone can edit.\nImagine a world in which every single person on the planet is given free access to the sum of all human knowledge. That's what we're doing.\nActive editors at the English Wikipedia 2001–2023\nWikipedia is a free content, multilingual online",
+        "snippet": "A view of the Wikipedia App, the official app of Wikipedia. Any user can install Wikipedia, and you can install, before this, the Wikipedia App to download Wikipedia free and for this, a user need to go to or to https://github.com/wikimedia/apps-win8-wikipedia",
         "matchedWords": {
           "EmcuebAenKcB": {
             "hits": 538,
@@ -1459,7 +1459,7 @@
         "hash": "tljzSjRvmBbx",
         "address": "https://en.wikipedia.org/wiki/Wikipedia:Content_translation_tool",
         "title": "Wikipedia:Content translation tool - Wikipedia",
-        "snippet": "Wikipedia, the free encyclopedia\nContent Translation Tool Restrictions\nThis utility is currently suspended for newer editors on the English Wikipedia. This restriction does not impact translating pages from English.\nWP:CXT\nWP:CX\nThis page in a nutshell: The Content translation tool is a beta",
+        "snippet": "↑ See, for example, the May 2003 version of Wikipedia:Translations; or the December 2006 version of Wikipedia:Translation for the first appearance of the \"Worse than nothing\" language.\nThe Wikipedia Content Translation Tool celebrates 100,000 translations",
         "matchedWords": {
           "EmcuebAenKcB": {
             "hits": 19,
@@ -1591,7 +1591,7 @@
         "hash": "5rIs1jRvmBbx",
         "address": "https://en.wikipedia.org/wiki/MediaWiki:Citethispage-content",
         "title": "MediaWiki:Citethispage-content - Wikipedia",
-        "snippet": "Wikipedia, the free encyclopedia\nIMPORTANT NOTE: Most educators and professionals do not consider it appropriate to use tertiary sources such as encyclopedias as a sole source for any information—citing an encyclopedia as an important reference in footnotes or bibliographies may result in censure",
+        "snippet": "Wikipedia contributors, \"MediaWiki:Citethispage-content,\" Wikipedia, The Free Encyclopedia, https://en.wikipedia.org/w/index.php?title=MediaWiki:Citethispage-content\u0026oldid=- (accessed \u003ccitation\u003eSeptember 10, 2026\u003c/citation\u003e).\nCBE/CSE style\nWikipedia contributors.",
         "matchedWords": {
           "EmcuebAenKcB": {
             "hits": 33,
@@ -1617,7 +1617,7 @@
         "hash": "50OzPjRvmBbx",
         "address": "https://en.wikipedia.org/wiki/Wikipedia:The_Wikipedia_Library/Newsletter/April-May2014",
         "title": "Wikipedia:The Wikipedia Library/Newsletter/April-May2014 - Wikipedia",
-        "snippet": "Wikipedia, the free encyclopedia\nThe Wikipedia Library\nThe months of April and May saw some exciting developments with the Wikipedia Library. We expanded our journals and online database offerings with two new partnerships, both of which are currently open for signups. TWL also made plans to attend",
+        "snippet": "From Wikipedia, the free encyclopedia\nThe Wikipedia Library\nThe months of April and May saw some exciting developments with the Wikipedia Library. We expanded our journals and online database offerings with two new partnerships, both of which are currently open for signups.",
         "matchedWords": {
           "EmcuebAenKcB": {
             "hits": 18,
@@ -1656,7 +1656,7 @@
         "hash": "6BYhXjRvmBbx",
         "address": "https://en.wikipedia.org/wiki/Wikipedia:The_Wikipedia_Library/Newsletter/February2014",
         "title": "Wikipedia:The Wikipedia Library/Newsletter/February2014 - Wikipedia",
-        "snippet": "Wikipedia, the free encyclopedia\nBooks \u0026 Bytes\nIssue 4, February 2014\nby The Interior (talk · contribs), Ocaasi (talk · contribs)\nSign up for monthly delivery\nHello and welcome to Books \u0026 Bytes! The first two months of The Wikipedia's Library's second round of Individual Engagement Grant has been a",
+        "snippet": "OCLC Partnership kick-off: 20 university libraries attend ALA's midwinter presentation on the Wikipedia Visiting Scholar positions and the coming OCLC Full-text access script which will link Wikipedia article references to university collections.",
         "matchedWords": {
           "EmcuebAenKcB": {
             "hits": 34,
@@ -1723,7 +1723,7 @@
         "hash": "3PTlTjRvmBbx",
         "address": "https://en.wikipedia.org/wiki/Help:Introduction",
         "title": "Help:Introduction - Wikipedia",
-        "snippet": "Wikipedia, the free encyclopedia\nIntroduction to Wikipedia\nWikipedia is made by people like you.\nThis page takes you through a set of tutorials aimed at complete newcomers who wish to contribute. It covers all the basics, and each tutorial takes only a few minutes, so you can become a proficient",
+        "snippet": "Tools\nActions\nGeneral\nPrint/export\nIn other projects\nAppearance\nFrom Wikipedia, the free encyclopedia\nIntroduction to Wikipedia\nWikipedia is made by people like you.\nThis page takes you through a set of tutorials aimed at complete newcomers who wish to contribute.",
         "matchedWords": {
           "EmcuebAenKcB": {
             "hits": 3,
@@ -1868,7 +1868,7 @@
         "hash": "eV8_WladqZ_x",
         "address": "https://www.wikipedia.org/",
         "title": "Wikipedia",
-        "snippet": "Wikipedia still can't be sold.\nAn important update for readers in the United States.\nYou deserve an explanation, so please don't skip this 1-minute read. This year, Wikipedia has had fewer visitors and fewer new supporters, so your visit today means a lot. We hope that Wikipedia's given you at",
+        "snippet": "We hope that Wikipedia's given you at least $2.75 of knowledge recently. If everyone who found Wikipedia useful gave $2.75, we'd hit our goal in a few hours.\nAfter 25 years, Wikipedia is still the internet we were promised—created by people, not by machines.",
         "matchedWords": {
           "EmcuebAenKcB": {
             "hits": 7,
@@ -1894,7 +1894,7 @@
         "hash": "76K_Psd660dx",
         "address": "https://nl.wikipedia.org/wiki/Wikipedia:Algemeen_voorbehoud",
         "title": "Wikipedia:Algemeen voorbehoud - Wikipedia",
-        "snippet": "Wikipedia, de vrije encyclopedie\nEr is geen garantie aangaande de juistheid van de artikelen\nDeze internetencyclopedie wordt uiteindelijk geschreven door het publiek. Hoewel vrijwel iedereen die deelneemt ernstig probeert correcte informatie te verstrekken kan er wat dat betreft geen garantie",
+        "snippet": "Het dagelijks bestuur van de Nederlandstalige Wikipedia gaat in praktijk uit van de gemeenschap van de Nederlandstalige Wikipedia.",
         "matchedWords": {
           "EmcuebAenKcB": {
             "hits": 11,
@@ -1907,7 +1907,7 @@
         "hash": "3ZEiijRvmBbx",
         "address": "https://en.wikipedia.org/wiki/Wikipedia:About",
         "title": "Wikipedia:About - Wikipedia",
-        "snippet": "Wikipedia, the free encyclopedia\nWP:ABT\nWP:ABOUT\nWP:WIKIPEDIA\n\"Imagine a world in which every single person on the planet is given free access to the sum of all human knowledge.\nThat's what we're doing.\" — Jimmy Wales\nWikipedia is a free online encyclopedia that anyone can edit, and millions",
+        "snippet": "From Wikipedia, the free encyclopedia\nWP:ABT\nWP:ABOUT\nWP:WIKIPEDIA\n\"Imagine a world in which every single person on the planet is given free access to the sum of all human knowledge.\nThat's what we're doing.\" — Jimmy Wales",
         "matchedWords": {
           "EmcuebAenKcB": {
             "hits": 18,
@@ -1920,7 +1920,7 @@
         "hash": "S7erAdFO6r_x",
         "address": "https://de.wikipedia.org/wiki/Wikipedia:%C3%9Cber_Wikipedia",
         "title": "Wikipedia:Über Wikipedia – Wikipedia",
-        "snippet": "Wikipedia\nDas Ziel von Wikipedia ist der Aufbau einer Enzyklopädie durch freiwillige und ehrenamtliche Autorinnen und Autoren. Der Name Wikipedia setzt sich zusammen aus Wiki (entstanden aus wiki, dem hawaiischen Wort für ‚schnell‘) und encyclopedia, dem englischen Wort für ‚Enzyklopädie‘. Ein Wiki",
+        "snippet": "Die im März 2001 gegründete Wikipedia in deutscher Sprache ist eine von vielen Wikipedia-Ausgaben. Mit 3.150.248 Artikeln ist sie die drittgrößte Wikipedia. Die größte ist die englischsprachige Wikipedia (mit über 7 Mio. Artikeln mehr als doppelt so groß).",
         "matchedWords": {
           "EmcuebAenKcB": {
             "hits": 10,
@@ -1933,7 +1933,7 @@
         "hash": "Zk80-q5_AtLx",
         "address": "https://war.wikipedia.org/wiki/Syahan_nga_Pakli",
         "title": "Wikipedia",
-        "snippet": "Wikipedia!\nAmo ini an balay han/san Winaray o Binisaya nga Lineyte-Samarnon nga Wikipedia, an libre ngan gawasnon nga ensayklopedya nga bisan hin-o puyde magliwat o mag-edit. An Wikipedia syahan gintikang ha Iningles nga yinaknan han tuig 2001. Ini nga bersyon Winaray gintikang han ika-25 han",
+        "snippet": "Uswag kamo ha Waray Wikipedia!\nAmo ini an balay han/san Winaray o Binisaya nga Lineyte-Samarnon nga Wikipedia, an libre ngan gawasnon nga ensayklopedya nga bisan hin-o puyde magliwat o mag-edit. An Wikipedia syahan gintikang ha Iningles nga yinaknan han tuig 2001.",
         "matchedWords": {
           "EmcuebAenKcB": {
             "hits": 5,
@@ -1972,7 +1972,7 @@
         "hash": "OVimtcrQtIbx",
         "address": "https://sw.wikipedia.org/wiki/Mwanzo",
         "title": "Wikipedia",
-        "snippet": "Wikipedia, kamusi elezo huru\nKamusi Elezo ya Kiswahili\nKaribu kwenye Wikipedia ya Kiswahili!\nWikipedia ni mradi wa kuandika kamusi elezo kamili na sahihi ya maandishi huru.\nKila mtu anaweza kuhariri makala yoyote, kutoa makosa ya lugha, kutohoa maneno na kuendeleza na kukuza makala, kwa kuandika",
+        "snippet": "Kutoka Wikipedia, kamusi elezo huru\nKamusi Elezo ya Kiswahili\nKaribu kwenye Wikipedia ya Kiswahili!\nWikipedia ni mradi wa kuandika kamusi elezo kamili na sahihi ya maandishi huru.",
         "matchedWords": {
           "EmcuebAenKcB": {
             "hits": 11,
@@ -2264,7 +2264,7 @@
         "hash": "BE07HjRvmBbx",
         "address": "https://en.wikipedia.org/wiki/Wikipedia:SELF",
         "title": "Wikipedia:Manual of Style/Self-references to avoid - Wikipedia",
-        "snippet": "Wikipedia, the free encyclopedia\nThis page in a nutshell: Wikipedia's free content is reused in many places: do not assume that the reader is reading Wikipedia, or indeed any website. Articles may refer to themselves, but they shouldn't refer to Wikipedia in a non-neutral fashion except under",
+        "snippet": "A self-reference in an article usually mentions Wikipedia directly or tells readers to take an action on Wikipedia, such as editing the article.\nAlthough self-references within Wikipedia articles to the Wikipedia project should usually be avoided, there are exceptions.",
         "matchedWords": {
           "EmcuebAenKcB": {
             "hits": 65,
@@ -2290,7 +2290,7 @@
         "hash": "ImZ4vjRvmBbx",
         "address": "https://en.wikipedia.org/wiki/Template:Wikipedia_vandalism",
         "title": "Template:Wikipedia vandalism - Wikipedia",
-        "snippet": "Wikipedia, the free encyclopedia",
+        "snippet": "From Wikipedia, the free encyclopedia",
         "matchedWords": {
           "EmcuebAenKcB": {
             "hits": 1,
@@ -2303,7 +2303,7 @@
         "hash": "SEXKQjRvmBbx",
         "address": "https://en.wikipedia.org/wiki/Wikipedia:LINKROT",
         "title": "Wikipedia:Link rot - Wikipedia",
-        "snippet": "Wikipedia suffers from the phenomenon known as link rot, where external links become dead, as the linked web pages or complete websites disappear, change their content, or move without HTTP redirection.[a]\nLink rot is a significant danger to Wikipedia because of the reliability policy, the source",
+        "snippet": "If that is the case, consider consulting with Wikipedia editors at Wikipedia:WikiProject Resource Exchange, the Wikipedia:Village pump, or Wikipedia:Help desk. Also, consider contacting experts or other interested editors at a relevant WikiProject.",
         "matchedWords": {
           "EmcuebAenKcB": {
             "hits": 38,
@@ -2448,7 +2448,7 @@
         "hash": "DTPX7jRvmBbx",
         "address": "https://en.wikipedia.org/wiki/Wikipedia:Featured_articles",
         "title": "Wikipedia:Featured articles - Wikipedia",
-        "snippet": "Art, architecture, and archaeology\nArchaeology\nAcra (fortress) – Ai-Khanoum – Aineta aryballos – Barkhale Camp – Benty Grange hanging bowl – Benty Grange helmet – Beulé Gate – Bonn–Oberkassel dog – Cefnllys Castle – Chestnuts Long Barrow – Chetro Ketl – Coffin Stone – Coldrum Long Barrow – Combe",
+        "snippet": "Art, architecture, and archaeology\nArchaeology",
         "matchedWords": {
           "EmcuebAenKcB": {
             "hits": 0,
@@ -2461,7 +2461,7 @@
         "hash": "Fct7Cj-JVcyx",
         "address": "https://en.wikiquote.org/wiki/Wikipedia",
         "title": "Wikipedia - Wikiquote",
-        "snippet": "Wikipedia, the free encyclopedia that anyone can edit.\nImagine a world in which every single person on the planet is given free access to the sum of all human knowledge. That's what we're doing.\nActive editors at the English Wikipedia 2001–2023\nWikipedia is a free content, multilingual online",
+        "snippet": "A view of the Wikipedia App, the official app of Wikipedia. Any user can install Wikipedia, and you can install, before this, the Wikipedia App to download Wikipedia free and for this, a user need to go to or to https://github.com/wikimedia/apps-win8-wikipedia",
         "matchedWords": {
           "EmcuebAenKcB": {
             "hits": 538,
@@ -2541,7 +2541,7 @@
         "hash": "i6_MRjRvmBbx",
         "address": "https://en.wikipedia.org/wiki/Wikipedia:Wikipedia_is_an_encyclopedia",
         "title": "Wikipedia:Wikipedia is an encyclopedia - Wikipedia",
-        "snippet": "Wikipedia is an encyclopedia.\nAn encyclopedia is a written compendium of knowledge.\nWikipedia is freely available, and combines many features\nof general and specialized encyclopedias and other reference works.\nWikipedia is not a dumping ground for random information.\nWikipedia is not a place to",
+        "snippet": "Wikipedia is not an internet directory.\nWikipedia is not for medical advice.\nWikipedia is not for legal advice.\nWikipedia is not a bureaucracy.\nWikipedia is not a democracy.\nWikipedia is not an anarchy.\nWikipedia is not censored.\nWikipedia is not nearly this in-your-face most of the time.",
         "matchedWords": {
           "EmcuebAenKcB": {
             "hits": 17,
@@ -2779,7 +2779,7 @@
         "hash": "KAs9AjRvmBbx",
         "address": "https://en.wikipedia.org/wiki/Free_content",
         "title": "Free content - Wikipedia",
-        "snippet": "Wikipedia is amongst the most well-known databases of user-uploaded free content on the web. While the vast majority of content on Wikipedia is free content, some copyrighted material is hosted under fair use criteria.\nSoftware\nOSI logo\nFree and open-source software, which is often referred to as",
+        "snippet": "30] While extensive reuse of free content from one website in another website is legal, it is usually not sensible because of the duplicate content problem. Wikipedia is amongst the most well-known databases of user-uploaded free content on the web.",
         "matchedWords": {
           "EmcuebAenKcB": {
             "hits": 2,
@@ -2831,7 +2831,7 @@
         "hash": "U8owRjRvmBbx",
         "address": "https://en.wikipedia.org/wiki/Wikipedia:Be_bold",
         "title": "Wikipedia:Be bold - Wikipedia",
-        "snippet": "Wikipedia, the free encyclopedia\nThis page in a nutshell: Jump right in! If an edit seems like an improvement, go for it!\n... and the child is right to be bold.\nWe would like everyone to be bold and help make Wikipedia a better encyclopedia. How many times have you read something and thought—Why",
+        "snippet": "From Wikipedia, the free encyclopedia\nThis page in a nutshell: Jump right in! If an edit seems like an improvement, go for it!\n... and the child is right to be bold.\nWe would like everyone to be bold and help make Wikipedia a better encyclopedia.",
         "matchedWords": {
           "EmcuebAenKcB": {
             "hits": 15,
@@ -2937,7 +2937,7 @@
         "hash": "euIZqjRvmBbx",
         "address": "https://en.wikipedia.org/wiki/Jimmy_Wales",
         "title": "Jimmy Wales - Wikipedia",
-        "snippet": "Wikipedia\nTitle\nPresident of Fandom (2004–present)\nChairman of the Wikimedia Foundation (2003–2006)\nChair emeritus of the Wikimedia Foundation (2006–present)\nSpouses\nPamela Green\n​\n​\n(m. 1986; div. 1993)\n​\nChristine Rohan\n​\n​\n(m. 1997; div. 2011)\n​\nKate Garvey\n​\n(m. 2012)\n​\nChildren\n3\nRecorded",
+        "snippet": "30] Despite this the wiki project, dubbed \"Wikipedia\", went live at a separate domain five days after its creation.[20][25]\nWikipedia\nExternal videos\nJimmy Wales: The birth of Wikipedia, TED, 2005[31]\nQ\u0026A interview with Jimmy Wales, C-SPAN, 2005[13]",
         "matchedWords": {
           "EmcuebAenKcB": {
             "hits": 167,
@@ -3043,7 +3043,7 @@
         "hash": "i6_MRjRvmBbx",
         "address": "https://en.wikipedia.org/wiki/Wikipedia:Wikipedia_is_an_encyclopedia",
         "title": "Wikipedia:Wikipedia is an encyclopedia - Wikipedia",
-        "snippet": "Wikipedia is an encyclopedia.\nAn encyclopedia is a written compendium of knowledge.\nWikipedia is freely available, and combines many features\nof general and specialized encyclopedias and other reference works.\nWikipedia is not a dumping ground for random information.\nWikipedia is not a place to",
+        "snippet": "Wikipedia is not an internet directory.\nWikipedia is not for medical advice.\nWikipedia is not for legal advice.\nWikipedia is not a bureaucracy.\nWikipedia is not a democracy.\nWikipedia is not an anarchy.\nWikipedia is not censored.\nWikipedia is not nearly this in-your-face most of the time.",
         "matchedWords": {
           "EmcuebAenKcB": {
             "hits": 17,
@@ -3134,7 +3134,7 @@
         "hash": "iH4v_jRvmBbx",
         "address": "https://en.wikipedia.org/wiki/Ideological_bias_on_Wikipedia",
         "title": "Ideological bias on Wikipedia - Wikipedia",
-        "snippet": "Wikipedia has been the subject of both academic analysis and public discussion.\nThe English Wikipedia has an internal policy which states that articles must be written from a neutral point of view, which has the goal of representing fairly, proportionately, and without bias, the significant points",
+        "snippet": "Criticism of Wikipedia\nGeographical bias on Wikipedia\nRacial bias on Wikipedia\nReliability of Wikipedia\nWikipedia § Coverage of topics and systemic bias\nWikipedia and the Israeli–Palestinian conflict\n↑ Joseph M. Reagle Jr. (2010). Good Faith Collaboration: The Culture of Wikipedia. MIT Press. pp.",
         "matchedWords": {
           "EmcuebAenKcB": {
             "hits": 164,
@@ -3147,7 +3147,7 @@
         "hash": "cwuhGjRvmBbx",
         "address": "https://en.wikipedia.org/wiki/Wikipedia:General_disclaimer",
         "title": "Wikipedia:General disclaimer - Wikipedia",
-        "snippet": "Wikipedia, the free encyclopedia\nWP:GENERAL\nWP:5D\nWP:GENDIS\nGeneral disclaimer\nContent disclaimer\nLegal disclaimer\nMedical disclaimer\nRisk disclaimer\nSurvey disclaimer\nWikipedia makes no guarantee of validity\nWikipedia is an online open-content collaborative encyclopedia; that is, a voluntary",
+        "snippet": "There is no agreement or understanding between you and Wikipedia regarding your use or modification of this information beyond the Creative Commons Attribution-ShareAlike 4.0 International License (CC BY-SA) and the GNU Free Documentation License (GFDL); neither is anyone at Wikipedia responsible",
         "matchedWords": {
           "EmcuebAenKcB": {
             "hits": 20,
@@ -3175,7 +3175,7 @@
         "hash": "KAs9AjRvmBbx",
         "address": "https://en.wikipedia.org/wiki/Free_content",
         "title": "Free content - Wikipedia",
-        "snippet": "Wikipedia is amongst the most well-known databases of user-uploaded free content on the web. While the vast majority of content on Wikipedia is free content, some copyrighted material is hosted under fair use criteria.\nSoftware\nOSI logo\nFree and open-source software, which is often referred to as",
+        "snippet": "30] While extensive reuse of free content from one website in another website is legal, it is usually not sensible because of the duplicate content problem. Wikipedia is amongst the most well-known databases of user-uploaded free content on the web.",
         "matchedWords": {
           "EmcuebAenKcB": {
             "hits": 2,
@@ -3214,7 +3214,7 @@
         "hash": "_3tB0jRvmBbx",
         "address": "https://en.wikipedia.org/wiki/Wikipedia:Wikidata",
         "title": "Wikipedia:Wikidata - Wikipedia",
-        "snippet": "Wikipedia fetches interwiki links from the Wikidata central database. Wikipedia also fetches some data from Wikidata.\nThe Wikidata logo\nWikidata is a Wikimedia project to create an open and collaborative database. It stores relational statements about an entity as well as the interwiki links",
+        "snippet": "Wikipedia:Village pump (proposals)/Archive 197#Wikidata lists (February 2023) - no consensus to change status quo\nHelp:Wikidata\nWikipedia:Mbabel – article draft generating tool for Wikipedia based on Wikidata\nWikipedia Signpost Technology report article from 4 February 2013",
         "matchedWords": {
           "EmcuebAenKcB": {
             "hits": 67,
@@ -3439,7 +3439,7 @@
         "hash": "txWTGjRvmBbx",
         "address": "https://en.wikipedia.org/wiki/Nikolay_Tuchkov",
         "title": "Nikolay Tuchkov - Wikipedia",
-        "snippet": "Wikipedia, the free encyclopedia\nNikolay Alexeyevich Tuchkov\nPortrait by George Dawe\nBorn\n16 April 1765\nDied\nOctober 30, 1812 (aged 47)\nYaroslavl\nOther name\nNikolai Alekseyevich Tuchkov\nMilitary career\nAllegiance\nImperial Russia\nBranch\nInfantry\nRank\nlieutenant general\nConflicts\nRusso-Swedish War",
+        "snippet": "From Wikipedia, the free encyclopedia\nNikolay Alexeyevich Tuchkov\nPortrait by George Dawe\nBorn\n16 April 1765\nDied\nOctober 30, 1812 (aged 47)\nYaroslavl\nOther name\nNikolai Alekseyevich Tuchkov\nMilitary career\nAllegiance\nImperial Russia\nBranch\nInfantry\nRank\nlieutenant general\nConflicts",
         "matchedWords": {
           "EmcuebAenKcB": {
             "hits": 1,
@@ -3850,7 +3850,7 @@
         "hash": "_dtkMjRvmBbx",
         "address": "https://en.wikipedia.org/wiki/Help:Your_first_article",
         "title": "Help:Your first article - Wikipedia",
-        "snippet": "Wikipedia, the free encyclopedia\nWP:YFA\nWP:FIRST\nWriting an article\nLearn how you can create a Wikipedia article.\nThis page in a nutshell: The topic of the article must be notable: it must have in-depth coverage in reliable sources that are independent of the topic.\nIf you are connected to the",
+        "snippet": "Alternatively, you can ask a question via the #help channel at Wikipedia:Discord or IRC chat at the #wikipedia-en-help connect channel.\nWiki Education offers a library of training modules for new Wikipedia editors and students.",
         "matchedWords": {
           "EmcuebAenKcB": {
             "hits": 31,
@@ -3863,7 +3863,7 @@
         "hash": "Fct7Cj-JVcyx",
         "address": "https://en.wikiquote.org/wiki/Wikipedia",
         "title": "Wikipedia - Wikiquote",
-        "snippet": "Wikipedia, the free encyclopedia that anyone can edit.\nImagine a world in which every single person on the planet is given free access to the sum of all human knowledge. That's what we're doing.\nActive editors at the English Wikipedia 2001–2023\nWikipedia is a free content, multilingual online",
+        "snippet": "A view of the Wikipedia App, the official app of Wikipedia. Any user can install Wikipedia, and you can install, before this, the Wikipedia App to download Wikipedia free and for this, a user need to go to or to https://github.com/wikimedia/apps-win8-wikipedia",
         "matchedWords": {
           "EmcuebAenKcB": {
             "hits": 538,
@@ -3967,7 +3967,7 @@
         "hash": "-S1qcjRvmBbx",
         "address": "https://en.wikipedia.org/wiki/Wikipedia:Community_portal",
         "title": "Wikipedia:Community portal - Wikipedia",
-        "snippet": "Wikipedia, the free encyclopedia\nCommunity portal\nDashboard\nDepartments\nMaintenance Tasks\nDiscord\nIRC\nMatrix.org\nMeetups\nDirectories (Protocols\nEssays\nHow-to\nIndex\nNoticeboards\nAI\nWikiProjects)\nInteract more\nFor a listing of ongoing discussions and current requests, see the Dashboard.\nAsk questions",
+        "snippet": "Ask questions about how to use or edit Wikipedia\nFriendly help for newcomers\nAsk research questions about topics other than Wikipedia\nWork with other editors on a shared area of interest\nGet help resolving disputes\nDiscuss existing and proposed policies\nDiscuss technical issues about Wikipedia",
         "matchedWords": {
           "EmcuebAenKcB": {
             "hits": 13,
@@ -4008,7 +4008,7 @@
         "hash": "gyyHMjRvmBbx",
         "address": "https://en.wikipedia.org/wiki/Wikipedia:Discussing_cruft",
         "title": "Wikipedia:Discussing cruft - Wikipedia",
-        "snippet": "Wikipedia, the free encyclopedia\nThis page in a nutshell: Many Wikipedians use cruft as a shorthand term to describe content that is inappropriate for Wikipedia.\nBecause cruft is a real problem, efforts to identify cruft should be taken in good faith.\nIn order to appropriately deal with cruft,",
+        "snippet": "Wikipedia is not a directory\nWikipedia is not an indiscriminate collection of information\nWikipedia:Notability\nWikipedia:Writing about fiction\nWikipedia:Wikipedia is not for things made up one day\nWikipedia:Reliable sources\nWikipedia:Avoid neologisms\nWikipedia:Trivia sections\nJimbo Wales on trivia",
         "matchedWords": {
           "EmcuebAenKcB": {
             "hits": 39,
@@ -4021,7 +4021,7 @@
         "hash": "gTTwOjRvmBbx",
         "address": "https://en.wikipedia.org/wiki/Wikipedia:DEPT",
         "title": "Wikipedia:Department directory - Wikipedia",
-        "snippet": "Wikipedia, the free encyclopedia\n(Redirected from Wikipedia:DEPT)\nCommunity portal\nDashboard\nDepartments\nMaintenance Tasks\nDiscord\nIRC\nMatrix.org\nMeetups\nDirectories (Protocols\nEssays\nHow-to\nIndex\nNoticeboards\nAI\nWikiProjects)\nWP:WBD\nWP:DEPT\nWP:DEPTS\nTo assist in the administration of the Wikipedia",
+        "snippet": "The top category of the category tree organizing all behind the scenes maintenance of Wikipedia is Category:Wikipedia administration.\nAbout Wikipedia\nIntroduction\nPurpose\nPrinciples\nGovernance\nWikipedians\nWhat Wikipedia is not\nContributing to Wikipedia\nDonations\nAccount settings\nAsking questions",
         "matchedWords": {
           "EmcuebAenKcB": {
             "hits": 80,
@@ -4114,7 +4114,7 @@
         "hash": "5EtvqjRvmBbx",
         "address": "https://en.wikipedia.org/wiki/Help:Starting_a_new_page",
         "title": "Help:Your first article - Wikipedia",
-        "snippet": "Wikipedia, the free encyclopedia\nWP:YFA\nWP:FIRST\nWriting an article\nLearn how you can create a Wikipedia article.\nThis page in a nutshell: The topic of the article must be notable: it must have in-depth coverage in reliable sources that are independent of the topic.\nIf you are connected to the",
+        "snippet": "Alternatively, you can ask a question via the #help channel at Wikipedia:Discord or IRC chat at the #wikipedia-en-help connect channel.\nWiki Education offers a library of training modules for new Wikipedia editors and students.",
         "matchedWords": {
           "EmcuebAenKcB": {
             "hits": 31,
@@ -4324,7 +4324,7 @@
         "hash": "Fct7Cj-JVcyx",
         "address": "https://en.wikiquote.org/wiki/Wikipedia",
         "title": "Wikipedia - Wikiquote",
-        "snippet": "Wikipedia, the free encyclopedia that anyone can edit.\nImagine a world in which every single person on the planet is given free access to the sum of all human knowledge. That's what we're doing.\nActive editors at the English Wikipedia 2001–2023\nWikipedia is a free content, multilingual online",
+        "snippet": "A view of the Wikipedia App, the official app of Wikipedia. Any user can install Wikipedia, and you can install, before this, the Wikipedia App to download Wikipedia free and for this, a user need to go to or to https://github.com/wikimedia/apps-win8-wikipedia",
         "matchedWords": {
           "EmcuebAenKcB": {
             "hits": 538,
@@ -4614,7 +4614,7 @@
         "hash": "eV8_WladqZ_x",
         "address": "https://www.wikipedia.org/",
         "title": "Wikipedia",
-        "snippet": "Wikipedia still can't be sold.\nAn important update for readers in the United States.\nYou deserve an explanation, so please don't skip this 1-minute read. This year, Wikipedia has had fewer visitors and fewer new supporters, so your visit today means a lot. We hope that Wikipedia's given you at",
+        "snippet": "We hope that Wikipedia's given you at least $2.75 of knowledge recently. If everyone who found Wikipedia useful gave $2.75, we'd hit our goal in a few hours.\nAfter 25 years, Wikipedia is still the internet we were promised—created by people, not by machines.",
         "matchedWords": {
           "EmcuebAenKcB": {
             "hits": 7,
@@ -4657,7 +4657,7 @@
         "hash": "eV8_WladqZ_x",
         "address": "https://www.wikipedia.org/",
         "title": "Wikipedia",
-        "snippet": "Wikipedia still can't be sold.\nAn important update for readers in the United States.\nYou deserve an explanation, so please don't skip this 1-minute read. This year, Wikipedia has had fewer visitors and fewer new supporters, so your visit today means a lot. We hope that Wikipedia's given you at",
+        "snippet": "We hope that Wikipedia's given you at least $2.75 of knowledge recently. If everyone who found Wikipedia useful gave $2.75, we'd hit our goal in a few hours.\nAfter 25 years, Wikipedia is still the internet we were promised—created by people, not by machines.",
         "matchedWords": {
           "EmcuebAenKcB": {
             "hits": 7,
@@ -4696,7 +4696,7 @@
         "hash": "ybCZmjRvmBbx",
         "address": "https://en.wikipedia.org/wiki/Wikipedia:Multilingual_coordination",
         "title": "Wikipedia:Multilingual coordination - Wikipedia",
-        "snippet": "Wikipedia, the free encyclopedia\nThis page is currently inactive and is retained for historical reference.\nEither the page is no longer relevant or consensus on its purpose has become unclear. To revive discussion, seek broader input via a forum such as the village pump.\nThis page is a short",
+        "snippet": "The mailing list to coordinate Wikipedia across different languages is Wikipedia-l.\nSee also the English Wikipedia's embassy, a page for non-native speakers.\nThe Wikipedia community is committed to including any and all languages for which there are Wikipedians willing to do the work.",
         "matchedWords": {
           "EmcuebAenKcB": {
             "hits": 13,
@@ -4709,7 +4709,7 @@
         "hash": "Zk80-q5_AtLx",
         "address": "https://war.wikipedia.org/wiki/Syahan_nga_Pakli",
         "title": "Wikipedia",
-        "snippet": "Wikipedia!\nAmo ini an balay han/san Winaray o Binisaya nga Lineyte-Samarnon nga Wikipedia, an libre ngan gawasnon nga ensayklopedya nga bisan hin-o puyde magliwat o mag-edit. An Wikipedia syahan gintikang ha Iningles nga yinaknan han tuig 2001. Ini nga bersyon Winaray gintikang han ika-25 han",
+        "snippet": "Uswag kamo ha Waray Wikipedia!\nAmo ini an balay han/san Winaray o Binisaya nga Lineyte-Samarnon nga Wikipedia, an libre ngan gawasnon nga ensayklopedya nga bisan hin-o puyde magliwat o mag-edit. An Wikipedia syahan gintikang ha Iningles nga yinaknan han tuig 2001.",
         "matchedWords": {
           "EmcuebAenKcB": {
             "hits": 5,
@@ -4774,7 +4774,7 @@
         "hash": "OVimtcrQtIbx",
         "address": "https://sw.wikipedia.org/wiki/Mwanzo",
         "title": "Wikipedia",
-        "snippet": "Wikipedia, kamusi elezo huru\nKamusi Elezo ya Kiswahili\nKaribu kwenye Wikipedia ya Kiswahili!\nWikipedia ni mradi wa kuandika kamusi elezo kamili na sahihi ya maandishi huru.\nKila mtu anaweza kuhariri makala yoyote, kutoa makosa ya lugha, kutohoa maneno na kuendeleza na kukuza makala, kwa kuandika",
+        "snippet": "Kutoka Wikipedia, kamusi elezo huru\nKamusi Elezo ya Kiswahili\nKaribu kwenye Wikipedia ya Kiswahili!\nWikipedia ni mradi wa kuandika kamusi elezo kamili na sahihi ya maandishi huru.",
         "matchedWords": {
           "EmcuebAenKcB": {
             "hits": 11,
@@ -4841,7 +4841,7 @@
         "hash": "iH4v_jRvmBbx",
         "address": "https://en.wikipedia.org/wiki/Ideological_bias_on_Wikipedia",
         "title": "Ideological bias on Wikipedia - Wikipedia",
-        "snippet": "Wikipedia has been the subject of both academic analysis and public discussion.\nThe English Wikipedia has an internal policy which states that articles must be written from a neutral point of view, which has the goal of representing fairly, proportionately, and without bias, the significant points",
+        "snippet": "Criticism of Wikipedia\nGeographical bias on Wikipedia\nRacial bias on Wikipedia\nReliability of Wikipedia\nWikipedia § Coverage of topics and systemic bias\nWikipedia and the Israeli–Palestinian conflict\n↑ Joseph M. Reagle Jr. (2010). Good Faith Collaboration: The Culture of Wikipedia. MIT Press. pp.",
         "matchedWords": {
           "EmcuebAenKcB": {
             "hits": 164,
@@ -4934,7 +4934,7 @@
         "hash": "3ZEiijRvmBbx",
         "address": "https://en.wikipedia.org/wiki/Wikipedia:About",
         "title": "Wikipedia:About - Wikipedia",
-        "snippet": "Wikipedia, the free encyclopedia\nWP:ABT\nWP:ABOUT\nWP:WIKIPEDIA\n\"Imagine a world in which every single person on the planet is given free access to the sum of all human knowledge.\nThat's what we're doing.\" — Jimmy Wales\nWikipedia is a free online encyclopedia that anyone can edit, and millions",
+        "snippet": "From Wikipedia, the free encyclopedia\nWP:ABT\nWP:ABOUT\nWP:WIKIPEDIA\n\"Imagine a world in which every single person on the planet is given free access to the sum of all human knowledge.\nThat's what we're doing.\" — Jimmy Wales",
         "matchedWords": {
           "EmcuebAenKcB": {
             "hits": 18,
@@ -5144,7 +5144,7 @@
         "hash": "cwuhGjRvmBbx",
         "address": "https://en.wikipedia.org/wiki/Wikipedia:General_disclaimer",
         "title": "Wikipedia:General disclaimer - Wikipedia",
-        "snippet": "Wikipedia, the free encyclopedia\nWP:GENERAL\nWP:5D\nWP:GENDIS\nGeneral disclaimer\nContent disclaimer\nLegal disclaimer\nMedical disclaimer\nRisk disclaimer\nSurvey disclaimer\nWikipedia makes no guarantee of validity\nWikipedia is an online open-content collaborative encyclopedia; that is, a voluntary",
+        "snippet": "There is no agreement or understanding between you and Wikipedia regarding your use or modification of this information beyond the Creative Commons Attribution-ShareAlike 4.0 International License (CC BY-SA) and the GNU Free Documentation License (GFDL); neither is anyone at Wikipedia responsible",
         "matchedWords": {
           "EmcuebAenKcB": {
             "hits": 20,
@@ -5185,7 +5185,7 @@
         "hash": "eMWHLjRvmBbx",
         "address": "https://en.wikipedia.org/wiki/Wikipedia:Content_disclaimer",
         "title": "Wikipedia:Content disclaimer - Wikipedia",
-        "snippet": "Wikipedia, the free encyclopedia\nGeneral disclaimer\nContent disclaimer\nLegal disclaimer\nMedical disclaimer\nRisk disclaimer\nSurvey disclaimer\nWP:DISC\nWP:DISCL\nWP:CODI\nWIKIPEDIA CONTAINS CONTENT THAT MAY BE OBJECTIONABLE\nIn its encyclopedic function, Wikipedia contains millions of articles on a vast",
+        "snippet": "Some subjects that are discussed have criminal applications in some jurisdictions. Others contain information on dangerous or otherwise risky activities (see Wikipedia:General disclaimer and Wikipedia:Risk disclaimer).\nWikipedia contains spoilers.",
         "matchedWords": {
           "EmcuebAenKcB": {
             "hits": 23,
@@ -5198,7 +5198,7 @@
         "hash": "Vp7qIjRvmBbx",
         "address": "https://en.wikipedia.org/wiki/Template:Wikipedia_content",
         "title": "Template:Wikipedia content - Wikipedia",
-        "snippet": "Wikipedia, the free encyclopedia",
+        "snippet": "From Wikipedia, the free encyclopedia",
         "matchedWords": {
           "EmcuebAenKcB": {
             "hits": 1,
@@ -5211,7 +5211,7 @@
         "hash": "XsJrXjRvmBbx",
         "address": "https://en.wikipedia.org/wiki/Wikipedia:Wikipedia_for_Schools",
         "title": "Wikipedia:Wikipedia for Schools - Wikipedia",
-        "snippet": "Wikipedia, the free encyclopedia\nWikipedia for Schools\nWebsite type\nEducation\nAvailable in\nEnglish\nFounded\nApril 2006\nDissolved\nMay 10, 2020 (online)\nOwner\nSOS Children\nCreator\nSOS Children\nCommercial\nNo\nThis Wikipedia page needs to be updated. Please help update this Wikipedia page to reflect",
+        "snippet": "As far as is reasonable in an educational resource, Wikipedia for Schools endeavours to accommodate all of these preferences.\nThe articles used by Wikipedia for Schools were seeded from the Wikipedia:Wikipedia CD Selection project.",
         "matchedWords": {
           "EmcuebAenKcB": {
             "hits": 27,
@@ -5237,7 +5237,7 @@
         "hash": "gTlJUjRvmBbx",
         "address": "https://en.wikipedia.org/wiki/Wikipedia:Legal_disclaimer",
         "title": "Wikipedia:Legal disclaimer - Wikipedia",
-        "snippet": "Wikipedia, the free encyclopedia\nGeneral disclaimer\nContent disclaimer\nLegal disclaimer\nMedical disclaimer\nRisk disclaimer\nSurvey disclaimer\nWP:LD\nWP:IANAL\nWP:DNGLA\nWP:NOLEGAL\nWIKIPEDIA DOES NOT GIVE LEGAL OPINIONS\nWikipedia contains articles on many legal topics; however, no warranty whatsoever is",
+        "snippet": "From Wikipedia, the free encyclopedia\nGeneral disclaimer\nContent disclaimer\nLegal disclaimer\nMedical disclaimer\nRisk disclaimer\nSurvey disclaimer\nWP:LD\nWP:IANAL\nWP:DNGLA\nWP:NOLEGAL\nWIKIPEDIA DOES NOT GIVE LEGAL OPINIONS",
         "matchedWords": {
           "EmcuebAenKcB": {
             "hits": 8,
@@ -5250,7 +5250,7 @@
         "hash": "zVPMbjRvmBbx",
         "address": "https://en.wikipedia.org/wiki/Wikipedia:Divisiveness",
         "title": "Wikipedia:Divisiveness - Wikipedia",
-        "snippet": "Wikipedia, the free encyclopedia\nThis page in a nutshell: If content on your user page might be seen by some as \"divisive\" it is recommended that you may choose to expand the content in question.\nThere is no express prohibition on \"divisive\" behavior on Wikipedia. Also, \"divisive\" is not really",
+        "snippet": "Please avoid the temptation to use Wikipedia for other purposes, or to treat it as something it is not.\nWikipedia:Ownership of articles\nYou agreed to allow others to modify your work. So let them.\nWikipedia:No personal attacks\nDo not make personal attacks anywhere in Wikipedia.",
         "matchedWords": {
           "EmcuebAenKcB": {
             "hits": 25,
@@ -5317,7 +5317,7 @@
         "hash": "DTPX7jRvmBbx",
         "address": "https://en.wikipedia.org/wiki/Wikipedia:Featured_articles",
         "title": "Wikipedia:Featured articles - Wikipedia",
-        "snippet": "Art, architecture, and archaeology\nArchaeology\nAcra (fortress) – Ai-Khanoum – Aineta aryballos – Barkhale Camp – Benty Grange hanging bowl – Benty Grange helmet – Beulé Gate – Bonn–Oberkassel dog – Cefnllys Castle – Chestnuts Long Barrow – Chetro Ketl – Coffin Stone – Coldrum Long Barrow – Combe",
+        "snippet": "Art, architecture, and archaeology\nArchaeology",
         "matchedWords": {
           "EmcuebAenKcB": {
             "hits": 0,

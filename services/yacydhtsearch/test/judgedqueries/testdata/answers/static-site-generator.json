@@ -1,6 +1,6 @@
 {
   "query": "static site generator",
-  "recordedAt": "2026-09-12T00:20:00Z",
+  "recordedAt": "2026-09-12T07:52:12Z",
   "itemsInTheOrderOfEachAnswer": [
     [
       {
@@ -30,7 +30,7 @@
         "hash": "aR3Mq3WRlFM5",
         "address": "https://ohdsi.r-universe.dev/PatientGenerator",
         "title": "PatientGenerator: Generator of Synthetic Patient Data for the OMOP Common Data Model",
-        "snippet": "generator backed by large language models and an interactive 'shiny' designer for editing CDM test sets.\nAuthors:Cesar Barboza [aut, cre], Ger Inberg [aut], Adam Black [aut]",
+        "snippet": "Tools to generate synthetic patient-level test datasets in the Observational Medical Outcomes Partnership (OMOP) Common Data Model (CDM). Includes a chat-driven generator backed by large language models and an interactive 'shiny' designer for editing CDM test sets.",
         "matchedWords": {
           "2sljCuxkKkKM": {
             "hits": 1,
@@ -51,7 +51,7 @@
         "hash": "PbyU4KazhOa4",
         "address": "https://contract-builder.utils.com/",
         "title": "Contract Clause Builder - Freelance Contract Generator - utils.com",
-        "snippet": "site as a widget. Adding ?embed=1 to the URL loads a compact version with just the tool itself; no header, menu, or documentation. Paste this snippet into your HTML:\nCopy snippet Adjust the height to taste.\nRelated Utils\nFeedback\nHelp us improve this page by providing feedback, and include your",
+        "snippet": "Drag to reorder them.\nExport using the Markdown button (downloads a .md file) or the PDF button (opens a print dialog). All processing is done client-side; nothing is sent to a server.\nEmbed This Util\nYou can embed this util on your own site as a widget. Adding ?",
         "matchedWords": {
           "2sljCuxkKkKM": {
             "hits": 0,
@@ -72,7 +72,7 @@
         "hash": "_GFZkkgpBPX4",
         "address": "https://robots.utils.com/",
         "title": "Robots.txt Generator - Create SEO Robot Files - utils.com",
-        "snippet": "site as a widget. Adding ?embed=1 to the URL loads a compact version with just the tool itself; no header, menu, or documentation. Paste this snippet into your HTML:\nCopy snippet Adjust the height to taste.",
+        "snippet": "User-agent: Googlebot Allow: / User-agent: * Disallow: /\nGoogle provides a robots.txt Tester tool in Google Search Console to validate and test your robots.txt file.\nYou can embed this util on your own site as a widget. Adding ?",
         "matchedWords": {
           "2sljCuxkKkKM": {
             "hits": 0,
@@ -93,7 +93,7 @@
         "hash": "X_tpr4xbskn4",
         "address": "https://barcode.utils.com/",
         "title": "Barcode Generator - utils.com",
-        "snippet": "site as a widget. Adding ?embed=1 to the URL loads a compact version with just the tool itself; no header, menu, or documentation. Paste this snippet into your HTML:\nCopy snippet Adjust the height to taste.",
+        "snippet": "Maintain adequate white space around barcodes (quiet zone)\nYou can embed this util on your own site as a widget. Adding ?embed=1 to the URL loads a compact version with just the tool itself; no header, menu, or documentation. Paste this snippet into your HTML:",
         "matchedWords": {
           "2sljCuxkKkKM": {
             "hits": 0,
@@ -114,7 +114,7 @@
         "hash": "kuM1OIL5eZi4",
         "address": "https://password-hash.utils.com/",
         "title": "Password Hash Generator - utils.com",
-        "snippet": "site as a widget. Adding ?embed=1 to the URL loads a compact version with just the tool itself; no header, menu, or documentation. Paste this snippet into your HTML:\nCopy snippet Adjust the height to taste.",
+        "snippet": "Proper password hashing includes salting and key stretching to protect against common attacks.\nYou can embed this util on your own site as a widget. Adding ?embed=1 to the URL loads a compact version with just the tool itself; no header, menu, or documentation. Paste this snippet into your HTML:",
         "matchedWords": {
           "2sljCuxkKkKM": {
             "hits": 0,
@@ -135,7 +135,7 @@
         "hash": "Y7f0rV3FRsG4",
         "address": "https://fancy-text.utils.com/",
         "title": "Fancy Text Generator - utils.com",
-        "snippet": "site as a widget. Adding ?embed=1 to the URL loads a compact version with just the tool itself; no header, menu, or documentation. Paste this snippet into your HTML:\nCopy snippet Adjust the height to taste.",
+        "snippet": "All conversion happens locally in your browser — nothing is sent to any server.\nYou can embed this util on your own site as a widget. Adding ?embed=1 to the URL loads a compact version with just the tool itself; no header, menu, or documentation. Paste this snippet into your HTML:",
         "matchedWords": {
           "2sljCuxkKkKM": {
             "hits": 0,
@@ -158,7 +158,7 @@
         "hash": "3DgxkZGR0Is4",
         "address": "https://slug-generator.utils.com/",
         "title": "Slug Generator - utils.com",
-        "snippet": "site as a widget. Adding ?embed=1 to the URL loads a compact version with just the tool itself; no header, menu, or documentation. Paste this snippet into your HTML:\nCopy snippet Adjust the height to taste.",
+        "snippet": "All processing is done locally in your browser — no data is sent to any server.\nYou can embed this util on your own site as a widget. Adding ?embed=1 to the URL loads a compact version with just the tool itself; no header, menu, or documentation. Paste this snippet into your HTML:",
         "matchedWords": {
           "2sljCuxkKkKM": {
             "hits": 0,
@@ -179,7 +179,7 @@
         "hash": "22wd2Ij2CTW4",
         "address": "https://invoice-generator.utils.com/",
         "title": "Invoice Generator - Create Professional Invoices with PDF Download - utils.com",
-        "snippet": "site as a widget. Adding ?embed=1 to the URL loads a compact version with just the tool itself; no header, menu, or documentation. Paste this snippet into your HTML:\nCopy snippet Adjust the height to taste.\nFeedback\nHelp us improve this page by providing feedback, and include your name/email if you",
+        "snippet": "Volume discounts can be added as a negative line item\nAlways show the tax amount separately for compliance\nKeep copies of sent invoices for accounting records\nYou can embed this util on your own site as a widget. Adding ?",
         "matchedWords": {
           "2sljCuxkKkKM": {
             "hits": 0,
@@ -200,7 +200,7 @@
         "hash": "wci1EfyCWXM4",
         "address": "https://name-generator.utils.com/",
         "title": "Random Name Generator - utils.com",
-        "snippet": "site as a widget. Adding ?embed=1 to the URL loads a compact version with just the tool itself; no header, menu, or documentation. Paste this snippet into your HTML:\nCopy snippet Adjust the height to taste.",
+        "snippet": "You can embed this util on your own site as a widget. Adding ?embed=1 to the URL loads a compact version with just the tool itself; no header, menu, or documentation. Paste this snippet into your HTML:\nCopy snippet Adjust the height to taste.",
         "matchedWords": {
           "2sljCuxkKkKM": {
             "hits": 0,
@@ -221,7 +221,7 @@
         "hash": "ps4tWNkxS534",
         "address": "https://powerpoint-generator.utils.com/",
         "title": "PowerPoint Generator - utils.com",
-        "snippet": "site as a widget. Adding ?embed=1 to the URL loads a compact version with just the tool itself; no header, menu, or documentation. Paste this snippet into your HTML:\nCopy snippet Adjust the height to taste.",
+        "snippet": "Private by design: all processing happens client-side. Close the tab and nothing is retained.\nYou can embed this util on your own site as a widget. Adding ?embed=1 to the URL loads a compact version with just the tool itself; no header, menu, or documentation. Paste this snippet into your HTML:",
         "matchedWords": {
           "2sljCuxkKkKM": {
             "hits": 0,
@@ -267,7 +267,7 @@
         "hash": "WGR29lBxf4j5",
         "address": "https://www.education.com/",
         "title": "Education.com | #1 Educational Site for Pre-K to 8th Grade",
-        "snippet": "Did you receive a login code from your child's teacher? Enter it here.\nFall into learning\nExplore 40,000+ teacher-created worksheets, hands-on activities, and learning games that build real skills!\nJoin for free\nOur learning library\nWith thousands of digital and printable resources, find the best",
+        "snippet": "Did you receive a login code from your child's teacher? Enter it here.\nFall into learning\nExplore 40,000+ teacher-created worksheets, hands-on activities, and learning games that build real skills!\nJoin for free\nOur learning library",
         "matchedWords": {
           "2sljCuxkKkKM": {
             "hits": 0,
@@ -290,7 +290,7 @@
         "hash": "wci1EfyCWXM4",
         "address": "https://name-generator.utils.com/",
         "title": "Random Name Generator - utils.com",
-        "snippet": "site as a widget. Adding ?embed=1 to the URL loads a compact version with just the tool itself; no header, menu, or documentation. Paste this snippet into your HTML:\nCopy snippet Adjust the height to taste.",
+        "snippet": "You can embed this util on your own site as a widget. Adding ?embed=1 to the URL loads a compact version with just the tool itself; no header, menu, or documentation. Paste this snippet into your HTML:\nCopy snippet Adjust the height to taste.",
         "matchedWords": {
           "2sljCuxkKkKM": {
             "hits": 0,
@@ -311,7 +311,7 @@
         "hash": "3DgxkZGR0Is4",
         "address": "https://slug-generator.utils.com/",
         "title": "Slug Generator - utils.com",
-        "snippet": "site as a widget. Adding ?embed=1 to the URL loads a compact version with just the tool itself; no header, menu, or documentation. Paste this snippet into your HTML:\nCopy snippet Adjust the height to taste.",
+        "snippet": "All processing is done locally in your browser — no data is sent to any server.\nYou can embed this util on your own site as a widget. Adding ?embed=1 to the URL loads a compact version with just the tool itself; no header, menu, or documentation. Paste this snippet into your HTML:",
         "matchedWords": {
           "2sljCuxkKkKM": {
             "hits": 0,
@@ -332,7 +332,7 @@
         "hash": "22wd2Ij2CTW4",
         "address": "https://invoice-generator.utils.com/",
         "title": "Invoice Generator - Create Professional Invoices with PDF Download - utils.com",
-        "snippet": "site as a widget. Adding ?embed=1 to the URL loads a compact version with just the tool itself; no header, menu, or documentation. Paste this snippet into your HTML:\nCopy snippet Adjust the height to taste.\nFeedback\nHelp us improve this page by providing feedback, and include your name/email if you",
+        "snippet": "Volume discounts can be added as a negative line item\nAlways show the tax amount separately for compliance\nKeep copies of sent invoices for accounting records\nYou can embed this util on your own site as a widget. Adding ?",
         "matchedWords": {
           "2sljCuxkKkKM": {
             "hits": 0,
@@ -353,7 +353,7 @@
         "hash": "qg3blaMjkbX4",
         "address": "https://password-generator.utils.com/",
         "title": "Secure Password Generator - utils.com",
-        "snippet": "site should not compromise others.\nPassword managers: Use a password manager to store generated passwords securely.\nTwo-factor authentication: Pair strong passwords with 2FA for additional security.\nYou can embed this util on your own site as a widget. Adding ?embed=1 to the URL loads a compact",
+        "snippet": "A breach on one site should not compromise others.\nPassword managers: Use a password manager to store generated passwords securely.\nTwo-factor authentication: Pair strong passwords with 2FA for additional security.\nYou can embed this util on your own site as a widget. Adding ?",
         "matchedWords": {
           "2sljCuxkKkKM": {
             "hits": 0,
@@ -376,7 +376,7 @@
         "hash": "ps4tWNkxS534",
         "address": "https://powerpoint-generator.utils.com/",
         "title": "PowerPoint Generator - utils.com",
-        "snippet": "site as a widget. Adding ?embed=1 to the URL loads a compact version with just the tool itself; no header, menu, or documentation. Paste this snippet into your HTML:\nCopy snippet Adjust the height to taste.",
+        "snippet": "Private by design: all processing happens client-side. Close the tab and nothing is retained.\nYou can embed this util on your own site as a widget. Adding ?embed=1 to the URL loads a compact version with just the tool itself; no header, menu, or documentation. Paste this snippet into your HTML:",
         "matchedWords": {
           "2sljCuxkKkKM": {
             "hits": 0,
@@ -399,7 +399,7 @@
         "hash": "qg3blaMjkbX4",
         "address": "https://password-generator.utils.com/",
         "title": "Secure Password Generator - utils.com",
-        "snippet": "site should not compromise others.\nPassword managers: Use a password manager to store generated passwords securely.\nTwo-factor authentication: Pair strong passwords with 2FA for additional security.\nYou can embed this util on your own site as a widget. Adding ?embed=1 to the URL loads a compact",
+        "snippet": "A breach on one site should not compromise others.\nPassword managers: Use a password manager to store generated passwords securely.\nTwo-factor authentication: Pair strong passwords with 2FA for additional security.\nYou can embed this util on your own site as a widget. Adding ?",
         "matchedWords": {
           "2sljCuxkKkKM": {
             "hits": 0,
@@ -420,7 +420,7 @@
         "hash": "rtZi4U7V5mo4",
         "address": "https://alt-text.utils.com/",
         "title": "Alt Text Generator - Image Accessibility Tool - utils.com",
-        "snippet": "site as a widget. Adding ?embed=1 to the URL loads a compact version with just the tool itself; no header, menu, or documentation. Paste this snippet into your HTML:\nCopy snippet Adjust the height to taste.",
+        "snippet": "You can embed this util on your own site as a widget. Adding ?embed=1 to the URL loads a compact version with just the tool itself; no header, menu, or documentation. Paste this snippet into your HTML:\nCopy snippet Adjust the height to taste.",
         "matchedWords": {
           "2sljCuxkKkKM": {
             "hits": 0,
@@ -443,7 +443,7 @@
         "hash": "VMcRUXwA4J44",
         "address": "https://team-generator.utils.com/",
         "title": "Random Team Generator - utils.com",
-        "snippet": "site as a widget. Adding ?embed=1 to the URL loads a compact version with just the tool itself; no header, menu, or documentation. Paste this snippet into your HTML:\nCopy snippet Adjust the height to taste.",
+        "snippet": "The shuffled names are then dealt out one at a time across the teams, so every team differs in size by at most one person. All processing happens locally in your browser — no names are ever sent to a server.\nYou can embed this util on your own site as a widget. Adding ?",
         "matchedWords": {
           "2sljCuxkKkKM": {
             "hits": 0,
@@ -464,7 +464,7 @@
         "hash": "PTfRuhy01CE4",
         "address": "https://phrasebook-generator.utils.com/",
         "title": "Phrasebook Generator - utils.com",
-        "snippet": "Generator gives you a ready-to-use travel phrasebook for popular destination languages. Choose a language and the essential phrases appear instantly, grouped into practical categories.\nPick a language — tap any flag to switch. The full phrasebook rebuilds immediately; nothing is sent to a server.",
+        "snippet": "The Phrasebook Generator gives you a ready-to-use travel phrasebook for popular destination languages. Choose a language and the essential phrases appear instantly, grouped into practical categories.\nPick a language — tap any flag to switch.",
         "matchedWords": {
           "2sljCuxkKkKM": {
             "hits": 1,
@@ -485,7 +485,7 @@
         "hash": "qg3blaMjkbX4",
         "address": "https://password-generator.utils.com/",
         "title": "Secure Password Generator - utils.com",
-        "snippet": "site should not compromise others.\nPassword managers: Use a password manager to store generated passwords securely.\nTwo-factor authentication: Pair strong passwords with 2FA for additional security.\nYou can embed this util on your own site as a widget. Adding ?embed=1 to the URL loads a compact",
+        "snippet": "A breach on one site should not compromise others.\nPassword managers: Use a password manager to store generated passwords securely.\nTwo-factor authentication: Pair strong passwords with 2FA for additional security.\nYou can embed this util on your own site as a widget. Adding ?",
         "matchedWords": {
           "2sljCuxkKkKM": {
             "hits": 0,
@@ -506,7 +506,7 @@
         "hash": "GuV9GN1uwFW4",
         "address": "https://pdf-numbers.utils.com/",
         "title": "PDF Page Numbers - Add Page Numbers to PDF Online - utils.com",
-        "snippet": "site as a widget. Adding ?embed=1 to the URL loads a compact version with just the tool itself; no header, menu, or documentation. Paste this snippet into your HTML:\nCopy snippet Adjust the height to taste.\nRelated Utils\nFeedback\nHelp us improve this page by providing feedback, and include your",
+        "snippet": "All processing happens locally in your browser using pdf-lib and PDF.js\nYour PDF files are never uploaded to any server\nNo data is stored or transmitted\nWorks completely offline once the page is loaded\nEmbed This Util\nYou can embed this util on your own site as a widget. Adding ?",
         "matchedWords": {
           "2sljCuxkKkKM": {
             "hits": 0,
@@ -529,7 +529,7 @@
         "hash": "wci1EfyCWXM4",
         "address": "https://name-generator.utils.com/",
         "title": "Random Name Generator - utils.com",
-        "snippet": "site as a widget. Adding ?embed=1 to the URL loads a compact version with just the tool itself; no header, menu, or documentation. Paste this snippet into your HTML:\nCopy snippet Adjust the height to taste.",
+        "snippet": "You can embed this util on your own site as a widget. Adding ?embed=1 to the URL loads a compact version with just the tool itself; no header, menu, or documentation. Paste this snippet into your HTML:\nCopy snippet Adjust the height to taste.",
         "matchedWords": {
           "2sljCuxkKkKM": {
             "hits": 0,
@@ -552,7 +552,7 @@
         "hash": "22wd2Ij2CTW4",
         "address": "https://invoice-generator.utils.com/",
         "title": "Invoice Generator - Create Professional Invoices with PDF Download - utils.com",
-        "snippet": "site as a widget. Adding ?embed=1 to the URL loads a compact version with just the tool itself; no header, menu, or documentation. Paste this snippet into your HTML:\nCopy snippet Adjust the height to taste.\nFeedback\nHelp us improve this page by providing feedback, and include your name/email if you",
+        "snippet": "Volume discounts can be added as a negative line item\nAlways show the tax amount separately for compliance\nKeep copies of sent invoices for accounting records\nYou can embed this util on your own site as a widget. Adding ?",
         "matchedWords": {
           "2sljCuxkKkKM": {
             "hits": 0,
@@ -573,7 +573,7 @@
         "hash": "0GdGZGQYte34",
         "address": "https://html-entities.utils.com/",
         "title": "HTML Entity Encoder/Decoder - utils.com",
-        "snippet": "(Cross-Site Scripting) attacks. At minimum, encode \u003c \u003e \u0026 \" and '.\nYou can embed this util on your own site as a widget. Adding ?embed=1 to the URL loads a compact version with just the tool itself; no header, menu, or documentation. Paste this snippet into your HTML:\nCopy snippet Adjust the height",
+        "snippet": "They begin with an ampersand (\u0026) and end with a semicolon (;).\nSecurity Note: Always encode user-generated content before displaying in HTML to prevent XSS (Cross-Site Scripting) attacks. At minimum, encode \u003c \u003e \u0026 \" and '.\nYou can embed this util on your own site as a widget. Adding ?",
         "matchedWords": {
           "2sljCuxkKkKM": {
             "hits": 0,
@@ -594,7 +594,7 @@
         "hash": "2wOFhqf8vxa4",
         "address": "https://escape.utils.com/",
         "title": "Escape/Unescape Strings - utils.com",
-        "snippet": "site as a widget. Adding ?embed=1 to the URL loads a compact version with just the tool itself; no header, menu, or documentation. Paste this snippet into your HTML:\nCopy snippet Adjust the height to taste.",
+        "snippet": "Different programming languages use different escape conventions.\nSecurity Note: Always properly escape user input before including it in code, SQL queries, or HTML to prevent injection attacks.\nYou can embed this util on your own site as a widget. Adding ?",
         "matchedWords": {
           "2sljCuxkKkKM": {
             "hits": 0,
@@ -615,7 +615,7 @@
         "hash": "2RDCjmm7hv04",
         "address": "https://weight.utils.com/",
         "title": "Weight Converter - utils.com",
-        "snippet": "site as a widget. Adding ?embed=1 to the URL loads a compact version with just the tool itself; no header, menu, or documentation. Paste this snippet into your HTML:\nCopy snippet Adjust the height to taste.",
+        "snippet": "The imperial system uses pounds and ounces as common units. A pound is divided into 16 ounces, and larger measurements use stones (14 pounds) or tons (2,000 pounds in the US).\nYou can embed this util on your own site as a widget. Adding ?",
         "matchedWords": {
           "2sljCuxkKkKM": {
             "hits": 0,
@@ -636,7 +636,7 @@
         "hash": "1gvAMXZ6K9W4",
         "address": "https://angle.utils.com/",
         "title": "Angle Converter - utils.com",
-        "snippet": "site as a widget. Adding ?embed=1 to the URL loads a compact version with just the tool itself; no header, menu, or documentation. Paste this snippet into your HTML:\nCopy snippet Adjust the height to taste.",
+        "snippet": "You can embed this util on your own site as a widget. Adding ?embed=1 to the URL loads a compact version with just the tool itself; no header, menu, or documentation. Paste this snippet into your HTML:\nCopy snippet Adjust the height to taste.",
         "matchedWords": {
           "2sljCuxkKkKM": {
             "hits": 0,
@@ -657,7 +657,7 @@
         "hash": "3LRJ3v0nJFf4",
         "address": "https://schema.utils.com/",
         "title": "Schema Markup - Analyze \u0026 Generate Structured Data - utils.com",
-        "snippet": "site, use the Analyze tab above to validate your markup, or test with Google's Rich Results Test and the Schema.org Validator.\nYou can embed this util on your own site as a widget. Adding ?embed=1 to the URL loads a compact version with just the tool itself; no header, menu, or documentation. Paste",
+        "snippet": "Tip: After adding structured data to your site, use the Analyze tab above to validate your markup, or test with Google's Rich Results Test and the Schema.org Validator.\nYou can embed this util on your own site as a widget. Adding ?",
         "matchedWords": {
           "2sljCuxkKkKM": {
             "hits": 0,
@@ -724,7 +724,7 @@
         "hash": "wci1EfyCWXM4",
         "address": "https://name-generator.utils.com/",
         "title": "Random Name Generator - utils.com",
-        "snippet": "site as a widget. Adding ?embed=1 to the URL loads a compact version with just the tool itself; no header, menu, or documentation. Paste this snippet into your HTML:\nCopy snippet Adjust the height to taste.",
+        "snippet": "You can embed this util on your own site as a widget. Adding ?embed=1 to the URL loads a compact version with just the tool itself; no header, menu, or documentation. Paste this snippet into your HTML:\nCopy snippet Adjust the height to taste.",
         "matchedWords": {
           "2sljCuxkKkKM": {
             "hits": 0,
@@ -745,7 +745,7 @@
         "hash": "22wd2Ij2CTW4",
         "address": "https://invoice-generator.utils.com/",
         "title": "Invoice Generator - Create Professional Invoices with PDF Download - utils.com",
-        "snippet": "site as a widget. Adding ?embed=1 to the URL loads a compact version with just the tool itself; no header, menu, or documentation. Paste this snippet into your HTML:\nCopy snippet Adjust the height to taste.\nFeedback\nHelp us improve this page by providing feedback, and include your name/email if you",
+        "snippet": "Volume discounts can be added as a negative line item\nAlways show the tax amount separately for compliance\nKeep copies of sent invoices for accounting records\nYou can embed this util on your own site as a widget. Adding ?",
         "matchedWords": {
           "2sljCuxkKkKM": {
             "hits": 0,
@@ -766,7 +766,7 @@
         "hash": "NTKSIW8dlWJ4",
         "address": "https://ics-generator.utils.com/",
         "title": "ICS File Generator - utils.com",
-        "snippet": "Generator builds iCalendar files that follow RFC 5545, the open standard supported by every major calendar application.\nFill in the event details: title, date, time, location, and an optional description.\nChoose a recurrence rule (none, daily, weekly, monthly, or yearly) and set an end condition.",
+        "snippet": "How It Works\nThe ICS File Generator builds iCalendar files that follow RFC 5545, the open standard supported by every major calendar application.\nFill in the event details: title, date, time, location, and an optional description.",
         "matchedWords": {
           "2sljCuxkKkKM": {
             "hits": 1,
@@ -787,7 +787,7 @@
         "hash": "VMcRUXwA4J44",
         "address": "https://team-generator.utils.com/",
         "title": "Random Team Generator - utils.com",
-        "snippet": "site as a widget. Adding ?embed=1 to the URL loads a compact version with just the tool itself; no header, menu, or documentation. Paste this snippet into your HTML:\nCopy snippet Adjust the height to taste.",
+        "snippet": "The shuffled names are then dealt out one at a time across the teams, so every team differs in size by at most one person. All processing happens locally in your browser — no names are ever sent to a server.\nYou can embed this util on your own site as a widget. Adding ?",
         "matchedWords": {
           "2sljCuxkKkKM": {
             "hits": 0,
@@ -810,7 +810,7 @@
         "hash": "3DgxkZGR0Is4",
         "address": "https://slug-generator.utils.com/",
         "title": "Slug Generator - utils.com",
-        "snippet": "site as a widget. Adding ?embed=1 to the URL loads a compact version with just the tool itself; no header, menu, or documentation. Paste this snippet into your HTML:\nCopy snippet Adjust the height to taste.",
+        "snippet": "All processing is done locally in your browser — no data is sent to any server.\nYou can embed this util on your own site as a widget. Adding ?embed=1 to the URL loads a compact version with just the tool itself; no header, menu, or documentation. Paste this snippet into your HTML:",
         "matchedWords": {
           "2sljCuxkKkKM": {
             "hits": 0,
@@ -831,7 +831,7 @@
         "hash": "wci1EfyCWXM4",
         "address": "https://name-generator.utils.com/",
         "title": "Random Name Generator - utils.com",
-        "snippet": "site as a widget. Adding ?embed=1 to the URL loads a compact version with just the tool itself; no header, menu, or documentation. Paste this snippet into your HTML:\nCopy snippet Adjust the height to taste.",
+        "snippet": "You can embed this util on your own site as a widget. Adding ?embed=1 to the URL loads a compact version with just the tool itself; no header, menu, or documentation. Paste this snippet into your HTML:\nCopy snippet Adjust the height to taste.",
         "matchedWords": {
           "2sljCuxkKkKM": {
             "hits": 0,
@@ -852,7 +852,7 @@
         "hash": "qg3blaMjkbX4",
         "address": "https://password-generator.utils.com/",
         "title": "Secure Password Generator - utils.com",
-        "snippet": "site should not compromise others.\nPassword managers: Use a password manager to store generated passwords securely.\nTwo-factor authentication: Pair strong passwords with 2FA for additional security.\nYou can embed this util on your own site as a widget. Adding ?embed=1 to the URL loads a compact",
+        "snippet": "A breach on one site should not compromise others.\nPassword managers: Use a password manager to store generated passwords securely.\nTwo-factor authentication: Pair strong passwords with 2FA for additional security.\nYou can embed this util on your own site as a widget. Adding ?",
         "matchedWords": {
           "2sljCuxkKkKM": {
             "hits": 0,
@@ -873,7 +873,7 @@
         "hash": "NTKSIW8dlWJ4",
         "address": "https://ics-generator.utils.com/",
         "title": "ICS File Generator - utils.com",
-        "snippet": "Generator builds iCalendar files that follow RFC 5545, the open standard supported by every major calendar application.\nFill in the event details: title, date, time, location, and an optional description.\nChoose a recurrence rule (none, daily, weekly, monthly, or yearly) and set an end condition.",
+        "snippet": "How It Works\nThe ICS File Generator builds iCalendar files that follow RFC 5545, the open standard supported by every major calendar application.\nFill in the event details: title, date, time, location, and an optional description.",
         "matchedWords": {
           "2sljCuxkKkKM": {
             "hits": 1,
@@ -896,7 +896,7 @@
         "hash": "_bVAd0omXJt4",
         "address": "https://ripemd160.utils.com/",
         "title": "RIPEMD-160 Hasher - utils.com",
-        "snippet": "site as a widget. Adding ?embed=1 to the URL loads a compact version with just the tool itself; no header, menu, or documentation. Paste this snippet into your HTML:\nCopy snippet Adjust the height to taste.",
+        "snippet": "RIPEMD-160 is famously used in Bitcoin for generating addresses (combined with SHA-256) and in PGP/GPG for key fingerprints. It remains secure against known cryptographic attacks.\nYou can embed this util on your own site as a widget. Adding ?",
         "matchedWords": {
           "2sljCuxkKkKM": {
             "hits": 0,
@@ -919,7 +919,7 @@
         "hash": "Fc0AMlVE8Pt4",
         "address": "https://token-generator.utils.com/",
         "title": "Random Token Generator - utils.com",
-        "snippet": "Generator). Everything runs entirely in your browser - no token data is ever sent to a server.\nWhile passwords, keys, and tokens are all secrets, they serve different purposes. Passwords are memorized by humans and typed for authentication. Encryption keys are fixed-size values used by",
+        "snippet": "This tool generates cryptographically secure random tokens using the Web Crypto API (crypto.getRandomValues()). The generated bytes come from your operating system's CSPRNG (Cryptographically Secure Pseudo-Random Number Generator).",
         "matchedWords": {
           "2sljCuxkKkKM": {
             "hits": 1,
@@ -940,7 +940,7 @@
         "hash": "wci1EfyCWXM4",
         "address": "https://name-generator.utils.com/",
         "title": "Random Name Generator - utils.com",
-        "snippet": "site as a widget. Adding ?embed=1 to the URL loads a compact version with just the tool itself; no header, menu, or documentation. Paste this snippet into your HTML:\nCopy snippet Adjust the height to taste.",
+        "snippet": "You can embed this util on your own site as a widget. Adding ?embed=1 to the URL loads a compact version with just the tool itself; no header, menu, or documentation. Paste this snippet into your HTML:\nCopy snippet Adjust the height to taste.",
         "matchedWords": {
           "2sljCuxkKkKM": {
             "hits": 0,
@@ -961,7 +961,7 @@
         "hash": "iNzCnU5yy4Rk",
         "address": "https://visme.co/blog/digital-magazine/",
         "title": "How to Create Your Own Digital Magazine",
-        "snippet": "static PDF or as engaging as an exciting interactive experience.\nDigital magazines are not like social media ads or landing pages for a brand. They’re not a selling asset, like a brochure. The purpose of a digital magazine is to communicate, inform or entertain.\nPlus, content types that aren’t",
+        "snippet": "When you create an interactive digital magazine, share it as a live link for free access or use it as a lead magnet, thus adding value to your content marketing strategy exponentially.\nInteractive or Static PDFs\nPDF magazines are either static or interactive.",
         "matchedWords": {
           "2sljCuxkKkKM": {
             "hits": 1,
@@ -982,7 +982,7 @@
         "hash": "FObfyIti3uS4",
         "address": "https://rand.utils.com/",
         "title": "Random Number Generator - utils.com",
-        "snippet": "site as a widget. Adding ?embed=1 to the URL loads a compact version with just the tool itself; no header, menu, or documentation. Paste this snippet into your HTML:\nCopy snippet Adjust the height to taste.",
+        "snippet": "Draws unique numbers from a pool with optional bonus balls from a separate pool — matching real lottery formats like Powerball, Mega Millions, and EuroMillions.\nYou can embed this util on your own site as a widget. Adding ?",
         "matchedWords": {
           "2sljCuxkKkKM": {
             "hits": 0,
@@ -1005,7 +1005,7 @@
         "hash": "E3vPOld2TDD4",
         "address": "https://www.psd-dude.com/glitch-text-generator/",
         "title": "Glitch Text Generator | ȻꝊꝐɎ \u0026 ꝐȺꞨȾɆ",
-        "snippet": "Generator Online Free\nA word glitch generator combines text with glitch text symbols and special characters to create a distorted font.\nOur glitch text generator alows you to create glitchy text in just a few seconds. What is cool about it is that you get not only the copy and paste glitch text but",
+        "snippet": "If you need a glitch text effect as static or animated image, try MockoFun. It's also free!\nGlitch Symbols\nTo make the text even more glitchy with our garbled text generator, you can also add extra glitch symbols like: 𒈔 𒅒 𒇫 𒄆 ☣ ⁴⁰⁴ 𒀱 𒆙 ▓▓▓▓▓▓ ⌖⃤⃞⃟⃤ ⚠ ︎ ⃠ 𝄃𝄃𝄂𝄂𝄀𝄁𝄃𝄂𝄂𝄃\nAnimated Glitch Text Generator",
         "matchedWords": {
           "2sljCuxkKkKM": {
             "hits": 37,
@@ -1028,7 +1028,7 @@
         "hash": "wci1EfyCWXM4",
         "address": "https://name-generator.utils.com/",
         "title": "Random Name Generator - utils.com",
-        "snippet": "site as a widget. Adding ?embed=1 to the URL loads a compact version with just the tool itself; no header, menu, or documentation. Paste this snippet into your HTML:\nCopy snippet Adjust the height to taste.",
+        "snippet": "You can embed this util on your own site as a widget. Adding ?embed=1 to the URL loads a compact version with just the tool itself; no header, menu, or documentation. Paste this snippet into your HTML:\nCopy snippet Adjust the height to taste.",
         "matchedWords": {
           "2sljCuxkKkKM": {
             "hits": 0,
@@ -1049,7 +1049,7 @@
         "hash": "qg3blaMjkbX4",
         "address": "https://password-generator.utils.com/",
         "title": "Secure Password Generator - utils.com",
-        "snippet": "site should not compromise others.\nPassword managers: Use a password manager to store generated passwords securely.\nTwo-factor authentication: Pair strong passwords with 2FA for additional security.\nYou can embed this util on your own site as a widget. Adding ?embed=1 to the URL loads a compact",
+        "snippet": "A breach on one site should not compromise others.\nPassword managers: Use a password manager to store generated passwords securely.\nTwo-factor authentication: Pair strong passwords with 2FA for additional security.\nYou can embed this util on your own site as a widget. Adding ?",
         "matchedWords": {
           "2sljCuxkKkKM": {
             "hits": 0,
@@ -1070,7 +1070,7 @@
         "hash": "NTKSIW8dlWJ4",
         "address": "https://ics-generator.utils.com/",
         "title": "ICS File Generator - utils.com",
-        "snippet": "Generator builds iCalendar files that follow RFC 5545, the open standard supported by every major calendar application.\nFill in the event details: title, date, time, location, and an optional description.\nChoose a recurrence rule (none, daily, weekly, monthly, or yearly) and set an end condition.",
+        "snippet": "How It Works\nThe ICS File Generator builds iCalendar files that follow RFC 5545, the open standard supported by every major calendar application.\nFill in the event details: title, date, time, location, and an optional description.",
         "matchedWords": {
           "2sljCuxkKkKM": {
             "hits": 1,
@@ -1091,7 +1091,7 @@
         "hash": "VMcRUXwA4J44",
         "address": "https://team-generator.utils.com/",
         "title": "Random Team Generator - utils.com",
-        "snippet": "site as a widget. Adding ?embed=1 to the URL loads a compact version with just the tool itself; no header, menu, or documentation. Paste this snippet into your HTML:\nCopy snippet Adjust the height to taste.",
+        "snippet": "The shuffled names are then dealt out one at a time across the teams, so every team differs in size by at most one person. All processing happens locally in your browser — no names are ever sent to a server.\nYou can embed this util on your own site as a widget. Adding ?",
         "matchedWords": {
           "2sljCuxkKkKM": {
             "hits": 0,
@@ -1112,7 +1112,7 @@
         "hash": "PTfRuhy01CE4",
         "address": "https://phrasebook-generator.utils.com/",
         "title": "Phrasebook Generator - utils.com",
-        "snippet": "Generator gives you a ready-to-use travel phrasebook for popular destination languages. Choose a language and the essential phrases appear instantly, grouped into practical categories.\nPick a language — tap any flag to switch. The full phrasebook rebuilds immediately; nothing is sent to a server.",
+        "snippet": "The Phrasebook Generator gives you a ready-to-use travel phrasebook for popular destination languages. Choose a language and the essential phrases appear instantly, grouped into practical categories.\nPick a language — tap any flag to switch.",
         "matchedWords": {
           "2sljCuxkKkKM": {
             "hits": 1,
@@ -1135,7 +1135,7 @@
         "hash": "by8Ivl_0-Tb4",
         "address": "https://www.11ty.dev/",
         "title": "Eleventy is a simpler static site generator",
-        "snippet": "_site output folder. It might look like this:\n[11ty] Writing _site/index.html from ./index.md (liquid) [11ty] Wrote 1 file in 0.03 seconds (v3.1.6) [11ty] Watching… [11ty] Server at http://localhost:8080/\nThe --serve option also starts a local development server. Open up http://localhost:8080/ in",
+        "snippet": "Yarn is an optional alternative to npm that needs to be installed separately.\nEleventy compiles any files in the current directory matching valid file extensions (md is one of many) to the _site output folder. It might look like this:",
         "matchedWords": {
           "2sljCuxkKkKM": {
             "hits": 0,
@@ -1158,7 +1158,7 @@
         "hash": "jhXbDbLXFVYx",
         "address": "https://petrapixel.neocities.org/coding/layout-generator",
         "title": "layout generator | petrapixel",
-        "snippet": "site width, header, footer, sidebars, colors, font, font size, margins, paddings, etc\n✓ styled basic content elements (headings, blockquote, code, images, ...)\n✓ css variables for easy changes later\n✓ code comments for your comprehension\n✓ mobile responsive (+ options)\n✓ basic accessibility +",
+        "snippet": "If you like the generator, please share it on your page! You could use my button:\nExamples\nHere are some examples of layout generated with my tool: (Click to enlarge.)\nHow to use\nOn the generator page, use the provided settings to choose a layout that fits the website you want to make.",
         "matchedWords": {
           "2sljCuxkKkKM": {
             "hits": 6,
@@ -1179,7 +1179,7 @@
         "hash": "jMOthj7fawp4",
         "address": "https://study-planner.utils.com/",
         "title": "Study Planner - Spaced Repetition Schedule Generator - utils.com",
-        "snippet": "site as a widget. Adding ?embed=1 to the URL loads a compact version with just the tool itself; no header, menu, or documentation. Paste this snippet into your HTML:\nCopy snippet Adjust the height to taste.",
+        "snippet": "Switch to Light for easier subjects to free up capacity for harder ones.\nYou can embed this util on your own site as a widget. Adding ?embed=1 to the URL loads a compact version with just the tool itself; no header, menu, or documentation. Paste this snippet into your HTML:",
         "matchedWords": {
           "2sljCuxkKkKM": {
             "hits": 0,
@@ -1202,7 +1202,7 @@
         "hash": "m-OH2DS6MKD4",
         "address": "https://github.com/godotengine/godot-website",
         "title": "GitHub - godotengine/godot-website: The code for the official Godot Engine website. A static site built using Jekyll.",
-        "snippet": "static website, generated offline using Jekyll.\nTable of Contents\nContributing\nBrowser Support\nDevelopment Building Pre-requisites\nBuilding the website locally\nBuilding the website using Docker\nLocal server\nDeployment\nProject structure Content data and metadata\nContent pages and templates\nFile",
+        "snippet": "Welcome to the source code for the Godot Engine website. This is a static website, generated offline using Jekyll.\nTable of Contents\nContributing\nBrowser Support\nDevelopment Building Pre-requisites\nBuilding the website locally\nBuilding the website using Docker\nLocal server\nDeployment",
         "matchedWords": {
           "2sljCuxkKkKM": {
             "hits": 1,
@@ -1225,7 +1225,7 @@
         "hash": "vPMnw50j8oEw",
         "address": "https://git.sr.ht/~sircmpwn/openring",
         "title": "~sircmpwn/openring - A webring for static site generators - sourcehut git",
-        "snippet": "static site generator. The basic usage is:\nopenring \\ -s https://drewdevault.com/feed.xml \\ -s https://emersion.fr/blog/rss.xml \\ -s https://danluu.com/atom.xml \\ \u003c in.html \\ \u003e out.html\nThis will read the template at in.html (an example is provided, but feel free to adjust it to suit your needs),",
+        "snippet": "This is a tool for generating a webring from RSS feeds, so you can link to other blogs you like on your own blog. It's designed to be fairly simple and integrate with any static site generator. The basic usage is:",
         "matchedWords": {
           "2sljCuxkKkKM": {
             "hits": 2,
@@ -1248,7 +1248,7 @@
         "hash": "zX6v1aslIAV4",
         "address": "https://cron.utils.com/",
         "title": "Cron Expression Generator \u0026 Parser - utils.com",
-        "snippet": "site as a widget. Adding ?embed=1 to the URL loads a compact version with just the tool itself; no header, menu, or documentation. Paste this snippet into your HTML:\nCopy snippet Adjust the height to taste.\nFeedback\nHelp us improve this page by providing feedback, and include your name/email if you",
+        "snippet": "Examples\n0 9 * * 1-5 — Weekdays at 9:00 AM\n*/30 * * * * — Every 30 minutes\n0 0 1 * * — First of every month at midnight\n0 6,18 * * * — At 6 AM and 6 PM every day\n30 3 * * * — Daily at 3:30 AM\nYou can embed this util on your own site as a widget. Adding ?",
         "matchedWords": {
           "2sljCuxkKkKM": {
             "hits": 0,
@@ -1269,7 +1269,7 @@
         "hash": "pBA-MMLvf5f4",
         "address": "https://data-retention.utils.com/",
         "title": "Data Retention Policy Generator - Create Free Retention Policies - utils.com",
-        "snippet": "generator creates a data retention policy based on your selections. All processing happens in your browser — no data is sent to any server.\nWhat This Tool Does\nData categories: Select which types of data your organization collects and processes\nRetention schedules: Define how long each data",
+        "snippet": "Generate a customized data retention policy defining how long your organization keeps different types of data, the legal basis for retention, and disposal methods.\nThis generator creates a data retention policy based on your selections.",
         "matchedWords": {
           "2sljCuxkKkKM": {
             "hits": 1,
@@ -1290,7 +1290,7 @@
         "hash": "vyCjVFs3IbY4",
         "address": "https://watering-schedule.utils.com/",
         "title": "Watering Schedule Generator - Plant Watering Plan by Climate \u0026 Soil - utils.com",
-        "snippet": "site as a widget. Adding ?embed=1 to the URL loads a compact version with just the tool itself; no header, menu, or documentation. Paste this snippet into your HTML:\nCopy snippet Adjust the height to taste.\nFeedback\nHelp us improve this page by providing feedback, and include your name/email if you",
+        "snippet": "You can embed this util on your own site as a widget. Adding ?embed=1 to the URL loads a compact version with just the tool itself; no header, menu, or documentation. Paste this snippet into your HTML:\nCopy snippet Adjust the height to taste.\nFeedback",
         "matchedWords": {
           "2sljCuxkKkKM": {
             "hits": 0,
@@ -1311,7 +1311,7 @@
         "hash": "rtZi4U7V5mo4",
         "address": "https://alt-text.utils.com/",
         "title": "Alt Text Generator - Image Accessibility Tool - utils.com",
-        "snippet": "site as a widget. Adding ?embed=1 to the URL loads a compact version with just the tool itself; no header, menu, or documentation. Paste this snippet into your HTML:\nCopy snippet Adjust the height to taste.",
+        "snippet": "You can embed this util on your own site as a widget. Adding ?embed=1 to the URL loads a compact version with just the tool itself; no header, menu, or documentation. Paste this snippet into your HTML:\nCopy snippet Adjust the height to taste.",
         "matchedWords": {
           "2sljCuxkKkKM": {
             "hits": 0,
@@ -1332,7 +1332,7 @@
         "hash": "Fbg_1uRUkR54",
         "address": "https://koch-snowflake.utils.com/",
         "title": "Koch Snowflake Generator - utils.com",
-        "snippet": "site as a widget. Adding ?embed=1 to the URL loads a compact version with just the tool itself; no header, menu, or documentation. Paste this snippet into your HTML:\nCopy snippet Adjust the height to taste.\nRelated Utils\nFeedback\nHelp us improve this page by providing feedback, and include your",
+        "snippet": "Self-similarity: Every section of the snowflake boundary is a scaled copy of the whole boundary.\nHistorical significance: One of the earliest fractals described, predating the term \"fractal\" itself by decades.\nEmbed This Util\nYou can embed this util on your own site as a widget. Adding ?",
         "matchedWords": {
           "2sljCuxkKkKM": {
             "hits": 0,
@@ -1355,7 +1355,7 @@
         "hash": "vgOC8IkVtSQ4",
         "address": "https://tv-signoff.utils.com/",
         "title": "TV Sign-Off - Color Bars, Test Card \u0026 Analog Static - utils.com",
-        "snippet": "static, or the full end-of-broadcast-day sequence. Click the screen to \"turn the TV off\" (exit fullscreen).\nBefore 24-hour broadcasting, stations signed off every night, and these are the screens they left behind, drawn live on a canvas:\nColor Bars — the SMPTE-style pattern engineers used to",
+        "snippet": "Once upon a time, television ended for the night. Relive the moment: color bars with that piercing 1 kHz tone, a proper test card, a wall of analog static, or the full end-of-broadcast-day sequence. Click the screen to \"turn the TV off\" (exit fullscreen).",
         "matchedWords": {
           "2sljCuxkKkKM": {
             "hits": 0,
@@ -1378,7 +1378,7 @@
         "hash": "wci1EfyCWXM4",
         "address": "https://name-generator.utils.com/",
         "title": "Random Name Generator - utils.com",
-        "snippet": "site as a widget. Adding ?embed=1 to the URL loads a compact version with just the tool itself; no header, menu, or documentation. Paste this snippet into your HTML:\nCopy snippet Adjust the height to taste.",
+        "snippet": "You can embed this util on your own site as a widget. Adding ?embed=1 to the URL loads a compact version with just the tool itself; no header, menu, or documentation. Paste this snippet into your HTML:\nCopy snippet Adjust the height to taste.",
         "matchedWords": {
           "2sljCuxkKkKM": {
             "hits": 0,
@@ -1399,7 +1399,7 @@
         "hash": "3DgxkZGR0Is4",
         "address": "https://slug-generator.utils.com/",
         "title": "Slug Generator - utils.com",
-        "snippet": "site as a widget. Adding ?embed=1 to the URL loads a compact version with just the tool itself; no header, menu, or documentation. Paste this snippet into your HTML:\nCopy snippet Adjust the height to taste.",
+        "snippet": "All processing is done locally in your browser — no data is sent to any server.\nYou can embed this util on your own site as a widget. Adding ?embed=1 to the URL loads a compact version with just the tool itself; no header, menu, or documentation. Paste this snippet into your HTML:",
         "matchedWords": {
           "2sljCuxkKkKM": {
             "hits": 0,
@@ -1420,7 +1420,7 @@
         "hash": "VMcRUXwA4J44",
         "address": "https://team-generator.utils.com/",
         "title": "Random Team Generator - utils.com",
-        "snippet": "site as a widget. Adding ?embed=1 to the URL loads a compact version with just the tool itself; no header, menu, or documentation. Paste this snippet into your HTML:\nCopy snippet Adjust the height to taste.",
+        "snippet": "The shuffled names are then dealt out one at a time across the teams, so every team differs in size by at most one person. All processing happens locally in your browser — no names are ever sent to a server.\nYou can embed this util on your own site as a widget. Adding ?",
         "matchedWords": {
           "2sljCuxkKkKM": {
             "hits": 0,
@@ -1441,7 +1441,7 @@
         "hash": "PTfRuhy01CE4",
         "address": "https://phrasebook-generator.utils.com/",
         "title": "Phrasebook Generator - utils.com",
-        "snippet": "Generator gives you a ready-to-use travel phrasebook for popular destination languages. Choose a language and the essential phrases appear instantly, grouped into practical categories.\nPick a language — tap any flag to switch. The full phrasebook rebuilds immediately; nothing is sent to a server.",
+        "snippet": "The Phrasebook Generator gives you a ready-to-use travel phrasebook for popular destination languages. Choose a language and the essential phrases appear instantly, grouped into practical categories.\nPick a language — tap any flag to switch.",
         "matchedWords": {
           "2sljCuxkKkKM": {
             "hits": 1,
@@ -1462,7 +1462,7 @@
         "hash": "qg3blaMjkbX4",
         "address": "https://password-generator.utils.com/",
         "title": "Secure Password Generator - utils.com",
-        "snippet": "site should not compromise others.\nPassword managers: Use a password manager to store generated passwords securely.\nTwo-factor authentication: Pair strong passwords with 2FA for additional security.\nYou can embed this util on your own site as a widget. Adding ?embed=1 to the URL loads a compact",
+        "snippet": "A breach on one site should not compromise others.\nPassword managers: Use a password manager to store generated passwords securely.\nTwo-factor authentication: Pair strong passwords with 2FA for additional security.\nYou can embed this util on your own site as a widget. Adding ?",
         "matchedWords": {
           "2sljCuxkKkKM": {
             "hits": 0,
@@ -1485,7 +1485,7 @@
         "hash": "22wd2Ij2CTW4",
         "address": "https://invoice-generator.utils.com/",
         "title": "Invoice Generator - Create Professional Invoices with PDF Download - utils.com",
-        "snippet": "site as a widget. Adding ?embed=1 to the URL loads a compact version with just the tool itself; no header, menu, or documentation. Paste this snippet into your HTML:\nCopy snippet Adjust the height to taste.\nFeedback\nHelp us improve this page by providing feedback, and include your name/email if you",
+        "snippet": "Volume discounts can be added as a negative line item\nAlways show the tax amount separately for compliance\nKeep copies of sent invoices for accounting records\nYou can embed this util on your own site as a widget. Adding ?",
         "matchedWords": {
           "2sljCuxkKkKM": {
             "hits": 0,
@@ -1508,7 +1508,7 @@
         "hash": "vPMnw50j8oEw",
         "address": "https://git.sr.ht/~sircmpwn/openring",
         "title": "~sircmpwn/openring - A webring for static site generators - sourcehut git",
-        "snippet": "static site generator. The basic usage is:\nopenring \\ -s https://drewdevault.com/feed.xml \\ -s https://emersion.fr/blog/rss.xml \\ -s https://danluu.com/atom.xml \\ \u003c in.html \\ \u003e out.html\nThis will read the template at in.html (an example is provided, but feel free to adjust it to suit your needs),",
+        "snippet": "This is a tool for generating a webring from RSS feeds, so you can link to other blogs you like on your own blog. It's designed to be fairly simple and integrate with any static site generator. The basic usage is:",
         "matchedWords": {
           "2sljCuxkKkKM": {
             "hits": 2,
@@ -1531,7 +1531,7 @@
         "hash": "AexFSrIsB8s4",
         "address": "https://sitemap.utils.com/",
         "title": "XML Sitemap Generator \u0026 Analyzer - utils.com",
-        "snippet": "site more efficiently.\nBest Practices:\nInclude only canonical, indexable URLs\nMaximum 50,000 URLs per sitemap\nMaximum file size: 50MB (uncompressed)\nUse sitemap index for large sites\nUpdate lastmod only when content actually changes\nSubmit to Google Search Console and Bing Webmaster Tools\nSitemap",
+        "snippet": "always — Changes every time it is accessed\nhourly / daily / weekly — Regular updates\nmonthly / yearly — Infrequent updates\nnever — Archived or static pages\nYou can embed this util on your own site as a widget. Adding ?",
         "matchedWords": {
           "2sljCuxkKkKM": {
             "hits": 0,
@@ -1552,7 +1552,7 @@
         "hash": "Y7f0rV3FRsG4",
         "address": "https://fancy-text.utils.com/",
         "title": "Fancy Text Generator - utils.com",
-        "snippet": "site as a widget. Adding ?embed=1 to the URL loads a compact version with just the tool itself; no header, menu, or documentation. Paste this snippet into your HTML:\nCopy snippet Adjust the height to taste.",
+        "snippet": "All conversion happens locally in your browser — nothing is sent to any server.\nYou can embed this util on your own site as a widget. Adding ?embed=1 to the URL loads a compact version with just the tool itself; no header, menu, or documentation. Paste this snippet into your HTML:",
         "matchedWords": {
           "2sljCuxkKkKM": {
             "hits": 0,
@@ -1573,7 +1573,7 @@
         "hash": "D4lABzaS0qdw",
         "address": "https://planet.debian.org/",
         "title": "Planet Debian",
-        "snippet": "generator code definitely is higher-level than hand-written assembly, it is still too close to assembly for my taste.\nUse a C library via cgo so gcc or clang compiles SIMD code. Debian Code Search used to use the powturbo/TurboPFor C library via cgo for the last 7 years.\nThe C TurboPFor library has",
+        "snippet": "Generating Go assembler code with tools like Michael McLoughlin’s “Avo”. This is how crypto/internal/fips140/sha256 uses AVX2. While Avo generator code definitely is higher-level than hand-written assembly, it is still too close to assembly for my taste.",
         "matchedWords": {
           "2sljCuxkKkKM": {
             "hits": 1,
@@ -1596,7 +1596,7 @@
         "hash": "2ekr_QZchFfZ",
         "address": "http://www.greenteethmm.com/council-non-jobs.shtml",
         "title": "council-non-jobs-coalition-government-labour-public-sector-deficit",
-        "snippet": "site Watts Up With That?\nWhen Governments Play GOD: The TRUTH About GLOBAL GEOENGINEERING\nAfter a personal admission that he 'went soft' on the elitist malfeasance, misinformation and power grabbing which poses a much greater threat to civilisation than any pandemic, climate event or political coup",
+        "snippet": "Nobody knows â€“ apparently not one scientist on the planet can tell you, writes Willis Eschenbach in a short essay for the climate alarmism watchdog site Watts Up With That?\nWhen Governments Play GOD: The TRUTH About GLOBAL GEOENGINEERING",
         "matchedWords": {
           "2sljCuxkKkKM": {
             "hits": 2,
@@ -1619,7 +1619,7 @@
         "hash": "2gBdSK58I4M4",
         "address": "https://placeholder.utils.com/",
         "title": "Placeholder Image Editor - Create Custom Placeholder Images - utils.com",
-        "snippet": "Generator\nGenerate custom placeholder images with specific dimensions, colors, and text. Download as PNG, JPEG, WebP, or SVG.\nDimensions\nWidth\n×\nHeight\nSquare\nQuick Sizes\n1920 × 1080Full HD\n1280 × 720HD\n800 × 600SVGA\n640 × 480VGA\n400 × 300Small\n150 × 150Thumbnail\n1200 × 630OG Image\n1080 ×",
+        "snippet": "Placeholder Generator\nGenerate custom placeholder images with specific dimensions, colors, and text. Download as PNG, JPEG, WebP, or SVG.\nDimensions\nWidth\n×\nHeight\nSquare\nQuick Sizes\n1920 × 1080Full HD\n1280 × 720HD\n800 × 600SVGA\n640 × 480VGA\n400 × 300Small\n150 × 150Thumbnail\n1200 × 630OG Image",
         "matchedWords": {
           "2sljCuxkKkKM": {
             "hits": 1,
@@ -1640,7 +1640,7 @@
         "hash": "Eno3yUXJd_Y4",
         "address": "https://number-base.utils.com/",
         "title": "Number Base Converter - Binary, Octal, Decimal, Hex \u0026 Custom Bases - utils.com",
-        "snippet": "site as a widget. Adding ?embed=1 to the URL loads a compact version with just the tool itself; no header, menu, or documentation. Paste this snippet into your HTML:\nCopy snippet Adjust the height to taste.\nFeedback\nHelp us improve this page by providing feedback, and include your name/email if you",
+        "snippet": "1111\n17\nF\n16\n10000\n20\n10\n42\n101010\n52\n2A\n255\n11111111\n377\nFF\n256\n100000000\n400\n100\n1024\n10000000000\n2000\n400\n65535\n1111111111111111\n177777\nFFFF\nYou can embed this util on your own site as a widget. Adding ?",
         "matchedWords": {
           "2sljCuxkKkKM": {
             "hits": 0,
@@ -1663,7 +1663,7 @@
         "hash": "iNzCnU5yy4Rk",
         "address": "https://visme.co/blog/digital-magazine/",
         "title": "How to Create Your Own Digital Magazine",
-        "snippet": "static PDF or as engaging as an exciting interactive experience.\nDigital magazines are not like social media ads or landing pages for a brand. They’re not a selling asset, like a brochure. The purpose of a digital magazine is to communicate, inform or entertain.\nPlus, content types that aren’t",
+        "snippet": "When you create an interactive digital magazine, share it as a live link for free access or use it as a lead magnet, thus adding value to your content marketing strategy exponentially.\nInteractive or Static PDFs\nPDF magazines are either static or interactive.",
         "matchedWords": {
           "2sljCuxkKkKM": {
             "hits": 1,
@@ -1709,7 +1709,7 @@
         "hash": "vPMnw50j8oEw",
         "address": "https://git.sr.ht/~sircmpwn/openring",
         "title": "~sircmpwn/openring - A webring for static site generators - sourcehut git",
-        "snippet": "static site generator. The basic usage is:\nopenring \\ -s https://drewdevault.com/feed.xml \\ -s https://emersion.fr/blog/rss.xml \\ -s https://danluu.com/atom.xml \\ \u003c in.html \\ \u003e out.html\nThis will read the template at in.html (an example is provided, but feel free to adjust it to suit your needs),",
+        "snippet": "This is a tool for generating a webring from RSS feeds, so you can link to other blogs you like on your own blog. It's designed to be fairly simple and integrate with any static site generator. The basic usage is:",
         "matchedWords": {
           "2sljCuxkKkKM": {
             "hits": 2,
@@ -1753,7 +1753,7 @@
         "hash": "lezxDvA4psi4",
         "address": "https://www.theverge.com/news/718795/xai-grok-imagine-video-generator-spicy-mode",
         "title": "xAI’s new Grok image and video generator has a ‘spicy’ mode | The Verge",
-        "snippet": "generator that encourages users to make NSFW content. In contrast to rival generative AI video tools like Google’s Veo and OpenAI’s Sora, which try to block users from generating anything seedy, the Grok chatbot’s Imagine feature provides a “Spicy” generation mode that actively directs it to spit",
+        "snippet": "xAI’s new Grok Imagine tool is an AI image and video generator that encourages users to make NSFW content.",
         "matchedWords": {
           "2sljCuxkKkKM": {
             "hits": 1,
@@ -1776,7 +1776,7 @@
         "hash": "qg3blaMjkbX4",
         "address": "https://password-generator.utils.com/",
         "title": "Secure Password Generator - utils.com",
-        "snippet": "site should not compromise others.\nPassword managers: Use a password manager to store generated passwords securely.\nTwo-factor authentication: Pair strong passwords with 2FA for additional security.\nYou can embed this util on your own site as a widget. Adding ?embed=1 to the URL loads a compact",
+        "snippet": "A breach on one site should not compromise others.\nPassword managers: Use a password manager to store generated passwords securely.\nTwo-factor authentication: Pair strong passwords with 2FA for additional security.\nYou can embed this util on your own site as a widget. Adding ?",
         "matchedWords": {
           "2sljCuxkKkKM": {
             "hits": 0,
@@ -1797,7 +1797,7 @@
         "hash": "3DgxkZGR0Is4",
         "address": "https://slug-generator.utils.com/",
         "title": "Slug Generator - utils.com",
-        "snippet": "site as a widget. Adding ?embed=1 to the URL loads a compact version with just the tool itself; no header, menu, or documentation. Paste this snippet into your HTML:\nCopy snippet Adjust the height to taste.",
+        "snippet": "All processing is done locally in your browser — no data is sent to any server.\nYou can embed this util on your own site as a widget. Adding ?embed=1 to the URL loads a compact version with just the tool itself; no header, menu, or documentation. Paste this snippet into your HTML:",
         "matchedWords": {
           "2sljCuxkKkKM": {
             "hits": 0,
@@ -1820,7 +1820,7 @@
         "hash": "4iKjkFS6MKD4",
         "address": "https://github.com/cstate/cstate",
         "title": "GitHub - cstate/cstate: 🔥 Open source static (serverless) status page. Uses hyperfast Go \u0026 Hugo, minimal HTML/CSS/JS, customizable, outstanding browser support (IE8+), preloaded CMS, read-only API, badges \u0026 more. · GitHub",
-        "snippet": "site — cstate.mnts.lt\nSource code of the example cState site\nMore examples from the internet\nChocolatey\nsr.ht\nContent Ignite\nFSCI\nTesting Farm\nWant your status page here? Create a PR!\nContents 🔍\nSponsors\nExamples\nFeatures\nGetting started\nUpdating\nFAQ\nContribute\nLicense\nFeatures 😎\nNEW: HTML Embed",
+        "snippet": "If you wish to use Netlify, use the button below for easier deployment.\nAll other static site generator platforms require you to follow this instruction:\nClone the repository cstate/example - here is a link to do it on GitHub\nGo to pages.cloudflare.com and sign in",
         "matchedWords": {
           "2sljCuxkKkKM": {
             "hits": 2,
@@ -1993,7 +1993,7 @@
       "hash": "LfREZzJasZP4",
       "address": "https://chat-screenshot.utils.com/",
       "title": "Chat Screenshot Generator - utils.com",
-      "snippet": "site as a widget. Adding ?embed=1 to the URL loads a compact version with just the tool itself; no header, menu, or documentation. Paste this snippet into your HTML:\nCopy snippet Adjust the height to taste.",
+      "snippet": "For full control over framing you can also record the playback yourself with the Screen Recorder util.\nPlease use responsibly; fabricated screenshots should not be presented as real conversations.\nYou can embed this util on your own site as a widget. Adding ?",
       "matchedWords": {
         "2sljCuxkKkKM": {
           "hits": 0,
@@ -2098,7 +2098,7 @@
       "hash": "QkU46F9yt2X4",
       "address": "https://table-cards.utils.com/",
       "title": "Table Card Generator - utils.com",
-      "snippet": "site as a widget. Adding ?embed=1 to the URL loads a compact version with just the tool itself; no header, menu, or documentation. Paste this snippet into your HTML:\nCopy snippet Adjust the height to taste.\nFeedback\nHelp us improve this page by providing feedback, and include your name/email if you",
+      "snippet": "You can embed this util on your own site as a widget. Adding ?embed=1 to the URL loads a compact version with just the tool itself; no header, menu, or documentation. Paste this snippet into your HTML:\nCopy snippet Adjust the height to taste.\nFeedback",
       "matchedWords": {
         "2sljCuxkKkKM": {
           "hits": 0,
@@ -2161,7 +2161,7 @@
       "hash": "LfREZzJasZP4",
       "address": "https://chat-screenshot.utils.com/",
       "title": "Chat Screenshot Generator - utils.com",
-      "snippet": "site as a widget. Adding ?embed=1 to the URL loads a compact version with just the tool itself; no header, menu, or documentation. Paste this snippet into your HTML:\nCopy snippet Adjust the height to taste.",
+      "snippet": "For full control over framing you can also record the playback yourself with the Screen Recorder util.\nPlease use responsibly; fabricated screenshots should not be presented as real conversations.\nYou can embed this util on your own site as a widget. Adding ?",
       "matchedWords": {
         "2sljCuxkKkKM": {
           "hits": 0,
@@ -2308,7 +2308,7 @@
       "hash": "qcSF2cuStRZ4",
       "address": "https://mock-data.utils.com/",
       "title": "Mock Data Generator (JSON) - Generate Fake Test Data - utils.com",
-      "snippet": "Generator parses your JSON schema definition and produces realistic fake data entirely in your browser — no data is sent to any server.\nSchema-driven — define your data shape as a JSON object where values are type strings like \"email\", \"integer\", \"boolean\"\nNested structures — supports objects",
+      "snippet": "The Mock Data Generator parses your JSON schema definition and produces realistic fake data entirely in your browser — no data is sent to any server.\nSchema-driven — define your data shape as a JSON object where values are type strings like \"email\", \"integer\", \"boolean\"",
       "matchedWords": {
         "2sljCuxkKkKM": {
           "hits": 1,
@@ -2371,7 +2371,7 @@
       "hash": "W7SPXNzbL8U4",
       "address": "https://dragon-fractal.utils.com/",
       "title": "Dragon Curve Generator - utils.com",
-      "snippet": "site as a widget. Adding ?embed=1 to the URL loads a compact version with just the tool itself; no header, menu, or documentation. Paste this snippet into your HTML:\nCopy snippet Adjust the height to taste.",
+      "snippet": "The result is scaled and centered to fit the canvas.\nYou can embed this util on your own site as a widget. Adding ?embed=1 to the URL loads a compact version with just the tool itself; no header, menu, or documentation. Paste this snippet into your HTML:\nCopy snippet Adjust the height to taste.",
       "matchedWords": {
         "2sljCuxkKkKM": {
           "hits": 0,
@@ -2791,7 +2791,7 @@
       "hash": "qcSF2cuStRZ4",
       "address": "https://mock-data.utils.com/",
       "title": "Mock Data Generator (JSON) - Generate Fake Test Data - utils.com",
-      "snippet": "Generator parses your JSON schema definition and produces realistic fake data entirely in your browser — no data is sent to any server.\nSchema-driven — define your data shape as a JSON object where values are type strings like \"email\", \"integer\", \"boolean\"\nNested structures — supports objects",
+      "snippet": "The Mock Data Generator parses your JSON schema definition and produces realistic fake data entirely in your browser — no data is sent to any server.\nSchema-driven — define your data shape as a JSON object where values are type strings like \"email\", \"integer\", \"boolean\"",
       "matchedWords": {
         "2sljCuxkKkKM": {
           "hits": 1,
@@ -2896,7 +2896,7 @@
       "hash": "W7SPXNzbL8U4",
       "address": "https://dragon-fractal.utils.com/",
       "title": "Dragon Curve Generator - utils.com",
-      "snippet": "site as a widget. Adding ?embed=1 to the URL loads a compact version with just the tool itself; no header, menu, or documentation. Paste this snippet into your HTML:\nCopy snippet Adjust the height to taste.",
+      "snippet": "The result is scaled and centered to fit the canvas.\nYou can embed this util on your own site as a widget. Adding ?embed=1 to the URL loads a compact version with just the tool itself; no header, menu, or documentation. Paste this snippet into your HTML:\nCopy snippet Adjust the height to taste.",
       "matchedWords": {
         "2sljCuxkKkKM": {
           "hits": 0,
@@ -3211,7 +3211,7 @@
       "hash": "qcSF2cuStRZ4",
       "address": "https://mock-data.utils.com/",
       "title": "Mock Data Generator (JSON) - Generate Fake Test Data - utils.com",
-      "snippet": "Generator parses your JSON schema definition and produces realistic fake data entirely in your browser — no data is sent to any server.\nSchema-driven — define your data shape as a JSON object where values are type strings like \"email\", \"integer\", \"boolean\"\nNested structures — supports objects",
+      "snippet": "The Mock Data Generator parses your JSON schema definition and produces realistic fake data entirely in your browser — no data is sent to any server.\nSchema-driven — define your data shape as a JSON object where values are type strings like \"email\", \"integer\", \"boolean\"",
       "matchedWords": {
         "2sljCuxkKkKM": {
           "hits": 1,
@@ -3379,7 +3379,7 @@
       "hash": "LfREZzJasZP4",
       "address": "https://chat-screenshot.utils.com/",
       "title": "Chat Screenshot Generator - utils.com",
-      "snippet": "site as a widget. Adding ?embed=1 to the URL loads a compact version with just the tool itself; no header, menu, or documentation. Paste this snippet into your HTML:\nCopy snippet Adjust the height to taste.",
+      "snippet": "For full control over framing you can also record the playback yourself with the Screen Recorder util.\nPlease use responsibly; fabricated screenshots should not be presented as real conversations.\nYou can embed this util on your own site as a widget. Adding ?",
       "matchedWords": {
         "2sljCuxkKkKM": {
           "hits": 0,
@@ -3589,7 +3589,7 @@
       "hash": "W7SPXNzbL8U4",
       "address": "https://dragon-fractal.utils.com/",
       "title": "Dragon Curve Generator - utils.com",
-      "snippet": "site as a widget. Adding ?embed=1 to the URL loads a compact version with just the tool itself; no header, menu, or documentation. Paste this snippet into your HTML:\nCopy snippet Adjust the height to taste.",
+      "snippet": "The result is scaled and centered to fit the canvas.\nYou can embed this util on your own site as a widget. Adding ?embed=1 to the URL loads a compact version with just the tool itself; no header, menu, or documentation. Paste this snippet into your HTML:\nCopy snippet Adjust the height to taste.",
       "matchedWords": {
         "2sljCuxkKkKM": {
           "hits": 0,
@@ -4702,7 +4702,7 @@
       "hash": "QkU46F9yt2X4",
       "address": "https://table-cards.utils.com/",
       "title": "Table Card Generator - utils.com",
-      "snippet": "site as a widget. Adding ?embed=1 to the URL loads a compact version with just the tool itself; no header, menu, or documentation. Paste this snippet into your HTML:\nCopy snippet Adjust the height to taste.\nFeedback\nHelp us improve this page by providing feedback, and include your name/email if you",
+      "snippet": "You can embed this util on your own site as a widget. Adding ?embed=1 to the URL loads a compact version with just the tool itself; no header, menu, or documentation. Paste this snippet into your HTML:\nCopy snippet Adjust the height to taste.\nFeedback",
       "matchedWords": {
         "2sljCuxkKkKM": {
           "hits": 0,
@@ -4828,7 +4828,7 @@
       "hash": "LfREZzJasZP4",
       "address": "https://chat-screenshot.utils.com/",
       "title": "Chat Screenshot Generator - utils.com",
-      "snippet": "site as a widget. Adding ?embed=1 to the URL loads a compact version with just the tool itself; no header, menu, or documentation. Paste this snippet into your HTML:\nCopy snippet Adjust the height to taste.",
+      "snippet": "For full control over framing you can also record the playback yourself with the Screen Recorder util.\nPlease use responsibly; fabricated screenshots should not be presented as real conversations.\nYou can embed this util on your own site as a widget. Adding ?",
       "matchedWords": {
         "2sljCuxkKkKM": {
           "hits": 0,
@@ -5269,7 +5269,7 @@
       "hash": "qcSF2cuStRZ4",
       "address": "https://mock-data.utils.com/",
       "title": "Mock Data Generator (JSON) - Generate Fake Test Data - utils.com",
-      "snippet": "Generator parses your JSON schema definition and produces realistic fake data entirely in your browser — no data is sent to any server.\nSchema-driven — define your data shape as a JSON object where values are type strings like \"email\", \"integer\", \"boolean\"\nNested structures — supports objects",
+      "snippet": "The Mock Data Generator parses your JSON schema definition and produces realistic fake data entirely in your browser — no data is sent to any server.\nSchema-driven — define your data shape as a JSON object where values are type strings like \"email\", \"integer\", \"boolean\"",
       "matchedWords": {
         "2sljCuxkKkKM": {
           "hits": 1,
@@ -5395,7 +5395,7 @@
       "hash": "W7SPXNzbL8U4",
       "address": "https://dragon-fractal.utils.com/",
       "title": "Dragon Curve Generator - utils.com",
-      "snippet": "site as a widget. Adding ?embed=1 to the URL loads a compact version with just the tool itself; no header, menu, or documentation. Paste this snippet into your HTML:\nCopy snippet Adjust the height to taste.",
+      "snippet": "The result is scaled and centered to fit the canvas.\nYou can embed this util on your own site as a widget. Adding ?embed=1 to the URL loads a compact version with just the tool itself; no header, menu, or documentation. Paste this snippet into your HTML:\nCopy snippet Adjust the height to taste.",
       "matchedWords": {
         "2sljCuxkKkKM": {
           "hits": 0,
@@ -6256,7 +6256,7 @@
       "hash": "LfREZzJasZP4",
       "address": "https://chat-screenshot.utils.com/",
       "title": "Chat Screenshot Generator - utils.com",
-      "snippet": "site as a widget. Adding ?embed=1 to the URL loads a compact version with just the tool itself; no header, menu, or documentation. Paste this snippet into your HTML:\nCopy snippet Adjust the height to taste.",
+      "snippet": "For full control over framing you can also record the playback yourself with the Screen Recorder util.\nPlease use responsibly; fabricated screenshots should not be presented as real conversations.\nYou can embed this util on your own site as a widget. Adding ?",
       "matchedWords": {
         "2sljCuxkKkKM": {
           "hits": 0,
@@ -6718,7 +6718,7 @@
       "hash": "W7SPXNzbL8U4",
       "address": "https://dragon-fractal.utils.com/",
       "title": "Dragon Curve Generator - utils.com",
-      "snippet": "site as a widget. Adding ?embed=1 to the URL loads a compact version with just the tool itself; no header, menu, or documentation. Paste this snippet into your HTML:\nCopy snippet Adjust the height to taste.",
+      "snippet": "The result is scaled and centered to fit the canvas.\nYou can embed this util on your own site as a widget. Adding ?embed=1 to the URL loads a compact version with just the tool itself; no header, menu, or documentation. Paste this snippet into your HTML:\nCopy snippet Adjust the height to taste.",
       "matchedWords": {
         "2sljCuxkKkKM": {
           "hits": 0,
@@ -6823,7 +6823,7 @@
       "hash": "QkU46F9yt2X4",
       "address": "https://table-cards.utils.com/",
       "title": "Table Card Generator - utils.com",
-      "snippet": "site as a widget. Adding ?embed=1 to the URL loads a compact version with just the tool itself; no header, menu, or documentation. Paste this snippet into your HTML:\nCopy snippet Adjust the height to taste.\nFeedback\nHelp us improve this page by providing feedback, and include your name/email if you",
+      "snippet": "You can embed this util on your own site as a widget. Adding ?embed=1 to the URL loads a compact version with just the tool itself; no header, menu, or documentation. Paste this snippet into your HTML:\nCopy snippet Adjust the height to taste.\nFeedback",
       "matchedWords": {
         "2sljCuxkKkKM": {
           "hits": 0,
@@ -7201,7 +7201,7 @@
       "hash": "qcSF2cuStRZ4",
       "address": "https://mock-data.utils.com/",
       "title": "Mock Data Generator (JSON) - Generate Fake Test Data - utils.com",
-      "snippet": "Generator parses your JSON schema definition and produces realistic fake data entirely in your browser — no data is sent to any server.\nSchema-driven — define your data shape as a JSON object where values are type strings like \"email\", \"integer\", \"boolean\"\nNested structures — supports objects",
+      "snippet": "The Mock Data Generator parses your JSON schema definition and produces realistic fake data entirely in your browser — no data is sent to any server.\nSchema-driven — define your data shape as a JSON object where values are type strings like \"email\", \"integer\", \"boolean\"",
       "matchedWords": {
         "2sljCuxkKkKM": {
           "hits": 1,
@@ -7705,7 +7705,7 @@
       "hash": "qcSF2cuStRZ4",
       "address": "https://mock-data.utils.com/",
       "title": "Mock Data Generator (JSON) - Generate Fake Test Data - utils.com",
-      "snippet": "Generator parses your JSON schema definition and produces realistic fake data entirely in your browser — no data is sent to any server.\nSchema-driven — define your data shape as a JSON object where values are type strings like \"email\", \"integer\", \"boolean\"\nNested structures — supports objects",
+      "snippet": "The Mock Data Generator parses your JSON schema definition and produces realistic fake data entirely in your browser — no data is sent to any server.\nSchema-driven — define your data shape as a JSON object where values are type strings like \"email\", \"integer\", \"boolean\"",
       "matchedWords": {
         "2sljCuxkKkKM": {
           "hits": 1,
@@ -7831,7 +7831,7 @@
       "hash": "qcSF2cuStRZ4",
       "address": "https://mock-data.utils.com/",
       "title": "Mock Data Generator (JSON) - Generate Fake Test Data - utils.com",
-      "snippet": "Generator parses your JSON schema definition and produces realistic fake data entirely in your browser — no data is sent to any server.\nSchema-driven — define your data shape as a JSON object where values are type strings like \"email\", \"integer\", \"boolean\"\nNested structures — supports objects",
+      "snippet": "The Mock Data Generator parses your JSON schema definition and produces realistic fake data entirely in your browser — no data is sent to any server.\nSchema-driven — define your data shape as a JSON object where values are type strings like \"email\", \"integer\", \"boolean\"",
       "matchedWords": {
         "2sljCuxkKkKM": {
           "hits": 1,
@@ -7894,7 +7894,7 @@
       "hash": "LfREZzJasZP4",
       "address": "https://chat-screenshot.utils.com/",
       "title": "Chat Screenshot Generator - utils.com",
-      "snippet": "site as a widget. Adding ?embed=1 to the URL loads a compact version with just the tool itself; no header, menu, or documentation. Paste this snippet into your HTML:\nCopy snippet Adjust the height to taste.",
+      "snippet": "For full control over framing you can also record the playback yourself with the Screen Recorder util.\nPlease use responsibly; fabricated screenshots should not be presented as real conversations.\nYou can embed this util on your own site as a widget. Adding ?",
       "matchedWords": {
         "2sljCuxkKkKM": {
           "hits": 0,
@@ -8062,7 +8062,7 @@
       "hash": "QkU46F9yt2X4",
       "address": "https://table-cards.utils.com/",
       "title": "Table Card Generator - utils.com",
-      "snippet": "site as a widget. Adding ?embed=1 to the URL loads a compact version with just the tool itself; no header, menu, or documentation. Paste this snippet into your HTML:\nCopy snippet Adjust the height to taste.\nFeedback\nHelp us improve this page by providing feedback, and include your name/email if you",
+      "snippet": "You can embed this util on your own site as a widget. Adding ?embed=1 to the URL loads a compact version with just the tool itself; no header, menu, or documentation. Paste this snippet into your HTML:\nCopy snippet Adjust the height to taste.\nFeedback",
       "matchedWords": {
         "2sljCuxkKkKM": {
           "hits": 0,
@@ -8125,7 +8125,7 @@
       "hash": "qcSF2cuStRZ4",
       "address": "https://mock-data.utils.com/",
       "title": "Mock Data Generator (JSON) - Generate Fake Test Data - utils.com",
-      "snippet": "Generator parses your JSON schema definition and produces realistic fake data entirely in your browser — no data is sent to any server.\nSchema-driven — define your data shape as a JSON object where values are type strings like \"email\", \"integer\", \"boolean\"\nNested structures — supports objects",
+      "snippet": "The Mock Data Generator parses your JSON schema definition and produces realistic fake data entirely in your browser — no data is sent to any server.\nSchema-driven — define your data shape as a JSON object where values are type strings like \"email\", \"integer\", \"boolean\"",
       "matchedWords": {
         "2sljCuxkKkKM": {
           "hits": 1,
@@ -8251,7 +8251,7 @@
       "hash": "QkU46F9yt2X4",
       "address": "https://table-cards.utils.com/",
       "title": "Table Card Generator - utils.com",
-      "snippet": "site as a widget. Adding ?embed=1 to the URL loads a compact version with just the tool itself; no header, menu, or documentation. Paste this snippet into your HTML:\nCopy snippet Adjust the height to taste.\nFeedback\nHelp us improve this page by providing feedback, and include your name/email if you",
+      "snippet": "You can embed this util on your own site as a widget. Adding ?embed=1 to the URL loads a compact version with just the tool itself; no header, menu, or documentation. Paste this snippet into your HTML:\nCopy snippet Adjust the height to taste.\nFeedback",
       "matchedWords": {
         "2sljCuxkKkKM": {
           "hits": 0,
@@ -8356,7 +8356,7 @@
       "hash": "qcSF2cuStRZ4",
       "address": "https://mock-data.utils.com/",
       "title": "Mock Data Generator (JSON) - Generate Fake Test Data - utils.com",
-      "snippet": "Generator parses your JSON schema definition and produces realistic fake data entirely in your browser — no data is sent to any server.\nSchema-driven — define your data shape as a JSON object where values are type strings like \"email\", \"integer\", \"boolean\"\nNested structures — supports objects",
+      "snippet": "The Mock Data Generator parses your JSON schema definition and produces realistic fake data entirely in your browser — no data is sent to any server.\nSchema-driven — define your data shape as a JSON object where values are type strings like \"email\", \"integer\", \"boolean\"",
       "matchedWords": {
         "2sljCuxkKkKM": {
           "hits": 1,
@@ -8734,7 +8734,7 @@
       "hash": "W7SPXNzbL8U4",
       "address": "https://dragon-fractal.utils.com/",
       "title": "Dragon Curve Generator - utils.com",
-      "snippet": "site as a widget. Adding ?embed=1 to the URL loads a compact version with just the tool itself; no header, menu, or documentation. Paste this snippet into your HTML:\nCopy snippet Adjust the height to taste.",
+      "snippet": "The result is scaled and centered to fit the canvas.\nYou can embed this util on your own site as a widget. Adding ?embed=1 to the URL loads a compact version with just the tool itself; no header, menu, or documentation. Paste this snippet into your HTML:\nCopy snippet Adjust the height to taste.",
       "matchedWords": {
         "2sljCuxkKkKM": {
           "hits": 0,
@@ -9112,7 +9112,7 @@
       "hash": "qcSF2cuStRZ4",
       "address": "https://mock-data.utils.com/",
       "title": "Mock Data Generator (JSON) - Generate Fake Test Data - utils.com",
-      "snippet": "Generator parses your JSON schema definition and produces realistic fake data entirely in your browser — no data is sent to any server.\nSchema-driven — define your data shape as a JSON object where values are type strings like \"email\", \"integer\", \"boolean\"\nNested structures — supports objects",
+      "snippet": "The Mock Data Generator parses your JSON schema definition and produces realistic fake data entirely in your browser — no data is sent to any server.\nSchema-driven — define your data shape as a JSON object where values are type strings like \"email\", \"integer\", \"boolean\"",
       "matchedWords": {
         "2sljCuxkKkKM": {
           "hits": 1,
@@ -9973,7 +9973,7 @@
       "hash": "QkU46F9yt2X4",
       "address": "https://table-cards.utils.com/",
       "title": "Table Card Generator - utils.com",
-      "snippet": "site as a widget. Adding ?embed=1 to the URL loads a compact version with just the tool itself; no header, menu, or documentation. Paste this snippet into your HTML:\nCopy snippet Adjust the height to taste.\nFeedback\nHelp us improve this page by providing feedback, and include your name/email if you",
+      "snippet": "You can embed this util on your own site as a widget. Adding ?embed=1 to the URL loads a compact version with just the tool itself; no header, menu, or documentation. Paste this snippet into your HTML:\nCopy snippet Adjust the height to taste.\nFeedback",
       "matchedWords": {
         "2sljCuxkKkKM": {
           "hits": 0,
@@ -10267,7 +10267,7 @@
       "hash": "QkU46F9yt2X4",
       "address": "https://table-cards.utils.com/",
       "title": "Table Card Generator - utils.com",
-      "snippet": "site as a widget. Adding ?embed=1 to the URL loads a compact version with just the tool itself; no header, menu, or documentation. Paste this snippet into your HTML:\nCopy snippet Adjust the height to taste.\nFeedback\nHelp us improve this page by providing feedback, and include your name/email if you",
+      "snippet": "You can embed this util on your own site as a widget. Adding ?embed=1 to the URL loads a compact version with just the tool itself; no header, menu, or documentation. Paste this snippet into your HTML:\nCopy snippet Adjust the height to taste.\nFeedback",
       "matchedWords": {
         "2sljCuxkKkKM": {
           "hits": 0,
@@ -10351,7 +10351,7 @@
       "hash": "LfREZzJasZP4",
       "address": "https://chat-screenshot.utils.com/",
       "title": "Chat Screenshot Generator - utils.com",
-      "snippet": "site as a widget. Adding ?embed=1 to the URL loads a compact version with just the tool itself; no header, menu, or documentation. Paste this snippet into your HTML:\nCopy snippet Adjust the height to taste.",
+      "snippet": "For full control over framing you can also record the playback yourself with the Screen Recorder util.\nPlease use responsibly; fabricated screenshots should not be presented as real conversations.\nYou can embed this util on your own site as a widget. Adding ?",
       "matchedWords": {
         "2sljCuxkKkKM": {
           "hits": 0,
@@ -10666,7 +10666,7 @@
       "hash": "qcSF2cuStRZ4",
       "address": "https://mock-data.utils.com/",
       "title": "Mock Data Generator (JSON) - Generate Fake Test Data - utils.com",
-      "snippet": "Generator parses your JSON schema definition and produces realistic fake data entirely in your browser — no data is sent to any server.\nSchema-driven — define your data shape as a JSON object where values are type strings like \"email\", \"integer\", \"boolean\"\nNested structures — supports objects",
+      "snippet": "The Mock Data Generator parses your JSON schema definition and produces realistic fake data entirely in your browser — no data is sent to any server.\nSchema-driven — define your data shape as a JSON object where values are type strings like \"email\", \"integer\", \"boolean\"",
       "matchedWords": {
         "2sljCuxkKkKM": {
           "hits": 1,
@@ -10771,7 +10771,7 @@
       "hash": "W7SPXNzbL8U4",
       "address": "https://dragon-fractal.utils.com/",
       "title": "Dragon Curve Generator - utils.com",
-      "snippet": "site as a widget. Adding ?embed=1 to the URL loads a compact version with just the tool itself; no header, menu, or documentation. Paste this snippet into your HTML:\nCopy snippet Adjust the height to taste.",
+      "snippet": "The result is scaled and centered to fit the canvas.\nYou can embed this util on your own site as a widget. Adding ?embed=1 to the URL loads a compact version with just the tool itself; no header, menu, or documentation. Paste this snippet into your HTML:\nCopy snippet Adjust the height to taste.",
       "matchedWords": {
         "2sljCuxkKkKM": {
           "hits": 0,
@@ -10960,7 +10960,7 @@
       "hash": "QkU46F9yt2X4",
       "address": "https://table-cards.utils.com/",
       "title": "Table Card Generator - utils.com",
-      "snippet": "site as a widget. Adding ?embed=1 to the URL loads a compact version with just the tool itself; no header, menu, or documentation. Paste this snippet into your HTML:\nCopy snippet Adjust the height to taste.\nFeedback\nHelp us improve this page by providing feedback, and include your name/email if you",
+      "snippet": "You can embed this util on your own site as a widget. Adding ?embed=1 to the URL loads a compact version with just the tool itself; no header, menu, or documentation. Paste this snippet into your HTML:\nCopy snippet Adjust the height to taste.\nFeedback",
       "matchedWords": {
         "2sljCuxkKkKM": {
           "hits": 0,

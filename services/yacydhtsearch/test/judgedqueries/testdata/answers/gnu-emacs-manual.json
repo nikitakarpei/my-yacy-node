@@ -1,13 +1,13 @@
 {
   "query": "gnu emacs manual",
-  "recordedAt": "2026-09-12T00:21:35Z",
+  "recordedAt": "2026-09-12T07:52:00Z",
   "itemsInTheOrderOfEachAnswer": [
     [
       {
         "hash": "WmDEfjRvmBbx",
         "address": "https://en.wikipedia.org/wiki/ASCII",
         "title": "ASCII - Wikipedia",
-        "snippet": "manual output control technique. On some systems, control-S retains its meaning, but control-Q is replaced by a second control-S to resume output.\nThe 33 ASR also could be configured to employ control-R (DC2) and control-T (DC4) to start and stop the tape punch; on some units equipped with this",
+        "snippet": "Archived (PDF) from the original on 2014-07-14. Retrieved 2014-07-10.\n1 2 \"PDP-10 Reference Handbook, Book 3, Communicating with the Monitor\" (PDF). Digital Equipment Corporation (DEC). 1969. p. 5-5. Archived (PDF) from the original on 2011-11-15. Retrieved 2014-07-10.\n↑ \"Help - GNU Emacs Manual\".",
         "matchedWords": {
           "PHizVQKyaT_v": {
             "hits": 5,
@@ -30,7 +30,7 @@
         "hash": "UTLmhjRvmBbx",
         "address": "https://en.wikipedia.org/wiki/Bash_(Unix_shell)",
         "title": "Bash (Unix shell) - Wikipedia",
-        "snippet": "GNU\nAvailable in\nMultilingual (gettext)\nType\nShell (computing), Unix shell, command language\nLicense\nv.4.0+: GPL-3.0-or-later[a]\nv.1.11 – v.3.2: GPL-2.0-or-later[3]\nv.0.99 – v.1.05: GPL-1.0-or-later[4]\nWebsite\nwww\n.gnu\n.org\n/software\n/bash\n/\nRepository\ngit\n.savannah\n.gnu\n.org\n/cgit\n/bash\n.git\nBash",
+        "snippet": "Free Software Foundation, Inc. GNU Project. Retrieved 8 August 2025.\n↑ \"Bash Reference Manual\". case.edu. Case Western Reserve University. Retrieved 8 August 2025.\n↑ \"GNU Coreutils manual v.9.7, 15.2 printf: Format and print data\". Free Software Foundation, Inc. GNU Project.",
         "matchedWords": {
           "PHizVQKyaT_v": {
             "hits": 27,
@@ -53,7 +53,7 @@
         "hash": "w_9jmzX55GGw",
         "address": "https://planet.jabber.org/",
         "title": "Planet Jabber",
-        "snippet": "manual page breaks, designed to be printed by a 1982 line printer on US Legal (even though the PDF renderings are using US Letter). The markup in the HTML versions linked from this post is auto-generated from a semantic analysis of the normative ASCII documents.\nThe fixed-width fixed-page format is",
+        "snippet": "The normative RFC format before RFC 8650 (late 2019) was fixed-width ASCII, 58 lines, 72 characters with manual page breaks, designed to be printed by a 1982 line printer on US Legal (even though the PDF renderings are using US Letter).",
         "matchedWords": {
           "PHizVQKyaT_v": {
             "hits": 3,
@@ -76,7 +76,7 @@
         "hash": "72qrVWVFEEow",
         "address": "https://guix.gnu.org/manual/1.5.0/en/html_node/Substitute-Server-Authorization.html",
         "title": "Substitute Server Authorization (GNU Guix Reference Manual)",
-        "snippet": "bordeaux.guix.gnu.org, ci.guix.gnu.org or a mirror, you must add the relevant public key to the access control list (ACL) of archive imports, using the guix archive command (see Invoking guix archive). Doing so implies that you trust the substitute server to not be compromised and to serve genuine",
+        "snippet": "$ guix build emacs --dry-run The following derivations would be built: /gnu/store/yr7bnx8xwcayd6j95r2clmkdl1qh688w-emacs-24.3.drv /gnu/store/x8qsh1hlhgjx6cwsjyvybnfv2i37z23w-dbus-1.6.4.tar.gz.drv /gnu/store/1ixwp12fl950d15h2cj11c73733jay0z-alsa-lib-1.0.27.1.tar.bz2.drv",
         "matchedWords": {
           "PHizVQKyaT_v": {
             "hits": 0,
@@ -99,7 +99,7 @@
         "hash": "F1-5sjRvmBbx",
         "address": "https://en.wikipedia.org/wiki/Richard_Stallman",
         "title": "Richard Stallman - Wikipedia",
-        "snippet": "GNU\nGNU Emacs\nGNU Compiler Collection\nGNU General Public License\ncopyleft\nFree Software Foundation\nAwards\nMacArthur Fellowship\nACM Grace Murray Hopper Award\nEFF Pioneer Award\nACM Software System Award\nInternet Hall of Fame\nWebsite\nstallman\n.org\nSignature\nRichard Matthew Stallman ( STAWL-mən; born",
+        "snippet": "EMACS: The Extensible, Customizable, Self-Documenting Display Editor. Cambridge, Massachusetts, USA: MIT Artificial Intelligence Laboratory publication. AIM-519A.\nStallman, Richard M. (2002). GNU Emacs Manual. Boston, Massachusetts, USA: GNU Press. ISBN 1-882114-85-X.",
         "matchedWords": {
           "PHizVQKyaT_v": {
             "hits": 3,
@@ -120,7 +120,7 @@
         "hash": "gloktjRvmBbx",
         "address": "https://en.wikipedia.org/wiki/Free_software",
         "title": "Free software - Wikipedia",
-        "snippet": "GNU Guix. An example of a GNU FSDG complying free-software operating system running some representative applications. Shown are the GNOME desktop environment, the GNU Emacs text editor, the GIMP image editor, some GNOME Core Applications, and the VLC media player.\nFree software or libre",
+        "snippet": "GNU Guix. An example of a GNU FSDG complying free-software operating system running some representative applications. Shown are the GNOME desktop environment, the GNU Emacs text editor, the GIMP image editor, some GNOME Core Applications, and the VLC media player.",
         "matchedWords": {
           "PHizVQKyaT_v": {
             "hits": 0,
@@ -141,7 +141,7 @@
         "hash": "-t3HAjRvmBbx",
         "address": "https://en.wikipedia.org/wiki/Firefox",
         "title": "Firefox - Wikipedia",
-        "snippet": "manual exit. The feature was removed in 2019, purportedly to \"streamline the experience\".[95][96]\nOn May 3, 2019, the expiry of an intermediate signing certificate on Mozilla servers caused Firefox to automatically disable and lock all browser extensions (add-ons).[97][98] Mozilla began the",
+        "snippet": "309] Debian switched to branding their modified version of Firefox \"Iceweasel\" (but in 2016 switched back to Firefox), along with other Mozilla software. GNU IceCat is another derived version of Firefox distributed by the GNU Project, which maintains its separate branding.[310]",
         "matchedWords": {
           "PHizVQKyaT_v": {
             "hits": 1,
@@ -164,7 +164,7 @@
         "hash": "OaBXNitD2jQw",
         "address": "https://docs.python.org/3/whatsnew/2.6.html",
         "title": "What’s New in Python 2.6 — Python 3.14.6 documentation",
-        "snippet": "Emacs backup files, which have names ending with ‘~’:\nshutil.copytree('Doc/library', '/tmp/library', ignore=shutil.ignore_patterns('*~', '.svn'))\n(Contributed by Tarek Ziadé; bpo-2663.)\nIntegrating signal handling with GUI handling event loops like those used by Tkinter or GTk+ has long been a",
+        "snippet": "The tarfile module now supports POSIX.1-2001 (pax) tarfiles in addition to the POSIX.1-1988 (ustar) and GNU tar formats that were already supported. The default format is GNU tar; specify the format parameter to open a file using a different format:",
         "matchedWords": {
           "PHizVQKyaT_v": {
             "hits": 0,
@@ -187,7 +187,7 @@
         "hash": "D4lABzaS0qdw",
         "address": "https://planet.debian.org/",
         "title": "Planet Debian",
-        "snippet": "This August, I accomplished what I wanted for many years: I deleted the last cgo dependency in Debian Code Search! This was made possible by Go’s recently introduced SIMD support, because now we can implement the TurboPFor integer compression format as efficiently — more efficiently, in fact, by",
+        "snippet": "This August, I accomplished what I wanted for many years: I deleted the last cgo dependency in Debian Code Search!",
         "matchedWords": {
           "PHizVQKyaT_v": {
             "hits": 0,
@@ -208,7 +208,7 @@
         "hash": "VJM4o7R6-xlR",
         "address": "http://zackmdavis.net/blog/",
         "title": "An Algorithmic Lucidity",
-        "snippet": "(GNU/Linux 3.13.0-30-generic x86_64) * Documentation: https://help.ubuntu.com/ System information as of Mon Aug 4 00:23:37 UTC 2014 System load: 0.0 Processes: 92 Usage of /: 3.3% of 39.34GB Users logged in: 1 Memory usage: 39% IP address for eth0: 10.0.2.15 Swap usage: 0% IP address for eth1:",
+        "snippet": "zmd@SuddenHeap:~/Code/Secret_Key_Attack_Demo$ ssh -i attacker_id_rsa victim@supersecurebank.com Welcome to Ubuntu 14.04 LTS (GNU/Linux 3.13.0-30-generic x86_64) * Documentation: https://help.ubuntu.com/ System information as of Mon Aug 4 00:23:37 UTC 2014 System load: 0.0 Processes: 92 Usage of /:",
         "matchedWords": {
           "PHizVQKyaT_v": {
             "hits": 2,
@@ -231,7 +231,7 @@
         "hash": "72qrVWVFEEow",
         "address": "https://guix.gnu.org/manual/1.5.0/en/html_node/Substitute-Server-Authorization.html",
         "title": "Substitute Server Authorization (GNU Guix Reference Manual)",
-        "snippet": "bordeaux.guix.gnu.org, ci.guix.gnu.org or a mirror, you must add the relevant public key to the access control list (ACL) of archive imports, using the guix archive command (see Invoking guix archive). Doing so implies that you trust the substitute server to not be compromised and to serve genuine",
+        "snippet": "$ guix build emacs --dry-run The following derivations would be built: /gnu/store/yr7bnx8xwcayd6j95r2clmkdl1qh688w-emacs-24.3.drv /gnu/store/x8qsh1hlhgjx6cwsjyvybnfv2i37z23w-dbus-1.6.4.tar.gz.drv /gnu/store/1ixwp12fl950d15h2cj11c73733jay0z-alsa-lib-1.0.27.1.tar.bz2.drv",
         "matchedWords": {
           "PHizVQKyaT_v": {
             "hits": 0,
@@ -277,7 +277,7 @@
         "hash": "WmDEfjRvmBbx",
         "address": "https://en.wikipedia.org/wiki/ASCII",
         "title": "ASCII - Wikipedia",
-        "snippet": "manual output control technique. On some systems, control-S retains its meaning, but control-Q is replaced by a second control-S to resume output.\nThe 33 ASR also could be configured to employ control-R (DC2) and control-T (DC4) to start and stop the tape punch; on some units equipped with this",
+        "snippet": "Archived (PDF) from the original on 2014-07-14. Retrieved 2014-07-10.\n1 2 \"PDP-10 Reference Handbook, Book 3, Communicating with the Monitor\" (PDF). Digital Equipment Corporation (DEC). 1969. p. 5-5. Archived (PDF) from the original on 2011-11-15. Retrieved 2014-07-10.\n↑ \"Help - GNU Emacs Manual\".",
         "matchedWords": {
           "PHizVQKyaT_v": {
             "hits": 5,
@@ -298,7 +298,7 @@
         "hash": "UTLmhjRvmBbx",
         "address": "https://en.wikipedia.org/wiki/Bash_(Unix_shell)",
         "title": "Bash (Unix shell) - Wikipedia",
-        "snippet": "GNU\nAvailable in\nMultilingual (gettext)\nType\nShell (computing), Unix shell, command language\nLicense\nv.4.0+: GPL-3.0-or-later[a]\nv.1.11 – v.3.2: GPL-2.0-or-later[3]\nv.0.99 – v.1.05: GPL-1.0-or-later[4]\nWebsite\nwww\n.gnu\n.org\n/software\n/bash\n/\nRepository\ngit\n.savannah\n.gnu\n.org\n/cgit\n/bash\n.git\nBash",
+        "snippet": "Free Software Foundation, Inc. GNU Project. Retrieved 8 August 2025.\n↑ \"Bash Reference Manual\". case.edu. Case Western Reserve University. Retrieved 8 August 2025.\n↑ \"GNU Coreutils manual v.9.7, 15.2 printf: Format and print data\". Free Software Foundation, Inc. GNU Project.",
         "matchedWords": {
           "PHizVQKyaT_v": {
             "hits": 27,
@@ -321,7 +321,7 @@
         "hash": "84FlxRrrnsyQ",
         "address": "http://planet.gnu.org/",
         "title": "Planet GNU",
-        "snippet": "(gnu services configuration) module provides us with the API that we need to define these configurations. The most important helpers for defining configurations are:\ndefine-configuration: For configurations that need to serialize fields into a different format, generally configuration files.",
+        "snippet": "scheme@(gnu home services mail)\u003e (gexp-\u003efile \"test.yaml\" $11) $12 = #\u003cprocedure 7efd8b10c2d0 at guix/gexp.scm:2098:2 (state)\u003e scheme@(gnu home services mail)\u003e ,use (guix) scheme@(gnu home services mail)\u003e ,run-in-store $12 $13 = #\u003cderivation /gnu/store/z59sf3nhh80668z8njljfxcymgi071pr-test.yaml.drv",
         "matchedWords": {
           "PHizVQKyaT_v": {
             "hits": 1,
@@ -344,7 +344,7 @@
         "hash": "RnRgX8-xq5l4",
         "address": "https://cygwin.com/faq/faq.html",
         "title": "Cygwin FAQ",
-        "snippet": "GNU and other Open Source tools running on Microsoft Windows. The core part is the Cygwin library which provides the POSIX system calls and environment these programs expect.\nThe Cygwin distribution contains thousands of packages from the Open Source world including most GNU tools, many BSD tools,",
+        "snippet": "See also BLODA for a list of applications that have been known, at one time or another, to interfere with the normal functioning of Cygwin.\n4.36.\nIs there a Cygwin port of GNU Emacs?\nYes. Install the emacs package. This provides everything you need in order to run GNU emacs in a terminal window.",
         "matchedWords": {
           "PHizVQKyaT_v": {
             "hits": 2,
@@ -367,7 +367,7 @@
         "hash": "VJM4o7R6-xlR",
         "address": "http://zackmdavis.net/blog/",
         "title": "An Algorithmic Lucidity",
-        "snippet": "(GNU/Linux 3.13.0-30-generic x86_64) * Documentation: https://help.ubuntu.com/ System information as of Mon Aug 4 00:23:37 UTC 2014 System load: 0.0 Processes: 92 Usage of /: 3.3% of 39.34GB Users logged in: 1 Memory usage: 39% IP address for eth0: 10.0.2.15 Swap usage: 0% IP address for eth1:",
+        "snippet": "zmd@SuddenHeap:~/Code/Secret_Key_Attack_Demo$ ssh -i attacker_id_rsa victim@supersecurebank.com Welcome to Ubuntu 14.04 LTS (GNU/Linux 3.13.0-30-generic x86_64) * Documentation: https://help.ubuntu.com/ System information as of Mon Aug 4 00:23:37 UTC 2014 System load: 0.0 Processes: 92 Usage of /:",
         "matchedWords": {
           "PHizVQKyaT_v": {
             "hits": 2,
@@ -391,7 +391,7 @@
       "hash": "AonnkjRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Perl",
       "title": "Perl - Wikipedia",
-      "snippet": "GNU General Public License version 1 or any later version[6]\nFilename extensions\n.plx, .pls, .pl, .pm, .xs, .t, .pod, .cgi, .psgi\nWebsite\nperl.org\nInfluenced by\nAWK, BASIC, C, C++, Lisp, sed, Unix shell[7]\nInfluenced\nCoffeeScript,[citation needed] Groovy,[citation needed] JavaScript, Julia, LPC,",
+      "snippet": "License\nArtistic 1.0[4][5] or GNU General Public License version 1 or any later version[6]\nFilename extensions\n.plx, .pls, .pl, .pm, .xs, .t, .pod, .cgi, .psgi\nWebsite\nperl.org\nInfluenced by\nAWK, BASIC, C, C++, Lisp, sed, Unix shell[7]\nInfluenced",
       "matchedWords": {
         "PHizVQKyaT_v": {
           "hits": 2,
@@ -412,7 +412,7 @@
       "hash": "73Hl4TCAF_G4",
       "address": "https://files.spritely.institute/papers/scheme-primer.html",
       "title": "A Scheme Primer",
-      "snippet": "GNU Emacs + Geiser: this is what this tutorial was written using, and is a powerful option (which also opens the door to working with Guix, one of the most interesting Scheme projects out there). However, it is also a path with a considerable learning curve.\nRacket, which comes with a built-in IDE",
+      "snippet": "Guile Scheme + GNU Emacs + Geiser: this is what this tutorial was written using, and is a powerful option (which also opens the door to working with Guix, one of the most interesting Scheme projects out there). However, it is also a path with a considerable learning curve.",
       "matchedWords": {
         "PHizVQKyaT_v": {
           "hits": 1,
@@ -433,7 +433,7 @@
       "hash": "QnfPVsI9I2Th",
       "address": "https://karl-voit.at/",
       "title": "public voit - Homepage of Karl Voit",
-      "snippet": "Emacs people visiting this page: here, I just list a few Emacs packages. For more details on which packages I'm using for my workflows, please do visit my online Emacs config and check out the first chapters explaining my setup.\nIt is important to emphasize that you can not derive anything for your",
+      "snippet": "If you do have further data, insight or links that contribute to the topic, please do comment below.\nRead the whole article ...\n2026-04-10: My Emacs and Org-mode Workshops at the GLT26\nHere are the shownotes of my GLT 2026 workshops to Emacs and Org-mode:\nEinführung in die GNU Emacs Plattform",
       "matchedWords": {
         "PHizVQKyaT_v": {
           "hits": 1,
@@ -454,7 +454,7 @@
       "hash": "KGUVEjRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Man_page",
       "title": "man page - Wikipedia",
-      "snippet": "manual page, is a form of software documentation found on Unix and Unix-like operating systems. Topics covered include programs, system libraries, system calls, and sometimes local system details. The local host administrators can create and install manual pages associated with the specific host. A",
+      "snippet": "The GNU Emacs program WoMan (from \"WithOut man\") allows for browsing man pages from the editor.[11]",
       "matchedWords": {
         "PHizVQKyaT_v": {
           "hits": 45,
@@ -475,7 +475,7 @@
       "hash": "QdW-xjRvmBbx",
       "address": "https://en.wikipedia.org/wiki/GNU_General_Public_License",
       "title": "GNU General Public License - Wikipedia",
-      "snippet": "GNU General Public License\nAuthor\nRichard Stallman\nLatest version\n3\nPublisher\nFree Software Foundation\nPublished\n25 February 1989; 37 years ago\nSPDX identifier\nGPL-3.0-or-later\nGPL-3.0-only\nGPL-2.0-or-later\nGPL-2.0-only\nGPL-1.0-or-later\nGPL-1.0-only\nDebian FSG compatible\nYes[1]\nFSF approved\nYes[2]",
+      "snippet": "The original GPL was written by Richard Stallman in 1989 for use with programs released as part of the GNU Project. The license was based on unifying similar licenses used for early versions of the GNU Emacs text editor, the GNU Debugger, and the GNU C Compiler.[",
       "matchedWords": {
         "PHizVQKyaT_v": {
           "hits": 3,
@@ -517,7 +517,7 @@
       "hash": "aXRLMlZyJMFx",
       "address": "https://www.free-soft.org/gpl_history/",
       "title": "The History of the GNU General Public License",
-      "snippet": "GNU General Public License), created by Richard Stallman, serves as the de facto constitution for the Free Software movement. It covers the majority of Free Software/Open Source software and has become the legal and philosophical cornerstone of the Free Software community. Because of its",
+      "snippet": "\"While I was thinking about what to do about these problems and wondering whether I should try to fix them or write entirely new compiler, in a roundabout fashion I began working on GNU Emacs. GNU Emacs is the main distributed portion of the GNU system.",
       "matchedWords": {
         "PHizVQKyaT_v": {
           "hits": 1,
@@ -538,7 +538,7 @@
       "hash": "Rx8AIs_tHst4",
       "address": "https://dwheeler.com/oss_fs_why.html",
       "title": "Why Open Source Software / Free Software (OSS/FS, FOSS, or FLOSS)? Look at the Numbers!",
-      "snippet": "GNU/Linux (which many abbreviate as “Linux”), the Apache web server, the Mozilla Firefox web browser, and the OpenOffice.org office suite, since these are some of the most visible FLOSS projects. I’ll also primarily compare FLOSS software to Microsoft’s products (such as Windows and IIS), since",
+      "snippet": "Joomla, on the other hand, seems fine.\"\nGNU emacs / xemacs, OpenBSD. Sometimes, though this is rare, a fork produces two projects which both live on; typically each fork ends up catering to a different community. GNU emacs was forked into xemacs, resulting in two successful projects.",
       "matchedWords": {
         "PHizVQKyaT_v": {
           "hits": 5,
@@ -559,7 +559,7 @@
       "hash": "2ZqdVzfOEiDw",
       "address": "https://planet.gnome.org/",
       "title": "Planet GNOME",
-      "snippet": "Two weeks ago, I released AppStream 1.2.0. This release contains a lot of great changes, but one of the most important ones concerns how media are being handled, and AppStream’s default image export format.\nAppStream is a Freedesktop metadata standard to describe software components. That can be",
+      "snippet": "Two weeks ago, I released AppStream 1.2.0. This release contains a lot of great changes, but one of the most important ones concerns how media are being handled, and AppStream’s default image export format.\nAppStream is a Freedesktop metadata standard to describe software components.",
       "matchedWords": {
         "PHizVQKyaT_v": {
           "hits": 0,
@@ -580,7 +580,7 @@
       "hash": "SV9QKjhVvkiw",
       "address": "https://dianne.skoll.ca/projects/remind/",
       "title": "Dianne Skoll's Web Site - Remind - Software Projects",
-      "snippet": "GNU General Public License, Version 2\nDownload Remind\nThe current version of remind is 06.03.03 released on 2026-09-10.\nVerify the Signature\nTo verify the GPG signature, run:\ngpg --verify remind-06.03.03.tar.gz.sig\nYou will need to have my public key in your GnuPG keyring.\nThe Book of Remind\nI have",
+      "snippet": "Residents of Jurisdictions with Age-Verification Laws\nIf you are a resident of a jurisdiction with age-verification laws, please read this very important notice.\nLicense\nRemind is Free Software, licensed under the terms of the GNU General Public License, Version 2\nDownload Remind",
       "matchedWords": {
         "PHizVQKyaT_v": {
           "hits": 3,
@@ -601,7 +601,7 @@
       "hash": "r5eKBxtQ-zSx",
       "address": "https://wiki.archlinux.org/title/General_recommendations",
       "title": "General recommendations - ArchWiki",
-      "snippet": "manual intervention before upgrading your system. Subscribe to the arch-announce mailing list or the recent news RSS feed. Alternatively, check the front page Arch news every time before you update.\npacman\npacman is the Arch Linux package manager: it is highly encouraged to become familiar with it",
+      "snippet": "Consult Emacs#Colored output issues for a fix regarding garbled characters that may result from enabling colored output.\nMouse support\nUsing a mouse with the console for copy-paste operations can be preferred over GNU Screen's traditional copy mode.",
       "matchedWords": {
         "PHizVQKyaT_v": {
           "hits": 1,
@@ -622,7 +622,7 @@
       "hash": "P0YYCjRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Python_(programming_language)",
       "title": "Python (programming language) - Wikipedia",
-      "snippet": "Manual (raise statement)\". archive.adaic.com. Archived from the original on 22 October 2019. Retrieved 7 January 2020.\n1 2 Kuchling, Andrew M. (22 December 2006). \"Interview with Guido van Rossum (July 1998)\". amk.ca. Archived from the original on 1 May 2007. Retrieved 12 March 2012. I'd spent a",
+      "snippet": "This is the origin of many Python features, including the use of indentation for statement grouping and the inclusion of very high-level data types (although the details are all different in Python).\n↑ \"Ada 83 Reference Manual (raise statement)\". archive.adaic.com.",
       "matchedWords": {
         "PHizVQKyaT_v": {
           "hits": 1,
@@ -643,7 +643,7 @@
       "hash": "zTCfkxtQ-zSx",
       "address": "https://wiki.archlinux.org/title/List_of_applications/Internet",
       "title": "List of applications/Internet - ArchWiki",
-      "snippet": "GNU IceCat — A customized build of Firefox ESR distributed by the GNU Project, stripped of non-free components and with additional privacy extensions. Release cycle may be delayed compared to Mozilla Firefox.\nhttps://www.gnu.org/software/gnuzilla/ || icecatAUR\nKonform Browser — A customized build",
+      "snippet": "https://thelounge.chat/ || theloungeAUR\nXMPP clients\nSee also: Wikipedia:XMPP\nConsole\nFreetalk — Console-based XMPP client.\nhttps://www.gnu.org/software/freetalk/ || freetalkAUR\njabber.el — Minimal XMPP client for Emacs.\nhttps://emacs-jabber.sourceforge.net/ || emacs-jabberAUR",
       "matchedWords": {
         "PHizVQKyaT_v": {
           "hits": 2,
@@ -664,7 +664,7 @@
       "hash": "_uUfZV1nrxbw",
       "address": "https://www.debian.org/doc/debian-policy/upgrading-checklist.html",
       "title": "10. Upgrading checklist — Debian Policy Manual v4.7.4.1",
-      "snippet": "Manual itself.\nAll of the changes from version 3.0.0 onwards indicate which section of the Policy Manual discusses the issue. The section numbering should still be accurate for changes back to the 2.5.0 release. Before that point, the sections listed here probably no longer correspond to sections",
+      "snippet": "If you have doubts about a certain topic, if you need more details, or if you think some other package does not comply with policy, please refer to the Policy Manual itself.\nAll of the changes from version 3.0.0 onwards indicate which section of the Policy Manual discusses the issue.",
       "matchedWords": {
         "PHizVQKyaT_v": {
           "hits": 17,
@@ -685,7 +685,7 @@
       "hash": "KGUVEjRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Man_page",
       "title": "man page - Wikipedia",
-      "snippet": "manual page, is a form of software documentation found on Unix and Unix-like operating systems. Topics covered include programs, system libraries, system calls, and sometimes local system details. The local host administrators can create and install manual pages associated with the specific host. A",
+      "snippet": "The GNU Emacs program WoMan (from \"WithOut man\") allows for browsing man pages from the editor.[11]",
       "matchedWords": {
         "PHizVQKyaT_v": {
           "hits": 45,
@@ -706,7 +706,7 @@
       "hash": "zPsYJjRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Linux",
       "title": "Linux - Wikipedia",
-      "snippet": "GNU, Red Hat, and X.Org—to create a complete operating system; however, not all Linux-based operating systems are considered distros, with Android being an example. Linux was originally designed as a clone of Unix and is distributed under the copyleft GPL license.[15]\nThere are many thousands of",
+      "snippet": "For example, regular expressions are supported in programs like grep and locate, the traditional Unix message transfer agent Sendmail contains its own Turing complete scripting system, and the advanced text editor GNU Emacs is built around a general purpose Lisp interpreter.[169][170][171]",
       "matchedWords": {
         "PHizVQKyaT_v": {
           "hits": 1,
@@ -727,7 +727,7 @@
       "hash": "aXRLMlZyJMFx",
       "address": "https://www.free-soft.org/gpl_history/",
       "title": "The History of the GNU General Public License",
-      "snippet": "GNU General Public License), created by Richard Stallman, serves as the de facto constitution for the Free Software movement. It covers the majority of Free Software/Open Source software and has become the legal and philosophical cornerstone of the Free Software community. Because of its",
+      "snippet": "\"While I was thinking about what to do about these problems and wondering whether I should try to fix them or write entirely new compiler, in a roundabout fashion I began working on GNU Emacs. GNU Emacs is the main distributed portion of the GNU system.",
       "matchedWords": {
         "PHizVQKyaT_v": {
           "hits": 1,
@@ -748,7 +748,7 @@
       "hash": "QriquAK-xyJ4",
       "address": "https://go.dev/doc/devel/weekly",
       "title": "Weekly Snapshot History - The Go Programming Language",
-      "snippet": "misc/emacs: fix indentation bug. * misc/goplay: fix error on IE8 (thanks Yasuhiro Matsumoto). * net: ignore ECONNABORTED from syscall.Accept (thanks Devon H. O'Dell). * os: add missing byte to FileMode buffer (thanks Stefan Nilsson). * path/filepath: convert drive letter to upper case in windows",
+      "snippet": "Slices are better: http://code.google.com/p/go-wiki/wiki/SliceTricks Other changes: * 5l/6l/8l: correct ELFRESERVE diagnostic (thanks Anthony Martin). * 6l/8l: support OS X code signing (thanks Mikkel Krautz). * asn1: accept UTF8 strings as ASN.1 ANY values. * big: handle aliasing correctly for",
       "matchedWords": {
         "PHizVQKyaT_v": {
           "hits": 2,
@@ -769,7 +769,7 @@
       "hash": "QdW-xjRvmBbx",
       "address": "https://en.wikipedia.org/wiki/GNU_General_Public_License",
       "title": "GNU General Public License - Wikipedia",
-      "snippet": "GNU General Public License\nAuthor\nRichard Stallman\nLatest version\n3\nPublisher\nFree Software Foundation\nPublished\n25 February 1989; 37 years ago\nSPDX identifier\nGPL-3.0-or-later\nGPL-3.0-only\nGPL-2.0-or-later\nGPL-2.0-only\nGPL-1.0-or-later\nGPL-1.0-only\nDebian FSG compatible\nYes[1]\nFSF approved\nYes[2]",
+      "snippet": "The original GPL was written by Richard Stallman in 1989 for use with programs released as part of the GNU Project. The license was based on unifying similar licenses used for early versions of the GNU Emacs text editor, the GNU Debugger, and the GNU C Compiler.[",
       "matchedWords": {
         "PHizVQKyaT_v": {
           "hits": 3,
@@ -790,7 +790,7 @@
       "hash": "gmhRVl1nrxbw",
       "address": "https://www.debian.org/devel/",
       "title": "Debian -- Debian Developers' Corner",
-      "snippet": "manual and other documents related to the Debian policy, procedures and other resources for Debian developers, and the new maintainers' guide.\nWork in Progress: Links for active Debian developers and maintainers\nDebian ‘Testing’\nAutomatically generated from the ‘unstable’ distribution: this is",
+      "snippet": "Links to our policy manual and other documents related to the Debian policy, procedures and other resources for Debian developers, and the new maintainers' guide.\nWork in Progress: Links for active Debian developers and maintainers\nDebian ‘Testing’",
       "matchedWords": {
         "PHizVQKyaT_v": {
           "hits": 3,
@@ -811,7 +811,7 @@
       "hash": "SV9QKjhVvkiw",
       "address": "https://dianne.skoll.ca/projects/remind/",
       "title": "Dianne Skoll's Web Site - Remind - Software Projects",
-      "snippet": "GNU General Public License, Version 2\nDownload Remind\nThe current version of remind is 06.03.03 released on 2026-09-10.\nVerify the Signature\nTo verify the GPG signature, run:\ngpg --verify remind-06.03.03.tar.gz.sig\nYou will need to have my public key in your GnuPG keyring.\nThe Book of Remind\nI have",
+      "snippet": "Residents of Jurisdictions with Age-Verification Laws\nIf you are a resident of a jurisdiction with age-verification laws, please read this very important notice.\nLicense\nRemind is Free Software, licensed under the terms of the GNU General Public License, Version 2\nDownload Remind",
       "matchedWords": {
         "PHizVQKyaT_v": {
           "hits": 3,
@@ -853,7 +853,7 @@
       "hash": "AonnkjRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Perl",
       "title": "Perl - Wikipedia",
-      "snippet": "GNU General Public License version 1 or any later version[6]\nFilename extensions\n.plx, .pls, .pl, .pm, .xs, .t, .pod, .cgi, .psgi\nWebsite\nperl.org\nInfluenced by\nAWK, BASIC, C, C++, Lisp, sed, Unix shell[7]\nInfluenced\nCoffeeScript,[citation needed] Groovy,[citation needed] JavaScript, Julia, LPC,",
+      "snippet": "License\nArtistic 1.0[4][5] or GNU General Public License version 1 or any later version[6]\nFilename extensions\n.plx, .pls, .pl, .pm, .xs, .t, .pod, .cgi, .psgi\nWebsite\nperl.org\nInfluenced by\nAWK, BASIC, C, C++, Lisp, sed, Unix shell[7]\nInfluenced",
       "matchedWords": {
         "PHizVQKyaT_v": {
           "hits": 2,
@@ -874,7 +874,7 @@
       "hash": "BjVrrjRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Mozilla_Firefox",
       "title": "Firefox - Wikipedia",
-      "snippet": "manual exit. The feature was removed in 2019, purportedly to \"streamline the experience\".[95][96]\nOn May 3, 2019, the expiry of an intermediate signing certificate on Mozilla servers caused Firefox to automatically disable and lock all browser extensions (add-ons).[97][98] Mozilla began the",
+      "snippet": "309] Debian switched to branding their modified version of Firefox \"Iceweasel\" (but in 2016 switched back to Firefox), along with other Mozilla software. GNU IceCat is another derived version of Firefox distributed by the GNU Project, which maintains its separate branding.[310]",
       "matchedWords": {
         "PHizVQKyaT_v": {
           "hits": 1,
@@ -895,7 +895,7 @@
       "hash": "FZ5ZijRvmBbx",
       "address": "https://en.wikipedia.org/wiki/List_of_free_and_open-source_software_packages",
       "title": "List of free and open-source software packages - Wikipedia",
-      "snippet": "GNU project in particular objects to their works being referred to as open-source.[1] For more information about the philosophical background for open-source software, see free software movement and Open Source Initiative. However, nearly all software meeting the Free Software Definition also meets",
+      "snippet": "KDevelop\nLazarus\nMCU 8051 IDE\nNetBeans\nPadre\nPharo\nPoplog\nPyDev\nQt Creator\nSLIME\nSpyder\nTheIDE\nVisualFBEditor\nZeroBrane Studio\nSource code editors\n[edit]\nAcme\nAtom\nBluefish\nBrackets\nECCE\ned\nElvis\nGNU Emacs\nExtensible Versatile Editor (EVE)\nFeatherPad\nGeany\ngedit\nGNOME Text Editor\nJED\njEdit\nJOVE",
       "matchedWords": {
         "PHizVQKyaT_v": {
           "hits": 1,
@@ -916,7 +916,7 @@
       "hash": "KgBwHjRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Regular_expression",
       "title": "Regular expression - Wikipedia",
-      "snippet": "Emacs (which has its own, incompatible syntax and behavior). Regexes were subsequently adopted by a wide range of programs, with these early forms standardized in the POSIX.2 standard in 1992.\nIn the 1980s, the more complicated regexes arose in Perl, which originally derived from a regex library",
+      "snippet": "Many variations of these original forms of regular expressions were used in Unix[13] programs at Bell Labs in the 1970s, including lex, sed, AWK, and expr, and in other programs such as vi, and Emacs (which has its own, incompatible syntax and behavior).",
       "matchedWords": {
         "PHizVQKyaT_v": {
           "hits": 2,
@@ -937,7 +937,7 @@
       "hash": "P0YYCjRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Python_(programming_language)",
       "title": "Python (programming language) - Wikipedia",
-      "snippet": "Manual (raise statement)\". archive.adaic.com. Archived from the original on 22 October 2019. Retrieved 7 January 2020.\n1 2 Kuchling, Andrew M. (22 December 2006). \"Interview with Guido van Rossum (July 1998)\". amk.ca. Archived from the original on 1 May 2007. Retrieved 12 March 2012. I'd spent a",
+      "snippet": "This is the origin of many Python features, including the use of indentation for statement grouping and the inclusion of very high-level data types (although the details are all different in Python).\n↑ \"Ada 83 Reference Manual (raise statement)\". archive.adaic.com.",
       "matchedWords": {
         "PHizVQKyaT_v": {
           "hits": 1,
@@ -958,7 +958,7 @@
       "hash": "QdW-xjRvmBbx",
       "address": "https://en.wikipedia.org/wiki/GNU_General_Public_License",
       "title": "GNU General Public License - Wikipedia",
-      "snippet": "GNU General Public License\nAuthor\nRichard Stallman\nLatest version\n3\nPublisher\nFree Software Foundation\nPublished\n25 February 1989; 37 years ago\nSPDX identifier\nGPL-3.0-or-later\nGPL-3.0-only\nGPL-2.0-or-later\nGPL-2.0-only\nGPL-1.0-or-later\nGPL-1.0-only\nDebian FSG compatible\nYes[1]\nFSF approved\nYes[2]",
+      "snippet": "The original GPL was written by Richard Stallman in 1989 for use with programs released as part of the GNU Project. The license was based on unifying similar licenses used for early versions of the GNU Emacs text editor, the GNU Debugger, and the GNU C Compiler.[",
       "matchedWords": {
         "PHizVQKyaT_v": {
           "hits": 3,
@@ -979,7 +979,7 @@
       "hash": "esXNdjRvmBbx",
       "address": "https://en.wikipedia.org/wiki/GIMP",
       "title": "GIMP - Wikipedia",
-      "snippet": "GNU Image Manipulation Program\nGIMP version 3.0\nOriginal authors\nSpencer Kimball, Peter Mattis\nDeveloper\nGIMP Development Team\nRelease\n2 June 1998; 28 years ago\nStable release\n3.2.6[1]\n/ 10 September 2026; 1 day ago\nPreview release\n3.4[2][3]\n/ 14 March 2026; 5 months ago\nWritten in\nC, C++, Python,",
+      "snippet": "Richard Stallman of the GNU Project visited the University of California Berkeley in 1997, where Richard met with Kimball and Mattis. Kimball and Mattis asked him if they could change the initialism of GIMP, changing the G to 'GNU' from 'General'.[",
       "matchedWords": {
         "PHizVQKyaT_v": {
           "hits": 4,
@@ -1000,7 +1000,7 @@
       "hash": "zPsYJjRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Linux",
       "title": "Linux - Wikipedia",
-      "snippet": "GNU, Red Hat, and X.Org—to create a complete operating system; however, not all Linux-based operating systems are considered distros, with Android being an example. Linux was originally designed as a clone of Unix and is distributed under the copyleft GPL license.[15]\nThere are many thousands of",
+      "snippet": "For example, regular expressions are supported in programs like grep and locate, the traditional Unix message transfer agent Sendmail contains its own Turing complete scripting system, and the advanced text editor GNU Emacs is built around a general purpose Lisp interpreter.[169][170][171]",
       "matchedWords": {
         "PHizVQKyaT_v": {
           "hits": 1,
@@ -1021,7 +1021,7 @@
       "hash": "5qBCujRvmBbx",
       "address": "https://en.wikipedia.org/wiki/GNU_Free_Documentation_License",
       "title": "GNU Free Documentation License - Wikipedia",
-      "snippet": "GNU Free Documentation License\nAuthor\nFree Software Foundation\nLatest version\n1.3\nPublisher\nFree Software Foundation, Inc.\nPublished\nNovember 3, 2008 (current version)\nSPDX identifier\nGFDL-1.3-or-later\nGFDL-1.3-only\nGFDL-1.2-or-later\nGFDL-1.2-only\nGFDL-1.1-or-later\nGFDL-1.1-only\n(see list for more)",
+      "snippet": "The goal of invariant sections, ever since the 80s when we first made the GNU Manifesto an invariant section in the Emacs Manual, was to make sure they could not be removed.",
       "matchedWords": {
         "PHizVQKyaT_v": {
           "hits": 3,
@@ -1042,7 +1042,7 @@
       "hash": "kQwWXobrsZjx",
       "address": "https://www.mediawiki.org/wiki/Extension:SyntaxHighlight_GeSHi",
       "title": "Extension:SyntaxHighlight - MediaWiki",
-      "snippet": "manual\nSyntaxHighlight\nRelease status: stable\nImplementation\nTag\nDescription\nAllows source code to be syntax highlighted on wiki pages\nAuthor(s)\nBrooke Vibber,\nTim Starling,\nRob Church,\nOri Livneh\nLatest version\ncontinuous updates\nCompatibility policy\nMaster maintains backward compatibility.",
+      "snippet": "For syntax highlighting in wikitext editors, such as the source editor, see the CodeMirror extension or the userscripts of Remember the dot and Cacycle.\nMediaWiki extensions manual\nSyntaxHighlight\nRelease status: stable\nImplementation\nTag\nDescription",
       "matchedWords": {
         "PHizVQKyaT_v": {
           "hits": 1,
@@ -1063,7 +1063,7 @@
       "hash": "5qBCujRvmBbx",
       "address": "https://en.wikipedia.org/wiki/GNU_Free_Documentation_License",
       "title": "GNU Free Documentation License - Wikipedia",
-      "snippet": "GNU Free Documentation License\nAuthor\nFree Software Foundation\nLatest version\n1.3\nPublisher\nFree Software Foundation, Inc.\nPublished\nNovember 3, 2008 (current version)\nSPDX identifier\nGFDL-1.3-or-later\nGFDL-1.3-only\nGFDL-1.2-or-later\nGFDL-1.2-only\nGFDL-1.1-or-later\nGFDL-1.1-only\n(see list for more)",
+      "snippet": "The goal of invariant sections, ever since the 80s when we first made the GNU Manifesto an invariant section in the Emacs Manual, was to make sure they could not be removed.",
       "matchedWords": {
         "PHizVQKyaT_v": {
           "hits": 3,
@@ -1084,7 +1084,7 @@
       "hash": "gmhRVl1nrxbw",
       "address": "https://www.debian.org/devel/",
       "title": "Debian -- Debian Developers' Corner",
-      "snippet": "manual and other documents related to the Debian policy, procedures and other resources for Debian developers, and the new maintainers' guide.\nWork in Progress: Links for active Debian developers and maintainers\nDebian ‘Testing’\nAutomatically generated from the ‘unstable’ distribution: this is",
+      "snippet": "Links to our policy manual and other documents related to the Debian policy, procedures and other resources for Debian developers, and the new maintainers' guide.\nWork in Progress: Links for active Debian developers and maintainers\nDebian ‘Testing’",
       "matchedWords": {
         "PHizVQKyaT_v": {
           "hits": 3,
@@ -1105,7 +1105,7 @@
       "hash": "k8eWwjRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Command-line_interface",
       "title": "Command-line interface - Wikipedia",
-      "snippet": "GNU Octave's GUI with command-line interface\nApplication programs (as opposed to operating systems) may also have command-line interfaces.\nAn application program may support none, any, or all of these three major types of command-line interface mechanisms:\nParameters: Most command-line interfaces",
+      "snippet": "Retrieved 2019-04-08.\n↑ DR-DOS 7.03 WHATSNEW.TXT — Changes from DR-DOS 7.02 to DR-DOS 7.03. Caldera, Inc. 1998-12-24. Archived from the original on 2019-04-08. Retrieved 2019-04-08.\n↑ \"Argument Syntax (The GNU C Library)\". gnu.org. Archived from the original on 2021-06-18. Retrieved 2021-07-09.",
       "matchedWords": {
         "PHizVQKyaT_v": {
           "hits": 3,
@@ -1126,7 +1126,7 @@
       "hash": "2ZqdVzfOEiDw",
       "address": "https://planet.gnome.org/",
       "title": "Planet GNOME",
-      "snippet": "Two weeks ago, I released AppStream 1.2.0. This release contains a lot of great changes, but one of the most important ones concerns how media are being handled, and AppStream’s default image export format.\nAppStream is a Freedesktop metadata standard to describe software components. That can be",
+      "snippet": "Two weeks ago, I released AppStream 1.2.0. This release contains a lot of great changes, but one of the most important ones concerns how media are being handled, and AppStream’s default image export format.\nAppStream is a Freedesktop metadata standard to describe software components.",
       "matchedWords": {
         "PHizVQKyaT_v": {
           "hits": 0,
@@ -1147,7 +1147,7 @@
       "hash": "zPsYJjRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Linux",
       "title": "Linux - Wikipedia",
-      "snippet": "GNU, Red Hat, and X.Org—to create a complete operating system; however, not all Linux-based operating systems are considered distros, with Android being an example. Linux was originally designed as a clone of Unix and is distributed under the copyleft GPL license.[15]\nThere are many thousands of",
+      "snippet": "For example, regular expressions are supported in programs like grep and locate, the traditional Unix message transfer agent Sendmail contains its own Turing complete scripting system, and the advanced text editor GNU Emacs is built around a general purpose Lisp interpreter.[169][170][171]",
       "matchedWords": {
         "PHizVQKyaT_v": {
           "hits": 1,
@@ -1168,7 +1168,7 @@
       "hash": "QdW-xjRvmBbx",
       "address": "https://en.wikipedia.org/wiki/GNU_General_Public_License",
       "title": "GNU General Public License - Wikipedia",
-      "snippet": "GNU General Public License\nAuthor\nRichard Stallman\nLatest version\n3\nPublisher\nFree Software Foundation\nPublished\n25 February 1989; 37 years ago\nSPDX identifier\nGPL-3.0-or-later\nGPL-3.0-only\nGPL-2.0-or-later\nGPL-2.0-only\nGPL-1.0-or-later\nGPL-1.0-only\nDebian FSG compatible\nYes[1]\nFSF approved\nYes[2]",
+      "snippet": "The original GPL was written by Richard Stallman in 1989 for use with programs released as part of the GNU Project. The license was based on unifying similar licenses used for early versions of the GNU Emacs text editor, the GNU Debugger, and the GNU C Compiler.[",
       "matchedWords": {
         "PHizVQKyaT_v": {
           "hits": 3,
@@ -1189,7 +1189,7 @@
       "hash": "zPsYJjRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Linux",
       "title": "Linux - Wikipedia",
-      "snippet": "GNU, Red Hat, and X.Org—to create a complete operating system; however, not all Linux-based operating systems are considered distros, with Android being an example. Linux was originally designed as a clone of Unix and is distributed under the copyleft GPL license.[15]\nThere are many thousands of",
+      "snippet": "For example, regular expressions are supported in programs like grep and locate, the traditional Unix message transfer agent Sendmail contains its own Turing complete scripting system, and the advanced text editor GNU Emacs is built around a general purpose Lisp interpreter.[169][170][171]",
       "matchedWords": {
         "PHizVQKyaT_v": {
           "hits": 1,
@@ -1210,7 +1210,7 @@
       "hash": "QnfPVsI9I2Th",
       "address": "https://karl-voit.at/",
       "title": "public voit - Homepage of Karl Voit",
-      "snippet": "Emacs people visiting this page: here, I just list a few Emacs packages. For more details on which packages I'm using for my workflows, please do visit my online Emacs config and check out the first chapters explaining my setup.\nIt is important to emphasize that you can not derive anything for your",
+      "snippet": "If you do have further data, insight or links that contribute to the topic, please do comment below.\nRead the whole article ...\n2026-04-10: My Emacs and Org-mode Workshops at the GLT26\nHere are the shownotes of my GLT 2026 workshops to Emacs and Org-mode:\nEinführung in die GNU Emacs Plattform",
       "matchedWords": {
         "PHizVQKyaT_v": {
           "hits": 1,
@@ -1273,7 +1273,7 @@
       "hash": "gmhRVl1nrxbw",
       "address": "https://www.debian.org/devel/",
       "title": "Debian -- Debian Developers' Corner",
-      "snippet": "manual and other documents related to the Debian policy, procedures and other resources for Debian developers, and the new maintainers' guide.\nWork in Progress: Links for active Debian developers and maintainers\nDebian ‘Testing’\nAutomatically generated from the ‘unstable’ distribution: this is",
+      "snippet": "Links to our policy manual and other documents related to the Debian policy, procedures and other resources for Debian developers, and the new maintainers' guide.\nWork in Progress: Links for active Debian developers and maintainers\nDebian ‘Testing’",
       "matchedWords": {
         "PHizVQKyaT_v": {
           "hits": 3,
@@ -1294,7 +1294,7 @@
       "hash": "QdW-xjRvmBbx",
       "address": "https://en.wikipedia.org/wiki/GNU_General_Public_License",
       "title": "GNU General Public License - Wikipedia",
-      "snippet": "GNU General Public License\nAuthor\nRichard Stallman\nLatest version\n3\nPublisher\nFree Software Foundation\nPublished\n25 February 1989; 37 years ago\nSPDX identifier\nGPL-3.0-or-later\nGPL-3.0-only\nGPL-2.0-or-later\nGPL-2.0-only\nGPL-1.0-or-later\nGPL-1.0-only\nDebian FSG compatible\nYes[1]\nFSF approved\nYes[2]",
+      "snippet": "The original GPL was written by Richard Stallman in 1989 for use with programs released as part of the GNU Project. The license was based on unifying similar licenses used for early versions of the GNU Emacs text editor, the GNU Debugger, and the GNU C Compiler.[",
       "matchedWords": {
         "PHizVQKyaT_v": {
           "hits": 3,
@@ -1315,7 +1315,7 @@
       "hash": "2ZqdVzfOEiDw",
       "address": "https://planet.gnome.org/",
       "title": "Planet GNOME",
-      "snippet": "Two weeks ago, I released AppStream 1.2.0. This release contains a lot of great changes, but one of the most important ones concerns how media are being handled, and AppStream’s default image export format.\nAppStream is a Freedesktop metadata standard to describe software components. That can be",
+      "snippet": "Two weeks ago, I released AppStream 1.2.0. This release contains a lot of great changes, but one of the most important ones concerns how media are being handled, and AppStream’s default image export format.\nAppStream is a Freedesktop metadata standard to describe software components.",
       "matchedWords": {
         "PHizVQKyaT_v": {
           "hits": 0,
@@ -1336,7 +1336,7 @@
       "hash": "lN9DCbR2NVbw",
       "address": "https://devguide.python.org/documentation/markup/",
       "title": "reStructuredText markup",
-      "snippet": "Emacs’ auto-fill mode.\nParagraphs¶\nThe paragraph is the most basic block in a reST document. Paragraphs are simply chunks of text separated by one or more blank lines. As in Python, indentation is significant in reST, so all lines of the same paragraph must be left-aligned to the same level of",
+      "snippet": ".. seealso:: Module :mod:`zipfile` Documentation of the :mod:`zipfile` standard module. `GNU tar manual, Basic Tar Format \u003chttp://link\u003e`_ Documentation for tar archive files, including GNU tar extensions.\nrubric",
       "matchedWords": {
         "PHizVQKyaT_v": {
           "hits": 4,
@@ -1357,7 +1357,7 @@
       "hash": "2fgfWjRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Vim_(text_editor)",
       "title": "Vim (text editor) - Wikipedia",
-      "snippet": "GNU General Public License through a special clause allowing distribution of modified copies under the GNU GPL version 2.0 or later.[4]\ngVim 7.3\nText user interface\n[edit]\nBuilding upon the core vi functionality, Vim provides a user experience that integrates keyboard-entered command input with a",
+      "snippet": "4] The Vim license is compatible with the GNU General Public License through a special clause allowing distribution of modified copies under the GNU GPL version 2.0 or later.[4]\ngVim 7.3\nText user interface\n[edit]",
       "matchedWords": {
         "PHizVQKyaT_v": {
           "hits": 6,
@@ -1378,7 +1378,7 @@
       "hash": "aI7l5obrsZjx",
       "address": "https://www.mediawiki.org/wiki/Extension:SyntaxHighlight",
       "title": "Extension:SyntaxHighlight - MediaWiki",
-      "snippet": "manual\nSyntaxHighlight\nRelease status: stable\nImplementation\nTag\nDescription\nAllows source code to be syntax highlighted on wiki pages\nAuthor(s)\nBrooke Vibber,\nTim Starling,\nRob Church,\nOri Livneh\nLatest version\ncontinuous updates\nCompatibility policy\nMaster maintains backward compatibility.",
+      "snippet": "For syntax highlighting in wikitext editors, such as the source editor, see the CodeMirror extension or the userscripts of Remember the dot and Cacycle.\nMediaWiki extensions manual\nSyntaxHighlight\nRelease status: stable\nImplementation\nTag\nDescription",
       "matchedWords": {
         "PHizVQKyaT_v": {
           "hits": 1,
@@ -1399,7 +1399,7 @@
       "hash": "eNlTQjldhbwx",
       "address": "https://en.wikibooks.org/wiki/How_To_Assemble_A_Desktop_PC/Printable_version",
       "title": "How To Assemble A Desktop PC/Printable version - Wikibooks, open books for an open world",
-      "snippet": "GNU/Linux is a good alternative. Linux is a UNIX-like series of operating systems and comes in many different distributions, called \"distros\" for short. Popular distros of Linux intended for the desktop include Ubuntu, Debian, Linux Mint, Fedora, openSUSE, MX Linux, Elementary OS, KDE Neon, and",
+      "snippet": "When installing a GNU/Linux distro, you may be asked to choose between alternatives – whether to run KDE or GNOME as a desktop environment, for instance, or to install Vim or Emacs or nano as a text editor. If the terms are unfamiliar a quick web search will usually yield answers.",
       "matchedWords": {
         "PHizVQKyaT_v": {
           "hits": 6,
@@ -1420,7 +1420,7 @@
       "hash": "gmhRVl1nrxbw",
       "address": "https://www.debian.org/devel/",
       "title": "Debian -- Debian Developers' Corner",
-      "snippet": "manual and other documents related to the Debian policy, procedures and other resources for Debian developers, and the new maintainers' guide.\nWork in Progress: Links for active Debian developers and maintainers\nDebian ‘Testing’\nAutomatically generated from the ‘unstable’ distribution: this is",
+      "snippet": "Links to our policy manual and other documents related to the Debian policy, procedures and other resources for Debian developers, and the new maintainers' guide.\nWork in Progress: Links for active Debian developers and maintainers\nDebian ‘Testing’",
       "matchedWords": {
         "PHizVQKyaT_v": {
           "hits": 3,
@@ -1441,7 +1441,7 @@
       "hash": "AonnkjRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Perl",
       "title": "Perl - Wikipedia",
-      "snippet": "GNU General Public License version 1 or any later version[6]\nFilename extensions\n.plx, .pls, .pl, .pm, .xs, .t, .pod, .cgi, .psgi\nWebsite\nperl.org\nInfluenced by\nAWK, BASIC, C, C++, Lisp, sed, Unix shell[7]\nInfluenced\nCoffeeScript,[citation needed] Groovy,[citation needed] JavaScript, Julia, LPC,",
+      "snippet": "License\nArtistic 1.0[4][5] or GNU General Public License version 1 or any later version[6]\nFilename extensions\n.plx, .pls, .pl, .pm, .xs, .t, .pod, .cgi, .psgi\nWebsite\nperl.org\nInfluenced by\nAWK, BASIC, C, C++, Lisp, sed, Unix shell[7]\nInfluenced",
       "matchedWords": {
         "PHizVQKyaT_v": {
           "hits": 2,
@@ -1462,7 +1462,7 @@
       "hash": "FZ5ZijRvmBbx",
       "address": "https://en.wikipedia.org/wiki/List_of_free_and_open-source_software_packages",
       "title": "List of free and open-source software packages - Wikipedia",
-      "snippet": "GNU project in particular objects to their works being referred to as open-source.[1] For more information about the philosophical background for open-source software, see free software movement and Open Source Initiative. However, nearly all software meeting the Free Software Definition also meets",
+      "snippet": "KDevelop\nLazarus\nMCU 8051 IDE\nNetBeans\nPadre\nPharo\nPoplog\nPyDev\nQt Creator\nSLIME\nSpyder\nTheIDE\nVisualFBEditor\nZeroBrane Studio\nSource code editors\n[edit]\nAcme\nAtom\nBluefish\nBrackets\nECCE\ned\nElvis\nGNU Emacs\nExtensible Versatile Editor (EVE)\nFeatherPad\nGeany\ngedit\nGNOME Text Editor\nJED\njEdit\nJOVE",
       "matchedWords": {
         "PHizVQKyaT_v": {
           "hits": 1,
@@ -1483,7 +1483,7 @@
       "hash": "KgBwHjRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Regular_expression",
       "title": "Regular expression - Wikipedia",
-      "snippet": "Emacs (which has its own, incompatible syntax and behavior). Regexes were subsequently adopted by a wide range of programs, with these early forms standardized in the POSIX.2 standard in 1992.\nIn the 1980s, the more complicated regexes arose in Perl, which originally derived from a regex library",
+      "snippet": "Many variations of these original forms of regular expressions were used in Unix[13] programs at Bell Labs in the 1970s, including lex, sed, AWK, and expr, and in other programs such as vi, and Emacs (which has its own, incompatible syntax and behavior).",
       "matchedWords": {
         "PHizVQKyaT_v": {
           "hits": 2,
@@ -1504,7 +1504,7 @@
       "hash": "QdW-xjRvmBbx",
       "address": "https://en.wikipedia.org/wiki/GNU_General_Public_License",
       "title": "GNU General Public License - Wikipedia",
-      "snippet": "GNU General Public License\nAuthor\nRichard Stallman\nLatest version\n3\nPublisher\nFree Software Foundation\nPublished\n25 February 1989; 37 years ago\nSPDX identifier\nGPL-3.0-or-later\nGPL-3.0-only\nGPL-2.0-or-later\nGPL-2.0-only\nGPL-1.0-or-later\nGPL-1.0-only\nDebian FSG compatible\nYes[1]\nFSF approved\nYes[2]",
+      "snippet": "The original GPL was written by Richard Stallman in 1989 for use with programs released as part of the GNU Project. The license was based on unifying similar licenses used for early versions of the GNU Emacs text editor, the GNU Debugger, and the GNU C Compiler.[",
       "matchedWords": {
         "PHizVQKyaT_v": {
           "hits": 3,
@@ -1525,7 +1525,7 @@
       "hash": "esXNdjRvmBbx",
       "address": "https://en.wikipedia.org/wiki/GIMP",
       "title": "GIMP - Wikipedia",
-      "snippet": "GNU Image Manipulation Program\nGIMP version 3.0\nOriginal authors\nSpencer Kimball, Peter Mattis\nDeveloper\nGIMP Development Team\nRelease\n2 June 1998; 28 years ago\nStable release\n3.2.6[1]\n/ 10 September 2026; 1 day ago\nPreview release\n3.4[2][3]\n/ 14 March 2026; 5 months ago\nWritten in\nC, C++, Python,",
+      "snippet": "Richard Stallman of the GNU Project visited the University of California Berkeley in 1997, where Richard met with Kimball and Mattis. Kimball and Mattis asked him if they could change the initialism of GIMP, changing the G to 'GNU' from 'General'.[",
       "matchedWords": {
         "PHizVQKyaT_v": {
           "hits": 4,
@@ -1546,7 +1546,7 @@
       "hash": "zTCfkxtQ-zSx",
       "address": "https://wiki.archlinux.org/title/List_of_applications/Internet",
       "title": "List of applications/Internet - ArchWiki",
-      "snippet": "GNU IceCat — A customized build of Firefox ESR distributed by the GNU Project, stripped of non-free components and with additional privacy extensions. Release cycle may be delayed compared to Mozilla Firefox.\nhttps://www.gnu.org/software/gnuzilla/ || icecatAUR\nKonform Browser — A customized build",
+      "snippet": "https://thelounge.chat/ || theloungeAUR\nXMPP clients\nSee also: Wikipedia:XMPP\nConsole\nFreetalk — Console-based XMPP client.\nhttps://www.gnu.org/software/freetalk/ || freetalkAUR\njabber.el — Minimal XMPP client for Emacs.\nhttps://emacs-jabber.sourceforge.net/ || emacs-jabberAUR",
       "matchedWords": {
         "PHizVQKyaT_v": {
           "hits": 2,
@@ -1567,7 +1567,7 @@
       "hash": "KGUVEjRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Man_page",
       "title": "man page - Wikipedia",
-      "snippet": "manual page, is a form of software documentation found on Unix and Unix-like operating systems. Topics covered include programs, system libraries, system calls, and sometimes local system details. The local host administrators can create and install manual pages associated with the specific host. A",
+      "snippet": "The GNU Emacs program WoMan (from \"WithOut man\") allows for browsing man pages from the editor.[11]",
       "matchedWords": {
         "PHizVQKyaT_v": {
           "hits": 45,
@@ -1588,7 +1588,7 @@
       "hash": "5qBCujRvmBbx",
       "address": "https://en.wikipedia.org/wiki/GNU_Free_Documentation_License",
       "title": "GNU Free Documentation License - Wikipedia",
-      "snippet": "GNU Free Documentation License\nAuthor\nFree Software Foundation\nLatest version\n1.3\nPublisher\nFree Software Foundation, Inc.\nPublished\nNovember 3, 2008 (current version)\nSPDX identifier\nGFDL-1.3-or-later\nGFDL-1.3-only\nGFDL-1.2-or-later\nGFDL-1.2-only\nGFDL-1.1-or-later\nGFDL-1.1-only\n(see list for more)",
+      "snippet": "The goal of invariant sections, ever since the 80s when we first made the GNU Manifesto an invariant section in the Emacs Manual, was to make sure they could not be removed.",
       "matchedWords": {
         "PHizVQKyaT_v": {
           "hits": 3,
@@ -1609,7 +1609,7 @@
       "hash": "QriquAK-xyJ4",
       "address": "https://go.dev/doc/devel/weekly",
       "title": "Weekly Snapshot History - The Go Programming Language",
-      "snippet": "misc/emacs: fix indentation bug. * misc/goplay: fix error on IE8 (thanks Yasuhiro Matsumoto). * net: ignore ECONNABORTED from syscall.Accept (thanks Devon H. O'Dell). * os: add missing byte to FileMode buffer (thanks Stefan Nilsson). * path/filepath: convert drive letter to upper case in windows",
+      "snippet": "Slices are better: http://code.google.com/p/go-wiki/wiki/SliceTricks Other changes: * 5l/6l/8l: correct ELFRESERVE diagnostic (thanks Anthony Martin). * 6l/8l: support OS X code signing (thanks Mikkel Krautz). * asn1: accept UTF8 strings as ASN.1 ANY values. * big: handle aliasing correctly for",
       "matchedWords": {
         "PHizVQKyaT_v": {
           "hits": 2,
@@ -1630,7 +1630,7 @@
       "hash": "Rx8AIs_tHst4",
       "address": "https://dwheeler.com/oss_fs_why.html",
       "title": "Why Open Source Software / Free Software (OSS/FS, FOSS, or FLOSS)? Look at the Numbers!",
-      "snippet": "GNU/Linux (which many abbreviate as “Linux”), the Apache web server, the Mozilla Firefox web browser, and the OpenOffice.org office suite, since these are some of the most visible FLOSS projects. I’ll also primarily compare FLOSS software to Microsoft’s products (such as Windows and IIS), since",
+      "snippet": "Joomla, on the other hand, seems fine.\"\nGNU emacs / xemacs, OpenBSD. Sometimes, though this is rare, a fork produces two projects which both live on; typically each fork ends up catering to a different community. GNU emacs was forked into xemacs, resulting in two successful projects.",
       "matchedWords": {
         "PHizVQKyaT_v": {
           "hits": 5,
@@ -1651,7 +1651,7 @@
       "hash": "SV9QKjhVvkiw",
       "address": "https://dianne.skoll.ca/projects/remind/",
       "title": "Dianne Skoll's Web Site - Remind - Software Projects",
-      "snippet": "GNU General Public License, Version 2\nDownload Remind\nThe current version of remind is 06.03.03 released on 2026-09-10.\nVerify the Signature\nTo verify the GPG signature, run:\ngpg --verify remind-06.03.03.tar.gz.sig\nYou will need to have my public key in your GnuPG keyring.\nThe Book of Remind\nI have",
+      "snippet": "Residents of Jurisdictions with Age-Verification Laws\nIf you are a resident of a jurisdiction with age-verification laws, please read this very important notice.\nLicense\nRemind is Free Software, licensed under the terms of the GNU General Public License, Version 2\nDownload Remind",
       "matchedWords": {
         "PHizVQKyaT_v": {
           "hits": 3,
@@ -1672,7 +1672,7 @@
       "hash": "QnfPVsI9I2Th",
       "address": "https://karl-voit.at/",
       "title": "public voit - Homepage of Karl Voit",
-      "snippet": "Emacs people visiting this page: here, I just list a few Emacs packages. For more details on which packages I'm using for my workflows, please do visit my online Emacs config and check out the first chapters explaining my setup.\nIt is important to emphasize that you can not derive anything for your",
+      "snippet": "If you do have further data, insight or links that contribute to the topic, please do comment below.\nRead the whole article ...\n2026-04-10: My Emacs and Org-mode Workshops at the GLT26\nHere are the shownotes of my GLT 2026 workshops to Emacs and Org-mode:\nEinführung in die GNU Emacs Plattform",
       "matchedWords": {
         "PHizVQKyaT_v": {
           "hits": 1,
@@ -1693,7 +1693,7 @@
       "hash": "QriquAK-xyJ4",
       "address": "https://go.dev/doc/devel/weekly",
       "title": "Weekly Snapshot History - The Go Programming Language",
-      "snippet": "misc/emacs: fix indentation bug. * misc/goplay: fix error on IE8 (thanks Yasuhiro Matsumoto). * net: ignore ECONNABORTED from syscall.Accept (thanks Devon H. O'Dell). * os: add missing byte to FileMode buffer (thanks Stefan Nilsson). * path/filepath: convert drive letter to upper case in windows",
+      "snippet": "Slices are better: http://code.google.com/p/go-wiki/wiki/SliceTricks Other changes: * 5l/6l/8l: correct ELFRESERVE diagnostic (thanks Anthony Martin). * 6l/8l: support OS X code signing (thanks Mikkel Krautz). * asn1: accept UTF8 strings as ASN.1 ANY values. * big: handle aliasing correctly for",
       "matchedWords": {
         "PHizVQKyaT_v": {
           "hits": 2,
@@ -1714,7 +1714,7 @@
       "hash": "QdW-xjRvmBbx",
       "address": "https://en.wikipedia.org/wiki/GNU_General_Public_License",
       "title": "GNU General Public License - Wikipedia",
-      "snippet": "GNU General Public License\nAuthor\nRichard Stallman\nLatest version\n3\nPublisher\nFree Software Foundation\nPublished\n25 February 1989; 37 years ago\nSPDX identifier\nGPL-3.0-or-later\nGPL-3.0-only\nGPL-2.0-or-later\nGPL-2.0-only\nGPL-1.0-or-later\nGPL-1.0-only\nDebian FSG compatible\nYes[1]\nFSF approved\nYes[2]",
+      "snippet": "The original GPL was written by Richard Stallman in 1989 for use with programs released as part of the GNU Project. The license was based on unifying similar licenses used for early versions of the GNU Emacs text editor, the GNU Debugger, and the GNU C Compiler.[",
       "matchedWords": {
         "PHizVQKyaT_v": {
           "hits": 3,
@@ -1735,7 +1735,7 @@
       "hash": "Rx8AIs_tHst4",
       "address": "https://dwheeler.com/oss_fs_why.html",
       "title": "Why Open Source Software / Free Software (OSS/FS, FOSS, or FLOSS)? Look at the Numbers!",
-      "snippet": "GNU/Linux (which many abbreviate as “Linux”), the Apache web server, the Mozilla Firefox web browser, and the OpenOffice.org office suite, since these are some of the most visible FLOSS projects. I’ll also primarily compare FLOSS software to Microsoft’s products (such as Windows and IIS), since",
+      "snippet": "Joomla, on the other hand, seems fine.\"\nGNU emacs / xemacs, OpenBSD. Sometimes, though this is rare, a fork produces two projects which both live on; typically each fork ends up catering to a different community. GNU emacs was forked into xemacs, resulting in two successful projects.",
       "matchedWords": {
         "PHizVQKyaT_v": {
           "hits": 5,
@@ -1756,7 +1756,7 @@
       "hash": "SV9QKjhVvkiw",
       "address": "https://dianne.skoll.ca/projects/remind/",
       "title": "Dianne Skoll's Web Site - Remind - Software Projects",
-      "snippet": "GNU General Public License, Version 2\nDownload Remind\nThe current version of remind is 06.03.03 released on 2026-09-10.\nVerify the Signature\nTo verify the GPG signature, run:\ngpg --verify remind-06.03.03.tar.gz.sig\nYou will need to have my public key in your GnuPG keyring.\nThe Book of Remind\nI have",
+      "snippet": "Residents of Jurisdictions with Age-Verification Laws\nIf you are a resident of a jurisdiction with age-verification laws, please read this very important notice.\nLicense\nRemind is Free Software, licensed under the terms of the GNU General Public License, Version 2\nDownload Remind",
       "matchedWords": {
         "PHizVQKyaT_v": {
           "hits": 3,
@@ -1777,7 +1777,7 @@
       "hash": "lN9DCbR2NVbw",
       "address": "https://devguide.python.org/documentation/markup/",
       "title": "reStructuredText markup",
-      "snippet": "Emacs’ auto-fill mode.\nParagraphs¶\nThe paragraph is the most basic block in a reST document. Paragraphs are simply chunks of text separated by one or more blank lines. As in Python, indentation is significant in reST, so all lines of the same paragraph must be left-aligned to the same level of",
+      "snippet": ".. seealso:: Module :mod:`zipfile` Documentation of the :mod:`zipfile` standard module. `GNU tar manual, Basic Tar Format \u003chttp://link\u003e`_ Documentation for tar archive files, including GNU tar extensions.\nrubric",
       "matchedWords": {
         "PHizVQKyaT_v": {
           "hits": 4,
@@ -1798,7 +1798,7 @@
       "hash": "QdW-xjRvmBbx",
       "address": "https://en.wikipedia.org/wiki/GNU_General_Public_License",
       "title": "GNU General Public License - Wikipedia",
-      "snippet": "GNU General Public License\nAuthor\nRichard Stallman\nLatest version\n3\nPublisher\nFree Software Foundation\nPublished\n25 February 1989; 37 years ago\nSPDX identifier\nGPL-3.0-or-later\nGPL-3.0-only\nGPL-2.0-or-later\nGPL-2.0-only\nGPL-1.0-or-later\nGPL-1.0-only\nDebian FSG compatible\nYes[1]\nFSF approved\nYes[2]",
+      "snippet": "The original GPL was written by Richard Stallman in 1989 for use with programs released as part of the GNU Project. The license was based on unifying similar licenses used for early versions of the GNU Emacs text editor, the GNU Debugger, and the GNU C Compiler.[",
       "matchedWords": {
         "PHizVQKyaT_v": {
           "hits": 3,
@@ -1819,7 +1819,7 @@
       "hash": "r5eKBxtQ-zSx",
       "address": "https://wiki.archlinux.org/title/General_recommendations",
       "title": "General recommendations - ArchWiki",
-      "snippet": "manual intervention before upgrading your system. Subscribe to the arch-announce mailing list or the recent news RSS feed. Alternatively, check the front page Arch news every time before you update.\npacman\npacman is the Arch Linux package manager: it is highly encouraged to become familiar with it",
+      "snippet": "Consult Emacs#Colored output issues for a fix regarding garbled characters that may result from enabling colored output.\nMouse support\nUsing a mouse with the console for copy-paste operations can be preferred over GNU Screen's traditional copy mode.",
       "matchedWords": {
         "PHizVQKyaT_v": {
           "hits": 1,
@@ -1840,7 +1840,7 @@
       "hash": "zTCfkxtQ-zSx",
       "address": "https://wiki.archlinux.org/title/List_of_applications/Internet",
       "title": "List of applications/Internet - ArchWiki",
-      "snippet": "GNU IceCat — A customized build of Firefox ESR distributed by the GNU Project, stripped of non-free components and with additional privacy extensions. Release cycle may be delayed compared to Mozilla Firefox.\nhttps://www.gnu.org/software/gnuzilla/ || icecatAUR\nKonform Browser — A customized build",
+      "snippet": "https://thelounge.chat/ || theloungeAUR\nXMPP clients\nSee also: Wikipedia:XMPP\nConsole\nFreetalk — Console-based XMPP client.\nhttps://www.gnu.org/software/freetalk/ || freetalkAUR\njabber.el — Minimal XMPP client for Emacs.\nhttps://emacs-jabber.sourceforge.net/ || emacs-jabberAUR",
       "matchedWords": {
         "PHizVQKyaT_v": {
           "hits": 2,
@@ -1861,7 +1861,7 @@
       "hash": "73Hl4TCAF_G4",
       "address": "https://files.spritely.institute/papers/scheme-primer.html",
       "title": "A Scheme Primer",
-      "snippet": "GNU Emacs + Geiser: this is what this tutorial was written using, and is a powerful option (which also opens the door to working with Guix, one of the most interesting Scheme projects out there). However, it is also a path with a considerable learning curve.\nRacket, which comes with a built-in IDE",
+      "snippet": "Guile Scheme + GNU Emacs + Geiser: this is what this tutorial was written using, and is a powerful option (which also opens the door to working with Guix, one of the most interesting Scheme projects out there). However, it is also a path with a considerable learning curve.",
       "matchedWords": {
         "PHizVQKyaT_v": {
           "hits": 1,
@@ -1882,7 +1882,7 @@
       "hash": "JlpqPjRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Internet_Explorer",
       "title": "Internet Explorer - Wikipedia",
-      "snippet": "manual zoom level is 10%, and the highest 1000%.[66]\nInternet Explorer has been designed to view a broad range of web pages and provide certain features within the operating system, including Microsoft Update. During the height of the browser wars, Internet Explorer superseded Netscape only when it",
+      "snippet": "The lowest allowed manual zoom level is 10%, and the highest 1000%.[66]\nInternet Explorer has been designed to view a broad range of web pages and provide certain features within the operating system, including Microsoft Update.",
       "matchedWords": {
         "PHizVQKyaT_v": {
           "hits": 1,
@@ -1903,7 +1903,7 @@
       "hash": "KGUVEjRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Man_page",
       "title": "man page - Wikipedia",
-      "snippet": "manual page, is a form of software documentation found on Unix and Unix-like operating systems. Topics covered include programs, system libraries, system calls, and sometimes local system details. The local host administrators can create and install manual pages associated with the specific host. A",
+      "snippet": "The GNU Emacs program WoMan (from \"WithOut man\") allows for browsing man pages from the editor.[11]",
       "matchedWords": {
         "PHizVQKyaT_v": {
           "hits": 45,
@@ -1924,7 +1924,7 @@
       "hash": "KgBwHjRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Regular_expression",
       "title": "Regular expression - Wikipedia",
-      "snippet": "Emacs (which has its own, incompatible syntax and behavior). Regexes were subsequently adopted by a wide range of programs, with these early forms standardized in the POSIX.2 standard in 1992.\nIn the 1980s, the more complicated regexes arose in Perl, which originally derived from a regex library",
+      "snippet": "Many variations of these original forms of regular expressions were used in Unix[13] programs at Bell Labs in the 1970s, including lex, sed, AWK, and expr, and in other programs such as vi, and Emacs (which has its own, incompatible syntax and behavior).",
       "matchedWords": {
         "PHizVQKyaT_v": {
           "hits": 2,
@@ -1945,7 +1945,7 @@
       "hash": "5qBCujRvmBbx",
       "address": "https://en.wikipedia.org/wiki/GNU_Free_Documentation_License",
       "title": "GNU Free Documentation License - Wikipedia",
-      "snippet": "GNU Free Documentation License\nAuthor\nFree Software Foundation\nLatest version\n1.3\nPublisher\nFree Software Foundation, Inc.\nPublished\nNovember 3, 2008 (current version)\nSPDX identifier\nGFDL-1.3-or-later\nGFDL-1.3-only\nGFDL-1.2-or-later\nGFDL-1.2-only\nGFDL-1.1-or-later\nGFDL-1.1-only\n(see list for more)",
+      "snippet": "The goal of invariant sections, ever since the 80s when we first made the GNU Manifesto an invariant section in the Emacs Manual, was to make sure they could not be removed.",
       "matchedWords": {
         "PHizVQKyaT_v": {
           "hits": 3,
@@ -1966,7 +1966,7 @@
       "hash": "aI7l5obrsZjx",
       "address": "https://www.mediawiki.org/wiki/Extension:SyntaxHighlight",
       "title": "Extension:SyntaxHighlight - MediaWiki",
-      "snippet": "manual\nSyntaxHighlight\nRelease status: stable\nImplementation\nTag\nDescription\nAllows source code to be syntax highlighted on wiki pages\nAuthor(s)\nBrooke Vibber,\nTim Starling,\nRob Church,\nOri Livneh\nLatest version\ncontinuous updates\nCompatibility policy\nMaster maintains backward compatibility.",
+      "snippet": "For syntax highlighting in wikitext editors, such as the source editor, see the CodeMirror extension or the userscripts of Remember the dot and Cacycle.\nMediaWiki extensions manual\nSyntaxHighlight\nRelease status: stable\nImplementation\nTag\nDescription",
       "matchedWords": {
         "PHizVQKyaT_v": {
           "hits": 1,
@@ -1987,7 +1987,7 @@
       "hash": "P0YYCjRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Python_(programming_language)",
       "title": "Python (programming language) - Wikipedia",
-      "snippet": "Manual (raise statement)\". archive.adaic.com. Archived from the original on 22 October 2019. Retrieved 7 January 2020.\n1 2 Kuchling, Andrew M. (22 December 2006). \"Interview with Guido van Rossum (July 1998)\". amk.ca. Archived from the original on 1 May 2007. Retrieved 12 March 2012. I'd spent a",
+      "snippet": "This is the origin of many Python features, including the use of indentation for statement grouping and the inclusion of very high-level data types (although the details are all different in Python).\n↑ \"Ada 83 Reference Manual (raise statement)\". archive.adaic.com.",
       "matchedWords": {
         "PHizVQKyaT_v": {
           "hits": 1,
@@ -2008,7 +2008,7 @@
       "hash": "QdW-xjRvmBbx",
       "address": "https://en.wikipedia.org/wiki/GNU_General_Public_License",
       "title": "GNU General Public License - Wikipedia",
-      "snippet": "GNU General Public License\nAuthor\nRichard Stallman\nLatest version\n3\nPublisher\nFree Software Foundation\nPublished\n25 February 1989; 37 years ago\nSPDX identifier\nGPL-3.0-or-later\nGPL-3.0-only\nGPL-2.0-or-later\nGPL-2.0-only\nGPL-1.0-or-later\nGPL-1.0-only\nDebian FSG compatible\nYes[1]\nFSF approved\nYes[2]",
+      "snippet": "The original GPL was written by Richard Stallman in 1989 for use with programs released as part of the GNU Project. The license was based on unifying similar licenses used for early versions of the GNU Emacs text editor, the GNU Debugger, and the GNU C Compiler.[",
       "matchedWords": {
         "PHizVQKyaT_v": {
           "hits": 3,
@@ -2029,7 +2029,7 @@
       "hash": "esXNdjRvmBbx",
       "address": "https://en.wikipedia.org/wiki/GIMP",
       "title": "GIMP - Wikipedia",
-      "snippet": "GNU Image Manipulation Program\nGIMP version 3.0\nOriginal authors\nSpencer Kimball, Peter Mattis\nDeveloper\nGIMP Development Team\nRelease\n2 June 1998; 28 years ago\nStable release\n3.2.6[1]\n/ 10 September 2026; 1 day ago\nPreview release\n3.4[2][3]\n/ 14 March 2026; 5 months ago\nWritten in\nC, C++, Python,",
+      "snippet": "Richard Stallman of the GNU Project visited the University of California Berkeley in 1997, where Richard met with Kimball and Mattis. Kimball and Mattis asked him if they could change the initialism of GIMP, changing the G to 'GNU' from 'General'.[",
       "matchedWords": {
         "PHizVQKyaT_v": {
           "hits": 4,
@@ -2050,7 +2050,7 @@
       "hash": "2fgfWjRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Vim_(text_editor)",
       "title": "Vim (text editor) - Wikipedia",
-      "snippet": "GNU General Public License through a special clause allowing distribution of modified copies under the GNU GPL version 2.0 or later.[4]\ngVim 7.3\nText user interface\n[edit]\nBuilding upon the core vi functionality, Vim provides a user experience that integrates keyboard-entered command input with a",
+      "snippet": "4] The Vim license is compatible with the GNU General Public License through a special clause allowing distribution of modified copies under the GNU GPL version 2.0 or later.[4]\ngVim 7.3\nText user interface\n[edit]",
       "matchedWords": {
         "PHizVQKyaT_v": {
           "hits": 6,
@@ -2071,7 +2071,7 @@
       "hash": "5qBCujRvmBbx",
       "address": "https://en.wikipedia.org/wiki/GNU_Free_Documentation_License",
       "title": "GNU Free Documentation License - Wikipedia",
-      "snippet": "GNU Free Documentation License\nAuthor\nFree Software Foundation\nLatest version\n1.3\nPublisher\nFree Software Foundation, Inc.\nPublished\nNovember 3, 2008 (current version)\nSPDX identifier\nGFDL-1.3-or-later\nGFDL-1.3-only\nGFDL-1.2-or-later\nGFDL-1.2-only\nGFDL-1.1-or-later\nGFDL-1.1-only\n(see list for more)",
+      "snippet": "The goal of invariant sections, ever since the 80s when we first made the GNU Manifesto an invariant section in the Emacs Manual, was to make sure they could not be removed.",
       "matchedWords": {
         "PHizVQKyaT_v": {
           "hits": 3,
@@ -2092,7 +2092,7 @@
       "hash": "2ZqdVzfOEiDw",
       "address": "https://planet.gnome.org/",
       "title": "Planet GNOME",
-      "snippet": "Two weeks ago, I released AppStream 1.2.0. This release contains a lot of great changes, but one of the most important ones concerns how media are being handled, and AppStream’s default image export format.\nAppStream is a Freedesktop metadata standard to describe software components. That can be",
+      "snippet": "Two weeks ago, I released AppStream 1.2.0. This release contains a lot of great changes, but one of the most important ones concerns how media are being handled, and AppStream’s default image export format.\nAppStream is a Freedesktop metadata standard to describe software components.",
       "matchedWords": {
         "PHizVQKyaT_v": {
           "hits": 0,
@@ -2113,7 +2113,7 @@
       "hash": "eNlTQjldhbwx",
       "address": "https://en.wikibooks.org/wiki/How_To_Assemble_A_Desktop_PC/Printable_version",
       "title": "How To Assemble A Desktop PC/Printable version - Wikibooks, open books for an open world",
-      "snippet": "GNU/Linux is a good alternative. Linux is a UNIX-like series of operating systems and comes in many different distributions, called \"distros\" for short. Popular distros of Linux intended for the desktop include Ubuntu, Debian, Linux Mint, Fedora, openSUSE, MX Linux, Elementary OS, KDE Neon, and",
+      "snippet": "When installing a GNU/Linux distro, you may be asked to choose between alternatives – whether to run KDE or GNOME as a desktop environment, for instance, or to install Vim or Emacs or nano as a text editor. If the terms are unfamiliar a quick web search will usually yield answers.",
       "matchedWords": {
         "PHizVQKyaT_v": {
           "hits": 6,
@@ -2134,7 +2134,7 @@
       "hash": "gmhRVl1nrxbw",
       "address": "https://www.debian.org/devel/",
       "title": "Debian Developers' Corner",
-      "snippet": "manual and other documents related to the Debian policy, procedures and other resources for Debian developers, and the new maintainers' guide.\nWork in Progress: Links for active Debian developers and maintainers\nDebian ‘Testing’\nAutomatically generated from the ‘unstable’ distribution: this is",
+      "snippet": "Links to our policy manual and other documents related to the Debian policy, procedures and other resources for Debian developers, and the new maintainers' guide.\nWork in Progress: Links for active Debian developers and maintainers\nDebian ‘Testing’",
       "matchedWords": {
         "PHizVQKyaT_v": {
           "hits": 3,
@@ -2155,7 +2155,7 @@
       "hash": "KgBwHjRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Regular_expression",
       "title": "Regular expression - Wikipedia",
-      "snippet": "Emacs (which has its own, incompatible syntax and behavior). Regexes were subsequently adopted by a wide range of programs, with these early forms standardized in the POSIX.2 standard in 1992.\nIn the 1980s, the more complicated regexes arose in Perl, which originally derived from a regex library",
+      "snippet": "Many variations of these original forms of regular expressions were used in Unix[13] programs at Bell Labs in the 1970s, including lex, sed, AWK, and expr, and in other programs such as vi, and Emacs (which has its own, incompatible syntax and behavior).",
       "matchedWords": {
         "PHizVQKyaT_v": {
           "hits": 2,
@@ -2176,7 +2176,7 @@
       "hash": "k8eWwjRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Command-line_interface",
       "title": "Command-line interface - Wikipedia",
-      "snippet": "GNU Octave's GUI with command-line interface\nApplication programs (as opposed to operating systems) may also have command-line interfaces.\nAn application program may support none, any, or all of these three major types of command-line interface mechanisms:\nParameters: Most command-line interfaces",
+      "snippet": "Retrieved 2019-04-08.\n↑ DR-DOS 7.03 WHATSNEW.TXT — Changes from DR-DOS 7.02 to DR-DOS 7.03. Caldera, Inc. 1998-12-24. Archived from the original on 2019-04-08. Retrieved 2019-04-08.\n↑ \"Argument Syntax (The GNU C Library)\". gnu.org. Archived from the original on 2021-06-18. Retrieved 2021-07-09.",
       "matchedWords": {
         "PHizVQKyaT_v": {
           "hits": 3,
@@ -2197,7 +2197,7 @@
       "hash": "zPsYJjRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Linux",
       "title": "Linux - Wikipedia",
-      "snippet": "GNU, Red Hat, and X.Org—to create a complete operating system; however, not all Linux-based operating systems are considered distros, with Android being an example. Linux was originally designed as a clone of Unix and is distributed under the copyleft GPL license.[15]\nThere are many thousands of",
+      "snippet": "For example, regular expressions are supported in programs like grep and locate, the traditional Unix message transfer agent Sendmail contains its own Turing complete scripting system, and the advanced text editor GNU Emacs is built around a general purpose Lisp interpreter.[169][170][171]",
       "matchedWords": {
         "PHizVQKyaT_v": {
           "hits": 1,
@@ -2218,7 +2218,7 @@
       "hash": "2fgfWjRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Vim_(text_editor)",
       "title": "Vim (text editor) - Wikipedia",
-      "snippet": "GNU General Public License through a special clause allowing distribution of modified copies under the GNU GPL version 2.0 or later.[4]\ngVim 7.3\nText user interface\n[edit]\nBuilding upon the core vi functionality, Vim provides a user experience that integrates keyboard-entered command input with a",
+      "snippet": "4] The Vim license is compatible with the GNU General Public License through a special clause allowing distribution of modified copies under the GNU GPL version 2.0 or later.[4]\ngVim 7.3\nText user interface\n[edit]",
       "matchedWords": {
         "PHizVQKyaT_v": {
           "hits": 6,
@@ -2239,7 +2239,7 @@
       "hash": "Rx8AIs_tHst4",
       "address": "https://dwheeler.com/oss_fs_why.html",
       "title": "Why Open Source Software / Free Software (OSS/FS, FOSS, or FLOSS)? Look at the Numbers!",
-      "snippet": "GNU/Linux (which many abbreviate as “Linux”), the Apache web server, the Mozilla Firefox web browser, and the OpenOffice.org office suite, since these are some of the most visible FLOSS projects. I’ll also primarily compare FLOSS software to Microsoft’s products (such as Windows and IIS), since",
+      "snippet": "Joomla, on the other hand, seems fine.\"\nGNU emacs / xemacs, OpenBSD. Sometimes, though this is rare, a fork produces two projects which both live on; typically each fork ends up catering to a different community. GNU emacs was forked into xemacs, resulting in two successful projects.",
       "matchedWords": {
         "PHizVQKyaT_v": {
           "hits": 5,
@@ -2260,7 +2260,7 @@
       "hash": "kQwWXobrsZjx",
       "address": "https://www.mediawiki.org/wiki/Extension:SyntaxHighlight_GeSHi",
       "title": "Extension:SyntaxHighlight - MediaWiki",
-      "snippet": "manual\nSyntaxHighlight\nRelease status: stable\nImplementation\nTag\nDescription\nAllows source code to be syntax highlighted on wiki pages\nAuthor(s)\nBrooke Vibber,\nTim Starling,\nRob Church,\nOri Livneh\nLatest version\ncontinuous updates\nCompatibility policy\nMaster maintains backward compatibility.",
+      "snippet": "For syntax highlighting in wikitext editors, such as the source editor, see the CodeMirror extension or the userscripts of Remember the dot and Cacycle.\nMediaWiki extensions manual\nSyntaxHighlight\nRelease status: stable\nImplementation\nTag\nDescription",
       "matchedWords": {
         "PHizVQKyaT_v": {
           "hits": 1,
@@ -2281,7 +2281,7 @@
       "hash": "2ZqdVzfOEiDw",
       "address": "https://planet.gnome.org/",
       "title": "Planet GNOME",
-      "snippet": "Two weeks ago, I released AppStream 1.2.0. This release contains a lot of great changes, but one of the most important ones concerns how media are being handled, and AppStream’s default image export format.\nAppStream is a Freedesktop metadata standard to describe software components. That can be",
+      "snippet": "Two weeks ago, I released AppStream 1.2.0. This release contains a lot of great changes, but one of the most important ones concerns how media are being handled, and AppStream’s default image export format.\nAppStream is a Freedesktop metadata standard to describe software components.",
       "matchedWords": {
         "PHizVQKyaT_v": {
           "hits": 0,
@@ -2302,7 +2302,7 @@
       "hash": "QdW-xjRvmBbx",
       "address": "https://en.wikipedia.org/wiki/GNU_General_Public_License",
       "title": "GNU General Public License - Wikipedia",
-      "snippet": "GNU General Public License\nAuthor\nRichard Stallman\nLatest version\n3\nPublisher\nFree Software Foundation\nPublished\n25 February 1989; 37 years ago\nSPDX identifier\nGPL-3.0-or-later\nGPL-3.0-only\nGPL-2.0-or-later\nGPL-2.0-only\nGPL-1.0-or-later\nGPL-1.0-only\nDebian FSG compatible\nYes[1]\nFSF approved\nYes[2]",
+      "snippet": "The original GPL was written by Richard Stallman in 1989 for use with programs released as part of the GNU Project. The license was based on unifying similar licenses used for early versions of the GNU Emacs text editor, the GNU Debugger, and the GNU C Compiler.[",
       "matchedWords": {
         "PHizVQKyaT_v": {
           "hits": 3,
@@ -2323,7 +2323,7 @@
       "hash": "2ZqdVzfOEiDw",
       "address": "https://planet.gnome.org/",
       "title": "Planet GNOME",
-      "snippet": "Two weeks ago, I released AppStream 1.2.0. This release contains a lot of great changes, but one of the most important ones concerns how media are being handled, and AppStream’s default image export format.\nAppStream is a Freedesktop metadata standard to describe software components. That can be",
+      "snippet": "Two weeks ago, I released AppStream 1.2.0. This release contains a lot of great changes, but one of the most important ones concerns how media are being handled, and AppStream’s default image export format.\nAppStream is a Freedesktop metadata standard to describe software components.",
       "matchedWords": {
         "PHizVQKyaT_v": {
           "hits": 0,
@@ -2344,7 +2344,7 @@
       "hash": "QdW-xjRvmBbx",
       "address": "https://en.wikipedia.org/wiki/GNU_General_Public_License",
       "title": "GNU General Public License - Wikipedia",
-      "snippet": "GNU General Public License\nAuthor\nRichard Stallman\nLatest version\n3\nPublisher\nFree Software Foundation\nPublished\n25 February 1989; 37 years ago\nSPDX identifier\nGPL-3.0-or-later\nGPL-3.0-only\nGPL-2.0-or-later\nGPL-2.0-only\nGPL-1.0-or-later\nGPL-1.0-only\nDebian FSG compatible\nYes[1]\nFSF approved\nYes[2]",
+      "snippet": "The original GPL was written by Richard Stallman in 1989 for use with programs released as part of the GNU Project. The license was based on unifying similar licenses used for early versions of the GNU Emacs text editor, the GNU Debugger, and the GNU C Compiler.[",
       "matchedWords": {
         "PHizVQKyaT_v": {
           "hits": 3,
@@ -2365,7 +2365,7 @@
       "hash": "gmhRVl1nrxbw",
       "address": "https://www.debian.org/devel/",
       "title": "Debian -- Debian Developers' Corner",
-      "snippet": "manual and other documents related to the Debian policy, procedures and other resources for Debian developers, and the new maintainers' guide.\nWork in Progress: Links for active Debian developers and maintainers\nDebian ‘Testing’\nAutomatically generated from the ‘unstable’ distribution: this is",
+      "snippet": "Links to our policy manual and other documents related to the Debian policy, procedures and other resources for Debian developers, and the new maintainers' guide.\nWork in Progress: Links for active Debian developers and maintainers\nDebian ‘Testing’",
       "matchedWords": {
         "PHizVQKyaT_v": {
           "hits": 3,
@@ -2386,7 +2386,7 @@
       "hash": "Rx8AIs_tHst4",
       "address": "https://dwheeler.com/oss_fs_why.html",
       "title": "Why Open Source Software / Free Software (OSS/FS, FOSS, or FLOSS)? Look at the Numbers!",
-      "snippet": "GNU/Linux (which many abbreviate as “Linux”), the Apache web server, the Mozilla Firefox web browser, and the OpenOffice.org office suite, since these are some of the most visible FLOSS projects. I’ll also primarily compare FLOSS software to Microsoft’s products (such as Windows and IIS), since",
+      "snippet": "Joomla, on the other hand, seems fine.\"\nGNU emacs / xemacs, OpenBSD. Sometimes, though this is rare, a fork produces two projects which both live on; typically each fork ends up catering to a different community. GNU emacs was forked into xemacs, resulting in two successful projects.",
       "matchedWords": {
         "PHizVQKyaT_v": {
           "hits": 5,
@@ -2407,7 +2407,7 @@
       "hash": "2ZqdVzfOEiDw",
       "address": "https://planet.gnome.org/",
       "title": "Planet GNOME",
-      "snippet": "Two weeks ago, I released AppStream 1.2.0. This release contains a lot of great changes, but one of the most important ones concerns how media are being handled, and AppStream’s default image export format.\nAppStream is a Freedesktop metadata standard to describe software components. That can be",
+      "snippet": "Two weeks ago, I released AppStream 1.2.0. This release contains a lot of great changes, but one of the most important ones concerns how media are being handled, and AppStream’s default image export format.\nAppStream is a Freedesktop metadata standard to describe software components.",
       "matchedWords": {
         "PHizVQKyaT_v": {
           "hits": 0,
@@ -2428,7 +2428,7 @@
       "hash": "oCluGjRvmBbx",
       "address": "https://en.wikipedia.org/wiki/GPL",
       "title": "GNU General Public License - Wikipedia",
-      "snippet": "GNU General Public License\nAuthor\nRichard Stallman\nLatest version\n3\nPublisher\nFree Software Foundation\nPublished\n25 February 1989; 37 years ago\nSPDX identifier\nGPL-3.0-or-later\nGPL-3.0-only\nGPL-2.0-or-later\nGPL-2.0-only\nGPL-1.0-or-later\nGPL-1.0-only\nDebian FSG compatible\nYes[1]\nFSF approved\nYes[2]",
+      "snippet": "The original GPL was written by Richard Stallman in 1989 for use with programs released as part of the GNU Project. The license was based on unifying similar licenses used for early versions of the GNU Emacs text editor, the GNU Debugger, and the GNU C Compiler.[",
       "matchedWords": {
         "PHizVQKyaT_v": {
           "hits": 3,
@@ -2449,7 +2449,7 @@
       "hash": "JlpqPjRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Internet_Explorer",
       "title": "Internet Explorer - Wikipedia",
-      "snippet": "manual zoom level is 10%, and the highest 1000%.[66]\nInternet Explorer has been designed to view a broad range of web pages and provide certain features within the operating system, including Microsoft Update. During the height of the browser wars, Internet Explorer superseded Netscape only when it",
+      "snippet": "The lowest allowed manual zoom level is 10%, and the highest 1000%.[66]\nInternet Explorer has been designed to view a broad range of web pages and provide certain features within the operating system, including Microsoft Update.",
       "matchedWords": {
         "PHizVQKyaT_v": {
           "hits": 1,
@@ -2470,7 +2470,7 @@
       "hash": "P0YYCjRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Python_(programming_language)",
       "title": "Python (programming language) - Wikipedia",
-      "snippet": "Manual (raise statement)\". archive.adaic.com. Archived from the original on 22 October 2019. Retrieved 7 January 2020.\n1 2 Kuchling, Andrew M. (22 December 2006). \"Interview with Guido van Rossum (July 1998)\". amk.ca. Archived from the original on 1 May 2007. Retrieved 12 March 2012. I'd spent a",
+      "snippet": "This is the origin of many Python features, including the use of indentation for statement grouping and the inclusion of very high-level data types (although the details are all different in Python).\n↑ \"Ada 83 Reference Manual (raise statement)\". archive.adaic.com.",
       "matchedWords": {
         "PHizVQKyaT_v": {
           "hits": 1,
@@ -2491,7 +2491,7 @@
       "hash": "Rx8AIs_tHst4",
       "address": "https://dwheeler.com/oss_fs_why.html",
       "title": "Why Open Source Software / Free Software (OSS/FS, FOSS, or FLOSS)? Look at the Numbers!",
-      "snippet": "GNU/Linux (which many abbreviate as “Linux”), the Apache web server, the Mozilla Firefox web browser, and the OpenOffice.org office suite, since these are some of the most visible FLOSS projects. I’ll also primarily compare FLOSS software to Microsoft’s products (such as Windows and IIS), since",
+      "snippet": "Joomla, on the other hand, seems fine.\"\nGNU emacs / xemacs, OpenBSD. Sometimes, though this is rare, a fork produces two projects which both live on; typically each fork ends up catering to a different community. GNU emacs was forked into xemacs, resulting in two successful projects.",
       "matchedWords": {
         "PHizVQKyaT_v": {
           "hits": 5,
@@ -2533,7 +2533,7 @@
       "hash": "P0YYCjRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Python_(programming_language)",
       "title": "Python (programming language) - Wikipedia",
-      "snippet": "Manual (raise statement)\". archive.adaic.com. Archived from the original on 22 October 2019. Retrieved 7 January 2020.\n1 2 Kuchling, Andrew M. (22 December 2006). \"Interview with Guido van Rossum (July 1998)\". amk.ca. Archived from the original on 1 May 2007. Retrieved 12 March 2012. I'd spent a",
+      "snippet": "This is the origin of many Python features, including the use of indentation for statement grouping and the inclusion of very high-level data types (although the details are all different in Python).\n↑ \"Ada 83 Reference Manual (raise statement)\". archive.adaic.com.",
       "matchedWords": {
         "PHizVQKyaT_v": {
           "hits": 1,
@@ -2575,7 +2575,7 @@
       "hash": "P0YYCjRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Python_(programming_language)",
       "title": "Python (programming language) - Wikipedia",
-      "snippet": "Manual (raise statement)\". archive.adaic.com. Archived from the original on 22 October 2019. Retrieved 7 January 2020.\n1 2 Kuchling, Andrew M. (22 December 2006). \"Interview with Guido van Rossum (July 1998)\". amk.ca. Archived from the original on 1 May 2007. Retrieved 12 March 2012. I'd spent a",
+      "snippet": "This is the origin of many Python features, including the use of indentation for statement grouping and the inclusion of very high-level data types (although the details are all different in Python).\n↑ \"Ada 83 Reference Manual (raise statement)\". archive.adaic.com.",
       "matchedWords": {
         "PHizVQKyaT_v": {
           "hits": 1,
@@ -2596,7 +2596,7 @@
       "hash": "oCluGjRvmBbx",
       "address": "https://en.wikipedia.org/wiki/GPL",
       "title": "GNU General Public License - Wikipedia",
-      "snippet": "GNU General Public License\nAuthor\nRichard Stallman\nLatest version\n3\nPublisher\nFree Software Foundation\nPublished\n25 February 1989; 37 years ago\nSPDX identifier\nGPL-3.0-or-later\nGPL-3.0-only\nGPL-2.0-or-later\nGPL-2.0-only\nGPL-1.0-or-later\nGPL-1.0-only\nDebian FSG compatible\nYes[1]\nFSF approved\nYes[2]",
+      "snippet": "The original GPL was written by Richard Stallman in 1989 for use with programs released as part of the GNU Project. The license was based on unifying similar licenses used for early versions of the GNU Emacs text editor, the GNU Debugger, and the GNU C Compiler.[",
       "matchedWords": {
         "PHizVQKyaT_v": {
           "hits": 3,
@@ -2617,7 +2617,7 @@
       "hash": "gmhRVl1nrxbw",
       "address": "https://www.debian.org/devel/",
       "title": "Debian -- Debian Developers' Corner",
-      "snippet": "manual and other documents related to the Debian policy, procedures and other resources for Debian developers, and the new maintainers' guide.\nWork in Progress: Links for active Debian developers and maintainers\nDebian ‘Testing’\nAutomatically generated from the ‘unstable’ distribution: this is",
+      "snippet": "Links to our policy manual and other documents related to the Debian policy, procedures and other resources for Debian developers, and the new maintainers' guide.\nWork in Progress: Links for active Debian developers and maintainers\nDebian ‘Testing’",
       "matchedWords": {
         "PHizVQKyaT_v": {
           "hits": 3,
@@ -2638,7 +2638,7 @@
       "hash": "QdW-xjRvmBbx",
       "address": "https://en.wikipedia.org/wiki/GNU_General_Public_License",
       "title": "GNU General Public License - Wikipedia",
-      "snippet": "GNU General Public License\nAuthor\nRichard Stallman\nLatest version\n3\nPublisher\nFree Software Foundation\nPublished\n25 February 1989; 37 years ago\nSPDX identifier\nGPL-3.0-or-later\nGPL-3.0-only\nGPL-2.0-or-later\nGPL-2.0-only\nGPL-1.0-or-later\nGPL-1.0-only\nDebian FSG compatible\nYes[1]\nFSF approved\nYes[2]",
+      "snippet": "The original GPL was written by Richard Stallman in 1989 for use with programs released as part of the GNU Project. The license was based on unifying similar licenses used for early versions of the GNU Emacs text editor, the GNU Debugger, and the GNU C Compiler.[",
       "matchedWords": {
         "PHizVQKyaT_v": {
           "hits": 3,
@@ -2659,7 +2659,7 @@
       "hash": "oCluGjRvmBbx",
       "address": "https://en.wikipedia.org/wiki/GPL",
       "title": "GNU General Public License - Wikipedia",
-      "snippet": "GNU General Public License\nAuthor\nRichard Stallman\nLatest version\n3\nPublisher\nFree Software Foundation\nPublished\n25 February 1989; 37 years ago\nSPDX identifier\nGPL-3.0-or-later\nGPL-3.0-only\nGPL-2.0-or-later\nGPL-2.0-only\nGPL-1.0-or-later\nGPL-1.0-only\nDebian FSG compatible\nYes[1]\nFSF approved\nYes[2]",
+      "snippet": "The original GPL was written by Richard Stallman in 1989 for use with programs released as part of the GNU Project. The license was based on unifying similar licenses used for early versions of the GNU Emacs text editor, the GNU Debugger, and the GNU C Compiler.[",
       "matchedWords": {
         "PHizVQKyaT_v": {
           "hits": 3,
@@ -2680,7 +2680,7 @@
       "hash": "2fgfWjRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Vim_(text_editor)",
       "title": "Vim (text editor) - Wikipedia",
-      "snippet": "GNU General Public License through a special clause allowing distribution of modified copies under the GNU GPL version 2.0 or later.[4]\ngVim 7.3\nText user interface\n[edit]\nBuilding upon the core vi functionality, Vim provides a user experience that integrates keyboard-entered command input with a",
+      "snippet": "4] The Vim license is compatible with the GNU General Public License through a special clause allowing distribution of modified copies under the GNU GPL version 2.0 or later.[4]\ngVim 7.3\nText user interface\n[edit]",
       "matchedWords": {
         "PHizVQKyaT_v": {
           "hits": 6,
@@ -2701,7 +2701,7 @@
       "hash": "JlpqPjRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Internet_Explorer",
       "title": "Internet Explorer - Wikipedia",
-      "snippet": "manual zoom level is 10%, and the highest 1000%.[66]\nInternet Explorer has been designed to view a broad range of web pages and provide certain features within the operating system, including Microsoft Update. During the height of the browser wars, Internet Explorer superseded Netscape only when it",
+      "snippet": "The lowest allowed manual zoom level is 10%, and the highest 1000%.[66]\nInternet Explorer has been designed to view a broad range of web pages and provide certain features within the operating system, including Microsoft Update.",
       "matchedWords": {
         "PHizVQKyaT_v": {
           "hits": 1,
@@ -2722,7 +2722,7 @@
       "hash": "k8eWwjRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Command-line_interface",
       "title": "Command-line interface - Wikipedia",
-      "snippet": "GNU Octave's GUI with command-line interface\nApplication programs (as opposed to operating systems) may also have command-line interfaces.\nAn application program may support none, any, or all of these three major types of command-line interface mechanisms:\nParameters: Most command-line interfaces",
+      "snippet": "Retrieved 2019-04-08.\n↑ DR-DOS 7.03 WHATSNEW.TXT — Changes from DR-DOS 7.02 to DR-DOS 7.03. Caldera, Inc. 1998-12-24. Archived from the original on 2019-04-08. Retrieved 2019-04-08.\n↑ \"Argument Syntax (The GNU C Library)\". gnu.org. Archived from the original on 2021-06-18. Retrieved 2021-07-09.",
       "matchedWords": {
         "PHizVQKyaT_v": {
           "hits": 3,
@@ -2743,7 +2743,7 @@
       "hash": "zPsYJjRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Linux",
       "title": "Linux - Wikipedia",
-      "snippet": "GNU, Red Hat, and X.Org—to create a complete operating system; however, not all Linux-based operating systems are considered distros, with Android being an example. Linux was originally designed as a clone of Unix and is distributed under the copyleft GPL license.[15]\nThere are many thousands of",
+      "snippet": "For example, regular expressions are supported in programs like grep and locate, the traditional Unix message transfer agent Sendmail contains its own Turing complete scripting system, and the advanced text editor GNU Emacs is built around a general purpose Lisp interpreter.[169][170][171]",
       "matchedWords": {
         "PHizVQKyaT_v": {
           "hits": 1,
@@ -2764,7 +2764,7 @@
       "hash": "gmhRVl1nrxbw",
       "address": "https://www.debian.org/devel/",
       "title": "Debian -- Debian Developers' Corner",
-      "snippet": "manual and other documents related to the Debian policy, procedures and other resources for Debian developers, and the new maintainers' guide.\nWork in Progress: Links for active Debian developers and maintainers\nDebian ‘Testing’\nAutomatically generated from the ‘unstable’ distribution: this is",
+      "snippet": "Links to our policy manual and other documents related to the Debian policy, procedures and other resources for Debian developers, and the new maintainers' guide.\nWork in Progress: Links for active Debian developers and maintainers\nDebian ‘Testing’",
       "matchedWords": {
         "PHizVQKyaT_v": {
           "hits": 3,
@@ -2827,7 +2827,7 @@
       "hash": "zTCfkxtQ-zSx",
       "address": "https://wiki.archlinux.org/title/List_of_applications/Internet",
       "title": "List of applications/Internet - ArchWiki",
-      "snippet": "GNU IceCat — A customized build of Firefox ESR distributed by the GNU Project, stripped of non-free components and with additional privacy extensions. Release cycle may be delayed compared to Mozilla Firefox.\nhttps://www.gnu.org/software/gnuzilla/ || icecatAUR\nKonform Browser — A customized build",
+      "snippet": "https://thelounge.chat/ || theloungeAUR\nXMPP clients\nSee also: Wikipedia:XMPP\nConsole\nFreetalk — Console-based XMPP client.\nhttps://www.gnu.org/software/freetalk/ || freetalkAUR\njabber.el — Minimal XMPP client for Emacs.\nhttps://emacs-jabber.sourceforge.net/ || emacs-jabberAUR",
       "matchedWords": {
         "PHizVQKyaT_v": {
           "hits": 2,
@@ -2848,7 +2848,7 @@
       "hash": "AonnkjRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Perl",
       "title": "Perl - Wikipedia",
-      "snippet": "GNU General Public License version 1 or any later version[6]\nFilename extensions\n.plx, .pls, .pl, .pm, .xs, .t, .pod, .cgi, .psgi\nWebsite\nperl.org\nInfluenced by\nAWK, BASIC, C, C++, Lisp, sed, Unix shell[7]\nInfluenced\nCoffeeScript,[citation needed] Groovy,[citation needed] JavaScript, Julia, LPC,",
+      "snippet": "License\nArtistic 1.0[4][5] or GNU General Public License version 1 or any later version[6]\nFilename extensions\n.plx, .pls, .pl, .pm, .xs, .t, .pod, .cgi, .psgi\nWebsite\nperl.org\nInfluenced by\nAWK, BASIC, C, C++, Lisp, sed, Unix shell[7]\nInfluenced",
       "matchedWords": {
         "PHizVQKyaT_v": {
           "hits": 2,
@@ -2869,7 +2869,7 @@
       "hash": "BjVrrjRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Mozilla_Firefox",
       "title": "Firefox - Wikipedia",
-      "snippet": "manual exit. The feature was removed in 2019, purportedly to \"streamline the experience\".[95][96]\nOn May 3, 2019, the expiry of an intermediate signing certificate on Mozilla servers caused Firefox to automatically disable and lock all browser extensions (add-ons).[97][98] Mozilla began the",
+      "snippet": "309] Debian switched to branding their modified version of Firefox \"Iceweasel\" (but in 2016 switched back to Firefox), along with other Mozilla software. GNU IceCat is another derived version of Firefox distributed by the GNU Project, which maintains its separate branding.[310]",
       "matchedWords": {
         "PHizVQKyaT_v": {
           "hits": 1,

@@ -1,13 +1,13 @@
 {
   "query": "apple",
-  "recordedAt": "2026-09-12T00:14:21Z",
+  "recordedAt": "2026-09-12T07:51:56Z",
   "itemsInTheOrderOfEachAnswer": [
     [
       {
         "hash": "AuVJtldA5r_4",
         "address": "https://www.apple.com/newsroom/",
         "title": "Newsroom - Apple",
-        "snippet": "Apple Newsroom.",
+        "snippet": "Stay up to date with the latest articles from Apple Newsroom.",
         "matchedWords": {
           "HzhwvidPbEmz": {
             "hits": 1,
@@ -271,7 +271,7 @@
         "hash": "Fs2TYEnsvpM4",
         "address": "https://investor.apple.com/investor-relations/default.aspx",
         "title": "Investor Relations - Apple",
-        "snippet": "Apple\nStore\nMac\niPad\niPhone\nWatch\nAirPods\nTV \u0026 Home\nEntertainment\nAccessories\nSupport\nInvestor Relations Stock Price\nSEC Filings\nLeadership and Governance\nOur Values\nFAQ\nContact\nInvestor Updates\nNewsroom\nFinancial Data\nQuarterly Earnings Reports\nInvestor Relations\nApple Footer\nShop and Learn\nMac",
+        "snippet": "Apple and Education\nShop for College\nFor Business\nApple and Business\nShop for Business\nFor Healthcare\nApple in Healthcare\nHealth on Apple Watch\nHealth Records on iPhone\nAccount\nManage Your Apple ID\nApple Store Account\niCloud.com\nApple Values\nAccessibility\nEducation\nEnvironment",
         "matchedWords": {
           "HzhwvidPbEmz": {
             "hits": 21,
@@ -284,7 +284,7 @@
         "hash": "K1bn2ySIk8o4",
         "address": "https://support.apple.com/en-us/102730",
         "title": "Products you can buy from Apple with Apple Card Monthly Installments - Apple Support",
-        "snippet": "Apple, choose Apple Card Monthly Installments (ACMI) as your payment option when you check out at Apple.2 Financing terms vary depending on the eligible product you buy. If you purchase an ACMI-eligible product and additional items all at once with your Apple Card, the ACMI product will not receive",
+        "snippet": "Apple Pencil Pro\nApple Vision Pro Battery\nApple Vision Pro Dual Loop Band\nApple Vision Pro Light Seal\nApple Vision Pro Light Seal Cushion\nApple Vision Pro Solo Knit Band\nApple Vision Pro Travel Case\nApple Watch Bands\nBelkin Head Strap for Apple Vision Pro\nBelkin Battery Holder for Apple Vision Pro",
         "matchedWords": {
           "HzhwvidPbEmz": {
             "hits": 61,
@@ -403,7 +403,7 @@
         "hash": "PWesBldA5r_4",
         "address": "https://www.apple.com/sitemap/",
         "title": "Site Map - Apple",
-        "snippet": "Apple Site Map\nAbout Apple\nApple Leadership\nCareer Opportunities\nInvestors\nContact Apple\nLegal\nEthics \u0026 Compliance\nChoose Your Country or Region\nProduct Feedback\nApple Values\nEnvironment\nSupply Chain Innovation\nAccessibility\nPrivacy\nRacial Equity and Justice\nInclusion and Diversity\nNews and Events",
+        "snippet": "Apple TV Support\nApple TV Manuals\nAppleCare for HomePod\nHomePod Support\nHomePod Manuals\nEntertainment\nExplore\nApple One\nApple TV\nApple Music\nApple Arcade\nApple Fitness+\nApple News+\nApple Podcasts\nApple Books\nApp Store\nApple Wallet\nWallet\nApple Card\nApple Pay\nApple Cash\nMore Services\niTunes",
         "matchedWords": {
           "HzhwvidPbEmz": {
             "hits": 129,
@@ -416,7 +416,7 @@
         "hash": "M1ugpxdA5r_4",
         "address": "https://www.apple.com/mo/today/groups/",
         "title": "Today at Apple - 團體預約 - Apple (澳門)",
-        "snippet": "Apple Store 及時間\nError:請選擇一間 Apple Store。\nError:請選擇日期。\nError:請選擇時間。\n聯絡資料\n名字\n請輸入名字。\n姓氏\n請輸入姓氏。\n電郵\n請輸入電郵地址。\n電話\n請輸入電話號碼。\n團體資料\nError:請選擇團體人數。\n我們需要一位手語傳譯員。\n請 Apple 就此預約與我聯絡。\n你必須年滿 18 歲方可報名。一經報名，即表示你同意 Apple 及有份提供課程的第三方按照 Apple 私隱政策處理你的個人資料，為你預留參加名額、向你發送提示訊息，並安排你及/或你的團體成員參加課程。如果你的團體包括未成年人士，你亦藉此聲明 (a)",
+        "snippet": "已選課程\n了解詳情\n預約此團體課程。\n所選 Apple Store 及時間\nError:請選擇一間 Apple Store。\nError:請選擇日期。\nError:請選擇時間。\n聯絡資料\n名字\n請輸入名字。\n姓氏\n請輸入姓氏。\n電郵\n請輸入電郵地址。\n電話\n請輸入電話號碼。\n團體資料\nError:請選擇團體人數。\n我們需要一位手語傳譯員。\n請 Apple 就此預約與我聯絡。\n你必須年滿 18 歲方可報名。一經報名，即表示你同意 Apple 及有份提供課程的第三方按照 Apple 私隱政策處理你的個人資料，為你預留參加名額、向你發送提示訊息，並安排你及/或你的團體成員參加課程。",
         "matchedWords": {
           "HzhwvidPbEmz": {
             "hits": 7,
@@ -548,7 +548,7 @@
         "hash": "W18sdbdA5r_4",
         "address": "https://www.apple.com/today/calendar/downtowndetroit/",
         "title": "Today at Apple - Calendar - Downtown Detroit - Apple",
-        "snippet": "Apple Store\nDaily Sessions\nKids \u0026 Families\nAccessibility\nArt \u0026 Design\nBusiness\nCoding \u0026 Apps\nMusic\nPhotography\nProducts\nVideo\nEducation\niPhone\niPad\nMac\nApple Watch\nSession Types\nGet more from the products you love in our Get Started sessions. For select stores, explore a lineup of presenters under",
+        "snippet": "Select date - Results gets updated automatically on selection\nAll Formats, All Topics, All Types, Anytime\nFormat\nOnline\nIn Store\nTopics\nLive at the Apple Store\nDaily Sessions\nKids \u0026 Families\nAccessibility\nArt \u0026 Design\nBusiness\nCoding \u0026 Apps\nMusic\nPhotography\nProducts\nVideo\nEducation\niPhone\niPad\nMac",
         "matchedWords": {
           "HzhwvidPbEmz": {
             "hits": 3,
@@ -667,7 +667,7 @@
         "hash": "7Nb7zMdA5r_4",
         "address": "https://www.apple.com/in/retail/borivali/",
         "title": "Borivali - Official Apple Store - Apple (IN)",
-        "snippet": "Apple Account to replacing a screen, Genius Support has you covered.\nGet support\nEducation\nSave on Mac, iPad and\nApple Watch.1\nGet verified for education savings online before visiting an Apple Store — it’ll help save you time.\nMove everything over to your new iPhone with temporary access to all",
+        "snippet": "A gift that gives and gives.\nPurchase Apple devices and accessories within our stores with Apple Store Gift Card.\nGenius Bar\nGet expert service and support at the Genius Bar.\nApple at Work\nPut our Small Business Team on your team.\nToday at Apple\nExplore Apple Intelligence\nin a free session at your",
         "matchedWords": {
           "HzhwvidPbEmz": {
             "hits": 12,
@@ -693,7 +693,7 @@
         "hash": "OtldPCSIk8o4",
         "address": "https://support.apple.com/ja-jp/121115",
         "title": "Apple Intelligenceを入手する方法 - Apple サポート (日本)",
-        "snippet": "対応しているiPhone、iPad、Mac、Apple Vision ProでApple Intelligenceの機能を使い始めるには、デバイスのソフトウェアを最新バージョンにアップデートし、「設定」＞「Apple IntelligenceとSiri」でApple Intelligenceがオンになっていることを確認します。\nソフトウェアをアップデートすると、オンデバイスのApple",
+        "snippet": "Apple Watch Series 6以降、Apple Watch Ultra全モデル、Apple Watch SE 2以降（Apple Intelligence対応のiPhoneとペアリングされ、iPhoneが近くにあること）\niOS 18.1以降、iPadOS 18.1以降、macOS Sequoia 15.1以降、visionOS 2.4以降、watchOS 11以降\nデバイスに7GBの空き容量があること（Apple Watchの場合は不要）*\nデバイスの言語とSiriの言語が同じ対応言語に設定されていること",
         "matchedWords": {
           "HzhwvidPbEmz": {
             "hits": 35,
@@ -758,7 +758,7 @@
         "hash": "AuVJtldA5r_4",
         "address": "https://www.apple.com/newsroom/",
         "title": "Newsroom - Apple",
-        "snippet": "Apple Newsroom.",
+        "snippet": "Stay up to date with the latest articles from Apple Newsroom.",
         "matchedWords": {
           "HzhwvidPbEmz": {
             "hits": 1,
@@ -800,7 +800,7 @@
         "hash": "pcw7RmdA5r_4",
         "address": "https://www.apple.com/shop/help",
         "title": "Shopping Help - Apple",
-        "snippet": "Apple.",
+        "snippet": "We approximate your location from your internet IP address by matching it to a geographic region or from the location entered during your previous visit to Apple.",
         "matchedWords": {
           "HzhwvidPbEmz": {
             "hits": 1,
@@ -932,7 +932,7 @@
         "hash": "nfB95ldA5r_4",
         "address": "https://www.apple.com/working-with-apple-services/",
         "title": "Working with Apple Services - Apple",
-        "snippet": "Apple Services\nLearn how to integrate Apple Music, App Store, Apple TV, Apple News, Apple Books, Apple Podcasts, and other content into your marketing programs.\nIdentity Guidelines\nFollow these guidelines on how to use approved badges when promoting Apple’s services in marketing communications.",
+        "snippet": "Working with\nApple Services\nLearn how to integrate Apple Music, App Store, Apple TV, Apple News, Apple Books, Apple Podcasts, and other content into your marketing programs.\nIdentity Guidelines",
         "matchedWords": {
           "HzhwvidPbEmz": {
             "hits": 14,
@@ -945,7 +945,7 @@
         "hash": "nwsNrqEHdiC4",
         "address": "https://jobs.apple.com/it-it/details/200663523-5641/process-technologist-cmos?team=HRDWR",
         "title": "Process Technologist - CMOS - Opportunità di lavoro in Apple (IT)",
-        "snippet": "Apple Footer\nIn Apple, la diversità è un valore. È questa la nostra forza. Accogliamo e valorizziamo ogni tipo di differenza: nel modo di essere e di pensare, così come nel percorso di vita. E poiché il nostro obiettivo è realizzare prodotti che chiunque possa usare, non possiamo non promuovere il",
+        "snippet": "AppleOpportunità di lavoro in Apple\nOpportunità di lavoro in Apple\nScopri e acquista\nStore\nMac\niPad\niPhone\nWatch\nAirPods\nTV \u0026 Casa\nAirTag\nAccessori\nCarte regalo\nApple Wallet\nApple Pay\nAccount\nGestisci il tuo ID Apple\nAccount Apple Store\niCloud.com\nIntrattenimento\nApple One\nApple TV+\nApple Music",
         "matchedWords": {
           "HzhwvidPbEmz": {
             "hits": 29,
@@ -958,7 +958,7 @@
         "hash": "ncTM_fSIk8o4",
         "address": "https://support.apple.com/en-gb/guide/tv/atvbd4af2c21/tvos",
         "title": "Control Apple TV playback with Siri – Apple Support (UK)",
-        "snippet": "Apple TV 4K skips back 10 seconds and temporarily turns on subtitles.\n“Pause this”\n“Play from the beginning”\n“Skip forwards 90 seconds”\n“Jump back 10 minutes”\n“Turn on closed captioning”\n“Turn on French subtitles”\nControl audio playback\nSiri: Press and hold\non your remote, then say something like:",
+        "snippet": "Try different queries and see what you can find.\nControl video playback\nSiri: Press and hold\non your remote, then say something like:\n“What did she just say?”\nIn this case, Apple TV 4K skips back 10 seconds and temporarily turns on subtitles.\n“Pause this”\n“Play from the beginning”",
         "matchedWords": {
           "HzhwvidPbEmz": {
             "hits": 1,
@@ -1197,7 +1197,7 @@
         "hash": "z1tovtdA5r_4",
         "address": "https://www.apple.com/nl/newsroom/",
         "title": "Newsroom - Apple (NL)",
-        "snippet": "Apple Newsroom.",
+        "snippet": "Blijf op de hoogte van de nieuwste artikelen van Apple Newsroom.",
         "matchedWords": {
           "HzhwvidPbEmz": {
             "hits": 1,
@@ -1223,7 +1223,7 @@
         "hash": "zujzU4bvuEZ4",
         "address": "https://tv.apple.com/ai",
         "title": "‎Apple TV+",
-        "snippet": "Apple TV for $0.\nStream hundreds of exclusive shows and movies, with new releases every week.\n7 days free, then US$6.99/month\nNew\nTrapped behind enemy lines, a US Navy pilot must trust an ex-KGB agent to escape Cold War Russia.\n7 days free, then US$6.99/month\nNew\nIt’s been 11 years since his",
+        "snippet": "Subscribe and watch on the Apple TV app or here on tv.apple.com. Apple TV subscription does not include third-party subscription services or content available for rental or purchase on the Apple TV app.\nHow much does an Apple TV subscription cost?\nPricing varies depending on the offer you choose:",
         "matchedWords": {
           "HzhwvidPbEmz": {
             "hits": 48,
@@ -1593,7 +1593,7 @@
         "hash": "_fM_pbdA5r_4",
         "address": "https://www.apple.com/today/calendar/altamonte/",
         "title": "Today at Apple - Calendar - Altamonte - Apple",
-        "snippet": "Apple Store\nDaily Sessions\nKids \u0026 Families\nAccessibility\nArt \u0026 Design\nBusiness\nCoding \u0026 Apps\nMusic\nPhotography\nProducts\nVideo\nEducation\niPhone\niPad\nMac\nApple Watch\nSession Types\nGet more from the products you love in our Get Started sessions. For select stores, explore a lineup of presenters under",
+        "snippet": "Select date - Results gets updated automatically on selection\nAll Formats, All Topics, All Types, Anytime\nFormat\nOnline\nIn Store\nTopics\nLive at the Apple Store\nDaily Sessions\nKids \u0026 Families\nAccessibility\nArt \u0026 Design\nBusiness\nCoding \u0026 Apps\nMusic\nPhotography\nProducts\nVideo\nEducation\niPhone\niPad\nMac",
         "matchedWords": {
           "HzhwvidPbEmz": {
             "hits": 3,
@@ -1606,7 +1606,7 @@
         "hash": "_8kscxSIk8o4",
         "address": "https://support.apple.com/en-au/guide/certifications/apc30d0ed034/web",
         "title": "About Apple security certifications – Apple Support (AU)",
-        "snippet": "Apple maintains a security certifications program in order to meet global requirements for security assurance.\nThe approach starts with certification building blocks that apply broadly across multiple platforms where appropriate. One building block is the validation of corecrypto, which is used for",
+        "snippet": "After each major release, Apple submits the modules to the CMVP for validation of conformance with the standard. As well as being used by Apple operating systems, these modules provide cryptographic functionality for Apple-provided services and are available for third-party apps to use.",
         "matchedWords": {
           "HzhwvidPbEmz": {
             "hits": 23,
@@ -1632,7 +1632,7 @@
         "hash": "_jRAITXWSPc4",
         "address": "https://developer.apple.com/fonts/",
         "title": "Fonts - Apple Developer",
-        "snippet": "Apple platforms\nGet the typefaces you need to design interfaces for your apps on Apple platforms. These typefaces are designed to optimally display text at a variety of sizes and in a wide range of languages across multiple interfaces.\nSan Francisco\nSan Francisco is an Apple designed typeface that",
+        "snippet": "APPLE DOES NOT WARRANT AGAINST INTERFERENCE WITH YOUR ENJOYMENT OF THE APPLE FONT, THAT THE FUNCTIONS CONTAINED IN THE APPLE FONT WILL MEET YOUR REQUIREMENTS, THAT THE OPERATION OF THE APPLE FONT WILL BE UNINTERRUPTED OR ERROR-FREE, THAT THE APPLE FONT WILL BE COMPATIBLE OR WORK WITH ANY THIRD",
         "matchedWords": {
           "HzhwvidPbEmz": {
             "hits": 175,
@@ -1725,7 +1725,7 @@
         "hash": "AuVJtldA5r_4",
         "address": "https://www.apple.com/newsroom/",
         "title": "Newsroom - Apple",
-        "snippet": "Apple Newsroom.",
+        "snippet": "Stay up to date with the latest articles from Apple Newsroom.",
         "matchedWords": {
           "HzhwvidPbEmz": {
             "hits": 1,
@@ -1989,7 +1989,7 @@
         "hash": "AuVJtldA5r_4",
         "address": "https://www.apple.com/newsroom/",
         "title": "Newsroom - Apple",
-        "snippet": "Apple Newsroom.",
+        "snippet": "Stay up to date with the latest articles from Apple Newsroom.",
         "matchedWords": {
           "HzhwvidPbEmz": {
             "hits": 1,
@@ -2002,7 +2002,7 @@
         "hash": "K1bn2ySIk8o4",
         "address": "https://support.apple.com/en-us/102730",
         "title": "Products you can buy from Apple with Apple Card Monthly Installments - Apple Support",
-        "snippet": "Apple, choose Apple Card Monthly Installments (ACMI) as your payment option when you check out at Apple.2 Financing terms vary depending on the eligible product you buy. If you purchase an ACMI-eligible product and additional items all at once with your Apple Card, the ACMI product will not receive",
+        "snippet": "Apple Pencil Pro\nApple Vision Pro Battery\nApple Vision Pro Dual Loop Band\nApple Vision Pro Light Seal\nApple Vision Pro Light Seal Cushion\nApple Vision Pro Solo Knit Band\nApple Vision Pro Travel Case\nApple Watch Bands\nBelkin Head Strap for Apple Vision Pro\nBelkin Battery Holder for Apple Vision Pro",
         "matchedWords": {
           "HzhwvidPbEmz": {
             "hits": 61,
@@ -2121,7 +2121,7 @@
         "hash": "9g6GPldA5r_4",
         "address": "https://www.apple.com/privacy/",
         "title": "Privacy - Apple",
-        "snippet": "Apple.\nPrivacy is a fundamental human right. It’s also one of our core values. Which is why we design our products and services to protect it. That’s the kind of innovation we believe in.\nSafari. A browser that’s actually private.\nFeature\nSafari\nChrome\nBlocks third-party cookies from tracking you",
+        "snippet": "Apple Intelligence uses on‑device processing to fulfill many requests.\nDeeply integrated into your Apple products\nPowered by Apple silicon\nDesigned to protect your privacy at every step\nPrivate Cloud Compute extends the privacy of Apple devices for more complex requests.\nPrivate Cloud Compute",
         "matchedWords": {
           "HzhwvidPbEmz": {
             "hits": 40,
@@ -2385,7 +2385,7 @@
         "hash": "btqO9ldA5r_4",
         "address": "https://www.apple.com/tv-home/",
         "title": "TV \u0026 Home - Apple",
-        "snippet": "Apple experience.\nCinematic in every sense.\nHome app\nThe foundation\nfor a smarter home.\nHey Siri, set\nmy bedtime\nscene\nHey Siri, make it warmer\nHey Siri, turn\noff the lights downstairs\nNanoleaf A19 Bulb\nLogitech Circle View Wired Doorbell\nComfort\nTurn up the heat or keep your cool with temperature",
+        "snippet": "HomePod\nProfound sound.\nHomePod mini\nSurprising sound for its size.\nThe Apple experience.\nCinematic in every sense.\nHome app\nThe foundation\nfor a smarter home.\nHey Siri, set\nmy bedtime\nscene\nHey Siri, make it warmer\nHey Siri, turn\noff the lights downstairs\nNanoleaf A19 Bulb",
         "matchedWords": {
           "HzhwvidPbEmz": {
             "hits": 1,
@@ -2517,7 +2517,7 @@
         "hash": "Ck4SI4ZNzNto",
         "address": "https://www.apple.com.cn/contact/",
         "title": "联系 - 如何联系我们 - Apple (中国大陆)",
-        "snippet": "Apple\n销售与产品查询\nApple Store 在线商店\n访问 Apple Store 在线商店查看购买 Apple 的硬件、软件和第三方配件产品。若要通过电话购买，请致电 400-666-8800。\n如要查看最新状态和修改 Apple Store 在线商店订单，请访问在线订单状态。你也可以拨打 400-666-8800 与 Apple Store 客户服务部门联系，或者访问在线帮助了解更多信息。\n查找 Apple 授权经销商\n使用我们的经销商查找服务，查找中国的 Apple 授权经销商。\nApple 授权经销商为各种不同机构提供行业专业知识、多平台服务和基于 Mac 的解决方案。",
+        "snippet": "联系 Apple\n销售与产品查询\nApple Store 在线商店\n访问 Apple Store 在线商店查看购买 Apple 的硬件、软件和第三方配件产品。若要通过电话购买，请致电 400-666-8800。\n如要查看最新状态和修改 Apple Store 在线商店订单，请访问在线订单状态。你也可以拨打 400-666-8800 与 Apple Store 客户服务部门联系，或者访问在线帮助了解更多信息。\n查找 Apple 授权经销商\n使用我们的经销商查找服务，查找中国的 Apple 授权经销商。\nApple 授权经销商为各种不同机构提供行业专业知识、多平台服务和基于 Mac 的解决方案。",
         "matchedWords": {
           "HzhwvidPbEmz": {
             "hits": 16,
@@ -2543,7 +2543,7 @@
         "hash": "3vT0CzdA5r_4",
         "address": "https://www.apple.com/nz/sitemap/",
         "title": "Site Map - Apple (NZ)",
-        "snippet": "Apple Site Map\nAbout Apple\nApple Leadership\nCareer Opportunities\nInvestors\nContact Apple\nLegal\nChoose Your Country or Region\nProduct Feedback\nApple Values\nEnvironment\nSupply Chain Innovation\nAccessibility\nPrivacy\nRacial Equity and Justice\nNews and Events\nNewsroom\nRSS Feeds\nApple Events\nUser Groups",
+        "snippet": "Apple Watch Nike\nCompare Apple Watch Models\nApple Watch Accessories\nAll Apple Watch Accessories\nApple Watch Bands\nHeadphones \u0026 Speakers\nHealth \u0026 Fitness\nChargers \u0026 Adapters\nMore Apple Watch\nWhy Apple Watch\nwatchOS\nApps by Apple\nApple Music\nApple Fitness+\nApple Health\nApple One\nClose Your Rings",
         "matchedWords": {
           "HzhwvidPbEmz": {
             "hits": 95,
@@ -2650,7 +2650,7 @@
         "hash": "lzqgwldA5r_4",
         "address": "https://www.apple.com/tw/",
         "title": "Apple (台灣)",
-        "snippet": "Apple Watch Series 12、\nApple Watch Ultra 4 與 AirPods 5，\n一起攜手亮相。\niPhone Duo\niPhone 史上最大螢幕，摺疊、站立、姿勢隨你擺。\n還帶來獨特的 iOS 體驗，靈活多變，翻轉玩出新玩法。\n10 月 16 日晚上 8 點開始預訂\n10 月 23 日開始發售\niPhone 18 Pro\n電池續航力大步飛躍1。全新 4800 萬像素融合主相機\n具備可變光圈，讓你更能自由掌控創作。\n四種雅緻色彩，兩款好用尺寸，一身耐用的設計。\n9 月 12 日晚上 8 點開始預訂\n9 月 18 日開始發售\nApple Watch Series",
+        "snippet": "9 月 18 日開始發售\nApple Watch Series 12\n全新健康感測系統，帶來穿戴式裝置中\n最精準的心率感測科技2，\n更頻繁地讀取心率變異 (HRV)，\n有助提供對壓力與恢復狀況的深入洞察。\n9 月 18 日開始發售\nApple Watch Ultra 4\nApple Watch 歷來最長的電池續航力，\n進行長時間體能訓練上限跟測，最長可達 45 小時3。\n9 月 18 日開始發售\nAirPods 5\n與上一代相比，主動式降噪效果提升最高可達 1.5 倍4。\n全新聲學架構，帶來更優異的音質表現。\n9 月 18 日開始發售",
         "matchedWords": {
           "HzhwvidPbEmz": {
             "hits": 5,
@@ -2663,7 +2663,7 @@
         "hash": "lODIJBgcOP44",
         "address": "https://discussionsjapan.apple.com/terms",
         "title": "Apple サポートコミュニティ利用規約 - Apple コミュニティ",
-        "snippet": "Apple サポートコミュニティに関する本利用規約 (以下「本規約」) には、Apple サポートコミュニティサイト (以下「本サイト」) のご利用に関する重要な情報が記載されています。\n重要：本規約に同意する場合は、ここに記載された内容のままに同意していただく必要があります。Apple は、この内容に関していかなる追加や削除も認めません。Apple は、本規約の一部および本サイトで提供するサービスや機能の一部を、随時変更、追加、削除できるものとします。変更を行う場合、Apple は本規約をこちら (利用規約) で更新し、サイト上のほかの場所にも変更情報を掲載することがあります。",
+        "snippet": "b) また、いかなる投稿であっても、その編集、削除、掲示の継続的許可については一切の責任を負いません。\nApple が製造していない製品に関する情報や、Apple が管理や検証していない個々の Web サイトへのリンクが投稿される場合がありますが、Apple 製以外の製品や Apple 以外の Web サイトへのリンクは、Apple の推奨や承認を経ることなく提供されています。Apple は他社の Web サイトや製品の選択、性能、使用に関しては一切責任を負わず、他社の Web サイトの正確性や信頼性についてはいかなる表明もいたしません。",
         "matchedWords": {
           "HzhwvidPbEmz": {
             "hits": 57,
@@ -2782,7 +2782,7 @@
         "hash": "qtUUrmdA5r_4",
         "address": "https://www.apple.com/tw/apple-tv/",
         "title": "Apple TV - Apple (台灣)",
-        "snippet": "Apple Originals\n原創作品，只在 Apple TV\n串流播放。\n數百部獨家節目與電影，週週都有新片上架。\n從扣人心弦的劇情片、氣勢磅礴的科幻片到溫馨喜劇，應有盡有，無廣告打擾。\n盡情收看各場 MLS 足球比賽和《週五棒球夜》的直播賽事，無需額外費用。\n可在各種 Apple 與 Android 裝置、智慧型電視和電視棒的 Apple TV App 上串流播放。\n透過家人共享，一份訂閱方案可讓最多達六人共享。\n訂閱享優惠。\n新訂戶\n免費試用 1 週\n免費 7 天試用期結束後1，訂閱 Apple TV 每月只需 NT$250，還能與家人共享 Apple TV2。\n學生方案\nApple",
+        "snippet": "Apple Music 與 Apple TV\n學生可享 Apple Music 免費試用 1 個月，\n並隨附 Apple TV 服務3。\nApple One\n免費試用 1 個月\n訂閱 Apple One 每月只要付出少許，一次擁有多達四種精彩服務，獲得更多，付出更少4。\n運動\n場場對決，次次揮棒，\n統統在這裡。\n只要透過 Apple TV 訂閱服務，即可收看 MLS 足球比賽和《週五棒球夜》各場賽事，無需額外費用，盡享精彩內容。\n有 Apple TV App，\n處處都能看 Apple TV。\n在你喜愛的各個裝置上就能找到 Apple TV app；",
         "matchedWords": {
           "HzhwvidPbEmz": {
             "hits": 42,
@@ -2873,7 +2873,7 @@
         "hash": "-TBa8LdA5r_4",
         "address": "https://www.apple.com/watch/cellular/",
         "title": "Apple Watch - Carriers - Apple",
-        "snippet": "Apple Watch GPS + Cellular\nStay connected when you’re away from your phone.\nApple Watch cellular models with an active service plan allow you to make calls, send texts, and so much more — all without your iPhone. With international roaming,1 make calls, send texts, stream music, and get help in an",
+        "snippet": "GPS + Cellular Apple Watch Ultra 4\nGPS + Cellular Apple Watch Series 11\nGPS + Cellular Apple Watch Ultra 3\nGPS + Cellular Apple Watch Series 10\nGPS + Cellular Apple Watch Series 9\nGPS + Cellular Apple Watch Ultra 2\nGPS + Cellular Apple Watch Series 8\nGPS + Cellular Apple Watch Ultra",
         "matchedWords": {
           "HzhwvidPbEmz": {
             "hits": 75,
@@ -2914,7 +2914,7 @@
         "hash": "uDvT_zdA5r_4",
         "address": "https://www.apple.com/bh/sitemap/",
         "title": "Site Map - Apple (BH)",
-        "snippet": "Apple Site Map\nAbout Apple\nApple Leadership\nInvestors\nChoose Your Country or Region\nNews\nNewsroom\nWhere to Buy\nFind a Reseller\nAccount\nManage Your Apple Account\niCloud.com\nMac\nExplore\nAll Mac\nMacBook Neo\nMacBook Air\nMacBook Pro\niMac\nMac mini\nMac Studio\nCompare Mac Models\nApple Accessories\nStudio",
+        "snippet": "Batteries\nFind My\nSupport\niPhone Support\nManuals\nApple Watch\nExplore\nAll Apple Watch\nApple Watch Series 11\nApple Watch Ultra 3\nApple Watch SE 3\nCompare Apple Watch Models\nMore Apple Watch\nApps by Apple\nApple Music\nApple One\nClose Your Rings\nwatchOS for Developers\nSupport\nApple Watch Support\nManuals",
         "matchedWords": {
           "HzhwvidPbEmz": {
             "hits": 52,
@@ -3178,7 +3178,7 @@
         "hash": "-42_UldA5r_4",
         "address": "https://www.apple.com/au/",
         "title": "Apple (Australia)",
-        "snippet": "Apple Watch Series 12, Apple Watch Ultra 4 and AirPods 5.\niPhone Duo\nThe largest iPhone display ever. Foldable, posable, standable. Featuring unique iOS experiences for ultimate versatility.\nPre-order starting at 11:00 pm AEDT on 16.10\nAvailable starting 23.10\niPhone 18 Pro\nA big leap in battery",
+        "snippet": "Introducing iPhone Duo, iPhone 18 Pro, Apple Watch Series 12, Apple Watch Ultra 4 and AirPods 5.\niPhone Duo\nThe largest iPhone display ever. Foldable, posable, standable. Featuring unique iOS experiences for ultimate versatility.\nPre-order starting at 11:00 pm AEDT on 16.10\nAvailable starting 23.10",
         "matchedWords": {
           "HzhwvidPbEmz": {
             "hits": 5,
@@ -3204,7 +3204,7 @@
         "hash": "9IvDr7SIk8o4",
         "address": "https://support.apple.com/en-euro/guide/watch/apd9298f92bb/watchos",
         "title": "Use Apple Card on Apple Watch - Apple Support",
-        "snippet": "Apple Card on iPhone, you can use it for contactless payments on your Apple Watch. You can also view the current balance, available credit, and recent transactions.\nFor complete setup and management details, see Use Apple Card on iPhone in the iPhone User Guide.\nSee alsoSet up Apple Pay on Apple",
+        "snippet": "See alsoSet up Apple Pay on Apple WatchUse Apple Pay for contactless payments on Apple Watch",
         "matchedWords": {
           "HzhwvidPbEmz": {
             "hits": 7,
@@ -3282,7 +3282,7 @@
         "hash": "8MBDK7SIk8o4",
         "address": "https://support.apple.com/en-euro/guide/watch/apd54d0a51fb/watchos",
         "title": "Set up Apple Watch For Your Kids - Apple Support",
-        "snippet": "Apple Watch with cellular for your child or family member, even if they don’t have their own iPhone. To do so, you must be the family organizer or parent/guardian in your Family Sharing group.\nThe iPhone you use to initially pair and set up the Apple Watch must be within normal Bluetooth range",
+        "snippet": "Follow the instructions on your iPhone and Apple Watch to finish setup.\nFor more information about setting up and pairing Apple Watch, see Set up and pair your Apple Watch with iPhone and the Apple Support article Set up Apple Watch for a family member.\nManage a family member’s Apple Watch",
         "matchedWords": {
           "HzhwvidPbEmz": {
             "hits": 54,
@@ -3310,7 +3310,7 @@
         "hash": "_Ot-ctapm5B4",
         "address": "https://discussionschinese.apple.com/productsitemap.jspa",
         "title": "网站地图 - Apple 社区",
-        "snippet": "Apple Footer\n本网站包含用户提交的内容、评论和观点，仅供参考。根据提供的信息，Apple 可能会提供或推荐回复来作为可行的解决方案；每个潜在问题可能都会涉及多个因素，这些因素在电子论坛上的对话中没有详加说明，因此，对于在社区论坛上提出的任何解决方案，Apple 不保证一定有效。对于与您使用本网站相关的任何第三方的行为、疏忽或举措，Apple 不承担任何责任。本网站上的所有帖子相关操作以及对网站内容的使用均须遵守 Apple 支持社区使用条款。了解数据的管理方式…\nApple 支持\n社区\nCopyright © Apple Inc. 保留所有权利。\n隐私政策 使用条款 销售政策",
+        "snippet": "Apple Footer\n本网站包含用户提交的内容、评论和观点，仅供参考。根据提供的信息，Apple 可能会提供或推荐回复来作为可行的解决方案；每个潜在问题可能都会涉及多个因素，这些因素在电子论坛上的对话中没有详加说明，因此，对于在社区论坛上提出的任何解决方案，Apple 不保证一定有效。对于与您使用本网站相关的任何第三方的行为、疏忽或举措，Apple 不承担任何责任。本网站上的所有帖子相关操作以及对网站内容的使用均须遵守 Apple 支持社区使用条款。了解数据的管理方式…\nApple 支持\n社区\nCopyright © Apple Inc. 保留所有权利。",
         "matchedWords": {
           "HzhwvidPbEmz": {
             "hits": 7,
@@ -3323,7 +3323,7 @@
         "hash": "_8kscxSIk8o4",
         "address": "https://support.apple.com/en-au/guide/certifications/apc30d0ed034/web",
         "title": "About Apple security certifications – Apple Support (AU)",
-        "snippet": "Apple maintains a security certifications program in order to meet global requirements for security assurance.\nThe approach starts with certification building blocks that apply broadly across multiple platforms where appropriate. One building block is the validation of corecrypto, which is used for",
+        "snippet": "After each major release, Apple submits the modules to the CMVP for validation of conformance with the standard. As well as being used by Apple operating systems, these modules provide cryptographic functionality for Apple-provided services and are available for third-party apps to use.",
         "matchedWords": {
           "HzhwvidPbEmz": {
             "hits": 23,
@@ -3336,7 +3336,7 @@
         "hash": "_l1Zv4ZNzNto",
         "address": "https://www.apple.com.cn/mac/",
         "title": "Mac - Apple (中国大陆)",
-        "snippet": "Apple 产品最长可享 24 个月免息分⁠期⁠◊。支付宝、微信支付及多家合作银行任你选择。\n教育\n以教育优惠选购 Mac，\n节省更多*。\n高校学生和教职员工在 Apple Store 商店选购，可省更多*。\n个人设置辅导\n个人设置辅导，帮你上手新 Mac。\n一对一专业辅导，引导你转移数据，让你了解各⁠种新功能，并提供更多帮助。\n送货和取货\n可免费送货，\n也可到店取货。\n所有订单均可享免费送货。部分订单可选择免⁠费的三小时快送**，或亲自到店取货。\nMac 定制\nMac 定制\n选择你想要的芯片、内存、存储容量，以及外⁠观颜色。\n导购\nSpecialist 专家协⁠助⁠选⁠购。\n无论线上还是在",
+        "snippet": "Specialist 专家协⁠助⁠选⁠购。\n无论线上还是在 Apple Store 零售店，我们都能帮你找到心仪的产品，并解答你的各种疑⁠问。\nApple Store App\n专属于你的购物体验。\n更个性化的购物方式，尽在 Apple Store app。\n性能和电池续航\n跑得快，跑得久。\n强大的 AI 平台\n智能又安全，\n全在设备端。\nmacOS\n简简单单，\n用起来就喜欢。\nMac + iPhone\n合力出奇迹。\n兼容性\n各种常用 App，\nMac 都能跑。\n隐私和安全\n你的私事，\n只关你的事。\n耐用性\n精心打造，\n经得起时间考验。\nApple 价值观\n我们的价值观，\n处处有体现。",
         "matchedWords": {
           "HzhwvidPbEmz": {
             "hits": 6,
@@ -3349,7 +3349,7 @@
         "hash": "9nJER54Lp0o4",
         "address": "https://discussions.apple.com/productsitemap.jspa",
         "title": "Site Map - Apple Community",
-        "snippet": "Apple Footer\nThis site contains user submitted content, comments and opinions and is for informational purposes only. Apple may provide or recommend responses as a possible solution based on the information provided; every potential issue may involve several factors not detailed in the",
+        "snippet": "Apple may provide or recommend responses as a possible solution based on the information provided; every potential issue may involve several factors not detailed in the conversations captured in an electronic forum and Apple can therefore provide no guarantee as to the efficacy of any proposed",
         "matchedWords": {
           "HzhwvidPbEmz": {
             "hits": 7,
@@ -3362,7 +3362,7 @@
         "hash": "_jRAITXWSPc4",
         "address": "https://developer.apple.com/fonts/",
         "title": "Fonts - Apple Developer",
-        "snippet": "Apple platforms\nGet the typefaces you need to design interfaces for your apps on Apple platforms. These typefaces are designed to optimally display text at a variety of sizes and in a wide range of languages across multiple interfaces.\nSan Francisco\nSan Francisco is an Apple designed typeface that",
+        "snippet": "APPLE DOES NOT WARRANT AGAINST INTERFERENCE WITH YOUR ENJOYMENT OF THE APPLE FONT, THAT THE FUNCTIONS CONTAINED IN THE APPLE FONT WILL MEET YOUR REQUIREMENTS, THAT THE OPERATION OF THE APPLE FONT WILL BE UNINTERRUPTED OR ERROR-FREE, THAT THE APPLE FONT WILL BE COMPATIBLE OR WORK WITH ANY THIRD",
         "matchedWords": {
           "HzhwvidPbEmz": {
             "hits": 175,
@@ -3442,7 +3442,7 @@
         "hash": "C0bpkxdA5r_4",
         "address": "https://www.apple.com/mo/today/camp/",
         "title": "Today at Apple - Apple Camp - Apple (澳門)",
-        "snippet": "Apple Camp，6 至 10 歲的小朋友發揮想像力，展開了一場充滿藝術感的奇妙旅程。他們攜手合作，在 iPad 上運用 Apple Pencil Pro 和 Freeform，創作了一眾最幫得手的超級英雄。在下方登記，便可搶先知道明年 Apple Camp 的相關消息。同時，歡迎你在本地的 Apple Store 探索更多為小朋友和家庭而設的日常課程。\n請通知我\n在下方登記，當 Apple Camp 開始接受報名時，即可收到通知。\n電郵地址\n更多方式跟 Today at Apple 一⁠起學習",
+        "snippet": "今年 Apple Camp，6 至 10 歲的小朋友發揮想像力，展開了一場充滿藝術感的奇妙旅程。他們攜手合作，在 iPad 上運用 Apple Pencil Pro 和 Freeform，創作了一眾最幫得手的超級英雄。在下方登記，便可搶先知道明年 Apple Camp 的相關消息。同時，歡迎你在本地的 Apple Store 探索更多為小朋友和家庭而設的日常課程。\n請通知我\n在下方登記，當 Apple Camp 開始接受報名時，即可收到通知。\n電郵地址\n更多方式跟 Today at Apple 一⁠起學習\n發掘店內的免費課程和各式活動，每天都有各種精彩。歡迎你報名參加，又或隨時前來店內參與。",
         "matchedWords": {
           "HzhwvidPbEmz": {
             "hits": 7,
@@ -3455,7 +3455,7 @@
         "hash": "AuVJtldA5r_4",
         "address": "https://www.apple.com/newsroom/",
         "title": "Newsroom - Apple",
-        "snippet": "Apple Newsroom.",
+        "snippet": "Stay up to date with the latest articles from Apple Newsroom.",
         "matchedWords": {
           "HzhwvidPbEmz": {
             "hits": 1,
@@ -3574,7 +3574,7 @@
         "hash": "_d5vildA5r_4",
         "address": "https://www.apple.com/apple-tv-app/",
         "title": "Apple TV app - Apple",
-        "snippet": "Apple Original shows and movies. Live Formula 1® races, MLS matches, and Friday Night Baseball games. Thousands of movies to buy or rent. Premium channels, streaming services, and cable TV providers. All on the expertly curated Apple TV app.\nShows, movies, sports, top channels. It’s on.\nApple TV.",
+        "snippet": "All your TV.\nAll in one app.\nApple Original shows and movies. Live Formula 1® races, MLS matches, and Friday Night Baseball games. Thousands of movies to buy or rent. Premium channels, streaming services, and cable TV providers. All on the expertly curated Apple TV app.",
         "matchedWords": {
           "HzhwvidPbEmz": {
             "hits": 9,
@@ -3626,7 +3626,7 @@
         "hash": "8MBDK7SIk8o4",
         "address": "https://support.apple.com/en-euro/guide/watch/apd54d0a51fb/watchos",
         "title": "Set up Apple Watch For Your Kids - Apple Support",
-        "snippet": "Apple Watch with cellular for your child or family member, even if they don’t have their own iPhone. To do so, you must be the family organizer or parent/guardian in your Family Sharing group.\nThe iPhone you use to initially pair and set up the Apple Watch must be within normal Bluetooth range",
+        "snippet": "Follow the instructions on your iPhone and Apple Watch to finish setup.\nFor more information about setting up and pairing Apple Watch, see Set up and pair your Apple Watch with iPhone and the Apple Support article Set up Apple Watch for a family member.\nManage a family member’s Apple Watch",
         "matchedWords": {
           "HzhwvidPbEmz": {
             "hits": 54,
@@ -3706,7 +3706,7 @@
         "hash": "5DR7omdA5r_4",
         "address": "https://www.apple.com/tw/today/camp/",
         "title": "Today at Apple - Apple 夏令營 - Apple (台灣)",
-        "snippet": "Apple 夏令營，6 到 10 歲的孩子發揮他們無比的想像力展開了一場藝術冒險。他們攜手合作，運用 iPad 搭配 Apple Pencil Pro 在「無邊記」上打造出助人超級英雄。在下方登記，就能搶先收到下次 Apple 夏令營的相關消息。於此同時，歡迎探索更多你附近 Apple 直營店的日常親子課程。\n收到通知\n於下方登記，就能在 Apple 夏令營開放報名時收到通知。\n抱歉，出錯了。\n我們暫時無法完成你的要求。請再試一次。\n抱歉，發生錯誤。\n請重新整理頁面或稍後再回來。",
+        "snippet": "今年 Apple 夏令營，6 到 10 歲的孩子發揮他們無比的想像力展開了一場藝術冒險。他們攜手合作，運用 iPad 搭配 Apple Pencil Pro 在「無邊記」上打造出助人超級英雄。在下方登記，就能搶先收到下次 Apple 夏令營的相關消息。於此同時，歡迎探索更多你附近 Apple 直營店的日常親子課程。\n收到通知\n於下方登記，就能在 Apple 夏令營開放報名時收到通知。\n抱歉，出錯了。\n我們暫時無法完成你的要求。請再試一次。\n抱歉，發生錯誤。\n請重新整理頁面或稍後再回來。",
         "matchedWords": {
           "HzhwvidPbEmz": {
             "hits": 5,
@@ -3719,7 +3719,7 @@
         "hash": "19-rDxdA5r_4",
         "address": "https://www.apple.com/mo/contact/",
         "title": "聯絡 - 如何與我們聯絡 - Apple (澳門)",
-        "snippet": "Apple\n銷售及產品諮詢\n搜尋 Apple 授權經銷商\n利用我們的經銷商搜尋器，找尋澳門的 Apple 授權經銷商。\nApple 授權經銷商可為各類機構組織提供行業專業知識、跨平台服務以及基於 Mac 的解決方案。\n產品及服務支援\n法律聲明\n如有法律疑問，請前往 apple.com/legal/contact 並從下拉式選單選擇相應內容。如要報告可疑的假冒或翻版產品，或涉嫌對 Apple 知識產權的其他形式侵害，請從下拉式選單選擇 Counterfeit or Knockoff Products。\n公司地址\nApple\n澳門南灣大馬路\n759 號 5 樓\n常見查詢資訊\nApple 帳户支援",
+        "snippet": "聯絡 Apple\n銷售及產品諮詢\n搜尋 Apple 授權經銷商\n利用我們的經銷商搜尋器，找尋澳門的 Apple 授權經銷商。\nApple 授權經銷商可為各類機構組織提供行業專業知識、跨平台服務以及基於 Mac 的解決方案。\n產品及服務支援\n法律聲明\n如有法律疑問，請前往 apple.com/legal/contact 並從下拉式選單選擇相應內容。如要報告可疑的假冒或翻版產品，或涉嫌對 Apple 知識產權的其他形式侵害，請從下拉式選單選擇 Counterfeit or Knockoff Products。\n公司地址\nApple\n澳門南灣大馬路\n759 號 5 樓\n常見查詢資訊",
         "matchedWords": {
           "HzhwvidPbEmz": {
             "hits": 12,
@@ -3732,7 +3732,7 @@
         "hash": "4CK4DXdA5r_4",
         "address": "https://www.apple.com/hk/sitemap/",
         "title": "網站地圖 - Apple (香港)",
-        "snippet": "Apple 網站地圖\n關於 Apple\nApple 管理層\n工作機會\n聯絡 Apple\n法律聲明\n選擇你的國家或地區\nApple 價值理念\n環境\n供應鏈創新\n輔助使用\n私隱\n新聞與活動\nNewsroom\nApple 特別活動\n購買資訊\n尋找 Apple Store\n網上選購\n尋找經銷商\n從 Apple 購買 iPhone 的理由\n優惠活動\n認證的翻新產品\nAuthorized Distributor\nApple 商務合作夥伴\n零售店服務\nToday at Apple\n團體預約\nApple Camp\nGenius Bar\n訂單狀態\nApple Trade In 換購計劃\n禮品卡\n個人設定指導",
+        "snippet": "Apple Watch Hermès\n比較 Apple Watch 型號\nWatch 配件\n所有 Apple Watch 配件\nApple Watch 錶帶\n耳筒與揚聲器\n健康與健身\n充電器與轉換器\n進一步了解 Apple Watch\n選擇 Apple Watch 的理由\nwatchOS\nApple Watch 親子設定\nApple 創製的 App\nApple Music\nApple Fitness+\nApple 健康\n圓滿你的圓圈\n為開發者而設的 watchOS\n輔助使用\n電池\n支援服務\nAppleCare\nApple Watch 支援\n使用手冊\nApple Watch 討論區",
         "matchedWords": {
           "HzhwvidPbEmz": {
             "hits": 99,
@@ -3996,7 +3996,7 @@
         "hash": "SR__fbdA5r_4",
         "address": "https://www.apple.com/today/hilldale/",
         "title": "Today at Apple - Hilldale - Apple",
-        "snippet": "Apple products or pushing your skills further, find a session that's right for you.\nDaily Sessions\nLet us show you how to get more from the products you love. Join a session to get started or learn new creative skills.\nKids \u0026 Families\nJoin fun learning experiences designed for the whole family.",
+        "snippet": "Whether you're getting started with your new Apple products or pushing your skills further, find a session that's right for you.\nDaily Sessions\nLet us show you how to get more from the products you love. Join a session to get started or learn new creative skills.\nKids \u0026 Families",
         "matchedWords": {
           "HzhwvidPbEmz": {
             "hits": 1,
@@ -4234,7 +4234,7 @@
         "hash": "aZtmvtapm5B4",
         "address": "https://discussionschinese.apple.com/learn",
         "title": "如何使用 Apple 支持社区",
-        "snippet": "Apple 产品以及通过更多方式享受其中乐趣的理想场所。在学习的过程中，你还能与社区成员分享你的知识。成为全球最大 Apple 粉丝社区的一员，是一件非常有趣的事情。为确保所有成员都能在这一空间轻松自在地询问和回答问题，请遵守 Apple 支持社区准则。\n寻找答案并提出问题\n在 Apple 支持社区中搜索答案或发布新问题。\n搜索或提问\n对有帮助的内容投票\n对社区中有帮助的内容投赞同票，以告知社区成员，他们的帖子有没有解决你的问题或帮助解答你的疑问。如果你有相同的疑问，请选取“我也有此问题”。\n在 Apple 支持社区中投票\n通过“我的订阅”快速查看您的内容",
+        "snippet": "这是你了解 Apple 产品以及通过更多方式享受其中乐趣的理想场所。在学习的过程中，你还能与社区成员分享你的知识。成为全球最大 Apple 粉丝社区的一员，是一件非常有趣的事情。为确保所有成员都能在这一空间轻松自在地询问和回答问题，请遵守 Apple 支持社区准则。\n寻找答案并提出问题\n在 Apple 支持社区中搜索答案或发布新问题。\n搜索或提问\n对有帮助的内容投票\n对社区中有帮助的内容投赞同票，以告知社区成员，他们的帖子有没有解决你的问题或帮助解答你的疑问。如果你有相同的疑问，请选取“我也有此问题”。\n在 Apple 支持社区中投票\n通过“我的订阅”快速查看您的内容",
         "matchedWords": {
           "HzhwvidPbEmz": {
             "hits": 5,
@@ -4498,7 +4498,7 @@
         "hash": "_d5vildA5r_4",
         "address": "https://www.apple.com/apple-tv-app/",
         "title": "Apple TV app - Apple",
-        "snippet": "Apple Original shows and movies. Live Formula 1® races, MLS matches, and Friday Night Baseball games. Thousands of movies to buy or rent. Premium channels, streaming services, and cable TV providers. All on the expertly curated Apple TV app.\nShows, movies, sports, top channels. It’s on.\nApple TV.",
+        "snippet": "All your TV.\nAll in one app.\nApple Original shows and movies. Live Formula 1® races, MLS matches, and Friday Night Baseball games. Thousands of movies to buy or rent. Premium channels, streaming services, and cable TV providers. All on the expertly curated Apple TV app.",
         "matchedWords": {
           "HzhwvidPbEmz": {
             "hits": 9,
@@ -4511,7 +4511,7 @@
         "hash": "_l1Zv4ZNzNto",
         "address": "https://www.apple.com.cn/mac/",
         "title": "Mac - Apple (中国大陆)",
-        "snippet": "Apple 产品最长可享 24 个月免息分⁠期⁠◊。支付宝、微信支付及多家合作银行任你选择。\n教育\n以教育优惠选购 Mac，\n节省更多*。\n高校学生和教职员工在 Apple Store 商店选购，可省更多*。\n个人设置辅导\n个人设置辅导，帮你上手新 Mac。\n一对一专业辅导，引导你转移数据，让你了解各⁠种新功能，并提供更多帮助。\n送货和取货\n可免费送货，\n也可到店取货。\n所有订单均可享免费送货。部分订单可选择免⁠费的三小时快送**，或亲自到店取货。\nMac 定制\nMac 定制\n选择你想要的芯片、内存、存储容量，以及外⁠观颜色。\n导购\nSpecialist 专家协⁠助⁠选⁠购。\n无论线上还是在",
+        "snippet": "Specialist 专家协⁠助⁠选⁠购。\n无论线上还是在 Apple Store 零售店，我们都能帮你找到心仪的产品，并解答你的各种疑⁠问。\nApple Store App\n专属于你的购物体验。\n更个性化的购物方式，尽在 Apple Store app。\n性能和电池续航\n跑得快，跑得久。\n强大的 AI 平台\n智能又安全，\n全在设备端。\nmacOS\n简简单单，\n用起来就喜欢。\nMac + iPhone\n合力出奇迹。\n兼容性\n各种常用 App，\nMac 都能跑。\n隐私和安全\n你的私事，\n只关你的事。\n耐用性\n精心打造，\n经得起时间考验。\nApple 价值观\n我们的价值观，\n处处有体现。",
         "matchedWords": {
           "HzhwvidPbEmz": {
             "hits": 6,
@@ -4524,7 +4524,7 @@
         "hash": "_jRAITXWSPc4",
         "address": "https://developer.apple.com/fonts/",
         "title": "Fonts - Apple Developer",
-        "snippet": "Apple platforms\nGet the typefaces you need to design interfaces for your apps on Apple platforms. These typefaces are designed to optimally display text at a variety of sizes and in a wide range of languages across multiple interfaces.\nSan Francisco\nSan Francisco is an Apple designed typeface that",
+        "snippet": "APPLE DOES NOT WARRANT AGAINST INTERFERENCE WITH YOUR ENJOYMENT OF THE APPLE FONT, THAT THE FUNCTIONS CONTAINED IN THE APPLE FONT WILL MEET YOUR REQUIREMENTS, THAT THE OPERATION OF THE APPLE FONT WILL BE UNINTERRUPTED OR ERROR-FREE, THAT THE APPLE FONT WILL BE COMPATIBLE OR WORK WITH ANY THIRD",
         "matchedWords": {
           "HzhwvidPbEmz": {
             "hits": 175,
@@ -4550,7 +4550,7 @@
         "hash": "9nJER54Lp0o4",
         "address": "https://discussions.apple.com/productsitemap.jspa",
         "title": "Site Map - Apple Community",
-        "snippet": "Apple Footer\nThis site contains user submitted content, comments and opinions and is for informational purposes only. Apple may provide or recommend responses as a possible solution based on the information provided; every potential issue may involve several factors not detailed in the",
+        "snippet": "Apple may provide or recommend responses as a possible solution based on the information provided; every potential issue may involve several factors not detailed in the conversations captured in an electronic forum and Apple can therefore provide no guarantee as to the efficacy of any proposed",
         "matchedWords": {
           "HzhwvidPbEmz": {
             "hits": 7,
@@ -4576,7 +4576,7 @@
         "hash": "-MVnHxSIk8o4",
         "address": "https://support.apple.com/en-au/guide/security/sec1c603aab4/web",
         "title": "Secure Apple Messages for Business – Apple Support (AU)",
-        "snippet": "Apple Messages for Business is a messaging service that allows users to communicate with businesses using the Messages app. With Apple Messages for Business, the user is always in control of the conversation. They can also delete the conversation and block the business from messaging them in the",
+        "snippet": "Apple Messages for Business supports Managed Apple Accounts from Apple Business Manager and determines whether they are turned on for iMessage and FaceTime in Apple School Manager.",
         "matchedWords": {
           "HzhwvidPbEmz": {
             "hits": 16,
@@ -4631,7 +4631,7 @@
         "hash": "-TBa8LdA5r_4",
         "address": "https://www.apple.com/watch/cellular/",
         "title": "Apple Watch - Carriers - Apple",
-        "snippet": "Apple Watch GPS + Cellular\nStay connected when you’re away from your phone.\nApple Watch cellular models with an active service plan allow you to make calls, send texts, and so much more — all without your iPhone. With international roaming,1 make calls, send texts, stream music, and get help in an",
+        "snippet": "GPS + Cellular Apple Watch Ultra 4\nGPS + Cellular Apple Watch Series 11\nGPS + Cellular Apple Watch Ultra 3\nGPS + Cellular Apple Watch Series 10\nGPS + Cellular Apple Watch Series 9\nGPS + Cellular Apple Watch Ultra 2\nGPS + Cellular Apple Watch Series 8\nGPS + Cellular Apple Watch Ultra",
         "matchedWords": {
           "HzhwvidPbEmz": {
             "hits": 75,
@@ -4644,7 +4644,7 @@
         "hash": "9IvDr7SIk8o4",
         "address": "https://support.apple.com/en-euro/guide/watch/apd9298f92bb/watchos",
         "title": "Use Apple Card on Apple Watch - Apple Support",
-        "snippet": "Apple Card on iPhone, you can use it for contactless payments on your Apple Watch. You can also view the current balance, available credit, and recent transactions.\nFor complete setup and management details, see Use Apple Card on iPhone in the iPhone User Guide.\nSee alsoSet up Apple Pay on Apple",
+        "snippet": "See alsoSet up Apple Pay on Apple WatchUse Apple Pay for contactless payments on Apple Watch",
         "matchedWords": {
           "HzhwvidPbEmz": {
             "hits": 7,
@@ -4880,7 +4880,7 @@
         "hash": "-TBa8LdA5r_4",
         "address": "https://www.apple.com/watch/cellular/",
         "title": "Apple Watch - Carriers - Apple",
-        "snippet": "Apple Watch GPS + Cellular\nStay connected when you’re away from your phone.\nApple Watch cellular models with an active service plan allow you to make calls, send texts, and so much more — all without your iPhone. With international roaming,1 make calls, send texts, stream music, and get help in an",
+        "snippet": "GPS + Cellular Apple Watch Ultra 4\nGPS + Cellular Apple Watch Series 11\nGPS + Cellular Apple Watch Ultra 3\nGPS + Cellular Apple Watch Series 10\nGPS + Cellular Apple Watch Series 9\nGPS + Cellular Apple Watch Ultra 2\nGPS + Cellular Apple Watch Series 8\nGPS + Cellular Apple Watch Ultra",
         "matchedWords": {
           "HzhwvidPbEmz": {
             "hits": 75,
@@ -5027,7 +5027,7 @@
         "hash": "Lsq1WmdA5r_4",
         "address": "https://www.apple.com/tw/sitemap/",
         "title": "網站地圖 - Apple (台灣)",
-        "snippet": "Apple 網站地圖\n關於 Apple\nApple 領導團隊\n工作機會\n聯絡 Apple\n法律聲明\n選擇你的國家或地區\nApple 價值理念\n環境\n供應鏈創新\n輔助使用\n隱私權\n新聞與活動\nNewsroom\nApple 活動\n購買資訊\n尋找 Apple 直營店\n網上選購\n尋找經銷商\n向 Apple 購買 iPhone 的好理由\nApple 與公營事業\n優惠活動\n認證整修品\n尋找授權線上經銷商\n授權經銷商\nApple 商務合作夥伴\n商店服務\nToday at Apple\n團體預約\nApple 夏令營\nGenius Bar 天才吧\n訂單狀態\nApple Trade In 換購方案\n信用卡分期付款",
+        "snippet": "適用於開發者的 tvOS\nApple 出品的 App\nApple Arcade\n適用於開發者的 Apple Arcade\n輔助使用\n支援服務\n適用於 Apple TV 的 AppleCare+ 服務專案\nApple TV 支援\nApple TV 使用手冊\n適用於 HomePod 的 AppleCare+ 服務專案\nHomePod 支援\nHomePod 使用手冊\n娛樂\n探索\nApple TV\nApple Music\nApple Arcade\nApple Fitness+\nApple Podcast\nApple Books\nApp Store\nApple 錢包\nApple Pay\n更多服務",
         "matchedWords": {
           "HzhwvidPbEmz": {
             "hits": 104,
@@ -5040,7 +5040,7 @@
         "hash": "F2A-g4ZNzNto",
         "address": "https://www.apple.com.cn/sitemap/",
         "title": "网站地图 - Apple (中国大陆)",
-        "snippet": "Apple 网站地图\n关于 Apple\nApple 管理层\n工作机会\n创造就业\n联系 Apple\n法律信息\n产品反馈\nApple 价值观\n环境责任\n供应链创新\n辅助功能\n隐私\n新闻与活动\nNewsroom\nApple 活动\n何处购买\n查找 Apple Store 零售店\n在线选购\n查找本地授权经销商\n从 Apple 购买 iPhone 的理由\n优惠活动\n认证的翻新产品\n授权线上经销商\n授权分销商\n授权企业客户服务商\nApple 商务合作商\nApple Store 商店相关服务\nToday at Apple\n团体预约\nApple 夏令营\nGenius Bar 天才吧\n订单状态\nApple",
+        "snippet": "Apple 网站地图\n关于 Apple\nApple 管理层\n工作机会\n创造就业\n联系 Apple\n法律信息\n产品反馈\nApple 价值观\n环境责任\n供应链创新\n辅助功能\n隐私\n新闻与活动\nNewsroom\nApple 活动\n何处购买\n查找 Apple Store 零售店\n在线选购\n查找本地授权经销商\n从 Apple 购买 iPhone 的理由\n优惠活动\n认证的翻新产品\n授权线上经销商\n授权分销商\n授权企业客户服务商\nApple 商务合作商\nApple Store 商店相关服务\nToday at Apple\n团体预约\nApple 夏令营\nGenius Bar 天才吧\n订单状态",
         "matchedWords": {
           "HzhwvidPbEmz": {
             "hits": 79,
@@ -5053,7 +5053,7 @@
         "hash": "7wAqnbdA5r_4",
         "address": "https://www.apple.com/today/bellevuesquare/",
         "title": "Today at Apple - Bellevue Square - Apple",
-        "snippet": "Apple products or pushing your skills further, find a session that's right for you.\nDaily Sessions\nLet us show you how to get more from the products you love. Join a session to get started or learn new creative skills.\nKids \u0026 Families\nJoin fun learning experiences designed for the whole family.",
+        "snippet": "Whether you're getting started with your new Apple products or pushing your skills further, find a session that's right for you.\nDaily Sessions\nLet us show you how to get more from the products you love. Join a session to get started or learn new creative skills.\nKids \u0026 Families",
         "matchedWords": {
           "HzhwvidPbEmz": {
             "hits": 1,
@@ -5159,7 +5159,7 @@
         "hash": "-70oPldA5r_4",
         "address": "https://www.apple.com/iphone-17/",
         "title": "iPhone 17 - Apple",
-        "snippet": "Apple Upgrade.§ Learn more\nGet credit toward your next iPhone when you trade in an eligible device.**Get credit when you trade in your current smartphone** Learn moreabout trade-in\nCeramic Shield\nCenter Stage Front Camera\nCamera system\nA19 chip\niOS 27\nApple Intelligence\nBrighter display, now with",
+        "snippet": "out at Apple with Apple Card Monthly Installments.***\nCarrier Deals at Apple\nGet up to $900⁠–⁠\n$1099 in credit on a new iPhone.\nExplore deals that accept eligible trade‑in devices in any condition.20\nPersonal Setup\nMake the most of your iPhone with an online session.",
         "matchedWords": {
           "HzhwvidPbEmz": {
             "hits": 39,
@@ -5172,7 +5172,7 @@
         "hash": "-O8_4mdA5r_4",
         "address": "https://www.apple.com/shop/buy-mac/macbook-pro/14-inch-silver-standard-display-apple-m5-chip-10-core-cpu-10-core-gpu-24gb-memory-1tb-storage",
         "title": "Buy MacBook Pro, 14-inch, M5 Chip, 10-core CPU, 10-core GPU, Silver, Standard display, 24GB memory, 1TB storage - Apple",
-        "snippet": "Apple devices.\nIf you already have an iPhone, setting up your Mac is a snap. Just bring your iPhone near your Mac, and Setup Assistant signs you in to your Wi-Fi network and Apple Account. Your files, photos, messages, passwords, and more are transferred from iCloud right to your new Mac.\nDon’t",
+        "snippet": "Apple accepts Apple Pay, most credit and debit cards, PayPal, Apple Gift Cards, and Apple Card. You can also split your payment across multiple cards as long as they share the same billing address.",
         "matchedWords": {
           "HzhwvidPbEmz": {
             "hits": 37,
@@ -5224,7 +5224,7 @@
         "hash": "-MVnHxSIk8o4",
         "address": "https://support.apple.com/en-au/guide/security/sec1c603aab4/web",
         "title": "Secure Apple Messages for Business – Apple Support (AU)",
-        "snippet": "Apple Messages for Business is a messaging service that allows users to communicate with businesses using the Messages app. With Apple Messages for Business, the user is always in control of the conversation. They can also delete the conversation and block the business from messaging them in the",
+        "snippet": "Apple Messages for Business supports Managed Apple Accounts from Apple Business Manager and determines whether they are turned on for iMessage and FaceTime in Apple School Manager.",
         "matchedWords": {
           "HzhwvidPbEmz": {
             "hits": 16,

@@ -1,6 +1,6 @@
 {
   "query": "free software foundation",
-  "recordedAt": "2026-09-12T00:19:20Z",
+  "recordedAt": "2026-09-12T07:51:59Z",
   "itemsInTheOrderOfEachAnswer": [
     [
       {
@@ -49,7 +49,7 @@
         "hash": "8q_7kd8zMi84",
         "address": "https://docs.cloud.google.com/release-notes",
         "title": "Google Cloud release notes | Google Cloud Documentation",
-        "snippet": "Foundation.\nAdded custom/ directory scaffolding across all developer skills for local extensions.\nGemini Enterprise Feature\nGemini Enterprise Agent Platform Feature\nGemini 3.8 Flash is generally available\nGemini 3.8 Flash is now generally available (GA) and available for production use.\nFor more",
+        "snippet": "You can now use the create_instance tool in the Cloud SQL remote MCP server to provision free trial instances for testing and development by setting the free_trial parameter to true.\nFor more information, see Create a free trial instance.\nFeature",
         "matchedWords": {
           "-foQupVsrPkd": {
             "hits": 28,
@@ -135,7 +135,7 @@
         "hash": "GDraRjjpmq6Q",
         "address": "http://www.gnu.org/licenses/fdl-1.3.html",
         "title": "GNU Free Documentation License v1.3 - GNU Project - Free Software Foundation",
-        "snippet": "Free Documentation License\nVersion 1.3, 3 November 2008\nCopyright © 2000, 2001, 2002, 2007, 2008 Free Software Foundation, Inc. \u003chttps://fsf.org/\u003e\nEveryone is permitted to copy and distribute verbatim copies of this license document, but changing it is not allowed.\n0. PREAMBLE\nThe purpose of this",
+        "snippet": "GNU Free Documentation License\nVersion 1.3, 3 November 2008\nCopyright © 2000, 2001, 2002, 2007, 2008 Free Software Foundation, Inc. \u003chttps://fsf.org/\u003e\nEveryone is permitted to copy and distribute verbatim copies of this license document, but changing it is not allowed.\n0. PREAMBLE",
         "matchedWords": {
           "-foQupVsrPkd": {
             "hits": 12,
@@ -158,7 +158,7 @@
         "hash": "KAs9AjRvmBbx",
         "address": "https://en.wikipedia.org/wiki/Free_content",
         "title": "Free content - Wikipedia",
-        "snippet": "free content.\nFree content, libre content, or open content (also called free information, libre information, open information) is any kind of creative work,[1] such as a work of art, a book,[2] a software program,[3][4] or any other creative content for which copyright and other legal limitations",
+        "snippet": "Prior to 1998, Free Software referred either to the Free Software Foundation (and the watchful, micromanaging eye of Stallman) or to one of thousands of different commercial, avocational, or university-research projects, processes, licenses, and ideologies that had a variety of names: sourceware,",
         "matchedWords": {
           "-foQupVsrPkd": {
             "hits": 38,
@@ -179,7 +179,7 @@
         "hash": "mCpq5KS6MKD4",
         "address": "https://github.com/johnjago/awesome-free-software",
         "title": "GitHub - johnjago/awesome-free-software: Curated list of open-source, free as in freedom software. · GitHub",
-        "snippet": "Software in this list is distributed under terms that allow anyone to use, modify, and share the software for any purpose. The two most popular licenses are the MIT License and the GNU GPL, but there are many other licenses which grant these permissions.\nContents\nSoftware Audio\nCommand Line Tools",
+        "snippet": "Free Software Foundation - Nonprofit with a worldwide mission to promote computer user freedom.\nFree Software Movement Karnataka - Group in Bengaluru, India that spreads awareness about free software.\nFree Software Movement of India - Coalition of free software organizations in India.",
         "matchedWords": {
           "-foQupVsrPkd": {
             "hits": 55,
@@ -202,7 +202,7 @@
         "hash": "mCpq5KS6MKD4",
         "address": "https://github.com/johnjago/awesome-free-software",
         "title": "GitHub - johnjago/awesome-free-software: Curated list of open-source, free as in freedom software. · GitHub",
-        "snippet": "Software in this list is distributed under terms that allow anyone to use, modify, and share the software for any purpose. The two most popular licenses are the MIT License and the GNU GPL, but there are many other licenses which grant these permissions.\nContents\nSoftware Audio\nCommand Line Tools",
+        "snippet": "Free Software Foundation - Nonprofit with a worldwide mission to promote computer user freedom.\nFree Software Movement Karnataka - Group in Bengaluru, India that spreads awareness about free software.\nFree Software Movement of India - Coalition of free software organizations in India.",
         "matchedWords": {
           "-foQupVsrPkd": {
             "hits": 55,
@@ -223,7 +223,7 @@
         "hash": "V7rZ6j-JVcyx",
         "address": "https://en.wikiquote.org/wiki/Free_software",
         "title": "Free software - Wikiquote",
-        "snippet": "free quote compendium\nThis article needs cleanup.\nPlease review how to edit this article to conform to a higher standard of article quality.\nFree software, FOSS or Open source is software that is distributed in a manner that allows its users to run the software for any purpose, to redistribute",
+        "snippet": "Any kind of work can be free, and the definition of free software has been extended to a definition of free cultural works applicable to any kind of works. What is free software? The Free Software Foundation",
         "matchedWords": {
           "-foQupVsrPkd": {
             "hits": 44,
@@ -246,7 +246,7 @@
         "hash": "VcMfPgAk2Cty",
         "address": "https://www.charitynavigator.org/ein/042888848",
         "title": "Charity Navigator - Rating for Free Software Foundation",
-        "snippet": "Free Software Foundation (FSF), founded in 1985, is dedicated to promoting computer user freedom. We defend user's rights to use, study, copy, modify, and distribute computer programs. The FSF promotes the development and use of free software, particularly the GNU operating system and its GNU/Linux",
+        "snippet": "Additionally, FSF is committed to furthering the development of the GNU Operating System, providing development systems for GNU software maintainers.\nBOSTON MA | EIN: 04-2888848\nMission\nThe Free Software Foundation (FSF), founded in 1985, is dedicated to promoting computer user freedom.",
         "matchedWords": {
           "-foQupVsrPkd": {
             "hits": 16,
@@ -269,7 +269,7 @@
         "hash": "Xu0QIjRvmBbx",
         "address": "https://en.wikipedia.org/wiki/Proprietary_software",
         "title": "Proprietary software - Wikipedia",
-        "snippet": "software is software that grants its creator, publisher, or other rightsholder or rightsholder partner a legal monopoly by modern copyright and intellectual property law to exclude the recipient from freely sharing the software or modifying it, and—in some cases, as is the case with some",
+        "snippet": "Non-copyleft free software (i.e. software distributed under a permissive free software license or released to the public domain) allows anyone to make proprietary redistributions.[34][35] Free software that depends on proprietary software is considered \"trapped\" by the Free Software Foundation.",
         "matchedWords": {
           "-foQupVsrPkd": {
             "hits": 195,
@@ -315,7 +315,7 @@
         "hash": "tsBO3hsWTYKx",
         "address": "https://sourceforge.net/directory/software-development/",
         "title": "Best Open Source Software Development Software 2026",
-        "snippet": "free open source Software Development software and projects below. Use the toggles on the left to filter open source Software Development software by OS, license, language, programming language, and project status.\nOdoo Business Applications\nOdoo is a software suite to better manage and run your",
+        "snippet": "Browse free open source Software Development software and projects below. Use the toggles on the left to filter open source Software Development software by OS, license, language, programming language, and project status.\nOdoo Business Applications",
         "matchedWords": {
           "-foQupVsrPkd": {
             "hits": 91,
@@ -338,7 +338,7 @@
         "hash": "zlsdajRvmBbx",
         "address": "https://en.wikipedia.org/wiki/Software",
         "title": "Software",
-        "snippet": "Software written in the JavaScript language\nSoftware (SW) consists of computer programs that instruct the execution of a computer.[1] Software also includes design documents and specifications.\nThe history of software is closely tied to the development of digital computers in the mid-20th century.",
+        "snippet": "Licenses\nBlender, a free software program\nSince the mid-1970s, software and its source code have been protected by copyright law that vests the owner with the exclusive right to copy the code.",
         "matchedWords": {
           "-foQupVsrPkd": {
             "hits": 108,
@@ -426,7 +426,7 @@
         "hash": "7UdJ6vKqlBA4",
         "address": "https://www.phoronix.com/news/Servo-0.5-Released",
         "title": "Servo 0.5 Released: DuckDuckGo Properly Rendering, Up To 10x Faster Text Rendering - Phoronix",
-        "snippet": "Servo 0.5 is out today as the newest monthly update to this open-source, Rust-based browser engine. Servo 0.5 ships many notable enhancements for benefiting those running the Servoshell example browser or looking at Servo as an opportunity for embedded use.\nServo 0.5 picked up various new CSS",
+        "snippet": "Servo 0.5 is out today as the newest monthly update to this open-source, Rust-based browser engine. Servo 0.5 ships many notable enhancements for benefiting those running the Servoshell example browser or looking at Servo as an opportunity for embedded use.",
         "matchedWords": {
           "-foQupVsrPkd": {
             "hits": 0,
@@ -449,7 +449,7 @@
         "hash": "9n1rhjjEZfvx",
         "address": "https://en.wiktionary.org/wiki/free",
         "title": "free - Wiktionary, the free dictionary",
-        "snippet": "free dictionary\nenPR: frē, (Received Pronunciation) IPA(key): /fɹiː/, [fɹɪi̯]\n(Standard Southern British) IPA(key): /fɹɪj/\n(General American) IPA(key): /fɹi/\nHomophone: three (th-fronting)\nRhymes: -iː\nEtymology tree\nProto-West Germanic *friu\nMiddle English fre\nEnglish free\nFrom Middle English fre,",
+        "snippet": "live rent-free in someone's head, live rent free in someone's head\nmake free of\nmake free with\nmean free path\nmean free time\nMexican free-tailed bat\nno free lunch theorem\nnon-free software\nolly olly oxen free\nregion free\nset free\nthe best things in life are free",
         "matchedWords": {
           "-foQupVsrPkd": {
             "hits": 3,
@@ -472,7 +472,7 @@
         "hash": "8KdpCL8hxo35",
         "address": "https://www.microsoft.com/en-us/software-development-companies",
         "title": "AI \u0026 Tools for Software Companies | Software Development Companies",
-        "snippet": "\"Microsoft was a natural choice. Azure is the top in the world. [Marketplace] fundamentally accelerated our go-to-market and our growth.\"\nAmjad Masad\nFounder \u0026 CEO, Replit\n“We are integrated with Azure on every layer of the stack, ensuring that AI teams can build and scale models with minimal",
+        "snippet": "\"Microsoft was a natural choice. Azure is the top in the world. [Marketplace] fundamentally accelerated our go-to-market and our growth.\"\nAmjad Masad\nFounder \u0026 CEO, Replit",
         "matchedWords": {
           "-foQupVsrPkd": {
             "hits": 0,
@@ -495,7 +495,7 @@
         "hash": "MnvOKjRvmBbx",
         "address": "https://en.wikipedia.org/wiki/Portal:Free_and_open-source_software",
         "title": "Portal:Free and open-source software - Wikipedia",
-        "snippet": "free encyclopedia\nIntroduction\nP:FOSS\nP:FS\nP:OSS\nFree and open-source software (FOSS) is software available under a license that gives users the right to use, share, modify, and distribute the software — modified or not — to everyone and provides the means to exercise those rights using the",
+        "snippet": "In 1983 Richard Stallman launched the free software movement and founded the Free Software Foundation to promote the movement and to publish its own definition. Others have published alternative definitions of free software, notably the Debian Free Software Guidelines.",
         "matchedWords": {
           "-foQupVsrPkd": {
             "hits": 52,
@@ -518,7 +518,7 @@
         "hash": "gloktjRvmBbx",
         "address": "https://en.wikipedia.org/wiki/Free_software",
         "title": "Free software - Wikipedia",
-        "snippet": "free-software operating system running some representative applications. Shown are the GNOME desktop environment, the GNU Emacs text editor, the GIMP image editor, some GNOME Core Applications, and the VLC media player.\nFree software or libre software[1][2] sometimes known as freedom-respecting",
+        "snippet": "\"The advantages of free software\". Free Software Foundation. Retrieved 2013-08-12.\n↑ Stallman, Richard. \"What is the Free Software Foundation?\". GNU's Bulletin. Vol. 1, no. 1. p. 8.\n1 2 Free Software Foundation. \"What is free software?\". Retrieved 14 December 2011.\n↑ \"Four Freedoms\". fsfe.org.",
         "matchedWords": {
           "-foQupVsrPkd": {
             "hits": 239,
@@ -541,7 +541,7 @@
         "hash": "S9YMJzCJVaIz",
         "address": "https://planet.documentfoundation.org/",
         "title": "The Document Foundation Planet",
-        "snippet": "Foundation members\nThe Document Foundation is the non-profit organisation that coordinates the LibreOffice community. Anyone who contributes to the project can apply to become a member of the foundation, and join the over 200 existing members. We’ve also partnered with TUXEDO, a laptop vendor based",
+        "snippet": "I’m a federal public servant in Brazil, and I’ve taken part in some initiatives to use free software in government, but I don’t make decisions at that level, so there’s little I can do to push the adoption of free software where I work.",
         "matchedWords": {
           "-foQupVsrPkd": {
             "hits": 14,
@@ -564,7 +564,7 @@
         "hash": "Krz6_MaQF27w",
         "address": "https://www.apache.org/foundation/marks/",
         "title": "Apache Software Foundation Trademark Policy | Apache Software Foundation",
-        "snippet": "Software Foundation trademarks by other parties.\nThe Apache Software Foundation (ASF) owns all ASF-related trademarks, service marks, and graphic logos on behalf of our project communities, and the names of all ASF projects are trademarks of the ASF.\nThe following information helps ensure our marks",
+        "snippet": "The Apache Software Foundation and our many software products must be clearly distinguishable from any software that competes with ASF software, and from software or services by any company or individual that is not part of the ASF.",
         "matchedWords": {
           "-foQupVsrPkd": {
             "hits": 50,
@@ -587,7 +587,7 @@
         "hash": "ko6iFUb8iyg4",
         "address": "https://cloud.google.com/free",
         "title": "Free Trial and Free Tier Services and Products | Google Cloud",
-        "snippet": "Free to sign up. Free monthly usage.\nBuild apps, analyze data, and deploy agents with AI for free.\nThree ways to get started for free\n$300 in free credit for new customers\nNew customers get $300 in free credit to try Google Cloud products and build a proof of concept. You won’t be charged until you",
+        "snippet": "Free to sign up. Free monthly usage.\nBuild apps, analyze data, and deploy agents with AI for free.\nThree ways to get started for free\n$300 in free credit for new customers\nNew customers get $300 in free credit to try Google Cloud products and build a proof of concept.",
         "matchedWords": {
           "-foQupVsrPkd": {
             "hits": 0,
@@ -631,7 +631,7 @@
         "hash": "SpCF1Kb8iyg4",
         "address": "https://cloud.google.com/solutions/software-delivery",
         "title": "Software Delivery | Google Cloud",
-        "snippet": "software delivery\nTransform your software delivery best practices, to improve productivity, optimize costs, implement CI/CD best practices and secure the software supply chain.\nSolutions\nSoftware delivery\nSolutions address inner loop, outer loop, and security best practices. Audience includes",
+        "snippet": "Modernize software delivery\nTransform your software delivery best practices, to improve productivity, optimize costs, implement CI/CD best practices and secure the software supply chain.\nSolutions\nSoftware delivery\nSolutions address inner loop, outer loop, and security best practices.",
         "matchedWords": {
           "-foQupVsrPkd": {
             "hits": 14,
@@ -652,7 +652,7 @@
         "hash": "jKQKJldG5jPw",
         "address": "https://www.python.org/psf-landing/",
         "title": "Python Software Foundation",
-        "snippet": "foundation's goals with a donation. The PSF is a recognized 501(c)(3) non-profit organization.\nHow to Contribute\nVolunteer\nLearn how you can help the PSF and the greater Python community!\nHow to Volunteer",
+        "snippet": "Assist the foundation's goals with a donation. The PSF is a recognized 501(c)(3) non-profit organization.\nHow to Contribute\nVolunteer\nLearn how you can help the PSF and the greater Python community!\nHow to Volunteer",
         "matchedWords": {
           "-foQupVsrPkd": {
             "hits": 0,
@@ -673,7 +673,7 @@
         "hash": "aJD3bsakFVXw",
         "address": "https://slashdot.org/",
         "title": "Slashdot: News for nerds, stuff that matters",
-        "snippet": "software package to a public database -- but it also offers some levity: AI agents hate CAPTCHA. [...] The agent had a hard time with the technical challenge of seeing the CAPTCHA's imagery, interpreting correctly, and clicking on the right choices. It spends pages 45 to 140 of the transcript",
+        "snippet": "Anthropic's latest report about agentic misbehavior offers plenty to be concerned about -- its Mythos 5 model gained unauthorized access to the internet and uploaded a malicious software package to a public database -- but it also offers some levity: AI agents hate CAPTCHA. [...]",
         "matchedWords": {
           "-foQupVsrPkd": {
             "hits": 3,
@@ -696,7 +696,7 @@
         "hash": "rXvFw_YTtSsx",
         "address": "https://sourceware.org/glibc/manual/",
         "title": "The GNU C Library - GNU Project - Free Software Foundation (FSF)",
-        "snippet": "Free Software Foundation, Inc.\nVerbatim copying and distribution of this entire article is permitted in any medium, provided this notice is preserved.",
+        "snippet": "Return to the GNU Project home page.\nPlease send FSF \u0026 GNU inquiries to gnu@gnu.org. There are also other ways to contact the FSF.\nPlease report broken links and other corrections (or suggestions) to the libc maintainers.\nCopyright 2026 Free Software Foundation, Inc.",
         "matchedWords": {
           "-foQupVsrPkd": {
             "hits": 1,
@@ -719,7 +719,7 @@
         "hash": "AeDSZjRvmBbx",
         "address": "https://en.wikipedia.org/wiki/Graphics_software",
         "title": "Graphics software - Wikipedia",
-        "snippet": "free encyclopedia\nGIMP image editor\nIn computer graphics, graphics software refers to a program or collection of programs that enable a person to manipulate images or models visually on a computer.[1]\nComputer graphics can be classified into two distinct categories: raster graphics and vector",
+        "snippet": "From Wikipedia, the free encyclopedia\nGIMP image editor\nIn computer graphics, graphics software refers to a program or collection of programs that enable a person to manipulate images or models visually on a computer.[1]",
         "matchedWords": {
           "-foQupVsrPkd": {
             "hits": 19,
@@ -786,7 +786,7 @@
         "hash": "3ZEiijRvmBbx",
         "address": "https://en.wikipedia.org/wiki/Wikipedia:About",
         "title": "Wikipedia:About - Wikipedia",
-        "snippet": "free encyclopedia\nWP:ABT\nWP:ABOUT\nWP:WIKIPEDIA\n\"Imagine a world in which every single person on the planet is given free access to the sum of all human knowledge.\nThat's what we're doing.\" — Jimmy Wales\nWikipedia is a free online encyclopedia that anyone can edit, and millions already have.",
+        "snippet": "From Wikipedia, the free encyclopedia\nWP:ABT\nWP:ABOUT\nWP:WIKIPEDIA\n\"Imagine a world in which every single person on the planet is given free access to the sum of all human knowledge.\nThat's what we're doing.\" — Jimmy Wales",
         "matchedWords": {
           "-foQupVsrPkd": {
             "hits": 1,
@@ -830,7 +830,7 @@
         "hash": "4AdwWNrC7Zxw",
         "address": "https://www.gnu.org/philosophy/free-sw.en.html",
         "title": "What is Free Software? - GNU Project - Free Software Foundation",
-        "snippet": "“Free software” means software that respects users' freedom and community. Roughly, it means that the users have the freedom to run, copy, distribute, study, change and improve the software. Thus, “free software” is a matter of liberty, not price. To understand the concept, you should think of",
+        "snippet": "If the license you are concerned with is not listed there, you can ask us about it by sending us email at \u003clicensing@gnu.org\u003e.\nIf you are contemplating writing a new license, please contact the Free Software Foundation first by writing to that address.",
         "matchedWords": {
           "-foQupVsrPkd": {
             "hits": 72,
@@ -874,7 +874,7 @@
         "hash": "9c2EwvdTeyA4",
         "address": "https://github.blog/open-source/social-impact/software-as-a-public-good/",
         "title": "Software as a public good - The GitHub Blog",
-        "snippet": "software has come a long way from its origins as a niche endeavor of technical experts. Recent studies have shown that open source software can be found in 96% of code bases, and its demand-side value to the economy is estimated at $ 8.8 trillion. Its open model of collaboration makes it easy for",
+        "snippet": "Open source software has come a long way from its origins as a niche endeavor of technical experts. Recent studies have shown that open source software can be found in 96% of code bases, and its demand-side value to the economy is estimated at $ 8.8 trillion.",
         "matchedWords": {
           "-foQupVsrPkd": {
             "hits": 5,
@@ -897,7 +897,7 @@
         "hash": "Xu0QIjRvmBbx",
         "address": "https://en.wikipedia.org/wiki/Proprietary_software",
         "title": "Proprietary software - Wikipedia",
-        "snippet": "software is software that grants its creator, publisher, or other rightsholder or rightsholder partner a legal monopoly by modern copyright and intellectual property law to exclude the recipient from freely sharing the software or modifying it, and—in some cases, as is the case with some",
+        "snippet": "Non-copyleft free software (i.e. software distributed under a permissive free software license or released to the public domain) allows anyone to make proprietary redistributions.[34][35] Free software that depends on proprietary software is considered \"trapped\" by the Free Software Foundation.",
         "matchedWords": {
           "-foQupVsrPkd": {
             "hits": 195,
@@ -989,7 +989,7 @@
         "hash": "2X6yByhkKIQy",
         "address": "https://www.linuxfoundation.org/legal/the-linux-mark",
         "title": "Sublicense the Linux Mark | Linux Foundation",
-        "snippet": "software goods or services. It doesn’t matter if your trademark is unregistered, or if you do not plan to make any money using the mark.\nAnswering the following questions (which break out each of the key issues) may help you determine if you need a sublicense from the Linux Foundation. If you are",
+        "snippet": "Yes, because you are using Linux as part of a trademark in connection with software-related goods or services. Software-related goods are computer programs and systems, or packages bundling software with tools, utilities, hardware, etc.",
         "matchedWords": {
           "-foQupVsrPkd": {
             "hits": 9,
@@ -1033,7 +1033,7 @@
         "hash": "gloktjRvmBbx",
         "address": "https://en.wikipedia.org/wiki/Free_software",
         "title": "Free software - Wikipedia",
-        "snippet": "free-software operating system running some representative applications. Shown are the GNOME desktop environment, the GNU Emacs text editor, the GIMP image editor, some GNOME Core Applications, and the VLC media player.\nFree software or libre software[1][2] sometimes known as freedom-respecting",
+        "snippet": "\"The advantages of free software\". Free Software Foundation. Retrieved 2013-08-12.\n↑ Stallman, Richard. \"What is the Free Software Foundation?\". GNU's Bulletin. Vol. 1, no. 1. p. 8.\n1 2 Free Software Foundation. \"What is free software?\". Retrieved 14 December 2011.\n↑ \"Four Freedoms\". fsfe.org.",
         "matchedWords": {
           "-foQupVsrPkd": {
             "hits": 239,
@@ -1056,7 +1056,7 @@
         "hash": "COw4R7QlWRhT",
         "address": "http://express-press-release.net/free/",
         "title": "Free Press Release Distribution (Submit Press Release)",
-        "snippet": "Free press release distribution guidelines:\nPlease read carefully the few simple rules as listed below and make sure you follow them to increase your chances of getting your free press release published on and distributed via EPR Network\nFirst and foremost, please make sure your press release is a",
+        "snippet": "Free press release distribution guidelines:\nPlease read carefully the few simple rules as listed below and make sure you follow them to increase your chances of getting your free press release published on and distributed via EPR Network",
         "matchedWords": {
           "-foQupVsrPkd": {
             "hits": 0,
@@ -1079,7 +1079,7 @@
         "hash": "M0ZJYjRvmBbx",
         "address": "https://en.wikipedia.org/wiki/Blender_(software)",
         "title": "Blender (software) - Wikipedia",
-        "snippet": "Foundation, community\nRelease\n2 January 1994 (32 years ago)[1]\nStable release\n5.2[2]\n/ 14 July 2026; 58 days ago\nWritten in\nC++, Python\nOperating system\nLinux, macOS, Windows, IRIX,[3] BSD,[4][5][6][7] Haiku[8]\nSize\n290–397 MiB (varies by operating system)[9][10]\nAvailable in\n36 languages\nList of",
+        "snippet": "↑ Roosendaal, Ton (June 2005). \"Blender License\". Archived from the original on 4 March 2016. Retrieved 19 January 2007.\n↑ Prokoudine, Alexandre (26 January 2012). \"What's up with DWG adoption in free software?\". librearts.org. Retrieved 9 March 2025.",
         "matchedWords": {
           "-foQupVsrPkd": {
             "hits": 20,
@@ -1102,7 +1102,7 @@
         "hash": "BxsbyjRvmBbx",
         "address": "https://en.wikipedia.org/wiki/Apple_Inc.",
         "title": "Apple Inc. - Wikipedia",
-        "snippet": "software and online services. Founded in 1976 as Apple Computer Company by Steve Jobs, Steve Wozniak and Ronald Wayne, the company was incorporated by Jobs and Wozniak as Apple Computer, Inc. the following year. Its current name was adopted in 2007 as the company expanded its focus from computers",
+        "snippet": "Allowing consumers to make informed purchasing decisions on the products it offers for sale.[347] In June 2009, Apple's iPhone 3GS was free of PVC, arsenic, and BFRs.[343][348] Since 2009, all Apple products have mercury-free LED-backlit LCDs, arsenic-free glass, and non-PVC cables.[",
         "matchedWords": {
           "-foQupVsrPkd": {
             "hits": 18,
@@ -1125,7 +1125,7 @@
         "hash": "ELN5b-oHYeTw",
         "address": "https://www.eclipse.org/org/foundation/directors/",
         "title": "Eclipse Foundation AISBL Board of Directors | The Eclipse Foundation",
-        "snippet": "software- and data-driven powerhouse. Appointed in May 2024, Florian drives Bosch Mobility’s digital and IT strategy with a focus on enterprise transformation, Software-Defined Vehicles (SDV), mobility services, and scalable cloud-native platforms.\nFlorian Bankoley was born on March 11th, 1980 and",
+        "snippet": "Headquartered in Manchester, UK, Codethink has pioneered software industry thinking around concepts of trustable software, with a view to improving the quality of software engineering for societal good.",
         "matchedWords": {
           "-foQupVsrPkd": {
             "hits": 21,
@@ -1169,7 +1169,7 @@
         "hash": "MO942jXF4o7w",
         "address": "https://xmpp.org/about/xmpp-standards-foundation/",
         "title": "XMPP Standards Foundation (XSF) | XMPP - The universal messaging standard",
-        "snippet": "Foundation (also known as the XSF and formerly the Jabber Software Foundation) is an independent, nonprofit standards development organisation whose primary mission is to define open protocols for presence, instant messaging, and real-time communication and collaboration on top of the IETF’s",
+        "snippet": "The XMPP Standards Foundation (also known as the XSF and formerly the Jabber Software Foundation) is an independent, nonprofit standards development organisation whose primary mission is to define open protocols for presence, instant messaging, and real-time communication and collaboration on top",
         "matchedWords": {
           "-foQupVsrPkd": {
             "hits": 4,
@@ -1192,7 +1192,7 @@
         "hash": "9n1rhjjEZfvx",
         "address": "https://en.wiktionary.org/wiki/free",
         "title": "free - Wiktionary, the free dictionary",
-        "snippet": "free dictionary\nenPR: frē, (Received Pronunciation) IPA(key): /fɹiː/, [fɹɪi̯]\n(Standard Southern British) IPA(key): /fɹɪj/\n(General American) IPA(key): /fɹi/\nHomophone: three (th-fronting)\nRhymes: -iː\nEtymology tree\nProto-West Germanic *friu\nMiddle English fre\nEnglish free\nFrom Middle English fre,",
+        "snippet": "live rent-free in someone's head, live rent free in someone's head\nmake free of\nmake free with\nmean free path\nmean free time\nMexican free-tailed bat\nno free lunch theorem\nnon-free software\nolly olly oxen free\nregion free\nset free\nthe best things in life are free",
         "matchedWords": {
           "-foQupVsrPkd": {
             "hits": 3,
@@ -1236,7 +1236,7 @@
         "hash": "gloktjRvmBbx",
         "address": "https://en.wikipedia.org/wiki/Free_software",
         "title": "Free software - Wikipedia",
-        "snippet": "free-software operating system running some representative applications. Shown are the GNOME desktop environment, the GNU Emacs text editor, the GIMP image editor, some GNOME Core Applications, and the VLC media player.\nFree software or libre software[1][2] sometimes known as freedom-respecting",
+        "snippet": "\"The advantages of free software\". Free Software Foundation. Retrieved 2013-08-12.\n↑ Stallman, Richard. \"What is the Free Software Foundation?\". GNU's Bulletin. Vol. 1, no. 1. p. 8.\n1 2 Free Software Foundation. \"What is free software?\". Retrieved 14 December 2011.\n↑ \"Four Freedoms\". fsfe.org.",
         "matchedWords": {
           "-foQupVsrPkd": {
             "hits": 239,
@@ -1259,7 +1259,7 @@
         "hash": "dSQ7JMaQF27w",
         "address": "https://www.apache.org/foundation/sponsorship.html",
         "title": "ASF Sponsorship | Apache Software Foundation",
-        "snippet": "Software Foundation provides support for the Apache community of open-source software projects. Apache projects use a collaborative, consensus-based development process, an open and pragmatic software license, and a desire to create high quality software that leads the way in its field. We consider",
+        "snippet": "You may review the latest financial filings and non-profit exemption application of The Apache Software Foundation in our public records section. You may find other helpful information through Candid (requires free registration for full access).",
         "matchedWords": {
           "-foQupVsrPkd": {
             "hits": 13,
@@ -1282,7 +1282,7 @@
         "hash": "lWSSlHWUVeV5",
         "address": "https://opensource.com/article/22/7/meet-fsf-executive-director-zoe-kooyman",
         "title": "Meet Free Software Foundation Executive Director Zoë Kooyman | Opensource.com",
-        "snippet": "Free Software Foundation (FSF) started promoting the idea of sharing code way back in 1985, and since then it's defended the rights of computer users and developers. The FSF says that the terms \"open\" and \"closed\" are not effective words when classifying software, and instead considers programs",
+        "snippet": "Image by:\nPhoto by Rob Tiller, CC BY-SA 4.0\nThe Free Software Foundation (FSF) started promoting the idea of sharing code way back in 1985, and since then it's defended the rights of computer users and developers.",
         "matchedWords": {
           "-foQupVsrPkd": {
             "hits": 27,
@@ -1305,7 +1305,7 @@
         "hash": "9n1rhjjEZfvx",
         "address": "https://en.wiktionary.org/wiki/free",
         "title": "free - Wiktionary, the free dictionary",
-        "snippet": "free dictionary\nenPR: frē, (Received Pronunciation) IPA(key): /fɹiː/, [fɹɪi̯]\n(Standard Southern British) IPA(key): /fɹɪj/\n(General American) IPA(key): /fɹi/\nHomophone: three (th-fronting)\nRhymes: -iː\nEtymology tree\nProto-West Germanic *friu\nMiddle English fre\nEnglish free\nFrom Middle English fre,",
+        "snippet": "live rent-free in someone's head, live rent free in someone's head\nmake free of\nmake free with\nmean free path\nmean free time\nMexican free-tailed bat\nno free lunch theorem\nnon-free software\nolly olly oxen free\nregion free\nset free\nthe best things in life are free",
         "matchedWords": {
           "-foQupVsrPkd": {
             "hits": 3,
@@ -1328,7 +1328,7 @@
         "hash": "feJyUjRvmBbx",
         "address": "https://en.wikipedia.org/wiki/Software_as_a_service",
         "title": "Software as a service - Wikipedia",
-        "snippet": "Software as a service (SaaS [1]) is a cloud computing service model in which a provider delivers application software to clients while managing the required physical and software resources.[2] SaaS applications are accessed via either a web application or locally-installed software. Unlike other",
+        "snippet": "One notable criticism of SaaS comes from Richard Stallman of the Free Software Foundation, who refers to it as Service as a Software Substitute (SaaSS).[84] He considers the use of SaaSS to be a violation of the principles of free software.[85] According to Stallman:",
         "matchedWords": {
           "-foQupVsrPkd": {
             "hits": 50,
@@ -1351,7 +1351,7 @@
         "hash": "PSrKH8uKjjbw",
         "address": "https://wiki.gentoo.org/wiki/Foundation:Privacy_Policy",
         "title": "Foundation:Privacy Policy - Gentoo wiki",
-        "snippet": "Foundation, Inc. (\"Gentoo\"), a non-profit legal entity registered in New Mexico, USA, and provide information about the choices you have regarding the ways in which information collected by the Gentoo project is used and disclosed.\nThis Privacy Statement does not cover any external services that",
+        "snippet": "Your date of birth (as legally required for Foundation business).\nIP addresses as well as information about software configurations used by you to access our services.\nPublicly available personal information",
         "matchedWords": {
           "-foQupVsrPkd": {
             "hits": 1,
@@ -1374,7 +1374,7 @@
         "hash": "wJhf3jRvmBbx",
         "address": "https://en.wikipedia.org/wiki/Software_developer",
         "title": "Software development - Wikipedia",
-        "snippet": "Software development is the process of designing, creating, testing, and maintaining software applications to meet specific user needs or business objectives. The process is more encompassing than programming, writing code, because it includes conceiving the goal, evaluating feasibility, analyzing",
+        "snippet": "32] Quality testing also often includes stress and load checking (whether the software is robust to heavy levels of input or usage), integration testing (to ensure that the software is adequately integrated with other software), and compatibility testing (measuring the software's performance across",
         "matchedWords": {
           "-foQupVsrPkd": {
             "hits": 94,
@@ -1395,7 +1395,7 @@
         "hash": "X18gsL7t2YV4",
         "address": "https://www.nvidia.com/en-us/networking/products/software/",
         "title": "NVIDIA Networking Software for AI Performance",
-        "snippet": "Software Platform\nNVIDIA DOCA™ is the unified software platform that unlocks the full potential of NVIDIA® BlueField® and NVIDIA® ConnectX® for agentic AI. It provides SDKs, libraries, enterprise-ready microservices, and orchestration frameworks—spanning networking, AI-native storage, runtime",
+        "snippet": "DOCA is the software foundation for building and operating intelligent, high-performance AI factory infrastructure.\nNVIDIA DSX Air\nWith DSX Air, organizations can build full-stack simulations of their data center infrastructure.",
         "matchedWords": {
           "-foQupVsrPkd": {
             "hits": 3,
@@ -1418,7 +1418,7 @@
         "hash": "-b3sxspKNBr4",
         "address": "https://rense.com/",
         "title": "rense.com",
-        "snippet": "GPS-free navigation in 4\nhour ocean flight using quantum sensors\nZelensky - US to increase Patriot missile\nproduction in 2027, Ukraine is counting on\nthese systems\nRussia said to adapt existing drones for\nnuclear emergencies\nUS Navy Accelerates Tomahawk Warhead\nProduction Through Existing SLAM-ER",
+        "snippet": "ChatGPT brings unlimited text chats to free users\nFantasy Is Free...But Reality Always SendsA Bill\nPentagon UAP Release #5 - Sky Sightings of\nBlack Triangles Highlighted\nThe Pentagon declassified the case of the\nfall of a UFO with a human body inside\nNew Antimatter Discovery in the Milky Way",
         "matchedWords": {
           "-foQupVsrPkd": {
             "hits": 4,
@@ -1589,7 +1589,7 @@
       "hash": "BsRHNUC_VmZ4",
       "address": "https://www.sonatype.com/resources/whitepapers/2024-forrester-wave?hsCtaAttrib=217560327987",
       "title": "The 2024 Forrester Wave™ Software Composition Analysis",
-      "snippet": "software supply chain attacks at the network firewall and endpoint protection systems is revolutionary.\"\n\"The stellar roadmap includes SBOM sharing, regulation-specific templates, SBOM and supplier quality scoring, AI/ML supply chain coverage and AI BOM management, which would catapult Sonatype",
+      "snippet": "\"Sonatype's vision of blocking software supply chain attacks at the network firewall and endpoint protection systems is revolutionary.\"",
       "matchedWords": {
         "-foQupVsrPkd": {
           "hits": 2,
@@ -1862,7 +1862,7 @@
       "hash": "rIs7VjRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Main_Page",
       "title": "Wikipedia, the free encyclopedia",
-      "snippet": "free encyclopedia\nFrom today's featured article\nUnited States v. Moore was a 1973 case heard by the U.S. Court of Appeals for the D.C. Circuit. Police officers found the defendant, Raymond Moore, in a hotel room with heroin capsules in his pocket and charged him with narcotics possession. Moore",
+      "snippet": "From Wikipedia, the free encyclopedia\nFrom today's featured article\nUnited States v. Moore was a 1973 case heard by the U.S. Court of Appeals for the D.C. Circuit.",
       "matchedWords": {
         "-foQupVsrPkd": {
           "hits": 0,
@@ -2681,7 +2681,7 @@
       "hash": "rIs7VjRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Main_Page",
       "title": "Wikipedia, the free encyclopedia",
-      "snippet": "free encyclopedia\nFrom today's featured article\nUnited States v. Moore was a 1973 case heard by the U.S. Court of Appeals for the D.C. Circuit. Police officers found the defendant, Raymond Moore, in a hotel room with heroin capsules in his pocket and charged him with narcotics possession. Moore",
+      "snippet": "From Wikipedia, the free encyclopedia\nFrom today's featured article\nUnited States v. Moore was a 1973 case heard by the U.S. Court of Appeals for the D.C. Circuit.",
       "matchedWords": {
         "-foQupVsrPkd": {
           "hits": 0,

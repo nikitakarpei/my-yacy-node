@@ -315,28 +315,6 @@ func TestOnlyTheWordsAReaderSeesInThePageAreRead(t *testing.T) {
 	}
 }
 
-func TestTheSnippetOfADocumentStartsAtTheFirstQueryWordOfItsPage(t *testing.T) {
-	t.Parallel()
-
-	reading := readingOfThePages(t, pagesHoldingTheDocuments(t), &recordedPageReading{})
-
-	documentTextPerDocument := reading.DocumentTextPerDocument(
-		t.Context(),
-		[]yacymodel.Hash{yacymodel.WordHash("holds")},
-		[]pagereading.PageToRead{pageToReadOfTheAddress(t, addressOfTheDocument)},
-	)
-
-	snippet := documentTextOfTheAddressRead(
-		t,
-		documentTextPerDocument,
-		addressOfTheDocument,
-	).Snippet
-	if !strings.HasPrefix(snippet, "holds a wall") ||
-		len([]rune(snippet)) > snippetLengthCeiling {
-		t.Fatalf("the snippet reads %q, want the text from the first query word on", snippet)
-	}
-}
-
 func TestTheSnippetOfADocumentIsCutAtAWordBoundaryBeforeItsLengthCeiling(t *testing.T) {
 	t.Parallel()
 

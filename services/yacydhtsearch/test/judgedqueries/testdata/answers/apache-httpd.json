@@ -1,6 +1,6 @@
 {
   "query": "apache httpd",
-  "recordedAt": "2026-09-12T00:22:06Z",
+  "recordedAt": "2026-09-12T07:51:56Z",
   "itemsInTheOrderOfEachAnswer": [
     [
       {
@@ -26,7 +26,7 @@
         "hash": "A8UIrXyzSDzw",
         "address": "https://httpd.apache.org/docs/2.4/content-negotiation.html",
         "title": "Content Negotiation - Apache HTTP Server Version 2.4",
-        "snippet": "Apache HTTPD supports content negotiation as described in the HTTP/1.1 specification. It can choose the best representation of a resource based on the browser-supplied preferences for media type, languages, character set and encoding. It also implements a couple of features to give more intelligent",
+        "snippet": "Content Negotiation\nAvailable Languages: en | fr | ja | ko | tr\nApache HTTPD supports content negotiation as described in the HTTP/1.1 specification. It can choose the best representation of a resource based on the browser-supplied preferences for media type, languages, character set and encoding.",
         "matchedWords": {
           "UYOsXCzLOk3q": {
             "hits": 26,
@@ -96,7 +96,7 @@
         "hash": "aMmXRUL2-9j4",
         "address": "https://bobcares.com/blog/enabling-webdav-for-apache/",
         "title": "Enabling WebDAV for Apache",
-        "snippet": "Apache 1.3.27. The following article is a documentation of the questions I asked myself regarding WebDav.\nI principally depended on the article by Martin Brown published in ServerWatch.com for the implementation. I highly recommended going through this article.\n1. What is DAV?\nAs presented in RFC",
+        "snippet": "mkdir /home/httpd/vhosts/XXXXXXX.com/httpdocs/webshare chmod 775 /home/httpd/vhosts/XXXXXXX.com/httpdocs/webshare chgrp apache /home/httpd/vhosts/XXXXXXX.com/httpdocs/webshare htpasswd -c /home/httpd/vhosts/XXXXXXX.com/.DAVlogin",
         "matchedWords": {
           "UYOsXCzLOk3q": {
             "hits": 13,
@@ -132,7 +132,7 @@
         "hash": "FE6GfV2Rr_dw",
         "address": "https://docs.searxng.org/admin/installation-apache.html",
         "title": "Apache — SearXNG Documentation (2024.10.6+5332d3a0b)",
-        "snippet": "Apache. If you did use the Installation Script and do not have any special preferences you can install the SearXNG site using searxng.sh:\n$ sudo -H ./utils/searxng.sh install apache\nIf you have special interests or problems with setting up Apache, the following section might give you some guidance.",
+        "snippet": "If you have special interests or problems with setting up Apache, the following section might give you some guidance.\nThe Apache HTTP server¶\nIf Apache is not installed, install it now.",
         "matchedWords": {
           "UYOsXCzLOk3q": {
             "hits": 0,
@@ -168,7 +168,7 @@
         "hash": "D6ZmTayzSDzw",
         "address": "https://httpd.apache.org/modules/",
         "title": "Apache httpd Modules - The Apache HTTP Server Project",
-        "snippet": "Apache HTTP Server Project maintains that are not included in the core distribution.\nThe listing of all modules included in the core distribution can be found in the online documentation.\nFinally, we do not maintain any detailed listing of third-party modules. You should use your favorite search",
+        "snippet": "This experimental code has not been released, but is available to you from the subversion development repository.\nSource: mod_domain\nViewVC: mod_domain\nMailing list: dev@httpd.apache.org\nmod_mbox¶\nDo you want to set up mail archives with Apache HTTPd 2.x ? Try out mod_mbox.",
         "matchedWords": {
           "UYOsXCzLOk3q": {
             "hits": 13,
@@ -187,7 +187,7 @@
         "hash": "P2FWiayzSDzw",
         "address": "https://httpd.apache.org/docs/",
         "title": "Documentation: Apache HTTP Server - The Apache HTTP Server Project",
-        "snippet": "Apache httpd. Downloadable zip files of the documentation, for your offline use, are available in various languages on our distribution siite.\nVersion 2.4 (Current)\nTrunk (Development / Draft)\nVersion 2.2 (Historical)\nVersion 2.0 (Historical)\nThere is also a Documentation Wiki for user-contributed",
+        "snippet": "Documentation is available for current, development, and historical versions of Apache httpd. Downloadable zip files of the documentation, for your offline use, are available in various languages on our distribution siite.\nVersion 2.4 (Current)\nTrunk (Development / Draft)\nVersion 2.2 (Historical)",
         "matchedWords": {
           "UYOsXCzLOk3q": {
             "hits": 1,
@@ -206,7 +206,7 @@
         "hash": "D6ZmTayzSDzw",
         "address": "https://httpd.apache.org/modules/",
         "title": "Apache httpd Modules - The Apache HTTP Server Project",
-        "snippet": "Apache HTTP Server Project maintains that are not included in the core distribution.\nThe listing of all modules included in the core distribution can be found in the online documentation.\nFinally, we do not maintain any detailed listing of third-party modules. You should use your favorite search",
+        "snippet": "This experimental code has not been released, but is available to you from the subversion development repository.\nSource: mod_domain\nViewVC: mod_domain\nMailing list: dev@httpd.apache.org\nmod_mbox¶\nDo you want to set up mail archives with Apache HTTPd 2.x ? Try out mod_mbox.",
         "matchedWords": {
           "UYOsXCzLOk3q": {
             "hits": 13,
@@ -331,7 +331,7 @@
         "hash": "XMmIjUL2-9j4",
         "address": "https://bobcares.com/blog/category/apache/",
         "title": "Apache Category - Bobcares",
-        "snippet": "Apache, Latest\nResolve PHP 5.3 XML errors caused by libxml2 updates. Step-by-step fix and prevention guide from our expert Apache support team. Fixing PHP 5.3 XML Module Errors After libxml2 Update in cPanel / EasyApache 4 After a routine update, PHP 5.3 may trigger XML module...\nApache",
+        "snippet": "Fix Apache Issues Fast with a Clean HTTPD conf Rebuild Running a stable server starts with knowing how Apache HTTPD works and...",
         "matchedWords": {
           "UYOsXCzLOk3q": {
             "hits": 4,
@@ -348,7 +348,7 @@
         "hash": "b9UEfs_XwdU5",
         "address": "https://endoflife.date/apache-http-server",
         "title": "Apache HTTP Server | endoflife.date",
-        "snippet": "Apache HTTP Server is a collaborative software development effort aimed at creating a robust, commercial-grade, feature-rich and freely available source code implementation of an HTTP (Web) server.\nRelease\nReleased\nSecurity Support\nLatest\n2.4\n14 years ago (21 Feb 2012)\nYes\n2.4.68 (08 Jun 2026)\n2.2",
+        "snippet": "httpd -v # or for Debian-based systems apachectl -v\nShow Product Identifiers\nrepology: apache\ncpe: cpe:/a:apache:http_server\ncpe: cpe:2.3:a:apache:http_server\npurl: pkg:github/apache/httpd\npurl: pkg:rpm/fedora/httpd\npurl: pkg:rpm/redhat/httpd\nYou can submit an improvement to this page on GitHub\n.",
         "matchedWords": {
           "UYOsXCzLOk3q": {
             "hits": 4,
@@ -367,7 +367,7 @@
         "hash": "P2FWiayzSDzw",
         "address": "https://httpd.apache.org/docs/",
         "title": "Documentation: Apache HTTP Server - The Apache HTTP Server Project",
-        "snippet": "Apache httpd. Downloadable zip files of the documentation, for your offline use, are available in various languages on our distribution siite.\nVersion 2.4 (Current)\nTrunk (Development / Draft)\nVersion 2.2 (Historical)\nVersion 2.0 (Historical)\nThere is also a Documentation Wiki for user-contributed",
+        "snippet": "Documentation is available for current, development, and historical versions of Apache httpd. Downloadable zip files of the documentation, for your offline use, are available in various languages on our distribution siite.\nVersion 2.4 (Current)\nTrunk (Development / Draft)\nVersion 2.2 (Historical)",
         "matchedWords": {
           "UYOsXCzLOk3q": {
             "hits": 1,
@@ -439,7 +439,7 @@
         "hash": "pd58GXS6MKD4",
         "address": "https://github.com/sneakybeaky/mod_redis",
         "title": "GitHub - sneakybeaky/mod_redis: An Apache HTTPD module for speaking to redis via HTTP",
-        "snippet": "Apache module uses a rule-based engine (based on regular expression parser) to map URLs to REDIS commands on the fly. It supports an unlimited number of rules and can match on the full URL and the request method (GET, POST, PUT or DELETE) to provide a very flexible option for defining a RESTful",
+        "snippet": "This will create a custom httpd.conf and start a new Apache instance on port 8081 for the purposes of testing. Temp files for this test instance can be found in the ./testing directory.",
         "matchedWords": {
           "UYOsXCzLOk3q": {
             "hits": 2,
@@ -458,7 +458,7 @@
         "hash": "s2BSFayzSDzw",
         "address": "https://httpd.apache.org/security_report.html",
         "title": "Reporting Security Problems with Apache - The Apache HTTP Server Project",
-        "snippet": "Apache HTTP Server are available:\nApache 2.4 Security Vulnerabilities\nTo get notification of when new security issues are fixed, join the Apache HTTP Server Announcements list\nReporting New Security Problems with the Apache HTTP Server¶\nPlease see our Security Policy for details of what is",
+        "snippet": "Reporting New Security Problems with the Apache HTTP Server¶\nPlease see our Security Policy for details of what is considered a security vulnerability in Apache httpd.",
         "matchedWords": {
           "UYOsXCzLOk3q": {
             "hits": 1,
@@ -477,7 +477,7 @@
         "hash": "OVoJaXyzSDzw",
         "address": "https://httpd.apache.org/docs/2.4/sitemap.html",
         "title": "Sitemap - Apache HTTP Server Version 2.4",
-        "snippet": "Apache HTTP Server Version 2.4 Documentation.",
+        "snippet": "Sitemap\nAvailable Languages: de | en | es | fr | ja | ko | tr | zh-cn\nThis page lists the currently available documents of the Apache HTTP Server Version 2.4 Documentation.",
         "matchedWords": {
           "UYOsXCzLOk3q": {
             "hits": 0,
@@ -513,7 +513,7 @@
         "hash": "V5iWa0hl92eQ",
         "address": "http://advisories.mageia.org/MGASA-2014-0527.html",
         "title": "Mageia Advisory: MGASA-2014-0527 - Updated apache packages fix security vulnerabilities",
-        "snippet": "apache packages fix security vulnerabilities: A NULL pointer dereference flaw was found in the way the mod_cache httpd module handled Content-Type headers. A malicious HTTP server could cause the httpd child process to crash when the Apache HTTP server was configured to proxy to a server with",
+        "snippet": "A malicious HTTP server could cause the httpd child process to crash when the Apache HTTP server was configured to proxy to a server with caching enabled (CVE-2014-3581). A flaw was found in the way httpd handled HTTP Trailer headers when processing requests using chunked encoding.",
         "matchedWords": {
           "UYOsXCzLOk3q": {
             "hits": 4,
@@ -566,7 +566,7 @@
         "hash": "U69luayzSDzw",
         "address": "https://httpd.apache.org/",
         "title": "Welcome! - The Apache HTTP Server Project",
-        "snippet": "Apache httpd powers everything from personal sites to mission-critical production infrastructure with:\nFlexible configuration — .htaccess per-directory config, virtual hosts, dynamic module loading\nSecurity — TLS/SSL, authentication modules, fine-grained access control\nPerformance —",
+        "snippet": "Apache HTTP Server version 2.4.43 or newer is required in order to operate a TLS 1.3 web server with OpenSSL 1.1.1.\nDownload | ChangeLog for 2.4.68 | Complete ChangeLog for 2.4 | New Features in httpd 2.4\nApache httpd 2.2 End-of-Life¶\nApache httpd 2.2 is end-of-life.",
         "matchedWords": {
           "UYOsXCzLOk3q": {
             "hits": 6,
@@ -636,7 +636,7 @@
         "hash": "7DbfcXyzSDzw",
         "address": "https://httpd.apache.org/docs/current/en/sitemap.html",
         "title": "Sitemap - Apache HTTP Server Version 2.4",
-        "snippet": "Apache HTTP Server Version 2.4 Documentation.",
+        "snippet": "Sitemap\nAvailable Languages: de | en | es | fr | ja | ko | tr | zh-cn\nThis page lists the currently available documents of the Apache HTTP Server Version 2.4 Documentation.",
         "matchedWords": {
           "UYOsXCzLOk3q": {
             "hits": 0,
@@ -742,7 +742,7 @@
         "hash": "9xaYXayzSDzw",
         "address": "https://httpd.apache.org/lists.html",
         "title": "Apache HTTP Server Mailing Lists - The Apache HTTP Server Project",
-        "snippet": "Apache HTTP Server project. Users should consider subscribing to the Announcements or User Support mailing lists. Other lists are for people interested in helping with the development and debugging of the server.\nList archives are available in the Apache Mail Archives.\nApache Server Announcements",
+        "snippet": "dev-unsubscribe@httpd.apache.org\nList help:\ndev-help@httpd.apache.org , dev-digest-help@httpd.apache.org\nSearchable Archives:\nASF browseable, Mail-Archive.Com\nApache HTTP Server Bug Reports List¶\nThis is the mailing list to which all activity in the problem report database is logged.",
         "matchedWords": {
           "UYOsXCzLOk3q": {
             "hits": 20,
@@ -761,7 +761,7 @@
         "hash": "D6ZmTayzSDzw",
         "address": "https://httpd.apache.org/modules/",
         "title": "Apache httpd Modules - The Apache HTTP Server Project",
-        "snippet": "Apache HTTP Server Project maintains that are not included in the core distribution.\nThe listing of all modules included in the core distribution can be found in the online documentation.\nFinally, we do not maintain any detailed listing of third-party modules. You should use your favorite search",
+        "snippet": "This experimental code has not been released, but is available to you from the subversion development repository.\nSource: mod_domain\nViewVC: mod_domain\nMailing list: dev@httpd.apache.org\nmod_mbox¶\nDo you want to set up mail archives with Apache HTTPd 2.x ? Try out mod_mbox.",
         "matchedWords": {
           "UYOsXCzLOk3q": {
             "hits": 13,
@@ -797,7 +797,7 @@
         "hash": "FE6GfV2Rr_dw",
         "address": "https://docs.searxng.org/admin/installation-apache.html",
         "title": "Install with apache — SearXNG Documentation (2022.04.08-02d64772)",
-        "snippet": "Apache. If you did use the Installation Script and do not have any special preferences you can install the SearXNG site using searxng.sh:\n$ sudo -H ./utils/searxng.sh install apache\nIf you have special interests or problems with setting up Apache, the following section might give you some guidance.",
+        "snippet": "If you have special interests or problems with setting up Apache, the following section might give you some guidance.\nThe Apache HTTP server¶\nIf Apache is not installed, install it now.",
         "matchedWords": {
           "UYOsXCzLOk3q": {
             "hits": 0,
@@ -833,7 +833,7 @@
         "hash": "aMmXRUL2-9j4",
         "address": "https://bobcares.com/blog/enabling-webdav-for-apache/",
         "title": "Enabling WebDAV for Apache",
-        "snippet": "Apache 1.3.27. The following article is a documentation of the questions I asked myself regarding WebDav.\nI principally depended on the article by Martin Brown published in ServerWatch.com for the implementation. I highly recommended going through this article.\n1. What is DAV?\nAs presented in RFC",
+        "snippet": "mkdir /home/httpd/vhosts/XXXXXXX.com/httpdocs/webshare chmod 775 /home/httpd/vhosts/XXXXXXX.com/httpdocs/webshare chgrp apache /home/httpd/vhosts/XXXXXXX.com/httpdocs/webshare htpasswd -c /home/httpd/vhosts/XXXXXXX.com/.DAVlogin",
         "matchedWords": {
           "UYOsXCzLOk3q": {
             "hits": 13,
@@ -1007,7 +1007,7 @@
         "hash": "P2FWiayzSDzw",
         "address": "https://httpd.apache.org/docs/",
         "title": "Documentation: Apache HTTP Server - The Apache HTTP Server Project",
-        "snippet": "Apache httpd. Downloadable zip files of the documentation, for your offline use, are available in various languages on our distribution siite.\nVersion 2.4 (Current)\nTrunk (Development / Draft)\nVersion 2.2 (Historical)\nVersion 2.0 (Historical)\nThere is also a Documentation Wiki for user-contributed",
+        "snippet": "Documentation is available for current, development, and historical versions of Apache httpd. Downloadable zip files of the documentation, for your offline use, are available in various languages on our distribution siite.\nVersion 2.4 (Current)\nTrunk (Development / Draft)\nVersion 2.2 (Historical)",
         "matchedWords": {
           "UYOsXCzLOk3q": {
             "hits": 1,
@@ -1098,7 +1098,7 @@
         "hash": "U69luayzSDzw",
         "address": "https://httpd.apache.org/",
         "title": "Welcome! - The Apache HTTP Server Project",
-        "snippet": "Apache httpd powers everything from personal sites to mission-critical production infrastructure with:\nFlexible configuration — .htaccess per-directory config, virtual hosts, dynamic module loading\nSecurity — TLS/SSL, authentication modules, fine-grained access control\nPerformance —",
+        "snippet": "Apache HTTP Server version 2.4.43 or newer is required in order to operate a TLS 1.3 web server with OpenSSL 1.1.1.\nDownload | ChangeLog for 2.4.68 | Complete ChangeLog for 2.4 | New Features in httpd 2.4\nApache httpd 2.2 End-of-Life¶\nApache httpd 2.2 is end-of-life.",
         "matchedWords": {
           "UYOsXCzLOk3q": {
             "hits": 6,
@@ -1134,7 +1134,7 @@
         "hash": "ebMwaXyzSDzw",
         "address": "https://httpd.apache.org/docs/current/rewrite/",
         "title": "Guide to Apache mod_rewrite - Apache HTTP Server Version 2.4",
-        "snippet": "Apache request processing phases, and the order in which rules and conditions are evaluated.\nSee also\nmod_rewrite Reference Documentation\nMapping URLs to the Filesystem\nmod_rewrite wiki\nGlossary",
+        "snippet": "Many common tasks are better accomplished with simpler directives. This document shows the alternatives and when to prefer them.\nTechnical Details\nHow mod_rewrite hooks into the Apache request processing phases, and the order in which rules and conditions are evaluated.\nSee also",
         "matchedWords": {
           "UYOsXCzLOk3q": {
             "hits": 0,
@@ -1170,7 +1170,7 @@
         "hash": "U69luayzSDzw",
         "address": "https://httpd.apache.org/",
         "title": "Welcome! - The Apache HTTP Server Project",
-        "snippet": "Apache httpd powers everything from personal sites to mission-critical production infrastructure with:\nFlexible configuration — .htaccess per-directory config, virtual hosts, dynamic module loading\nSecurity — TLS/SSL, authentication modules, fine-grained access control\nPerformance —",
+        "snippet": "Apache HTTP Server version 2.4.43 or newer is required in order to operate a TLS 1.3 web server with OpenSSL 1.1.1.\nDownload | ChangeLog for 2.4.68 | Complete ChangeLog for 2.4 | New Features in httpd 2.4\nApache httpd 2.2 End-of-Life¶\nApache httpd 2.2 is end-of-life.",
         "matchedWords": {
           "UYOsXCzLOk3q": {
             "hits": 6,
@@ -1187,7 +1187,7 @@
         "hash": "cwHhRDyzSDzw",
         "address": "https://httpd.apache.org/security/vulnerabilities_24.html",
         "title": "Apache HTTP Server 2.4 vulnerabilities - The Apache HTTP Server Project",
-        "snippet": "Apache HTTP Server 2.4. Each vulnerability is given a security impact rating by the Apache security team - please note that this rating may well vary from platform to platform. We also list the versions the flaw is known to affect, and where a flaw has not been verified list the version with a",
+        "snippet": "The initial GA release, Apache httpd 2.4.1, includes fixes for all vulnerabilities which have been resolved in Apache httpd 2.2.22 and all older releases. Consult the Apache httpd 2.2 vulnerabilities list for more information.\nFixed in Apache HTTP Server 2.4.68\nlow: mod_ldap per-dir use-after-free",
         "matchedWords": {
           "UYOsXCzLOk3q": {
             "hits": 20,
@@ -1204,7 +1204,7 @@
         "hash": "NimdWXyzSDzw",
         "address": "https://httpd.apache.org/docs/2.4/glossary.html",
         "title": "Glossary - Apache HTTP Server Version 2.4",
-        "snippet": "Apache HTTP Server in particular, and web serving in general. More information on each concept is provided in the links.\nDefinitions ¶\nAccess Control\nThe restriction of access to network realms. In an httpd context usually the restriction of access to certain URLs.\nSee: Authentication,",
+        "snippet": "See: Directive Index\nDynamic Shared Object (DSO)\nModules compiled separately from the Apache httpd binary that can be loaded on-demand.\nSee: Dynamic Shared Object Support\nEnvironment Variable (env-variable)",
         "matchedWords": {
           "UYOsXCzLOk3q": {
             "hits": 28,
@@ -1223,7 +1223,7 @@
         "hash": "Ec2-WPMW35a4",
         "address": "https://hub.docker.com/_/httpd/tags",
         "title": "httpd Tags | Docker Hub",
-        "snippet": "httpd:trixie\nTAG\ndocker pull httpd:latest\nTAG\ndocker pull httpd:2.4.68-trixie\nTAG\ndocker pull httpd:2.4.68\nTAG\ndocker pull httpd:2.4-trixie\nTAG\ndocker pull httpd:2.4\nTAG\ndocker pull httpd:2-trixie\nTAG\ndocker pull httpd:2\nTAG\ndocker pull httpd:alpine3.24\nTAG\ndocker pull httpd:alpine\nTAG\ndocker pull",
+        "snippet": "TAG\ndocker pull httpd:trixie\nTAG\ndocker pull httpd:latest\nTAG\ndocker pull httpd:2.4.68-trixie\nTAG\ndocker pull httpd:2.4.68\nTAG\ndocker pull httpd:2.4-trixie\nTAG\ndocker pull httpd:2.4\nTAG\ndocker pull httpd:2-trixie\nTAG\ndocker pull httpd:2\nTAG\ndocker pull httpd:alpine3.24\nTAG\ndocker pull httpd:alpine",
         "matchedWords": {
           "UYOsXCzLOk3q": {
             "hits": 25,
@@ -1240,7 +1240,7 @@
         "hash": "IFvpK1MW35a4",
         "address": "https://hub.docker.com/r/arm32v5/httpd/",
         "title": "arm32v5/httpd - Docker Image",
-        "snippet": "httpd official image⁠ -- for more information, see \"Architectures other than amd64?\" in the official images documentation⁠ and \"An image's source changed in Git, now what?\" in the official images FAQ⁠.\n⁠Quick reference\nMaintained by:\nthe Docker Community⁠\nWhere to get help:\nthe Docker Community",
+        "snippet": "Apache quickly overtook NCSA HTTPd as the dominant HTTP server, and has remained the most popular HTTP server in use since April 1996.\n⁠How to use this image.\nThis image only contains Apache httpd with the defaults from upstream. There is no PHP installed, but it should not be hard to extend.",
         "matchedWords": {
           "UYOsXCzLOk3q": {
             "hits": 28,
@@ -1257,7 +1257,7 @@
         "hash": "Anqmf1MW35a4",
         "address": "https://hub.docker.com/r/arm32v6/httpd/",
         "title": "arm32v6/httpd - Docker Image",
-        "snippet": "httpd official image⁠ -- for more information, see \"Architectures other than amd64?\" in the official images documentation⁠ and \"An image's source changed in Git, now what?\" in the official images FAQ⁠.\n⁠Quick reference\nMaintained by:\nthe Docker Community⁠\nWhere to get help:\nthe Docker Community",
+        "snippet": "Apache quickly overtook NCSA HTTPd as the dominant HTTP server, and has remained the most popular HTTP server in use since April 1996.\n⁠How to use this image.\nThis image only contains Apache httpd with the defaults from upstream. There is no PHP installed, but it should not be hard to extend.",
         "matchedWords": {
           "UYOsXCzLOk3q": {
             "hits": 31,
@@ -1274,7 +1274,7 @@
         "hash": "B3r_Y1MW35a4",
         "address": "https://hub.docker.com/r/i386/httpd/",
         "title": "i386/httpd - Docker Image",
-        "snippet": "httpd official image⁠ -- for more information, see \"Architectures other than amd64?\" in the official images documentation⁠ and \"An image's source changed in Git, now what?\" in the official images FAQ⁠.\n⁠Quick reference\nMaintained by:\nthe Docker Community⁠\nWhere to get help:\nthe Docker Community",
+        "snippet": "This image only contains Apache httpd with the defaults from upstream. There is no PHP installed, but it should not be hard to extend. On the other hand, if you just want PHP with Apache httpd see the PHP image⁠ and look at the -apache tags.",
         "matchedWords": {
           "UYOsXCzLOk3q": {
             "hits": 31,
@@ -1291,7 +1291,7 @@
         "hash": "cj5gb1MW35a4",
         "address": "https://hub.docker.com/r/s390x/httpd/",
         "title": "s390x/httpd - Docker Image",
-        "snippet": "httpd official image⁠ -- for more information, see \"Architectures other than amd64?\" in the official images documentation⁠ and \"An image's source changed in Git, now what?\" in the official images FAQ⁠.\n⁠Quick reference\nMaintained by:\nthe Docker Community⁠\nWhere to get help:\nthe Docker Community",
+        "snippet": "This image only contains Apache httpd with the defaults from upstream. There is no PHP installed, but it should not be hard to extend. On the other hand, if you just want PHP with Apache httpd see the PHP image⁠ and look at the -apache tags.",
         "matchedWords": {
           "UYOsXCzLOk3q": {
             "hits": 31,
@@ -1363,7 +1363,7 @@
         "hash": "ceg2lUswUu_h",
         "address": "https://board.issociate.de/forum/navigate/27/0/",
         "title": "gmane.comp.apache.user",
-        "snippet": "gmane.comp.apache.user\nOptions for multiple SSL domains on 1 server Beiträge: 22\nmod_dav - practical use Beiträge: 1\nClosing down site and redirecting trraffic Beiträge: 1\nProblem with ProxyPass Beiträge: 8\nCannot Start Apache 2.2.x - WSASocket failed to open the inherited socket Beiträge: 0\nThe",
+        "snippet": "The apache duplicate the request Beiträge: 4\nLots of \"Reading request\" status connections with no IP Beiträge: 0\nmod_proxy_ajp failed to connect infrequently Beiträge: 2\nPre compressed css and javascript Beiträge: 10\nCompiling httpd\"s open.c under Windows VS2008 IDE Beiträge: 0",
         "matchedWords": {
           "UYOsXCzLOk3q": {
             "hits": 2,
@@ -1416,7 +1416,7 @@
         "hash": "yu99cXyzSDzw",
         "address": "https://httpd.apache.org/docs/trunk/sitemap.html",
         "title": "Sitemap - Apache HTTP Server Version 2.5",
-        "snippet": "Apache HTTP Server Version 2.5 Documentation.",
+        "snippet": "Sitemap\nAvailable Languages: de | en | es | fr | ja | ko | tr | zh-cn\nThis page lists the currently available documents of the Apache HTTP Server Version 2.5 Documentation.",
         "matchedWords": {
           "UYOsXCzLOk3q": {
             "hits": 0,
@@ -1435,7 +1435,7 @@
         "hash": "D6ZmTayzSDzw",
         "address": "https://httpd.apache.org/modules/",
         "title": "Apache httpd Modules - The Apache HTTP Server Project",
-        "snippet": "Apache HTTP Server Project maintains that are not included in the core distribution.\nThe listing of all modules included in the core distribution can be found in the online documentation.\nFinally, we do not maintain any detailed listing of third-party modules. You should use your favorite search",
+        "snippet": "This experimental code has not been released, but is available to you from the subversion development repository.\nSource: mod_domain\nViewVC: mod_domain\nMailing list: dev@httpd.apache.org\nmod_mbox¶\nDo you want to set up mail archives with Apache HTTPd 2.x ? Try out mod_mbox.",
         "matchedWords": {
           "UYOsXCzLOk3q": {
             "hits": 13,
@@ -1454,7 +1454,7 @@
         "hash": "FE6GfV2Rr_dw",
         "address": "https://docs.searxng.org/admin/installation-apache.html",
         "title": "Install with apache — SearXNG Documentation (2022.04.08-02d64772)",
-        "snippet": "Apache. If you did use the Installation Script and do not have any special preferences you can install the SearXNG site using searxng.sh:\n$ sudo -H ./utils/searxng.sh install apache\nIf you have special interests or problems with setting up Apache, the following section might give you some guidance.",
+        "snippet": "If you have special interests or problems with setting up Apache, the following section might give you some guidance.\nThe Apache HTTP server¶\nIf Apache is not installed, install it now.",
         "matchedWords": {
           "UYOsXCzLOk3q": {
             "hits": 0,
@@ -1579,7 +1579,7 @@
         "hash": "H4YtSiBbCobw",
         "address": "https://www.php.net/manual/en/install.unix.apache2.php",
         "title": "PHP: Apache httpd 2.x on Unix systems - Manual",
-        "snippet": "Apache HTTP Server 2.x installs of PHP on Linux and Unix-like systems.\nWarning\nUse PHP-FPM Instead\nDo not use mod_php for new installations. The instructions on this page are retained for historical reference and for the rare cases where embedding PHP directly in the Apache httpd process is",
+        "snippet": "tar -xzf httpd-2.x.NN.tar.gz\nLikewise, obtain and unpack the PHP source:\ntar -xzf php-NN.tar.gz\nBuild and install Apache httpd. Consult the Apache httpd install documentation for more details on building Apache httpd.",
         "matchedWords": {
           "UYOsXCzLOk3q": {
             "hits": 52,
@@ -1596,7 +1596,7 @@
         "hash": "OlDnjayzSDzw",
         "address": "https://httpd.apache.org/docs-project/",
         "title": "Documentation Project - The Apache HTTP Server Project",
-        "snippet": "Apache HTTP Server Documentation Project¶\nThe Apache HTTP Server documentation is written and maintained by volunteers like you. Whether you're fixing a typo, improving an example, translating a page, or writing something entirely new — we'd love your help.\nYou don't need to be a programmer. You",
+        "snippet": "To subscribe, send email to docs-subscribe@httpd.apache.org and follow the instructions in the reply.\nYou can browse current and past messages at lists.apache.org.\nIf you're not subscribed, your messages may still be moderated through if they're on-topic.\nIRC¶",
         "matchedWords": {
           "UYOsXCzLOk3q": {
             "hits": 4,
@@ -1647,7 +1647,7 @@
         "hash": "_JK8GLaQF27w",
         "address": "https://www.apache.org/dev/infrastructure.html",
         "title": "Apache Infrastructure | Apache Software Foundation",
-        "snippet": "Apache software applications, including:\nHTTP Server (httpd)\nSubversion\nSpamAssassin\nTomcat\nCreadur\nGump\nContinuum\nSTeVe\nDirectory Studio\nInfra also uses and maintains a selection of in-house projects, including the committers index and the committers' URL Shortener.\nUseful links¶\nInfrabot on",
+        "snippet": "Infra uses many Apache software applications, including:\nHTTP Server (httpd)\nSubversion\nSpamAssassin\nTomcat\nCreadur\nGump\nContinuum\nSTeVe\nDirectory Studio\nInfra also uses and maintains a selection of in-house projects, including the committers index and the committers' URL Shortener.\nUseful links¶",
         "matchedWords": {
           "UYOsXCzLOk3q": {
             "hits": 1,
@@ -1664,7 +1664,7 @@
         "hash": "P2FWiayzSDzw",
         "address": "https://httpd.apache.org/docs/",
         "title": "Documentation: Apache HTTP Server - The Apache HTTP Server Project",
-        "snippet": "Apache httpd. Downloadable zip files of the documentation, for your offline use, are available in various languages on our distribution siite.\nVersion 2.4 (Current)\nTrunk (Development / Draft)\nVersion 2.2 (Historical)\nVersion 2.0 (Historical)\nThere is also a Documentation Wiki for user-contributed",
+        "snippet": "Documentation is available for current, development, and historical versions of Apache httpd. Downloadable zip files of the documentation, for your offline use, are available in various languages on our distribution siite.\nVersion 2.4 (Current)\nTrunk (Development / Draft)\nVersion 2.2 (Historical)",
         "matchedWords": {
           "UYOsXCzLOk3q": {
             "hits": 1,
@@ -1683,7 +1683,7 @@
         "hash": "D6ZmTayzSDzw",
         "address": "https://httpd.apache.org/modules/",
         "title": "Apache httpd Modules - The Apache HTTP Server Project",
-        "snippet": "Apache HTTP Server Project maintains that are not included in the core distribution.\nThe listing of all modules included in the core distribution can be found in the online documentation.\nFinally, we do not maintain any detailed listing of third-party modules. You should use your favorite search",
+        "snippet": "This experimental code has not been released, but is available to you from the subversion development repository.\nSource: mod_domain\nViewVC: mod_domain\nMailing list: dev@httpd.apache.org\nmod_mbox¶\nDo you want to set up mail archives with Apache HTTPd 2.x ? Try out mod_mbox.",
         "matchedWords": {
           "UYOsXCzLOk3q": {
             "hits": 13,
@@ -1840,7 +1840,7 @@
         "hash": "bX0b1XyzSDzw",
         "address": "https://httpd.apache.org/docs/trunk/mod/mod_logio.html",
         "title": "mod_logio - Apache HTTP Server Version 2.5",
-        "snippet": "Apache Module mod_logio\nAvailable Languages: en | fr | ja | ko | tr\nDescription:\nLogging of input and output bytes per request\nStatus:\nExtension\nModule Identifier:\nlogio_module\nSource File:\nmod_logio.c\nSummary\nThis module provides the logging of input and output number of bytes received/sent per",
+        "snippet": "This is the combination of %I and %O.\nAvailable in Apache 2.4.7 and later\n%^FU\nDelay in microseconds between when the request arrived and the last byte of the request body was read (finished upload). Only available if LogIOTrackTTFU is set to ON.\nAvailable in Apache 2.4.34 and later\n%^FB",
         "matchedWords": {
           "UYOsXCzLOk3q": {
             "hits": 0,
@@ -1876,7 +1876,7 @@
         "hash": "U69luayzSDzw",
         "address": "https://httpd.apache.org/",
         "title": "Welcome! - The Apache HTTP Server Project",
-        "snippet": "Apache httpd powers everything from personal sites to mission-critical production infrastructure with:\nFlexible configuration — .htaccess per-directory config, virtual hosts, dynamic module loading\nSecurity — TLS/SSL, authentication modules, fine-grained access control\nPerformance —",
+        "snippet": "Apache HTTP Server version 2.4.43 or newer is required in order to operate a TLS 1.3 web server with OpenSSL 1.1.1.\nDownload | ChangeLog for 2.4.68 | Complete ChangeLog for 2.4 | New Features in httpd 2.4\nApache httpd 2.2 End-of-Life¶\nApache httpd 2.2 is end-of-life.",
         "matchedWords": {
           "UYOsXCzLOk3q": {
             "hits": 6,
@@ -1912,7 +1912,7 @@
         "hash": "XMmIjUL2-9j4",
         "address": "https://bobcares.com/blog/category/apache/",
         "title": "Apache Category - Bobcares",
-        "snippet": "Apache, Latest\nResolve PHP 5.3 XML errors caused by libxml2 updates. Step-by-step fix and prevention guide from our expert Apache support team. Fixing PHP 5.3 XML Module Errors After libxml2 Update in cPanel / EasyApache 4 After a routine update, PHP 5.3 may trigger XML module...\nApache",
+        "snippet": "Fix Apache Issues Fast with a Clean HTTPD conf Rebuild Running a stable server starts with knowing how Apache HTTPD works and...",
         "matchedWords": {
           "UYOsXCzLOk3q": {
             "hits": 4,
@@ -1929,7 +1929,7 @@
         "hash": "b9UEfs_XwdU5",
         "address": "https://endoflife.date/apache-http-server",
         "title": "Apache HTTP Server | endoflife.date",
-        "snippet": "Apache HTTP Server is a collaborative software development effort aimed at creating a robust, commercial-grade, feature-rich and freely available source code implementation of an HTTP (Web) server.\nRelease\nReleased\nSecurity Support\nLatest\n2.4\n14 years ago (21 Feb 2012)\nYes\n2.4.68 (08 Jun 2026)\n2.2",
+        "snippet": "httpd -v # or for Debian-based systems apachectl -v\nShow Product Identifiers\nrepology: apache\ncpe: cpe:/a:apache:http_server\ncpe: cpe:2.3:a:apache:http_server\npurl: pkg:github/apache/httpd\npurl: pkg:rpm/fedora/httpd\npurl: pkg:rpm/redhat/httpd\nYou can submit an improvement to this page on GitHub\n.",
         "matchedWords": {
           "UYOsXCzLOk3q": {
             "hits": 4,
@@ -2073,7 +2073,7 @@
         "hash": "9xaYXayzSDzw",
         "address": "https://httpd.apache.org/lists.html",
         "title": "Apache HTTP Server Mailing Lists - The Apache HTTP Server Project",
-        "snippet": "Apache HTTP Server project. Users should consider subscribing to the Announcements or User Support mailing lists. Other lists are for people interested in helping with the development and debugging of the server.\nList archives are available in the Apache Mail Archives.\nApache Server Announcements",
+        "snippet": "dev-unsubscribe@httpd.apache.org\nList help:\ndev-help@httpd.apache.org , dev-digest-help@httpd.apache.org\nSearchable Archives:\nASF browseable, Mail-Archive.Com\nApache HTTP Server Bug Reports List¶\nThis is the mailing list to which all activity in the problem report database is logged.",
         "matchedWords": {
           "UYOsXCzLOk3q": {
             "hits": 20,
@@ -2299,7 +2299,7 @@
       "hash": "FDlZdayzSDzw",
       "address": "https://httpd.apache.org/download.cgi",
       "title": "Download - The Apache HTTP Server Project",
-      "snippet": "Apache HTTP Server¶\nUse the links below to download the Apache HTTP Server from our download servers. You must verify the integrity of the downloaded files using signatures downloaded from our main distribution directory. The signatures can be verified with our KEYS file.\nOnly current recommended",
+      "snippet": "This version of Apache is our latest GA release of the new generation 2.4.x branch of Apache HTTPD and represents fifteen years of innovation by the project, and is recommended over all previous releases!\nFor details, see the Official Announcement and the CHANGES_2.4 and CHANGES_2.4.68 lists.",
       "matchedWords": {
         "UYOsXCzLOk3q": {
           "hits": 6,
@@ -2316,7 +2316,7 @@
       "hash": "LUUJYayzSDzw",
       "address": "https://httpd.apache.org/ABOUT_APACHE.html",
       "title": "About the Apache HTTP Server Project - The Apache HTTP Server Project",
-      "snippet": "Apache HTTP Server Project is a collaborative software development effort aimed at creating a robust, commercial-grade, feature-rich, and freely-available source code implementation of an HTTP (Web) server. The project is jointly managed by a group of volunteers located around the world, using the",
+      "snippet": "Using NCSA httpd 1.3 as a base, we added all of the published bug fixes and worthwhile enhancements we could find, tested the result on our own servers, and made the first official public release (0.6.2) of the Apache server in April 1995.",
       "matchedWords": {
         "UYOsXCzLOk3q": {
           "hits": 6,
@@ -2333,7 +2333,7 @@
       "hash": "OtQmQXyzSDzw",
       "address": "https://httpd.apache.org/docs/2.4/",
       "title": "Apache HTTP Server Version 2.4 Documentation - Apache HTTP Server Version 2.4",
-      "snippet": "Apache Software Foundation.\nLicensed under the Apache License, Version 2.0.\nModules | Directives | FAQ | Glossary | Sitemap | Report a bug",
+      "snippet": "Copyright 2026 The Apache Software Foundation.\nLicensed under the Apache License, Version 2.0.\nModules | Directives | FAQ | Glossary | Sitemap | Report a bug",
       "matchedWords": {
         "UYOsXCzLOk3q": {
           "hits": 0,
@@ -2350,7 +2350,7 @@
       "hash": "QJO3EayzSDzw",
       "address": "https://httpd.apache.org/support.html",
       "title": "Apache HTTP Server Support - The Apache HTTP Server Project",
-      "snippet": "Apache httpd. They are presented here in the order in which you should probably consult them.\nThe documentation is the definitive source for information about the Apache httpd. The answers to your questions are probably there.\nThe Apache HTTP Server Users List is a great place to ask questions when",
+      "snippet": "There are several places to obtain support for Apache httpd. They are presented here in the order in which you should probably consult them.\nThe documentation is the definitive source for information about the Apache httpd. The answers to your questions are probably there.",
       "matchedWords": {
         "UYOsXCzLOk3q": {
           "hits": 5,
@@ -2367,7 +2367,7 @@
       "hash": "YOsk6XyzSDzw",
       "address": "https://httpd.apache.org/docs/trunk/",
       "title": "Apache HTTP Server Version 2.5 Documentation - Apache HTTP Server Version 2.5",
-      "snippet": "Apache Software Foundation.\nLicensed under the Apache License, Version 2.0.\nModules | Directives | FAQ | Glossary | Sitemap | Report a bug",
+      "snippet": "Copyright 2026 The Apache Software Foundation.\nLicensed under the Apache License, Version 2.0.\nModules | Directives | FAQ | Glossary | Sitemap | Report a bug",
       "matchedWords": {
         "UYOsXCzLOk3q": {
           "hits": 0,
@@ -2384,7 +2384,7 @@
       "hash": "jZqlPXyzSDzw",
       "address": "https://httpd.apache.org/docs/2.4/mod/mod_userdir.html",
       "title": "mod_userdir - Apache HTTP Server Version 2.4",
-      "snippet": "Apache Module mod_userdir\nAvailable Languages: en | fr | ja | ko | tr\nDescription:\nUser-specific directories\nStatus:\nBase\nModule Identifier:\nuserdir_module\nSource File:\nmod_userdir.c\nSummary\nBy using this module you are allowing multiple users to host content within the same origin. The same origin",
+      "snippet": "If you add a redirect, it must be the last alternative in the list. Apache httpd cannot determine if the redirect succeeded or not, so if you have the redirect earlier in the list, that will always be the alternative that is used.",
       "matchedWords": {
         "UYOsXCzLOk3q": {
           "hits": 1,
@@ -2401,7 +2401,7 @@
       "hash": "ng_vvayzSDzw",
       "address": "https://httpd.apache.org/dev/",
       "title": "Apache HTTP Server Developer Information - The Apache HTTP Server Project",
-      "snippet": "Apache HTTP Server Project. Be sure to also check the developer information included with the documentation.\nSome information about source code hosting and continuous integration (CI) can also be found on Apache Development Notes.\nFeedback and contributions¶\nContributing bug reports\nContributing",
+      "snippet": "General guidelines for the Apache HTTP Server Project¶\nProject guidelines\nRelease guidelines\nStyle guide\nSource Repository Information¶\nApache Development Notes about using SVN and maintaining the Apache site\nA web-based view of the SVN history of the httpd development effort\nRelease Instructions¶",
       "matchedWords": {
         "UYOsXCzLOk3q": {
           "hits": 1,
@@ -2418,7 +2418,7 @@
       "hash": "rTEMGayzSDzw",
       "address": "https://httpd.apache.org/test/",
       "title": "Apache HTTP Test Project - The Apache HTTP Server Project",
-      "snippet": "Apache HTTP Test Project¶\nThis project is focused on designing test tools for the Apache HTTP Server Project. This is a subproject of the Apache HTTP Server Project.\nCurrently, the following components are available:\nFlood - a profile-driven HTTP load tester\nPerl Framework - a perl-centric HTTP",
+      "snippet": "cvs@httpd.apache.org - cvs commit notifications\nArchives\ndev@httpd Archives\ncvs@httpd Archives\nOn December 22, 2005, test-dev@httpd.apache.org was merged with dev@httpd.apache.org. Our old archives are still available.\nTest-dev Archives\nTest-cvs Archives\nSVN access¶",
       "matchedWords": {
         "UYOsXCzLOk3q": {
           "hits": 10,
@@ -2435,7 +2435,7 @@
       "hash": "uFJMaayzSDzw",
       "address": "https://httpd.apache.org/contributors/",
       "title": "Apache Contributors - The Apache HTTP Server Project",
-      "snippet": "Apache HTTP Server Project.\nHundreds of people have made individual contributions to the Apache project. Patch contributors are listed in the src/CHANGES file. Frequent contributors have included Petr Lampa, Tom Tromey, James H. Cloos Jr., Ed Korthof, Nathan Neulinger, Jason S. Clary, Jason A.",
+      "snippet": "This page exists to recognize the efforts and contributions of the core individuals in the Apache HTTP Server Project.\nHundreds of people have made individual contributions to the Apache project. Patch contributors are listed in the src/CHANGES file.",
       "matchedWords": {
         "UYOsXCzLOk3q": {
           "hits": 2,
@@ -2452,7 +2452,7 @@
       "hash": "xYhRzayzSDzw",
       "address": "https://httpd.apache.org/contribute/",
       "title": "Apache HTTP Server: Contribute - The Apache HTTP Server Project",
-      "snippet": "https://svn.apache.org/repos/asf/httpd/httpd/trunk\n2.4 (stable): https://svn.apache.org/repos/asf/httpd/httpd/2.4.x\nThe source is also mirrored on GitHub.\n(Further details in Developer Info)\nDocumentation and website¶\nThe documentation source is in each version's source tree, under docs/manual/.",
+      "snippet": "Documentation and website¶\nThe documentation source is in each version's source tree, under docs/manual/.\nWebsite source is at: https://github.com/apache/httpd-site\nHow¶",
       "matchedWords": {
         "UYOsXCzLOk3q": {
           "hits": 6,
@@ -2469,7 +2469,7 @@
       "hash": "yL0svvyzSDzw",
       "address": "https://httpd.apache.org/dev/devnotes.html",
       "title": "Apache Development Notes - The Apache HTTP Server Project",
-      "snippet": "Apache HTTP Server Project uses Subversion for hosting its source code.\nTo check out the 2.4.x branch:\nsvn checkout https://svn.apache.org/repos/asf/httpd/httpd/branches/2.4.x httpd-2.4.x\nTo check out the current development version (trunk), use:\nsvn checkout",
+      "snippet": "The website used to be hosted at https://svn.apache.org/repos/asf/httpd/site/.\nIt is now hosted on GitHub at https://github.com/apache/httpd-site/.",
       "matchedWords": {
         "UYOsXCzLOk3q": {
           "hits": 39,
@@ -2486,7 +2486,7 @@
       "hash": "zAucNayzSDzw",
       "address": "https://httpd.apache.org/bug_report.html",
       "title": "Bug Reporting - The Apache HTTP Server Project",
-      "snippet": "Apache HTTP server software.\nIf you have identified a bug in the Apache HTTP Server, before you fill out a problem report form, make sure you have done all of the following:\nVerified that the issue affects the most recent version of Apache httpd.\nFollowed the instructions in the INSTALL file",
+      "snippet": "If you have done all of the preceding, then please select the appropriate issue tracking system, fill out the form and submit it:\nFor the software and most documentation issues, use ASF Bugzilla. The appropriate Bugzilla project for Apache HTTPD is \"Apache httpd-2\".",
       "matchedWords": {
         "UYOsXCzLOk3q": {
           "hits": 9,
@@ -2503,7 +2503,7 @@
       "hash": "0XsHISyzSDzw",
       "address": "https://httpd.apache.org/test/flood/",
       "title": "Flood - The Apache HTTP Server Project",
-      "snippet": "https://svn.apache.org/repos/asf/httpd/flood/trunk flood\nMailing Lists¶\nOur mailing lists are open to the public.\nSubscription\ndev@httpd.apache.org - discussion of what to do\ncvs@httpd.apache.org - commit notifications\nArchives\ndev Archives\ncvs Archives\nOn December 22, 2005,",
+      "snippet": "Mailing Lists¶\nOur mailing lists are open to the public.\nSubscription\ndev@httpd.apache.org - discussion of what to do\ncvs@httpd.apache.org - commit notifications\nArchives\ndev Archives\ncvs Archives\nOn December 22, 2005, test-dev@httpd.apache.org was merged with dev@httpd.apache.org.",
       "matchedWords": {
         "UYOsXCzLOk3q": {
           "hits": 5,
@@ -2520,7 +2520,7 @@
       "hash": "34RhOayzSDzw",
       "address": "https://httpd.apache.org/info/",
       "title": "Apache HTTP Server Miscellaneous Information - The Apache HTTP Server Project",
-      "snippet": "httpd documentation lists the RFCs and specifications that the Apache HTTP Server implements.\nCross Site Scripting security problem¶\nInformation on a security vulnerability resulting from the interaction between client-side scripting and server-side dynamic content.\nApache HTTP Server Development",
+      "snippet": "Relevant Standards¶\nThe Relevant Standards page in the httpd documentation lists the RFCs and specifications that the Apache HTTP Server implements.\nCross Site Scripting security problem¶",
       "matchedWords": {
         "UYOsXCzLOk3q": {
           "hits": 1,
@@ -2537,7 +2537,7 @@
       "hash": "4X4ryXyzSDzw",
       "address": "https://httpd.apache.org/docs/trunk/new_features_2_4.html",
       "title": "Overview of new features in Apache HTTP Server 2.4 - Apache HTTP Server Version 2.5",
-      "snippet": "Apache HTTP Server. For new features since version 2.0, see the 2.2 new features document.\nCore Enhancements ¶\nRun-time Loadable MPMs\nMultiple MPMs can now be built as loadable modules at compile time. The MPM of choice can be configured at run time via LoadModule directive.\nEvent MPM\nThe Event MPM",
+      "snippet": "This document describes some of the major changes between the 2.2 and 2.4 versions of the Apache HTTP Server. For new features since version 2.0, see the 2.2 new features document.\nCore Enhancements ¶\nRun-time Loadable MPMs\nMultiple MPMs can now be built as loadable modules at compile time.",
       "matchedWords": {
         "UYOsXCzLOk3q": {
           "hits": 3,
@@ -2554,7 +2554,7 @@
       "hash": "4YGkdayzSDzw",
       "address": "https://httpd.apache.org/mod_fcgid/",
       "title": "mod_fcgid - FastCGI interface module for Apache 2 - The Apache HTTP Server Project",
-      "snippet": "Apache Software Foundation and the Apache HTTP Server Project are pleased to announce the release of version 2.3.9 of mod_fcgid, a FastCGI implementation for Apache HTTP Server versions 2.0, 2.2, and 2.4. This version of mod_fcgid is a security release.\nYou can get the source from the archive",
+      "snippet": "Development of mod_fcgid can be followed through the Subversion repositories. For public access you can use:\n% svn checkout https://svn.apache.org/repos/asf/httpd/mod_fcgid/trunk mod_fcgid\nDocumentation¶\nThe mod_fcgid reference page will get you started.",
       "matchedWords": {
         "UYOsXCzLOk3q": {
           "hits": 2,
@@ -2588,7 +2588,7 @@
       "hash": "NkgclXyzSDzw",
       "address": "https://httpd.apache.org/docs/current/mod/core.html",
       "title": "core - Apache HTTP Server Version 2.4",
-      "snippet": "Apache Core Features\nDescription:\nCore Apache HTTP Server features that are always available\nStatus:\nCore\nAcceptFilter Directive ¶\nDescription:\nConfigures optimizations for a Protocol's Listener Sockets\nSyntax:\nAcceptFilter protocol accept_filter\nContext:\nserver config\nStatus:\nCore\nModule:\ncore",
+      "snippet": "This applies to processes forked from Apache httpd children servicing requests, not the Apache httpd children themselves. This includes CGI scripts and SSI exec commands, but not any processes forked from the Apache httpd parent, such as piped logs.",
       "matchedWords": {
         "UYOsXCzLOk3q": {
           "hits": 91,
@@ -2605,7 +2605,7 @@
       "hash": "OtQmQXyzSDzw",
       "address": "https://httpd.apache.org/docs/2.4/",
       "title": "Apache HTTP Server Version 2.4 Documentation - Apache HTTP Server Version 2.4",
-      "snippet": "Apache Software Foundation.\nLicensed under the Apache License, Version 2.0.\nModules | Directives | FAQ | Glossary | Sitemap | Report a bug",
+      "snippet": "Copyright 2026 The Apache Software Foundation.\nLicensed under the Apache License, Version 2.0.\nModules | Directives | FAQ | Glossary | Sitemap | Report a bug",
       "matchedWords": {
         "UYOsXCzLOk3q": {
           "hits": 0,
@@ -2622,7 +2622,7 @@
       "hash": "O1k6UXyzSDzw",
       "address": "https://httpd.apache.org/docs/2.4/mod/quickreference.html",
       "title": "Directive Quick Reference - Apache HTTP Server Version 2.4",
-      "snippet": "httpd_body dBThe name of a form field carrying the body of the request to attempt on successful login AuthFormDisableNoStore On|Off Off dBDisable the CacheControl no-store header on the login page AuthFormFakeBasicAuth On|Off Off dBFake a Basic Authentication header AuthFormLocation fieldname",
+      "snippet": "Pattern Substitution [flags]svdhEDefines rules for the rewriting engine RLimitCPU seconds|max [seconds|max]svdhCLimits the CPU consumption of processes launched by Apache httpd children RLimitMEM bytes|max [bytes|max]svdhCLimits the memory consumption of processes launched by Apache httpd children",
       "matchedWords": {
         "UYOsXCzLOk3q": {
           "hits": 10,
@@ -2639,7 +2639,7 @@
       "hash": "QJO3EayzSDzw",
       "address": "https://httpd.apache.org/support.html",
       "title": "Apache HTTP Server Support - The Apache HTTP Server Project",
-      "snippet": "Apache httpd. They are presented here in the order in which you should probably consult them.\nThe documentation is the definitive source for information about the Apache httpd. The answers to your questions are probably there.\nThe Apache HTTP Server Users List is a great place to ask questions when",
+      "snippet": "There are several places to obtain support for Apache httpd. They are presented here in the order in which you should probably consult them.\nThe documentation is the definitive source for information about the Apache httpd. The answers to your questions are probably there.",
       "matchedWords": {
         "UYOsXCzLOk3q": {
           "hits": 5,
@@ -2656,7 +2656,7 @@
       "hash": "SKjknXyzSDzw",
       "address": "https://httpd.apache.org/docs/2.4/mod/directive-dict.html",
       "title": "Terms Used to Describe Directives - Apache HTTP Server Version 2.4",
-      "snippet": "/usr/local/apache/htdocs/path/to/file.html. Unless otherwise specified, a file-path which does not begin with a slash will be treated as relative to the ServerRoot.\ndirectory-path\nThe path to a directory in the local file-system beginning with the root directory as in",
+      "snippet": "A directive with \"Extension\" status is provided by one of the modules included with the Apache server kit, but the module isn't normally compiled into the server. To enable the directive and its functionality, you will need to change the server build configuration files and re-compile Apache.",
       "matchedWords": {
         "UYOsXCzLOk3q": {
           "hits": 3,
@@ -2741,7 +2741,7 @@
       "hash": "QJO3EayzSDzw",
       "address": "https://httpd.apache.org/support.html",
       "title": "Apache HTTP Server Support - The Apache HTTP Server Project",
-      "snippet": "Apache httpd. They are presented here in the order in which you should probably consult them.\nThe documentation is the definitive source for information about the Apache httpd. The answers to your questions are probably there.\nThe Apache HTTP Server Users List is a great place to ask questions when",
+      "snippet": "There are several places to obtain support for Apache httpd. They are presented here in the order in which you should probably consult them.\nThe documentation is the definitive source for information about the Apache httpd. The answers to your questions are probably there.",
       "matchedWords": {
         "UYOsXCzLOk3q": {
           "hits": 5,
@@ -2758,7 +2758,7 @@
       "hash": "SKjknXyzSDzw",
       "address": "https://httpd.apache.org/docs/2.4/mod/directive-dict.html",
       "title": "Terms Used to Describe Directives - Apache HTTP Server Version 2.4",
-      "snippet": "/usr/local/apache/htdocs/path/to/file.html. Unless otherwise specified, a file-path which does not begin with a slash will be treated as relative to the ServerRoot.\ndirectory-path\nThe path to a directory in the local file-system beginning with the root directory as in",
+      "snippet": "A directive with \"Extension\" status is provided by one of the modules included with the Apache server kit, but the module isn't normally compiled into the server. To enable the directive and its functionality, you will need to change the server build configuration files and re-compile Apache.",
       "matchedWords": {
         "UYOsXCzLOk3q": {
           "hits": 3,
@@ -2775,7 +2775,7 @@
       "hash": "UKe3dXyzSDzw",
       "address": "https://httpd.apache.org/docs/2.4/mod/",
       "title": "Module Index - Apache HTTP Server Version 2.4",
-      "snippet": "Apache HTTP Server distribution. See also the complete alphabetical list of all Apache HTTP Server directives.\nCore Features and Multi-Processing Modules\ncore\nCore Apache HTTP Server features that are always available\nmpm_common\nA collection of directives that are implemented by more than one",
+      "snippet": "Module Index\nBelow is a list of all of the modules that come as part of the Apache HTTP Server distribution. See also the complete alphabetical list of all Apache HTTP Server directives.\nCore Features and Multi-Processing Modules\ncore\nCore Apache HTTP Server features that are always available",
       "matchedWords": {
         "UYOsXCzLOk3q": {
           "hits": 0,
@@ -2843,7 +2843,7 @@
       "hash": "uFJMaayzSDzw",
       "address": "https://httpd.apache.org/contributors/",
       "title": "Apache Contributors - The Apache HTTP Server Project",
-      "snippet": "Apache HTTP Server Project.\nHundreds of people have made individual contributions to the Apache project. Patch contributors are listed in the src/CHANGES file. Frequent contributors have included Petr Lampa, Tom Tromey, James H. Cloos Jr., Ed Korthof, Nathan Neulinger, Jason S. Clary, Jason A.",
+      "snippet": "This page exists to recognize the efforts and contributions of the core individuals in the Apache HTTP Server Project.\nHundreds of people have made individual contributions to the Apache project. Patch contributors are listed in the src/CHANGES file.",
       "matchedWords": {
         "UYOsXCzLOk3q": {
           "hits": 2,
@@ -2877,7 +2877,7 @@
       "hash": "HqY_7XyzSDzw",
       "address": "https://httpd.apache.org/docs/2.4/mod/core.html",
       "title": "core - Apache HTTP Server Version 2.4",
-      "snippet": "Apache Core Features\nDescription:\nCore Apache HTTP Server features that are always available\nStatus:\nCore\nAcceptFilter Directive ¶\nDescription:\nConfigures optimizations for a Protocol's Listener Sockets\nSyntax:\nAcceptFilter protocol accept_filter\nContext:\nserver config\nStatus:\nCore\nModule:\ncore",
+      "snippet": "This applies to processes forked from Apache httpd children servicing requests, not the Apache httpd children themselves. This includes CGI scripts and SSI exec commands, but not any processes forked from the Apache httpd parent, such as piped logs.",
       "matchedWords": {
         "UYOsXCzLOk3q": {
           "hits": 91,
@@ -2894,7 +2894,7 @@
       "hash": "0XsHISyzSDzw",
       "address": "https://httpd.apache.org/test/flood/",
       "title": "Flood - The Apache HTTP Server Project",
-      "snippet": "https://svn.apache.org/repos/asf/httpd/flood/trunk flood\nMailing Lists¶\nOur mailing lists are open to the public.\nSubscription\ndev@httpd.apache.org - discussion of what to do\ncvs@httpd.apache.org - commit notifications\nArchives\ndev Archives\ncvs Archives\nOn December 22, 2005,",
+      "snippet": "Mailing Lists¶\nOur mailing lists are open to the public.\nSubscription\ndev@httpd.apache.org - discussion of what to do\ncvs@httpd.apache.org - commit notifications\nArchives\ndev Archives\ncvs Archives\nOn December 22, 2005, test-dev@httpd.apache.org was merged with dev@httpd.apache.org.",
       "matchedWords": {
         "UYOsXCzLOk3q": {
           "hits": 5,
@@ -2945,7 +2945,7 @@
       "hash": "0XsHISyzSDzw",
       "address": "https://httpd.apache.org/test/flood/",
       "title": "Flood - The Apache HTTP Server Project",
-      "snippet": "https://svn.apache.org/repos/asf/httpd/flood/trunk flood\nMailing Lists¶\nOur mailing lists are open to the public.\nSubscription\ndev@httpd.apache.org - discussion of what to do\ncvs@httpd.apache.org - commit notifications\nArchives\ndev Archives\ncvs Archives\nOn December 22, 2005,",
+      "snippet": "Mailing Lists¶\nOur mailing lists are open to the public.\nSubscription\ndev@httpd.apache.org - discussion of what to do\ncvs@httpd.apache.org - commit notifications\nArchives\ndev Archives\ncvs Archives\nOn December 22, 2005, test-dev@httpd.apache.org was merged with dev@httpd.apache.org.",
       "matchedWords": {
         "UYOsXCzLOk3q": {
           "hits": 5,
@@ -2979,7 +2979,7 @@
       "hash": "4X4ryXyzSDzw",
       "address": "https://httpd.apache.org/docs/trunk/new_features_2_4.html",
       "title": "Overview of new features in Apache HTTP Server 2.4 - Apache HTTP Server Version 2.5",
-      "snippet": "Apache HTTP Server. For new features since version 2.0, see the 2.2 new features document.\nCore Enhancements ¶\nRun-time Loadable MPMs\nMultiple MPMs can now be built as loadable modules at compile time. The MPM of choice can be configured at run time via LoadModule directive.\nEvent MPM\nThe Event MPM",
+      "snippet": "This document describes some of the major changes between the 2.2 and 2.4 versions of the Apache HTTP Server. For new features since version 2.0, see the 2.2 new features document.\nCore Enhancements ¶\nRun-time Loadable MPMs\nMultiple MPMs can now be built as loadable modules at compile time.",
       "matchedWords": {
         "UYOsXCzLOk3q": {
           "hits": 3,
@@ -3115,7 +3115,7 @@
       "hash": "NkgclXyzSDzw",
       "address": "https://httpd.apache.org/docs/current/mod/core.html",
       "title": "core - Apache HTTP Server Version 2.4",
-      "snippet": "Apache Core Features\nDescription:\nCore Apache HTTP Server features that are always available\nStatus:\nCore\nAcceptFilter Directive ¶\nDescription:\nConfigures optimizations for a Protocol's Listener Sockets\nSyntax:\nAcceptFilter protocol accept_filter\nContext:\nserver config\nStatus:\nCore\nModule:\ncore",
+      "snippet": "This applies to processes forked from Apache httpd children servicing requests, not the Apache httpd children themselves. This includes CGI scripts and SSI exec commands, but not any processes forked from the Apache httpd parent, such as piped logs.",
       "matchedWords": {
         "UYOsXCzLOk3q": {
           "hits": 91,
@@ -3132,7 +3132,7 @@
       "hash": "OtQmQXyzSDzw",
       "address": "https://httpd.apache.org/docs/2.4/",
       "title": "Apache HTTP Server Version 2.4 Documentation - Apache HTTP Server Version 2.4",
-      "snippet": "Apache Software Foundation.\nLicensed under the Apache License, Version 2.0.\nModules | Directives | FAQ | Glossary | Sitemap | Report a bug",
+      "snippet": "Copyright 2026 The Apache Software Foundation.\nLicensed under the Apache License, Version 2.0.\nModules | Directives | FAQ | Glossary | Sitemap | Report a bug",
       "matchedWords": {
         "UYOsXCzLOk3q": {
           "hits": 0,
@@ -3149,7 +3149,7 @@
       "hash": "O1k6UXyzSDzw",
       "address": "https://httpd.apache.org/docs/2.4/mod/quickreference.html",
       "title": "Directive Quick Reference - Apache HTTP Server Version 2.4",
-      "snippet": "httpd_body dBThe name of a form field carrying the body of the request to attempt on successful login AuthFormDisableNoStore On|Off Off dBDisable the CacheControl no-store header on the login page AuthFormFakeBasicAuth On|Off Off dBFake a Basic Authentication header AuthFormLocation fieldname",
+      "snippet": "Pattern Substitution [flags]svdhEDefines rules for the rewriting engine RLimitCPU seconds|max [seconds|max]svdhCLimits the CPU consumption of processes launched by Apache httpd children RLimitMEM bytes|max [bytes|max]svdhCLimits the memory consumption of processes launched by Apache httpd children",
       "matchedWords": {
         "UYOsXCzLOk3q": {
           "hits": 10,
@@ -3217,7 +3217,7 @@
       "hash": "UKe3dXyzSDzw",
       "address": "https://httpd.apache.org/docs/2.4/mod/",
       "title": "Module Index - Apache HTTP Server Version 2.4",
-      "snippet": "Apache HTTP Server distribution. See also the complete alphabetical list of all Apache HTTP Server directives.\nCore Features and Multi-Processing Modules\ncore\nCore Apache HTTP Server features that are always available\nmpm_common\nA collection of directives that are implemented by more than one",
+      "snippet": "Module Index\nBelow is a list of all of the modules that come as part of the Apache HTTP Server distribution. See also the complete alphabetical list of all Apache HTTP Server directives.\nCore Features and Multi-Processing Modules\ncore\nCore Apache HTTP Server features that are always available",
       "matchedWords": {
         "UYOsXCzLOk3q": {
           "hits": 0,
@@ -3489,7 +3489,7 @@
       "hash": "FDlZdayzSDzw",
       "address": "https://httpd.apache.org/download.cgi",
       "title": "Download - The Apache HTTP Server Project",
-      "snippet": "Apache HTTP Server¶\nUse the links below to download the Apache HTTP Server from our download servers. You must verify the integrity of the downloaded files using signatures downloaded from our main distribution directory. The signatures can be verified with our KEYS file.\nOnly current recommended",
+      "snippet": "This version of Apache is our latest GA release of the new generation 2.4.x branch of Apache HTTPD and represents fifteen years of innovation by the project, and is recommended over all previous releases!\nFor details, see the Official Announcement and the CHANGES_2.4 and CHANGES_2.4.68 lists.",
       "matchedWords": {
         "UYOsXCzLOk3q": {
           "hits": 6,
@@ -3506,7 +3506,7 @@
       "hash": "HqY_7XyzSDzw",
       "address": "https://httpd.apache.org/docs/2.4/mod/core.html",
       "title": "core - Apache HTTP Server Version 2.4",
-      "snippet": "Apache Core Features\nDescription:\nCore Apache HTTP Server features that are always available\nStatus:\nCore\nAcceptFilter Directive ¶\nDescription:\nConfigures optimizations for a Protocol's Listener Sockets\nSyntax:\nAcceptFilter protocol accept_filter\nContext:\nserver config\nStatus:\nCore\nModule:\ncore",
+      "snippet": "This applies to processes forked from Apache httpd children servicing requests, not the Apache httpd children themselves. This includes CGI scripts and SSI exec commands, but not any processes forked from the Apache httpd parent, such as piped logs.",
       "matchedWords": {
         "UYOsXCzLOk3q": {
           "hits": 91,
@@ -3523,7 +3523,7 @@
       "hash": "LUUJYayzSDzw",
       "address": "https://httpd.apache.org/ABOUT_APACHE.html",
       "title": "About the Apache HTTP Server Project - The Apache HTTP Server Project",
-      "snippet": "Apache HTTP Server Project is a collaborative software development effort aimed at creating a robust, commercial-grade, feature-rich, and freely-available source code implementation of an HTTP (Web) server. The project is jointly managed by a group of volunteers located around the world, using the",
+      "snippet": "Using NCSA httpd 1.3 as a base, we added all of the published bug fixes and worthwhile enhancements we could find, tested the result on our own servers, and made the first official public release (0.6.2) of the Apache server in April 1995.",
       "matchedWords": {
         "UYOsXCzLOk3q": {
           "hits": 6,
@@ -3540,7 +3540,7 @@
       "hash": "NkgclXyzSDzw",
       "address": "https://httpd.apache.org/docs/current/mod/core.html",
       "title": "core - Apache HTTP Server Version 2.4",
-      "snippet": "Apache Core Features\nDescription:\nCore Apache HTTP Server features that are always available\nStatus:\nCore\nAcceptFilter Directive ¶\nDescription:\nConfigures optimizations for a Protocol's Listener Sockets\nSyntax:\nAcceptFilter protocol accept_filter\nContext:\nserver config\nStatus:\nCore\nModule:\ncore",
+      "snippet": "This applies to processes forked from Apache httpd children servicing requests, not the Apache httpd children themselves. This includes CGI scripts and SSI exec commands, but not any processes forked from the Apache httpd parent, such as piped logs.",
       "matchedWords": {
         "UYOsXCzLOk3q": {
           "hits": 91,
@@ -3557,7 +3557,7 @@
       "hash": "OtQmQXyzSDzw",
       "address": "https://httpd.apache.org/docs/2.4/",
       "title": "Apache HTTP Server Version 2.4 Documentation - Apache HTTP Server Version 2.4",
-      "snippet": "Apache Software Foundation.\nLicensed under the Apache License, Version 2.0.\nModules | Directives | FAQ | Glossary | Sitemap | Report a bug",
+      "snippet": "Copyright 2026 The Apache Software Foundation.\nLicensed under the Apache License, Version 2.0.\nModules | Directives | FAQ | Glossary | Sitemap | Report a bug",
       "matchedWords": {
         "UYOsXCzLOk3q": {
           "hits": 0,
@@ -3574,7 +3574,7 @@
       "hash": "QJO3EayzSDzw",
       "address": "https://httpd.apache.org/support.html",
       "title": "Apache HTTP Server Support - The Apache HTTP Server Project",
-      "snippet": "Apache httpd. They are presented here in the order in which you should probably consult them.\nThe documentation is the definitive source for information about the Apache httpd. The answers to your questions are probably there.\nThe Apache HTTP Server Users List is a great place to ask questions when",
+      "snippet": "There are several places to obtain support for Apache httpd. They are presented here in the order in which you should probably consult them.\nThe documentation is the definitive source for information about the Apache httpd. The answers to your questions are probably there.",
       "matchedWords": {
         "UYOsXCzLOk3q": {
           "hits": 5,
@@ -3591,7 +3591,7 @@
       "hash": "SKjknXyzSDzw",
       "address": "https://httpd.apache.org/docs/2.4/mod/directive-dict.html",
       "title": "Terms Used to Describe Directives - Apache HTTP Server Version 2.4",
-      "snippet": "/usr/local/apache/htdocs/path/to/file.html. Unless otherwise specified, a file-path which does not begin with a slash will be treated as relative to the ServerRoot.\ndirectory-path\nThe path to a directory in the local file-system beginning with the root directory as in",
+      "snippet": "A directive with \"Extension\" status is provided by one of the modules included with the Apache server kit, but the module isn't normally compiled into the server. To enable the directive and its functionality, you will need to change the server build configuration files and re-compile Apache.",
       "matchedWords": {
         "UYOsXCzLOk3q": {
           "hits": 3,
@@ -3608,7 +3608,7 @@
       "hash": "UKe3dXyzSDzw",
       "address": "https://httpd.apache.org/docs/2.4/mod/",
       "title": "Module Index - Apache HTTP Server Version 2.4",
-      "snippet": "Apache HTTP Server distribution. See also the complete alphabetical list of all Apache HTTP Server directives.\nCore Features and Multi-Processing Modules\ncore\nCore Apache HTTP Server features that are always available\nmpm_common\nA collection of directives that are implemented by more than one",
+      "snippet": "Module Index\nBelow is a list of all of the modules that come as part of the Apache HTTP Server distribution. See also the complete alphabetical list of all Apache HTTP Server directives.\nCore Features and Multi-Processing Modules\ncore\nCore Apache HTTP Server features that are always available",
       "matchedWords": {
         "UYOsXCzLOk3q": {
           "hits": 0,
@@ -3625,7 +3625,7 @@
       "hash": "YOsk6XyzSDzw",
       "address": "https://httpd.apache.org/docs/trunk/",
       "title": "Apache HTTP Server Version 2.5 Documentation - Apache HTTP Server Version 2.5",
-      "snippet": "Apache Software Foundation.\nLicensed under the Apache License, Version 2.0.\nModules | Directives | FAQ | Glossary | Sitemap | Report a bug",
+      "snippet": "Copyright 2026 The Apache Software Foundation.\nLicensed under the Apache License, Version 2.0.\nModules | Directives | FAQ | Glossary | Sitemap | Report a bug",
       "matchedWords": {
         "UYOsXCzLOk3q": {
           "hits": 0,
@@ -3642,7 +3642,7 @@
       "hash": "jZqlPXyzSDzw",
       "address": "https://httpd.apache.org/docs/2.4/mod/mod_userdir.html",
       "title": "mod_userdir - Apache HTTP Server Version 2.4",
-      "snippet": "Apache Module mod_userdir\nAvailable Languages: en | fr | ja | ko | tr\nDescription:\nUser-specific directories\nStatus:\nBase\nModule Identifier:\nuserdir_module\nSource File:\nmod_userdir.c\nSummary\nBy using this module you are allowing multiple users to host content within the same origin. The same origin",
+      "snippet": "If you add a redirect, it must be the last alternative in the list. Apache httpd cannot determine if the redirect succeeded or not, so if you have the redirect earlier in the list, that will always be the alternative that is used.",
       "matchedWords": {
         "UYOsXCzLOk3q": {
           "hits": 1,
@@ -3659,7 +3659,7 @@
       "hash": "ng_vvayzSDzw",
       "address": "https://httpd.apache.org/dev/",
       "title": "Apache HTTP Server Developer Information - The Apache HTTP Server Project",
-      "snippet": "Apache HTTP Server Project. Be sure to also check the developer information included with the documentation.\nSome information about source code hosting and continuous integration (CI) can also be found on Apache Development Notes.\nFeedback and contributions¶\nContributing bug reports\nContributing",
+      "snippet": "General guidelines for the Apache HTTP Server Project¶\nProject guidelines\nRelease guidelines\nStyle guide\nSource Repository Information¶\nApache Development Notes about using SVN and maintaining the Apache site\nA web-based view of the SVN history of the httpd development effort\nRelease Instructions¶",
       "matchedWords": {
         "UYOsXCzLOk3q": {
           "hits": 1,
@@ -3676,7 +3676,7 @@
       "hash": "rTEMGayzSDzw",
       "address": "https://httpd.apache.org/test/",
       "title": "Apache HTTP Test Project - The Apache HTTP Server Project",
-      "snippet": "Apache HTTP Test Project¶\nThis project is focused on designing test tools for the Apache HTTP Server Project. This is a subproject of the Apache HTTP Server Project.\nCurrently, the following components are available:\nFlood - a profile-driven HTTP load tester\nPerl Framework - a perl-centric HTTP",
+      "snippet": "cvs@httpd.apache.org - cvs commit notifications\nArchives\ndev@httpd Archives\ncvs@httpd Archives\nOn December 22, 2005, test-dev@httpd.apache.org was merged with dev@httpd.apache.org. Our old archives are still available.\nTest-dev Archives\nTest-cvs Archives\nSVN access¶",
       "matchedWords": {
         "UYOsXCzLOk3q": {
           "hits": 10,
@@ -3693,7 +3693,7 @@
       "hash": "uFJMaayzSDzw",
       "address": "https://httpd.apache.org/contributors/",
       "title": "Apache Contributors - The Apache HTTP Server Project",
-      "snippet": "Apache HTTP Server Project.\nHundreds of people have made individual contributions to the Apache project. Patch contributors are listed in the src/CHANGES file. Frequent contributors have included Petr Lampa, Tom Tromey, James H. Cloos Jr., Ed Korthof, Nathan Neulinger, Jason S. Clary, Jason A.",
+      "snippet": "This page exists to recognize the efforts and contributions of the core individuals in the Apache HTTP Server Project.\nHundreds of people have made individual contributions to the Apache project. Patch contributors are listed in the src/CHANGES file.",
       "matchedWords": {
         "UYOsXCzLOk3q": {
           "hits": 2,
@@ -3710,7 +3710,7 @@
       "hash": "xYhRzayzSDzw",
       "address": "https://httpd.apache.org/contribute/",
       "title": "Apache HTTP Server: Contribute - The Apache HTTP Server Project",
-      "snippet": "https://svn.apache.org/repos/asf/httpd/httpd/trunk\n2.4 (stable): https://svn.apache.org/repos/asf/httpd/httpd/2.4.x\nThe source is also mirrored on GitHub.\n(Further details in Developer Info)\nDocumentation and website¶\nThe documentation source is in each version's source tree, under docs/manual/.",
+      "snippet": "Documentation and website¶\nThe documentation source is in each version's source tree, under docs/manual/.\nWebsite source is at: https://github.com/apache/httpd-site\nHow¶",
       "matchedWords": {
         "UYOsXCzLOk3q": {
           "hits": 6,
@@ -3727,7 +3727,7 @@
       "hash": "yL0svvyzSDzw",
       "address": "https://httpd.apache.org/dev/devnotes.html",
       "title": "Apache Development Notes - The Apache HTTP Server Project",
-      "snippet": "Apache HTTP Server Project uses Subversion for hosting its source code.\nTo check out the 2.4.x branch:\nsvn checkout https://svn.apache.org/repos/asf/httpd/httpd/branches/2.4.x httpd-2.4.x\nTo check out the current development version (trunk), use:\nsvn checkout",
+      "snippet": "The website used to be hosted at https://svn.apache.org/repos/asf/httpd/site/.\nIt is now hosted on GitHub at https://github.com/apache/httpd-site/.",
       "matchedWords": {
         "UYOsXCzLOk3q": {
           "hits": 39,
@@ -3744,7 +3744,7 @@
       "hash": "zAucNayzSDzw",
       "address": "https://httpd.apache.org/bug_report.html",
       "title": "Bug Reporting - The Apache HTTP Server Project",
-      "snippet": "Apache HTTP server software.\nIf you have identified a bug in the Apache HTTP Server, before you fill out a problem report form, make sure you have done all of the following:\nVerified that the issue affects the most recent version of Apache httpd.\nFollowed the instructions in the INSTALL file",
+      "snippet": "If you have done all of the preceding, then please select the appropriate issue tracking system, fill out the form and submit it:\nFor the software and most documentation issues, use ASF Bugzilla. The appropriate Bugzilla project for Apache HTTPD is \"Apache httpd-2\".",
       "matchedWords": {
         "UYOsXCzLOk3q": {
           "hits": 9,
@@ -3761,7 +3761,7 @@
       "hash": "0XsHISyzSDzw",
       "address": "https://httpd.apache.org/test/flood/",
       "title": "Flood - The Apache HTTP Server Project",
-      "snippet": "https://svn.apache.org/repos/asf/httpd/flood/trunk flood\nMailing Lists¶\nOur mailing lists are open to the public.\nSubscription\ndev@httpd.apache.org - discussion of what to do\ncvs@httpd.apache.org - commit notifications\nArchives\ndev Archives\ncvs Archives\nOn December 22, 2005,",
+      "snippet": "Mailing Lists¶\nOur mailing lists are open to the public.\nSubscription\ndev@httpd.apache.org - discussion of what to do\ncvs@httpd.apache.org - commit notifications\nArchives\ndev Archives\ncvs Archives\nOn December 22, 2005, test-dev@httpd.apache.org was merged with dev@httpd.apache.org.",
       "matchedWords": {
         "UYOsXCzLOk3q": {
           "hits": 5,
@@ -3778,7 +3778,7 @@
       "hash": "34RhOayzSDzw",
       "address": "https://httpd.apache.org/info/",
       "title": "Apache HTTP Server Miscellaneous Information - The Apache HTTP Server Project",
-      "snippet": "httpd documentation lists the RFCs and specifications that the Apache HTTP Server implements.\nCross Site Scripting security problem¶\nInformation on a security vulnerability resulting from the interaction between client-side scripting and server-side dynamic content.\nApache HTTP Server Development",
+      "snippet": "Relevant Standards¶\nThe Relevant Standards page in the httpd documentation lists the RFCs and specifications that the Apache HTTP Server implements.\nCross Site Scripting security problem¶",
       "matchedWords": {
         "UYOsXCzLOk3q": {
           "hits": 1,
@@ -3795,7 +3795,7 @@
       "hash": "4X4ryXyzSDzw",
       "address": "https://httpd.apache.org/docs/trunk/new_features_2_4.html",
       "title": "Overview of new features in Apache HTTP Server 2.4 - Apache HTTP Server Version 2.5",
-      "snippet": "Apache HTTP Server. For new features since version 2.0, see the 2.2 new features document.\nCore Enhancements ¶\nRun-time Loadable MPMs\nMultiple MPMs can now be built as loadable modules at compile time. The MPM of choice can be configured at run time via LoadModule directive.\nEvent MPM\nThe Event MPM",
+      "snippet": "This document describes some of the major changes between the 2.2 and 2.4 versions of the Apache HTTP Server. For new features since version 2.0, see the 2.2 new features document.\nCore Enhancements ¶\nRun-time Loadable MPMs\nMultiple MPMs can now be built as loadable modules at compile time.",
       "matchedWords": {
         "UYOsXCzLOk3q": {
           "hits": 3,
@@ -3812,7 +3812,7 @@
       "hash": "4YGkdayzSDzw",
       "address": "https://httpd.apache.org/mod_fcgid/",
       "title": "mod_fcgid - FastCGI interface module for Apache 2 - The Apache HTTP Server Project",
-      "snippet": "Apache Software Foundation and the Apache HTTP Server Project are pleased to announce the release of version 2.3.9 of mod_fcgid, a FastCGI implementation for Apache HTTP Server versions 2.0, 2.2, and 2.4. This version of mod_fcgid is a security release.\nYou can get the source from the archive",
+      "snippet": "Development of mod_fcgid can be followed through the Subversion repositories. For public access you can use:\n% svn checkout https://svn.apache.org/repos/asf/httpd/mod_fcgid/trunk mod_fcgid\nDocumentation¶\nThe mod_fcgid reference page will get you started.",
       "matchedWords": {
         "UYOsXCzLOk3q": {
           "hits": 2,
@@ -4067,7 +4067,7 @@
       "hash": "HqY_7XyzSDzw",
       "address": "https://httpd.apache.org/docs/2.4/mod/core.html",
       "title": "core - Apache HTTP Server Version 2.4",
-      "snippet": "Apache Core Features\nDescription:\nCore Apache HTTP Server features that are always available\nStatus:\nCore\nAcceptFilter Directive ¶\nDescription:\nConfigures optimizations for a Protocol's Listener Sockets\nSyntax:\nAcceptFilter protocol accept_filter\nContext:\nserver config\nStatus:\nCore\nModule:\ncore",
+      "snippet": "This applies to processes forked from Apache httpd children servicing requests, not the Apache httpd children themselves. This includes CGI scripts and SSI exec commands, but not any processes forked from the Apache httpd parent, such as piped logs.",
       "matchedWords": {
         "UYOsXCzLOk3q": {
           "hits": 91,
@@ -4084,7 +4084,7 @@
       "hash": "OtQmQXyzSDzw",
       "address": "https://httpd.apache.org/docs/2.4/",
       "title": "Apache HTTP Server Version 2.4 Documentation - Apache HTTP Server Version 2.4",
-      "snippet": "Apache Software Foundation.\nLicensed under the Apache License, Version 2.0.\nModules | Directives | FAQ | Glossary | Sitemap | Report a bug",
+      "snippet": "Copyright 2026 The Apache Software Foundation.\nLicensed under the Apache License, Version 2.0.\nModules | Directives | FAQ | Glossary | Sitemap | Report a bug",
       "matchedWords": {
         "UYOsXCzLOk3q": {
           "hits": 0,
@@ -4101,7 +4101,7 @@
       "hash": "O1k6UXyzSDzw",
       "address": "https://httpd.apache.org/docs/2.4/mod/quickreference.html",
       "title": "Directive Quick Reference - Apache HTTP Server Version 2.4",
-      "snippet": "httpd_body dBThe name of a form field carrying the body of the request to attempt on successful login AuthFormDisableNoStore On|Off Off dBDisable the CacheControl no-store header on the login page AuthFormFakeBasicAuth On|Off Off dBFake a Basic Authentication header AuthFormLocation fieldname",
+      "snippet": "Pattern Substitution [flags]svdhEDefines rules for the rewriting engine RLimitCPU seconds|max [seconds|max]svdhCLimits the CPU consumption of processes launched by Apache httpd children RLimitMEM bytes|max [bytes|max]svdhCLimits the memory consumption of processes launched by Apache httpd children",
       "matchedWords": {
         "UYOsXCzLOk3q": {
           "hits": 10,
@@ -4118,7 +4118,7 @@
       "hash": "SKjknXyzSDzw",
       "address": "https://httpd.apache.org/docs/2.4/mod/directive-dict.html",
       "title": "Terms Used to Describe Directives - Apache HTTP Server Version 2.4",
-      "snippet": "/usr/local/apache/htdocs/path/to/file.html. Unless otherwise specified, a file-path which does not begin with a slash will be treated as relative to the ServerRoot.\ndirectory-path\nThe path to a directory in the local file-system beginning with the root directory as in",
+      "snippet": "A directive with \"Extension\" status is provided by one of the modules included with the Apache server kit, but the module isn't normally compiled into the server. To enable the directive and its functionality, you will need to change the server build configuration files and re-compile Apache.",
       "matchedWords": {
         "UYOsXCzLOk3q": {
           "hits": 3,
@@ -4135,7 +4135,7 @@
       "hash": "UKe3dXyzSDzw",
       "address": "https://httpd.apache.org/docs/2.4/mod/",
       "title": "Module Index - Apache HTTP Server Version 2.4",
-      "snippet": "Apache HTTP Server distribution. See also the complete alphabetical list of all Apache HTTP Server directives.\nCore Features and Multi-Processing Modules\ncore\nCore Apache HTTP Server features that are always available\nmpm_common\nA collection of directives that are implemented by more than one",
+      "snippet": "Module Index\nBelow is a list of all of the modules that come as part of the Apache HTTP Server distribution. See also the complete alphabetical list of all Apache HTTP Server directives.\nCore Features and Multi-Processing Modules\ncore\nCore Apache HTTP Server features that are always available",
       "matchedWords": {
         "UYOsXCzLOk3q": {
           "hits": 0,
@@ -4152,7 +4152,7 @@
       "hash": "jZqlPXyzSDzw",
       "address": "https://httpd.apache.org/docs/2.4/mod/mod_userdir.html",
       "title": "mod_userdir - Apache HTTP Server Version 2.4",
-      "snippet": "Apache Module mod_userdir\nAvailable Languages: en | fr | ja | ko | tr\nDescription:\nUser-specific directories\nStatus:\nBase\nModule Identifier:\nuserdir_module\nSource File:\nmod_userdir.c\nSummary\nBy using this module you are allowing multiple users to host content within the same origin. The same origin",
+      "snippet": "If you add a redirect, it must be the last alternative in the list. Apache httpd cannot determine if the redirect succeeded or not, so if you have the redirect earlier in the list, that will always be the alternative that is used.",
       "matchedWords": {
         "UYOsXCzLOk3q": {
           "hits": 1,
@@ -4203,7 +4203,7 @@
       "hash": "ng_vvayzSDzw",
       "address": "https://httpd.apache.org/dev/",
       "title": "Apache HTTP Server Developer Information - The Apache HTTP Server Project",
-      "snippet": "Apache HTTP Server Project. Be sure to also check the developer information included with the documentation.\nSome information about source code hosting and continuous integration (CI) can also be found on Apache Development Notes.\nFeedback and contributions¶\nContributing bug reports\nContributing",
+      "snippet": "General guidelines for the Apache HTTP Server Project¶\nProject guidelines\nRelease guidelines\nStyle guide\nSource Repository Information¶\nApache Development Notes about using SVN and maintaining the Apache site\nA web-based view of the SVN history of the httpd development effort\nRelease Instructions¶",
       "matchedWords": {
         "UYOsXCzLOk3q": {
           "hits": 1,
@@ -4220,7 +4220,7 @@
       "hash": "uFJMaayzSDzw",
       "address": "https://httpd.apache.org/contributors/",
       "title": "Apache Contributors - The Apache HTTP Server Project",
-      "snippet": "Apache HTTP Server Project.\nHundreds of people have made individual contributions to the Apache project. Patch contributors are listed in the src/CHANGES file. Frequent contributors have included Petr Lampa, Tom Tromey, James H. Cloos Jr., Ed Korthof, Nathan Neulinger, Jason S. Clary, Jason A.",
+      "snippet": "This page exists to recognize the efforts and contributions of the core individuals in the Apache HTTP Server Project.\nHundreds of people have made individual contributions to the Apache project. Patch contributors are listed in the src/CHANGES file.",
       "matchedWords": {
         "UYOsXCzLOk3q": {
           "hits": 2,
@@ -4237,7 +4237,7 @@
       "hash": "xYhRzayzSDzw",
       "address": "https://httpd.apache.org/contribute/",
       "title": "Apache HTTP Server: Contribute - The Apache HTTP Server Project",
-      "snippet": "https://svn.apache.org/repos/asf/httpd/httpd/trunk\n2.4 (stable): https://svn.apache.org/repos/asf/httpd/httpd/2.4.x\nThe source is also mirrored on GitHub.\n(Further details in Developer Info)\nDocumentation and website¶\nThe documentation source is in each version's source tree, under docs/manual/.",
+      "snippet": "Documentation and website¶\nThe documentation source is in each version's source tree, under docs/manual/.\nWebsite source is at: https://github.com/apache/httpd-site\nHow¶",
       "matchedWords": {
         "UYOsXCzLOk3q": {
           "hits": 6,
@@ -4254,7 +4254,7 @@
       "hash": "yL0svvyzSDzw",
       "address": "https://httpd.apache.org/dev/devnotes.html",
       "title": "Apache Development Notes - The Apache HTTP Server Project",
-      "snippet": "Apache HTTP Server Project uses Subversion for hosting its source code.\nTo check out the 2.4.x branch:\nsvn checkout https://svn.apache.org/repos/asf/httpd/httpd/branches/2.4.x httpd-2.4.x\nTo check out the current development version (trunk), use:\nsvn checkout",
+      "snippet": "The website used to be hosted at https://svn.apache.org/repos/asf/httpd/site/.\nIt is now hosted on GitHub at https://github.com/apache/httpd-site/.",
       "matchedWords": {
         "UYOsXCzLOk3q": {
           "hits": 39,
@@ -4271,7 +4271,7 @@
       "hash": "zAucNayzSDzw",
       "address": "https://httpd.apache.org/bug_report.html",
       "title": "Bug Reporting - The Apache HTTP Server Project",
-      "snippet": "Apache HTTP server software.\nIf you have identified a bug in the Apache HTTP Server, before you fill out a problem report form, make sure you have done all of the following:\nVerified that the issue affects the most recent version of Apache httpd.\nFollowed the instructions in the INSTALL file",
+      "snippet": "If you have done all of the preceding, then please select the appropriate issue tracking system, fill out the form and submit it:\nFor the software and most documentation issues, use ASF Bugzilla. The appropriate Bugzilla project for Apache HTTPD is \"Apache httpd-2\".",
       "matchedWords": {
         "UYOsXCzLOk3q": {
           "hits": 9,
@@ -4594,7 +4594,7 @@
       "hash": "HqY_7XyzSDzw",
       "address": "https://httpd.apache.org/docs/2.4/mod/core.html",
       "title": "core - Apache HTTP Server Version 2.4",
-      "snippet": "Apache Core Features\nDescription:\nCore Apache HTTP Server features that are always available\nStatus:\nCore\nAcceptFilter Directive ¶\nDescription:\nConfigures optimizations for a Protocol's Listener Sockets\nSyntax:\nAcceptFilter protocol accept_filter\nContext:\nserver config\nStatus:\nCore\nModule:\ncore",
+      "snippet": "This applies to processes forked from Apache httpd children servicing requests, not the Apache httpd children themselves. This includes CGI scripts and SSI exec commands, but not any processes forked from the Apache httpd parent, such as piped logs.",
       "matchedWords": {
         "UYOsXCzLOk3q": {
           "hits": 91,
@@ -4611,7 +4611,7 @@
       "hash": "OtQmQXyzSDzw",
       "address": "https://httpd.apache.org/docs/2.4/",
       "title": "Apache HTTP Server Version 2.4 Documentation - Apache HTTP Server Version 2.4",
-      "snippet": "Apache Software Foundation.\nLicensed under the Apache License, Version 2.0.\nModules | Directives | FAQ | Glossary | Sitemap | Report a bug",
+      "snippet": "Copyright 2026 The Apache Software Foundation.\nLicensed under the Apache License, Version 2.0.\nModules | Directives | FAQ | Glossary | Sitemap | Report a bug",
       "matchedWords": {
         "UYOsXCzLOk3q": {
           "hits": 0,
@@ -4628,7 +4628,7 @@
       "hash": "O1k6UXyzSDzw",
       "address": "https://httpd.apache.org/docs/2.4/mod/quickreference.html",
       "title": "Directive Quick Reference - Apache HTTP Server Version 2.4",
-      "snippet": "httpd_body dBThe name of a form field carrying the body of the request to attempt on successful login AuthFormDisableNoStore On|Off Off dBDisable the CacheControl no-store header on the login page AuthFormFakeBasicAuth On|Off Off dBFake a Basic Authentication header AuthFormLocation fieldname",
+      "snippet": "Pattern Substitution [flags]svdhEDefines rules for the rewriting engine RLimitCPU seconds|max [seconds|max]svdhCLimits the CPU consumption of processes launched by Apache httpd children RLimitMEM bytes|max [bytes|max]svdhCLimits the memory consumption of processes launched by Apache httpd children",
       "matchedWords": {
         "UYOsXCzLOk3q": {
           "hits": 10,
@@ -4645,7 +4645,7 @@
       "hash": "SKjknXyzSDzw",
       "address": "https://httpd.apache.org/docs/2.4/mod/directive-dict.html",
       "title": "Terms Used to Describe Directives - Apache HTTP Server Version 2.4",
-      "snippet": "/usr/local/apache/htdocs/path/to/file.html. Unless otherwise specified, a file-path which does not begin with a slash will be treated as relative to the ServerRoot.\ndirectory-path\nThe path to a directory in the local file-system beginning with the root directory as in",
+      "snippet": "A directive with \"Extension\" status is provided by one of the modules included with the Apache server kit, but the module isn't normally compiled into the server. To enable the directive and its functionality, you will need to change the server build configuration files and re-compile Apache.",
       "matchedWords": {
         "UYOsXCzLOk3q": {
           "hits": 3,
@@ -4662,7 +4662,7 @@
       "hash": "UKe3dXyzSDzw",
       "address": "https://httpd.apache.org/docs/2.4/mod/",
       "title": "Module Index - Apache HTTP Server Version 2.4",
-      "snippet": "Apache HTTP Server distribution. See also the complete alphabetical list of all Apache HTTP Server directives.\nCore Features and Multi-Processing Modules\ncore\nCore Apache HTTP Server features that are always available\nmpm_common\nA collection of directives that are implemented by more than one",
+      "snippet": "Module Index\nBelow is a list of all of the modules that come as part of the Apache HTTP Server distribution. See also the complete alphabetical list of all Apache HTTP Server directives.\nCore Features and Multi-Processing Modules\ncore\nCore Apache HTTP Server features that are always available",
       "matchedWords": {
         "UYOsXCzLOk3q": {
           "hits": 0,
@@ -4679,7 +4679,7 @@
       "hash": "0XsHISyzSDzw",
       "address": "https://httpd.apache.org/test/flood/",
       "title": "Flood - The Apache HTTP Server Project",
-      "snippet": "https://svn.apache.org/repos/asf/httpd/flood/trunk flood\nMailing Lists¶\nOur mailing lists are open to the public.\nSubscription\ndev@httpd.apache.org - discussion of what to do\ncvs@httpd.apache.org - commit notifications\nArchives\ndev Archives\ncvs Archives\nOn December 22, 2005,",
+      "snippet": "Mailing Lists¶\nOur mailing lists are open to the public.\nSubscription\ndev@httpd.apache.org - discussion of what to do\ncvs@httpd.apache.org - commit notifications\nArchives\ndev Archives\ncvs Archives\nOn December 22, 2005, test-dev@httpd.apache.org was merged with dev@httpd.apache.org.",
       "matchedWords": {
         "UYOsXCzLOk3q": {
           "hits": 5,
@@ -4815,7 +4815,7 @@
       "hash": "LUUJYayzSDzw",
       "address": "https://httpd.apache.org/ABOUT_APACHE.html",
       "title": "About the Apache HTTP Server Project - The Apache HTTP Server Project",
-      "snippet": "Apache HTTP Server Project is a collaborative software development effort aimed at creating a robust, commercial-grade, feature-rich, and freely-available source code implementation of an HTTP (Web) server. The project is jointly managed by a group of volunteers located around the world, using the",
+      "snippet": "Using NCSA httpd 1.3 as a base, we added all of the published bug fixes and worthwhile enhancements we could find, tested the result on our own servers, and made the first official public release (0.6.2) of the Apache server in April 1995.",
       "matchedWords": {
         "UYOsXCzLOk3q": {
           "hits": 6,
@@ -4832,7 +4832,7 @@
       "hash": "OtQmQXyzSDzw",
       "address": "https://httpd.apache.org/docs/2.4/",
       "title": "Apache HTTP Server Version 2.4 Documentation - Apache HTTP Server Version 2.4",
-      "snippet": "Apache Software Foundation.\nLicensed under the Apache License, Version 2.0.\nModules | Directives | FAQ | Glossary | Sitemap | Report a bug",
+      "snippet": "Copyright 2026 The Apache Software Foundation.\nLicensed under the Apache License, Version 2.0.\nModules | Directives | FAQ | Glossary | Sitemap | Report a bug",
       "matchedWords": {
         "UYOsXCzLOk3q": {
           "hits": 0,
@@ -4849,7 +4849,7 @@
       "hash": "YOsk6XyzSDzw",
       "address": "https://httpd.apache.org/docs/trunk/",
       "title": "Apache HTTP Server Version 2.5 Documentation - Apache HTTP Server Version 2.5",
-      "snippet": "Apache Software Foundation.\nLicensed under the Apache License, Version 2.0.\nModules | Directives | FAQ | Glossary | Sitemap | Report a bug",
+      "snippet": "Copyright 2026 The Apache Software Foundation.\nLicensed under the Apache License, Version 2.0.\nModules | Directives | FAQ | Glossary | Sitemap | Report a bug",
       "matchedWords": {
         "UYOsXCzLOk3q": {
           "hits": 0,
@@ -4866,7 +4866,7 @@
       "hash": "jZqlPXyzSDzw",
       "address": "https://httpd.apache.org/docs/2.4/mod/mod_userdir.html",
       "title": "mod_userdir - Apache HTTP Server Version 2.4",
-      "snippet": "Apache Module mod_userdir\nAvailable Languages: en | fr | ja | ko | tr\nDescription:\nUser-specific directories\nStatus:\nBase\nModule Identifier:\nuserdir_module\nSource File:\nmod_userdir.c\nSummary\nBy using this module you are allowing multiple users to host content within the same origin. The same origin",
+      "snippet": "If you add a redirect, it must be the last alternative in the list. Apache httpd cannot determine if the redirect succeeded or not, so if you have the redirect earlier in the list, that will always be the alternative that is used.",
       "matchedWords": {
         "UYOsXCzLOk3q": {
           "hits": 1,
@@ -4883,7 +4883,7 @@
       "hash": "ng_vvayzSDzw",
       "address": "https://httpd.apache.org/dev/",
       "title": "Apache HTTP Server Developer Information - The Apache HTTP Server Project",
-      "snippet": "Apache HTTP Server Project. Be sure to also check the developer information included with the documentation.\nSome information about source code hosting and continuous integration (CI) can also be found on Apache Development Notes.\nFeedback and contributions¶\nContributing bug reports\nContributing",
+      "snippet": "General guidelines for the Apache HTTP Server Project¶\nProject guidelines\nRelease guidelines\nStyle guide\nSource Repository Information¶\nApache Development Notes about using SVN and maintaining the Apache site\nA web-based view of the SVN history of the httpd development effort\nRelease Instructions¶",
       "matchedWords": {
         "UYOsXCzLOk3q": {
           "hits": 1,
@@ -4900,7 +4900,7 @@
       "hash": "rTEMGayzSDzw",
       "address": "https://httpd.apache.org/test/",
       "title": "Apache HTTP Test Project - The Apache HTTP Server Project",
-      "snippet": "Apache HTTP Test Project¶\nThis project is focused on designing test tools for the Apache HTTP Server Project. This is a subproject of the Apache HTTP Server Project.\nCurrently, the following components are available:\nFlood - a profile-driven HTTP load tester\nPerl Framework - a perl-centric HTTP",
+      "snippet": "cvs@httpd.apache.org - cvs commit notifications\nArchives\ndev@httpd Archives\ncvs@httpd Archives\nOn December 22, 2005, test-dev@httpd.apache.org was merged with dev@httpd.apache.org. Our old archives are still available.\nTest-dev Archives\nTest-cvs Archives\nSVN access¶",
       "matchedWords": {
         "UYOsXCzLOk3q": {
           "hits": 10,
@@ -4917,7 +4917,7 @@
       "hash": "0XsHISyzSDzw",
       "address": "https://httpd.apache.org/test/flood/",
       "title": "Flood - The Apache HTTP Server Project",
-      "snippet": "https://svn.apache.org/repos/asf/httpd/flood/trunk flood\nMailing Lists¶\nOur mailing lists are open to the public.\nSubscription\ndev@httpd.apache.org - discussion of what to do\ncvs@httpd.apache.org - commit notifications\nArchives\ndev Archives\ncvs Archives\nOn December 22, 2005,",
+      "snippet": "Mailing Lists¶\nOur mailing lists are open to the public.\nSubscription\ndev@httpd.apache.org - discussion of what to do\ncvs@httpd.apache.org - commit notifications\nArchives\ndev Archives\ncvs Archives\nOn December 22, 2005, test-dev@httpd.apache.org was merged with dev@httpd.apache.org.",
       "matchedWords": {
         "UYOsXCzLOk3q": {
           "hits": 5,
@@ -4934,7 +4934,7 @@
       "hash": "34RhOayzSDzw",
       "address": "https://httpd.apache.org/info/",
       "title": "Apache HTTP Server Miscellaneous Information - The Apache HTTP Server Project",
-      "snippet": "httpd documentation lists the RFCs and specifications that the Apache HTTP Server implements.\nCross Site Scripting security problem¶\nInformation on a security vulnerability resulting from the interaction between client-side scripting and server-side dynamic content.\nApache HTTP Server Development",
+      "snippet": "Relevant Standards¶\nThe Relevant Standards page in the httpd documentation lists the RFCs and specifications that the Apache HTTP Server implements.\nCross Site Scripting security problem¶",
       "matchedWords": {
         "UYOsXCzLOk3q": {
           "hits": 1,
@@ -4951,7 +4951,7 @@
       "hash": "4X4ryXyzSDzw",
       "address": "https://httpd.apache.org/docs/trunk/new_features_2_4.html",
       "title": "Overview of new features in Apache HTTP Server 2.4 - Apache HTTP Server Version 2.5",
-      "snippet": "Apache HTTP Server. For new features since version 2.0, see the 2.2 new features document.\nCore Enhancements ¶\nRun-time Loadable MPMs\nMultiple MPMs can now be built as loadable modules at compile time. The MPM of choice can be configured at run time via LoadModule directive.\nEvent MPM\nThe Event MPM",
+      "snippet": "This document describes some of the major changes between the 2.2 and 2.4 versions of the Apache HTTP Server. For new features since version 2.0, see the 2.2 new features document.\nCore Enhancements ¶\nRun-time Loadable MPMs\nMultiple MPMs can now be built as loadable modules at compile time.",
       "matchedWords": {
         "UYOsXCzLOk3q": {
           "hits": 3,
@@ -4968,7 +4968,7 @@
       "hash": "4YGkdayzSDzw",
       "address": "https://httpd.apache.org/mod_fcgid/",
       "title": "mod_fcgid - FastCGI interface module for Apache 2 - The Apache HTTP Server Project",
-      "snippet": "Apache Software Foundation and the Apache HTTP Server Project are pleased to announce the release of version 2.3.9 of mod_fcgid, a FastCGI implementation for Apache HTTP Server versions 2.0, 2.2, and 2.4. This version of mod_fcgid is a security release.\nYou can get the source from the archive",
+      "snippet": "Development of mod_fcgid can be followed through the Subversion repositories. For public access you can use:\n% svn checkout https://svn.apache.org/repos/asf/httpd/mod_fcgid/trunk mod_fcgid\nDocumentation¶\nThe mod_fcgid reference page will get you started.",
       "matchedWords": {
         "UYOsXCzLOk3q": {
           "hits": 2,
@@ -5427,7 +5427,7 @@
       "hash": "FDlZdayzSDzw",
       "address": "https://httpd.apache.org/download.cgi",
       "title": "Download - The Apache HTTP Server Project",
-      "snippet": "Apache HTTP Server¶\nUse the links below to download the Apache HTTP Server from our download servers. You must verify the integrity of the downloaded files using signatures downloaded from our main distribution directory. The signatures can be verified with our KEYS file.\nOnly current recommended",
+      "snippet": "This version of Apache is our latest GA release of the new generation 2.4.x branch of Apache HTTPD and represents fifteen years of innovation by the project, and is recommended over all previous releases!\nFor details, see the Official Announcement and the CHANGES_2.4 and CHANGES_2.4.68 lists.",
       "matchedWords": {
         "UYOsXCzLOk3q": {
           "hits": 6,
@@ -5444,7 +5444,7 @@
       "hash": "HqY_7XyzSDzw",
       "address": "https://httpd.apache.org/docs/2.4/mod/core.html",
       "title": "core - Apache HTTP Server Version 2.4",
-      "snippet": "Apache Core Features\nDescription:\nCore Apache HTTP Server features that are always available\nStatus:\nCore\nAcceptFilter Directive ¶\nDescription:\nConfigures optimizations for a Protocol's Listener Sockets\nSyntax:\nAcceptFilter protocol accept_filter\nContext:\nserver config\nStatus:\nCore\nModule:\ncore",
+      "snippet": "This applies to processes forked from Apache httpd children servicing requests, not the Apache httpd children themselves. This includes CGI scripts and SSI exec commands, but not any processes forked from the Apache httpd parent, such as piped logs.",
       "matchedWords": {
         "UYOsXCzLOk3q": {
           "hits": 91,
@@ -5461,7 +5461,7 @@
       "hash": "LUUJYayzSDzw",
       "address": "https://httpd.apache.org/ABOUT_APACHE.html",
       "title": "About the Apache HTTP Server Project - The Apache HTTP Server Project",
-      "snippet": "Apache HTTP Server Project is a collaborative software development effort aimed at creating a robust, commercial-grade, feature-rich, and freely-available source code implementation of an HTTP (Web) server. The project is jointly managed by a group of volunteers located around the world, using the",
+      "snippet": "Using NCSA httpd 1.3 as a base, we added all of the published bug fixes and worthwhile enhancements we could find, tested the result on our own servers, and made the first official public release (0.6.2) of the Apache server in April 1995.",
       "matchedWords": {
         "UYOsXCzLOk3q": {
           "hits": 6,
@@ -5478,7 +5478,7 @@
       "hash": "NkgclXyzSDzw",
       "address": "https://httpd.apache.org/docs/current/mod/core.html",
       "title": "core - Apache HTTP Server Version 2.4",
-      "snippet": "Apache Core Features\nDescription:\nCore Apache HTTP Server features that are always available\nStatus:\nCore\nAcceptFilter Directive ¶\nDescription:\nConfigures optimizations for a Protocol's Listener Sockets\nSyntax:\nAcceptFilter protocol accept_filter\nContext:\nserver config\nStatus:\nCore\nModule:\ncore",
+      "snippet": "This applies to processes forked from Apache httpd children servicing requests, not the Apache httpd children themselves. This includes CGI scripts and SSI exec commands, but not any processes forked from the Apache httpd parent, such as piped logs.",
       "matchedWords": {
         "UYOsXCzLOk3q": {
           "hits": 91,
@@ -5495,7 +5495,7 @@
       "hash": "OtQmQXyzSDzw",
       "address": "https://httpd.apache.org/docs/2.4/",
       "title": "Apache HTTP Server Version 2.4 Documentation - Apache HTTP Server Version 2.4",
-      "snippet": "Apache Software Foundation.\nLicensed under the Apache License, Version 2.0.\nModules | Directives | FAQ | Glossary | Sitemap | Report a bug",
+      "snippet": "Copyright 2026 The Apache Software Foundation.\nLicensed under the Apache License, Version 2.0.\nModules | Directives | FAQ | Glossary | Sitemap | Report a bug",
       "matchedWords": {
         "UYOsXCzLOk3q": {
           "hits": 0,
@@ -5512,7 +5512,7 @@
       "hash": "O1k6UXyzSDzw",
       "address": "https://httpd.apache.org/docs/2.4/mod/quickreference.html",
       "title": "Directive Quick Reference - Apache HTTP Server Version 2.4",
-      "snippet": "httpd_body dBThe name of a form field carrying the body of the request to attempt on successful login AuthFormDisableNoStore On|Off Off dBDisable the CacheControl no-store header on the login page AuthFormFakeBasicAuth On|Off Off dBFake a Basic Authentication header AuthFormLocation fieldname",
+      "snippet": "Pattern Substitution [flags]svdhEDefines rules for the rewriting engine RLimitCPU seconds|max [seconds|max]svdhCLimits the CPU consumption of processes launched by Apache httpd children RLimitMEM bytes|max [bytes|max]svdhCLimits the memory consumption of processes launched by Apache httpd children",
       "matchedWords": {
         "UYOsXCzLOk3q": {
           "hits": 10,
@@ -5529,7 +5529,7 @@
       "hash": "QJO3EayzSDzw",
       "address": "https://httpd.apache.org/support.html",
       "title": "Apache HTTP Server Support - The Apache HTTP Server Project",
-      "snippet": "Apache httpd. They are presented here in the order in which you should probably consult them.\nThe documentation is the definitive source for information about the Apache httpd. The answers to your questions are probably there.\nThe Apache HTTP Server Users List is a great place to ask questions when",
+      "snippet": "There are several places to obtain support for Apache httpd. They are presented here in the order in which you should probably consult them.\nThe documentation is the definitive source for information about the Apache httpd. The answers to your questions are probably there.",
       "matchedWords": {
         "UYOsXCzLOk3q": {
           "hits": 5,
@@ -5546,7 +5546,7 @@
       "hash": "SKjknXyzSDzw",
       "address": "https://httpd.apache.org/docs/2.4/mod/directive-dict.html",
       "title": "Terms Used to Describe Directives - Apache HTTP Server Version 2.4",
-      "snippet": "/usr/local/apache/htdocs/path/to/file.html. Unless otherwise specified, a file-path which does not begin with a slash will be treated as relative to the ServerRoot.\ndirectory-path\nThe path to a directory in the local file-system beginning with the root directory as in",
+      "snippet": "A directive with \"Extension\" status is provided by one of the modules included with the Apache server kit, but the module isn't normally compiled into the server. To enable the directive and its functionality, you will need to change the server build configuration files and re-compile Apache.",
       "matchedWords": {
         "UYOsXCzLOk3q": {
           "hits": 3,
@@ -5563,7 +5563,7 @@
       "hash": "UKe3dXyzSDzw",
       "address": "https://httpd.apache.org/docs/2.4/mod/",
       "title": "Module Index - Apache HTTP Server Version 2.4",
-      "snippet": "Apache HTTP Server distribution. See also the complete alphabetical list of all Apache HTTP Server directives.\nCore Features and Multi-Processing Modules\ncore\nCore Apache HTTP Server features that are always available\nmpm_common\nA collection of directives that are implemented by more than one",
+      "snippet": "Module Index\nBelow is a list of all of the modules that come as part of the Apache HTTP Server distribution. See also the complete alphabetical list of all Apache HTTP Server directives.\nCore Features and Multi-Processing Modules\ncore\nCore Apache HTTP Server features that are always available",
       "matchedWords": {
         "UYOsXCzLOk3q": {
           "hits": 0,
@@ -5580,7 +5580,7 @@
       "hash": "YOsk6XyzSDzw",
       "address": "https://httpd.apache.org/docs/trunk/",
       "title": "Apache HTTP Server Version 2.5 Documentation - Apache HTTP Server Version 2.5",
-      "snippet": "Apache Software Foundation.\nLicensed under the Apache License, Version 2.0.\nModules | Directives | FAQ | Glossary | Sitemap | Report a bug",
+      "snippet": "Copyright 2026 The Apache Software Foundation.\nLicensed under the Apache License, Version 2.0.\nModules | Directives | FAQ | Glossary | Sitemap | Report a bug",
       "matchedWords": {
         "UYOsXCzLOk3q": {
           "hits": 0,
@@ -5597,7 +5597,7 @@
       "hash": "jZqlPXyzSDzw",
       "address": "https://httpd.apache.org/docs/2.4/mod/mod_userdir.html",
       "title": "mod_userdir - Apache HTTP Server Version 2.4",
-      "snippet": "Apache Module mod_userdir\nAvailable Languages: en | fr | ja | ko | tr\nDescription:\nUser-specific directories\nStatus:\nBase\nModule Identifier:\nuserdir_module\nSource File:\nmod_userdir.c\nSummary\nBy using this module you are allowing multiple users to host content within the same origin. The same origin",
+      "snippet": "If you add a redirect, it must be the last alternative in the list. Apache httpd cannot determine if the redirect succeeded or not, so if you have the redirect earlier in the list, that will always be the alternative that is used.",
       "matchedWords": {
         "UYOsXCzLOk3q": {
           "hits": 1,
@@ -5614,7 +5614,7 @@
       "hash": "ng_vvayzSDzw",
       "address": "https://httpd.apache.org/dev/",
       "title": "Apache HTTP Server Developer Information - The Apache HTTP Server Project",
-      "snippet": "Apache HTTP Server Project. Be sure to also check the developer information included with the documentation.\nSome information about source code hosting and continuous integration (CI) can also be found on Apache Development Notes.\nFeedback and contributions¶\nContributing bug reports\nContributing",
+      "snippet": "General guidelines for the Apache HTTP Server Project¶\nProject guidelines\nRelease guidelines\nStyle guide\nSource Repository Information¶\nApache Development Notes about using SVN and maintaining the Apache site\nA web-based view of the SVN history of the httpd development effort\nRelease Instructions¶",
       "matchedWords": {
         "UYOsXCzLOk3q": {
           "hits": 1,
@@ -5631,7 +5631,7 @@
       "hash": "rTEMGayzSDzw",
       "address": "https://httpd.apache.org/test/",
       "title": "Apache HTTP Test Project - The Apache HTTP Server Project",
-      "snippet": "Apache HTTP Test Project¶\nThis project is focused on designing test tools for the Apache HTTP Server Project. This is a subproject of the Apache HTTP Server Project.\nCurrently, the following components are available:\nFlood - a profile-driven HTTP load tester\nPerl Framework - a perl-centric HTTP",
+      "snippet": "cvs@httpd.apache.org - cvs commit notifications\nArchives\ndev@httpd Archives\ncvs@httpd Archives\nOn December 22, 2005, test-dev@httpd.apache.org was merged with dev@httpd.apache.org. Our old archives are still available.\nTest-dev Archives\nTest-cvs Archives\nSVN access¶",
       "matchedWords": {
         "UYOsXCzLOk3q": {
           "hits": 10,
@@ -5648,7 +5648,7 @@
       "hash": "uFJMaayzSDzw",
       "address": "https://httpd.apache.org/contributors/",
       "title": "Apache Contributors - The Apache HTTP Server Project",
-      "snippet": "Apache HTTP Server Project.\nHundreds of people have made individual contributions to the Apache project. Patch contributors are listed in the src/CHANGES file. Frequent contributors have included Petr Lampa, Tom Tromey, James H. Cloos Jr., Ed Korthof, Nathan Neulinger, Jason S. Clary, Jason A.",
+      "snippet": "This page exists to recognize the efforts and contributions of the core individuals in the Apache HTTP Server Project.\nHundreds of people have made individual contributions to the Apache project. Patch contributors are listed in the src/CHANGES file.",
       "matchedWords": {
         "UYOsXCzLOk3q": {
           "hits": 2,
@@ -5665,7 +5665,7 @@
       "hash": "xYhRzayzSDzw",
       "address": "https://httpd.apache.org/contribute/",
       "title": "Apache HTTP Server: Contribute - The Apache HTTP Server Project",
-      "snippet": "https://svn.apache.org/repos/asf/httpd/httpd/trunk\n2.4 (stable): https://svn.apache.org/repos/asf/httpd/httpd/2.4.x\nThe source is also mirrored on GitHub.\n(Further details in Developer Info)\nDocumentation and website¶\nThe documentation source is in each version's source tree, under docs/manual/.",
+      "snippet": "Documentation and website¶\nThe documentation source is in each version's source tree, under docs/manual/.\nWebsite source is at: https://github.com/apache/httpd-site\nHow¶",
       "matchedWords": {
         "UYOsXCzLOk3q": {
           "hits": 6,
@@ -5682,7 +5682,7 @@
       "hash": "yL0svvyzSDzw",
       "address": "https://httpd.apache.org/dev/devnotes.html",
       "title": "Apache Development Notes - The Apache HTTP Server Project",
-      "snippet": "Apache HTTP Server Project uses Subversion for hosting its source code.\nTo check out the 2.4.x branch:\nsvn checkout https://svn.apache.org/repos/asf/httpd/httpd/branches/2.4.x httpd-2.4.x\nTo check out the current development version (trunk), use:\nsvn checkout",
+      "snippet": "The website used to be hosted at https://svn.apache.org/repos/asf/httpd/site/.\nIt is now hosted on GitHub at https://github.com/apache/httpd-site/.",
       "matchedWords": {
         "UYOsXCzLOk3q": {
           "hits": 39,
@@ -5699,7 +5699,7 @@
       "hash": "zAucNayzSDzw",
       "address": "https://httpd.apache.org/bug_report.html",
       "title": "Bug Reporting - The Apache HTTP Server Project",
-      "snippet": "Apache HTTP server software.\nIf you have identified a bug in the Apache HTTP Server, before you fill out a problem report form, make sure you have done all of the following:\nVerified that the issue affects the most recent version of Apache httpd.\nFollowed the instructions in the INSTALL file",
+      "snippet": "If you have done all of the preceding, then please select the appropriate issue tracking system, fill out the form and submit it:\nFor the software and most documentation issues, use ASF Bugzilla. The appropriate Bugzilla project for Apache HTTPD is \"Apache httpd-2\".",
       "matchedWords": {
         "UYOsXCzLOk3q": {
           "hits": 9,
@@ -5716,7 +5716,7 @@
       "hash": "0XsHISyzSDzw",
       "address": "https://httpd.apache.org/test/flood/",
       "title": "Flood - The Apache HTTP Server Project",
-      "snippet": "https://svn.apache.org/repos/asf/httpd/flood/trunk flood\nMailing Lists¶\nOur mailing lists are open to the public.\nSubscription\ndev@httpd.apache.org - discussion of what to do\ncvs@httpd.apache.org - commit notifications\nArchives\ndev Archives\ncvs Archives\nOn December 22, 2005,",
+      "snippet": "Mailing Lists¶\nOur mailing lists are open to the public.\nSubscription\ndev@httpd.apache.org - discussion of what to do\ncvs@httpd.apache.org - commit notifications\nArchives\ndev Archives\ncvs Archives\nOn December 22, 2005, test-dev@httpd.apache.org was merged with dev@httpd.apache.org.",
       "matchedWords": {
         "UYOsXCzLOk3q": {
           "hits": 5,
@@ -5733,7 +5733,7 @@
       "hash": "34RhOayzSDzw",
       "address": "https://httpd.apache.org/info/",
       "title": "Apache HTTP Server Miscellaneous Information - The Apache HTTP Server Project",
-      "snippet": "httpd documentation lists the RFCs and specifications that the Apache HTTP Server implements.\nCross Site Scripting security problem¶\nInformation on a security vulnerability resulting from the interaction between client-side scripting and server-side dynamic content.\nApache HTTP Server Development",
+      "snippet": "Relevant Standards¶\nThe Relevant Standards page in the httpd documentation lists the RFCs and specifications that the Apache HTTP Server implements.\nCross Site Scripting security problem¶",
       "matchedWords": {
         "UYOsXCzLOk3q": {
           "hits": 1,
@@ -5750,7 +5750,7 @@
       "hash": "4X4ryXyzSDzw",
       "address": "https://httpd.apache.org/docs/trunk/new_features_2_4.html",
       "title": "Overview of new features in Apache HTTP Server 2.4 - Apache HTTP Server Version 2.5",
-      "snippet": "Apache HTTP Server. For new features since version 2.0, see the 2.2 new features document.\nCore Enhancements ¶\nRun-time Loadable MPMs\nMultiple MPMs can now be built as loadable modules at compile time. The MPM of choice can be configured at run time via LoadModule directive.\nEvent MPM\nThe Event MPM",
+      "snippet": "This document describes some of the major changes between the 2.2 and 2.4 versions of the Apache HTTP Server. For new features since version 2.0, see the 2.2 new features document.\nCore Enhancements ¶\nRun-time Loadable MPMs\nMultiple MPMs can now be built as loadable modules at compile time.",
       "matchedWords": {
         "UYOsXCzLOk3q": {
           "hits": 3,
@@ -5767,7 +5767,7 @@
       "hash": "4YGkdayzSDzw",
       "address": "https://httpd.apache.org/mod_fcgid/",
       "title": "mod_fcgid - FastCGI interface module for Apache 2 - The Apache HTTP Server Project",
-      "snippet": "Apache Software Foundation and the Apache HTTP Server Project are pleased to announce the release of version 2.3.9 of mod_fcgid, a FastCGI implementation for Apache HTTP Server versions 2.0, 2.2, and 2.4. This version of mod_fcgid is a security release.\nYou can get the source from the archive",
+      "snippet": "Development of mod_fcgid can be followed through the Subversion repositories. For public access you can use:\n% svn checkout https://svn.apache.org/repos/asf/httpd/mod_fcgid/trunk mod_fcgid\nDocumentation¶\nThe mod_fcgid reference page will get you started.",
       "matchedWords": {
         "UYOsXCzLOk3q": {
           "hits": 2,
@@ -5954,7 +5954,7 @@
       "hash": "OtQmQXyzSDzw",
       "address": "https://httpd.apache.org/docs/2.4/",
       "title": "Apache HTTP Server Version 2.4 Documentation - Apache HTTP Server Version 2.4",
-      "snippet": "Apache Software Foundation.\nLicensed under the Apache License, Version 2.0.\nModules | Directives | FAQ | Glossary | Sitemap | Report a bug",
+      "snippet": "Copyright 2026 The Apache Software Foundation.\nLicensed under the Apache License, Version 2.0.\nModules | Directives | FAQ | Glossary | Sitemap | Report a bug",
       "matchedWords": {
         "UYOsXCzLOk3q": {
           "hits": 0,
@@ -6005,7 +6005,7 @@
       "hash": "YOsk6XyzSDzw",
       "address": "https://httpd.apache.org/docs/trunk/",
       "title": "Apache HTTP Server Version 2.5 Documentation - Apache HTTP Server Version 2.5",
-      "snippet": "Apache Software Foundation.\nLicensed under the Apache License, Version 2.0.\nModules | Directives | FAQ | Glossary | Sitemap | Report a bug",
+      "snippet": "Copyright 2026 The Apache Software Foundation.\nLicensed under the Apache License, Version 2.0.\nModules | Directives | FAQ | Glossary | Sitemap | Report a bug",
       "matchedWords": {
         "UYOsXCzLOk3q": {
           "hits": 0,
@@ -6022,7 +6022,7 @@
       "hash": "jZqlPXyzSDzw",
       "address": "https://httpd.apache.org/docs/2.4/mod/mod_userdir.html",
       "title": "mod_userdir - Apache HTTP Server Version 2.4",
-      "snippet": "Apache Module mod_userdir\nAvailable Languages: en | fr | ja | ko | tr\nDescription:\nUser-specific directories\nStatus:\nBase\nModule Identifier:\nuserdir_module\nSource File:\nmod_userdir.c\nSummary\nBy using this module you are allowing multiple users to host content within the same origin. The same origin",
+      "snippet": "If you add a redirect, it must be the last alternative in the list. Apache httpd cannot determine if the redirect succeeded or not, so if you have the redirect earlier in the list, that will always be the alternative that is used.",
       "matchedWords": {
         "UYOsXCzLOk3q": {
           "hits": 1,
@@ -6379,7 +6379,7 @@
       "hash": "FDlZdayzSDzw",
       "address": "https://httpd.apache.org/download.cgi",
       "title": "Download - The Apache HTTP Server Project",
-      "snippet": "Apache HTTP Server¶\nUse the links below to download the Apache HTTP Server from our download servers. You must verify the integrity of the downloaded files using signatures downloaded from our main distribution directory. The signatures can be verified with our KEYS file.\nOnly current recommended",
+      "snippet": "This version of Apache is our latest GA release of the new generation 2.4.x branch of Apache HTTPD and represents fifteen years of innovation by the project, and is recommended over all previous releases!\nFor details, see the Official Announcement and the CHANGES_2.4 and CHANGES_2.4.68 lists.",
       "matchedWords": {
         "UYOsXCzLOk3q": {
           "hits": 6,
@@ -6396,7 +6396,7 @@
       "hash": "LUUJYayzSDzw",
       "address": "https://httpd.apache.org/ABOUT_APACHE.html",
       "title": "About the Apache HTTP Server Project - The Apache HTTP Server Project",
-      "snippet": "Apache HTTP Server Project is a collaborative software development effort aimed at creating a robust, commercial-grade, feature-rich, and freely-available source code implementation of an HTTP (Web) server. The project is jointly managed by a group of volunteers located around the world, using the",
+      "snippet": "Using NCSA httpd 1.3 as a base, we added all of the published bug fixes and worthwhile enhancements we could find, tested the result on our own servers, and made the first official public release (0.6.2) of the Apache server in April 1995.",
       "matchedWords": {
         "UYOsXCzLOk3q": {
           "hits": 6,
@@ -6413,7 +6413,7 @@
       "hash": "NkgclXyzSDzw",
       "address": "https://httpd.apache.org/docs/current/mod/core.html",
       "title": "core - Apache HTTP Server Version 2.4",
-      "snippet": "Apache Core Features\nDescription:\nCore Apache HTTP Server features that are always available\nStatus:\nCore\nAcceptFilter Directive ¶\nDescription:\nConfigures optimizations for a Protocol's Listener Sockets\nSyntax:\nAcceptFilter protocol accept_filter\nContext:\nserver config\nStatus:\nCore\nModule:\ncore",
+      "snippet": "This applies to processes forked from Apache httpd children servicing requests, not the Apache httpd children themselves. This includes CGI scripts and SSI exec commands, but not any processes forked from the Apache httpd parent, such as piped logs.",
       "matchedWords": {
         "UYOsXCzLOk3q": {
           "hits": 91,
@@ -6430,7 +6430,7 @@
       "hash": "OtQmQXyzSDzw",
       "address": "https://httpd.apache.org/docs/2.4/",
       "title": "Apache HTTP Server Version 2.4 Documentation - Apache HTTP Server Version 2.4",
-      "snippet": "Apache Software Foundation.\nLicensed under the Apache License, Version 2.0.\nModules | Directives | FAQ | Glossary | Sitemap | Report a bug",
+      "snippet": "Copyright 2026 The Apache Software Foundation.\nLicensed under the Apache License, Version 2.0.\nModules | Directives | FAQ | Glossary | Sitemap | Report a bug",
       "matchedWords": {
         "UYOsXCzLOk3q": {
           "hits": 0,
@@ -6447,7 +6447,7 @@
       "hash": "QJO3EayzSDzw",
       "address": "https://httpd.apache.org/support.html",
       "title": "Apache HTTP Server Support - The Apache HTTP Server Project",
-      "snippet": "Apache httpd. They are presented here in the order in which you should probably consult them.\nThe documentation is the definitive source for information about the Apache httpd. The answers to your questions are probably there.\nThe Apache HTTP Server Users List is a great place to ask questions when",
+      "snippet": "There are several places to obtain support for Apache httpd. They are presented here in the order in which you should probably consult them.\nThe documentation is the definitive source for information about the Apache httpd. The answers to your questions are probably there.",
       "matchedWords": {
         "UYOsXCzLOk3q": {
           "hits": 5,
@@ -6464,7 +6464,7 @@
       "hash": "YOsk6XyzSDzw",
       "address": "https://httpd.apache.org/docs/trunk/",
       "title": "Apache HTTP Server Version 2.5 Documentation - Apache HTTP Server Version 2.5",
-      "snippet": "Apache Software Foundation.\nLicensed under the Apache License, Version 2.0.\nModules | Directives | FAQ | Glossary | Sitemap | Report a bug",
+      "snippet": "Copyright 2026 The Apache Software Foundation.\nLicensed under the Apache License, Version 2.0.\nModules | Directives | FAQ | Glossary | Sitemap | Report a bug",
       "matchedWords": {
         "UYOsXCzLOk3q": {
           "hits": 0,
@@ -6481,7 +6481,7 @@
       "hash": "jZqlPXyzSDzw",
       "address": "https://httpd.apache.org/docs/2.4/mod/mod_userdir.html",
       "title": "mod_userdir - Apache HTTP Server Version 2.4",
-      "snippet": "Apache Module mod_userdir\nAvailable Languages: en | fr | ja | ko | tr\nDescription:\nUser-specific directories\nStatus:\nBase\nModule Identifier:\nuserdir_module\nSource File:\nmod_userdir.c\nSummary\nBy using this module you are allowing multiple users to host content within the same origin. The same origin",
+      "snippet": "If you add a redirect, it must be the last alternative in the list. Apache httpd cannot determine if the redirect succeeded or not, so if you have the redirect earlier in the list, that will always be the alternative that is used.",
       "matchedWords": {
         "UYOsXCzLOk3q": {
           "hits": 1,
@@ -6498,7 +6498,7 @@
       "hash": "ng_vvayzSDzw",
       "address": "https://httpd.apache.org/dev/",
       "title": "Apache HTTP Server Developer Information - The Apache HTTP Server Project",
-      "snippet": "Apache HTTP Server Project. Be sure to also check the developer information included with the documentation.\nSome information about source code hosting and continuous integration (CI) can also be found on Apache Development Notes.\nFeedback and contributions¶\nContributing bug reports\nContributing",
+      "snippet": "General guidelines for the Apache HTTP Server Project¶\nProject guidelines\nRelease guidelines\nStyle guide\nSource Repository Information¶\nApache Development Notes about using SVN and maintaining the Apache site\nA web-based view of the SVN history of the httpd development effort\nRelease Instructions¶",
       "matchedWords": {
         "UYOsXCzLOk3q": {
           "hits": 1,
@@ -6515,7 +6515,7 @@
       "hash": "rTEMGayzSDzw",
       "address": "https://httpd.apache.org/test/",
       "title": "Apache HTTP Test Project - The Apache HTTP Server Project",
-      "snippet": "Apache HTTP Test Project¶\nThis project is focused on designing test tools for the Apache HTTP Server Project. This is a subproject of the Apache HTTP Server Project.\nCurrently, the following components are available:\nFlood - a profile-driven HTTP load tester\nPerl Framework - a perl-centric HTTP",
+      "snippet": "cvs@httpd.apache.org - cvs commit notifications\nArchives\ndev@httpd Archives\ncvs@httpd Archives\nOn December 22, 2005, test-dev@httpd.apache.org was merged with dev@httpd.apache.org. Our old archives are still available.\nTest-dev Archives\nTest-cvs Archives\nSVN access¶",
       "matchedWords": {
         "UYOsXCzLOk3q": {
           "hits": 10,
@@ -6532,7 +6532,7 @@
       "hash": "uFJMaayzSDzw",
       "address": "https://httpd.apache.org/contributors/",
       "title": "Apache Contributors - The Apache HTTP Server Project",
-      "snippet": "Apache HTTP Server Project.\nHundreds of people have made individual contributions to the Apache project. Patch contributors are listed in the src/CHANGES file. Frequent contributors have included Petr Lampa, Tom Tromey, James H. Cloos Jr., Ed Korthof, Nathan Neulinger, Jason S. Clary, Jason A.",
+      "snippet": "This page exists to recognize the efforts and contributions of the core individuals in the Apache HTTP Server Project.\nHundreds of people have made individual contributions to the Apache project. Patch contributors are listed in the src/CHANGES file.",
       "matchedWords": {
         "UYOsXCzLOk3q": {
           "hits": 2,
@@ -6549,7 +6549,7 @@
       "hash": "xYhRzayzSDzw",
       "address": "https://httpd.apache.org/contribute/",
       "title": "Apache HTTP Server: Contribute - The Apache HTTP Server Project",
-      "snippet": "https://svn.apache.org/repos/asf/httpd/httpd/trunk\n2.4 (stable): https://svn.apache.org/repos/asf/httpd/httpd/2.4.x\nThe source is also mirrored on GitHub.\n(Further details in Developer Info)\nDocumentation and website¶\nThe documentation source is in each version's source tree, under docs/manual/.",
+      "snippet": "Documentation and website¶\nThe documentation source is in each version's source tree, under docs/manual/.\nWebsite source is at: https://github.com/apache/httpd-site\nHow¶",
       "matchedWords": {
         "UYOsXCzLOk3q": {
           "hits": 6,
@@ -6566,7 +6566,7 @@
       "hash": "yL0svvyzSDzw",
       "address": "https://httpd.apache.org/dev/devnotes.html",
       "title": "Apache Development Notes - The Apache HTTP Server Project",
-      "snippet": "Apache HTTP Server Project uses Subversion for hosting its source code.\nTo check out the 2.4.x branch:\nsvn checkout https://svn.apache.org/repos/asf/httpd/httpd/branches/2.4.x httpd-2.4.x\nTo check out the current development version (trunk), use:\nsvn checkout",
+      "snippet": "The website used to be hosted at https://svn.apache.org/repos/asf/httpd/site/.\nIt is now hosted on GitHub at https://github.com/apache/httpd-site/.",
       "matchedWords": {
         "UYOsXCzLOk3q": {
           "hits": 39,
@@ -6583,7 +6583,7 @@
       "hash": "zAucNayzSDzw",
       "address": "https://httpd.apache.org/bug_report.html",
       "title": "Bug Reporting - The Apache HTTP Server Project",
-      "snippet": "Apache HTTP server software.\nIf you have identified a bug in the Apache HTTP Server, before you fill out a problem report form, make sure you have done all of the following:\nVerified that the issue affects the most recent version of Apache httpd.\nFollowed the instructions in the INSTALL file",
+      "snippet": "If you have done all of the preceding, then please select the appropriate issue tracking system, fill out the form and submit it:\nFor the software and most documentation issues, use ASF Bugzilla. The appropriate Bugzilla project for Apache HTTPD is \"Apache httpd-2\".",
       "matchedWords": {
         "UYOsXCzLOk3q": {
           "hits": 9,
@@ -6600,7 +6600,7 @@
       "hash": "0XsHISyzSDzw",
       "address": "https://httpd.apache.org/test/flood/",
       "title": "Flood - The Apache HTTP Server Project",
-      "snippet": "https://svn.apache.org/repos/asf/httpd/flood/trunk flood\nMailing Lists¶\nOur mailing lists are open to the public.\nSubscription\ndev@httpd.apache.org - discussion of what to do\ncvs@httpd.apache.org - commit notifications\nArchives\ndev Archives\ncvs Archives\nOn December 22, 2005,",
+      "snippet": "Mailing Lists¶\nOur mailing lists are open to the public.\nSubscription\ndev@httpd.apache.org - discussion of what to do\ncvs@httpd.apache.org - commit notifications\nArchives\ndev Archives\ncvs Archives\nOn December 22, 2005, test-dev@httpd.apache.org was merged with dev@httpd.apache.org.",
       "matchedWords": {
         "UYOsXCzLOk3q": {
           "hits": 5,
@@ -6617,7 +6617,7 @@
       "hash": "34RhOayzSDzw",
       "address": "https://httpd.apache.org/info/",
       "title": "Apache HTTP Server Miscellaneous Information - The Apache HTTP Server Project",
-      "snippet": "httpd documentation lists the RFCs and specifications that the Apache HTTP Server implements.\nCross Site Scripting security problem¶\nInformation on a security vulnerability resulting from the interaction between client-side scripting and server-side dynamic content.\nApache HTTP Server Development",
+      "snippet": "Relevant Standards¶\nThe Relevant Standards page in the httpd documentation lists the RFCs and specifications that the Apache HTTP Server implements.\nCross Site Scripting security problem¶",
       "matchedWords": {
         "UYOsXCzLOk3q": {
           "hits": 1,
@@ -6634,7 +6634,7 @@
       "hash": "4X4ryXyzSDzw",
       "address": "https://httpd.apache.org/docs/trunk/new_features_2_4.html",
       "title": "Overview of new features in Apache HTTP Server 2.4 - Apache HTTP Server Version 2.5",
-      "snippet": "Apache HTTP Server. For new features since version 2.0, see the 2.2 new features document.\nCore Enhancements ¶\nRun-time Loadable MPMs\nMultiple MPMs can now be built as loadable modules at compile time. The MPM of choice can be configured at run time via LoadModule directive.\nEvent MPM\nThe Event MPM",
+      "snippet": "This document describes some of the major changes between the 2.2 and 2.4 versions of the Apache HTTP Server. For new features since version 2.0, see the 2.2 new features document.\nCore Enhancements ¶\nRun-time Loadable MPMs\nMultiple MPMs can now be built as loadable modules at compile time.",
       "matchedWords": {
         "UYOsXCzLOk3q": {
           "hits": 3,
@@ -6651,7 +6651,7 @@
       "hash": "4YGkdayzSDzw",
       "address": "https://httpd.apache.org/mod_fcgid/",
       "title": "mod_fcgid - FastCGI interface module for Apache 2 - The Apache HTTP Server Project",
-      "snippet": "Apache Software Foundation and the Apache HTTP Server Project are pleased to announce the release of version 2.3.9 of mod_fcgid, a FastCGI implementation for Apache HTTP Server versions 2.0, 2.2, and 2.4. This version of mod_fcgid is a security release.\nYou can get the source from the archive",
+      "snippet": "Development of mod_fcgid can be followed through the Subversion repositories. For public access you can use:\n% svn checkout https://svn.apache.org/repos/asf/httpd/mod_fcgid/trunk mod_fcgid\nDocumentation¶\nThe mod_fcgid reference page will get you started.",
       "matchedWords": {
         "UYOsXCzLOk3q": {
           "hits": 2,
@@ -6668,7 +6668,7 @@
       "hash": "xYhRzayzSDzw",
       "address": "https://httpd.apache.org/contribute/",
       "title": "Apache HTTP Server: Contribute - The Apache HTTP Server Project",
-      "snippet": "https://svn.apache.org/repos/asf/httpd/httpd/trunk\n2.4 (stable): https://svn.apache.org/repos/asf/httpd/httpd/2.4.x\nThe source is also mirrored on GitHub.\n(Further details in Developer Info)\nDocumentation and website¶\nThe documentation source is in each version's source tree, under docs/manual/.",
+      "snippet": "Documentation and website¶\nThe documentation source is in each version's source tree, under docs/manual/.\nWebsite source is at: https://github.com/apache/httpd-site\nHow¶",
       "matchedWords": {
         "UYOsXCzLOk3q": {
           "hits": 6,
@@ -6685,7 +6685,7 @@
       "hash": "yL0svvyzSDzw",
       "address": "https://httpd.apache.org/dev/devnotes.html",
       "title": "Apache Development Notes - The Apache HTTP Server Project",
-      "snippet": "Apache HTTP Server Project uses Subversion for hosting its source code.\nTo check out the 2.4.x branch:\nsvn checkout https://svn.apache.org/repos/asf/httpd/httpd/branches/2.4.x httpd-2.4.x\nTo check out the current development version (trunk), use:\nsvn checkout",
+      "snippet": "The website used to be hosted at https://svn.apache.org/repos/asf/httpd/site/.\nIt is now hosted on GitHub at https://github.com/apache/httpd-site/.",
       "matchedWords": {
         "UYOsXCzLOk3q": {
           "hits": 39,
@@ -6702,7 +6702,7 @@
       "hash": "zAucNayzSDzw",
       "address": "https://httpd.apache.org/bug_report.html",
       "title": "Bug Reporting - The Apache HTTP Server Project",
-      "snippet": "Apache HTTP server software.\nIf you have identified a bug in the Apache HTTP Server, before you fill out a problem report form, make sure you have done all of the following:\nVerified that the issue affects the most recent version of Apache httpd.\nFollowed the instructions in the INSTALL file",
+      "snippet": "If you have done all of the preceding, then please select the appropriate issue tracking system, fill out the form and submit it:\nFor the software and most documentation issues, use ASF Bugzilla. The appropriate Bugzilla project for Apache HTTPD is \"Apache httpd-2\".",
       "matchedWords": {
         "UYOsXCzLOk3q": {
           "hits": 9,
@@ -6889,7 +6889,7 @@
       "hash": "FDlZdayzSDzw",
       "address": "https://httpd.apache.org/download.cgi",
       "title": "Download - The Apache HTTP Server Project",
-      "snippet": "Apache HTTP Server¶\nUse the links below to download the Apache HTTP Server from our download servers. You must verify the integrity of the downloaded files using signatures downloaded from our main distribution directory. The signatures can be verified with our KEYS file.\nOnly current recommended",
+      "snippet": "This version of Apache is our latest GA release of the new generation 2.4.x branch of Apache HTTPD and represents fifteen years of innovation by the project, and is recommended over all previous releases!\nFor details, see the Official Announcement and the CHANGES_2.4 and CHANGES_2.4.68 lists.",
       "matchedWords": {
         "UYOsXCzLOk3q": {
           "hits": 6,
@@ -6906,7 +6906,7 @@
       "hash": "LUUJYayzSDzw",
       "address": "https://httpd.apache.org/ABOUT_APACHE.html",
       "title": "About the Apache HTTP Server Project - The Apache HTTP Server Project",
-      "snippet": "Apache HTTP Server Project is a collaborative software development effort aimed at creating a robust, commercial-grade, feature-rich, and freely-available source code implementation of an HTTP (Web) server. The project is jointly managed by a group of volunteers located around the world, using the",
+      "snippet": "Using NCSA httpd 1.3 as a base, we added all of the published bug fixes and worthwhile enhancements we could find, tested the result on our own servers, and made the first official public release (0.6.2) of the Apache server in April 1995.",
       "matchedWords": {
         "UYOsXCzLOk3q": {
           "hits": 6,
@@ -6923,7 +6923,7 @@
       "hash": "QJO3EayzSDzw",
       "address": "https://httpd.apache.org/support.html",
       "title": "Apache HTTP Server Support - The Apache HTTP Server Project",
-      "snippet": "Apache httpd. They are presented here in the order in which you should probably consult them.\nThe documentation is the definitive source for information about the Apache httpd. The answers to your questions are probably there.\nThe Apache HTTP Server Users List is a great place to ask questions when",
+      "snippet": "There are several places to obtain support for Apache httpd. They are presented here in the order in which you should probably consult them.\nThe documentation is the definitive source for information about the Apache httpd. The answers to your questions are probably there.",
       "matchedWords": {
         "UYOsXCzLOk3q": {
           "hits": 5,
@@ -6940,7 +6940,7 @@
       "hash": "SKjknXyzSDzw",
       "address": "https://httpd.apache.org/docs/2.4/mod/directive-dict.html",
       "title": "Terms Used to Describe Directives - Apache HTTP Server Version 2.4",
-      "snippet": "/usr/local/apache/htdocs/path/to/file.html. Unless otherwise specified, a file-path which does not begin with a slash will be treated as relative to the ServerRoot.\ndirectory-path\nThe path to a directory in the local file-system beginning with the root directory as in",
+      "snippet": "A directive with \"Extension\" status is provided by one of the modules included with the Apache server kit, but the module isn't normally compiled into the server. To enable the directive and its functionality, you will need to change the server build configuration files and re-compile Apache.",
       "matchedWords": {
         "UYOsXCzLOk3q": {
           "hits": 3,
@@ -6957,7 +6957,7 @@
       "hash": "YOsk6XyzSDzw",
       "address": "https://httpd.apache.org/docs/trunk/",
       "title": "Apache HTTP Server Version 2.5 Documentation - Apache HTTP Server Version 2.5",
-      "snippet": "Apache Software Foundation.\nLicensed under the Apache License, Version 2.0.\nModules | Directives | FAQ | Glossary | Sitemap | Report a bug",
+      "snippet": "Copyright 2026 The Apache Software Foundation.\nLicensed under the Apache License, Version 2.0.\nModules | Directives | FAQ | Glossary | Sitemap | Report a bug",
       "matchedWords": {
         "UYOsXCzLOk3q": {
           "hits": 0,
@@ -6974,7 +6974,7 @@
       "hash": "ng_vvayzSDzw",
       "address": "https://httpd.apache.org/dev/",
       "title": "Apache HTTP Server Developer Information - The Apache HTTP Server Project",
-      "snippet": "Apache HTTP Server Project. Be sure to also check the developer information included with the documentation.\nSome information about source code hosting and continuous integration (CI) can also be found on Apache Development Notes.\nFeedback and contributions¶\nContributing bug reports\nContributing",
+      "snippet": "General guidelines for the Apache HTTP Server Project¶\nProject guidelines\nRelease guidelines\nStyle guide\nSource Repository Information¶\nApache Development Notes about using SVN and maintaining the Apache site\nA web-based view of the SVN history of the httpd development effort\nRelease Instructions¶",
       "matchedWords": {
         "UYOsXCzLOk3q": {
           "hits": 1,
@@ -6991,7 +6991,7 @@
       "hash": "rTEMGayzSDzw",
       "address": "https://httpd.apache.org/test/",
       "title": "Apache HTTP Test Project - The Apache HTTP Server Project",
-      "snippet": "Apache HTTP Test Project¶\nThis project is focused on designing test tools for the Apache HTTP Server Project. This is a subproject of the Apache HTTP Server Project.\nCurrently, the following components are available:\nFlood - a profile-driven HTTP load tester\nPerl Framework - a perl-centric HTTP",
+      "snippet": "cvs@httpd.apache.org - cvs commit notifications\nArchives\ndev@httpd Archives\ncvs@httpd Archives\nOn December 22, 2005, test-dev@httpd.apache.org was merged with dev@httpd.apache.org. Our old archives are still available.\nTest-dev Archives\nTest-cvs Archives\nSVN access¶",
       "matchedWords": {
         "UYOsXCzLOk3q": {
           "hits": 10,
@@ -7008,7 +7008,7 @@
       "hash": "uFJMaayzSDzw",
       "address": "https://httpd.apache.org/contributors/",
       "title": "Apache Contributors - The Apache HTTP Server Project",
-      "snippet": "Apache HTTP Server Project.\nHundreds of people have made individual contributions to the Apache project. Patch contributors are listed in the src/CHANGES file. Frequent contributors have included Petr Lampa, Tom Tromey, James H. Cloos Jr., Ed Korthof, Nathan Neulinger, Jason S. Clary, Jason A.",
+      "snippet": "This page exists to recognize the efforts and contributions of the core individuals in the Apache HTTP Server Project.\nHundreds of people have made individual contributions to the Apache project. Patch contributors are listed in the src/CHANGES file.",
       "matchedWords": {
         "UYOsXCzLOk3q": {
           "hits": 2,
@@ -7025,7 +7025,7 @@
       "hash": "xYhRzayzSDzw",
       "address": "https://httpd.apache.org/contribute/",
       "title": "Apache HTTP Server: Contribute - The Apache HTTP Server Project",
-      "snippet": "https://svn.apache.org/repos/asf/httpd/httpd/trunk\n2.4 (stable): https://svn.apache.org/repos/asf/httpd/httpd/2.4.x\nThe source is also mirrored on GitHub.\n(Further details in Developer Info)\nDocumentation and website¶\nThe documentation source is in each version's source tree, under docs/manual/.",
+      "snippet": "Documentation and website¶\nThe documentation source is in each version's source tree, under docs/manual/.\nWebsite source is at: https://github.com/apache/httpd-site\nHow¶",
       "matchedWords": {
         "UYOsXCzLOk3q": {
           "hits": 6,
@@ -7042,7 +7042,7 @@
       "hash": "yL0svvyzSDzw",
       "address": "https://httpd.apache.org/dev/devnotes.html",
       "title": "Apache Development Notes - The Apache HTTP Server Project",
-      "snippet": "Apache HTTP Server Project uses Subversion for hosting its source code.\nTo check out the 2.4.x branch:\nsvn checkout https://svn.apache.org/repos/asf/httpd/httpd/branches/2.4.x httpd-2.4.x\nTo check out the current development version (trunk), use:\nsvn checkout",
+      "snippet": "The website used to be hosted at https://svn.apache.org/repos/asf/httpd/site/.\nIt is now hosted on GitHub at https://github.com/apache/httpd-site/.",
       "matchedWords": {
         "UYOsXCzLOk3q": {
           "hits": 39,
@@ -7059,7 +7059,7 @@
       "hash": "zAucNayzSDzw",
       "address": "https://httpd.apache.org/bug_report.html",
       "title": "Bug Reporting - The Apache HTTP Server Project",
-      "snippet": "Apache HTTP server software.\nIf you have identified a bug in the Apache HTTP Server, before you fill out a problem report form, make sure you have done all of the following:\nVerified that the issue affects the most recent version of Apache httpd.\nFollowed the instructions in the INSTALL file",
+      "snippet": "If you have done all of the preceding, then please select the appropriate issue tracking system, fill out the form and submit it:\nFor the software and most documentation issues, use ASF Bugzilla. The appropriate Bugzilla project for Apache HTTPD is \"Apache httpd-2\".",
       "matchedWords": {
         "UYOsXCzLOk3q": {
           "hits": 9,
@@ -7076,7 +7076,7 @@
       "hash": "0XsHISyzSDzw",
       "address": "https://httpd.apache.org/test/flood/",
       "title": "Flood - The Apache HTTP Server Project",
-      "snippet": "https://svn.apache.org/repos/asf/httpd/flood/trunk flood\nMailing Lists¶\nOur mailing lists are open to the public.\nSubscription\ndev@httpd.apache.org - discussion of what to do\ncvs@httpd.apache.org - commit notifications\nArchives\ndev Archives\ncvs Archives\nOn December 22, 2005,",
+      "snippet": "Mailing Lists¶\nOur mailing lists are open to the public.\nSubscription\ndev@httpd.apache.org - discussion of what to do\ncvs@httpd.apache.org - commit notifications\nArchives\ndev Archives\ncvs Archives\nOn December 22, 2005, test-dev@httpd.apache.org was merged with dev@httpd.apache.org.",
       "matchedWords": {
         "UYOsXCzLOk3q": {
           "hits": 5,
@@ -7093,7 +7093,7 @@
       "hash": "4YGkdayzSDzw",
       "address": "https://httpd.apache.org/mod_fcgid/",
       "title": "mod_fcgid - FastCGI interface module for Apache 2 - The Apache HTTP Server Project",
-      "snippet": "Apache Software Foundation and the Apache HTTP Server Project are pleased to announce the release of version 2.3.9 of mod_fcgid, a FastCGI implementation for Apache HTTP Server versions 2.0, 2.2, and 2.4. This version of mod_fcgid is a security release.\nYou can get the source from the archive",
+      "snippet": "Development of mod_fcgid can be followed through the Subversion repositories. For public access you can use:\n% svn checkout https://svn.apache.org/repos/asf/httpd/mod_fcgid/trunk mod_fcgid\nDocumentation¶\nThe mod_fcgid reference page will get you started.",
       "matchedWords": {
         "UYOsXCzLOk3q": {
           "hits": 2,

@@ -1,13 +1,13 @@
 {
   "query": "nextcloud installation",
-  "recordedAt": "2026-09-12T00:16:12Z",
+  "recordedAt": "2026-09-12T07:52:09Z",
   "itemsInTheOrderOfEachAnswer": [
     [
       {
         "hash": "S9YMJzCJVaIz",
         "address": "https://planet.documentfoundation.org/",
         "title": "The Document Foundation Planet",
-        "snippet": "Nextcloud Deck. Later that day, I also attended a talk on Collabora. At lunch, I found the egg white salad quite tasty.\nDione giving her presentation. Photo by Ravi Dwivedi, released under CC-BY-SA 4.0.\nEgg white salad. Photo by Ravi Dwivedi, released under CC-BY-SA 4.0.\nAfter the lunch break, we",
+        "snippet": "The next day—the 5th of September—I went with Dione to the venue early in the morning, as her talk was the first one of the day. Her talk was titled Managing Tasks with Nextcloud Deck. Later that day, I also attended a talk on Collabora. At lunch, I found the egg white salad quite tasty.",
         "matchedWords": {
           "6gm7Nk7xv_2I": {
             "hits": 0,
@@ -26,7 +26,7 @@
         "hash": "zTCfkxtQ-zSx",
         "address": "https://wiki.archlinux.org/title/List_of_applications/Internet",
         "title": "List of applications/Internet - ArchWiki",
-        "snippet": "Nextcloud — A cloud server to store your files centrally on a hardware controlled by you.\nhttps://nextcloud.com || nextcloud\nPydio — Mature open source web application for file sharing and synchronization.\nhttps://pydio.com/ || pydioAUR\nSeafile — An online file storage and collaboration tool with",
+        "snippet": "Nextcloud JavaScript XMPP Client — Chat app for Nextcloud with XMPP, end-to-end encryption, video calls, file transfer \u0026 group chat.\nhttps://github.com/nextcloud/jsxc.nextcloud || nextcloud-app-jsxcAUR\nPsi — Qt-based XMPP client.\nhttps://psi-im.org/ || psi",
         "matchedWords": {
           "6gm7Nk7xv_2I": {
             "hits": 3,
@@ -45,7 +45,7 @@
         "hash": "PBHGklNdxz8x",
         "address": "https://www.freshports.org/",
         "title": "FreshPorts -- The Place For Ports - Most recent commits",
-        "snippet": "100 most recent commits (all timestamps are UTC)\nFreshPorts has everything you want to know about FreeBSD software, ports, packages, applications, whatever term you want to use.\nYesterday's Commits | Quarterly Branch\nFriday, 11 Sep 2026\n23:26 Alexey Dokuchaev (danfe)\ndeskutils/notes 2.3.1 Beautiful",
+        "snippet": "100 most recent commits (all timestamps are UTC)\nFreshPorts has everything you want to know about FreeBSD software, ports, packages, applications, whatever term you want to use.\nYesterday's Commits | Quarterly Branch\nFriday, 11 Sep 2026\n23:26 Alexey Dokuchaev (danfe)",
         "matchedWords": {
           "6gm7Nk7xv_2I": {
             "hits": 0,
@@ -64,7 +64,7 @@
         "hash": "NcBQIBSLTmwg",
         "address": "https://blog.entek.org.uk/",
         "title": "Laurence’s Blog | Possibly the most boring blog on the web… The random musings, technical notes, life events, etc. of a lapsed *nix sysadmin.",
-        "snippet": "(re)installation playbooks.\nDec 2, 2025 Computing Insight United Kingdom (CIUK) 2025\nCIUK 2025 is now upon us, beginning with day-zero tomorrow. I cannot remember exactly when I first went to the Machine Evaluation Workshop (MEW), as this High Performance Computing event was formerly known from",
+        "snippet": "Fortunately a lot of the groundwork for this was already done, just not backported to the (re)installation playbooks.\nDec 2, 2025 Computing Insight United Kingdom (CIUK) 2025\nCIUK 2025 is now upon us, beginning with day-zero tomorrow.",
         "matchedWords": {
           "6gm7Nk7xv_2I": {
             "hits": 6,
@@ -83,7 +83,7 @@
         "hash": "1U9VNkPMN02h",
         "address": "https://www.mardi4nfdi.de/community/newsletter",
         "title": "Newsletter - MaRDI",
-        "snippet": "installation, has its own GitHub repository, and has a small team of maintainers that ensures that the proof compiles successfully with new releases of the Coq engine (see the interview with Yves Bertot in this newsletter).\nThe four-color theorem proofs have had some direct continuation in other",
+        "snippet": "To avoid losing this formalized proof of the four-color theorem in Coq in the future, it is now part of the standard packages of the Coq installation, has its own GitHub repository, and has a small team of maintainers that ensures that the proof compiles successfully with new releases of the Coq",
         "matchedWords": {
           "6gm7Nk7xv_2I": {
             "hits": 1,
@@ -100,7 +100,7 @@
         "hash": "ygPLQCuhQ8C4",
         "address": "https://trisquel.info/en/taxonomy/term/700/0",
         "title": "Release announcements | Trisquel GNU/Linux - Run free!",
-        "snippet": "Trisquel 8.0, codename \"Flidas\" is finally here! This release will be supported with security updates until April 2021. The first thing to acknowledge is that this arrival has been severely delayed, to the point where the next upstream release (Ubuntu 18.04 LTS) will soon be published. The good",
+        "snippet": "Trisquel 8.0, codename \"Flidas\" is finally here! This release will be supported with security updates until April 2021. The first thing to acknowledge is that this arrival has been severely delayed, to the point where the next upstream release (Ubuntu 18.04 LTS) will soon be published.",
         "matchedWords": {
           "6gm7Nk7xv_2I": {
             "hits": 0,
@@ -117,7 +117,7 @@
         "hash": "xIkDby3WSkX4",
         "address": "https://docs.ovhcloud.com/en/guides/web-cloud/domains/overview",
         "title": "Domains - OVHcloud Documentation",
-        "snippet": "Documentation\nAPI Reference\nProduct changelog\nE-Learning \u0026 certifications\nMigration\nBare Metal Cloud\nDedicated Servers\nOverview\nKey Concepts\nGetting Started\nConfiguration\nSystem\nStorage\nNetwork\nvRack\nDeployments\nMigration\nTutorials\nSecurity\nHardening\nBackup\nNetwork\nTroubleshooting\nVirtual Private",
+        "snippet": "Documentation\nAPI Reference\nProduct changelog\nE-Learning \u0026 certifications\nMigration\nBare Metal Cloud\nDedicated Servers\nOverview\nKey Concepts\nGetting Started\nConfiguration\nSystem\nStorage\nNetwork\nvRack\nDeployments\nMigration\nTutorials\nSecurity\nHardening\nBackup\nNetwork\nTroubleshooting",
         "matchedWords": {
           "6gm7Nk7xv_2I": {
             "hits": 0,
@@ -136,7 +136,7 @@
         "hash": "9M9MAls8l0-4",
         "address": "https://www.clubic.com/bons-plans-604852-o2switch-cloud-a-1-86-mois-l-hebergement-francais-qui-remplace-aussi-votre-abonnement-cloud-payant.html",
         "title": "o2switch Cloud à 1,86€/mois : l’hébergement français qui remplace aussi votre abonnement cloud payant",
-        "snippet": "Nextcloud Premium 250 Go inclus, soit moins de 2 € par mois pour une infrastructure web complète et souveraine.\n© clubic\nL’hébergement web n’est plus seulement l’affaire des développeurs. O2switch l’a bien compris en proposant son offre Cloud. à 22,32€ HT pour douze mois, contre 192€ HT au tarif",
+        "snippet": "Alors que les grands noms du cloud américain revoient régulièrement leurs tarifs à la hausse, o2switch propose son offre Cloud à 22,32 € HT pour la première année, Nextcloud Premium 250 Go inclus, soit moins de 2 € par mois pour une infrastructure web complète et souveraine.\n© clubic",
         "matchedWords": {
           "6gm7Nk7xv_2I": {
             "hits": 0,
@@ -153,7 +153,7 @@
         "hash": "lE0EBsqW6DOy",
         "address": "https://keepandroidopen.org/",
         "title": "Keep Android Open",
-        "snippet": "Nextcloud Blog\n\"Android wasn't supposed to be 'safe.' It was supposed to be free.\"\nfireborn, mataroa.blog\n\"Android does not just warn anymore. It enforces.\"\nYoussef Mabrouk, Ostorlab\n\"Sideloading, a longstanding pillar of Android's openness, is now being marginalized, placing the Android platform",
+        "snippet": "Hillary Keverenge, Tech-ish Kenya\n\"Centralizing the registration of all applications worldwide gives Google newfound powers to completely disable any app it wants.\"\nMikhail Korotaev, Nextcloud Blog\n\"Android wasn't supposed to be 'safe.' It was supposed to be free.\"\nfireborn, mataroa.blog",
         "matchedWords": {
           "6gm7Nk7xv_2I": {
             "hits": 0,
@@ -170,7 +170,7 @@
         "hash": "9TInzls8l0-4",
         "address": "https://www.clubic.com/bons-plans-613453-joueurs-pc-et-ps5-le-lexar-nm790-4-to-est-a-son-prix-le-plus-bas.html",
         "title": "Joueurs PC et PS5 : le Lexar NM790 4 To est à son prix le plus bas 💥",
-        "snippet": "Le Lexar NM790 4 To à 399,99 € est une offre solide pour les profils qui ont besoin de volume et de vitesse sans franchir la barre des 400 €. Joueurs PC avec de grosses bibliothèques Steam, créateurs vidéo qui gèrent des rushes 4K au quotidien, possesseurs de PS5 en manque d'espace : ce SSD répond",
+        "snippet": "Le Lexar NM790 4 To à 399,99 € est une offre solide pour les profils qui ont besoin de volume et de vitesse sans franchir la barre des 400 €.",
         "matchedWords": {
           "6gm7Nk7xv_2I": {
             "hits": 0,
@@ -208,7 +208,7 @@
         "hash": "OdWaBD7AHFOw",
         "address": "https://apps.kde.org/lt/tokodon/",
         "title": "Tokodon - KDE programos",
-        "snippet": "Nextcloud social\nAdd support for cards\nSupport desktop notifications and notifications view\n22.04 2022-04-26\nTokodon profile view received many improvements. It's now possible to interact with other accounts directly from it (subscribe, mute, ban, ...), leave a note about an account and view all",
+        "snippet": "22.06 2022-06-24\nSupport Mastodon instances installed in subfolder such as Nextcloud social\nAdd support for cards\nSupport desktop notifications and notifications view\n22.04 2022-04-26\nTokodon profile view received many improvements.",
         "matchedWords": {
           "6gm7Nk7xv_2I": {
             "hits": 1,
@@ -227,7 +227,7 @@
         "hash": "myKVgl2uAu0w",
         "address": "https://www.linux.org/",
         "title": "Linux.org",
-        "snippet": "installation like Linux. There are special drivers...\nAug 22\n2,102\n0\nThe device we will cover in this article is a newer version of the PocketBeagle, which is covered here.\nWe can...\nAug 21\n1,825\n0\nIn this article, we will look at the Orange Pi 6 Plus and then we will go over the instructions to",
+        "snippet": "So, the setup is not a simple, straightforward installation like Linux. There are special drivers...\nAug 22\n2,102\n0\nThe device we will cover in this article is a newer version of the PocketBeagle, which is covered here.\nWe can...\nAug 21\n1,825\n0",
         "matchedWords": {
           "6gm7Nk7xv_2I": {
             "hits": 1,
@@ -246,7 +246,7 @@
         "hash": "bPT5aq7AHFOw",
         "address": "https://apps.kde.org/tokodon/",
         "title": "Tokodon - KDE Applications",
-        "snippet": "Nextcloud social\nAdd support for cards\nSupport desktop notifications and notifications view\n22.04 2022-04-26\nTokodon profile view received many improvements. It's now possible to interact with other accounts directly from it (subscribe, mute, ban, ...), leave a note about an account and view all",
+        "snippet": "22.06 2022-06-24\nSupport Mastodon instances installed in subfolder such as Nextcloud social\nAdd support for cards\nSupport desktop notifications and notifications view\n22.04 2022-04-26\nTokodon profile view received many improvements.",
         "matchedWords": {
           "6gm7Nk7xv_2I": {
             "hits": 1,
@@ -263,7 +263,7 @@
         "hash": "bzwX8z_hTtNw",
         "address": "https://planet.kde.org/",
         "title": "English - Planet KDE",
-        "snippet": "Two weeks ago, I released AppStream 1.2.0. This release contains a lot of great changes, but one of the most important ones concerns how media are being handled, and AppStream’s default image export format.\nAppStream is a Freedesktop metadata standard to describe software components. That can be",
+        "snippet": "Two weeks ago, I released AppStream 1.2.0. This release contains a lot of great changes, but one of the most important ones concerns how media are being handled, and AppStream’s default image export format.\nAppStream is a Freedesktop metadata standard to describe software components.",
         "matchedWords": {
           "6gm7Nk7xv_2I": {
             "hits": 0,
@@ -282,7 +282,7 @@
         "hash": "vVCyygM0PWDh",
         "address": "https://www.rrz.uni-hamburg.de/services/kollaboration/uhhcloud/nextcloud-anleitungen/nextcloud-office.html",
         "title": "Dokumente bearbeiten : RRZ : Universität Hamburg",
-        "snippet": "Installation eines Office-Pakets. Die Anwendung erlaubt auch die gemeinsame und gleichzeitige Arbeit mehrerer Personen in dem selben Dokument. Das ist besonders hilfreich für Teams, die auf mehrere Standorte oder Organisationen verteilt sind.\nZum Öffnen eines Dokuments reicht ein Klick auf die",
+        "snippet": "Mit der UHHCloud können Sie Office-Dokumente online bearbeiten. Sie benötigen dafür keine lokale Installation eines Office-Pakets. Die Anwendung erlaubt auch die gemeinsame und gleichzeitige Arbeit mehrerer Personen in dem selben Dokument.",
         "matchedWords": {
           "6gm7Nk7xv_2I": {
             "hits": 1,
@@ -318,7 +318,7 @@
         "hash": "PCpNBzxXGmlz",
         "address": "https://wiki.documentfoundation.org/ReleaseNotes/5.3",
         "title": "LibreOffice 5.3: Release Notes - The Document Foundation Wiki",
-        "snippet": "installation is required.\nExperimental features\nThese features are not finalized, yet can be tried by early adopters. They can be enabled in ▸ ▸ ▸ ▸ .\nToolbars\nFour toolbar modes have been added to make it easy for users to switch the visible toolbars, which can be done in ▸ . tdf#101249 (Szymon",
+        "snippet": "Previously, only a list of these processes was shown, and the user needed to close/reopen them manually. Without closing/reopening, a system restart after installation is required.\nExperimental features\nThese features are not finalized, yet can be tried by early adopters.",
         "matchedWords": {
           "6gm7Nk7xv_2I": {
             "hits": 1,
@@ -337,7 +337,7 @@
         "hash": "-5yL9xtQ-zSx",
         "address": "https://wiki.archlinux.org/title/User:Steffo/Nextcloud",
         "title": "User:Steffo/Nextcloud - ArchWiki",
-        "snippet": "Wikipedia:Nextcloud:\nNextcloud is a suite of client-server software for creating and using file hosting services. It is functionally similar to Dropbox, although Nextcloud is free and open-source, allowing anyone to install and operate it on a private server. In contrast to proprietary services",
+        "snippet": "The PHP#gd extension: php-gd\nA web server: apache (Apache) or\nnginx-mainline (nginx)\nMake sure the required components are installed before proceeding.\nInstallation\nInstall the nextcloud package.\nDatabase setup\nAn SQL database must be set up and used for your Nextcloud installation.",
         "matchedWords": {
           "6gm7Nk7xv_2I": {
             "hits": 4,
@@ -354,7 +354,7 @@
         "hash": "ZMCfuxtQ-zSx",
         "address": "https://wiki.archlinux.org/title/User:Bai-Chiang/Podman_setup_for_nextcloud",
         "title": "User:Bai-Chiang/Podman setup for nextcloud - ArchWiki",
-        "snippet": "Installation\nInstall the podman and aardvark-dns packages.\nIf using linux-hardened kernel, create\n/etc/sysctl.d/unprivileged_user_namespace.conf\nkernel.unprivileged_userns_clone=1\nto enable kernel.unprivileged_userns_clone then reboot machine to apply the change.\nNextcloud\nCreate a separate user",
+        "snippet": "Installation\nInstall the podman and aardvark-dns packages.\nIf using linux-hardened kernel, create\n/etc/sysctl.d/unprivileged_user_namespace.conf\nkernel.unprivileged_userns_clone=1\nto enable kernel.unprivileged_userns_clone then reboot machine to apply the change.\nNextcloud",
         "matchedWords": {
           "6gm7Nk7xv_2I": {
             "hits": 1,
@@ -390,7 +390,7 @@
         "hash": "wZPUHjRvmBbx",
         "address": "https://en.wikipedia.org/wiki/KDE_neon",
         "title": "KDE neon - Wikipedia",
-        "snippet": "installation images began being built in January 2016.[28] These images were based on Ubuntu 15.10, but in April 2016, upgrades to Ubuntu 16.04, which would eventually become the base for the first general release, happened on 8 June 2016.[29][2]\nKDE neon announced in January 2017 that the",
+        "snippet": "Fresh installation images are built regularly, grabbing the latest packages from Ubuntu and the latest packages from the KDE neon repositories.\nGraphical user interface\n↑ \"KDE neon logo concept\". KDE Nextcloud. Archived from the original on 2019-07-09. Retrieved 2019-07-09.",
         "matchedWords": {
           "6gm7Nk7xv_2I": {
             "hits": 2,
@@ -409,7 +409,7 @@
         "hash": "X_Gb0yfAodxw",
         "address": "https://docs.freebsd.org/en/books/porters-handbook/uses/",
         "title": "Chapter 17. Using USES Macros | FreeBSD Documentation Portal",
-        "snippet": "installation of a port that is a Drupal theme or module. Use with the version of Drupal that the port is expecting. For example, USES=drupal:7,module says that this port creates a Drupal 7 module. A Drupal 7 theme can be specified with USES=drupal:7,theme.\n17.25. ebur128\nPossible arguments: (none),",
+        "snippet": "Possible arguments: (none), base, port\nUses ncurses, and causes some useful variables to be set.\n17.87. nextcloud\nPossible arguments: (none)\nAdds support for Nextcloud applications by adding a run time dependency on www/nextcloud.\n17.88. ninja\nPossible arguments: (none), build, make (default), run",
         "matchedWords": {
           "6gm7Nk7xv_2I": {
             "hits": 11,
@@ -426,7 +426,7 @@
         "hash": "faU-Olx2yOxg",
         "address": "https://www.radiotux.de/",
         "title": "RadioTux",
-        "snippet": "Nextcloud\nNextcloud Talk\nownCloud\nOpenCloud\nSeafile\nONLYOFFICE\nCollabora Online\nCollabora – Michael Meeks / Team\nMattermost\nDigitale Souveränität \u0026 BuyFromEU\nBuyFromEU auf Mastodon\nBuyFromEU via jit.social\nBuyFromEU-Post zur Abhängigkeit von US-Tech\nEuropean Alternatives\nEuropean Alternatives –",
+        "snippet": "00:18:34 - Modernisierung von Roundcube\n00:20:27 - Rückblick auf mehrere Nextcloud-Releases\n00:21:42 - Performance für große Installationen\n00:24:14 - Global Scale und verteilte Instanzen\n00:25:09 - Nextcloud Assistant, KI und digitale Souveränität\n00:32:49 - Lokale KI-Installation",
         "matchedWords": {
           "6gm7Nk7xv_2I": {
             "hits": 2,
@@ -443,7 +443,7 @@
         "hash": "4WV0-TivP6Rw",
         "address": "https://weekly.nixos.org/2020/07-nixos-weekly-2020-07.html",
         "title": "NixOS Weekly",
-        "snippet": "Installation and First Impressions\nWhy IHP is Using The Nix Package Manager\nCachix Blog: Documentation and More Documentation\nCachix Blog: Upstream caches: avoiding pushing paths in cache.nixos.org\nRedox added to Nixpkgs\nNixpkgs now supports cross-compiling to the Redox operating system. The",
+        "snippet": "nix-sops\nAtomic secret provisioning for NixOS based on sops.\nCustom home-manager installation with NixOS\nUsing Nix to build multi-package, full stack Haskell apps\nGnome 3 on NixOS\nHow to Setup Nextcloud on NixOS\nCan't Hack This: A hard-headed introduction to Nix (slides)",
         "matchedWords": {
           "6gm7Nk7xv_2I": {
             "hits": 2,
@@ -480,7 +480,7 @@
       "hash": "Wkx1aJr2pvE4",
       "address": "https://www.asustor.com/service/downloads?product_id=77",
       "title": "Downloads | ASUSTOR NAS",
-      "snippet": "Nextcloud Nextcloud - a safe home for all your ...\n34.0.2.r01 2026-08-07\n181\nNextPVR NextPVR is a personal video recorder ...\n7.0.1.241229.r05 2025-03-28\n182\nNginx Nginx is an open source web server an...\n1.30.1.r22 2026-06-24\n183\nNginx Nginx is an open source web server an...\n1.24.0.r40 2025-02-26",
+      "snippet": "1.44.3.r3 2024-03-14\n179\nNetdata Netdata is Real-time performance moni...\n1.44.3.r57 2026-04-07\n180\nNextcloud Nextcloud - a safe home for all your ...\n34.0.2.r01 2026-08-07\n181\nNextPVR NextPVR is a personal video recorder ...\n7.0.1.241229.r05 2025-03-28\n182",
       "matchedWords": {
         "6gm7Nk7xv_2I": {
           "hits": 0,
@@ -497,7 +497,7 @@
       "hash": "dH4aGswUSuo5",
       "address": "https://nextcloud.com/instant-trial/",
       "title": "Request an instant trial - Nextcloud",
-      "snippet": "Nextcloud for a 1-hour test drive\nGet access to your own Nextcloud installation\nTest our core applications – Nextcloud Files, Nextcloud Talk, Nextcloud Groupware and Nextcloud Office\nGet a feeling of the collaboration platform that helps thousands of modern organizations to secure their data.\nHow",
+      "snippet": "Take Nextcloud for a 1-hour test drive\nGet access to your own Nextcloud installation\nTest our core applications – Nextcloud Files, Nextcloud Talk, Nextcloud Groupware and Nextcloud Office\nGet a feeling of the collaboration platform that helps thousands of modern organizations to secure their data.",
       "matchedWords": {
         "6gm7Nk7xv_2I": {
           "hits": 1,
@@ -514,7 +514,7 @@
       "hash": "lnvzkjRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Cross-platform",
       "title": "Cross-platform software - Wikipedia",
-      "snippet": "installation of different versions on the same machine. There are several approaches used to target multiple platforms, but all of them result in software that requires substantial manual effort for testing and maintenance.[7] Techniques such as full virtualization are sometimes used as a",
+      "snippet": "Little or no platform-specific code is used with this technique.\nCross-platform applications need much more integration testing. Some web browsers prohibit installation of different versions on the same machine.",
       "matchedWords": {
         "6gm7Nk7xv_2I": {
           "hits": 2,
@@ -531,7 +531,7 @@
       "hash": "wzmiPtS6MKD4",
       "address": "https://github.com/trending/php?since=daily",
       "title": "Trending PHP repositories on GitHub today · GitHub",
-      "snippet": "nextcloud / server\n☁️ Nextcloud server, a safe home for all your data\npterodactyl / panel\nPterodactyl® is a free, open-source game server management panel built with PHP, React, and Go. Designed with security in mind, Pterodactyl runs all game servers in isolated Docker containers while exposing a",
+      "snippet": "GLPI is a Free Asset and IT Management Software package, Data center management, ITIL Service Desk, licenses tracking and software auditing.\nlaravel / framework\nLaravel is a web application framework with expressive, elegant syntax.\nnextcloud / server",
       "matchedWords": {
         "6gm7Nk7xv_2I": {
           "hits": 0,
@@ -973,7 +973,7 @@
       "hash": "1VLEOxtQ-zSx",
       "address": "https://wiki.archlinux.org/title/Nextcloud",
       "title": "Nextcloud - ArchWiki",
-      "snippet": "Nextcloud is a suite of client-server-software that (by means of so-called apps) allows all kinds of sharing, collaboration and communication, e.g.:\nfile sharing\npersonal information manager (contacts, calendar, tasks)\nmessaging (mail, chat, video conferencing)\ncollaborative editing of documents",
+      "snippet": "Refer to the following two sample configuration files depending on how you want to access your Nextcloud installation:\nIn case your Nextcloud installation is accessed via a dedicated host name (e.g. https://cloud.mysite.com/) put this fragment into /etc/httpd/conf/extra/httpd-vhosts.conf.",
       "matchedWords": {
         "6gm7Nk7xv_2I": {
           "hits": 18,
@@ -1160,7 +1160,7 @@
       "hash": "wzmiPtS6MKD4",
       "address": "https://github.com/trending/php?since=daily",
       "title": "Trending PHP repositories on GitHub today · GitHub",
-      "snippet": "nextcloud / server\n☁️ Nextcloud server, a safe home for all your data\npterodactyl / panel\nPterodactyl® is a free, open-source game server management panel built with PHP, React, and Go. Designed with security in mind, Pterodactyl runs all game servers in isolated Docker containers while exposing a",
+      "snippet": "GLPI is a Free Asset and IT Management Software package, Data center management, ITIL Service Desk, licenses tracking and software auditing.\nlaravel / framework\nLaravel is a web application framework with expressive, elegant syntax.\nnextcloud / server",
       "matchedWords": {
         "6gm7Nk7xv_2I": {
           "hits": 0,
@@ -1279,7 +1279,7 @@
       "hash": "FZ9QOswUSuo5",
       "address": "https://nextcloud.com/trademarks/",
       "title": "Nextcloud trademark guidelines",
-      "snippet": "Nextcloud trademarks by the Nextcloud community while managing that use to protect the distinctive value of the trademarks and avoid confusion on the part of Nextcloud users and the general public.\nThe Nextcloud marks\nNextcloud and the Nextcloud logo is a registered trademark of Nextcloud GmbH in",
+      "snippet": "If your contributions require trademark usage which is not permitted by these guidelines, please do not hesitate to contact us.\nUse cases for the Nextcloud marks\nRunning a Nextcloud Server installation\nWhen can you use the Nextcloud marks to identify your Nextcloud installation and when not:",
       "matchedWords": {
         "6gm7Nk7xv_2I": {
           "hits": 3,
@@ -1330,7 +1330,7 @@
       "hash": "lnvzkjRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Cross-platform",
       "title": "Cross-platform software - Wikipedia",
-      "snippet": "installation of different versions on the same machine. There are several approaches used to target multiple platforms, but all of them result in software that requires substantial manual effort for testing and maintenance.[7] Techniques such as full virtualization are sometimes used as a",
+      "snippet": "Little or no platform-specific code is used with this technique.\nCross-platform applications need much more integration testing. Some web browsers prohibit installation of different versions on the same machine.",
       "matchedWords": {
         "6gm7Nk7xv_2I": {
           "hits": 2,
@@ -1466,7 +1466,7 @@
       "hash": "wzmiPtS6MKD4",
       "address": "https://github.com/trending/php?since=daily",
       "title": "Trending PHP repositories on GitHub today · GitHub",
-      "snippet": "nextcloud / server\n☁️ Nextcloud server, a safe home for all your data\npterodactyl / panel\nPterodactyl® is a free, open-source game server management panel built with PHP, React, and Go. Designed with security in mind, Pterodactyl runs all game servers in isolated Docker containers while exposing a",
+      "snippet": "GLPI is a Free Asset and IT Management Software package, Data center management, ITIL Service Desk, licenses tracking and software auditing.\nlaravel / framework\nLaravel is a web application framework with expressive, elegant syntax.\nnextcloud / server",
       "matchedWords": {
         "6gm7Nk7xv_2I": {
           "hits": 0,
@@ -1738,7 +1738,7 @@
       "hash": "Wkx1aJr2pvE4",
       "address": "https://www.asustor.com/service/downloads?product_id=77",
       "title": "Downloads | ASUSTOR NAS",
-      "snippet": "Nextcloud Nextcloud - a safe home for all your ...\n34.0.2.r01 2026-08-07\n181\nNextPVR NextPVR is a personal video recorder ...\n7.0.1.241229.r05 2025-03-28\n182\nNginx Nginx is an open source web server an...\n1.30.1.r22 2026-06-24\n183\nNginx Nginx is an open source web server an...\n1.24.0.r40 2025-02-26",
+      "snippet": "1.44.3.r3 2024-03-14\n179\nNetdata Netdata is Real-time performance moni...\n1.44.3.r57 2026-04-07\n180\nNextcloud Nextcloud - a safe home for all your ...\n34.0.2.r01 2026-08-07\n181\nNextPVR NextPVR is a personal video recorder ...\n7.0.1.241229.r05 2025-03-28\n182",
       "matchedWords": {
         "6gm7Nk7xv_2I": {
           "hits": 0,

@@ -1,13 +1,13 @@
 {
   "query": "сборка ядра linux",
-  "recordedAt": "2026-09-12T00:26:28Z",
+  "recordedAt": "2026-09-12T07:52:15Z",
   "itemsInTheOrderOfEachAnswer": [],
   "itemsInNoOrder": [
     {
       "hash": "gGtDQPnTPArx",
       "address": "https://ru.wikipedia.org/wiki/Android",
       "title": "Android — Википедия",
-      "snippet": "ядра\nядро Linux (с версии 5.8 патчи не требуются)\nИнтерфейс\nMaterial Design\nЛицензия\nApache License 2.0[2] и GNU GPL 2\nСостояние\nподдерживаемая\nРепозиторий исходного кода\nandroid.googlesource.com\nandroid-review.googlesource.com/…\nВеб-сайт\nandroid.com (англ.)\nМедиафайлы на Викискладе\nAndroid",
+      "snippet": "Google начала разрабатывать мобильную операционную систему на базе ядра Linux, чтобы впоследствии предлагать её производителям телефонов и сотовым операторам, после покупки компании Android Inc в июле 2005 года за 50 миллионов долларов[6][7][11][12].",
       "matchedWords": {
         "4galTpdpDM5Q": {
           "hits": 10,

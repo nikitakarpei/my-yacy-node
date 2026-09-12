@@ -1,13 +1,13 @@
 {
   "query": "best practices for database indexing",
-  "recordedAt": "2026-09-12T00:23:19Z",
+  "recordedAt": "2026-09-12T07:51:56Z",
   "itemsInTheOrderOfEachAnswer": [
     [
       {
         "hash": "tqphPlx-PVw5",
         "address": "https://www.githubstatus.com/",
         "title": "GitHub Status",
-        "snippet": "for the affected models, and coordinated with the provider. Service returned to normal after the provider implemented a mitigation.\nSep 3, 17:11 UTC\nUpdate - The issues with our upstream model provider have been resolved, and Grok models are once again available in Copilot products and IDE",
+        "snippet": "The degradation was caused by an issue with an upstream model provider. GitHub engineers detected the issue through automated monitoring, displayed in-product warnings for the affected models, and coordinated with the provider. Service returned to normal after the provider implemented a mitigation.",
         "matchedWords": {
           "1VZpgi8ajPcu": {
             "hits": 3,
@@ -38,7 +38,7 @@
         "hash": "XEyWzL8hxo35",
         "address": "https://www.microsoft.com/en-us/privacy/privacystatement",
         "title": "Microsoft Privacy Statement – Microsoft privacy",
-        "snippet": "for adjusting user preferences, configuring the operating system, and managing connected devices so that you can manage user accounts, adjust network settings, and personalize various aspects of Windows. Windows Settings also allows you to manage which apps can access various device capabilities",
+        "snippet": "If you’ve given permission for an app to listen for voice keywords, Windows will actively monitor the microphone for those keywords. Each app needs to ask for your permission before accessing your microphone.",
         "matchedWords": {
           "1VZpgi8ajPcu": {
             "hits": 88,
@@ -69,7 +69,7 @@
         "hash": "a7Urh_nMM_j5",
         "address": "https://grokipedia.com/page/PostgreSQL",
         "title": "PostgreSQL — Grokipedia",
-        "snippet": "database management system (ORDBMS) that uses and extends the SQL language combined with many features that safely store and scale complex data workloads.[1] It originated in 1986 as the POSTGRES project at the University of California, Berkeley, led by Michael Stonebraker and sponsored by",
+        "snippet": "26] Detailed best practices for this configuration are provided in the Performance and Tuning section.",
         "matchedWords": {
           "1VZpgi8ajPcu": {
             "hits": 465,
@@ -100,7 +100,7 @@
         "hash": "vrmcS_nMM_j5",
         "address": "https://grokipedia.com/page/NoSQL",
         "title": "NoSQL — Grokipedia",
-        "snippet": "for \"not only SQL,\" refers to a broad class of database management systems designed to store and retrieve data using non-relational data models, diverging from the traditional tabular structures and SQL query language of relational databases.[1] These systems prioritize horizontal scalability,",
+        "snippet": "106] Best practices for NoSQL adoption emphasize aligning database types with workload characteristics to optimize performance and cost.",
         "matchedWords": {
           "1VZpgi8ajPcu": {
             "hits": 198,
@@ -131,7 +131,7 @@
         "hash": "a7Urh_nMM_j5",
         "address": "https://grokipedia.com/page/PostgreSQL",
         "title": "PostgreSQL — Grokipedia",
-        "snippet": "database management system (ORDBMS) that uses and extends the SQL language combined with many features that safely store and scale complex data workloads.[1] It originated in 1986 as the POSTGRES project at the University of California, Berkeley, led by Michael Stonebraker and sponsored by",
+        "snippet": "26] Detailed best practices for this configuration are provided in the Performance and Tuning section.",
         "matchedWords": {
           "1VZpgi8ajPcu": {
             "hits": 465,
@@ -162,7 +162,7 @@
         "hash": "D4lABzaS0qdw",
         "address": "https://planet.debian.org/",
         "title": "Planet Debian",
-        "snippet": "for many years: I deleted the last cgo dependency in Debian Code Search! This was made possible by Go’s recently introduced SIMD support, because now we can implement the TurboPFor integer compression format as efficiently — more efficiently, in fact, by using the newer AVX512 instruction set! — as",
+        "snippet": "func (be *BlockEncoder) encode(dest []byte, vals []uint32, layout blockLayout) []byte { var stats stats scan(\u0026stats, vals) // gathers statistics from every value in vals bitWidth := bits.Len32(stats.or) if stats.or == stats.and { return be.encodeConstant(dest, vals, bitWidth) } n := len(vals) //",
         "matchedWords": {
           "1VZpgi8ajPcu": {
             "hits": 117,
@@ -193,7 +193,7 @@
         "hash": "g4p8j_nMM_j5",
         "address": "https://grokipedia.com/page/MongoDB",
         "title": "MongoDB — Grokipedia",
-        "snippet": "database designed for ease of application development and horizontal scaling across distributed systems.[1] It stores data records as BSON documents, which resemble JSON objects but include binary encoding for enhanced efficiency, enabling flexible schemas that accommodate varying data structures",
+        "snippet": "Document databases like MongoDB are particularly suitable for storing high-volume event logs and application telemetry due to their flexible schemas, high write throughput, and support for semi-structured data. Key best practices include:",
         "matchedWords": {
           "1VZpgi8ajPcu": {
             "hits": 261,
@@ -224,7 +224,7 @@
         "hash": "D4lABzaS0qdw",
         "address": "https://planet.debian.org/",
         "title": "Planet Debian",
-        "snippet": "for many years: I deleted the last cgo dependency in Debian Code Search! This was made possible by Go’s recently introduced SIMD support, because now we can implement the TurboPFor integer compression format as efficiently — more efficiently, in fact, by using the newer AVX512 instruction set! — as",
+        "snippet": "func (be *BlockEncoder) encode(dest []byte, vals []uint32, layout blockLayout) []byte { var stats stats scan(\u0026stats, vals) // gathers statistics from every value in vals bitWidth := bits.Len32(stats.or) if stats.or == stats.and { return be.encodeConstant(dest, vals, bitWidth) } n := len(vals) //",
         "matchedWords": {
           "1VZpgi8ajPcu": {
             "hits": 117,
@@ -255,7 +255,7 @@
         "hash": "vrmcS_nMM_j5",
         "address": "https://grokipedia.com/page/NoSQL",
         "title": "NoSQL — Grokipedia",
-        "snippet": "for \"not only SQL,\" refers to a broad class of database management systems designed to store and retrieve data using non-relational data models, diverging from the traditional tabular structures and SQL query language of relational databases.[1] These systems prioritize horizontal scalability,",
+        "snippet": "106] Best practices for NoSQL adoption emphasize aligning database types with workload characteristics to optimize performance and cost.",
         "matchedWords": {
           "1VZpgi8ajPcu": {
             "hits": 198,
@@ -286,7 +286,7 @@
         "hash": "00fzG1tSpg04",
         "address": "https://xmlns.com/foaf/spec/",
         "title": "FOAF Vocabulary Specification",
-        "snippet": "For example, the IM chat ID properties such as jabberID are typically associated with people, but sometimes belong to software bots.\n[#] [back to top]\nClass: foaf:Document\nDocument - A document.\nStatus:\nstable\nProperties include:\ntopic primaryTopic sha1\nUsed with:\nworkInfoHomepage workplaceHomepage",
+        "snippet": "By mentioning other people (via knows or other relationships), and by providing an rdfs:seeAlso link to their FOAF file, you can make it easy for FOAF indexing tools ('scutters') to find your FOAF and the FOAF of the people you've mentioned. And the FOAF of the people they mention, and so on.",
         "matchedWords": {
           "1VZpgi8ajPcu": {
             "hits": 176,
@@ -347,7 +347,7 @@
       "hash": "GUrZK6QzbYgx",
       "address": "https://wikisource.org/wiki/Wikisource:Scriptorium",
       "title": "Wikisource:Scriptorium - Wikisource",
-      "snippet": "for discussing issues with Wikisource, and the place to ask for help. Use the language(s) you know, and translate what you like.\neo: Ĉi tio estas la centra loko por diskuti problemojn pri Vikifontaro, kaj la loko por serĉi helpon. Uzu la lingvo(j)n kiu(j)n vi konas, kaj traduku kion vi volas.\nes:",
+      "snippet": "These limits are intentionally set as high as possible to minimise impact on the community. Bots running in Toolforge/WMCS or with the bot user right on any wiki should not be affected for now. However, all developers are advised to follow updated best practices.",
       "matchedWords": {
         "1VZpgi8ajPcu": {
           "hits": 295,
@@ -376,7 +376,7 @@
       "hash": "ZLCPGlRhEzc4",
       "address": "https://www.amazon.science/",
       "title": "Amazon Science homepage",
-      "snippet": "for User Ad Activity Sequences. AdKDD 2023.](https://assets.amazon.science/b7/42/03be071743d5a57cb1656e6caa34/scaling-generative-pre-training-for-user-ad-activity-sequences.pdf) 2/ [SLIDR: Real-time Robot Detection On Online Ads, IAAI 2023, Deployed Highly Innovative Applications of AI Track (AAAI",
+      "snippet": "Be willing to roll up your sleeves and learn core topics outside applied science, for example ML engineering A day in the life A typical day might involve (a) working on ideas for improving models around product similarity or price recommendations, (b) working closely with other scientists and our",
       "matchedWords": {
         "1VZpgi8ajPcu": {
           "hits": 47,
@@ -405,7 +405,7 @@
       "hash": "AX7xBjRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Wikipedia:Help_desk",
       "title": "Wikipedia:Help desk - Wikipedia",
-      "snippet": "For other types of questions, use the search box, see the reference desk or Help:Contents. If you have comments about a specific article, use that article's talk page.\nDo not provide your email address or any other contact information. Answers will be provided on this page only.\nIf your question is",
+      "snippet": "Mario Paniccia would meet Wikipedia’s notability guidelines for a biographical article, and what the best process would be for having an independent editor assess and potentially create one.",
       "matchedWords": {
         "1VZpgi8ajPcu": {
           "hits": 150,
@@ -434,7 +434,7 @@
       "hash": "ccuJ8jRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Map",
       "title": "Map - Wikipedia",
-      "snippet": "for a wide range of purposes, including navigation, scientific research, governance, and warfare. A common use is route planning, which enables users to find their way to their destination. Specialized maps, called charts, are used for nautical navigation (nautical charts) and aviation",
+      "snippet": "Provided that the imagery has been properly georeferenced, it can be used to extract precise geographic coordinate values for any identifiable objects in the image.[269][bh] For example, a cartographer can extract the locations of terrain and feature data (such as rivers, roads, and buildings) for",
       "matchedWords": {
         "1VZpgi8ajPcu": {
           "hits": 146,
@@ -463,7 +463,7 @@
       "hash": "ipGFbjRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Wiley_(publisher)",
       "title": "Wiley (publisher) - Wikipedia",
-      "snippet": "for undergraduate, graduate, and continuing education students.[4]\nThe Hoboken, New Jersey, headquarters of Wiley\nThe company was established in 1807 when Charles Wiley opened a print shop in Manhattan. The company was the publisher of 19th century American literary figures like James Fenimore",
+      "snippet": "In 2008, Wiley was named for the second consecutive year to Forbes magazine's annual list of the \"400 Best Big Companies in America\". In 2007, Book Business magazine cited Wiley as \"One of the 20 Best Book Publishing Companies to Work For\".",
       "matchedWords": {
         "1VZpgi8ajPcu": {
           "hits": 72,
@@ -492,7 +492,7 @@
       "hash": "zugI_jRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Metadata",
       "title": "Metadata - Wikipedia",
-      "snippet": "For example, the title, author, and publication date of a book are metadata about the book. But, while a data asset is finite, its metadata is infinite.\nAs such, efforts to define, classify types, or structure metadata are expressed as examples in the context of its use. The term \"metadata\" has a",
+      "snippet": "Bethesda, MD: NISO Press. p. 15. ISBN 978-1-880124-62-8. Archived from the original (PDF) on 7 November 2014. Retrieved 13 July 2022.\n↑ \"Metadata = Surveillance\". Archived from the original on 21 June 2016. Retrieved 6 June 2016.\n↑ \"Best Practices for Structural Metadata\". University of Illinois.",
       "matchedWords": {
         "1VZpgi8ajPcu": {
           "hits": 138,
@@ -521,7 +521,7 @@
       "hash": "75kEMjRvmBbx",
       "address": "https://en.wikipedia.org/wiki/International_Organization_for_Standardization",
       "title": "International Organization for Standardization - Wikipedia",
-      "snippet": "for Standardization\nOrganisation internationale de normalisation (French)\nМеждународная организация по стандартизации (Russian)\nAbbreviation\nISO\nPredecessor\nInternational Federation of the National Standardizing Associations (ISA)\nFormation\n23 February 1947; 79 years ago\nType\nNon-governmental",
+      "snippet": "Interface 2010 – the Interface Marketing Supplier Integration Institute\nInternational Classification for Standards – Classification system for technical standards\nThe International Customer Service Institute – International partnership organisation for sharing of best practices in customer service",
       "matchedWords": {
         "1VZpgi8ajPcu": {
           "hits": 84,
@@ -550,7 +550,7 @@
       "hash": "R_xsdMS6MKD4",
       "address": "https://github.com/orgs/community/discussions",
       "title": "community · Discussions · GitHub",
-      "snippet": "Discussions\nYou must be logged in to vote\nYou must be logged in to vote\nYou must be logged in to vote\nYou must be logged in to vote\nYou must be logged in to vote\nYou must be logged in to vote\nApp.js\nBug GitHub or a GitHub feature is not working as intended\nIssues Repository issues let you track",
+      "snippet": "Discussions\nYou must be logged in to vote\nYou must be logged in to vote\nYou must be logged in to vote\nYou must be logged in to vote\nYou must be logged in to vote\nYou must be logged in to vote\nApp.js\nBug GitHub or a GitHub feature is not working as intended",
       "matchedWords": {
         "1VZpgi8ajPcu": {
           "hits": 0,
@@ -579,7 +579,7 @@
       "hash": "0uT1BzW61vZ4",
       "address": "https://handbook.gitlab.com/handbook/customer-experience/cx-journey/",
       "title": "Customer Experience Journey Research | The GitLab Handbook",
-      "snippet": "for success.\nGitLab Teams: Understanding the experience of the GitLab team collaborating as a team in service of helping customers move through their purchasing and adoption journey with us, and where there are areas of friction inhibiting us from providing our best service to customers.\nCustomer +",
+      "snippet": "This year, the research conducted by this team will focus on building Foundational Maps**:** from aligning the many journey stages across the business into a unified journey view, mapping the current state end-to-end journey, a visionary future state map for what good looks like, and a single pane",
       "matchedWords": {
         "1VZpgi8ajPcu": {
           "hits": 13,
@@ -608,7 +608,7 @@
       "hash": "0xiwzzW61vZ4",
       "address": "https://handbook.gitlab.com/handbook/security/corporate/systems/aws/cells-prod/",
       "title": "AWS Cells Prod Org | The GitLab Handbook",
-      "snippet": "for any child pages that exist.\nLast modified July 8, 2025: Update AWS Orgs list (7aedf0dc)\nView page source - Edit this page - please contribute.",
+      "snippet": "This is a placeholder page. Please see the links below for any child pages that exist.\nLast modified July 8, 2025: Update AWS Orgs list (7aedf0dc)\nView page source - Edit this page - please contribute.",
       "matchedWords": {
         "1VZpgi8ajPcu": {
           "hits": 1,
@@ -637,7 +637,7 @@
       "hash": "1s9OizW61vZ4",
       "address": "https://handbook.gitlab.com/handbook/company/culture/exec-connect/",
       "title": "Executive Connect events | The GitLab Handbook",
-      "snippet": "for open conversation as a way to continually improve our culture.\nWe heard through engagement surveys and direct feedback that team members want more opportunities to connect with leaders face-to-face.\nOverview\nExec Connect events are 60-minute, in-person gatherings held in locations where leaders",
+      "snippet": "The goal is to build connection, strengthen trust, and create space for open conversation as a way to continually improve our culture.\nWe heard through engagement surveys and direct feedback that team members want more opportunities to connect with leaders face-to-face.\nOverview",
       "matchedWords": {
         "1VZpgi8ajPcu": {
           "hits": 4,
@@ -666,7 +666,7 @@
       "hash": "4X6v9zW61vZ4",
       "address": "https://handbook.gitlab.com/handbook/engineering/infrastructure-platforms/gitlab-delivery/distribution/triage/",
       "title": "Distribution Team Triage | The GitLab Handbook",
-      "snippet": "for scheduling or awaiting feedback labels.\nFully Triaged issues: Issues are fully triaged when they have been assigned a Milestone, even if it is Backlog. They should have appropriate group, priority and product category labels applied.\nNote: An issue that has been assigned to a user, but has no",
+      "snippet": "Also, create a similar header for the next presenter as an agenda item for the next week’s meeting in the meeting doc.\nResponse templates\nCopy and paste into issues where appropriate\nIf someone is asking for support in our projects, point them to the correct place to look",
       "matchedWords": {
         "1VZpgi8ajPcu": {
           "hits": 56,
@@ -695,7 +695,7 @@
       "hash": "4YxmRzW61vZ4",
       "address": "https://handbook.gitlab.com/handbook/about/contributing/",
       "title": "Contributing to the Handbook | The GitLab Handbook",
-      "snippet": "for your interest and help!\nWe don’t mind people inside and outside the company making suggestions to change significant things. Feel free to make a proposal, we can discuss anything. If we don’t agree, we’ll feel free not to merge it, and we’ll thank you for caring about it.\nWe want to create a",
+      "snippet": "Basic information on contributing to the GitLab Handbook.\nYou can help to improve the GitLab Handbook website by submitting merge requests to the handbook project. Thank you for your interest and help!",
       "matchedWords": {
         "1VZpgi8ajPcu": {
           "hits": 3,
@@ -724,7 +724,7 @@
       "hash": "4fXgyzW61vZ4",
       "address": "https://handbook.gitlab.com/handbook/sales/shadow-program/",
       "title": "The Customer-Ready Shadow Program | The GitLab Handbook",
-      "snippet": "for Account Executives at GitLab, including learning objectives, manager and buddy expectations, shadow program guidance, and graduation requirements.\nOverview of Role Based Account Executive (AE) Onboarding\nOnboarding for Account Executives at GitLab is a guided, multi-layered experience designed",
+      "snippet": "Confirm the new hire is completing all required Academy coursework and certifications\nBegin introducing the new hire to key customers and internal stakeholders\nDiscuss best practices and rules of engagement for AEs working with SA, CSM, RM, and Ecosystem partners",
       "matchedWords": {
         "1VZpgi8ajPcu": {
           "hits": 20,
@@ -753,7 +753,7 @@
       "hash": "-OnNvzW61vZ4",
       "address": "https://handbook.gitlab.com/handbook/legal/subscription-agreement/",
       "title": "GitLab Subscription Agreement | The GitLab Handbook",
-      "snippet": "for purchase, as set forth here: https://about.gitlab.com/terms/.\n“Add-On User(s)” are additional Users in excess of those that have been purchased under a Subscription via an executed Order Form or web-portal purchase.\n“Affiliate” means any entity(ies) controlling, controlled by, and/or under",
+      "snippet": "6.7 In the event a Customer procures Software from an Authorized Partner, or, GitLab is unable to: (i) verify and generate a Quarterly Add-On Report, and/or (ii) collect payment(s) with respect to Quarterly Add-Ons as provided in the Quarterly Add-On Report, Customer shall be obligated to: (a)",
       "matchedWords": {
         "1VZpgi8ajPcu": {
           "hits": 113,
@@ -811,7 +811,7 @@
       "hash": "B0aD4yXjZ9O4",
       "address": "https://docs.github.com/en/copilot/concepts/agents/github-copilot-app",
       "title": "About the GitHub Copilot app - GitHub Docs",
-      "snippet": "for agent-driven development that brings parallel workstreams, GitHub integration, and PR lifecycle management into one place.\nWho can use this feature?\nIntroduction\nThe GitHub Copilot app is a desktop application purpose-built for agent-driven development. It gives you a single place to direct AI",
+      "snippet": "Follow these practices to use AI credits more efficiently in the app:\nMatch model capability to task complexity. Use lighter models for straightforward changes and higher-capability models for complex debugging, design decisions, and multi-step tasks.",
       "matchedWords": {
         "1VZpgi8ajPcu": {
           "hits": 18,
@@ -840,7 +840,7 @@
       "hash": "DFzdbyXjZ9O4",
       "address": "https://docs.github.com/en/copilot/how-tos/administer-copilot/manage-for-organization/manage-access",
       "title": "Managing access to GitHub Copilot in your organization - GitHub Docs",
-      "snippet": "for organization\nManage access\nGrant access\nManage requests for access\nRevoke access\nManage network access\nManage policies\nAdd Copilot cloud agent\nConfigure agent runners\nPrepare for custom agents\nManage default models\nEnable custom models\nDownload activity report\nView usage and adoption\nView code",
+      "snippet": "Granting access to GitHub Copilot for members of your organization\nGrant access to GitHub Copilot for some or all of the members of your organization.\nManaging requests for GitHub Copilot Business in your organization\nApprove or deny requests for Copilot access in your organization.",
       "matchedWords": {
         "1VZpgi8ajPcu": {
           "hits": 10,
@@ -869,7 +869,7 @@
       "hash": "G5ifEyXjZ9O4",
       "address": "https://docs.github.com/en/copilot/how-tos/configure-personal-settings/authenticate-to-ghecom",
       "title": "Using GitHub Copilot with an account on GHE.com - GitHub Docs",
-      "snippet": "for an account on GHE.com.\nTo use GitHub Copilot in an IDE or the command line, you must authenticate to an account on GitHub that has a Copilot license.\nIf you receive access to Copilot through a managed user account owned by an enterprise on GHE.com, you may need to adjust some settings in your",
+      "snippet": "Authenticating from VS Code\nTo open your VS Code settings, press Command+, (Mac) or Ctrl+, (Windows).\nIn the search bar, search for enterprise.\nFor the Github-enterprise: Uri setting, enter the URL where you access GitHub. For example: https://octocorp.ghe.com.",
       "matchedWords": {
         "1VZpgi8ajPcu": {
           "hits": 13,
@@ -898,7 +898,7 @@
       "hash": "JTegTyXjZ9O4",
       "address": "https://docs.github.com/en/copilot/responsible-use/chat",
       "title": "Application card: GitHub Copilot Chat - GitHub Docs",
-      "snippet": "for AI applications and platform cards are created for AI platform services. These resources can support the development or deployment of your own applications and can be shared with users or stakeholders impacted by them.\nAs part of its commitment to responsible AI, GitHub adheres to Microsoft's",
+      "snippet": "For more information, see Finding public code that matches GitHub Copilot suggestions.\n10. Best practices for deploying and adopting GitHub Copilot Chat\nResponsible AI is a shared commitment between GitHub and its customers.",
       "matchedWords": {
         "1VZpgi8ajPcu": {
           "hits": 73,
@@ -927,7 +927,7 @@
       "hash": "RMUETyXjZ9O4",
       "address": "https://docs.github.com/en/copilot/how-tos/use-copilot-agents/request-a-code-review/use-code-review",
       "title": "Using GitHub Copilot code review - GitHub Docs",
-      "snippet": "For a full introduction to GitHub Copilot code review, see About GitHub Copilot code review.\nCopilot code review uses GitHub Actions to run agentic capabilities. For more information, see Agentic capabilities for Copilot code review.\nCopilot code review is also available for organization members",
+      "snippet": "For example, you can explain which patterns are intentional, which parts of the codebase need closer scrutiny, and what your team considers good architecture, testing, and implementation practices. This helps make reviews more relevant and aligned with the way your team builds software.",
       "matchedWords": {
         "1VZpgi8ajPcu": {
           "hits": 58,
@@ -956,7 +956,7 @@
       "hash": "Ua5YKyXjZ9O4",
       "address": "https://docs.github.com/en/copilot/how-tos/github-copilot-app/customize-github-copilot-app",
       "title": "Customizing the GitHub Copilot app - GitHub Docs",
-      "snippet": "for you to use in the Installed view.\nSetting global and repository instructions\nYou can add instructions that apply globally or only to a specific repository.\nSetting global instructions\nGlobal instructions apply to every session across all projects.\nOpen the app settings.\nClick Sessions.\nUnder",
+      "snippet": "Any skills configured for your repositories or Copilot CLI are automatically available in the GitHub Copilot app. To add or manage skills, click Customize in the app sidebar, then click Skills.\nFor more information about agent skills, see About agent skills.",
       "matchedWords": {
         "1VZpgi8ajPcu": {
           "hits": 15,
@@ -985,7 +985,7 @@
       "hash": "UetwYyXjZ9O4",
       "address": "https://docs.github.com/en/copilot",
       "title": "GitHub Copilot documentation - GitHub Docs",
-      "snippet": "for GitHub Copilot\nCloud and local sandboxes provide isolated execution environments that let Copilot safely interact with code, tools, filesystem, and network resources securely on your local machine or in fully isolated cloud environments.\nLearn about Copilot\nAbout Copilot automations\nAutomations",
+      "snippet": "Use one centralized control page to jump between agent sessions, check progress, and stay in control without losing your place.\nLearn about Copilot\nAbout cloud and local sandboxes for GitHub Copilot",
       "matchedWords": {
         "1VZpgi8ajPcu": {
           "hits": 1,
@@ -1014,7 +1014,7 @@
       "hash": "rXFU9yXjZ9O4",
       "address": "https://docs.github.com/en/copilot/how-tos/github-copilot-app/using-automations",
       "title": "Using automations in the GitHub Copilot app - GitHub Docs",
-      "snippet": "For example, you can create an automation that triages new issues daily or checks your open pull requests for review status each morning.\nYou can create and manage automations from:\nThe Agents tab in a repository on GitHub, in the Automations pane.\nThe Automations tab in the GitHub Copilot app.\nFor",
+      "snippet": "For example, you can create an automation that triages new issues daily or checks your open pull requests for review status each morning.\nYou can create and manage automations from:\nThe Agents tab in a repository on GitHub, in the Automations pane.\nThe Automations tab in the GitHub Copilot app.",
       "matchedWords": {
         "1VZpgi8ajPcu": {
           "hits": 12,
@@ -1043,7 +1043,7 @@
       "hash": "sW1fHyXjZ9O4",
       "address": "https://docs.github.com/en/copilot/concepts/models/auto-model-selection",
       "title": "About Copilot auto model selection - GitHub Docs",
-      "snippet": "best model for each task.\nWho can use this feature?\nAuto model selection is available with all GitHub Copilot plans.\nOverview\nMore than just a model picker, auto model selection is an intelligent system delivering high quality results, better reliability, and one less decision to make as the model",
+      "snippet": "Automatically select the best model for each task.\nWho can use this feature?\nAuto model selection is available with all GitHub Copilot plans.\nOverview",
       "matchedWords": {
         "1VZpgi8ajPcu": {
           "hits": 16,
@@ -1072,7 +1072,7 @@
       "hash": "tqy9_yXjZ9O4",
       "address": "https://docs.github.com/en/copilot/how-tos/github-copilot-app/agent-sessions",
       "title": "Working with agent sessions in the GitHub Copilot app - GitHub Docs",
-      "snippet": "for repositories hosted outside GitHub (for example, on Azure DevOps) or for private repositories without app access.\nFrom the dropdown under the prompt box, choose where the session should run: in a new working tree, in your local repository, or in a cloud sandbox. Cloud sandboxes for Copilot",
+      "snippet": "Choose a project—you can use a folder already on your machine, choose from GitHub, or clone from a Git URL for repositories hosted outside GitHub (for example, on Azure DevOps) or for private repositories without app access.",
       "matchedWords": {
         "1VZpgi8ajPcu": {
           "hits": 22,
@@ -1130,7 +1130,7 @@
       "hash": "yv0qxyXjZ9O4",
       "address": "https://docs.github.com/en/copilot/how-tos/github-copilot-app/managing-issues-and-pull-requests",
       "title": "Managing issues and pull requests with the GitHub Copilot app - GitHub Docs",
-      "snippet": "field—for example, Plan to have the agent propose a plan first, or Interactive to work collaboratively with the agent.\nPrompt the agent with what you want it to do. If you chose Plan mode, the agent proposes a plan for you to review first; otherwise, the agent will start working on the issue and",
+      "snippet": "The app creates a new session with the issue context already loaded.\nSelect a session mode from the dropdown below the prompt field—for example, Plan to have the agent propose a plan first, or Interactive to work collaboratively with the agent.\nPrompt the agent with what you want it to do.",
       "matchedWords": {
         "1VZpgi8ajPcu": {
           "hits": 3,
@@ -1159,7 +1159,7 @@
       "hash": "zczfLyXjZ9O4",
       "address": "https://docs.github.com/en/copilot/tutorials/customization-library",
       "title": "Customization library - GitHub Docs",
-      "snippet": "for any programming language.\nExplore 19 examples\nYour first custom instructions\nCreate and test your first custom instruction with this simple example.\nCustom instructionsGetting startedConfigure CopilotScale institutional knowledgeSimple\nConcept explainer\nInstructions for breaking down complex",
+      "snippet": "Instructions for systematic debugging and troubleshooting.\nCustom instructionsGetting startedConfigure CopilotScale institutional knowledgeSimple\nCode reviewer\nInstructions for thorough and constructive code reviews.",
       "matchedWords": {
         "1VZpgi8ajPcu": {
           "hits": 10,
@@ -1188,7 +1188,7 @@
       "hash": "0zCYHyXjZ9O4",
       "address": "https://docs.github.com/en/copilot/tutorials/copilot-cookbook",
       "title": "GitHub Copilot Cookbook - GitHub Docs",
-      "snippet": "for implementing a single feature.\nFunctionality analysisAuthor and optimize with CopilotScale institutional knowledgeChat\nAnalyzing and incorporating user feedback\nCopilot Chat can enhance the process of incorporating user feedback into your project.\nFunctionality analysisAuthor and optimize with",
+      "snippet": "Debugging codeAuthor and optimize with CopilotImprove quality and maintainabilityCLI\nExploring potential feature implementations\nCopilot Chat can help explore different approaches for implementing a single feature.",
       "matchedWords": {
         "1VZpgi8ajPcu": {
           "hits": 3,
@@ -1246,7 +1246,7 @@
       "hash": "3E6rJyXjZ9O4",
       "address": "https://docs.github.com/en/copilot/tutorials",
       "title": "Tutorials for GitHub Copilot - GitHub Docs",
-      "snippet": "for comprehensive web accessibility testing and compliance.\nScale institutional knowledge\nBug fix teammate\nA custom agent that identifies critical bugs in your project and implements targeted fixes.\nShowing 1-9 of 104",
+      "snippet": "Scale institutional knowledge\nAccessibility auditor\nInstructions for comprehensive web accessibility testing and compliance.\nScale institutional knowledge\nBug fix teammate\nA custom agent that identifies critical bugs in your project and implements targeted fixes.\nShowing 1-9 of 104",
       "matchedWords": {
         "1VZpgi8ajPcu": {
           "hits": 1,
@@ -1275,7 +1275,7 @@
       "hash": "-p2w3taoSn1x",
       "address": "https://en.planet.wikimedia.org/",
       "title": "en.planet.wikimedia.org",
-      "snippet": "for how to make Wikimania even better and are inspired to bring many of those ideas to life in 2027.\nAnd now for a closer look at what the movement and the media are saying.\nMovement News\nThrough the eyes of first timers\nOne of the most-read articles about a first-timer attending Wikimania, is",
+      "snippet": "Rather than starting from zero, communities can build on what Let’s Connect has learned, developed and documented. This includes best practices for encouraging participation, preparing presenters, creating inclusive learning environments, and capturing knowledge for future use and adaptation.",
       "matchedWords": {
         "1VZpgi8ajPcu": {
           "hits": 150,
@@ -1304,7 +1304,7 @@
       "hash": "0thoeJcvw7Vx",
       "address": "https://wordpress.org/plugins/wordpress-seo/",
       "title": "Yoast SEO – Advanced SEO with real-time guidance and built-in AI – WordPress plugin | WordPress.org",
-      "snippet": "for everyone. You should not need a specialist, a big budget, or a technical background to give your content a fair chance of being discovered.\nYoast SEO gives you everything you need to manage your on-site SEO. The Yoast SEO Premium plugin and its extensions unlock more advanced and AI-powered",
+      "snippet": "Canonical URLs to prevent duplicate content issues.\nAdvanced XML sitemaps for clear site indexing.\nDeep Schema.org integration to improve how search engines and AI systems understand your site.\nComplete breadcrumb control for visitors and crawlers.",
       "matchedWords": {
         "1VZpgi8ajPcu": {
           "hits": 49,
@@ -1333,7 +1333,7 @@
       "hash": "HDs2NMhTaKi5",
       "address": "https://www.datadoghq.com/product/ai/agent-directory/",
       "title": "AI Agent Directory | Datadog",
-      "snippet": "for other regions).\n/plugin install datadog@claude-plugins-official\n3\nStart coding\nLaunch Claude Code and use Datadog tools directly in your terminal.\nclaude\nExample prompts\n\"Triage this monitor alert using logs, traces, and deploys\"\n\"Find idle services with only health check traffic\"\n\"Show me",
+      "snippet": "\"Deploy-Aware Incident Response Agent\"\n\"Auto-Fix Agent (From Trace to Pull Request)\"\n\"Observability Best Practices Onboarding Agent\"\n\"Zombie Service Hunter\"\n\"Feature Flag ↔ Incident Correlation Agent\"\n\"Cloud Cost Anomaly Agent\"",
       "matchedWords": {
         "1VZpgi8ajPcu": {
           "hits": 25,
@@ -1362,7 +1362,7 @@
       "hash": "RdyC6lhTaKi5",
       "address": "https://www.datadoghq.com/pricing/",
       "title": "Pricing | Datadog",
-      "snippet": "for your stack.\nStarting At\n$ 500\nPer 500 credits,\nper month*\nExplore telemetry and take action faster with Bits Chat\nReduce MTTR with automated investigations from Bits Investigation\nFix and deploy code autonomously with Bits Code\nCreate custom AI agents for your operational workflows with Bits",
+      "snippet": "You maintain complete visibility and pay for additional services (+50% of the annual price) only on the volume that exceeds your commitment.\nCan I forward logs from one Datadog account to another?\nThis is currently not supported.\nBest Practices",
       "matchedWords": {
         "1VZpgi8ajPcu": {
           "hits": 580,
@@ -1420,7 +1420,7 @@
       "hash": "YJVGomoWtInx",
       "address": "https://meta.wikimedia.org/wiki/Wikimedia_Forum",
       "title": "Wikimedia Forum - Meta-Wiki",
-      "snippet": "for example; its source code (also known as wikitext) reads:\n'''欢迎来到[[$1|元维基]]'''——为[[$2|维基媒体基金会]]的[[$3|-{zh-hans:项目;zh-hant:專案;}-]]及其相关-{zh-hans:项目;zh-hant:專案;}-进行从协调、文件化到企划及分析的全域社群网站。\nWhen the converter is set to 繁體, 为 is rendered as 為 and so on. The -{zh-hans:项目;zh-hant:專案;}- syntax is for",
+      "snippet": "Jingjinjij (talk) 15:21, 19 August 2026 (UTC)Reply\n@Jingjinjij: There's an automatic conversion system, so translations in different variants of Chinese are typically kept in one page. Take Translations:Main Page/8/zh for example; its source code (also known as wikitext) reads:",
       "matchedWords": {
         "1VZpgi8ajPcu": {
           "hits": 4,
@@ -1449,7 +1449,7 @@
       "hash": "c_fxuopg4UCw",
       "address": "https://www.wikidata.org/wiki/Wikidata:Project_chat",
       "title": "Wikidata:Project chat - Wikidata",
-      "snippet": "for Jorge Rodríguez ; Caracciolo and Phillip Island were recently created on the it.Wiki; is it possible to link them to Wikidata? I don't know the procedure could someone with more experience do it? Thanks in advance for the help. ~2026-47511-02 (talk) 09:50, 1 September 2026 (UTC)Reply\nJorge",
+      "snippet": "Regards. --Amitie 10g (talk) 12:15, 3 September 2026 (UTC)Reply Regarding \"Identifiers may be migrated to a new system\" -\u003e For example with Hungarian National Namespace organisation ID (old) (P6989) that has now a new variant. The origin database created new ids for all their entries.",
       "matchedWords": {
         "1VZpgi8ajPcu": {
           "hits": 146,
@@ -1536,7 +1536,7 @@
       "hash": "AX7xBjRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Wikipedia:Help_desk",
       "title": "Wikipedia:Help desk - Wikipedia",
-      "snippet": "For other types of questions, use the search box, see the reference desk or Help:Contents. If you have comments about a specific article, use that article's talk page.\nDo not provide your email address or any other contact information. Answers will be provided on this page only.\nIf your question is",
+      "snippet": "Mario Paniccia would meet Wikipedia’s notability guidelines for a biographical article, and what the best process would be for having an independent editor assess and potentially create one.",
       "matchedWords": {
         "1VZpgi8ajPcu": {
           "hits": 150,
@@ -1565,7 +1565,7 @@
       "hash": "BsustjRvmBbx",
       "address": "https://en.wikipedia.org/wiki/PowerShell",
       "title": "PowerShell - Wikipedia",
-      "snippet": "for task automation and configuration management. As is typical for a shell, it provides a command-line interpreter for interactive use and a script interpreter for automation via a language defined for it. Originally only for Windows, known as Windows PowerShell, it was made open-source and",
+      "snippet": "ISBN 0-596-10009-4.\nWatt, Andrew (2007). Professional Windows PowerShell. Wrox Press. ISBN 978-0-471-94693-9.\nWilson, Ed (2013). Windows PowerShell 3.0 Step by Step. Microsoft Press. ISBN 978-0-7356-6339-8.\nWilson, Ed (2014). Windows PowerShell Best Practices. Microsoft Press.",
       "matchedWords": {
         "1VZpgi8ajPcu": {
           "hits": 99,
@@ -1594,7 +1594,7 @@
       "hash": "COUi-jRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Internet_of_things",
       "title": "Internet of things - Wikipedia",
-      "snippet": "for 22% of the total market, driven by the need to monitor mobile assets like vehicles and shipping containers.[10] The largest asset tracking sub-segments in transport \u0026 logistics are trailer and intermodal container tracking, reaching 5.8 million and 5.3 million active devices globally at the end",
+      "snippet": "In fact, the National Highway Traffic Safety Administration (NHTSA) is preparing cybersecurity guidelines and a database of best practices to make automotive computer systems more secure.[226]",
       "matchedWords": {
         "1VZpgi8ajPcu": {
           "hits": 208,
@@ -1623,7 +1623,7 @@
       "hash": "SD9B1jRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Microsoft_Store",
       "title": "Microsoft Store - Wikipedia",
-      "snippet": "For the former retail chain, see Microsoft Store (retail). For the former Xbox Live arcade marketplace, see Xbox Live Arcade. For the defunct Xbox 360, Xbox One marketplace, see Xbox Games Store.\nMicrosoft Store\nMicrosoft Store running on Windows 11. Xbox PC Game Pass can be seen in the picture.",
+      "snippet": "These include transparency over its rules, practices, and Windows' \"interoperability interfaces\", not preventing competing application storefronts to run on Windows, charging developers \"reasonable fees\" and not \"forc[ing]\" them to include in-app purchases, allowing access to the store by any",
       "matchedWords": {
         "1VZpgi8ajPcu": {
           "hits": 46,
@@ -1652,7 +1652,7 @@
       "hash": "ZtxqojRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Open_access",
       "title": "Open access - Wikipedia",
-      "snippet": "practices through which nominally copyrightable publications are delivered to readers free of access charges or other barriers.[1] With open access strictly defined (according to the 2001 definition), or libre open access, barriers to copying or reuse are also reduced or removed by applying an open",
+      "snippet": "In 2012, the Harvard Open Access Project released its guide to good practices for university open-access policies,[139] focusing on rights-retention policies that allow universities to distribute faculty research without seeking permission from publishers.",
       "matchedWords": {
         "1VZpgi8ajPcu": {
           "hits": 146,
@@ -1710,7 +1710,7 @@
       "hash": "zugI_jRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Metadata",
       "title": "Metadata - Wikipedia",
-      "snippet": "For example, the title, author, and publication date of a book are metadata about the book. But, while a data asset is finite, its metadata is infinite.\nAs such, efforts to define, classify types, or structure metadata are expressed as examples in the context of its use. The term \"metadata\" has a",
+      "snippet": "Bethesda, MD: NISO Press. p. 15. ISBN 978-1-880124-62-8. Archived from the original (PDF) on 7 November 2014. Retrieved 13 July 2022.\n↑ \"Metadata = Surveillance\". Archived from the original on 21 June 2016. Retrieved 6 June 2016.\n↑ \"Best Practices for Structural Metadata\". University of Illinois.",
       "matchedWords": {
         "1VZpgi8ajPcu": {
           "hits": 138,
@@ -1797,7 +1797,7 @@
       "hash": "-p2w3taoSn1x",
       "address": "https://en.planet.wikimedia.org/",
       "title": "en.planet.wikimedia.org",
-      "snippet": "for how to make Wikimania even better and are inspired to bring many of those ideas to life in 2027.\nAnd now for a closer look at what the movement and the media are saying.\nMovement News\nThrough the eyes of first timers\nOne of the most-read articles about a first-timer attending Wikimania, is",
+      "snippet": "Rather than starting from zero, communities can build on what Let’s Connect has learned, developed and documented. This includes best practices for encouraging participation, preparing presenters, creating inclusive learning environments, and capturing knowledge for future use and adaptation.",
       "matchedWords": {
         "1VZpgi8ajPcu": {
           "hits": 150,
@@ -1855,7 +1855,7 @@
       "hash": "YJVGomoWtInx",
       "address": "https://meta.wikimedia.org/wiki/Wikimedia_Forum",
       "title": "Wikimedia Forum - Meta-Wiki",
-      "snippet": "for example; its source code (also known as wikitext) reads:\n'''欢迎来到[[$1|元维基]]'''——为[[$2|维基媒体基金会]]的[[$3|-{zh-hans:项目;zh-hant:專案;}-]]及其相关-{zh-hans:项目;zh-hant:專案;}-进行从协调、文件化到企划及分析的全域社群网站。\nWhen the converter is set to 繁體, 为 is rendered as 為 and so on. The -{zh-hans:项目;zh-hant:專案;}- syntax is for",
+      "snippet": "Jingjinjij (talk) 15:21, 19 August 2026 (UTC)Reply\n@Jingjinjij: There's an automatic conversion system, so translations in different variants of Chinese are typically kept in one page. Take Translations:Main Page/8/zh for example; its source code (also known as wikitext) reads:",
       "matchedWords": {
         "1VZpgi8ajPcu": {
           "hits": 4,
@@ -1884,7 +1884,7 @@
       "hash": "ccuJ8jRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Map",
       "title": "Map - Wikipedia",
-      "snippet": "for a wide range of purposes, including navigation, scientific research, governance, and warfare. A common use is route planning, which enables users to find their way to their destination. Specialized maps, called charts, are used for nautical navigation (nautical charts) and aviation",
+      "snippet": "Provided that the imagery has been properly georeferenced, it can be used to extract precise geographic coordinate values for any identifiable objects in the image.[269][bh] For example, a cartographer can extract the locations of terrain and feature data (such as rivers, roads, and buildings) for",
       "matchedWords": {
         "1VZpgi8ajPcu": {
           "hits": 146,
@@ -1913,7 +1913,7 @@
       "hash": "c_fxuopg4UCw",
       "address": "https://www.wikidata.org/wiki/Wikidata:Project_chat",
       "title": "Wikidata:Project chat - Wikidata",
-      "snippet": "for Jorge Rodríguez ; Caracciolo and Phillip Island were recently created on the it.Wiki; is it possible to link them to Wikidata? I don't know the procedure could someone with more experience do it? Thanks in advance for the help. ~2026-47511-02 (talk) 09:50, 1 September 2026 (UTC)Reply\nJorge",
+      "snippet": "Regards. --Amitie 10g (talk) 12:15, 3 September 2026 (UTC)Reply Regarding \"Identifiers may be migrated to a new system\" -\u003e For example with Hungarian National Namespace organisation ID (old) (P6989) that has now a new variant. The origin database created new ids for all their entries.",
       "matchedWords": {
         "1VZpgi8ajPcu": {
           "hits": 146,

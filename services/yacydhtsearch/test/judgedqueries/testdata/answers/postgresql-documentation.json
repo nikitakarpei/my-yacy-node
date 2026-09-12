@@ -1,6 +1,6 @@
 {
   "query": "postgresql documentation",
-  "recordedAt": "2026-09-12T00:22:19Z",
+  "recordedAt": "2026-09-12T07:52:09Z",
   "itemsInTheOrderOfEachAnswer": [
     [
       {
@@ -147,7 +147,7 @@
         "hash": "Hb2lZx7Yxvhx",
         "address": "https://www.postgresql.org/docs/current/extend-how.html",
         "title": "PostgreSQL: Documentation: 18: 36.1. How Extensibility Works",
-        "snippet": "PostgreSQL is extensible because its operation is catalog-driven. If you are familiar with standard relational database systems, you know that they store information about databases, tables, columns, etc., in what are commonly known as system catalogs. (Some systems call this the data dictionary.)",
+        "snippet": "One key difference between PostgreSQL and standard relational database systems is that PostgreSQL stores much more information in its catalogs: not only information about tables and columns, but also information about data types, functions, access methods, and so on.",
         "matchedWords": {
           "5HKPREskg54_": {
             "hits": 8,
@@ -266,7 +266,7 @@
         "hash": "H3k5-x7Yxvhx",
         "address": "https://www.postgresql.org/docs/current/tutorial-advanced.html",
         "title": "PostgreSQL: Documentation: 18: Chapter 3. Advanced Features",
-        "snippet": "documentation that is not correct, does not match your experience with the particular feature or requires further clarification, please use this form to report a documentation issue.",
+        "snippet": "Submit correction\nIf you see anything in the documentation that is not correct, does not match your experience with the particular feature or requires further clarification, please use this form to report a documentation issue.",
         "matchedWords": {
           "5HKPREskg54_": {
             "hits": 0,
@@ -283,7 +283,7 @@
         "hash": "BJhprx7Yxvhx",
         "address": "https://www.postgresql.org/docs/current/plpython-python23.html",
         "title": "PostgreSQL: Documentation: 18: 44.10. Python 2 vs. Python 3",
-        "snippet": "PostgreSQL supported Python 2, using the plpythonu and plpython2u language names.",
+        "snippet": "44.10. Python 2 vs. Python 3\nPrev\nUp\nChapter 44. PL/Python — Python Procedural Language\nHome\nNext\nPL/Python supports only Python 3. Past versions of PostgreSQL supported Python 2, using the plpythonu and plpython2u language names.",
         "matchedWords": {
           "5HKPREskg54_": {
             "hits": 1,
@@ -302,7 +302,7 @@
         "hash": "-PElUl7Yxvhx",
         "address": "https://www.postgresql.org/community/",
         "title": "PostgreSQL: Community",
-        "snippet": "PostgreSQL is well-supported by its active community. There are more than a dozen mailing lists available, categorized into topics like:\nAnnouncements\nPostgreSQL development\nGeneral PostgreSQL Support\nJobs\nand more. We also have many local PostgreSQL User Groups all over the world, and there is",
+        "snippet": "Planet PostgreSQL, an aggregator of blogs covering many topics around PostgreSQL\nPostgreSQL Wiki, our wiki, hosting user generated content as well as information for how to contribute code to PostgreSQL",
         "matchedWords": {
           "5HKPREskg54_": {
             "hits": 10,
@@ -319,7 +319,7 @@
         "hash": "n8OZP81iNM2x",
         "address": "https://wiki.postgresql.org/wiki/Foreign_data_wrappers",
         "title": "Foreign data wrappers - PostgreSQL wiki",
-        "snippet": "PostgreSQL 9.1 was released with read-only support of this standard, and in 2013 write support was added with PostgreSQL 9.3.\nThere are now a variety of Foreign Data Wrappers (FDW) available which enable PostgreSQL Server to different remote data stores, ranging from other SQL databases through to",
+        "snippet": "The plugins are also available as unbundled FDWs for use in any Postgres database.\nSpecific SQL Database Wrappers\nData Source\nType\nLicense\nCode\nInstall\nDoc\nNotes\nPostgreSQL\nNative\nPostgreSQL\ngit.postgresql.org\ndocumentation\nOracle\nNative\nPostgreSQL\ngithub\nPGXN\nwebsite\nMySQL\nNative\ngithub\nPGXN",
         "matchedWords": {
           "5HKPREskg54_": {
             "hits": 73,
@@ -474,7 +474,7 @@
         "hash": "c701ExFYRqW5",
         "address": "https://www.meilisearch.com/docs/resources/migration/postgresql_migration",
         "title": "Migrating from PostgreSQL full-text search to Meilisearch - Meilisearch Documentation",
-        "snippet": "PostgreSQL users who rely on built-in full-text search (tsvector/tsquery) and/or the pgvector extension move their search workload to Meilisearch. For a high-level comparison of the two, see Meilisearch vs PostgreSQL.\nOverview\nMeilisearch is not a database replacement. It is a dedicated search",
+        "snippet": "This page aims to help PostgreSQL users who rely on built-in full-text search (tsvector/tsquery) and/or the pgvector extension move their search workload to Meilisearch. For a high-level comparison of the two, see Meilisearch vs PostgreSQL.\nOverview\nMeilisearch is not a database replacement.",
         "matchedWords": {
           "5HKPREskg54_": {
             "hits": 42,
@@ -546,7 +546,7 @@
         "hash": "S1Yp5x7Yxvhx",
         "address": "https://www.postgresql.org/docs/current/spi-spi-freeplan.html",
         "title": "PostgreSQL: Documentation: 18: SPI_freeplan",
-        "snippet": "documentation that is not correct, does not match your experience with the particular feature or requires further clarification, please use this form to report a documentation issue.",
+        "snippet": "Return Value\n0 on success; SPI_ERROR_ARGUMENT if plan is NULL or invalid\nSubmit correction\nIf you see anything in the documentation that is not correct, does not match your experience with the particular feature or requires further clarification, please use this form to report a documentation issue.",
         "matchedWords": {
           "5HKPREskg54_": {
             "hits": 0,
@@ -582,7 +582,7 @@
         "hash": "qgwjkx7Yxvhx",
         "address": "https://www.postgresql.org/docs/current/libpq.html",
         "title": "PostgreSQL: Documentation: 18: Chapter 32. libpq — C Library",
-        "snippet": "PostgreSQL. libpq is a set of library functions that allow client programs to pass queries to the PostgreSQL backend server and to receive the results of these queries.\nlibpq is also the underlying engine for several other PostgreSQL application interfaces, including those written for C++, Perl,",
+        "snippet": "libpq is the C\napplication programmer's interface to PostgreSQL. libpq is a set of library functions that allow client programs to pass queries to the PostgreSQL backend server and to receive the results of these queries.",
         "matchedWords": {
           "5HKPREskg54_": {
             "hits": 3,
@@ -779,7 +779,7 @@
         "hash": "k5-pcx7Yxvhx",
         "address": "https://www.postgresql.org/docs/release/18.6/",
         "title": "PostgreSQL: Release Notes",
-        "snippet": "PostgreSQL (pgoutput and test_decoding) are included in output_plugin_libraries. Installations that rely on other output plugins must add them after updating the server, for example\noutput_plugin_libraries = 'pgoutput, test_decoding, my_trusted_decoder'\nAdditionally, pg_upgrade --check will fail if",
+        "snippet": "By default this is not a vulnerability because only superusers are allowed to call amcheck functions; but if that privilege was granted out, it created a larger hazard than the documentation suggests.\nThe PostgreSQL Project thanks Yuelin Wang and Jacob Brazeal for reporting this problem.",
         "matchedWords": {
           "5HKPREskg54_": {
             "hits": 32,
@@ -883,7 +883,7 @@
         "hash": "lYsgT81iNM2x",
         "address": "https://wiki.postgresql.org/wiki/Category:Documentation",
         "title": "Category:Documentation - PostgreSQL wiki",
-        "snippet": "PostgreSQL wiki\nJump to navigationJump to search\nDocumentations\nSubcategories\nThis category has the following 7 subcategories, out of 7 total.\nE\nExtensions‎ (14 P)\nF\nForeign-data wrapper‎ (4 P)\nL\nLanguages‎ (8 C, 6 P)\nP\nPostgreSQL Version‎ (12 C, 2 P)\nS\nSELinux‎ (19 P)\nSoftware Ports‎ (15 P)\nSVG‎",
+        "snippet": "SVG using ditaa\nSVG using Graphviz\nSVG using Inkscape\nRetrieved from \"https://wiki.postgresql.org/index.php?title=Category:Documentation\u0026oldid=17593\"\nCategory:\nMain",
         "matchedWords": {
           "5HKPREskg54_": {
             "hits": 3,
@@ -902,7 +902,7 @@
         "hash": "tiJjCx7Yxvhx",
         "address": "https://www.postgresql.org/docs/current/auth-bsd.html",
         "title": "PostgreSQL: Documentation: 18: 20.14. BSD Authentication",
-        "snippet": "PostgreSQL uses the auth-postgresql login type and authenticates with the postgresql login class if that's defined in login.conf. By default that login class does not exist, and PostgreSQL will use the default login class.\nNote\nTo use BSD Authentication, the PostgreSQL user account (that is, the",
+        "snippet": "BSD Authentication in PostgreSQL uses the auth-postgresql login type and authenticates with the postgresql login class if that's defined in login.conf. By default that login class does not exist, and PostgreSQL will use the default login class.\nNote",
         "matchedWords": {
           "5HKPREskg54_": {
             "hits": 5,
@@ -919,7 +919,7 @@
         "hash": "tQzJTx7Yxvhx",
         "address": "https://www.postgresql.org/docs/current/sql-dropgroup.html",
         "title": "PostgreSQL: Documentation: 18: DROP GROUP",
-        "snippet": "documentation that is not correct, does not match your experience with the particular feature or requires further clarification, please use this form to report a documentation issue.",
+        "snippet": "Submit correction\nIf you see anything in the documentation that is not correct, does not match your experience with the particular feature or requires further clarification, please use this form to report a documentation issue.",
         "matchedWords": {
           "5HKPREskg54_": {
             "hits": 0,
@@ -936,7 +936,7 @@
         "hash": "uxRtix7Yxvhx",
         "address": "https://www.postgresql.org/docs/current/docguide.html",
         "title": "PostgreSQL: Documentation: 18: Appendix J. Documentation",
-        "snippet": "PostgreSQL has four primary documentation formats:\nPlain text, for pre-installation information\nHTML\n, for on-line browsing and reference\nPDF, for printing\nman pages, for quick reference.\nAdditionally, a number of plain-text README files can be found throughout the PostgreSQL source tree,",
+        "snippet": "PostgreSQL has four primary documentation formats:\nPlain text, for pre-installation information\nHTML\n, for on-line browsing and reference\nPDF, for printing\nman pages, for quick reference.",
         "matchedWords": {
           "5HKPREskg54_": {
             "hits": 2,
@@ -953,7 +953,7 @@
         "hash": "uL1Rfx7Yxvhx",
         "address": "https://www.postgresql.org/docs/current/archive-modules.html",
         "title": "PostgreSQL: Documentation: 18: Chapter 49. Archive Modules",
-        "snippet": "PostgreSQL provides infrastructure to create custom modules for continuous archiving (see Section 25.3). While archiving via a shell command (i.e., archive_command) is much simpler, a custom archive module will often be considerably more robust and performant.\nWhen a custom archive_library is",
+        "snippet": "PostgreSQL provides infrastructure to create custom modules for continuous archiving (see Section 25.3). While archiving via a shell command (i.e., archive_command) is much simpler, a custom archive module will often be considerably more robust and performant.",
         "matchedWords": {
           "5HKPREskg54_": {
             "hits": 2,
@@ -970,7 +970,7 @@
         "hash": "sOJ2hx7Yxvhx",
         "address": "https://www.postgresql.org/docs/current/tutorial-sql-intro.html",
         "title": "PostgreSQL: Documentation: 18: 2.1. Introduction",
-        "snippet": "PostgreSQL language features are extensions to the standard.\nIn the examples that follow, we assume that you have created a database named mydb, as described in the previous chapter, and have been able to start psql.\nExamples in this manual can also be found in the PostgreSQL source distribution in",
+        "snippet": "Examples in this manual can also be found in the PostgreSQL source distribution in the directory src/tutorial/. (Binary distributions of PostgreSQL might not provide those files.) To use those files, first change to that directory and run make:\n$ cd .../src/tutorial $ make",
         "matchedWords": {
           "5HKPREskg54_": {
             "hits": 3,
@@ -987,7 +987,7 @@
         "hash": "sVgx2x7Yxvhx",
         "address": "https://www.postgresql.org/docs/current/ecpg-oracle-compat.html",
         "title": "PostgreSQL: Documentation: 18: 34.16. Oracle Compatibility Mode",
-        "snippet": "34.16. Oracle Compatibility Mode\nPrev\nUp\nChapter 34. ECPG — Embedded SQL\nin C\nHome\nNext\necpg can be run in a so-called Oracle compatibility mode. If this mode is active, it tries to behave as if it were Oracle Pro*C.\nSpecifically, this mode changes ecpg in three ways:\nPad character arrays receiving",
+        "snippet": "34.16. Oracle Compatibility Mode\nPrev\nUp\nChapter 34. ECPG — Embedded SQL\nin C\nHome\nNext\necpg can be run in a so-called Oracle compatibility mode. If this mode is active, it tries to behave as if it were Oracle Pro*C.\nSpecifically, this mode changes ecpg in three ways:",
         "matchedWords": {
           "5HKPREskg54_": {
             "hits": 0,
@@ -1131,7 +1131,7 @@
         "hash": "mJj6Cl7Yxvhx",
         "address": "https://www.postgresql.org/",
         "title": "PostgreSQL: The world's most advanced open source database",
-        "snippet": "PostgreSQL 19 Beta 3, 18.6, 17.11, 16.15, 15.19 and 14.24 Released!\nThe PostgreSQL Global Development Group has released an update to all supported versions of PostgreSQL, including 19 Beta 3, 18.6, 17.11, 16.15, 15.19 and 14.24. This release fixes 28 security vulnerabilities and many bugs reported",
+        "snippet": "2026-08-13 - PostgreSQL 19 Beta 3, 18.6, 17.11, 16.15, 15.19 and 14.24 Released!\nThe PostgreSQL Global Development Group has released an update to all supported versions of PostgreSQL, including 19 Beta 3, 18.6, 17.11, 16.15, 15.19 and 14.24.",
         "matchedWords": {
           "5HKPREskg54_": {
             "hits": 7,
@@ -1184,7 +1184,7 @@
         "hash": "BJhprx7Yxvhx",
         "address": "https://www.postgresql.org/docs/current/plpython-python23.html",
         "title": "PostgreSQL: Documentation: 18: 44.10. Python 2 vs. Python 3",
-        "snippet": "PostgreSQL supported Python 2, using the plpythonu and plpython2u language names.",
+        "snippet": "44.10. Python 2 vs. Python 3\nPrev\nUp\nChapter 44. PL/Python — Python Procedural Language\nHome\nNext\nPL/Python supports only Python 3. Past versions of PostgreSQL supported Python 2, using the plpythonu and plpython2u language names.",
         "matchedWords": {
           "5HKPREskg54_": {
             "hits": 1,
@@ -1273,7 +1273,7 @@
         "hash": "KflpRx7Yxvhx",
         "address": "https://www.postgresql.org/docs/current/rule-system.html",
         "title": "PostgreSQL: Documentation: 18: 51.4. The PostgreSQL Rule System",
-        "snippet": "PostgreSQL supports a powerful rule system for the specification of views and ambiguous view updates. Originally the PostgreSQL rule system consisted of two implementations:\nThe first one worked using row level processing and was implemented deep in the executor. The rule system was called whenever",
+        "snippet": "PostgreSQL supports a powerful rule system for the specification of views and ambiguous view updates. Originally the PostgreSQL rule system consisted of two implementations:\nThe first one worked using row level processing and was implemented deep in the executor.",
         "matchedWords": {
           "5HKPREskg54_": {
             "hits": 2,
@@ -1290,7 +1290,7 @@
         "hash": "JXXE7x7Yxvhx",
         "address": "https://www.postgresql.org/docs/current/jit.html",
         "title": "PostgreSQL: Documentation: 18: Chapter 30. Just-in-Time Compilation (JIT)",
-        "snippet": "PostgreSQL.",
+        "snippet": "Unsupported versions: 13 / 12 / 11\nChapter 30. Just-in-Time Compilation (JIT\n)\nPrev\nUp\nPart III. Server Administration\nHome\nNext\nThis chapter explains what just-in-time compilation is, and how it can be configured in PostgreSQL.",
         "matchedWords": {
           "5HKPREskg54_": {
             "hits": 1,
@@ -1324,7 +1324,7 @@
         "hash": "LIPQMx7Yxvhx",
         "address": "https://www.postgresql.org/docs/current/runtime-config-file-locations.html",
         "title": "PostgreSQL: Documentation: 18: 19.2. File Locations",
-        "snippet": "postgresql.conf file already mentioned, PostgreSQL uses two other manually-edited configuration files, which control client authentication (their use is discussed in Chapter 20). By default, all three configuration files are stored in the database cluster's data directory. The parameters described",
+        "snippet": "In addition to the postgresql.conf file already mentioned, PostgreSQL uses two other manually-edited configuration files, which control client authentication (their use is discussed in Chapter 20). By default, all three configuration files are stored in the database cluster's data directory.",
         "matchedWords": {
           "5HKPREskg54_": {
             "hits": 4,
@@ -1428,7 +1428,7 @@
         "hash": "Pv3T_x7Yxvhx",
         "address": "https://www.postgresql.org/docs/current/sql-droptsparser.html",
         "title": "PostgreSQL: Documentation: 18: DROP TEXT SEARCH PARSER",
-        "snippet": "DROP TEXT SEARCH PARSER — remove a text search parser\nSynopsis\nDROP TEXT SEARCH PARSER [ IF EXISTS ] name [ CASCADE | RESTRICT ]\nDescription\nDROP TEXT SEARCH PARSER drops an existing text search parser. You must be a superuser to use this command.\nParameters\nIF EXISTS\nDo not throw an error if the",
+        "snippet": "DROP TEXT SEARCH PARSER — remove a text search parser\nSynopsis\nDROP TEXT SEARCH PARSER [ IF EXISTS ] name [ CASCADE | RESTRICT ]\nDescription\nDROP TEXT SEARCH PARSER drops an existing text search parser. You must be a superuser to use this command.\nParameters\nIF EXISTS",
         "matchedWords": {
           "5HKPREskg54_": {
             "hits": 0,
@@ -1462,7 +1462,7 @@
         "hash": "OBCitx7Yxvhx",
         "address": "https://www.postgresql.org/docs/current/monitoring-locks.html",
         "title": "PostgreSQL: Documentation: 18: 27.3. Viewing Locks",
-        "snippet": "PostgreSQL session.\nDetermine the relation in the current database with the most ungranted locks (which might be a source of contention among database clients).\nDetermine the effect of lock contention on overall database performance, as well as the extent to which contention varies with overall",
+        "snippet": "View all the locks currently outstanding, all the locks on relations in a particular database, all the locks on a particular relation, or all the locks held by a particular PostgreSQL session.",
         "matchedWords": {
           "5HKPREskg54_": {
             "hits": 2,
@@ -1498,7 +1498,7 @@
         "hash": "TDHHrx7Yxvhx",
         "address": "https://www.postgresql.org/docs/current/view-pg-matviews.html",
         "title": "PostgreSQL: Documentation: 18: 53.14. pg_matviews",
-        "snippet": "The view pg_matviews provides access to useful information about each materialized view in the database.\nTable 53.14. pg_matviews Columns\nColumn Type\nDescription\nschemaname name (references pg_namespace.nspname)\nName of schema containing materialized view\nmatviewname name (references",
+        "snippet": "The view pg_matviews provides access to useful information about each materialized view in the database.\nTable 53.14. pg_matviews Columns\nColumn Type\nDescription\nschemaname name (references pg_namespace.nspname)\nName of schema containing materialized view",
         "matchedWords": {
           "5HKPREskg54_": {
             "hits": 0,
@@ -1515,7 +1515,7 @@
         "hash": "T1edwx7Yxvhx",
         "address": "https://www.postgresql.org/docs/current/app-pgwalsummary.html",
         "title": "PostgreSQL: Documentation: 18: pg_walsummary",
-        "snippet": "pg_walsummary — print contents of WAL summary files\nSynopsis\npg_walsummary [option...] [file...]\nDescription\npg_walsummary is used to print the contents of WAL summary files. These binary files are found in the pg_wal/summaries subdirectory of the data directory, and can be converted to text using",
+        "snippet": "pg_walsummary — print contents of WAL summary files\nSynopsis\npg_walsummary [option...] [file...]\nDescription\npg_walsummary is used to print the contents of WAL summary files.",
         "matchedWords": {
           "5HKPREskg54_": {
             "hits": 0,
@@ -1568,7 +1568,7 @@
         "hash": "2lY5OgndnJA5",
         "address": "https://access.crunchydata.com/documentation/",
         "title": "Documentation | Enterprise PostgreSQL Support \u0026 Kubernetes Solutions | Crunchy Data",
-        "snippet": "PostgreSQL for Kubernetes\nCloud native containerized PostgreSQL with high availability\nCrunchy Postgres via Automation\nScripted Solutions for “Always On” data requirements\nCloud\nCrunchy Bridge is Fully Managed PostgreSQL on AWS or Azure, built in replication, backups, high availability, and cross",
+        "snippet": "Crunchy Bridge is Fully Managed PostgreSQL on AWS or Azure, built in replication, backups, high availability, and cross cloud replication\nCrunchy Certified PostgreSQL\nCrunchy Certified PostgreSQL is a trusted open-source relational database optimized for the enterprise.",
         "matchedWords": {
           "5HKPREskg54_": {
             "hits": 7,
@@ -1708,7 +1708,7 @@
         "hash": "WCL7Tx7Yxvhx",
         "address": "https://www.postgresql.org/docs/current/mvcc-intro.html",
         "title": "PostgreSQL: Documentation: 18: 13.1. Introduction",
-        "snippet": "PostgreSQL provides a rich set of tools for developers to manage concurrent access to data. Internally, data consistency is maintained by using a multiversion model (Multiversion Concurrency Control, MVCC\n). This means that each SQL statement sees a snapshot of data (a database version) as it was",
+        "snippet": "PostgreSQL provides a rich set of tools for developers to manage concurrent access to data. Internally, data consistency is maintained by using a multiversion model (Multiversion Concurrency Control, MVCC\n).",
         "matchedWords": {
           "5HKPREskg54_": {
             "hits": 3,
@@ -1795,7 +1795,7 @@
         "hash": "wtiuUx7Yxvhx",
         "address": "https://www.postgresql.org/docs/current/manage-ag-tablespaces.html",
         "title": "PostgreSQL: Documentation: 18: 22.6. Tablespaces",
-        "snippet": "PostgreSQL allow database administrators to define locations in the file system where the files representing database objects can be stored. Once created, a tablespace can be referred to by name when creating database objects.\nBy using tablespaces, an administrator can control the disk layout of a",
+        "snippet": "Tablespaces in PostgreSQL allow database administrators to define locations in the file system where the files representing database objects can be stored. Once created, a tablespace can be referred to by name when creating database objects.",
         "matchedWords": {
           "5HKPREskg54_": {
             "hits": 6,
@@ -1901,7 +1901,7 @@
         "hash": "kPDBXx7Yxvhx",
         "address": "https://www.postgresql.org/docs/current/runtime-config-wal.html",
         "title": "PostgreSQL: Documentation: 18: 19.5. Write Ahead Log",
-        "snippet": "PostgreSQL server will try to make sure that updates are physically written to disk, by issuing fsync() system calls or various equivalent methods (see wal_sync_method). This ensures that the database cluster can recover to a consistent state after an operating system or hardware crash.\nWhile",
+        "snippet": "This parameter can only be set in the postgresql.conf file or on the server command line.\nfull_page_writes (boolean) #\nWhen this parameter is on, the PostgreSQL server writes the entire content of each disk page to WAL during the first modification of that page after a checkpoint.",
         "matchedWords": {
           "5HKPREskg54_": {
             "hits": 14,
@@ -1918,7 +1918,7 @@
         "hash": "zRYpFx7Yxvhx",
         "address": "https://www.postgresql.org/docs/current/libpq-copy.html",
         "title": "PostgreSQL: Documentation: 18: 32.10. Functions Associated with the COPY Command",
-        "snippet": "PostgreSQL has options to read from or write to the network connection used by libpq. The functions described in this section allow applications to take advantage of this capability by supplying or consuming copied data.\nThe overall process is that the application first issues the SQL COPY command",
+        "snippet": "The COPY command in PostgreSQL has options to read from or write to the network connection used by libpq. The functions described in this section allow applications to take advantage of this capability by supplying or consuming copied data.",
         "matchedWords": {
           "5HKPREskg54_": {
             "hits": 2,
@@ -1935,7 +1935,7 @@
         "hash": "zNzIvx7Yxvhx",
         "address": "https://www.postgresql.org/docs/current/ssl-tcp.html",
         "title": "PostgreSQL: Documentation: 18: 18.9. Secure TCP/IP Connections with SSL",
-        "snippet": "PostgreSQL has native support for using SSL\nconnections to encrypt client/server communications for increased security. This requires that OpenSSL is installed on both client and server systems and that support in PostgreSQL is enabled at build time (see Chapter 17).\nThe terms SSL\nand TLS\nare often",
+        "snippet": "in PostgreSQL.\n18.9.1. Basic Setup #\nWith SSL\nsupport compiled in, the PostgreSQL server can be started with support for encrypted connections using TLS\nprotocols enabled by setting the parameter ssl to on in postgresql.conf. The server will listen for both normal and SSL",
         "matchedWords": {
           "5HKPREskg54_": {
             "hits": 9,
@@ -2005,7 +2005,7 @@
         "hash": "ixNKTx7Yxvhx",
         "address": "https://www.postgresql.org/docs/current/reference-client.html",
         "title": "PostgreSQL: Documentation: 18: PostgreSQL Client Applications",
-        "snippet": "PostgreSQL client applications and utilities. Not all of these commands are of general utility; some might require special privileges. The common feature of these applications is that they can be run on any host, independent of where the database server resides.\nWhen specified on the command line,",
+        "snippet": "dropdb — remove a PostgreSQL database\ndropuser — remove a PostgreSQL user account\necpg — embedded SQL C preprocessor\npg_amcheck — checks for corruption in one or more PostgreSQL databases\npg_basebackup — take a base backup of a PostgreSQL cluster\npgbench — run a benchmark test on PostgreSQL",
         "matchedWords": {
           "5HKPREskg54_": {
             "hits": 20,
@@ -2092,7 +2092,7 @@
         "hash": "5lCPsx7Yxvhx",
         "address": "https://www.postgresql.org/docs/current/index.html",
         "title": "PostgreSQL: Documentation: 18: PostgreSQL 18.3 Documentation",
-        "snippet": "documentation that is not correct, does not match your experience with the particular feature or requires further clarification, please use this form to report a documentation issue.",
+        "snippet": "Submit correction\nIf you see anything in the documentation that is not correct, does not match your experience with the particular feature or requires further clarification, please use this form to report a documentation issue.",
         "matchedWords": {
           "5HKPREskg54_": {
             "hits": 0,
@@ -2196,7 +2196,7 @@
         "hash": "0aV0fx7Yxvhx",
         "address": "https://www.postgresql.org/docs/current/sql-createsequence.html",
         "title": "PostgreSQL: Documentation: 18: CREATE SEQUENCE",
-        "snippet": "PostgreSQL extension.",
+        "snippet": "standard, with the following exceptions:\nObtaining the next value is done using the nextval() function instead of the standard's NEXT VALUE FOR expression.\nThe OWNED BY clause is a PostgreSQL extension.",
         "matchedWords": {
           "5HKPREskg54_": {
             "hits": 1,
@@ -2334,7 +2334,7 @@
         "hash": "mJj6Cl7Yxvhx",
         "address": "https://www.postgresql.org/",
         "title": "PostgreSQL: The world's most advanced open source database",
-        "snippet": "PostgreSQL 19 Beta 3, 18.6, 17.11, 16.15, 15.19 and 14.24 Released!\nThe PostgreSQL Global Development Group has released an update to all supported versions of PostgreSQL, including 19 Beta 3, 18.6, 17.11, 16.15, 15.19 and 14.24. This release fixes 28 security vulnerabilities and many bugs reported",
+        "snippet": "2026-08-13 - PostgreSQL 19 Beta 3, 18.6, 17.11, 16.15, 15.19 and 14.24 Released!\nThe PostgreSQL Global Development Group has released an update to all supported versions of PostgreSQL, including 19 Beta 3, 18.6, 17.11, 16.15, 15.19 and 14.24.",
         "matchedWords": {
           "5HKPREskg54_": {
             "hits": 7,
@@ -2455,7 +2455,7 @@
         "hash": "kGWyJx7Yxvhx",
         "address": "https://www.postgresql.org/docs/current/transaction-iso.html",
         "title": "PostgreSQL: Documentation: 18: 13.2. Transaction Isolation",
-        "snippet": "PostgreSQL-implemented transaction isolation levels are described in Table 13.1.\nTable 13.1. Transaction Isolation Levels\nIsolation Level\nDirty Read\nNonrepeatable Read\nPhantom Read\nSerialization Anomaly\nRead uncommitted\nAllowed, but not in PG\nPossible\nPossible\nPossible\nRead committed\nNot possible",
+        "snippet": "Not possible\nNot possible\nNot possible\nNot possible\nIn PostgreSQL, you can request any of the four standard transaction isolation levels, but internally only three distinct isolation levels are implemented, i.e., PostgreSQL's Read Uncommitted mode behaves like Read Committed.",
         "matchedWords": {
           "5HKPREskg54_": {
             "hits": 12,
@@ -2540,7 +2540,7 @@
         "hash": "umq3dx7Yxvhx",
         "address": "https://www.postgresql.org/docs/current/libpq-pipeline-mode.html",
         "title": "PostgreSQL: Documentation: 18: 32.5. Pipeline Mode",
-        "snippet": "PostgreSQL 14, it is a client-side feature which doesn't require special server support and works on any server that supports the v3 extended query protocol. For more information see Section 54.2.4.\n32.5.1. Using Pipeline Mode #\nTo issue pipelines, the application must switch the connection into",
+        "snippet": "While libpq's pipeline API was introduced in PostgreSQL 14, it is a client-side feature which doesn't require special server support and works on any server that supports the v3 extended query protocol. For more information see Section 54.2.4.\n32.5.1. Using Pipeline Mode #",
         "matchedWords": {
           "5HKPREskg54_": {
             "hits": 2,
@@ -2559,7 +2559,7 @@
         "hash": "od_X7x7Yxvhx",
         "address": "https://www.postgresql.org/docs/current/tutorial.html",
         "title": "PostgreSQL: Documentation: 18: Part I. Tutorial",
-        "snippet": "PostgreSQL Tutorial. The tutorial is intended to give an introduction to PostgreSQL, relational database concepts, and the SQL language. We assume some general knowledge about how to use computers and no particular Unix or programming experience is required. This tutorial is intended to provide",
+        "snippet": "Welcome to the PostgreSQL Tutorial. The tutorial is intended to give an introduction to PostgreSQL, relational database concepts, and the SQL language. We assume some general knowledge about how to use computers and no particular Unix or programming experience is required.",
         "matchedWords": {
           "5HKPREskg54_": {
             "hits": 5,
@@ -2576,7 +2576,7 @@
         "hash": "orBtml7Yxvhx",
         "address": "https://www.postgresql.org/developer/roadmap/",
         "title": "PostgreSQL: Roadmap",
-        "snippet": "PostgreSQL is a noncommercial, all volunteer, free software project, and as such there is no formal list of feature requirements required for development. We enjoy allowing developers to explore the topics of their choosing, though we also ensure that all new features committed to PostgreSQL are",
+        "snippet": "While there are no formal requirements for each PostgreSQL release, there are several places you can look to find out more information on upcoming features:\nGeneral development information - A wiki page about various aspects of the PostgreSQL development process",
         "matchedWords": {
           "5HKPREskg54_": {
             "hits": 6,
@@ -2801,7 +2801,7 @@
         "hash": "2lY5OgndnJA5",
         "address": "https://access.crunchydata.com/documentation/",
         "title": "Documentation | Enterprise PostgreSQL Support \u0026 Kubernetes Solutions | Crunchy Data",
-        "snippet": "PostgreSQL for Kubernetes\nCloud native containerized PostgreSQL with high availability\nCrunchy Postgres via Automation\nScripted Solutions for “Always On” data requirements\nCloud\nCrunchy Bridge is Fully Managed PostgreSQL on AWS or Azure, built in replication, backups, high availability, and cross",
+        "snippet": "Crunchy Bridge is Fully Managed PostgreSQL on AWS or Azure, built in replication, backups, high availability, and cross cloud replication\nCrunchy Certified PostgreSQL\nCrunchy Certified PostgreSQL is a trusted open-source relational database optimized for the enterprise.",
         "matchedWords": {
           "5HKPREskg54_": {
             "hits": 7,
@@ -2837,7 +2837,7 @@
         "hash": "oOjZcx7Yxvhx",
         "address": "https://www.postgresql.org/docs/18/postgres-fdw.html",
         "title": "PostgreSQL: Documentation: 18: F.38. postgres_fdw — access data stored in external PostgreSQL servers",
-        "snippet": "PostgreSQL servers.\nThe functionality provided by this module overlaps substantially with the functionality of the older dblink module. But postgres_fdw provides more transparent and standards-compliant syntax for accessing remote tables, and can give better performance in many cases.\nTo prepare",
+        "snippet": "This avoids storing plain-text user passwords in PostgreSQL system catalogs.\nTo use SCRAM pass-through authentication:\nThe remote server must request the scram-sha-256 authentication method; otherwise, the connection will fail.\nThe remote server can be of any PostgreSQL version that supports SCRAM.",
         "matchedWords": {
           "5HKPREskg54_": {
             "hits": 11,
@@ -2905,7 +2905,7 @@
         "hash": "ELEstx7Yxvhx",
         "address": "https://www.postgresql.org/docs/current/pgwaldump.html",
         "title": "PostgreSQL: Documentation: 18: pg_waldump",
-        "snippet": "PostgreSQL database cluster\nSynopsis\npg_waldump [option...] [startseg [endseg]]\nDescription\npg_waldump displays the write-ahead log (WAL) and is mainly useful for debugging or educational purposes.\nThis utility can only be run by the user who installed the server, because it requires read-only",
+        "snippet": "pg_waldump — display a human-readable rendering of the write-ahead log of a PostgreSQL database cluster\nSynopsis\npg_waldump [option...] [startseg [endseg]]\nDescription\npg_waldump displays the write-ahead log (WAL) and is mainly useful for debugging or educational purposes.",
         "matchedWords": {
           "5HKPREskg54_": {
             "hits": 1,
@@ -2941,7 +2941,7 @@
         "hash": "AXOajx7Yxvhx",
         "address": "https://www.postgresql.org/docs/current/sql-grant.html",
         "title": "PostgreSQL: Documentation: 18: GRANT",
-        "snippet": "PostgreSQL, though it is required by strict SQL.\nThe FUNCTION syntax works for plain functions, aggregate functions, and window functions, but not for procedures; use PROCEDURE for those. Alternatively, use ROUTINE to refer to a function, aggregate function, window function, or procedure regardless",
+        "snippet": "According to the SQL standard, grant options can be granted to PUBLIC; PostgreSQL only supports granting grant options to roles.\nThe SQL standard allows the GRANTED BY option to specify only CURRENT_USER or CURRENT_ROLE. The other variants are PostgreSQL extensions.",
         "matchedWords": {
           "5HKPREskg54_": {
             "hits": 10,
@@ -2992,7 +2992,7 @@
         "hash": "e7JKVx7Yxvhx",
         "address": "https://www.postgresql.org/docs/current/ecpg-sql-set-connection.html",
         "title": "PostgreSQL: Documentation: 18: SET CONNECTION",
-        "snippet": "SET CONNECTION — select a database connection\nSynopsis\nSET CONNECTION [ TO | = ] connection_name\nDescription\nSET CONNECTION sets the “current” database connection, which is the one that all commands use unless overridden.\nParameters\nconnection_name #\nA database connection name established by the",
+        "snippet": "SET CONNECTION — select a database connection\nSynopsis\nSET CONNECTION [ TO | = ] connection_name\nDescription\nSET CONNECTION sets the “current” database connection, which is the one that all commands use unless overridden.\nParameters\nconnection_name #",
         "matchedWords": {
           "5HKPREskg54_": {
             "hits": 0,
@@ -3009,7 +3009,7 @@
         "hash": "d_icYx7Yxvhx",
         "address": "https://www.postgresql.org/docs/current/logical-replication-upgrade.html",
         "title": "PostgreSQL: Documentation: 18: 29.13. Upgrade",
-        "snippet": "PostgreSQL executable directory. They must also be included in the new cluster's output_plugin_libraries; see that parameter's documentation for safety information.\nThe old cluster has replicated all the transactions and logical decoding messages to subscribers.\nAll slots on the old cluster must be",
+        "snippet": "The output plugins referenced by the slots in the old cluster must be installed in the new PostgreSQL executable directory. They must also be included in the new cluster's output_plugin_libraries; see that parameter's documentation for safety information.",
         "matchedWords": {
           "5HKPREskg54_": {
             "hits": 43,
@@ -3096,7 +3096,7 @@
         "hash": "5Nj00x7Yxvhx",
         "address": "https://www.postgresql.org/docs/current/lo.html",
         "title": "PostgreSQL: Documentation: 18: F.21. lo — manage large objects",
-        "snippet": "PostgreSQL stands, this doesn't occur. Large objects are treated as objects in their own right; a table entry can reference a large object by OID, but there can be multiple table entries referencing the same large object OID, so the system doesn't delete the large object just because you change or",
+        "snippet": "As PostgreSQL stands, this doesn't occur.",
         "matchedWords": {
           "5HKPREskg54_": {
             "hits": 2,
@@ -3147,7 +3147,7 @@
         "hash": "Cv_cfysV8O86",
         "address": "https://docs.djangoproject.com/en/2.1/ref/contrib/postgres/fields/",
         "title": "PostgreSQL specific model fields | Django documentation | Django",
-        "snippet": "PostgreSQL at present does not enforce the restriction.\nNote\nWhen nesting ArrayField, whether you use the size parameter or not, PostgreSQL requires that the arrays are rectangular:\nfrom django.contrib.postgres.fields import ArrayField from django.db import models class Board(models.Model): pieces",
+        "snippet": "This will be passed to the database, although PostgreSQL at present does not enforce the restriction.\nNote\nWhen nesting ArrayField, whether you use the size parameter or not, PostgreSQL requires that the arrays are rectangular:",
         "matchedWords": {
           "5HKPREskg54_": {
             "hits": 16,
@@ -3217,7 +3217,7 @@
         "hash": "hYc2i0yvgfs5",
         "address": "https://docs.digitalocean.com/products/databases/postgresql/how-to/secure/",
         "title": "How to Secure PostgreSQL Managed Database Clusters | DigitalOcean Documentation",
-        "snippet": "PostgreSQL is an open source, object-relational database built for extensibility, data integrity, and speed. Its concurrency support makes it fully ACID-compliant, and it supports dynamic loading and catalog-driven operations to let users customize its data types, functions, and more.\nDigitalOcean",
+        "snippet": "For details on libpq SSL modes and client configuration, see PostgreSQL’s libpq SSL documentation.",
         "matchedWords": {
           "5HKPREskg54_": {
             "hits": 7,
@@ -3234,7 +3234,7 @@
         "hash": "BMMdex7Yxvhx",
         "address": "https://www.postgresql.org/docs/current/source-conventions.html",
         "title": "PostgreSQL: Documentation: 18: 55.4. Miscellaneous Coding Conventions",
-        "snippet": "PostgreSQL should only rely on language features available in the C99 standard. That means a conforming C99 compiler has to be able to compile postgres, at least aside from a few platform dependent pieces.\nA few features included in the C99 standard are, at this time, not permitted to be used in",
+        "snippet": "C Standard #\nCode in PostgreSQL should only rely on language features available in the C99 standard. That means a conforming C99 compiler has to be able to compile postgres, at least aside from a few platform dependent pieces.",
         "matchedWords": {
           "5HKPREskg54_": {
             "hits": 2,
@@ -3357,7 +3357,7 @@
         "hash": "tSL60x7Yxvhx",
         "address": "https://www.postgresql.org/docs/current/ddl-priv.html",
         "title": "PostgreSQL: Documentation: 17: 5.8. Privileges",
-        "snippet": "PostgreSQL grants privileges on some types of objects to PUBLIC by default when the objects are created. No privileges are granted to PUBLIC by default on tables, table columns, sequences, foreign data wrappers, foreign servers, large objects, schemas, tablespaces, or configuration parameters. For",
+        "snippet": "PostgreSQL grants privileges on some types of objects to PUBLIC by default when the objects are created. No privileges are granted to PUBLIC by default on tables, table columns, sequences, foreign data wrappers, foreign servers, large objects, schemas, tablespaces, or configuration parameters.",
         "matchedWords": {
           "5HKPREskg54_": {
             "hits": 1,
@@ -3391,7 +3391,7 @@
         "hash": "vwtScx7Yxvhx",
         "address": "https://www.postgresql.org/docs/current/trigger-example.html",
         "title": "PostgreSQL: Documentation: 18: 37.4. A Complete Trigger Example",
-        "snippet": "documentation of the procedural languages.)\nThe function trigf reports the number of rows in the table ttest and skips the actual operation if the command attempts to insert a null value into the column x. (So the trigger acts as a not-null constraint but doesn't abort the transaction.)\nFirst, the",
+        "snippet": "Here is a very simple example of a trigger function written in C. (Examples of triggers written in procedural languages can be found in the documentation of the procedural languages.)",
         "matchedWords": {
           "5HKPREskg54_": {
             "hits": 0,
@@ -3410,7 +3410,7 @@
         "hash": "tQzJTx7Yxvhx",
         "address": "https://www.postgresql.org/docs/current/sql-dropgroup.html",
         "title": "PostgreSQL: Documentation: 18: DROP GROUP",
-        "snippet": "documentation that is not correct, does not match your experience with the particular feature or requires further clarification, please use this form to report a documentation issue.",
+        "snippet": "Submit correction\nIf you see anything in the documentation that is not correct, does not match your experience with the particular feature or requires further clarification, please use this form to report a documentation issue.",
         "matchedWords": {
           "5HKPREskg54_": {
             "hits": 0,
@@ -3463,7 +3463,7 @@
         "hash": "B8yYZdUhjm5w",
         "address": "https://airflow.apache.org/docs/apache-airflow-providers-postgres/stable/connections/postgres.html",
         "title": "PostgreSQL Connection — apache-airflow-providers-postgres Documentation",
-        "snippet": "documentation on connection and cursor subclasses. If using psycopg (v3), refer to the documentation on connection classes.\nMore details on all Postgres parameters supported can be found in Postgres documentation.\nExample “extras” field:\n{ \"sslmode\": \"verify-ca\", \"sslcert\": \"/tmp/client-cert.pem\",",
+        "snippet": "For more information, refer to the psycopg2 documentation on connection and cursor subclasses. If using psycopg (v3), refer to the documentation on connection classes.\nMore details on all Postgres parameters supported can be found in Postgres documentation.\nExample “extras” field:",
         "matchedWords": {
           "5HKPREskg54_": {
             "hits": 4,
@@ -3514,7 +3514,7 @@
         "hash": "WGSo0x7Yxvhx",
         "address": "https://www.postgresql.org/docs/current/bookindex.html",
         "title": "PostgreSQL: Documentation: 18: Index",
-        "snippet": "PostgreSQL Versions\narray_position, Array Functions and Operators\narray_positions, Array Functions and Operators\narray_prepend, Array Functions and Operators\narray_remove, Array Functions and Operators\narray_replace, Array Functions and Operators\narray_reverse, Array Functions and Operators",
+        "snippet": "data type, Data Types, Numeric Types, Enumerated Types, Domain Types, Type Conversion, The PostgreSQL Type System, The PostgreSQL Type System, The PostgreSQL Type System, Polymorphic Types, Base Types in C-Language Functions, User-Defined Types\nbase, The PostgreSQL Type System\ncategory, Overview",
         "matchedWords": {
           "5HKPREskg54_": {
             "hits": 54,

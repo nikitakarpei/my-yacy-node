@@ -1,13 +1,13 @@
 {
   "query": "what is the difference between http and https",
-  "recordedAt": "2026-09-12T00:25:20Z",
+  "recordedAt": "2026-09-12T07:52:14Z",
   "itemsInTheOrderOfEachAnswer": [
     [
       {
         "hash": "D4lABzaS0qdw",
         "address": "https://planet.debian.org/",
         "title": "Planet Debian",
-        "snippet": "what I wanted for many years: I deleted the last cgo dependency in Debian Code Search! This was made possible by Go’s recently introduced SIMD support, because now we can implement the TurboPFor integer compression format as efficiently — more efficiently, in fact, by using the newer AVX512",
+        "snippet": "The SIMD version also processes 8 values, but without a for i := range 8 loop!\nOne difference is that we no longer have the luxury of using uint64 for acc (holding rest and current bits); because AVX2 registers only fit 8 uint32 (not 8 uint64). Instead, we split acc into rest8 and cur8.",
         "matchedWords": {
           "KULEZq6YXE_i": {
             "hits": 2,
@@ -50,7 +50,7 @@
         "hash": "-b3sxspKNBr4",
         "address": "https://rense.com/",
         "title": "rense.com",
-        "snippet": "the news moves fast\nThe Banned 2001 Fox News Segment Suggesting\nIsrael’s Mossad Is Involved In The 9/11 Attacks\nALL Candidates For House And Senate Should\nHave To Sign ‘Contract With America’\nCIA and FBI KNEW about the 9/11 terrorist\nattacks being prepared in the US\nTruth check - Trump makes",
+        "snippet": "The largest AI data center project in\nCalifornia is suing to get access to the\nColorado River A 330 MW data center wanted to\nbuy a farm, switch off the irrigation, and\ndrink the difference — California's most\npowerful irrigation district said no, so it sued\nAI is quietly scanning and then shredding",
         "matchedWords": {
           "KULEZq6YXE_i": {
             "hits": 20,
@@ -93,472 +93,7 @@
         "hash": "D4lABzaS0qdw",
         "address": "https://planet.debian.org/",
         "title": "Planet Debian",
-        "snippet": "what I wanted for many years: I deleted the last cgo dependency in Debian Code Search! This was made possible by Go’s recently introduced SIMD support, because now we can implement the TurboPFor integer compression format as efficiently — more efficiently, in fact, by using the newer AVX512",
-        "matchedWords": {
-          "KULEZq6YXE_i": {
-            "hits": 2,
-            "textWords": 8109
-          },
-          "SiAo7OrF4fTS": {
-            "hits": 10,
-            "textWords": 8109
-          },
-          "XgVsUAocS2px": {
-            "hits": 1,
-            "textWords": 8109
-          },
-          "gHkbOucALLiM": {
-            "hits": 0,
-            "textWords": 8109
-          },
-          "j8Qsbd-ZZts7": {
-            "hits": 367,
-            "textWords": 8109
-          },
-          "lUVudQaoycBO": {
-            "hits": 1,
-            "textWords": 8109
-          },
-          "oqVRpkWKjeIk": {
-            "hits": 93,
-            "textWords": 8109
-          },
-          "vl1dN1Qtdfk6": {
-            "hits": 82,
-            "textWords": 8109
-          }
-        },
-        "queryPhraseHits": 9
-      },
-      {
-        "hash": "-b3sxspKNBr4",
-        "address": "https://rense.com/",
-        "title": "rense.com",
-        "snippet": "the news moves fast\nThe Banned 2001 Fox News Segment Suggesting\nIsrael’s Mossad Is Involved In The 9/11 Attacks\nALL Candidates For House And Senate Should\nHave To Sign ‘Contract With America’\nCIA and FBI KNEW about the 9/11 terrorist\nattacks being prepared in the US\nTruth check - Trump makes",
-        "matchedWords": {
-          "KULEZq6YXE_i": {
-            "hits": 20,
-            "textWords": 85916
-          },
-          "SiAo7OrF4fTS": {
-            "hits": 104,
-            "textWords": 85916
-          },
-          "XgVsUAocS2px": {
-            "hits": 1,
-            "textWords": 85916
-          },
-          "gHkbOucALLiM": {
-            "hits": 0,
-            "textWords": 85916
-          },
-          "j8Qsbd-ZZts7": {
-            "hits": 1870,
-            "textWords": 85916
-          },
-          "lUVudQaoycBO": {
-            "hits": 1,
-            "textWords": 85916
-          },
-          "oqVRpkWKjeIk": {
-            "hits": 660,
-            "textWords": 85916
-          },
-          "vl1dN1Qtdfk6": {
-            "hits": 1012,
-            "textWords": 85916
-          }
-        },
-        "queryPhraseHits": 24
-      }
-    ],
-    [
-      {
-        "hash": "-b3sxspKNBr4",
-        "address": "https://rense.com/",
-        "title": "rense.com",
-        "snippet": "the news moves fast\nThe Banned 2001 Fox News Segment Suggesting\nIsrael’s Mossad Is Involved In The 9/11 Attacks\nALL Candidates For House And Senate Should\nHave To Sign ‘Contract With America’\nCIA and FBI KNEW about the 9/11 terrorist\nattacks being prepared in the US\nTruth check - Trump makes",
-        "matchedWords": {
-          "KULEZq6YXE_i": {
-            "hits": 20,
-            "textWords": 85916
-          },
-          "SiAo7OrF4fTS": {
-            "hits": 104,
-            "textWords": 85916
-          },
-          "XgVsUAocS2px": {
-            "hits": 1,
-            "textWords": 85916
-          },
-          "gHkbOucALLiM": {
-            "hits": 0,
-            "textWords": 85916
-          },
-          "j8Qsbd-ZZts7": {
-            "hits": 1870,
-            "textWords": 85916
-          },
-          "lUVudQaoycBO": {
-            "hits": 1,
-            "textWords": 85916
-          },
-          "oqVRpkWKjeIk": {
-            "hits": 660,
-            "textWords": 85916
-          },
-          "vl1dN1Qtdfk6": {
-            "hits": 1012,
-            "textWords": 85916
-          }
-        },
-        "queryPhraseHits": 24
-      }
-    ],
-    [
-      {
-        "hash": "-b3sxspKNBr4",
-        "address": "https://rense.com/",
-        "title": "rense.com",
-        "snippet": "the news moves fast\nThe Banned 2001 Fox News Segment Suggesting\nIsrael’s Mossad Is Involved In The 9/11 Attacks\nALL Candidates For House And Senate Should\nHave To Sign ‘Contract With America’\nCIA and FBI KNEW about the 9/11 terrorist\nattacks being prepared in the US\nTruth check - Trump makes",
-        "matchedWords": {
-          "KULEZq6YXE_i": {
-            "hits": 20,
-            "textWords": 85916
-          },
-          "SiAo7OrF4fTS": {
-            "hits": 104,
-            "textWords": 85916
-          },
-          "XgVsUAocS2px": {
-            "hits": 1,
-            "textWords": 85916
-          },
-          "gHkbOucALLiM": {
-            "hits": 0,
-            "textWords": 85916
-          },
-          "j8Qsbd-ZZts7": {
-            "hits": 1870,
-            "textWords": 85916
-          },
-          "lUVudQaoycBO": {
-            "hits": 1,
-            "textWords": 85916
-          },
-          "oqVRpkWKjeIk": {
-            "hits": 660,
-            "textWords": 85916
-          },
-          "vl1dN1Qtdfk6": {
-            "hits": 1012,
-            "textWords": 85916
-          }
-        },
-        "queryPhraseHits": 24
-      }
-    ],
-    [
-      {
-        "hash": "-b3sxspKNBr4",
-        "address": "https://rense.com/",
-        "title": "rense.com",
-        "snippet": "the news moves fast\nThe Banned 2001 Fox News Segment Suggesting\nIsrael’s Mossad Is Involved In The 9/11 Attacks\nALL Candidates For House And Senate Should\nHave To Sign ‘Contract With America’\nCIA and FBI KNEW about the 9/11 terrorist\nattacks being prepared in the US\nTruth check - Trump makes",
-        "matchedWords": {
-          "KULEZq6YXE_i": {
-            "hits": 20,
-            "textWords": 85916
-          },
-          "SiAo7OrF4fTS": {
-            "hits": 104,
-            "textWords": 85916
-          },
-          "XgVsUAocS2px": {
-            "hits": 1,
-            "textWords": 85916
-          },
-          "gHkbOucALLiM": {
-            "hits": 0,
-            "textWords": 85916
-          },
-          "j8Qsbd-ZZts7": {
-            "hits": 1870,
-            "textWords": 85916
-          },
-          "lUVudQaoycBO": {
-            "hits": 1,
-            "textWords": 85916
-          },
-          "oqVRpkWKjeIk": {
-            "hits": 660,
-            "textWords": 85916
-          },
-          "vl1dN1Qtdfk6": {
-            "hits": 1012,
-            "textWords": 85916
-          }
-        },
-        "queryPhraseHits": 24
-      },
-      {
-        "hash": "D4lABzaS0qdw",
-        "address": "https://planet.debian.org/",
-        "title": "Planet Debian",
-        "snippet": "what I wanted for many years: I deleted the last cgo dependency in Debian Code Search! This was made possible by Go’s recently introduced SIMD support, because now we can implement the TurboPFor integer compression format as efficiently — more efficiently, in fact, by using the newer AVX512",
-        "matchedWords": {
-          "KULEZq6YXE_i": {
-            "hits": 2,
-            "textWords": 8109
-          },
-          "SiAo7OrF4fTS": {
-            "hits": 10,
-            "textWords": 8109
-          },
-          "XgVsUAocS2px": {
-            "hits": 1,
-            "textWords": 8109
-          },
-          "gHkbOucALLiM": {
-            "hits": 0,
-            "textWords": 8109
-          },
-          "j8Qsbd-ZZts7": {
-            "hits": 367,
-            "textWords": 8109
-          },
-          "lUVudQaoycBO": {
-            "hits": 1,
-            "textWords": 8109
-          },
-          "oqVRpkWKjeIk": {
-            "hits": 93,
-            "textWords": 8109
-          },
-          "vl1dN1Qtdfk6": {
-            "hits": 82,
-            "textWords": 8109
-          }
-        },
-        "queryPhraseHits": 9
-      }
-    ],
-    [
-      {
-        "hash": "-b3sxspKNBr4",
-        "address": "https://rense.com/",
-        "title": "rense.com",
-        "snippet": "the news moves fast\nThe Banned 2001 Fox News Segment Suggesting\nIsrael’s Mossad Is Involved In The 9/11 Attacks\nALL Candidates For House And Senate Should\nHave To Sign ‘Contract With America’\nCIA and FBI KNEW about the 9/11 terrorist\nattacks being prepared in the US\nTruth check - Trump makes",
-        "matchedWords": {
-          "KULEZq6YXE_i": {
-            "hits": 20,
-            "textWords": 85916
-          },
-          "SiAo7OrF4fTS": {
-            "hits": 104,
-            "textWords": 85916
-          },
-          "XgVsUAocS2px": {
-            "hits": 1,
-            "textWords": 85916
-          },
-          "gHkbOucALLiM": {
-            "hits": 0,
-            "textWords": 85916
-          },
-          "j8Qsbd-ZZts7": {
-            "hits": 1870,
-            "textWords": 85916
-          },
-          "lUVudQaoycBO": {
-            "hits": 1,
-            "textWords": 85916
-          },
-          "oqVRpkWKjeIk": {
-            "hits": 660,
-            "textWords": 85916
-          },
-          "vl1dN1Qtdfk6": {
-            "hits": 1012,
-            "textWords": 85916
-          }
-        },
-        "queryPhraseHits": 24
-      },
-      {
-        "hash": "D4lABzaS0qdw",
-        "address": "https://planet.debian.org/",
-        "title": "Planet Debian",
-        "snippet": "what I wanted for many years: I deleted the last cgo dependency in Debian Code Search! This was made possible by Go’s recently introduced SIMD support, because now we can implement the TurboPFor integer compression format as efficiently — more efficiently, in fact, by using the newer AVX512",
-        "matchedWords": {
-          "KULEZq6YXE_i": {
-            "hits": 2,
-            "textWords": 8109
-          },
-          "SiAo7OrF4fTS": {
-            "hits": 10,
-            "textWords": 8109
-          },
-          "XgVsUAocS2px": {
-            "hits": 1,
-            "textWords": 8109
-          },
-          "gHkbOucALLiM": {
-            "hits": 0,
-            "textWords": 8109
-          },
-          "j8Qsbd-ZZts7": {
-            "hits": 367,
-            "textWords": 8109
-          },
-          "lUVudQaoycBO": {
-            "hits": 1,
-            "textWords": 8109
-          },
-          "oqVRpkWKjeIk": {
-            "hits": 93,
-            "textWords": 8109
-          },
-          "vl1dN1Qtdfk6": {
-            "hits": 82,
-            "textWords": 8109
-          }
-        },
-        "queryPhraseHits": 9
-      }
-    ],
-    [
-      {
-        "hash": "D4lABzaS0qdw",
-        "address": "https://planet.debian.org/",
-        "title": "Planet Debian",
-        "snippet": "what I wanted for many years: I deleted the last cgo dependency in Debian Code Search! This was made possible by Go’s recently introduced SIMD support, because now we can implement the TurboPFor integer compression format as efficiently — more efficiently, in fact, by using the newer AVX512",
-        "matchedWords": {
-          "KULEZq6YXE_i": {
-            "hits": 2,
-            "textWords": 8109
-          },
-          "SiAo7OrF4fTS": {
-            "hits": 10,
-            "textWords": 8109
-          },
-          "XgVsUAocS2px": {
-            "hits": 1,
-            "textWords": 8109
-          },
-          "gHkbOucALLiM": {
-            "hits": 0,
-            "textWords": 8109
-          },
-          "j8Qsbd-ZZts7": {
-            "hits": 367,
-            "textWords": 8109
-          },
-          "lUVudQaoycBO": {
-            "hits": 1,
-            "textWords": 8109
-          },
-          "oqVRpkWKjeIk": {
-            "hits": 93,
-            "textWords": 8109
-          },
-          "vl1dN1Qtdfk6": {
-            "hits": 82,
-            "textWords": 8109
-          }
-        },
-        "queryPhraseHits": 9
-      }
-    ],
-    [
-      {
-        "hash": "-b3sxspKNBr4",
-        "address": "https://rense.com/",
-        "title": "rense.com",
-        "snippet": "the news moves fast\nThe Banned 2001 Fox News Segment Suggesting\nIsrael’s Mossad Is Involved In The 9/11 Attacks\nALL Candidates For House And Senate Should\nHave To Sign ‘Contract With America’\nCIA and FBI KNEW about the 9/11 terrorist\nattacks being prepared in the US\nTruth check - Trump makes",
-        "matchedWords": {
-          "KULEZq6YXE_i": {
-            "hits": 20,
-            "textWords": 85916
-          },
-          "SiAo7OrF4fTS": {
-            "hits": 104,
-            "textWords": 85916
-          },
-          "XgVsUAocS2px": {
-            "hits": 1,
-            "textWords": 85916
-          },
-          "gHkbOucALLiM": {
-            "hits": 0,
-            "textWords": 85916
-          },
-          "j8Qsbd-ZZts7": {
-            "hits": 1870,
-            "textWords": 85916
-          },
-          "lUVudQaoycBO": {
-            "hits": 1,
-            "textWords": 85916
-          },
-          "oqVRpkWKjeIk": {
-            "hits": 660,
-            "textWords": 85916
-          },
-          "vl1dN1Qtdfk6": {
-            "hits": 1012,
-            "textWords": 85916
-          }
-        },
-        "queryPhraseHits": 24
-      },
-      {
-        "hash": "D4lABzaS0qdw",
-        "address": "https://planet.debian.org/",
-        "title": "Planet Debian",
-        "snippet": "what I wanted for many years: I deleted the last cgo dependency in Debian Code Search! This was made possible by Go’s recently introduced SIMD support, because now we can implement the TurboPFor integer compression format as efficiently — more efficiently, in fact, by using the newer AVX512",
-        "matchedWords": {
-          "KULEZq6YXE_i": {
-            "hits": 2,
-            "textWords": 8109
-          },
-          "SiAo7OrF4fTS": {
-            "hits": 10,
-            "textWords": 8109
-          },
-          "XgVsUAocS2px": {
-            "hits": 1,
-            "textWords": 8109
-          },
-          "gHkbOucALLiM": {
-            "hits": 0,
-            "textWords": 8109
-          },
-          "j8Qsbd-ZZts7": {
-            "hits": 367,
-            "textWords": 8109
-          },
-          "lUVudQaoycBO": {
-            "hits": 1,
-            "textWords": 8109
-          },
-          "oqVRpkWKjeIk": {
-            "hits": 93,
-            "textWords": 8109
-          },
-          "vl1dN1Qtdfk6": {
-            "hits": 82,
-            "textWords": 8109
-          }
-        },
-        "queryPhraseHits": 9
-      }
-    ],
-    [
-      {
-        "hash": "D4lABzaS0qdw",
-        "address": "https://planet.debian.org/",
-        "title": "Planet Debian",
-        "snippet": "what I wanted for many years: I deleted the last cgo dependency in Debian Code Search! This was made possible by Go’s recently introduced SIMD support, because now we can implement the TurboPFor integer compression format as efficiently — more efficiently, in fact, by using the newer AVX512",
+        "snippet": "The SIMD version also processes 8 values, but without a for i := range 8 loop!\nOne difference is that we no longer have the luxury of using uint64 for acc (holding rest and current bits); because AVX2 registers only fit 8 uint32 (not 8 uint64). Instead, we split acc into rest8 and cur8.",
         "matchedWords": {
           "KULEZq6YXE_i": {
             "hits": 2,
@@ -599,7 +134,7 @@
         "hash": "-b3sxspKNBr4",
         "address": "https://rense.com/",
         "title": "rense.com",
-        "snippet": "the news moves fast\nThe Banned 2001 Fox News Segment Suggesting\nIsrael’s Mossad Is Involved In The 9/11 Attacks\nALL Candidates For House And Senate Should\nHave To Sign ‘Contract With America’\nCIA and FBI KNEW about the 9/11 terrorist\nattacks being prepared in the US\nTruth check - Trump makes",
+        "snippet": "The largest AI data center project in\nCalifornia is suing to get access to the\nColorado River A 330 MW data center wanted to\nbuy a farm, switch off the irrigation, and\ndrink the difference — California's most\npowerful irrigation district said no, so it sued\nAI is quietly scanning and then shredding",
         "matchedWords": {
           "KULEZq6YXE_i": {
             "hits": 20,
@@ -642,7 +177,472 @@
         "hash": "-b3sxspKNBr4",
         "address": "https://rense.com/",
         "title": "rense.com",
-        "snippet": "the news moves fast\nThe Banned 2001 Fox News Segment Suggesting\nIsrael’s Mossad Is Involved In The 9/11 Attacks\nALL Candidates For House And Senate Should\nHave To Sign ‘Contract With America’\nCIA and FBI KNEW about the 9/11 terrorist\nattacks being prepared in the US\nTruth check - Trump makes",
+        "snippet": "The largest AI data center project in\nCalifornia is suing to get access to the\nColorado River A 330 MW data center wanted to\nbuy a farm, switch off the irrigation, and\ndrink the difference — California's most\npowerful irrigation district said no, so it sued\nAI is quietly scanning and then shredding",
+        "matchedWords": {
+          "KULEZq6YXE_i": {
+            "hits": 20,
+            "textWords": 85916
+          },
+          "SiAo7OrF4fTS": {
+            "hits": 104,
+            "textWords": 85916
+          },
+          "XgVsUAocS2px": {
+            "hits": 1,
+            "textWords": 85916
+          },
+          "gHkbOucALLiM": {
+            "hits": 0,
+            "textWords": 85916
+          },
+          "j8Qsbd-ZZts7": {
+            "hits": 1870,
+            "textWords": 85916
+          },
+          "lUVudQaoycBO": {
+            "hits": 1,
+            "textWords": 85916
+          },
+          "oqVRpkWKjeIk": {
+            "hits": 660,
+            "textWords": 85916
+          },
+          "vl1dN1Qtdfk6": {
+            "hits": 1012,
+            "textWords": 85916
+          }
+        },
+        "queryPhraseHits": 24
+      }
+    ],
+    [
+      {
+        "hash": "-b3sxspKNBr4",
+        "address": "https://rense.com/",
+        "title": "rense.com",
+        "snippet": "The largest AI data center project in\nCalifornia is suing to get access to the\nColorado River A 330 MW data center wanted to\nbuy a farm, switch off the irrigation, and\ndrink the difference — California's most\npowerful irrigation district said no, so it sued\nAI is quietly scanning and then shredding",
+        "matchedWords": {
+          "KULEZq6YXE_i": {
+            "hits": 20,
+            "textWords": 85916
+          },
+          "SiAo7OrF4fTS": {
+            "hits": 104,
+            "textWords": 85916
+          },
+          "XgVsUAocS2px": {
+            "hits": 1,
+            "textWords": 85916
+          },
+          "gHkbOucALLiM": {
+            "hits": 0,
+            "textWords": 85916
+          },
+          "j8Qsbd-ZZts7": {
+            "hits": 1870,
+            "textWords": 85916
+          },
+          "lUVudQaoycBO": {
+            "hits": 1,
+            "textWords": 85916
+          },
+          "oqVRpkWKjeIk": {
+            "hits": 660,
+            "textWords": 85916
+          },
+          "vl1dN1Qtdfk6": {
+            "hits": 1012,
+            "textWords": 85916
+          }
+        },
+        "queryPhraseHits": 24
+      }
+    ],
+    [
+      {
+        "hash": "-b3sxspKNBr4",
+        "address": "https://rense.com/",
+        "title": "rense.com",
+        "snippet": "The largest AI data center project in\nCalifornia is suing to get access to the\nColorado River A 330 MW data center wanted to\nbuy a farm, switch off the irrigation, and\ndrink the difference — California's most\npowerful irrigation district said no, so it sued\nAI is quietly scanning and then shredding",
+        "matchedWords": {
+          "KULEZq6YXE_i": {
+            "hits": 20,
+            "textWords": 85916
+          },
+          "SiAo7OrF4fTS": {
+            "hits": 104,
+            "textWords": 85916
+          },
+          "XgVsUAocS2px": {
+            "hits": 1,
+            "textWords": 85916
+          },
+          "gHkbOucALLiM": {
+            "hits": 0,
+            "textWords": 85916
+          },
+          "j8Qsbd-ZZts7": {
+            "hits": 1870,
+            "textWords": 85916
+          },
+          "lUVudQaoycBO": {
+            "hits": 1,
+            "textWords": 85916
+          },
+          "oqVRpkWKjeIk": {
+            "hits": 660,
+            "textWords": 85916
+          },
+          "vl1dN1Qtdfk6": {
+            "hits": 1012,
+            "textWords": 85916
+          }
+        },
+        "queryPhraseHits": 24
+      },
+      {
+        "hash": "D4lABzaS0qdw",
+        "address": "https://planet.debian.org/",
+        "title": "Planet Debian",
+        "snippet": "The SIMD version also processes 8 values, but without a for i := range 8 loop!\nOne difference is that we no longer have the luxury of using uint64 for acc (holding rest and current bits); because AVX2 registers only fit 8 uint32 (not 8 uint64). Instead, we split acc into rest8 and cur8.",
+        "matchedWords": {
+          "KULEZq6YXE_i": {
+            "hits": 2,
+            "textWords": 8109
+          },
+          "SiAo7OrF4fTS": {
+            "hits": 10,
+            "textWords": 8109
+          },
+          "XgVsUAocS2px": {
+            "hits": 1,
+            "textWords": 8109
+          },
+          "gHkbOucALLiM": {
+            "hits": 0,
+            "textWords": 8109
+          },
+          "j8Qsbd-ZZts7": {
+            "hits": 367,
+            "textWords": 8109
+          },
+          "lUVudQaoycBO": {
+            "hits": 1,
+            "textWords": 8109
+          },
+          "oqVRpkWKjeIk": {
+            "hits": 93,
+            "textWords": 8109
+          },
+          "vl1dN1Qtdfk6": {
+            "hits": 82,
+            "textWords": 8109
+          }
+        },
+        "queryPhraseHits": 9
+      }
+    ],
+    [
+      {
+        "hash": "-b3sxspKNBr4",
+        "address": "https://rense.com/",
+        "title": "rense.com",
+        "snippet": "The largest AI data center project in\nCalifornia is suing to get access to the\nColorado River A 330 MW data center wanted to\nbuy a farm, switch off the irrigation, and\ndrink the difference — California's most\npowerful irrigation district said no, so it sued\nAI is quietly scanning and then shredding",
+        "matchedWords": {
+          "KULEZq6YXE_i": {
+            "hits": 20,
+            "textWords": 85916
+          },
+          "SiAo7OrF4fTS": {
+            "hits": 104,
+            "textWords": 85916
+          },
+          "XgVsUAocS2px": {
+            "hits": 1,
+            "textWords": 85916
+          },
+          "gHkbOucALLiM": {
+            "hits": 0,
+            "textWords": 85916
+          },
+          "j8Qsbd-ZZts7": {
+            "hits": 1870,
+            "textWords": 85916
+          },
+          "lUVudQaoycBO": {
+            "hits": 1,
+            "textWords": 85916
+          },
+          "oqVRpkWKjeIk": {
+            "hits": 660,
+            "textWords": 85916
+          },
+          "vl1dN1Qtdfk6": {
+            "hits": 1012,
+            "textWords": 85916
+          }
+        },
+        "queryPhraseHits": 24
+      },
+      {
+        "hash": "D4lABzaS0qdw",
+        "address": "https://planet.debian.org/",
+        "title": "Planet Debian",
+        "snippet": "The SIMD version also processes 8 values, but without a for i := range 8 loop!\nOne difference is that we no longer have the luxury of using uint64 for acc (holding rest and current bits); because AVX2 registers only fit 8 uint32 (not 8 uint64). Instead, we split acc into rest8 and cur8.",
+        "matchedWords": {
+          "KULEZq6YXE_i": {
+            "hits": 2,
+            "textWords": 8109
+          },
+          "SiAo7OrF4fTS": {
+            "hits": 10,
+            "textWords": 8109
+          },
+          "XgVsUAocS2px": {
+            "hits": 1,
+            "textWords": 8109
+          },
+          "gHkbOucALLiM": {
+            "hits": 0,
+            "textWords": 8109
+          },
+          "j8Qsbd-ZZts7": {
+            "hits": 367,
+            "textWords": 8109
+          },
+          "lUVudQaoycBO": {
+            "hits": 1,
+            "textWords": 8109
+          },
+          "oqVRpkWKjeIk": {
+            "hits": 93,
+            "textWords": 8109
+          },
+          "vl1dN1Qtdfk6": {
+            "hits": 82,
+            "textWords": 8109
+          }
+        },
+        "queryPhraseHits": 9
+      }
+    ],
+    [
+      {
+        "hash": "D4lABzaS0qdw",
+        "address": "https://planet.debian.org/",
+        "title": "Planet Debian",
+        "snippet": "The SIMD version also processes 8 values, but without a for i := range 8 loop!\nOne difference is that we no longer have the luxury of using uint64 for acc (holding rest and current bits); because AVX2 registers only fit 8 uint32 (not 8 uint64). Instead, we split acc into rest8 and cur8.",
+        "matchedWords": {
+          "KULEZq6YXE_i": {
+            "hits": 2,
+            "textWords": 8109
+          },
+          "SiAo7OrF4fTS": {
+            "hits": 10,
+            "textWords": 8109
+          },
+          "XgVsUAocS2px": {
+            "hits": 1,
+            "textWords": 8109
+          },
+          "gHkbOucALLiM": {
+            "hits": 0,
+            "textWords": 8109
+          },
+          "j8Qsbd-ZZts7": {
+            "hits": 367,
+            "textWords": 8109
+          },
+          "lUVudQaoycBO": {
+            "hits": 1,
+            "textWords": 8109
+          },
+          "oqVRpkWKjeIk": {
+            "hits": 93,
+            "textWords": 8109
+          },
+          "vl1dN1Qtdfk6": {
+            "hits": 82,
+            "textWords": 8109
+          }
+        },
+        "queryPhraseHits": 9
+      }
+    ],
+    [
+      {
+        "hash": "-b3sxspKNBr4",
+        "address": "https://rense.com/",
+        "title": "rense.com",
+        "snippet": "The largest AI data center project in\nCalifornia is suing to get access to the\nColorado River A 330 MW data center wanted to\nbuy a farm, switch off the irrigation, and\ndrink the difference — California's most\npowerful irrigation district said no, so it sued\nAI is quietly scanning and then shredding",
+        "matchedWords": {
+          "KULEZq6YXE_i": {
+            "hits": 20,
+            "textWords": 85916
+          },
+          "SiAo7OrF4fTS": {
+            "hits": 104,
+            "textWords": 85916
+          },
+          "XgVsUAocS2px": {
+            "hits": 1,
+            "textWords": 85916
+          },
+          "gHkbOucALLiM": {
+            "hits": 0,
+            "textWords": 85916
+          },
+          "j8Qsbd-ZZts7": {
+            "hits": 1870,
+            "textWords": 85916
+          },
+          "lUVudQaoycBO": {
+            "hits": 1,
+            "textWords": 85916
+          },
+          "oqVRpkWKjeIk": {
+            "hits": 660,
+            "textWords": 85916
+          },
+          "vl1dN1Qtdfk6": {
+            "hits": 1012,
+            "textWords": 85916
+          }
+        },
+        "queryPhraseHits": 24
+      },
+      {
+        "hash": "D4lABzaS0qdw",
+        "address": "https://planet.debian.org/",
+        "title": "Planet Debian",
+        "snippet": "The SIMD version also processes 8 values, but without a for i := range 8 loop!\nOne difference is that we no longer have the luxury of using uint64 for acc (holding rest and current bits); because AVX2 registers only fit 8 uint32 (not 8 uint64). Instead, we split acc into rest8 and cur8.",
+        "matchedWords": {
+          "KULEZq6YXE_i": {
+            "hits": 2,
+            "textWords": 8109
+          },
+          "SiAo7OrF4fTS": {
+            "hits": 10,
+            "textWords": 8109
+          },
+          "XgVsUAocS2px": {
+            "hits": 1,
+            "textWords": 8109
+          },
+          "gHkbOucALLiM": {
+            "hits": 0,
+            "textWords": 8109
+          },
+          "j8Qsbd-ZZts7": {
+            "hits": 367,
+            "textWords": 8109
+          },
+          "lUVudQaoycBO": {
+            "hits": 1,
+            "textWords": 8109
+          },
+          "oqVRpkWKjeIk": {
+            "hits": 93,
+            "textWords": 8109
+          },
+          "vl1dN1Qtdfk6": {
+            "hits": 82,
+            "textWords": 8109
+          }
+        },
+        "queryPhraseHits": 9
+      }
+    ],
+    [
+      {
+        "hash": "D4lABzaS0qdw",
+        "address": "https://planet.debian.org/",
+        "title": "Planet Debian",
+        "snippet": "The SIMD version also processes 8 values, but without a for i := range 8 loop!\nOne difference is that we no longer have the luxury of using uint64 for acc (holding rest and current bits); because AVX2 registers only fit 8 uint32 (not 8 uint64). Instead, we split acc into rest8 and cur8.",
+        "matchedWords": {
+          "KULEZq6YXE_i": {
+            "hits": 2,
+            "textWords": 8109
+          },
+          "SiAo7OrF4fTS": {
+            "hits": 10,
+            "textWords": 8109
+          },
+          "XgVsUAocS2px": {
+            "hits": 1,
+            "textWords": 8109
+          },
+          "gHkbOucALLiM": {
+            "hits": 0,
+            "textWords": 8109
+          },
+          "j8Qsbd-ZZts7": {
+            "hits": 367,
+            "textWords": 8109
+          },
+          "lUVudQaoycBO": {
+            "hits": 1,
+            "textWords": 8109
+          },
+          "oqVRpkWKjeIk": {
+            "hits": 93,
+            "textWords": 8109
+          },
+          "vl1dN1Qtdfk6": {
+            "hits": 82,
+            "textWords": 8109
+          }
+        },
+        "queryPhraseHits": 9
+      },
+      {
+        "hash": "-b3sxspKNBr4",
+        "address": "https://rense.com/",
+        "title": "rense.com",
+        "snippet": "The largest AI data center project in\nCalifornia is suing to get access to the\nColorado River A 330 MW data center wanted to\nbuy a farm, switch off the irrigation, and\ndrink the difference — California's most\npowerful irrigation district said no, so it sued\nAI is quietly scanning and then shredding",
+        "matchedWords": {
+          "KULEZq6YXE_i": {
+            "hits": 20,
+            "textWords": 85916
+          },
+          "SiAo7OrF4fTS": {
+            "hits": 104,
+            "textWords": 85916
+          },
+          "XgVsUAocS2px": {
+            "hits": 1,
+            "textWords": 85916
+          },
+          "gHkbOucALLiM": {
+            "hits": 0,
+            "textWords": 85916
+          },
+          "j8Qsbd-ZZts7": {
+            "hits": 1870,
+            "textWords": 85916
+          },
+          "lUVudQaoycBO": {
+            "hits": 1,
+            "textWords": 85916
+          },
+          "oqVRpkWKjeIk": {
+            "hits": 660,
+            "textWords": 85916
+          },
+          "vl1dN1Qtdfk6": {
+            "hits": 1012,
+            "textWords": 85916
+          }
+        },
+        "queryPhraseHits": 24
+      }
+    ],
+    [
+      {
+        "hash": "-b3sxspKNBr4",
+        "address": "https://rense.com/",
+        "title": "rense.com",
+        "snippet": "The largest AI data center project in\nCalifornia is suing to get access to the\nColorado River A 330 MW data center wanted to\nbuy a farm, switch off the irrigation, and\ndrink the difference — California's most\npowerful irrigation district said no, so it sued\nAI is quietly scanning and then shredding",
         "matchedWords": {
           "KULEZq6YXE_i": {
             "hits": 20,
@@ -685,7 +685,7 @@
         "hash": "D4lABzaS0qdw",
         "address": "https://planet.debian.org/",
         "title": "Planet Debian",
-        "snippet": "what I wanted for many years: I deleted the last cgo dependency in Debian Code Search! This was made possible by Go’s recently introduced SIMD support, because now we can implement the TurboPFor integer compression format as efficiently — more efficiently, in fact, by using the newer AVX512",
+        "snippet": "The SIMD version also processes 8 values, but without a for i := range 8 loop!\nOne difference is that we no longer have the luxury of using uint64 for acc (holding rest and current bits); because AVX2 registers only fit 8 uint32 (not 8 uint64). Instead, we split acc into rest8 and cur8.",
         "matchedWords": {
           "KULEZq6YXE_i": {
             "hits": 2,
@@ -729,7 +729,7 @@
       "hash": "1ojMPAK-xyJ4",
       "address": "https://go.dev/doc/effective_go",
       "title": "Effective Go - The Go Programming Language",
-      "snippet": "and is not actively updated. While it remains a good guide for using the core language, it does not cover significant changes to the language (generics), ecosystem (modules), or libraries added since. See issue 28782 for context. For a complete list of changes, see the release notes.\nIntroduction",
+      "snippet": "In contrast, new([]int) returns a pointer to a newly allocated, zeroed slice structure, that is, a pointer to a nil slice value.\nThese examples illustrate the difference between new and make.",
       "matchedWords": {
         "KULEZq6YXE_i": {
           "hits": 5,
@@ -770,7 +770,7 @@
       "hash": "MAC3Gs6GdY-4",
       "address": "https://danluu.com/web-bloat/",
       "title": "How web bloat impacts users with slow connections",
-      "snippet": "and mostly stayed in rural hotels on the way. I expected the internet in rural areas too sparse to have cable internet to be slow, but I was still surprised that a large fraction of the web was inaccessible. Some blogs with lightweight styling were readable, as were pages by academics who hadn’t",
+      "snippet": "When I measured my connection, I found that the bandwidth was roughly comparable to what I got with a 56k modem in the 90s. The latency and packetloss were significantly worse than the average day on dialup: latency varied between 500ms and 1000ms and packetloss varied between 1% and 10%.",
       "matchedWords": {
         "KULEZq6YXE_i": {
           "hits": 3,
@@ -811,7 +811,7 @@
       "hash": "MAC3Gs6GdY-4",
       "address": "https://danluu.com/web-bloat/",
       "title": "How web bloat impacts users with slow connections",
-      "snippet": "and mostly stayed in rural hotels on the way. I expected the internet in rural areas too sparse to have cable internet to be slow, but I was still surprised that a large fraction of the web was inaccessible. Some blogs with lightweight styling were readable, as were pages by academics who hadn’t",
+      "snippet": "When I measured my connection, I found that the bandwidth was roughly comparable to what I got with a 56k modem in the 90s. The latency and packetloss were significantly worse than the average day on dialup: latency varied between 500ms and 1000ms and packetloss varied between 1% and 10%.",
       "matchedWords": {
         "KULEZq6YXE_i": {
           "hits": 3,
@@ -893,7 +893,7 @@
       "hash": "MAC3Gs6GdY-4",
       "address": "https://danluu.com/web-bloat/",
       "title": "How web bloat impacts users with slow connections",
-      "snippet": "and mostly stayed in rural hotels on the way. I expected the internet in rural areas too sparse to have cable internet to be slow, but I was still surprised that a large fraction of the web was inaccessible. Some blogs with lightweight styling were readable, as were pages by academics who hadn’t",
+      "snippet": "When I measured my connection, I found that the bandwidth was roughly comparable to what I got with a 56k modem in the 90s. The latency and packetloss were significantly worse than the average day on dialup: latency varied between 500ms and 1000ms and packetloss varied between 1% and 10%.",
       "matchedWords": {
         "KULEZq6YXE_i": {
           "hits": 3,
@@ -975,7 +975,7 @@
       "hash": "MAC3Gs6GdY-4",
       "address": "https://danluu.com/web-bloat/",
       "title": "How web bloat impacts users with slow connections",
-      "snippet": "and mostly stayed in rural hotels on the way. I expected the internet in rural areas too sparse to have cable internet to be slow, but I was still surprised that a large fraction of the web was inaccessible. Some blogs with lightweight styling were readable, as were pages by academics who hadn’t",
+      "snippet": "When I measured my connection, I found that the bandwidth was roughly comparable to what I got with a 56k modem in the 90s. The latency and packetloss were significantly worse than the average day on dialup: latency varied between 500ms and 1000ms and packetloss varied between 1% and 10%.",
       "matchedWords": {
         "KULEZq6YXE_i": {
           "hits": 3,
@@ -1057,7 +1057,7 @@
       "hash": "MAC3Gs6GdY-4",
       "address": "https://danluu.com/web-bloat/",
       "title": "How web bloat impacts users with slow connections",
-      "snippet": "and mostly stayed in rural hotels on the way. I expected the internet in rural areas too sparse to have cable internet to be slow, but I was still surprised that a large fraction of the web was inaccessible. Some blogs with lightweight styling were readable, as were pages by academics who hadn’t",
+      "snippet": "When I measured my connection, I found that the bandwidth was roughly comparable to what I got with a 56k modem in the 90s. The latency and packetloss were significantly worse than the average day on dialup: latency varied between 500ms and 1000ms and packetloss varied between 1% and 10%.",
       "matchedWords": {
         "KULEZq6YXE_i": {
           "hits": 3,
@@ -1139,7 +1139,7 @@
       "hash": "WJpREitD2jQw",
       "address": "https://docs.python.org/3/library/datetime.html",
       "title": "datetime — Basic date and time types — Python 3.13.5 documentation",
-      "snippet": "The datetime module supplies classes for manipulating dates and times.\nWhile date and time arithmetic is supported, the focus of the implementation is on efficient attribute extraction for output formatting and manipulation.\nTip\nSkip to the format codes.\nSee also\nModule calendar\nGeneral calendar",
+      "snippet": "Return the fixed value specified when the timezone instance is constructed.\nThe dt argument is ignored. The return value is a timedelta instance equal to the difference between the local time and UTC.\nChanged in version 3.7: The UTC offset is not restricted to a whole number of minutes.",
       "matchedWords": {
         "KULEZq6YXE_i": {
           "hits": 34,
@@ -1180,7 +1180,7 @@
       "hash": "WJpREitD2jQw",
       "address": "https://docs.python.org/3/library/datetime.html",
       "title": "datetime — Basic date and time types — Python 3.14.7 documentation",
-      "snippet": "The datetime module supplies classes for manipulating dates and times.\nWhile date and time arithmetic is supported, the focus of the implementation is on efficient attribute extraction for output formatting and manipulation.\nTip\nSkip to the format codes.\nSee also\nModule calendar\nGeneral calendar",
+      "snippet": "Return the fixed value specified when the timezone instance is constructed.\nThe dt argument is ignored. The return value is a timedelta instance equal to the difference between the local time and UTC.\nChanged in version 3.7: The UTC offset is not restricted to a whole number of minutes.",
       "matchedWords": {
         "KULEZq6YXE_i": {
           "hits": 34,
@@ -1221,7 +1221,7 @@
       "hash": "WJpREitD2jQw",
       "address": "https://docs.python.org/3/library/datetime.html",
       "title": "datetime — Basic date and time types — Python 3.14.0 documentation",
-      "snippet": "The datetime module supplies classes for manipulating dates and times.\nWhile date and time arithmetic is supported, the focus of the implementation is on efficient attribute extraction for output formatting and manipulation.\nTip\nSkip to the format codes.\nSee also\nModule calendar\nGeneral calendar",
+      "snippet": "Return the fixed value specified when the timezone instance is constructed.\nThe dt argument is ignored. The return value is a timedelta instance equal to the difference between the local time and UTC.\nChanged in version 3.7: The UTC offset is not restricted to a whole number of minutes.",
       "matchedWords": {
         "KULEZq6YXE_i": {
           "hits": 34,
@@ -1262,7 +1262,7 @@
       "hash": "1ojMPAK-xyJ4",
       "address": "https://go.dev/doc/effective_go",
       "title": "Effective Go - The Go Programming Language",
-      "snippet": "and is not actively updated. While it remains a good guide for using the core language, it does not cover significant changes to the language (generics), ecosystem (modules), or libraries added since. See issue 28782 for context. For a complete list of changes, see the release notes.\nIntroduction",
+      "snippet": "In contrast, new([]int) returns a pointer to a newly allocated, zeroed slice structure, that is, a pointer to a nil slice value.\nThese examples illustrate the difference between new and make.",
       "matchedWords": {
         "KULEZq6YXE_i": {
           "hits": 5,
@@ -1303,7 +1303,7 @@
       "hash": "1ojMPAK-xyJ4",
       "address": "https://go.dev/doc/effective_go",
       "title": "Effective Go - The Go Programming Language",
-      "snippet": "and is not actively updated. While it remains a good guide for using the core language, it does not cover significant changes to the language (generics), ecosystem (modules), or libraries added since. See issue 28782 for context. For a complete list of changes, see the release notes.\nIntroduction",
+      "snippet": "In contrast, new([]int) returns a pointer to a newly allocated, zeroed slice structure, that is, a pointer to a nil slice value.\nThese examples illustrate the difference between new and make.",
       "matchedWords": {
         "KULEZq6YXE_i": {
           "hits": 5,
@@ -1344,7 +1344,7 @@
       "hash": "1ojMPAK-xyJ4",
       "address": "https://go.dev/doc/effective_go",
       "title": "Effective Go - The Go Programming Language",
-      "snippet": "and is not actively updated. While it remains a good guide for using the core language, it does not cover significant changes to the language (generics), ecosystem (modules), or libraries added since. See issue 28782 for context. For a complete list of changes, see the release notes.\nIntroduction",
+      "snippet": "In contrast, new([]int) returns a pointer to a newly allocated, zeroed slice structure, that is, a pointer to a nil slice value.\nThese examples illustrate the difference between new and make.",
       "matchedWords": {
         "KULEZq6YXE_i": {
           "hits": 5,
@@ -1385,7 +1385,7 @@
       "hash": "1ojMPAK-xyJ4",
       "address": "https://go.dev/doc/effective_go",
       "title": "Effective Go - The Go Programming Language",
-      "snippet": "and is not actively updated. While it remains a good guide for using the core language, it does not cover significant changes to the language (generics), ecosystem (modules), or libraries added since. See issue 28782 for context. For a complete list of changes, see the release notes.\nIntroduction",
+      "snippet": "In contrast, new([]int) returns a pointer to a newly allocated, zeroed slice structure, that is, a pointer to a nil slice value.\nThese examples illustrate the difference between new and make.",
       "matchedWords": {
         "KULEZq6YXE_i": {
           "hits": 5,
@@ -1426,7 +1426,7 @@
       "hash": "1ojMPAK-xyJ4",
       "address": "https://go.dev/doc/effective_go",
       "title": "Effective Go - The Go Programming Language",
-      "snippet": "and is not actively updated. While it remains a good guide for using the core language, it does not cover significant changes to the language (generics), ecosystem (modules), or libraries added since. See issue 28782 for context. For a complete list of changes, see the release notes.\nIntroduction",
+      "snippet": "In contrast, new([]int) returns a pointer to a newly allocated, zeroed slice structure, that is, a pointer to a nil slice value.\nThese examples illustrate the difference between new and make.",
       "matchedWords": {
         "KULEZq6YXE_i": {
           "hits": 5,
@@ -1467,7 +1467,7 @@
       "hash": "MAC3Gs6GdY-4",
       "address": "https://danluu.com/web-bloat/",
       "title": "How web bloat impacts users with slow connections",
-      "snippet": "and mostly stayed in rural hotels on the way. I expected the internet in rural areas too sparse to have cable internet to be slow, but I was still surprised that a large fraction of the web was inaccessible. Some blogs with lightweight styling were readable, as were pages by academics who hadn’t",
+      "snippet": "When I measured my connection, I found that the bandwidth was roughly comparable to what I got with a 56k modem in the 90s. The latency and packetloss were significantly worse than the average day on dialup: latency varied between 500ms and 1000ms and packetloss varied between 1% and 10%.",
       "matchedWords": {
         "KULEZq6YXE_i": {
           "hits": 3,
@@ -1549,7 +1549,7 @@
       "hash": "MAC3Gs6GdY-4",
       "address": "https://danluu.com/web-bloat/",
       "title": "How web bloat impacts users with slow connections",
-      "snippet": "and mostly stayed in rural hotels on the way. I expected the internet in rural areas too sparse to have cable internet to be slow, but I was still surprised that a large fraction of the web was inaccessible. Some blogs with lightweight styling were readable, as were pages by academics who hadn’t",
+      "snippet": "When I measured my connection, I found that the bandwidth was roughly comparable to what I got with a 56k modem in the 90s. The latency and packetloss were significantly worse than the average day on dialup: latency varied between 500ms and 1000ms and packetloss varied between 1% and 10%.",
       "matchedWords": {
         "KULEZq6YXE_i": {
           "hits": 3,
@@ -1631,7 +1631,7 @@
       "hash": "MAC3Gs6GdY-4",
       "address": "https://danluu.com/web-bloat/",
       "title": "How web bloat impacts users with slow connections",
-      "snippet": "and mostly stayed in rural hotels on the way. I expected the internet in rural areas too sparse to have cable internet to be slow, but I was still surprised that a large fraction of the web was inaccessible. Some blogs with lightweight styling were readable, as were pages by academics who hadn’t",
+      "snippet": "When I measured my connection, I found that the bandwidth was roughly comparable to what I got with a 56k modem in the 90s. The latency and packetloss were significantly worse than the average day on dialup: latency varied between 500ms and 1000ms and packetloss varied between 1% and 10%.",
       "matchedWords": {
         "KULEZq6YXE_i": {
           "hits": 3,
@@ -1713,7 +1713,7 @@
       "hash": "MAC3Gs6GdY-4",
       "address": "https://danluu.com/web-bloat/",
       "title": "How web bloat impacts users with slow connections",
-      "snippet": "and mostly stayed in rural hotels on the way. I expected the internet in rural areas too sparse to have cable internet to be slow, but I was still surprised that a large fraction of the web was inaccessible. Some blogs with lightweight styling were readable, as were pages by academics who hadn’t",
+      "snippet": "When I measured my connection, I found that the bandwidth was roughly comparable to what I got with a 56k modem in the 90s. The latency and packetloss were significantly worse than the average day on dialup: latency varied between 500ms and 1000ms and packetloss varied between 1% and 10%.",
       "matchedWords": {
         "KULEZq6YXE_i": {
           "hits": 3,
@@ -1795,7 +1795,7 @@
       "hash": "WJpREitD2jQw",
       "address": "https://docs.python.org/3/library/datetime.html",
       "title": "datetime — Basic date and time types — Python 3.14.0 documentation",
-      "snippet": "The datetime module supplies classes for manipulating dates and times.\nWhile date and time arithmetic is supported, the focus of the implementation is on efficient attribute extraction for output formatting and manipulation.\nTip\nSkip to the format codes.\nSee also\nModule calendar\nGeneral calendar",
+      "snippet": "Return the fixed value specified when the timezone instance is constructed.\nThe dt argument is ignored. The return value is a timedelta instance equal to the difference between the local time and UTC.\nChanged in version 3.7: The UTC offset is not restricted to a whole number of minutes.",
       "matchedWords": {
         "KULEZq6YXE_i": {
           "hits": 34,
@@ -1836,7 +1836,7 @@
       "hash": "WJpREitD2jQw",
       "address": "https://docs.python.org/3/library/datetime.html",
       "title": "datetime — Basic date and time types — Python 3.14.6 documentation",
-      "snippet": "The datetime module supplies classes for manipulating dates and times.\nWhile date and time arithmetic is supported, the focus of the implementation is on efficient attribute extraction for output formatting and manipulation.\nTip\nSkip to the format codes.\nSee also\nModule calendar\nGeneral calendar",
+      "snippet": "Return the fixed value specified when the timezone instance is constructed.\nThe dt argument is ignored. The return value is a timedelta instance equal to the difference between the local time and UTC.\nChanged in version 3.7: The UTC offset is not restricted to a whole number of minutes.",
       "matchedWords": {
         "KULEZq6YXE_i": {
           "hits": 34,
@@ -1877,7 +1877,7 @@
       "hash": "WJpREitD2jQw",
       "address": "https://docs.python.org/3/library/datetime.html",
       "title": "8.1. datetime — Basic date and time types — Python 3.6.5 documentation",
-      "snippet": "The datetime module supplies classes for manipulating dates and times.\nWhile date and time arithmetic is supported, the focus of the implementation is on efficient attribute extraction for output formatting and manipulation.\nTip\nSkip to the format codes.\nSee also\nModule calendar\nGeneral calendar",
+      "snippet": "Return the fixed value specified when the timezone instance is constructed.\nThe dt argument is ignored. The return value is a timedelta instance equal to the difference between the local time and UTC.\nChanged in version 3.7: The UTC offset is not restricted to a whole number of minutes.",
       "matchedWords": {
         "KULEZq6YXE_i": {
           "hits": 34,
@@ -1918,7 +1918,7 @@
       "hash": "WJpREitD2jQw",
       "address": "https://docs.python.org/3/library/datetime.html",
       "title": "datetime — Basic date and time types — Python 3.14.0 documentation",
-      "snippet": "The datetime module supplies classes for manipulating dates and times.\nWhile date and time arithmetic is supported, the focus of the implementation is on efficient attribute extraction for output formatting and manipulation.\nTip\nSkip to the format codes.\nSee also\nModule calendar\nGeneral calendar",
+      "snippet": "Return the fixed value specified when the timezone instance is constructed.\nThe dt argument is ignored. The return value is a timedelta instance equal to the difference between the local time and UTC.\nChanged in version 3.7: The UTC offset is not restricted to a whole number of minutes.",
       "matchedWords": {
         "KULEZq6YXE_i": {
           "hits": 34,
@@ -1959,7 +1959,7 @@
       "hash": "WJpREitD2jQw",
       "address": "https://docs.python.org/3/library/datetime.html",
       "title": "datetime — Basic date and time types — Python 3.14.0 documentation",
-      "snippet": "The datetime module supplies classes for manipulating dates and times.\nWhile date and time arithmetic is supported, the focus of the implementation is on efficient attribute extraction for output formatting and manipulation.\nTip\nSkip to the format codes.\nSee also\nModule calendar\nGeneral calendar",
+      "snippet": "Return the fixed value specified when the timezone instance is constructed.\nThe dt argument is ignored. The return value is a timedelta instance equal to the difference between the local time and UTC.\nChanged in version 3.7: The UTC offset is not restricted to a whole number of minutes.",
       "matchedWords": {
         "KULEZq6YXE_i": {
           "hits": 34,
@@ -2000,7 +2000,7 @@
       "hash": "1ojMPAK-xyJ4",
       "address": "https://go.dev/doc/effective_go",
       "title": "Effective Go - The Go Programming Language",
-      "snippet": "and is not actively updated. While it remains a good guide for using the core language, it does not cover significant changes to the language (generics), ecosystem (modules), or libraries added since. See issue 28782 for context. For a complete list of changes, see the release notes.\nIntroduction",
+      "snippet": "In contrast, new([]int) returns a pointer to a newly allocated, zeroed slice structure, that is, a pointer to a nil slice value.\nThese examples illustrate the difference between new and make.",
       "matchedWords": {
         "KULEZq6YXE_i": {
           "hits": 5,
@@ -2041,7 +2041,7 @@
       "hash": "1ojMPAK-xyJ4",
       "address": "https://go.dev/doc/effective_go",
       "title": "Effective Go - The Go Programming Language",
-      "snippet": "and is not actively updated. While it remains a good guide for using the core language, it does not cover significant changes to the language (generics), ecosystem (modules), or libraries added since. See issue 28782 for context. For a complete list of changes, see the release notes.\nIntroduction",
+      "snippet": "In contrast, new([]int) returns a pointer to a newly allocated, zeroed slice structure, that is, a pointer to a nil slice value.\nThese examples illustrate the difference between new and make.",
       "matchedWords": {
         "KULEZq6YXE_i": {
           "hits": 5,
@@ -2082,7 +2082,7 @@
       "hash": "WJpREitD2jQw",
       "address": "https://docs.python.org/3/library/datetime.html",
       "title": "datetime — Basic date and time types — Python 3.14.6 documentation",
-      "snippet": "The datetime module supplies classes for manipulating dates and times.\nWhile date and time arithmetic is supported, the focus of the implementation is on efficient attribute extraction for output formatting and manipulation.\nTip\nSkip to the format codes.\nSee also\nModule calendar\nGeneral calendar",
+      "snippet": "Return the fixed value specified when the timezone instance is constructed.\nThe dt argument is ignored. The return value is a timedelta instance equal to the difference between the local time and UTC.\nChanged in version 3.7: The UTC offset is not restricted to a whole number of minutes.",
       "matchedWords": {
         "KULEZq6YXE_i": {
           "hits": 34,
@@ -2123,7 +2123,7 @@
       "hash": "1ojMPAK-xyJ4",
       "address": "https://go.dev/doc/effective_go",
       "title": "Effective Go - The Go Programming Language",
-      "snippet": "and is not actively updated. While it remains a good guide for using the core language, it does not cover significant changes to the language (generics), ecosystem (modules), or libraries added since. See issue 28782 for context. For a complete list of changes, see the release notes.\nIntroduction",
+      "snippet": "In contrast, new([]int) returns a pointer to a newly allocated, zeroed slice structure, that is, a pointer to a nil slice value.\nThese examples illustrate the difference between new and make.",
       "matchedWords": {
         "KULEZq6YXE_i": {
           "hits": 5,
@@ -2164,7 +2164,7 @@
       "hash": "MAC3Gs6GdY-4",
       "address": "https://danluu.com/web-bloat/",
       "title": "How web bloat impacts users with slow connections",
-      "snippet": "and mostly stayed in rural hotels on the way. I expected the internet in rural areas too sparse to have cable internet to be slow, but I was still surprised that a large fraction of the web was inaccessible. Some blogs with lightweight styling were readable, as were pages by academics who hadn’t",
+      "snippet": "When I measured my connection, I found that the bandwidth was roughly comparable to what I got with a 56k modem in the 90s. The latency and packetloss were significantly worse than the average day on dialup: latency varied between 500ms and 1000ms and packetloss varied between 1% and 10%.",
       "matchedWords": {
         "KULEZq6YXE_i": {
           "hits": 3,
@@ -2246,7 +2246,7 @@
       "hash": "WJpREitD2jQw",
       "address": "https://docs.python.org/3/library/datetime.html",
       "title": "datetime — Basic date and time types — Python 3.14.0 documentation",
-      "snippet": "The datetime module supplies classes for manipulating dates and times.\nWhile date and time arithmetic is supported, the focus of the implementation is on efficient attribute extraction for output formatting and manipulation.\nTip\nSkip to the format codes.\nSee also\nModule calendar\nGeneral calendar",
+      "snippet": "Return the fixed value specified when the timezone instance is constructed.\nThe dt argument is ignored. The return value is a timedelta instance equal to the difference between the local time and UTC.\nChanged in version 3.7: The UTC offset is not restricted to a whole number of minutes.",
       "matchedWords": {
         "KULEZq6YXE_i": {
           "hits": 34,
@@ -2287,7 +2287,7 @@
       "hash": "1ojMPAK-xyJ4",
       "address": "https://go.dev/doc/effective_go",
       "title": "Effective Go - The Go Programming Language",
-      "snippet": "and is not actively updated. While it remains a good guide for using the core language, it does not cover significant changes to the language (generics), ecosystem (modules), or libraries added since. See issue 28782 for context. For a complete list of changes, see the release notes.\nIntroduction",
+      "snippet": "In contrast, new([]int) returns a pointer to a newly allocated, zeroed slice structure, that is, a pointer to a nil slice value.\nThese examples illustrate the difference between new and make.",
       "matchedWords": {
         "KULEZq6YXE_i": {
           "hits": 5,

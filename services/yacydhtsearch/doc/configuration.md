@@ -58,7 +58,7 @@ YaCy peers can limit remote searches by client address. Service instances that u
 
 ## Page reading
 
-The service reads the page of each candidate result, and reads all these pages at the same time. It takes the readable text of that page, and the whole text of the page when the page holds no readable article. It counts the query words in that text, counts how often the text holds two query words that the query puts side by side, and cuts the snippet of the result from the same text. A page the service cannot read leaves its result as the peers answered it. The service then orders the results by how well each one answers the query, and makes this relevance one half for each result of the same host it puts above. Thus one host holds more than one place of the first page only with its strongest results.
+The service reads the pages of the candidate results at the same time. It takes the snippet of a result from the sentences of its page that answer the query best, and orders the results by the query words it finds there. A page the service cannot read leaves its result as the peers answered it.
 
 | Variable | Default | Meaning |
 |---|---|---|

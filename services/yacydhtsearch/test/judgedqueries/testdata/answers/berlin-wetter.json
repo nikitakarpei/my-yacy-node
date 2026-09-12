@@ -1,13 +1,13 @@
 {
   "query": "berlin wetter",
-  "recordedAt": "2026-09-12T00:15:26Z",
+  "recordedAt": "2026-09-12T07:51:56Z",
   "itemsInTheOrderOfEachAnswer": [
     [
       {
         "hash": "Eyuo0l_5-JKg",
         "address": "https://www.mtwetter.de/regionales_mittel.php?par=mo_nfx12\u0026datum=09",
         "title": "Wetter- und Klimakarten",
-        "snippet": "Startseite\nHilfe zu den Zeitreihen\nPassende Monatskarte\nZeitreihen\nZeitreihen\nTageszeitreihen\nKarten\n10-Minuten-Karten\nTageskarten\nMonatskarten\nZoom-Karten\n10-Minuten-Karten\nTageskarten\nMonatskarten\nMeteogramme\nTagesmeteogramme\nMeteogramme\nRekorde\nRekordlisten\nRekorde einer Station\nDaten \u0026",
+        "snippet": "Startseite\nHilfe zu den Zeitreihen\nPassende Monatskarte\nZeitreihen\nZeitreihen\nTageszeitreihen\nKarten\n10-Minuten-Karten\nTageskarten\nMonatskarten\nZoom-Karten\n10-Minuten-Karten\nTageskarten\nMonatskarten\nMeteogramme\nTagesmeteogramme\nMeteogramme\nRekorde\nRekordlisten\nRekorde einer Station",
         "matchedWords": {
           "01oC60kUlFD7": {
             "hits": 0,
@@ -45,7 +45,7 @@
         "hash": "xK_P97yX5Qug",
         "address": "https://www.t-online.de/themen/abgeordnetenhauswahl-berlin/",
         "title": "Abgeordnetenhauswahl Berlin 2026: Aktuelle News \u0026 Infos",
-        "snippet": "Berlin: Welche Partei passt zu Ihnen?\nVor Berlin-Wahl\nBerliner SPD-Spitzenkandidat weist neue Vorwürfe zurück\nUmfrage zur Berlin-Wahl\nKnappes Rennen um die Spitze: Linke liegt vorne\nInterview|CDU-Spitzenkandidat Evers\n\"Am Ende setzt sich die Vernunft durch\"\nEin Interview von Florian Schmidt,",
+        "snippet": "Wahlumfragen: Trend deutet Überraschung an\nBerlin-Wahl\nAfD wirbt mit Willy Brandt – das löst Diskussionen aus\nBriefwahl in Berlin\nZahl der Anträge ist gestiegen\nUmfrage zur Wahl in Berlin\nEnges Rennen an der Spitze: Linke liegt knapp vorne\nUmfrage zur Berlin-Wahl",
         "matchedWords": {
           "01oC60kUlFD7": {
             "hits": 32,
@@ -64,7 +64,7 @@
         "hash": "dzGMpl3MiEig",
         "address": "https://www.ndr.de/",
         "title": "NDR.de - Das Beste am Norden - Radio - Fernsehen - Nachrichten | ndr.de",
-        "snippet": "Berlin von Hepstedt lernen kann\nIn Hepstedt im Kreis Rotenburg spielt das Parteibuch keine Rolle. Und nach der Sitzung gibt es Currywurst mit Pommes.\n2. Bundesliga\nPleite in Nürnberg - Hannovers Krise immer schlimmer\nDie Niedersachsen verloren beim \"Club\" nach groben Abwehrfehlern. Jetzt wird die",
+        "snippet": "25 Jahre nach 9/11: Hamburg gedenkt der Opfer\nIn Hamburg ist am Freitag der Opfer des Terroranschlags von 2001 in New York gedacht worden. Vor dem früheren US-Generalkonsulat wurden Blumen abgelegt.\nPolitik ohne Parteien: Was Berlin von Hepstedt lernen kann",
         "matchedWords": {
           "01oC60kUlFD7": {
             "hits": 2,
@@ -81,7 +81,7 @@
         "hash": "ySJH8lvSGqr4",
         "address": "https://einarschlereth.blogspot.com/",
         "title": "einartysken",
-        "snippet": "Berlin will, dass wir nicht mehr Weißrussland sagen, sondern nur noch „Belarus“. Wir sollen gegen Russland jetzt auch etymologisch klare Kante zeigen. Im Folgenden werden beide Bezeichnungen nach Belieben verwendet.\nDie slavischen Völker sagen schon immer Belarus (Bjelorusija, Białoruś,",
+        "snippet": "Jedoch über Lukaschenko hält Putin seine Hand.\nBerlin will, dass wir nicht mehr Weißrussland sagen, sondern nur noch „Belarus“. Wir sollen gegen Russland jetzt auch etymologisch klare Kante zeigen. Im Folgenden werden beide Bezeichnungen nach Belieben verwendet.",
         "matchedWords": {
           "01oC60kUlFD7": {
             "hits": 1,
@@ -117,7 +117,7 @@
         "hash": "Bhyw76Fs30aw",
         "address": "https://www.gsd.harvard.edu/",
         "title": "Home - Harvard Graduate School of Design",
-        "snippet": "Berlin’s Civic Realm,” explores issues around water […]\nAuthor: Rachel MayNov. 15, 2024\nFrom Bauhaus to Bathroom: Isabel Strauss Designs for the Gropius House\nA new visitor bathroom by at the Gropius House reflects a broader shift as studios at the Harvard GSD rethink sanitation and everyday life.",
+        "snippet": "The studio Seewang and Reed are leading this semester, “FLUSH: Waste and Intimacy in Berlin’s Civic Realm,” explores issues around water […]\nAuthor: Rachel MayNov. 15, 2024\nFrom Bauhaus to Bathroom: Isabel Strauss Designs for the Gropius House",
         "matchedWords": {
           "01oC60kUlFD7": {
             "hits": 1,
@@ -136,7 +136,7 @@
         "hash": "l0gZGlXXOSAg",
         "address": "https://www.rbb24.de/wetter/",
         "title": "Wetter in Berlin und Brandenburg",
-        "snippet": "Berlin und Brandenburg\nDer Sonnabend bringt neben etwas Sonne einige kompakte Wolken und im Verlauf sind lokal ein paar Tropfen oder leichte Schauer möglich. Daneben ist es länger bzw. durchweg trocken. Die Höchstwerte liegen bei 20°C in Prenzlau bis 23°C in Treuenbrietzen, in Berlin gibt es 21 bis",
+        "snippet": "Aussichten für Berlin und Brandenburg\nDer Sonnabend bringt neben etwas Sonne einige kompakte Wolken und im Verlauf sind lokal ein paar Tropfen oder leichte Schauer möglich. Daneben ist es länger bzw. durchweg trocken.",
         "matchedWords": {
           "01oC60kUlFD7": {
             "hits": 2,
@@ -155,7 +155,7 @@
         "hash": "EjISsl3kFhe4",
         "address": "https://www.wetter.com/",
         "title": "Wetter, Wettervorhersage \u0026 Wetterbericht | wetter.com",
-        "snippet": "(wetter.com) und unsere Partner Cookies und andere Technologien um Informationen auf Ihrem Nutzer-Endgerät zu speichern und auszulesen.\nIndem du Werbung \u0026 Cookies akzeptierst, können wir dir unser Angebot auf wetter.com weiterhin kostenlos anbieten. Wir erheben personenbezogene Daten (z.B. Cookies",
+        "snippet": "Falls du dich nicht für das contentpass-Abo entscheiden möchtest, nutzen wir (wetter.com) und unsere Partner Cookies und andere Technologien um Informationen auf Ihrem Nutzer-Endgerät zu speichern und auszulesen.",
         "matchedWords": {
           "01oC60kUlFD7": {
             "hits": 0,
@@ -172,7 +172,7 @@
         "hash": "6AeNnlyX5Qug",
         "address": "https://www.t-online.de/video/",
         "title": "Die besten Videos aus Web, TV, News und Sport",
-        "snippet": "Video\nNachrichtenInternethitsRatgeberNachrichtenInternethitsRatgeberSportUnterhaltungWetterKlima \u0026 NachhaltigkeitLifehacksRätselZeitgeschichte\nPanoramaPolitikZeitgeschichteAutoDigitalEssen \u0026 TrinkenFamilieGesundheitHeim \u0026 GartenLebenLifehacksRätselReisenWirtschaft \u0026",
+        "snippet": "Video\nNachrichtenInternethitsRatgeberNachrichtenInternethitsRatgeberSportUnterhaltungWetterKlima \u0026 NachhaltigkeitLifehacksRätselZeitgeschichte",
         "matchedWords": {
           "01oC60kUlFD7": {
             "hits": 0,
@@ -191,7 +191,7 @@
         "hash": "ySJH8lvSGqr4",
         "address": "https://einarschlereth.blogspot.com/",
         "title": "einartysken",
-        "snippet": "Berlin will, dass wir nicht mehr Weißrussland sagen, sondern nur noch „Belarus“. Wir sollen gegen Russland jetzt auch etymologisch klare Kante zeigen. Im Folgenden werden beide Bezeichnungen nach Belieben verwendet.\nDie slavischen Völker sagen schon immer Belarus (Bjelorusija, Białoruś,",
+        "snippet": "Jedoch über Lukaschenko hält Putin seine Hand.\nBerlin will, dass wir nicht mehr Weißrussland sagen, sondern nur noch „Belarus“. Wir sollen gegen Russland jetzt auch etymologisch klare Kante zeigen. Im Folgenden werden beide Bezeichnungen nach Belieben verwendet.",
         "matchedWords": {
           "01oC60kUlFD7": {
             "hits": 1,
@@ -208,7 +208,7 @@
         "hash": "zqhYnX8moajg",
         "address": "https://www.welt.de/politik/ausland/article185195188/Rex-Tillerson-Trump-attackiert-Ex-Minister-strohdumm-und-stinkfaul.html",
         "title": "Rex Tillerson: Trump attackiert Ex-Minister – „strohdumm und stinkfaul“ - WELT",
-        "snippet": "Pfadnavigation\nHome\nPolitik\nAusland\nRex Tillerson\nTrump attackiert Ex-Minister – „strohdumm und stinkfaul“\nVeröffentlicht am 08.12.2018\nDie Beziehung zwischen den beiden galt schon lange als zerrüttet. Doch nun eskalierte der Streit. Der frühere US-Außenminister Tillerson und Trump haben sich einen",
+        "snippet": "Pfadnavigation\nHome\nPolitik\nAusland\nRex Tillerson\nTrump attackiert Ex-Minister – „strohdumm und stinkfaul“\nVeröffentlicht am 08.12.2018\nDie Beziehung zwischen den beiden galt schon lange als zerrüttet. Doch nun eskalierte der Streit.",
         "matchedWords": {
           "01oC60kUlFD7": {
             "hits": 0,
@@ -227,7 +227,7 @@
         "hash": "KBS1M78moajg",
         "address": "https://www.welt.de/themen/instagram/",
         "title": "Instagram: Aktuelle News \u0026 Nachrichten zum sozialen Netzwerk - WELT",
-        "snippet": "Warum im September das wahre „Neujahr“ ist\nWarum bis Januar warten? Der September wird zum Monat der guten Vorsätze. Warum ausgerechnet jetzt der perfekte Zeitpunkt für einen Neustart sein kann und welche kleinen Veränderungen wirklich machbar sind.\nWeltplus Artikel\nMaßnahmen gegen Handy-Sucht\nDer",
+        "snippet": "Warum im September das wahre „Neujahr“ ist\nWarum bis Januar warten? Der September wird zum Monat der guten Vorsätze. Warum ausgerechnet jetzt der perfekte Zeitpunkt für einen Neustart sein kann und welche kleinen Veränderungen wirklich machbar sind.\nWeltplus Artikel\nMaßnahmen gegen Handy-Sucht",
         "matchedWords": {
           "01oC60kUlFD7": {
             "hits": 0,
@@ -244,7 +244,7 @@
         "hash": "-gSHXofjI1Dh",
         "address": "https://www.tagesschau.de/wahlarchiv/laenderparlamente/baden-wuerttemberg",
         "title": "Wahlarchiv zur Landtagswahl Baden-Württemberg | tagesschau.de",
-        "snippet": "Wahlarchiv\nErgebnis Landtagswahl Baden-Württemberg 2021\nGrüne 32,6% - CDU 24,1% - AfD 9,7% - SPD 11,0% - FDP 10,5% - Die Linke 3,6% - FW 3,0% - Andere: 5,5%. mehr\nWahlarchiv\nErgebnis Landtagswahl Baden-Württemberg 2016\nCDU 27,0% - Grüne 30,3% - SPD 12,7% - FDP 8,3% - Die Linke 2,9% - AfD 15,1% -",
+        "snippet": "Wahlarchiv\nErgebnis Landtagswahl Baden-Württemberg 2021\nGrüne 32,6% - CDU 24,1% - AfD 9,7% - SPD 11,0% - FDP 10,5% - Die Linke 3,6% - FW 3,0% - Andere: 5,5%. mehr\nWahlarchiv\nErgebnis Landtagswahl Baden-Württemberg 2016",
         "matchedWords": {
           "01oC60kUlFD7": {
             "hits": 0,
@@ -261,7 +261,7 @@
         "hash": "_eUMI50w__jw",
         "address": "https://www.faz.net/aktuell/sport/fussball/",
         "title": "Fußball: Aktuelle Nachrichten und Spielberichte | FAZ",
-        "snippet": "Berlin aufsteigen. Nicht jeder freut sich darüber.\nMerken\nStart der Königsklasse:\nDie Champions-League-Falle\nDer größte Fußball-Klubwettbewerb ist für die meisten Bundesligavereine auch der gefährlichste. Weil das Geld für die, die nicht damit rechnen können, keine Sicherheit darstellt. Sondern ein",
+        "snippet": "Wenige Fans, kein eigenes Stadion – aber Erfolg: Die VSG Altglienicke will hinter Union und der Hertha zur dritten Fußballkraft in Berlin aufsteigen. Nicht jeder freut sich darüber.\nMerken\nStart der Königsklasse:\nDie Champions-League-Falle",
         "matchedWords": {
           "01oC60kUlFD7": {
             "hits": 1,
@@ -280,7 +280,7 @@
         "hash": "pNr3KLfjI1Dh",
         "address": "https://www.tagesschau.de/inland/innenpolitik/csd-berlin-anschlag-tatverdaechtiger-100.html",
         "title": "Angriff auf CSD Berlin: Tatverdächtiger war polizeibekannter Islamist | tagesschau.de",
-        "snippet": "Berlin verüben? Nach dem Anschlag auf Teilnehmer des CSD in Berlin werden die Fragen an die Behörden lauter.\nVon Jörg Diehl, NDR/WDR, Florian Flade, Martin Kaul und Roman Lehberger, WDR\nNach dem Anschlag auf Teilnehmer des Christopher Street Days in Berlin mit einer Toten und 29 Verletzten und",
+        "snippet": "Exklusiv\nAngriff auf CSD Tatverdächtiger war seit Längerem im Visier der Behörden\nStand: 26.07.2026 • 20:51 Uhr\nWie konnte ein polizeibekannter Islamist offenbar einen Angriff in Berlin verüben? Nach dem Anschlag auf Teilnehmer des CSD in Berlin werden die Fragen an die Behörden lauter.",
         "matchedWords": {
           "01oC60kUlFD7": {
             "hits": 6,
@@ -297,7 +297,7 @@
         "hash": "I-F3O0yX5Qug",
         "address": "https://www.t-online.de/nachrichten/deutschland/innenpolitik/id_101360712/terroranschlag-auf-csd-berlin-ju-chef-spricht-von-kriegserklaerung-.html",
         "title": "Terroranschlag auf CSD Berlin: JU-Chef spricht von \"Kriegserklärung\"",
-        "snippet": "Berlin\nVon reuters, afp, dpa, t-online, job\nAktualisiert am 26.07.2026Lesedauer: 3 Min.\nDas Tatauto des Anschlags auf den Berliner CSD: Aus der Politik kommen nun Forderungen nach einer härteren Gangart gegen Islamisten. (Quelle: Sebastian Gollnow/dpa/dpa-bilder)\nEin Terroranschlag – und dann doch",
+        "snippet": "\"Gefährder aus Öffentlichkeit entfernen\" Union fordert Konsequenzen nach Anschlag in Berlin\nVon reuters, afp, dpa, t-online, job\nAktualisiert am 26.07.2026Lesedauer: 3 Min.",
         "matchedWords": {
           "01oC60kUlFD7": {
             "hits": 2,
@@ -316,7 +316,7 @@
         "hash": "S_sNkHyX5Qug",
         "address": "https://www.t-online.de/wetter/deutschland/berlin/jh518hs406/wetter-heute",
         "title": "Wetter für Berlin | Vorhersage für heute",
-        "snippet": "Wetter News\nWetter-Vorhersage\nWochenendwetter bringt Sonne und Regen\nDer Samstag lockt mit Temperaturen bis 27 Grad nach draußen – doch am Sonntag wird es vielerorts nass und kühler.\nWann kommt der Altweibersommer?\nWetterdienst warnt amtlich in Dutzenden Kreisen\nIm Süden warnt der Deutsche",
+        "snippet": "Wetter News\nWetter-Vorhersage\nWochenendwetter bringt Sonne und Regen\nDer Samstag lockt mit Temperaturen bis 27 Grad nach draußen – doch am Sonntag wird es vielerorts nass und kühler.\nWann kommt der Altweibersommer?\nWetterdienst warnt amtlich in Dutzenden Kreisen",
         "matchedWords": {
           "01oC60kUlFD7": {
             "hits": 0,
@@ -333,7 +333,7 @@
         "hash": "SMcXIlvmeA6g",
         "address": "https://www.wetter.at/",
         "title": "Wetter in Österreich - wetter.at",
-        "snippet": "Wetter-Storys des Tages\nDüstere Prognose Regenwalze! Erst dann wird's wieder schön\nBrutale Abkühlung Jetzt trifft uns die Kaltfront mit voller Wucht\nExtrem-Hitze, Dürre August 2026 war der heißeste Monat aller Zeiten\nMariä Geburt Heute entscheidet sich das Wetter für die nächsten vier Wochen\nIn",
+        "snippet": "9 Tage\nDie wichtigsten internationalen Städte\nwetter.at Highlights\nDEIN PERFEKTER URLAUB IN WIEN\nunsere Tipps für Wien\nWetter-TV\nDas Wetter TV\nWetternews\nWetterradar\nNiederschlag\nBewölkung\nTemperatur\nWind\nmm/ m²/ 15min\n0.02\n0.04\n0.16\n0.4\n0.7\n2\n4\n\u003e5\ndie besten Hotels",
         "matchedWords": {
           "01oC60kUlFD7": {
             "hits": 0,
@@ -350,7 +350,7 @@
         "hash": "RA7PGPPVWAXw",
         "address": "https://wetter.faz.net/",
         "title": "Wetter und 5-Tage Wettervorhersage Deutschland | FAZ",
-        "snippet": "Berlin\nBremen\nBrandenburg\nHamburg\nHessen\nMecklenburg-Vorp.\nNiedersachsen\nNordrhein-Westfalen\nRheinland-Pfalz\nSaarland\nSachsen\nSachsen-Anhalt\nSchleswig-Holstein\nThüringen\nIn Zusammenarbeit mit",
+        "snippet": "Die Höchstwerte bewegen sich zwischen 18 und 26 Grad. Der Wind weht schwach bis mäßig aus westlichen Richtungen Gebietsweise gibt es frische oder starke Böen.\nHeute\nMorgen\nSo\nMo\nDi\nBundesländer\nBaden-Württemberg\nBayern\nBerlin\nBremen\nBrandenburg\nHamburg\nHessen\nMecklenburg-Vorp.\nNiedersachsen",
         "matchedWords": {
           "01oC60kUlFD7": {
             "hits": 1,
@@ -369,7 +369,7 @@
         "hash": "KcN-yjRvmBbx",
         "address": "https://en.wikipedia.org/wiki/Kenya",
         "title": "Kenya - Wikipedia",
-        "snippet": "wetter conditions. This provided an opportunity for the development of cultural traditions such as agriculture and herding in a more favourable environment.[36]\nNilotic-speaking pastoralists began migrating into Kenya from the Nile Valley and the Ethiopian Highlands as early as 2000 BC. The",
+        "snippet": "35][36] These people were later largely replaced by agropastoralist Cushitic (ancestral to Kenya's Cushitic speakers), who originated from the Horn of Africa.[37] During the early Holocene, the region's climate shifted from drier to wetter conditions.",
         "matchedWords": {
           "01oC60kUlFD7": {
             "hits": 1,
@@ -388,7 +388,7 @@
         "hash": "gbZQsl9B6zzh",
         "address": "https://www.morgenpost.de/berlin/",
         "title": "Berlin - Aktuelle Nachrichten",
-        "snippet": "Berlin. Prominente wie Jella Haase protestieren gegen Wohnungspläne für das Feld. Menschen, deren Innenhöfe bebaut werden sollen, sehen das anders.\nVon Johannes Vetter\nMorgenpost der Chefredaktion\nDie ersten News des Tages – direkt von der Chefredaktion. Montag bis Samstag um 6:30 Uhr.\nMorgenpost",
+        "snippet": "Kasupke gratuliert dem Langen Lulatsch\nHundat Jahre alt und strahlt wie neu: der Berlina Funkturm is frisch saniert und feiat Jeburtstach. Fahrn Se ruff, könnse runta kieken!\nBis zu 7 Grad\nWetter in Berlin: Sommer ade? DWD erwartet Wolken und Abkühlung\nBerlin.",
         "matchedWords": {
           "01oC60kUlFD7": {
             "hits": 198,
@@ -405,7 +405,7 @@
         "hash": "sn5bqlXXOSAg",
         "address": "https://www.rbb24.de/berlin/",
         "title": "Berlin Nachrichten – Aktuelle News und Themen von rbb24.de",
-        "snippet": "Berlin verlieren Testspiel\nEisbären feiern ersten Sieg in der Champions Hockey League\nSpitzenkandidatin im rbb24-Interview: Brinker bekräftigt Punktesystem für Wohnungsvergabe\nVSG Altglienicke verliert zuhause, RSV Eintracht kassiert Packung\nHouse of Games in Berlin: Erste Mieter ziehen im Dezember",
+        "snippet": "Analyse Insgesamt mehr Wahlberechtigte\nBerlin hat wieder mehr Wahlberechtigte - und einen neuen Höchstwert an Nicht-Berechtigten\nAnalyse Das Abgeordnetenhaus\nSo hat Berlin seit 1990 gewählt\nAnalyse Veränderungen seit 1990\nDie Hochburgen der Parteien in Berlin\nWahlen in Berlin",
         "matchedWords": {
           "01oC60kUlFD7": {
             "hits": 69,
@@ -424,7 +424,7 @@
         "hash": "ySJH8lvSGqr4",
         "address": "https://einarschlereth.blogspot.com/",
         "title": "einartysken",
-        "snippet": "Berlin will, dass wir nicht mehr Weißrussland sagen, sondern nur noch „Belarus“. Wir sollen gegen Russland jetzt auch etymologisch klare Kante zeigen. Im Folgenden werden beide Bezeichnungen nach Belieben verwendet.\nDie slavischen Völker sagen schon immer Belarus (Bjelorusija, Białoruś,",
+        "snippet": "Jedoch über Lukaschenko hält Putin seine Hand.\nBerlin will, dass wir nicht mehr Weißrussland sagen, sondern nur noch „Belarus“. Wir sollen gegen Russland jetzt auch etymologisch klare Kante zeigen. Im Folgenden werden beide Bezeichnungen nach Belieben verwendet.",
         "matchedWords": {
           "01oC60kUlFD7": {
             "hits": 1,
@@ -462,7 +462,7 @@
         "hash": "-5YtplfjI1Dh",
         "address": "https://www.tagesschau.de/wetter",
         "title": "Das tagesschau.de-Wetter | tagesschau.de",
-        "snippet": "Wetter mit Sonne und Wolken. Im Süden ist es gebietsweise länger sonnig. Dem Nordwesten nähert sich am Samstagnachmittag ein neuer Tiefausläufer. Der Sonntag verläuft dann verbreitet unbeständig, nur im Süden ist es zunächst noch freundlicher. mehr",
+        "snippet": "Wettervorhersage Europa Wetterlage und Temperaturen\nEine Hochdruckzone, die vom südwestlichen Europa bis nach Mitteleuropa reicht, bringt am Samstag großen Teilen Deutschlands ruhiges und trockenes Wetter mit Sonne und Wolken. Im Süden ist es gebietsweise länger sonnig.",
         "matchedWords": {
           "01oC60kUlFD7": {
             "hits": 0,
@@ -481,7 +481,7 @@
         "hash": "DcJqWlFc3viw",
         "address": "https://www.wetter.net/",
         "title": "wetter.net | Wetter, Wetter aktuell, Wettervorhersage",
-        "snippet": "Wetter — von Meteorologen für ganz Deutschland, Österreich und die Schweiz.\nApp herunterladen\n(öffnet in neuem Fenster)\n(öffnet in neuem Fenster)",
+        "snippet": "Aktuelle Wettervorhersagen, Wettertrends und Geschichten rund ums Wetter — von Meteorologen für ganz Deutschland, Österreich und die Schweiz.\nApp herunterladen\n(öffnet in neuem Fenster)\n(öffnet in neuem Fenster)",
         "matchedWords": {
           "01oC60kUlFD7": {
             "hits": 0,
@@ -500,7 +500,7 @@
         "hash": "kuiLcaiZ7fSg",
         "address": "https://verband.hockey.de/",
         "title": "Deutscher Hockey-Bund - verband.hockey.de",
-        "snippet": "Wetter und angenehmen Temperaturen standen zehn spannende Spiele, große Freude am Hockeysport und viele besondere Momente auf dem Programm.\nSOD-Kader-Lehrgang in Bonn\nVom 28. bis 30. August 2026 absolvierte der SOD-Kader einen gemeinsamen Lehrgang in Bonn. Untergebracht im Haus Venusberg erwartete",
+        "snippet": "Bei sonnigem Wetter und angenehmen Temperaturen standen zehn spannende Spiele, große Freude am Hockeysport und viele besondere Momente auf dem Programm.\nSOD-Kader-Lehrgang in Bonn\nVom 28. bis 30. August 2026 absolvierte der SOD-Kader einen gemeinsamen Lehrgang in Bonn.",
         "matchedWords": {
           "01oC60kUlFD7": {
             "hits": 0,
@@ -519,7 +519,7 @@
         "hash": "3-1XaUwm21Ng",
         "address": "https://www.flixbus.ch/busverbindung/fernbus-berlin-stuttgart",
         "title": "Bus Berlin nach Stuttgart - Günstig tickets buchen",
-        "snippet": "Berlin ↔ Stuttgart\nab CHF 26.00\nDie Welt wartet auf Dich\nUnendliche Möglichkeiten: Entdecke über 8\u0026#039;000 Reiseziele in mehr als 40 Ländern.\nUnterwegs mit Komfort\nGenieße kostenloses WLAN, Steckdosen und extra viel Beinfreiheit. Das gehört bei modernen Bussen einfach dazu.\nAuswählen, buchen,",
+        "snippet": "Wenn Du von Berlin nach Stuttgart reisen willst, beträgt die Entfernung etwa 636 km, also eine geschätzte Reisedauer von 7 Stunden 50 Minuten mit unseren Fernbussen. Natürlich kann diese geschätzte Zeit aufgrund unvorhersehbarer Umstände variieren, wie z.B. Wetter- oder Verkehrsbedingungen.",
         "matchedWords": {
           "01oC60kUlFD7": {
             "hits": 39,
@@ -538,7 +538,7 @@
         "hash": "IsqY7XMCiH44",
         "address": "https://www.xing.com/pages/gruenderzeit-zwickau",
         "title": "GRÜNDERZEIT Zwickau: Information and Updates | XING",
-        "snippet": "Berlin, München, Köln, Frankfurt am Main, Essen, Düsseldorf, Mainz, Mannheim+ 1 mehr\nDeutschland\nEinstiegsjob Sales / Personalberatung (m/w/d)\nBerlin+ 1 mehr\nDeutschland\nSales Mitarbeiter (m/w/d) Quereinsteiger\nFrankfurt am Main+ 1 mehr\nDeutschland\nSales Mitarbeiter (m/w/d) Quereinsteiger\nFrankfurt",
+        "snippet": "Business Partner (m/w/div) Ressourcenmanagement (Schwerpunkt: Staffing Projektteams)\nTroisdorf+ 1 mehr\nDeutschland\nFachkräftemangel? Mit uns kein Problem!\nHamburg, Stuttgart, Berlin, München, Köln, Frankfurt am Main, Essen, Düsseldorf, Mainz, Mannheim+ 1 mehr\nDeutschland",
         "matchedWords": {
           "01oC60kUlFD7": {
             "hits": 6,
@@ -576,7 +576,7 @@
         "hash": "S_sNkHyX5Qug",
         "address": "https://www.t-online.de/wetter/deutschland/berlin/jh518hs406/wetter-heute",
         "title": "Wetter für Berlin | Vorhersage für heute",
-        "snippet": "Wetter News\nWetter-Vorhersage\nWochenendwetter bringt Sonne und Regen\nDer Samstag lockt mit Temperaturen bis 27 Grad nach draußen – doch am Sonntag wird es vielerorts nass und kühler.\nWann kommt der Altweibersommer?\nWetterdienst warnt amtlich in Dutzenden Kreisen\nIm Süden warnt der Deutsche",
+        "snippet": "Wetter News\nWetter-Vorhersage\nWochenendwetter bringt Sonne und Regen\nDer Samstag lockt mit Temperaturen bis 27 Grad nach draußen – doch am Sonntag wird es vielerorts nass und kühler.\nWann kommt der Altweibersommer?\nWetterdienst warnt amtlich in Dutzenden Kreisen",
         "matchedWords": {
           "01oC60kUlFD7": {
             "hits": 0,
@@ -614,7 +614,7 @@
         "hash": "cB7iXX8moajg",
         "address": "https://www.welt.de/politik/deutschland/plus6a8d85a1d8b561d6189714ba/berlin-wahlkampf-abriss-und-neubau-kostet-sehr-viel-co-wie-die-gruenen-stattdessen-wohnraum-schaffen-wollen.html",
         "title": "Berlin-Wahlkampf: „Abriss und Neubau kostet sehr viel CO₂“ – wie die Grünen stattdessen Wohnraum schaffen wollen - WELT",
-        "snippet": "Wetter\nNewsletter\nWELTGo!\nSpiele\nKreuzworträtsel\nSudoku\nWordle\nSchachmatt\nSchlagzeilen-Archiv\nLive-TVWELT Live\nN24 Doku\nMediathekMeinungsfreiheit\nDuell des Tages\nLive-Sport\nDeffner \u0026 Zschäpitz\nReportagen\nDokumentationen\nMagazine\nSendungen A-Z\nVideos\nModeratoren\nTV-Empfang\nTV-App\nWELTPLUSPolitik",
+        "snippet": "Öffnen Sie Untermenüs mit der Leertaste.\nHomeApps\nAutoren\nPodcasts\nThemen\nWetter\nNewsletter\nWELTGo!\nSpiele\nKreuzworträtsel\nSudoku\nWordle\nSchachmatt\nSchlagzeilen-Archiv\nLive-TVWELT Live\nN24 Doku\nMediathekMeinungsfreiheit\nDuell des Tages\nLive-Sport\nDeffner \u0026 Zschäpitz\nReportagen\nDokumentationen",
         "matchedWords": {
           "01oC60kUlFD7": {
             "hits": 3,
@@ -650,7 +650,7 @@
         "hash": "hx8g6dFO6r_x",
         "address": "https://de.wikipedia.org/wiki/M%C3%BCnchen",
         "title": "München – Wikipedia",
-        "snippet": "Wetter relativ wechselhaft. An durchschnittlich zehn Tagen im Jahr herrscht der Föhn, ein warmer, trockener Fallwind vom Alpenhauptkamm, der so gute Fernsicht bewirkt, dass vom Stadtgebiet die Bayerischen Alpen deutlich zu sehen sind. Häufiger kommt es zu sogenannten „föhnigen Effekten“, die sich",
+        "snippet": "↑ 7 Einwohnerinnen und Einwohner mit bzw. ohne Migrationshintergrund in Berlin am 30. Juni 2024 nach Bezirken und Geschlecht. (PDF) Amt für Statistik Berlin-Brandenburg, abgerufen am 16. Juni 2026.\n↑ Bevölkerung mit Migrationshintergrund in den Hamburger Stadtteilen 2023. Abgerufen am 18.",
         "matchedWords": {
           "01oC60kUlFD7": {
             "hits": 17,
@@ -667,7 +667,7 @@
         "hash": "gqkBacw63Csx",
         "address": "https://fr.wikipedia.org/wiki/Canicules_de_2026_en_Europe",
         "title": "Canicules de 2026 en Europe — Wikipédia",
-        "snippet": "Berlin autorise les musiciens à ôter leurs vestes et à retrousser leurs manches par 41 °C[54].\nLe gouvernement envisage des mesures exceptionnelles pour sécuriser l’accès à l’eau potable[313].\nEn 2025, Oxfam dénonçait les atermoiements du gouvernement concernant MaPrimeRénov’ en rappelant : « Les",
+        "snippet": "En Allemagne, la Philharmonie de Berlin autorise les musiciens à ôter leurs vestes et à retrousser leurs manches par 41 °C[54].\nLe gouvernement envisage des mesures exceptionnelles pour sécuriser l’accès à l’eau potable[313].",
         "matchedWords": {
           "01oC60kUlFD7": {
             "hits": 1,
@@ -686,7 +686,7 @@
         "hash": "RA7PGPPVWAXw",
         "address": "https://wetter.faz.net/",
         "title": "Wetter und 5-Tage Wettervorhersage Deutschland | FAZ",
-        "snippet": "Berlin\nBremen\nBrandenburg\nHamburg\nHessen\nMecklenburg-Vorp.\nNiedersachsen\nNordrhein-Westfalen\nRheinland-Pfalz\nSaarland\nSachsen\nSachsen-Anhalt\nSchleswig-Holstein\nThüringen\nIn Zusammenarbeit mit",
+        "snippet": "Die Höchstwerte bewegen sich zwischen 18 und 26 Grad. Der Wind weht schwach bis mäßig aus westlichen Richtungen Gebietsweise gibt es frische oder starke Böen.\nHeute\nMorgen\nSo\nMo\nDi\nBundesländer\nBaden-Württemberg\nBayern\nBerlin\nBremen\nBrandenburg\nHamburg\nHessen\nMecklenburg-Vorp.\nNiedersachsen",
         "matchedWords": {
           "01oC60kUlFD7": {
             "hits": 1,
@@ -705,7 +705,7 @@
         "hash": "qEpb6HfjI1Dh",
         "address": "https://www.tagesschau.de/wetter/deutschland/wettervorhersage-deutschland-100.html",
         "title": "Wetter Deutschland: Wolken, Temperaturen, Wind und Aussichten | tagesschau.de",
-        "snippet": "Stand: 11.09.2026 • 13:30 Uhr\nAm Samstag ist es im Süden sonnig. Sonst gibt es neben Sonnenschein dichtere Wolken, aber nur selten wird es nass. Im Nordwesten ziehen später dichte Wolken mit Regen auf. Die Höchstwerte liegen zwischen 18 Grad im Bayerischen Wald und 27 Grad am Oberrhein.\nIn der",
+        "snippet": "Stand: 11.09.2026 • 13:30 Uhr\nAm Samstag ist es im Süden sonnig. Sonst gibt es neben Sonnenschein dichtere Wolken, aber nur selten wird es nass. Im Nordwesten ziehen später dichte Wolken mit Regen auf. Die Höchstwerte liegen zwischen 18 Grad im Bayerischen Wald und 27 Grad am Oberrhein.",
         "matchedWords": {
           "01oC60kUlFD7": {
             "hits": 0,
@@ -722,7 +722,7 @@
         "hash": "qrOEmeQdJjkg",
         "address": "https://oesterreich.orf.at/",
         "title": "oesterreich.ORF.at",
-        "snippet": "Lienz 11.9. 21.00 Uhr\nParagleiter prallte gegen Fahrradfahrerin\nEin 40-jähriger Italiener ist Freitagvormittag bei einem Trainingsflug vom Hochstein in Lienz gegen eine Fahrradfahrerin geflogen. Sie stand einige Meter unterhalb der Startbahn.\nAlt-Erlaa 11.9. 19.56 Uhr\nIkone des Wohnbaus feiert 50",
+        "snippet": "Lienz 11.9. 21.00 Uhr\nParagleiter prallte gegen Fahrradfahrerin\nEin 40-jähriger Italiener ist Freitagvormittag bei einem Trainingsflug vom Hochstein in Lienz gegen eine Fahrradfahrerin geflogen. Sie stand einige Meter unterhalb der Startbahn.\nAlt-Erlaa 11.9. 19.56 Uhr",
         "matchedWords": {
           "01oC60kUlFD7": {
             "hits": 0,
@@ -739,7 +739,7 @@
         "hash": "q7UDNl3ESnng",
         "address": "https://www.br.de/index.html",
         "title": "Bayerischer Rundfunk: Nachrichten von BR24, Highlights aus der BR Mediathek, Live Radio hören und BR.de-Specials - die Startseite für Bayern | BR.de",
-        "snippet": "Wirtschaft Emirate investieren Milliarden in Bayern: Was geplant ist\nZehn Milliarden Euro: So viel Investitionskapital hatte Scheich Zayid Al Nahyan beim Deutsch-Emiratischen Wirtschaftsforum in München allein für Bayern im Gepäck. Was sich die Politik erhofft und welche Projekte dahinterstecken",
+        "snippet": "Wirtschaft Emirate investieren Milliarden in Bayern: Was geplant ist\nZehn Milliarden Euro: So viel Investitionskapital hatte Scheich Zayid Al Nahyan beim Deutsch-Emiratischen Wirtschaftsforum in München allein für Bayern im Gepäck.",
         "matchedWords": {
           "01oC60kUlFD7": {
             "hits": 0,
@@ -756,7 +756,7 @@
         "hash": "rtQ-JluG0-bg",
         "address": "https://www.fr.de/",
         "title": "FR.de | News aus Politik, Wirtschaft, Sport, Frankfurt, Hessen und der Welt",
-        "snippet": "Wetter\nPlaßmanns Welt\nFotostrecken des Tages\nSport\nKultur\nTimes mager\nTimes mager\nStadt\nSchau, ein Dackel. Was macht der denn jetzt? Eine versöhnliche innerstädtische Szene.\nStadt\nAlle News\nMagazine\nProspekte und Beilagen\nMagazine\nProspekte und Beilagen",
+        "snippet": "Darmstadt 98: Hässlich siegen, schön feiern\nEin Handelfmeter in der 86. Minute brachte Darmstadt 98 den 2:1-Sieg gegen Arminia Bielefeld. Trainer Kohfeldt verriet, was er im Fall eines …\nDarmstadt 98: Hässlich siegen, schön feiern\nProduktempfehlung\nWetter\nPlaßmanns Welt\nFotostrecken des Tages\nSport",
         "matchedWords": {
           "01oC60kUlFD7": {
             "hits": 0,
@@ -775,7 +775,7 @@
         "hash": "-WvJtjRvmBbx",
         "address": "https://en.wikipedia.org/wiki/Singapore",
         "title": "Singapore - Wikipedia",
-        "snippet": "wetter monsoon season from November to February.[152]\nFrom July to October, there is often haze caused by bush fires in neighbouring Indonesia, usually from the island of Sumatra.[153] Singapore follows the GMT+8 time zone, one hour ahead of the typical zone for its geographical location.[154] This",
+        "snippet": "While temperature does not vary greatly throughout the year, there is a wetter monsoon season from November to February.[152]\nFrom July to October, there is often haze caused by bush fires in neighbouring Indonesia, usually from the island of Sumatra.[",
         "matchedWords": {
           "01oC60kUlFD7": {
             "hits": 1,
@@ -794,7 +794,7 @@
         "hash": "6BsM-HfjI1Dh",
         "address": "https://www.tagesschau.de/wetter/regenradar-deutschland",
         "title": "Regenradar Deutschland: Aktueller Niederschlag | tagesschau.de",
-        "snippet": "Live Prognose Regenradar für Deutschland\nDas Regenradar für Deutschland von tagesschau.de: Live-Werte zum Niederschlag und Prognose für die nächsten zwei Stunden.\nWas zeigt das Regenradar?\nDas Regenradar zeigt die Niederschlagsmenge. Gemessen wird sie mit Hilfe eines Radarechos. Je stärker das",
+        "snippet": "Live Prognose Regenradar für Deutschland\nDas Regenradar für Deutschland von tagesschau.de: Live-Werte zum Niederschlag und Prognose für die nächsten zwei Stunden.\nWas zeigt das Regenradar?\nDas Regenradar zeigt die Niederschlagsmenge. Gemessen wird sie mit Hilfe eines Radarechos.",
         "matchedWords": {
           "01oC60kUlFD7": {
             "hits": 0,
@@ -813,7 +813,7 @@
         "hash": "_VdxO_3sDtZg",
         "address": "https://tini24.de/news/partytime-mit-culcha-candela-und-ueber-1-500-besuchern-beim-strandkonzert-in-niendorf-ostsee/",
         "title": "Partytime mit Culcha Candela und über 1.500 Besuchern beim Strandkonzert in Niendorf/Ostsee - News | TiNi24",
-        "snippet": "Wetter mit fast 1.600 Gästen, die nicht nur aus der näheren Umgebung nach Niendorf/Ostsee gekommen sind.\nCulcha Candela begeisterte das Publikum beim StrandKonzert in Niendorf/Ostsee. (Foto: René Kleinschmidt)\nUnter den Konzertgästen wurde auch Anike Ekina gesichtet: Die 36-jährige DJane und",
+        "snippet": "Die StrandKonzert-Termine mussten coronabedingt dreimal verlegt werden, aber jetzt war es endlich soweit und die Sänger und Tänzerinnen feierten bei bestem Wetter mit fast 1.600 Gästen, die nicht nur aus der näheren Umgebung nach Niendorf/Ostsee gekommen sind.",
         "matchedWords": {
           "01oC60kUlFD7": {
             "hits": 1,
@@ -833,7 +833,7 @@
       "hash": "gt1Hms8_y8I6",
       "address": "https://henrymakow-de.com/",
       "title": "Henry Makow – Aufdeckung der Neuen Weltordnung",
-      "snippet": "Berlin machen Menschen mit Migrationshintergrund 30 % der Einwohner aus. Deutsche sind im Bezirk Mitte und in vielen umliegenden zentralen Bezirken bereits eine Minderheit.\nSchon vor der „Schleusenöffnung“ durch Angela Merkel hatte im Jahr 2014 ein Viertel der Menschen zwischen 15 und 45 Jahren",
+      "snippet": "englischsprachige Afrikaner zu sehen. In Berlin machen Menschen mit Migrationshintergrund 30 % der Einwohner aus. Deutsche sind im Bezirk Mitte und in vielen umliegenden zentralen Bezirken bereits eine Minderheit.",
       "matchedWords": {
         "01oC60kUlFD7": {
           "hits": 1,
@@ -850,7 +850,7 @@
       "hash": "Fl-YxlDOAHJg",
       "address": "https://www.heise.de/",
       "title": "heise online - IT-News, Nachrichten und Hintergründe | heise online",
-      "snippet": "Anzeige\nAnzeige\nEigenwerbung\nWebinar\nIT-Security für Nicht-Nerds\nSchutz vor Phishing Mails und Kontoklau verständlich erklärt\nSicher surfen und im Netz unterwegs sein\n22.09. + 24.09.2026\nMEHR ERFAHREN\nAnzeige\nAnzeige\nmeistgelesen\nbeliebt bei Abonnenten\nmeistkommentiert\nVorsicht, Kunde: Der",
+      "snippet": "Anzeige\nAnzeige\nEigenwerbung\nWebinar\nIT-Security für Nicht-Nerds\nSchutz vor Phishing Mails und Kontoklau verständlich erklärt\nSicher surfen und im Netz unterwegs sein\n22.09. + 24.09.2026\nMEHR ERFAHREN\nAnzeige\nAnzeige\nmeistgelesen\nbeliebt bei Abonnenten\nmeistkommentiert",
       "matchedWords": {
         "01oC60kUlFD7": {
           "hits": 0,
@@ -867,7 +867,7 @@
       "hash": "a9ooXjRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Berlin",
       "title": "Berlin - Wikipedia",
-      "snippet": "Berlin (disambiguation).\nBerlin\nCapital city, state and municipality\nSpree river, Museum Island, Berlin TV Tower and Berlin Palace in Mitte\nSchloss Charlottenburg\nSiegessäule\nBerlin Palace\nBrandenburg Gate\nBerlin Cathedral\nReichstag\nGendarmenmarkt\nFlag\nCoat of arms\nInteractive map of Berlin\nBerlin",
+      "snippet": "↑ \"Niederschlagsmonatssummen BERLIN-DAHLEM 1848– 1990\". old.wetterzentrale.de. Archived from the original on 7 July 2019. Retrieved 23 June 2019.\n↑ \"Wetter und Klima – Deutscher Wetterdienst – CDC (Climate Data Center)\". www.dwd.de. Archived from the original on 19 June 2022.",
       "matchedWords": {
         "01oC60kUlFD7": {
           "hits": 676,
@@ -884,7 +884,7 @@
       "hash": "5Y0vTPSEx1zg",
       "address": "https://wetter.welt.de/",
       "title": "Das aktuelle Wetter und 5-Tage Wettervorhersage für Deutschland",
-      "snippet": "BERLIN\nwolkig\n11 °C\nSO\n20° 15°\nMO\n21° 15°\nDeutschland heute\nAm Freitag überwiegen in Nieder- und Oberbayern die Wolken, und es kann dort im Tagesverlauf auch mal regnen. Im Westen und Nordwesten ziehen Wolkenfelder mit etwas Regen oder Nieselregen auf. In den anderen Gebieten scheint nach örtlichem",
+      "snippet": "5-Tage Vorhersage\n23\n24\n21\n21\n22\n22\n21\nheute 11.09.2026\n23\n24\n21\n21\n22\n22\n21\nmorgen 12.09.2026\n23\n25\n21\n21\n24\n22\n23\nSonntag 13.09.2026\n20\n23\n20\n19\n21\n20\n24\nMontag 14.09.2026\n21\n25\n21\n21\n25\n21\n23\nDienstag 15.09.2026\n25\n27\n23\n23\n26\n25\n25\nBERLIN\nwolkig\n11 °C\nSO\n20° 15°\nMO\n21° 15°\nDeutschland heute",
       "matchedWords": {
         "01oC60kUlFD7": {
           "hits": 1,

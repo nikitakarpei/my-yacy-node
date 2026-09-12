@@ -1,6 +1,6 @@
 {
   "query": "linux kernel",
-  "recordedAt": "2026-09-12T00:14:53Z",
+  "recordedAt": "2026-09-12T07:52:08Z",
   "itemsInTheOrderOfEachAnswer": [
     [
       {
@@ -410,7 +410,7 @@
         "hash": "N280urS6MKD4",
         "address": "https://github.com/xairy/linux-kernel-exploitation",
         "title": "GitHub - xairy/linux-kernel-exploitation: A collection of links related to Linux kernel security and exploitation",
-        "snippet": "Linux kernel security and exploitation.\nUpdated bimonthly. Pull requests are welcome as well.\nFollow @andreyknvl on X, @xairy@infosec.exchange on Mastodon, or @andreyknvl on Bluesky to be notified of updates.\nSubscribe to @linkersec on Telegram, X, Mastodon, Bluesky, or Reddit for highlights.",
+        "snippet": "2023: \"The Return of Stack Overflows in the Linux Kernel\" by Davide Ornaghi [slides] [video]\n2023: \"Exploiting null-dereferences in the Linux kernel\" by Seth Jenkins [article]\n2023: \"PSPRAY: Timing Side-Channel based Linux Kernel Heap Exploitation Technique\" [paper] [video]",
         "matchedWords": {
           "4galTpdpDM5Q": {
             "hits": 430,
@@ -427,7 +427,7 @@
         "hash": "N_bW_5DJH5aw",
         "address": "https://www.wiki.kernel.org/",
         "title": "Main Page - Demeter of the Kernel.org",
-        "snippet": "Kernel.org\nrt - RTwiki\next4 - Ext4\nbtrfs - btrfs Wiki\nata - ata Wiki\nieee1394 - IEEE 1394 FireWire Wiki\nsecurity - Linux Security Wiki (obsolete)\ni2c - Linux i2c Wiki\nparisc - Linux PARISC Wiki\nreiser4 - Reiser4 FS Wiki\nperf - Perf Wiki\nhail - Hail Cloud Computing Wiki\nsparse - Sparse Wiki\nkgdb -",
+        "snippet": "hail - Hail Cloud Computing Wiki\nsparse - Sparse Wiki\nkgdb - KGDB Wiki\nmodules - Linux Kernel Modules Wiki\nckpt - Linux Checkpoint / Restart Wiki\nraid - Linux Raid Wiki\ngit - Git SCM Wiki\ndracut - Dracut Wiki\nbackports - Driver Backports Wiki\nllvm - LLVM Linux Wiki (not hosted by kernel.org)",
         "matchedWords": {
           "4galTpdpDM5Q": {
             "hits": 12,
@@ -461,7 +461,7 @@
         "hash": "5A3Als-kQ1nw",
         "address": "https://kernel.org/",
         "title": "The Linux Kernel Archives",
-        "snippet": "https://www.kernel.org/pub/\nGIT\nhttps://git.kernel.org/\nRSYNC\nrsync://rsync.kernel.org/pub/\nmainline:\n7.3-rc2\n2026-09-06\n[tarball]\n[patch]\n[inc. patch]\n[view diff]\n[browse]\nstable:\n7.2.5\n2026-09-11\n[tarball]\n[pgp]\n[patch]\n[inc. patch]\n[view diff]\n[browse]\n[changelog]\nstable:\n7.1.13 [EOL]\n2026-09-02",
+        "snippet": "Protocol\nLocation\nHTTP\nhttps://www.kernel.org/pub/\nGIT\nhttps://git.kernel.org/\nRSYNC\nrsync://rsync.kernel.org/pub/\nmainline:\n7.3-rc2\n2026-09-06\n[tarball]\n[patch]\n[inc. patch]\n[view diff]\n[browse]\nstable:\n7.2.5\n2026-09-11\n[tarball]\n[pgp]\n[patch]\n[inc. patch]\n[view diff]\n[browse]\n[changelog]\nstable:",
         "matchedWords": {
           "4galTpdpDM5Q": {
             "hits": 1,
@@ -514,7 +514,7 @@
         "hash": "N_bW_5DJH5aw",
         "address": "https://www.wiki.kernel.org/",
         "title": "Main Page - Demeter of the Kernel.org",
-        "snippet": "Kernel.org\nrt - RTwiki\next4 - Ext4\nbtrfs - btrfs Wiki\nata - ata Wiki\nieee1394 - IEEE 1394 FireWire Wiki\nsecurity - Linux Security Wiki (obsolete)\ni2c - Linux i2c Wiki\nparisc - Linux PARISC Wiki\nreiser4 - Reiser4 FS Wiki\nperf - Perf Wiki\nhail - Hail Cloud Computing Wiki\nsparse - Sparse Wiki\nkgdb -",
+        "snippet": "hail - Hail Cloud Computing Wiki\nsparse - Sparse Wiki\nkgdb - KGDB Wiki\nmodules - Linux Kernel Modules Wiki\nckpt - Linux Checkpoint / Restart Wiki\nraid - Linux Raid Wiki\ngit - Git SCM Wiki\ndracut - Dracut Wiki\nbackports - Driver Backports Wiki\nllvm - LLVM Linux Wiki (not hosted by kernel.org)",
         "matchedWords": {
           "4galTpdpDM5Q": {
             "hits": 12,
@@ -618,7 +618,7 @@
         "hash": "SDL4QvKqlBA4",
         "address": "https://www.phoronix.com/news/Linux-Kernel-AI-Guidelines-v3",
         "title": "Latest Proposed Guidelines For Tool-Generated / AI Submissions To The Linux Kernel - Phoronix",
-        "snippet": "Linux kernel. The coding tools in large part being focused on AI generated content.\nIntel Linux engineer Dave Hansen posted the third draft of the proposed AI/tool generated content guidelines for the Linux kernel. The new guidelines rename \"LLM\" mentions to \"coding assistant\", mentioning testing",
+        "snippet": "Intel Linux engineer Dave Hansen posted the third draft of the proposed AI/tool generated content guidelines for the Linux kernel. The new guidelines rename \"LLM\" mentions to \"coding assistant\", mentioning testing as part of the change if done by a tool, and some other minor revisions.",
         "matchedWords": {
           "4galTpdpDM5Q": {
             "hits": 4,
@@ -671,7 +671,7 @@
         "hash": "V_Sy6HDMrHS4",
         "address": "https://gist.github.com/ricardoanguiano/18125b7eb3f26cf83724fb60662bdd2c",
         "title": "linux kernel mainline 4.9 sloccount.txt · GitHub",
-        "snippet": "/scratch/ricardo/checkouts/linux-kernel/linux/./COPYING to top_dir Adding /scratch/ricardo/checkouts/linux-kernel/linux/./CREDITS to top_dir Creating filelist for crypto Adding /scratch/ricardo/checkouts/linux-kernel/linux/./cscope.out to top_dir Creating filelist for Documentation Creating",
+        "snippet": "/Kbuild to top_dir Adding /scratch/ricardo/checkouts/linux-kernel/linux/./Kconfig to top_dir Creating filelist for kernel Creating filelist for lib Adding /scratch/ricardo/checkouts/linux-kernel/linux/./MAINTAINERS to top_dir Adding /scratch/ricardo/checkouts/linux-kernel/linux/.",
         "matchedWords": {
           "4galTpdpDM5Q": {
             "hits": 22,
@@ -724,7 +724,7 @@
         "hash": "Wl42f5KqlBA4",
         "address": "https://www.phoronix.com/review/nvidia-open-kernel",
         "title": "NVIDIA Transitioning To Official, Open-Source Linux GPU Kernel Driver - Phoronix",
-        "snippet": "LINUX GPU KERNEL MODULES AS OPEN-SOURCE! To much excitement and a sign of the times, the embargo has just expired on this super-exciting milestone that many of us have been hoping to see for many years. Over the past two decades NVIDIA has offered great Linux driver support with their proprietary",
+        "snippet": "The Intel and Radeon open-source graphics drivers continue to be ported over from the Linux kernel without the official backing/support of Intel or AMD and generally is always a number of releases behind the latest upstream Linux kernel state.",
         "matchedWords": {
           "4galTpdpDM5Q": {
             "hits": 31,
@@ -741,7 +741,7 @@
         "hash": "Wyzcq_YgUcBw",
         "address": "https://salsa.debian.org/kernel-team/linux/-/merge_requests/1968",
         "title": "[bookworm] net: mana: refresh driver from 6.12.94 (!1968) · Merge requests · Debian kernel team / linux · GitLab",
-        "snippet": "kernel uses drivers/net/ethernet/microsoft/mana backported from 6.12.y. This MR cherry-picks some additional commits to this driver that have been made to the kernel.org linux-6.12.y stable tree as of v6.12.94.\nCherry-pick the following commits:\n34baf1cfd (\"net: mana: Switch to page pool for jumbo",
+        "snippet": "This MR cherry-picks some additional commits to this driver that have been made to the kernel.org linux-6.12.y stable tree as of v6.12.94.\nCherry-pick the following commits:",
         "matchedWords": {
           "4galTpdpDM5Q": {
             "hits": 1,
@@ -775,7 +775,7 @@
         "hash": "e5NoTOXKQKtw",
         "address": "https://docs.kernel.org/userspace-api/tee.html",
         "title": "TEE (Trusted Execution Environment) Userspace API — The Linux Kernel documentation",
-        "snippet": "include/uapi/linux/tee.h defines the generic interface to a TEE.\nUser space (the client) connects to the driver by opening /dev/tee[0-9]* or /dev/teepriv[0-9]*.\nTEE_IOC_SHM_ALLOC allocates shared memory and returns a file descriptor which user space can mmap. When user space doesn’t need the file",
+        "snippet": "include/uapi/linux/tee.h defines the generic interface to a TEE.\nUser space (the client) connects to the driver by opening /dev/tee[0-9]* or /dev/teepriv[0-9]*.\nTEE_IOC_SHM_ALLOC allocates shared memory and returns a file descriptor which user space can mmap.",
         "matchedWords": {
           "4galTpdpDM5Q": {
             "hits": 2,
@@ -794,7 +794,7 @@
         "hash": "HCJIZsscikty",
         "address": "https://kernelnewbies.org/Linux_4.2",
         "title": "Linux_4.2 - Linux Kernel Newbies",
-        "snippet": "Linux 4.2 has been released on 30 Aug 2015\nSummary: This release adds a new amdgpu driver for modern AMD Radeon hardware, a virtio GPU driver to use the host GPU capabilities inside guests, the new atomic modesetting graphics API has been declared stable, support for stacking of security modules, a",
+        "snippet": "Phoronix New Features Of The Linux 4.2 Kernel\nlinuxfr.org: Sortie du noyau Linux 4.2",
         "matchedWords": {
           "4galTpdpDM5Q": {
             "hits": 13,
@@ -900,7 +900,7 @@
         "hash": "5A3Als-kQ1nw",
         "address": "https://kernel.org/",
         "title": "The Linux Kernel Archives",
-        "snippet": "https://www.kernel.org/pub/\nGIT\nhttps://git.kernel.org/\nRSYNC\nrsync://rsync.kernel.org/pub/\nmainline:\n7.3-rc2\n2026-09-06\n[tarball]\n[patch]\n[inc. patch]\n[view diff]\n[browse]\nstable:\n7.2.5\n2026-09-11\n[tarball]\n[pgp]\n[patch]\n[inc. patch]\n[view diff]\n[browse]\n[changelog]\nstable:\n7.1.13 [EOL]\n2026-09-02",
+        "snippet": "Protocol\nLocation\nHTTP\nhttps://www.kernel.org/pub/\nGIT\nhttps://git.kernel.org/\nRSYNC\nrsync://rsync.kernel.org/pub/\nmainline:\n7.3-rc2\n2026-09-06\n[tarball]\n[patch]\n[inc. patch]\n[view diff]\n[browse]\nstable:\n7.2.5\n2026-09-11\n[tarball]\n[pgp]\n[patch]\n[inc. patch]\n[view diff]\n[browse]\n[changelog]\nstable:",
         "matchedWords": {
           "4galTpdpDM5Q": {
             "hits": 1,
@@ -1112,7 +1112,7 @@
         "hash": "O7HXYdFO6r_x",
         "address": "https://de.wikipedia.org/wiki/Linux-Kernel",
         "title": "Linux (Kernel) – Wikipedia",
-        "snippet": "Linux\nStartender Systemkern (Version 3.0.0) in Debian\nEntwickler\nLinus Torvalds\nLizenz(en)\nGNU General Public License, Version 2[1][2][3], proprietäre Lizenz[2]\nErstveröff.\n17. September 1991\nAkt. Version\n7.2.5[4] vom 11. September 2026\n(vor 0 Tagen)\nArchitektur(en)\nIA-32 (inkl. x64), Alpha AXP,",
+        "snippet": "Linux 0.01 News – Seite zu Weiterentwicklungen des 0.01-Kernels für neuere GCC-Versionen\nAnatomy of the Linux kernel – IBM, am 6. Juni 2007\nDeutsch:\nLinux-Kernel – Golem\nLinux Kernel – Heise\nLinux Kernel Download – ComputerBase\n↑ RELEASE NOTES FOR LINUX v0.12. (abgerufen am 10. April 2018).",
         "matchedWords": {
           "4galTpdpDM5Q": {
             "hits": 220,
@@ -1131,7 +1131,7 @@
         "hash": "INtzHVGZ4FKw",
         "address": "https://www.kernel.org/doc/html/latest/translations/zh_CN/admin-guide/numastat.html",
         "title": "Numa策略命中/未命中统计 — The Linux Kernel documentation",
-        "snippet": "\u003cwodemia@linux.alibaba.com\u003e\nNuma策略命中/未命中统计¶\n/sys/devices/system/node/node*/numastat\n所有数据的单位都是页面。巨页有独立的计数器。\nnuma_hit、numa_miss和numa_foreign计数器反映了进程是否能够在他们偏好的节点上分配内存。 如果进程成功在偏好的节点上分配内存则在偏好的节点上增加numa_hit计数，否则在偏好的节点上增 加numa_foreign计数同时在实际内存分配的节点上增加numa_miss计数。",
+        "snippet": "Note\n此文件的目的是为让中文读者更容易阅读和理解，而不是作为一个分支。 因此， 如果您对此文件有任何意见或更新，请先尝试更新原始英文文件。 如果您发现本文档与原始文件有任何不同或者有翻译问题，请发建议或者补丁给 该文件的译者，或者请求中文文档维护者和审阅者的帮助。\nOriginal:\nNuma policy hit/miss statistics\nTranslator:\nTao Zou \u003cwodemia@linux.alibaba.com\u003e\nNuma策略命中/未命中统计¶\n/sys/devices/system/node/node*/numastat\n所有数据的单位都是页面。",
         "matchedWords": {
           "4galTpdpDM5Q": {
             "hits": 1,
@@ -1271,7 +1271,7 @@
         "hash": "N_bW_5DJH5aw",
         "address": "https://www.wiki.kernel.org/",
         "title": "Main Page - Demeter of the Kernel.org",
-        "snippet": "Kernel.org\nrt - RTwiki\next4 - Ext4\nbtrfs - btrfs Wiki\nata - ata Wiki\nieee1394 - IEEE 1394 FireWire Wiki\nsecurity - Linux Security Wiki (obsolete)\ni2c - Linux i2c Wiki\nparisc - Linux PARISC Wiki\nreiser4 - Reiser4 FS Wiki\nperf - Perf Wiki\nhail - Hail Cloud Computing Wiki\nsparse - Sparse Wiki\nkgdb -",
+        "snippet": "hail - Hail Cloud Computing Wiki\nsparse - Sparse Wiki\nkgdb - KGDB Wiki\nmodules - Linux Kernel Modules Wiki\nckpt - Linux Checkpoint / Restart Wiki\nraid - Linux Raid Wiki\ngit - Git SCM Wiki\ndracut - Dracut Wiki\nbackports - Driver Backports Wiki\nllvm - LLVM Linux Wiki (not hosted by kernel.org)",
         "matchedWords": {
           "4galTpdpDM5Q": {
             "hits": 12,
@@ -1341,7 +1341,7 @@
         "hash": "5A3Als-kQ1nw",
         "address": "https://kernel.org/",
         "title": "The Linux Kernel Archives",
-        "snippet": "https://www.kernel.org/pub/\nGIT\nhttps://git.kernel.org/\nRSYNC\nrsync://rsync.kernel.org/pub/\nmainline:\n7.3-rc2\n2026-09-06\n[tarball]\n[patch]\n[inc. patch]\n[view diff]\n[browse]\nstable:\n7.2.5\n2026-09-11\n[tarball]\n[pgp]\n[patch]\n[inc. patch]\n[view diff]\n[browse]\n[changelog]\nstable:\n7.1.13 [EOL]\n2026-09-02",
+        "snippet": "Protocol\nLocation\nHTTP\nhttps://www.kernel.org/pub/\nGIT\nhttps://git.kernel.org/\nRSYNC\nrsync://rsync.kernel.org/pub/\nmainline:\n7.3-rc2\n2026-09-06\n[tarball]\n[patch]\n[inc. patch]\n[view diff]\n[browse]\nstable:\n7.2.5\n2026-09-11\n[tarball]\n[pgp]\n[patch]\n[inc. patch]\n[view diff]\n[browse]\n[changelog]\nstable:",
         "matchedWords": {
           "4galTpdpDM5Q": {
             "hits": 1,
@@ -1409,7 +1409,7 @@
         "hash": "5OdiTlSCNQa4",
         "address": "https://www.redhat.com/en/topics/linux/what-is-the-linux-kernel",
         "title": "What is the Linux kernel?",
-        "snippet": "Linux\nWhat is the Linux kernel?\nPublished February 27, 2019•3-minute read\nOverview\nThe Linux® kernel is the main component of a Linux operating system (OS) and is the core interface between a computer’s hardware and its processes. It communicates between the 2, managing resources as efficiently as",
+        "snippet": "Keep reading\nWhat is Linux kernel live patching?\nLinux kernel live patching is a way to apply critical and important security patches to a running Linux kernel, without the need to reboot or interrupt runtime.\nLinux for cloud computing\nLinux is ideal for cloud environments.",
         "matchedWords": {
           "4galTpdpDM5Q": {
             "hits": 19,
@@ -1460,7 +1460,7 @@
         "hash": "lmRNDjRvmBbx",
         "address": "https://en.wikipedia.org/wiki/Linux_kernel",
         "title": "Linux kernel - Wikipedia",
-        "snippet": "Linux Kernel\nTux, mascot of Linux, created by Larry Ewing[1]\nLinux kernel 6.1.0 kernel booting, under Debian Bookworm\nOriginal author\nLinus Torvalds\nDevelopers\nCommunity contributors\nLinus Torvalds\nRelease\n0.02 (5 October 1991; 34 years ago)\nStable release\nRegular: 7.2.5 / 11 September 2026[2]\nLTS:",
+        "snippet": "↑ \"HOWTO do Linux kernel development — The Linux Kernel documentation\". Kernel.org. Archived from the original on 7 March 2020. Retrieved 4 January 2020.\n↑ \"Linux kernel coding style — The Linux Kernel documentation\". Kernel.org. Archived from the original on 5 January 2020.",
         "matchedWords": {
           "4galTpdpDM5Q": {
             "hits": 509,
@@ -1778,7 +1778,7 @@
         "hash": "UhQw5VGZ4FKw",
         "address": "https://www.kernel.org/doc/html/v5.0/driver-api/firmware/fallback-mechanisms.html",
         "title": "Fallback mechanisms — The Linux Kernel documentation",
-        "snippet": "kernel configuration options related to supporting the firmware fallback mechanism are:\nCONFIG_FW_LOADER_USER_HELPER: enables building the firmware fallback mechanism. Most distributions enable this option today. If enabled but CONFIG_FW_LOADER_USER_HELPER_FALLBACK is disabled, only the custom",
+        "snippet": "As a supplement to kobject uevents Linux distributions could also enable CONFIG_UEVENT_HELPER_PATH, which makes use of core kernel’s usermode helper (UMH) functionality to call out to a userspace helper for kobject uevents.",
         "matchedWords": {
           "4galTpdpDM5Q": {
             "hits": 2,
@@ -1814,7 +1814,7 @@
         "hash": "N280urS6MKD4",
         "address": "https://github.com/xairy/linux-kernel-exploitation",
         "title": "GitHub - xairy/linux-kernel-exploitation: A collection of links related to Linux kernel security and exploitation",
-        "snippet": "Linux kernel security and exploitation.\nUpdated bimonthly. Pull requests are welcome as well.\nFollow @andreyknvl on X, @xairy@infosec.exchange on Mastodon, or @andreyknvl on Bluesky to be notified of updates.\nSubscribe to @linkersec on Telegram, X, Mastodon, Bluesky, or Reddit for highlights.",
+        "snippet": "2023: \"The Return of Stack Overflows in the Linux Kernel\" by Davide Ornaghi [slides] [video]\n2023: \"Exploiting null-dereferences in the Linux kernel\" by Seth Jenkins [article]\n2023: \"PSPRAY: Timing Side-Channel based Linux Kernel Heap Exploitation Technique\" [paper] [video]",
         "matchedWords": {
           "4galTpdpDM5Q": {
             "hits": 430,
@@ -1833,7 +1833,7 @@
         "hash": "N_bW_5DJH5aw",
         "address": "https://www.wiki.kernel.org/",
         "title": "Main Page - Demeter of the Kernel.org",
-        "snippet": "Kernel.org\nrt - RTwiki\next4 - Ext4\nbtrfs - btrfs Wiki\nata - ata Wiki\nieee1394 - IEEE 1394 FireWire Wiki\nsecurity - Linux Security Wiki (obsolete)\ni2c - Linux i2c Wiki\nparisc - Linux PARISC Wiki\nreiser4 - Reiser4 FS Wiki\nperf - Perf Wiki\nhail - Hail Cloud Computing Wiki\nsparse - Sparse Wiki\nkgdb -",
+        "snippet": "hail - Hail Cloud Computing Wiki\nsparse - Sparse Wiki\nkgdb - KGDB Wiki\nmodules - Linux Kernel Modules Wiki\nckpt - Linux Checkpoint / Restart Wiki\nraid - Linux Raid Wiki\ngit - Git SCM Wiki\ndracut - Dracut Wiki\nbackports - Driver Backports Wiki\nllvm - LLVM Linux Wiki (not hosted by kernel.org)",
         "matchedWords": {
           "4galTpdpDM5Q": {
             "hits": 12,
@@ -1867,7 +1867,7 @@
         "hash": "DIybb_XKQKtw",
         "address": "https://docs.kernel.org/admin-guide/sysctl/vm.html",
         "title": "Documentation for /proc/sys/vm/ — The Linux Kernel documentation",
-        "snippet": "kernel version 2.6.29\nCopyright (c) 1998, 1999, Rik van Riel \u003criel@nl.linux.org\u003e\nCopyright (c) 2008 Peter W. Morreale \u003cpmorreale@novell.com\u003e\nFor general info and legal blurb, please look in Documentation for /proc/sys.\nThis file contains the documentation for the sysctl files in /proc/sys/vm and is",
+        "snippet": "This file contains the documentation for the sysctl files in /proc/sys/vm and is valid for Linux kernel version 2.6.29.\nThe files in this directory can be used to tune the operation of the virtual memory (VM) subsystem of the Linux kernel and the writeout of dirty data to disk.",
         "matchedWords": {
           "4galTpdpDM5Q": {
             "hits": 6,
@@ -1901,7 +1901,7 @@
         "hash": "ec2vXVGZ4FKw",
         "address": "https://www.kernel.org/doc/html/latest/core-api/irq/irq-affinity.html",
         "title": "SMP IRQ affinity — The Linux Kernel documentation",
-        "snippet": "ChangeLog:\nStarted by Ingo Molnar \u003cmingo@redhat.com\u003e\nUpdate by Max Krasnyansky \u003cmaxk@qualcomm.com\u003e\n/proc/irq/IRQ#/smp_affinity and /proc/irq/IRQ#/smp_affinity_list specify which target CPUs are permitted for a given IRQ source. It’s a bitmask (smp_affinity) or CPU list (smp_affinity_list) of",
+        "snippet": "ChangeLog:\nStarted by Ingo Molnar \u003cmingo@redhat.com\u003e\nUpdate by Max Krasnyansky \u003cmaxk@qualcomm.com\u003e\n/proc/irq/IRQ#/smp_affinity and /proc/irq/IRQ#/smp_affinity_list specify which target CPUs are permitted for a given IRQ source.",
         "matchedWords": {
           "4galTpdpDM5Q": {
             "hits": 0,
@@ -1990,7 +1990,7 @@
         "hash": "N_bW_5DJH5aw",
         "address": "https://www.wiki.kernel.org/",
         "title": "Main Page - Demeter of the Kernel.org",
-        "snippet": "Kernel.org\nrt - RTwiki\next4 - Ext4\nbtrfs - btrfs Wiki\nata - ata Wiki\nieee1394 - IEEE 1394 FireWire Wiki\nsecurity - Linux Security Wiki (obsolete)\ni2c - Linux i2c Wiki\nparisc - Linux PARISC Wiki\nreiser4 - Reiser4 FS Wiki\nperf - Perf Wiki\nhail - Hail Cloud Computing Wiki\nsparse - Sparse Wiki\nkgdb -",
+        "snippet": "hail - Hail Cloud Computing Wiki\nsparse - Sparse Wiki\nkgdb - KGDB Wiki\nmodules - Linux Kernel Modules Wiki\nckpt - Linux Checkpoint / Restart Wiki\nraid - Linux Raid Wiki\ngit - Git SCM Wiki\ndracut - Dracut Wiki\nbackports - Driver Backports Wiki\nllvm - LLVM Linux Wiki (not hosted by kernel.org)",
         "matchedWords": {
           "4galTpdpDM5Q": {
             "hits": 12,
@@ -2007,7 +2007,7 @@
         "hash": "JEaJ_ZXKQKtw",
         "address": "https://docs.kernel.org/",
         "title": "The Linux Kernel documentation — The Linux Kernel documentation",
-        "snippet": "Linux Kernel documentation¶\nThis is the top level of the kernel’s documentation tree. Kernel documentation, like the kernel itself, is very much a work in progress; that is especially true as we work to integrate our many scattered documents into a coherent whole. Please note that improvements to",
+        "snippet": "The Linux Kernel documentation¶\nThis is the top level of the kernel’s documentation tree. Kernel documentation, like the kernel itself, is very much a work in progress; that is especially true as we work to integrate our many scattered documents into a coherent whole.",
         "matchedWords": {
           "4galTpdpDM5Q": {
             "hits": 5,
@@ -2024,7 +2024,7 @@
         "hash": "QfHA9VGZ4FKw",
         "address": "https://www.kernel.org/doc/html/latest/doc-guide/index.html",
         "title": "How to write kernel documentation — The Linux Kernel documentation",
-        "snippet": "kernel documentation\nWriting kernel-doc comments\nIncluding kernel-doc comments\nIncluding uAPI header files\nHow to help improve kernel documentation\nDocumentation subsystem maintainer entry profile\nChecking for needed translation updates\nDevelopment tools\nTesting guide\nHacking guide\nTracing\nFault",
+        "snippet": "Writing documentation Using Sphinx for kernel documentation\nWriting kernel-doc comments\nIncluding kernel-doc comments\nIncluding uAPI header files\nHow to help improve kernel documentation\nDocumentation subsystem maintainer entry profile\nChecking for needed translation updates\nDevelopment tools",
         "matchedWords": {
           "4galTpdpDM5Q": {
             "hits": 0,
@@ -2075,7 +2075,7 @@
         "hash": "SDL4QvKqlBA4",
         "address": "https://www.phoronix.com/news/Linux-Kernel-AI-Guidelines-v3",
         "title": "Latest Proposed Guidelines For Tool-Generated / AI Submissions To The Linux Kernel - Phoronix",
-        "snippet": "Linux kernel. The coding tools in large part being focused on AI generated content.\nIntel Linux engineer Dave Hansen posted the third draft of the proposed AI/tool generated content guidelines for the Linux kernel. The new guidelines rename \"LLM\" mentions to \"coding assistant\", mentioning testing",
+        "snippet": "Intel Linux engineer Dave Hansen posted the third draft of the proposed AI/tool generated content guidelines for the Linux kernel. The new guidelines rename \"LLM\" mentions to \"coding assistant\", mentioning testing as part of the change if done by a tool, and some other minor revisions.",
         "matchedWords": {
           "4galTpdpDM5Q": {
             "hits": 4,
@@ -2181,7 +2181,7 @@
         "hash": "Wyzcq_YgUcBw",
         "address": "https://salsa.debian.org/kernel-team/linux/-/merge_requests/1968",
         "title": "[bookworm] net: mana: refresh driver from 6.12.94 (!1968) · Merge requests · Debian kernel team / linux · GitLab",
-        "snippet": "kernel uses drivers/net/ethernet/microsoft/mana backported from 6.12.y. This MR cherry-picks some additional commits to this driver that have been made to the kernel.org linux-6.12.y stable tree as of v6.12.94.\nCherry-pick the following commits:\n34baf1cfd (\"net: mana: Switch to page pool for jumbo",
+        "snippet": "This MR cherry-picks some additional commits to this driver that have been made to the kernel.org linux-6.12.y stable tree as of v6.12.94.\nCherry-pick the following commits:",
         "matchedWords": {
           "4galTpdpDM5Q": {
             "hits": 1,
@@ -2198,7 +2198,7 @@
         "hash": "WpZ1HHOSpvvg",
         "address": "https://nluug.nl/evenementen/nluug/voorjaarsconferentie-2025/talks/michael-boelen-application-security-sandboxing-features-of-the-linux-kernel-and-systemd/",
         "title": "Michael Boelen - Application security: sandboxing features of the Linux kernel and systemd | NLUUG",
-        "snippet": "Linux kernel has some great security features, such as capabilities, namespaces, and seccomp. Unfortunately, most software running on a Linux system does not leverage these features. Time to introduce a tool, that took some time for me to like a little bit better: systemd.\nSystemd version 1 was",
+        "snippet": "Abstract\nThe Linux kernel has some great security features, such as capabilities, namespaces, and seccomp. Unfortunately, most software running on a Linux system does not leverage these features. Time to introduce a tool, that took some time for me to like a little bit better: systemd.",
         "matchedWords": {
           "4galTpdpDM5Q": {
             "hits": 11,
@@ -2215,7 +2215,7 @@
         "hash": "U7ces6XKQKtw",
         "address": "https://docs.kernel.org/driver-api/dma-buf.html",
         "title": "Buffer Sharing and Synchronization (dma-buf) — The Linux Kernel documentation",
-        "snippet": "kernel subsystems can use and interact with the three main primitives offered by dma-buf:\ndma-buf, representing a sg_table and exposed to userspace as a file descriptor to allow passing between processes, subsystems, devices, etc;\ndma-fence, providing a mechanism to signal when an asynchronous",
+        "snippet": "DMA Fences Functions Reference¶\nstruct dma_fence *dma_fence_get_stub(void)¶\nreturn a signaled fence\nParameters\nvoid\nno arguments\nDescription\nReturn a stub fence which is already signaled. The fence’s timestamp corresponds to the initialisation time of the linux kernel.",
         "matchedWords": {
           "4galTpdpDM5Q": {
             "hits": 3,
@@ -2232,7 +2232,7 @@
         "hash": "V_Sy6HDMrHS4",
         "address": "https://gist.github.com/ricardoanguiano/18125b7eb3f26cf83724fb60662bdd2c",
         "title": "linux kernel mainline 4.9 sloccount.txt · GitHub",
-        "snippet": "/scratch/ricardo/checkouts/linux-kernel/linux/./COPYING to top_dir Adding /scratch/ricardo/checkouts/linux-kernel/linux/./CREDITS to top_dir Creating filelist for crypto Adding /scratch/ricardo/checkouts/linux-kernel/linux/./cscope.out to top_dir Creating filelist for Documentation Creating",
+        "snippet": "/Kbuild to top_dir Adding /scratch/ricardo/checkouts/linux-kernel/linux/./Kconfig to top_dir Creating filelist for kernel Creating filelist for lib Adding /scratch/ricardo/checkouts/linux-kernel/linux/./MAINTAINERS to top_dir Adding /scratch/ricardo/checkouts/linux-kernel/linux/.",
         "matchedWords": {
           "4galTpdpDM5Q": {
             "hits": 22,
@@ -2285,7 +2285,7 @@
         "hash": "eaGhAlpcc_2y",
         "address": "https://www.notebookcheck.net/Venom-Linux-20250108-launches-with-the-6-12-8-kernel-Wayland-1-23-1-and-more.944449.0.html",
         "title": "Venom Linux 20250108 launches with the 6.12.8 kernel, Wayland 1.23.1, and more - Notebookcheck News",
-        "snippet": "Linux 20250108 empty desktop (Image source: DistroWatch)\nTargeting experienced users and drawing inspiration from CRUX, Venom Linux has returned with its desktop based on the Openbox window manager alongside a text-mode installer. Version 20250108 sports the 6.12.8 Linux kernel, MESA 24.3.3,",
+        "snippet": "Version 20250108 sports the 6.12.8 Linux kernel, MESA 24.3.3, Wayland 1.23.1, and more. The list of options now also includes the s6 init system.\nVenom is one of the more recent Linux distros currently in the wild.",
         "matchedWords": {
           "4galTpdpDM5Q": {
             "hits": 6,
@@ -2372,7 +2372,7 @@
         "hash": "HCJIZsscikty",
         "address": "https://kernelnewbies.org/Linux_4.2",
         "title": "Linux_4.2 - Linux Kernel Newbies",
-        "snippet": "Linux 4.2 has been released on 30 Aug 2015\nSummary: This release adds a new amdgpu driver for modern AMD Radeon hardware, a virtio GPU driver to use the host GPU capabilities inside guests, the new atomic modesetting graphics API has been declared stable, support for stacking of security modules, a",
+        "snippet": "Phoronix New Features Of The Linux 4.2 Kernel\nlinuxfr.org: Sortie du noyau Linux 4.2",
         "matchedWords": {
           "4galTpdpDM5Q": {
             "hits": 13,
@@ -2495,7 +2495,7 @@
         "hash": "fq3pBVGZ4FKw",
         "address": "https://www.kernel.org/doc/html/latest/kbuild/index.html",
         "title": "Kernel Build System — The Linux Kernel documentation",
-        "snippet": "kernel development community. | Powered by Sphinx 5.3.0 \u0026 Alabaster 0.7.16 | Page source",
+        "snippet": "©The kernel development community. | Powered by Sphinx 5.3.0 \u0026 Alabaster 0.7.16 | Page source",
         "matchedWords": {
           "4galTpdpDM5Q": {
             "hits": 0,
@@ -2529,7 +2529,7 @@
         "hash": "fRleuzvWe9Yw",
         "address": "https://se-radio.net/2026/06/se-radio-723-dave-airlie-on-linux-kernel-maintenance/",
         "title": "SE Radio 723: Dave Airlie on Linux Kernel Maintenance – Software Engineering Radio",
-        "snippet": "Linux kernel maintenance. After over-viewing the scale and structure of the Linux kernel, they dive deep into the review and validation of kernel patches, drawing on examples from the GPU subsystem. After discussing the features and benefits of the Linux kernel’s maintenance model, they also",
+        "snippet": "Linux Kernel Mailing List (LKML): LKML.ORG – the Linux Kernel Mailing List Archive\nLinux_Kernel_Newbies – Linux Kernel Newbies\nTranscript\nTranscript brought to you by IEEE Software magazine.\nThis transcript was automatically generated.",
         "matchedWords": {
           "4galTpdpDM5Q": {
             "hits": 116,
@@ -2546,7 +2546,7 @@
         "hash": "ebOJMOXKQKtw",
         "address": "https://docs.kernel.org/userspace-api/dma-buf-alloc-exchange.html",
         "title": "Exchanging pixel buffers — The Linux Kernel documentation",
-        "snippet": "Linux graphics subsystem had extremely limited support for sharing pixel-buffer allocations between processes, devices, and subsystems. Modern systems require extensive integration between all three classes; this document details how applications and kernel subsystems should approach this sharing",
+        "snippet": "As originally designed, the Linux graphics subsystem had extremely limited support for sharing pixel-buffer allocations between processes, devices, and subsystems.",
         "matchedWords": {
           "4galTpdpDM5Q": {
             "hits": 2,
@@ -2563,7 +2563,7 @@
         "hash": "fK864sueNoX4",
         "address": "https://itsfoss.com/compile-linux-kernel/",
         "title": "A Guide to Compiling the Linux Kernel All By Yourself",
-        "snippet": "Linux kernel yourself, for many reasons. It might be, but not limited to, one of the following:\nTrying out a newer kernel than what your Linux distribution provides\nBuilding the kernel with a different set of configuration options and/or drivers\nA learner's curiosity :)\nThis guide will show you how",
+        "snippet": "So, as the prerequisites, we will be downloading the Linux kernel's source as a tarball and install a few dependencies that will allow us to build the Linux kernel.\nPrimer on Linux versions\nAt a given moment, there are 4 \"versions\" of the Freax Linux kernel.",
         "matchedWords": {
           "4galTpdpDM5Q": {
             "hits": 108,
@@ -2633,7 +2633,7 @@
         "hash": "N_bW_5DJH5aw",
         "address": "https://www.wiki.kernel.org/",
         "title": "Main Page - Demeter of the Kernel.org",
-        "snippet": "Kernel.org\nrt - RTwiki\next4 - Ext4\nbtrfs - btrfs Wiki\nata - ata Wiki\nieee1394 - IEEE 1394 FireWire Wiki\nsecurity - Linux Security Wiki (obsolete)\ni2c - Linux i2c Wiki\nparisc - Linux PARISC Wiki\nreiser4 - Reiser4 FS Wiki\nperf - Perf Wiki\nhail - Hail Cloud Computing Wiki\nsparse - Sparse Wiki\nkgdb -",
+        "snippet": "hail - Hail Cloud Computing Wiki\nsparse - Sparse Wiki\nkgdb - KGDB Wiki\nmodules - Linux Kernel Modules Wiki\nckpt - Linux Checkpoint / Restart Wiki\nraid - Linux Raid Wiki\ngit - Git SCM Wiki\ndracut - Dracut Wiki\nbackports - Driver Backports Wiki\nllvm - LLVM Linux Wiki (not hosted by kernel.org)",
         "matchedWords": {
           "4galTpdpDM5Q": {
             "hits": 12,
@@ -2701,7 +2701,7 @@
         "hash": "0qHLKIXKQKtw",
         "address": "https://docs.kernel.org/arch/arm/index.html",
         "title": "ARM Architecture — The Linux Kernel documentation",
-        "snippet": "kernel development community. | Powered by Sphinx 5.3.0 \u0026 Alabaster 0.7.16 | Page source",
+        "snippet": "©The kernel development community. | Powered by Sphinx 5.3.0 \u0026 Alabaster 0.7.16 | Page source",
         "matchedWords": {
           "4galTpdpDM5Q": {
             "hits": 0,
@@ -2718,7 +2718,7 @@
         "hash": "N280urS6MKD4",
         "address": "https://github.com/xairy/linux-kernel-exploitation",
         "title": "GitHub - xairy/linux-kernel-exploitation: A collection of links related to Linux kernel security and exploitation",
-        "snippet": "Linux kernel security and exploitation.\nUpdated bimonthly. Pull requests are welcome as well.\nFollow @andreyknvl on X, @xairy@infosec.exchange on Mastodon, or @andreyknvl on Bluesky to be notified of updates.\nSubscribe to @linkersec on Telegram, X, Mastodon, Bluesky, or Reddit for highlights.",
+        "snippet": "2023: \"The Return of Stack Overflows in the Linux Kernel\" by Davide Ornaghi [slides] [video]\n2023: \"Exploiting null-dereferences in the Linux kernel\" by Seth Jenkins [article]\n2023: \"PSPRAY: Timing Side-Channel based Linux Kernel Heap Exploitation Technique\" [paper] [video]",
         "matchedWords": {
           "4galTpdpDM5Q": {
             "hits": 430,
@@ -2769,7 +2769,7 @@
         "hash": "6QS8lVGZ4FKw",
         "address": "https://www.kernel.org/doc/html/latest/dev-tools/index.html",
         "title": "Development tools for the kernel — The Linux Kernel documentation",
-        "snippet": "kernel development community. | Powered by Sphinx 5.3.0 \u0026 Alabaster 0.7.16 | Page source",
+        "snippet": "©The kernel development community. | Powered by Sphinx 5.3.0 \u0026 Alabaster 0.7.16 | Page source",
         "matchedWords": {
           "4galTpdpDM5Q": {
             "hits": 0,
@@ -2805,7 +2805,7 @@
         "hash": "N_bW_5DJH5aw",
         "address": "https://www.wiki.kernel.org/",
         "title": "Main Page - Demeter of the Kernel.org",
-        "snippet": "Kernel.org\nrt - RTwiki\next4 - Ext4\nbtrfs - btrfs Wiki\nata - ata Wiki\nieee1394 - IEEE 1394 FireWire Wiki\nsecurity - Linux Security Wiki (obsolete)\ni2c - Linux i2c Wiki\nparisc - Linux PARISC Wiki\nreiser4 - Reiser4 FS Wiki\nperf - Perf Wiki\nhail - Hail Cloud Computing Wiki\nsparse - Sparse Wiki\nkgdb -",
+        "snippet": "hail - Hail Cloud Computing Wiki\nsparse - Sparse Wiki\nkgdb - KGDB Wiki\nmodules - Linux Kernel Modules Wiki\nckpt - Linux Checkpoint / Restart Wiki\nraid - Linux Raid Wiki\ngit - Git SCM Wiki\ndracut - Dracut Wiki\nbackports - Driver Backports Wiki\nllvm - LLVM Linux Wiki (not hosted by kernel.org)",
         "matchedWords": {
           "4galTpdpDM5Q": {
             "hits": 12,
@@ -2822,7 +2822,7 @@
         "hash": "jpQ5kcKBgd5w",
         "address": "https://www.spinics.net/lists/kernel/msg4339024.html",
         "title": "[PATCH] nvme-pci: fix host memory buffer allocation size — Linux Kernel",
-        "snippet": "\u003clinux@xxxxxxxxxxxxxx\u003e --- Also discussed at https://lore.kernel.org/linux-nvme/f94565db-f217-4a56-83c3-c6429807185c@xxxxxxxx/ drivers/nvme/host/pci.c | 2 +- 1 file changed, 1 insertion(+), 1 deletion(-) diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c index 3aacf1c0d5a5..0546523cc20b",
+        "snippet": "Signed-off-by: Thomas Weißschuh \u003clinux@xxxxxxxxxxxxxx\u003e --- Also discussed at https://lore.kernel.org/linux-nvme/f94565db-f217-4a56-83c3-c6429807185c@xxxxxxxx/ drivers/nvme/host/pci.c | 2 +- 1 file changed, 1 insertion(+), 1 deletion(-) diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c",
         "matchedWords": {
           "4galTpdpDM5Q": {
             "hits": 2,
@@ -2873,7 +2873,7 @@
         "hash": "N280urS6MKD4",
         "address": "https://github.com/xairy/linux-kernel-exploitation",
         "title": "GitHub - xairy/linux-kernel-exploitation: A collection of links related to Linux kernel security and exploitation",
-        "snippet": "Linux kernel security and exploitation.\nUpdated bimonthly. Pull requests are welcome as well.\nFollow @andreyknvl on X, @xairy@infosec.exchange on Mastodon, or @andreyknvl on Bluesky to be notified of updates.\nSubscribe to @linkersec on Telegram, X, Mastodon, Bluesky, or Reddit for highlights.",
+        "snippet": "2023: \"The Return of Stack Overflows in the Linux Kernel\" by Davide Ornaghi [slides] [video]\n2023: \"Exploiting null-dereferences in the Linux kernel\" by Seth Jenkins [article]\n2023: \"PSPRAY: Timing Side-Channel based Linux Kernel Heap Exploitation Technique\" [paper] [video]",
         "matchedWords": {
           "4galTpdpDM5Q": {
             "hits": 430,
@@ -2890,7 +2890,7 @@
         "hash": "UxZv1VGZ4FKw",
         "address": "https://www.kernel.org/doc/html/latest/process/index.html",
         "title": "Working with the kernel development community — The Linux Kernel documentation",
-        "snippet": "Linux kernel developer? Welcome! While there is a lot to be learned about the kernel in a technical sense, it is also important to learn about how our community works. Reading these documents will make it much easier for you to get your changes merged with a minimum of trouble.\nAn introduction to",
+        "snippet": "Linux Kernel Enforcement Statement\nKernel Driver Statement\nThe Linux Kernel Driver Interface\nEverything you ever wanted to know about Linux -stable releases\nLinux kernel management style\nResearcher Guidelines\nKernel Guidelines for Tool-Generated Content\nAI Coding Assistants",
         "matchedWords": {
           "4galTpdpDM5Q": {
             "hits": 16,
@@ -2907,7 +2907,7 @@
         "hash": "uEZoLvXKQKtw",
         "address": "https://docs.kernel.org/leds/index.html",
         "title": "LEDs — The Linux Kernel documentation",
-        "snippet": "Working with the development community\nDevelopment process\nSubmitting patches\nCode of conduct\nMaintainer handbook\nAll development-process docs\nInternal API manuals\nCore API\nDriver APIs\nSubsystems Core subsystems\nHuman interfaces Input Documentation\nHuman Interface Devices (HID)\nSound Subsystem",
+        "snippet": "Working with the development community\nDevelopment process\nSubmitting patches\nCode of conduct\nMaintainer handbook\nAll development-process docs\nInternal API manuals\nCore API\nDriver APIs\nSubsystems Core subsystems\nHuman interfaces Input Documentation\nHuman Interface Devices (HID)",
         "matchedWords": {
           "4galTpdpDM5Q": {
             "hits": 0,
@@ -2958,7 +2958,7 @@
         "hash": "5A3Als-kQ1nw",
         "address": "https://kernel.org/",
         "title": "The Linux Kernel Archives",
-        "snippet": "https://www.kernel.org/pub/\nGIT\nhttps://git.kernel.org/\nRSYNC\nrsync://rsync.kernel.org/pub/\nmainline:\n7.3-rc2\n2026-09-06\n[tarball]\n[patch]\n[inc. patch]\n[view diff]\n[browse]\nstable:\n7.2.5\n2026-09-11\n[tarball]\n[pgp]\n[patch]\n[inc. patch]\n[view diff]\n[browse]\n[changelog]\nstable:\n7.1.13 [EOL]\n2026-09-02",
+        "snippet": "Protocol\nLocation\nHTTP\nhttps://www.kernel.org/pub/\nGIT\nhttps://git.kernel.org/\nRSYNC\nrsync://rsync.kernel.org/pub/\nmainline:\n7.3-rc2\n2026-09-06\n[tarball]\n[patch]\n[inc. patch]\n[view diff]\n[browse]\nstable:\n7.2.5\n2026-09-11\n[tarball]\n[pgp]\n[patch]\n[inc. patch]\n[view diff]\n[browse]\n[changelog]\nstable:",
         "matchedWords": {
           "4galTpdpDM5Q": {
             "hits": 1,
@@ -3066,7 +3066,7 @@
         "hash": "vYInm_XKQKtw",
         "address": "https://docs.kernel.org/admin-guide/pstore-blk.html",
         "title": "pstore block oops/panic logger — The Linux Kernel documentation",
-        "snippet": "kernel, “blkdev” accepts the following variants:\n\u003chex_major\u003e\u003chex_minor\u003e device number in hexadecimal representation, with no leading 0x, for example b302.\nPARTUUID=00112233-4455-6677-8899-AABBCCDDEEFF represents the unique id of a partition if the partition table provides it. The UUID may be either",
+        "snippet": "Do not use DMA to transfer unless you are sure that DMA will not keep lock.\nControl registers directly. Please control registers directly rather than use Linux kernel resources. Do I/O map while initializing rather than wait until a panic occurs.\nReset your block device and controller if necessary.",
         "matchedWords": {
           "4galTpdpDM5Q": {
             "hits": 4,
@@ -3172,7 +3172,7 @@
         "hash": "6QS8lVGZ4FKw",
         "address": "https://www.kernel.org/doc/html/latest/dev-tools/index.html",
         "title": "Development tools for the kernel — The Linux Kernel documentation",
-        "snippet": "kernel development community. | Powered by Sphinx 5.3.0 \u0026 Alabaster 0.7.16 | Page source",
+        "snippet": "©The kernel development community. | Powered by Sphinx 5.3.0 \u0026 Alabaster 0.7.16 | Page source",
         "matchedWords": {
           "4galTpdpDM5Q": {
             "hits": 0,
@@ -3189,7 +3189,7 @@
         "hash": "5A3Als-kQ1nw",
         "address": "https://kernel.org/",
         "title": "The Linux Kernel Archives",
-        "snippet": "https://www.kernel.org/pub/\nGIT\nhttps://git.kernel.org/\nRSYNC\nrsync://rsync.kernel.org/pub/\nmainline:\n7.3-rc2\n2026-09-06\n[tarball]\n[patch]\n[inc. patch]\n[view diff]\n[browse]\nstable:\n7.2.5\n2026-09-11\n[tarball]\n[pgp]\n[patch]\n[inc. patch]\n[view diff]\n[browse]\n[changelog]\nstable:\n7.1.13 [EOL]\n2026-09-02",
+        "snippet": "Protocol\nLocation\nHTTP\nhttps://www.kernel.org/pub/\nGIT\nhttps://git.kernel.org/\nRSYNC\nrsync://rsync.kernel.org/pub/\nmainline:\n7.3-rc2\n2026-09-06\n[tarball]\n[patch]\n[inc. patch]\n[view diff]\n[browse]\nstable:\n7.2.5\n2026-09-11\n[tarball]\n[pgp]\n[patch]\n[inc. patch]\n[view diff]\n[browse]\n[changelog]\nstable:",
         "matchedWords": {
           "4galTpdpDM5Q": {
             "hits": 1,
@@ -3206,7 +3206,7 @@
         "hash": "5OdiTlSCNQa4",
         "address": "https://www.redhat.com/en/topics/linux/what-is-the-linux-kernel",
         "title": "What is the Linux kernel?",
-        "snippet": "Linux\nWhat is the Linux kernel?\nPublished February 27, 2019•3-minute read\nOverview\nThe Linux® kernel is the main component of a Linux operating system (OS) and is the core interface between a computer’s hardware and its processes. It communicates between the 2, managing resources as efficiently as",
+        "snippet": "Keep reading\nWhat is Linux kernel live patching?\nLinux kernel live patching is a way to apply critical and important security patches to a running Linux kernel, without the need to reboot or interrupt runtime.\nLinux for cloud computing\nLinux is ideal for cloud environments.",
         "matchedWords": {
           "4galTpdpDM5Q": {
             "hits": 19,
@@ -3223,7 +3223,7 @@
         "hash": "5Iwamsscikty",
         "address": "https://kernelnewbies.org/Linux_2_6_36",
         "title": "Linux_2_6_36 - Linux Kernel Newbies",
-        "snippet": "Linux 2.6.36 released 20 October, 2010.\nSummary: Linux 2.6.36 includes support for the Tilera architecture, a new filesystem notification interface called fanotify, a redesign of workqueues optimized for concurrency, CIFS local caching, support for Intel Intelligent Power Sharing in i3/5 systems,",
+        "snippet": "Summary: Linux 2.6.36 includes support for the Tilera architecture, a new filesystem notification interface called fanotify, a redesign of workqueues optimized for concurrency, CIFS local caching, support for Intel Intelligent Power Sharing in i3/5 systems, integration of the kernel debugger and",
         "matchedWords": {
           "4galTpdpDM5Q": {
             "hits": 5,
@@ -3414,7 +3414,7 @@
         "hash": "6QS8lVGZ4FKw",
         "address": "https://www.kernel.org/doc/html/latest/dev-tools/index.html",
         "title": "Development tools for the kernel — The Linux Kernel documentation",
-        "snippet": "kernel development community. | Powered by Sphinx 5.3.0 \u0026 Alabaster 0.7.16 | Page source",
+        "snippet": "©The kernel development community. | Powered by Sphinx 5.3.0 \u0026 Alabaster 0.7.16 | Page source",
         "matchedWords": {
           "4galTpdpDM5Q": {
             "hits": 0,
@@ -3431,7 +3431,7 @@
         "hash": "5A3Als-kQ1nw",
         "address": "https://kernel.org/",
         "title": "The Linux Kernel Archives",
-        "snippet": "https://www.kernel.org/pub/\nGIT\nhttps://git.kernel.org/\nRSYNC\nrsync://rsync.kernel.org/pub/\nmainline:\n7.3-rc2\n2026-09-06\n[tarball]\n[patch]\n[inc. patch]\n[view diff]\n[browse]\nstable:\n7.2.5\n2026-09-11\n[tarball]\n[pgp]\n[patch]\n[inc. patch]\n[view diff]\n[browse]\n[changelog]\nstable:\n7.1.13 [EOL]\n2026-09-02",
+        "snippet": "Protocol\nLocation\nHTTP\nhttps://www.kernel.org/pub/\nGIT\nhttps://git.kernel.org/\nRSYNC\nrsync://rsync.kernel.org/pub/\nmainline:\n7.3-rc2\n2026-09-06\n[tarball]\n[patch]\n[inc. patch]\n[view diff]\n[browse]\nstable:\n7.2.5\n2026-09-11\n[tarball]\n[pgp]\n[patch]\n[inc. patch]\n[view diff]\n[browse]\n[changelog]\nstable:",
         "matchedWords": {
           "4galTpdpDM5Q": {
             "hits": 1,
@@ -3448,7 +3448,7 @@
         "hash": "5OdiTlSCNQa4",
         "address": "https://www.redhat.com/en/topics/linux/what-is-the-linux-kernel",
         "title": "What is the Linux kernel?",
-        "snippet": "Linux\nWhat is the Linux kernel?\nPublished February 27, 2019•3-minute read\nOverview\nThe Linux® kernel is the main component of a Linux operating system (OS) and is the core interface between a computer’s hardware and its processes. It communicates between the 2, managing resources as efficiently as",
+        "snippet": "Keep reading\nWhat is Linux kernel live patching?\nLinux kernel live patching is a way to apply critical and important security patches to a running Linux kernel, without the need to reboot or interrupt runtime.\nLinux for cloud computing\nLinux is ideal for cloud environments.",
         "matchedWords": {
           "4galTpdpDM5Q": {
             "hits": 19,
@@ -3465,7 +3465,7 @@
         "hash": "5Iwamsscikty",
         "address": "https://kernelnewbies.org/Linux_2_6_36",
         "title": "Linux_2_6_36 - Linux Kernel Newbies",
-        "snippet": "Linux 2.6.36 released 20 October, 2010.\nSummary: Linux 2.6.36 includes support for the Tilera architecture, a new filesystem notification interface called fanotify, a redesign of workqueues optimized for concurrency, CIFS local caching, support for Intel Intelligent Power Sharing in i3/5 systems,",
+        "snippet": "Summary: Linux 2.6.36 includes support for the Tilera architecture, a new filesystem notification interface called fanotify, a redesign of workqueues optimized for concurrency, CIFS local caching, support for Intel Intelligent Power Sharing in i3/5 systems, integration of the kernel debugger and",
         "matchedWords": {
           "4galTpdpDM5Q": {
             "hits": 5,
@@ -3518,7 +3518,7 @@
         "hash": "lmRNDjRvmBbx",
         "address": "https://en.wikipedia.org/wiki/Linux_kernel",
         "title": "Linux kernel - Wikipedia",
-        "snippet": "Linux Kernel\nTux, mascot of Linux, created by Larry Ewing[1]\nLinux kernel 6.1.0 kernel booting, under Debian Bookworm\nOriginal author\nLinus Torvalds\nDevelopers\nCommunity contributors\nLinus Torvalds\nRelease\n0.02 (5 October 1991; 34 years ago)\nStable release\nRegular: 7.2.5 / 11 September 2026[2]\nLTS:",
+        "snippet": "↑ \"HOWTO do Linux kernel development — The Linux Kernel documentation\". Kernel.org. Archived from the original on 7 March 2020. Retrieved 4 January 2020.\n↑ \"Linux kernel coding style — The Linux Kernel documentation\". Kernel.org. Archived from the original on 5 January 2020.",
         "matchedWords": {
           "4galTpdpDM5Q": {
             "hits": 509,
@@ -3535,7 +3535,7 @@
         "hash": "i_9-_lpcc_2y",
         "address": "https://www.notebookcheck.net/PrismLinux-2026-05-05-sports-a-redesigned-installer-the-Linux-kernel-7-0-more.1292456.0.html",
         "title": "PrismLinux 2026.05.05 sports a redesigned installer, the Linux kernel 7.0, more - Notebookcheck News",
-        "snippet": "Linux kernel, xLibre migration, as well as a KDE Plasma-based LiveCD with Wayland and auto-login enabled by default.\nThe world of ultralight Linux distros has just welcomed a new refresh of the Arch-based PrismLinux, which is now sitting at version 2026.05.05. This is a stable release with plenty",
+        "snippet": "While sporting a wide range of fixes and tweaks as usual, the latest PrismLinux update, labeled 2026.05.05, also comes with a redesigned installer, GNOME 50 support, version 7.0 of the Linux kernel, xLibre migration, as well as a KDE Plasma-based LiveCD with Wayland and auto-login enabled by",
         "matchedWords": {
           "4galTpdpDM5Q": {
             "hits": 2,
@@ -3626,7 +3626,7 @@
         "hash": "CrsApVGZ4FKw",
         "address": "https://www.kernel.org/doc/html/latest/livepatch/index.html",
         "title": "Kernel Livepatching — The Linux Kernel documentation",
-        "snippet": "Working with the development community\nDevelopment process\nSubmitting patches\nCode of conduct\nMaintainer handbook\nAll development-process docs\nInternal API manuals\nCore API\nDriver APIs\nSubsystems\nLocking\nDevelopment tools and processes\nLicensing rules\nWriting documentation\nDevelopment tools\nTesting",
+        "snippet": "Working with the development community\nDevelopment process\nSubmitting patches\nCode of conduct\nMaintainer handbook\nAll development-process docs\nInternal API manuals\nCore API\nDriver APIs\nSubsystems\nLocking\nDevelopment tools and processes\nLicensing rules\nWriting documentation\nDevelopment tools",
         "matchedWords": {
           "4galTpdpDM5Q": {
             "hits": 0,
@@ -3974,7 +3974,7 @@
         "hash": "Zi4KKVGZ4FKw",
         "address": "https://www.kernel.org/doc/html/v5.8/kbuild/llvm.html",
         "title": "Building Linux with Clang/LLVM — The Linux Kernel documentation",
-        "snippet": "Linux kernel with Clang and LLVM utilities.\nAbout¶\nThe Linux kernel has always traditionally been compiled with GNU toolchains such as GCC and binutils. Ongoing work has allowed for Clang and LLVM utilities to be used as viable substitutes. Distributions such as Android, ChromeOS, and OpenMandriva",
+        "snippet": "This document covers how to build the Linux kernel with Clang and LLVM utilities.\nAbout¶\nThe Linux kernel has always traditionally been compiled with GNU toolchains such as GCC and binutils. Ongoing work has allowed for Clang and LLVM utilities to be used as viable substitutes.",
         "matchedWords": {
           "4galTpdpDM5Q": {
             "hits": 7,
@@ -3991,7 +3991,7 @@
         "hash": "E2jRFKXKQKtw",
         "address": "https://docs.kernel.org/filesystems/squashfs.html",
         "title": "Squashfs 4.0 Filesystem — The Linux Kernel documentation",
-        "snippet": "Linux.\nIt uses zlib, lz4, lzo, xz or zstd compression to compress files, inodes and directories. Inodes in the system are very small and all blocks are packed to minimise data overhead. Block sizes greater than 4K are supported up to a maximum of 1Mbytes (default block size 128K).\nSquashfs is",
+        "snippet": "Mailing list (kernel code): linux-fsdevel@vger.kernel.org Web site: github.com/plougher/squashfs-tools\n1. Filesystem Features¶\nSquashfs filesystem features versus Cramfs:\nMax filesystem size\n2^64\n256 MiB\nMax file size\n~ 2 TiB\n16 MiB\nMax files\nunlimited\nunlimited\nMax directories\nunlimited\nunlimited",
         "matchedWords": {
           "4galTpdpDM5Q": {
             "hits": 3,
@@ -4078,7 +4078,7 @@
         "hash": "UxZv1VGZ4FKw",
         "address": "https://www.kernel.org/doc/html/latest/process/index.html",
         "title": "Working with the kernel development community — The Linux Kernel documentation",
-        "snippet": "Linux kernel developer? Welcome! While there is a lot to be learned about the kernel in a technical sense, it is also important to learn about how our community works. Reading these documents will make it much easier for you to get your changes merged with a minimum of trouble.\nAn introduction to",
+        "snippet": "Linux Kernel Enforcement Statement\nKernel Driver Statement\nThe Linux Kernel Driver Interface\nEverything you ever wanted to know about Linux -stable releases\nLinux kernel management style\nResearcher Guidelines\nKernel Guidelines for Tool-Generated Content\nAI Coding Assistants",
         "matchedWords": {
           "4galTpdpDM5Q": {
             "hits": 16,
@@ -4095,7 +4095,7 @@
         "hash": "5A3Als-kQ1nw",
         "address": "https://kernel.org/",
         "title": "The Linux Kernel Archives",
-        "snippet": "https://www.kernel.org/pub/\nGIT\nhttps://git.kernel.org/\nRSYNC\nrsync://rsync.kernel.org/pub/\nmainline:\n7.3-rc2\n2026-09-06\n[tarball]\n[patch]\n[inc. patch]\n[view diff]\n[browse]\nstable:\n7.2.5\n2026-09-11\n[tarball]\n[pgp]\n[patch]\n[inc. patch]\n[view diff]\n[browse]\n[changelog]\nstable:\n7.1.13 [EOL]\n2026-09-02",
+        "snippet": "Protocol\nLocation\nHTTP\nhttps://www.kernel.org/pub/\nGIT\nhttps://git.kernel.org/\nRSYNC\nrsync://rsync.kernel.org/pub/\nmainline:\n7.3-rc2\n2026-09-06\n[tarball]\n[patch]\n[inc. patch]\n[view diff]\n[browse]\nstable:\n7.2.5\n2026-09-11\n[tarball]\n[pgp]\n[patch]\n[inc. patch]\n[view diff]\n[browse]\n[changelog]\nstable:",
         "matchedWords": {
           "4galTpdpDM5Q": {
             "hits": 1,
@@ -4114,7 +4114,7 @@
         "hash": "5G4dnMZ5FD3x",
         "address": "https://bugs.launchpad.net/kernel-sru-workflow/snap-release-to-candidate/+bug/2164881",
         "title": "Bug #2164881 “resolute/linux: 7.0.0-31.31 snap-debs snap:pc-kern...” : Series snap-release-to-candidate : Bugs : Kernel SRU Workflow",
-        "snippet": "kernel source (or snap) as stated in the title.\nFor an explanation of the tasks and the associated workflow see:\nhttps:/\n/wiki.ubuntu.\ncom/Kernel/\nkernel-\nsru-workflow\n-- swm properties --\nbuilt:\nroute-entry: 3\nflag:\nboot-\ntesting-\nrequested: true\nissue: KSRU-23810\nkernel-\nstable-\nmaster-\nbug:",
+        "snippet": "beta: ~canonical-\nkernel-\nsnaps/canonical\n-kernel-\nsnaps/+\nsnap/resolute-\n-linux-\n-pc-kernel-\n-beta--\n3+2v/+build-\nrequest/\n118467049\nedge: ~canonical-\nkernel-\nsnaps/canonical\n-kernel-\nsnaps/+\nsnap/resolute-\n-linux-\n-pc-kernel-\n-edge--\n3+2v/+build-\nrequest/\n118284863\nvariant: snap-debs\n~~:\nclamps:",
         "matchedWords": {
           "4galTpdpDM5Q": {
             "hits": 2,
@@ -4131,7 +4131,7 @@
         "hash": "N280urS6MKD4",
         "address": "https://github.com/xairy/linux-kernel-exploitation",
         "title": "GitHub - xairy/linux-kernel-exploitation: A collection of links related to Linux kernel security and exploitation",
-        "snippet": "Linux kernel security and exploitation.\nUpdated bimonthly. Pull requests are welcome as well.\nFollow @andreyknvl on X, @xairy@infosec.exchange on Mastodon, or @andreyknvl on Bluesky to be notified of updates.\nSubscribe to @linkersec on Telegram, X, Mastodon, Bluesky, or Reddit for highlights.",
+        "snippet": "2023: \"The Return of Stack Overflows in the Linux Kernel\" by Davide Ornaghi [slides] [video]\n2023: \"Exploiting null-dereferences in the Linux kernel\" by Seth Jenkins [article]\n2023: \"PSPRAY: Timing Side-Channel based Linux Kernel Heap Exploitation Technique\" [paper] [video]",
         "matchedWords": {
           "4galTpdpDM5Q": {
             "hits": 430,
@@ -4148,7 +4148,7 @@
         "hash": "N_bW_5DJH5aw",
         "address": "https://www.wiki.kernel.org/",
         "title": "Main Page - Demeter of the Kernel.org",
-        "snippet": "Kernel.org\nrt - RTwiki\next4 - Ext4\nbtrfs - btrfs Wiki\nata - ata Wiki\nieee1394 - IEEE 1394 FireWire Wiki\nsecurity - Linux Security Wiki (obsolete)\ni2c - Linux i2c Wiki\nparisc - Linux PARISC Wiki\nreiser4 - Reiser4 FS Wiki\nperf - Perf Wiki\nhail - Hail Cloud Computing Wiki\nsparse - Sparse Wiki\nkgdb -",
+        "snippet": "hail - Hail Cloud Computing Wiki\nsparse - Sparse Wiki\nkgdb - KGDB Wiki\nmodules - Linux Kernel Modules Wiki\nckpt - Linux Checkpoint / Restart Wiki\nraid - Linux Raid Wiki\ngit - Git SCM Wiki\ndracut - Dracut Wiki\nbackports - Driver Backports Wiki\nllvm - LLVM Linux Wiki (not hosted by kernel.org)",
         "matchedWords": {
           "4galTpdpDM5Q": {
             "hits": 12,
@@ -4165,7 +4165,7 @@
         "hash": "5OdiTlSCNQa4",
         "address": "https://www.redhat.com/en/topics/linux/what-is-the-linux-kernel",
         "title": "What is the Linux kernel?",
-        "snippet": "Linux\nWhat is the Linux kernel?\nPublished February 27, 2019•3-minute read\nOverview\nThe Linux® kernel is the main component of a Linux operating system (OS) and is the core interface between a computer’s hardware and its processes. It communicates between the 2, managing resources as efficiently as",
+        "snippet": "Keep reading\nWhat is Linux kernel live patching?\nLinux kernel live patching is a way to apply critical and important security patches to a running Linux kernel, without the need to reboot or interrupt runtime.\nLinux for cloud computing\nLinux is ideal for cloud environments.",
         "matchedWords": {
           "4galTpdpDM5Q": {
             "hits": 19,
@@ -4182,7 +4182,7 @@
         "hash": "5A3Als-kQ1nw",
         "address": "https://kernel.org/",
         "title": "The Linux Kernel Archives",
-        "snippet": "https://www.kernel.org/pub/\nGIT\nhttps://git.kernel.org/\nRSYNC\nrsync://rsync.kernel.org/pub/\nmainline:\n7.3-rc2\n2026-09-06\n[tarball]\n[patch]\n[inc. patch]\n[view diff]\n[browse]\nstable:\n7.2.5\n2026-09-11\n[tarball]\n[pgp]\n[patch]\n[inc. patch]\n[view diff]\n[browse]\n[changelog]\nstable:\n7.1.13 [EOL]\n2026-09-02",
+        "snippet": "Protocol\nLocation\nHTTP\nhttps://www.kernel.org/pub/\nGIT\nhttps://git.kernel.org/\nRSYNC\nrsync://rsync.kernel.org/pub/\nmainline:\n7.3-rc2\n2026-09-06\n[tarball]\n[patch]\n[inc. patch]\n[view diff]\n[browse]\nstable:\n7.2.5\n2026-09-11\n[tarball]\n[pgp]\n[patch]\n[inc. patch]\n[view diff]\n[browse]\n[changelog]\nstable:",
         "matchedWords": {
           "4galTpdpDM5Q": {
             "hits": 1,
@@ -4267,7 +4267,7 @@
         "hash": "LqE5m_XKQKtw",
         "address": "https://docs.kernel.org/admin-guide/aoe/index.html",
         "title": "ATA over Ethernet (AoE) — The Linux Kernel documentation",
-        "snippet": "kernel development community. | Powered by Sphinx 5.3.0 \u0026 Alabaster 0.7.16 | Page source",
+        "snippet": "©The kernel development community. | Powered by Sphinx 5.3.0 \u0026 Alabaster 0.7.16 | Page source",
         "matchedWords": {
           "4galTpdpDM5Q": {
             "hits": 0,
@@ -4390,7 +4390,7 @@
         "hash": "7yh0lVGZ4FKw",
         "address": "https://www.kernel.org/doc/html/latest/translations/ja_JP/index.html",
         "title": "日本語訳 — The Linux Kernel documentation",
-        "snippet": "kernel Linux\n日本語訳 免責条項 (Disclaimer) 抄訳\nLinux カーネル開発のやり方\nパッチの投稿: カーネルにコードを入れるための必須ガイド\nLinux カーネルパッチ投稿チェックリスト\n한국어 번역\nDocumentação do Kernel Linux em Português\nTraducción al español\nDisclaimer",
+        "snippet": "Other documentation\nUnsorted documentation\nTranslations\nTranslations 中文翻译\n繁體中文翻譯\nLa documentazione del kernel Linux\n日本語訳 免責条項 (Disclaimer) 抄訳\nLinux カーネル開発のやり方\nパッチの投稿: カーネルにコードを入れるための必須ガイド\nLinux カーネルパッチ投稿チェックリスト\n한국어 번역\nDocumentação do Kernel Linux em Português\nTraducción al español\nDisclaimer",
         "matchedWords": {
           "4galTpdpDM5Q": {
             "hits": 4,
@@ -4460,7 +4460,7 @@
         "hash": "6QS8lVGZ4FKw",
         "address": "https://www.kernel.org/doc/html/latest/dev-tools/index.html",
         "title": "Development tools for the kernel — The Linux Kernel documentation",
-        "snippet": "kernel development community. | Powered by Sphinx 5.3.0 \u0026 Alabaster 0.7.16 | Page source",
+        "snippet": "©The kernel development community. | Powered by Sphinx 5.3.0 \u0026 Alabaster 0.7.16 | Page source",
         "matchedWords": {
           "4galTpdpDM5Q": {
             "hits": 0,
@@ -4528,7 +4528,7 @@
         "hash": "yUVUXCS6MKD4",
         "address": "https://github.com/ludocode/mpack-linux-kernel",
         "title": "GitHub - ludocode/mpack-linux-kernel: Config file and unit test shim to build MPack in the Linux kernel · GitHub",
-        "snippet": "Linux kernel. To use it, copy it into your include path and define -DMPACK_HAS_CONFIG=1 when building MPack.\nThis configuration is not done automatically by MPack because including Linux headers would make MPack a derived work of Linux requiring dual-licensing it under the GPLv2. Instead this code",
+        "snippet": "git clone https://github.com/ludocode/mpack-linux-kernel.git cd mpack-linux-kernel git clone https://github.com/ludocode/mpack.git make\nYou can then run the unit tests by inserting the mpack-tests.ko kernel module.",
         "matchedWords": {
           "4galTpdpDM5Q": {
             "hits": 7,
@@ -4545,7 +4545,7 @@
         "hash": "N_bW_5DJH5aw",
         "address": "https://www.wiki.kernel.org/",
         "title": "Main Page - Demeter of the Kernel.org",
-        "snippet": "Kernel.org\nrt - RTwiki\next4 - Ext4\nbtrfs - btrfs Wiki\nata - ata Wiki\nieee1394 - IEEE 1394 FireWire Wiki\nsecurity - Linux Security Wiki (obsolete)\ni2c - Linux i2c Wiki\nparisc - Linux PARISC Wiki\nreiser4 - Reiser4 FS Wiki\nperf - Perf Wiki\nhail - Hail Cloud Computing Wiki\nsparse - Sparse Wiki\nkgdb -",
+        "snippet": "hail - Hail Cloud Computing Wiki\nsparse - Sparse Wiki\nkgdb - KGDB Wiki\nmodules - Linux Kernel Modules Wiki\nckpt - Linux Checkpoint / Restart Wiki\nraid - Linux Raid Wiki\ngit - Git SCM Wiki\ndracut - Dracut Wiki\nbackports - Driver Backports Wiki\nllvm - LLVM Linux Wiki (not hosted by kernel.org)",
         "matchedWords": {
           "4galTpdpDM5Q": {
             "hits": 12,
@@ -4579,7 +4579,7 @@
         "hash": "5Iwamsscikty",
         "address": "https://kernelnewbies.org/Linux_2_6_36",
         "title": "Linux_2_6_36 - Linux Kernel Newbies",
-        "snippet": "Linux 2.6.36 released 20 October, 2010.\nSummary: Linux 2.6.36 includes support for the Tilera architecture, a new filesystem notification interface called fanotify, a redesign of workqueues optimized for concurrency, CIFS local caching, support for Intel Intelligent Power Sharing in i3/5 systems,",
+        "snippet": "Summary: Linux 2.6.36 includes support for the Tilera architecture, a new filesystem notification interface called fanotify, a redesign of workqueues optimized for concurrency, CIFS local caching, support for Intel Intelligent Power Sharing in i3/5 systems, integration of the kernel debugger and",
         "matchedWords": {
           "4galTpdpDM5Q": {
             "hits": 5,
@@ -4649,7 +4649,7 @@
         "hash": "WIrAypiNWeQw",
         "address": "https://wiki.cachyos.org/features/kernel_manager/",
         "title": "Managing Linux Kernels \u0026 Sched-ext framework with the CachyOS Kernel Manager | CachyOS",
-        "snippet": "Kernel from a Repository\nSection titled “Installing a Kernel from a Repository”\nThe CachyOS Kernel Manager makes it simple to install and manage kernels from any Arch Linux repository.\nTo install a kernel. Launch the CachyOS Kernel Manager application and choose the desired kernel by ticking the",
+        "snippet": "Installing a Kernel from a Repository\nSection titled “Installing a Kernel from a Repository”\nThe CachyOS Kernel Manager makes it simple to install and manage kernels from any Arch Linux repository.\nTo install a kernel.",
         "matchedWords": {
           "4galTpdpDM5Q": {
             "hits": 2,
@@ -4685,7 +4685,7 @@
         "hash": "JLITKVI-vZCw",
         "address": "https://subspace.kernel.org/lists.linux.dev.html",
         "title": "lists.linux.dev — subspace.kernel.org documentation",
-        "snippet": "Linux on Apple ARM platform development sub / unsub / post / archive 59 brcm80211 Linux brcm80211 wireless device drivers sub / unsub / post / archive 17 bridge Ethernet Bridge development sub / unsub / post / archive 199 bugs Generic list for bug discussions sub / unsub / post / archive 67",
+        "snippet": "accel-config Accel-Config development sub / unsub / post / archive 27 acpica-devel ACPICA development sub / unsub / post / archive 16 asahi Linux on Apple ARM platform development sub / unsub / post / archive 59 brcm80211 Linux brcm80211 wireless device drivers sub / unsub / post / archive 17",
         "matchedWords": {
           "4galTpdpDM5Q": {
             "hits": 58,
@@ -4753,7 +4753,7 @@
         "hash": "uEZoLvXKQKtw",
         "address": "https://docs.kernel.org/leds/index.html",
         "title": "LEDs — The Linux Kernel documentation",
-        "snippet": "Working with the development community\nDevelopment process\nSubmitting patches\nCode of conduct\nMaintainer handbook\nAll development-process docs\nInternal API manuals\nCore API\nDriver APIs\nSubsystems Core subsystems\nHuman interfaces Input Documentation\nHuman Interface Devices (HID)\nSound Subsystem",
+        "snippet": "Working with the development community\nDevelopment process\nSubmitting patches\nCode of conduct\nMaintainer handbook\nAll development-process docs\nInternal API manuals\nCore API\nDriver APIs\nSubsystems Core subsystems\nHuman interfaces Input Documentation\nHuman Interface Devices (HID)",
         "matchedWords": {
           "4galTpdpDM5Q": {
             "hits": 0,
@@ -4789,7 +4789,7 @@
         "hash": "ayEXgVGZ4FKw",
         "address": "https://www.kernel.org/doc/html/latest/index.html",
         "title": "The Linux Kernel documentation — The Linux Kernel documentation",
-        "snippet": "Linux Kernel documentation¶\nThis is the top level of the kernel’s documentation tree. Kernel documentation, like the kernel itself, is very much a work in progress; that is especially true as we work to integrate our many scattered documents into a coherent whole. Please note that improvements to",
+        "snippet": "The Linux Kernel documentation¶\nThis is the top level of the kernel’s documentation tree. Kernel documentation, like the kernel itself, is very much a work in progress; that is especially true as we work to integrate our many scattered documents into a coherent whole.",
         "matchedWords": {
           "4galTpdpDM5Q": {
             "hits": 5,
@@ -4823,7 +4823,7 @@
         "hash": "b6kPgOy8O7iw",
         "address": "https://kernel.opensuse.org/linux-next.html",
         "title": "linux-next branch - openSUSE Kernel",
-        "snippet": "linux-next tree maintained by Stephen Rothwell. This tree is a merge of all changes that will land in the next kernel version. For more information about linux-next, see http://linux.f-seidel.de/linux-next/\nExcept for packaging or installation problems, please report all issues to the linux-kernel",
+        "snippet": "Except for packaging or installation problems, please report all issues to the linux-kernel mailing list.\nThis branch is automatically updated by a cron job, please contact\nMichal Suchánek \u003cmsuchanek@suse.de\u003e\nbefore commiting anything.\npackages\nTo install prebuilt kernel from this branch run",
         "matchedWords": {
           "4galTpdpDM5Q": {
             "hits": 11,
@@ -4891,7 +4891,7 @@
         "hash": "eaGhAlpcc_2y",
         "address": "https://www.notebookcheck.net/Venom-Linux-20250108-launches-with-the-6-12-8-kernel-Wayland-1-23-1-and-more.944449.0.html",
         "title": "Venom Linux 20250108 launches with the 6.12.8 kernel, Wayland 1.23.1, and more - Notebookcheck News",
-        "snippet": "Linux 20250108 empty desktop (Image source: DistroWatch)\nTargeting experienced users and drawing inspiration from CRUX, Venom Linux has returned with its desktop based on the Openbox window manager alongside a text-mode installer. Version 20250108 sports the 6.12.8 Linux kernel, MESA 24.3.3,",
+        "snippet": "Version 20250108 sports the 6.12.8 Linux kernel, MESA 24.3.3, Wayland 1.23.1, and more. The list of options now also includes the s6 init system.\nVenom is one of the more recent Linux distros currently in the wild.",
         "matchedWords": {
           "4galTpdpDM5Q": {
             "hits": 6,
@@ -4946,7 +4946,7 @@
         "hash": "5A3Als-kQ1nw",
         "address": "https://kernel.org/",
         "title": "The Linux Kernel Archives",
-        "snippet": "https://www.kernel.org/pub/\nGIT\nhttps://git.kernel.org/\nRSYNC\nrsync://rsync.kernel.org/pub/\nmainline:\n7.3-rc2\n2026-09-06\n[tarball]\n[patch]\n[inc. patch]\n[view diff]\n[browse]\nstable:\n7.2.5\n2026-09-11\n[tarball]\n[pgp]\n[patch]\n[inc. patch]\n[view diff]\n[browse]\n[changelog]\nstable:\n7.1.13 [EOL]\n2026-09-02",
+        "snippet": "Protocol\nLocation\nHTTP\nhttps://www.kernel.org/pub/\nGIT\nhttps://git.kernel.org/\nRSYNC\nrsync://rsync.kernel.org/pub/\nmainline:\n7.3-rc2\n2026-09-06\n[tarball]\n[patch]\n[inc. patch]\n[view diff]\n[browse]\nstable:\n7.2.5\n2026-09-11\n[tarball]\n[pgp]\n[patch]\n[inc. patch]\n[view diff]\n[browse]\n[changelog]\nstable:",
         "matchedWords": {
           "4galTpdpDM5Q": {
             "hits": 1,
@@ -4963,7 +4963,7 @@
         "hash": "fK864sueNoX4",
         "address": "https://itsfoss.com/compile-linux-kernel/",
         "title": "A Guide to Compiling the Linux Kernel All By Yourself",
-        "snippet": "Linux kernel yourself, for many reasons. It might be, but not limited to, one of the following:\nTrying out a newer kernel than what your Linux distribution provides\nBuilding the kernel with a different set of configuration options and/or drivers\nA learner's curiosity :)\nThis guide will show you how",
+        "snippet": "So, as the prerequisites, we will be downloading the Linux kernel's source as a tarball and install a few dependencies that will allow us to build the Linux kernel.\nPrimer on Linux versions\nAt a given moment, there are 4 \"versions\" of the Freax Linux kernel.",
         "matchedWords": {
           "4galTpdpDM5Q": {
             "hits": 108,
@@ -4997,7 +4997,7 @@
         "hash": "5OdiTlSCNQa4",
         "address": "https://www.redhat.com/en/topics/linux/what-is-the-linux-kernel",
         "title": "What is the Linux kernel?",
-        "snippet": "Linux\nWhat is the Linux kernel?\nPublished February 27, 2019•3-minute read\nOverview\nThe Linux® kernel is the main component of a Linux operating system (OS) and is the core interface between a computer’s hardware and its processes. It communicates between the 2, managing resources as efficiently as",
+        "snippet": "Keep reading\nWhat is Linux kernel live patching?\nLinux kernel live patching is a way to apply critical and important security patches to a running Linux kernel, without the need to reboot or interrupt runtime.\nLinux for cloud computing\nLinux is ideal for cloud environments.",
         "matchedWords": {
           "4galTpdpDM5Q": {
             "hits": 19,
@@ -5014,7 +5014,7 @@
         "hash": "ne8urIXKQKtw",
         "address": "https://docs.kernel.org/arch/x86/i386/index.html",
         "title": "29. i386 Support — The Linux Kernel documentation",
-        "snippet": "kernel development community. | Powered by Sphinx 5.3.0 \u0026 Alabaster 0.7.16 | Page source",
+        "snippet": "©The kernel development community. | Powered by Sphinx 5.3.0 \u0026 Alabaster 0.7.16 | Page source",
         "matchedWords": {
           "4galTpdpDM5Q": {
             "hits": 0,
@@ -5031,7 +5031,7 @@
         "hash": "5Iwamsscikty",
         "address": "https://kernelnewbies.org/Linux_2_6_36",
         "title": "",
-        "snippet": "Linux 2.6.36 released 20 October, 2010.\nSummary: Linux 2.6.36 includes support for the Tilera architecture, a new filesystem notification interface called fanotify, a redesign of workqueues optimized for concurrency, CIFS local caching, support for Intel Intelligent Power Sharing in i3/5 systems,",
+        "snippet": "Summary: Linux 2.6.36 includes support for the Tilera architecture, a new filesystem notification interface called fanotify, a redesign of workqueues optimized for concurrency, CIFS local caching, support for Intel Intelligent Power Sharing in i3/5 systems, integration of the kernel debugger and",
         "matchedWords": {
           "4galTpdpDM5Q": {
             "hits": 5,
@@ -5084,7 +5084,7 @@
         "hash": "5A3Als-kQ1nw",
         "address": "https://kernel.org/",
         "title": "The Linux Kernel Archives",
-        "snippet": "https://www.kernel.org/pub/\nGIT\nhttps://git.kernel.org/\nRSYNC\nrsync://rsync.kernel.org/pub/\nmainline:\n7.3-rc2\n2026-09-06\n[tarball]\n[patch]\n[inc. patch]\n[view diff]\n[browse]\nstable:\n7.2.5\n2026-09-11\n[tarball]\n[pgp]\n[patch]\n[inc. patch]\n[view diff]\n[browse]\n[changelog]\nstable:\n7.1.13 [EOL]\n2026-09-02",
+        "snippet": "Protocol\nLocation\nHTTP\nhttps://www.kernel.org/pub/\nGIT\nhttps://git.kernel.org/\nRSYNC\nrsync://rsync.kernel.org/pub/\nmainline:\n7.3-rc2\n2026-09-06\n[tarball]\n[patch]\n[inc. patch]\n[view diff]\n[browse]\nstable:\n7.2.5\n2026-09-11\n[tarball]\n[pgp]\n[patch]\n[inc. patch]\n[view diff]\n[browse]\n[changelog]\nstable:",
         "matchedWords": {
           "4galTpdpDM5Q": {
             "hits": 1,
@@ -5188,7 +5188,7 @@
         "hash": "5OdiTlSCNQa4",
         "address": "https://www.redhat.com/en/topics/linux/what-is-the-linux-kernel",
         "title": "What is the Linux kernel?",
-        "snippet": "Linux\nWhat is the Linux kernel?\nPublished February 27, 2019•3-minute read\nOverview\nThe Linux® kernel is the main component of a Linux operating system (OS) and is the core interface between a computer’s hardware and its processes. It communicates between the 2, managing resources as efficiently as",
+        "snippet": "Keep reading\nWhat is Linux kernel live patching?\nLinux kernel live patching is a way to apply critical and important security patches to a running Linux kernel, without the need to reboot or interrupt runtime.\nLinux for cloud computing\nLinux is ideal for cloud environments.",
         "matchedWords": {
           "4galTpdpDM5Q": {
             "hits": 19,
@@ -5205,7 +5205,7 @@
         "hash": "5A3Als-kQ1nw",
         "address": "https://kernel.org/",
         "title": "The Linux Kernel Archives",
-        "snippet": "https://www.kernel.org/pub/\nGIT\nhttps://git.kernel.org/\nRSYNC\nrsync://rsync.kernel.org/pub/\nmainline:\n7.3-rc2\n2026-09-06\n[tarball]\n[patch]\n[inc. patch]\n[view diff]\n[browse]\nstable:\n7.2.5\n2026-09-11\n[tarball]\n[pgp]\n[patch]\n[inc. patch]\n[view diff]\n[browse]\n[changelog]\nstable:\n7.1.13 [EOL]\n2026-09-02",
+        "snippet": "Protocol\nLocation\nHTTP\nhttps://www.kernel.org/pub/\nGIT\nhttps://git.kernel.org/\nRSYNC\nrsync://rsync.kernel.org/pub/\nmainline:\n7.3-rc2\n2026-09-06\n[tarball]\n[patch]\n[inc. patch]\n[view diff]\n[browse]\nstable:\n7.2.5\n2026-09-11\n[tarball]\n[pgp]\n[patch]\n[inc. patch]\n[view diff]\n[browse]\n[changelog]\nstable:",
         "matchedWords": {
           "4galTpdpDM5Q": {
             "hits": 1,
@@ -5324,7 +5324,7 @@
         "hash": "lmRNDjRvmBbx",
         "address": "https://en.wikipedia.org/wiki/Linux_kernel",
         "title": "Linux kernel - Wikipedia",
-        "snippet": "Linux Kernel\nTux, mascot of Linux, created by Larry Ewing[1]\nLinux kernel 6.1.0 kernel booting, under Debian Bookworm\nOriginal author\nLinus Torvalds\nDevelopers\nCommunity contributors\nLinus Torvalds\nRelease\n0.02 (5 October 1991; 34 years ago)\nStable release\nRegular: 7.2.5 / 11 September 2026[2]\nLTS:",
+        "snippet": "↑ \"HOWTO do Linux kernel development — The Linux Kernel documentation\". Kernel.org. Archived from the original on 7 March 2020. Retrieved 4 January 2020.\n↑ \"Linux kernel coding style — The Linux Kernel documentation\". Kernel.org. Archived from the original on 5 January 2020.",
         "matchedWords": {
           "4galTpdpDM5Q": {
             "hits": 509,
@@ -5360,7 +5360,7 @@
         "hash": "5A3Als-kQ1nw",
         "address": "https://kernel.org/",
         "title": "The Linux Kernel Archives",
-        "snippet": "https://www.kernel.org/pub/\nGIT\nhttps://git.kernel.org/\nRSYNC\nrsync://rsync.kernel.org/pub/\nmainline:\n7.3-rc2\n2026-09-06\n[tarball]\n[patch]\n[inc. patch]\n[view diff]\n[browse]\nstable:\n7.2.5\n2026-09-11\n[tarball]\n[pgp]\n[patch]\n[inc. patch]\n[view diff]\n[browse]\n[changelog]\nstable:\n7.1.13 [EOL]\n2026-09-02",
+        "snippet": "Protocol\nLocation\nHTTP\nhttps://www.kernel.org/pub/\nGIT\nhttps://git.kernel.org/\nRSYNC\nrsync://rsync.kernel.org/pub/\nmainline:\n7.3-rc2\n2026-09-06\n[tarball]\n[patch]\n[inc. patch]\n[view diff]\n[browse]\nstable:\n7.2.5\n2026-09-11\n[tarball]\n[pgp]\n[patch]\n[inc. patch]\n[view diff]\n[browse]\n[changelog]\nstable:",
         "matchedWords": {
           "4galTpdpDM5Q": {
             "hits": 1,
@@ -5464,7 +5464,7 @@
         "hash": "ntv1cVGZ4FKw",
         "address": "https://www.kernel.org/doc/html/latest/firmware-guide/index.html",
         "title": "The Linux kernel firmware guide — The Linux Kernel documentation",
-        "snippet": "Linux kernel firmware guide¶\nThis section describes the ACPI subsystem in Linux from firmware perspective.\nACPI Support",
+        "snippet": "The Linux kernel firmware guide¶\nThis section describes the ACPI subsystem in Linux from firmware perspective.\nACPI Support",
         "matchedWords": {
           "4galTpdpDM5Q": {
             "hits": 2,
@@ -5481,7 +5481,7 @@
         "hash": "k94uERXKQKtw",
         "address": "https://docs.kernel.org/input/index.html",
         "title": "Input Documentation — The Linux Kernel documentation",
-        "snippet": "Working with the development community\nDevelopment process\nSubmitting patches\nCode of conduct\nMaintainer handbook\nAll development-process docs\nInternal API manuals\nCore API\nDriver APIs\nSubsystems Core subsystems\nHuman interfaces Input Documentation\nHuman Interface Devices (HID)\nSound Subsystem",
+        "snippet": "Working with the development community\nDevelopment process\nSubmitting patches\nCode of conduct\nMaintainer handbook\nAll development-process docs\nInternal API manuals\nCore API\nDriver APIs\nSubsystems Core subsystems\nHuman interfaces Input Documentation\nHuman Interface Devices (HID)",
         "matchedWords": {
           "4galTpdpDM5Q": {
             "hits": 0,
@@ -5708,7 +5708,7 @@
         "hash": "yUVUXCS6MKD4",
         "address": "https://github.com/ludocode/mpack-linux-kernel",
         "title": "GitHub - ludocode/mpack-linux-kernel: Config file and unit test shim to build MPack in the Linux kernel · GitHub",
-        "snippet": "Linux kernel. To use it, copy it into your include path and define -DMPACK_HAS_CONFIG=1 when building MPack.\nThis configuration is not done automatically by MPack because including Linux headers would make MPack a derived work of Linux requiring dual-licensing it under the GPLv2. Instead this code",
+        "snippet": "git clone https://github.com/ludocode/mpack-linux-kernel.git cd mpack-linux-kernel git clone https://github.com/ludocode/mpack.git make\nYou can then run the unit tests by inserting the mpack-tests.ko kernel module.",
         "matchedWords": {
           "4galTpdpDM5Q": {
             "hits": 7,
@@ -5920,7 +5920,7 @@
         "hash": "_BwbJVGZ4FKw",
         "address": "https://www.kernel.org/doc/html/latest/devicetree/index.html",
         "title": "Open Firmware and Devicetree — The Linux Kernel documentation",
-        "snippet": "Kernel Devicetree Usage Linux and the Devicetree\nOpen Firmware Devicetree Unittest\nDeviceTree Kernel API\nDevicetree Overlays Devicetree Changesets\nDevicetree Dynamic Resolver Notes\nDevicetree Overlay Notes\nDevicetree Bindings Devicetree (DT) ABI\nDevicetree Sources (DTS) Coding Style\nDOs and DON’Ts",
+        "snippet": "Firmware and Devicetree Kernel Devicetree Usage Linux and the Devicetree\nOpen Firmware Devicetree Unittest\nDeviceTree Kernel API\nDevicetree Overlays Devicetree Changesets\nDevicetree Dynamic Resolver Notes\nDevicetree Overlay Notes\nDevicetree Bindings Devicetree (DT) ABI",
         "matchedWords": {
           "4galTpdpDM5Q": {
             "hits": 2,
@@ -5937,7 +5937,7 @@
         "hash": "lmRNDjRvmBbx",
         "address": "https://en.wikipedia.org/wiki/Linux_kernel",
         "title": "Linux kernel - Wikipedia",
-        "snippet": "Linux Kernel\nTux, mascot of Linux, created by Larry Ewing[1]\nLinux kernel 6.1.0 kernel booting, under Debian Bookworm\nOriginal author\nLinus Torvalds\nDevelopers\nCommunity contributors\nLinus Torvalds\nRelease\n0.02 (5 October 1991; 34 years ago)\nStable release\nRegular: 7.2.5 / 11 September 2026[2]\nLTS:",
+        "snippet": "↑ \"HOWTO do Linux kernel development — The Linux Kernel documentation\". Kernel.org. Archived from the original on 7 March 2020. Retrieved 4 January 2020.\n↑ \"Linux kernel coding style — The Linux Kernel documentation\". Kernel.org. Archived from the original on 5 January 2020.",
         "matchedWords": {
           "4galTpdpDM5Q": {
             "hits": 509,
@@ -5954,7 +5954,7 @@
         "hash": "9vmHasOAID44",
         "address": "https://linuxiac.com/linux-kernel-5-8-released-as-the-one-of-biggest-releases-of-all-time/",
         "title": "Linux Kernel 5.8 Released As The 'One Of Biggest Releases Of All Time'",
-        "snippet": "Linux Kernel 5.8 will be available via mainstream Linux distributions in Q3 and Q4 2020 releases this year. Overall, the Linux kernel 5.8 release introduces a bunch of driver support, security improvements, and optimizations.\nLinux Kernel 5.8 is about the same size as Linux Kernel 4.9 from 2016 –",
+        "snippet": "The latest Linux Kernel 5.8 will be available via mainstream Linux distributions in Q3 and Q4 2020 releases this year. Overall, the Linux kernel 5.8 release introduces a bunch of driver support, security improvements, and optimizations.",
         "matchedWords": {
           "4galTpdpDM5Q": {
             "hits": 11,
@@ -6005,7 +6005,7 @@
         "hash": "i_9-_lpcc_2y",
         "address": "https://www.notebookcheck.net/PrismLinux-2026-05-05-sports-a-redesigned-installer-the-Linux-kernel-7-0-more.1292456.0.html",
         "title": "PrismLinux 2026.05.05 sports a redesigned installer, the Linux kernel 7.0, more - Notebookcheck News",
-        "snippet": "Linux kernel, xLibre migration, as well as a KDE Plasma-based LiveCD with Wayland and auto-login enabled by default.\nThe world of ultralight Linux distros has just welcomed a new refresh of the Arch-based PrismLinux, which is now sitting at version 2026.05.05. This is a stable release with plenty",
+        "snippet": "While sporting a wide range of fixes and tweaks as usual, the latest PrismLinux update, labeled 2026.05.05, also comes with a redesigned installer, GNOME 50 support, version 7.0 of the Linux kernel, xLibre migration, as well as a KDE Plasma-based LiveCD with Wayland and auto-login enabled by",
         "matchedWords": {
           "4galTpdpDM5Q": {
             "hits": 2,

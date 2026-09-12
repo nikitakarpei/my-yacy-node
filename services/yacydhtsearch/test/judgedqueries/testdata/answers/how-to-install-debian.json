@@ -1,13 +1,13 @@
 {
   "query": "how to install debian",
-  "recordedAt": "2026-09-12T00:16:50Z",
+  "recordedAt": "2026-09-12T07:52:07Z",
   "itemsInTheOrderOfEachAnswer": [
     [
       {
         "hash": "It5EdL1nrxbw",
         "address": "https://www.debian.org/intro/about",
         "title": "Debian -- About Debian",
-        "snippet": "Debian anyway?\nIt's all free?\nYou say free, but the CDs/bandwidth cost money!\nMost software costs over a hundred dollars. How can you give it away?\nWhat hardware is supported?\nBefore I decide, I need more information.\nI'm still not convinced. What are some pros and cons of Debian?\nHow do I get",
+        "snippet": "We hope you'll appreciate our honesty and frankness.\nHow do I get Debian?\nIt's most popular to install Debian from a CD which you can buy for the price of the media at one of our many CD vendors. If you have good Internet access, you can download and install Debian over the Internet.",
         "matchedWords": {
           "24igJXwiDb_d": {
             "hits": 12,
@@ -34,7 +34,7 @@
         "hash": "NweMal1nrxbw",
         "address": "https://www.debian.org/social_contract",
         "title": "Debian Social Contract",
-        "snippet": "Debian, the producers of the Debian system, have created the Debian Social Contract. The Debian Free Software Guidelines (DFSG) part of the contract, initially designed as a set of commitments that we agree to abide by, has been adopted by the free software community as the basis of the Open Source",
+        "snippet": "Debian will remain 100% free We provide the guidelines that we use to determine if a work is free in the document entitled The Debian Free Software Guidelines. We promise that the Debian system and all its components will be free according to these guidelines.",
         "matchedWords": {
           "24igJXwiDb_d": {
             "hits": 0,
@@ -61,7 +61,7 @@
         "hash": "my3jOE9Ojva4",
         "address": "https://docs.docker.com/engine/install/ubuntu/",
         "title": "Install Docker Engine on Ubuntu | Docker Docs",
-        "snippet": "Install using the apt repository\nUpgrade Docker Engine\nInstall from a package\nUpgrade Docker Engine\nInstall using the convenience script\nInstall pre-releases\nUpgrade Docker after using the convenience script\nUninstall Docker Engine\nNext steps\nTo get started with Docker Engine on Ubuntu, make sure",
+        "snippet": "Install the Docker packages.\nTo install the latest version, run:\n$ sudo apt install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin\nTo install a specific version of Docker Engine, start by listing the available versions in the repository:",
         "matchedWords": {
           "24igJXwiDb_d": {
             "hits": 0,
@@ -88,7 +88,7 @@
         "hash": "D4lABzaS0qdw",
         "address": "https://planet.debian.org/",
         "title": "Planet Debian",
-        "snippet": "Debian Code Search! This was made possible by Go’s recently introduced SIMD support, because now we can implement the TurboPFor integer compression format as efficiently — more efficiently, in fact, by using the newer AVX512 instruction set! — as the reference implementation.\nBackground: Why does",
+        "snippet": "Let’s walk through how to set the microarchitecture level when using Go on 64-bit x86 (x86-64).\nGo uses the GOARCH environment variable to configure the target compilation architecture, and I am using the value amd64 to select 64-bit x86 (AVX2 and AVX512 are instruction sets found on x86-64 CPUs).",
         "matchedWords": {
           "24igJXwiDb_d": {
             "hits": 18,
@@ -113,7 +113,7 @@
         "hash": "CjgsxsIyoLTx",
         "address": "https://planetpython.org/",
         "title": "Planet Python",
-        "snippet": "to my work.\nThe thing is, I don’t have time to read them during the week. And on Saturday, when I do have time, I don’t use my computer. So I have a funny way of reading them:\nWhen a newsletter arrives, a filter automatically moves it into my “toprint” folder.\nMy very favorite newsletters are not",
+        "snippet": "Armed with a bit of knowledge about how these systems work, I managed to have some fruitful discussions with Kimi K3 and Sol and figure out how flash the device and in turn, how to make CatPlay compile for that SoC.",
         "matchedWords": {
           "24igJXwiDb_d": {
             "hits": 64,
@@ -140,7 +140,7 @@
         "hash": "It5EdL1nrxbw",
         "address": "https://www.debian.org/intro/about",
         "title": "Debian -- About Debian",
-        "snippet": "Debian anyway?\nIt's all free?\nYou say free, but the CDs/bandwidth cost money!\nMost software costs over a hundred dollars. How can you give it away?\nWhat hardware is supported?\nBefore I decide, I need more information.\nI'm still not convinced. What are some pros and cons of Debian?\nHow do I get",
+        "snippet": "We hope you'll appreciate our honesty and frankness.\nHow do I get Debian?\nIt's most popular to install Debian from a CD which you can buy for the price of the media at one of our many CD vendors. If you have good Internet access, you can download and install Debian over the Internet.",
         "matchedWords": {
           "24igJXwiDb_d": {
             "hits": 12,
@@ -167,7 +167,7 @@
         "hash": "my3jOE9Ojva4",
         "address": "https://docs.docker.com/engine/install/ubuntu/",
         "title": "Install Docker Engine on Ubuntu | Docker Docs",
-        "snippet": "Install using the apt repository\nUpgrade Docker Engine\nInstall from a package\nUpgrade Docker Engine\nInstall using the convenience script\nInstall pre-releases\nUpgrade Docker after using the convenience script\nUninstall Docker Engine\nNext steps\nTo get started with Docker Engine on Ubuntu, make sure",
+        "snippet": "Install the Docker packages.\nTo install the latest version, run:\n$ sudo apt install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin\nTo install a specific version of Docker Engine, start by listing the available versions in the repository:",
         "matchedWords": {
           "24igJXwiDb_d": {
             "hits": 0,
@@ -194,7 +194,7 @@
         "hash": "D4lABzaS0qdw",
         "address": "https://planet.debian.org/",
         "title": "Planet Debian",
-        "snippet": "Debian Code Search! This was made possible by Go’s recently introduced SIMD support, because now we can implement the TurboPFor integer compression format as efficiently — more efficiently, in fact, by using the newer AVX512 instruction set! — as the reference implementation.\nBackground: Why does",
+        "snippet": "Let’s walk through how to set the microarchitecture level when using Go on 64-bit x86 (x86-64).\nGo uses the GOARCH environment variable to configure the target compilation architecture, and I am using the value amd64 to select 64-bit x86 (AVX2 and AVX512 are instruction sets found on x86-64 CPUs).",
         "matchedWords": {
           "24igJXwiDb_d": {
             "hits": 18,
@@ -221,7 +221,7 @@
         "hash": "D4lABzaS0qdw",
         "address": "https://planet.debian.org/",
         "title": "Planet Debian",
-        "snippet": "Debian Code Search! This was made possible by Go’s recently introduced SIMD support, because now we can implement the TurboPFor integer compression format as efficiently — more efficiently, in fact, by using the newer AVX512 instruction set! — as the reference implementation.\nBackground: Why does",
+        "snippet": "Let’s walk through how to set the microarchitecture level when using Go on 64-bit x86 (x86-64).\nGo uses the GOARCH environment variable to configure the target compilation architecture, and I am using the value amd64 to select 64-bit x86 (AVX2 and AVX512 are instruction sets found on x86-64 CPUs).",
         "matchedWords": {
           "24igJXwiDb_d": {
             "hits": 18,
@@ -248,7 +248,7 @@
         "hash": "D4lABzaS0qdw",
         "address": "https://planet.debian.org/",
         "title": "Planet Debian",
-        "snippet": "Debian Code Search! This was made possible by Go’s recently introduced SIMD support, because now we can implement the TurboPFor integer compression format as efficiently — more efficiently, in fact, by using the newer AVX512 instruction set! — as the reference implementation.\nBackground: Why does",
+        "snippet": "Let’s walk through how to set the microarchitecture level when using Go on 64-bit x86 (x86-64).\nGo uses the GOARCH environment variable to configure the target compilation architecture, and I am using the value amd64 to select 64-bit x86 (AVX2 and AVX512 are instruction sets found on x86-64 CPUs).",
         "matchedWords": {
           "24igJXwiDb_d": {
             "hits": 18,
@@ -275,7 +275,7 @@
         "hash": "xY0EdL1nrxbw",
         "address": "https://www.debian.org/intro/help",
         "title": "Debian -- Contribute: How you can help Debian",
-        "snippet": "How you can help Debian\nCoding and Maintaining Packages\nTesting and Bug Squashing\nWriting Documentation\nTranslating and Localizing\nHelping other Users\nOrganizing Events\nDonate Money, Hardware, or Bandwidth\nUse Debian\nHow your Organization can support Debian\nDebian is not just an operating system,",
+        "snippet": "We're constantly looking for mirrors worldwide.\nFor our Debian ports, we rely on our autobuilder network.\nUse Debian and talk about it\nSpread the word and tell others about Debian and the Debian community. Recommend the operating system to other users, and show them how to install it.",
         "matchedWords": {
           "24igJXwiDb_d": {
             "hits": 7,
@@ -300,7 +300,7 @@
         "hash": "yBMaQL1nrxbw",
         "address": "https://www.debian.org/intro/free",
         "title": "Debian -- What does free mean?",
-        "snippet": "How to choose a License?\nFree as in...?\nMany people new to this subject are confused because of the word \"free\". It isn't used the way they expect – \"free\" means \"free of cost\" to them. If you look at an English dictionary, it lists almost twenty different meanings for \"free\", and only one of them",
+        "snippet": "Free as in...?\nSoftware Licenses\nHow to choose a License?\nFree as in...?\nMany people new to this subject are confused because of the word \"free\". It isn't used the way they expect – \"free\" means \"free of cost\" to them.",
         "matchedWords": {
           "24igJXwiDb_d": {
             "hits": 3,
@@ -325,7 +325,7 @@
         "hash": "uaEnGzTwnifx",
         "address": "https://planet.wordpress.org/",
         "title": "Planet — WordPress.org",
-        "snippet": "to the Jukebox Podcast from WP Tavern. My name is Nathan Wrigley.\nJukebox is a podcast which is dedicated to all things WordPress. The people, the events, the plugins, the blocks, the themes, and in this case, building trust with project contracts for reliable AI development.\nIf you’d like to",
+        "snippet": "And found out a whole bunch of things about like how to steer it in different directions. I want it to be, I want the code to be clean. I want the code to be tested. I want it to be accessible. I want it to be like all of these different things.",
         "matchedWords": {
           "24igJXwiDb_d": {
             "hits": 47,
@@ -353,7 +353,7 @@
       "hash": "t2b3Ag1nrxbw",
       "address": "https://www.debian.org/distrib/packages",
       "title": "Debian -- Packages",
-      "snippet": "Debian distribution are free according to the Debian Free Software Guidelines. This assures free use and redistribution of the packages and their complete source code. The official Debian distribution is what is contained in the main section of the Debian archive.\nAs a service to our users, we also",
+      "snippet": "Introductory notes\nView package lists\nSearch package directories\nSearch the contents of packages\nIntroductory notes\nAll packages that are included in the official Debian distribution are free according to the Debian Free Software Guidelines.",
       "matchedWords": {
         "24igJXwiDb_d": {
           "hits": 0,
@@ -378,7 +378,7 @@
       "hash": "wGCbVt1nrxbw",
       "address": "https://www.debian.org/CD/verify",
       "title": "Verifying authenticity of Debian images",
-      "snippet": "Debian installation and live images come with signed checksum files; look for them alongside the images in the iso-cd, jigdo-dvd, iso-hybrid etc. directories. These files allow you to check that the images you download are correct. First of all, the checksum can be used to check that the images",
+      "snippet": "The keys used for these signatures are all in the Debian OpenPGP keyring (or in the debian-role-keys.pgp keyring in the debian-keyring in a Debian system) and the best way to check them is to use that keyring to validate via the web of trust.",
       "matchedWords": {
         "24igJXwiDb_d": {
           "hits": 0,
@@ -403,7 +403,7 @@
       "hash": "xOYgTl1nrxbw",
       "address": "https://www.debian.org/events/",
       "title": "Events related to Debian",
-      "snippet": "Debian is the annual Debian Conference called DebConf. There are also several MiniDebConfs which are local meetings organized by Debian project member.\nThe events Team gives out help and advice in organizing debian presence. They can be reached via events@debian.org but ideally you should contact",
+      "snippet": "Mailing list corresponding to the geographical location\nMerchandise page\nMaterial for a booth\nKeysigning\nChecklist for a booth\nPresentations about Debian",
       "matchedWords": {
         "24igJXwiDb_d": {
           "hits": 0,
@@ -428,7 +428,7 @@
       "hash": "941WA31nrxbw",
       "address": "https://www.debian.org/News/weekly/",
       "title": "Debian Project News - Index",
-      "snippet": "to Debian Project News, a newsletter for the Debian community. The current issue of DPN is also available as RSS feed.\nRecent issues of Debian Project News:\n05 Aug 2023 Welcome to the inaugural issue of Debian Project Bits!, Debian Day, DebConf23, News on Debian releases, Popular packages, Calls",
+      "snippet": "05 Aug 2023 Welcome to the inaugural issue of Debian Project Bits!, Debian Day, DebConf23, News on Debian releases, Popular packages, Calls for help\nHow to contribute to Debian Project News.\nOlder news are available on the debian-news mailing list",
       "matchedWords": {
         "24igJXwiDb_d": {
           "hits": 1,
@@ -453,7 +453,7 @@
       "hash": "8q_7kd8zMi84",
       "address": "https://docs.cloud.google.com/release-notes",
       "title": "Google Cloud release notes | Google Cloud Documentation",
-      "snippet": "To get the latest product updates delivered to you, add the URL of this page to your feed reader, or add the feed URL directly.\nSeptember 11, 2026\nAPI Gateway Feature\nEnable Model Context Protocol (MCP)\nYou can now configure API Gateway to act as a remote Model Context Protocol (MCP) server. This",
+      "snippet": "Learn how to create and manage skills as a Gemini Enterprise end user.\nLearn how to manage skills as a Gemini Enterprise administrator.\nFeature\nGemini Enterprise: Use Gemini 3.7 Flash\nGemini 3.7 Flash is generally available (GA) in the global, us, and eu regions.",
       "matchedWords": {
         "24igJXwiDb_d": {
           "hits": 19,
@@ -478,7 +478,7 @@
       "hash": "mKjEVzAa-Sqx",
       "address": "https://planet.freedesktop.org/",
       "title": "planet.freedesktop.org",
-      "snippet": "to date, which is… something. I’m super grateful for the opportunities Collabora has given me, and I’m leaving a great team filled with lots of talented and passionate people. It’s been an honor.\nSimilarly, at the start of August I started working at Arm. The same company I left over 17 years ago.",
+      "snippet": "AppStream metadata is supposed to give users enough information to decide whether they want to install a piece of software, to represent that piece of software, and to give the operating system enough information to decide whether a software component should be installed automatically and (to some",
       "matchedWords": {
         "24igJXwiDb_d": {
           "hits": 153,
@@ -503,7 +503,7 @@
       "hash": "W-eXqzF3--Qw",
       "address": "https://planet.mozilla.org/",
       "title": "Planet Mozilla",
-      "snippet": "to hit release on September 1st! You can follow along at https://whattrainisitnow.com/\nAs part of the Nova redesign, a “Use Linux system theme” checkbox is being shown on Linux builds for the about:addons theme picker, which will make Firefox’s Nova UI use the colours of the system theme.\nThanks to",
+      "snippet": "How it works\nAd Blocker uses Apple’s WebKit Content Blocker technology and the EasyList filter list to determine what gets blocked. There’s no separate extension to install, and you can turn it on in Settings \u003e Browsing \u003e Ad Blocker. It’s off by default, so you decide whether to use it.",
       "matchedWords": {
         "24igJXwiDb_d": {
           "hits": 148,
@@ -528,7 +528,7 @@
       "hash": "Rx8AIs_tHst4",
       "address": "https://dwheeler.com/oss_fs_why.html",
       "title": "Why Open Source Software / Free Software (OSS/FS, FOSS, or FLOSS)? Look at the Numbers!",
-      "snippet": "to using their proprietary competition according to various measures. This paper’s goal is to show that you should consider using OSS/FS when acquiring software. This paper examines popularity, reliability, performance, scalability, security, and total cost of ownership. It also has sections on",
+      "snippet": "This means that if you think you’ve found a loophole in the DFSG then you don’t quite understand how this works. The DFSG is a potentially imperfect attempt to express what free software means to Debian.”",
       "matchedWords": {
         "24igJXwiDb_d": {
           "hits": 87,
@@ -553,7 +553,7 @@
       "hash": "-p2w3taoSn1x",
       "address": "https://en.planet.wikimedia.org/",
       "title": "en.planet.wikimedia.org",
-      "snippet": "to participate in conference sessions, discuss collaboration around “Freedom, Equity, Reliability”, and celebrate the joy of contributing.\nTwo-thirds (66%) of those who attended Wikimania Paris in person came from outside the host region of Northern and Western Europe. According to this",
+      "snippet": "I think the way forward is to hold on to this framework, grow the numbers gradually, and reach out to more places. How to gather more people, and how to adapt this for other regions, will be the work ahead.\nPublished to mark International Literacy Day, 8 September 2026",
       "matchedWords": {
         "24igJXwiDb_d": {
           "hits": 47,
@@ -578,7 +578,7 @@
       "hash": "8vgIrobrsZjx",
       "address": "https://www.mediawiki.org/wiki/Download",
       "title": "Download - MediaWiki",
-      "snippet": "To download MediaWiki 1.46.0 in a terminal on a Linux machine using wget, do:\nwget https://releases.wikimedia.org/mediawiki/1.46/mediawiki-1.46.0.tar.gz\nAlternatively, using cURL:\ncurl -O https://releases.wikimedia.org/mediawiki/1.46/mediawiki-1.46.0.tar.gz\nSignature downloads\nGPG security",
+      "snippet": "For more information about setting up a development environment, see How to become a MediaWiki hacker.\nKeep in mind that you are downloading the latest alpha version of MediaWiki, which is not recommended for production use!",
       "matchedWords": {
         "24igJXwiDb_d": {
           "hits": 1,
@@ -603,7 +603,7 @@
       "hash": "2ZqdVzfOEiDw",
       "address": "https://planet.gnome.org/",
       "title": "Planet GNOME",
-      "snippet": "how media are being handled, and AppStream’s default image export format.\nAppStream is a Freedesktop metadata standard to describe software components. That can be anything from system services over fonts to console and graphical applications. AppStream metadata is supposed to give users enough",
+      "snippet": "AppStream metadata is supposed to give users enough information to decide whether they want to install a piece of software, to represent that piece of software, and to give the operating system enough information to decide whether a software component should be installed automatically and (to some",
       "matchedWords": {
         "24igJXwiDb_d": {
           "hits": 2,
@@ -653,7 +653,7 @@
       "hash": "MocmU2sEYJ15",
       "address": "https://tailscale.com/docs/reference/tailscale-cli",
       "title": "Tailscale CLI · Tailscale Docs",
-      "snippet": "to manage and troubleshoot your device within your Tailscale network (known as a tailnet).\nThe Tailscale CLI is available for all plans.\nUsing the Tailscale CLI\nThe location of the CLI varies depending on your platform:\nOn Linux, the CLI is your primary interface to Tailscale. The tailscale binary",
+      "snippet": "When a certificate is delivered as files on disk which you then move to an install location, such as when using tailscale cert, the tailscaled daemon doesn't know where to place a renewed certificate or how to install it.",
       "matchedWords": {
         "24igJXwiDb_d": {
           "hits": 3,
@@ -678,7 +678,7 @@
       "hash": "ufEmuitD2jQw",
       "address": "https://docs.python.org/3/whatsnew/2.0.html",
       "title": "What’s New in Python 2.0 — Python 3.14.6 documentation",
-      "snippet": "to list them all would be impossible, but they’re certainly significant. Consult the publicly available CVS logs if you want to see the full list. This progress is due to the five developers working for PythonLabs are now getting paid to spend their days fixing bugs, and also due to the improved",
+      "snippet": "A wrapper API was added for Unix-style signal handlers. PyOS_getsig() gets a signal handler and PyOS_setsig() will set a new handler.\nDistutils: Making Modules Easy to Install¶",
       "matchedWords": {
         "24igJXwiDb_d": {
           "hits": 6,
@@ -703,7 +703,7 @@
       "hash": "Q357ixtQ-zSx",
       "address": "https://wiki.archlinux.org/title/ArchWiki_talk:Requests",
       "title": "ArchWiki talk:Requests - ArchWiki",
-      "snippet": "how to detect a bad mirror. A mirror becoming faulty is not extremely uncommon so this topic should definitely be covered, including who to tell about the bad mirror so it can e.g be removed from the mirrorlist.\nThis topic is impacting enough people that it is worth putting it into here.\n--",
+      "snippet": "No need to apologize at all for taking the time to give input how to improve our wiki! I just want to add two thoughts on it:\n(1) One reason descriptive device declarations (/dev/sda/...) are easy to grasp is that everyone is used to them.",
       "matchedWords": {
         "24igJXwiDb_d": {
           "hits": 25,
@@ -728,7 +728,7 @@
       "hash": "-8IONxtQ-zSx",
       "address": "https://wiki.archlinux.org/title/Arch_compared_to_other_distributions",
       "title": "Arch compared to other distributions - ArchWiki",
-      "snippet": "to draw a comparison between Arch Linux and other notable GNU/Linux distributions and UNIX-like operating systems. The summaries that follow are brief descriptions that may help a person decide if Arch Linux will suit their needs. Although reviews and descriptions can be useful, first-hand",
+      "snippet": "The Arch installation system only offers a minimal base, transparently exposed during system configuration, whereas Debian's methods, such as the use of apt tasks to install pre-selected groups of packages, offer a more automatically configured approach as well as several alternative methods of",
       "matchedWords": {
         "24igJXwiDb_d": {
           "hits": 2,
@@ -753,7 +753,7 @@
       "hash": "aEjYq2u0AVBw",
       "address": "https://build.slashdot.org/",
       "title": "Build News | Slashdot",
-      "snippet": "to 128GB of built-in memory. The Dev Box looks a little like a cartoon anvil or piano fell onto an Xbox Series X and flattened it. Its aluminum casing was designed \"to double as a heatsink,\" and its preloaded version of Windows 11 Pro will include a \"purposeful\" set of developer-centric default",
+      "snippet": "TechCrunch offers some caveats about jailbreaking: This process allows users to install custom fonts, new screensavers, alternative reading apps, and even third-party tools that expand the Kindle's functionality...",
       "matchedWords": {
         "24igJXwiDb_d": {
           "hits": 5,
@@ -778,7 +778,7 @@
       "hash": "OYZdJl1nrxbw",
       "address": "https://www.debian.org/support",
       "title": "Debian -- User Support",
-      "snippet": "Debian User Forums\nHow to contact Package Maintainers\nBug Tracking System\nKnown Problems\nIRC (real time Support)\nIRC (Internet Relay Chat) is a great way to chat with people from all over the world in real time. It's a text-based chat system for instant messaging. On IRC you can enter chat rooms",
+      "snippet": "You can read all boards without having to register. If you want to participate in the discussion and publish your own postings, please register and log in.\nHow to contact Package Maintainers\nBasically, there are two common ways to get in touch with a maintainer of a Debian package:",
       "matchedWords": {
         "24igJXwiDb_d": {
           "hits": 2,
@@ -803,7 +803,7 @@
       "hash": "Q6EQky1nrxbw",
       "address": "https://www.debian.org/releases/trixie/installmanual",
       "title": "Debian trixie -- Installation Guide",
-      "snippet": "to get the right HTML version automatically — see content negotiation. Otherwise, pick the exact architecture, language, and format you want from the table below.",
+      "snippet": "Installation Guide for RISC-V 64-bit little endian (riscv64)\nInstallation Guide for IBM System z\nIf you have set your browser's localization properly, you can use the above link to get the right HTML version automatically — see content negotiation.",
       "matchedWords": {
         "24igJXwiDb_d": {
           "hits": 0,
@@ -828,7 +828,7 @@
       "hash": "R5pe_l1nrxbw",
       "address": "https://www.debian.org/News/",
       "title": "Debian -- Latest News",
-      "snippet": "Debian 11 Long Term Support reaches end-of-life\n[07 Aug 2026]\nDebConf26 closes in Santa Fe and DebConf27 announced\n[12 Jul 2026]\nSecurity support for Bookworm handed over to the LTS team\n[11 Jul 2026]\nUpdated Debian 13: 13.6 released\n[11 Jul 2026]\nUpdated Debian 12: 12.15 released\n[16 May 2026]",
+      "snippet": "The Debian Project mourns the loss of Steve Langasek (vorlon)\n[11 Jan 2025]\nUpdated Debian 12: 12.9 released\nYou can get the latest Debian news by subscribing to or browsing the archives for our debian-announce and debian-news mailing lists.",
       "matchedWords": {
         "24igJXwiDb_d": {
           "hits": 0,
@@ -853,7 +853,7 @@
       "hash": "SL3yxl1nrxbw",
       "address": "https://www.debian.org/blends/",
       "title": "Debian Pure Blends",
-      "snippet": "Debian Pure Blends are a solution for groups of people with specific needs. Not only do they provide handy collections (meta-packages) of specific packages, but they also ease installation and configuration for the intended purpose. They cover the interests of different groups of people, who might",
+      "snippet": "The goal of Debian Games is to provide games in Debian from arcade and adventure to simulation and strategy.\nMetapackages\nDebian GIS\nThe goal of Debian GIS is to develop Debian into the best distribution for Geographical Information System applications and users.\nMetapackages\nDebian Junior",
       "matchedWords": {
         "24igJXwiDb_d": {
           "hits": 0,
@@ -878,7 +878,7 @@
       "hash": "gmhRVl1nrxbw",
       "address": "https://www.debian.org/devel/",
       "title": "Debian -- Debian Developers' Corner",
-      "snippet": "how to join the project, and links to the developers' database, the constitution, the voting process, releases, and architectures.\nDebian Organization\nOver one thousand volunteers are part of the Debian project. This page explains Debian's organizational structure, lists teams and their members as",
+      "snippet": "Developers should use it before every upload.\nDebian ‘Experimental’\nThe ‘experimental’ distribution is used as a temporary staging area for highly experimental software. Please install the experimental packages only if you already know how to use ‘unstable’.\nDebian Wiki",
       "matchedWords": {
         "24igJXwiDb_d": {
           "hits": 5,
@@ -903,7 +903,7 @@
       "hash": "4SIJYl1nrxbw",
       "address": "https://www.debian.org/distrib/",
       "title": "Download Debian",
-      "snippet": "Debian 13.6.0, the stable release.\nDownload mirrors of installation images\nInstallation Manual with detailed installation instructions\nRelease notes\nISO images for Debian testing\nVerifying authenticity of Debian images\nDownload an installation image\nA small installation image: can be downloaded",
+      "snippet": "Buy a computer with Debian pre-installed\nThere are a number of advantages to this:\nYou don't have to install Debian.\nThe installation is pre-configured to match the hardware.\nThe vendor may provide technical support.\nUse a Debian cloud image",
       "matchedWords": {
         "24igJXwiDb_d": {
           "hits": 0,
@@ -928,7 +928,7 @@
       "hash": "8q_7kd8zMi84",
       "address": "https://docs.cloud.google.com/release-notes",
       "title": "Google Cloud release notes | Google Cloud Documentation",
-      "snippet": "To get the latest product updates delivered to you, add the URL of this page to your feed reader, or add the feed URL directly.\nSeptember 11, 2026\nAPI Gateway Feature\nEnable Model Context Protocol (MCP)\nYou can now configure API Gateway to act as a remote Model Context Protocol (MCP) server. This",
+      "snippet": "Learn how to create and manage skills as a Gemini Enterprise end user.\nLearn how to manage skills as a Gemini Enterprise administrator.\nFeature\nGemini Enterprise: Use Gemini 3.7 Flash\nGemini 3.7 Flash is generally available (GA) in the global, us, and eu regions.",
       "matchedWords": {
         "24igJXwiDb_d": {
           "hits": 19,
@@ -953,7 +953,7 @@
       "hash": "QETWOeFEcjUx",
       "address": "https://docs.confluent.io/platform/current/streams/microservices-orders.html",
       "title": "Tutorial: Streaming Application Development Basics on Confluent Platform | Confluent Documentation",
-      "snippet": "to Kafka. This tutorial teaches the basics of building streaming applications and event-driven microservices on Confluent Platform through a sequence of exercises that use Kafka Streams and ksqlDB:\nExercise 1: Persist events\nExercise 2: Event-driven applications\nExercise 3: Enriching streams with",
+      "snippet": "After you are done running a Confluent Cloud example, manually verify that all Confluent Cloud resources are destroyed to avoid unexpected charges.\nAdditional Resources\nHow to build your first Apache Kafka Streams Application\nKafka Streams videos\nKafka Streams documentation",
       "matchedWords": {
         "24igJXwiDb_d": {
           "hits": 4,
@@ -978,7 +978,7 @@
       "hash": "QLafoeFEcjUx",
       "address": "https://docs.confluent.io/platform/current/streams/developer-guide/write-streams.html",
       "title": "Write a Kafka Streams Application for Confluent Platform | Confluent Documentation",
-      "snippet": "to Kafka Streams, and should cover many use cases and stream processing needs.\nProcessor API\nA low-level API that lets you add and connect processors as well as interact directly with state stores. The Processor API provides you with even more flexibility than the DSL but at the expense of",
+      "snippet": "It has one method, handle, that returns an enum of type StreamThreadExceptionResponse. You have the opportunity to define how Kafka Streams responds to the exception, with three possible values: REPLACE_THREAD, SHUTDOWN_CLIENT, or SHUTDOWN_APPLICATION.\nNote",
       "matchedWords": {
         "24igJXwiDb_d": {
           "hits": 1,
@@ -1003,7 +1003,7 @@
       "hash": "SChoGeFEcjUx",
       "address": "https://docs.confluent.io/platform/current/clients/examples/kotlin.html",
       "title": "Create a Kafka Client App for Kotlin for Use With Confluent Platform | Confluent Documentation",
-      "snippet": "to and consumes messages from an Apache Kafka® cluster.\nAfter you run the tutorial, use the provided source code as a reference to develop your own Kafka client application.\nPrerequisites\nClient\nJava 1.8 or higher to run the demo application.\nKafka Cluster\nThe easiest way to follow this tutorial",
+      "snippet": "Substitute your values for {{ BROKER_ENDPOINT }}, {{CLUSTER_API_KEY }}, and {{ CLUSTER_API_SECRET }} (see Configure Confluent Cloud Clients for instructions on how to manually find these values, or use the ccloud-stack utility for Confluent Cloud to automatically create them).",
       "matchedWords": {
         "24igJXwiDb_d": {
           "hits": 2,
@@ -1028,7 +1028,7 @@
       "hash": "TC82-eFEcjUx",
       "address": "https://docs.confluent.io/platform/current/streams/developer-guide/processor-api.html",
       "title": "Kafka Streams Processor API for Confluent Platform | Confluent Documentation",
-      "snippet": "to define and connect custom processors and to interact with state stores. With the Processor API, you can define arbitrary stream processors that process one received record at a time, and connect these processors with their associated state stores to compose the processor topology that represents",
+      "snippet": "For more information on how to instantiate these interfaces, see StateStore.\nYou also need to provide a “factory” for the store by implementing the org.apache.kafka.streams.state.StoreBuilder interface, which Kafka Streams uses to create instances of your store.",
       "matchedWords": {
         "24igJXwiDb_d": {
           "hits": 4,
@@ -1053,7 +1053,7 @@
       "hash": "O2B7wWSMo4M4",
       "address": "https://www.zdnet.com/home-and-office/work-life/this-linux-and-windows-app-makes-managing-all-of-your-documents-easier/",
       "title": "This Linux and Windows app makes managing all your documents easier - ZDNET",
-      "snippet": "to tag, label, and search documents\nBecause I’m a writer, I keep a lot of documents. By a lot, I mean hundreds. I need a way to organize my documents and avoid chaos.\nI could organize the documents manually, but that would take a very long time. On top of that, searching by hand is a hit-or-miss",
+      "snippet": "To install via the built-in package manager GUI, open the app, search for Paperwork, and click to install.\nAlso: How to keep your conversations with ChatGPT, Gemini, Copilot or Claude as private as possible\nIf you want to go the CLI route, here are the commands:",
       "matchedWords": {
         "24igJXwiDb_d": {
           "hits": 7,
@@ -1078,7 +1078,7 @@
       "hash": "-p2w3taoSn1x",
       "address": "https://en.planet.wikimedia.org/",
       "title": "en.planet.wikimedia.org",
-      "snippet": "to participate in conference sessions, discuss collaboration around “Freedom, Equity, Reliability”, and celebrate the joy of contributing.\nTwo-thirds (66%) of those who attended Wikimania Paris in person came from outside the host region of Northern and Western Europe. According to this",
+      "snippet": "I think the way forward is to hold on to this framework, grow the numbers gradually, and reach out to more places. How to gather more people, and how to adapt this for other regions, will be the work ahead.\nPublished to mark International Literacy Day, 8 September 2026",
       "matchedWords": {
         "24igJXwiDb_d": {
           "hits": 47,
@@ -1103,7 +1103,7 @@
       "hash": "8vgIrobrsZjx",
       "address": "https://www.mediawiki.org/wiki/Download",
       "title": "Download - MediaWiki",
-      "snippet": "To download MediaWiki 1.46.0 in a terminal on a Linux machine using wget, do:\nwget https://releases.wikimedia.org/mediawiki/1.46/mediawiki-1.46.0.tar.gz\nAlternatively, using cURL:\ncurl -O https://releases.wikimedia.org/mediawiki/1.46/mediawiki-1.46.0.tar.gz\nSignature downloads\nGPG security",
+      "snippet": "For more information about setting up a development environment, see How to become a MediaWiki hacker.\nKeep in mind that you are downloading the latest alpha version of MediaWiki, which is not recommended for production use!",
       "matchedWords": {
         "24igJXwiDb_d": {
           "hits": 1,
@@ -1128,7 +1128,7 @@
       "hash": "wGCbVt1nrxbw",
       "address": "https://www.debian.org/CD/verify",
       "title": "Verifying authenticity of Debian images",
-      "snippet": "Debian installation and live images come with signed checksum files; look for them alongside the images in the iso-cd, jigdo-dvd, iso-hybrid etc. directories. These files allow you to check that the images you download are correct. First of all, the checksum can be used to check that the images",
+      "snippet": "The keys used for these signatures are all in the Debian OpenPGP keyring (or in the debian-role-keys.pgp keyring in the debian-keyring in a Debian system) and the best way to check them is to use that keyring to validate via the web of trust.",
       "matchedWords": {
         "24igJXwiDb_d": {
           "hits": 0,
@@ -1153,7 +1153,7 @@
       "hash": "xOYgTl1nrxbw",
       "address": "https://www.debian.org/events/",
       "title": "Events related to Debian",
-      "snippet": "Debian is the annual Debian Conference called DebConf. There are also several MiniDebConfs which are local meetings organized by Debian project member.\nThe events Team gives out help and advice in organizing debian presence. They can be reached via events@debian.org but ideally you should contact",
+      "snippet": "Mailing list corresponding to the geographical location\nMerchandise page\nMaterial for a booth\nKeysigning\nChecklist for a booth\nPresentations about Debian",
       "matchedWords": {
         "24igJXwiDb_d": {
           "hits": 0,
@@ -1178,7 +1178,7 @@
       "hash": "wJjmaeFEcjUx",
       "address": "https://docs.confluent.io/platform/current/clients/confluent-plugin-for-jetbrains-ides.html",
       "title": "Confluent Plugin for JetBrains IDEs for Confluent Platform | Confluent Documentation",
-      "snippet": "to Confluent Platform and other Apache Kafka® clusters from inside IntelliJ IDEA and other JetBrains IDEs to browse clusters, create topics, and produce and consume messages without leaving your editor.\nThe Confluent Plugin for JetBrains IDEs enables you to work with Kafka directly from an",
+      "snippet": "The following steps show you how to install the Confluent Plugin for JetBrains IDEs in IntelliJ IDEA.\nOpen IntelliJ IDEA.\nIn the navigation menu, click Plugins, or press ⌘+Option+S (macOS) or CTRL+ALT+S (Windows/Linux) to open the Settings dialog, and select Plugins.",
       "matchedWords": {
         "24igJXwiDb_d": {
           "hits": 1,
@@ -1203,7 +1203,7 @@
       "hash": "wTGvueFEcjUx",
       "address": "https://docs.confluent.io/platform/current/clients/examples/rust.html",
       "title": "Create a Kafka Client App for Rust for Use With Confluent Platform | Confluent Documentation",
-      "snippet": "to and consumes messages from an Apache Kafka® cluster.\nAfter you run the tutorial, use the provided source code as a reference to develop your own Kafka client application.\nPrerequisites\nClient\nRust client for Apache Kafka installed on your machine\nKafka Cluster\nThe easiest way to follow this",
+      "snippet": "Substitute your values for {{ BROKER_ENDPOINT }}, {{CLUSTER_API_KEY }}, and {{ CLUSTER_API_SECRET }} (see Configure Confluent Cloud Clients for instructions on how to manually find these values, or use the ccloud-stack utility for Confluent Cloud to automatically create them).",
       "matchedWords": {
         "24igJXwiDb_d": {
           "hits": 2,
@@ -1228,7 +1228,7 @@
       "hash": "xwlXNeFEcjUx",
       "address": "https://docs.confluent.io/platform/current/clients/client-configs.html",
       "title": "Client Producer and Consumer Configuration Recommendations for Confluent Platform | Confluent Documentation",
-      "snippet": "to optimize client performance based on your workload.\nRecommendations\nConsider the following client configuration recommendations:\nAlways use current, supported clients. Current clients contain bug fixes and default settings tuned to allow clients to gracefully handle warnings without disrupting",
+      "snippet": "Message processing properties: Kafka clients can process messages in various ways, such as consuming messages from specific topics, committing message offsets, or specifying how to handle message errors. This category includes max.poll.records, auto.commit.interval.ms, acks, and several others.",
       "matchedWords": {
         "24igJXwiDb_d": {
           "hits": 3,
@@ -1253,7 +1253,7 @@
       "hash": "yUw0FeFEcjUx",
       "address": "https://docs.confluent.io/platform/current/kafka-mqtt/intro.html",
       "title": "MQTT Proxy for Confluent Platform | Confluent Documentation",
-      "snippet": "to use the MQTT 3.1.1 protocol to publish data directly to Apache Kafka®. These clients can publish MQTT messages in all three Quality-of-Service (QoS) levels defined by the MQTT protocol. The clients do this over encrypted and unencrypted connections. MQTT Proxy supports encryption and HTTP Basic",
+      "snippet": "Install MQTT client\nDepending on your operating system, you may choose to install mosquitto as follows:\nMacOS:\nbrew install mosquitto\nUbuntu 16:",
       "matchedWords": {
         "24igJXwiDb_d": {
           "hits": 1,
@@ -1278,7 +1278,7 @@
       "hash": "wAnYgnLU2GSx",
       "address": "https://blog.k0sproject.io/posts/k0s-multi-arch-kubernetes-cluster/",
       "title": "k0s Multi Architectures Kubernetes Cluster AMD/ARM/RISC-V | The Zero Friction Kubernetes Blog",
-      "snippet": "to be built manually.\nSo, I thought it would be fun to get this working, hence this project.\n10inch Server rack\nHere a list of the hardware i used for my Kubernetes cluster.\nGL.iNet GL-MT3000 Beryl AX Wifi 6 Travel Router\nRaspberry pi 3B+\nRaspberry pi 5\nStarFive VisionFive2 Lite\nIntel NUC (4th Gen",
+      "snippet": "Copied the compiled binary k0s-riscv64 to my main machine and started the setup.\nHow to setup Debian Trixie on the Starfive VisionFive 2 Lite is on my blog, I only used this config now (was missing some modules for Kubernetes). I made a user opvolger and enabled the SSH server.\nSetup ARM64 node(s)",
       "matchedWords": {
         "24igJXwiDb_d": {
           "hits": 1,
@@ -1303,7 +1303,7 @@
       "hash": "t2b3Ag1nrxbw",
       "address": "https://www.debian.org/distrib/packages",
       "title": "Debian -- Packages",
-      "snippet": "Debian distribution are free according to the Debian Free Software Guidelines. This assures free use and redistribution of the packages and their complete source code. The official Debian distribution is what is contained in the main section of the Debian archive.\nAs a service to our users, we also",
+      "snippet": "Introductory notes\nView package lists\nSearch package directories\nSearch the contents of packages\nIntroductory notes\nAll packages that are included in the official Debian distribution are free according to the Debian Free Software Guidelines.",
       "matchedWords": {
         "24igJXwiDb_d": {
           "hits": 0,
@@ -1328,7 +1328,7 @@
       "hash": "sPfvHeFEcjUx",
       "address": "https://docs.confluent.io/platform/current/clients/examples.html",
       "title": "Kafka Client Examples for Confluent Platform | Confluent Documentation",
-      "snippet": "Terms \u0026 Conditions | Privacy Policy | Do Not Sell My Information | Modern Slavery Policy | Cookie Settings | Feedback\nCopyright © Confluent, Inc. 2014- Apache®, Apache Kafka®, Kafka®, Apache Flink®, Flink®, Apache Iceberg®, Iceberg® and associated open source project names are trademarks of the",
+      "snippet": "Terms \u0026 Conditions | Privacy Policy | Do Not Sell My Information | Modern Slavery Policy | Cookie Settings | Feedback\nCopyright © Confluent, Inc.",
       "matchedWords": {
         "24igJXwiDb_d": {
           "hits": 0,
@@ -1353,7 +1353,7 @@
       "hash": "tO5gNeFEcjUx",
       "address": "https://docs.confluent.io/platform/current/clients/examples/groovy.html",
       "title": "Create a Kafka Client App for Groovy for Use With Confluent Platform | Confluent Documentation",
-      "snippet": "to and consumes messages from an Apache Kafka® cluster.\nAfter you run the tutorial, use the provided source code as a reference to develop your own Kafka client application.\nPrerequisites\nClient\nJava 1.8 or higher to run the demo application.\nKafka Cluster\nThe easiest way to follow this tutorial",
+      "snippet": "Substitute your values for {{ BROKER_ENDPOINT }}, {{CLUSTER_API_KEY }}, and {{ CLUSTER_API_SECRET }} (see Configure Confluent Cloud Clients for instructions on how to manually find these values, or use the ccloud-stack utility for Confluent Cloud to automatically create them).",
       "matchedWords": {
         "24igJXwiDb_d": {
           "hits": 2,
@@ -1378,7 +1378,7 @@
       "hash": "tdfcWeFEcjUx",
       "address": "https://docs.confluent.io/platform/current/streams/developer-guide/interactive-queries.html",
       "title": "Kafka Streams Interactive Queries for Confluent Platform | Confluent Documentation",
-      "snippet": "to use the state of your application from outside your application. The Kafka Streams API enables your applications to be queryable.\nThe full state of your application is typically split across many distributed instances of your application, and across many state stores that are managed locally by",
+      "snippet": "The following code example shows how to execute the query.\nStateQueryResult\u003cLong\u003e result = kafkaStreams.query(request);\nKafka Streams executes the query against the local state store and returns a result object.\nThe following code example shows how to read the result.",
       "matchedWords": {
         "24igJXwiDb_d": {
           "hits": 12,
@@ -1403,7 +1403,7 @@
       "hash": "-p2w3taoSn1x",
       "address": "https://en.planet.wikimedia.org/",
       "title": "en.planet.wikimedia.org",
-      "snippet": "to participate in conference sessions, discuss collaboration around “Freedom, Equity, Reliability”, and celebrate the joy of contributing.\nTwo-thirds (66%) of those who attended Wikimania Paris in person came from outside the host region of Northern and Western Europe. According to this",
+      "snippet": "I think the way forward is to hold on to this framework, grow the numbers gradually, and reach out to more places. How to gather more people, and how to adapt this for other regions, will be the work ahead.\nPublished to mark International Literacy Day, 8 September 2026",
       "matchedWords": {
         "24igJXwiDb_d": {
           "hits": 47,
@@ -1428,7 +1428,7 @@
       "hash": "ufEmuitD2jQw",
       "address": "https://docs.python.org/3/whatsnew/2.0.html",
       "title": "What’s New in Python 2.0 — Python 3.14.6 documentation",
-      "snippet": "to list them all would be impossible, but they’re certainly significant. Consult the publicly available CVS logs if you want to see the full list. This progress is due to the five developers working for PythonLabs are now getting paid to spend their days fixing bugs, and also due to the improved",
+      "snippet": "A wrapper API was added for Unix-style signal handlers. PyOS_getsig() gets a signal handler and PyOS_setsig() will set a new handler.\nDistutils: Making Modules Easy to Install¶",
       "matchedWords": {
         "24igJXwiDb_d": {
           "hits": 6,
@@ -1453,7 +1453,7 @@
       "hash": "mKjEVzAa-Sqx",
       "address": "https://planet.freedesktop.org/",
       "title": "planet.freedesktop.org",
-      "snippet": "to date, which is… something. I’m super grateful for the opportunities Collabora has given me, and I’m leaving a great team filled with lots of talented and passionate people. It’s been an honor.\nSimilarly, at the start of August I started working at Arm. The same company I left over 17 years ago.",
+      "snippet": "AppStream metadata is supposed to give users enough information to decide whether they want to install a piece of software, to represent that piece of software, and to give the operating system enough information to decide whether a software component should be installed automatically and (to some",
       "matchedWords": {
         "24igJXwiDb_d": {
           "hits": 153,
@@ -1478,7 +1478,7 @@
       "hash": "_8ITH_nMM_j5",
       "address": "https://grokipedia.com/page/Raspberry_Pi",
       "title": "Raspberry Pi — Grokipedia",
-      "snippet": "to advance computer science education and enable accessible computing for hobbyists, educators, and industrial applications.[1][2] Founded in 2008 by Eben Upton and a small team at the University of Cambridge to address declining interest in computer programming among young people in the UK, the",
+      "snippet": "To resolve this, install the firmware-iwlwifi package (sudo apt update \u0026\u0026 sudo apt install firmware-iwlwifi), add dtparam=pciex1_gen=3 to /boot/config.txt to enable PCIe Gen3, reboot, and verify detection using lspci | grep -i network (should show the Intel AX210) and dmesg | grep iwlwifi (should",
       "matchedWords": {
         "24igJXwiDb_d": {
           "hits": 0,
@@ -1503,7 +1503,7 @@
       "hash": "gmhRVl1nrxbw",
       "address": "https://www.debian.org/devel/",
       "title": "Debian -- Debian Developers' Corner",
-      "snippet": "how to join the project, and links to the developers' database, the constitution, the voting process, releases, and architectures.\nDebian Organization\nOver one thousand volunteers are part of the Debian project. This page explains Debian's organizational structure, lists teams and their members as",
+      "snippet": "Developers should use it before every upload.\nDebian ‘Experimental’\nThe ‘experimental’ distribution is used as a temporary staging area for highly experimental software. Please install the experimental packages only if you already know how to use ‘unstable’.\nDebian Wiki",
       "matchedWords": {
         "24igJXwiDb_d": {
           "hits": 5,
@@ -1528,7 +1528,7 @@
       "hash": "i98NBeFEcjUx",
       "address": "https://docs.confluent.io/platform/current/clients/producer.html",
       "title": "Kafka Producer for Confluent Platform | Confluent Documentation",
-      "snippet": "to a Kafka cluster. This section gives an overview of the Kafka producer and an introduction to the configuration settings for tuning.\nThe Kafka producer is conceptually much simpler than the consumer since it does not need group coordination. A producer partitioner maps each message to a topic",
+      "snippet": "Confluent provides a number of resources to help you get started with Kafka producers.\nFor a tutorial on how to build a Kafka producer that can write records to Confluent Cloud or Confluent Platform, see How to build your first Apache KafkaProducer application",
       "matchedWords": {
         "24igJXwiDb_d": {
           "hits": 5,
@@ -1553,7 +1553,7 @@
       "hash": "jaHe6eFEcjUx",
       "address": "https://docs.confluent.io/platform/current/installation/upgrade.html",
       "title": "Upgrade Confluent Platform | Confluent Documentation",
-      "snippet": "to upgrade earlier versions of Confluent Platform to the latest Confluent Platform version.\nThe recommended upgrade order is to upgrade brokers, controllers, and Confluent Control Center before client applications. For prerequisites and detailed steps, see Preparation.\nThese steps apply only to",
+      "snippet": "On Debian-based systems, apt always tries to install the latest available dependency. This can cause an unmet dependencies error if you try to install a specific older Confluent package (for example, 8.0.1-1) when a newer patch version (for example, 8.1.1-1) is also available.",
       "matchedWords": {
         "24igJXwiDb_d": {
           "hits": 2,
@@ -1578,7 +1578,7 @@
       "hash": "Tw2WTjRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Google_Chrome",
       "title": "Google Chrome - Wikipedia",
-      "snippet": "to create the Blink engine;[18] every version of Chrome uses Blink as of 2017, except for the version on IOS.[19]\nAs of March 2026, StatCounter estimates that Chrome has a 75.23% worldwide browser market share on personal computers.[20] It is the most used browser on tablets having an estimated 48%",
+      "snippet": "\"How to Save a Web Page in Chrome\". How-To Geek. Archived from the original on July 1, 2023. Retrieved June 13, 2021.\n↑ \"Chrome Web Store\". May 19, 2010. Archived from the original on February 24, 2013. Retrieved May 24, 2010.\n↑ Lay, Erik (May 19, 2010). \"The Chrome Web Store\".",
       "matchedWords": {
         "24igJXwiDb_d": {
           "hits": 14,
@@ -1678,7 +1678,7 @@
       "hash": "OYZdJl1nrxbw",
       "address": "https://www.debian.org/support",
       "title": "Debian -- User Support",
-      "snippet": "Debian User Forums\nHow to contact Package Maintainers\nBug Tracking System\nKnown Problems\nIRC (real time Support)\nIRC (Internet Relay Chat) is a great way to chat with people from all over the world in real time. It's a text-based chat system for instant messaging. On IRC you can enter chat rooms",
+      "snippet": "You can read all boards without having to register. If you want to participate in the discussion and publish your own postings, please register and log in.\nHow to contact Package Maintainers\nBasically, there are two common ways to get in touch with a maintainer of a Debian package:",
       "matchedWords": {
         "24igJXwiDb_d": {
           "hits": 2,
@@ -1728,7 +1728,7 @@
       "hash": "O2B7wWSMo4M4",
       "address": "https://www.zdnet.com/home-and-office/work-life/this-linux-and-windows-app-makes-managing-all-of-your-documents-easier/",
       "title": "This Linux and Windows app makes managing all your documents easier - ZDNET",
-      "snippet": "to tag, label, and search documents\nBecause I’m a writer, I keep a lot of documents. By a lot, I mean hundreds. I need a way to organize my documents and avoid chaos.\nI could organize the documents manually, but that would take a very long time. On top of that, searching by hand is a hit-or-miss",
+      "snippet": "To install via the built-in package manager GUI, open the app, search for Paperwork, and click to install.\nAlso: How to keep your conversations with ChatGPT, Gemini, Copilot or Claude as private as possible\nIf you want to go the CLI route, here are the commands:",
       "matchedWords": {
         "24igJXwiDb_d": {
           "hits": 7,
@@ -1753,7 +1753,7 @@
       "hash": "MocmU2sEYJ15",
       "address": "https://tailscale.com/docs/reference/tailscale-cli",
       "title": "Tailscale CLI · Tailscale Docs",
-      "snippet": "to manage and troubleshoot your device within your Tailscale network (known as a tailnet).\nThe Tailscale CLI is available for all plans.\nUsing the Tailscale CLI\nThe location of the CLI varies depending on your platform:\nOn Linux, the CLI is your primary interface to Tailscale. The tailscale binary",
+      "snippet": "When a certificate is delivered as files on disk which you then move to an install location, such as when using tailscale cert, the tailscaled daemon doesn't know where to place a renewed certificate or how to install it.",
       "matchedWords": {
         "24igJXwiDb_d": {
           "hits": 3,
@@ -1778,7 +1778,7 @@
       "hash": "8vgIrobrsZjx",
       "address": "https://www.mediawiki.org/wiki/Download",
       "title": "Download - MediaWiki",
-      "snippet": "To download MediaWiki 1.46.0 in a terminal on a Linux machine using wget, do:\nwget https://releases.wikimedia.org/mediawiki/1.46/mediawiki-1.46.0.tar.gz\nAlternatively, using cURL:\ncurl -O https://releases.wikimedia.org/mediawiki/1.46/mediawiki-1.46.0.tar.gz\nSignature downloads\nGPG security",
+      "snippet": "For more information about setting up a development environment, see How to become a MediaWiki hacker.\nKeep in mind that you are downloading the latest alpha version of MediaWiki, which is not recommended for production use!",
       "matchedWords": {
         "24igJXwiDb_d": {
           "hits": 1,
@@ -1803,7 +1803,7 @@
       "hash": "FevfV2gYLBO5",
       "address": "https://caddyserver.com/docs/install",
       "title": "Install — Caddy Documentation",
-      "snippet": "Debian, Ubuntu, Raspbian packages\nFedora, RedHat, CentOS packages\nArch Linux, Manjaro, Parabola packages\nDocker image\nRailway template\nCommunity-maintained:\nGentoo\nHomebrew (Mac)\nChocolatey (Windows)\nScoop (Windows)\nWebi\nAnsible\nTermux\nNix/Nixpkgs/NixOS\nUnikraft\nOPNsense\nMise\nStatic binaries\nIf",
+      "snippet": "Obtain a Caddy binary: from releases on GitHub (expand \"Assets\") Refer to Verifying Asset Signatures for how to verify the asset signature\nfrom our download page\nby building from source (either with go or xcaddy)\nInstall Caddy as a system service.",
       "matchedWords": {
         "24igJXwiDb_d": {
           "hits": 1,
@@ -1853,7 +1853,7 @@
       "hash": "mKjEVzAa-Sqx",
       "address": "https://planet.freedesktop.org/",
       "title": "planet.freedesktop.org",
-      "snippet": "to date, which is… something. I’m super grateful for the opportunities Collabora has given me, and I’m leaving a great team filled with lots of talented and passionate people. It’s been an honor.\nSimilarly, at the start of August I started working at Arm. The same company I left over 17 years ago.",
+      "snippet": "AppStream metadata is supposed to give users enough information to decide whether they want to install a piece of software, to represent that piece of software, and to give the operating system enough information to decide whether a software component should be installed automatically and (to some",
       "matchedWords": {
         "24igJXwiDb_d": {
           "hits": 153,
@@ -1878,7 +1878,7 @@
       "hash": "2ZqdVzfOEiDw",
       "address": "https://planet.gnome.org/",
       "title": "Planet GNOME",
-      "snippet": "how media are being handled, and AppStream’s default image export format.\nAppStream is a Freedesktop metadata standard to describe software components. That can be anything from system services over fonts to console and graphical applications. AppStream metadata is supposed to give users enough",
+      "snippet": "AppStream metadata is supposed to give users enough information to decide whether they want to install a piece of software, to represent that piece of software, and to give the operating system enough information to decide whether a software component should be installed automatically and (to some",
       "matchedWords": {
         "24igJXwiDb_d": {
           "hits": 2,
@@ -1928,7 +1928,7 @@
       "hash": "wGCbVt1nrxbw",
       "address": "https://www.debian.org/CD/verify",
       "title": "Verifying authenticity of Debian images",
-      "snippet": "Debian installation and live images come with signed checksum files; look for them alongside the images in the iso-cd, jigdo-dvd, iso-hybrid etc. directories. These files allow you to check that the images you download are correct. First of all, the checksum can be used to check that the images",
+      "snippet": "The keys used for these signatures are all in the Debian OpenPGP keyring (or in the debian-role-keys.pgp keyring in the debian-keyring in a Debian system) and the best way to check them is to use that keyring to validate via the web of trust.",
       "matchedWords": {
         "24igJXwiDb_d": {
           "hits": 0,
@@ -1953,7 +1953,7 @@
       "hash": "xOYgTl1nrxbw",
       "address": "https://www.debian.org/events/",
       "title": "Events related to Debian",
-      "snippet": "Debian is the annual Debian Conference called DebConf. There are also several MiniDebConfs which are local meetings organized by Debian project member.\nThe events Team gives out help and advice in organizing debian presence. They can be reached via events@debian.org but ideally you should contact",
+      "snippet": "Mailing list corresponding to the geographical location\nMerchandise page\nMaterial for a booth\nKeysigning\nChecklist for a booth\nPresentations about Debian",
       "matchedWords": {
         "24igJXwiDb_d": {
           "hits": 0,
@@ -1978,7 +1978,7 @@
       "hash": "wJjmaeFEcjUx",
       "address": "https://docs.confluent.io/platform/current/clients/confluent-plugin-for-jetbrains-ides.html",
       "title": "Confluent Plugin for JetBrains IDEs for Confluent Platform | Confluent Documentation",
-      "snippet": "to Confluent Platform and other Apache Kafka® clusters from inside IntelliJ IDEA and other JetBrains IDEs to browse clusters, create topics, and produce and consume messages without leaving your editor.\nThe Confluent Plugin for JetBrains IDEs enables you to work with Kafka directly from an",
+      "snippet": "The following steps show you how to install the Confluent Plugin for JetBrains IDEs in IntelliJ IDEA.\nOpen IntelliJ IDEA.\nIn the navigation menu, click Plugins, or press ⌘+Option+S (macOS) or CTRL+ALT+S (Windows/Linux) to open the Settings dialog, and select Plugins.",
       "matchedWords": {
         "24igJXwiDb_d": {
           "hits": 1,
@@ -2003,7 +2003,7 @@
       "hash": "wTGvueFEcjUx",
       "address": "https://docs.confluent.io/platform/current/clients/examples/rust.html",
       "title": "Create a Kafka Client App for Rust for Use With Confluent Platform | Confluent Documentation",
-      "snippet": "to and consumes messages from an Apache Kafka® cluster.\nAfter you run the tutorial, use the provided source code as a reference to develop your own Kafka client application.\nPrerequisites\nClient\nRust client for Apache Kafka installed on your machine\nKafka Cluster\nThe easiest way to follow this",
+      "snippet": "Substitute your values for {{ BROKER_ENDPOINT }}, {{CLUSTER_API_KEY }}, and {{ CLUSTER_API_SECRET }} (see Configure Confluent Cloud Clients for instructions on how to manually find these values, or use the ccloud-stack utility for Confluent Cloud to automatically create them).",
       "matchedWords": {
         "24igJXwiDb_d": {
           "hits": 2,
@@ -2028,7 +2028,7 @@
       "hash": "xInASeFEcjUx",
       "address": "https://docs.confluent.io/platform/current/installation/installing_cp/rhel-centos.html",
       "title": "Install Confluent Platform using Systemd on RHEL, CentOS, and Fedora-based Linux | Confluent Documentation",
-      "snippet": "Install a production-ready Confluent Platform configuration in a multi-node RHEL, CentOS, Rocky, or Amazon Linux 2023 environment.\nPrerequisites\nYou must complete these steps for each node in your cluster.\nBefore installing Confluent Platform, your environment must meet the prerequisites as",
+      "snippet": "To install Confluent Platform on RHEL, CentOS, Rocky, or Fedora-based Linux, add the Confluent YUM repository, then install the confluent-platform package with yum.",
       "matchedWords": {
         "24igJXwiDb_d": {
           "hits": 1,
@@ -2053,7 +2053,7 @@
       "hash": "xwlXNeFEcjUx",
       "address": "https://docs.confluent.io/platform/current/clients/client-configs.html",
       "title": "Client Producer and Consumer Configuration Recommendations for Confluent Platform | Confluent Documentation",
-      "snippet": "to optimize client performance based on your workload.\nRecommendations\nConsider the following client configuration recommendations:\nAlways use current, supported clients. Current clients contain bug fixes and default settings tuned to allow clients to gracefully handle warnings without disrupting",
+      "snippet": "Message processing properties: Kafka clients can process messages in various ways, such as consuming messages from specific topics, committing message offsets, or specifying how to handle message errors. This category includes max.poll.records, auto.commit.interval.ms, acks, and several others.",
       "matchedWords": {
         "24igJXwiDb_d": {
           "hits": 3,
@@ -2078,7 +2078,7 @@
       "hash": "yUw0FeFEcjUx",
       "address": "https://docs.confluent.io/platform/current/kafka-mqtt/intro.html",
       "title": "MQTT Proxy for Confluent Platform | Confluent Documentation",
-      "snippet": "to use the MQTT 3.1.1 protocol to publish data directly to Apache Kafka®. These clients can publish MQTT messages in all three Quality-of-Service (QoS) levels defined by the MQTT protocol. The clients do this over encrypted and unencrypted connections. MQTT Proxy supports encryption and HTTP Basic",
+      "snippet": "Install MQTT client\nDepending on your operating system, you may choose to install mosquitto as follows:\nMacOS:\nbrew install mosquitto\nUbuntu 16:",
       "matchedWords": {
         "24igJXwiDb_d": {
           "hits": 1,
@@ -2103,7 +2103,7 @@
       "hash": "wAnYgnLU2GSx",
       "address": "https://blog.k0sproject.io/posts/k0s-multi-arch-kubernetes-cluster/",
       "title": "k0s Multi Architectures Kubernetes Cluster AMD/ARM/RISC-V | The Zero Friction Kubernetes Blog",
-      "snippet": "to be built manually.\nSo, I thought it would be fun to get this working, hence this project.\n10inch Server rack\nHere a list of the hardware i used for my Kubernetes cluster.\nGL.iNet GL-MT3000 Beryl AX Wifi 6 Travel Router\nRaspberry pi 3B+\nRaspberry pi 5\nStarFive VisionFive2 Lite\nIntel NUC (4th Gen",
+      "snippet": "Copied the compiled binary k0s-riscv64 to my main machine and started the setup.\nHow to setup Debian Trixie on the Starfive VisionFive 2 Lite is on my blog, I only used this config now (was missing some modules for Kubernetes). I made a user opvolger and enabled the SSH server.\nSetup ARM64 node(s)",
       "matchedWords": {
         "24igJXwiDb_d": {
           "hits": 1,
@@ -2203,7 +2203,7 @@
       "hash": "W-eXqzF3--Qw",
       "address": "https://planet.mozilla.org/",
       "title": "Planet Mozilla",
-      "snippet": "to hit release on September 1st! You can follow along at https://whattrainisitnow.com/\nAs part of the Nova redesign, a “Use Linux system theme” checkbox is being shown on Linux builds for the about:addons theme picker, which will make Firefox’s Nova UI use the colours of the system theme.\nThanks to",
+      "snippet": "How it works\nAd Blocker uses Apple’s WebKit Content Blocker technology and the EasyList filter list to determine what gets blocked. There’s no separate extension to install, and you can turn it on in Settings \u003e Browsing \u003e Ad Blocker. It’s off by default, so you decide whether to use it.",
       "matchedWords": {
         "24igJXwiDb_d": {
           "hits": 148,
@@ -2228,7 +2228,7 @@
       "hash": "O2B7wWSMo4M4",
       "address": "https://www.zdnet.com/home-and-office/work-life/this-linux-and-windows-app-makes-managing-all-of-your-documents-easier/",
       "title": "This Linux and Windows app makes managing all your documents easier - ZDNET",
-      "snippet": "to tag, label, and search documents\nBecause I’m a writer, I keep a lot of documents. By a lot, I mean hundreds. I need a way to organize my documents and avoid chaos.\nI could organize the documents manually, but that would take a very long time. On top of that, searching by hand is a hit-or-miss",
+      "snippet": "To install via the built-in package manager GUI, open the app, search for Paperwork, and click to install.\nAlso: How to keep your conversations with ChatGPT, Gemini, Copilot or Claude as private as possible\nIf you want to go the CLI route, here are the commands:",
       "matchedWords": {
         "24igJXwiDb_d": {
           "hits": 7,
@@ -2253,7 +2253,7 @@
       "hash": "2ZqdVzfOEiDw",
       "address": "https://planet.gnome.org/",
       "title": "Planet GNOME",
-      "snippet": "how media are being handled, and AppStream’s default image export format.\nAppStream is a Freedesktop metadata standard to describe software components. That can be anything from system services over fonts to console and graphical applications. AppStream metadata is supposed to give users enough",
+      "snippet": "AppStream metadata is supposed to give users enough information to decide whether they want to install a piece of software, to represent that piece of software, and to give the operating system enough information to decide whether a software component should be installed automatically and (to some",
       "matchedWords": {
         "24igJXwiDb_d": {
           "hits": 2,

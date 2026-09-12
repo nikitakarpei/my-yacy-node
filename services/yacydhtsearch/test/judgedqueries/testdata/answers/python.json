@@ -1,6 +1,6 @@
 {
   "query": "python",
-  "recordedAt": "2026-09-12T00:13:58Z",
+  "recordedAt": "2026-09-12T07:52:11Z",
   "itemsInTheOrderOfEachAnswer": [
     [
       {
@@ -85,7 +85,7 @@
         "hash": "ACIq1TCk19rw",
         "address": "https://peps.python.org/pep-0401/",
         "title": "PEP 401 – BDFL Retirement | peps.python.org",
-        "snippet": "Python development for 20 years, officially announces his retirement, effective immediately. Following a unanimous vote, his replacement is named.\nRationale\nGuido wrote the original implementation of Python in 1989, and after nearly 20 years of leading the community, has decided to step aside as",
+        "snippet": "This change is important enough to be implemented for, and released in Python 3.0.2.\nRecognized that the disappointing adoption curve of Python 3.0 signals its abject failure, all work on Python 3.1 and subsequent Python 3.x versions is hereby terminated.",
         "matchedWords": {
           "I-7rQ0e90mv8": {
             "hits": 26,
@@ -124,7 +124,7 @@
         "hash": "AF6AOlBLxyZw",
         "address": "https://bugs.python.org/issue36763",
         "title": "Issue 36763: Implementation of the PEP 587 - Python tracker",
-        "snippet": "Python initiaization API.\nmsg341168 - (view)\nAuthor: STINNER Victor (vstinner) *\nDate: 2019-04-30 23:36\nNew changeset 463b82a3efe8a6a9f3924a5b37482e961dffe3b8 by Victor Stinner in branch 'master': bpo-36763: Fix Py_SetStandardStreamEncoding() (GH-13028)",
+        "snippet": "Author: STINNER Victor (vstinner) *\nDate: 2019-05-02 20:00\nI updated my PEP 587: [Python-Dev] RFC: PEP 587 \"Python Initialization Configuration\": 2nd version https://mail.python.org/pipermail/python-dev/2019-May/157290.html\nmsg342508 - (view)\nAuthor: STINNER Victor (vstinner) *",
         "matchedWords": {
           "I-7rQ0e90mv8": {
             "hits": 59,
@@ -152,7 +152,7 @@
         "hash": "HSk23ldG5jPw",
         "address": "https://www.python.org/blogs/",
         "title": "Our Blogs | Python.org",
-        "snippet": "Python Insider\nThe 2026 PSF Board Election is Open!\nSept. 1, 2026, 2:02 p.m.\nIt’s time to cast your vote! Voting for the 2026 PSF Board Election is open starting today Tuesday, September 1st, 2:00 pm UTC, through Tuesday, September 15th, 2:00 pm UTC. How to Vote If you are a voting member of the",
+        "snippet": "Welcome to the Python Insider\nThe 2026 PSF Board Election is Open!\nSept. 1, 2026, 2:02 p.m.\nIt’s time to cast your vote! Voting for the 2026 PSF Board Election is open starting today Tuesday, September 1st, 2:00 pm UTC, through Tuesday, September 15th, 2:00 pm UTC.",
         "matchedWords": {
           "I-7rQ0e90mv8": {
             "hits": 1,
@@ -165,7 +165,7 @@
         "hash": "Hh9MvsZTlNQ4",
         "address": "https://python.land/python-tutorial",
         "title": "Welcome To The Python Tutorial",
-        "snippet": "Python with our free tutorial, suitable for beginners. It contains carefully crafted, logically ordered Python articles full of information, advice, and Python practice! Hence, it helps both complete beginners and those with prior programming experience get up to speed with Python.\nIf you want to",
+        "snippet": "The following figure shows a global timeline of Python’s historical and most defining releases:\nThe history of Python\nPython 2 vs. Python 3\nAs you can see from the Python history timeline, Python 2 and 3 have been developed and maintained side by side for an extended period.",
         "matchedWords": {
           "I-7rQ0e90mv8": {
             "hits": 75,
@@ -284,7 +284,7 @@
         "hash": "JfZEMitD2jQw",
         "address": "https://docs.python.org/3/faq/",
         "title": "Python Frequently Asked Questions — Python 3.14.6 documentation",
-        "snippet": "Python Software Foundation.\nThis page is licensed under the Python Software Foundation License Version 2.\nExamples, recipes, and other code in the documentation are additionally licensed under the Zero Clause BSD License.\nSee History and License for more information.\nThe Python Software Foundation",
+        "snippet": "© Copyright 2001 Python Software Foundation.\nThis page is licensed under the Python Software Foundation License Version 2.\nExamples, recipes, and other code in the documentation are additionally licensed under the Zero Clause BSD License.\nSee History and License for more information.",
         "matchedWords": {
           "I-7rQ0e90mv8": {
             "hits": 3,
@@ -297,7 +297,7 @@
         "hash": "K2rpjkdG5jPw",
         "address": "https://www.python.org/community/lists/",
         "title": "Mailing Lists | Python.org",
-        "snippet": "Python mailing lists and newsgroups\nHere's an overview of the mail and news resources for python. For a complete listing of python.org's public mailing lists you can view them on Mailman 3.\nTo request a new list, send e-mail to postmaster @ python.org; please check first to make sure a similar list",
+        "snippet": "Generally comp.lang.python is a high-signal, low-noise group. It's also a high-traffic group, running at around 200 posts per day.\nAn archive of the list is available:\npython.org archive of python-list\ncomp.lang.python.announce newgroup and python-announce mailing list",
         "matchedWords": {
           "I-7rQ0e90mv8": {
             "hits": 60,
@@ -323,7 +323,7 @@
         "hash": "JV0vxTCk19rw",
         "address": "https://peps.python.org/pep-0020/",
         "title": "PEP 20 – The Zen of Python | peps.python.org",
-        "snippet": "Python Enhancement Proposals\nPEP 20 – The Zen of Python Author:\nTim Peters \u003ctim.peters at gmail.com\u003e\nStatus:\nActive\nType:\nInformational\nCreated:\n19-Aug-2004\nPost-History:\n22-Aug-2004\nTable of Contents\nAbstract\nThe Zen of Python\nEaster Egg\nReferences\nCopyright\nAbstract\nLong time Pythoneer Tim Peters",
+        "snippet": "Originally posted to comp.lang.python/python-list@python.org under a thread called “The Way of Python”\nCopyright\nThis document has been placed in the public domain.",
         "matchedWords": {
           "I-7rQ0e90mv8": {
             "hits": 9,
@@ -442,7 +442,7 @@
         "hash": "Nh8yR1r4CjGw",
         "address": "https://discuss.python.org/",
         "title": "Discussions on Python.org",
-        "snippet": "Python Help\nGeneral help/discussion forum for the Python programming language. All welcome.\n11239\nCommitters\nThe “argument clinic” for Python committers (people with the commit bit on https://github.com/python/cpython and related projects). Open for all to view.\n468\nIdeas\nWould you like to change",
+        "snippet": "Discussions relating to the development of Python (usage of Python should be discussed in the\nPython Help category, new ideas for Python to\nIdeas ).\n831\nDocumentation\nThis is the hub for discussion around all aspects of Python’s documentation.\n322\nCore Workflow",
         "matchedWords": {
           "I-7rQ0e90mv8": {
             "hits": 21,
@@ -535,7 +535,7 @@
         "hash": "SooFRitD2jQw",
         "address": "https://docs.python.org/3/howto/pyporting.html",
         "title": "How to port Python 2 Code to Python 3 — Python 3.14.6 documentation",
-        "snippet": "Python 2 reached its official end-of-life at the start of 2020. This means that no new bug reports, fixes, or changes will be made to Python 2 - it’s no longer supported: see PEP 373 and status of Python versions.\nIf you are looking to port an extension module instead of pure Python code, please",
+        "snippet": "If you are looking to port an extension module instead of pure Python code, please see Porting Extension Modules to Python 3.\nThe archived python-porting mailing list may contain some useful guidance.\nSince Python 3.11 the original porting guide was discontinued.",
         "matchedWords": {
           "I-7rQ0e90mv8": {
             "hits": 7,
@@ -548,7 +548,7 @@
         "hash": "ROGk4VdG5jPw",
         "address": "https://www.python.org/doc/av/",
         "title": "Audio/Video Instructional Materials for Python | Python.org",
-        "snippet": "Python community. This page collects some of the best.\nPodcast Repositories\ncore.py\nPablo Galindo and Łukasz Langa talk about Python internals, because they work on Python internals.\nPyPodcats\nHidden Figures of Python podcast series. Our goal is to highlight the contributions and accomplishments of",
+        "snippet": "Hear what’s new in the world of Python programming and become a more effective Pythonista.\nPython Bytes\nPython headlines delivered directly to your earbuds.\nPython People\nA podcast about getting to know the people who help make the Python community great.\nDjango Chat",
         "matchedWords": {
           "I-7rQ0e90mv8": {
             "hits": 36,
@@ -561,7 +561,7 @@
         "hash": "SEaby5n__psw",
         "address": "https://policies.python.org/",
         "title": "About - Python Software Foundation Policies",
-        "snippet": "Python Software Foundation.",
+        "snippet": "This site serves as the canonical location for policies published by the Python Software Foundation.",
         "matchedWords": {
           "I-7rQ0e90mv8": {
             "hits": 1,
@@ -600,7 +600,7 @@
         "hash": "SNlGrxbhx54w",
         "address": "https://packaging.python.org/en/latest/",
         "title": "Python Packaging User Guide",
-        "snippet": "Python Packaging User Guide, a collection of tutorials and references to help you distribute and install Python packages with modern tools.\nThis guide is maintained on GitHub by the Python Packaging Authority. We happily accept contributions and feedback. 😊\nOverview and Flow¶\nNote\nBuilding your",
+        "snippet": "View this page\nEdit this page\nToggle table of contents sidebar\nWelcome to the Python Packaging User Guide, a collection of tutorials and references to help you distribute and install Python packages with modern tools.\nThis guide is maintained on GitHub by the Python Packaging Authority.",
         "matchedWords": {
           "I-7rQ0e90mv8": {
             "hits": 11,
@@ -613,7 +613,7 @@
         "hash": "T00dXgYf_OZw",
         "address": "https://mail.python.org/archives/list/python-announce-list@python.org/2005/3/",
         "title": "Mailman 3 March 2005 - Python-announce-list - python.org",
-        "snippet": "Python newsgroup. Assume that we all have been brainwashed.\" -- Peter Otten \"[M]y experience porting Java to Jython is that it mostly involves deleting stuff :-)\" -- Kent Johnson \"[K]eep in mind, however, that not all problems in life can be solved with software.\" -- Roy Smith The Second Edition",
+        "snippet": "Jeff Epler knows: http://groups-beta.google.com/group/comp.lang.python/browse_thread/thread/9… Roy Smith and Larry Bates, among others, cogently counsel would-be language autodidacts: http://groups-beta.google.com/group/comp.lang.python/browse_thread/thread/3… Ivan Van Laningham addresses the",
         "matchedWords": {
           "I-7rQ0e90mv8": {
             "hits": 63,
@@ -799,7 +799,7 @@
         "hash": "aHiSShdG5jPw",
         "address": "https://www.python.org/downloads/ios/",
         "title": "Python Releases for iOS | Python.org",
-        "snippet": "Python\u003e\u003e\u003e\nDownloads\u003e\u003e\u003e\niOS\nLatest Python 3 Release - Python 3.14.7\nPre-releases\nPython 3.15.0rc2 - Sept. 1, 2026 Download iOS XCframework\nPython 3.15.0rc1 - Aug. 4, 2026 Download iOS XCframework\nPython 3.15.0b4 - July 18, 2026 Download iOS XCframework\nPython 3.15.0b3 - June 23, 2026 Download iOS",
+        "snippet": "Notice: This page displays a fallback because interactive scripts did not run. Possible causes include disabled JavaScript or failure to load scripts or stylesheets.\nPython\u003e\u003e\u003e\nDownloads\u003e\u003e\u003e\niOS\nLatest Python 3 Release - Python 3.14.7\nPre-releases\nPython 3.15.0rc2 - Sept.",
         "matchedWords": {
           "I-7rQ0e90mv8": {
             "hits": 9,
@@ -838,7 +838,7 @@
         "hash": "aUDQBxbhx54w",
         "address": "https://packaging.python.org/en/latest/key_projects/",
         "title": "Project Summaries - Python Packaging User Guide",
-        "snippet": "Python installation and packaging.\nPyPA Projects¶\nbandersnatch¶\nDocs | Issues | GitHub | PyPI\nbandersnatch is a PyPI mirroring client designed to efficiently create a complete mirror of the contents of PyPI. Organizations thus save bandwidth and latency on package downloads (especially in the",
+        "snippet": "Conda is a package, dependency, and environment management system for any language — Python, R, Ruby, C/C++, Fortran, and more. It is written in Python and widely used in the Python scientific computing community, due to its support for non-Python compiled libraries and extensions.",
         "matchedWords": {
           "I-7rQ0e90mv8": {
             "hits": 81,
@@ -851,7 +851,7 @@
         "hash": "brpYmTCk19rw",
         "address": "https://peps.python.org/pep-8107/",
         "title": "PEP 8107 – 2026 Term Steering Council election | peps.python.org",
-        "snippet": "python.org\u003e\nSponsor:\nBarry Warsaw \u003cbarry at python.org\u003e\nStatus:\nFinal\nType:\nInformational\nTopic:\nGovernance\nCreated:\n21-Oct-2025\nTable of Contents\nAbstract\nElection Administration\nSchedule\nCandidates\nVoter Roll\nElection Implementation Configuration\nRaces\nVoters\nResults Tabulation Steps Winner 1",
+        "snippet": "All active Python core team members are eligible to vote. Active status is determined as described in PEP 13 and implemented via the software at python/voters [1].\nBallots will be distributed based on the Python Voter Roll [1] for this election.",
         "matchedWords": {
           "I-7rQ0e90mv8": {
             "hits": 21,
@@ -1009,7 +1009,7 @@
         "hash": "a9fkoldG5jPw",
         "address": "https://www.python.org/",
         "title": "Welcome to Python.org",
-        "snippet": "Python source code and installers are available for download for all versions!\nLatest: Python 3.14.7\nDocs\nDocumentation for Python's standard library, along with tutorials and guides, are available online.\ndocs.python.org\nJobs\nLooking for work or have a Python related position that you're trying to",
+        "snippet": "Documentation for Python's standard library, along with tutorials and guides, are available online.\ndocs.python.org\nJobs\nLooking for work or have a Python related position that you're trying to hire for? Our relaunched community-run job board is the place to go.\njobs.python.org\nLatest News\nMore",
         "matchedWords": {
           "I-7rQ0e90mv8": {
             "hits": 9,
@@ -1048,7 +1048,7 @@
         "hash": "dIVOAIR2NVbw",
         "address": "https://devguide.python.org/versions/",
         "title": "Status of Python versions",
-        "snippet": "Python 3.16, and is the only branch that accepts new features. The latest release for each Python version can be found on the download page.\n'19\n'20\n'21\n'22\n'23\n'24\n'25\n'26\n'27\n'28\n'29\n'30\n'31\n'32\nend-of-life\nend-of-life\nPython 2.7\nend-of-life\nend-of-life\nPython 3.6\nend-of-life\nend-of-life\nPython",
+        "snippet": "Python 3.6\nend-of-life\nend-of-life\nPython 3.7\nend-of-life\nend-of-life\nPython 3.8\nend-of-life\nend-of-life\nPython 3.9\nsecurity\nsecurity\nPython 3.10\nsecurity\nsecurity\nPython 3.11\nsecurity\nsecurity\nPython 3.12\nbugfix\nbugfix\nPython 3.13\nbugfix\nbugfix\nPython 3.14\nprerelease\nprerelease\nPython 3.15\nfeature",
         "matchedWords": {
           "I-7rQ0e90mv8": {
             "hits": 35,
@@ -1076,7 +1076,7 @@
         "hash": "g3IUJldG5jPw",
         "address": "https://www.python.org/shell/",
         "title": "Welcome to Python.org",
-        "snippet": "Python source code and installers are available for download for all versions!\nLatest: Python 3.14.7\nDocs\nDocumentation for Python's standard library, along with tutorials and guides, are available online.\ndocs.python.org\nJobs\nLooking for work or have a Python related position that you're trying to",
+        "snippet": "Documentation for Python's standard library, along with tutorials and guides, are available online.\ndocs.python.org\nJobs\nLooking for work or have a Python related position that you're trying to hire for? Our relaunched community-run job board is the place to go.\njobs.python.org\nLatest News\nMore",
         "matchedWords": {
           "I-7rQ0e90mv8": {
             "hits": 9,
@@ -1102,7 +1102,7 @@
         "hash": "jKQKJldG5jPw",
         "address": "https://www.python.org/psf-landing/",
         "title": "Python Software Foundation",
-        "snippet": "Python Community through...\nGrants\nIn 2024, the PSF awarded $655,000 USD to 257 groups or individuals in 61 countries around the world.\nPyCon US\nWe produce and underwrite the PyCon US Conference, the largest annual gathering for the Python community. Support from sponsors, attendees, PyLadies, and",
+        "snippet": "Notice: This page displays a fallback because interactive scripts did not run. Possible causes include disabled JavaScript or failure to load scripts or stylesheets.\nWe support the Python Community through...\nGrants",
         "matchedWords": {
           "I-7rQ0e90mv8": {
             "hits": 4,
@@ -1115,7 +1115,7 @@
         "hash": "gMt65TCk19rw",
         "address": "https://peps.python.org/pep-0361/",
         "title": "PEP 361 – Python 2.6 and 3.0 Release Schedule | peps.python.org",
-        "snippet": "Python-Version:\n2.6, 3.0\nPost-History:\n17-Mar-2008\nTable of Contents\nAbstract\nRelease Manager and Crew\nRelease Lifespan\nRelease Schedule\nCompleted features for 3.0\nCompleted features for 2.6\nPossible features for 2.6\nDeferred until 2.7\nOpen issues\nReferences\nCopyright\nAbstract\nThis document",
+        "snippet": "Aug 20 2008: Python 2.6b3 and 3.0b3 are released\nSep 12 2008: Python 2.6rc1 is released\nSep 17 2008: Python 2.6rc2 and 3.0rc1 released\nOct 01 2008: Python 2.6 final released\nNov 06 2008: Python 3.0rc2 released\nNov 21 2008: Python 3.0rc3 released\nDec 03 2008: Python 3.0 final released",
         "matchedWords": {
           "I-7rQ0e90mv8": {
             "hits": 56,
@@ -1208,7 +1208,7 @@
         "hash": "kEYSoltD2jQw",
         "address": "https://docs.python.org/3.14/whatsnew/3.6.html",
         "title": "What’s New In Python 3.6 — Python 3.14.0a0 documentation",
-        "snippet": "Python 3.6, compared to 3.5. Python 3.6 was released on December 23, 2016. See the changelog for a full list of changes.\nSee also\nPEP 494 - Python 3.6 Release Schedule\nSummary – Release highlights¶\nNew syntax features:\nPEP 498, formatted string literals.\nPEP 515, underscores in numeric literals.",
+        "snippet": "The py.exe launcher, when used interactively, no longer prefers Python 2 over Python 3 when the user doesn’t specify a version (via command line arguments or a config file). Handling of shebang lines remains unchanged - “python” refers to Python 2 in that case.",
         "matchedWords": {
           "I-7rQ0e90mv8": {
             "hits": 96,
@@ -1247,7 +1247,7 @@
         "hash": "JV0vxTCk19rw",
         "address": "https://peps.python.org/pep-0020/",
         "title": "PEP 20 – The Zen of Python | peps.python.org",
-        "snippet": "Python Enhancement Proposals\nPEP 20 – The Zen of Python Author:\nTim Peters \u003ctim.peters at gmail.com\u003e\nStatus:\nActive\nType:\nInformational\nCreated:\n19-Aug-2004\nPost-History:\n22-Aug-2004\nTable of Contents\nAbstract\nThe Zen of Python\nEaster Egg\nReferences\nCopyright\nAbstract\nLong time Pythoneer Tim Peters",
+        "snippet": "Originally posted to comp.lang.python/python-list@python.org under a thread called “The Way of Python”\nCopyright\nThis document has been placed in the public domain.",
         "matchedWords": {
           "I-7rQ0e90mv8": {
             "hits": 9,
@@ -1260,7 +1260,7 @@
         "hash": "nWdI4IR2NVbw",
         "address": "https://devguide.python.org/",
         "title": "Python Developer’s Guide",
-        "snippet": "Python – for both new and experienced contributors. It is maintained by the same community that maintains Python. We welcome your contributions!\nStart with the area that best matches what you want to do. If you still have questions after reviewing the material in this guide, then the Core Python",
+        "snippet": "This guide is a comprehensive resource for contributing to Python – for both new and experienced contributors. It is maintained by the same community that maintains Python. We welcome your contributions!\nStart with the area that best matches what you want to do.",
         "matchedWords": {
           "I-7rQ0e90mv8": {
             "hits": 39,
@@ -1299,7 +1299,7 @@
         "hash": "nelDPNaJVZ24",
         "address": "https://python.en.uptodown.com/windows",
         "title": "Python for Windows - Download it from Uptodown for free",
-        "snippet": "Python is a free and open interpretation programming language whose main strength is its great versatility, as it supports several paradigms, such as its object-oriented programming, with imperative syntax as well as functional, in line with languages such as Haskell.\nThere are certain analogies to",
+        "snippet": "Python is a free and open interpretation programming language whose main strength is its great versatility, as it supports several paradigms, such as its object-oriented programming, with imperative syntax as well as functional, in line with languages such as Haskell.",
         "matchedWords": {
           "I-7rQ0e90mv8": {
             "hits": 3,
@@ -1459,7 +1459,7 @@
         "hash": "t-S-sitD2jQw",
         "address": "https://docs.python.org/3/faq/installed.html",
         "title": "“Why is Python Installed on my Computer?” FAQ — Python 3.14.0 documentation",
-        "snippet": "Python?¶\nPython is a programming language. It’s used for many different applications. It’s used in some high schools and colleges as an introductory programming language because Python is easy to learn, but it’s also used by professional software developers at places such as Google, NASA, and",
+        "snippet": "If you wish to learn more about Python, start with the Beginner’s Guide to Python.\nWhy is Python installed on my machine?¶\nIf you find Python installed on your system but don’t remember installing it, there are several possible ways it could have gotten there.",
         "matchedWords": {
           "I-7rQ0e90mv8": {
             "hits": 19,
@@ -1498,7 +1498,7 @@
         "hash": "vaQzdpr4CjGw",
         "address": "https://discuss.python.org/u/effigies",
         "title": "Profile - effigies - Discussions on Python.org",
-        "snippet": "Python.",
+        "snippet": "Research scholar @ Stanford. Working on neuroimaging tooling and standards, largely using Python.",
         "matchedWords": {
           "I-7rQ0e90mv8": {
             "hits": 1,
@@ -1591,7 +1591,7 @@
         "hash": "7w6YmldG5jPw",
         "address": "https://www.python.org/about/",
         "title": "About Python™ | Python.org",
-        "snippet": "Python can be easy to pick up whether you're a first time programmer or you're experienced with other languages. The following pages are a useful first step to get on your way writing programs with Python!\nBeginner's Guide, Programmers\nBeginner's Guide, Non-Programmers\nBeginner's Guide, Download \u0026",
+        "snippet": "Software \u0026 Game Development\nOpen-source\nPython is developed under an OSI-approved open source license, making it freely usable and distributable, even for commercial use. Python's license is administered by the Python Software Foundation.\nLearn more about the license\nPython license on OSI",
         "matchedWords": {
           "I-7rQ0e90mv8": {
             "hits": 19,
@@ -1643,7 +1643,7 @@
         "hash": "Nh8yR1r4CjGw",
         "address": "https://discuss.python.org/",
         "title": "Discussions on Python.org",
-        "snippet": "Python Help\nGeneral help/discussion forum for the Python programming language. All welcome.\n11239\nCommitters\nThe “argument clinic” for Python committers (people with the commit bit on https://github.com/python/cpython and related projects). Open for all to view.\n468\nIdeas\nWould you like to change",
+        "snippet": "Discussions relating to the development of Python (usage of Python should be discussed in the\nPython Help category, new ideas for Python to\nIdeas ).\n831\nDocumentation\nThis is the hub for discussion around all aspects of Python’s documentation.\n322\nCore Workflow",
         "matchedWords": {
           "I-7rQ0e90mv8": {
             "hits": 21,
@@ -1708,7 +1708,7 @@
         "hash": "yE_iqldG5jPw",
         "address": "https://www.python.org/doc/",
         "title": "Our Documentation | Python.org",
-        "snippet": "Python's documentation, tutorials, and guides are constantly evolving.\nGet started here, or scroll down for documentation broken out by type and subject.\nPython Docs\nSee also Documentation Releases by Version",
+        "snippet": "Browse the docs online or download a copy of your own.\nPython's documentation, tutorials, and guides are constantly evolving.\nGet started here, or scroll down for documentation broken out by type and subject.\nPython Docs\nSee also Documentation Releases by Version",
         "matchedWords": {
           "I-7rQ0e90mv8": {
             "hits": 2,
@@ -1723,7 +1723,7 @@
         "hash": "gQlf6itD2jQw",
         "address": "https://docs.python.org/3/whatsnew/index.html",
         "title": "What’s New in Python — Python 3.14.6 documentation",
-        "snippet": "Python” series of essays takes tours through the most important changes between major Python versions. They are a “must read” for anyone wishing to stay up-to-date after a new release.\nWhat’s new in Python 3.14 Summary – Release highlights\nNew features\nOther language changes\nNew modules\nImproved",
+        "snippet": "Python 3.10.0 alpha 3\nPython 3.10.0 alpha 2\nPython 3.10.0 alpha 1\nPython 3.9.0 beta 1\nPython 3.9.0 alpha 6\nPython 3.9.0 alpha 5\nPython 3.9.0 alpha 4\nPython 3.9.0 alpha 3\nPython 3.9.0 alpha 2\nPython 3.9.0 alpha 1\nPython 3.8.0 beta 1\nPython 3.8.0 alpha 4\nPython 3.8.0 alpha 3\nPython 3.8.0 alpha 2",
         "matchedWords": {
           "I-7rQ0e90mv8": {
             "hits": 209,
@@ -1736,7 +1736,7 @@
         "hash": "7w6YmldG5jPw",
         "address": "https://www.python.org/about/",
         "title": "About Python™ | Python.org",
-        "snippet": "Python can be easy to pick up whether you're a first time programmer or you're experienced with other languages. The following pages are a useful first step to get on your way writing programs with Python!\nBeginner's Guide, Programmers\nBeginner's Guide, Non-Programmers\nBeginner's Guide, Download \u0026",
+        "snippet": "Software \u0026 Game Development\nOpen-source\nPython is developed under an OSI-approved open source license, making it freely usable and distributable, even for commercial use. Python's license is administered by the Python Software Foundation.\nLearn more about the license\nPython license on OSI",
         "matchedWords": {
           "I-7rQ0e90mv8": {
             "hits": 19,
@@ -1788,7 +1788,7 @@
         "hash": "dIVOAIR2NVbw",
         "address": "https://devguide.python.org/versions/",
         "title": "Status of Python versions",
-        "snippet": "Python 3.16, and is the only branch that accepts new features. The latest release for each Python version can be found on the download page.\n'19\n'20\n'21\n'22\n'23\n'24\n'25\n'26\n'27\n'28\n'29\n'30\n'31\n'32\nend-of-life\nend-of-life\nPython 2.7\nend-of-life\nend-of-life\nPython 3.6\nend-of-life\nend-of-life\nPython",
+        "snippet": "Python 3.6\nend-of-life\nend-of-life\nPython 3.7\nend-of-life\nend-of-life\nPython 3.8\nend-of-life\nend-of-life\nPython 3.9\nsecurity\nsecurity\nPython 3.10\nsecurity\nsecurity\nPython 3.11\nsecurity\nsecurity\nPython 3.12\nbugfix\nbugfix\nPython 3.13\nbugfix\nbugfix\nPython 3.14\nprerelease\nprerelease\nPython 3.15\nfeature",
         "matchedWords": {
           "I-7rQ0e90mv8": {
             "hits": 35,
@@ -1855,7 +1855,7 @@
         "hash": "72XtLitD2jQw",
         "address": "https://docs.python.org/3/faq/general.html",
         "title": "General Python FAQ — Python 3.12.4 documentation",
-        "snippet": "Python FAQ\nGeneral Information\nWhat is Python?\nWhat is the Python Software Foundation?\nAre there copyright restrictions on the use of Python?\nWhy was Python created in the first place?\nWhat is Python good for?\nHow does the Python version numbering scheme work?\nHow do I obtain a copy of the Python",
+        "snippet": "Contents\nGeneral Python FAQ\nGeneral Information\nWhat is Python?\nWhat is the Python Software Foundation?\nAre there copyright restrictions on the use of Python?\nWhy was Python created in the first place?\nWhat is Python good for?\nHow does the Python version numbering scheme work?",
         "matchedWords": {
           "I-7rQ0e90mv8": {
             "hits": 152,
@@ -1881,7 +1881,7 @@
         "hash": "7h12hhdG5jPw",
         "address": "https://www.python.org/downloads/release/python-2718rc1/",
         "title": "Python Release Python 2.7.18rc1 | Python.org",
-        "snippet": "Python 2.7.18 reached end-of-life on 2020-01-01. It is no longer supported and does not receive security updates. We recommend upgrading to the latest Python release.\nRelease date: April 4, 2020\nPython 2.7.18 release candidate 1 is a testing release for Python 2.7.18, the last release of Python 2.",
+        "snippet": "We recommend upgrading to the latest Python release.\nRelease date: April 4, 2020\nPython 2.7.18 release candidate 1 is a testing release for Python 2.7.18, the last release of Python 2.\nFiles\nmacOS\nDownload macOS 64-bit installer\nWindows\nDownload Windows x86 MSI installer\nSource release",
         "matchedWords": {
           "I-7rQ0e90mv8": {
             "hits": 5,
@@ -2026,7 +2026,7 @@
         "hash": "ACIq1TCk19rw",
         "address": "https://peps.python.org/pep-0401/",
         "title": "PEP 401 – BDFL Retirement | peps.python.org",
-        "snippet": "Python development for 20 years, officially announces his retirement, effective immediately. Following a unanimous vote, his replacement is named.\nRationale\nGuido wrote the original implementation of Python in 1989, and after nearly 20 years of leading the community, has decided to step aside as",
+        "snippet": "This change is important enough to be implemented for, and released in Python 3.0.2.\nRecognized that the disappointing adoption curve of Python 3.0 signals its abject failure, all work on Python 3.1 and subsequent Python 3.x versions is hereby terminated.",
         "matchedWords": {
           "I-7rQ0e90mv8": {
             "hits": 26,
@@ -2039,7 +2039,7 @@
         "hash": "DuEPzitD2jQw",
         "address": "https://docs.python.org/3/whatsnew/3.9.html",
         "title": "What’s New In Python 3.9 — Python 3.11.1 documentation",
-        "snippet": "Python 3.9, compared to 3.8. Python 3.9 was released on October 5, 2020. For full details, see the changelog.\nSee also\nPEP 596 - Python 3.9 Release Schedule\nSummary – Release highlights¶\nNew syntax features:\nPEP 584, union operators added to dict;\nPEP 585, type hinting generics in standard",
+        "snippet": "Python 3.9 is the last version providing those Python 2 backward compatibility layers, to give more time to Python projects maintainers to organize the removal of the Python 2 support and add support for Python 3.9.",
         "matchedWords": {
           "I-7rQ0e90mv8": {
             "hits": 101,
@@ -2251,7 +2251,7 @@
         "hash": "IakIRpdG5jPw",
         "address": "https://www.python.org/events/python-events/2175/",
         "title": "Python Leiden User Group | Python.org",
-        "snippet": "Python Leiden User Group",
+        "snippet": "Notice: This page displays a fallback because interactive scripts did not run. Possible causes include disabled JavaScript or failure to load scripts or stylesheets.\nLeiden, The Netherlands 28 May from 5:15pm UTC to 8pm UTC, 2026\nPython Leiden User Group",
         "matchedWords": {
           "I-7rQ0e90mv8": {
             "hits": 1,
@@ -2264,7 +2264,7 @@
         "hash": "JfZEMitD2jQw",
         "address": "https://docs.python.org/3/faq/",
         "title": "Python Frequently Asked Questions — Python 3.14.7 documentation",
-        "snippet": "Python Software Foundation.\nThis page is licensed under the Python Software Foundation License Version 2.\nExamples, recipes, and other code in the documentation are additionally licensed under the Zero Clause BSD License.\nSee History and License for more information.\nThe Python Software Foundation",
+        "snippet": "© Copyright 2001 Python Software Foundation.\nThis page is licensed under the Python Software Foundation License Version 2.\nExamples, recipes, and other code in the documentation are additionally licensed under the Zero Clause BSD License.\nSee History and License for more information.",
         "matchedWords": {
           "I-7rQ0e90mv8": {
             "hits": 3,
@@ -2303,7 +2303,7 @@
         "hash": "JV0vxTCk19rw",
         "address": "https://peps.python.org/pep-0020/",
         "title": "PEP 20 – The Zen of Python | peps.python.org",
-        "snippet": "Python Enhancement Proposals\nPEP 20 – The Zen of Python Author:\nTim Peters \u003ctim.peters at gmail.com\u003e\nStatus:\nActive\nType:\nInformational\nCreated:\n19-Aug-2004\nPost-History:\n22-Aug-2004\nTable of Contents\nAbstract\nThe Zen of Python\nEaster Egg\nReferences\nCopyright\nAbstract\nLong time Pythoneer Tim Peters",
+        "snippet": "Originally posted to comp.lang.python/python-list@python.org under a thread called “The Way of Python”\nCopyright\nThis document has been placed in the public domain.",
         "matchedWords": {
           "I-7rQ0e90mv8": {
             "hits": 9,
@@ -2396,7 +2396,7 @@
         "hash": "P1bBYitD2jQw",
         "address": "https://docs.python.org/3/whatsnew/3.5.html",
         "title": "What’s New In Python 3.5 — Python 3.14.2 documentation",
-        "snippet": "Python 3.5, compared to 3.4. Python 3.5 was released on September 13, 2015. See the changelog for a full list of changes.\nSee also\nPEP 478 - Python 3.5 Release Schedule\nSummary – Release highlights¶\nNew syntax features:\nPEP 492, coroutines with async and await syntax.\nPEP 465, a new matrix",
+        "snippet": "On Linux, extension module filenames end with .cpython-\u003cmajor\u003e\u003cminor\u003em-\u003carchitecture\u003e-\u003cos\u003e.pyd:\n\u003cmajor\u003e is the major number of the Python version; for Python 3.5 this is 3.\n\u003cminor\u003e is the minor number of the Python version; for Python 3.5 this is 5.",
         "matchedWords": {
           "I-7rQ0e90mv8": {
             "hits": 72,
@@ -2528,7 +2528,7 @@
         "hash": "SooFRitD2jQw",
         "address": "https://docs.python.org/3/howto/pyporting.html",
         "title": "How to port Python 2 Code to Python 3 — Python 3.14.6 documentation",
-        "snippet": "Python 2 reached its official end-of-life at the start of 2020. This means that no new bug reports, fixes, or changes will be made to Python 2 - it’s no longer supported: see PEP 373 and status of Python versions.\nIf you are looking to port an extension module instead of pure Python code, please",
+        "snippet": "If you are looking to port an extension module instead of pure Python code, please see Porting Extension Modules to Python 3.\nThe archived python-porting mailing list may contain some useful guidance.\nSince Python 3.11 the original porting guide was discontinued.",
         "matchedWords": {
           "I-7rQ0e90mv8": {
             "hits": 7,
@@ -2541,7 +2541,7 @@
         "hash": "T00dXgYf_OZw",
         "address": "https://mail.python.org/archives/list/python-announce-list@python.org/2005/3/",
         "title": "Mailman 3 March 2005 - Python-announce-list - python.org",
-        "snippet": "Python newsgroup. Assume that we all have been brainwashed.\" -- Peter Otten \"[M]y experience porting Java to Jython is that it mostly involves deleting stuff :-)\" -- Kent Johnson \"[K]eep in mind, however, that not all problems in life can be solved with software.\" -- Roy Smith The Second Edition",
+        "snippet": "Jeff Epler knows: http://groups-beta.google.com/group/comp.lang.python/browse_thread/thread/9… Roy Smith and Larry Bates, among others, cogently counsel would-be language autodidacts: http://groups-beta.google.com/group/comp.lang.python/browse_thread/thread/3… Ivan Van Laningham addresses the",
         "matchedWords": {
           "I-7rQ0e90mv8": {
             "hits": 63,
@@ -2567,7 +2567,7 @@
         "hash": "nWdI4IR2NVbw",
         "address": "https://devguide.python.org/",
         "title": "Python Developer’s Guide",
-        "snippet": "Python – for both new and experienced contributors. It is maintained by the same community that maintains Python. We welcome your contributions!\nStart with the area that best matches what you want to do. If you still have questions after reviewing the material in this guide, then the Core Python",
+        "snippet": "This guide is a comprehensive resource for contributing to Python – for both new and experienced contributors. It is maintained by the same community that maintains Python. We welcome your contributions!\nStart with the area that best matches what you want to do.",
         "matchedWords": {
           "I-7rQ0e90mv8": {
             "hits": 39,
@@ -2606,7 +2606,7 @@
         "hash": "SEaby5n__psw",
         "address": "https://policies.python.org/",
         "title": "About - Python Software Foundation Policies",
-        "snippet": "Python Software Foundation.",
+        "snippet": "This site serves as the canonical location for policies published by the Python Software Foundation.",
         "matchedWords": {
           "I-7rQ0e90mv8": {
             "hits": 1,
@@ -2619,7 +2619,7 @@
         "hash": "SNlGrxbhx54w",
         "address": "https://packaging.python.org/en/latest/",
         "title": "Python Packaging User Guide",
-        "snippet": "Python Packaging User Guide, a collection of tutorials and references to help you distribute and install Python packages with modern tools.\nThis guide is maintained on GitHub by the Python Packaging Authority. We happily accept contributions and feedback. 😊\nOverview and Flow¶\nNote\nBuilding your",
+        "snippet": "View this page\nEdit this page\nToggle table of contents sidebar\nWelcome to the Python Packaging User Guide, a collection of tutorials and references to help you distribute and install Python packages with modern tools.\nThis guide is maintained on GitHub by the Python Packaging Authority.",
         "matchedWords": {
           "I-7rQ0e90mv8": {
             "hits": 11,
@@ -2647,7 +2647,7 @@
         "hash": "a9fkoldG5jPw",
         "address": "https://www.python.org/",
         "title": "Welcome to Python.org",
-        "snippet": "Python source code and installers are available for download for all versions!\nLatest: Python 3.14.7\nDocs\nDocumentation for Python's standard library, along with tutorials and guides, are available online.\ndocs.python.org\nJobs\nLooking for work or have a Python related position that you're trying to",
+        "snippet": "Documentation for Python's standard library, along with tutorials and guides, are available online.\ndocs.python.org\nJobs\nLooking for work or have a Python related position that you're trying to hire for? Our relaunched community-run job board is the place to go.\njobs.python.org\nLatest News\nMore",
         "matchedWords": {
           "I-7rQ0e90mv8": {
             "hits": 9,
@@ -2660,7 +2660,7 @@
         "hash": "aUDQBxbhx54w",
         "address": "https://packaging.python.org/en/latest/key_projects/",
         "title": "Project Summaries - Python Packaging User Guide",
-        "snippet": "Python installation and packaging.\nPyPA Projects¶\nbandersnatch¶\nDocs | Issues | GitHub | PyPI\nbandersnatch is a PyPI mirroring client designed to efficiently create a complete mirror of the contents of PyPI. Organizations thus save bandwidth and latency on package downloads (especially in the",
+        "snippet": "Conda is a package, dependency, and environment management system for any language — Python, R, Ruby, C/C++, Fortran, and more. It is written in Python and widely used in the Python scientific computing community, due to its support for non-Python compiled libraries and extensions.",
         "matchedWords": {
           "I-7rQ0e90mv8": {
             "hits": 81,
@@ -2673,7 +2673,7 @@
         "hash": "brpYmTCk19rw",
         "address": "https://peps.python.org/pep-8107/",
         "title": "PEP 8107 – 2026 Term Steering Council election | peps.python.org",
-        "snippet": "python.org\u003e\nSponsor:\nBarry Warsaw \u003cbarry at python.org\u003e\nStatus:\nFinal\nType:\nInformational\nTopic:\nGovernance\nCreated:\n21-Oct-2025\nTable of Contents\nAbstract\nElection Administration\nSchedule\nCandidates\nVoter Roll\nElection Implementation Configuration\nRaces\nVoters\nResults Tabulation Steps Winner 1",
+        "snippet": "All active Python core team members are eligible to vote. Active status is determined as described in PEP 13 and implemented via the software at python/voters [1].\nBallots will be distributed based on the Python Voter Roll [1] for this election.",
         "matchedWords": {
           "I-7rQ0e90mv8": {
             "hits": 21,
@@ -2911,7 +2911,7 @@
         "hash": "gQlf6itD2jQw",
         "address": "https://docs.python.org/3/whatsnew/index.html",
         "title": "What’s New in Python — Python 3.14.6 documentation",
-        "snippet": "Python” series of essays takes tours through the most important changes between major Python versions. They are a “must read” for anyone wishing to stay up-to-date after a new release.\nWhat’s new in Python 3.14 Summary – Release highlights\nNew features\nOther language changes\nNew modules\nImproved",
+        "snippet": "Python 3.10.0 alpha 3\nPython 3.10.0 alpha 2\nPython 3.10.0 alpha 1\nPython 3.9.0 beta 1\nPython 3.9.0 alpha 6\nPython 3.9.0 alpha 5\nPython 3.9.0 alpha 4\nPython 3.9.0 alpha 3\nPython 3.9.0 alpha 2\nPython 3.9.0 alpha 1\nPython 3.8.0 beta 1\nPython 3.8.0 alpha 4\nPython 3.8.0 alpha 3\nPython 3.8.0 alpha 2",
         "matchedWords": {
           "I-7rQ0e90mv8": {
             "hits": 209,
@@ -2924,7 +2924,7 @@
         "hash": "jKQKJldG5jPw",
         "address": "https://www.python.org/psf-landing/",
         "title": "Python Software Foundation",
-        "snippet": "Python Community through...\nGrants\nIn 2024, the PSF awarded $655,000 USD to 257 groups or individuals in 61 countries around the world.\nPyCon US\nWe produce and underwrite the PyCon US Conference, the largest annual gathering for the Python community. Support from sponsors, attendees, PyLadies, and",
+        "snippet": "Notice: This page displays a fallback because interactive scripts did not run. Possible causes include disabled JavaScript or failure to load scripts or stylesheets.\nWe support the Python Community through...\nGrants",
         "matchedWords": {
           "I-7rQ0e90mv8": {
             "hits": 4,
@@ -2989,7 +2989,7 @@
         "hash": "jUyg0KTceIAw",
         "address": "https://status.python.org/",
         "title": "Python Infrastructure Status",
-        "snippet": "Fastly Asia/Pacific (HK) Operational\nFastly US East (IAD) Operational\nFastly US East (MIA) Operational\nFastly US Central (DEN) Operational\nFastly US Central (DFW) Operational\nFastly US West (SEA) Operational\nFastly US West (SJC) Operational\nFastly Europe (FRA) Operational\nFastly Europe (AMS)",
+        "snippet": "Fastly Asia/Pacific (HK) Operational\nFastly US East (IAD) Operational\nFastly US East (MIA) Operational\nFastly US Central (DEN) Operational\nFastly US Central (DFW) Operational\nFastly US West (SEA) Operational\nFastly US West (SJC) Operational\nFastly Europe (FRA) Operational",
         "matchedWords": {
           "I-7rQ0e90mv8": {
             "hits": 0,
@@ -3069,7 +3069,7 @@
         "hash": "nWdI4IR2NVbw",
         "address": "https://devguide.python.org/",
         "title": "Python Developer’s Guide",
-        "snippet": "Python – for both new and experienced contributors. It is maintained by the same community that maintains Python. We welcome your contributions!\nStart with the area that best matches what you want to do. If you still have questions after reviewing the material in this guide, then the Core Python",
+        "snippet": "This guide is a comprehensive resource for contributing to Python – for both new and experienced contributors. It is maintained by the same community that maintains Python. We welcome your contributions!\nStart with the area that best matches what you want to do.",
         "matchedWords": {
           "I-7rQ0e90mv8": {
             "hits": 39,
@@ -3095,7 +3095,7 @@
         "hash": "kEYSoltD2jQw",
         "address": "https://docs.python.org/3.14/whatsnew/3.6.html",
         "title": "What’s New In Python 3.6 — Python 3.14.0a0 documentation",
-        "snippet": "Python 3.6, compared to 3.5. Python 3.6 was released on December 23, 2016. See the changelog for a full list of changes.\nSee also\nPEP 494 - Python 3.6 Release Schedule\nSummary – Release highlights¶\nNew syntax features:\nPEP 498, formatted string literals.\nPEP 515, underscores in numeric literals.",
+        "snippet": "The py.exe launcher, when used interactively, no longer prefers Python 2 over Python 3 when the user doesn’t specify a version (via command line arguments or a config file). Handling of shebang lines remains unchanged - “python” refers to Python 2 in that case.",
         "matchedWords": {
           "I-7rQ0e90mv8": {
             "hits": 96,
@@ -3108,7 +3108,7 @@
         "hash": "nelDPNaJVZ24",
         "address": "https://python.en.uptodown.com/windows",
         "title": "Python for Windows - Download it from Uptodown for free",
-        "snippet": "Python is a free and open interpretation programming language whose main strength is its great versatility, as it supports several paradigms, such as its object-oriented programming, with imperative syntax as well as functional, in line with languages such as Haskell.\nThere are certain analogies to",
+        "snippet": "Python is a free and open interpretation programming language whose main strength is its great versatility, as it supports several paradigms, such as its object-oriented programming, with imperative syntax as well as functional, in line with languages such as Haskell.",
         "matchedWords": {
           "I-7rQ0e90mv8": {
             "hits": 3,
@@ -3175,7 +3175,7 @@
         "hash": "pv6SAsdG5jPw",
         "address": "https://www.python.org/about/help/",
         "title": "Help | Python.org",
-        "snippet": "Python problem or question?\nFirst check the Python FAQs, with answers to many common, general Python questions.\nThe Python Help category of the discuss.python.org website hosts usage questions and answers from the Python community.\nThe tutor list offers interactive help.\nIf the tutor list isn't",
+        "snippet": "To contribute to the official Python website, see the About the Python Web Site page or read the developer guide on Read the Docs.\nTo announce your module or application to the Python community, use comp.lang.python.announce (or via email, python-announce@python.org, if you lack news access).",
         "matchedWords": {
           "I-7rQ0e90mv8": {
             "hits": 25,
@@ -3333,7 +3333,7 @@
         "hash": "t-S-sitD2jQw",
         "address": "https://docs.python.org/3/faq/installed.html",
         "title": "“Why is Python Installed on my Computer?” FAQ — Python 3.14.6 documentation",
-        "snippet": "Python?¶\nPython is a programming language. It’s used for many different applications. It’s used in some high schools and colleges as an introductory programming language because Python is easy to learn, but it’s also used by professional software developers at places such as Google, NASA, and",
+        "snippet": "If you wish to learn more about Python, start with the Beginner’s Guide to Python.\nWhy is Python installed on my machine?¶\nIf you find Python installed on your system but don’t remember installing it, there are several possible ways it could have gotten there.",
         "matchedWords": {
           "I-7rQ0e90mv8": {
             "hits": 19,
@@ -3398,7 +3398,7 @@
         "hash": "vaQzdpr4CjGw",
         "address": "https://discuss.python.org/u/effigies",
         "title": "Profile - effigies - Discussions on Python.org",
-        "snippet": "Python.",
+        "snippet": "Research scholar @ Stanford. Working on neuroimaging tooling and standards, largely using Python.",
         "matchedWords": {
           "I-7rQ0e90mv8": {
             "hits": 1,
@@ -3491,7 +3491,7 @@
         "hash": "yE_iqldG5jPw",
         "address": "https://www.python.org/doc/",
         "title": "Our Documentation | Python.org",
-        "snippet": "Python's documentation, tutorials, and guides are constantly evolving.\nGet started here, or scroll down for documentation broken out by type and subject.\nPython Docs\nSee also Documentation Releases by Version",
+        "snippet": "Browse the docs online or download a copy of your own.\nPython's documentation, tutorials, and guides are constantly evolving.\nGet started here, or scroll down for documentation broken out by type and subject.\nPython Docs\nSee also Documentation Releases by Version",
         "matchedWords": {
           "I-7rQ0e90mv8": {
             "hits": 2,
@@ -3504,7 +3504,7 @@
         "hash": "z02vKTCk19rw",
         "address": "https://peps.python.org/",
         "title": "PEP 0 – Index of Python Enhancement Proposals (PEPs) | peps.python.org",
-        "snippet": "Python Enhancement Proposals (PEPs) PEP 0 – Index of Python Enhancement Proposals (PEPs)\nAuthor:\nThe PEP Editors\nStatus:\nActive\nType:\nInformational\nCreated:\n13-Jul-2000\nTable of Contents\nIntroduction\nTopics\nAPI\nNumerical Index\nIndex by Category Process and Meta-PEPs\nOther Informational PEPs",
+        "snippet": "Aahz, Anthony Baxter\nIF\n160\nPython 1.6 Release Schedule\nFred L. Drake, Jr.\n1.6\nIF\n200\nPython 2.0 Release Schedule\nJeremy Hylton\n2.0\nIF\n226\nPython 2.1 Release Schedule\nJeremy Hylton\n2.1\nIF\n251\nPython 2.2 Release Schedule\nBarry Warsaw, Guido van Rossum\n2.2\nIF\n283\nPython 2.3 Release Schedule",
         "matchedWords": {
           "I-7rQ0e90mv8": {
             "hits": 207,
@@ -3848,7 +3848,7 @@
         "hash": "DuEPzitD2jQw",
         "address": "https://docs.python.org/3/whatsnew/3.9.html",
         "title": "What’s New In Python 3.9 — Python 3.11.1 documentation",
-        "snippet": "Python 3.9, compared to 3.8. Python 3.9 was released on October 5, 2020. For full details, see the changelog.\nSee also\nPEP 596 - Python 3.9 Release Schedule\nSummary – Release highlights¶\nNew syntax features:\nPEP 584, union operators added to dict;\nPEP 585, type hinting generics in standard",
+        "snippet": "Python 3.9 is the last version providing those Python 2 backward compatibility layers, to give more time to Python projects maintainers to organize the removal of the Python 2 support and add support for Python 3.9.",
         "matchedWords": {
           "I-7rQ0e90mv8": {
             "hits": 101,
@@ -3900,7 +3900,7 @@
         "hash": "AF6AOlBLxyZw",
         "address": "https://bugs.python.org/issue36763",
         "title": "Issue 36763: Implementation of the PEP 587 - Python tracker",
-        "snippet": "Python initiaization API.\nmsg341168 - (view)\nAuthor: STINNER Victor (vstinner) *\nDate: 2019-04-30 23:36\nNew changeset 463b82a3efe8a6a9f3924a5b37482e961dffe3b8 by Victor Stinner in branch 'master': bpo-36763: Fix Py_SetStandardStreamEncoding() (GH-13028)",
+        "snippet": "Author: STINNER Victor (vstinner) *\nDate: 2019-05-02 20:00\nI updated my PEP 587: [Python-Dev] RFC: PEP 587 \"Python Initialization Configuration\": 2nd version https://mail.python.org/pipermail/python-dev/2019-May/157290.html\nmsg342508 - (view)\nAuthor: STINNER Victor (vstinner) *",
         "matchedWords": {
           "I-7rQ0e90mv8": {
             "hits": 59,
@@ -3980,7 +3980,7 @@
         "hash": "Hh9MvsZTlNQ4",
         "address": "https://python.land/python-tutorial",
         "title": "Welcome To The Python Tutorial",
-        "snippet": "Python with our free tutorial, suitable for beginners. It contains carefully crafted, logically ordered Python articles full of information, advice, and Python practice! Hence, it helps both complete beginners and those with prior programming experience get up to speed with Python.\nIf you want to",
+        "snippet": "The following figure shows a global timeline of Python’s historical and most defining releases:\nThe history of Python\nPython 2 vs. Python 3\nAs you can see from the Python history timeline, Python 2 and 3 have been developed and maintained side by side for an extended period.",
         "matchedWords": {
           "I-7rQ0e90mv8": {
             "hits": 75,
@@ -3993,7 +3993,7 @@
         "hash": "HSk23ldG5jPw",
         "address": "https://www.python.org/blogs/",
         "title": "Our Blogs | Python.org",
-        "snippet": "Python Insider\nThe 2026 PSF Board Election is Open!\nSept. 1, 2026, 2:02 p.m.\nIt’s time to cast your vote! Voting for the 2026 PSF Board Election is open starting today Tuesday, September 1st, 2:00 pm UTC, through Tuesday, September 15th, 2:00 pm UTC. How to Vote If you are a voting member of the",
+        "snippet": "Welcome to the Python Insider\nThe 2026 PSF Board Election is Open!\nSept. 1, 2026, 2:02 p.m.\nIt’s time to cast your vote! Voting for the 2026 PSF Board Election is open starting today Tuesday, September 1st, 2:00 pm UTC, through Tuesday, September 15th, 2:00 pm UTC.",
         "matchedWords": {
           "I-7rQ0e90mv8": {
             "hits": 1,
@@ -4112,7 +4112,7 @@
         "hash": "JfZEMitD2jQw",
         "address": "https://docs.python.org/3/faq/",
         "title": "Python Frequently Asked Questions — Python 3.14.7 documentation",
-        "snippet": "Python Software Foundation.\nThis page is licensed under the Python Software Foundation License Version 2.\nExamples, recipes, and other code in the documentation are additionally licensed under the Zero Clause BSD License.\nSee History and License for more information.\nThe Python Software Foundation",
+        "snippet": "© Copyright 2001 Python Software Foundation.\nThis page is licensed under the Python Software Foundation License Version 2.\nExamples, recipes, and other code in the documentation are additionally licensed under the Zero Clause BSD License.\nSee History and License for more information.",
         "matchedWords": {
           "I-7rQ0e90mv8": {
             "hits": 3,
@@ -4125,7 +4125,7 @@
         "hash": "IakIRpdG5jPw",
         "address": "https://www.python.org/events/python-events/2175/",
         "title": "Python Leiden User Group | Python.org",
-        "snippet": "Python Leiden User Group",
+        "snippet": "Notice: This page displays a fallback because interactive scripts did not run. Possible causes include disabled JavaScript or failure to load scripts or stylesheets.\nLeiden, The Netherlands 28 May from 5:15pm UTC to 8pm UTC, 2026\nPython Leiden User Group",
         "matchedWords": {
           "I-7rQ0e90mv8": {
             "hits": 1,
@@ -4138,7 +4138,7 @@
         "hash": "JV0vxTCk19rw",
         "address": "https://peps.python.org/pep-0020/",
         "title": "PEP 20 – The Zen of Python | peps.python.org",
-        "snippet": "Python Enhancement Proposals\nPEP 20 – The Zen of Python Author:\nTim Peters \u003ctim.peters at gmail.com\u003e\nStatus:\nActive\nType:\nInformational\nCreated:\n19-Aug-2004\nPost-History:\n22-Aug-2004\nTable of Contents\nAbstract\nThe Zen of Python\nEaster Egg\nReferences\nCopyright\nAbstract\nLong time Pythoneer Tim Peters",
+        "snippet": "Originally posted to comp.lang.python/python-list@python.org under a thread called “The Way of Python”\nCopyright\nThis document has been placed in the public domain.",
         "matchedWords": {
           "I-7rQ0e90mv8": {
             "hits": 9,
@@ -4257,7 +4257,7 @@
         "hash": "P1bBYitD2jQw",
         "address": "https://docs.python.org/3/whatsnew/3.5.html",
         "title": "What’s New In Python 3.5 — Python 3.14.2 documentation",
-        "snippet": "Python 3.5, compared to 3.4. Python 3.5 was released on September 13, 2015. See the changelog for a full list of changes.\nSee also\nPEP 478 - Python 3.5 Release Schedule\nSummary – Release highlights¶\nNew syntax features:\nPEP 492, coroutines with async and await syntax.\nPEP 465, a new matrix",
+        "snippet": "On Linux, extension module filenames end with .cpython-\u003cmajor\u003e\u003cminor\u003em-\u003carchitecture\u003e-\u003cos\u003e.pyd:\n\u003cmajor\u003e is the major number of the Python version; for Python 3.5 this is 3.\n\u003cminor\u003e is the minor number of the Python version; for Python 3.5 this is 5.",
         "matchedWords": {
           "I-7rQ0e90mv8": {
             "hits": 72,
@@ -4270,7 +4270,7 @@
         "hash": "Nh8yR1r4CjGw",
         "address": "https://discuss.python.org/",
         "title": "Discussions on Python.org",
-        "snippet": "Python Help\nGeneral help/discussion forum for the Python programming language. All welcome.\n11239\nCommitters\nThe “argument clinic” for Python committers (people with the commit bit on https://github.com/python/cpython and related projects). Open for all to view.\n468\nIdeas\nWould you like to change",
+        "snippet": "Discussions relating to the development of Python (usage of Python should be discussed in the\nPython Help category, new ideas for Python to\nIdeas ).\n831\nDocumentation\nThis is the hub for discussion around all aspects of Python’s documentation.\n322\nCore Workflow",
         "matchedWords": {
           "I-7rQ0e90mv8": {
             "hits": 21,
@@ -4495,7 +4495,7 @@
         "hash": "WOyIQpdG5jPw",
         "address": "https://www.python.org/events/python-events/locations/475/",
         "title": "Our Events | Python.org",
-        "snippet": "Python Events Calendar\nUpcoming Events",
+        "snippet": "Notice: This page displays a fallback because interactive scripts did not run. Possible causes include disabled JavaScript or failure to load scripts or stylesheets.\nfrom the Python Events Calendar\nUpcoming Events",
         "matchedWords": {
           "I-7rQ0e90mv8": {
             "hits": 1,
@@ -4508,7 +4508,7 @@
         "hash": "WY2aUHtD2jQw",
         "address": "https://docs.python.org/3.12/whatsnew/index.html",
         "title": "What’s New in Python — Python 3.12.0a6 documentation",
-        "snippet": "Python” series of essays takes tours through the most important changes between major Python versions. They are a “must read” for anyone wishing to stay up-to-date after a new release.\nWhat’s New In Python 3.12 Summary – Release highlights\nNew Features\nNew Features Related to Type Hints\nOther",
+        "snippet": "Python 3.12.14 final\nPython 3.12.13 final\nPython 3.12.12 final\nPython 3.12.11 final\nPython 3.12.10 final\nPython 3.12.9 final\nPython 3.12.8 final\nPython 3.12.7 final\nPython 3.12.6 final\nPython 3.12.5 final\nPython 3.12.4 final\nPython 3.12.3 final\nPython 3.12.2 final\nPython 3.12.1 final",
         "matchedWords": {
           "I-7rQ0e90mv8": {
             "hits": 196,
@@ -4772,7 +4772,7 @@
         "hash": "dzPvYltD2jQw",
         "address": "https://docs.python.org/3.14/using/index.html",
         "title": "Python Setup and Usage — Python 3.14.6 documentation",
-        "snippet": "Python Software Foundation.\nThis page is licensed under the Python Software Foundation License Version 2.\nExamples, recipes, and other code in the documentation are additionally licensed under the Zero Clause BSD License.\nSee History and License for more information.\nThe Python Software Foundation",
+        "snippet": "© Copyright 2001 Python Software Foundation.\nThis page is licensed under the Python Software Foundation License Version 2.\nExamples, recipes, and other code in the documentation are additionally licensed under the Zero Clause BSD License.\nSee History and License for more information.",
         "matchedWords": {
           "I-7rQ0e90mv8": {
             "hits": 3,
@@ -4798,7 +4798,7 @@
         "hash": "dIVOAIR2NVbw",
         "address": "https://devguide.python.org/versions/",
         "title": "Status of Python versions",
-        "snippet": "Python 3.16, and is the only branch that accepts new features. The latest release for each Python version can be found on the download page.\n'19\n'20\n'21\n'22\n'23\n'24\n'25\n'26\n'27\n'28\n'29\n'30\n'31\n'32\nend-of-life\nend-of-life\nPython 2.7\nend-of-life\nend-of-life\nPython 3.6\nend-of-life\nend-of-life\nPython",
+        "snippet": "Python 3.6\nend-of-life\nend-of-life\nPython 3.7\nend-of-life\nend-of-life\nPython 3.8\nend-of-life\nend-of-life\nPython 3.9\nsecurity\nsecurity\nPython 3.10\nsecurity\nsecurity\nPython 3.11\nsecurity\nsecurity\nPython 3.12\nbugfix\nbugfix\nPython 3.13\nbugfix\nbugfix\nPython 3.14\nprerelease\nprerelease\nPython 3.15\nfeature",
         "matchedWords": {
           "I-7rQ0e90mv8": {
             "hits": 35,
@@ -4811,7 +4811,7 @@
         "hash": "dDT4-t3vtu2w",
         "address": "https://blog.python.org/",
         "title": "Python Insider",
-        "snippet": "Python documentation is now available in Russian!\nStan Ulbrych·August 22, 2026\nAnnouncing the Packaging Council Election Candidates for 2026!\nPradyun Gedam·August 13, 2026\nAnnouncing the 17 nominees for the inaugural Python Packaging Council election, and how to vote in the election.\nPython",
+        "snippet": "Python Releases Eclipse Your Security! New security releases for 3.10, 3.11 and 3.12 are now available.\nPython 3.14.7 and 3.13.15 are now available!\nThomas Wouters·August 5, 2026\nA pair of bug fix releases await your upgrade.\nPython 3.15.0 candidate 1 is here!\nHugo van Kemenade·August 4, 2026",
         "matchedWords": {
           "I-7rQ0e90mv8": {
             "hits": 9,
@@ -4891,7 +4891,7 @@
         "hash": "gMt65TCk19rw",
         "address": "https://peps.python.org/pep-0361/",
         "title": "PEP 361 – Python 2.6 and 3.0 Release Schedule | peps.python.org",
-        "snippet": "Python-Version:\n2.6, 3.0\nPost-History:\n17-Mar-2008\nTable of Contents\nAbstract\nRelease Manager and Crew\nRelease Lifespan\nRelease Schedule\nCompleted features for 3.0\nCompleted features for 2.6\nPossible features for 2.6\nDeferred until 2.7\nOpen issues\nReferences\nCopyright\nAbstract\nThis document",
+        "snippet": "Aug 20 2008: Python 2.6b3 and 3.0b3 are released\nSep 12 2008: Python 2.6rc1 is released\nSep 17 2008: Python 2.6rc2 and 3.0rc1 released\nOct 01 2008: Python 2.6 final released\nNov 06 2008: Python 3.0rc2 released\nNov 21 2008: Python 3.0rc3 released\nDec 03 2008: Python 3.0 final released",
         "matchedWords": {
           "I-7rQ0e90mv8": {
             "hits": 56,
@@ -4995,7 +4995,7 @@
         "hash": "jUyg0KTceIAw",
         "address": "https://status.python.org/",
         "title": "Python Infrastructure Status",
-        "snippet": "Fastly Asia/Pacific (HK) Operational\nFastly US East (IAD) Operational\nFastly US East (MIA) Operational\nFastly US Central (DEN) Operational\nFastly US Central (DFW) Operational\nFastly US West (SEA) Operational\nFastly US West (SJC) Operational\nFastly Europe (FRA) Operational\nFastly Europe (AMS)",
+        "snippet": "Fastly Asia/Pacific (HK) Operational\nFastly US East (IAD) Operational\nFastly US East (MIA) Operational\nFastly US Central (DEN) Operational\nFastly US Central (DFW) Operational\nFastly US West (SEA) Operational\nFastly US West (SJC) Operational\nFastly Europe (FRA) Operational",
         "matchedWords": {
           "I-7rQ0e90mv8": {
             "hits": 0,
@@ -5036,7 +5036,7 @@
         "hash": "dDT4-t3vtu2w",
         "address": "https://blog.python.org/",
         "title": "Python Insider",
-        "snippet": "Python documentation is now available in Russian!\nStan Ulbrych·August 22, 2026\nAnnouncing the Packaging Council Election Candidates for 2026!\nPradyun Gedam·August 13, 2026\nAnnouncing the 17 nominees for the inaugural Python Packaging Council election, and how to vote in the election.\nPython",
+        "snippet": "Python Releases Eclipse Your Security! New security releases for 3.10, 3.11 and 3.12 are now available.\nPython 3.14.7 and 3.13.15 are now available!\nThomas Wouters·August 5, 2026\nA pair of bug fix releases await your upgrade.\nPython 3.15.0 candidate 1 is here!\nHugo van Kemenade·August 4, 2026",
         "matchedWords": {
           "I-7rQ0e90mv8": {
             "hits": 9,
@@ -5062,7 +5062,7 @@
         "hash": "jKQKJldG5jPw",
         "address": "https://www.python.org/psf-landing/",
         "title": "Python Software Foundation",
-        "snippet": "Python Community through...\nGrants\nIn 2024, the PSF awarded $655,000 USD to 257 groups or individuals in 61 countries around the world.\nPyCon US\nWe produce and underwrite the PyCon US Conference, the largest annual gathering for the Python community. Support from sponsors, attendees, PyLadies, and",
+        "snippet": "Notice: This page displays a fallback because interactive scripts did not run. Possible causes include disabled JavaScript or failure to load scripts or stylesheets.\nWe support the Python Community through...\nGrants",
         "matchedWords": {
           "I-7rQ0e90mv8": {
             "hits": 4,
@@ -5088,7 +5088,7 @@
         "hash": "SNlGrxbhx54w",
         "address": "https://packaging.python.org/en/latest/",
         "title": "Python Packaging User Guide",
-        "snippet": "Python Packaging User Guide, a collection of tutorials and references to help you distribute and install Python packages with modern tools.\nThis guide is maintained on GitHub by the Python Packaging Authority. We happily accept contributions and feedback. 😊\nOverview and Flow¶\nNote\nBuilding your",
+        "snippet": "View this page\nEdit this page\nToggle table of contents sidebar\nWelcome to the Python Packaging User Guide, a collection of tutorials and references to help you distribute and install Python packages with modern tools.\nThis guide is maintained on GitHub by the Python Packaging Authority.",
         "matchedWords": {
           "I-7rQ0e90mv8": {
             "hits": 11,
@@ -5300,7 +5300,7 @@
         "hash": "z02vKTCk19rw",
         "address": "https://peps.python.org/",
         "title": "PEP 0 – Index of Python Enhancement Proposals (PEPs) | peps.python.org",
-        "snippet": "Python Enhancement Proposals (PEPs) PEP 0 – Index of Python Enhancement Proposals (PEPs)\nAuthor:\nThe PEP Editors\nStatus:\nActive\nType:\nInformational\nCreated:\n13-Jul-2000\nTable of Contents\nIntroduction\nTopics\nAPI\nNumerical Index\nIndex by Category Process and Meta-PEPs\nOther Informational PEPs",
+        "snippet": "Aahz, Anthony Baxter\nIF\n160\nPython 1.6 Release Schedule\nFred L. Drake, Jr.\n1.6\nIF\n200\nPython 2.0 Release Schedule\nJeremy Hylton\n2.0\nIF\n226\nPython 2.1 Release Schedule\nJeremy Hylton\n2.1\nIF\n251\nPython 2.2 Release Schedule\nBarry Warsaw, Guido van Rossum\n2.2\nIF\n283\nPython 2.3 Release Schedule",
         "matchedWords": {
           "I-7rQ0e90mv8": {
             "hits": 207,
@@ -5326,7 +5326,7 @@
         "hash": "yE_iqldG5jPw",
         "address": "https://www.python.org/doc/",
         "title": "Our Documentation | Python.org",
-        "snippet": "Python's documentation, tutorials, and guides are constantly evolving.\nGet started here, or scroll down for documentation broken out by type and subject.\nPython Docs\nSee also Documentation Releases by Version",
+        "snippet": "Browse the docs online or download a copy of your own.\nPython's documentation, tutorials, and guides are constantly evolving.\nGet started here, or scroll down for documentation broken out by type and subject.\nPython Docs\nSee also Documentation Releases by Version",
         "matchedWords": {
           "I-7rQ0e90mv8": {
             "hits": 2,
@@ -5432,7 +5432,7 @@
         "hash": "2fxzxltD2jQw",
         "address": "https://docs.python.org/3.14/whatsnew/index.html",
         "title": "What’s New in Python — Python 3.14.2 documentation",
-        "snippet": "Python” series of essays takes tours through the most important changes between major Python versions. They are a “must read” for anyone wishing to stay up-to-date after a new release.\nWhat’s new in Python 3.14 Summary – Release highlights\nNew features\nOther language changes\nNew modules\nImproved",
+        "snippet": "Python 3.10.0 alpha 3\nPython 3.10.0 alpha 2\nPython 3.10.0 alpha 1\nPython 3.9.0 beta 1\nPython 3.9.0 alpha 6\nPython 3.9.0 alpha 5\nPython 3.9.0 alpha 4\nPython 3.9.0 alpha 3\nPython 3.9.0 alpha 2\nPython 3.9.0 alpha 1\nPython 3.8.0 beta 1\nPython 3.8.0 alpha 4\nPython 3.8.0 alpha 3\nPython 3.8.0 alpha 2",
         "matchedWords": {
           "I-7rQ0e90mv8": {
             "hits": 209,

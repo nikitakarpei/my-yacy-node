@@ -1,13 +1,13 @@
 {
   "query": "how does public key cryptography work",
-  "recordedAt": "2026-09-12T00:22:51Z",
+  "recordedAt": "2026-09-12T07:52:05Z",
   "itemsInTheOrderOfEachAnswer": [
     [
       {
         "hash": "D4lABzaS0qdw",
         "address": "https://planet.debian.org/",
         "title": "Planet Debian",
-        "snippet": "does DCS need a fast Integer Codec?\nDebian Code Search (DCS) is a search engine that allows searching all the Open Source source code within Debian, with either literal search expressions or regular expression search queries.\nA search engine uses an inverted index: a map from term to documents",
+        "snippet": "In all honesty, I could have probably stopped here, but now that the milestone of a viable replacement was reached, I got curious to see how far it would be possible to push the encoder (how much work to reach C speeds?) and afterwards, the decoder, too.\nSetup",
         "matchedWords": {
           "24igJXwiDb_d": {
             "hits": 18,
@@ -42,7 +42,7 @@
         "hash": "jtT-mSofUy-5",
         "address": "https://duckduckgo.com/duckduckgo-help-pages/resources/vpn/what-does-a-vpn-do",
         "title": "What Does a VPN Do? How Does a VPN Work? - DuckDuckGo Help Pages",
-        "snippet": "Does a VPN Do? How Does a VPN Work?\nWhen you use a VPN, you’re creating a secure and encrypted “tunnel” for internet traffic between your device and the wider internet — including the websites you visit and the apps you use. This prevents outsiders from intercepting and reading your data.\nUsing a",
+        "snippet": "What Does a VPN Do? How Does a VPN Work?\nWhen you use a VPN, you’re creating a secure and encrypted “tunnel” for internet traffic between your device and the wider internet — including the websites you visit and the apps you use. This prevents outsiders from intercepting and reading your data.",
         "matchedWords": {
           "24igJXwiDb_d": {
             "hits": 7,
@@ -77,7 +77,7 @@
         "hash": "4I8HnsgJoQyx",
         "address": "https://grapheneos.org/features",
         "title": "Features overview | GrapheneOS",
-        "snippet": "work on filling in gaps from not bundling Google apps and services into the OS. We aren't against users using Google services but it doesn't belong integrated into the OS in an invasive way. GrapheneOS won't take the shortcut of simply bundling a very incomplete and poorly secured third party",
+        "snippet": "In many cases, vulnerability classes can be completely wiped out while in many others they can at least be made meaningfully harder to exploit. Android does a lot of work in this area, and GrapheneOS has helped to advance this in Android and the Linux kernel.",
         "matchedWords": {
           "24igJXwiDb_d": {
             "hits": 6,
@@ -147,7 +147,7 @@
         "hash": "-b3sxspKNBr4",
         "address": "https://rense.com/",
         "title": "rense.com",
-        "snippet": "how Iran destroyed US unmanned vessel\nin Hormuz\nRussia urges West to stop 'adding fuel to the\nfire’ over Iran\nUS Military Relocates Damaged Black Hawk\nHelicopters from Jordanian Base Following\nMissile Strikes\nIran says it captured a US sail drone near\nthe Strait of Hormuz\nPentagon admits Iran has",
+        "snippet": "Their Government Is Completely Corrupt\nExposed - How The CIA Manipulates Public Opinion\nTrump Official Denies Stealing Venezuela’s\nOil One Hour After Boasting Country is\n‘Forced to Work’ With US\nKaren Bass office claims she's 'not\navailable’ to testify at House hearing on LA\nhomelessness agency",
         "matchedWords": {
           "24igJXwiDb_d": {
             "hits": 159,
@@ -182,7 +182,7 @@
         "hash": "-b3sxspKNBr4",
         "address": "https://rense.com/",
         "title": "rense.com",
-        "snippet": "how Iran destroyed US unmanned vessel\nin Hormuz\nRussia urges West to stop 'adding fuel to the\nfire’ over Iran\nUS Military Relocates Damaged Black Hawk\nHelicopters from Jordanian Base Following\nMissile Strikes\nIran says it captured a US sail drone near\nthe Strait of Hormuz\nPentagon admits Iran has",
+        "snippet": "Their Government Is Completely Corrupt\nExposed - How The CIA Manipulates Public Opinion\nTrump Official Denies Stealing Venezuela’s\nOil One Hour After Boasting Country is\n‘Forced to Work’ With US\nKaren Bass office claims she's 'not\navailable’ to testify at House hearing on LA\nhomelessness agency",
         "matchedWords": {
           "24igJXwiDb_d": {
             "hits": 159,
@@ -217,7 +217,7 @@
         "hash": "siAIZpx-vfi7",
         "address": "https://www.askamathematician.com/2012/09/q-what-is-a-fourier-transform-what-is-it-used-for/",
         "title": "Q: What is a Fourier transform? What is it used for? | Ask a Mathematician / Ask a Physicist",
-        "snippet": "how much of each wave is needed, is the Fourier Transform.\nFourier transforms (FT) take a signal and express it in terms of the frequencies of the waves that make up that signal. Sound is probably the easiest thing to think about when talking about Fourier transforms. If you could see sound, it",
+        "snippet": "This break down, and how much of each wave is needed, is the Fourier Transform.\nFourier transforms (FT) take a signal and express it in terms of the frequencies of the waves that make up that signal. Sound is probably the easiest thing to think about when talking about Fourier transforms.",
         "matchedWords": {
           "24igJXwiDb_d": {
             "hits": 3,
@@ -252,7 +252,7 @@
         "hash": "W-eXqzF3--Qw",
         "address": "https://planet.mozilla.org/",
         "title": "Planet Mozilla",
-        "snippet": "work: Replaced the “more themes” button in the themes list view footer with a promo element when Nova is enabled – Bug 2057200\nRemoved the testing XPI base url pref from ThemesList.sys.mjs – Bug 2053220\nFixed a mismatch between the popup panel border radius applied by Nova and the border radius",
+        "snippet": "crypto­.subtle­.get­Public­Key() for ML-KEM and ML-DSA (@kkoyung, #45252)\nThis is another big update, so here’s an outline:\nYou can help!\nSecurity\nReal world compat\nWork in progress\nEmbedding API\nFor users and developers\nMore on the web platform\nGarbage collection safety\nPerformance and stability",
         "matchedWords": {
           "24igJXwiDb_d": {
             "hits": 148,
@@ -287,7 +287,7 @@
         "hash": "-b3sxspKNBr4",
         "address": "https://rense.com/",
         "title": "rense.com",
-        "snippet": "how Iran destroyed US unmanned vessel\nin Hormuz\nRussia urges West to stop 'adding fuel to the\nfire’ over Iran\nUS Military Relocates Damaged Black Hawk\nHelicopters from Jordanian Base Following\nMissile Strikes\nIran says it captured a US sail drone near\nthe Strait of Hormuz\nPentagon admits Iran has",
+        "snippet": "Their Government Is Completely Corrupt\nExposed - How The CIA Manipulates Public Opinion\nTrump Official Denies Stealing Venezuela’s\nOil One Hour After Boasting Country is\n‘Forced to Work’ With US\nKaren Bass office claims she's 'not\navailable’ to testify at House hearing on LA\nhomelessness agency",
         "matchedWords": {
           "24igJXwiDb_d": {
             "hits": 159,
@@ -322,7 +322,7 @@
         "hash": "D4lABzaS0qdw",
         "address": "https://planet.debian.org/",
         "title": "Planet Debian",
-        "snippet": "does DCS need a fast Integer Codec?\nDebian Code Search (DCS) is a search engine that allows searching all the Open Source source code within Debian, with either literal search expressions or regular expression search queries.\nA search engine uses an inverted index: a map from term to documents",
+        "snippet": "In all honesty, I could have probably stopped here, but now that the milestone of a viable replacement was reached, I got curious to see how far it would be possible to push the encoder (how much work to reach C speeds?) and afterwards, the decoder, too.\nSetup",
         "matchedWords": {
           "24igJXwiDb_d": {
             "hits": 18,
@@ -355,7 +355,7 @@
         "hash": "kHtomjRvmBbx",
         "address": "https://en.wikipedia.org/wiki/Mao_Zedong",
         "title": "Mao Zedong - Wikipedia",
-        "snippet": "work with manual labourers, setting up night schools and trade unions.[56] In December 1919, Mao helped organise a general strike in Hunan, securing some concessions, but Mao and other student leaders felt threatened by Zhang, and Mao returned to Beijing, visiting the terminally ill Yang",
+        "snippet": "How does one weigh, for example, the good fortune of hundreds of millions of peasants in getting land against the execution, in the course of land reform and the 'Campaign against Counter-Revolutionaries,' or in other contexts, of millions, some of whom certainly deserved to die, but others of whom",
         "matchedWords": {
           "24igJXwiDb_d": {
             "hits": 8,
@@ -390,7 +390,7 @@
         "hash": "atY_jKsrSOQw",
         "address": "https://arxiv.org/list/cs.CR/new",
         "title": "Cryptography and Security",
-        "snippet": "New submissions\nCross-lists\nReplacements\nSee recent articles\nShowing new listings for Friday, 11 September 2026\nTotal of 72 entries\nShowing up to 2000 entries per page: fewer | more | all\nNew submissions (showing 43 of 43 entries)\n[1] arXiv:2609.10594 [pdf, html, other]\n[2] arXiv:2609.10601 [pdf,",
+        "snippet": "New submissions\nCross-lists\nReplacements\nSee recent articles\nShowing new listings for Friday, 11 September 2026\nTotal of 72 entries\nShowing up to 2000 entries per page: fewer | more | all\nNew submissions (showing 43 of 43 entries)\n[1] arXiv:2609.10594 [pdf, html, other]",
         "matchedWords": {
           "24igJXwiDb_d": {
             "hits": 0,
@@ -426,7 +426,7 @@
       "hash": "zjh_EiBbCobw",
       "address": "https://www.php.net/manual/en/language.types.string.php",
       "title": "PHP: Strings - Manual",
-      "snippet": "does not offer native Unicode support. See details of the string type.\nNote:\nOn 32-bit builds, a string can be up to 2GB (2147483647 bytes) in length.\nSyntax\nA string literal can be specified in four different ways:\nsingle quoted\ndouble quoted\nheredoc syntax\nnowdoc syntax\nSingle quoted\nThe simplest",
+      "snippet": "php const DATA_KEY = 'const-key'; $great = 'fantastic'; $arr = [ '1', '2', '3', [41, 42, 43], 'key' =\u003e 'Indexed value', 'const-key' =\u003e 'Key with minus sign', 'foo' =\u003e ['foo1', 'foo2', 'foo3'] ]; // Won't work, outputs: This is { fantastic} echo \"This is { $great}\" .",
       "matchedWords": {
         "24igJXwiDb_d": {
           "hits": 3,
@@ -459,7 +459,7 @@
       "hash": "sC0kMlDOAHJg",
       "address": "https://www.heise.de/en",
       "title": "heise online – IT news, guides and background information | heise online",
-      "snippet": "does not result in a total price under consumer law.\niPhone Duo: Apple managers explain display, operating concept, and price\nIn video interviews, Apple executives provide insights into the development of the iPhone Duo and explain the strategy behind the complex folding smartphone.\nSocial Media",
+      "snippet": "AI: Google brings Gemini as its own desktop app for Windows systems\nThe Gemini app can be called up via a key command and can evaluate information from Google services. The free AI app can also create images and videos.\n25 Years After 9/11: How the Anti-Terror Fight Erodes Freedom",
       "matchedWords": {
         "24igJXwiDb_d": {
           "hits": 2,
@@ -525,7 +525,7 @@
       "hash": "hxeq6jRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Gottfried_Wilhelm_Leibniz",
       "title": "Gottfried Wilhelm Leibniz - Wikipedia",
-      "snippet": "work\nEra\n17th-/18th-century philosophy\nRegion\nWestern philosophy\nSchool\nRationalism\nPluralistic idealism[6]\nFoundationalism[7]\nConceptualism[8]\nOptimism\nIndirect realism[9]\nCorrespondence theory of truth[10]\nRelationalism\nNotable students\nJacob Bernoulli (epistolary correspondent)\nChristian Wolff",
+      "snippet": "In our view of God, Leibniz declares that we cannot admire the work solely because of the maker, lest we mar the glory and love God in doing so. Instead, we must admire the maker for the work he has done (II[full citation needed]).",
       "matchedWords": {
         "24igJXwiDb_d": {
           "hits": 9,
@@ -558,7 +558,7 @@
       "hash": "ptCCrjRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Massachusetts_Institute_of_Technology",
       "title": "Massachusetts Institute of Technology - Wikipedia",
-      "snippet": "work on industry problems limited basic research and diminished interest from foundations.[43][44] By the late 1920s MIT was regarded by elite universities as a \"mere engineering school servicing industry\".[45]\nVannevar Bush (l) and Karl Compton (r) led reforms to funding and curriculum\nA mandate",
+      "snippet": "Cryptography – MIT researchers Ron Rivest, Adi Shamir and Leonard Adleman developed one of the first practical public-key cryptosystems, the RSA cryptosystem, and started a company, RSA Security.[331]",
       "matchedWords": {
         "24igJXwiDb_d": {
           "hits": 6,
@@ -591,7 +591,7 @@
       "hash": "t9RUcmVUrQm6",
       "address": "https://earthnewspaper.com/mark-r-elsis/attack-on-pearl-harbor-december-7-1941-by-mark-r-elsis/",
       "title": "Attack On Pearl Harbor, December 7, 1941 by Mark R. Elsis – EarthNewspaper.com – All The Honest News Fit To Publish",
-      "snippet": "Key, Florida (1997 – 2008), I had a wonderful conversation with an old navy man, Captain Ralph Emerson Styles, a graduate of the US Naval Academy in 1933. I had heard about him and that he did a sunset flag ceremony every evening from his home that was literally right across from beautiful Siesta",
+      "snippet": "http://www.renegadetribune.com/the-final-secret-of-pearl-harbor\nHow U.S. Economic Warfare Provoked Japan’s Attack On Pearl Harbor\nby Robert Higgs\nhttps://mises.org/library/how-us-economic-warfare-provoked-japans-attack-pearl-harbor\nPearl Harbor Attack No Surprise\nby Roger A. Stolley",
       "matchedWords": {
         "24igJXwiDb_d": {
           "hits": 6,
@@ -624,7 +624,7 @@
       "hash": "0BZyCsY-tUi5",
       "address": "https://moralparty.com/ai/",
       "title": "AI – MoralParty.com",
-      "snippet": "public in the last few years is about how phenomenally wonderful AI will soon be for us all. This is huge money front-running and gaming the system via propaganda to create the narrative they desperately want and need you to believe. There are dark-money campaigns paying influencers to push China",
+      "snippet": "If you’ve ever read about some weird cult and thought “How does something like this get started?” – well, you can watch it happen. Just don’t watch it so closely that you start playing along and end up donating all your money to a chatbot or whatever.",
       "matchedWords": {
         "24igJXwiDb_d": {
           "hits": 123,
@@ -657,7 +657,7 @@
       "hash": "ww-gf8cZd9Fw",
       "address": "https://hackage.haskell.org/packages/",
       "title": "packages by category | Hackage",
-      "snippet": "Cryptography (238), CSharp (1), CSS (2), CsSyd (1), CSV (24), Culinary (1), CUR (1), Cursor (1), CustomerProfiles (1), CustomSetup (2), Data (2681), Data Conduit (1), Data Control (2), Data Flow (3), Data Mining (28), Data Network (1), Data Science (12), Data Structure (3), Data Structures (354),",
+      "snippet": "crypto-pubkey library, test and benchmark: Public Key cryptography\ncrypto-pubkey-openssh library and test: OpenSSH keys decoder/encoder\ncrypto-pubkey-types library: Generic cryptography Public keys algorithm types\ncrypto-random library: Simple cryptographic random related types",
       "matchedWords": {
         "24igJXwiDb_d": {
           "hits": 22,
@@ -690,7 +690,7 @@
       "hash": "2ZqdVzfOEiDw",
       "address": "https://planet.gnome.org/",
       "title": "Planet GNOME",
-      "snippet": "how media are being handled, and AppStream’s default image export format.\nAppStream is a Freedesktop metadata standard to describe software components. That can be anything from system services over fonts to console and graphical applications. AppStream metadata is supposed to give users enough",
+      "snippet": "This does not look like much, until you consider how often these files are downloaded: A 20% file size reduction may only save 1-2 MiB of disk space, but if they are downloaded over and over again by many clients, it will save a lot of bandwidth.\nInteresting JXL encoding findings",
       "matchedWords": {
         "24igJXwiDb_d": {
           "hits": 2,
@@ -756,7 +756,7 @@
       "hash": "VK6Z_Fs4EUS4",
       "address": "https://roundingtheearth.substack.com/p/a-grand-unified-theory-of-the-ftx",
       "title": "A Grand Unified Theory of the FTX Disaster",
-      "snippet": "work of many hundreds of people, distilled and organized in a way that hopefully brings the Bigger Picture to light—at least insofar as we all can research and interpret it better. Apologies to those participating whose work is not included in the scores of links provided.\nSo far as I can tell,",
+      "snippet": "5:20 PM · Nov 17, 2022\n6 Reposts · 42 Likes\nI guarantee that these are people who understand public-private key cryptography.",
       "matchedWords": {
         "24igJXwiDb_d": {
           "hits": 10,
@@ -822,7 +822,7 @@
       "hash": "8UUF7AIRlUi5",
       "address": "https://www.10zenmonkeys.com/category/politics/",
       "title": "Politics, Law \u0026 War – 10 Zen Monkeys",
-      "snippet": "how's he going to keep it off of yours?\nA funny thing happened when I went to sign up for ObamaCare this morning. I couldn't! The official site at HealthCare.gov just referred me over to California's web site for their own Health Exchange. And it was so overloaded with traffic that it was",
+      "snippet": "How was the Musical Genome Project conceived and how does it work?\nTW: It's something that we started about seven and a half years ago in a one-bedroom apartment in San Francisco.",
       "matchedWords": {
         "24igJXwiDb_d": {
           "hits": 276,
@@ -888,7 +888,7 @@
       "hash": "4w4qosN9NeLw",
       "address": "https://signal.org/blog/",
       "title": "Signal Blog",
-      "snippet": "key verification” which complements the existing safety number system. Signal is always end-to-end encrypted, and automatic key verification provides an additional, streamlined way to confirm that there’s no unexpected party between you and the other “end” of an end-to-end encrypted session.\nRead",
+      "snippet": "These protocols work the way most people are familiar with: one who wishes to receive encrypted email advertises a public key, and those wishing to send encrypted email to that person encrypt their outgoing message with that public key.\nRead more...",
       "matchedWords": {
         "24igJXwiDb_d": {
           "hits": 30,
@@ -921,7 +921,7 @@
       "hash": "9p2eCjRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Artificial_intelligence",
       "title": "Artificial intelligence - Wikipedia",
-      "snippet": "how much the agent prefers it. For each possible action, it can calculate the \"expected utility\": the utility of all possible outcomes of the action, weighted by the probability that the outcome will occur. It can then choose the action with the maximum expected utility.[35]\nIn classical planning,",
+      "snippet": "↑ \"Artificial Intelligence (AI): What Is AI and How Does It Work?\". Built In. Retrieved 30 October 2023.\n↑ Computational learning theory: Russell \u0026 Norvig (2021, pp. 672–674), Jordan \u0026 Mitchell (2015)\n↑ Natural language processing (NLP): Russell \u0026 Norvig (2021, chpt.",
       "matchedWords": {
         "24igJXwiDb_d": {
           "hits": 39,
@@ -954,7 +954,7 @@
       "hash": "BKEmz7XxSRFx",
       "address": "https://www.rfc-editor.org/info/rfc8422/",
       "title": "RFC 8422: Elliptic Curve Cryptography (ECC) Cipher Suites for Transport Layer Security (TLS) Versions 1.2 and Earlier | RFC Editor",
-      "snippet": "Cryptography (ECC) Cipher Suites for Transport Layer Security (TLS) Versions 1.2 and Earlier Abstract This document describes key exchange algorithms based on Elliptic Curve Cryptography (ECC) for the Transport Layer Security (TLS) protocol. In particular, it specifies the use of Ephemeral Elliptic",
+      "snippet": "[IEEE.P1363] IEEE, \"Standard Specifications for Public Key Cryptography\", IEEE Std P1363, \u003chttp://ieeexplore.ieee.org/document/891000/\u003e. [Menezes] Menezes, A. and B. Ustaoglu, \"On reusing ephemeral keys in Diffie-Hellman key agreement protocols\", International Journal of Applied Cryptography, Vol.",
       "matchedWords": {
         "24igJXwiDb_d": {
           "hits": 4,
@@ -987,7 +987,7 @@
       "hash": "vcPgA7XxSRFx",
       "address": "https://www.rfc-editor.org/info/rfc8446/",
       "title": "RFC 8446: The Transport Layer Security (TLS) Protocol Version 1.3 | RFC Editor",
-      "snippet": "public review and has been approved for publication by the Internet Engineering Steering Group (IESG). Further information on Internet Standards is available in Section 2 of RFC 7841. Information about the current status of this document, any errata, and how to provide feedback on it may be",
+      "snippet": "644-654, DOI 10.1109/TIT.1976.1055638, November 1976. [ECDSA] American National Standards Institute, \"Public Key Cryptography for the Financial Services Industry: The Elliptic Curve Digital Signature Algorithm (ECDSA)\", ANSI ANS X9.62-2005, November 2005.",
       "matchedWords": {
         "24igJXwiDb_d": {
           "hits": 11,
@@ -1020,7 +1020,7 @@
       "hash": "B9VWfKsrSOQw",
       "address": "https://arxiv.org/list/cs.CV/new",
       "title": "Computer Vision and Pattern Recognition",
-      "snippet": "New submissions\nCross-lists\nReplacements\nSee recent articles\nShowing new listings for Friday, 11 September 2026\nTotal of 158 entries\nShowing up to 2000 entries per page: fewer | more | all\nNew submissions (showing 75 of 75 entries)\n[1] arXiv:2609.10572 [pdf, html, other]\n[2] arXiv:2609.10723 [pdf,",
+      "snippet": "New submissions\nCross-lists\nReplacements\nSee recent articles\nShowing new listings for Friday, 11 September 2026\nTotal of 158 entries\nShowing up to 2000 entries per page: fewer | more | all\nNew submissions (showing 75 of 75 entries)\n[1] arXiv:2609.10572 [pdf, html, other]",
       "matchedWords": {
         "24igJXwiDb_d": {
           "hits": 0,
@@ -1053,7 +1053,7 @@
       "hash": "mHyFhKsrSOQw",
       "address": "https://arxiv.org/list/cs.AI/new",
       "title": "Artificial Intelligence",
-      "snippet": "New submissions\nCross-lists\nReplacements\nSee recent articles\nShowing new listings for Friday, 11 September 2026\nTotal of 273 entries\nShowing up to 2000 entries per page: fewer | more | all\nNew submissions (showing 77 of 77 entries)\n[1] arXiv:2609.10584 [pdf, html, other]\n[2] arXiv:2609.10629 [pdf,",
+      "snippet": "New submissions\nCross-lists\nReplacements\nSee recent articles\nShowing new listings for Friday, 11 September 2026\nTotal of 273 entries\nShowing up to 2000 entries per page: fewer | more | all\nNew submissions (showing 77 of 77 entries)\n[1] arXiv:2609.10584 [pdf, html, other]",
       "matchedWords": {
         "24igJXwiDb_d": {
           "hits": 0,
@@ -1086,7 +1086,7 @@
       "hash": "v3ss6jRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Bluetooth",
       "title": "Bluetooth - Wikipedia",
-      "snippet": "Key finders\nTypically less than 10 m (33 ft), up to 100 m (330 ft).\nBluetooth 5.0: 40–400 m (100–1,000 ft)[1][2]\nWebsite\nbluetooth.com\nA Bluetooth earbud, an earphone and microphone that communicates with a cellphone using the Bluetooth protocol\nBluetooth is a short-range wireless technology",
+      "snippet": "Secure Simple Pairing uses a form of public-key cryptography, and some types can help protect against man in the middle, or MITM attacks. SSP has the following authentication mechanisms: Just works: As the name implies, this method just works, with no user interaction.",
       "matchedWords": {
         "24igJXwiDb_d": {
           "hits": 9,
@@ -1152,7 +1152,7 @@
       "hash": "zjh_EiBbCobw",
       "address": "https://www.php.net/manual/en/language.types.string.php",
       "title": "PHP: Strings - Manual",
-      "snippet": "does not offer native Unicode support. See details of the string type.\nNote:\nOn 32-bit builds, a string can be up to 2GB (2147483647 bytes) in length.\nSyntax\nA string literal can be specified in four different ways:\nsingle quoted\ndouble quoted\nheredoc syntax\nnowdoc syntax\nSingle quoted\nThe simplest",
+      "snippet": "php const DATA_KEY = 'const-key'; $great = 'fantastic'; $arr = [ '1', '2', '3', [41, 42, 43], 'key' =\u003e 'Indexed value', 'const-key' =\u003e 'Key with minus sign', 'foo' =\u003e ['foo1', 'foo2', 'foo3'] ]; // Won't work, outputs: This is { fantastic} echo \"This is { $great}\" .",
       "matchedWords": {
         "24igJXwiDb_d": {
           "hits": 3,
@@ -1218,7 +1218,7 @@
       "hash": "7eYSusLVkley",
       "address": "https://daringfireball.net/",
       "title": "Daring Fireball",
-      "snippet": "how the tides seem to be changing.\nBuried in the Settings app on iOS 27, Apple has hidden an easter egg that hails back from classic Mac OS; Clarus the Dogcow. Here’s how to trigger it …\nVery fun. Alas, this easter egg isn’t present in MacOS 27, only iOS 27. But the MacOS 27 version of the Liquid",
+      "snippet": "I know that is controversial, I just tee it up as another way to look at the size of the business, what we want to achieve, and how we stay competitive. Again, just food for thought.\nDickover of the Week: Slashdot Put One in Their RSS Feed ★\nHow does this even happen? Who is this for?",
       "matchedWords": {
         "24igJXwiDb_d": {
           "hits": 34,
@@ -1251,7 +1251,7 @@
       "hash": "y9mkpsMAuxi4",
       "address": "https://www.linkedin.com/top-content/technology/exploring-quantum-technology/",
       "title": "Top LinkedIn Content on Exploring Quantum Technology",
-      "snippet": "key question: 𝗛𝗼𝘄? Through 𝗛𝘆𝗯𝗿𝗶𝗱 𝗖𝗹𝗼𝘂𝗱 𝗯𝘆 𝗱𝗲𝘀𝗶𝗴𝗻 – giving leaders the flexibility to run AI anywhere (on-prem, cloud or edge). The infrastructure decisions made today are what make tomorrow’s quantum advantage possible. As technology becomes more powerful, governance becomes non-negotiable. \u0026 we",
+      "snippet": "Together, we explored key questions facing businesses today, including: • How to navigate quantum-safe cryptography and quantum key distribution • The importance of standardising quantum software tools. • Steps businesses can take now to prepare for a quantum future.",
       "matchedWords": {
         "24igJXwiDb_d": {
           "hits": 5,
@@ -1317,7 +1317,7 @@
       "hash": "hxeq6jRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Gottfried_Wilhelm_Leibniz",
       "title": "Gottfried Wilhelm Leibniz - Wikipedia",
-      "snippet": "work\nEra\n17th-/18th-century philosophy\nRegion\nWestern philosophy\nSchool\nRationalism\nPluralistic idealism[6]\nFoundationalism[7]\nConceptualism[8]\nOptimism\nIndirect realism[9]\nCorrespondence theory of truth[10]\nRelationalism\nNotable students\nJacob Bernoulli (epistolary correspondent)\nChristian Wolff",
+      "snippet": "In our view of God, Leibniz declares that we cannot admire the work solely because of the maker, lest we mar the glory and love God in doing so. Instead, we must admire the maker for the work he has done (II[full citation needed]).",
       "matchedWords": {
         "24igJXwiDb_d": {
           "hits": 9,
@@ -1350,7 +1350,7 @@
       "hash": "3m8uWeVM3_EY",
       "address": "http://bobagard.blogspot.com/2022/07/athena-thorne-predicts-biden-will-not.html",
       "title": "Bob's Blog: Athena Thorne predicts Biden will not survive past the midterm elections",
-      "snippet": "She writes,\nAs the Hunter Biden story continues to explode in scandal and scope, it’s becoming impossible to hide. Even if Fake News and Big Tech keep up their efforts to suppress it, it’s so vast and egregious that it’s going to erupt into a campaign issue in the fall — and Democrats can’t have",
+      "snippet": "She writes,\nAs the Hunter Biden story continues to explode in scandal and scope, it’s becoming impossible to hide.",
       "matchedWords": {
         "24igJXwiDb_d": {
           "hits": 0,
@@ -1383,7 +1383,7 @@
       "hash": "0BZyCsY-tUi5",
       "address": "https://moralparty.com/ai/",
       "title": "AI – MoralParty.com",
-      "snippet": "public in the last few years is about how phenomenally wonderful AI will soon be for us all. This is huge money front-running and gaming the system via propaganda to create the narrative they desperately want and need you to believe. There are dark-money campaigns paying influencers to push China",
+      "snippet": "If you’ve ever read about some weird cult and thought “How does something like this get started?” – well, you can watch it happen. Just don’t watch it so closely that you start playing along and end up donating all your money to a chatbot or whatever.",
       "matchedWords": {
         "24igJXwiDb_d": {
           "hits": 123,
@@ -1449,7 +1449,7 @@
       "hash": "ww-gf8cZd9Fw",
       "address": "https://hackage.haskell.org/packages/",
       "title": "packages by category | Hackage",
-      "snippet": "Cryptography (238), CSharp (1), CSS (2), CsSyd (1), CSV (24), Culinary (1), CUR (1), Cursor (1), CustomerProfiles (1), CustomSetup (2), Data (2681), Data Conduit (1), Data Control (2), Data Flow (3), Data Mining (28), Data Network (1), Data Science (12), Data Structure (3), Data Structures (354),",
+      "snippet": "crypto-pubkey library, test and benchmark: Public Key cryptography\ncrypto-pubkey-openssh library and test: OpenSSH keys decoder/encoder\ncrypto-pubkey-types library: Generic cryptography Public keys algorithm types\ncrypto-random library: Simple cryptographic random related types",
       "matchedWords": {
         "24igJXwiDb_d": {
           "hits": 22,
@@ -1482,7 +1482,7 @@
       "hash": "2ZqdVzfOEiDw",
       "address": "https://planet.gnome.org/",
       "title": "Planet GNOME",
-      "snippet": "how media are being handled, and AppStream’s default image export format.\nAppStream is a Freedesktop metadata standard to describe software components. That can be anything from system services over fonts to console and graphical applications. AppStream metadata is supposed to give users enough",
+      "snippet": "This does not look like much, until you consider how often these files are downloaded: A 20% file size reduction may only save 1-2 MiB of disk space, but if they are downloaded over and over again by many clients, it will save a lot of bandwidth.\nInteresting JXL encoding findings",
       "matchedWords": {
         "24igJXwiDb_d": {
           "hits": 2,
@@ -1581,7 +1581,7 @@
       "hash": "CRermB-c6vHw",
       "address": "https://nixos.org/manual/nixos/stable/",
       "title": "NixOS Manual",
-      "snippet": "how to obtain, install, and configure NixOS for first-time use.\nObtaining NixOS\nNixOS ISO images can be downloaded from the NixOS download page. Follow the instructions in the section called “Booting from a USB flash drive” to create a bootable USB flash drive.\nIf you have a very old system that",
+      "snippet": "doh-server can also work as a standalone HTTPS web server (with SSL cert and key specified), but this is not recommended as doh-server does not do OCSP Stabbing.\nSetup a standalone instance with ACME:",
       "matchedWords": {
         "24igJXwiDb_d": {
           "hits": 65,
@@ -1614,7 +1614,7 @@
       "hash": "4TSBLkIRcMkY",
       "address": "http://rigorousintuition.blogspot.com/2006/02/grave-mysteries-part-one_21.html",
       "title": "Rigorous Intuition: \"Grave mysteries\" (Part One)",
-      "snippet": "\"Aye! listen to the numbers \u0026 the words.\" - The Book of the Law\nI've given a lot of space here - some say too much - to Aleister Crowley, the occult and High Weirdness. I'm going to give some more now, because maybe it will help explain why.\nThe cipher, the Nine, the whole damn thing\nIn 1904",
+      "snippet": "\"Aye! listen to the numbers \u0026 the words.\" - The Book of the Law\nI've given a lot of space here - some say too much - to Aleister Crowley, the occult and High Weirdness. I'm going to give some more now, because maybe it will help explain why.\nThe cipher, the Nine, the whole damn thing",
       "matchedWords": {
         "24igJXwiDb_d": {
           "hits": 0,
@@ -1647,7 +1647,7 @@
       "hash": "8UUF7AIRlUi5",
       "address": "https://www.10zenmonkeys.com/category/politics/",
       "title": "Politics, Law \u0026 War – 10 Zen Monkeys",
-      "snippet": "how's he going to keep it off of yours?\nA funny thing happened when I went to sign up for ObamaCare this morning. I couldn't! The official site at HealthCare.gov just referred me over to California's web site for their own Health Exchange. And it was so overloaded with traffic that it was",
+      "snippet": "How was the Musical Genome Project conceived and how does it work?\nTW: It's something that we started about seven and a half years ago in a one-bedroom apartment in San Francisco.",
       "matchedWords": {
         "24igJXwiDb_d": {
           "hits": 276,
@@ -1680,7 +1680,7 @@
       "hash": "4w4qosN9NeLw",
       "address": "https://signal.org/blog/",
       "title": "Signal Blog",
-      "snippet": "key verification” which complements the existing safety number system. Signal is always end-to-end encrypted, and automatic key verification provides an additional, streamlined way to confirm that there’s no unexpected party between you and the other “end” of an end-to-end encrypted session.\nRead",
+      "snippet": "These protocols work the way most people are familiar with: one who wishes to receive encrypted email advertises a public key, and those wishing to send encrypted email to that person encrypt their outgoing message with that public key.\nRead more...",
       "matchedWords": {
         "24igJXwiDb_d": {
           "hits": 30,
@@ -1713,7 +1713,7 @@
       "hash": "ptCCrjRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Massachusetts_Institute_of_Technology",
       "title": "Massachusetts Institute of Technology - Wikipedia",
-      "snippet": "work on industry problems limited basic research and diminished interest from foundations.[43][44] By the late 1920s MIT was regarded by elite universities as a \"mere engineering school servicing industry\".[45]\nVannevar Bush (l) and Karl Compton (r) led reforms to funding and curriculum\nA mandate",
+      "snippet": "Cryptography – MIT researchers Ron Rivest, Adi Shamir and Leonard Adleman developed one of the first practical public-key cryptosystems, the RSA cryptosystem, and started a company, RSA Security.[331]",
       "matchedWords": {
         "24igJXwiDb_d": {
           "hits": 6,
@@ -1746,7 +1746,7 @@
       "hash": "zSc6gjRvmBbx",
       "address": "https://en.wikipedia.org/wiki/WhatsApp",
       "title": "WhatsApp - Wikipedia",
-      "snippet": "work or on a call.[30]\nTheir discussions often took place at the home of Koum's Russian friend Alex Fishman in West San Jose. They realized that to take the idea further, they would need an iPhone developer. Fishman visited RentACoder.com, found Russian developer Igor Solomennikov, and introduced",
+      "snippet": "The key to WhatsApp's new encryption is at least a strong random one. Guess how I know? :D\" (Tweet). Retrieved August 8, 2019 – via Twitter.\n↑ Elkind, Peter; Gillum, Jack; Silverman, Craig (September 8, 2021). \"How Facebook Undermines Privacy Protections for Its 2 Billion WhatsApp Users\".",
       "matchedWords": {
         "24igJXwiDb_d": {
           "hits": 30,
@@ -1779,7 +1779,7 @@
       "hash": "9p2eCjRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Artificial_intelligence",
       "title": "Artificial intelligence - Wikipedia",
-      "snippet": "how much the agent prefers it. For each possible action, it can calculate the \"expected utility\": the utility of all possible outcomes of the action, weighted by the probability that the outcome will occur. It can then choose the action with the maximum expected utility.[35]\nIn classical planning,",
+      "snippet": "↑ \"Artificial Intelligence (AI): What Is AI and How Does It Work?\". Built In. Retrieved 30 October 2023.\n↑ Computational learning theory: Russell \u0026 Norvig (2021, pp. 672–674), Jordan \u0026 Mitchell (2015)\n↑ Natural language processing (NLP): Russell \u0026 Norvig (2021, chpt.",
       "matchedWords": {
         "24igJXwiDb_d": {
           "hits": 39,
@@ -1812,7 +1812,7 @@
       "hash": "VK6Z_Fs4EUS4",
       "address": "https://roundingtheearth.substack.com/p/a-grand-unified-theory-of-the-ftx",
       "title": "A Grand Unified Theory of the FTX Disaster",
-      "snippet": "work of many hundreds of people, distilled and organized in a way that hopefully brings the Bigger Picture to light—at least insofar as we all can research and interpret it better. Apologies to those participating whose work is not included in the scores of links provided.\nSo far as I can tell,",
+      "snippet": "5:20 PM · Nov 17, 2022\n6 Reposts · 42 Likes\nI guarantee that these are people who understand public-private key cryptography.",
       "matchedWords": {
         "24igJXwiDb_d": {
           "hits": 10,
@@ -1845,7 +1845,7 @@
       "hash": "FxC5-KsrSOQw",
       "address": "https://arxiv.org/list/cs.LG/new",
       "title": "Machine Learning",
-      "snippet": "New submissions\nCross-lists\nReplacements\nSee recent articles\nShowing new listings for Friday, 11 September 2026\nTotal of 268 entries\nShowing up to 2000 entries per page: fewer | more | all\nNew submissions (showing 73 of 73 entries)\n[1] arXiv:2609.10559 [pdf, html, other]\n[2] arXiv:2609.10589 [pdf,",
+      "snippet": "New submissions\nCross-lists\nReplacements\nSee recent articles\nShowing new listings for Friday, 11 September 2026\nTotal of 268 entries\nShowing up to 2000 entries per page: fewer | more | all\nNew submissions (showing 73 of 73 entries)\n[1] arXiv:2609.10559 [pdf, html, other]",
       "matchedWords": {
         "24igJXwiDb_d": {
           "hits": 0,
@@ -1878,7 +1878,7 @@
       "hash": "kiVj1l2e50v4",
       "address": "https://labs.ovhcloud.com/en/end-to-end-encryption/",
       "title": "End-to-End Encryption Platform",
-      "snippet": "cryptography expertise. It automatically handles cryptography, key exchanges, and private key recovery.\n📦 How is this solution different from traditional data protection methods?\nTraditional security methods (such as TLS, WAF, encryption at rest, etc.) protect the application or the network",
+      "snippet": "With E2EE, data is encrypted before transmission, preventing any reading or access even if the backend is compromised.\n🧠 How does OVHcloud E2EE Platform work?\nImport the SDK into your application after creating an account and retrieving your API keys.\nEncrypt data locally using sdk.encrypt().",
       "matchedWords": {
         "24igJXwiDb_d": {
           "hits": 3,
@@ -1944,7 +1944,7 @@
       "hash": "4DXm5sFbwuxx",
       "address": "https://letsencrypt.org/blog/",
       "title": "Blog - Let's Encrypt",
-      "snippet": "work this year in our 2025 Annual Report.\nLegal Address\n548 Market St, PMB 77519\nSan Francisco, CA 94104-5401\nUSA\nSend all mail or inquiries to:\nPO Box 18666\nMinneapolis, MN 55418-0666\nUSA\nSubscribe for email updates about Let's Encrypt and other ISRG projects",
+      "snippet": "Let's Encrypt is a free, automated, and open Certificate Authority brought to you by the nonprofit Internet Security Research Group (ISRG). Read all about our nonprofit work this year in our 2025 Annual Report.\nLegal Address\n548 Market St, PMB 77519\nSan Francisco, CA 94104-5401\nUSA",
       "matchedWords": {
         "24igJXwiDb_d": {
           "hits": 0,
@@ -1977,7 +1977,7 @@
       "hash": "4w4qosN9NeLw",
       "address": "https://signal.org/blog/",
       "title": "Signal Blog",
-      "snippet": "key verification” which complements the existing safety number system. Signal is always end-to-end encrypted, and automatic key verification provides an additional, streamlined way to confirm that there’s no unexpected party between you and the other “end” of an end-to-end encrypted session.\nRead",
+      "snippet": "These protocols work the way most people are familiar with: one who wishes to receive encrypted email advertises a public key, and those wishing to send encrypted email to that person encrypt their outgoing message with that public key.\nRead more...",
       "matchedWords": {
         "24igJXwiDb_d": {
           "hits": 30,
@@ -2010,7 +2010,7 @@
       "hash": "hxeq6jRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Gottfried_Wilhelm_Leibniz",
       "title": "Gottfried Wilhelm Leibniz - Wikipedia",
-      "snippet": "work\nEra\n17th-/18th-century philosophy\nRegion\nWestern philosophy\nSchool\nRationalism\nPluralistic idealism[6]\nFoundationalism[7]\nConceptualism[8]\nOptimism\nIndirect realism[9]\nCorrespondence theory of truth[10]\nRelationalism\nNotable students\nJacob Bernoulli (epistolary correspondent)\nChristian Wolff",
+      "snippet": "In our view of God, Leibniz declares that we cannot admire the work solely because of the maker, lest we mar the glory and love God in doing so. Instead, we must admire the maker for the work he has done (II[full citation needed]).",
       "matchedWords": {
         "24igJXwiDb_d": {
           "hits": 9,
@@ -2043,7 +2043,7 @@
       "hash": "3m8uWeVM3_EY",
       "address": "http://bobagard.blogspot.com/2022/07/athena-thorne-predicts-biden-will-not.html",
       "title": "Bob's Blog: Athena Thorne predicts Biden will not survive past the midterm elections",
-      "snippet": "She writes,\nAs the Hunter Biden story continues to explode in scandal and scope, it’s becoming impossible to hide. Even if Fake News and Big Tech keep up their efforts to suppress it, it’s so vast and egregious that it’s going to erupt into a campaign issue in the fall — and Democrats can’t have",
+      "snippet": "She writes,\nAs the Hunter Biden story continues to explode in scandal and scope, it’s becoming impossible to hide.",
       "matchedWords": {
         "24igJXwiDb_d": {
           "hits": 0,
@@ -2076,7 +2076,7 @@
       "hash": "t9RUcmVUrQm6",
       "address": "https://earthnewspaper.com/mark-r-elsis/attack-on-pearl-harbor-december-7-1941-by-mark-r-elsis/",
       "title": "Attack On Pearl Harbor, December 7, 1941 by Mark R. Elsis – EarthNewspaper.com – All The Honest News Fit To Publish",
-      "snippet": "Key, Florida (1997 – 2008), I had a wonderful conversation with an old navy man, Captain Ralph Emerson Styles, a graduate of the US Naval Academy in 1933. I had heard about him and that he did a sunset flag ceremony every evening from his home that was literally right across from beautiful Siesta",
+      "snippet": "http://www.renegadetribune.com/the-final-secret-of-pearl-harbor\nHow U.S. Economic Warfare Provoked Japan’s Attack On Pearl Harbor\nby Robert Higgs\nhttps://mises.org/library/how-us-economic-warfare-provoked-japans-attack-pearl-harbor\nPearl Harbor Attack No Surprise\nby Roger A. Stolley",
       "matchedWords": {
         "24igJXwiDb_d": {
           "hits": 6,
@@ -2109,7 +2109,7 @@
       "hash": "0BZyCsY-tUi5",
       "address": "https://moralparty.com/ai/",
       "title": "AI – MoralParty.com",
-      "snippet": "public in the last few years is about how phenomenally wonderful AI will soon be for us all. This is huge money front-running and gaming the system via propaganda to create the narrative they desperately want and need you to believe. There are dark-money campaigns paying influencers to push China",
+      "snippet": "If you’ve ever read about some weird cult and thought “How does something like this get started?” – well, you can watch it happen. Just don’t watch it so closely that you start playing along and end up donating all your money to a chatbot or whatever.",
       "matchedWords": {
         "24igJXwiDb_d": {
           "hits": 123,
@@ -2208,7 +2208,7 @@
       "hash": "B9VWfKsrSOQw",
       "address": "https://arxiv.org/list/cs.CV/new",
       "title": "Computer Vision and Pattern Recognition",
-      "snippet": "New submissions\nCross-lists\nReplacements\nSee recent articles\nShowing new listings for Friday, 11 September 2026\nTotal of 158 entries\nShowing up to 2000 entries per page: fewer | more | all\nNew submissions (showing 75 of 75 entries)\n[1] arXiv:2609.10572 [pdf, html, other]\n[2] arXiv:2609.10723 [pdf,",
+      "snippet": "New submissions\nCross-lists\nReplacements\nSee recent articles\nShowing new listings for Friday, 11 September 2026\nTotal of 158 entries\nShowing up to 2000 entries per page: fewer | more | all\nNew submissions (showing 75 of 75 entries)\n[1] arXiv:2609.10572 [pdf, html, other]",
       "matchedWords": {
         "24igJXwiDb_d": {
           "hits": 0,
@@ -2241,7 +2241,7 @@
       "hash": "mHyFhKsrSOQw",
       "address": "https://arxiv.org/list/cs.AI/new",
       "title": "Artificial Intelligence",
-      "snippet": "New submissions\nCross-lists\nReplacements\nSee recent articles\nShowing new listings for Friday, 11 September 2026\nTotal of 273 entries\nShowing up to 2000 entries per page: fewer | more | all\nNew submissions (showing 77 of 77 entries)\n[1] arXiv:2609.10584 [pdf, html, other]\n[2] arXiv:2609.10629 [pdf,",
+      "snippet": "New submissions\nCross-lists\nReplacements\nSee recent articles\nShowing new listings for Friday, 11 September 2026\nTotal of 273 entries\nShowing up to 2000 entries per page: fewer | more | all\nNew submissions (showing 77 of 77 entries)\n[1] arXiv:2609.10584 [pdf, html, other]",
       "matchedWords": {
         "24igJXwiDb_d": {
           "hits": 0,
@@ -2274,7 +2274,7 @@
       "hash": "3zFnUKsrSOQw",
       "address": "https://arxiv.org/list/math/new",
       "title": "Mathematics",
-      "snippet": "New submissions\nCross-lists\nReplacements\nSee recent articles\nShowing new listings for Friday, 11 September 2026\nTotal of 654 entries\nShowing up to 2000 entries per page: fewer | more | all\nNew submissions (showing 357 of 357 entries)\n[1] arXiv:2609.10551 [pdf, html, other]\n[2] arXiv:2609.10553",
+      "snippet": "New submissions\nCross-lists\nReplacements\nSee recent articles\nShowing new listings for Friday, 11 September 2026\nTotal of 654 entries\nShowing up to 2000 entries per page: fewer | more | all\nNew submissions (showing 357 of 357 entries)\n[1] arXiv:2609.10551 [pdf, html, other]",
       "matchedWords": {
         "24igJXwiDb_d": {
           "hits": 0,
@@ -2307,7 +2307,7 @@
       "hash": "31RRrlv6IfH4",
       "address": "https://www.schneier.com/",
       "title": "Schneier on Security -",
-      "snippet": "public while crews work on a removal plan.\nAccording to salvage expert Ernie English of Parker Diving Service, the squid has deteriorated into a thick mass that will be difficult to remove.\n“It’s like concrete,” English said when asked about its consistency.\nAs usual, you can also use this squid",
+      "snippet": "You don’t have to know how these AI genies work to know and care about how the story could end.\nTags: AI, LLM\nPosted on September 8, 2026 at 1:12 PM • 11 Comments\nStealing AI Reasoning Traces\nInteresting research: “Stealing Reasoning Traces from Proprietary LLM APIs“:",
       "matchedWords": {
         "24igJXwiDb_d": {
           "hits": 11,
@@ -2406,7 +2406,7 @@
       "hash": "2MFHBtYEKFwx",
       "address": "https://blog.torproject.org/did-fbi-pay-university-attack-tor-users/",
       "title": "Did the FBI Pay a University to Attack Tor Users? | The Tor Project",
-      "snippet": "work to universities. If academia uses \"research\" as a stalking horse for privacy invasion, the entire enterprise of security research will fall into disrepute. Legitimate privacy researchers study many online systems, including social networks — If this kind of FBI attack by university proxy is",
+      "snippet": "This attack also sets a troubling precedent: Civil liberties are under attack if law enforcement believes it can circumvent the rules of evidence by outsourcing police work to universities.",
       "matchedWords": {
         "24igJXwiDb_d": {
           "hits": 0,
@@ -2439,7 +2439,7 @@
       "hash": "2ZqdVzfOEiDw",
       "address": "https://planet.gnome.org/",
       "title": "Planet GNOME",
-      "snippet": "how media are being handled, and AppStream’s default image export format.\nAppStream is a Freedesktop metadata standard to describe software components. That can be anything from system services over fonts to console and graphical applications. AppStream metadata is supposed to give users enough",
+      "snippet": "This does not look like much, until you consider how often these files are downloaded: A 20% file size reduction may only save 1-2 MiB of disk space, but if they are downloaded over and over again by many clients, it will save a lot of bandwidth.\nInteresting JXL encoding findings",
       "matchedWords": {
         "24igJXwiDb_d": {
           "hits": 2,
@@ -2472,7 +2472,7 @@
       "hash": "2c26yxtQ-zSx",
       "address": "https://wiki.archlinux.org/title/Installation_guide",
       "title": "Installation guide - ArchWiki",
-      "snippet": "how you want to boot, acquire the ISO file or a netboot image, and the respective PGP signature.\nVerify signature\nIt is recommended to verify the image signature before use, especially when downloading from an HTTP mirror, where downloads are generally prone to be intercepted to serve malicious",
+      "snippet": "See Wikipedia:Public-key cryptography for more information on the public-key process to authenticate keys.\nPrepare an installation medium",
       "matchedWords": {
         "24igJXwiDb_d": {
           "hits": 1,
@@ -2505,7 +2505,7 @@
       "hash": "sC0kMlDOAHJg",
       "address": "https://www.heise.de/en",
       "title": "heise online – IT news, guides and background information | heise online",
-      "snippet": "does not result in a total price under consumer law.\niPhone Duo: Apple managers explain display, operating concept, and price\nIn video interviews, Apple executives provide insights into the development of the iPhone Duo and explain the strategy behind the complex folding smartphone.\nSocial Media",
+      "snippet": "AI: Google brings Gemini as its own desktop app for Windows systems\nThe Gemini app can be called up via a key command and can evaluate information from Google services. The free AI app can also create images and videos.\n25 Years After 9/11: How the Anti-Terror Fight Erodes Freedom",
       "matchedWords": {
         "24igJXwiDb_d": {
           "hits": 2,
@@ -2571,7 +2571,7 @@
       "hash": "7eYSusLVkley",
       "address": "https://daringfireball.net/",
       "title": "Daring Fireball",
-      "snippet": "how the tides seem to be changing.\nBuried in the Settings app on iOS 27, Apple has hidden an easter egg that hails back from classic Mac OS; Clarus the Dogcow. Here’s how to trigger it …\nVery fun. Alas, this easter egg isn’t present in MacOS 27, only iOS 27. But the MacOS 27 version of the Liquid",
+      "snippet": "I know that is controversial, I just tee it up as another way to look at the size of the business, what we want to achieve, and how we stay competitive. Again, just food for thought.\nDickover of the Week: Slashdot Put One in Their RSS Feed ★\nHow does this even happen? Who is this for?",
       "matchedWords": {
         "24igJXwiDb_d": {
           "hits": 34,
@@ -2637,7 +2637,7 @@
       "hash": "4w4qosN9NeLw",
       "address": "https://signal.org/blog/",
       "title": "Signal Blog",
-      "snippet": "key verification” which complements the existing safety number system. Signal is always end-to-end encrypted, and automatic key verification provides an additional, streamlined way to confirm that there’s no unexpected party between you and the other “end” of an end-to-end encrypted session.\nRead",
+      "snippet": "These protocols work the way most people are familiar with: one who wishes to receive encrypted email advertises a public key, and those wishing to send encrypted email to that person encrypt their outgoing message with that public key.\nRead more...",
       "matchedWords": {
         "24igJXwiDb_d": {
           "hits": 30,
@@ -2670,7 +2670,7 @@
       "hash": "iTNcujRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Charles_Babbage",
       "title": "Charles Babbage - Wikipedia",
-      "snippet": "work, he also designed the first computer printers.[7] He had a broad range of interests in addition to his work on computers, covered in his 1832 book Economy of Manufactures and Machinery.[8] He was an important figure in the social scene in London, and is credited with importing the \"scientific",
+      "snippet": "Three or four of their mathematicians decided how to compute the tables, half a dozen more broke down the operations into simple stages, and the work itself, which was restricted to addition and subtraction, was done by eighty computers who knew only these two arithmetical processes.",
       "matchedWords": {
         "24igJXwiDb_d": {
           "hits": 6,
@@ -2703,7 +2703,7 @@
       "hash": "ptCCrjRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Massachusetts_Institute_of_Technology",
       "title": "Massachusetts Institute of Technology - Wikipedia",
-      "snippet": "work on industry problems limited basic research and diminished interest from foundations.[43][44] By the late 1920s MIT was regarded by elite universities as a \"mere engineering school servicing industry\".[45]\nVannevar Bush (l) and Karl Compton (r) led reforms to funding and curriculum\nA mandate",
+      "snippet": "Cryptography – MIT researchers Ron Rivest, Adi Shamir and Leonard Adleman developed one of the first practical public-key cryptosystems, the RSA cryptosystem, and started a company, RSA Security.[331]",
       "matchedWords": {
         "24igJXwiDb_d": {
           "hits": 6,
@@ -2736,7 +2736,7 @@
       "hash": "t9RUcmVUrQm6",
       "address": "https://earthnewspaper.com/mark-r-elsis/attack-on-pearl-harbor-december-7-1941-by-mark-r-elsis/",
       "title": "Attack On Pearl Harbor, December 7, 1941 by Mark R. Elsis – EarthNewspaper.com – All The Honest News Fit To Publish",
-      "snippet": "Key, Florida (1997 – 2008), I had a wonderful conversation with an old navy man, Captain Ralph Emerson Styles, a graduate of the US Naval Academy in 1933. I had heard about him and that he did a sunset flag ceremony every evening from his home that was literally right across from beautiful Siesta",
+      "snippet": "http://www.renegadetribune.com/the-final-secret-of-pearl-harbor\nHow U.S. Economic Warfare Provoked Japan’s Attack On Pearl Harbor\nby Robert Higgs\nhttps://mises.org/library/how-us-economic-warfare-provoked-japans-attack-pearl-harbor\nPearl Harbor Attack No Surprise\nby Roger A. Stolley",
       "matchedWords": {
         "24igJXwiDb_d": {
           "hits": 6,
@@ -2769,7 +2769,7 @@
       "hash": "vcPgA7XxSRFx",
       "address": "https://www.rfc-editor.org/info/rfc8446/",
       "title": "RFC 8446: The Transport Layer Security (TLS) Protocol Version 1.3 | RFC Editor",
-      "snippet": "public review and has been approved for publication by the Internet Engineering Steering Group (IESG). Further information on Internet Standards is available in Section 2 of RFC 7841. Information about the current status of this document, any errata, and how to provide feedback on it may be",
+      "snippet": "644-654, DOI 10.1109/TIT.1976.1055638, November 1976. [ECDSA] American National Standards Institute, \"Public Key Cryptography for the Financial Services Industry: The Elliptic Curve Digital Signature Algorithm (ECDSA)\", ANSI ANS X9.62-2005, November 2005.",
       "matchedWords": {
         "24igJXwiDb_d": {
           "hits": 11,
@@ -2802,7 +2802,7 @@
       "hash": "0BZyCsY-tUi5",
       "address": "https://moralparty.com/ai/",
       "title": "AI – MoralParty.com",
-      "snippet": "public in the last few years is about how phenomenally wonderful AI will soon be for us all. This is huge money front-running and gaming the system via propaganda to create the narrative they desperately want and need you to believe. There are dark-money campaigns paying influencers to push China",
+      "snippet": "If you’ve ever read about some weird cult and thought “How does something like this get started?” – well, you can watch it happen. Just don’t watch it so closely that you start playing along and end up donating all your money to a chatbot or whatever.",
       "matchedWords": {
         "24igJXwiDb_d": {
           "hits": 123,
@@ -2835,7 +2835,7 @@
       "hash": "Rx8AIs_tHst4",
       "address": "https://dwheeler.com/oss_fs_why.html",
       "title": "Why Open Source Software / Free Software (OSS/FS, FOSS, or FLOSS)? Look at the Numbers!",
-      "snippet": "work hard to find numbers to support their claims; this page provides a useful antidote of hard figures to aid in comparing proprietary products to FLOSS. Others have come to the same conclusions, for example, Forrester Research concluded in September 2006 that “Firms should consider open source",
+      "snippet": "Many security experts have stated that FLOSS has advantages over the security of proprietary software, including Whitfield Diffie (co-inventor of public key cryptography), Bruce Schneier (expert on cryptography and computer security), Vincent Rijmen (a developer of the Advanced Encryption Standard",
       "matchedWords": {
         "24igJXwiDb_d": {
           "hits": 87,
@@ -2868,7 +2868,7 @@
       "hash": "8HJM8yiZhzY4",
       "address": "https://www.grc.com/sn/sn-1062.htm",
       "title": "Security Now! Transcript of Episode #1062",
-      "snippet": "does the emergence of AI-generated malware portend?\nHigh quality (64 kbps) mp3 audio file URL: http://media.GRC.com/sn/SN-1062.mp3\nQuarter size (16 kbps) mp3 audio file URL: http://media.GRC.com/sn/sn-1062-lq.mp3\nSHOW TEASE: It's time for Security Now!. Steve Gibson is here. He's worried. He's",
+      "snippet": "While this does not replace legislative action, it signals that political pressure is growing, instead of fading.\" Right. Like I said, it's becoming more and more public. So we'll see what happens.\nThe Spyware Document Pool that this posting introduces is a really terrific piece of work.",
       "matchedWords": {
         "24igJXwiDb_d": {
           "hits": 40,
@@ -2901,7 +2901,7 @@
       "hash": "mHyFhKsrSOQw",
       "address": "https://arxiv.org/list/cs.AI/new",
       "title": "Artificial Intelligence",
-      "snippet": "New submissions\nCross-lists\nReplacements\nSee recent articles\nShowing new listings for Friday, 11 September 2026\nTotal of 273 entries\nShowing up to 2000 entries per page: fewer | more | all\nNew submissions (showing 77 of 77 entries)\n[1] arXiv:2609.10584 [pdf, html, other]\n[2] arXiv:2609.10629 [pdf,",
+      "snippet": "New submissions\nCross-lists\nReplacements\nSee recent articles\nShowing new listings for Friday, 11 September 2026\nTotal of 273 entries\nShowing up to 2000 entries per page: fewer | more | all\nNew submissions (showing 77 of 77 entries)\n[1] arXiv:2609.10584 [pdf, html, other]",
       "matchedWords": {
         "24igJXwiDb_d": {
           "hits": 0,
@@ -3000,7 +3000,7 @@
       "hash": "v3ss6jRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Bluetooth",
       "title": "Bluetooth - Wikipedia",
-      "snippet": "Key finders\nTypically less than 10 m (33 ft), up to 100 m (330 ft).\nBluetooth 5.0: 40–400 m (100–1,000 ft)[1][2]\nWebsite\nbluetooth.com\nA Bluetooth earbud, an earphone and microphone that communicates with a cellphone using the Bluetooth protocol\nBluetooth is a short-range wireless technology",
+      "snippet": "Secure Simple Pairing uses a form of public-key cryptography, and some types can help protect against man in the middle, or MITM attacks. SSP has the following authentication mechanisms: Just works: As the name implies, this method just works, with no user interaction.",
       "matchedWords": {
         "24igJXwiDb_d": {
           "hits": 9,
@@ -3033,7 +3033,7 @@
       "hash": "-60L9j5sllYz",
       "address": "https://internationalaisafetyreport.org/publication/international-ai-safety-report-2026",
       "title": "International AI Safety Report 2026 | International AI Safety Report",
-      "snippet": "does not endorse any particular policy or regulatory approach.\nThe Panel comprises representatives nominated by over 30 countries and international organisation including from; Australia, Brazil, Canada, Chile, China, the European Union (EU), France, Germany, India, Indonesia, Ireland, Israel,",
+      "snippet": "AI companies are subject to existing legal frameworks, such as tort law, criminal law, and contract law, allowing victims to seek compensation for harms.692 Some experts argue that liability regimes will play a key role in ensuring basic protection for victims harmed by using or interacting with",
       "matchedWords": {
         "24igJXwiDb_d": {
           "hits": 231,
@@ -3066,7 +3066,7 @@
       "hash": "zjh_EiBbCobw",
       "address": "https://www.php.net/manual/en/language.types.string.php",
       "title": "PHP: Strings - Manual",
-      "snippet": "does not offer native Unicode support. See details of the string type.\nNote:\nOn 32-bit builds, a string can be up to 2GB (2147483647 bytes) in length.\nSyntax\nA string literal can be specified in four different ways:\nsingle quoted\ndouble quoted\nheredoc syntax\nnowdoc syntax\nSingle quoted\nThe simplest",
+      "snippet": "php const DATA_KEY = 'const-key'; $great = 'fantastic'; $arr = [ '1', '2', '3', [41, 42, 43], 'key' =\u003e 'Indexed value', 'const-key' =\u003e 'Key with minus sign', 'foo' =\u003e ['foo1', 'foo2', 'foo3'] ]; // Won't work, outputs: This is { fantastic} echo \"This is { $great}\" .",
       "matchedWords": {
         "24igJXwiDb_d": {
           "hits": 3,
@@ -3099,7 +3099,7 @@
       "hash": "sC0kMlDOAHJg",
       "address": "https://www.heise.de/en",
       "title": "heise online – IT news, guides and background information | heise online",
-      "snippet": "does not result in a total price under consumer law.\niPhone Duo: Apple managers explain display, operating concept, and price\nIn video interviews, Apple executives provide insights into the development of the iPhone Duo and explain the strategy behind the complex folding smartphone.\nSocial Media",
+      "snippet": "AI: Google brings Gemini as its own desktop app for Windows systems\nThe Gemini app can be called up via a key command and can evaluate information from Google services. The free AI app can also create images and videos.\n25 Years After 9/11: How the Anti-Terror Fight Erodes Freedom",
       "matchedWords": {
         "24igJXwiDb_d": {
           "hits": 2,
@@ -3132,7 +3132,7 @@
       "hash": "WZgveeFbwuxx",
       "address": "https://letsencrypt.org/documents/isrg-cps-v2.5/",
       "title": "ISRG CPS v2.5 - Let's Encrypt",
-      "snippet": "Public Key Infrastructure (\"ISRG PKI\").\nISRG PKI services include, but are not limited to, issuing, managing, validating, revoking, and renewing Certificates in accordance with the requirements of the ISRG Certificate Policy (CP). It is recommended that readers familiarize themselves with the ISRG",
+      "snippet": "Used to create digital signatures that can be verified by the corresponding Public Key or to decrypt messages encrypted by the corresponding Public Key.\nPublic Key The only key in a Key Pair that can safely be publicly disclosed.",
       "matchedWords": {
         "24igJXwiDb_d": {
           "hits": 1,
@@ -3198,7 +3198,7 @@
       "hash": "NNbrnsPZ2Wzx",
       "address": "https://wikileaks.org/vault7/",
       "title": "WikiLeaks - Vault 7: Projects",
-      "snippet": "does not work or is considered insufficient by the CIA, because ExpressLane is a covert information collection tool that is used by the CIA to secretly exfiltrate data collections from such systems provided to liaison services.\nExpressLane is installed and run with the cover of upgrading the",
+      "snippet": "These credentials are either username and password in case of password-authenticated SSH sessions or username, filename of private SSH key and key password if public key authentication is used.",
       "matchedWords": {
         "24igJXwiDb_d": {
           "hits": 5,
@@ -3231,7 +3231,7 @@
       "hash": "hxeq6jRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Gottfried_Wilhelm_Leibniz",
       "title": "Gottfried Wilhelm Leibniz - Wikipedia",
-      "snippet": "work\nEra\n17th-/18th-century philosophy\nRegion\nWestern philosophy\nSchool\nRationalism\nPluralistic idealism[6]\nFoundationalism[7]\nConceptualism[8]\nOptimism\nIndirect realism[9]\nCorrespondence theory of truth[10]\nRelationalism\nNotable students\nJacob Bernoulli (epistolary correspondent)\nChristian Wolff",
+      "snippet": "In our view of God, Leibniz declares that we cannot admire the work solely because of the maker, lest we mar the glory and love God in doing so. Instead, we must admire the maker for the work he has done (II[full citation needed]).",
       "matchedWords": {
         "24igJXwiDb_d": {
           "hits": 9,
@@ -3297,7 +3297,7 @@
       "hash": "0BZyCsY-tUi5",
       "address": "https://moralparty.com/ai/",
       "title": "AI – MoralParty.com",
-      "snippet": "public in the last few years is about how phenomenally wonderful AI will soon be for us all. This is huge money front-running and gaming the system via propaganda to create the narrative they desperately want and need you to believe. There are dark-money campaigns paying influencers to push China",
+      "snippet": "If you’ve ever read about some weird cult and thought “How does something like this get started?” – well, you can watch it happen. Just don’t watch it so closely that you start playing along and end up donating all your money to a chatbot or whatever.",
       "matchedWords": {
         "24igJXwiDb_d": {
           "hits": 123,
@@ -3330,7 +3330,7 @@
       "hash": "ww-gf8cZd9Fw",
       "address": "https://hackage.haskell.org/packages/",
       "title": "packages by category | Hackage",
-      "snippet": "Cryptography (238), CSharp (1), CSS (2), CsSyd (1), CSV (24), Culinary (1), CUR (1), Cursor (1), CustomerProfiles (1), CustomSetup (2), Data (2681), Data Conduit (1), Data Control (2), Data Flow (3), Data Mining (28), Data Network (1), Data Science (12), Data Structure (3), Data Structures (354),",
+      "snippet": "crypto-pubkey library, test and benchmark: Public Key cryptography\ncrypto-pubkey-openssh library and test: OpenSSH keys decoder/encoder\ncrypto-pubkey-types library: Generic cryptography Public keys algorithm types\ncrypto-random library: Simple cryptographic random related types",
       "matchedWords": {
         "24igJXwiDb_d": {
           "hits": 22,
@@ -3363,7 +3363,7 @@
       "hash": "B9VWfKsrSOQw",
       "address": "https://arxiv.org/list/cs.CV/new",
       "title": "Computer Vision and Pattern Recognition",
-      "snippet": "New submissions\nCross-lists\nReplacements\nSee recent articles\nShowing new listings for Friday, 11 September 2026\nTotal of 158 entries\nShowing up to 2000 entries per page: fewer | more | all\nNew submissions (showing 75 of 75 entries)\n[1] arXiv:2609.10572 [pdf, html, other]\n[2] arXiv:2609.10723 [pdf,",
+      "snippet": "New submissions\nCross-lists\nReplacements\nSee recent articles\nShowing new listings for Friday, 11 September 2026\nTotal of 158 entries\nShowing up to 2000 entries per page: fewer | more | all\nNew submissions (showing 75 of 75 entries)\n[1] arXiv:2609.10572 [pdf, html, other]",
       "matchedWords": {
         "24igJXwiDb_d": {
           "hits": 0,
@@ -3429,7 +3429,7 @@
       "hash": "31RRrlv6IfH4",
       "address": "https://www.schneier.com/",
       "title": "Schneier on Security -",
-      "snippet": "public while crews work on a removal plan.\nAccording to salvage expert Ernie English of Parker Diving Service, the squid has deteriorated into a thick mass that will be difficult to remove.\n“It’s like concrete,” English said when asked about its consistency.\nAs usual, you can also use this squid",
+      "snippet": "You don’t have to know how these AI genies work to know and care about how the story could end.\nTags: AI, LLM\nPosted on September 8, 2026 at 1:12 PM • 11 Comments\nStealing AI Reasoning Traces\nInteresting research: “Stealing Reasoning Traces from Proprietary LLM APIs“:",
       "matchedWords": {
         "24igJXwiDb_d": {
           "hits": 11,
@@ -3561,7 +3561,7 @@
       "hash": "ptCCrjRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Massachusetts_Institute_of_Technology",
       "title": "Massachusetts Institute of Technology - Wikipedia",
-      "snippet": "work on industry problems limited basic research and diminished interest from foundations.[43][44] By the late 1920s MIT was regarded by elite universities as a \"mere engineering school servicing industry\".[45]\nVannevar Bush (l) and Karl Compton (r) led reforms to funding and curriculum\nA mandate",
+      "snippet": "Cryptography – MIT researchers Ron Rivest, Adi Shamir and Leonard Adleman developed one of the first practical public-key cryptosystems, the RSA cryptosystem, and started a company, RSA Security.[331]",
       "matchedWords": {
         "24igJXwiDb_d": {
           "hits": 6,
@@ -3594,7 +3594,7 @@
       "hash": "t9RUcmVUrQm6",
       "address": "https://earthnewspaper.com/mark-r-elsis/attack-on-pearl-harbor-december-7-1941-by-mark-r-elsis/",
       "title": "Attack On Pearl Harbor, December 7, 1941 by Mark R. Elsis – EarthNewspaper.com – All The Honest News Fit To Publish",
-      "snippet": "Key, Florida (1997 – 2008), I had a wonderful conversation with an old navy man, Captain Ralph Emerson Styles, a graduate of the US Naval Academy in 1933. I had heard about him and that he did a sunset flag ceremony every evening from his home that was literally right across from beautiful Siesta",
+      "snippet": "http://www.renegadetribune.com/the-final-secret-of-pearl-harbor\nHow U.S. Economic Warfare Provoked Japan’s Attack On Pearl Harbor\nby Robert Higgs\nhttps://mises.org/library/how-us-economic-warfare-provoked-japans-attack-pearl-harbor\nPearl Harbor Attack No Surprise\nby Roger A. Stolley",
       "matchedWords": {
         "24igJXwiDb_d": {
           "hits": 6,
@@ -3660,7 +3660,7 @@
       "hash": "7eYSusLVkley",
       "address": "https://daringfireball.net/",
       "title": "Daring Fireball",
-      "snippet": "how the tides seem to be changing.\nBuried in the Settings app on iOS 27, Apple has hidden an easter egg that hails back from classic Mac OS; Clarus the Dogcow. Here’s how to trigger it …\nVery fun. Alas, this easter egg isn’t present in MacOS 27, only iOS 27. But the MacOS 27 version of the Liquid",
+      "snippet": "I know that is controversial, I just tee it up as another way to look at the size of the business, what we want to achieve, and how we stay competitive. Again, just food for thought.\nDickover of the Week: Slashdot Put One in Their RSS Feed ★\nHow does this even happen? Who is this for?",
       "matchedWords": {
         "24igJXwiDb_d": {
           "hits": 34,
@@ -3693,7 +3693,7 @@
       "hash": "0BZyCsY-tUi5",
       "address": "https://moralparty.com/ai/",
       "title": "AI – MoralParty.com",
-      "snippet": "public in the last few years is about how phenomenally wonderful AI will soon be for us all. This is huge money front-running and gaming the system via propaganda to create the narrative they desperately want and need you to believe. There are dark-money campaigns paying influencers to push China",
+      "snippet": "If you’ve ever read about some weird cult and thought “How does something like this get started?” – well, you can watch it happen. Just don’t watch it so closely that you start playing along and end up donating all your money to a chatbot or whatever.",
       "matchedWords": {
         "24igJXwiDb_d": {
           "hits": 123,

@@ -1,13 +1,13 @@
 {
   "query": "open source search engine",
-  "recordedAt": "2026-09-12T00:19:39Z",
+  "recordedAt": "2026-09-12T07:52:09Z",
   "itemsInTheOrderOfEachAnswer": [
     [
       {
         "hash": "9dnewsdTeyA4",
         "address": "https://github.blog/",
         "title": "Home - The GitHub Blog",
-        "snippet": "We do newsletters, too\nDiscover tips, technical guides, and best practices in our biweekly newsletter just for devs.\nYour email address\nThe world's largest developer platform\nDocs\nEverything you need to master GitHub, all in one place.\nGo to Docs\nGitHub\nBuild what’s next on GitHub, the place for",
+        "snippet": "We do newsletters, too\nDiscover tips, technical guides, and best practices in our biweekly newsletter just for devs.\nYour email address\nThe world's largest developer platform\nDocs\nEverything you need to master GitHub, all in one place.\nGo to Docs\nGitHub",
         "matchedWords": {
           "BqlDxZ8zo0u1": {
             "hits": 0,
@@ -34,7 +34,7 @@
         "hash": "jp9IEwSMo4M4",
         "address": "https://www.zdnet.com/article/github-builds-a-search-engine-for-code-from-scratch-in-rust/",
         "title": "GitHub built a new search engine for code 'from scratch' in Rust - ZDNET",
-        "snippet": "search engine, Blackbird.\nInstead of perusing forums for answers, GitHub wants users to use its search engine, which is currently in beta.\nAlso: Memory safe programming languages are on the rise. Here’s how developers should respond\nRust is consistently the most loved (but not most widely used)",
+        "snippet": "The CTO of Microsoft Azure last year declared all new projects should be written in Rust over C/C++ because of its memory safety features.\nBut why build a search engine from scratch when GitHub could use another open-source solution, such as Apache Cassandra, Solr, or Elasticsearch?",
         "matchedWords": {
           "BqlDxZ8zo0u1": {
             "hits": 9,
@@ -61,7 +61,7 @@
         "hash": "jp9IEwSMo4M4",
         "address": "https://www.zdnet.com/article/github-builds-a-search-engine-for-code-from-scratch-in-rust/",
         "title": "GitHub built a new search engine for code 'from scratch' in Rust - ZDNET",
-        "snippet": "search engine, Blackbird.\nInstead of perusing forums for answers, GitHub wants users to use its search engine, which is currently in beta.\nAlso: Memory safe programming languages are on the rise. Here’s how developers should respond\nRust is consistently the most loved (but not most widely used)",
+        "snippet": "The CTO of Microsoft Azure last year declared all new projects should be written in Rust over C/C++ because of its memory safety features.\nBut why build a search engine from scratch when GitHub could use another open-source solution, such as Apache Cassandra, Solr, or Elasticsearch?",
         "matchedWords": {
           "BqlDxZ8zo0u1": {
             "hits": 9,
@@ -86,7 +86,7 @@
         "hash": "T8ZB7sS6MKD4",
         "address": "https://github.com/yacy/yacy_search_server",
         "title": "GitHub - yacy/yacy_search_server: Distributed Peer-to-Peer Web Search Engine and Intranet Search Appliance · GitHub",
-        "snippet": "search engine application containing a server hosting a search index, a web application to provide a nice user front-end for searches and index creation and a production-ready web crawler with a scheduler to keep a search index fresh.\nYaCy search portals can also be placed in an intranet",
+        "snippet": "What is YaCy?\nYaCy is a full search engine application containing a server hosting a search index, a web application to provide a nice user front-end for searches and index creation and a production-ready web crawler with a scheduler to keep a search index fresh.",
         "matchedWords": {
           "BqlDxZ8zo0u1": {
             "hits": 22,
@@ -113,7 +113,7 @@
         "hash": "Vv81ls2xL7A6",
         "address": "https://corbettreport.com/september-open-thread-2022/",
         "title": "September Open Thread (2022) | The Corbett Report",
-        "snippet": "Open Thread.\nAnd as a reminder, I’ll be doing a livestream watch along of all three parts of the documentary with Ryan Cristian of TheLastAmericanVagabond.com. The schedule is:\nSunday, August 28th @ 8:00 PM Eastern\nFalse Flags: A Secret History of Al Qaeda – Part 1 Watch along and Q\u0026A\nSunday,",
+        "snippet": "In the meantime, feel free to start in on the September Open Thread.\nAnd as a reminder, I’ll be doing a livestream watch along of all three parts of the documentary with Ryan Cristian of TheLastAmericanVagabond.com. The schedule is:\nSunday, August 28th @ 8:00 PM Eastern",
         "matchedWords": {
           "BqlDxZ8zo0u1": {
             "hits": 0,
@@ -140,7 +140,7 @@
         "hash": "Vv81ls2xL7A6",
         "address": "https://corbettreport.com/september-open-thread-2022/",
         "title": "September Open Thread (2022) | The Corbett Report",
-        "snippet": "Open Thread.\nAnd as a reminder, I’ll be doing a livestream watch along of all three parts of the documentary with Ryan Cristian of TheLastAmericanVagabond.com. The schedule is:\nSunday, August 28th @ 8:00 PM Eastern\nFalse Flags: A Secret History of Al Qaeda – Part 1 Watch along and Q\u0026A\nSunday,",
+        "snippet": "In the meantime, feel free to start in on the September Open Thread.\nAnd as a reminder, I’ll be doing a livestream watch along of all three parts of the documentary with Ryan Cristian of TheLastAmericanVagabond.com. The schedule is:\nSunday, August 28th @ 8:00 PM Eastern",
         "matchedWords": {
           "BqlDxZ8zo0u1": {
             "hits": 0,
@@ -167,7 +167,7 @@
         "hash": "y8tXOWRMLT-5",
         "address": "https://canonical.com/solutions/open-source-security",
         "title": "Open source security | Canonical",
-        "snippet": "open source software supply chain\nConsume open source that's got the same set of guarantees across the stack, from the same vendor. Let us manage the CVEs, so you can unlock developer productivity and simplify your compliance efforts.\nContact Canonical\nBenefit from our 20+ years in open source",
+        "snippet": "Secure your open source software supply chain\nConsume open source that's got the same set of guarantees across the stack, from the same vendor. Let us manage the CVEs, so you can unlock developer productivity and simplify your compliance efforts.\nContact Canonical",
         "matchedWords": {
           "BqlDxZ8zo0u1": {
             "hits": 0,
@@ -194,7 +194,7 @@
         "hash": "-b3sxspKNBr4",
         "address": "https://rense.com/",
         "title": "rense.com",
-        "snippet": "Open\nDoor Mid-Flight, Then Bites Flight Attendant\nRyanair CEO Denies Passenger Was Sucked Out\nOf Boeing 737 Window\nWashington Bound Lufthansa A340-600 Diverts\nSquawking 7700 (medical emergency)\n'Excessive Speed’ - Amazon 767 Pilots Got 7\nWarnings In 25 Seconds Before Miami Crash\nSwarming the",
+        "snippet": "Open-Source AI Agents Breach Taiwan Nuclear\nAgency in Four-Day Autonomous Strike\nIndian Workers Film Their Own Jobs at\n$2.62/Hour to Train Robots That Will Replace Them\nGround-mounted California solar plant\ndelivers 862 MWh, beats expected output by 101%",
         "matchedWords": {
           "BqlDxZ8zo0u1": {
             "hits": 11,
@@ -221,7 +221,7 @@
         "hash": "3yo3vyS6MKD4",
         "address": "https://github.com/openclaw/lobster",
         "title": "GitHub - openclaw/lobster: Lobster is a Openclaw-native workflow shell: a typed, local-first “macro engine” that turns skills/tools into composable pipelines and safe automations—and lets Openclaw call those workflows in one step. · GitHub",
-        "snippet": "engine and avoid re-planning every step — saving tokens while improving determinism and resumability.\nWatching a PR that hasn't had changes\nnode bin/lobster.js \"workflows.run --name github.pr.monitor --args-json '{\\\"repo\\\":\\\"openclaw/openclaw\\\",\\\"pr\\\":1152}'\" [ { \"kind\": \"github.pr.monitor\",",
+        "snippet": "An OpenClaw-native workflow shell: typed (JSON-first) pipelines, jobs, and approval gates.\nExample of Lobster at work\nOpenClaw (or any other AI agent) can use lobster as a workflow engine and avoid re-planning every step — saving tokens while improving determinism and resumability.",
         "matchedWords": {
           "BqlDxZ8zo0u1": {
             "hits": 0,
@@ -248,7 +248,7 @@
         "hash": "4-FDNSofUy-5",
         "address": "https://duckduckgo.com/duckduckgo-help-pages/change-default-search-engine/safari",
         "title": "How to change your default search engine in Safari - DuckDuckGo Help Pages",
-        "snippet": "Open the Safari browser on your Mac.\nSelect the magnifying glass on the left side of the address bar.\nFrom here, you can change your default search engine.\niOS\nOpen the Settings app on your iPhone or iPad.\nScroll down and open Safari \u003e Search Engine.\nFrom here, you can change your default search",
+        "snippet": "Mac\nOpen the Safari browser on your Mac.\nSelect the magnifying glass on the left side of the address bar.\nFrom here, you can change your default search engine.\niOS\nOpen the Settings app on your iPhone or iPad.\nScroll down and open Safari \u003e Search Engine.",
         "matchedWords": {
           "BqlDxZ8zo0u1": {
             "hits": 3,
@@ -275,7 +275,7 @@
         "hash": "ZtxqojRvmBbx",
         "address": "https://en.wikipedia.org/wiki/Open_access",
         "title": "Open access - Wikipedia",
-        "snippet": "Open access logo, originally designed by Public Library of Science\nA PhD Comics introduction to open access\nOpen access (OA) is a set of principles and a range of practices through which nominally copyrightable publications are delivered to readers free of access charges or other barriers.[1] With",
+        "snippet": "Open access articles can be found with a web search, using any general search engine or those specialized for the scholarly and scientific literature, such as Google Scholar, OAIster, base-search.net,[271] and CORE[272] Many open-access repositories offer a programmable interface to query their",
         "matchedWords": {
           "BqlDxZ8zo0u1": {
             "hits": 7,
@@ -302,7 +302,7 @@
         "hash": "D61ibopg4UCw",
         "address": "https://www.wikidata.org/wiki/Wikidata:Requests_for_comment/Source_items_and_supporting_Wikipedia_sources",
         "title": "Wikidata:Requests for comment/Source items and supporting Wikipedia sources - Wikidata",
-        "snippet": "open a new discussion centered on the need (or not) of a new \"source entity\" (S items) and if Wikipedia sources (represented by the Template:Cite doi and others) should be imported into Wikidata.\nSource entity type\n[edit]\nLatest comment: 13 years ago31 comments15 people in discussion\nThe source",
+        "snippet": "I also don't believe this solves the work/edition problem, as this does not exactly correspond to the Q/S distinction; I think this requires more cleverness in the Wikidata software (in particular, getting the software to understand the instance of (P31) relation and adapting the user interface and",
         "matchedWords": {
           "BqlDxZ8zo0u1": {
             "hits": 1,
@@ -329,7 +329,7 @@
         "hash": "epYXTjRvmBbx",
         "address": "https://en.wikipedia.org/wiki/Google_Compute_Engine",
         "title": "Google Compute Engine - Wikipedia",
-        "snippet": "Engine\nOriginal authors\nGoogle, Inc.\nDeveloper\nGoogle\nRelease\nJune 28, 2012; 14 years ago[1]\nOperating system\nLinux\nFreeBSD\nNetBSD\nMicrosoft Windows\nAvailable in\nEnglish\nType\nVirtual private server\nLicense\nProprietary software\nWebsite\ncloud\n.google\n.com\n/compute\n/\nGoogle Compute Engine (GCE) is the",
+        "snippet": "It is approximated by the Coremark(TM) benchmark run as part of the PerfKitBenchmarker Open Source benchmark created by Google in partnership with many Cloud Providers.\nEvery Google Compute Engine instance starts with a disk resource called persistent disk.",
         "matchedWords": {
           "BqlDxZ8zo0u1": {
             "hits": 1,
@@ -356,7 +356,7 @@
         "hash": "tsBO3hsWTYKx",
         "address": "https://sourceforge.net/directory/software-development/",
         "title": "Best Open Source Software Development Software 2026",
-        "snippet": "open source Software Development software and projects below. Use the toggles on the left to filter open source Software Development software by OS, license, language, programming language, and project status.\nAwardco Employee Recognition\nFor companies looking to recognize and reward their",
+        "snippet": "Downloads: 16,768 This Week\nLast Update: 4 hours ago\nSee Project\nOpen Source Software Development Software Guide\nOpen source software development is a type of software which is published under an open source license, and its source code made available for free to the public.",
         "matchedWords": {
           "BqlDxZ8zo0u1": {
             "hits": 1,
@@ -381,7 +381,7 @@
         "hash": "h1WoVQuAbj3Z",
         "address": "http://www.sciencedaily.com/",
         "title": "ScienceDaily: Your source for the latest research news",
-        "snippet": "open the door to ...\nAug. 30, 2026  Scientists have cracked a long-standing chemistry problem, creating nanocrystals from tough metal nitrides that were previously extremely difficult to produce at this scale. The breakthrough could ...\nAug. 28, 2026  NASA’s Roman Space Telescope will combine",
+        "snippet": "31, 2026  Diamond was thought to be incapable of producing electricity through mechanical deformation, but ultrathin flexible diamond membranes have now shown a strong and repeatable piezoelectric effect. The unexpected discovery could open the door to ...\nAug.",
         "matchedWords": {
           "BqlDxZ8zo0u1": {
             "hits": 1,
@@ -408,7 +408,7 @@
         "hash": "0HlJrlIblX-y",
         "address": "https://www.themarginalian.org/",
         "title": "The Marginalian – Marginalia on our search for meaning.",
-        "snippet": "One November night in the 1870s, legendary Russian writer Fyodor Dostoyevsky (November 11, 1821–February 9, 1881) discovered the meaning of life in a dream — or, at least, the protagonist in his final short story did. The piece, which first appeared in the altogether revelatory A Writer’s Diary",
+        "snippet": "One November night in the 1870s, legendary Russian writer Fyodor Dostoyevsky (November 11, 1821–February 9, 1881) discovered the meaning of life in a dream — or, at least, the protagonist in his final short story did.",
         "matchedWords": {
           "BqlDxZ8zo0u1": {
             "hits": 0,
@@ -435,7 +435,7 @@
         "hash": "Vv81ls2xL7A6",
         "address": "https://corbettreport.com/september-open-thread-2022/",
         "title": "September Open Thread (2022) | The Corbett Report",
-        "snippet": "Open Thread.\nAnd as a reminder, I’ll be doing a livestream watch along of all three parts of the documentary with Ryan Cristian of TheLastAmericanVagabond.com. The schedule is:\nSunday, August 28th @ 8:00 PM Eastern\nFalse Flags: A Secret History of Al Qaeda – Part 1 Watch along and Q\u0026A\nSunday,",
+        "snippet": "In the meantime, feel free to start in on the September Open Thread.\nAnd as a reminder, I’ll be doing a livestream watch along of all three parts of the documentary with Ryan Cristian of TheLastAmericanVagabond.com. The schedule is:\nSunday, August 28th @ 8:00 PM Eastern",
         "matchedWords": {
           "BqlDxZ8zo0u1": {
             "hits": 0,
@@ -462,7 +462,7 @@
         "hash": "RRNM9k_MW7i4",
         "address": "https://www.docker.com/community/open-source/",
         "title": "Docker and Open Source | Docker",
-        "snippet": "Open Source\nOpen Source is in our DNA\nDocker is built for developers, by developers. We enable team collaboration, efficient packaging, and scalable distribution of open-source projects, all with a focus on trust and security.\nDocker Hub Empowers Open-Source Innovation\nThe Home for Open Source",
+        "snippet": "Docker Supports Open Source\nOpen Source is in our DNA\nDocker is built for developers, by developers. We enable team collaboration, efficient packaging, and scalable distribution of open-source projects, all with a focus on trust and security.\nDocker Hub Empowers Open-Source Innovation",
         "matchedWords": {
           "BqlDxZ8zo0u1": {
             "hits": 0,
@@ -489,7 +489,7 @@
         "hash": "_wmsVE9Ojva4",
         "address": "https://docs.docker.com/engine/release-notes/29/",
         "title": "Engine v29 | Docker Docs",
-        "snippet": "Engine version 29.\nFor more information about:\nDeprecated and removed features, see Deprecated Engine Features.\nChanges to the Engine API, see Engine API version history.\n29.8.0\n2026-09-03For a full list of pull requests and changes in this release, refer to the relevant GitHub milestones:",
+        "snippet": "This release includes fixes for multiple security vulnerabilities affecting Docker Engine.\nCVE-2026-15793: Git source checkout from a bundle file could lead to command injection. GHSA-hw3h-2gp9-cxpv\nCVE-2026-15792: Incorrect parameters sent from a frontend could cause a panic. GHSA-qx3x-mv6r-52p6",
         "matchedWords": {
           "BqlDxZ8zo0u1": {
             "hits": 0,
@@ -541,7 +541,7 @@
         "hash": "Vv81ls2xL7A6",
         "address": "https://corbettreport.com/september-open-thread-2022/",
         "title": "September Open Thread (2022) | The Corbett Report",
-        "snippet": "Open Thread.\nAnd as a reminder, I’ll be doing a livestream watch along of all three parts of the documentary with Ryan Cristian of TheLastAmericanVagabond.com. The schedule is:\nSunday, August 28th @ 8:00 PM Eastern\nFalse Flags: A Secret History of Al Qaeda – Part 1 Watch along and Q\u0026A\nSunday,",
+        "snippet": "In the meantime, feel free to start in on the September Open Thread.\nAnd as a reminder, I’ll be doing a livestream watch along of all three parts of the documentary with Ryan Cristian of TheLastAmericanVagabond.com. The schedule is:\nSunday, August 28th @ 8:00 PM Eastern",
         "matchedWords": {
           "BqlDxZ8zo0u1": {
             "hits": 0,
@@ -595,7 +595,7 @@
         "hash": "Vv81ls2xL7A6",
         "address": "https://corbettreport.com/september-open-thread-2022/",
         "title": "September Open Thread (2022) | The Corbett Report",
-        "snippet": "Open Thread.\nAnd as a reminder, I’ll be doing a livestream watch along of all three parts of the documentary with Ryan Cristian of TheLastAmericanVagabond.com. The schedule is:\nSunday, August 28th @ 8:00 PM Eastern\nFalse Flags: A Secret History of Al Qaeda – Part 1 Watch along and Q\u0026A\nSunday,",
+        "snippet": "In the meantime, feel free to start in on the September Open Thread.\nAnd as a reminder, I’ll be doing a livestream watch along of all three parts of the documentary with Ryan Cristian of TheLastAmericanVagabond.com. The schedule is:\nSunday, August 28th @ 8:00 PM Eastern",
         "matchedWords": {
           "BqlDxZ8zo0u1": {
             "hits": 0,
@@ -622,7 +622,7 @@
         "hash": "Hj5167hc6Db4",
         "address": "https://search-queries.utils.com/",
         "title": "Search Queries Tracker - Track Search Terms Leading to Your Tools - utils.com",
-        "snippet": "search engine queries bring visitors to each page or tool on your website. Parse referrer URLs, view query rankings per page, and generate a tracking snippet.\nHow It Works\nThis tool tracks which search engine queries bring visitors to specific pages on your website. It parses referrer URLs and UTM",
+        "snippet": "Engine recognition — identifies Google, Bing, DuckDuckGo, Yahoo, Baidu, Yandex, and other major search engines\nUTM support — captures utm_term from campaign URLs as an additional query source\nLanding page mapping — records which page the visitor arrived on, linking queries to specific tools",
         "matchedWords": {
           "BqlDxZ8zo0u1": {
             "hits": 7,
@@ -649,7 +649,7 @@
         "hash": "Vv81ls2xL7A6",
         "address": "https://corbettreport.com/september-open-thread-2022/",
         "title": "September Open Thread (2022) | The Corbett Report",
-        "snippet": "Open Thread.\nAnd as a reminder, I’ll be doing a livestream watch along of all three parts of the documentary with Ryan Cristian of TheLastAmericanVagabond.com. The schedule is:\nSunday, August 28th @ 8:00 PM Eastern\nFalse Flags: A Secret History of Al Qaeda – Part 1 Watch along and Q\u0026A\nSunday,",
+        "snippet": "In the meantime, feel free to start in on the September Open Thread.\nAnd as a reminder, I’ll be doing a livestream watch along of all three parts of the documentary with Ryan Cristian of TheLastAmericanVagabond.com. The schedule is:\nSunday, August 28th @ 8:00 PM Eastern",
         "matchedWords": {
           "BqlDxZ8zo0u1": {
             "hits": 0,
@@ -674,7 +674,7 @@
         "hash": "RRNM9k_MW7i4",
         "address": "https://www.docker.com/community/open-source/",
         "title": "Docker and Open Source | Docker",
-        "snippet": "Open Source\nOpen Source is in our DNA\nDocker is built for developers, by developers. We enable team collaboration, efficient packaging, and scalable distribution of open-source projects, all with a focus on trust and security.\nDocker Hub Empowers Open-Source Innovation\nThe Home for Open Source",
+        "snippet": "Docker Supports Open Source\nOpen Source is in our DNA\nDocker is built for developers, by developers. We enable team collaboration, efficient packaging, and scalable distribution of open-source projects, all with a focus on trust and security.\nDocker Hub Empowers Open-Source Innovation",
         "matchedWords": {
           "BqlDxZ8zo0u1": {
             "hits": 0,
@@ -701,7 +701,7 @@
         "hash": "Y2pI4jc4UIAx",
         "address": "https://en.wikivoyage.org/wiki/New_Zealand",
         "title": "New Zealand – Travel guide at Wikivoyage",
-        "snippet": "open 24 hours, with most other manned petrol stations closing by 10PM. There are 24-hour unmanned petrol stations around the country, which accept national and international debit/credit cards with a PIN; very rarely do these sites accept cash. Petrol prices average $2.82/L for regular unleaded",
+        "snippet": "High street stores generally open between 08:00 and 09:00 on weekdays, and close between 16:30 and 18:00. When they trade at weekends and public holidays, they generally open between 09:00 and 10:00 and close between 13:00 and 17:00.",
         "matchedWords": {
           "BqlDxZ8zo0u1": {
             "hits": 0,
@@ -728,7 +728,7 @@
         "hash": "mtii5lQw_dt5",
         "address": "https://www.cloudflare.com/website-terms/",
         "title": "Terms of Use | Cloudflare",
-        "snippet": "source code or object code), products, software, services, and all other elements of the Websites and Online Services (the “Materials”) provided by Cloudflare are protected by all relevant intellectual property and proprietary rights and applicable laws. All Materials contained in the Websites and",
+        "snippet": "You may not use automated bots to access, scan, scrape, data mine, copy, or use the materials or content on this website for developing, training, fine-tuning, or otherwise contributing to or improving a machine learning model or artificial intelligence (AI) system or the operation thereof, unless",
         "matchedWords": {
           "BqlDxZ8zo0u1": {
             "hits": 1,
@@ -755,7 +755,7 @@
         "hash": "tsBO3hsWTYKx",
         "address": "https://sourceforge.net/directory/software-development/",
         "title": "Best Open Source Software Development Software 2026",
-        "snippet": "open source Software Development software and projects below. Use the toggles on the left to filter open source Software Development software by OS, license, language, programming language, and project status.\nAwardco Employee Recognition\nFor companies looking to recognize and reward their",
+        "snippet": "Downloads: 16,768 This Week\nLast Update: 4 hours ago\nSee Project\nOpen Source Software Development Software Guide\nOpen source software development is a type of software which is published under an open source license, and its source code made available for free to the public.",
         "matchedWords": {
           "BqlDxZ8zo0u1": {
             "hits": 1,
@@ -782,7 +782,7 @@
         "hash": "kK5nNsS6MKD4",
         "address": "https://github.com/godotengine",
         "title": "Godot Engine · GitHub",
-        "snippet": "Engine – Multi-platform 2D and 3D game engine\ngodotengine/godot's past year of commit activity\ndoc-status Public\nOnline Godot class reference status\ngodotengine/doc-status's past year of commit activity\nJavaScript\n26 MIT 9 0 0 Updated Sep 11, 2026\ngodot-website Public\nThe code for the official",
+        "snippet": "godotengine/godot-prs-by-file's past year of commit activity\nJavaScript\n28 MIT 10 3 0 Updated Sep 11, 2026\ngodotengine/godot-team-reports's past year of commit activity\nJavaScript\n21 MIT 13 1 0 Updated Sep 11, 2026\ngodot Public\nGodot Engine – Multi-platform 2D and 3D game engine",
         "matchedWords": {
           "BqlDxZ8zo0u1": {
             "hits": 0,
@@ -807,7 +807,7 @@
         "hash": "kxZXcE9Ojva4",
         "address": "https://docs.docker.com/engine/network/drivers/bridge/",
         "title": "Bridge network driver | Docker Docs",
-        "snippet": "source NAT. See Port publishing.\ncom.docker.network.bridge.gateway_mode_ipv4\ncom.docker.network.bridge.gateway_mode_ipv6\nnat\nControl external connectivity. See Port publishing.\ncom.docker.network.bridge.enable_icc\ntrue\nEnable or Disable inter-container connectivity.",
+        "snippet": "true\nEnable IP masquerading.\ncom.docker.network.host_ipv4\ncom.docker.network.host_ipv6\nAddress to use for source NAT. See Port publishing.\ncom.docker.network.bridge.gateway_mode_ipv4\ncom.docker.network.bridge.gateway_mode_ipv6\nnat\nControl external connectivity. See Port publishing.",
         "matchedWords": {
           "BqlDxZ8zo0u1": {
             "hits": 0,
@@ -834,7 +834,7 @@
         "hash": "oo73LMS6MKD4",
         "address": "https://github.com/owasp-modsecurity/ModSecurity",
         "title": "GitHub - owasp-modsecurity/ModSecurity: ModSecurity is an open source, cross platform web application firewall (WAF) engine for Apache, IIS and Nginx.",
-        "snippet": "engine (PCRE2 / PCRE)\nRegular expression processing in SecRules is implemented via the Regex utility (src/utils/regex.*).\nBy default, ModSecurity uses PCRE2 for regex handling.\nThis is used by operators such as @rx, @rxGlobal, and @verifyCC.\nBuild-time behavior:\nDefault: PCRE2 is detected and used.",
+        "snippet": "Also don’t forget to look for existing issues before open a new one.\nIf you are going to open a new issue on GitHub, don’t forget to tell us the version of your libmodsecurity and the version of a specific connector if there is one.\nSecurity issue\nPlease do not make public any security issue.",
         "matchedWords": {
           "BqlDxZ8zo0u1": {
             "hits": 0,
@@ -861,7 +861,7 @@
         "hash": "v2ZUg_nMM_j5",
         "address": "https://grokipedia.com/page/IOS",
         "title": "iOS — Grokipedia",
-        "snippet": "open-source UNIX-like base that encompasses XNU and foundational libraries, providing low-level services abstracted from higher application layers. The Core OS layer handles hardware interactions, including power management, security primitives like sandboxing and entitlements, and core utilities",
+        "snippet": "Open-source releases of XNU source code, available via Apple's GitHub repositories since Darwin's inception in 2000, allow verification of these elements, though proprietary extensions remain closed.[34][30]\nHardware and Processor Integration",
         "matchedWords": {
           "BqlDxZ8zo0u1": {
             "hits": 1,
@@ -888,7 +888,7 @@
         "hash": "y8tXOWRMLT-5",
         "address": "https://canonical.com/solutions/open-source-security",
         "title": "open-source-security",
-        "snippet": "open source software supply chain\nConsume open source that's got the same set of guarantees across the stack, from the same vendor. Let us manage the CVEs, so you can unlock developer productivity and simplify your compliance efforts.\nContact Canonical\nBenefit from our 20+ years in open source",
+        "snippet": "Secure your open source software supply chain\nConsume open source that's got the same set of guarantees across the stack, from the same vendor. Let us manage the CVEs, so you can unlock developer productivity and simplify your compliance efforts.\nContact Canonical",
         "matchedWords": {
           "BqlDxZ8zo0u1": {
             "hits": 0,
@@ -915,7 +915,7 @@
         "hash": "uf2wPSofUy-5",
         "address": "https://duckduckgo.com/duckduckgo-help-pages/change-default-search-engine/uc-browser",
         "title": "How to change your default search engine in UC Browser - DuckDuckGo Help Pages",
-        "snippet": "Open UC Browser on your Android device.\nTap the URL bar at the top.\nTap the Search engine icon on the left of the URL bar.\nFrom here, you can change your default search engine.",
+        "snippet": "Android\nOpen UC Browser on your Android device.\nTap the URL bar at the top.\nTap the Search engine icon on the left of the URL bar.\nFrom here, you can change your default search engine.",
         "matchedWords": {
           "BqlDxZ8zo0u1": {
             "hits": 2,
@@ -943,7 +943,7 @@
       "hash": "Q831Yj-JVcyx",
       "address": "https://en.wikiquote.org/wiki/United_States",
       "title": "United States - Wikiquote",
-      "snippet": "search of monsters to destroy. She is the well-wisher to the freedom and independence of all. She is the champion and vindicator only of her own. She will commend the general cause by the countenance of her voice, and the benignant sympathy of her example. She well knows that by once enlisting",
+      "snippet": "Wherever the standard of freedom and Independence has been or shall be unfurled, there will her heart, her benedictions and her prayers be. But she goes not abroad, in search of monsters to destroy. She is the well-wisher to the freedom and independence of all.",
       "matchedWords": {
         "BqlDxZ8zo0u1": {
           "hits": 8,
@@ -993,7 +993,7 @@
       "hash": "hNrcdJ-bwreQ",
       "address": "http://ace.mu.nu/",
       "title": "Ace of Spades HQ",
-      "snippet": "open-to-interpretation condemnation nonetheless set tongues wagging, particularly as Mamdani -- both the Big Apple's first socialist and first Muslim mayor -- leads the city through a politically fractious run-up to the terror attacks' quarter-century anniversary on Friday.\nSeveral lefties in",
+      "snippet": "Posted by Pixy Misa at 04:30 AM Comments\nThursday Overnight Open Thread - September 10, 2026\n—Doof\nPhoto and mystery click courtesy of nurse ratched\nHowdy Hordelings! Welcome to the Thursday ONT! Mixed bag of content for those who care. Open thread, as always. On time, as always.",
       "matchedWords": {
         "BqlDxZ8zo0u1": {
           "hits": 0,
@@ -1018,7 +1018,7 @@
       "hash": "e-T7cs5DCs35",
       "address": "https://wordpress.com/",
       "title": "WordPress.com: Everything You Need to Build Your Website",
-      "snippet": "open web.\nThink WordPress isn’t for the enterprise? Think again.\nWhat do Salesforce, Al Jazeera, Capgemini, and Facebook have in common?\nThey trust WordPress VIP—the enterprise platform built on WordPress—to deliver performance at scale while meeting the highest security standards. Starting at",
+      "snippet": "Discover handpicked posts with Freshly Pressed, from personal stories to expert insights, and find your next favorite read on the open web.\nThink WordPress isn’t for the enterprise? Think again.\nWhat do Salesforce, Al Jazeera, Capgemini, and Facebook have in common?",
       "matchedWords": {
         "BqlDxZ8zo0u1": {
           "hits": 0,
@@ -1043,7 +1043,7 @@
       "hash": "Jb4XHs5IzNm6",
       "address": "https://citizenfreepress.com/",
       "title": "CITIZEN FREE PRESS",
-      "snippet": "Open AI simply made up testimony.\nAOC and Mamdani show zero respect.\nWatch Live | Charlie Kirk show.\nSecret code hidden in Great Pyramids may reveal true purpose.\nLSU will not be punished.\nAI computer virus could (easily) hack one billion user accounts on WeChat.\nGutfeld loses friend to cold",
+      "snippet": "Video | Mark Sanchez court perp walk.\nGold price falls, live quote.\nHighlight | Excellent point from U.S. Open.\nIU players tell stories about Cignetti.\nWNBA commissioner just quit.\nOpen AI releases powerful (and dangerous) new Chat GPT 6 Astra model.\nEven Sam Altman is unsure what will happen.",
       "matchedWords": {
         "BqlDxZ8zo0u1": {
           "hits": 1,
@@ -1068,7 +1068,7 @@
       "hash": "sgghmlAUKsO5",
       "address": "https://www.findarticles.com/news/",
       "title": "News Articles - FindArticles",
-      "snippet": "Welcome to the News Articles, your gateway to thousands of insights, reports, and stories published across a wide range of topics. This section serves as the archive and central access point for all articles available on FindArticles.com.\nOur coverage spans multiple areas of interest, ensuring that",
+      "snippet": "Welcome to the News Articles, your gateway to thousands of insights, reports, and stories published across a wide range of topics. This section serves as the archive and central access point for all articles available on FindArticles.com.",
       "matchedWords": {
         "BqlDxZ8zo0u1": {
           "hits": 0,
@@ -1093,7 +1093,7 @@
       "hash": "anJsWsDBeN55",
       "address": "https://henrymakow.com/",
       "title": "henrymakow.com - Exposing Feminism and The New World Order",
-      "snippet": "search for that \"special someone\" who will make us \"feel good.\" Usually, this ends in disaster because we cannot depend on others for this and call it love.\nIn conclusion, women used to sacrifice for husband and family and were cherished in return. They have been reprogrammed to seek power instead",
+      "snippet": "We don't recognize how oppressive and time consuming our sexual obsession really is. We're feel-good addicts. We've been trained to search for that \"special someone\" who will make us \"feel good.\" Usually, this ends in disaster because we cannot depend on others for this and call it love.",
       "matchedWords": {
         "BqlDxZ8zo0u1": {
           "hits": 2,
@@ -1118,7 +1118,7 @@
       "hash": "W-eXqzF3--Qw",
       "address": "https://planet.mozilla.org/",
       "title": "Planet Mozilla",
-      "snippet": "devtools.debugger.file-search-* preferences\n🌟 Nathan Leuz: Remove unused legacy preference browser.translation.neverForLanguages\n🌟 Priyanshu[:0xanshu]: “Forget About This Site” dialog is cut off\n🌟 K: Disable breakpoints shortcut\n🌟 Shawn Zivontsis: Reorder moz_origins composite unique index to",
+      "snippet": "Whether you want to search with Startpage, or another preferred search engine, it’s as easy as opening your search settings, picking a default, and done.\nAnd if you’re happy with your current search engine, nothing about your setup changes.\nWhy Europe first",
       "matchedWords": {
         "BqlDxZ8zo0u1": {
           "hits": 67,
@@ -1168,7 +1168,7 @@
       "hash": "aEnpV6Gt4Xm4",
       "address": "https://christadelphianworld.blogspot.com/",
       "title": "Our World",
-      "snippet": "open articles via tags. Also opening the home page takes on several browsers too much time. Even reducing the home page to only 5 articles did not bring a solution.\nFrom 2021 September 25 I shall provide the articles which I would normally publish on \"Our Word\" on two platforms: The religious",
+      "snippet": "Since a few months, there seem to be problems with Blogger, making it not practical to open articles via tags. Also opening the home page takes on several browsers too much time. Even reducing the home page to only 5 articles did not bring a solution.",
       "matchedWords": {
         "BqlDxZ8zo0u1": {
           "hits": 0,
@@ -1193,7 +1193,7 @@
       "hash": "MaRThsRMLT-5",
       "address": "https://canonical.com/",
       "title": "Trusted open source for enterprises | Canonical",
-      "snippet": "open source solutions, supported by the experts behind the world’s leading Linux.\nStart with Ubuntu\nTake control of your infrastructure\nBuild apps at speed and stay secure\nGet an optimized stack for data and AI\nDeploy smart things at the edge\nStart with Ubuntu\nBuild with confidence on the world’s",
+      "snippet": "Build, secure, and scale your IoT devices with trusted open source for all parts of the device lifecycle.\nSpeed up your IoT journey\nDo more with trusted open source\nUnlocking economies of scale\nwith open source infrastructure",
       "matchedWords": {
         "BqlDxZ8zo0u1": {
           "hits": 0,
@@ -1218,7 +1218,7 @@
       "hash": "m5Fe6jRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Google",
       "title": "Google - Wikipedia",
-      "snippet": "search engine provided by the company, see Google Search. For the parent company with the stock tickers GOOG and GOOGL, see Alphabet Inc. For the number, see Googol. For other uses, see Google (disambiguation).\nGoogle LLC\nGoogle logo used since 2026\nGoogle's headquarters, the Googleplex, in 2016",
+      "snippet": "Eventually, they changed the name to Google; the name of the search engine was a misspelling of the word googol, a very large number written 10100 (1 followed by 100 zeros), picked to signify that the search engine was intended to search a large number of websites.[30]",
       "matchedWords": {
         "BqlDxZ8zo0u1": {
           "hits": 112,
@@ -1243,7 +1243,7 @@
       "hash": "9P0qOjRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Wikimedia_Commons",
       "title": "Wikimedia Commons - Wikipedia",
-      "snippet": "search results\nThe stated aim of Wikimedia Commons is to provide a media file repository \"that makes available public domain and freely-licensed educational media content to all, and that acts as a common repository for the various projects of the Wikimedia Foundation.\"[17]\nMost Wikimedia projects",
+      "snippet": "15] Commons media has also been used as training data for artificial intelligence text-to-image models, which caused a 50% increase in bandwidth consumption since January 2024.[16]\nRelation to sister projects\n[edit]\nA page of Commons search results",
       "matchedWords": {
         "BqlDxZ8zo0u1": {
           "hits": 1,
@@ -1268,7 +1268,7 @@
       "hash": "eKFjxsS6MKD4",
       "address": "https://github.com/blinggnome",
       "title": "blinggnome · GitHub",
-      "snippet": "Block user Prevent this user from interacting with your repositories and sending you notifications. Learn more about blocking users.\nYou must be logged in to block users.\nClose all issues, pull requests, and discussions opened by this user\nContent in all repositories owned by your account will be",
+      "snippet": "Block user Prevent this user from interacting with your repositories and sending you notifications. Learn more about blocking users.\nYou must be logged in to block users.\nClose all issues, pull requests, and discussions opened by this user",
       "matchedWords": {
         "BqlDxZ8zo0u1": {
           "hits": 0,
@@ -1293,7 +1293,7 @@
       "hash": "Mb7ip0SWekJ4",
       "address": "https://thangs.com/resources/blog",
       "title": "Blog",
-      "snippet": "open their storefront on Amazon. During peak season Luis and Tracy were selling around $1,000 a day — all because they got their start with a quirky cat butt cookie cutter.\n“People wanted the weird stuff we were coming up with, so we just kept creating.”\n‍\nSome of Tactical Kaoz' hyper realistic",
+      "snippet": "Include up to 3 hashtags\nLink back to Thangs in the Description to drive membership views!\nInclude great detail in the description field as YouTube results populate when people search across all major search engines\nTikTok",
       "matchedWords": {
         "BqlDxZ8zo0u1": {
           "hits": 12,
@@ -1318,7 +1318,7 @@
       "hash": "uaEnGzTwnifx",
       "address": "https://planet.wordpress.org/",
       "title": "Planet — WordPress.org",
-      "snippet": "Transcript [00:00:19] Nathan Wrigley: Welcome to the Jukebox Podcast from WP Tavern. My name is Nathan Wrigley.\nJukebox is a podcast which is dedicated to all things WordPress. The people, the events, the plugins, the blocks, the themes, and in this case, building trust with project contracts for",
+      "snippet": "Transcript [00:00:19] Nathan Wrigley: Welcome to the Jukebox Podcast from WP Tavern. My name is Nathan Wrigley.\nJukebox is a podcast which is dedicated to all things WordPress.",
       "matchedWords": {
         "BqlDxZ8zo0u1": {
           "hits": 0,
@@ -1343,7 +1343,7 @@
       "hash": "D1yl1bUmIDp5",
       "address": "https://voiceofrestoration.wordpress.com/",
       "title": "Voice of Restoration – Life is like a chameleon in a bag of skittles…",
-      "snippet": "open the door for all kinds of destruction. If we have enough patience and wait for the Lord to intervene, He will always provide a way for us to get through our troubles. To follow our own desires shows our hearts are far from Him.\nSide note: Since thoughts of suicide indicate a dip in mental",
+      "snippet": "I have not listed the articles that give surface conclusions about these passages, since the loudest voices have already shoved those teachings to the forefront. Most of the articles that make their way to the top of any search engine are anti-woman.",
       "matchedWords": {
         "BqlDxZ8zo0u1": {
           "hits": 11,
@@ -1368,7 +1368,7 @@
       "hash": "AWq9VQXx1HRZ",
       "address": "http://www.dailystirrer.com/2012-october.shtml",
       "title": "the_daily_stirrer-2012-june-opinion-comment-controversy-news-events-politics",
-      "snippet": "(search the SR archives on \"quantum biology\"). www.schwartzreport.net is entirely consistent with the work already done in Quantum Entanglements.\nThough I am a cynic (A true cynic who questions everything, not a science pseud who sneers at everything that does not fit neatly into a mathematical",
+      "snippet": "This, if translated down to the cellular level (search the SR archives on \"quantum biology\"). www.schwartzreport.net is entirely consistent with the work already done in Quantum Entanglements.",
       "matchedWords": {
         "BqlDxZ8zo0u1": {
           "hits": 5,
@@ -1393,7 +1393,7 @@
       "hash": "ELIe2QXx1HRZ",
       "address": "http://www.dailystirrer.com/2021-may.shtml",
       "title": "2021",
-      "snippet": "open letter to authorities demanding the investigation of WHO for creating coronavirus infodemic faking the pandemic. The following letter has made an impact on public health authorities not only in Belgium but around the world. The text could pertain to any case ...\nNo Medical Justification For",
+      "snippet": "The internet search giant will now be able to use information about what people are entering into its search engine to target adverts according to users' interests under the changes.",
       "matchedWords": {
         "BqlDxZ8zo0u1": {
           "hits": 3,
@@ -1418,7 +1418,7 @@
       "hash": "NIR9mQXx1HRZ",
       "address": "http://www.dailystirrer.com/2021-november.shtml",
       "title": "dailystirrer-2021-november-news-comment-opinion-controversy-contrarianism",
-      "snippet": "source of domestic heating is to be heat pumps. The Daily Stirrer counters the pseudo-scientific bollocks and reveals this 'new technology has been around for a hundred years.\nGreen dreams of Heat Pumps Continue reading \u003e\u003e\u003e\nWhen Boris Johnson revealed the UK Government plans for achieving 'net",
+      "snippet": "When Boris Johnson revealed the UK Government plans for achieving 'net zero' carbon emissions by 2050 it emerged the much teased clean, green replacement for gas boilers as our main source of domestic heating is to be heat pumps.",
       "matchedWords": {
         "BqlDxZ8zo0u1": {
           "hits": 1,
@@ -1443,7 +1443,7 @@
       "hash": "PSkz_QXx1HRZ",
       "address": "http://www.dailystirrer.com/2021-october.shtml",
       "title": "dailystirrer-2021-news-october-comment-opinion-controversy-contrarianism",
-      "snippet": "Source: bloomberg\nPeople inoculated against Covid-19 are just as likely to spread the delta variant of the virus to contacts in their household as those who havenâ€™t had shots, according to new research.\nIn a yearlong study of 621 people in the U.K. with mild Covid-19, scientists found that their",
+      "snippet": "The fact is of course that nobody can possibly predict exactly what will happen in the future, the predictions of the last twenty years, none of which have been borne out by the way, as a little research using a decent search engine will confirm, have been based the reults of mathematical modelling",
       "matchedWords": {
         "BqlDxZ8zo0u1": {
           "hits": 4,
@@ -1468,7 +1468,7 @@
       "hash": "t2h4nQXx1HRZ",
       "address": "http://www.dailystirrer.com/2013-november.shtml",
       "title": "dailystirrer curent month",
-      "snippet": "open-ended occupation (colonization by another name) at the expense of the Afghan people. \"Occupation is not defined by how many occupiers are policing someplace,\" said Kimber Heinz of the War Resisters League in an interview with Common Dreams. “If you reduce the amount of occupation forces but",
+      "snippet": "According to reports from tech website Digiday, the fascist search engine operator is testing a program that would track users to monitor which shops they visit.",
       "matchedWords": {
         "BqlDxZ8zo0u1": {
           "hits": 4,
@@ -1493,7 +1493,7 @@
       "hash": "wrsAbQXx1HRZ",
       "address": "http://www.dailystirrer.com/2012-august.shtml",
       "title": "the_daily_stirrer-2012-june-opinion-comment-controversy-news-events-politics",
-      "snippet": "Open Europe revisits in a briefing published yesterday.\nIn the view of the Daily Stirrer the answer is no. Many European nations are already close to social breakdown and even France is in deep trouble as President Hollande's socialist government is forced to abandon tax-and-spen promises and face",
+      "snippet": "Failing this, the euro will have to either break up or go for a full fiscal union. But is it possible to achieve such adjustment – and save the euro – through internal devaluation alone? This is the question Open Europe revisits in a briefing published yesterday.",
       "matchedWords": {
         "BqlDxZ8zo0u1": {
           "hits": 3,
@@ -1518,7 +1518,7 @@
       "hash": "CyUYvsY-tUi5",
       "address": "https://moralparty.com/Warnings/",
       "title": "Warnings – MoralParty.com",
-      "snippet": "open inspections so that AI does not advance any further. An international treaty that every country promptly signs on to, so if any rogue group or country starts to build even a secret, small data center, it would instantly be known and stopped.\nThis treaty would state that all new data center",
+      "snippet": "It is beyond imperative that governments of every country on Earth come together to create a significant and enforceable security agreement with totally open inspections so that AI does not advance any further.",
       "matchedWords": {
         "BqlDxZ8zo0u1": {
           "hits": 3,
@@ -1993,7 +1993,7 @@
       "hash": "hNrcdJ-bwreQ",
       "address": "http://ace.mu.nu/",
       "title": "Ace of Spades HQ",
-      "snippet": "open-to-interpretation condemnation nonetheless set tongues wagging, particularly as Mamdani -- both the Big Apple's first socialist and first Muslim mayor -- leads the city through a politically fractious run-up to the terror attacks' quarter-century anniversary on Friday.\nSeveral lefties in",
+      "snippet": "Posted by Pixy Misa at 04:30 AM Comments\nThursday Overnight Open Thread - September 10, 2026\n—Doof\nPhoto and mystery click courtesy of nurse ratched\nHowdy Hordelings! Welcome to the Thursday ONT! Mixed bag of content for those who care. Open thread, as always. On time, as always.",
       "matchedWords": {
         "BqlDxZ8zo0u1": {
           "hits": 0,
@@ -2018,7 +2018,7 @@
       "hash": "Jb4XHs5IzNm6",
       "address": "https://citizenfreepress.com/",
       "title": "CITIZEN FREE PRESS",
-      "snippet": "Open AI simply made up testimony.\nAOC and Mamdani show zero respect.\nWatch Live | Charlie Kirk show.\nSecret code hidden in Great Pyramids may reveal true purpose.\nLSU will not be punished.\nAI computer virus could (easily) hack one billion user accounts on WeChat.\nGutfeld loses friend to cold",
+      "snippet": "Video | Mark Sanchez court perp walk.\nGold price falls, live quote.\nHighlight | Excellent point from U.S. Open.\nIU players tell stories about Cignetti.\nWNBA commissioner just quit.\nOpen AI releases powerful (and dangerous) new Chat GPT 6 Astra model.\nEven Sam Altman is unsure what will happen.",
       "matchedWords": {
         "BqlDxZ8zo0u1": {
           "hits": 1,
@@ -2043,7 +2043,7 @@
       "hash": "W-eXqzF3--Qw",
       "address": "https://planet.mozilla.org/",
       "title": "Planet Mozilla",
-      "snippet": "devtools.debugger.file-search-* preferences\n🌟 Nathan Leuz: Remove unused legacy preference browser.translation.neverForLanguages\n🌟 Priyanshu[:0xanshu]: “Forget About This Site” dialog is cut off\n🌟 K: Disable breakpoints shortcut\n🌟 Shawn Zivontsis: Reorder moz_origins composite unique index to",
+      "snippet": "Whether you want to search with Startpage, or another preferred search engine, it’s as easy as opening your search settings, picking a default, and done.\nAnd if you’re happy with your current search engine, nothing about your setup changes.\nWhy Europe first",
       "matchedWords": {
         "BqlDxZ8zo0u1": {
           "hits": 67,
@@ -2068,7 +2068,7 @@
       "hash": "aEnpV6Gt4Xm4",
       "address": "https://christadelphianworld.blogspot.com/",
       "title": "Our World",
-      "snippet": "open articles via tags. Also opening the home page takes on several browsers too much time. Even reducing the home page to only 5 articles did not bring a solution.\nFrom 2021 September 25 I shall provide the articles which I would normally publish on \"Our Word\" on two platforms: The religious",
+      "snippet": "Since a few months, there seem to be problems with Blogger, making it not practical to open articles via tags. Also opening the home page takes on several browsers too much time. Even reducing the home page to only 5 articles did not bring a solution.",
       "matchedWords": {
         "BqlDxZ8zo0u1": {
           "hits": 0,
@@ -2143,7 +2143,7 @@
       "hash": "AWq9VQXx1HRZ",
       "address": "http://www.dailystirrer.com/2012-october.shtml",
       "title": "the_daily_stirrer-2012-june-opinion-comment-controversy-news-events-politics",
-      "snippet": "(search the SR archives on \"quantum biology\"). www.schwartzreport.net is entirely consistent with the work already done in Quantum Entanglements.\nThough I am a cynic (A true cynic who questions everything, not a science pseud who sneers at everything that does not fit neatly into a mathematical",
+      "snippet": "This, if translated down to the cellular level (search the SR archives on \"quantum biology\"). www.schwartzreport.net is entirely consistent with the work already done in Quantum Entanglements.",
       "matchedWords": {
         "BqlDxZ8zo0u1": {
           "hits": 5,
@@ -2168,7 +2168,7 @@
       "hash": "t2h4nQXx1HRZ",
       "address": "http://www.dailystirrer.com/2013-november.shtml",
       "title": "dailystirrer curent month",
-      "snippet": "open-ended occupation (colonization by another name) at the expense of the Afghan people. \"Occupation is not defined by how many occupiers are policing someplace,\" said Kimber Heinz of the War Resisters League in an interview with Common Dreams. “If you reduce the amount of occupation forces but",
+      "snippet": "According to reports from tech website Digiday, the fascist search engine operator is testing a program that would track users to monitor which shops they visit.",
       "matchedWords": {
         "BqlDxZ8zo0u1": {
           "hits": 4,
@@ -2193,7 +2193,7 @@
       "hash": "wrsAbQXx1HRZ",
       "address": "http://www.dailystirrer.com/2012-august.shtml",
       "title": "the_daily_stirrer-2012-june-opinion-comment-controversy-news-events-politics",
-      "snippet": "Open Europe revisits in a briefing published yesterday.\nIn the view of the Daily Stirrer the answer is no. Many European nations are already close to social breakdown and even France is in deep trouble as President Hollande's socialist government is forced to abandon tax-and-spen promises and face",
+      "snippet": "Failing this, the euro will have to either break up or go for a full fiscal union. But is it possible to achieve such adjustment – and save the euro – through internal devaluation alone? This is the question Open Europe revisits in a briefing published yesterday.",
       "matchedWords": {
         "BqlDxZ8zo0u1": {
           "hits": 3,
@@ -2393,7 +2393,7 @@
       "hash": "MaRThsRMLT-5",
       "address": "https://canonical.com/",
       "title": "Trusted open source for enterprises | Canonical",
-      "snippet": "open source solutions, supported by the experts behind the world’s leading Linux.\nStart with Ubuntu\nTake control of your infrastructure\nBuild apps at speed and stay secure\nGet an optimized stack for data and AI\nDeploy smart things at the edge\nStart with Ubuntu\nBuild with confidence on the world’s",
+      "snippet": "Build, secure, and scale your IoT devices with trusted open source for all parts of the device lifecycle.\nSpeed up your IoT journey\nDo more with trusted open source\nUnlocking economies of scale\nwith open source infrastructure",
       "matchedWords": {
         "BqlDxZ8zo0u1": {
           "hits": 0,

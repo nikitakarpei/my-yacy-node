@@ -1,13 +1,13 @@
 {
   "query": "self hosted email server",
-  "recordedAt": "2026-09-12T00:21:24Z",
+  "recordedAt": "2026-09-12T07:52:12Z",
   "itemsInTheOrderOfEachAnswer": [
     [
       {
         "hash": "9Gfi7KsrSOQw",
         "address": "https://arxiv.org/list/cs/new",
         "title": "Computer Science",
-        "snippet": "New submissions\nCross-lists\nReplacements\nSee recent articles\nShowing new listings for Friday, 11 September 2026\nTotal of 1033 entries\nShowing up to 2000 entries per page: fewer | more | all\nNew submissions (showing 581 of 581 entries)\n[1] arXiv:2609.10542 [pdf, html, other]\n[2] arXiv:2609.10543",
+        "snippet": "New submissions\nCross-lists\nReplacements\nSee recent articles\nShowing new listings for Friday, 11 September 2026\nTotal of 1033 entries\nShowing up to 2000 entries per page: fewer | more | all\nNew submissions (showing 581 of 581 entries)\n[1] arXiv:2609.10542 [pdf, html, other]",
         "matchedWords": {
           "DIP1fHhqC0o5": {
             "hits": 0,
@@ -34,7 +34,7 @@
         "hash": "1lGoBsyuNlT5",
         "address": "https://alt-webring.com/",
         "title": "alt-webring | The (former) alternative webring system",
-        "snippet": "Self Taught It is a website about unschooling and self learning. I also have recommended reading lists for various subjects and lots of links.\nAOAL/SDA Info Center A site I made that has some pretty epic stories. Most of them are about anti-school things that gives people a nice anti-school",
+        "snippet": "Ironic Maiden De NL Iron Maiden tribute\nShinbone Classic Power Rock\nNo archived sites currently available.\nThe Autodidact Society for the Self Taught It is a website about unschooling and self learning. I also have recommended reading lists for various subjects and lots of links.",
         "matchedWords": {
           "DIP1fHhqC0o5": {
             "hits": 6,
@@ -88,7 +88,7 @@
         "hash": "5VLLBs6GdY-4",
         "address": "https://danluu.com/hn-comments/",
         "title": "HN: comments are underrated",
-        "snippet": "Self-destructing speakers from Dell\nAs the main developer of VLC, we know about this story since a long time, and this is just Dell putting crap components on their machine and blaming others. Any discussion was impossible with them. So let me explain a bit...\nIn this case, VLC just uses the",
+        "snippet": "Looking at each of the above revenue paths as executed by RethinkDB:\na) RethinkDB never offered a hosted solution. Compose offered a hosted solution in October of 2014. b) RethinkDB didn't support true high availability until the 2.1 release in August 2015.",
         "matchedWords": {
           "DIP1fHhqC0o5": {
             "hits": 2,
@@ -142,7 +142,7 @@
         "hash": "yJuijsCG40j4",
         "address": "https://tantek.com/",
         "title": "Tantek Çelik",
-        "snippet": "server blocks access to [URL]. (HTTP status=403)\"\n(literally happened to me today)\nor some other HTTP status error code (5xx or 4xx), then you can try emailing the IT staff of the site you were trying to archive by emailing \"webmaster@\" the domain of that URL and perhaps CC: help@ that domain.\nE.g.",
+        "snippet": "Post at least 30 times during the month.\nAll self-assessed and self-acknowledged. Use the award name, emoji, or both!\nAnd that’s it.\nIf those are topics you already blog about, great, join in using the hashtags and share what you find useful about them!",
         "matchedWords": {
           "DIP1fHhqC0o5": {
             "hits": 2,
@@ -170,7 +170,7 @@
       "hash": "gCVBNZ3WSkX4",
       "address": "https://docs.ovhcloud.com/en/",
       "title": "OVHcloud Documentation",
-      "snippet": "email addresses\nVPS→\nScalable virtual servers on demand\nDedicated Servers→\nHigh-performance physical servers\nEnterprise File Storage→\nShared NFS and CIFS file storage\nCompute→\nCloud instances and virtual machines\nObject Storage→\nScalable object storage for your data\nAI \u0026 Machine Learning→\nTrain and",
+      "snippet": "Domain NamesGet started with domain names\nWeb HostingDeploy your first website\nEmailsSet up your email addresses\nZimbraGet started with Zimbra\nEmail ProGet started with Email Pro\nMicrosoft ExchangeGet started with Microsoft Exchange\nManaged HostingGet started with managed hosting",
       "matchedWords": {
         "DIP1fHhqC0o5": {
           "hits": 4,
@@ -195,7 +195,7 @@
       "hash": "cWZdmz9qXMBw",
       "address": "https://planet.kernel.org/",
       "title": "Kernel Planet",
-      "snippet": "self-hosted git repo with a convenient collaboration plane! ↩︎\nAugust 26, 2026 04:04 AM\nAugust 15, 2026\nLinux Plumbers Conference: Linux Plumbers Conference 2026 is now SOLD OUT!\nIt has become a trend for us now. Linux Plumbers Conference 2026 that is to be held in Prague on October 5th through to",
+      "snippet": "Because I am bad at giving up on things, I’ve been running my own email server for over 20 years. Some of that time it’s been a PC at the end of a DSL line, some of that time it’s been a Mac Mini in a data centre, and some of that time it’s been a hosted VM.",
       "matchedWords": {
         "DIP1fHhqC0o5": {
           "hits": 13,
@@ -220,7 +220,7 @@
       "hash": "mKjEVzAa-Sqx",
       "address": "https://planet.freedesktop.org/",
       "title": "planet.freedesktop.org",
-      "snippet": "server (which could be a privacy concern).\nTherefore, a common way to deploy an AppStream-enabled software repository is to ship all icons of all applications in the repository to the user as part of the repository metadata download. AppStream does support remote icon downloads nowadays, and for a",
+      "snippet": "static DexFuture * foobar (gpointer user_data) { /* g_weak_ref_init in the caller somewhere */ GWeakRef *self_wr = user_data; for (;;) { g_autoptr(GBytes) bytes = NULL; bytes = dex_await_boxed (my_other_thing_bar (other, foo), NULL); { g_autoptr(MyThing) self = g_weak_ref_get (\u0026self_wr); if (!",
       "matchedWords": {
         "DIP1fHhqC0o5": {
           "hits": 1,
@@ -245,7 +245,7 @@
       "hash": "W-eXqzF3--Qw",
       "address": "https://planet.mozilla.org/",
       "title": "Planet Mozilla",
-      "snippet": "self-suggestion!\nPlease submit your suggestions and votes for next week!\nCalls for Testing\nAn important step for RFC implementation is for people to experiment with the implementation and give feedback, especially before stabilization.\nIf you are a feature implementer and would like your RFC to",
+      "snippet": "We’re also looking into a key complaint: setting up notifications and “push” (IMAP Idle) notifications is just too difficult. We don’t make it easy enough for users to set up their notifications and ensure they get email notifications when their email server reports updates.",
       "matchedWords": {
         "DIP1fHhqC0o5": {
           "hits": 27,
@@ -320,7 +320,7 @@
       "hash": "GUrZK6QzbYgx",
       "address": "https://wikisource.org/wiki/Wikisource:Scriptorium",
       "title": "Wikisource:Scriptorium - Wikisource",
-      "snippet": "email addresses can now see a banner encouraging them to do so. Having the email address confirmed allows a user to restore access to the account if they lose it. Learn more. [12]\nView all 15 community-submitted tasks that were resolved last week. For example, an issue where editing very large wiki",
+      "snippet": "On several wikis, logged-in editors who haven't confirmed their email addresses can now see a banner encouraging them to do so. Having the email address confirmed allows a user to restore access to the account if they lose it. Learn more. [12]",
       "matchedWords": {
         "DIP1fHhqC0o5": {
           "hits": 4,
@@ -395,7 +395,7 @@
       "hash": "D4lABzaS0qdw",
       "address": "https://planet.debian.org/",
       "title": "Planet Debian",
-      "snippet": "server, which I rent with two 1 TB SSD disks. The optimized decoder of the C TurboPFor library is what made decoding fast at query time.\nIf you want to dive deeper into the algorithm, see this blog post from February 2019:\nIf you want to learn more about the positional index, see this blog post",
+      "snippet": "For literal queries (78.2% of DCS queries), querying the positional index on disk is faster than querying the non-positional index in RAM.\nThe efficient encoding of the TurboPFor format makes it possible to fit such an index on a mid-sized Hetzner server, which I rent with two 1 TB SSD disks.",
       "matchedWords": {
         "DIP1fHhqC0o5": {
           "hits": 0,
@@ -420,7 +420,7 @@
       "hash": "YZDSAsdTeyA4",
       "address": "https://github.blog/changelog/",
       "title": "GitHub Changelog",
-      "snippet": "email*\nBy submitting, I agree to let GitHub and its affiliates use my information for personalized communications, targeted advertising, and campaign effectiveness. See the GitHub Privacy Statement for more details.",
+      "snippet": "Subscribe to our developer newsletter\nDiscover tips, technical guides, and best practices in our biweekly newsletter just for devs.\nEnter your email*",
       "matchedWords": {
         "DIP1fHhqC0o5": {
           "hits": 1,
@@ -445,7 +445,7 @@
       "hash": "2ZqdVzfOEiDw",
       "address": "https://planet.gnome.org/",
       "title": "Planet GNOME",
-      "snippet": "server (which could be a privacy concern).\nTherefore, a common way to deploy an AppStream-enabled software repository is to ship all icons of all applications in the repository to the user as part of the repository metadata download. AppStream does support remote icon downloads nowadays, and for a",
+      "snippet": "AppStream’s original design however comes from the perspective of Linux distributions in 2011, where you may want to browse the software catalog offline, without delay, and without pinging an external server (which could be a privacy concern).",
       "matchedWords": {
         "DIP1fHhqC0o5": {
           "hits": 0,
@@ -495,7 +495,7 @@
       "hash": "2i-X_sofUy-5",
       "address": "https://duckduckgo.com/bang_lite.html",
       "title": "DuckDuckGo !Bang",
-      "snippet": "!yop.email !yp !yri !yubnub !zabasearch !zapmeta !zetawiki !zetax !zivefirmy !zomato !ςγρ !ц !ш !шру !як\nSearch (DDG):\n!? !anyr !api !assist !bangs !blogspot !bttf !closebook !dark !day !dc !dde !ddg !ddgbr !ddgc !ddgee !ddghu !ddgi !ddgja !ddgm !ddgnl !ddgno !ddh10 !ddh2 !ddh3 !ddh4 !ddh5 !ddh6",
+      "snippet": "wort !wortschatz !wox !wpplugs !wrden !wtbr !wte !wul !wus !wwtr !xmpprooms !y !yacy !yahoo !yahoo (!y !yjp) !yandex (!ya !yaen !yandexm) !yaslovari !yat !yatr !ydd !yde !yeahway !yeggi !yi !yippy !yjisho !ymg !yn !yop.email !yp !yri !yubnub !zabasearch !zapmeta !zetawiki !zetax !zivefirmy !zomato !",
       "matchedWords": {
         "DIP1fHhqC0o5": {
           "hits": 3,
@@ -520,7 +520,7 @@
       "hash": "XTPIBlptNsG4",
       "address": "https://www.akdart.com/hijrah.html",
       "title": "Islamic invasion disguised as the displacement and acceptance of refugees",
-      "snippet": "self-inflicted oblivion. The antithesis of multicultural harmony, the year 2025 brings another pitiful surrender to the forces of Islamic extremism, a phenomenon chillingly encapsulated by Melanie Phillips in her prescient 2006 tome Londonistan. Phillips, a Cassandra of our age, warned of London's",
+      "snippet": "The man is obsessed with Islam. Westminster has hosted Iftar and my own Hull City Council recently hosted a civic Grand Iftar in our City Hall.",
       "matchedWords": {
         "DIP1fHhqC0o5": {
           "hits": 11,
@@ -545,7 +545,7 @@
       "hash": "hNrcdJ-bwreQ",
       "address": "http://ace.mu.nu/",
       "title": "Ace of Spades HQ",
-      "snippet": "Email Security\nMoron Meet-Ups\nSeptember 11, 2026\nOmnibus Cafe\n—Disinformation Expert Ace\nA horse-drawn bus from the 1890s\nBuffaloRon @BuffaloRon Jul 14, 2025\nThere is no way a horse drew this.\nits a photograph.\nWhen I read Sherlock Holmes or history books (usually Jack the Ripper books), they refer",
+      "snippet": "Also to share links to potential publishing outlets, writing help sites, and videos posting tips to get published. Contact OrangeEnt for info:\nmaildrop62 at proton dot me\nCutting The Cord And Email Security\nMoron Meet-Ups\nSeptember 11, 2026\nOmnibus Cafe\n—Disinformation Expert Ace",
       "matchedWords": {
         "DIP1fHhqC0o5": {
           "hits": 1,
@@ -570,7 +570,7 @@
       "hash": "xIkDby3WSkX4",
       "address": "https://docs.ovhcloud.com/en/guides/web-cloud/domains/overview",
       "title": "Domains - OVHcloud Documentation",
-      "snippet": "server\nCustomise your server\nPrivate Cloud\nPublic VCF as-a-Service\nOverview\nKey Concepts\nGetting started\nConfiguration\nMigration\nTutorials\nAdditional resources\nManaged VMware\nOverview\nKey Concepts\nGetting started\nConfiguration\nVirtual Machines\nStorage and Resources\nNetwork and Connectivity\nvSphere",
+      "snippet": "Adding your email account to an existing email service\nEmail Pro\nGetting started\nSetting up an email application on your computer\nSetting up an email application on your mobile device\nAdding your email account to an existing email service\nAdditional resources\nMicrosoft Exchange\nGetting started",
       "matchedWords": {
         "DIP1fHhqC0o5": {
           "hits": 16,
@@ -595,7 +595,7 @@
       "hash": "zPdIps8BaC94",
       "address": "https://brave.com/podcast/",
       "title": "The Brave Technologist | Brave",
-      "snippet": "Hosted by Luke Mulks\nVP, Business Operations at Brave\nThe Brave Technologist podcast is hosted by Luke Mulks, VP of Business Operations at Brave Software - makers of the privacy-respecting Brave browser and Search engine, now powering AI with the Brave Search API. In this role Luke focuses on",
+      "snippet": "Subscribe now to “The Brave Technologist” and get ready to unlock the potential of AI, and become a part of the transformation shaping our world.\nHosted by Luke Mulks\nVP, Business Operations at Brave",
       "matchedWords": {
         "DIP1fHhqC0o5": {
           "hits": 0,
@@ -620,7 +620,7 @@
       "hash": "2BUdOKKwilRR",
       "address": "http://microformats.org/wiki/microformats2",
       "title": "microformats2 - Microformats Wiki",
-      "snippet": "self-evident from context. However, any parsing prefix can be used with any property, especially if you find a good reason to do so!\nv2 vocabularies\nStatus: draft. Please review and provide feedback in IRC.\nh-adr\nh-card\nh-entry\nh-event\nh-feed\nh-geo\nh-item\nh-listing\nh-product\nh-recipe\nh-resume",
+      "snippet": "rel=\"self bookmark\" - parse as u-url. note that rel attribute value is treated as a space separated set, thus any presence of \"self\" and \"bookmark\" within such a set in a rel value is accepted.",
       "matchedWords": {
         "DIP1fHhqC0o5": {
           "hits": 3,
@@ -670,7 +670,7 @@
       "hash": "f0SNutRe8955",
       "address": "https://blog.krtraining.com/",
       "title": "Notes from KR - this time, it's personal",
-      "snippet": "self-defense material: answering the questions “what is the right thing to do” in all the most common self defense situations. The most common mistakes armed citizens make in defensive incidents are failures of tactics – not shooting skills. There is more to defensive firearms training than just",
+      "snippet": "Wednesday Wisdom 18 Feb (Sensible Self Defense)\nThe 20 Gauge Beretta A300 Ultima Patrol (Sensible Self Defense)\nWednesday Wisdom 11 Feb (Sensible Self Defense)\nWednesday Wisdom 4 Feb (Sensible Self Defense)\nSecuring Backyard Fences (Active Response Training)",
       "matchedWords": {
         "DIP1fHhqC0o5": {
           "hits": 48,
@@ -695,7 +695,7 @@
       "hash": "Mb7ip0SWekJ4",
       "address": "https://thangs.com/resources/blog",
       "title": "Blog",
-      "snippet": "server to stay connected with your members. It offers a relaxed and informal channel for interacting with your followers and community.\nMemberships Email Relay\nCommunicate with your members at least once a week.\nUse the Memberships Email Relay to give your paid members updates on your projects,",
+      "snippet": "If you haven’t yet ventured into the world of Discord, think about setting up a server to stay connected with your members. It offers a relaxed and informal channel for interacting with your followers and community.\nMemberships Email Relay\nCommunicate with your members at least once a week.",
       "matchedWords": {
         "DIP1fHhqC0o5": {
           "hits": 53,
@@ -720,7 +720,7 @@
       "hash": "btqgslTg2KM4",
       "address": "https://www.wikihow.com/Experts",
       "title": "wikiHow Experts",
-      "snippet": "server design/upkeep. He graduated in 2023 with a BA in Sociology and English from Tufts University.\nBess Ruff is a Scientist based in Sydney, Australia. Her research interests and previous scientific experience include environmental science, geography, biotechnology, mariculture, marine spatial",
+      "snippet": "Specifically, Zac has expert experience in survival worlds, large builds on creative mode, and server design/upkeep. He graduated in 2023 with a BA in Sociology and English from Tufts University.\nBess Ruff is a Scientist based in Sydney, Australia.",
       "matchedWords": {
         "DIP1fHhqC0o5": {
           "hits": 1,
@@ -745,7 +745,7 @@
       "hash": "uaEnGzTwnifx",
       "address": "https://planet.wordpress.org/",
       "title": "Planet — WordPress.org",
-      "snippet": "hosted on Pantheon, and use as an experiment both to learn about Next.js, but also to learn about how Claude works.\nAnd found out a whole bunch of things about like how to steer it in different directions. I want it to be, I want the code to be clean. I want the code to be tested. I want it to be",
+      "snippet": "And I know nothing about Next.js, so I’m going to have Claude vibe code my personal website in Next.js hosted on Pantheon, and use as an experiment both to learn about Next.js, but also to learn about how Claude works.",
       "matchedWords": {
         "DIP1fHhqC0o5": {
           "hits": 0,
@@ -770,7 +770,7 @@
       "hash": "IF33ltWGQgu4",
       "address": "https://nymag.com/newyork/privacy.html",
       "title": "New York Media Privacy Notice",
-      "snippet": "server on your computer.\nWe use pixel tags, either provided by us or by our third-party advertisers, service providers and ad networks, to collect information about your visit, including the pages you view, the links you click and other actions taken in connection with our sites and Services and",
+      "snippet": "We do not retain telephone numbers or email addresses collected for these purposes after sending the SMS text message or email;\n- to receive and process job applications for jobs with us;",
       "matchedWords": {
         "DIP1fHhqC0o5": {
           "hits": 24,
@@ -795,7 +795,7 @@
       "hash": "qqIgmqWU7_zx",
       "address": "https://rw.wikipedia.org/wiki/Wikipedia:Community_Portal",
       "title": "Wikipedia:Community Portal - Wikipedia",
-      "snippet": "hosted by a neutral third party. Referendum details, officials, voting requirements, and supporting materials will be posted at Meta:Image filter referendum shortly.\nSorry for delivering you a message in English. Please help translate the pages on the referendum on Meta and join the translators",
+      "snippet": "Further details and educational materials will be available shortly. The referendum is scheduled for 12-27 August, 2011, and will be conducted on servers hosted by a neutral third party.",
       "matchedWords": {
         "DIP1fHhqC0o5": {
           "hits": 20,
@@ -820,7 +820,7 @@
       "hash": "jh1R77XxSRFx",
       "address": "https://www.rfc-editor.org/info/rfc6125/",
       "title": "RFC 6125: Representation and Verification of Domain-Based Application Service Identity within Internet Public Key Infrastructure Using X.509 (PKIX) Certificates in the Context of Transport Layer Security (TLS) | RFC Editor",
-      "snippet": "Server Identity . . . . . . . . . . . . . . . . . 18 4.1. Rules . . . . . . . . . . . . . . . . . . . . . . . . . . 18 4.2. Examples . . . . . . . . . . . . . . . . . . . . . . . . . 20 5. Requesting Server Certificates . . . . . . . . . . . . . . . . 21 6. Verifying Service Identity . . . . . . .",
+      "snippet": "Consider an IMAP-accessible email server at the host \"mail.example.net\" servicing email addresses of the form \"user@example.net\" and discoverable via DNS SRV lookups on the application service name of \"example.net\".",
       "matchedWords": {
         "DIP1fHhqC0o5": {
           "hits": 19,
@@ -845,7 +845,7 @@
       "hash": "2MFHBtYEKFwx",
       "address": "https://blog.torproject.org/did-fbi-pay-university-attack-tor-users/",
       "title": "Did the FBI Pay a University to Attack Tor Users? | The Tor Project",
-      "snippet": "The Tor Project has learned more about last year's attack by Carnegie Mellon researchers on the hidden service subsystem. Apparently these researchers were paid by the FBI to attack hidden services users in a broad sweep, and then sift through their data to find people whom they could accuse of",
+      "snippet": "The Tor Project has learned more about last year's attack by Carnegie Mellon researchers on the hidden service subsystem.",
       "matchedWords": {
         "DIP1fHhqC0o5": {
           "hits": 0,
@@ -895,7 +895,7 @@
       "hash": "azENEsgbSIuz",
       "address": "https://geoengineeringwatch.org/flaming-arrow-package/",
       "title": "Climate Engineering Introduction Letter - Geoengineering Watch",
-      "snippet": "self serving evil!\nJust learned about this spraying, in our skies! The are we breath us \"NOW\"; destroying our planet! Thank you, Dane\nDear Friends, I feel inspired by the movie The Martian, 2015. Astronaut accidentally left alone on Mars, \u0026 all of Earth needed to work together to rescue him. Like",
+      "snippet": "Dane are you aware of this? The offer of having ‘a suggested email letter and links for introducing people’ to information about weather manipulation is good BUT there is NO suggested email available! Please respond.\nOpen it in Wordpad…\nJames\nAdd this to the package.",
       "matchedWords": {
         "DIP1fHhqC0o5": {
           "hits": 7,
@@ -945,7 +945,7 @@
       "hash": "cbaVasmZ_3U4",
       "address": "https://discord.com/safety-news",
       "title": "Safety News Hub | Discord",
-      "snippet": "hosted an intimate roundtable lunch with select NGO representatives and child safety organizations. Over sandwiches, we had honest, collaborative conversations about age assurance implementation. The consensus was clear,effective teen safety calls for a comprehensive approach, with age assurance",
+      "snippet": "Hubs are only accessible to users with an email address associated with that school. Servers within the hub are created by students who determine who has access to their server.",
       "matchedWords": {
         "DIP1fHhqC0o5": {
           "hits": 6,
@@ -970,7 +970,7 @@
       "hash": "5yRkjupSnYMg",
       "address": "https://www.medom.pl/meble/apartamenty/medom-apartament-01-2/",
       "title": "Medom - Producent mebli Kuchennych - Medom - Kuchnie i Wnętrza",
-      "snippet": "email and can look out for much more of\nyour respective exciting content. Make sure\nyou update this again soon.. Escape rooms hub\nI was reading some of your blog posts on this website and I conceive this internet site is\nvery informative! Keep on putting up.?\nYour style is unique compared to other",
+      "snippet": "Well I’m adding this RSS to my email and can look out for much more of\nyour respective exciting content. Make sure\nyou update this again soon.. Escape rooms hub\nI was reading some of your blog posts on this website and I conceive this internet site is\nvery informative! Keep on putting up.?",
       "matchedWords": {
         "DIP1fHhqC0o5": {
           "hits": 36,
@@ -995,7 +995,7 @@
       "hash": "ClTOilptNsG4",
       "address": "https://www.akdart.com/obama11.html",
       "title": "The Obama Presidency : Narcissism and Bad Decisions",
-      "snippet": "hosted by the city from Jan. 16 to Jan. 21. He also released a report on the city's handling of the inauguration.\nHow Big Was the Crowd? After the Million Man March in 1995, Congress restricted the National Park Service from even making estimates — a restriction that was maintained for 14 years and",
+      "snippet": "In 2015, President Obama told CBS news that former Secretary of State Hillary Clinton's use of an unsecured private email server for her official communications may have been a \"mistake,\" but added: \"I don't think it posed a national security problem.\"",
       "matchedWords": {
         "DIP1fHhqC0o5": {
           "hits": 11,
@@ -1020,7 +1020,7 @@
       "hash": "Fl-YxlDOAHJg",
       "address": "https://www.heise.de/",
       "title": "heise online - IT-News, Nachrichten und Hintergründe | heise online",
-      "snippet": "Anzeige\nAnzeige\nEigenwerbung\nImmer neue Projekte am Start!\nDann bist du bei uns genau richtig:\nÜber 1000 DIY-Ideen und Inspirationen\n2 Ausgaben mit 30 % Rabatt\nMit exklusiver Prämie z.B. Make: Tasse\nJetzt sichern!\nAnzeige\nAnzeige\nmeistgelesen\nbeliebt bei Abonnenten\nmeistkommentiert\nVorsicht, Kunde:",
+      "snippet": "Anzeige\nAnzeige\nEigenwerbung\nImmer neue Projekte am Start!\nDann bist du bei uns genau richtig:\nÜber 1000 DIY-Ideen und Inspirationen\n2 Ausgaben mit 30 % Rabatt\nMit exklusiver Prämie z.B. Make: Tasse\nJetzt sichern!\nAnzeige\nAnzeige\nmeistgelesen\nbeliebt bei Abonnenten\nmeistkommentiert",
       "matchedWords": {
         "DIP1fHhqC0o5": {
           "hits": 0,
@@ -1045,7 +1045,7 @@
       "hash": "2MFHBtYEKFwx",
       "address": "https://blog.torproject.org/did-fbi-pay-university-attack-tor-users/",
       "title": "Did the FBI Pay a University to Attack Tor Users? | The Tor Project",
-      "snippet": "The Tor Project has learned more about last year's attack by Carnegie Mellon researchers on the hidden service subsystem. Apparently these researchers were paid by the FBI to attack hidden services users in a broad sweep, and then sift through their data to find people whom they could accuse of",
+      "snippet": "The Tor Project has learned more about last year's attack by Carnegie Mellon researchers on the hidden service subsystem.",
       "matchedWords": {
         "DIP1fHhqC0o5": {
           "hits": 0,
@@ -1095,7 +1095,7 @@
       "hash": "FMD4sitD2jQw",
       "address": "https://docs.python.org/3/library/typing.html",
       "title": "26.1. typing — Support for type hints \u0026mdash; Python 3.5.0 documentation",
-      "snippet": "(hosted at the mypy docs)\nType System Reference section of the mypy docs\nThe Python typing system is standardised via PEPs, so this reference should broadly apply to most Python type checkers. (Some parts may still be specific to mypy.)\nStatic Typing with Python\nType-checker-agnostic documentation",
+      "snippet": "from logging import Logger class LoggedVar[T]: def __init__(self, value: T, name: str, logger: Logger) -\u003e None: self.name = name self.logger = logger self.value = value def set(self, new: T) -\u003e None: self.log('Set ' + repr(self.value)) self.value = new def get(self) -\u003e T: self.log('Get ' +",
       "matchedWords": {
         "DIP1fHhqC0o5": {
           "hits": 1,
@@ -1120,7 +1120,7 @@
       "hash": "Z5FWhh3e0QFx",
       "address": "https://commons.wikimedia.org/wiki/Commons:Village_pump",
       "title": "Commons:Village pump - Wikimedia Commons",
-      "snippet": "Server side error\n2\n2\nBawolff\n2026-09-04 16:54\n12\n1970 Yugoslav film poster with locally redrawn Disney characters\n1\n1\nBaronmilone\n2026-09-04 18:41\n13\nStreetcar image\n4\n2\nWobs100\n2026-09-05 12:44\n14\nPhoto challenge July 2026 results\n2\n2\nArlo Barnes\n2026-09-05 21:21\n15\nWikimedia Commons turned 22\n3",
+      "snippet": "Fæ (talk) 19:15, 23 August 2026 (UTC)Reply No email is sent back, so there is nothing for WMF to keep. The way this works is that WMF send you an email with a code, and then you use the code during login.",
       "matchedWords": {
         "DIP1fHhqC0o5": {
           "hits": 14,
@@ -1270,7 +1270,7 @@
       "hash": "cbaVasmZ_3U4",
       "address": "https://discord.com/safety-news",
       "title": "Safety News Hub | Discord",
-      "snippet": "hosted an intimate roundtable lunch with select NGO representatives and child safety organizations. Over sandwiches, we had honest, collaborative conversations about age assurance implementation. The consensus was clear,effective teen safety calls for a comprehensive approach, with age assurance",
+      "snippet": "Hubs are only accessible to users with an email address associated with that school. Servers within the hub are created by students who determine who has access to their server.",
       "matchedWords": {
         "DIP1fHhqC0o5": {
           "hits": 6,
@@ -1295,7 +1295,7 @@
       "hash": "XTPIBlptNsG4",
       "address": "https://www.akdart.com/hijrah.html",
       "title": "Islamic invasion disguised as the displacement and acceptance of refugees",
-      "snippet": "self-inflicted oblivion. The antithesis of multicultural harmony, the year 2025 brings another pitiful surrender to the forces of Islamic extremism, a phenomenon chillingly encapsulated by Melanie Phillips in her prescient 2006 tome Londonistan. Phillips, a Cassandra of our age, warned of London's",
+      "snippet": "The man is obsessed with Islam. Westminster has hosted Iftar and my own Hull City Council recently hosted a civic Grand Iftar in our City Hall.",
       "matchedWords": {
         "DIP1fHhqC0o5": {
           "hits": 11,
@@ -1320,7 +1320,7 @@
       "hash": "8q_7kd8zMi84",
       "address": "https://docs.cloud.google.com/release-notes",
       "title": "Google Cloud release notes | Google Cloud Documentation",
-      "snippet": "server. This Public Preview feature allows you to expose your existing REST APIs to AI agents as tools, without requiring changes to your backend services. You can enable MCP by annotating your OpenAPI 3.x specification using custom Google extensions.\nFor more information, see Model Context",
+      "snippet": "This issue has already been mitigated for Looker-hosted instances.\nWhat should I do?\nFor Looker-hosted instances, no action is required.\nFor self-hosted Looker instances, update your Looker instances as soon as possible.",
       "matchedWords": {
         "DIP1fHhqC0o5": {
           "hits": 63,
@@ -1345,7 +1345,7 @@
       "hash": "cWZdmz9qXMBw",
       "address": "https://planet.kernel.org/",
       "title": "Kernel Planet",
-      "snippet": "self-hosted git repo with a convenient collaboration plane! ↩︎\nAugust 26, 2026 04:04 AM\nAugust 15, 2026\nLinux Plumbers Conference: Linux Plumbers Conference 2026 is now SOLD OUT!\nIt has become a trend for us now. Linux Plumbers Conference 2026 that is to be held in Prague on October 5th through to",
+      "snippet": "Because I am bad at giving up on things, I’ve been running my own email server for over 20 years. Some of that time it’s been a PC at the end of a DSL line, some of that time it’s been a Mac Mini in a data centre, and some of that time it’s been a hosted VM.",
       "matchedWords": {
         "DIP1fHhqC0o5": {
           "hits": 13,
@@ -1370,7 +1370,7 @@
       "hash": "8CJLrjAL9Tgx",
       "address": "https://en.wikisource.org/wiki/Wikisource:Scriptorium",
       "title": "Wikisource:Scriptorium - Wikisource, the free online library",
-      "snippet": "hosted or scans on c: as well as listing how different groups arrange their standard works. Does anyone have a perspective on what the best practice would be here? ―Justin (koavf)❤T☮C☺M☯ 20:50, 26 July 2026 (UTC)Reply\nBased on your explanation, I would concur with your suggestion of a Portal, but I",
+      "snippet": "I'm not really sure how to represent the Standard Works as a kind of collective work here: I don't think that {{disambiguation}} or {{versions}} really makes sense, so I'm leaning toward a Portal page that represents what works we have hosted or scans on c: as well as listing how different groups",
       "matchedWords": {
         "DIP1fHhqC0o5": {
           "hits": 0,
@@ -1395,7 +1395,7 @@
       "hash": "mKjEVzAa-Sqx",
       "address": "https://planet.freedesktop.org/",
       "title": "planet.freedesktop.org",
-      "snippet": "server (which could be a privacy concern).\nTherefore, a common way to deploy an AppStream-enabled software repository is to ship all icons of all applications in the repository to the user as part of the repository metadata download. AppStream does support remote icon downloads nowadays, and for a",
+      "snippet": "static DexFuture * foobar (gpointer user_data) { /* g_weak_ref_init in the caller somewhere */ GWeakRef *self_wr = user_data; for (;;) { g_autoptr(GBytes) bytes = NULL; bytes = dex_await_boxed (my_other_thing_bar (other, foo), NULL); { g_autoptr(MyThing) self = g_weak_ref_get (\u0026self_wr); if (!",
       "matchedWords": {
         "DIP1fHhqC0o5": {
           "hits": 1,
@@ -1420,7 +1420,7 @@
       "hash": "Fl-YxlDOAHJg",
       "address": "https://www.heise.de/",
       "title": "heise online - IT-News, Nachrichten und Hintergründe | heise online",
-      "snippet": "Anzeige\nAnzeige\nEigenwerbung\nImmer neue Projekte am Start!\nDann bist du bei uns genau richtig:\nÜber 1000 DIY-Ideen und Inspirationen\n2 Ausgaben mit 30 % Rabatt\nMit exklusiver Prämie z.B. Make: Tasse\nJetzt sichern!\nAnzeige\nAnzeige\nmeistgelesen\nbeliebt bei Abonnenten\nmeistkommentiert\nVorsicht, Kunde:",
+      "snippet": "Anzeige\nAnzeige\nEigenwerbung\nImmer neue Projekte am Start!\nDann bist du bei uns genau richtig:\nÜber 1000 DIY-Ideen und Inspirationen\n2 Ausgaben mit 30 % Rabatt\nMit exklusiver Prämie z.B. Make: Tasse\nJetzt sichern!\nAnzeige\nAnzeige\nmeistgelesen\nbeliebt bei Abonnenten\nmeistkommentiert",
       "matchedWords": {
         "DIP1fHhqC0o5": {
           "hits": 0,
@@ -1445,7 +1445,7 @@
       "hash": "W-eXqzF3--Qw",
       "address": "https://planet.mozilla.org/",
       "title": "Planet Mozilla",
-      "snippet": "self-suggestion!\nPlease submit your suggestions and votes for next week!\nCalls for Testing\nAn important step for RFC implementation is for people to experiment with the implementation and give feedback, especially before stabilization.\nIf you are a feature implementer and would like your RFC to",
+      "snippet": "We’re also looking into a key complaint: setting up notifications and “push” (IMAP Idle) notifications is just too difficult. We don’t make it easy enough for users to set up their notifications and ensure they get email notifications when their email server reports updates.",
       "matchedWords": {
         "DIP1fHhqC0o5": {
           "hits": 27,
@@ -1495,7 +1495,7 @@
       "hash": "CjgsxsIyoLTx",
       "address": "https://planetpython.org/",
       "title": "Planet Python",
-      "snippet": "self promotion. No reason to keep or print that. Plus, I don’t need all of the promotional images. Plus, sometimes my computer (or I) will fail to print the articles 4x/page, and the results are quite annoying.\nAlso? Why am I spending so much time on this, going through each message and printing",
+      "snippet": "QtWidgets import ( QApplication, QLabel, QMainWindow, QScrollArea, QVBoxLayout, QWidget, ) class WorkerSignals(QObject): frame_ready = pyqtSignal(QImage) finished = pyqtSignal() class VideoWorker(QRunnable): def __init__(self): super().__init__() self.signals = WorkerSignals() self.running = True",
       "matchedWords": {
         "DIP1fHhqC0o5": {
           "hits": 2,
@@ -1520,7 +1520,7 @@
       "hash": "2BUdOKKwilRR",
       "address": "http://microformats.org/wiki/microformats2",
       "title": "microformats2 - Microformats Wiki",
-      "snippet": "self-evident from context. However, any parsing prefix can be used with any property, especially if you find a good reason to do so!\nv2 vocabularies\nStatus: draft. Please review and provide feedback in IRC.\nh-adr\nh-card\nh-entry\nh-event\nh-feed\nh-geo\nh-item\nh-listing\nh-product\nh-recipe\nh-resume",
+      "snippet": "rel=\"self bookmark\" - parse as u-url. note that rel attribute value is treated as a space separated set, thus any presence of \"self\" and \"bookmark\" within such a set in a rel value is accepted.",
       "matchedWords": {
         "DIP1fHhqC0o5": {
           "hits": 3,
@@ -1545,7 +1545,7 @@
       "hash": "7eYSusLVkley",
       "address": "https://daringfireball.net/",
       "title": "Daring Fireball",
-      "snippet": "self-explanatory. It explains what, exactly, is going to happen. It remains a marvel of clarity, especially when you consider the complexity of what it does.\nFunctionally, SuperDuper 4 is also much improved. SuperDuper has never been slow, but now some copy operations are over 2× faster. Scheduling",
+      "snippet": "Visually, the interface is all new. That took some getting used to, but not much. It didn’t take long for me to see how the new UI is better in every way. The style of presentation is new and modern, but the core idea remains the same: the interface of SuperDuper is self-explanatory.",
       "matchedWords": {
         "DIP1fHhqC0o5": {
           "hits": 1,
@@ -1595,7 +1595,7 @@
       "hash": "GUrZK6QzbYgx",
       "address": "https://wikisource.org/wiki/Wikisource:Scriptorium",
       "title": "Wikisource:Scriptorium - Wikisource",
-      "snippet": "email addresses can now see a banner encouraging them to do so. Having the email address confirmed allows a user to restore access to the account if they lose it. Learn more. [12]\nView all 15 community-submitted tasks that were resolved last week. For example, an issue where editing very large wiki",
+      "snippet": "On several wikis, logged-in editors who haven't confirmed their email addresses can now see a banner encouraging them to do so. Having the email address confirmed allows a user to restore access to the account if they lose it. Learn more. [12]",
       "matchedWords": {
         "DIP1fHhqC0o5": {
           "hits": 4,
@@ -1645,7 +1645,7 @@
       "hash": "uaEnGzTwnifx",
       "address": "https://planet.wordpress.org/",
       "title": "Planet — WordPress.org",
-      "snippet": "hosted on Pantheon, and use as an experiment both to learn about Next.js, but also to learn about how Claude works.\nAnd found out a whole bunch of things about like how to steer it in different directions. I want it to be, I want the code to be clean. I want the code to be tested. I want it to be",
+      "snippet": "And I know nothing about Next.js, so I’m going to have Claude vibe code my personal website in Next.js hosted on Pantheon, and use as an experiment both to learn about Next.js, but also to learn about how Claude works.",
       "matchedWords": {
         "DIP1fHhqC0o5": {
           "hits": 0,
@@ -1670,7 +1670,7 @@
       "hash": "IF33ltWGQgu4",
       "address": "https://nymag.com/newyork/privacy.html",
       "title": "New York Media Privacy Notice",
-      "snippet": "server on your computer.\nWe use pixel tags, either provided by us or by our third-party advertisers, service providers and ad networks, to collect information about your visit, including the pages you view, the links you click and other actions taken in connection with our sites and Services and",
+      "snippet": "We do not retain telephone numbers or email addresses collected for these purposes after sending the SMS text message or email;\n- to receive and process job applications for jobs with us;",
       "matchedWords": {
         "DIP1fHhqC0o5": {
           "hits": 24,
@@ -1695,7 +1695,7 @@
       "hash": "qqIgmqWU7_zx",
       "address": "https://rw.wikipedia.org/wiki/Wikipedia:Community_Portal",
       "title": "Wikipedia:Community Portal - Wikipedia",
-      "snippet": "hosted by a neutral third party. Referendum details, officials, voting requirements, and supporting materials will be posted at Meta:Image filter referendum shortly.\nSorry for delivering you a message in English. Please help translate the pages on the referendum on Meta and join the translators",
+      "snippet": "Further details and educational materials will be available shortly. The referendum is scheduled for 12-27 August, 2011, and will be conducted on servers hosted by a neutral third party.",
       "matchedWords": {
         "DIP1fHhqC0o5": {
           "hits": 20,
@@ -1745,7 +1745,7 @@
       "hash": "D4lABzaS0qdw",
       "address": "https://planet.debian.org/",
       "title": "Planet Debian",
-      "snippet": "server, which I rent with two 1 TB SSD disks. The optimized decoder of the C TurboPFor library is what made decoding fast at query time.\nIf you want to dive deeper into the algorithm, see this blog post from February 2019:\nIf you want to learn more about the positional index, see this blog post",
+      "snippet": "For literal queries (78.2% of DCS queries), querying the positional index on disk is faster than querying the non-positional index in RAM.\nThe efficient encoding of the TurboPFor format makes it possible to fit such an index on a mid-sized Hetzner server, which I rent with two 1 TB SSD disks.",
       "matchedWords": {
         "DIP1fHhqC0o5": {
           "hits": 0,
@@ -1795,7 +1795,7 @@
       "hash": "2ZqdVzfOEiDw",
       "address": "https://planet.gnome.org/",
       "title": "Planet GNOME",
-      "snippet": "server (which could be a privacy concern).\nTherefore, a common way to deploy an AppStream-enabled software repository is to ship all icons of all applications in the repository to the user as part of the repository metadata download. AppStream does support remote icon downloads nowadays, and for a",
+      "snippet": "AppStream’s original design however comes from the perspective of Linux distributions in 2011, where you may want to browse the software catalog offline, without delay, and without pinging an external server (which could be a privacy concern).",
       "matchedWords": {
         "DIP1fHhqC0o5": {
           "hits": 0,
@@ -1820,7 +1820,7 @@
       "hash": "FMD4sitD2jQw",
       "address": "https://docs.python.org/3/library/typing.html",
       "title": "typing — Support for type hints — Python 3.14.7 documentation",
-      "snippet": "(hosted at the mypy docs)\nType System Reference section of the mypy docs\nThe Python typing system is standardised via PEPs, so this reference should broadly apply to most Python type checkers. (Some parts may still be specific to mypy.)\nStatic Typing with Python\nType-checker-agnostic documentation",
+      "snippet": "from logging import Logger class LoggedVar[T]: def __init__(self, value: T, name: str, logger: Logger) -\u003e None: self.name = name self.logger = logger self.value = value def set(self, new: T) -\u003e None: self.log('Set ' + repr(self.value)) self.value = new def get(self) -\u003e T: self.log('Get ' +",
       "matchedWords": {
         "DIP1fHhqC0o5": {
           "hits": 1,
@@ -1845,7 +1845,7 @@
       "hash": "gCVBNZ3WSkX4",
       "address": "https://docs.ovhcloud.com/en/",
       "title": "OVHcloud Documentation",
-      "snippet": "email addresses\nVPS→\nScalable virtual servers on demand\nDedicated Servers→\nHigh-performance physical servers\nEnterprise File Storage→\nShared NFS and CIFS file storage\nCompute→\nCloud instances and virtual machines\nObject Storage→\nScalable object storage for your data\nAI \u0026 Machine Learning→\nTrain and",
+      "snippet": "Domain NamesGet started with domain names\nWeb HostingDeploy your first website\nEmailsSet up your email addresses\nZimbraGet started with Zimbra\nEmail ProGet started with Email Pro\nMicrosoft ExchangeGet started with Microsoft Exchange\nManaged HostingGet started with managed hosting",
       "matchedWords": {
         "DIP1fHhqC0o5": {
           "hits": 4,
@@ -1870,7 +1870,7 @@
       "hash": "8q_7kd8zMi84",
       "address": "https://docs.cloud.google.com/release-notes",
       "title": "Google Cloud release notes | Google Cloud Documentation",
-      "snippet": "server. This Public Preview feature allows you to expose your existing REST APIs to AI agents as tools, without requiring changes to your backend services. You can enable MCP by annotating your OpenAPI 3.x specification using custom Google extensions.\nFor more information, see Model Context",
+      "snippet": "This issue has already been mitigated for Looker-hosted instances.\nWhat should I do?\nFor Looker-hosted instances, no action is required.\nFor self-hosted Looker instances, update your Looker instances as soon as possible.",
       "matchedWords": {
         "DIP1fHhqC0o5": {
           "hits": 63,
@@ -1895,7 +1895,7 @@
       "hash": "cWZdmz9qXMBw",
       "address": "https://planet.kernel.org/",
       "title": "Kernel Planet",
-      "snippet": "self-hosted git repo with a convenient collaboration plane! ↩︎\nAugust 26, 2026 04:04 AM\nAugust 15, 2026\nLinux Plumbers Conference: Linux Plumbers Conference 2026 is now SOLD OUT!\nIt has become a trend for us now. Linux Plumbers Conference 2026 that is to be held in Prague on October 5th through to",
+      "snippet": "Because I am bad at giving up on things, I’ve been running my own email server for over 20 years. Some of that time it’s been a PC at the end of a DSL line, some of that time it’s been a Mac Mini in a data centre, and some of that time it’s been a hosted VM.",
       "matchedWords": {
         "DIP1fHhqC0o5": {
           "hits": 13,
@@ -1920,7 +1920,7 @@
       "hash": "8CJLrjAL9Tgx",
       "address": "https://en.wikisource.org/wiki/Wikisource:Scriptorium",
       "title": "Wikisource:Scriptorium - Wikisource, the free online library",
-      "snippet": "hosted or scans on c: as well as listing how different groups arrange their standard works. Does anyone have a perspective on what the best practice would be here? ―Justin (koavf)❤T☮C☺M☯ 20:50, 26 July 2026 (UTC)Reply\nBased on your explanation, I would concur with your suggestion of a Portal, but I",
+      "snippet": "I'm not really sure how to represent the Standard Works as a kind of collective work here: I don't think that {{disambiguation}} or {{versions}} really makes sense, so I'm leaning toward a Portal page that represents what works we have hosted or scans on c: as well as listing how different groups",
       "matchedWords": {
         "DIP1fHhqC0o5": {
           "hits": 0,
@@ -1945,7 +1945,7 @@
       "hash": "W-eXqzF3--Qw",
       "address": "https://planet.mozilla.org/",
       "title": "Planet Mozilla",
-      "snippet": "self-suggestion!\nPlease submit your suggestions and votes for next week!\nCalls for Testing\nAn important step for RFC implementation is for people to experiment with the implementation and give feedback, especially before stabilization.\nIf you are a feature implementer and would like your RFC to",
+      "snippet": "We’re also looking into a key complaint: setting up notifications and “push” (IMAP Idle) notifications is just too difficult. We don’t make it easy enough for users to set up their notifications and ensure they get email notifications when their email server reports updates.",
       "matchedWords": {
         "DIP1fHhqC0o5": {
           "hits": 27,
@@ -2020,7 +2020,7 @@
       "hash": "f0SNutRe8955",
       "address": "https://blog.krtraining.com/",
       "title": "Notes from KR - this time, it's personal",
-      "snippet": "self-defense material: answering the questions “what is the right thing to do” in all the most common self defense situations. The most common mistakes armed citizens make in defensive incidents are failures of tactics – not shooting skills. There is more to defensive firearms training than just",
+      "snippet": "Wednesday Wisdom 18 Feb (Sensible Self Defense)\nThe 20 Gauge Beretta A300 Ultima Patrol (Sensible Self Defense)\nWednesday Wisdom 11 Feb (Sensible Self Defense)\nWednesday Wisdom 4 Feb (Sensible Self Defense)\nSecuring Backyard Fences (Active Response Training)",
       "matchedWords": {
         "DIP1fHhqC0o5": {
           "hits": 48,
@@ -2045,7 +2045,7 @@
       "hash": "qqIgmqWU7_zx",
       "address": "https://rw.wikipedia.org/wiki/Wikipedia:Community_Portal",
       "title": "Wikipedia:Community Portal - Wikipedia",
-      "snippet": "hosted by a neutral third party. Referendum details, officials, voting requirements, and supporting materials will be posted at Meta:Image filter referendum shortly.\nSorry for delivering you a message in English. Please help translate the pages on the referendum on Meta and join the translators",
+      "snippet": "Further details and educational materials will be available shortly. The referendum is scheduled for 12-27 August, 2011, and will be conducted on servers hosted by a neutral third party.",
       "matchedWords": {
         "DIP1fHhqC0o5": {
           "hits": 20,
@@ -2070,7 +2070,7 @@
       "hash": "D4lABzaS0qdw",
       "address": "https://planet.debian.org/",
       "title": "Planet Debian",
-      "snippet": "server, which I rent with two 1 TB SSD disks. The optimized decoder of the C TurboPFor library is what made decoding fast at query time.\nIf you want to dive deeper into the algorithm, see this blog post from February 2019:\nIf you want to learn more about the positional index, see this blog post",
+      "snippet": "For literal queries (78.2% of DCS queries), querying the positional index on disk is faster than querying the non-positional index in RAM.\nThe efficient encoding of the TurboPFor format makes it possible to fit such an index on a mid-sized Hetzner server, which I rent with two 1 TB SSD disks.",
       "matchedWords": {
         "DIP1fHhqC0o5": {
           "hits": 0,

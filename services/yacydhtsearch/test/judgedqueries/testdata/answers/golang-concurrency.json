@@ -1,6 +1,6 @@
 {
   "query": "golang concurrency",
-  "recordedAt": "2026-09-12T00:14:28Z",
+  "recordedAt": "2026-09-12T07:52:00Z",
   "itemsInTheOrderOfEachAnswer": [
     [
       {
@@ -26,7 +26,7 @@
         "hash": "sQDUoleq6ZL5",
         "address": "https://www.gopherguides.com/",
         "title": "Go (golang) Training By Community Leaders - Gopher Guides",
-        "snippet": "Golang. I'd honestly take this session again. He is engaging and able to cover topics pertinent to specific instances.\n- Workshop Attendee -\nGlobal Fortune 500 Company\nI had a basic understanding of Go coming into this session. After this training I am able to understand how to apply topics such as",
+        "snippet": "We at NYT look forward to using GopherGuides for future training!\n- JP Robinson -\nNew York Times\nCory is excellent faciltator and proved to be extremely knowledgeable in Golang. I'd honestly take this session again. He is engaging and able to cover topics pertinent to specific instances.",
         "matchedWords": {
           "FyRSmQlWVTdS": {
             "hits": 1,
@@ -62,7 +62,7 @@
         "hash": "mHFlJdUhjm5w",
         "address": "https://airflow.apache.org/docs/apache-airflow/2.11.2/release_notes.html",
         "title": "Release Notes — Airflow 2.11.2 Documentation",
-        "snippet": "concurrency label to max active tasks (#36691)\nRestore function scoped httpx import in file_task_handler for performance (#36753)\nAdd support of Pendulum 3 (#36281)\nStandardize airflow build process and switch to Hatchling build backend (#36537)\nGet rid of pyarrow-hotfix for CVE-2023-47248 (#36697)",
+        "snippet": "with DAG(dag_id=\"task_concurrency_example\"): BashOperator(task_id=\"t1\", task_concurrency=2, bash_command=\"echo Hi\")\nAfter:\nwith DAG(dag_id=\"task_concurrency_example\"): BashOperator(task_id=\"t1\", max_active_tis_per_dag=2, bash_command=\"echo Hi\")",
         "matchedWords": {
           "FyRSmQlWVTdS": {
             "hits": 42,
@@ -81,7 +81,7 @@
         "hash": "Q2r-ms-UOu6x",
         "address": "https://thenewstack.io/go/",
         "title": "Go Programming Language Overview and News - The New Stack",
-        "snippet": "Cloud Native Ecosystem Containers Databases Edge Computing Infrastructure as Code Linux Microservices Open Source Networking Storage\nGreptile, Cursor, and Devin agree that agents should run their code. What they run it against matters. Jun 27th 2026 11:00am, by Arjun Iyer\nAgentic development hinges",
+        "snippet": "Cloud Native Ecosystem Containers Databases Edge Computing Infrastructure as Code Linux Microservices Open Source Networking Storage\nGreptile, Cursor, and Devin agree that agents should run their code. What they run it against matters. Jun 27th 2026 11:00am, by Arjun Iyer",
         "matchedWords": {
           "FyRSmQlWVTdS": {
             "hits": 0,
@@ -100,7 +100,7 @@
         "hash": "gxLAXsu0_jiy",
         "address": "https://gopherconindia.org/",
         "title": "GopherCon India 2026 | Go Conference in Hyderabad",
-        "snippet": "GopherCon India 2026\nNovember 22, 2026 Novotel Hyderabad Airport, INDIA\nJoin the premier gathering of Go developers at Novotel Hyderabad Airport, INDIA - in the heart of India's tech hub.\nBook Your Ticket\nGopherCon India 2026 | November 22 2026 | Novotel Hyderabad Airport, INDIA ✦ GopherCon India",
+        "snippet": "GopherCon India 2026\nNovember 22, 2026 Novotel Hyderabad Airport, INDIA\nJoin the premier gathering of Go developers at Novotel Hyderabad Airport, INDIA - in the heart of India's tech hub.\nBook Your Ticket",
         "matchedWords": {
           "FyRSmQlWVTdS": {
             "hits": 0,
@@ -119,7 +119,7 @@
         "hash": "V7zmBsK-xyJ4",
         "address": "https://go.dev/doc/",
         "title": "Documentation - The Go Programming Language",
-        "snippet": "concurrency mechanisms make it easy to write programs that get the most out of multicore and networked machines, while its novel type system enables flexible and modular program construction. Go compiles quickly to machine code yet has the convenience of garbage collection and the power of run-time",
+        "snippet": "Go's concurrency primitives (goroutines and channels) provide a simple and efficient means of expressing concurrent execution. In this talk we see how tricky concurrency problems can be solved gracefully with simple Go code.\nAdvanced Go Concurrency Patterns",
         "matchedWords": {
           "FyRSmQlWVTdS": {
             "hits": 12,
@@ -136,7 +136,7 @@
         "hash": "kKPAs3M9rDb4",
         "address": "https://builtin.com/software-engineering-perspectives/golang-advantages",
         "title": "Golang Advantages and Use Cases from 8 Software Engineers | Built In",
-        "snippet": "Golang Advantages\nOne of Golang’s biggest advantages is that it offers the clarity and ease-of-use that other languages lack. Golang’s advantages make it easy for new programmers to quickly understand the language and for seasoned veterans to easily read each other’s code.\nWe spoke with",
+        "snippet": "Enforced coding style, strong typing, garbage collection, simple concurrency primitives, native binaries and fast compile times make Go an excellent choice when you’re concerned about ensuring that a codebase remains maintainable at scale.\nWhat are your favorite challenges about coding in Golang?",
         "matchedWords": {
           "FyRSmQlWVTdS": {
             "hits": 6,
@@ -155,7 +155,7 @@
         "hash": "D4lABzaS0qdw",
         "address": "https://planet.debian.org/",
         "title": "Planet Debian",
-        "snippet": "https://pkg.go.dev/golang.org/x/perf/cmd/benchstat BENCHFLAGS=-run=^$$ -bench=. -benchtime=200000x -count=6 # use taskset -c1 to always pin to the same single core, # avoiding accidental scheduling on different cores on # mixed-core CPUs like the Ryzen 9 9950X3D. TASKSET=taskset -c 1",
+        "snippet": "GOTEST=go test # -count=6 gives p≤0.002 in benchstat: # https://pkg.go.dev/golang.org/x/perf/cmd/benchstat BENCHFLAGS=-run=^$$ -bench=. -benchtime=200000x -count=6 # use taskset -c1 to always pin to the same single core, # avoiding accidental scheduling on different cores on # mixed-core CPUs like",
         "matchedWords": {
           "FyRSmQlWVTdS": {
             "hits": 0,
@@ -174,7 +174,7 @@
         "hash": "8gsjosK-xyJ4",
         "address": "https://go.dev/",
         "title": "The Go Programming Language",
-        "snippet": "concurrency and a robust standard library\nLarge ecosystem of partners, communities, and tools\nDownload packages for Windows 64-bit, macOS, Linux, and more\nThe go command by default downloads and authenticates modules using the Go module mirror and Go checksum database run by Google. Learn more.\n“At",
+        "snippet": "Build simple, secure, scalable systems with Go\nAn open-source programming language supported by Google\nEasy to learn and great for teams\nBuilt-in concurrency and a robust standard library\nLarge ecosystem of partners, communities, and tools",
         "matchedWords": {
           "FyRSmQlWVTdS": {
             "hits": 2,
@@ -193,7 +193,7 @@
         "hash": "tucm1jRvmBbx",
         "address": "https://en.wikipedia.org/wiki/Concurrent_computing",
         "title": "Concurrent computing - Wikipedia",
-        "snippet": "concurrency: no task begins until the prior task ends) is called a serial schedule. A set of tasks that can be scheduled serially is serializable, which simplifies concurrency control.[citation needed]\nCoordinating access to shared resources\n[edit]\nThe main challenge in designing concurrent",
+        "snippet": "Retrieved from http://talks.golang.org/2012/waza.slide (slides) and http://vimeo.com/49718712 (video).\n↑ \"Parallelism vs. Concurrency\". Haskell Wiki.\n↑ Schneider, Fred B. (1997-05-06). On Concurrent Programming. Springer. ISBN 9780387949420.\n1 2 Ben-Ari, Mordechai (2006).",
         "matchedWords": {
           "FyRSmQlWVTdS": {
             "hits": 25,
@@ -210,7 +210,7 @@
         "hash": "D4lABzaS0qdw",
         "address": "https://planet.debian.org/",
         "title": "Planet Debian",
-        "snippet": "https://pkg.go.dev/golang.org/x/perf/cmd/benchstat BENCHFLAGS=-run=^$$ -bench=. -benchtime=200000x -count=6 # use taskset -c1 to always pin to the same single core, # avoiding accidental scheduling on different cores on # mixed-core CPUs like the Ryzen 9 9950X3D. TASKSET=taskset -c 1",
+        "snippet": "GOTEST=go test # -count=6 gives p≤0.002 in benchstat: # https://pkg.go.dev/golang.org/x/perf/cmd/benchstat BENCHFLAGS=-run=^$$ -bench=. -benchtime=200000x -count=6 # use taskset -c1 to always pin to the same single core, # avoiding accidental scheduling on different cores on # mixed-core CPUs like",
         "matchedWords": {
           "FyRSmQlWVTdS": {
             "hits": 0,
@@ -248,7 +248,7 @@
         "hash": "u8KO6UlsMv8w",
         "address": "https://vorpus.org/blog/notes-on-structured-concurrency-or-go-statement-considered-harmful/",
         "title": "Notes on structured concurrency, or: Go statement considered harmful — njs blog",
-        "snippet": "concurrency API needs a way to run code concurrently. Here's some examples of what that looks like using different APIs:\ngo myfunc(); // Golang pthread_create(\u0026thread_id, NULL, \u0026myfunc); /* C with POSIX threads */ spawn(modulename, myfuncname, []) % Erlang threading.Thread(target=myfunc).start() #",
+        "snippet": "What does this have to do with concurrency? Well, consider Golang's famous go\nstatement, used to spawn a new \"goroutine\" (lightweight thread):\n// Golang go myfunc();\nCan we draw a diagram of its control flow?",
         "matchedWords": {
           "FyRSmQlWVTdS": {
             "hits": 19,
@@ -267,7 +267,7 @@
         "hash": "kDoivJS6MKD4",
         "address": "https://github.com/dariubs/GoBooks",
         "title": "GitHub - dariubs/GoBooks: List of Golang books · GitHub",
-        "snippet": "concurrency, performance, and system design. One place to find the right learning resource.\nOther languages: Español · 中文 · Português · Русский · Deutsch · فارسی\nMost Popular Golang Books\nStarter Books\nAdvanced Books\nWeb Development\nResources\nContributing\nLicense\nMost Popular Go Books\nThe most",
+        "snippet": "Be able to identify when code needs optimizing, what needs optimizing and how.\nHave a catalog of concurrency and performance patterns that you can quickly apply to your projects.\nDomain-Driven Design with Golang\nLast published: 2022 Authors: ****",
         "matchedWords": {
           "FyRSmQlWVTdS": {
             "hits": 15,
@@ -284,7 +284,7 @@
         "hash": "D4lABzaS0qdw",
         "address": "https://planet.debian.org/",
         "title": "Planet Debian",
-        "snippet": "https://pkg.go.dev/golang.org/x/perf/cmd/benchstat BENCHFLAGS=-run=^$$ -bench=. -benchtime=200000x -count=6 # use taskset -c1 to always pin to the same single core, # avoiding accidental scheduling on different cores on # mixed-core CPUs like the Ryzen 9 9950X3D. TASKSET=taskset -c 1",
+        "snippet": "GOTEST=go test # -count=6 gives p≤0.002 in benchstat: # https://pkg.go.dev/golang.org/x/perf/cmd/benchstat BENCHFLAGS=-run=^$$ -bench=. -benchtime=200000x -count=6 # use taskset -c1 to always pin to the same single core, # avoiding accidental scheduling on different cores on # mixed-core CPUs like",
         "matchedWords": {
           "FyRSmQlWVTdS": {
             "hits": 0,
@@ -303,7 +303,7 @@
         "hash": "6zCenzS6MKD4",
         "address": "https://github.com/topics/workflows",
         "title": "workflows · GitHub Topics · GitHub",
-        "snippet": "Here are 2,712 public repositories matching this topic...\nCode\nIssues\nPull requests\nPlatform to build admin panels, internal tools, and dashboards. Integrates with 25+ databases and any API.\nUpdated Sep 11, 2026\nTypeScript\nCode\nIssues\nPull requests\nDiscussions\nConductor is an event driven agentic",
+        "snippet": "Here are 2,712 public repositories matching this topic...\nCode\nIssues\nPull requests\nPlatform to build admin panels, internal tools, and dashboards. Integrates with 25+ databases and any API.\nUpdated Sep 11, 2026\nTypeScript\nCode\nIssues\nPull requests\nDiscussions",
         "matchedWords": {
           "FyRSmQlWVTdS": {
             "hits": 0,
@@ -322,7 +322,7 @@
         "hash": "8KnFwAK-xyJ4",
         "address": "https://go.dev/doc/tutorial/",
         "title": "Tutorials - The Go Programming Language",
-        "snippet": "concurrency primitives.",
+        "snippet": "Find and fix vulnerable dependencies with VS Code Go\nIntroduces how to find and fix vulnerable dependencies directly from your IDE with VS Code Go and Vim.\nA Tour of Go\nAn interactive introduction to Go: basic syntax and data structures; methods and interfaces; and Go's concurrency primitives.",
         "matchedWords": {
           "FyRSmQlWVTdS": {
             "hits": 1,
@@ -341,7 +341,7 @@
         "hash": "gKBydWK-xyJ4",
         "address": "https://go.dev/solutions/cloud",
         "title": "Go for Cloud \u0026 Network Services - The Go Programming Language",
-        "snippet": "concurrency becomes a very big issue. Cloud computing systems, by their very nature, share and scale resources. Coordinating access to shared resources is an issue that impacts every application processing in the cloud, and requires programming languages “explicitly geared to develop highly",
+        "snippet": "Overview\nGo helps enterprises build and scale cloud computing systems\nAs applications and processing move to the cloud, concurrency becomes a very big issue. Cloud computing systems, by their very nature, share and scale resources.",
         "matchedWords": {
           "FyRSmQlWVTdS": {
             "hits": 4,
@@ -360,7 +360,7 @@
         "hash": "DB7viAK-xyJ4",
         "address": "https://go.dev/doc/faq",
         "title": "Frequently Asked Questions (FAQ) - The Go Programming Language",
-        "snippet": "concurrency or parallelism. And to make resource management tractable in a large concurrent program, garbage collection, or at least some sort of safe automatic memory management was required.\nThese considerations led to a series of discussions from which Go arose, first as a set of ideas and",
+        "snippet": "The language is called Go. The “golang” moniker arose because the web site was originally golang.org. (There was no .dev domain then.) Many use the golang name, though, and it is handy as a label. For instance, the social media tag for the language is “#golang”.",
         "matchedWords": {
           "FyRSmQlWVTdS": {
             "hits": 17,
@@ -379,7 +379,7 @@
         "hash": "z5ncGsK-xyJ4",
         "address": "https://go.dev/learn/",
         "title": "Get Started - The Go Programming Language",
-        "snippet": "Documentation\nEverything there is to know about Go. Get started on a new project or brush up for your existing Go code.\nTour of Go\nAn interactive introduction to Go in four sections. Each section concludes with a few exercises so you can practice what you've learned.\nGo by example\nGo by Example is",
+        "snippet": "Documentation\nEverything there is to know about Go. Get started on a new project or brush up for your existing Go code.\nTour of Go\nAn interactive introduction to Go in four sections. Each section concludes with a few exercises so you can practice what you've learned.\nGo by example",
         "matchedWords": {
           "FyRSmQlWVTdS": {
             "hits": 0,
@@ -398,7 +398,7 @@
         "hash": "QJfmDln-yhj5",
         "address": "https://www.infoworld.com/software-development/",
         "title": "Software Development | InfoWorld",
-        "snippet": "Latest from today\nResources\nVideo on demand\nWhy Software Developers Are “Token Maxxing” AI—and What It Means for Jobs\nSoftware developers are using AI at a level that other professions may never match—but what does that mean for the future of software engineering? In this episode, we look at why",
+        "snippet": "Latest from today\nResources\nVideo on demand\nWhy Software Developers Are “Token Maxxing” AI—and What It Means for Jobs\nSoftware developers are using AI at a level that other professions may never match—but what does that mean for the future of software engineering?",
         "matchedWords": {
           "FyRSmQlWVTdS": {
             "hits": 0,
@@ -417,7 +417,7 @@
         "hash": "oZQa-xNzCnSk",
         "address": "https://www.elastic.co/docs/reference/integrations/golang",
         "title": "Golang Integration | Elastic integrations",
-        "snippet": "Golang integration allows you to monitor a Golang application. Go is a statically typed, compiled programming language designed at Google. It is syntactically similar to C, but with memory safety, garbage collection, structural typing, and CSP-style concurrency. It is often referred to as Golang.",
+        "snippet": "Go is a statically typed, compiled programming language designed at Google. It is syntactically similar to C, but with memory safety, garbage collection, structural typing, and CSP-style concurrency. It is often referred to as Golang.\nUse the Golang integration to:",
         "matchedWords": {
           "FyRSmQlWVTdS": {
             "hits": 1,
@@ -436,7 +436,7 @@
         "hash": "V7zmBsK-xyJ4",
         "address": "https://go.dev/doc/",
         "title": "Documentation - The Go Programming Language",
-        "snippet": "concurrency mechanisms make it easy to write programs that get the most out of multicore and networked machines, while its novel type system enables flexible and modular program construction. Go compiles quickly to machine code yet has the convenience of garbage collection and the power of run-time",
+        "snippet": "Go's concurrency primitives (goroutines and channels) provide a simple and efficient means of expressing concurrent execution. In this talk we see how tricky concurrency problems can be solved gracefully with simple Go code.\nAdvanced Go Concurrency Patterns",
         "matchedWords": {
           "FyRSmQlWVTdS": {
             "hits": 12,
@@ -455,7 +455,7 @@
         "hash": "O0YH7sK-xyJ4",
         "address": "https://go.dev/wiki/",
         "title": "Go Wiki: Home - The Go Programming Language",
-        "snippet": "concurrency\nMore on error handling\nMore on testing\nMore on mobile - Android and iOS\nBooks - A list of Go books that have been published (ebook, paper).\nBlogs - Blogs about Go. Podcasts - Podcasts and episodes featuring Go.\nVideos, Talks, and Presentations GoTalks - A collection of talks from Go",
+        "snippet": "On Bluesky, follow the @golang.org account and keep tabs on the #golang hashtag.\nOn Mastodon, follow the @golang account and keep tabs on the #golang hashtag.\nOn Twitter, follow the @golang account and keep tabs on the #golang hashtag.\nWe’ve also got a landing page on Stack Overflow for Go Q\u0026A.",
         "matchedWords": {
           "FyRSmQlWVTdS": {
             "hits": 2,
@@ -474,7 +474,7 @@
         "hash": "lpBw6vmjFlt0",
         "address": "https://devenv.sh/reference/options/",
         "title": "Options reference | devenv",
-        "snippet": "golang formatter that fixes long lines\ngotest\nRun go tests\ngovet\nChecks correctness of Go programs.\ngptcommit\nGenerate a commit message using GPT3.\nhadolint\nDockerfile linter, validate inline bash.\nheadache\nLightweight tool for managing headers in source code files.\nhindent\nHaskell code prettifier.",
+        "snippet": "A golang formatter that fixes long lines\ngotest\nRun go tests\ngovet\nChecks correctness of Go programs.\ngptcommit\nGenerate a commit message using GPT3.\nhadolint\nDockerfile linter, validate inline bash.\nheadache\nLightweight tool for managing headers in source code files.\nhindent",
         "matchedWords": {
           "FyRSmQlWVTdS": {
             "hits": 1,
@@ -493,7 +493,7 @@
         "hash": "rj3EHAK-xyJ4",
         "address": "https://go.dev/doc/go1.4",
         "title": "Go 1.4 Release Notes - The Go Programming Language",
-        "snippet": "concurrency support, interface management, maps, slices, strings, …) was mostly written in C, with some assembler support. In 1.4, much of the code has been translated to Go so that the garbage collector can scan the stacks of programs in the runtime and get accurate information about what",
+        "snippet": "The Go project subrepositories (code.google.com/p/go.tools and so on) are now available under custom import paths replacing code.google.com/p/go. with golang.org/x/, as in golang.org/x/tools.",
         "matchedWords": {
           "FyRSmQlWVTdS": {
             "hits": 1,
@@ -512,7 +512,7 @@
         "hash": "tucm1jRvmBbx",
         "address": "https://en.wikipedia.org/wiki/Concurrent_computing",
         "title": "Concurrent computing - Wikipedia",
-        "snippet": "concurrency: no task begins until the prior task ends) is called a serial schedule. A set of tasks that can be scheduled serially is serializable, which simplifies concurrency control.[citation needed]\nCoordinating access to shared resources\n[edit]\nThe main challenge in designing concurrent",
+        "snippet": "Retrieved from http://talks.golang.org/2012/waza.slide (slides) and http://vimeo.com/49718712 (video).\n↑ \"Parallelism vs. Concurrency\". Haskell Wiki.\n↑ Schneider, Fred B. (1997-05-06). On Concurrent Programming. Springer. ISBN 9780387949420.\n1 2 Ben-Ari, Mordechai (2006).",
         "matchedWords": {
           "FyRSmQlWVTdS": {
             "hits": 25,
@@ -531,7 +531,7 @@
         "hash": "8KnFwAK-xyJ4",
         "address": "https://go.dev/doc/tutorial/",
         "title": "Tutorials - The Go Programming Language",
-        "snippet": "concurrency primitives.",
+        "snippet": "Find and fix vulnerable dependencies with VS Code Go\nIntroduces how to find and fix vulnerable dependencies directly from your IDE with VS Code Go and Vim.\nA Tour of Go\nAn interactive introduction to Go: basic syntax and data structures; methods and interfaces; and Go's concurrency primitives.",
         "matchedWords": {
           "FyRSmQlWVTdS": {
             "hits": 1,
@@ -569,7 +569,7 @@
         "hash": "PeV3jUK-xyJ4",
         "address": "https://go.dev/blog/waza-talk",
         "title": "Concurrency is not parallelism - The Go Programming Language",
-        "snippet": "concurrency. No introduction to Go is complete without a demonstration of its goroutines and channels.\nBut when people hear the word concurrency they often think of parallelism, a related but quite distinct concept. In programming, concurrency is the composition of independently executing",
+        "snippet": "But when people hear the word concurrency they often think of parallelism, a related but quite distinct concept. In programming, concurrency is the composition of independently executing processes, while parallelism is the simultaneous execution of (possibly related) computations.",
         "matchedWords": {
           "FyRSmQlWVTdS": {
             "hits": 7,
@@ -586,7 +586,7 @@
         "hash": "mN5ugsn-1n64",
         "address": "https://namishh.com/",
         "title": "index | namishh",
-        "snippet": "golang\npixie - wasm lightroom-esque editor in rust and nextjs\nnurture - basic ui library for widgets in löve2d\nplanet - semi-realistic planet simulator in odin\nyou can check out all of them here\nsome more links\nall the stuff that i consoom\ncool people and rings\nhere are some of my cool friends, do",
+        "snippet": "holmes - starter kit for making your own cryptic hunts in golang\npixie - wasm lightroom-esque editor in rust and nextjs\nnurture - basic ui library for widgets in löve2d\nplanet - semi-realistic planet simulator in odin\nyou can check out all of them here\nsome more links\nall the stuff that i consoom",
         "matchedWords": {
           "FyRSmQlWVTdS": {
             "hits": 0,
@@ -605,7 +605,7 @@
         "hash": "V7zmBsK-xyJ4",
         "address": "https://go.dev/doc/",
         "title": "Documentation - The Go Programming Language",
-        "snippet": "concurrency mechanisms make it easy to write programs that get the most out of multicore and networked machines, while its novel type system enables flexible and modular program construction. Go compiles quickly to machine code yet has the convenience of garbage collection and the power of run-time",
+        "snippet": "Go's concurrency primitives (goroutines and channels) provide a simple and efficient means of expressing concurrent execution. In this talk we see how tricky concurrency problems can be solved gracefully with simple Go code.\nAdvanced Go Concurrency Patterns",
         "matchedWords": {
           "FyRSmQlWVTdS": {
             "hits": 12,
@@ -641,7 +641,7 @@
         "hash": "8gsjosK-xyJ4",
         "address": "https://go.dev/",
         "title": "The Go Programming Language",
-        "snippet": "concurrency and a robust standard library\nLarge ecosystem of partners, communities, and tools\nDownload packages for Windows 64-bit, macOS, Linux, and more\nThe go command by default downloads and authenticates modules using the Go module mirror and Go checksum database run by Google. Learn more.\n“At",
+        "snippet": "Build simple, secure, scalable systems with Go\nAn open-source programming language supported by Google\nEasy to learn and great for teams\nBuilt-in concurrency and a robust standard library\nLarge ecosystem of partners, communities, and tools",
         "matchedWords": {
           "FyRSmQlWVTdS": {
             "hits": 2,
@@ -660,7 +660,7 @@
         "hash": "ioDB87f4Pib5",
         "address": "https://code.visualstudio.com/?wt.mc_id=DX_841432",
         "title": "Visual Studio Code - The open source AI code editor | Your home for multi-agent development",
-        "snippet": "\"golang.org/x/sync/errgroup\" \"golang.org/x/sync/semaphore\" \"go.opentelemetry.io/otel\" ) type Result[T any] struct { Name string `json:\"name\"` Value T `json:\"value,omitempty\"` Error string `json:\"error,omitempty\"` } type Meta struct { Format string `json:\"format\"` Width int `json:\"width\"` Height int",
+        "snippet": "package http import ( \"context\" \"encoding/json\" \"errors\" \"io\" \"log/slog\" \"mime/multipart\" \"net/http\" \"time\" \"golang.org/x/sync/errgroup\" \"golang.org/x/sync/semaphore\" \"go.opentelemetry.io/otel\" ) type Result[T any] struct { Name string `json:\"name\"` Value T `json:\"value,omitempty\"` Error string",
         "matchedWords": {
           "FyRSmQlWVTdS": {
             "hits": 1,
@@ -679,7 +679,7 @@
         "hash": "oZQa-xNzCnSk",
         "address": "https://www.elastic.co/docs/reference/integrations/golang",
         "title": "Golang Integration | Elastic integrations",
-        "snippet": "Golang integration allows you to monitor a Golang application. Go is a statically typed, compiled programming language designed at Google. It is syntactically similar to C, but with memory safety, garbage collection, structural typing, and CSP-style concurrency. It is often referred to as Golang.",
+        "snippet": "Go is a statically typed, compiled programming language designed at Google. It is syntactically similar to C, but with memory safety, garbage collection, structural typing, and CSP-style concurrency. It is often referred to as Golang.\nUse the Golang integration to:",
         "matchedWords": {
           "FyRSmQlWVTdS": {
             "hits": 1,
@@ -717,7 +717,7 @@
         "hash": "tucm1jRvmBbx",
         "address": "https://en.wikipedia.org/wiki/Concurrent_computing",
         "title": "Concurrent computing - Wikipedia",
-        "snippet": "concurrency: no task begins until the prior task ends) is called a serial schedule. A set of tasks that can be scheduled serially is serializable, which simplifies concurrency control.[citation needed]\nCoordinating access to shared resources\n[edit]\nThe main challenge in designing concurrent",
+        "snippet": "Retrieved from http://talks.golang.org/2012/waza.slide (slides) and http://vimeo.com/49718712 (video).\n↑ \"Parallelism vs. Concurrency\". Haskell Wiki.\n↑ Schneider, Fred B. (1997-05-06). On Concurrent Programming. Springer. ISBN 9780387949420.\n1 2 Ben-Ari, Mordechai (2006).",
         "matchedWords": {
           "FyRSmQlWVTdS": {
             "hits": 25,
@@ -736,7 +736,7 @@
         "hash": "EC_sbq2-P-Rw",
         "address": "https://dave.cheney.net/about",
         "title": "About | Dave Cheney",
-        "snippet": "golang.io meetup, October 2016 (Paris, France)\nGopher Puzzlers, Sydney Go Users’ Group, November 2016 (Sydney, Australia)\nSimulating old computers using Arduino microcontrollers, builderscon.io, December 2016 (Tokyo, Japan)\n2017\nGo 1.8 Release Party, Sydney Go Users Group, February 2017 (Sydney,",
+        "snippet": "Seven ways to profile a Go Program (video), GolangUK, August 2016 (London, United Kingdom)\nDon’t fear the first class function, dotGo 2016, October 2016 (Paris, France)\nGopher Puzzlers (video), golang.io meetup, October 2016 (Paris, France)",
         "matchedWords": {
           "FyRSmQlWVTdS": {
             "hits": 2,
@@ -774,7 +774,7 @@
         "hash": "1ojMPAK-xyJ4",
         "address": "https://go.dev/doc/effective_go",
         "title": "Effective Go - The Go Programming Language",
-        "snippet": "Concurrency\nShare by communicating\nConcurrent programming is a large topic and there is space only for some Go-specific highlights here.\nConcurrent programming in many environments is made difficult by the subtleties required to implement correct access to shared variables. Go encourages a",
+        "snippet": "This qualification provides some protection against changes made to types embedded from outside; there is no problem if a field is added that conflicts with another field in another subtype if neither field is ever used.\nConcurrency\nShare by communicating",
         "matchedWords": {
           "FyRSmQlWVTdS": {
             "hits": 4,
@@ -793,7 +793,7 @@
         "hash": "-zyAxuKtJDgx",
         "address": "https://id.wikipedia.org/wiki/Go_(bahasa_pemrograman)",
         "title": "Go (bahasa pemrograman) - Wikipedia bahasa Indonesia, ensiklopedia bebas",
-        "snippet": "Golang) adalah bahasa pemrograman yang dibuat di Google[13] pada tahun 2009 oleh Robert Griesemer, Rob Pike, dan Ken Thompson.[11] Go adalah bahasa pemrograman sumber terbuka yang mudah, sederhana, efisien. Selain itu, Go merupakan bahasa pemrograman yang dikompilasi, seperti Java, yaitu bahasa",
+        "snippet": "Diakses tanggal 10 April 2017. Pemeliharaan CS1: Tanggal diterjemahkan otomatis (link)\n↑ \"Go Concurrency Patterns\". golang.org. Diarsipkan dari asli tanggal 2021-02-05. Diakses tanggal 2018-03-14.\n↑ John Graham-Cumming, Recycling Memory Buffers in Go Diarsipkan 2013-10-14 di Wayback Machine.",
         "matchedWords": {
           "FyRSmQlWVTdS": {
             "hits": 7,
@@ -810,7 +810,7 @@
         "hash": "9EmqOSU39EL4",
         "address": "https://pygolang.nexedi.com/",
         "title": "Pygolang Home",
-        "snippet": "golang provides Go-like features for Python:\ngpython is Python interpreter with support for lightweight threads.\ngo spawns lightweight thread.\nchan and select provide channels with Go semantic.\nfunc allows to define methods separate from class.\ndefer allows to schedule a cleanup from the main",
+        "snippet": "golang.time (py, pyx) provides timers integrated with channels.\ngolang.os.signal (py, pyx) provides signal handling via channels.\n[§]\nSee Go Concurrency Patterns: Context for overview.\nString conversion\nqq (import from golang.gcompat) provides %q functionality that quotes as Go would do.",
         "matchedWords": {
           "FyRSmQlWVTdS": {
             "hits": 5,
@@ -827,7 +827,7 @@
         "hash": "8gsjosK-xyJ4",
         "address": "https://go.dev/",
         "title": "The Go Programming Language",
-        "snippet": "concurrency and a robust standard library\nLarge ecosystem of partners, communities, and tools\nDownload packages for Windows 64-bit, macOS, Linux, and more\nThe go command by default downloads and authenticates modules using the Go module mirror and Go checksum database run by Google. Learn more.\n“At",
+        "snippet": "Build simple, secure, scalable systems with Go\nAn open-source programming language supported by Google\nEasy to learn and great for teams\nBuilt-in concurrency and a robust standard library\nLarge ecosystem of partners, communities, and tools",
         "matchedWords": {
           "FyRSmQlWVTdS": {
             "hits": 2,
@@ -847,7 +847,7 @@
       "hash": "pPt46l5ooER5",
       "address": "https://www.brendangregg.com/flamegraphs.html",
       "title": "Flame Graphs",
-      "snippet": "golang and flame graphs.\nI wrote an article for ACMQ, The Flame Graph, which defines flame graphs, describes their origin, explains how to interpret them, and discusses possible future developments.\nDavid Mark Clements has developed 0x, a new interactive flame graph profiler for Node.js processes",
+      "snippet": "Srdjan Marinovic and Ryan Day created goprofui includes a cpu.go profiler for golang and flame graphs.\nI wrote an article for ACMQ, The Flame Graph, which defines flame graphs, describes their origin, explains how to interpret them, and discusses possible future developments.",
       "matchedWords": {
         "FyRSmQlWVTdS": {
           "hits": 1,
@@ -864,7 +864,7 @@
       "hash": "u2SnisCRdREw",
       "address": "https://jvns.ca/",
       "title": "Julia Evans",
-      "snippet": "concurrency: trying out mutexes and atomics Oct 2014 How does SQLite work? Part 2: btrees! (or: disk seeks are slow don't do them!) Sep 2014 ★ How does SQLite work? Part 1: pages! Sep 2014 How is a binary executable organized? Let's explore it! Aug 2014 ★ What happens if you write a TCP stack in",
+      "snippet": "Feb 2015 ★ How gzip uses Huffman coding Dec 2014 ★ Diving into concurrency: trying out mutexes and atomics Oct 2014 How does SQLite work? Part 2: btrees! (or: disk seeks are slow don't do them!) Sep 2014 ★ How does SQLite work? Part 1: pages! Sep 2014 How is a binary executable organized?",
       "matchedWords": {
         "FyRSmQlWVTdS": {
           "hits": 1,
@@ -881,7 +881,7 @@
       "hash": "CjgsxsIyoLTx",
       "address": "https://planetpython.org/",
       "title": "Planet Python",
-      "snippet": "Last update: September 11, 2026 09:48 PM UTC\nSeptember 11, 2026\nLernerPython blog, from Reuven Lerner\nNewsprint: Turning e-mail newsletters into a personal PDF\nI really enjoy reading e-mail newsletters. They’re clever, informative, and funny, and provide me with lots of food for thought — as well",
+      "snippet": "Last update: September 11, 2026 09:48 PM UTC\nSeptember 11, 2026\nLernerPython blog, from Reuven Lerner\nNewsprint: Turning e-mail newsletters into a personal PDF\nI really enjoy reading e-mail newsletters.",
       "matchedWords": {
         "FyRSmQlWVTdS": {
           "hits": 0,
@@ -898,7 +898,7 @@
       "hash": "JlSlqWK-xyJ4",
       "address": "https://go.dev/solutions/case-studies",
       "title": "Case Studies - The Go Programming Language",
-      "snippet": "concurrency, garbage collection, and of course safety+speed.) that helped engage us during the build. Also, who can beat that cute mascot!\nView Case Study\nGraceful upgrades in Go\nCloudflare speeds up and protects millions of websites, APIs, SaaS services, and other properties connected to the",
+      "snippet": "Salesforce - From Python/C to Go\nOne of the big advantages is that Go's cross-platform features make porting code easy.\nView Case Study\nFind out more about Golang at SIXT\n“We have been doing Golang at SIXT since 2015.",
       "matchedWords": {
         "FyRSmQlWVTdS": {
           "hits": 4,
@@ -915,7 +915,7 @@
       "hash": "jDc0FAK-xyJ4",
       "address": "https://go.dev/doc/go1.27",
       "title": "Go 1.27 Release Notes - The Go Programming Language",
-      "snippet": "concurrency primitive (channels, sync.Mutex, sync.Cond, etc) that cannot possibly become unblocked. The runtime detects leaked goroutines using the garbage collector: if a goroutine G is blocked on concurrency primitive P, and P is unreachable from any runnable goroutine or any goroutine that those",
+      "snippet": "A leaked goroutine is a goroutine blocked on some concurrency primitive (channels, sync.Mutex, sync.Cond, etc) that cannot possibly become unblocked.",
       "matchedWords": {
         "FyRSmQlWVTdS": {
           "hits": 3,
@@ -932,7 +932,7 @@
       "hash": "jh2nEAK-xyJ4",
       "address": "https://go.dev/doc/go1.15",
       "title": "Go 1.15 Release Notes - The Go Programming Language",
-      "snippet": "https://proxy.golang.org,direct, which does not fall back to direct in case of errors.\ngo test\nChanging the -timeout flag now invalidates cached test results. A cached result for a test run with a long timeout will no longer count as passing when go test is re-invoked with a short one.\nFlag parsing",
+      "snippet": "If a proxy URL is followed by a pipe character, the go command will try the next proxy in the list after any error. Note that the default value of GOPROXY remains https://proxy.golang.org,direct, which does not fall back to direct in case of errors.\ngo test",
       "matchedWords": {
         "FyRSmQlWVTdS": {
           "hits": 1,
@@ -949,7 +949,7 @@
       "hash": "r_C2TAK-xyJ4",
       "address": "https://go.dev/doc/go1.26",
       "title": "Go 1.26 Release Notes - The Go Programming Language",
-      "snippet": "concurrency primitive (channels, sync.Mutex, sync.Cond, etc) that cannot possibly become unblocked. The runtime detects leaked goroutines using the garbage collector: if a goroutine G is blocked on concurrency primitive P, and P is unreachable from any runnable goroutine or any goroutine that those",
+      "snippet": "Enabling the experiment also makes the profile available as a net/http/pprof endpoint, /debug/pprof/goroutineleak.\nA leaked goroutine is a goroutine blocked on some concurrency primitive (channels, sync.Mutex, sync.Cond, etc) that cannot possibly become unblocked.",
       "matchedWords": {
         "FyRSmQlWVTdS": {
           "hits": 3,
@@ -966,7 +966,7 @@
       "hash": "CYZstjRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Go_(programming_language)",
       "title": "Go (programming language) - Wikipedia",
-      "snippet": "Golang)[15]: 2 is a high-level, general-purpose programming language that is statically typed and compiled. Originally designed in 2007 by Robert Griesemer, Rob Pike, and Ken Thompson, Go was publicly announced in November 2009,[16][4] and is developed by Google[5] and community contributors. Go",
+      "snippet": "98]\nConcurrency: goroutines and channels\n[edit]\nDotGo 2015 - Matt Aimonetti - Applied concurrency in Go\nThe Go language has built-in facilities, as well as library support, for writing concurrent programs.",
       "matchedWords": {
         "FyRSmQlWVTdS": {
           "hits": 20,
@@ -983,7 +983,7 @@
       "hash": "C42pLzS6MKD4",
       "address": "https://github.com/topics/command-line",
       "title": "command-line · GitHub Topics · GitHub",
-      "snippet": "Before there were graphical user interfaces, command-line interfaces were used to issue commands to a computer. Programs that handle the user interface are called command language interpreters, often known as a shell. A CLI may give a user more control over the computer and programs they wish to",
+      "snippet": "Before there were graphical user interfaces, command-line interfaces were used to issue commands to a computer. Programs that handle the user interface are called command language interpreters, often known as a shell.",
       "matchedWords": {
         "FyRSmQlWVTdS": {
           "hits": 0,
@@ -1000,7 +1000,7 @@
       "hash": "ES928zS6MKD4",
       "address": "https://github.com/topics/assembly",
       "title": "assembly · GitHub Topics · GitHub",
-      "snippet": "Assembly is a low-level programming language in which there is a very strict correspondence between language instructions and architecture machine code instructions.\nHere are 10,501 public repositories matching this topic...\nCode\nIssues\nPull requests\nDiscussions\nRun compilers interactively from",
+      "snippet": "Assembly is a low-level programming language in which there is a very strict correspondence between language instructions and architecture machine code instructions.\nHere are 10,501 public repositories matching this topic...\nCode\nIssues\nPull requests\nDiscussions",
       "matchedWords": {
         "FyRSmQlWVTdS": {
           "hits": 0,
@@ -1017,7 +1017,7 @@
       "hash": "Ike4uzS6MKD4",
       "address": "https://github.com/topics/workers",
       "title": "workers · GitHub Topics · GitHub",
-      "snippet": "Here are 1,346 public repositories matching this topic...\nCode\nIssues\nPull requests\n✯ 可直连访问的电视/广播图标库与相关工具项目 ✯ 🔕 永久免费 直连访问 完整开源 不断完善的台标 支持IPv4/IPv6双栈访问 🔕\nUpdated Sep 11, 2026\nJavaScript\nCode\nIssues\nPull requests\nDiscussions\nSimple job queues for Python\nUpdated Sep 11, 2026\nPython\nCode\nIssues\nPull",
+      "snippet": "Here are 1,346 public repositories matching this topic...\nCode\nIssues\nPull requests\n✯ 可直连访问的电视/广播图标库与相关工具项目 ✯ 🔕 永久免费 直连访问 完整开源 不断完善的台标 支持IPv4/IPv6双栈访问 🔕\nUpdated Sep 11, 2026\nJavaScript\nCode\nIssues\nPull requests\nDiscussions\nSimple job queues for Python\nUpdated Sep 11, 2026\nPython\nCode\nIssues",
       "matchedWords": {
         "FyRSmQlWVTdS": {
           "hits": 0,
@@ -1051,7 +1051,7 @@
       "hash": "TBKM_zS6MKD4",
       "address": "https://github.com/topics/performance",
       "title": "performance · GitHub Topics · GitHub",
-      "snippet": "GoLang framework for accelerated microservice development. Built in support for databases and observability.\nUpdated Sep 11, 2026\nGo\nCode\nIssues\nPull requests\nDiscussions\nNode.js test runner that lets you develop with confidence 🚀\nUpdated Jun 17, 2026\nJavaScript\nCode\nIssues\nPull requests",
+      "snippet": "Issues\nPull requests\nDiscussions\n🚀 An open and lightweight modification to Windows, designed to optimize performance, privacy and usability.\nUpdated Sep 7, 2026\nBatchfile\nCode\nIssues\nPull requests\nDiscussions\nAn opinionated GoLang framework for accelerated microservice development.",
       "matchedWords": {
         "FyRSmQlWVTdS": {
           "hits": 0,
@@ -1085,7 +1085,7 @@
       "hash": "YiOTxzS6MKD4",
       "address": "https://github.com/topics/tdd",
       "title": "tdd · GitHub Topics · GitHub",
-      "snippet": "Test-driven development (TDD) is a software development process relying on software requirements being converted to test cases before software is fully developed, and tracking all software development by repeatedly testing the software against all test cases. This is as opposed to software being",
+      "snippet": "Test-driven development (TDD) is a software development process relying on software requirements being converted to test cases before software is fully developed, and tracking all software development by repeatedly testing the software against all test cases.",
       "matchedWords": {
         "FyRSmQlWVTdS": {
           "hits": 0,
@@ -1578,7 +1578,7 @@
       "hash": "pPt46l5ooER5",
       "address": "https://www.brendangregg.com/flamegraphs.html",
       "title": "Flame Graphs",
-      "snippet": "golang and flame graphs.\nI wrote an article for ACMQ, The Flame Graph, which defines flame graphs, describes their origin, explains how to interpret them, and discusses possible future developments.\nDavid Mark Clements has developed 0x, a new interactive flame graph profiler for Node.js processes",
+      "snippet": "Srdjan Marinovic and Ryan Day created goprofui includes a cpu.go profiler for golang and flame graphs.\nI wrote an article for ACMQ, The Flame Graph, which defines flame graphs, describes their origin, explains how to interpret them, and discusses possible future developments.",
       "matchedWords": {
         "FyRSmQlWVTdS": {
           "hits": 1,
@@ -1595,7 +1595,7 @@
       "hash": "u2SnisCRdREw",
       "address": "https://jvns.ca/",
       "title": "Julia Evans",
-      "snippet": "concurrency: trying out mutexes and atomics Oct 2014 How does SQLite work? Part 2: btrees! (or: disk seeks are slow don't do them!) Sep 2014 ★ How does SQLite work? Part 1: pages! Sep 2014 How is a binary executable organized? Let's explore it! Aug 2014 ★ What happens if you write a TCP stack in",
+      "snippet": "Feb 2015 ★ How gzip uses Huffman coding Dec 2014 ★ Diving into concurrency: trying out mutexes and atomics Oct 2014 How does SQLite work? Part 2: btrees! (or: disk seeks are slow don't do them!) Sep 2014 ★ How does SQLite work? Part 1: pages! Sep 2014 How is a binary executable organized?",
       "matchedWords": {
         "FyRSmQlWVTdS": {
           "hits": 1,
@@ -1612,7 +1612,7 @@
       "hash": "JlSlqWK-xyJ4",
       "address": "https://go.dev/solutions/case-studies",
       "title": "Case Studies - The Go Programming Language",
-      "snippet": "concurrency, garbage collection, and of course safety+speed.) that helped engage us during the build. Also, who can beat that cute mascot!\nView Case Study\nGraceful upgrades in Go\nCloudflare speeds up and protects millions of websites, APIs, SaaS services, and other properties connected to the",
+      "snippet": "Salesforce - From Python/C to Go\nOne of the big advantages is that Go's cross-platform features make porting code easy.\nView Case Study\nFind out more about Golang at SIXT\n“We have been doing Golang at SIXT since 2015.",
       "matchedWords": {
         "FyRSmQlWVTdS": {
           "hits": 4,
@@ -1646,7 +1646,7 @@
       "hash": "jh2nEAK-xyJ4",
       "address": "https://go.dev/doc/go1.15",
       "title": "Go 1.15 Release Notes - The Go Programming Language",
-      "snippet": "https://proxy.golang.org,direct, which does not fall back to direct in case of errors.\ngo test\nChanging the -timeout flag now invalidates cached test results. A cached result for a test run with a long timeout will no longer count as passing when go test is re-invoked with a short one.\nFlag parsing",
+      "snippet": "If a proxy URL is followed by a pipe character, the go command will try the next proxy in the list after any error. Note that the default value of GOPROXY remains https://proxy.golang.org,direct, which does not fall back to direct in case of errors.\ngo test",
       "matchedWords": {
         "FyRSmQlWVTdS": {
           "hits": 1,
@@ -1680,7 +1680,7 @@
       "hash": "CYZstjRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Go_(programming_language)",
       "title": "",
-      "snippet": "Golang)[15]: 2 is a high-level, general-purpose programming language that is statically typed and compiled. Originally designed in 2007 by Robert Griesemer, Rob Pike, and Ken Thompson, Go was publicly announced in November 2009,[16][4] and is developed by Google[5] and community contributors. Go",
+      "snippet": "98]\nConcurrency: goroutines and channels\n[edit]\nDotGo 2015 - Matt Aimonetti - Applied concurrency in Go\nThe Go language has built-in facilities, as well as library support, for writing concurrent programs.",
       "matchedWords": {
         "FyRSmQlWVTdS": {
           "hits": 20,
@@ -1697,7 +1697,7 @@
       "hash": "C42pLzS6MKD4",
       "address": "https://github.com/topics/command-line",
       "title": "command-line · GitHub Topics · GitHub",
-      "snippet": "Before there were graphical user interfaces, command-line interfaces were used to issue commands to a computer. Programs that handle the user interface are called command language interpreters, often known as a shell. A CLI may give a user more control over the computer and programs they wish to",
+      "snippet": "Before there were graphical user interfaces, command-line interfaces were used to issue commands to a computer. Programs that handle the user interface are called command language interpreters, often known as a shell.",
       "matchedWords": {
         "FyRSmQlWVTdS": {
           "hits": 0,
@@ -1714,7 +1714,7 @@
       "hash": "ES928zS6MKD4",
       "address": "https://github.com/topics/assembly",
       "title": "assembly · GitHub Topics · GitHub",
-      "snippet": "Assembly is a low-level programming language in which there is a very strict correspondence between language instructions and architecture machine code instructions.\nHere are 10,501 public repositories matching this topic...\nCode\nIssues\nPull requests\nDiscussions\nRun compilers interactively from",
+      "snippet": "Assembly is a low-level programming language in which there is a very strict correspondence between language instructions and architecture machine code instructions.\nHere are 10,501 public repositories matching this topic...\nCode\nIssues\nPull requests\nDiscussions",
       "matchedWords": {
         "FyRSmQlWVTdS": {
           "hits": 0,
@@ -1731,7 +1731,7 @@
       "hash": "Ike4uzS6MKD4",
       "address": "https://github.com/topics/workers",
       "title": "workers · GitHub Topics · GitHub",
-      "snippet": "Here are 1,346 public repositories matching this topic...\nCode\nIssues\nPull requests\n✯ 可直连访问的电视/广播图标库与相关工具项目 ✯ 🔕 永久免费 直连访问 完整开源 不断完善的台标 支持IPv4/IPv6双栈访问 🔕\nUpdated Sep 11, 2026\nJavaScript\nCode\nIssues\nPull requests\nDiscussions\nSimple job queues for Python\nUpdated Sep 11, 2026\nPython\nCode\nIssues\nPull",
+      "snippet": "Here are 1,346 public repositories matching this topic...\nCode\nIssues\nPull requests\n✯ 可直连访问的电视/广播图标库与相关工具项目 ✯ 🔕 永久免费 直连访问 完整开源 不断完善的台标 支持IPv4/IPv6双栈访问 🔕\nUpdated Sep 11, 2026\nJavaScript\nCode\nIssues\nPull requests\nDiscussions\nSimple job queues for Python\nUpdated Sep 11, 2026\nPython\nCode\nIssues",
       "matchedWords": {
         "FyRSmQlWVTdS": {
           "hits": 0,
@@ -1748,7 +1748,7 @@
       "hash": "TBKM_zS6MKD4",
       "address": "https://github.com/topics/performance",
       "title": "performance · GitHub Topics · GitHub",
-      "snippet": "GoLang framework for accelerated microservice development. Built in support for databases and observability.\nUpdated Sep 11, 2026\nGo\nCode\nIssues\nPull requests\nDiscussions\nNode.js test runner that lets you develop with confidence 🚀\nUpdated Jun 17, 2026\nJavaScript\nCode\nIssues\nPull requests",
+      "snippet": "Issues\nPull requests\nDiscussions\n🚀 An open and lightweight modification to Windows, designed to optimize performance, privacy and usability.\nUpdated Sep 7, 2026\nBatchfile\nCode\nIssues\nPull requests\nDiscussions\nAn opinionated GoLang framework for accelerated microservice development.",
       "matchedWords": {
         "FyRSmQlWVTdS": {
           "hits": 0,
@@ -1782,7 +1782,7 @@
       "hash": "YiOTxzS6MKD4",
       "address": "https://github.com/topics/tdd",
       "title": "tdd · GitHub Topics · GitHub",
-      "snippet": "Test-driven development (TDD) is a software development process relying on software requirements being converted to test cases before software is fully developed, and tracking all software development by repeatedly testing the software against all test cases. This is as opposed to software being",
+      "snippet": "Test-driven development (TDD) is a software development process relying on software requirements being converted to test cases before software is fully developed, and tracking all software development by repeatedly testing the software against all test cases.",
       "matchedWords": {
         "FyRSmQlWVTdS": {
           "hits": 0,
@@ -2275,7 +2275,7 @@
       "hash": "C42pLzS6MKD4",
       "address": "https://github.com/topics/command-line",
       "title": "command-line · GitHub Topics · GitHub",
-      "snippet": "Before there were graphical user interfaces, command-line interfaces were used to issue commands to a computer. Programs that handle the user interface are called command language interpreters, often known as a shell. A CLI may give a user more control over the computer and programs they wish to",
+      "snippet": "Before there were graphical user interfaces, command-line interfaces were used to issue commands to a computer. Programs that handle the user interface are called command language interpreters, often known as a shell.",
       "matchedWords": {
         "FyRSmQlWVTdS": {
           "hits": 0,
@@ -2292,7 +2292,7 @@
       "hash": "ES928zS6MKD4",
       "address": "https://github.com/topics/assembly",
       "title": "assembly · GitHub Topics · GitHub",
-      "snippet": "Assembly is a low-level programming language in which there is a very strict correspondence between language instructions and architecture machine code instructions.\nHere are 10,501 public repositories matching this topic...\nCode\nIssues\nPull requests\nDiscussions\nRun compilers interactively from",
+      "snippet": "Assembly is a low-level programming language in which there is a very strict correspondence between language instructions and architecture machine code instructions.\nHere are 10,501 public repositories matching this topic...\nCode\nIssues\nPull requests\nDiscussions",
       "matchedWords": {
         "FyRSmQlWVTdS": {
           "hits": 0,
@@ -2309,7 +2309,7 @@
       "hash": "TBKM_zS6MKD4",
       "address": "https://github.com/topics/performance",
       "title": "performance · GitHub Topics · GitHub",
-      "snippet": "GoLang framework for accelerated microservice development. Built in support for databases and observability.\nUpdated Sep 11, 2026\nGo\nCode\nIssues\nPull requests\nDiscussions\nNode.js test runner that lets you develop with confidence 🚀\nUpdated Jun 17, 2026\nJavaScript\nCode\nIssues\nPull requests",
+      "snippet": "Issues\nPull requests\nDiscussions\n🚀 An open and lightweight modification to Windows, designed to optimize performance, privacy and usability.\nUpdated Sep 7, 2026\nBatchfile\nCode\nIssues\nPull requests\nDiscussions\nAn opinionated GoLang framework for accelerated microservice development.",
       "matchedWords": {
         "FyRSmQlWVTdS": {
           "hits": 0,
