@@ -1,8 +1,10 @@
 package judgedqueries_test
 
 import (
+	"maps"
 	"os"
 	"path/filepath"
+	"slices"
 	"testing"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/itemsordering/hostturns"
@@ -12,8 +14,8 @@ import (
 )
 
 const (
-	meanGainFloorOfTheOrderingOfTheService                = 0.80
 	leastLiftOfTheOrderingOfTheServiceOverThePeerOrdering = 0.27
+	toleranceBelowTheAcceptedMeanGain                     = 0.02
 )
 
 type itemsOrdering interface {
@@ -24,36 +26,15 @@ func TestTheRelevanceOrderingHoldsItsGainOverTheJudgedQueries(t *testing.T) {
 	t.Parallel()
 
 	judged := judgedQueriesRecorded(t)
-
-	meanGainOfTheOrderingOfTheService := meanNormalizedGainDiscountedPerHostOf(
+	gainOfTheOrderingOfTheService := gainPerJudgedQueryOf(
 		orderingOfTheServiceFrom(relevance.DefaultScoreWeights()), judged,
 	)
-	meanGainOfThePeerOrdering := meanNormalizedGainDiscountedPerHostOf(
-		peerorder.Ordering{}, judged,
-	)
-	reportTheGainOfEachJudgedQuery(t, judged)
+	acceptedGain := acceptedGainPerJudgedQueryInTheFile(t, acceptedGainFile)
 
-	if meanGainOfTheOrderingOfTheService < meanGainFloorOfTheOrderingOfTheService {
-		t.Errorf(
-			"the ordering of the service reaches a mean gain of %.4f over %d judged queries, "+
-				"want at least %.2f; the peer ordering reaches %.4f",
-			meanGainOfTheOrderingOfTheService,
-			len(judged),
-			meanGainFloorOfTheOrderingOfTheService,
-			meanGainOfThePeerOrdering,
-		)
-	}
-	if meanGainOfTheOrderingOfTheService-meanGainOfThePeerOrdering <
-		leastLiftOfTheOrderingOfTheServiceOverThePeerOrdering {
-		t.Errorf(
-			"the ordering of the service lifts the mean gain from %.4f to %.4f over %d judged "+
-				"queries, want a lift of at least %.2f",
-			meanGainOfThePeerOrdering,
-			meanGainOfTheOrderingOfTheService,
-			len(judged),
-			leastLiftOfTheOrderingOfTheServiceOverThePeerOrdering,
-		)
-	}
+	reportTheGainOfEachJudgedQuery(t, judged, gainOfTheOrderingOfTheService)
+	failIfTheLiftOverThePeerOrderingFallsShort(t, judged)
+	failIfTheMeanGainFallsBelowTheAcceptedGain(t, gainOfTheOrderingOfTheService, acceptedGain)
+	failIfAJudgedQueryFellToNoGain(t, gainOfTheOrderingOfTheService, acceptedGain)
 }
 
 type judgedQuery struct {
@@ -97,20 +78,9 @@ func orderingOfTheServiceFrom(scoreWeights relevance.ScoreWeights) hostturns.Ord
 	return hostturns.New(relevance.New(scoreWeights))
 }
 
-func meanNormalizedGainDiscountedPerHostOf(
-	ordering itemsOrdering, judged []judgedQuery,
-) float64 {
-	sumOfNormalizedGains := 0.0
-	for _, judgedQuery := range judged {
-		sumOfNormalizedGains += judgedQuery.gradedDocuments.normalizedGainDiscountedPerHostOf(
-			ordering.OrderedItemsOf(judgedQuery.answers),
-		)
-	}
-
-	return sumOfNormalizedGains / float64(len(judged))
-}
-
-func reportTheGainOfEachJudgedQuery(t *testing.T, judged []judgedQuery) {
+func reportTheGainOfEachJudgedQuery(
+	t *testing.T, judged []judgedQuery, gainOfTheOrderingOfTheService gainPerJudgedQuery,
+) {
 	t.Helper()
 
 	relevanceOrdering := relevance.New(relevance.DefaultScoreWeights())
@@ -119,7 +89,7 @@ func reportTheGainOfEachJudgedQuery(t *testing.T, judged []judgedQuery) {
 		t.Logf(
 			"%q: host turns %.4f, relevance %.4f, peer order %.4f, %d ungraded documents dropped",
 			judgedQuery.query,
-			judgedQuery.gradedDocuments.normalizedGainDiscountedPerHostOf(orderedItems),
+			gainOfTheOrderingOfTheService[judgedQuery.query],
 			judgedQuery.gradedDocuments.normalizedGainDiscountedPerHostOf(
 				relevanceOrdering.OrderedItemsOf(judgedQuery.answers),
 			),
@@ -136,4 +106,85 @@ func reportTheGainOfEachJudgedQuery(t *testing.T, judged []judgedQuery) {
 		meanNormalizedGainDiscountedPerHostOf(relevanceOrdering, judged),
 		meanNormalizedGainDiscountedPerHostOf(peerorder.Ordering{}, judged),
 	)
+	t.Logf(
+		"the ordering of the service reaches no gain on %d of %d judged queries",
+		gainOfTheOrderingOfTheService.amountOfQueriesWithoutGain(),
+		len(judged),
+	)
+}
+
+func meanNormalizedGainDiscountedPerHostOf(
+	ordering itemsOrdering, judged []judgedQuery,
+) float64 {
+	sumOfNormalizedGains := 0.0
+	for _, judgedQuery := range judged {
+		sumOfNormalizedGains += judgedQuery.gradedDocuments.normalizedGainDiscountedPerHostOf(
+			ordering.OrderedItemsOf(judgedQuery.answers),
+		)
+	}
+
+	return sumOfNormalizedGains / float64(len(judged))
+}
+
+func failIfTheLiftOverThePeerOrderingFallsShort(t *testing.T, judged []judgedQuery) {
+	t.Helper()
+
+	meanGainOfTheOrderingOfTheService := meanNormalizedGainDiscountedPerHostOf(
+		orderingOfTheServiceFrom(relevance.DefaultScoreWeights()), judged,
+	)
+	meanGainOfThePeerOrdering := meanNormalizedGainDiscountedPerHostOf(
+		peerorder.Ordering{}, judged,
+	)
+	if meanGainOfTheOrderingOfTheService-meanGainOfThePeerOrdering >=
+		leastLiftOfTheOrderingOfTheServiceOverThePeerOrdering {
+		return
+	}
+	t.Errorf(
+		"the ordering of the service lifts the mean gain from %.4f to %.4f over %d judged "+
+			"queries, want a lift of at least %.2f",
+		meanGainOfThePeerOrdering,
+		meanGainOfTheOrderingOfTheService,
+		len(judged),
+		leastLiftOfTheOrderingOfTheServiceOverThePeerOrdering,
+	)
+}
+
+func failIfTheMeanGainFallsBelowTheAcceptedGain(
+	t *testing.T, gainOfTheOrderingOfTheService, acceptedGain gainPerJudgedQuery,
+) {
+	t.Helper()
+
+	meanGainOfTheOrderingOfTheService := gainOfTheOrderingOfTheService.
+		meanGainOverTheQueriesIn(acceptedGain)
+	meanOfTheAcceptedGain := acceptedGain.
+		meanGainOverTheQueriesIn(gainOfTheOrderingOfTheService)
+	if meanGainOfTheOrderingOfTheService >=
+		meanOfTheAcceptedGain-toleranceBelowTheAcceptedMeanGain {
+		return
+	}
+	t.Errorf(
+		"the ordering of the service reaches a mean gain of %.4f over the judged queries of "+
+			"the baseline, want at least the accepted mean %.4f less the tolerance %.2f",
+		meanGainOfTheOrderingOfTheService,
+		meanOfTheAcceptedGain,
+		toleranceBelowTheAcceptedMeanGain,
+	)
+}
+
+func failIfAJudgedQueryFellToNoGain(
+	t *testing.T, gainOfTheOrderingOfTheService, acceptedGain gainPerJudgedQuery,
+) {
+	t.Helper()
+
+	for _, query := range slices.Sorted(maps.Keys(gainOfTheOrderingOfTheService)) {
+		accepted, inTheBaseline := acceptedGain[query]
+		if !inTheBaseline || accepted == 0 || gainOfTheOrderingOfTheService[query] > 0 {
+			continue
+		}
+		t.Errorf(
+			"the ordering of the service reaches no gain on %q, the baseline accepts %.4f",
+			query,
+			accepted,
+		)
+	}
 }

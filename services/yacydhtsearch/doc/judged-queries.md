@@ -1,14 +1,11 @@
 # Judged queries
 
 The judged query set measures how well the ordering of the service puts the
-documents that answer a query first. It holds 72 queries in six groups: one
-word, two words, three or more words, navigational, other languages, and
-queries that no peer can answer.
+documents that answer a query first. It holds 72 queries: one word, two words,
+three or more words, navigational, other languages, and queries no peer answers.
 
-Each query has three files in `test/judgedqueries/testdata/`, named by the
-words of the query in lower case and joined by `-`: the answers of the peers in
-`answers/`, the grade of each judged document in `judgments/`, and the text of
-each page in `pagetext/`.
+Each query has three files in `test/judgedqueries/testdata/`, named by the query
+words in lower case and joined by `-`: `answers/`, `judgments/`, `pagetext/`.
 
 ## The gate
 
@@ -18,10 +15,12 @@ discounted by its place, and discounted by half again for each document of its
 host above it that has the grade 1 or more. The gate divides by the gain of the
 ideal order and drops a document of the grade `null`.
 
-The mean of the ordering of the service must stay at or above the floor of the
-test, and at least the lift of the test above the mean of the peer ordering. A
-live search reaches another gain, because the fixtures are a photograph of the
-day of the recording.
+The mean gain must stay at least the lift of the test above the peer ordering.
+
+The gate also compares the ordering of the service against the baseline in
+`test/judgedqueries/testdata/accepted-gain-per-judged-query.json`. The mean gain
+over the queries that both hold must stay at or above the accepted mean less the
+tolerance of the test, and a query accepted above zero must not fall to zero.
 
 ## How to grade
 
@@ -38,39 +37,43 @@ a person gave.
 
 ## How to record the answers again
 
-The recorder asks the live freeworld network from this host and reads the pages
-of the first fifty documents from the web, so it needs direct egress for both.
-It writes every file again and takes some minutes.
+The recorder asks the live freeworld network and reads the pages of the first
+fifty documents from the web. It needs egress and writes every file again.
 
 ```sh
-YACYDHTSEARCH_RECORD_JUDGED_QUERIES=1 go test \
-    -run TestRecordWhatThePeersAnswerForTheJudgedQueries \
-    -timeout 40m -v ./test/judgedqueries/
+YACYDHTSEARCH_RECORD_JUDGED_QUERIES=1 go test -timeout 40m -v \
+    -run TestRecordWhatThePeersAnswerForTheJudgedQueries ./test/judgedqueries/
 ```
 
 ## How to derive the answers again
 
-A change of the rule that reads the text of a page needs no new recording. This
-step writes the hits, the query phrase hits, the amount of words and the
+This step writes the hits, the query phrase hits, the amount of words and the
 snippet of each answers file again from the stored page text.
 
 ```sh
-YACYDHTSEARCH_DERIVE_JUDGED_QUERIES=1 go test \
-    -run TestDeriveTheJudgedQueriesFromTheStoredPageText \
-    -v ./test/judgedqueries/
+YACYDHTSEARCH_DERIVE_JUDGED_QUERIES=1 go test -v \
+    -run TestDeriveTheJudgedQueriesFromTheStoredPageText ./test/judgedqueries/
+```
+
+## How to accept a new baseline
+
+This step writes the gain of each judged query under the ordering of the service
+to the baseline file again.
+
+```sh
+YACYDHTSEARCH_ACCEPT_JUDGED_QUERIES_BASELINE=1 go test -v \
+    -run TestAcceptTheGainOfEachJudgedQueryAsTheBaseline ./test/judgedqueries/
 ```
 
 ## How to tune the score weights
 
 This step searches the weight of each score of the relevance ordering over a
 grid of values and gives the weights of the highest mean gain. It also tunes on
-one half of the queries and measures on the other half, which holds the same
-six groups. It changes no file and takes some minutes.
+one half of the queries and measures on the other half. It changes no file.
 
 ```sh
-YACYDHTSEARCH_TUNE_RELEVANCE_WEIGHTS=1 go test \
-    -run TestTuneTheScoreWeightsOfTheRelevanceOrdering \
-    -timeout 30m -v ./test/judgedqueries/
+YACYDHTSEARCH_TUNE_RELEVANCE_WEIGHTS=1 go test -timeout 30m -v \
+    -run TestTuneTheScoreWeightsOfTheRelevanceOrdering ./test/judgedqueries/
 ```
 
 Run each step from `services/yacydhtsearch`.
