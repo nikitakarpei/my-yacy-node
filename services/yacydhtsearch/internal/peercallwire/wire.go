@@ -1,16 +1,11 @@
 // Package peercallwire speaks the YaCy search protocol to the peers an ask
 // names. It asks a peer for the documents it matches, for the documents it
-// holds for one word together with the documents it matches for that word, or
-// for the metadata it holds for documents the ask names, reads back what the
-// peer answered, including how often the peer counted a word it does not name,
-// and leaves every peer the time the peer
-// call has left, less the margin the answer needs to reach this node; a peer
-// call with no deadline leaves the peer a time of its own. It holds the peer
-// calls this node has in flight at the amount it is built for, puts the asks in
-// the order they came, and an ask that waits for its turn keeps the time its
-// peer call has left. It carries the
-// facts that hold for every peer call of this node — the network it searches
-// and the partitions of the ring.
+// holds for one word, or for the metadata of the documents the ask names, and
+// reads back what the peer answered. It holds the peer calls this node has in
+// flight at the amount it is built for and puts the asks in the order they
+// came. One peer call runs for the budget it is built for, or for the time the
+// ask has left, whichever ends first, and leaves the peer that time less the
+// margin the answer needs to reach this node.
 package peercallwire
 
 import (
@@ -41,21 +36,22 @@ type Wire struct {
 	searchedNetwork  SearchedNetwork
 	maxResponseBytes int64
 	callsInFlight    peerCallsInFlight
+	peerCallBudget   time.Duration
 	observer         PeerCallObserver
 }
 
 func New(
 	client *http.Client,
 	searchedNetwork SearchedNetwork,
-	maxResponseBytes int64,
-	callsInFlight int,
+	limits PeerCallLimits,
 	observer PeerCallObserver,
 ) Wire {
 	return Wire{
 		client:           client,
 		searchedNetwork:  searchedNetwork,
-		maxResponseBytes: maxResponseBytes,
-		callsInFlight:    make(peerCallsInFlight, callsInFlight),
+		maxResponseBytes: limits.MaxResponseBytes,
+		callsInFlight:    make(peerCallsInFlight, limits.PeerCallsInFlight),
+		peerCallBudget:   limits.PeerCallBudget,
 		observer:         observer,
 	}
 }
@@ -107,6 +103,8 @@ func (w Wire) putMatchedItemsAsk(
 	ctx context.Context,
 	ask peerasks.MatchedItemsAsk,
 ) (peerasks.AnsweredMatchedItemsAsk, bool) {
+	ctx, endPeerCall := context.WithTimeout(ctx, w.peerCallBudget)
+	defer endPeerCall()
 	startedAt := time.Now()
 	response, ok := w.searchResponse(
 		ctx,
@@ -203,6 +201,8 @@ func (w Wire) putURLMetadataAsk(
 	ctx context.Context,
 	ask peerasks.URLMetadataAsk,
 ) (peerasks.AnsweredURLMetadataAsk, bool) {
+	ctx, endPeerCall := context.WithTimeout(ctx, w.peerCallBudget)
+	defer endPeerCall()
 	startedAt := time.Now()
 	response, ok := w.urlMetadataResponse(
 		ctx,
@@ -271,6 +271,8 @@ func (w Wire) putHeldDocumentsAsk(
 	ctx context.Context,
 	ask peerasks.HeldDocumentsAsk,
 ) (peerasks.AnsweredHeldDocumentsAsk, bool) {
+	ctx, endPeerCall := context.WithTimeout(ctx, w.peerCallBudget)
+	defer endPeerCall()
 	startedAt := time.Now()
 	response, ok := w.searchResponse(
 		ctx,

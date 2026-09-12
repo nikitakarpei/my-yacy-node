@@ -38,6 +38,7 @@ const (
 	probesInFlight      = 24
 	peersHoldingOneWord = 48
 	peerCallsInFlight   = 48
+	peerCallBudget      = 5 * time.Second
 	peerItemsCeiling    = 10
 	rankedItemsCeiling  = 50
 	queryBudget         = 15 * time.Second
@@ -193,8 +194,11 @@ func querySpreadOverThePeers(t *testing.T, directory *peerdirectory.Directory) q
 	peers := peercallwire.New(
 		http.DefaultClient,
 		peercallwire.SearchedNetwork{Name: networkName, RingPartitions: partitions},
-		maxResponseBytes,
-		peerCallsInFlight,
+		peercallwire.PeerCallLimits{
+			MaxResponseBytes:  maxResponseBytes,
+			PeerCallsInFlight: peerCallsInFlight,
+			PeerCallBudget:    peerCallBudget,
+		},
 		peercallwire.PeerCallObservers{},
 	)
 	choice := peerchoice.New(

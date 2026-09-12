@@ -26,6 +26,7 @@ func TestTheServiceAnswersSearchesAndPublishesMetricsUntilItStops(t *testing.T) 
 		PeerChoiceCooldown: 5 * time.Second,
 		NetworkRedundancy:  2,
 		PeerCallsInFlight:  2,
+		PeerCallBudget:     time.Second,
 		ProbesInFlight:     2,
 		DirectoryCapacity:  8,
 		RefreshInterval:    time.Hour,

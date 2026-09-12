@@ -37,11 +37,13 @@ func TestAServiceConfigFallsBackToTheDocumentedDefaults(t *testing.T) {
 		)
 	}
 	if cfg.NetworkRedundancy != main.DefaultNetworkRedundancy ||
-		cfg.PeerCallsInFlight != main.DefaultPeerCallsInFlight {
+		cfg.PeerCallsInFlight != main.DefaultPeerCallsInFlight ||
+		cfg.PeerCallBudget != main.DefaultPeerCallBudget {
 		t.Fatalf(
-			"network redundancy = %d and peer calls in flight = %d, want the defaults",
+			"network redundancy = %d, peer calls in flight = %d and budget = %v, want the defaults",
 			cfg.NetworkRedundancy,
 			cfg.PeerCallsInFlight,
+			cfg.PeerCallBudget,
 		)
 	}
 	if cfg.Partitions != 1<<main.DefaultPartitionExponent {
@@ -75,6 +77,7 @@ func TestAnOperatorOverridesEveryBudgetAndLimit(t *testing.T) {
 	environment[main.EnvPeerChoiceCooldown] = "7s"
 	environment[main.EnvNetworkRedundancy] = "7"
 	environment[main.EnvPeerCallsInFlight] = "9"
+	environment[main.EnvPeerCallBudget] = "2s"
 	environment[main.EnvProbesInFlight] = "12"
 	environment[main.EnvRankedItemsCeiling] = "25"
 
@@ -84,6 +87,7 @@ func TestAnOperatorOverridesEveryBudgetAndLimit(t *testing.T) {
 	}
 	if cfg.QueryBudget != 9*time.Second || cfg.PeerChoiceCooldown != 7*time.Second ||
 		cfg.NetworkRedundancy != 7 || cfg.PeerCallsInFlight != 9 ||
+		cfg.PeerCallBudget != 2*time.Second ||
 		cfg.ProbesInFlight != 12 || cfg.RankedItemsCeiling != 25 {
 		t.Fatalf("config = %+v, want the overrides", cfg)
 	}

@@ -73,6 +73,7 @@ The service reads the pages of the candidate results at the same time. It takes 
 |---|---|---|
 | `YACYDHTSEARCH_QUERY_BUDGET` | `8s` | Time one client query may take, end to end. |
 | `YACYDHTSEARCH_PEER_CALLS_IN_FLIGHT` | `48` | Most peer calls the service makes at the same time, over all queries. |
+| `YACYDHTSEARCH_PEER_CALL_BUDGET` | `3s` | Time one peer call may take once it runs. |
 | `YACYDHTSEARCH_MAX_RESPONSE_BYTES` | `4194304` | Most bytes read from one peer answer or one seedlist. |
 | `YACYDHTSEARCH_PEER_ITEMS_CEILING` | `10` | Items this service asks one peer for. |
 

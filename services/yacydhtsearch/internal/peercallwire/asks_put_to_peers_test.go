@@ -12,7 +12,10 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerasks"
 )
 
-const shortCallBudget = 500 * time.Millisecond
+const (
+	shortSpreadBudget   = 500 * time.Millisecond
+	shortPeerCallBudget = 500 * time.Millisecond
+)
 
 type peerNetwork struct {
 	mutex                   sync.Mutex
@@ -162,25 +165,49 @@ func TestEveryAskThatCameBackCarriesTheAskItAnswers(t *testing.T) {
 	}
 }
 
-func TestAPeerThatOutlastsTheCallBudgetIsNoAnswer(t *testing.T) {
+func TestAPeerThatOutlastsTheTimeTheAskHasLeftIsNoAnswer(t *testing.T) {
 	t.Parallel()
 
 	network := &peerNetwork{}
-	slow := network.peerAnsweringAfter(t, 10*shortCallBudget, searchAnswerHolding(t))
+	slow := network.peerAnsweringAfter(t, 10*shortSpreadBudget, searchAnswerHolding(t))
 	holder := network.peerHolding(t, "https://a.example/")
 
 	startedAt := time.Now()
 	answeredAsks := wireTo(&recordedOutcome{}).
-		AskForMatchedItems(callWithin(t, shortCallBudget), asksOfPeersAt(slow, holder))
+		AskForMatchedItems(callWithin(t, shortSpreadBudget), asksOfPeersAt(slow, holder))
 
 	if len(answeredAsks) != 1 ||
 		answeredAsks[0].MatchedDocuments[0].Metadata.Address != "https://a.example/" {
 		t.Fatalf("AskForMatchedItems = %+v, want only the peer inside the budget", answeredAsks)
 	}
-	if time.Since(startedAt) < shortCallBudget {
+	if time.Since(startedAt) < shortSpreadBudget {
 		t.Fatalf(
 			"AskForMatchedItems returned after %v, want it to wait out the budget",
 			time.Since(startedAt),
+		)
+	}
+}
+
+func TestAPeerThatOutlastsThePeerCallBudgetIsNoAnswer(t *testing.T) {
+	t.Parallel()
+
+	network := &peerNetwork{}
+	slow := network.peerAnsweringAfter(t, 4*shortPeerCallBudget, searchAnswerHolding(t))
+	holder := network.peerHolding(t, "https://a.example/")
+
+	startedAt := time.Now()
+	answeredAsks := wireSpendingAtMost(shortPeerCallBudget, &recordedOutcome{}).
+		AskForMatchedItems(callWithin(t, spreadBudgetOfTheTests), asksOfPeersAt(slow, holder))
+
+	if len(answeredAsks) != 1 ||
+		answeredAsks[0].MatchedDocuments[0].Metadata.Address != "https://a.example/" {
+		t.Fatalf("AskForMatchedItems = %+v, want only the peer inside the budget", answeredAsks)
+	}
+	if time.Since(startedAt) > 2*shortPeerCallBudget {
+		t.Fatalf(
+			"AskForMatchedItems returned after %v, want it to drop the slow peer at %v",
+			time.Since(startedAt),
+			shortPeerCallBudget,
 		)
 	}
 }
@@ -210,7 +237,7 @@ func TestTheWireHoldsItsCallsInFlightAndPutsTheAsksInTheOrderGiven(t *testing.T)
 	}
 
 	answeredAsks := wireHolding(callsInFlight, &recordedOutcome{}).
-		AskForMatchedItems(callWithin(t, peerCallBudget), asks)
+		AskForMatchedItems(callWithin(t, spreadBudgetOfTheTests), asks)
 
 	if len(answeredAsks) != asksOfTheRound {
 		t.Fatalf(

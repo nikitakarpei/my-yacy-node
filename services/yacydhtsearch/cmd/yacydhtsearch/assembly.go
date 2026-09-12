@@ -88,8 +88,11 @@ func RunService(
 	peers := peercallwire.New(
 		outbound,
 		peercallwire.SearchedNetwork{Name: cfg.NetworkName, RingPartitions: cfg.Partitions},
-		cfg.MaxResponseBytes,
-		cfg.PeerCallsInFlight,
+		peercallwire.PeerCallLimits{
+			MaxResponseBytes:  cfg.MaxResponseBytes,
+			PeerCallsInFlight: cfg.PeerCallsInFlight,
+			PeerCallBudget:    cfg.PeerCallBudget,
+		},
 		peercallwire.PeerCallObservers{
 			peercallobserversapplog.PeerCallLog{},
 			peercallobserversprometheus.New(registry, cfg.QueryBudget),

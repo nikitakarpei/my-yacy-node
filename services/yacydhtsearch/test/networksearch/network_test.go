@@ -28,6 +28,7 @@ const (
 	responseLimit       = 1 << 20
 	peersHoldingOneWord = 4
 	peerCallsInFlight   = 48
+	peerCallBudget      = 3 * time.Second
 	queryBudget         = 5 * time.Second
 	pageReadBudget      = 3 * time.Second
 	peerResults         = 10
@@ -175,8 +176,11 @@ func peerMatchedSpread(t *testing.T) peermatched.Spread {
 		peercallwire.New(
 			http.DefaultClient,
 			peercallwire.SearchedNetwork{Name: networkName, RingPartitions: ringPartitions(t)},
-			responseLimit,
-			peerCallsInFlight,
+			peercallwire.PeerCallLimits{
+				MaxResponseBytes:  responseLimit,
+				PeerCallsInFlight: peerCallsInFlight,
+				PeerCallBudget:    peerCallBudget,
+			},
 			silentOutcome{},
 		),
 		everyAskablePeer{},

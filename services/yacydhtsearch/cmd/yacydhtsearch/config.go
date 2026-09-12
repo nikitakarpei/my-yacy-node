@@ -21,6 +21,7 @@ const (
 	EnvPeerChoiceCooldown   = "YACYDHTSEARCH_PEER_CHOICE_COOLDOWN"
 	EnvNetworkRedundancy    = "YACYDHTSEARCH_NETWORK_REDUNDANCY"
 	EnvPeerCallsInFlight    = "YACYDHTSEARCH_PEER_CALLS_IN_FLIGHT"
+	EnvPeerCallBudget       = "YACYDHTSEARCH_PEER_CALL_BUDGET"
 	EnvProbesInFlight       = "YACYDHTSEARCH_PROBES_IN_FLIGHT"
 	EnvDirectoryCapacity    = "YACYDHTSEARCH_DIRECTORY_CAPACITY"
 	EnvRefreshInterval      = "YACYDHTSEARCH_REFRESH_INTERVAL"
@@ -44,6 +45,7 @@ const (
 	DefaultPeerChoiceCooldown   = 5 * time.Second
 	DefaultNetworkRedundancy    = 3
 	DefaultPeerCallsInFlight    = 48
+	DefaultPeerCallBudget       = 3 * time.Second
 	DefaultProbesInFlight       = 24
 	DefaultDirectoryCapacity    = 4096
 	DefaultRefreshInterval      = 5 * time.Minute
@@ -70,6 +72,7 @@ type ServiceConfig struct {
 	PeerChoiceCooldown time.Duration
 	NetworkRedundancy  int
 	PeerCallsInFlight  int
+	PeerCallBudget     time.Duration
 	ProbesInFlight     int
 	DirectoryCapacity  int
 	RefreshInterval    time.Duration
@@ -137,6 +140,7 @@ func LoadServiceConfig(getenv func(string) string) (ServiceConfig, error) {
 		PeerChoiceCooldown: durations.peerChoiceCooldown,
 		NetworkRedundancy:  counts.networkRedundancy,
 		PeerCallsInFlight:  counts.peerCallsInFlight,
+		PeerCallBudget:     durations.peerCallBudget,
 		ProbesInFlight:     counts.probesInFlight,
 		DirectoryCapacity:  counts.directoryCapacity,
 		RefreshInterval:    durations.refreshInterval,
@@ -160,6 +164,7 @@ func LoadServiceConfig(getenv func(string) string) (ServiceConfig, error) {
 type configuredDurations struct {
 	queryBudget        time.Duration
 	peerChoiceCooldown time.Duration
+	peerCallBudget     time.Duration
 	refreshInterval    time.Duration
 	probeBudget        time.Duration
 	rankingLifetime    time.Duration
@@ -176,6 +181,7 @@ func durationsOf(getenv func(string) string) (configuredDurations, error) {
 	}{
 		{EnvQueryBudget, DefaultQueryBudget, &durations.queryBudget},
 		{EnvPeerChoiceCooldown, DefaultPeerChoiceCooldown, &durations.peerChoiceCooldown},
+		{EnvPeerCallBudget, DefaultPeerCallBudget, &durations.peerCallBudget},
 		{EnvRefreshInterval, DefaultRefreshInterval, &durations.refreshInterval},
 		{EnvProbeBudget, DefaultProbeBudget, &durations.probeBudget},
 		{EnvRankingLifetime, DefaultRankingLifetime, &durations.rankingLifetime},
