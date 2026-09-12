@@ -2,12 +2,14 @@
 
 yacydhtsearch is configured entirely through environment variables.
 
-## Search endpoint
+## Process
 
 | Variable | Default | Meaning |
 |---|---|---|
+| `LOG_LEVEL` | `INFO` | Log level. |
 | `YACYDHTSEARCH_LISTEN_ADDR` | `:8080` | Address that serves `/yacysearch.json`. |
 | `YACYDHTSEARCH_OPS_ADDR` | `:9090` | Address that serves `/metrics`. |
+| `EGRESS_PROXY_URL` | required | HTTP or HTTPS proxy that every outbound request leaves through. |
 
 ## Network
 
@@ -15,11 +17,12 @@ yacydhtsearch is configured entirely through environment variables.
 |---|---|---|
 | `YACYDHTSEARCH_NETWORK_NAME` | `freeworld` | The one YaCy network this process searches. |
 | `YACYDHTSEARCH_SEEDLIST_URLS` | required | Comma-separated seedlist addresses. |
-| `EGRESS_PROXY_URL` | required | HTTP or HTTPS proxy that every outbound request leaves through. |
+| `YACYDHTSEARCH_PARTITION_EXPONENT` | `4` | Vertical partitions of the DHT ring, as a power of two. It must match the network. |
+| `YACYDHTSEARCH_NETWORK_REDUNDANCY` | `3` | How many peers hold one copy of a posting in the network. It must match the network. |
 
 ## Ranking cache
 
-One query produces one ranking, and every page of that query is cut from it. While a ranking stays in the cache, the peers are not asked again. Without a NATS address each instance caches its own rankings, and a restart drops them. With one, the instances answer a repeated query from the same ranking. An address that does not answer stops the service from starting.
+Without a NATS address each instance caches its own rankings, and a restart drops them. With one, the instances answer a repeated query from the same ranking. An address that does not answer stops the service from starting.
 
 | Variable | Default | Meaning |
 |---|---|---|
@@ -30,7 +33,6 @@ One query produces one ranking, and every page of that query is cut from it. Whi
 
 ## Peer directory
 
-The service probes peers to confirm that they answer. It sends searches only to peers that answered their latest probe.
 YaCy peers can limit remote searches by client address. Service instances that use the same egress proxy share that allowance, and the peer cooldown reduces how often this service uses it on one peer.
 
 | Variable | Default | Meaning |
@@ -41,40 +43,24 @@ YaCy peers can limit remote searches by client address. Service instances that u
 | `YACYDHTSEARCH_PROBES_IN_FLIGHT` | `24` | Most probes of one cycle that run at the same time. |
 | `YACYDHTSEARCH_PEER_CHOICE_COOLDOWN` | `5s` | Time a chosen peer rests before a search may choose it again. |
 
-## Peer selection
-
-| Variable | Default | Meaning |
-|---|---|---|
-| `YACYDHTSEARCH_PARTITION_EXPONENT` | `4` | Vertical partitions of the DHT ring, as a power of two. It must match the network. |
-| `YACYDHTSEARCH_NETWORK_REDUNDANCY` | `3` | How many peers hold one copy of a posting in the network. It must match the network. |
-
-## Cross-peer words
-
-The service leaves the stopwords of the query out of the words it asks the peers for, counts in the page text and takes the snippet from. It holds a stopword list for English, German, French, Spanish, Italian and Russian. The list is the one the `lr` field names, or, when the client names no language, the one that covers the most query words. Two lists that cover as many words leave the query as it is, and a query of stopwords alone keeps all its words.
-
-| Variable | Default | Meaning |
-|---|---|---|
-| `YACYDHTSEARCH_WORD_JOINED_SEARCH` | `false` | Use word joined search for queries with more than one term. Queries with one term use peer matched search. |
-
-## Page reading
-
-The service reads the pages of the candidate results at the same time. It takes the snippet of a result from the sentences of its page that answer the query best, and orders the results by the query words it finds there. A page the service cannot read leaves its result as the peers answered it.
-
-| Variable | Default | Meaning |
-|---|---|---|
-| `YACYDHTSEARCH_PAGES_READ_PER_QUERY` | `50` | Pages one query reads, taken from the results it puts first. |
-| `YACYDHTSEARCH_PAGE_READ_BUDGET` | `3s` | Time the query keeps for its pages. The peer calls get the rest of the query budget. |
-| `YACYDHTSEARCH_PAGE_BYTE_CEILING` | `4194304` | Most bytes read from one page. |
-| `YACYDHTSEARCH_SNIPPET_LENGTH_CEILING` | `300` | Most characters one snippet holds. |
-
-## Limits
+## Query
 
 | Variable | Default | Meaning |
 |---|---|---|
 | `YACYDHTSEARCH_QUERY_BUDGET` | `8s` | Time one client query may take, end to end. |
+| `YACYDHTSEARCH_WORD_JOINED_SEARCH` | `false` | Join the answers of the peers that hold each word of a query of more than one word. |
+| `YACYDHTSEARCH_PEER_ITEMS_CEILING` | `10` | Items this service asks one peer for. |
+| `YACYDHTSEARCH_PAGES_READ_PER_QUERY` | `50` | Pages one query reads, taken from the results it puts first. |
+| `YACYDHTSEARCH_PAGE_READ_BUDGET` | `3s` | Time the query keeps for its pages. The peer calls get the rest of the query budget. A page that is not read leaves its result as the peers answered it. |
+| `YACYDHTSEARCH_PAGE_BYTE_CEILING` | `4194304` | Most bytes read from one page. |
+| `YACYDHTSEARCH_SNIPPET_LENGTH_CEILING` | `300` | Most characters one snippet holds. |
+
+## Peer calls
+
+A query asks the peers that hold each of its words, which is the partitions of the ring times the redundancy of the network, for every word. Raise `YACYDHTSEARCH_PEER_CALLS_IN_FLIGHT` to put more of them at the same time, and lower it to put less load on the network. A peer call that waits for its turn keeps the time its query has left, and the nearest peer of each word is asked first.
+
+| Variable | Default | Meaning |
+|---|---|---|
 | `YACYDHTSEARCH_PEER_CALLS_IN_FLIGHT` | `48` | Most peer calls the service makes at the same time, over all queries. |
 | `YACYDHTSEARCH_PEER_CALL_BUDGET` | `3s` | Time one peer call may take once it runs. |
 | `YACYDHTSEARCH_MAX_RESPONSE_BYTES` | `4194304` | Most bytes read from one peer answer or one seedlist. |
-| `YACYDHTSEARCH_PEER_ITEMS_CEILING` | `10` | Items this service asks one peer for. |
-
-A query asks the peers that hold each of its words, which is the partitions of the ring times the redundancy of the network: 48 peers for one word with the defaults, and 192 peer calls for a query of four words. Raise `YACYDHTSEARCH_PEER_CALLS_IN_FLIGHT` to put more of them at the same time, and lower it to put less load on the network. A peer call that waits for its turn keeps the time its query has left. The service asks the nearest peer of each word first, thus a query that runs out of time keeps an answer for each word.
